@@ -1,0 +1,50 @@
+.travel-policy{
+  .travel-standard{
+    .table-header{
+      margin:0 0 10px 0;
+    }
+  }
+
+  .travel-subsidy{
+    .travel-subsidy-title{
+      margin-bottom: 15px;
+    }
+    .row{
+      .item-container{
+        text-align: center;
+        .content{
+          margin-bottom: 40px;
+          .content-item{
+            width: 90px;
+            height: 120px;
+            margin: 0 auto;
+            background-color: #f8f8f8;
+            border: 1px solid #e2e2e2;
+            cursor: pointer;
+            img{
+              width: 60px;
+              margin: 15px auto;
+            }
+            p{
+              color: #959595;
+              font-size: 12px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+          .rule-text{
+            width: 90px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 12px;
+            color: #0092da;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+
+  }
+
+}

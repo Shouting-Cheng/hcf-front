@@ -1,0 +1,20 @@
+.new-budget-journal{
+  .budget-journal-title{
+    background-color:#FFF;
+    margin-bottom: 16px;
+    .budget-journal-title-detail{
+      margin-top:10px;
+      color: #999999;
+    }
+  }
+
+  .footer-operate {
+    width: 100%;
+    bottom: 0;
+    height: 64px;
+    line-height: 64px;
+    padding-left: 20px;
+    background-color: #ffffff;
+  }
+}
+

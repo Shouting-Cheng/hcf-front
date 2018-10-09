@@ -1,0 +1,7 @@
+{
+  "select.employee.group.option":"选择人员组",
+  "select.employee.group.wait.option":"待选区",
+  "select.employee.group.join.use":"加入使用",
+  "select.employee.group.back.to.wait": "回到待选",
+  "select.employee.group.use.list":"使用列表"
+}

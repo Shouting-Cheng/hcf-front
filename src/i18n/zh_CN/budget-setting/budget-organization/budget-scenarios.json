@@ -1,0 +1,10 @@
+{
+  "budget.scenarios.name": "预算场景名称",
+  "budget.scenarios.code": "预算场景代码",
+  "budget.scenarios.default": "默认场景",
+  "budget.scenarios.new": "新建预算场景",
+  "budget.scenarios.edit": "编辑预算场景",
+  "budget.scenarios.is.default": "是否默认",
+  "budget.scenarios.default.must.be.enabled": "默认预算场景的状态必须为启用",
+  "budget.scenarios.help.info": "预算组织为当前用户所在账套下的生效的预算组织，同一账套下预算场景代码不允许重复，一个预算组织下允许多个预算场景同时生效。"
+}

@@ -1,0 +1,20 @@
+{
+  "contract.search.name.employeeId": "申请人姓名/工号",
+  "contract.search.date.from": "提交时间从",
+  "contract.search.date.to": "提交时间至",
+  "contract.createdBy": "申请人",
+  "contract.sign.date": "提交时间",
+  "contract.amount": "金额",
+  "contract.unapproved": "未审批",
+  "contract.unchecked": "未复核",
+  "contract.approved": "已审批",
+  "contract.checked": "已复核",
+  "contract.input.rejected.approval": "请输入驳回审批意见",
+  "contract.input.at.most.200": "最多输入200个字符",
+  "contract.add.fast.reply": "新增快捷回复",
+  "contract.fast.reply": "快捷回复",
+  "contract.approval.opinions": "审批意见",
+  "contract.pass": "通 过",
+  "contract.reject": "驳 回",
+  "contract.search.employeeId":"申请人"
+}

@@ -1,0 +1,12 @@
+{
+  "code.rule.code":"编码规则代码",
+  "code.rule.name":"编码规则名称",
+  "code.rule.reset.frequency":"重置频率",
+  "code.rule.remark":"备注",
+  "code.rule.status":"状态",
+  "code.rule.document.type":"单据类型",
+  "code.rule.apply.company":"应用公司",
+  "code.rule.new.rule":"新建规则",
+  "code.rule.back":"返回"
+}
+

@@ -1,0 +1,147 @@
+{
+  "chooser.data.selectPerson": "Select Person",
+  "chooser.data.employeeID.fullName.mobile": "EmployeeID/FullName/mobile",
+  "chooser.data.employeeID.fullName": "EmployeeID/FullName",
+  "chooser.data.employeeID": "EmployeeID",
+  "chooser.data.fullName": "FullName",
+  "chooser.data.mobile": "Mobile",
+  "chooser.data.dep": "Dep. name",
+  "chooser.data.duty": "Duty",
+  "chooser.data.email": "Email",
+  "chooser.data.userCode": "User code",
+  "chooser.data.personDuty": "Select personDuty",
+  "chooser.data.personLevel": "Select personLevel",
+  "chooser.data.personType": "Select personType",
+  "chooser.data.codeFrom": "Code From",
+  "chooser.data.codeTo": "Code To",
+  "chooser.data.code": "Code",
+  "chooser.data.name": "Name",
+  "chooser.data.description": "Description",
+  "chooser.data.type": "Type",
+  "chooser.data.setOfBooks": "Set of books",
+
+  "chooser.data.select.legal.entity": "Select legal entity",
+  "chooser.data.legal.entity.name": "Legal entity name",
+  "chooser.data.bank": "Bank",
+  "chooser.data.select.bank": "Select bank",
+  "chooser.data.branchBankName": "Branch Bank Name",
+  "chooser.data.bankAddress": "Bank Address",
+  "chooser.data.countryCode": "Country Code",
+  "chooser.data.cityCode": "City Code",
+  "chooser.data.swiftCode": "Swift Code",
+  "chooser.data.bankName": "Bank Name",
+  "chooser.data.bankCode": "Bank Code",
+  "chooser.data.country": "Country",
+  "chooser.data.city": "City",
+  "chooser.data.bank.address": "Bank address",
+
+  "chooser.data.costCenter.code": "Cost Center Code",
+  "chooser.data.costCenter": "Cost Center",
+  "chooser.data.costCenter.name": "Cost Center Name",
+
+  "chooser.data.dep.code": "Dep. Code",
+  "chooser.data.dep.title": "Dep.",
+  "chooser.data.dep.num": "Dep. Code",
+
+  "chooser.data.tenant.company": "All company",
+  "chooser.data.company": "Select company",
+  "chooser.data.companyName": "Company name",
+  "chooser.data.baseCurrency": "Base currency",
+  "chooser.data.currencyName": "Currency name",
+  "chooser.data.currency": "Currency",
+  "chooser.data.exchangeRate": "Exchange rate",
+  "chooser.data.expenseName": "Expense Name",
+  "chooser.data.companyLevel": "Company level",
+  "chooser.data.systemLevel": "System level",
+
+  "chooser.data.companyCode": "companyCode",
+  "chooser.data.companyCode.from": "companyCode From",
+  "chooser.data.companyCode.to": "companyCode To",
+  "chooser.data.companyType": "companyType",
+  "chooser.data.distribute.company": "Distribution Company",
+  "chooser.data.expense": "Expense",
+  "chooser.data.my.application": "My application",
+  "chooser.data.my.relevantMemeber": "Relevant member",
+  "chooser.data.my.application.name": "Name",
+  "chooser.data.my.application.employeeCode": "EmployeeID",
+  "chooser.data.my.select.expense": "Select expense",
+  "chooser.data.my.relativeApplication": "Please select related application",
+
+  "chooser.data.user_group": "Select user group",
+
+  "chooser.data.budget_journal_structure": "Select the structure witch the journal needed",
+
+  "chooser.data.budget_journal_company": "Select the company witch the journal needed",
+
+  "chooser.data.budget_item": "Select budget item",
+
+  "chooser.data.budget_item_type": "Select budget item type",
+
+  "chooser.data.budget_item_filter": "Select the budget item witch is not added in current group",
+
+  "chooser.data.select_dimension": "Select dimension",
+
+  "chooser.data.budget_item_group": "Select budget item group",
+
+  "chooser.data.company_group": "Select company group",
+
+  "chooser.data.department_group": "Select department group",
+
+  "chooser.data.cash_flow_item": "Select cash flow item",
+
+  "chooser.data.assign-transaction": "Assign cash transaction",
+  "chooser.data.transaction.type": "Cash transaction type",
+  "chooser.data.transaction.code": "Cash transaction type code",
+  "chooser.data.cash.flow.item.description": "Cash flow item description",
+
+  "chooser.data.budget_structure": "Select budget structure",
+
+  "chooser.data.pre_payment_type": "Select pre-payment type",
+
+  "chooser.data.year": "Year",
+  "chooser.data.period": "Period",
+  "chooser.data.quarter": "Quarter",
+
+  "chooser.data.select_supplier_employee": "Select payee",
+  "chooser.data.supplier.or.employee": "Supplier or employee",
+
+  "chooser.data.section": "Select section",
+
+  "chooser.data.contract_type": "Contract type",
+  "chooser.data.contract.category": "Contract category",
+
+  "chooser.data.source_transactions_data": "Source transactions - data structures",
+
+  "chooser.data.accounting_scenarios": "Add accounting scenarios ",
+
+  "chooser.data.requisition_type": "Requisition type",
+  "chooser.data.form.type": "Form type",
+
+  "chooser.data.select_application": "Select application",
+  "chooser.data.submit.date": "Submitted date",
+  "chooser.data.reason": "Reason",
+  "chooser.data.business.code": "Business code",
+  "chooser.data.total.amount": "Tol.",
+
+  "chooser.data.sob_sourceTransaction": "Sob. source transaction",
+  "chooser.data.sys_sourceTransaction": "Sys. source transaction",
+  "chooser.data.sobLineModel": "Unallocated system certificate template",
+  "chooser.data.accounting_elements": "Accounting elements",
+  "chooser.data.accounting_journalField": "Unselected accounting journal field",
+  "chooser.data.accounting_scene_elements_user": "Accounting elements under the scene",
+  "chooser.data.accounting_scene_elements": "Accounting elements under the scene",
+  "chooser.data.accounting.elements.code": "Accounting elements code",
+  "chooser.data.accounting.elements.name": "Accounting elements name",
+  "chooser.data.accounting.elements.property.code": "Accounting elements property code",
+  "chooser.data.accounting.elements.property.name": "Accounting elements property name",
+  "chooser.data.data-source-fields": "Obtaining the detail field from the source transaction data structure based on source transaction code",
+  "chooser.data.data-source-fields_dataRules": "Detail field under the source data transaction",
+
+  "chooser.data.bank_card": "Select bank card",
+  "chooser.data.bank.card.num": "Bank card number",
+
+  "chooser.data.booker": "Select booker",
+  "chooser.data.company_bank_account": "Company bank account",
+  "chooser.data.account.name": "Account name",
+  "chooser.data.account.num": "Account number"
+}

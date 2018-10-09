@@ -1,0 +1,11 @@
+{
+  "paymentMethod.createType":"Created Type",
+  "paymentMethod.userDefine":"User Define",
+  "paymentMethod.systemDefine":"System Define",
+  "paymentMethod.paymentMethodCode":"Payment method code",
+  "paymentMethod.paymentMethodCategory":"Payment method type",
+  "paymentMethod.description":"Payment method",
+  "paymentMethod.isEnabled":"Status",
+  "paymentMethod.newPaymentMethod":"New payment method",
+  "paymentMethod.editPaymentMethod":"Edit payment method"
+}

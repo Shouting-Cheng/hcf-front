@@ -1,0 +1,28 @@
+{
+  "cost.center.detail.title": "成本中心详情",
+
+  "cost.center.detail.name": "成本中心项名称",
+  "cost.center.detail.code": "编码",
+  "cost.center.detail.manager": "经理",
+  "cost.center.detail.no": "编号",
+  "cost.center.detail.showall": "全员可见性",
+
+  "cost.center.detail.status": "状态",
+  "cost.center.detail.name1": "成本中心名称",
+  "cost.center.detail.sobName": "账套名称",
+
+  "cost.center.detail.index": "序号",
+  "cost.center.detail.please.selecy": "请选择人员",
+  "cost.center.detail.success": "操作成功",
+  "cost.center.detail.temp": "成本中心项模板",
+  "cost.center.detail.temp.person": "成本中心项-人员模板",
+
+  "cost.center.detail.error": "成本中心项导入错误信息",
+  "cost.center.detail.import": "导入成本中心项",
+  "cost.center.detail.import.person": "导入成本中心项-人员",
+  "cost.center.detail.batchadd": "批量添加员工",
+  "cost.center.detail.new": "新建成本中心项",
+  "cost.center.detail.inp.search": "输入成本中心项名称或编码",
+  "cost.center.detail.has": "已经选择",
+  "cost.center.detail.items": "项数据"
+}

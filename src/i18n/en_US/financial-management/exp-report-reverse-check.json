@@ -1,0 +1,20 @@
+{
+    "expense.reverse.check.cancel":"cancel",
+    "expense.reverse.check.unChecked":"UnChecked ( {total} )",
+    "expense.reverse.check.checked":"Checked ( {total} )",
+    "expense.reverse.check.number":"Report Reverse Number",
+    "expense.reverse.check.source.number":"Source Report Number",
+    "expense.reverse.date.from":"Reverse Date From",
+    "expense.reverse.date.to":"Reverse Date To",
+    "expense.reverse.apply.name":"Apply Name",
+    "expense.reverse.currency.code":"Currency Code",
+    "expense.reverse.amount.from":"Amount From",
+    "expense.reverse.amount.to":"Amount To",
+    "expense.reverse.remark":"Remark",
+    "expense.reverse.reverse.date":"Reverse Date",
+    "expense.reverse.amount":"Reverse Amount",
+    "expense.reverse.status":"Status",
+    "expense.reverse.pagination.total":"total {total} items",
+    "expense.reverse.getItems.fail":"Get Items Fail:{error}"
+
+}

@@ -1,0 +1,25 @@
+{
+  "legal.person.new.title.p": "请填写法人实体名称",
+  "legal.person.new.account.p": "请填写开户行",
+  "legal.person.new.address.p": "请填写地址",
+  "legal.person.new.mainLanguage": "开票显示语言",
+  "legal.person.new.chinese": "简体中文",
+  "legal.person.new.title": "新增法人实体",
+  "legal.person.new.name": "法人实体名称",
+  "legal.person.new.tax": "纳税人识别号",
+  "legal.person.new.address": "地址",
+  "legal.person.new.mobile": "电话",
+  "legal.person.new.account": "开户行",
+  "legal.person.new.bank.card": "银行卡号",
+  "legal.person.new.sob": "账套",
+  "legal.person.new.parent.legal": "上级法人",
+  "legal.person.new.qcode": "开票二维码",
+  "legal.person.new.tips1": "纳税人识别号数字与字母，长度不能超过30",
+  "legal.person.new.tips2": "只能是数字与-",
+  "legal.person.new.tips3": "不能超过20个字符",
+  "legal.person.new.tips4": "不能超过30个字符",
+  "legal.person.new.need.num": "必须是数字",
+  "legal.person.new.need.mobile": "请输入正确的电话号码"
+}
+
+

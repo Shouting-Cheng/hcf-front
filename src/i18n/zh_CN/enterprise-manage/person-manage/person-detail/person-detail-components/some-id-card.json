@@ -1,0 +1,28 @@
+{
+  "pdc.id.card": "中国",
+  "pdc.id.card.id.card": "身份证",
+  "pdc.id.card.enable": "启用中",
+  "pdc.id.card.disable": "已禁用",
+  "pdc.id.card.default": "默认",
+  "pdc.id.card.card.type": "证件类型",
+  "pdc.id.card.contry": "国籍",
+  "pdc.id.card.edit.card": "编辑证件信息",
+  "pdc.id.card.new.card": "新增证件信息",
+
+  "pdc.id.card.last.name": "姓",
+  "pdc.id.card.first.name": "名",
+
+  "pdc.id.card.name.tips0": "1.中文姓名填写",
+  "pdc.id.card.name.tips1": "2.英文姓名填写",
+  "pdc.id.card.name.tips2": "4. 姓名中有特殊符号“.”“-”等",
+  "pdc.id.card.name.tips00": "可直接在姓字段填写完整姓名。若证件不为身份证或国籍不为“中国大陆”，姓和名必须用英文字母填写，并确保与乘机所持证件一致。",
+  "pdc.id.card.name.tips11": "若持护照乘机，必须按照护照显示区分姓与名，middle name填写在名栏中，不区分大小写。如joe jerad/potter，在姓处输入potter，在名处输入joe jerad。",
+  "pdc.id.card.name.tips22": "在姓栏中, 可不用输入；在名中用空格代替。例如：“jame.M-C./Black.S-A ”，在姓中输入BlackSA ，在名中输入为“jame M C”。",
+
+  "pdc.id.card.card.number": "证件号",
+  "pdc.id.card.card.expire": "证件到期时间",
+  "pdc.id.card.nomore.30": "不能超过30个字符",
+  "pdc.id.card.is.set.default": " 是（只能有一个默认)",
+  "pdc.id.card.is.set.default.title": "设为默认",
+  "pdc.id.card.must.be.number": "必须是数字"
+}

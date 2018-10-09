@@ -1,0 +1,156 @@
+.travel-information {
+  .ant-collapse {
+    border: none;
+    .ant-collapse-item:last-child {
+      background: #f7f7f7;
+      border-radius: 4px;
+      margin-top: 10px;
+      border: none;
+      overflow: hidden;
+    }
+    .ant-collapse-content {
+      background: #f7f7f7;
+    }
+  }
+  .container:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  .itinerary-header {
+    img {
+      height: 15px;
+      margin-right: 5px;
+      vertical-align: text-top;
+    }
+  }
+  .train, .flight, .hotel, .other, .travel-remark, .subsidy {
+    background: #fff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    position: relative;
+    .date {
+      vertical-align: middle;
+    }
+    .supplier {
+      float: right;
+      span {
+        color: #333;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .location {
+      margin: 20px 0;
+      position: relative;
+      .from, .to {
+        font-size: 18px;
+        font-weight: bolder;
+        color: #333;
+      }
+      .from {
+        margin-right: 10px;
+      }
+      .to {
+        margin-left: 10px;
+      }
+    }
+    .remark {
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+    }
+    .disabled-img {
+      position: absolute;
+      top: 0;
+      left: 60%;
+    }
+  }
+  .hotel {
+    .day-and-night {
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+  }
+  .other {
+    .traffic-type {
+      margin-right: 20px;
+    }
+  }
+  .travel-remark {
+    .remark {
+      line-height: 25px;
+      margin: 10px;
+      .itinerary-type {
+        color: #333;
+        font-weight: bolder;
+      }
+    }
+  }
+  .subsidy {
+    .amount {
+      font-size: 18px;
+      font-weight: bolder;
+      color: #333;
+    }
+    .expense-item {
+      margin-bottom: 10px;
+    }
+    .location-and-amount {
+      margin: 10px 0;
+    }
+    .other-currency {
+      margin-left: 10px;
+      font-size: 12px;
+      color: #959595;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-subsidy-items {
+      margin: 10px 0;
+      border-top: 1px dashed #bababa;
+      padding-top: 10px;
+      .user-total-info {
+        text-align: right;
+      }
+      .title-show {
+        margin: 10px 0;
+        .avatar-info {
+          line-height: 30px;
+          .avatar-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+        .expense-type-amount {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .up-down-icon {
+          text-align: center;
+          i {
+            cursor: pointer;
+          }
+        }
+      }
+      .subsidy-item {
+        padding: 10px;
+        &.subsidy-item-bg {
+          background: #f7f7f7;
+        }
+        .expense-type-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          max-width: 85%;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

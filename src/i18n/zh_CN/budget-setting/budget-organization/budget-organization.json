@@ -1,0 +1,8 @@
+{
+  "budget.organization.name": "预算组织名称",
+  "budget.organization": "预算组织",
+  "budget.organization.code": "预算组织代码",
+  "budget.organization.set.of.books": "账套",
+  "budget.organization.edit": "编辑预算组织",
+  "budget.organization.new.info": "同一账套下只能有一个生效的预算组织代码，且同一租户下预算组织代码不允许重复。保存后不可修改。"
+}

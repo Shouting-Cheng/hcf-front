@@ -1,0 +1,249 @@
+:global {
+  .login {
+    width: 100%;
+    height: 100%;
+    min-width: 1366px;
+    min-height: 768px;
+    position: relative;
+    font-family: PingFangSC-Regular;
+    //overflow: scroll;
+    .background-img {
+      position: fixed;
+      z-index: -1;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .login-area {
+      position: absolute;
+      width: 320px;
+      top: 20%;
+      left: 70%;
+      text-align: center;
+  
+      .ant-tabs-tab {
+        color: white;
+      }
+      .ant-tabs-tab-active {
+        color: #1890ff;
+      }
+      .qcode-class {
+        .qcode-class-wrap {
+          position: relative;
+          width: 280px;
+          height: 320px;
+          background: white;
+          margin-left: 20px;
+          .qcode-img-wrap {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            left: 30px;
+            top: 30px;
+            .qcode-img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .qcode-img-wrap-expired {
+  
+            opacity: 0.4;
+          }
+          .qcode-middle-tips {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            top: 120px;
+            height: 30px;
+            line-height: 30px;
+            color: #bf3e3e;
+            background: white;
+          }
+          .qcode-middle-btn {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            top: 156px;
+            button {
+              margin-top: 0px;
+              display: inline;
+              height: 32px;
+              line-height: 32px;
+              font-size: 16px;
+              width: 100px;
+              text-align: center;
+            }
+          }
+          .qcode-bottom-tips {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            top: 270px
+          }
+        }
+  
+      }
+      .account-class {
+        .account-class-wrap{
+          padding-top: 20px;
+        }
+      }
+  
+      .login-logo-text {
+        font-size: 32px;
+        color: white;
+        margin-bottom: 30px;
+      }
+      .company-login-tip-inp{
+        margin-bottom: 6px;
+        color: #909090;
+      }
+      .company-login-tip{
+        text-align: left;
+        color: #c9c9c9;
+      }
+      input{
+        border-radius: 0;
+        height: 40px;
+        line-height: 40px;
+        margin-bottom: 30px;
+        font-size: 16px;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      }
+      input:focus {
+        border: none;
+        box-shadow: none;
+        border-bottom: 1px solid white;
+      }
+      input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+      }
+      input[type=text]:focus, input[type=password]:focus {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+      }
+      .company-login{
+        font-size: 14px;
+        color: #FFFFFF;
+        text-decoration: underline;
+        cursor: pointer;
+        float: left;
+        text-align: left;
+      }
+      .find-password{
+        font-size: 14px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: left;
+      }
+      .find-password-note{
+        font-size: 13px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+      .back-login{
+        font-size: 13px;
+        margin-top: 20px;
+        cursor: pointer;
+        float: left;
+        text-align: left;
+      }
+      .forget-password{
+        font-size: 14px;
+        text-align: right;
+        float: right;
+        color: #FFFFFF;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      button {
+        background: #166CFB;
+        border-radius: 4px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 18px;
+        width: 100%;
+        border: none;
+        margin-top: 20px;
+      }
+    }
+    #scene {
+      position: absolute;
+      left: 15%;
+      top: 10%;
+      width: 36%;
+      height: 80%;
+      div {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        img {
+          margin-top: 10vh;
+          width: 100%;
+        }
+      }
+      .img-logo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 50px;
+      }
+    }
+    .description {
+      position: absolute;
+      right: 35%;
+      bottom: 20%;
+      width: 40%;
+      text-align: right;
+      .description-title {
+        font-size: 28px;
+        color: #FFFFFF;
+        line-height: 28px;
+      }
+      .description-content {
+        margin-top: 10px;
+        font-size: 16px;
+        color: #587DCD;
+        line-height: 16px;
+      }
+    }
+    .message {
+      /* position: absolute; */
+      /* width: 20%; */
+      /* left: 70%; */
+      /* right: 10%; */
+      /* bottom: 20%; */
+      text-align: right;
+      margin-top: 10px;
+      .no-account {
+        font-size: 14px;
+        color: #FFFFFF;
+        line-height: 14px;
+        text-align: right;
+      }
+      .phone-number {
+        font-size: 18px;
+        color: #587DCD;
+        line-height: 18px;
+        margin-top: 8px;
+        text-align: right;
+      }
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      border-top: 1px solid #254181;
+      font-size: 14px;
+      color: #587DCD;
+      line-height: 16px;
+      padding: 20px 0;
+      text-align: center;
+      width: 80%;
+    }
+  }
+}
+

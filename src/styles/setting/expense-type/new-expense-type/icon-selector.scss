@@ -1,0 +1,38 @@
+.icon-selector{
+  width: 548px;
+  .icon-container{
+    height: 500px;
+    padding: 20px;
+    width: 100%;
+    overflow-y: auto;
+    img{
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      margin: 0 4px 4px 4px;
+      &:hover{
+        -webkit-animation: bounceFlash .3s;
+        -o-animation: bounceFlash .3s;
+        animation: bounceFlash .3s;
+        box-shadow: 0 0 5px 0 #616161;
+      }
+    }
+    @keyframes bounceFlash {
+      33%{
+        -webkit-transform: scale(0.8);
+        -moz-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        transform: scale(0.8);
+      }
+      66%{
+        -webkit-transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
+      }
+    }
+  }
+}

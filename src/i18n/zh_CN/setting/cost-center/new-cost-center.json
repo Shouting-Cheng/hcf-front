@@ -1,0 +1,7 @@
+{
+  "new.cost.center.name": "成本中心名称",
+  "new.cost.center.code": "成本中心代码",
+  "new.cost.center.max36.char": "最多36个字符，只支持字母与数字",
+  "new.cost.center.tip1": "注：成本中心代码保存后将不可修改",
+  "new.cost.center.sob": "账套"
+}

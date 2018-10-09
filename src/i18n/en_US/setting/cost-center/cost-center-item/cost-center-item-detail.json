@@ -1,0 +1,28 @@
+{
+  "cost.center.item.detail": "Cost center item detail",
+
+  "cost.center.item.detail.employeeID": "Employee ID",
+  "cost.center.item.detail.fullName": "Name",
+  "cost.center.item.detail.dep": "Dep.",
+  "cost.center.item.detail.title": "Title",
+
+  "cost.center.item.detail.name": "Name",
+  "cost.center.item.detail.code": "Code",
+  "cost.center.item.detail.manager": "Manager",
+  "cost.center.item.detail.status": "Status",
+
+  "cost.center.item.detail.main": "Main dep.",
+  "cost.center.item.detail.sec": "Secondary dep.",
+  "cost.center.item.detail.showall": "All can be seen",
+  "cost.center.item.detail.please.select": "Please select person",
+  "cost.center.item.detail.batchadd.dep": "Add Department(Including sub departments)",
+  "cost.center.item.detail.batchadd.dep1": "Add Department(Including sub departments)",
+  "cost.center.item.detail.batchadd.dep2": "DepartmentName/Code",
+  "cost.center.item.detail.departmentCode": "DepartmentCode",
+  "cost.center.item.detail.departmentName": "DepartmentName",
+  "cost.center.item.detail.isEnabled": "Status",
+  "cost.center.item.detail.success": "Success",
+  "cost.center.item.detail.extend": "Extend field",
+  "cost.center.item.detail.batchadd": "Batch adding staff",
+  "cost.center.item.detail.inp1": "Enter name or employeeId"
+}

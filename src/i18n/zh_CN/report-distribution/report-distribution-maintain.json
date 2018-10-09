@@ -1,0 +1,32 @@
+{
+  "rep.distribution.maintain.number":"工号",
+  "rep.distribution.maintain.name":"姓名",
+  "rep.distribution.maintain.company.name":"公司名称",
+  "rep.distribution.maintain.department": "部门",
+  "rep.distribution.maintain.duty": "职务",
+  "rep.distribution.maintain.copy.name":"报表副本名称",
+  "rep.distribution.maintain.explanation": "说明",
+  "rep.distribution.maintain.data.range": "可见数据范围",
+  "rep.distribution.maintain.visible.person": "报表可见人员",
+  "rep.distribution.maintain.full.visible": "全员可见",
+  "rep.distribution.maintain.add.employees.organization": "按组织添加员工",
+  "rep.distribution.maintain.add.employees.condition": "按条件添加员工",
+  "rep.distribution.maintain.select.staff": "选择员工",
+  "rep.distribution.maintain.comments.tips": "最多输入100个字符",
+  "rep.distribution.maintain.group.all": "全集团",
+  "rep.distribution.maintain.excluding.departments": "该人员所在部门（不包含下级部门）",
+  "rep.distribution.maintain.including.departments": "该人员所在部门（包含下级部门）",
+  "rep.distribution.maintain.excluding.designated.department": "指定部门（不包含下级部门）",
+  "rep.distribution.maintain.designated.corporation": "指定法人",
+  "rep.distribution.maintain.including.designated.department": "指定部门（包含下级部门）",
+  "rep.distribution.maintain.legal.person": "该人员所在法人",
+  "rep.distribution.maintain.designated.books": "指定账套",
+  "rep.distribution.maintain.add.dep": "添加部门",
+  "rep.distribution.maintain.add.legal.person": "添加法人",
+  "rep.distribution.maintain.add.books": "添加账套",
+  "rep.distribution.maintain.isPublic.yes": "该报表数据所有公司人员可见"
+
+
+
+
+}

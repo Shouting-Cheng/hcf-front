@@ -1,0 +1,65 @@
+{
+  "person.manage.title": "员工管理",
+  "person.manage.person.detail": "人员详情",
+
+  "person.manage.all.data": "全部数据",
+  "person.manage.person.info.data": "人员信息数据",
+  "person.manage.bank.info.data": "银行信息数据",
+  "person.manage.card.info.data": "证件信息数据",
+  "person.manage.ctrip.info.data": "携程信息数据",
+
+  "person.manage.down.all.temp": "下载全部模板",
+  "person.manage.person.info.temp": "人员信息导入模板",
+  "person.manage.bank.info.temp": "银行信息导入模板",
+  "person.manage.card.info.temp": "证件信息导入模板",
+  "person.manage.ctrip.info.temp": "携程信息导入模板",
+
+  "person.manage.select": "请选择",
+  "person.manage.name.employeeId.email.mobile": "员工姓名、工号、邮箱、电话",
+  "person.manage.company": "公司",
+  "person.manage.status": "状态",
+
+  "person.manage.working.person": "在职员工",
+  "person.manage.will.go.person": "待离职员工",
+  "person.manage.gone.person": "离职员工",
+  "person.manage.all.person": "全部员工",
+
+  "person.manage.employeeId": "工号",
+  "person.manage.name": "姓名",
+  "person.manage.dep": "部门",
+  "person.manage.contact": "联系方式",
+  "person.manage.email": "邮箱",
+  "person.manage.operation": "操作",
+
+  "person.manage.im.err": "人员导入错误信息",
+
+  "person.manage.person.info.temp1": "人员信息模板",
+  "person.manage.bank.info.temp1": "银行信息模板",
+  "person.manage.card.info.temp1": "证件信息模板",
+  "person.manage.vendor.info.temp1": "供应商模板",
+  "person.manage.person.info": "员工信息",
+  "person.manage.card.info1": "证件信息",
+
+  "person.manage.bank.card.info": "银行卡信息",
+  "person.manage.ctrip.info": "携程信息",
+  "person.manage.new.person": "新增员工",
+
+  "person.manage.im.person.data": "导入人员数据",
+  "person.manage.ex.person.data": "导出人员数据",
+  "person.manage.has": "当前搜索条件下，有",
+  "person.manage.person.no.actived": "人尚未激活",
+  "person.manage.invite.use": "邀请使用",
+
+  "person.manage.im": "导入",
+
+  "person.manage.im.tips1": "主信息模板（必须导入）,包含个人基本信息、默认一套银行&证件信息、供应商信息补充信息模板（上传前必须先导入主数据）&证件信息",
+  "person.manage.im.tips2": "银行基础数据（录入银行信息时请根据银行数据录入，该文件无须上传）",
+  "person.manage.im.tips3": "上传模板,如有多套模板，请先上传人员信息导入模板",
+  "person.manage.select.file": "选择一个文件",
+  "person.manage.uploading": "上传中",
+
+  "person.manage.import.error": "人员导入错误信息",
+  "person.manage.start.upload": "开始上传"
+
+}
+

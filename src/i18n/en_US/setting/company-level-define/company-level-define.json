@@ -1,0 +1,12 @@
+{
+  "company.level.define.company.code": "Company Level Code",
+  "company.level.define.add.success": "Creation Success",
+  "company.level.define.new.level.define": "New Company Level Detail",
+  "company.level.define.save.not.edit": "[Company Level Code] is unchangeable once saved",
+  "company.level.define.code.not.empty": "Company level code should not be empty",
+  "company.level.define.edit.level.define": "Edit Company Level Detail",
+  "company.level.define.edit.description.empty": "The description can not be empty",
+  "company.level.define.can.not.edit": "Company level has been used cannot be edited.",
+  "company.level.define.validation.error": "Validation Error.",
+  "company.level.define.code.repeat": "Company level code can not repeat."
+}

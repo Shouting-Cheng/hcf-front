@@ -1,0 +1,17 @@
+{
+  "confirm.payment.nameNo": "姓名／工号",
+  "confirm.payment.reimbursementNo": "报销单号",
+  "confirm.payment.dueConfirm": "待确认",
+  "confirm.payment.duePay": "待付款",
+  "confirm.payment.confirmSuccess": "确认付款成功",
+  "confirm.payment.paySuccess": "{total}笔单据被生成付款批次",
+  "confirm.payment.confirmPaySuccess": "{total}笔单据确认付款成功",
+  "confirm.payment.payFailure": "确认付款失败",
+  "confirm.payment.chooseNo": "已选 {total} 条",
+  "confirm.payment.choosePage": "全选当页",
+  "confirm.payment.chooseAll": "全选全部",
+  "confirm.payment.confirmPaid": "确认已付款",
+  "confirm.payment.confirmPay": "确认付款",
+  "confirm.payment.importOffer": "导入报盘文件",
+  "confirm.payment.exportOffer": "报盘导入"
+}

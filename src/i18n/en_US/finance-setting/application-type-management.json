@@ -1,0 +1,10 @@
+{
+  "application.type.management.set.of.books": "Set of books",
+  "application.type.management.code": "Application type code",
+  "application.type.management.name": "Application type name",
+  "application.type.management.icon": "Icon",
+  "application.type.management.subsidy.type": "Subsidy type",
+  "application.type.management": "Application type management",
+  "application.type.management.new": "New application type",
+  "application.type.management.edit": "Edit application type"
+}

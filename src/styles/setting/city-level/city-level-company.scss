@@ -1,0 +1,67 @@
+.city-level-company{
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .city-level-company-left{
+    position: relative;
+    width: 360px;
+    height: calc(100vh - 130px) ;
+    overflow-y: auto;
+    .city-level-company-tree-title-wrap {
+      margin-bottom: 10px;
+      .list-header-title {
+        margin-top: 10px;
+        color: #898585;
+      .list-header-title-button {
+        display: inline-block;
+        margin-left: 20px;
+      }
+    }
+      .city-level-city-list{
+        .city-list-checkAll{
+          padding: 8px 0 8px 10px;
+        }
+        .city-checked{
+          padding: 8px 0 8px 10px;
+          background-color: #e6f7ff;
+          .ant-checkbox-wrapper{
+            color: #1890ff;
+          }
+        }
+        .city-not-checked{
+          padding: 8px 0 8px 10px;
+          &:hover{
+            background-color: #e6f7ff;
+            .ant-checkbox-wrapper{
+              color: #1890ff;
+            }
+          }
+        }
+      }
+    }
+  }
+  .city-level-company-right{
+    height: calc(100vh - 130px);
+    overflow-x: auto;
+    overflow-y: auto;
+    border-left: solid 1px #eeeeee;
+    padding: 10px;
+    margin-left: 400px;
+    .table-header-title{
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .table-header{
+      margin: 16px 0;
+      .table-header-search{
+        display: inline-block;
+      }
+    }
+  }
+}

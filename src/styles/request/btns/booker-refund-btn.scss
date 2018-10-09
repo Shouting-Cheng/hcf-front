@@ -1,0 +1,14 @@
+.booker-refund-modal {
+  .ant-modal-body {
+    max-height: 60vh;
+    overflow: auto;
+  }
+  .form-container {
+    .ant-form-item {
+      margin-bottom: 10px;
+    }
+    .ant-form-item-label {
+      text-align: left;
+    }
+  }
+}

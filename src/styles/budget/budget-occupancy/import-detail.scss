@@ -1,0 +1,35 @@
+.import-detail {
+  .top-info-container {
+    background: #fff;
+    padding: 20px 20px 0 20px;
+    margin: -40px -20px 0 -20px;
+    .top-info {
+      padding-top: 20px;
+    }
+  }
+  .detail-tabs {
+    margin: 0 -20px;
+    .ant-tabs-bar {
+      background: #fff;
+      border-bottom: 1px solid #fff;
+      padding-top: 20px;
+    }
+    .ant-tabs-tabpane .tab-container {
+      width: calc(100% - 40px) !important;
+      margin: 5px 20px 20px;
+      background: #fff;
+      box-shadow: 0 0 5px 1px #cecece;
+      padding: 20px;
+      .sub-header-title {
+        font-size: 18px;
+        border-bottom: 1px solid #ececec;
+        margin: -20px -20px 20px;
+        padding: 10px 20px;
+        .edit {
+          font-size: 15px;
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+}

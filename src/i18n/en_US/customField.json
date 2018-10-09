@@ -1,0 +1,19 @@
+{
+  "customField.no": "No",
+  "customField.yes": "Yes",
+  "customField.expense.type": "Exp. Type",
+  "customField.currency": "Currency",
+  "customField.amount": "Amount",
+  "customField.rate": "Exchange rate",
+  "customField.base.amount": "Local Cur.",
+  "customField.pay.way": "Payment method",
+  "customField.pay.by.person": "Personal to pay",
+  "customField.pay.by.company": "Company to pay",
+  "customField.allocate.scale": "Allocation Ratio(%)",
+  "customField.bankAccountName": "Account Name",
+  "customField.bankCode": "Unique Bank ID",
+  "customField.branchName": "Bank Name",
+  "customField.name": "Name",
+  "customField.id.number": "ID Number",
+  "customField.special.signer": "Additonal Approver"
+}

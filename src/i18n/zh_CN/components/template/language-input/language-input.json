@@ -1,0 +1,6 @@
+{
+  "lang-inp.required":"必填",
+  "lang-inp.lang-setting":"语言设置",
+  "lang-inp.lang-tip":"字数超过限制,自动截取前 {length} 个"
+
+}

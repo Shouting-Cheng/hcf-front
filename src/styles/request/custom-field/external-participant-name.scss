@@ -1,0 +1,10 @@
+.external-participant-name {
+  .ant-modal-body {
+    padding-top: 10px;
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+    .table-header {
+      margin-top: 0;
+    }
+  }
+}

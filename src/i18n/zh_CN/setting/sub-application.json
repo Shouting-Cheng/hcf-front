@@ -1,0 +1,17 @@
+{
+  "sub.application": "第三方应用",
+  "sub.application.add": "新增应用",
+  "sub.application.error.toast01": "请选择人员组",
+  "sub.application.error.toast02": "请上传Logo",
+  "sub.application.new": "新建应用",
+  "sub.application.edit": "编辑应用",
+  "sub.application.logo": "应用Logo",
+  "sub.application.image.tip": "建议尺寸：150*150，200K以内的JPG.PNG图片",
+  "sub.application.name": "应用名称",
+  "sub.application.enter.max.length": "请输入，最多输入{max}个字符",
+  "sub.application.remark": "描述",
+  "sub.application.link": "跳转链接",
+  "sub.application.terminal": "终端",
+  "sub.application.mobile": "移动端（含APP/微信/钉钉）",
+  "sub.application.hide.navigation.bar": "隐藏顶部导航"
+}

@@ -1,0 +1,14 @@
+{
+  "invite.person.tips1": "people have not been activated",
+  "invite.person.tips2": "Under current search conditions，",
+  "invite.person.invite.use": "Invitation to use",
+  "invite.person.invite.use.sms": "SMS invitation",
+  "invite.person.invite.success": "Inviting success",
+  "invite.person.invite.error": "Invitations failure",
+  "invite.person.companyName": "CompanyName",
+  "invite.person.employeeID": "EmployeeID",
+  "invite.person.name": "Name",
+  "invite.person.dep.": "Dep.",
+  "invite.person.contact": "Mobile",
+  "invite.person.please.select": "Please choose the employees to invite"
+}

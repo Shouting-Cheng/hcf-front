@@ -1,0 +1,25 @@
+{
+  "legal.person.new.title.p": "Please input legal entity name",
+  "legal.person.new.account.p": "Please input bank name",
+  "legal.person.new.address.p": "Please input address",
+  "legal.person.new.mainLanguage": "Main language",
+  "legal.person.new.chinese": "Chinese",
+  "legal.person.new.title": "New legal entity",
+  "legal.person.new.name": "New legal name",
+  "legal.person.new.tax": "Taxpayer identification number",
+  "legal.person.new.address": "Address",
+  "legal.person.new.mobile": "Mobile",
+  "legal.person.new.account": "Bank",
+  "legal.person.new.bank.card": "Bank card number",
+  "legal.person.new.sob": "Set Of Books",
+  "legal.person.new.parent.legal": "Parent legal entity",
+  "legal.person.new.qcode": "Ticket opening two-dimensional code",
+  "legal.person.new.tips1": "The number and letter of the taxpayer identification number, the length can not exceed 30",
+  "legal.person.new.tips2": "Must is number or -",
+  "legal.person.new.tips3": "No more 20 chars",
+  "legal.person.new.tips4": "No more 30 chars",
+  "legal.person.new.need.num": "Must be number",
+  "legal.person.new.need.mobile": "Please input mobile"
+}
+
+

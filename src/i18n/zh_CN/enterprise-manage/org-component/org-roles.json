@@ -1,0 +1,12 @@
+{
+  "org.roles.edit": "编辑",
+  "org.roles.disabled": "停用该部门",
+  "org.roles.create-child-dep": "创建子部门",
+  "org.roles.please-select": "请选择",
+  "org.roles.dep-name": "部门名称",
+  "org.roles.dep-code": "部门编码",
+  "org.roles.save": "保存",
+  "org.roles.cancel": "取消",
+  "org.roles.please-input": "请输入",
+  "org.roles.please-input-manager": "请填写部门经理"
+}

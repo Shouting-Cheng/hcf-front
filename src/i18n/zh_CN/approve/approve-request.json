@@ -1,0 +1,13 @@
+{
+  "approve.request.moneyFrom":"金额从",
+  "approve.request.moneyTo":"金额至",
+  "approve.request.matter":"事由",
+  "approve.request.maximumData":"最多选择20条数据",
+  "approve.request.successNum":"成功处理 {total} 笔单据",
+  "approve.request.failNum":"失败 {total} 笔单据",
+  "approve.request.has.approved":"已经审批通过，是否继续",
+  "approve.request.processing":"待审批",
+  "approve.request.approved":"已审批",
+  "approve.request.proxy":"代理",
+  "approve.request.document.no":"申请单号"
+}

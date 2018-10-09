@@ -1,0 +1,15 @@
+{
+  "extend.field": "Extend field",
+  "extend.field.tips": "Tips",
+  "extend.field.maxAdd": "Max add ",
+  "extend.field.fields": " Fields",
+  "extend.field.name.no.empty": "Field name no empty",
+  "extend.field.list.no.empty": "List no empty",
+  "extend.field.click.add.field.type": "Click to add field type",
+  "extend.field.save": "Save",
+  "extend.field.cancel": "Cancel"
+}
+
+
+
+

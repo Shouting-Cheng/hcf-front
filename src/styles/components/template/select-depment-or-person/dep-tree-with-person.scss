@@ -1,0 +1,31 @@
+.org-structure-tree-with-person {
+  height: 460px;
+  width: 420px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: solid 1px #eee;
+  padding-top: 2px;
+  border-radius: 4px;
+  margin-top: 10px;
+  .org-dep-node-set {
+    overflow: hidden;
+    display: block;
+    width: 30px;
+    float: right;
+    font-size: 20px;
+    text-align: center;
+  }
+  .org-dep-node{
+    overflow: hidden;
+    display: block;
+    .org-dep-node-title{
+      overflow: hidden;
+      width: 320px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+
+}

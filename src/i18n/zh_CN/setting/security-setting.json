@@ -1,0 +1,48 @@
+{
+  "security.lowerCase": "小写字母",
+  "security.upperCase": "大写字母",
+  "security.digital": "数字",
+  "security.password.to": "到",
+  "security.specialCharacters": "特殊字符",
+  "security.mail.tips": "邮箱（邮箱将用于含附件消息如报销单电子件的推送）",
+  "security.phone.tips": "手机 海外手机不支持短消息推送",
+
+  "security.email.modify": "勾选后员工可以在App上修改邮箱",
+  "security.phone.modify": "勾选后员工可以在App上修改/删除手机号",
+  "security.email.phone": "员工是否可以修改",
+
+  "security.password.tips1": "允许员工通过接口修改密码",
+
+  "security.view": "查看",
+  "security.hides": "点击隐藏",
+  "security.enterprise.id": "企业ID",
+  "security.enterprise.key": "企业密钥",
+  "security.basic.rule": "基础规则",
+  "security.password.length": "密码长度：",
+  "security.password.rule": "密码中必须包含：",
+  "security.password.time": "密码有效期：",
+  "security.history.password": "历史密码检查：",
+  "security.forbidden": "禁止当前使用",
+  "security.forbidden.tips": "次密码",
+  "security.forbidden.tips.inner": "最大24，0表示不启用历史密码检查策略",
+  "security.other.rule": "其它规则",
+  "security.account.time": "账号失效时间：",
+  "security.password.tips": "位",
+  "security.departing.employees": "离职员工",
+  "security.departing.tips": "天后账号失效，将不能进行登录操作",
+  "security.departing.tips.inner": "最大180",
+  "security.information.info": "信息通知渠道：",
+  "security.create.info": "员工和组织架构信息创建：",
+  "security.info.type": "为确保信息的准确性，信息的同步方式只能选择一种，切换后会覆盖相同账号的信息",
+  "security.create.manually": "手动创建",
+  "security.create.manually.inner":"（员工信息支持excel批量导入）",
+  "security.interface": "接口同步",
+  "security.day": "天",
+  "security.day.tips":"最多1095天，0表示永不过期，过期后不可以登录",
+  "security.passwordAttemptTimes": "密码重试次数",
+  "security.autoUnlockDuration": "自动解锁时间",
+  "security.times": "次",
+  "security.Minutes": "分钟"
+}
+
+

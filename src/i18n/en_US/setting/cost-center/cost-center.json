@@ -1,0 +1,18 @@
+{
+  "cost.center.title": "Name",
+
+  "cost.center.code": "Code",
+  "cost.center.status": "Status",
+  "cost.center.dep": "Dep.",
+  "cost.center.disabled": "Disabled",
+
+  "cost.center.enabled": "Enabled",
+  "cost.center.sdisabled": "Set disabled",
+  "cost.center.senabled": "Set enabled",
+
+  "cost.center.goto": "（Department is the default cost center for enterprises, departmental maintenance, please go",
+  "cost.center.enterprise.org": "organizational structure",
+  "cost.center.page": "）page",
+
+  "cost.center.extend.field": "Extend field"
+}

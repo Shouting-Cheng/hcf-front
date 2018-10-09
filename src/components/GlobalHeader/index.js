@@ -79,7 +79,7 @@ export default class GlobalHeader extends React.Component {
         payload: { languages: languages, local: value },
       });
 
-      fetch.post('/api/users/language/' + value);
+      fetch.post('/api/api/users/language/' + value);
     });
   };
 

@@ -1,0 +1,121 @@
+.open-ticket-frame{
+  height: 90vh;
+  .only-money-result{
+    padding-top: 10px;
+    span{
+      margin-left: 5px;
+      color:#666;
+      font-size: 12px;
+    }
+  }
+  .header-text{
+    color:#666;
+    font-size: 12px;
+  }
+  .invoice-name{
+    font-weight: 600;
+    color:#666;
+    font-size: 16px;
+    padding: 10px 0;
+  }
+  .invoice-counts{
+    font-size: 12px;
+    padding-bottom: 10px;
+    color:#4c4c4c;
+  }
+  .invoice-counts-num{
+    color: #000;
+  }
+  .invoice-counts-base{
+    color: #FF9D29;
+    margin: 0 5px;
+  }
+  .invoice-detail{
+    font-size: 13px;
+    color:#4c4c4c;
+    display: flex;
+    align-items: center;
+    .invoice-logo{
+      display: inline-block;
+      margin-right: 10px;
+      height: 14px;
+    }
+    .invoice-counts-num{
+      font-size: 16px;
+      color: #108EE9;
+    }
+    .invoice-counts-m{
+      font-size: 16px;
+      color: #000;
+    }
+    .invoice-counts-base{
+      @extend .invoice-counts-base;
+      font-size: 16px;
+    }
+  }
+  .sub-item-red{
+    font-size: 13px;
+    color: #e26565;
+    padding-left: 25px;
+  }
+  .tip{
+    font-weight: 400;
+    color: #FE5500;
+  }
+  .new-receipt-modal{
+    height: 90vh;
+    .ant-modal-body {
+      overflow: auto;
+      .only-money-result{
+        padding-top: 10px;
+        span{
+          margin-left: 5px;
+          color:#666;
+          font-size: 12px;
+        }
+      }
+      .header-text{
+        color:#666;
+        font-size: 12px;
+      }
+      .invoice-name{
+        font-weight: 600;
+        color:#666;
+        font-size: 16px;
+        padding: 10px 0;
+      }
+      .invoice-counts{
+        @extend .invoice-counts
+      }
+      .invoice-counts-base{
+        @extend .invoice-counts-base
+      }
+      .invoice-counts-m{
+        @extend .invoice-counts-m
+      }
+      .invoice-detail{
+       @extend .invoice-detail
+      }
+      .tip{
+        font-weight: 400;
+        color: #FE5500;
+      }
+    }
+    .ant-modal-footer{
+      text-align: center;
+    }
+    .ant-table-wrapper {
+      margin-top: 20px;
+    }
+  }
+
+  .success-modal{
+    height: 50vh;
+    .success-open-tiket{
+      font-size: 16px;
+      color:#666;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+}

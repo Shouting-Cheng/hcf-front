@@ -1,0 +1,10 @@
+{
+  "data-center-filed-set":"字段设置",
+  "data-center-loading-filed":"正在初始化报表列",
+  "data-center-loading-search":"正在初始化查询参数",
+  "data-center-search-didi":"滴滴",
+  "data-center-search-shenzhou":"神州",
+  "data-center-search-select-time":"请选择时间",
+  "data-center-search-title-limit1":"开始时间须小于结束时间",
+  "data-center-search-title-limit":"查询时间跨度不能超过3个月"
+}

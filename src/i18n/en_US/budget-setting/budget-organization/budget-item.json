@@ -1,0 +1,14 @@
+{
+  "budget.itemCode": "Budget Item Code",
+  "budget.itemCodeFrom": "BIC from",
+  "budget.itemCodeTo": "BIC to",
+  "budget.itemName": "Budget Item Name",
+  "budget.itemType": "Budget Item Type",
+  "budget.item.variationAttribute": "Changes in properties",
+  "budget.itemDescription": "Description",
+  "budget.item.batchCompany": "Batch company assignment",
+  "budget.itemCodeExist": "The budget item already exists",
+  "variationAttribute.immobilization": "Fixed",
+  "variationAttribute.mix": "Mixture",
+  "variationAttribute.alteration": "Change"
+}

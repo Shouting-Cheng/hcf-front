@@ -1,0 +1,14 @@
+{
+  "budget.setting": "预算设置",
+  "budget.setting.budget.organization": "预算组织",
+  "budget.setting.scenarios": "场景",
+  "budget.setting.version": "版本",
+  "budget.setting.structure": "表",
+  "budget.setting.item.type": "项目类型",
+  "budget.setting.item": "项目",
+  "budget.setting.item.group": "项目组",
+  "budget.setting.control.strategy": "控制策略",
+  "budget.setting.control.rule": "控制规则",
+  "budget.setting.item.map": "项目映射",
+  "budget.setting.journal.type": "日记账类型"
+}

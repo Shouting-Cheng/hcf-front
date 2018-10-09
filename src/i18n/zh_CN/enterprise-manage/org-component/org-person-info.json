@@ -1,0 +1,23 @@
+{
+  "org.person.unkown": "未知",
+  "org.person.man": "男",
+  "org.person.woman": "女",
+  "org.person.detail": "查看详情",
+  "org.person.company": "公司",
+  "org.person.actived": "已激活",
+  "org.person.no-active": "未激活",
+  "org.person.directManager": "直属领导",
+  "org.person.dep": "部门",
+  "org.person.email": "邮箱",
+  "org.person.phone": "电话",
+  "org.person.duty": "职务",
+  "org.person.title": "职位",
+  "org.person.rank": "级别",
+  "org.person.entrytime": "入职时间",
+  "org.person.status": "状态",
+  "org.person.birthday": "生日",
+  "org.person.sex": "性别",
+  "org.status.1001":"在职",
+  "org.status.1002":"待离职",
+  "org.status.1003":"离职"
+}

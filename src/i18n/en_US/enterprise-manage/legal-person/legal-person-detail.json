@@ -1,0 +1,46 @@
+{
+  "legal.entity.detail": "Legal entity detail",
+
+  "legal.entity.detail.name": "Name",
+  "legal.entity.detail.tax": "Taxpayer Number",
+  "legal.entity.detail.account": "Bank",
+  "legal.entity.detail.bank.card": "Bank card num.",
+
+  "legal.entity.detail.mobile": "Mobile",
+  "legal.entity.detail.address": "Address",
+  "legal.entity.detail.sob.name": "Set Of Books name",
+  "legal.entity.detail.parent.legal": "Parent legal entity",
+
+  "legal.entity.detail.qcode": "Ticket opening two-dimensional code",
+  "legal.entity.detail.index": "Index",
+  "legal.entity.detail.employeeId": "EmployeeId",
+  "legal.entity.detail.employee": "Employee",
+
+  "legal.entity.detail.dep": "Dep.",
+  "legal.entity.detail.email": "Email",
+  "legal.entity.detail.contact": "Contact",
+
+  "legal.entity.detail.move": "Move",
+  "legal.entity.detail.company.code": "Company code",
+
+  "legal.entity.detail.company.name": "Company name",
+  "legal.entity.detail.company.type": "Company type",
+  "legal.entity.detail.sob": "SetOfBooks",
+  "legal.entity.detail.legal.entity": "Legal entity",
+
+  "legal.entity.detail.company.level": "Company level",
+  "legal.entity.detail.parent.company": "Parent company",
+
+  "legal.entity.detail.legal.entity1": "Legal entity",
+  "legal.entity.detail.tax1": "Tax number",
+  "legal.entity.detail.select.person": "Move in person",
+
+  "legal.entity.detail.move.to": "Move to",
+  "legal.entity.detail.move.success": "Success",
+  "legal.entity.detail.im.success": "Success",
+  "legal.entity.detail.search": "Search",
+  "legal.entity.detail.input.companyName": "Please input companyName"
+}
+
+
+

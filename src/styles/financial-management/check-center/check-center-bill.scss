@@ -1,0 +1,49 @@
+.check-center-ticket{
+  .check-center-radio{
+    margin-top: 10px;
+  }
+  .check-center-detail{
+    display: flex;
+    background: #E7F3Fc;
+    border-radius:5px;
+    margin-bottom: 10px;
+    flex-direction:column;
+    .check-center-detail-unPay,.check-center-detail-checked,.check-center-detail-unchecked{
+      display: inline-table;
+      flex: 1;
+      width: 24vw;
+      .detail-tile{
+        color:#666;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .detail-amout{
+        color:#666;
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 10px;
+      }
+      .detail-totalNum{
+        color:#666;
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 10px;
+      }
+    }
+  }
+  .download-bill{
+    color: #40a9ff;
+    font-weight: 400;
+    text-align: right;
+  }
+  .amount{
+    //float: right;
+    text-align: right;
+    font-weight: 400;
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+  .row-warning{
+    color:#FF0000;
+  }
+}

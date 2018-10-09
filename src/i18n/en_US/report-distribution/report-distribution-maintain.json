@@ -1,0 +1,30 @@
+{
+  "rep.distribution.maintain.number":"Emp.No",
+  "rep.distribution.maintain.name":"Name",
+  "rep.distribution.maintain.company.name":"CompanyName",
+  "rep.distribution.maintain.department": "Department",
+  "rep.distribution.maintain.duty": "Duty",
+  "rep.distribution.maintain.copy.name":"Name",
+  "rep.distribution.maintain.explanation": "Explanation",
+  "rep.distribution.maintain.data.range": "Visible data range",
+  "rep.distribution.maintain.visible.person": "Report visible person",
+  "rep.distribution.maintain.full.visible": "Full visible",
+  "rep.distribution.maintain.add.employees.organization": " Add employees by organization ",
+  "rep.distribution.maintain.add.employees.condition": " Add employees by condition ",
+  "rep.distribution.maintain.select.staff": "Select Staff",
+  "rep.distribution.maintain.comments.tips": "the length of characters should be 0&100",
+  "rep.distribution.maintain.group.all": "All Group",
+  "rep.distribution.maintain.excluding.departments": "The Department (excluding subordinate departments) of the person",
+  "rep.distribution.maintain.including.departments": "The Department in which the person belongs (including the subordinate departments)",
+  "rep.distribution.maintain.excluding.designated.department": "Designated department (excluding subordinate departments)",
+  "rep.distribution.maintain.designated.corporation": "Designated Corporation",
+  "rep.distribution.maintain.including.designated.department": "Designated department (including subordinate departments)",
+  "rep.distribution.maintain.legal.person": "The legal person of the company",
+  "rep.distribution.maintain.designated.books": "Designated Set of Books",
+  "rep.distribution.maintain.add.dep": "Add Department",
+  "rep.distribution.maintain.add.legal.person": "Add Legal Person",
+  "rep.distribution.maintain.add.books": "Add Set of Books",
+  "rep.distribution.maintain.isPublic.yes": "The report data is visible to all employees"
+
+
+}

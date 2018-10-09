@@ -1,0 +1,6 @@
+{
+  "org.search.no-person": "No matched Member",
+  "org.search.no-dep": "No matched department",
+  "org.search.person": "Member",
+  "org.search.dep": "Department"
+}

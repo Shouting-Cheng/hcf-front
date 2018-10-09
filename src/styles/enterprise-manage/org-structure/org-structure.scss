@@ -1,0 +1,89 @@
+.org-batch-adjustment-model{
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+
+  .batch-adjustment-from{
+    width: 116px;
+  }
+  .middle-text{
+    line-height:32px;
+    text-align: center;
+    width: 70px;
+  }
+  .batch-adjustment-to{
+    width: 116px;
+  }
+  .tips-box{
+    width: 116px;
+    overflow: hidden;
+    padding: 8px 10px 8px 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+.org-structure{
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .org-structure-left{
+    width: 480px;
+    overflow: hidden;
+    .org-structure-tree-title-wrap{
+      margin-bottom: 10px;
+      height: 64px;
+      .org-structure-tree-title{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 32px;
+      }
+      .org-structure-tree-title-setting{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 32px;
+      }
+      .org-search-icon{
+        padding-right: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+  .org-structure-right{
+    height: calc(100vh - 130px);
+    overflow-x: auto;
+    overflow-y: auto;
+    border: solid 1px #eeeeee;
+    padding: 10px;
+    margin-left: 500px;
+    .role-pannel{
+      margin-bottom: 16px;
+    }
+    .dep-users{
+      margin-top: 10px;
+      .table-header-wrap{
+        .table-header-buttons{
+          padding-bottom: 10px;
+          float: left;
+          Button{
+            margin-right: 20px;
+          }
+        }
+        .table-header-inp{
+          float: right;
+        }
+      }
+    }
+  }
+}

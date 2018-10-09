@@ -1,0 +1,32 @@
+.budget-versions-detail{
+
+  .common-help{
+    margin-bottom: 16px;
+  }
+
+  .common-top-area{
+    margin-bottom: 10px;
+    .title-icon{
+      font-size: 14px;
+      color: #48A55D;
+      margin-right: 10px;
+    }
+    .title-icon.not{
+      color: #FF0000;
+    }
+    .title-edit{
+      font-size: 12px;
+      color: #108EE9;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .form-title-area{
+      .form-title{
+        color: #999999;
+        height: 24px;
+        line-height: 24px;
+      }
+    }
+  }
+
+}

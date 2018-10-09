@@ -1,0 +1,8 @@
+{
+  "contract.type.code": "Type Code",
+  "contract.type.name": "Type Name",
+  "contract.type.status": "Type Status",
+  "contract.edit.type": "Edit",
+  "contract.new.type": "Create",
+  "contract.re.tips": "The type of document in the associated form designer, which is used to use workflow."
+}

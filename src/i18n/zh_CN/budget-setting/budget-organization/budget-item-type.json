@@ -1,0 +1,8 @@
+{
+  "budgetItemType.itemType": "预算项目类型",
+  "budgetItemType.itemTypeCode": "预算项目类型代码",
+  "budgetItemType.itemTypeName": "预算项目类型名称",
+  "budgetItemType.isEnabled": "状态",
+  "budgetItemType.newItemType":"新建预算项目类型",
+  "budgetItemType.editItemType":"编辑预算项目类型"
+}

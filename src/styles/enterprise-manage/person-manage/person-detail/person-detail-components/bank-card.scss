@@ -1,0 +1,221 @@
+.person-bank-card-wrap{
+
+
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .card-add{
+    border: dashed 1px gainsboro;
+    border-radius: 4px;
+    width: 360px;
+    height: 200px;
+    padding: 20px;
+    .card-add-icon-wrap{
+      line-height: 160px;
+      font-size: 50px;
+      text-align: center;
+    }
+  }
+  .card-add:hover{
+    border: dashed 1px #108EE9;
+    color: #108EE9;
+    cursor: pointer;
+  }
+  .card{
+       border: solid 1px gainsboro;
+       box-shadow: 0px 0px 1px 1px gainsboro;
+       border-radius: 4px;
+       width: 360px;
+       height: 200px;
+       padding: 20px;
+       .card-top{
+         height: 28px;
+         .user-name{
+           width: 180px;
+           overflow: hidden;
+           font-weight: bold;
+           font-size: 16px;
+           line-height: 28px;
+           text-overflow: ellipsis;
+           white-space: nowrap;
+         }
+         .status{
+           background-color: rgba(0, 204, 0, 1);
+           color: white;
+           padding: 0px 6px 0px 6px;
+           font-size: 14px;
+           line-height: 24px;
+         }
+         .is-default{
+           background-color: rgba(255, 170, 0, 1);
+           color: white;
+           margin-right: 12px;
+           padding: 0px 6px 0px 6px;
+           font-size: 14px;
+           line-height: 24px;
+         }
+       }
+       .card-number{
+         height: 48px;
+         font-size: 24px;
+         line-height: 48px;
+         width: 318px;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+       }
+       .card-middle1{
+         height: 28px;
+         line-height: 28px;
+         color: #999999;
+         font-size: 12px;
+         .bank-title{
+
+         }
+         .bank-title-text{
+           width: 200px;
+           text-overflow: ellipsis;
+           white-space: nowrap;
+           overflow: hidden;
+         }
+       }
+
+       .card-middle2{
+         height: 28px;
+         line-height: 28px;
+         color: #999999;
+         font-size: 12px;
+         .bank-address{
+         }
+         .bank-address-text{
+           width: 200px;
+           text-overflow: ellipsis;
+           white-space: nowrap;
+           overflow: hidden;
+         }
+       }
+
+       .card-bottom{
+         height: 28px;
+         line-height: 28px;
+         color: #999999;
+         .bank-edit{
+           cursor: pointer;
+           .info-circle{
+             padding-right: 8px;
+           }
+         }
+         .bank-edit:hover{
+           color: #108EE9;
+         }
+       }
+
+     }
+  .card:hover{
+    cursor: pointer;
+    border: solid 1px white;
+    box-shadow: 0px 0px 1px 1px #108EE9;
+  }
+  .disabled-card{
+    border: solid 1px gainsboro;
+    border-radius: 4px;
+    width: 360px;
+    height: 200px;
+    padding: 20px;
+    .card-top{
+      height: 28px;
+      .user-name{
+        width: 180px;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 28px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #999999;
+      }
+      .status{
+        background-color: #999999;
+        color: white;
+        padding: 0px 6px 0px 6px;
+        font-size: 14px;
+        line-height: 24px;
+      }
+      .is-default{
+        background-color: #999999;
+        color: white;
+        margin-right: 12px;
+        padding: 0px 6px 0px 6px;
+        font-size: 14px;
+        line-height: 24px;
+      }
+    }
+    .card-number{
+      height: 48px;
+      font-size: 24px;
+      line-height: 48px;
+      color: #999999;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .card-middle1{
+      height: 28px;
+      line-height: 28px;
+      color: #999999;
+      font-size: 12px;
+      .bank-title{
+
+      }
+      .bank-title-text{
+        width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+
+    .card-middle2{
+      height: 28px;
+      line-height: 28px;
+      color: #999999;
+      font-size: 12px;
+      .bank-address{
+      }
+      .bank-address-text{
+        width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+
+    .card-bottom{
+      height: 28px;
+      line-height: 28px;
+      color: #999999;
+      .bank-edit{
+        cursor: pointer;
+        .info-circle{
+          padding-right: 8px;
+        }
+      }
+      .bank-edit:hover{
+        color: #108EE9;
+      }
+    }
+
+  }
+}
+.person-bank-card-wrap-modal{
+  .required-red{
+    font-family: SimSun;
+    color: red;
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "contract.search.name.employeeId": "Applicant Name/No.",
+  "contract.search.date.from": "Request Date From",
+  "contract.search.date.to": "Request Date To",
+  "contract.createdBy": "Applicant",
+  "contract.sign.date": "Request Date",
+  "contract.amount": "Amount",
+  "contract.unapproved": "Unapproved",
+  "contract.approved": "Approved",
+  "contract.input.rejected.approval": "Please input rejected approval",
+  "contract.input.at.most.200": "Enter 200 characters at most",
+  "contract.add.fast.reply": "Add Quick Tag",
+  "contract.fast.reply": "Quick Tag",
+  "contract.approval.opinions": "Options",
+  "contract.pass": "Pass",
+  "contract.reject": "Reject",
+  "contract.search.employeeId":"Applicant Name"
+}

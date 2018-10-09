@@ -1,0 +1,11 @@
+{
+  "export.modal": "导出数据",
+  "export.modal.start.title": "数据加载中...",
+  "export.modal.tip": "请勿关闭或者离开当前页面，否则将导致下载失败",
+  "export.modal.cancel.download": "取消下载",
+  "export.modal.load.success": "加载成功，请点击下载",
+  "export.modal.reload": "重新下载",
+  "export.modal.download": "下载",
+  "export.modal.close": "关闭",
+  "export.modal.load.error": "加载失败，请重试"
+}

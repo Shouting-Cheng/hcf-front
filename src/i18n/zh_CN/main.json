@@ -1,0 +1,21 @@
+{
+  "main.tenant.mode": "集团模式",
+  "main.switch.company": "切换公司",
+  "main.error": "出错啦",
+  "main.error.description": "请重试操作或联系管理员:(",
+  "main.auth.description": "您无权限访问本页面",
+  "main.error.budget.organization": "该账套下的默认预算组织未启用",
+  "main.error.budget.organization.description": "预算组织不可用",
+  "main.error.set": "去设置",
+  "main.error.no.budget.organization": "找不到预算组织",
+  "main.error.no.mileage.subsidy": "未设置每公里单价",
+  "main.skip.to.old": "跳转至中控平台",
+  "main.bill": "账单",
+  "main.wait.for.submit": "笔待报销费用",
+  "main.business.card": "商务卡",
+  "main.approve": "审批",
+  "main.wait.for.approve": "笔待审批单据",
+  "main.nav.online.service": "在线客服",
+  "main.tips.set.mail.phone": "请设置邮箱或者手机号",
+  "main.business.card.record": "笔待处理商务卡费用"
+}

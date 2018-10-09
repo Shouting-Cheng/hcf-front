@@ -1,0 +1,93 @@
+.org-search-list-wrap{
+  height: calc(100vh - 204px);
+  width: 490px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: solid 1px #eeeeee;
+  padding: 10px;
+  .clear{
+    clear: both;
+  }
+  .list-person{
+    .list-person-title{
+      line-height: 24px;
+      font-size: 14px;
+      color: #999999;
+    }
+
+    .list-person-wrap{
+      .no-person{
+        line-height: 28px;
+        font-size: 14px;
+        color: #666;
+        .anticon{
+          padding-right: 6px;
+        }
+      }
+      .re-person-item,
+      .re-person-item-active{
+        cursor: pointer;
+        border-radius: 2px;
+        overflow: hidden;
+        .type-icon{
+          float: left;
+          padding-right: 10px;
+          line-height: 28px;
+          margin-left: 10px;
+        }
+        .name{
+          float: left;
+          line-height: 28px;
+        }
+      }
+      .re-person-item-active{
+        background: rgb(187, 232, 254);
+      }
+      .re-person-item:hover{
+        background: rgb(187, 232, 254);
+      }
+    }
+  }
+
+
+  .list-dep{
+    .list-dep-title{
+      line-height: 24px;
+      font-size: 14px;
+      color: #999999;
+    }
+    .list-dep-wrap{
+      .no-dep{
+        line-height: 28px;
+        font-size: 14px;
+        color: #666;
+        .anticon{
+          padding-right: 6px;
+        }
+      }
+      .re-dep-item,
+      .re-dep-item-active{
+        cursor: pointer;
+        border-radius: 2px;
+        overflow: hidden;
+        .type-icon{
+          float: left;
+          padding-right: 10px;
+          line-height: 28px;
+          margin-left: 10px;
+        }
+        .name{
+          float: left;
+          line-height: 28px;
+        }
+      }
+      .re-dep-item-active{
+        background: rgb(187, 232, 254);
+      }
+      .re-dep-item:hover{
+        background: rgb(187, 232, 254);
+      }
+
+    }
+  }
+}

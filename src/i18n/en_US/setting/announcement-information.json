@@ -1,0 +1,22 @@
+{
+  "announcement.info.new.date": "Creation Date",
+  "announcement.info.title": "Subject",
+  "announcement.info.please.choose.company": "Please select company",
+  "announcement.info.company.distribute.success": "Distribution success",
+  "announcement.info.distribute.company": "Distribution Company",
+  "announcement.info.company.code": "companyCode",
+  "announcement.info.company.name": "companyName",
+  "announcement.info.please.choose.image": "Please select cover image",
+  "announcement.info.upload.image.fail": "Image uploading failed",
+  "announcement.info.upload.file": "Upload File",
+  "announcement.info.detail": "Carousel Detail",
+  "announcement.info.s.temp": "Select template",
+  "announcement.info.notemp": "No templates",
+  "announcement.info.s.fromtemp": "Select from templates",
+  "announcement.info.to.outer.link": "Jump external links",
+  "announcement.info.to.outer.link.notice": "Checked this option，Then directly press the first link in the text to jump to the link page",
+  "announcement.info.outer.image": "Cover Picture",
+  "announcement.info.upload.image.notice": "Recommended size 750 * 320; support jpg, jpeg, bmp, gif, png file types, up to 5M",
+  "announcement.info.text": "Content",
+  "announcement.company.distribute": "Distribution Company"
+}

@@ -1,0 +1,97 @@
+.security-setting{
+  width: 74vw;
+  .security-setting-company{
+    font-size: 16px;
+    padding-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .security-setting-slid{
+    height: 0;
+    border-top: 1px solid #e9e9e9;
+    border-right:0;
+    border-bottom:0;
+    border-left:0;
+  }
+
+  .security-setting-Rule{
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .security-setting-formItem{
+    width: 65vw;
+    .item-2{
+      display:inline-block;
+      width: 168px;
+      margin-left: -83px;
+      margin-right: -4px;
+      float: left;
+    }
+    .formItem-value-2{
+      .ant-checkbox-group-item{
+        margin-top: 3px;
+      }
+    }
+    .item-3{
+      display:inline-block;
+      width: 168px;
+      margin-left: -73px;
+    }
+    .item-5{
+      display:inline-block;
+      width: 168px;
+      margin-left: -73px;
+    }
+    .item-6{
+      display:inline-block;
+      width: 168px;
+      float: left;
+      margin-left: -84px;
+    }
+    .formItem-value-info{
+      margin-top: 10px;
+      display:-moz-inline-box;
+      display:inline-block;
+      width: 390px;
+    }
+    .item-7{
+      display:block;
+      width: 168px;
+      margin-left: -84px;
+      float: left;
+    }
+    .inner-tips-manually{
+      color: grey;
+    }
+    .formItem-value-group{
+      margin-left:-5px;
+      display:block;
+    }
+    .formItem-value-group-tips{
+      margin-left:83px;
+      color: #808080;
+      display:inline-block;
+    }
+    .notice-type-phone{
+      position: absolute;
+      left: 146px;
+      bottom: 0;
+      right: 0;
+      width: 600px;
+      display: block;
+    }
+    .create-data-type{
+      position: absolute;
+      bottom: 30px;
+      right: 0;
+      left: 166px;
+      width: 600px;
+      display: block;
+    }
+  }
+}
+
+

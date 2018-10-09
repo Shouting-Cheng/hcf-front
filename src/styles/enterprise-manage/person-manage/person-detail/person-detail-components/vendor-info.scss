@@ -1,0 +1,37 @@
+.person-vendor-info-wrap{
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .info-item-wrap{
+    padding: 10px;
+    .info-item{
+      margin-bottom: 10px;
+      margin-right: 10px;
+      width: 240px;
+
+      .info-item-title{
+        color: #999999;
+        line-height: 20px;
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .info-item-text{
+        color: #333;
+        cursor: pointer;
+        line-height: 32px;
+        height: 32px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

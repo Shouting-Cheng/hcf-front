@@ -1,0 +1,28 @@
+{
+  "pdc.id.card": "China",
+  "pdc.id.card.id.card": "ID card",
+  "pdc.id.card.enable": "Enable",
+  "pdc.id.card.disable": "Disable",
+  "pdc.id.card.default": "Default",
+  "pdc.id.card.card.type": "Card type",
+  "pdc.id.card.contry": "Contry",
+  "pdc.id.card.edit.card": "Edit card",
+  "pdc.id.card.new.card": "New card",
+
+  "pdc.id.card.last.name": "Last name",
+  "pdc.id.card.first.name": "First name",
+
+  "pdc.id.card.name.tips0": "1.Chinese name fill in",
+  "pdc.id.card.name.tips1": "2.English name fill in",
+  "pdc.id.card.name.tips2": "4. There are special symbols in the name,'.','-',...",
+  "pdc.id.card.name.tips00": "You can fill in the full name directly in the last name field。If the document is not for the identity card or nationality is not 'mainland China'，The surname and the name must be filled in English letters，And to ensure consistency with the documents held by the flight。",
+  "pdc.id.card.name.tips11": "If you take a passport, you must follow the passport to show the name and name，middle name Fill in the name column, not case sensitive。eg1:joe jerad/potter，Enter at the surname potter，Enter at the name joe jerad。",
+  "pdc.id.card.name.tips22": "In the surname column, you can not enter; in the name of the space instead。eg：“jame.M-C./Black.S-A ”，Enter in the last name BlackSA ，Enter in the name as“jame M C”。",
+
+  "pdc.id.card.card.number": "Card.number",
+  "pdc.id.card.card.expire": "Expiry time",
+  "pdc.id.card.nomore.30": "No more than 30 characters",
+  "pdc.id.card.is.set.default": " Yes（Only one)",
+  "pdc.id.card.is.set.default.title": "default",
+  "pdc.id.card.must.be.number": "Must be number"
+}

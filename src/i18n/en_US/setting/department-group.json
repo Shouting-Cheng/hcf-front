@@ -1,0 +1,10 @@
+{
+  "setting.deptGroup.code": "department group code",
+  "setting.deptGroup.name": "department group name",
+  "setting.dept": "department",
+  "setting.dept.num": "department number",
+  "setting.deptCode": "department code",
+  "setting.deptName": "department name",
+  "setting.dept.code.tips": "Note: the department group code will not be modified after it is saved",
+  "setting.dept.name.tips": "Note: the department group name will not be modified after it is saved"
+}

@@ -1,0 +1,17 @@
+{
+  "sub.application": "3rd Party App.",
+  "sub.application.add": "New Application",
+  "sub.application.error.toast01": "Please select member group.",
+  "sub.application.error.toast02": "Please upload logo.",
+  "sub.application.new": "New Application",
+  "sub.application.edit": "Edit Application",
+  "sub.application.logo": "App Logo",
+  "sub.application.image.tip": "Recommended image(.JPG.PNG) size : 150*150, below 200K",
+  "sub.application.name": "App Name",
+  "sub.application.enter.max.length": "Max input {max} character/s.",
+  "sub.application.remark": "Description",
+  "sub.application.link": "Redirect Link",
+  "sub.application.terminal": "Terminal",
+  "sub.application.mobile": "Mobile Terminal(include APP/WeChat/DingTalk)",
+  "sub.application.hide.navigation.bar": "Hide Top Navigation"
+}

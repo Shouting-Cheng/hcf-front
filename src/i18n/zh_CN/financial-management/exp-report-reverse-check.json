@@ -1,0 +1,24 @@
+{
+    "expense.reverse.check.cancel":"已取消",
+    "expense.reverse.check.unChecked":"待审核 ( {total} )",
+    "expense.reverse.check.checked":"已审核 ( {total} )",
+    "expense.reverse.check.number":"费用反冲单编号",
+    "expense.reverse.check.source.number":"原单据编号",
+    "expense.reverse.date.from":"反冲日期从",
+    "expense.reverse.date.to":"反冲日期至",
+    "expense.reverse.apply.name":"申请人",
+    "expense.reverse.currency.code":"币种",
+    "expense.reverse.amount.from":"反冲金额从",
+    "expense.reverse.amount.to":"反冲金额至",
+    "expense.reverse.remark":"备注",
+    "expense.reverse.reverse.date":"反冲日期",
+    "expense.reverse.amount":"反冲金额",
+    "expense.reverse.status":"状态",
+    "expense.reverse.pagination.total":"总共 {total} 条数据",
+    "expense.reverse.message.error":"获取数据失败:{error}"
+
+
+    
+    
+    
+}

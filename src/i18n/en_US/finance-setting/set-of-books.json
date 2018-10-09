@@ -1,0 +1,13 @@
+{
+  "set-of-books.code": "Set of books code",
+  "set-of-books.name": "Set of books name",
+  "set-of-books.period.set.code": "Period set code",
+  "set-of-books.base.currency": "Base currency",
+  "set-of-books.account.set.code": "Account set code",
+  "set-of-books.define": "Set of books define",
+  "set-of-books.edit": "Edit set of books",
+  "set-of-books.new": "New set of books",
+  "set-of-books.new.alert": "【Code】、【Period set】、【Period set】、【Base currency】After saving, they will not be modified",
+  "set-of-books.code-validate": "The character length is greater than 0 and less than 36, and can only enter numbers, letters, and underlines",
+  "set-of-books.name-validate": "The character length is greater than 0 and less than 100"
+}

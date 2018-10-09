@@ -1,0 +1,37 @@
+.setting-role-setting{
+  .role-receipt-card-item{
+    margin-bottom: 20px;
+    margin-right: 20px;
+    .role-receipt-img{
+      padding-top: 70px;
+      height: 200px;
+      img {
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+      }
+    }
+    .ant-card-meta-content {
+      display: block;
+      .ant-card-meta-detail {
+        display: block;
+        text-align: center;
+        .ant-card-meta-title {
+          font-weight: normal;
+          white-space: unset;
+          .title {
+            .description {
+              height: 32px;
+              line-height: 16px;
+            }
+          }
+        }
+        .ant-card-meta-description {
+          height: 63px;
+        }
+      }
+    }
+  }
+
+}

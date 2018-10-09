@@ -1,0 +1,88 @@
+.search-new-billing{
+  .result-title{
+    color: #666666;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 20px 0 10px 0;
+  }
+  .sub-item-red{
+    font-size: 13px;
+    color: #e26565;
+    padding-left: 25px;
+  }
+  .invoice-counts{
+    padding-bottom: 10px;
+  }
+  .invoice-counts-num{
+    color: #108EE9;
+    font-size: 18px;
+  }
+  .invoice-counts-base{
+    color: #FF9D29;
+    font-size: 18px;
+    margin: 0 5px;
+  }
+  .invoice-detail{
+    font-size: 13px;
+    color:#999;
+    display: flex;
+    align-items: center;
+    .invoice-logo{
+      display: inline-block;
+      margin-right: 10px;
+      height: 14px;
+    }
+    .invoice-counts-num{
+      @extend .invoice-counts-num;
+      font-size: 16px;
+    }
+    .invoice-counts-base{
+      @extend .invoice-counts-base;
+      font-size: 16px;
+    }
+  }
+    .confirm-receipt-modal{
+      overflow: auto;
+      .ant-modal-body {
+        .invoice-detail{
+          @extend .invoice-detail
+        }
+      }
+
+  }
+
+  .sub-item-red{
+    font-size: 13px;
+    color: #e26565;
+    padding-left: 25px;
+  }
+  .footer-buttons{
+    border-top: 1px solid #e8e8e8;
+    text-align: right;
+    padding-top: 20px;
+  }
+  .more-address{
+    font-size: 13px;
+    color: #108EE9;
+    font-weight: 400;
+    padding: 10px 0;
+  }
+  .receive-info-title{
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+  .receive-info-content{
+    color: #666666;
+    font-size: 14px;
+    display: flex;
+    .default-button{
+      text-align: center;
+      margin-left: 20px;
+      height: 22px;
+      width: 64px;
+      background-color: rgba(201, 201, 201, 1);
+      color:#FFF;
+    }
+  }
+}

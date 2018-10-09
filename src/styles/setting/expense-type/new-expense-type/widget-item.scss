@@ -1,0 +1,10 @@
+.widget-item{
+  width: 300px;
+  box-sizing: border-box;
+  background: white;
+  min-height: 30px;
+  color: black;
+  &.selected{
+    border: 1px solid red;
+  }
+}

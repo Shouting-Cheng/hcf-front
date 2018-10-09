@@ -1,0 +1,19 @@
+{
+  "accounting.scenarios.system.tips": "定义系统内各来源事务在进行核算时会涉及的所有生成核算的场景，并同时定义针对该核算场景进行核算时所涉及的核算要素。",
+  "accounting.scenarios.code": "核算场景代码",
+  "accounting.scenarios.name": "核算场景名称",
+  "accounting.scenarios.elements": "核算要素",
+  "accounting.scenarios.new": "新建核算场景",
+  "accounting.scenarios.update": "编辑核算场景",
+  "accounting.scenarios": "{name}核算场景",
+  "accounting.elements.headTips": "定义【{name}核算场景】下核算要素的性质与取值",
+  "accounting.elements.code": "核算要素代码",
+  "accounting.elements.name": "核算要素名称",
+  "accounting.elements.nature": "核算要素性质",
+  "accounting.matching.group.field": "匹配组字段",
+  "accounting.placeholder.tips": "请输入要素性质/代码/名称",
+  "accounting.link.tips": "什么是匹配组字段？",
+  "accounting.elements.add": "添加核算要素",
+  "accounting.elements.update": "编辑核算要素",
+  "accounting.notification.content": "匹配组字段为系统级值列表，每一个匹配组字段，固定对应一个API按照一定的权限或规则获取该匹配组字段所需数据。e.g.公司匹配组字段，由接口约定所需提供字段包括COMPANY_ID,COMPANY_CODE,COMPANY_SHORT_NAME，获取后可在后续场景科目映射时进行数据展示和进行主键和代码转换。"
+}

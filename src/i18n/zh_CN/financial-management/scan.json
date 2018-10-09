@@ -1,0 +1,14 @@
+{
+  "scan-send.expense.delivery": "扫码寄单",
+  "scan-send.expense.subtitle.sent": "只可扫描审批通过的单据",
+  "scan-send.expense.input.type": "请使用扫码枪",
+  "scan-send.sent": "已寄出单据",
+  "scan-receive.sweep.receive": "扫码收单",
+  "scan-send.received": "已收到单据",
+  "scan-send.search.result": "搜索结果",
+  "scan-send.export": "导出数据",
+  "scan-send.close": "关闭",
+  "scan-send.code": "单据编号",
+  "scan-send.send.date": "寄出时间",
+  "scan-send.no.data.export": "该时间段内没有单据寄出"
+}

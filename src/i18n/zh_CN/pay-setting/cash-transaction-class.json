@@ -1,0 +1,10 @@
+{
+  "cash.transaction.class.type": "现金事务类型",
+  "cash.transaction.class.code": "现金事务分类代码",
+  "cash.transaction.class.description": "现金事务分类名称",
+  "cash.flow.item": "现金流量项",
+  "cash.flow.item.default.flag": "默认",
+  "cash.flow.item.enabled.flag": "启用",
+  "cash.transaction.class.validateExist": "该现金事务已存在!",
+  "cash.transaction.class.setOfBooksName":"账套"
+}

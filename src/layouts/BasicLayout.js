@@ -19,6 +19,13 @@ import logo from '../assets/logo.png';
 import fetch from '../utils/fetch';
 import View from '../routes/View/index';
 
+import zh_CN from "../i18n/zh_CN/index"
+import en_US from "../i18n/en_US/index"
+
+import { isUrl } from '../utils/utils';
+
+import 'styles/common.scss'
+
 const TabPane = Tabs.TabPane;
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
@@ -112,11 +119,12 @@ class BasicLayout extends React.Component {
   state = {
     isMobile,
     menus: [],
-    routers: {},
+    routers: [],
     loading: false,
     path: '',
     panes: [],
     activeKey: '',
+
   };
 
   getChildContext() {
@@ -204,7 +212,10 @@ class BasicLayout extends React.Component {
 
         this.getChildren(group, result, 1, routerData);
 
+        result = this.formatter(result);
+
         let menus = getMenuData();
+
 
         dispatch({
           type: 'menu/setMenu',
@@ -246,6 +257,7 @@ class BasicLayout extends React.Component {
     });
   };
 
+
   redirect = () => {
     const { dispatch } = this.props;
     const urlParams = new URL(window.location.href);
@@ -277,13 +289,29 @@ class BasicLayout extends React.Component {
   getUser = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/account');
+      let result = await fetch.get('/api/api/account');
       dispatch({
         type: 'user/saveCurrentUser',
         payload: result,
       });
+      await this.getCompany();
       await this.getLanguage(result);
       await this.getLanguageType();
+      resolve();
+    });
+  };
+
+  getCompany = () => {
+    const { dispatch } = this.props;
+
+    return new Promise(async (resolve, reject) => {
+      let result = await fetch.get('/api/api/my/companies');
+
+      dispatch({
+        type: 'user/saveCompany',
+        payload: result,
+      });
+
       resolve();
     });
   };
@@ -303,6 +331,14 @@ class BasicLayout extends React.Component {
         if (!local) {
           window.localStorage.setItem('local', 'zh_CN');
           local = 'zh_CN';
+        } else {
+          window.localStorage.setItem('local', local);
+        }
+
+        if (local == "zh_CN") {
+          languages = { ...languages, ...zh_CN };
+        } else {
+          languages = { ...languages, ...en_US };
         }
 
         dispatch({
@@ -327,6 +363,24 @@ class BasicLayout extends React.Component {
       });
     });
   };
+
+  formatter = (data, parentPath = '/', parentAuthority) => {
+    return data.map(item => {
+      let { path } = item;
+      if (!isUrl(path)) {
+        path = parentPath + item.path;
+      }
+      const result = {
+        ...item,
+        path,
+        authority: item.authority || parentAuthority,
+      };
+      if (item.children) {
+        result.children = this.formatter(item.children, `${parentPath}${item.path}/`, item.authority);
+      }
+      return result;
+    });
+  }
 
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
@@ -417,41 +471,36 @@ class BasicLayout extends React.Component {
     let routeKey = '';
     let query = {};
 
-    Object.keys(menu.routerData).map(key => {
+    const routers = Object.keys(menu.routerData);
+
+    for (let i = 0, len = routers.length; i < len; i++) {
       let params = [];
-      let routePath = key;
+      let routePath = routers[i];
 
-      routePath = key.replace(/\/:(.+)\//, (target, $1) => {
-        params.push($1);
-        return '';
-      });
+      if (routePath === "/") continue;
 
-      routePath = routePath.replace(/\/:(.+)/, (target, $1) => {
-        params.push($1);
-        return '';
-      });
+      if (routePath.indexOf("/:") >= 0) {
+        params = routePath.split("/:");
+        routePath = params.shift();
+      }
 
-      routePath = routePath.replace(/:(.+)/, (target, $1) => {
-        params.push($1);
-        return '';
-      });
-
-      if (routePath !== '/') {
-        if (routePath === path) {
-          routeKey = key;
-        } else if (path.indexOf(routePath) === 0) {
+      if (path !== routePath) {
+        if (path.indexOf(routePath) === 0) {
           let tmp = path.substr(routePath.length);
           let values = tmp.split('/').filter(item => item != '');
-
-          if (values.length === params.length) {
+          if (params.length === values.length) {
             params.map((item, index) => {
               query[item] = values[index];
             });
-            routeKey = key;
+            routeKey = routers[i];
+            break;
           }
         }
+      } else {
+        routeKey = routers[i];
+        break;
       }
-    });
+    }
 
     if (menu.routerData[routeKey]) {
       let match = { params: query };
@@ -462,7 +511,6 @@ class BasicLayout extends React.Component {
         name: menu.routerData[routeKey].name,
         pathname: path,
       };
-      // return React.createElement(routers[routeKey].component, { match });
     }
 
     return null;
@@ -505,7 +553,7 @@ class BasicLayout extends React.Component {
       menu,
     } = this.props;
 
-    const { isMobile: mb, menus, routers, loading, panes } = this.state;
+    const { isMobile: mb, menus, loading, panes } = this.state;
     const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
@@ -556,11 +604,12 @@ class BasicLayout extends React.Component {
               activeKey={this.state.activeKey}
               type="editable-card"
               onEdit={this.onEdit}
-              style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
+              tabBarGutter={2}
+            // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
             >
               {panes.map((pane, index) => (
-                <TabPane forceRender tab={this.$t(pane.name)} key={pane.pathname}>
-                  <div style={{ padding: '0 10px' }}>
+                <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.pathname}>
+                  <div style={{ padding: '12px 14px', backgroundColor: "#fff" }}>
                     {React.createElement(pane.component, pane.params)}
                   </div>
                 </TabPane>

@@ -1,0 +1,31 @@
+{
+  "accounting.source.headTips": "【来源事务】值取自系统级值列表，可在此页面对需要进行核算的【来源事务】进行设置。保存后，会将核算来源事务自动添加至所有账套。",
+  "accounting.source.code": "来源事务代码",
+  "accounting.source.name": "来源事务名称",
+  "accounting.source.data.setting": "数据结构设置",
+  "accounting.source.template": "凭证模板设置",
+  "accounting.source.add": "添加来源事务",
+  "accounting.source.update": "编辑来源事务",
+  "accounting.source.helpTips": "请选择需要进行核算的来源事务，值取自【系统级值列表-来源事务】，选择时会自动过滤掉已添加项",
+  "accounting.source": "来源事物",
+  "data.structure": "数据结构",
+  "accounting.source.data.placeholder": "请输入数据结构代码/数据结构名称",
+  "data.structure.code": "数据结构代码",
+  "data.structure.name": "数据结构名称",
+  "voucher.template.header1": "来源事务",
+  "voucher.template.header2":"凭证模板",
+  "voucher.template.code": "凭证行模板代码",
+  "voucher.template.name": "凭证行模板名称",
+  "accounting.scene.code": "核算场景代码",
+  "accounting.scene.name": "核算场景名称",
+  "basic.data.sheet": "基础数据表",
+  "voucher.template.new": "新建凭证模板行",
+  "voucher.template.update": "编辑凭证模板行",
+  "accounting.scenarios": "核算场景",
+  "accounting.scenarios.name": "核算场景名称",
+  "voucher.template.tips1": "【基础数据表】取自【核算来源事务】中定义的【数据结构】，如果【基础数据表里】没有值可先定义该来源事务的【数据结构】",
+  "voucher.template.tips2": "请先定义【财务核算设置-核算场景定义】中核算场景",
+  "voucher.template.input":"请输入模板名称/模板代码"
+}
+
+

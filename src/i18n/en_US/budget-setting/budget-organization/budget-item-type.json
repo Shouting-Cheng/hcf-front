@@ -1,0 +1,9 @@
+{
+  "budgetItemType.itemType": "Budget item type",
+  "budgetItemType.itemTypeCode": "Budget item type code",
+  "budgetItemType.itemTypeName": "Budget item type name",
+  "budgetItemType.isEnabled": "Status",
+  "budgetItemType.newItemType":"New Budget item type",
+  "budgetItemType.editItemType":"Edit Budget item type"
+
+}

@@ -1,0 +1,13 @@
+{
+  "set-of-books.code": "账套代码",
+  "set-of-books.name": "账套名称",
+  "set-of-books.period.set.code": "会计期代码",
+  "set-of-books.base.currency": "本位币",
+  "set-of-books.account.set.code": "科目表代码",
+  "set-of-books.define": "账套定义",
+  "set-of-books.edit": "编辑账套",
+  "set-of-books.new": "新建账套",
+  "set-of-books.new.alert": "【账套代码】、【科目表】、【会计期代码】、【账套本位币】保存后将不可修改",
+  "set-of-books.code-validate": "字符长度大于0且小于36，且只能输入数字、字母、下划线",
+  "set-of-books.name-validate": "字符长度大于0且小于100"
+}

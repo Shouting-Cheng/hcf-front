@@ -1,0 +1,42 @@
+.report-distribution{
+  .img-center{
+    text-align: center;
+  }
+  .report-distribution-slide-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #e9e9e9;
+    height: 60px;
+    line-height: 60px;
+    width: 100%;
+    text-align: center;
+    background: #ffffff;
+    z-index: 99999;
+    button{
+      margin-left: 20px;
+    }
+  }
+  .report-distribution-switch-span{
+    margin-left: 20px;
+  }
+  .pull-left{
+    float: left;
+    margin-bottom: 10px;
+  }
+  .clear{
+    clear: both;
+  }
+  .chooser {
+    margin-top: 5px;
+  }
+  .select-depment-with-children{
+    margin-top: 5px;
+  }
+  .select-dep-or-person{
+    button{
+      margin-top: 5px;
+    }
+  }
+}
+

@@ -1,0 +1,14 @@
+{
+  "code.rule.value.sequence.number":"顺序号",
+  "code.rule.value.parameter.name":"参数名称",
+  "code.rule.value.parameter.values":"参数值",
+  "code.rule.value.digit":"位数",
+  "code.rule.value.step.length":"步长",
+  "code.rule.value.start.value":"开始值",
+  "code.rule.value.new.rules.and.details":"新建规则明细",
+  "code.rule.value.segment.tips":"段值必须维护序列号，否则编码无法生成。不同规则的日期格式尽量相同。",
+  "code.rule.value.add.segment.value":"添加段值",
+  "code.rule.value.fixed.character": "固定字符",
+  "code.rule.value.required.and.only.in.english": "必输且只能输入英文",
+  "code.rule.value.date.format": "日期格式"
+}

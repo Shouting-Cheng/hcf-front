@@ -1,0 +1,16 @@
+{
+  "role.set.receipt.name":"Name",
+  "role.set.receipt.id":"EmployeeID",
+  "role.set.receipt.dep":"Department",
+
+  "role.set.receipt.email":"Email",
+  "role.set.receipt.please.select":"Please select user",
+
+  "role.set.admin.tenant": "Tenant Administrator",
+  "role.set.admin.company": "Company Administrator",
+
+  "role.set.booking.type": "Type",
+  "role.set.booking.air.ticket": "Air-ticket",
+  "role.set.booking.manager": "Reservation Supervisor",
+  "role.set.booking.commissioner": "Ticket Commissioner"
+}

@@ -1,0 +1,9 @@
+{
+  "borrowing.limit.control.loan.type": "借款单类型",
+  "borrowing.limit.control.cash.type": "现金事务分类",
+  "borrowing.limit.control.amount": "金额",
+  "borrowing.limit.control.distribute.user": "分配人员",
+  "borrowing.limit.control.new.limit": "新建借款单金额控制",
+  "borrowing.limit.control.edit.limit": "编辑借款单金额控制",
+  "borrowing.limit.control.limit.amount": "上限金额"
+}

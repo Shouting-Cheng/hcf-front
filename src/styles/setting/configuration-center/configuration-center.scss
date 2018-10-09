@@ -1,0 +1,56 @@
+@import '../../minxi/index';
+
+$ActionBtnPadding: 12px 20px;
+$setBtnColor: #108EE9;
+$SetBtnHoverColor: #37a6f7;
+$ColorCircleTip: #FFAA00;
+
+.configuration-center {
+  .card-wrap {
+    float: none;
+    display: inline-block;
+    margin-bottom: 10px;
+    height: 220px;
+    .ant-card-body{
+      padding: 24px;
+      height: 116px;
+    }
+  }
+  .ant-card-actions {
+    & >li {
+      margin: 0;
+      border: none;
+      & >span:hover {
+        color: rgba(0,0,0,.45);
+      }
+    }
+    & >li:nth-child(1) {
+      text-align: left;
+      border: none;
+    }
+    & >li:nth-last-child(1) {
+      text-align: right;
+    }
+    .unset-text {
+      .circle-tip {
+        color: $ColorCircleTip;
+        font-size: 10px;
+        margin-right: 4px;
+      }
+      padding:$ActionBtnPadding;
+    }
+    .set-btn {
+      padding:$ActionBtnPadding;
+      color: $setBtnColor;
+      &:hover {
+        color: $SetBtnHoverColor;
+      }
+    }
+  }
+  .line-one {
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "customField.no": "否",
+  "customField.yes": "是",
+  "customField.expense.type": "费用类型",
+  "customField.currency": "币种",
+  "customField.amount": "金额",
+  "customField.rate": "汇率",
+  "customField.base.amount": "本币金额",
+  "customField.pay.way": "支付方式",
+  "customField.pay.by.person": "个人支付",
+  "customField.pay.by.company": "公司支付",
+  "customField.allocate.scale": "分摊比例(%)",
+  "customField.bankAccountName": "开户支行",
+  "customField.bankCode": "联行号",
+  "customField.branchName": "开户名",
+  "customField.name": "姓名",
+  "customField.id.number": "证件号",
+  "customField.special.signer": "加签人"
+}

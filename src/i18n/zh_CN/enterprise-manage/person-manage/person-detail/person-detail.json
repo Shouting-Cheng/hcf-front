@@ -1,0 +1,17 @@
+{
+  "pm.detail.title": "人员详情",
+  "pm.detail.alt.leave.time": "修改离职时间",
+  "pm.detail.alt.leave": "撤销离职",
+  "pm.detail.rehire": "重新入职",
+  "pm.detail.left.person": "离职该员工",
+  "pm.detail.vendor.info": "供应商信息",
+  "pm.detail.id.info": "证件信息",
+  "pm.detail.bank.info": "银行卡信息",
+  "pm.detail.tips": "可以在企业管理-扩展字段进行编辑扩展字段",
+  "pm.detail.person.info.field": "个人信息扩展字段",
+  "pm.detail.person.select.time": "请选择离职时间",
+  "pm.detail.person.operation.ok": "操作成功",
+  "pm.detail.person.set.left.time": "设置离职时间",
+  "pm.detail.basic.info": "个人基本信息"
+}
+

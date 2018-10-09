@@ -1,0 +1,40 @@
+.agency-relation-form {
+  margin: 10px 0;
+  background: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 3px;
+  .agency-form-item {
+    display: inline-block;
+    width: 300px;
+    margin-right: 50px;
+  }
+  .enabled-form-item {
+    display: inline-block;
+  }
+  .bill-form-item {
+    border-top: 1px solid #eaeaea;
+    padding-top: 10px;
+    .ant-form-item-label {
+      line-height: 32px;
+    }
+    .bill-form-detail {
+      .ant-select-selection {
+        border-color: #d9d9d9;
+      }
+      margin-bottom: 10px;
+      .ant-form-item-label {
+        padding-right: 10px;
+      }
+    }
+  }
+  .date-form-item {
+    display: inline-block;
+    margin-right: 20px;
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+  }
+  .save-btn {
+    margin-right: 10px;
+  }
+}

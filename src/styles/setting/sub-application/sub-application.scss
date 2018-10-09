@@ -1,0 +1,30 @@
+.sub-application{
+  .ant-card-meta-content {
+    display: flex;
+  }
+  .ant-avatar {
+    background: transparent;
+  }
+  .ant-avatar-image {
+    margin-top: 15px;
+  }
+  .ant-card-meta-detail {
+    height: 70px;
+    display: flex;
+    align-items:center;
+    .ant-badge-status-text {
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+  .card-description {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+  }
+}

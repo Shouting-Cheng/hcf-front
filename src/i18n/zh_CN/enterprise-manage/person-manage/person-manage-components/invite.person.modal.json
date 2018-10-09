@@ -1,0 +1,14 @@
+{
+  "invite.person.tips1": "人尚未激活",
+  "invite.person.tips2": "当前搜索条件下，有",
+  "invite.person.invite.use": "邀请使用",
+  "invite.person.invite.use.sms": "短信邀请使用",
+  "invite.person.invite.success": "邀请成功",
+  "invite.person.invite.error": "邀请失败",
+  "invite.person.companyName": "公司",
+  "invite.person.employeeID": "工号",
+  "invite.person.name": "姓名",
+  "invite.person.dep.": "部门",
+  "invite.person.contact": "联系方式",
+  "invite.person.please.select": "请选择要邀请的员工"
+}

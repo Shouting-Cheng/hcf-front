@@ -1,0 +1,59 @@
+.cost-center-detail{
+  .table-header{
+    .table-header-buttons{
+      .cost-center-item-name-search{
+        width: 300px;
+      }
+    }
+  }
+}
+
+.pm-import-person-modal{
+  word-break: break-all;
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .import-person-modal-wrap{
+    .import-person-modal-left{
+      width: 300px;
+      border-right: solid 1px gainsboro;
+      padding-right: 24px;
+      .download-list-item{
+        line-height: 32px;
+        margin-bottom: 2px;
+        color: #05afd1;
+        cursor: pointer;
+      }
+      .download-list-item:hover{
+        color: #048ca7;
+      }
+      .download-list-item-a-wrap{
+        line-height: 32px;
+        margin-bottom: 2px;
+        color: #05afd1;
+        cursor: pointer;
+        .download-list-item-a{
+          width: 300px;
+        }
+      }
+    }
+    .import-person-modal-right{
+      min-height: 32px;
+      width: 426px;
+      .upload-file-wrap{
+        margin-top: 20px;
+        .upload-file-start{
+          margin-top: 16px;
+        }
+      }
+
+    }
+
+  }
+}

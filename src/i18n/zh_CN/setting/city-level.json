@@ -1,0 +1,36 @@
+{
+  "city.level.country": "国家",
+  "city.level.province": "省/州",
+  "city.level.city": "市/区",
+  "city.level.district": "地区",
+  "city.level.district.all": "全部",
+  "city.level.group": "地点分组",
+  "city.level.district.group": "地点组",
+  "city.level.short.name": "简称",
+  "city.level.property": "属性",
+  "city.level.name.not.repeat": "地点组名称不能重复",
+  "city.level.delete.confirm": "你确定要删除该地点组？",
+  "city.level.total.data": "此地点组下共{total}条数据",
+  "city.level.selected.data": "共选择{total}条数据",
+  "city.level.new.place.list": "新建地点组",
+  "city.level.enter.place.name": "请输入地点组名称",
+  "city.level.select.place": "请选择分组",
+  "city.level.new.list": "创建新分组",
+  "city.level.choose.place": "选择现有分组",
+  "city.level.company.choose.company": "请先选择公司",
+  "city.level.company.place.name": "地点组名称",
+  "city.level.company.international.city": "分配城市组",
+  "city.level.company.name.code": "公司名称/代码",
+  "city.level.new.group": "新建城市组",
+  "city.level.edit.group": "编辑城市组",
+  "city.level.add.city": "添加城市",
+  "city.level.delete.city": "移除城市",
+  "city.level.info.detail": "详细信息",
+  "city.level.code.empty": "编码不能为空",
+  "city.level.max.string": "请输入,最多50个字符",
+  "city.level.max.hundred": "请输入,最多150个字符",
+  "city.level.cancel.all": "取消全选全部"
+
+}
+
+

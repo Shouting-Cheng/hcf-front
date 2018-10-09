@@ -1,0 +1,9 @@
+{
+  "borrowing.limit.control.loan.type": "Loan Req Type",
+  "borrowing.limit.control.cash.type": "Cash Trans. Classif.",
+  "borrowing.limit.control.amount": "Amount",
+  "borrowing.limit.control.distribute.user": "Staff Assignment",
+  "borrowing.limit.control.new.limit": "New amount control of Loan Req ",
+  "borrowing.limit.control.edit.limit": "Edit amount control of Loan req",
+  "borrowing.limit.control.limit.amount": "Max. Amount"
+}

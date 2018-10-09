@@ -1,0 +1,12 @@
+{
+  "org.role.no-person": "角色名称",
+  "org.role.no-dep": "角色代码",
+  "org.role.status": "状态",
+  "org.role.operation": "操作",
+  "org.role.create-or-update-role": "创建或者更新部门角色",
+  "org.role.min4": "必须大于4位",
+  "org.role.max9": "不能超过9位",
+  "org.role.e61": "角色代码第一位不能是0、1或者6",
+  "org.role.type-number": "必须是数字",
+  "org.role.back": "返回"
+}

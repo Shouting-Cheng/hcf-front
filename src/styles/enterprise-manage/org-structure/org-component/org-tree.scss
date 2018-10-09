@@ -1,0 +1,166 @@
+@mixin orgNodeTitle($level:0) {
+  overflow: hidden;
+  display: block;
+  width: 12+$level*18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  float: left;
+}
+
+.org-structure-tree {
+  //204px is pageTitle and orgTitle
+  height: calc(100vh - 204px);
+  width: 490px;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 10px;
+
+  .only-dep-search-inp{
+    padding-right: 10px;
+    display: none;
+  }
+  .org-dep-node-set {
+    overflow: hidden;
+    display: block;
+    width: 30px;
+    float: right;
+    font-size: 20px;
+    text-align: center;
+  }
+  // max deepLevel is 12
+  .org-dep-node {
+    .org-dep-node-title {
+      @include orgNodeTitle(21);
+    }
+    .org-dep-node {
+      .org-dep-node-title {
+        @include orgNodeTitle(20);
+      }
+      .org-dep-node {
+        .org-dep-node-title {
+          @include orgNodeTitle(19);
+        }
+        .org-dep-node {
+          .org-dep-node-title {
+            @include orgNodeTitle(18);
+          }
+          .org-dep-node {
+            .org-dep-node-title {
+              @include orgNodeTitle(17);
+            }
+            .org-dep-node {
+              .org-dep-node-title {
+                @include orgNodeTitle(16);
+              }
+              .org-dep-node {
+                .org-dep-node-title {
+                  @include orgNodeTitle(15);
+                }
+                .org-dep-node {
+                  .org-dep-node-title {
+                    @include orgNodeTitle(14);
+                  }
+                  .org-dep-node {
+                    .org-dep-node-title {
+                      @include orgNodeTitle(13);
+                    }
+                    .org-dep-node {
+                      .org-dep-node-title {
+                        @include orgNodeTitle(12);
+                      }
+                      .org-dep-node {
+                        .org-dep-node-title {
+                          @include orgNodeTitle(11);
+                        }
+                        .org-dep-node {
+                          .org-dep-node-title {
+                            @include orgNodeTitle(10);
+                          }
+                          .org-dep-node {
+                            .org-dep-node-title {
+                              @include orgNodeTitle(9);
+                            }
+                            .org-dep-node {
+                              .org-dep-node-title {
+                                @include orgNodeTitle(8);
+                              }
+                              .org-dep-node {
+                                .org-dep-node-title {
+                                  @include orgNodeTitle(7);
+                                }
+                                .org-dep-node {
+                                  .org-dep-node-title {
+                                    @include orgNodeTitle(6);
+                                  }
+                                  .org-dep-node {
+                                    .org-dep-node-title {
+                                      @include orgNodeTitle(5);
+                                    }
+                                    .org-dep-node {
+                                      .org-dep-node-title {
+                                        @include orgNodeTitle(4);
+                                      }
+                                      .org-dep-node {
+                                        .org-dep-node-title {
+                                          @include orgNodeTitle(3);
+                                        }
+                                        .org-dep-node {
+                                          .org-dep-node-title {
+                                            @include orgNodeTitle(2);
+                                          }
+                                          .org-dep-node {
+                                            .org-dep-node-title {
+                                              @include orgNodeTitle(1);
+                                            }
+                                            .org-dep-node {
+                                              .org-dep-node-title {
+                                                @include orgNodeTitle(0);
+                                              }
+                                              .org-dep-node {
+                                                .org-dep-node-title {
+                                                  @include orgNodeTitle(0);
+                                                }
+                                                .org-dep-node {
+                                                  .org-dep-node-title {
+                                                    @include orgNodeTitle(0);
+                                                  }
+                                                  .org-dep-node {
+                                                    .org-dep-node-title {
+                                                      @include orgNodeTitle(0);
+                                                    }
+                                                    .org-dep-node {
+                                                      .org-dep-node-title {
+                                                        @include orgNodeTitle(0);
+                                                      }
+                                                      .org-dep-node {
+                                                        .org-dep-node-title {
+                                                          @include orgNodeTitle(0);
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+.org-structure-person-info{
+  padding-bottom: 50px;
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+  .person-info-avater-wrap{
+    height: 150px;
+    margin-top: 20px;
+    .avater-icon{
+      width: 80px;
+      height: 80px;
+      border-radius: 100px;
+      background: gainsboro;
+      margin-left: 20px;
+      margin-top: 20px;
+      margin-right: 20px;
+      line-height: 80px;
+      text-align: center;
+      font-size: 48px;
+
+    }
+    .person-info{
+      width: 300px;
+      margin-top: 40px;
+      height: 40px;
+      .name{
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 40px;
+      }
+      .status{
+        padding-left: 10px;
+        line-height: 40px;
+      }
+    }
+    .avater-right{
+      margin-top: 40px;
+    }
+  }
+  .person-info-row{
+    line-height: 32px;
+    margin-bottom: 2px;
+    height: 32px;
+    padding-left: 20px;
+    .title{
+      color: #999;
+      float: left;
+      width: 100px;
+    }
+    .content{
+      color: #333;
+      float: left;
+    }
+  }
+}

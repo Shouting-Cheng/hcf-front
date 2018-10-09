@@ -1,0 +1,16 @@
+{
+  "dashboard.admin": "Dashboard",
+  "dashboard.admin.createdDate": "Created Date",
+
+  "dashboard.admin.validUser": "Valid employee",
+  "dashboard.admin.validDepartment": "Valid Departments",
+  "dashboard.admin.validCorporation": "Valid Corporations",
+  "dashboard.admin.validCompany": "Valid Companys",
+
+  "dashboard.admin.edit": "Edit info.",
+  "dashboard.admin.name": "Name",
+  "dashboard.admin.logo": "LOGO",
+  "dashboard.admin.tips1": "Recommended image size is 390*390 and file size does not exceed 2M",
+  "dashboard.admin.useLogo": "Display logo on APP startup page and PC side",
+  "dashboard.admin.enableNewControl": "Enable new version of central control"
+}

@@ -1,0 +1,12 @@
+{
+  "org.roles.edit": "Edit",
+  "org.roles.disabled": "Disable",
+  "org.roles.create-child-dep": "Create sub-department",
+  "org.roles.please-select": "Please select.",
+  "org.roles.dep-name": "Department Name",
+  "org.roles.dep-code": "Department Code",
+  "org.roles.save": "Save",
+  "org.roles.cancel": "Cancel",
+  "org.roles.please-input": "Please input.",
+  "org.roles.please-input-manager": "Please input dep. manager"
+}

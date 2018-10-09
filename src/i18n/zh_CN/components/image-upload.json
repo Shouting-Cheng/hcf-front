@@ -1,0 +1,7 @@
+{
+  "components.image.upload.err1": "上传失败，图片格式错误",
+  "components.image.upload.err2": "上传失败，图片应不大于 {total} M",
+  "components.file.upload.err1":"{name}大于{total}M",
+  "components.file.upload.operate":"操作提醒",
+  "components.file.upload.ensureDelete":"您确定删除该附件?"
+}

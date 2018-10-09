@@ -1,0 +1,9 @@
+{
+  "org.tree.has-disabled": "已停用",
+  "org.tree.enabled": "启用部门",
+  "org.tree.disabled": "停用部门",
+  "org.tree.delete-dep": "删除部门",
+  "org.tree.create-dep": "创建平级部门",
+  "org.tree.create-child-dep": "创建子部门",
+  "org.tree.search-dep": "搜索部门"
+}

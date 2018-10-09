@@ -1,8 +1,8 @@
 export default {
-  namespace: 'user',
+  namespace: 'components',
 
   state: {
-    user: [],
+    components: [],
     selectedId: 0,
     changes: [],
     version: {},
@@ -33,6 +33,7 @@ export default {
       };
     },
     selectedComponent(state, action) {
+      console.log(action);
       return {
         ...state,
         selectedId: action.payload,
@@ -148,7 +149,7 @@ export default {
       return {
         ...state,
         components: action.payload.components,
-        selectedId: 0,
+        selectedId: 0
       };
     },
   },

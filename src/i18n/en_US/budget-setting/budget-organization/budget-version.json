@@ -1,0 +1,16 @@
+{
+  "budgetVersion.versionDescription":"Remark",
+  "budgetVersion.version": "Budget Version",
+  "budgetVersion.versionCode": "Budget Version Code",
+  "budgetVersion.versionName": "Budget Version Name",
+  "budgetVersion.description": "Description",
+  "budgetVersion.versionDate": "Version Date",
+  "budgetVersion.isEnabled": "Remarks",
+  "budgetVersion.versionStatus": "Version Status",
+  "budgetVersion.new":"New",
+  "budgetVersion.history":"History",
+  "budgetVersion.current":"Current",
+  "budgetVersion.newVersion.info": "No duplicate version code under a budget organization. There is only ONE currenct version available under one budget organization. Under one budget settings, multiple budget versions are allowed to take effect simultaneously.",
+  "budgetVersion.newVersion": "Add Budget Version",
+  "budgetVersion.updateVersion": "Edit Budget Version"
+}

@@ -1,0 +1,68 @@
+.repayment-detail-frame {
+  .alert-content-warn {
+    color: #aaa;
+    div:first-child {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+    }
+    .ant-divider {
+      background: #bbb;
+    }
+  }
+  .render-info {
+    margin-bottom: 10px;
+    .title {
+      color: #999;
+      font-size: 12px;
+    }
+    .info {
+      word-wrap: break-word;
+    }
+  }
+  .repay-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+  }
+  .alert-info {
+    margin-bottom: 30px;
+  }
+  .refund-info, .remark-info {
+    width: 70%;
+    margin: 0 auto 10px;
+  }
+  .remark-info div {
+    word-wrap: break-word;
+  }
+  .approvals.refund-history {
+    margin: 0 auto;
+    width: 70%;
+    min-height: 100px;
+    h4 {
+      margin-bottom: 15px;
+    }
+    .ant-timeline-item-content {
+      padding-left: 25px;
+    }
+    .operation-type {
+      font-weight: bolder;
+      color: #666;
+    }
+    .operation-name {
+      word-break: break-all;
+    }
+    .anticon {
+      margin-left: 1px;
+    }
+  }
+  .confirm-amount {
+    .title {
+      color: #3ABBE5;
+    }
+    .info {
+      color: #FFA767;
+      font-size: 18px;
+    }
+  }
+}

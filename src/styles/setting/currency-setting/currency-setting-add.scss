@@ -1,0 +1,22 @@
+.currency-setting-add{
+  .currency-setting-block{
+    margin: 20px 10px 0;
+    .currency-setting-leftText{
+      display: inline-block;
+      width: 150px;
+    }
+    .currency-setting-right{
+      display: inline-block;
+      width: 230px;
+      .currency-setting-switch{
+        display: inline-block;
+      }
+    }
+  }
+  .currency-setting-block-buttons{
+    margin: 50px 0 0 160px;
+    .currency-setting-save{
+      margin-left: 20px;
+    }
+  }
+}

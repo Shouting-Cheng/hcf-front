@@ -1,0 +1,37 @@
+.configuration-center-detail {
+  .ant-card {
+    .ant-card-body {
+      padding: 0;
+    }
+  }
+}
+
+.edit-rule {
+  .priority-wrap {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .validate-result-wrap {
+    padding-top: 20px;
+    border-top: 1px solid #e8e8e8;
+  }
+  .tip-wrap {
+    background: #e6f3fc;
+    border: 1px solid #e6f3fc;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 10px;
+    margin-bottom: 30px;
+    & > .anticon-info-circle {
+      margin-right: 6px;
+      color: #108ee9;
+    }
+  }
+  .ant-form-item-control-wrapper {
+    z-index: 1;
+  }
+  .cancel-btn {
+    margin-right: 10px;
+  }
+}

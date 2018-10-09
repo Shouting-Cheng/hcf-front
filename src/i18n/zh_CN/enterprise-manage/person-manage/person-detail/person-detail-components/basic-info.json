@@ -1,0 +1,32 @@
+{
+  "pdc.basic.info": "基本信息",
+  "pdc.basic.info.employeeId": "工号",
+  "pdc.basic.info.name": "姓名",
+  "pdc.basic.info.company": "公司",
+  "pdc.basic.info.legal.entity": "法人实体",
+  "pdc.basic.info.dep": "部门",
+
+  "pdc.basic.info.email": "邮箱",
+  "pdc.basic.info.male": "男",
+  "pdc.basic.info.female": "女",
+  "pdc.basic.info.unknem": "未知",
+
+  "pdc.basic.info.mobile": "手机",
+  "pdc.basic.info.sex": "性别",
+
+  "pdc.basic.info.title": "职位",
+  "pdc.basic.info.duty": "职务",
+  "pdc.basic.info.person.type": "人员类型",
+  "pdc.basic.info.level": "级别",
+
+  "pdc.basic.info.direct.manager": "直属领导",
+  "pdc.basic.info.enter.time": "入职时间",
+  "pdc.basic.info.bird": "生日",
+  "pdc.basic.info.max.inp.20": "最多输入20个字符",
+  "pdc.basic.info.max.inp.30": "最多输入30个字符",
+  "pdc.basic.info.max.inp.40": "最多输入40个字符",
+  "pdc.basic.info.email.error": "邮箱格式不对",
+
+  "pdc.basic.info.must.be.number": "必须是数字"
+}
+

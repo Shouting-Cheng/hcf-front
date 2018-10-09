@@ -1,0 +1,9 @@
+{
+  "org-new-dep.in-dep": "Parent Department",
+  "org-new-dep.empty": "Root Department yet",
+  "org-new-dep.dep-code": "Department Code",
+  "org-new-dep.top-dep": "Root Department",
+  "org-new-dep.dep-name": "Department Name",
+  "org-new-dep.dep-code-reg": "Department code should number and letter, length can't exceed 100",
+  "org-new-dep.dep-role-code-reg": "Role code should number and letter, length can't exceed 100"
+}

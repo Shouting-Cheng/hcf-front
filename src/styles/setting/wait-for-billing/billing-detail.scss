@@ -1,0 +1,60 @@
+.billing-detail{
+  .detail-info{
+    padding: 10px;
+  }
+  .total-message{
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    .detail-num{
+      margin-left: 10px;
+      span{
+        span{
+          font-size: 16px;
+          color: #0092da;
+          margin: 0 5px;
+        }
+      }
+    }
+    .invoice-done{
+      margin-left: 10px;
+    }
+  }
+  .table-message{
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    .personal-icon,.business-icon{
+      color: #0092da;
+      margin-right: 10px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .message-status{
+      font-size: 14px;
+      color: #4c4c4c;
+      margin-left: 10px;
+      .success-number{
+        color: #15B066;
+        font-size: 18px;
+        margin: 0 5px;
+      }
+      .unusual-number {
+        color: #CE8DED;
+        font-size: 18px;
+        margin: 0 5px;
+      }
+      .error-number {
+        color: #EA0E0E;
+        font-size: 18px;
+        margin: 0 5px;
+      }
+      .success-money {
+        color: #FF9D29;
+        font-size: 18px;
+        margin: 0 5px;
+      }
+    }
+  }
+}

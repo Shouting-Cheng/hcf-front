@@ -1,0 +1,27 @@
+{
+  "role.set.data":"Data",
+  "role.set.dataer":"Data specialist",
+  "role.set.data.tips":"Applicable group : data specialist",
+
+  "role.set.receipt":"Receipt",
+  "role.set.receipter":"Collector",
+  "role.set.receipt.tips":"Apply to the management of receipt",
+
+  "role.set.admin":"Administrator",
+  "role.set.admin.tips":"Apply to management staff",
+  "role.set.finance":"Finance",
+  "role.set.financer":"Finance",
+
+  "role.set.finance.tips":"Apply to financial staff",
+  "role.set.booking":"Booking",
+
+  "role.set.booker":" Booking clerk",
+  "role.set.booker.tips":"Apply to booking staff",
+
+  "role.set.detail.finance": "Description: Define authorization for different finance users.",
+  "role.set.detail.admin": "Description: Define Huilianyi system super administrator.",
+  "role.set.detail.booking": "Description: Specify the booking Commissioner and booking administrator.",
+  "role.set.detail.receipt": "Description: Specify the order collector or receipt manager.",
+  "role.set.detail.data": "Permissions details : authorised a person for data exporting"
+
+}

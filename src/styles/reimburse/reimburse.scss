@@ -1,0 +1,74 @@
+:global {
+  .reimburse-container{
+
+  .search-number{
+    float: right;
+  }
+  .redText {
+    color: red;
+  }
+  .ant-divider-horizontal {
+    margin: 10px 0;
+  }
+
+}
+
+.tab-container{
+
+  margin: 20px 0;
+  background: #fff;
+  box-shadow: 0 0 5px 1px #cecece;
+  padding: 20px;
+  
+  .search-number{
+    float: right;
+  }
+  .redText {
+    color: red;
+  }
+  .ant-divider-horizontal {
+    margin: 10px 0;
+  }
+
+  tr.ant-table-expanded-row, tr.ant-table-expanded-row:hover {
+    background: #fff;
+  }
+
+  .sub-header-title {
+    font-size: 18px;
+    border-bottom: 1px solid #ececec;
+  }
+}
+.new-pay-plan {
+  .action {
+    cursor: pointer;
+    width: 16%;
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+    background-color: #fafafa;
+    border: 1px solid #d9d9d9;
+  }
+}
+
+.expense-type-container .ant-checkbox-disabled + span {
+    display: inline;
+    margin-left: 4px;
+}
+
+
+.select-receivables{
+
+    .action {
+      cursor: pointer;
+      width: 16%;
+      text-align: center;
+      height: 32px;
+      line-height: 32px;
+      background-color: #fafafa;
+      border: 1px solid #d9d9d9;
+    }
+
+}
+
+}

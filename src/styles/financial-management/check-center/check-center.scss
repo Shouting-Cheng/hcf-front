@@ -1,0 +1,74 @@
+.check-center{
+  display: flex;
+  .check-center-tab{
+    .ant-card-body{
+      padding: 0;
+      zoom:1;
+    }
+    width: 25vw;
+    cursor: pointer;
+    border: 1px silver solid;
+    border-radius:5px;
+    display: flex;
+    margin-left: 23px;
+    flex-direction: column;
+    //box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    .card-wrap{
+      margin-top: 5px;
+      padding: 15px;
+      .tab-title{
+        flex-shrink: 0;
+        img{
+          display: inline-block;
+          width: 30px;
+          vertical-align: middle;
+          height: auto;
+        }
+        span{
+          vertical-align: middle;
+        }
+      }
+      .order-text{
+        color: #8E8E8E;
+        text-align: center;
+      }
+      .order-num{
+        font-size: 18px;
+        color: #111;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 10px;
+      }
+      .order-bill{
+        display: flex;
+        color: #8E8E8E;
+        text-align: center;
+        margin-top: 10px;
+        .order-no-bill{
+          text-align: center;
+          border-right: 1px solid #EEE;
+          flex: 1;
+          span{
+            color: #e5221b;
+            white-space: nowrap;
+          }
+        }
+        .order-has-bill{
+          text-align: center;
+          border-right: 1px solid #EEE;
+          flex: 1;
+          span{
+            color: #8E8E8E;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    .check-detail{
+      border-top: 1px solid #EEE;
+      padding: 10px 0;
+      text-align: center;
+      color: #107DD2;
+    }
+  }
+}

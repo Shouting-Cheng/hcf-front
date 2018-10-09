@@ -1,0 +1,11 @@
+{
+  "legal.person": "Legal entity",
+
+  "legal.person.name": "Name",
+  "legal.person.index": "Index",
+  "legal.person.person.total": "Employees",
+  "legal.person.status": "Status",
+  "legal.person.tips1": "1. The legal entity names are registered in the name of employees on the legal ownership, in the application of billing platform to issue Tax(Universal), billing unit as an option fee collection",
+  "legal.person.tips2": "2. Details of the legal entity of individual employees is necessary information to issue Tax(Universal), the user can APP my - See billing information",
+  "legal.person.new": "New legal entity"
+}

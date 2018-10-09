@@ -1,0 +1,44 @@
+.agency-relation {
+  .header-info {
+    color: #999;
+  }
+  .ant-collapse {
+    border: none;
+  }
+  .ant-collapse-borderless > .ant-collapse-item {
+    & > .ant-collapse-content {
+      border-top-color: #eaeaea;
+    }
+    &.custom-panel {
+      background: #f7f7f7;
+      border-radius: 4px;
+      margin-top: 10px;
+      border: none;
+      overflow: hidden;
+      .agency-bills-col {
+        line-height: 28px;
+        .invalid-bill {
+          color: #999;
+        }
+      }
+    }
+  }
+  .header-principal {
+    margin-left: 10px;
+  }
+  .header-more {
+    float: right;
+    margin-right: 20px;
+  }
+
+  .warning-alert {
+    margin-top: 3px;
+  }
+
+  .antd-pro-tag-select-tagSelect {
+    margin-left: 0;
+  }
+  .antd-pro-tag-select-tagSelect.antd-pro-tag-select-expanded {
+    max-height: unset;
+  }
+}

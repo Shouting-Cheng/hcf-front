@@ -1,0 +1,21 @@
+{
+  "main.tenant.mode": "Group mode",
+  "main.switch.company": "Switch company",
+  "main.error": "Error",
+  "main.error.description": "Please try it again later or contact admin",
+  "main.auth.description": "No permission to access this page.",
+  "main.error.budget.organization": "The default budget organization is disabled",
+  "main.error.budget.organization.description": "Disabled budget organization",
+  "main.error.set": "Go Setting",
+  "main.error.no.budget.organization": "Can't find budget organization",
+  "main.error.no.mileage.subsidy": "Can't find mileage subsidy",
+  "main.skip.to.old": "Old Interface",
+  "main.bill": "Bill",
+  "main.wait.for.submit": " wait for submitting",
+  "main.business.card": "Business card",
+  "main.approve": "Approve",
+  "main.wait.for.approve": " wait for approving",
+  "main.nav.online.service": "Online customer service",
+  "main.tips.set.mail.phone": "Please set mail or phone",
+  "main.business.card.record": " business card record"
+}

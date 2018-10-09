@@ -1,0 +1,45 @@
+.add-table-cell {
+  .add-budget-detail-icon {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+  .ant-table-wrapper {
+    width: 130%;
+    margin-top: 10px;
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+      padding: 10px;
+    }
+  }
+  .editable-cell {
+    .editable-cell-input-wrapper {
+      position: relative;
+      .icons {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 32px;
+        line-height: 32px;
+      }
+      .ant-input {
+        width: 85%;
+        margin-right: 5px;
+      }
+      .anticon {
+        cursor: pointer;
+        &.anticon-check {
+          margin-right: 5px;
+        }
+      }
+    }
+    .editable-cell-text-wrapper {
+      position: relative;
+      .editable-cell-icon {
+        position: absolute;
+        right: 5px;
+        height: 21px;
+        line-height: 21px;
+        cursor: pointer;
+      }
+    }
+  }
+}

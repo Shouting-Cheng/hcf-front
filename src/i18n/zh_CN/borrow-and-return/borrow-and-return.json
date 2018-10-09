@@ -1,0 +1,9 @@
+{
+  "borrow.and.return.document.id": "单号",
+  "borrow.and.return.date": "日期",
+  "borrow.and.return.title": "事由",
+  "borrow.and.return.currency": "币种",
+  "borrow.and.return.borrow": "借款",
+  "borrow.and.return.verify": "还款",
+  "borrow.and.return.unVerify": "待还款金额"
+}

@@ -1,0 +1,17 @@
+{
+  "sdp.please-chose-left":"Please select it on the left",
+  "sdp.dep-code-name":"Dep. name/Dep. code/Employee name",
+  "sdp.dep-name":"Dep. name/Dep. code",
+  "sdp.person-name":"Employee name",
+
+  "sdp.chose-dep-person":"Select department or person",
+  "sdp.chose-dep":"Select department",
+  "sdp.chose-person":"Select person",
+  "sdp.chosed-dep-person":"Selected departments and persons",
+  "sdp.chosed-person":"Selected persons",
+  "sdp.chosed-dep":"Selected departments",
+  "sdp.has.assigned":"Assigned",
+  "sdp.has.added":"Added",
+  "sdp.no.search.result":"No departmental data was found"
+}
+

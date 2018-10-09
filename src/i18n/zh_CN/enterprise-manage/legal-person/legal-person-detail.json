@@ -1,0 +1,46 @@
+{
+  "legal.entity.detail": "法人实体详情",
+
+  "legal.entity.detail.name": "名称",
+  "legal.entity.detail.tax": "纳税人识别号",
+  "legal.entity.detail.account": "开户行",
+  "legal.entity.detail.bank.card": "银行卡号",
+
+  "legal.entity.detail.mobile": "电话",
+  "legal.entity.detail.address": "地址",
+  "legal.entity.detail.sob.name": "账套名称",
+  "legal.entity.detail.parent.legal": "上级法人",
+
+  "legal.entity.detail.qcode": "开票二维码",
+  "legal.entity.detail.index": "序号",
+  "legal.entity.detail.employeeId": "工号",
+  "legal.entity.detail.employee": "员工",
+
+  "legal.entity.detail.dep": "部门",
+  "legal.entity.detail.email": "邮箱",
+  "legal.entity.detail.contact": "联系方式",
+
+  "legal.entity.detail.move": "移动",
+  "legal.entity.detail.company.code": "公司代码",
+
+  "legal.entity.detail.company.name": "公司名称",
+  "legal.entity.detail.company.type": "公司类型",
+  "legal.entity.detail.sob": "账套",
+  "legal.entity.detail.legal.entity": "法人",
+
+  "legal.entity.detail.company.level": "公司级别",
+  "legal.entity.detail.parent.company": "上级公司",
+
+  "legal.entity.detail.legal.entity1": "法人实体",
+  "legal.entity.detail.tax1": "税号",
+  "legal.entity.detail.select.person": "移入人员",
+
+  "legal.entity.detail.move.to": "移动到",
+  "legal.entity.detail.search": "搜索",
+  "legal.entity.detail.move.success": "员工移动成功",
+  "legal.entity.detail.im.success": "员工导入成功",
+  "legal.entity.detail.input.companyName": "请输入公司名称"
+}
+
+
+

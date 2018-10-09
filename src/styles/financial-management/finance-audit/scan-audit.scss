@@ -1,0 +1,53 @@
+.scan-audit{
+  .reject-audit{
+    padding: 20px;
+    margin: 20px 0;
+    background: white;
+    .scan-alert{
+      width: 100%;
+      text-align: center;
+      img{
+        width: 40%;
+      }
+      h3{
+        font-weight: bold;
+      }
+    }
+    .reject-audit-area{
+      .reject-audit-code{
+        height: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .reject-audit-name{
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .no-reply{
+        color: #CCCCCC;
+        font-size: 14px;
+        height: 30px;
+        line-height: 30px;
+      }
+    }
+  }
+  .pass-audit{
+    padding: 20px;
+    height: 150px;
+    box-sizing: content-box;
+    background: white;
+    .pass-audit-title{
+      margin-bottom: 12px;
+    }
+    .ant-tag {
+      margin-bottom: 8px;
+    }
+    .pass-audit-result{
+      height: 120px;
+      overflow-y: auto;
+    }
+  }
+}

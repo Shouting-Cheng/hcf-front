@@ -1,0 +1,14 @@
+{
+  "itemMap.sourceType": "来源类别",
+  "itemMap.detailType": "明细类型",
+  "itemMap.expenseType": "费用类型",
+  "itemMap.applyType": "申请类型",
+  "itemMap.expenseTypeName": "费用类型名称",
+  "itemMap.icon": "图标",
+  "itemMap.itemUpload": "预算项目映射导入",
+  "itemMap.itemUploadFile": "预算项目映射导入文件",
+  "item.itemUpload": "预算项目导入",
+  "item.itemUploadFile": "预算项目导入文件",
+  "itemMap.item": "预算项目",
+  "item.errorMessage": "输入信息不完整，请检查！"
+}

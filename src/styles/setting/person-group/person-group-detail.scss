@@ -1,0 +1,28 @@
+.person-group-detail{
+  .condition-rule-wrap{
+    padding-bottom: 50px;
+    .condition-rule-icon-tips{
+      background: #e7f3fc;
+      border: solid 1px #c2e4fd;
+      padding: 6px 15px 6px 15px;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      .tips-text{
+        padding-left: 10px;
+      }
+    }
+  }
+  .rule-add-btn{
+    text-align: center;
+    height: 42px;
+    line-height: 42px;
+    border: dashed 1px gainsboro;
+    font-size: 16px;
+    border-radius: 2px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  .rule-add-btn:hover{
+    background: #f4f4f4;
+  }
+}

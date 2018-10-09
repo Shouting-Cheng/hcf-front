@@ -1,0 +1,12 @@
+{
+  "operate.log.time":"Time",
+  "operate.log.operation.type":"Operation type",
+  "operate.log.operation.detail":"Operation detail",
+  "operate.log.time.from":"Time from",
+  "operate.log.time.to":"Time to",
+  "operate.log.operation.object":"Operating object",
+  "operate.log.admin":"Operator",
+  "operate.log.time.tip0":"The end time must be greater than the start time",
+  "operate.log.time.tip1":"Please choose the start time",
+  "operate.log.time.tip2":"Please choose the end time"
+}

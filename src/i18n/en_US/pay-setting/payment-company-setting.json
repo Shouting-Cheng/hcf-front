@@ -1,0 +1,14 @@
+{
+  "paymentCompanySetting.priorty":"priority",
+  "paymentCompanySetting.company":"Document company",
+  "paymentCompanySetting.companyCode":"Document company code",
+  "paymentCompanySetting.companyName":"Document company name",
+  "paymentCompanySetting.ducumentCategory":"Document Categories",
+  "paymentCompanySetting.ducumentType":"Document type",
+  "paymentCompanySetting.paymentCompany":"Payment company",
+  "paymentCompanySetting.paymentCompanyCode":"Payment company code",
+  "paymentCompanySetting.paymentCompanyName":"payment company Name",
+  "paymentCompanySetting.setOfBooks":"SetOfBooks",
+  "paymentCompanySetting.newPaymentCompanySetting":"New payment company configuration",
+  "paymentCompanySetting.editPaymentCompanySetting":"Edit payment company configuration"
+}

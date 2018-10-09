@@ -1,0 +1,9 @@
+{
+  "org.tree.has-disabled": "Disabled",
+  "org.tree.enabled": "Enable",
+  "org.tree.disabled": "Disable",
+  "org.tree.delete-dep": "Delete",
+  "org.tree.create-dep": "Create parellel department",
+  "org.tree.create-child-dep": "Create sub-department",
+  "org.tree.search-dep": "search dep."
+}

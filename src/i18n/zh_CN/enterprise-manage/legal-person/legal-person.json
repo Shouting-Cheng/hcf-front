@@ -1,0 +1,11 @@
+{
+  "legal.person": "法人实体",
+
+  "legal.person.name": "法人实体名称",
+  "legal.person.index": "序号",
+  "legal.person.person.total": "员工数量",
+  "legal.person.status": "状态",
+  "legal.person.tips1": "1.法人实体名称是员工在法律上归属的公司注册名称,在应用开票平台开具增值税发票时,作为选择开票费用集合的单位",
+  "legal.person.tips2": "2.法人实体详细信息是员工个人开具增值税发票的必要信息,用户可在APP我的-开票信息中查看",
+  "legal.person.new": "新增法人实体"
+}

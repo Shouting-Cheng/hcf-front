@@ -1,0 +1,18 @@
+{
+  "budgetVersion.versionDescription":"备注",
+  "budgetVersion.version": "预算版本",
+  "budgetVersion.versionCode": "预算版本代码",
+  "budgetVersion.versionName": "预算版本名称",
+  "budgetVersion.description": "描述",
+  "budgetVersion.versionDate": "版本日期",
+  "budgetVersion.isEnabled": "状态",
+  "budgetVersion.versionStatus": "版本状态",
+  "budgetVersion.new":"新建",
+  "budgetVersion.history":"历史",
+  "budgetVersion.current":"当前",
+  "budgetVersion.newVersion.info": "一个预算组织下的版本代码不可重复，一个预算组织下只能有一个当前版本，一个预算组织下允许多个预算版本同时生效。",
+  "budgetVersion.newVersion": "新建预算版本",
+  "budgetVersion.updateVersion": "编辑预算版本"
+
+
+}

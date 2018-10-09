@@ -1,0 +1,14 @@
+{
+  "paymentCompanySetting.priorty":"优先级",
+  "paymentCompanySetting.company":"单据公司",
+  "paymentCompanySetting.companyCode":"单据公司代码",
+  "paymentCompanySetting.companyName":"单据公司名称",
+  "paymentCompanySetting.ducumentCategory":"单据类别",
+  "paymentCompanySetting.ducumentType":"单据类型",
+  "paymentCompanySetting.paymentCompany":"付款公司",
+  "paymentCompanySetting.paymentCompanyCode":"付款公司代码",
+  "paymentCompanySetting.paymentCompanyName":"付款公司名称",
+  "paymentCompanySetting.setOfBooks":"账套",
+  "paymentCompanySetting.newPaymentCompanySetting":"新建付款公司配置",
+  "paymentCompanySetting.editPaymentCompanySetting":"编辑付款公司配置"
+}

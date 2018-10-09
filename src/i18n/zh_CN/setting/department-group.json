@@ -1,0 +1,10 @@
+{
+  "setting.deptGroup.code": "部门组代码",
+  "setting.deptGroup.name": "部门组名称",
+  "setting.dept": "部门",
+  "setting.dept.num": "部门号",
+  "setting.deptCode": "部门代码",
+  "setting.deptName": "部门名称",
+  "setting.dept.code.tips": "注：部门组代码保存后将不可修改",
+  "setting.dept.name.tips": "注：部门组名称保存后将不可修改"
+}

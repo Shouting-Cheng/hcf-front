@@ -1,0 +1,9 @@
+{
+  "borrow.and.return.document.id": "Document ID",
+  "borrow.and.return.date": "Date",
+  "borrow.and.return.title": "Reason",
+  "borrow.and.return.currency": "Currency",
+  "borrow.and.return.borrow": "Loan",
+  "borrow.and.return.verify": "Refund",
+  "borrow.and.return.unVerify": "Loan balance"
+}

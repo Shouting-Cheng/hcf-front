@@ -1,0 +1,103 @@
+.person-detail-wrap{
+  .f-left{
+    float: left;
+  }
+  .f-right{
+    float: right;
+  }
+  .clear{
+    clear: both;
+  }
+
+  .person-detail-top-wrap{
+    padding-bottom: 10px;
+  }
+
+  .person-detail-edit-icon{
+    cursor: pointer;
+    margin-left: 15px;
+    color: #108EE9;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 32px;
+    .edit-text{
+      padding-left: 6px;
+    }
+  }
+  .person-detail-edit-icon:hover{
+    color: #0060cc;
+  }
+  .basic-info-extend-wrap{
+    .basic-info-extend-title{
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+
+  }
+
+
+  .basic-info-wrap{
+    .basic-info-title{
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+
+  }
+
+  .pd-card-wrap{
+    .card-wrap-title{
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+    .bank-card-list{
+      .bank-card-item{
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .pd-id-card-wrap{
+    .card-wrap-title{
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+    .bank-card-list{
+      .id-card-item{
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+
+  .vendor-info-wrap{
+    .card-wrap-title{
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 32px;
+    }
+  }
+
+  .show-select-hire-time-modal{
+    .hire-time-content{
+      height: 200px;
+      .hire-time-content-date{
+        width: 100%;
+      }
+    }
+    .hire-time-footer{
+      margin-top: 20px;
+      text-align: right;
+      .hire-time-cancel{
+        margin-right: 20px;
+      }
+    }
+  }
+
+}
+

@@ -1,0 +1,9 @@
+{
+  "price.review.reason": "原因",
+  "price.review.submit.date": "提交时间",
+  "price.review.name": "申请人",
+  "price.review.type": "类型",
+  "price.review.type.book": "订票",
+  "price.review.dueAudit": "待审核",
+  "price.review.audited":"已审核"
+}

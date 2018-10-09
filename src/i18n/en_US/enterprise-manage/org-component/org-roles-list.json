@@ -1,0 +1,12 @@
+{
+  "org.role.no-person": "Role Description",
+  "org.role.no-dep": "Role Code",
+  "org.role.status": "Status",
+  "org.role.operation": "Action",
+  "org.role.create-or-update-role": "Create or update department role",
+  "org.role.min4": "Should be more than 4 digits",
+  "org.role.max9": "Should be less than 9 digits",
+  "org.role.e61": "The first bit of the role code can't be 0、1 or 6",
+  "org.role.type-number": "Only integer is allowed",
+  "org.role.back": "Back"
+}

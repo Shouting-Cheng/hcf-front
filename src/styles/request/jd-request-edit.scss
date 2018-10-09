@@ -1,0 +1,58 @@
+.jd-request-edit {
+  .ant-form-item {
+    margin: 10px 0;
+  }
+  .table-header {
+    margin-bottom: 10px;
+    .order-num {
+      margin-right: 10px;
+    }
+  }
+  .amount-info {
+    margin: 10px 0 60px;
+    .ant-row {
+      line-height: 27px;
+    }
+    .amount-title, .amount {
+      float: right;
+    }
+    .amount {
+      text-align: right;
+    }
+    .total {
+      color: #ff9900;
+      margin: 5px 0 10px;
+      &.amount {
+        font-size: 22px;
+      }
+      &.amount-title {
+        line-height: 27px;
+      }
+    }
+  }
+  .bottom-bar {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: fixed;
+    bottom: 0;
+    z-index: 5;
+    margin-left: -35px;
+    background: #fff;
+    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
+    padding-left: 20px;
+    .ant-btn {
+      margin-right: 20px;
+    }
+    .delete-btn {
+      color: #fff;
+      background-color: #ff4d4f;
+      border-color: #ff4d4f;
+    }
+  }
+  .product-img {
+    max-width: 54px;
+    max-height: 54px;
+    margin-right: 10px;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "components.search.timeMoreLimit":"开始日期不能大于结束日期",
+  "components.search.timeLessLimit":"结束时间小于开始时间",
+  "components.search.upload.fold": "折叠",
+  "components.search.upload.open": "展开",
+  "components.search.cost.center.name": "成本中心名称",
+  "components.search.cost.center.all.items": "全部项",
+  "components.search.cost.center.item.from": "成本中心项从",
+  "components.search.cost.center.item.to": "成本中心项至",
+  "components.search.cost.center.tip1": "1: 请先选择成本中心名称",
+  "components.search.cost.center.tip2": "2: 成本中心项从的序号需 ≤ 成本中心项至的序号,否则搜索无结果",
+  "components.search.cost.center.please.enter.item": "请输入代码or名称",
+  "components.search.upload.more": "展开"
+}

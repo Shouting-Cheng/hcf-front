@@ -1,0 +1,15 @@
+{
+  "supplier.overview.service.enabled": "启用供应商数量",
+  "supplier.overview.account.creation.failed": "开户失败人数",
+  "supplier.overview.account": "开通员工数{account}人",
+  "supplier.overview.enabled": "已开启",
+  "supplier.overview.disabled": "未开启",
+  "supplier.overview.sort": "排序",
+  "supplier.overview.enter": "进入控制台",
+  "supplier.overview.open.now": "立即开通",
+  "supplier.overview.no.open.vendor.title": "没有已启用的供应商服务",
+  "supplier.overview.no.open.vendor.tip": "可在下方选择需要的供应商服务，按照指引进行开通",
+  "supplier.overview.no.notOpen.vendor.title": "没有未启用的供应商服务",
+  "supplier.overview.sort.modal.title": "请选择已开通供应商排序",
+  "supplier.overview.hot.suppliers": "热门供应商"
+}

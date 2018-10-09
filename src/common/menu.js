@@ -1,6 +1,17 @@
 import { isUrl } from '../utils/utils';
 
 const menuData = [
+  // {
+  //   name: '我的预付款',
+  //   icon: 'book',
+  //   path: 'pre-payment',
+  //   children: [
+  //     {
+  //       name: '我的预付款',
+  //       path: 'my-pre-payment',
+  //     },
+  //   ]
+  // },
   {
     name: '系统管理',
     icon: 'setting',

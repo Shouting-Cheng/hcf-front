@@ -1,0 +1,12 @@
+{
+  "company.level.define.company.code": "公司级别代码",
+  "company.level.define.add.success": "新建成功",
+  "company.level.define.new.level.define": "新增公司级别定义",
+  "company.level.define.save.not.edit": "【公司级别代码】 保存后将不可修改",
+  "company.level.define.code.not.empty": "公司级别代码不能为空",
+  "company.level.define.edit.level.define": "编辑公司级别定义",
+  "company.level.define.edit.description.empty": "描述不能为空",
+  "company.level.define.can.not.edit": "公司级别已被引用不可修改",
+  "company.level.define.validation.error": "验证失败.",
+  "company.level.define.code.repeat": "公司级别代码不能重复."
+}

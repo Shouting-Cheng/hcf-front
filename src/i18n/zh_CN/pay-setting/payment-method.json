@@ -1,0 +1,11 @@
+{
+  "paymentMethod.paymentMethodCode":"付款方式代码",
+  "paymentMethod.paymentMethodCategory":"付款方式类型",
+  "paymentMethod.description":"付款方式名称",
+  "paymentMethod.isEnabled":"状态",
+  "paymentMethod.newPaymentMethod":"新建付款方式",
+  "paymentMethod.editPaymentMethod":"编辑付款方式",
+  "paymentMethod.createType":"创建方式",
+  "paymentMethod.userDefine":"用户定义",
+  "paymentMethod.systemDefine":"系统定义"
+}

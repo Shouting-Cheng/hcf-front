@@ -1,0 +1,14 @@
+{
+  "scan-send.expense.delivery": "Expense Delivery",
+  "scan-send.expense.subtitle.sent": "Only documents passed",
+  "scan-send.expense.input.type": "Please use the scanning gun",
+  "scan-send.sent": "Send documents",
+  "scan-receive.sweep.receive": "Sweep Receive",
+  "scan-send.received": "Received",
+  "scan-send.search.result": "Search result ",
+  "scan-send.export": "Export data",
+  "scan-send.close": "Close",
+  "scan-send.code": "Doc.ID",
+  "scan-send.send.date": "Delivery time ",
+  "scan-send.no.data.export": "no data during the time"
+}

@@ -1,0 +1,9 @@
+{
+  "org-new-dep.in-dep": "所属部门",
+  "org-new-dep.empty": "已是顶级部门",
+  "org-new-dep.dep-code": "部门编码",
+  "org-new-dep.top-dep": "顶级部门",
+  "org-new-dep.dep-name": "部门名称",
+  "org-new-dep.dep-code-reg": "部门编码须是数字与字母，长度不能超过100",
+  "org-new-dep.dep-role-code-reg": "角色代码须是数字与字母，长度不能超过100"
+}

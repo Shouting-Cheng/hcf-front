@@ -1,0 +1,13 @@
+{
+  "role.set.data.name":"姓名",
+  "role.set.data.id":"工号",
+  "role.set.data.dep":"部门",
+
+  "role.set.data.email":"邮箱",
+  "role.set.data.please.select":"请选择人员",
+
+  "role.set.data.tenant": "集团管理员",
+  "role.set.data.company": "公司管理员"
+}
+
+

@@ -1,0 +1,7 @@
+{
+  "select.employee.group.option":"Selected Person Group",
+  "select.employee.group.wait.option":"Source",
+  "select.employee.group.join.use":"To use",
+  "select.employee.group.back.to.wait": "Back",
+  "select.employee.group.use.list":"Target"
+}

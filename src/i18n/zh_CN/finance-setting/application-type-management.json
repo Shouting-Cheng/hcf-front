@@ -1,0 +1,10 @@
+{
+  "application.type.management.set.of.books": "账套",
+  "application.type.management.code": "申请类型代码",
+  "application.type.management.name": "申请类型名称",
+  "application.type.management.icon": "图标",
+  "application.type.management.subsidy.type": "补贴类型",
+  "application.type.management": "申请类型管理",
+  "application.type.management.new": "新建申请类型",
+  "application.type.management.edit": "编辑申请类型"
+}

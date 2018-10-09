@@ -1,0 +1,5 @@
+{
+  "lang-inp.required":"required",
+  "lang-inp.lang-setting":"Language Setting",
+  "lang-inp.lang-tip":"The number of words exceeds the limit, and the first {length} is automatically intercepted"
+}

@@ -1,0 +1,9 @@
+{
+  "cash.transaction.class.type": "Cash transaction type",
+  "cash.transaction.class.code": "Cash transaction class code",
+  "cash.transaction.class.description": "Cash transaction class name",
+  "cash.flow.item": "Cash flow item",
+  "cash.flow.item.default.flag": "Is default",
+  "cash.flow.item.enabled.flag": "Is enabled",
+  "cash.transaction.class.validateExist": "Cash transaction class already existed"
+}

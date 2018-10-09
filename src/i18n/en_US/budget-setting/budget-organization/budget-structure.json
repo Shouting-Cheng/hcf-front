@@ -1,0 +1,47 @@
+{
+  "budget.structureName": "Budget Table Name",
+  "budget.structureCode": "Budget Table Code",
+  "budget.structureDescription": "Description",
+  "budget.periodStrategy": "Period",
+  "periodStrategy.month": "Monthly",
+  "periodStrategy.quarter": "Quarterly",
+  "periodStrategy.year": "Yearly",
+  "budget.structureCode.exist": "The budget table already exists",
+  "budget.basicInformation": "Basic info.",
+  "budget.edit": "Edit",
+  "structure.dimensionDistribute": "Assign Dimension",
+  "structure.companyDistribute": "Assign Company",
+  "structure.dimensionCode": "Dimension code",
+  "structure.dimensionName": "Dimension name",
+  "structure.description": "Description",
+  "structure.layoutPosition": "Layout Position",
+  "structure.layoutPriority": "Layout Sequence",
+  "structure.defaultDimValueCode": "Default dimension code",
+  "structure.defaultDimValueName": "Default dimension name",
+  "structure.opetation": "Action",
+  "structure.validatePeriodStrategy": "The period strategy can not change because the current budget table has been quoted by the budget journal.",
+  "structure.saveSuccess": "Saved",
+  "structure.validateCreate": "Please create the budget organization under the set of book!",
+  "structure.companyDescription": "Company Description",
+  "structure.companyType": "Company Type",
+  "structure.enablement": "Enabled",
+  "structure.addCompany": "Add company",
+  "structure.companyCode": "Company Code",
+  "structure.companyName": "Company Name",
+  "structure.companyCodeFrom": "CC from",
+  "structure.companyCodeTo": "CC to",
+  "structure.selectDefaultDim":"Select the default dimension values",
+  "structure.dimensionValueCode": "Dimension value code",
+  "structure.dimensionValueName": "Dimension value name",
+  "structure.validateDimension": "Please select dimension code first",
+  "structure.selectDim": "Select a dimension",
+  "structure.newDimension": "New dimension",
+  "structure.updateDimension": "Update dimension"
+
+
+
+
+
+
+
+}

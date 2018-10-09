@@ -16,6 +16,15 @@ export default {
   },
   alias: {
     components: path.resolve(__dirname, 'src/components/'),
+    config: path.resolve(__dirname, 'src/config/config.js'),
+    images: path.resolve(__dirname, 'src/images/'),
+    styles: path.resolve(__dirname, 'src/styles/'),
+    routes: path.resolve(__dirname, 'src/routes/'),
+    containers: path.resolve(__dirname, 'src/containers/'),
+    widget: path.resolve(__dirname, 'src/components/Widget/'),
+    utils: path.resolve(__dirname, 'src/utils/'),
+    chooserData: path.resolve(__dirname, 'src/chooser-data/index.js'),
+    share: path.resolve(__dirname, 'src/share/'),
   },
   commons: [
     // new webpack.optimize.CommonsChunkPlugin({
@@ -49,6 +58,7 @@ export default {
     '/api': {
       target: 'http://116.228.77.183:25297',
       changeOrigin: true,
+      pathRewrite: { '^/api': '' },
     },
     '/auth': {
       target: 'http://116.228.77.183:25297',

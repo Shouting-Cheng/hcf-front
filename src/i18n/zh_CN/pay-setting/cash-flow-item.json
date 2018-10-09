@@ -1,0 +1,9 @@
+{
+  "budget.set.of.books":"预算账套",
+  "cash.flow.item.flowCode": "现金流量项代码",
+  "cash.flow.item.description": "现金流量项名称",
+  "cash.flow.item.editorItem": "编辑现金流量项",
+  "cash.flow.item.createItem": "新建现金流量项",
+  "cash.flow.item.validateExist": "该现金流量项已存在",
+  "cash.flow.item.setOfBooksName":"账套"
+}

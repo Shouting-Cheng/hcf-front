@@ -1,0 +1,20 @@
+.payment-detail {
+  .top-result {
+    .ant-badge-status-dot {
+      position: relative;
+      top: -3px;
+    }
+    .ant-badge-status-text {
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 20px;
+    }
+  }
+  .header-title {
+    margin: 25px 0 8px;
+    font-size: 17px;
+  }
+  .ant-card-wider-padding .ant-card-body {
+    padding: 0;
+    margin-top: 25px;
+  }
+}

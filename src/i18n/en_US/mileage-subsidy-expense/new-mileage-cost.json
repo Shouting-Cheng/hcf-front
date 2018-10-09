@@ -1,0 +1,9 @@
+{
+  "new.mileage.cost.date":"Date",
+  "new.mileage.cost.type":"Type",
+  "new.mileage.cost.plsChooseMonth":"Please choose month",
+  "new.mileage.cost.plsChooseCurrency":"Please choose currency",
+  "new.mileage.cost.plsEnterCorrectMoney":"Please enter the legal amount (two decimal places)",
+  "new.mileage.cost.mileageDetail":"Mileage detail",
+  "new.mileage.cost.plsEnterTip":"Please enter, with a maximum of 200 Chinese character"
+}

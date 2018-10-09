@@ -1,0 +1,29 @@
+.agency-detail {
+  .principal-item {
+    width: 400px;
+    .principal-explain {
+      color: #999;
+      margin-left: 5px;
+    }
+  }
+  .header-title {
+    font-size: 18px;
+  }
+  .new-relation-btn {
+    width: 320px;
+    height: 34px;
+    margin: 10px 0 50px;
+  }
+  .relation-form {
+    margin: 10px 0;
+    background: #f7f7f7;
+    padding: 10px 20px;
+    border-radius: 3px;
+  }
+  .back-icon {
+    padding-bottom: 20px;
+    .anticon-rollback {
+      margin-right: 5px;
+    }
+  }
+}

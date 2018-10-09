@@ -1,0 +1,24 @@
+.repayment-detail-frame {
+  .alert-content-warn {
+    color: #aaa;
+    div:first-child {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+    }
+    .ant-divider {
+      background: #bbb;
+    }
+  }
+  .render-info {
+    margin-bottom: 10px;
+    .title {
+      color: #999;
+    }
+  }
+  .repay-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+  }
+}

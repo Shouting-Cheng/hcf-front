@@ -1,0 +1,25 @@
+.new-account-rule {
+  .header-title {
+    .ant-tag {
+      position: relative;
+      left: 15px;
+      top: -3px;
+    }
+  }
+  .float-left {
+    float: left;
+  }
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .no-input-style {
+    color: rgba(0, 0, 0, 0.65);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: text;
+  }
+  .ant-select-disabled {
+    color: rgba(0, 0, 0, 0.65);
+  }
+}

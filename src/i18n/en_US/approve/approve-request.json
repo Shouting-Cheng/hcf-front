@@ -1,0 +1,14 @@
+{
+  "approve.request.moneyFrom":"Amount :",
+  "approve.request.moneyTo":"To :",
+  "approve.request.matter":"Reason",
+  "approve.request.maximumData":"Max. 20 rows of data to be selected.",
+  "approve.request.successNum":"Successfully processed {total} document/s.",
+  "approve.request.failNum":"Failed to process {total} document/s",
+  "approve.request.has.approved":"The document has already been approved. Confirm to continue",
+  "approve.request.processing":"Processing",
+  "approve.request.approved":"Approved",
+  "approve.request.proxy":"Proxy",
+  "approve.request.document.no":"Doc.ID"
+}
+

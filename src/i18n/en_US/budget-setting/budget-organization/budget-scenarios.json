@@ -1,0 +1,10 @@
+{
+  "budget.scenarios.name": "Budget scenarios name",
+  "budget.scenarios.code": "Budget scenarios code",
+  "budget.scenarios.default": "Default",
+  "budget.scenarios.new": "New Budget Scenarios",
+  "budget.scenarios.edit": "Edit Budget Scenarios",
+  "budget.scenarios.is.default": "Is default",
+  "budget.scenarios.default.must.be.enabled": "The state of the default budget scenario must be enabled",
+  "budget.scenarios.help.info": "Budget Organization is same as the effective budget organization of current user's ledger. Budget Code cannot be duplicated in one budget scenario. Multiply budget scenario can be applied to one budget organization."
+}

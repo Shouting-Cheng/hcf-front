@@ -1,0 +1,17 @@
+{
+  "configuration.detail.priority": "优先级",
+  "configuration.detail.action": "操作",
+  "configuration.detail.delete": "删除",
+  "configuration.detail.ruleConfig": "规则配置",
+  "configuration.detail.explain": "说明",
+  "configuration.detail.fitRules": "当符合规则时则按默认规则执行",
+  "configuration.detail.tip.delete": "确认删除吗？",
+  "configuration.detail.addRule": "新建规则",
+  "configuration.detail.form.required": " 必填",
+  "configuration.detail.select": "选择",
+  "configuration.detail.name": "名称",
+  "configuration.detail.description": "描述",
+  "configuration.detail.validateResult": "校验结果",
+  "configuration.detail.fitRulesTip": "当符合规则，则",
+  "configuration.detail.uncheckedTip": "未填值时，则表示不检查该条件"
+}

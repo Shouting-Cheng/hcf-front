@@ -1,0 +1,8 @@
+{
+  "budget.organization.name": "Organization name",
+  "budget.organization": "Budget organization",
+  "budget.organization.code": "Organization Code",
+  "budget.organization.set.of.books": "Set of books",
+  "budget.organization.edit": "Edit organization",
+  "budget.organization.new.info": "The set of books can contain only one enabled organization code,the rental contains' organization code cannot be repeated and cannot be modified after saving."
+}

@@ -1,0 +1,9 @@
+{
+  "price.review.reason": "Reason",
+  "price.review.submit.date": "Request On",
+  "price.review.name": "Name",
+  "price.review.type": "Doc. Type",
+  "price.review.type.book": "Issuance",
+  "price.review.dueAudit": "Under price review",
+  "price.review.audited":"Reviewed"
+}

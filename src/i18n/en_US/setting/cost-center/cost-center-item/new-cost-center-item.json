@@ -1,0 +1,20 @@
+{
+  "new.cost.center.item": "New cost center item",
+  "new.cost.center.item.tip1": "After adding, you can get into the edit extension field",
+  "new.cost.center.item.code": "Cost center item code",
+  "new.cost.center.item.max36": "Up to 36 characters, letters and numbers",
+
+  "new.cost.center.item.tip2": "Note: the cost center code will not be modified after it is saved",
+  "new.cost.center.item.name": "Name of cost center item",
+  "new.cost.center.item.index": "Sequence Number",
+  "new.cost.center.item.index_tip1": "Please enter a positive integer",
+  "new.cost.center.item.index_tip": "To maintain a certain step size between the serial numbers, it is convenient for subsequent adjustment, such as the first 10, interval 10",
+  "new.cost.center.item.manager": "manager",
+
+  "new.cost.center.item.main": "Main departments: ",
+  "new.cost.center.item.sec": "Subordinate department: ",
+  "new.cost.center.item.showall": "All can be seen",
+
+  "new.cost.center.item.extend": "Extend field",
+  "new.cost.center.item.tips3": "The cost center item extension field can be edited in the cost center cost field extension field."
+}

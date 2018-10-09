@@ -1,0 +1,31 @@
+.edit-reverse-info {
+  padding-top: 15px;
+
+
+  .jsq{
+    margin-left: -9px;
+    .arrow{
+      margin-left: -8px
+    }
+    .upload-list-inline{
+      margin-left: -15px;
+      top: -5px;
+      position: inherit;
+    }
+  }
+
+  .red-ticket-information {
+    box-shadow: 0 0 5px #cecece;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    .red-ticket-row{
+      .ant-row.ant-form-item{
+        margin-bottom: 10px;
+      }
+    }
+  }
+  form textarea.ant-input{
+    width: 95%;
+    margin-left: -5px;
+  }
+}

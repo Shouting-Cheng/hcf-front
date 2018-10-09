@@ -1,0 +1,14 @@
+{
+  "budget.setting": "Budget setting",
+  "budget.setting.budget.organization": "Budget organization",
+  "budget.setting.scenarios": "Scenarios",
+  "budget.setting.version": "Version",
+  "budget.setting.structure": "Structure",
+  "budget.setting.item.type": "Item type",
+  "budget.setting.item": "Item",
+  "budget.setting.item.group": "Item group",
+  "budget.setting.control.strategy": "Control strategy",
+  "budget.setting.control.rule": "Control rule",
+  "budget.setting.item.map": "Item map",
+  "budget.setting.journal.type": "Journal type"
+}

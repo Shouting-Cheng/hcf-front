@@ -1,0 +1,13 @@
+{
+  "operate.log.time":"时间",
+  "operate.log.operation.type":"操作类型",
+  "operate.log.operation.detail":"操作明细",
+  "operate.log.time.from":"时间从",
+  "operate.log.time.to":"时间到",
+  "operate.log.operation.object":"操作对象",
+  "operate.log.admin":"操作者",
+  "operate.log.time.tip0":"结束时间须大于起始时间",
+  "operate.log.time.tip1":"请选择开始时间",
+  "operate.log.time.tip2":"请选择结束时间"
+}
+

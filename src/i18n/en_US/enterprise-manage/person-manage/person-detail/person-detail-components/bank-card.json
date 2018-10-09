@@ -1,0 +1,24 @@
+{
+  "pdc.bank.card": "Bank card",
+  "pdc.bank.card.enable": "Enable",
+  "pdc.bank.card.disable": "Disable",
+  "pdc.bank.card.default": "Default",
+
+  "pdc.bank.card.bank": "Bank",
+  "pdc.bank.card.address": "Bank address",
+  "pdc.bank.card.edit": "Edit",
+  "pdc.bank.card.edit.bank.card": "Edit bank.card",
+
+  "pdc.bank.card.new": "New bank card",
+  "pdc.bank.card.bank.account.name": "Bank account name",
+
+  "pdc.bank.card.bank.num": "Bank number",
+  "pdc.bank.card.bank.name": "Bank name",
+  "pdc.bank.card.set.default": "Set default",
+  "pdc.bank.card.is.set.default": "Yes（Only one）",
+  "pdc.bank.card.reg1": "No more 30 characters",
+  "pdc.bank.card.reg2": "Only numbers and -",
+  "pdc.bank.card.reg3": "No more 100 character",
+  "pdc.bank.card.reg4": "Only letter, Chinese character,slash,point"
+}
+

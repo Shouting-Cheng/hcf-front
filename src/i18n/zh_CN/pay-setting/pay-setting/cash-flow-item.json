@@ -1,0 +1,8 @@
+{
+  "budget.set.of.books":"Budget Set Of Books",
+  "cash.flow.item.flowCode": "Cash flow item code",
+  "cash.flow.item.description": "Cash flow item name",
+  "cash.flow.item.editorItem": "Edit cash flow item",
+  "cash.flow.item.createItem": "Create cash flow item",
+  "cash.flow.item.validateExist": "Cash flow item already existed"
+}

@@ -1,0 +1,15 @@
+{
+  "itemMap.sourceType": "Source category",
+  "itemMap.detailType": "Detail Type",
+  "itemMap.expenseType": "Expense Type",
+  "itemMap.applyType": "Request Type",
+  "itemMap.expenseTypeName": "Expense Type Name",
+  "itemMap.icon": "Icon",
+  "itemMap.item": "Budget Item",
+  "itemMap.itemUpload": "Import budget item mapping rule",
+  "itemMap.itemUploadFile": "Upload file of budget item mapping rule",
+  "item.itemUpload": "Import budget item ",
+  "item.itemUploadFile": "Upload file of budget item",
+  "itemMap.item": "Budget items",
+  "item.errorMessage": "the filled out information is not complete,please check out"
+}

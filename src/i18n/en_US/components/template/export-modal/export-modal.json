@@ -1,0 +1,11 @@
+{
+  "export.modal": "Export Data",
+  "export.modal.start.title": "Data is loading...",
+  "export.modal.tip": "Do not close or leave the current page, otherwise the download will fail.",
+  "export.modal.cancel.download": "cancel",
+  "export.modal.load.success": "Loading successfully, please click to download",
+  "export.modal.reload": "Reload",
+  "export.modal.download": "Download",
+  "export.modal.close": "Close",
+  "export.modal.load.error": "Load error，Reload"
+}

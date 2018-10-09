@@ -1,0 +1,10 @@
+{
+  "data-center-filed-set":"Filed Setting",
+  "data-center-loading-filed":"Loading report column",
+  "data-center-loading-search":"Loading report search component",
+  "data-center-search-didi":"DIDI",
+  "data-center-search-shenzhou":"ShenZhou",
+  "data-center-search-select-time":"Please select time",
+  "data-center-search-title-limit1":"The start time should be less than the end time.",
+  "data-center-search-title-limit":"The query time span is not more than 3 months"
+}

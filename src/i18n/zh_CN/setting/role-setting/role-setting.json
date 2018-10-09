@@ -1,0 +1,27 @@
+{
+
+  "role.set.receipt":"收单",
+  "role.set.receipter":"收单人员",
+  "role.set.receipt.tips":"适用于收单人员管理",
+
+  "role.set.admin":"管理员",
+  "role.set.admin.tips":"适用于管理员",
+  "role.set.finance":"财务",
+  "role.set.financer":"财务人员",
+
+  "role.set.finance.tips":"适用于财务人员管理",
+  "role.set.booking":"订票",
+
+  "role.set.booker":"订票人员",
+  "role.set.booker.tips":"适用于订票人员管理",
+
+  "role.set.detail.finance": "权限详情：可为不同财务角色设置不同财务权限",
+  "role.set.detail.admin": "权限详情：企业系统设置超级权限",
+  "role.set.detail.booking": "权限详情：可以指定订票专员及订票管理员",
+  "role.set.detail.receipt": "权限详情：可以指定收单人员或者收单管理员",
+
+  "role.set.data":"数据",
+  "role.set.dataer":"数据专员",
+  "role.set.data.tips":"适用于数据人员管理",
+  "role.set.detail.data":"权限详情：可以指定收单人员或者收单管理员"
+}

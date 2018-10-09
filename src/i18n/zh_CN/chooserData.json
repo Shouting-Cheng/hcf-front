@@ -1,0 +1,149 @@
+{
+  "chooser.data.selectPerson": "选择人员",
+  "chooser.data.employeeID.fullName.mobile": "员工工号、姓名、手机号",
+  "chooser.data.employeeID.fullName": "员工工号、姓名",
+  "chooser.data.employeeID": "工号",
+  "chooser.data.fullName": "姓名",
+  "chooser.data.mobile": "手机号",
+  "chooser.data.dep": "部门名称",
+  "chooser.data.duty": "职务",
+  "chooser.data.email": "邮箱",
+  "chooser.data.userCode": "用户代码",
+  "chooser.data.personDuty": "选择人员职务",
+  "chooser.data.personLevel": "选择人员级别",
+  "chooser.data.personType": "选择人员类型",
+  "chooser.data.codeFrom": "编码从",
+  "chooser.data.codeTo": "编码至",
+  "chooser.data.code": "编码",
+  "chooser.data.name": "名称",
+  "chooser.data.description": "描述",
+  "chooser.data.type": "类型",
+  "chooser.data.setOfBooks": "账套",
+
+  "chooser.data.select.legal.entity": "选择法人实体",
+  "chooser.data.legal.entity.name": "法人实体名称",
+  "chooser.data.bank": "银行",
+  "chooser.data.select.bank": "选择银行",
+  "chooser.data.branchBankName": "支行名称",
+  "chooser.data.bankAddress": "开户地",
+  "chooser.data.countryCode": "国家编码",
+  "chooser.data.cityCode": "城市编码",
+  "chooser.data.swiftCode": "swift编码",
+  "chooser.data.bankName": "银行名称",
+  "chooser.data.bankCode": "银行代码",
+  "chooser.data.country": "国家",
+  "chooser.data.city": "城市",
+  "chooser.data.bank.address": "银行详细地址",
+
+  "chooser.data.costCenter.code": "成本中心代码",
+  "chooser.data.costCenter": "成本中心",
+  "chooser.data.costCenter.name": "成本中心名称",
+
+  "chooser.data.dep.code": "部门代码",
+  "chooser.data.dep.title": "选择部门",
+  "chooser.data.dep.num": "部门编码",
+
+  "chooser.data.tenant.company": "选择集团下的所有公司",
+  "chooser.data.company": "选择公司",
+  "chooser.data.companyName": "公司名称",
+  "chooser.data.baseCurrency": "币种",
+  "chooser.data.currencyName": "币种名",
+  "chooser.data.currency": "币种",
+  "chooser.data.exchangeRate": "汇率",
+  "chooser.data.expenseName": "费用名称",
+  "chooser.data.companyLevel": "公司级别",
+  "chooser.data.systemLevel": "系统级别",
+
+  "chooser.data.companyCode": "公司代码",
+  "chooser.data.companyCode.from": "公司代码从",
+  "chooser.data.companyCode.to": "公司代码至",
+  "chooser.data.companyType": "公司类型",
+  "chooser.data.distribute.company": "分配公司",
+  "chooser.data.expense": "选择费用",
+  "chooser.data.my.application": "我的申请单",
+  "chooser.data.my.relevantMemeber": "相关人员",
+  "chooser.data.my.application.name": "申请人姓名",
+  "chooser.data.my.application.employeeCode": "申请人工号",
+  "chooser.data.my.select.expense": "选择费用",
+  "chooser.data.my.relativeApplication": "请选择关联申请单",
+
+  "chooser.data.user_group": "选择人员组",
+
+  "chooser.data.budget_journal_structure": "选择预算日记账所需的预算表",
+
+  "chooser.data.budget_journal_company": "选择预算日记账所需的公司",
+
+  "chooser.data.budget_item": "选择预算项目",
+
+  "chooser.data.budget_item_type": "预算项目类型",
+
+  "chooser.data.budget_item_filter": "选择当前项目组中未被添加的项目",
+
+  "chooser.data.select_dimension": "选择维度",
+
+  "chooser.data.budget_item_group": "选择预算项目组",
+
+  "chooser.data.company_group": "选择公司组",
+
+  "chooser.data.department_group": "选择部门组",
+
+  "chooser.data.cash_flow_item": "选择现金流量项",
+
+  "chooser.data.assign-transaction": "分配现金事务",
+  "chooser.data.transaction.type": "现金事务类型",
+  "chooser.data.transaction.code": "现金事务分类代码",
+  "chooser.data.cash.flow.item.description": "现金流量项描述",
+
+  "chooser.data.budget_structure": "预算表",
+
+  "chooser.data.pre_payment_type": "预付款单类型选择",
+
+  "chooser.data.year": "年度",
+  "chooser.data.period": "期间",
+  "chooser.data.quarter": "季度",
+
+  "chooser.data.select_supplier_employee": "选择收款方",
+  "chooser.data.supplier.or.employee": "供应商或员工",
+
+  "chooser.data.section": "科目段",
+
+  "chooser.data.contract_type": "合同类型",
+  "chooser.data.contract.category": "合同大类",
+
+  "chooser.data.source_transactions_data": "来源事务-数据结构",
+
+  "chooser.data.accounting_scenarios": "添加核算场景",
+
+  "chooser.data.requisition_type": "关联表单类型",
+  "chooser.data.form.type": "表单类型",
+
+  "chooser.data.select_application": "选择申请单",
+  "chooser.data.submit.date": "提交时间",
+  "chooser.data.reason": "事由",
+  "chooser.data.business.code": "单号",
+  "chooser.data.total.amount": "总金额",
+
+  "chooser.data.sob_sourceTransaction": "账套级来源事务",
+  "chooser.data.sys_sourceTransaction": "系统级来源事务",
+  "chooser.data.sobLineModel": "未分配的系统级凭证模板",
+  "chooser.data.accounting_elements": "核算要素",
+  "chooser.data.accounting_journalField": "未选择过的核算分录段",
+  "chooser.data.accounting_scene_elements_user": "选择场景下的核算要素",
+  "chooser.data.accounting_scene_elements": "场景下的核算要素",
+  "chooser.data.accounting.elements.code": "核算要素代码",
+  "chooser.data.accounting.elements.name": "核算要素名称",
+  "chooser.data.accounting.elements.property.code": "核算要素性质代码",
+  "chooser.data.accounting.elements.property.name": "核算要素性质名称",
+  "chooser.data.data-source-fields": "根据来源事务代码获取来源事务数据结构下的明细字段",
+  "chooser.data.data-source-fields_dataRules": "源事务数据结构下的明细字段",
+
+  "chooser.data.bank_card": "选择银行卡",
+  "chooser.data.bank.card.num": "银行卡号",
+
+  "chooser.data.booker": "选择订票专员",
+  "chooser.data.company_bank_account": "公司银行账户",
+  "chooser.data.account.name": "账户名称",
+  "chooser.data.account.num": "账户账号"
+
+
+}

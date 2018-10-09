@@ -1,0 +1,70 @@
+.new-ven-master {
+  .add-budget-detail-icon {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+  .account-card {
+    line-height: 24px;
+    .name {
+      text-align: right;
+    }
+  }
+  .ven-master-modal {
+    .ant-modal-body {
+      height: 70vh;
+      overflow: auto;
+    }
+    .ant-table-wrapper {
+      margin-top: 20px;
+    }
+    .ant-modal-footer {
+      .ant-btn-primary {
+        //display: none;
+      }
+    }
+  }
+  .card-left{
+    width: 42%;
+    height: 40px;
+    padding: 10px;
+  }
+  .card-right{
+    width: 58%;
+    height: 40px;
+    padding: 10px;
+    .card-right-content{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  .payment-account-modal {
+    .ant-modal-body {
+      height: 70vh;
+      overflow: auto;
+    }
+    .account-name {
+      h3 {
+        display: inline-block;
+        font-size: 18px;
+      }
+    }
+    .account-list {
+      margin-top: 25px;
+      .row-warning {
+        background: #fff1f0;
+      }
+      .row-expand-display-none{
+        .ant-table-row-expand-icon {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.new-vendor-modal {
+  .ant-form {
+    margin-bottom: -40px;
+  }
+}

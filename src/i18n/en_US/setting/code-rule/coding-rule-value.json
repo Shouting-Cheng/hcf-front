@@ -1,0 +1,14 @@
+{
+  "code.rule.value.sequence.number":"Sequence number",
+  "code.rule.value.parameter.name":"Parameter name",
+  "code.rule.value.parameter.values":"Parameter values",
+  "code.rule.value.digit":"digit",
+  "code.rule.value.step.length":"step",
+  "code.rule.value.start.value":"Start value",
+  "code.rule.value.new.rules.and.details":"New rules and details",
+  "code.rule.value.segment.tips":"Segment number must maintain serial number, otherwise coding cannot be generated. The date format of the different rules is the same as possible.",
+  "code.rule.value.add.segment.value":"Add segment value",
+  "code.rule.value.fixed.character": "Fixed character",
+  "code.rule.value.required.and.only.in.english": "Required and only in english",
+  "code.rule.value.date.format": "Date format"
+}

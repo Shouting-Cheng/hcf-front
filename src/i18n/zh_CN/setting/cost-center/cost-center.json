@@ -1,0 +1,18 @@
+{
+  "cost.center.title": "成本中心名称",
+
+  "cost.center.code": "编码",
+  "cost.center.status": "状态",
+  "cost.center.dep": "部门",
+  "cost.center.disabled": "禁用中",
+
+  "cost.center.enabled": "启用中",
+  "cost.center.sdisabled": "设为禁用",
+  "cost.center.senabled": "设为启用",
+
+  "cost.center.goto": "（部门为企业默认成本中心，部门维护请前往",
+  "cost.center.enterprise.org": "企业管理-组织架构",
+  "cost.center.page": "）页面",
+
+  "cost.center.extend.field": "成本中心项扩展字段"
+}

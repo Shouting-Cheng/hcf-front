@@ -1,0 +1,16 @@
+{
+  "section.structure.header": "There is only one segment structure under each account.",
+  "section.setOfBook": "set of books",
+  "section.structure.code": "Subject segment structure code",
+  "section.structure.name": "Subject segment structure name",
+  "section.new": "New subject structure",
+  "section.notification.left": "Subject section structure enabled under set of books {setOfBook}",
+  "section.notification.right": "Click [continue], the subject segment structure of the original enabled state will be automatically disable{section}",
+  "section.continue": "continue",
+  "section.setting" : "Subject section setting",
+  "section.code": "Subject section code",
+  "section.name": "Subject section name",
+  "section.field.code": "Subject section field code",
+  "section.field.name": "Subject section field name",
+  "section.mapping.import": "Mapping set import"
+}

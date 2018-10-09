@@ -1,0 +1,12 @@
+{
+  "myReimburse.index":"序号",
+  "myReimburse.submitDate":"提交日期",
+  "myReimburse.applicationName":"申请人",
+  "myReimburse.documentName":"单据名称",
+  "myReimburse.remark":"备注",
+  "myReimburse.businessCode":"单号",
+  "myReimburse.currencyCode":"币种",
+  "myReimburse.totalAmount":"金额",
+  "myReimburse.functionalAmount":"本币金额",
+  "myReimburse.reportStatus":"状态"
+}

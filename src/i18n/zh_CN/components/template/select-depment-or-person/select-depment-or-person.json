@@ -1,0 +1,16 @@
+{
+  "sdp.please-chose-left":"请在左边选择",
+  "sdp.dep-code-name":"部门名称/部门编码/员工名称",
+  "sdp.dep-name":"部门编码/部门名称",
+  "sdp.person-name":"员工姓名",
+  "sdp.chose-dep-person":"选择部门或人",
+  "sdp.chose-dep":"请选择部门",
+  "sdp.chose-person":"请选择人",
+  "sdp.chosed-dep-person":"已经选择的人或部门",
+  "sdp.chosed-person":"已经选择的人",
+  "sdp.chosed-dep":"已经选择的部门",
+  "sdp.has.assigned":"已分配",
+  "sdp.has.added":"已添加",
+  "sdp.no.search.result":"没有搜索到部门"
+}
+

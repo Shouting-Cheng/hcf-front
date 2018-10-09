@@ -1,0 +1,16 @@
+{
+  "role.set.receipt.name":"姓名",
+  "role.set.receipt.id":"工号",
+  "role.set.receipt.dep":"部门",
+
+  "role.set.receipt.email":"邮箱",
+  "role.set.receipt.please.select":"请选择人员",
+
+  "role.set.admin.tenant": "集团管理员",
+  "role.set.admin.company": "公司管理员",
+
+  "role.set.booking.type": "订票类型",
+  "role.set.booking.air.ticket": "机票",
+  "role.set.booking.manager": "订票管理员",
+  "role.set.booking.commissioner": "订票专员"
+}

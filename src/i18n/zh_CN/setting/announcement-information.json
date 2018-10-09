@@ -1,0 +1,22 @@
+{
+  "announcement.info.new.date": "新建日期",
+  "announcement.info.title": "标题",
+  "announcement.info.please.choose.company": "请选择公司",
+  "announcement.info.company.distribute.success": "公司分配成功",
+  "announcement.info.distribute.company": "分配公司",
+  "announcement.info.company.code": "公司代码",
+  "announcement.info.company.name": "公司名称",
+  "announcement.info.please.choose.image": "请选择封面图片",
+  "announcement.info.upload.image.fail": "图片上传失败",
+  "announcement.info.upload.file": "上传文件",
+  "announcement.info.detail": "公告详情",
+  "announcement.info.s.temp": "选择模板",
+  "announcement.info.notemp": "没有设置模板",
+  "announcement.info.s.fromtemp": "从模板中选择",
+  "announcement.info.to.outer.link": "跳转外部链接",
+  "announcement.info.to.outer.link.notice": "勾选该选项，则直接按正文中第一个链接跳转到链接页面",
+  "announcement.info.outer.image": "封面图片",
+  "announcement.info.upload.image.notice": "推荐尺寸750*320;支持jpg, jpeg, bmp, gif, png类型文件, 5M以内",
+  "announcement.info.text": "正文",
+  "announcement.company.distribute": "公司分配"
+}

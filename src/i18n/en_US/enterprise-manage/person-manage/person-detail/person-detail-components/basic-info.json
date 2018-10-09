@@ -1,0 +1,32 @@
+{
+  "pdc.basic.info": "Basic info",
+  "pdc.basic.info.employeeId": "EmployeeId",
+  "pdc.basic.info.name": "Name",
+  "pdc.basic.info.company": "Company",
+  "pdc.basic.info.legal.entity": "Legal entity",
+  "pdc.basic.info.dep": "Dep.",
+
+  "pdc.basic.info.email": "Email",
+  "pdc.basic.info.male": "Male",
+  "pdc.basic.info.female": "Female",
+  "pdc.basic.info.unknem": "Unknown",
+
+  "pdc.basic.info.mobile": "Mobile",
+  "pdc.basic.info.sex": "Sex",
+
+  "pdc.basic.info.title": "Title",
+  "pdc.basic.info.duty": "Duty",
+  "pdc.basic.info.person.type": "Person type",
+  "pdc.basic.info.level": "Level",
+
+  "pdc.basic.info.direct.manager": "Direct manager",
+  "pdc.basic.info.enter.time": "Enter time",
+  "pdc.basic.info.bird": "Birthday",
+  "pdc.basic.info.max.inp.20": "No more 20 characters",
+  "pdc.basic.info.max.inp.30": "No more 30 characters",
+  "pdc.basic.info.max.inp.40": "No more 40 characters",
+  "pdc.basic.info.email.error": "Email type error",
+
+  "pdc.basic.info.must.be.number": "Must be number"
+}
+

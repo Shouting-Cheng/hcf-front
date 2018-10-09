@@ -1,0 +1,16 @@
+{
+  "dashboard.admin": "控制面板",
+  "dashboard.admin.createdDate": "创建时间",
+
+  "dashboard.admin.validUser": "在职员工数量（人）",
+  "dashboard.admin.validDepartment": "启用部门数量（个）",
+  "dashboard.admin.validCorporation": "启用法人实体（人）",
+  "dashboard.admin.validCompany": "启用公司数量（个）",
+
+  "dashboard.admin.edit": "编辑企业信息",
+  "dashboard.admin.name": "企业名",
+  "dashboard.admin.logo": "企业LOGO",
+  "dashboard.admin.tips1": "建议上传图片尺寸为390*390，大小不超过2M",
+  "dashboard.admin.useLogo": "在APP启动页及PC端显示该logo",
+  "dashboard.admin.enableNewControl": "启用新版中控"
+}

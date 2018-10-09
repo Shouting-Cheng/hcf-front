@@ -1,0 +1,61 @@
+.workflow {
+  .setOfBooks-container {
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 20px;
+    .setOfBooks-select {
+      width: 300px;
+      margin-bottom: 20px;
+      .title {
+        line-height: 32px;
+      }
+    }
+  }
+  .card-list {
+    margin-bottom: 16px;
+    .node-container {
+      float: left;
+      .node-image {
+        width: 65px;
+        height: 65px;
+      }
+      .right-arrow {
+        margin: 0 20px;
+      }
+      .node-remark {
+        width: 65px;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      .approval-block {
+        background-color: #2DD1CE;
+        color: #fff;
+        height: 65px;
+        width: 65px;
+        line-height: 65px;
+        border-radius: 3px;
+        text-align: center;
+        font-size: 16px;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+    }
+    .card-title-extra {
+      display: inline-block;
+      margin-left: 20px;
+      font-weight: normal;
+    }
+  }
+  .no-form-container {
+    img {
+      display: block;
+      margin: 60px auto 20px;
+    }
+    p {
+      text-align: center;
+    }
+  }
+  .ant-radio-group {
+    margin-bottom: 10px;
+  }
+}

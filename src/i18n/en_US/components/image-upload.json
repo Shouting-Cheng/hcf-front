@@ -1,0 +1,7 @@
+{
+  "components.image.upload.err1": "Upload failure, picture format error",
+  "components.image.upload.err2": "Upload failed, the picture should not be more than {total} M",
+  "components.file.upload.err1":"{name} is more than {total}M",
+  "components.file.upload.operate":"Operation reminding",
+  "components.file.upload.ensureDelete":"Are you sure to delete the attachment?"
+}

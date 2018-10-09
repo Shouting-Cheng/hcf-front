@@ -1,0 +1,9 @@
+{
+  "new.mileage.cost.date":"日期",
+  "new.mileage.cost.type":"类型",
+  "new.mileage.cost.plsChooseMonth":"请选择月份",
+  "new.mileage.cost.plsChooseCurrency":"请选择币种",
+  "new.mileage.cost.plsEnterCorrectMoney":"请输入合法的金额(小数点最多两位)",
+  "new.mileage.cost.mileageDetail":"里程明细",
+  "new.mileage.cost.plsEnterTip":"请输入，最多输入200个汉字"
+}

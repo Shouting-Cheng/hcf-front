@@ -1,0 +1,15 @@
+{
+  "extend.field": "扩展字段",
+  "extend.field.tips": "提示",
+  "extend.field.maxAdd": "最多只能添加",
+  "extend.field.fields": "个字段",
+  "extend.field.name.no.empty": "字段名称不能为空",
+  "extend.field.list.no.empty": "选择列表不能为空",
+  "extend.field.click.add.field.type": "点击添加字段类型",
+  "extend.field.save": "保存",
+  "extend.field.cancel": "取消"
+}
+
+
+
+

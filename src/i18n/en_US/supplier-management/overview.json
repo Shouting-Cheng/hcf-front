@@ -1,0 +1,15 @@
+{
+  "supplier.overview.service.enabled": "Service Enabled",
+  "supplier.overview.account.creation.failed": "Account creation failed",
+  "supplier.overview.account": "Account {account}",
+  "supplier.overview.enabled": "Enabled",
+  "supplier.overview.disabled": "Disabled",
+  "supplier.overview.sort": "Sort",
+  "supplier.overview.enter": "Enter",
+  "supplier.overview.open.now": "Open up immediately",
+  "supplier.overview.no.vendor.title": "There is no enabled vendor service",
+  "supplier.overview.no.vendor.tip": "You can choose the supplier service below and follow the instructions.",
+  "supplier.overview.no.notOpen.vendor.title": "There is no unenabled vendor service",
+  "supplier.overview.sort.modal.title": "Please select the available vendor sorting",
+  "supplier.overview.hot.suppliers": "Hot suppliers"
+}

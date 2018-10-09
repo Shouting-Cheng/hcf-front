@@ -1,0 +1,65 @@
+{
+  "person.manage.title": "Employee manage",
+  "person.manage.person.detail": "Employee detail",
+
+  "person.manage.all.data": "All",
+  "person.manage.person.info.data": "Personnel information data",
+  "person.manage.bank.info.data": "Bank information data",
+  "person.manage.card.info.data": "Document information data",
+  "person.manage.ctrip.info.data": "Ctrip information data",
+
+  "person.manage.down.all.temp": "Download all the templates",
+  "person.manage.person.info.temp": "Personnel information import template",
+  "person.manage.bank.info.temp": "Bank information import template",
+  "person.manage.card.info.temp": "Document information import template",
+  "person.manage.ctrip.info.temp": "Ctrip information import template",
+
+  "person.manage.select": "Select",
+  "person.manage.name.employeeId.email.mobile": "Name、employeeId、email、mobile",
+  "person.manage.company": "Company",
+  "person.manage.status": "Status",
+
+  "person.manage.working.person": "In-service employees",
+  "person.manage.will.go.person": "Employee to be left",
+  "person.manage.gone.person": "Employee turnover",
+  "person.manage.all.person": "All",
+
+  "person.manage.employeeId": "EmployeeId",
+  "person.manage.name": "Name",
+  "person.manage.dep": "Dep.",
+  "person.manage.contact": "contact",
+  "person.manage.email": "Email",
+  "person.manage.operation": "Operation",
+
+  "person.manage.im.err": "Personnel import error information",
+
+  "person.manage.person.info.temp1": "Personnel information template",
+  "person.manage.bank.info.temp1": "Bank information template",
+  "person.manage.card.info.temp1": "Document information template",
+  "person.manage.vendor.info.temp1": "Vendor template",
+  "person.manage.person.info": "employee info",
+  "person.manage.card.info1": "Id card info",
+
+  "person.manage.bank.card.info": "Bank card info",
+  "person.manage.ctrip.info": "Ctrip info",
+  "person.manage.new.person": "New",
+
+  "person.manage.im.person.data": "Import personnel data",
+  "person.manage.ex.person.data": "Export personnel data",
+  "person.manage.has": "Under the current search conditions，with",
+  "person.manage.person.no.actived": "People have not been activated",
+  "person.manage.invite.use": "Invite use",
+
+  "person.manage.im": "Import",
+
+  "person.manage.im.tips1": "The main information template must be imported, including personal basic information, default bank information, supplier information supplementary information template (before importing to main data) and certificate information.",
+  "person.manage.im.tips2": "Bank basic data (when entering bank information, please enter according to the bank data, this document does not need to be uploaded)",
+  "person.manage.im.tips3": "Upload template, if there are multiple sets of templates, please upload the personnel information into the template first",
+  "person.manage.select.file": "select file",
+  "person.manage.uploading": "uploading",
+
+  "person.manage.import.error": "人员导入错误信息",
+  "person.manage.start.upload": "start upload"
+
+}
+

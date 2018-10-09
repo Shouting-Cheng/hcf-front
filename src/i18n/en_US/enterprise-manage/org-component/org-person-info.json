@@ -1,0 +1,23 @@
+{
+  "org.person.unkown": "Unknown",
+  "org.person.man": "man",
+  "org.person.woman": "woman",
+  "org.person.detail": "Detail",
+  "org.person.company": "Company",
+  "org.person.actived": "Active",
+  "org.person.no-active": "Inactive",
+  "org.person.directManager": "Line manager",
+  "org.person.dep": "Department",
+  "org.person.email": "email",
+  "org.person.phone": "Phone",
+  "org.person.duty": "Job",
+  "org.person.title": "Position",
+  "org.person.rank": "Rank",
+  "org.person.entrytime": "Enrollment Date",
+  "org.person.status": "Status",
+  "org.person.birthday": "Birthday",
+  "org.person.sex": "Gender",
+  "org.status.1001":"Working",
+  "org.status.1002":"To leave",
+  "org.status.1003":"Dismission"
+}

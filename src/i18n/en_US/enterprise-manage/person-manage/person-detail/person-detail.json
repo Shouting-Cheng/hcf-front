@@ -1,0 +1,17 @@
+{
+  "pm.detail.title": "Person detail",
+  "pm.detail.alt.leave.time": "Change the time of departure",
+  "pm.detail.alt.leave": "Revocation of turnover",
+  "pm.detail.rehire": "Re entry",
+  "pm.detail.left.person": "Leave the employee",
+  "pm.detail.vendor.info": "Vendor info",
+  "pm.detail.id.info": "Id card info",
+  "pm.detail.bank.info": "Bank card info",
+  "pm.detail.tips": "The extension field can be edited in the enterprise management - extension field",
+  "pm.detail.person.info.field": "Personal information extension field",
+  "pm.detail.person.select.time": "Please choose the time of departure",
+  "pm.detail.person.operation.ok": "Successful operation",
+  "pm.detail.person.set.left.time": "Setting up the departure time",
+  "pm.detail.basic.info": "Person basic info"
+}
+

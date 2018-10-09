@@ -1,0 +1,14 @@
+{
+  "approve-bar.quick.reply": "Quick reply",
+  "approve-bar.new.quick.reply": "New quick reply",
+  "approve-bar.additional.sign": "Additional sign",
+  "approve-bar.additional.sign.content": "Additional signing when passed, adding {number} person",
+  "approve-bar.approve.suggest": "Approve suggest",
+  "approve-bar.audit.suggest": "Audit suggest",
+  "approve-bar.price.audit": "Price audit",
+  "approve-bar.please.enter.approve": "Please enter approve suggest",
+  "approve-bar.please.enter.audit": "Please enter audit suggest",
+  "approve-bar.please.enter.reject": "Please enter reject suggest",
+  "approve-bar.please.enter.notice": "Please enter notice content",
+  "approve-bar.reply.info":"Quick reply that defined in set of books cannot be deleted!"
+}

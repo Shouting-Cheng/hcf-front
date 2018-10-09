@@ -1,0 +1,16 @@
+{
+  "confirm.payment.nameNo": "Name/Emp.No",
+  "confirm.payment.dueConfirm": "Await for confirmation",
+  "confirm.payment.duePay": "Await for payment",
+  "confirm.payment.confirmSuccess": "Confirm payment successful",
+  "confirm.payment.paySuccess": "{total} Pen receipts  payment batch is generated",
+  "confirm.payment.confirmPaySuccess": "{total} Pen confirm payment successful",
+  "confirm.payment.payFailure": "Confirm payment failed",
+  "confirm.payment.chooseNo": "Selected: {total} ",
+  "confirm.payment.choosePage": "Select current page",
+  "confirm.payment.chooseAll": "Select all page",
+  "confirm.payment.confirmPaid": "Confirm payment",
+  "confirm.payment.confirmPay": "Confirm paid",
+  "confirm.payment.importOffer": "Import Bank Payment File",
+  "confirm.payment.exportOffer": "File Upload"
+}

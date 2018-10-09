@@ -1,0 +1,12 @@
+{
+  "myReimburse.index":"Index",
+  "myReimburse.submitDate":"Submit Date",
+  "myReimburse.applicationName":"Applicant",
+  "myReimburse.documentName":"Document Name",
+  "myReimburse.remark":"Remark",
+  "myReimburse.businessCode":"Application Number",
+  "myReimburse.currencyCode":"Currency Code",
+  "myReimburse.totalAmount":"Total Amount",
+  "myReimburse.functionalAmount":"Functional Amount",
+  "myReimburse.reportStatus":"Status"
+}

@@ -1,0 +1,15 @@
+{
+  "pdc.vendor.info": "供应商信息",
+  "pdc.vendor.info.status": "启用状态",
+  "pdc.vendor.info.enable": "启用中",
+  "pdc.vendor.info.disable": "已禁用",
+  "pdc.vendor.info.ctrip.account": "携程子账户",
+  "pdc.vendor.info.ctrip.password": "授权密码",
+  "pdc.vendor.info.s.person": "授权人",
+  "pdc.vendor.info.s2.person": "二次授权人",
+  "pdc.vendor.info.cs.person": "抄送授权人",
+  "pdc.vendor.info.cs2.person": "抄送二次授权人",
+  "pdc.vendor.info.must.be.number": "必须是数字"
+}
+
+

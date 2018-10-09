@@ -1,0 +1,13 @@
+{
+  "role.set.data.name":"Name",
+  "role.set.data.id":"EmployeeID",
+  "role.set.data.dep":"Department",
+
+  "role.set.data.email":"Email",
+  "role.set.data.please.select":"Please select user",
+
+  "role.set.data.tenant": "Tenant Administrator",
+  "role.set.data.company": "Company Administrator"
+}
+
+

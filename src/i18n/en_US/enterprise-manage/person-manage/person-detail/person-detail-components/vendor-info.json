@@ -1,0 +1,15 @@
+{
+  "pdc.vendor.info": "Vendor info",
+  "pdc.vendor.info.status": "Status",
+  "pdc.vendor.info.enable": "Enable",
+  "pdc.vendor.info.disable": "Disable",
+  "pdc.vendor.info.ctrip.account": "Ctrip child account",
+  "pdc.vendor.info.ctrip.password": "Auth password",
+  "pdc.vendor.info.s.person": "Authorizing person",
+  "pdc.vendor.info.s2.person": "Two authorized person",
+  "pdc.vendor.info.cs.person": "Empowerment",
+  "pdc.vendor.info.cs2.person": "Two copy of the empowerment",
+  "pdc.vendor.info.must.be.number": "Must be number"
+}
+
+

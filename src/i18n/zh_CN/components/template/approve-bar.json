@@ -1,0 +1,14 @@
+{
+  "approve-bar.quick.reply": "快捷回复",
+  "approve-bar.new.quick.reply": "新增快捷回复",
+  "approve-bar.additional.sign": "加签",
+  "approve-bar.additional.sign.content": "单据通过后加签生效，加签 {number} 人",
+  "approve-bar.approve.suggest": "审批意见",
+  "approve-bar.audit.suggest": "审核意见",
+  "approve-bar.price.audit": "价格审核",
+  "approve-bar.please.enter.approve": "请输入审批意见",
+  "approve-bar.please.enter.audit": "请输入审核意见",
+  "approve-bar.please.enter.reject": "请输入驳回意见",
+  "approve-bar.please.enter.notice": "请输入通知内容",
+  "approve-bar.reply.info":"账套下定义的快捷回复不可删除"
+}
