@@ -3,9 +3,6 @@ import app from '../index';
 import httpFetch from "utils/httpFetch"
 import config from "config"
 
-this.$t({ id: "hello" });
-this.$t("hello");
-
 
 React.Component.prototype.$t = (id, values = {}) => {
 
