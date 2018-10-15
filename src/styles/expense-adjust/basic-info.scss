@@ -1,21 +1,23 @@
-.basic-info-adjust{
-  .basic-info-adjust-left{
-    display: inline-block;
-    padding-left: 10px;
-    width: 70vw;
-    .basic-info-adjust-title{
-      color: black;
-      font-size: 25px;
-      font-weight: 500;
+:global {
+  .basic-info-adjust {
+    .basic-info-adjust-left {
+      display: inline-block;
+      padding-left: 10px;
+      width: 70vw;
+      .basic-info-adjust-title {
+        color: black;
+        font-size: 25px;
+        font-weight: 500;
+      }
+      .basic-info-adjust-item {
+        height: 38px;
+        font-size: 10px;
+        line-height: 38px;
+      }
     }
-    .basic-info-adjust-item{
-      height: 38px;
-      font-size: 10px;
-      line-height: 38px;
+    .basic-info-adjust-right {
+      display: inline-block;
     }
-  }
-  .basic-info-adjust-right{
-    display: inline-block;
   }
 }
 
