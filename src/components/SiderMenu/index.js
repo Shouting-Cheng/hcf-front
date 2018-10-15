@@ -4,7 +4,8 @@ import DrawerMenu from 'rc-drawer';
 import SiderMenu from './SiderMenu';
 
 const SiderMenuWrapper = props => {
-  const { isMobile, collapsed } = props;
+  const { isMobile, collapsed, activeKey } = props;
+
   return isMobile ? (
     <DrawerMenu
       getContainer={null}
@@ -17,6 +18,7 @@ const SiderMenuWrapper = props => {
       onMaskClick={() => {
         props.onCollapse(true);
       }}
+      activeKey={activeKey}
     >
       <SiderMenu {...props} collapsed={isMobile ? false : collapsed} />
     </DrawerMenu>

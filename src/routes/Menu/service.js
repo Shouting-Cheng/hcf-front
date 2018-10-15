@@ -14,7 +14,7 @@ export default {
     return httpFetch.put(`/auth/api/menu/update`, params);
   },
   getLanguageKeys(local) {
-    return httpFetch.get('/auth/api/frontKey/query/keyword?lang=' + local);
+    return httpFetch.get('/auth/api/frontKey/query/keyword?lang=' + local, {page: 0, size: 99999});
   },
   addLanguage(parmas) {
     return httpFetch.post('/service/modules/addLang', parmas);

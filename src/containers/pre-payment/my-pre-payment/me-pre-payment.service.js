@@ -86,7 +86,7 @@ export default {
      * @param {*} params
      */
     backFromWorkflow(params) {
-        let url = `http://116.228.77.183:25297/api/approvals/withdraw`;
+        let url = `${config.baseUrl}/api/approvals/withdraw`;
         return httpFetch.post(url, params);
     },
     /**

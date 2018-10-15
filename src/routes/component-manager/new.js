@@ -7,6 +7,7 @@ import { connect } from 'dva';
 @connect(({ components }) => ({
   components,
 }))
+
 class NewComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -154,7 +155,7 @@ class NewComponent extends React.Component {
               </Select>
             )}
           </Form.Item>
-          {this.props.form.getFieldValue('componentType') == 2 && (
+          {/* {this.props.form.getFieldValue('componentType') == 2 && (
             <Form.Item {...formItemLayout} label="菜单">
               {getFieldDecorator('menuId', {
                 initialValue: (version.status == 'edit' && version.menuId) || 2,
@@ -171,7 +172,7 @@ class NewComponent extends React.Component {
                 />
               )}
             </Form.Item>
-          )}
+          )} */}
           <Form.Item {...formItemLayout} label="备注">
             {getFieldDecorator('remark')(<Input.TextArea rows={4} />)}
           </Form.Item>

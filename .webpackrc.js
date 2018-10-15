@@ -52,21 +52,24 @@ export default {
       pathRewrite: { '^/service': '' },
     },
     '/oauth': {
-      target: 'http://116.228.77.183:25297',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
     '/api': {
-      target: 'http://116.228.77.183:25297',
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true
     },
     '/auth': {
-      target: 'http://116.228.77.183:25297',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
     '/artemis-sit': {
-      target: 'http://116.228.77.183:25297',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/prepayment': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    }
   },
 };

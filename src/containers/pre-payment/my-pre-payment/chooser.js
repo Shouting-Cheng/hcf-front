@@ -140,7 +140,7 @@ class Chooser extends React.Component {
           value={value}
           mode="multiple"
           labelInValue
-          placeholder={placeholder}
+          placeholder={this.$t(placeholder)}
           onFocus={this.handleFocus}
           dropdownStyle={{ display: 'none' }}
           disabled={disabled}

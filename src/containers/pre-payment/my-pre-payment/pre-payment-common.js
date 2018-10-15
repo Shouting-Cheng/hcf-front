@@ -13,6 +13,7 @@ import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-p
 // import 'styles/reimburse/reimburse-common.scss'
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
 import { connect } from 'dva'
+import { routerRedux } from "dva/router"
 import ApproveHistory from "containers/pre-payment/my-pre-payment/approve-history-work-flow"
 import prePaymentService from "containers/pre-payment/my-pre-payment/me-pre-payment.service"
 import DocumentBasicInfo from 'widget/document-basic-info'
@@ -123,7 +124,8 @@ class PrePaymentCommon extends React.Component {
       // ContractDetail: menuRoute.getRouteItem('contract-detail', 'key'), //合同详情
       // myPrePayment: menuRoute.getRouteItem('me-pre-payment', 'key'),
       //传给单据信息组件的单据头数据参数
-      headerInfo: {}
+      headerInfo: {},
+      backLoadding: false
     };
   }
   /**
@@ -145,7 +147,7 @@ class PrePaymentCommon extends React.Component {
         )
       })
     }
-    if(nextProps.params.id) {
+    if (nextProps.params.id) {
       this.setState({
         headerData: nextProps.params
       }, () => {
@@ -311,15 +313,24 @@ class PrePaymentCommon extends React.Component {
   };
   //编辑
   edit = () => {
-    this.context.router.push(this.state.EditPayRequisition.url.replace(':id', this.props.id).replace(':prePaymentTypeId', 0).replace(":formOid", 0));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/pre-payment/my-pre-payment/new-pre-payment/${this.props.id}/${0}/${0}`,
+      })
+    );
   };
   //取消
   onCancel = () => {
-    this.context.router.push(this.state.myPrePayment.url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/pre-payment/my-pre-payment`,
+      })
+    );
   };
   //撤销
   back = () => {
     const { applicationOid, empOid, formOid, documentOid, id } = this.state.headerData;
+    this.setState({ backLoadding: true });
     let model =
       {
         entities: [
@@ -333,18 +344,22 @@ class PrePaymentCommon extends React.Component {
         if (res.status === 200) {
           message.success("撤回成功！");
           this.onCancel();
+          this.setState({ backLoadding: false });
         }
       }).catch(e => {
-        message.error(`撤回失败，${e.response.data.message}`)
+        message.error(`撤回失败，${e.response.data.message}`);
+        this.setState({ backLoadding: false });
       });
     } else {
       prePaymentService.backFromWorkflow(model).then(res => {
         if (res.status === 200) {
           message.success("撤回成功！");
           this.onCancel();
+          this.setState({ backLoadding: false });
         }
       }).catch(e => {
         message.error(`撤回失败，${e.response.data.message}`);
+        this.setState({ backLoadding: false });
       });
     }
   }
@@ -532,7 +547,7 @@ class PrePaymentCommon extends React.Component {
     //单据信息
     const { headerInfo } = this.state;
     //审批历史
-    const { historyLoading, approveHistory } = this.state;
+    const { historyLoading, approveHistory, backLoadding } = this.state;
 
     /**根据单据状态确定该显示什么按钮 */
     let status = null;
@@ -547,7 +562,7 @@ class PrePaymentCommon extends React.Component {
       status =
         (
           <h3 className="header-title">
-            <Button type="primary" onClick={this.back}>撤 回</Button>
+            <Button loading={backLoadding} type="primary" onClick={this.back}>撤 回</Button>
           </h3>
         );
     } else {
@@ -557,7 +572,7 @@ class PrePaymentCommon extends React.Component {
     subContent = (
       <div>
         <Spin spinning={false}>
-          <Card>
+          <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
               <TabPane tab="单据信息" key="1">
                 <DocumentBasicInfo params={headerInfo}>
@@ -568,7 +583,7 @@ class PrePaymentCommon extends React.Component {
               </TabPane> */}
             </Tabs>
           </Card>
-          <Card style={{ marginTop: 20 }} title="付款信息">
+          <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="付款信息">
             <div className="table-header">
               <div className="table-header-buttons" style={{ float: "left" }} >
                 {
@@ -600,7 +615,7 @@ class PrePaymentCommon extends React.Component {
               expandedRowRender={this.expandedRow}
             />
           </Card>
-          <div style={{ marginTop: 20, marginBottom: 0 }}>
+          <div style={{ marginTop: 20, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <ApproveHistory loading={historyLoading} infoData={approveHistory}></ApproveHistory>
           </div>
         </Spin>

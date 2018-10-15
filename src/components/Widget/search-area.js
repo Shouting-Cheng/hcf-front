@@ -1,4 +1,4 @@
-import {messages} from "utils/utils";
+import { messages } from "utils/utils";
 /**
  * Created by zaranengap on 2017/7/5.
  */
@@ -19,7 +19,8 @@ import {
   Select,
   Switch,
   Cascader,
-  message
+  message,
+  Spin
 } from 'antd';
 
 const FormItem = Form.Item;
@@ -27,7 +28,7 @@ const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
-const {MonthPicker, RangePicker} = DatePicker;
+const { MonthPicker, RangePicker } = DatePicker;
 // import {ImageUpload} from 'components/index';
 import Chooser from 'widget/chooser'
 // import Selput from 'components/selput'
@@ -58,18 +59,18 @@ let searchAreaThis;
 class SearchArea extends React.Component {
   constructor(props) {
     super(props);
-    searchAreaThis=this;
+    searchAreaThis = this;
     this.state = {
       expand: this.props.searchForm.expand,
       searchForm: [],
-      checkboxListForm: [],
+      checkboxListForm: []
     };
     this.setOptionsToFormItem = debounce(this.setOptionsToFormItem, 250);
   }
 
   componentWillMount() {
     this.props.searchForm.map(item => {
-      if(item.type === 'select' && item.defaultValue && item.defaultValue.key){
+      if (item.type === 'select' && item.defaultValue && item.defaultValue.key) {
         item.options = [{
           label: item.defaultValue.label,
           value: item.defaultValue.key,
@@ -92,10 +93,10 @@ class SearchArea extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     let { searchForm } = this.state;
     nextProps.searchForm.map(item => {
-      if(item.type === 'select'){
+      if (item.type === 'select') {
         searchForm.map(form => {
-          if(form.id === item.id){
-            if(form.options.length === 0 && item.defaultValue && item.defaultValue.key){
+          if (form.id === item.id) {
+            if (form.options.length === 0 && item.defaultValue && item.defaultValue.key) {
               item.options = [{
                 label: item.defaultValue.label,
                 value: item.defaultValue.key,
@@ -123,8 +124,8 @@ class SearchArea extends React.Component {
 
   //收起下拉
   toggle = () => {
-    const {expand} = this.state;
-    this.setState({expand: !expand});
+    const { expand } = this.state;
+    this.setState({ expand: !expand });
   };
 
   //checkbox收起下拉
@@ -135,7 +136,7 @@ class SearchArea extends React.Component {
         listItem.key === item.key && (listItem.expand = !listItem.expand);
       });
     });
-    this.setState({checkboxListForm});
+    this.setState({ checkboxListForm });
   };
 
   //checkbox改变
@@ -153,7 +154,7 @@ class SearchArea extends React.Component {
       }
     });
     this.props.checkboxChange(id, checkedList);
-    this.setState({checkboxListForm})
+    this.setState({ checkboxListForm })
   };
 
   /**
@@ -176,7 +177,7 @@ class SearchArea extends React.Component {
           if (values[item.id] && item.entity) {
             if (item.type === 'combobox' || item.type === 'select' || item.type === 'value_list') {
               //解决预算日志记账类型bug添加
-              values[item.id] = item.bgt ? values[item.id].key  :JSON.parse(values[item.id].title);
+              values[item.id] = item.bgt ? values[item.id].key : JSON.parse(values[item.id].title);
             } else if (item.type === 'multiple') {
               let result = [];
               values[item.id].map(value => {
@@ -212,7 +213,7 @@ class SearchArea extends React.Component {
               item.options.map(option => {
                 if ((option.value + '') == values[item.id] || option.value == values[item.id]) {
                   values[`${item.id}Lable`] = option.value;
-                  values[`${item.id}Option`] = [{label: option.label, value: option.value}];
+                  values[`${item.id}Option`] = [{ label: option.label, value: option.value }];
                 }
               })
             } else if (item.type === 'multiple') {
@@ -222,7 +223,7 @@ class SearchArea extends React.Component {
                 values[item.id].map(id => {
                   if (option.value === id) {
                     result.push(option.value);
-                    options.push({label: option.label, value: option.value});
+                    options.push({ label: option.label, value: option.value });
                   }
                 })
               })
@@ -391,6 +392,20 @@ class SearchArea extends React.Component {
   getOptions = (item) => {
     if (item.options.length === 0 || (item.options.length === 1 && item.options[0].temp)) {
       let url = item.getUrl;
+      let tempForm = this.state.searchForm;
+      tempForm = tempForm.map(searchItem => {
+        if (searchItem.id === item.id){
+          searchItem.fetching = true;
+        }
+        if (searchItem.type === 'items')
+          searchItem.items.map(subItem => {
+            if (subItem.id === item.id){
+              subItem.fetching = true;
+            }
+          });
+        return searchItem;
+      });
+      this.setState({searchForm: tempForm});
       httpFetch[item.method](url, item.getParams).then((res) => {
         let options = [];
         let data = res.data;
@@ -407,12 +422,16 @@ class SearchArea extends React.Component {
         });
         let searchForm = this.state.searchForm;
         searchForm = searchForm.map(searchItem => {
-          if (searchItem.id === item.id)
+          if (searchItem.id === item.id){
             searchItem.options = options;
+            searchItem.fetching = false;
+          }
           if (searchItem.type === 'items')
             searchItem.items.map(subItem => {
-              if (subItem.id === item.id)
+              if (subItem.id === item.id){
+                subItem.fetching = false;
                 subItem.options = options;
+              }
             });
           return searchItem;
         });
@@ -421,13 +440,15 @@ class SearchArea extends React.Component {
     }
   };
 
+
+
   //得到值列表的值增加options
   getValueListOptions = (item) => {
     if (item.options.length === 0 || (item.options.length === 1 && item.options[0].temp)) {
       this.getSystemValueList(item.valueListCode).then(res => {
         let options = [];
         res.data.values.map(data => {
-          options.push({label: data.messageKey, value: data.code, data: data})
+          options.push({ label: data.messageKey, value: data.code, data: data })
         });
         let searchForm = this.state.searchForm;
         searchForm = searchForm.map(searchItem => {
@@ -440,7 +461,7 @@ class SearchArea extends React.Component {
             });
           return searchItem;
         });
-        this.setState({searchForm});
+        this.setState({ searchForm });
       })
     }
   };
@@ -478,7 +499,7 @@ class SearchArea extends React.Component {
             searchItem.options = options;
           return searchItem;
         });
-        this.setState({searchForm});
+        this.setState({ searchForm });
       })
     }
   };
@@ -496,13 +517,13 @@ class SearchArea extends React.Component {
     if (index === undefined)
       searchForm = searchForm.map(searchItem => {
         if (searchItem.id === item.id) {
-          valueWillSet[searchItem.id] = item.entity ? {key: value.value, label: value.label} : (value.value + '');
+          valueWillSet[searchItem.id] = item.entity ? { key: value.value, label: value.label } : (value.value + '');
           if (searchItem.options.length === 0 || (searchItem.options.length === 1 && searchItem.options[0].temp)) {
             let dataOption = {};
             searchItem.options = [];
             dataOption[item.type === 'value_list' ? 'code' : this.getLastKey(item.valueKey)] = value.value;
             dataOption[item.type === 'value_list' ? 'messageKey' : this.getLastKey(item.labelKey)] = value.label;
-            searchItem.options.push({label: value.label, value: value.value, data: dataOption, temp: true})
+            searchItem.options.push({ label: value.label, value: value.value, data: dataOption, temp: true })
           }
         }
         return searchItem;
@@ -529,7 +550,7 @@ class SearchArea extends React.Component {
         }
         return searchItem;
       });
-    this.setState({searchForm}, () => {
+    this.setState({ searchForm }, () => {
       this.props.form.setFieldsValue(valueWillSet);
     });
   };
@@ -629,39 +650,40 @@ class SearchArea extends React.Component {
       case 'img': {
         return <div>
           <ImageUpload attachmentType="INVOICE_IMAGES"
-                       defaultFileList={[]}
-                       onChange={(file) => {
-                         this.handleUploadImageChange(file, item.id)
-                       }}
-                       maxNum={1}/>
+            defaultFileList={[]}
+            onChange={(file) => {
+              this.handleUploadImageChange(file, item.id)
+            }}
+            maxNum={1} />
         </div>
       }
       //输入组件
       case 'input': {
         return <Input placeholder={item.placeholder || messages('common.please.enter')}
-                      onChange={handle} disabled={item.disabled}/>
+          onChange={handle} disabled={item.disabled} />
       }
       //输入金额组件组件
       case 'inputNumber': {
-        return <InputNumber style={{width: '100%'}} precision={2} min={0} step={0.01}
-                            placeholder={item.placeholder || messages('common.please.enter')}
-                            onChange={handle} disabled={item.disabled}/>
+        return <InputNumber style={{ width: '100%' }} precision={2} min={0} step={0.01}
+          placeholder={item.placeholder || messages('common.please.enter')}
+          onChange={handle} disabled={item.disabled} />
       }
       //选择组件
       case 'select': {
         return (
           <Select placeholder={item.placeholder || messages('common.please.select')}
-                  onChange={handle}
-                  allowClear
-                  disabled={item.disabled}
-                  labelInValue={!!item.entity}
-                  onFocus={item.getUrl ? () => this.getOptions(item) : () => {
-                  }}
-                  getPopupContainer={() => document.getElementById('search-area')}
+            onChange={handle}
+            allowClear
+            disabled={item.disabled}
+            labelInValue={!!item.entity}
+            onFocus={item.getUrl ? () => this.getOptions(item) : () => {
+            }}
+            getPopupContainer={() => document.getElementById('search-area')}
+            notFoundContent={item.fetching ? <Spin size="small" /> : messages('agency.setting.no.result')}
           >
             {item.options.map((option) => {
               return <Option key={option.value}
-                             title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
+                title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
             })}
           </Select>
         )
@@ -670,11 +692,11 @@ class SearchArea extends React.Component {
       case 'cascader': {
         return (
           <Cascader placeholder={item.placeholder || messages('common.please.select')}
-                    onChange={handle}
-                    options={item.options}
-                    allowClear
-                    showSearch
-                    disabled={item.disabled}>
+            onChange={handle}
+            options={item.options}
+            allowClear
+            showSearch
+            disabled={item.disabled}>
           </Cascader>
         )
       }
@@ -682,16 +704,16 @@ class SearchArea extends React.Component {
       case 'value_list': {
         return (
           <Select placeholder={item.placeholder || messages('common.please.select')}
-                  onChange={handle}
-                  allowClear
-                  disabled={item.disabled}
-                  labelInValue={!!item.entity}
-                  onFocus={() => this.getValueListOptions(item)}
-                  getPopupContainer={() => document.getElementById('search-area')}
+            onChange={handle}
+            allowClear
+            disabled={item.disabled}
+            labelInValue={!!item.entity}
+            onFocus={() => this.getValueListOptions(item)}
+            getPopupContainer={() => document.getElementById('search-area')}
           >
             {item.options.map((option) => {
               return <Option key={option.value}
-                             title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
+                title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
             })}
           </Select>
         )
@@ -700,36 +722,36 @@ class SearchArea extends React.Component {
       case 'date': {
         let formatValue = item.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
         return <DatePicker format={formatValue} onChange={handle} disabled={item.disabled} showTime={item.showTime}
-                           placeholder={item.placeholder || messages('common.please.select')}
-                           getCalendarContainer={() => document.getElementById('search-area')}/>
+          placeholder={item.placeholder || messages('common.please.select')}
+          getCalendarContainer={() => document.getElementById('search-area')} />
       }
       //日期
       case 'datePicker': {
         return <RangePicker format="YYYY-MM-DD" onChange={handle} disabled={item.disabled}
           // disabledDate={date => { return date && date.valueOf() > new Date().getTime()}}
-                            getCalendarContainer={() => document.getElementById('search-area')}/>
+          getCalendarContainer={() => document.getElementById('search-area')} />
       }
       // 日期范围选择
       // noRange 是否有范围限制
       case 'rangePicker': {
         return <RangePicker format="YYYY-MM-DD" onChange={handle} disabled={item.disabled}
-                            disabledDate={date => {
-                              return !item.noRange && date && date.valueOf() > new Date().getTime()
-                            }}
-                            getCalendarContainer={() => document.getElementById('search-area')}/>
+          disabledDate={date => {
+            return !item.noRange && date && date.valueOf() > new Date().getTime()
+          }}
+          getCalendarContainer={() => document.getElementById('search-area')} />
       }
       // 单日期组成的日期选择框
-      case 'rangePickerInput' : {
+      case 'rangePickerInput': {
         return
       }
       // 日期范围组件，可选时分秒
-      case 'rangeDateTimePicker':{
+      case 'rangeDateTimePicker': {
         return <RangePicker
-            showTime={{
-              hideDisabledOptions: true,
-              defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-            }}
-            format="YYYY-MM-DD HH:mm:ss" onChange={handle} disabled={item.disabled}
+          showTime={{
+            hideDisabledOptions: true,
+            defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+          }}
+          format="YYYY-MM-DD HH:mm:ss" onChange={handle} disabled={item.disabled}
         />
       }
       //单选组件
@@ -754,7 +776,7 @@ class SearchArea extends React.Component {
       }
       //选择框
       case 'checkbox': {
-        return <CheckboxGroup options={item.options} onChange={handle} disabled={item.disabled}/>
+        return <CheckboxGroup options={item.options} onChange={handle} disabled={item.disabled} />
       }
       //带搜索的选择组件
       case 'combobox': {
@@ -775,7 +797,7 @@ class SearchArea extends React.Component {
         >
           {item.options.map((option) => {
             return <Option key={option.value}
-                           title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
+              title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
           })}
         </Select>
       }
@@ -797,37 +819,37 @@ class SearchArea extends React.Component {
         >
           {item.options.map((option) => {
             return <Option key={option.value}
-                           title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
+              title={option.data && !!item.entity ? JSON.stringify(option.data) : ''}>{option.label}</Option>
           })}
         </Select>
       }
       //弹出框列表选择组件
       case 'list': {
         return <Chooser placeholder={item.placeholder || messages('common.please.select')}
-                        disabled={item.disabled}
-                        type={item.listType}
-                        onChange={handle}
-                        labelKey={this.getLastKey(item.labelKey)}
-                        valueKey={this.getLastKey(item.valueKey)}
-                        listExtraParams={item.listExtraParams}
-                        selectorItem={item.selectorItem}
-                        single={item.single}/>
+          disabled={item.disabled}
+          type={item.listType}
+          onChange={handle}
+          labelKey={this.getLastKey(item.labelKey)}
+          valueKey={this.getLastKey(item.valueKey)}
+          listExtraParams={item.listExtraParams}
+          selectorItem={item.selectorItem}
+          single={item.single} />
       }
       //switch状态切换组件
       case 'switch': {
-        return <Switch checkedChildren={<Icon type="check"/>}
-                       unCheckedChildren={<Icon type="cross"/>}
-                       onChange={handle}
-                       disabled={item.disabled}/>
+        return <Switch checkedChildren={<Icon type="check" />}
+          unCheckedChildren={<Icon type="cross" />}
+          onChange={handle}
+          disabled={item.disabled} />
       }
       case 'selput': {
         return <Selput onChange={handle}
-                       placeholder={item.placeholder}
-                       type={item.listType}
-                       listExtraParams={item.listExtraParams}
-                       selectorItem={item.selectorItem}
-                       valueKey={item.valueKey}
-                       disabled={item.disabled}/>
+          placeholder={item.placeholder}
+          type={item.listType}
+          listExtraParams={item.listExtraParams}
+          selectorItem={item.selectorItem}
+          valueKey={item.valueKey}
+          disabled={item.disabled} />
       }
       //同一单元格下多个表单项组件
       case 'items': {
@@ -835,26 +857,26 @@ class SearchArea extends React.Component {
         return (
           <Row gutter={10} key={item.id}>
             {item.label ? (
-              <Col span={item.labelCol ||  4}>
+              <Col span={item.labelCol || 4}>
                 <label className="item-label">{item.label}</label>
               </Col>) : ''}
             {item.items.map(searchItem => {
-                return (
-                  <Col span={colSpan} key={searchItem.id}>
-                    <FormItem label={searchItem.label} colon={false}>
-                      {this.props.form.getFieldDecorator(searchItem.id, {
-                        initialValue: this.getDefaultValue(searchItem),
-                        rules: [{
-                          required: searchItem.isRequired,
-                          message: messages('common.can.not.be.empty', {name: searchItem.label}),  //name 不可为空
-                        }]
-                      })(
-                        this.renderFormItem(searchItem)
+              return (
+                <Col span={colSpan} key={searchItem.id}>
+                  <FormItem label={searchItem.label} colon={false}>
+                    {this.props.form.getFieldDecorator(searchItem.id, {
+                      initialValue: this.getDefaultValue(searchItem),
+                      rules: [{
+                        required: searchItem.isRequired,
+                        message: messages('common.can.not.be.empty', { name: searchItem.label }),  //name 不可为空
+                      }]
+                    })(
+                      this.renderFormItem(searchItem)
                       )}
-                    </FormItem>
-                  </Col>
-                )
-              }
+                  </FormItem>
+                </Col>
+              )
+            }
             )}
           </Row>
         )
@@ -863,42 +885,42 @@ class SearchArea extends React.Component {
   }
   getItemCol = (item) => {
     let length = +item.items.length;
-    return item.label ? parseInt(`${(24-item.labelCol) / length}`) : parseInt(`${24 / length}`)
+    return item.label ? parseInt(`${(24 - item.labelCol) / length}`) : parseInt(`${24 / length}`)
 
   };
   //关联组件选择值改变处理
   formItemChange(value) {
     let timeObj = [
-      {from: 'startDate', to: 'endDate'},
-      {from: 'dateFrom', to: 'dateTo'},
-      {from: 'approvalStartDate', to: 'approvalEndDate'},
-      {from: 'paymentStartDate', to: 'paymentEndDate'},
-      {from: 'beginDate', to: 'endDate'},
-      {from: 'approvalStartDate', to: 'approvalEndDate'},
-      {from: 'auditedApprovalStartDate', to: 'auditedApprovalEndDate'},
-      {from: 'flyStartDate', to: 'flyEndDate'}
+      { from: 'startDate', to: 'endDate' },
+      { from: 'dateFrom', to: 'dateTo' },
+      { from: 'approvalStartDate', to: 'approvalEndDate' },
+      { from: 'paymentStartDate', to: 'paymentEndDate' },
+      { from: 'beginDate', to: 'endDate' },
+      { from: 'approvalStartDate', to: 'approvalEndDate' },
+      { from: 'auditedApprovalStartDate', to: 'auditedApprovalEndDate' },
+      { from: 'flyStartDate', to: 'flyEndDate' }
     ];/*items的id值*/
-    let {getFieldValue, setFieldsValue} = this.props.form;
+    let { getFieldValue, setFieldsValue } = this.props.form;
     timeObj.map(item => {
       if (value[item.from] && getFieldValue(item.to) && getFieldValue(item.to).isBefore(value[item.from], 'day')) {
         message.error(messages('components.search.timeMoreLimit'));
-        setFieldsValue({[item.from]: null});
+        setFieldsValue({ [item.from]: null });
       }
       if (value[item.to] && getFieldValue(item.from) && value[item.to].isBefore(getFieldValue(item.from), 'day')) {
         message.error(messages('components.search.timeLessLimit'));
-        setFieldsValue({[item.to]: null});
+        setFieldsValue({ [item.to]: null });
       }
     });
   };
 
   getFields() {
     const count = this.state.expand ? this.state.searchForm.length : this.props.maxLength;
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {};
     const children = [];
     this.state.searchForm.map((item, i) => {
       children.push(
-        <Col span={item.colSpan || 8} key={item.id} style={{display: i < count ? 'block' : 'none'}}>
+        <Col span={item.colSpan || 8} key={item.id} style={{ display: i < count ? 'block' : 'none' }}>
           {item.type === 'items' ? this.renderFormItem(item) :
             <FormItem {...formItemLayout} label={item.label}>
               {getFieldDecorator(item.id, {
@@ -906,11 +928,11 @@ class SearchArea extends React.Component {
                 initialValue: this.getDefaultValue(item),
                 rules: [{
                   required: item.isRequired,
-                  message: messages('common.can.not.be.empty', {name: item.label}),  //name 不可为空
+                  message: messages('common.can.not.be.empty', { name: item.label }),  //name 不可为空
                 }]
               })(
                 this.renderFormItem(item)
-              )}
+                )}
             </FormItem>
           }
         </Col>
@@ -921,7 +943,7 @@ class SearchArea extends React.Component {
   }
 
   getDefaultValue = item => {
-    if(item.type === 'select' && item.defaultValue && item.defaultValue.key)
+    if (item.type === 'select' && item.defaultValue && item.defaultValue.key)
       return item.defaultValue.key;
     else
       return item.defaultValue;
@@ -941,7 +963,7 @@ class SearchArea extends React.Component {
       return children;
     } else {
       return (
-        <div key="extraFields"/>
+        <div key="extraFields" />
       )
     }
   }
@@ -1034,7 +1056,7 @@ class SearchArea extends React.Component {
 
   render() {
     return (
-      <div style={{position: 'relative', clear: 'both'}} id="search-area">
+      <div style={{ position: 'relative', clear: 'both' }} id="search-area">
         <Form
           className="ant-advanced-search-form search-area"
           onSubmit={this.handleSearch}
@@ -1044,11 +1066,11 @@ class SearchArea extends React.Component {
           <div className="common-top-area">
             <Row gutter={40} type="flex" align="top">{this.getFields()}</Row>
             <Row>
-              <Col span={24} style={{textAlign: 'right'}}>
+              <Col span={24} style={{ textAlign: 'right' }}>
                 {this.state.searchForm.length > this.props.maxLength ? (
                   <a className="toggle-button" onClick={this.toggle}>
                     {this.state.expand ? messages('common.fold') : messages('common.more')}
-                    <Icon type={this.state.expand ? 'up' : 'down'}/>
+                    <Icon type={this.state.expand ? 'up' : 'down'} />
                   </a>
                 ) : null}
                 {
@@ -1058,7 +1080,7 @@ class SearchArea extends React.Component {
                 }
 
                 {
-                  this.props.isHideClearText ? "" : <Button style={{marginLeft: 8}} onClick={this.handleReset}>
+                  this.props.isHideClearText ? "" : <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                     {this.$t(this.props.clearText)}
                   </Button>
                 }
@@ -1146,13 +1168,13 @@ SearchArea.propTypes = {
 
 SearchArea.defaultProps = {
   maxLength: 6,
-  eventHandle: () => {},
+  eventHandle: () => { },
   okText: 'common.search',  //搜索
   clearText: 'common.clear',  //重置
   loading: false,
   isHideClearText: false,
   isHideOkTextText: false,
-  checkboxChange: () => {},
+  checkboxChange: () => { },
 };
 
 const WrappedSearchArea = Form.create(

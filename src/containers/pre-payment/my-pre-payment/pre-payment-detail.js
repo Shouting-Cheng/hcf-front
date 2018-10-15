@@ -30,6 +30,9 @@ class PrePaymentDetail extends React.Component {
   //获取预付款头信息
   getInfo = () => {
     prePaymentService.getHeadById(this.props.match.params.id).then(res => {
+      if(!res.data) {
+        message.error('该单据不存在！');
+      }
       this.setState({
         headerData: res.data,
       });
@@ -96,13 +99,11 @@ class PrePaymentDetail extends React.Component {
           dLoading: true
         });
         prePaymentService.deleteHeadAndLineByHeadId(this.props.match.params.id).then(res => {
-          if (res.status === 200) {
-            this.setState({
-              dLoading: false
-            });
-            message.success('删除成功');
-            this.onCancel();
-          }
+          this.setState({
+            dLoading: false
+          });
+          message.success('删除成功');
+          this.onCancel();
         }).catch(e => {
           this.setState({
             dLoading: false
@@ -151,7 +152,7 @@ class PrePaymentDetail extends React.Component {
             :
             <Affix offsetBottom={0} style={{
               position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
-              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px',zIndex: 1
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
             }}>
               {
                 (headerData.status && (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005))

@@ -148,18 +148,20 @@ export const getRouterData = app => {
     },
     '/pre-payment/my-pre-payment': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/me-pre-payment.js')),
-      name: "我的预付款"
+      name: "pre-payment"
     },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/new-pre-payment.js')),
-      name: "新建预付款"
+      name: "新建预付款",
+      parent: '/pre-payment/my-pre-payment'
     },
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')),
-      name: "预付款详情"
+      name: "预付款详情",
+      parent: '/pre-payment/my-pre-payment'
     },
 
-   
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
@@ -186,6 +188,7 @@ export const getRouterData = app => {
     // If you need to configure complex parameter routing,
     // https://github.com/ant-design/ant-design-pro-site/blob/master/docs/router-and-nav.md#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95
     // eg . /list/:type/user/info/:id
+
     router = {
       ...router,
       name: router.name || menuItem.name,

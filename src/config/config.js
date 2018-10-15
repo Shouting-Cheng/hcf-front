@@ -2,7 +2,7 @@
 const config = {
   appEnv: 'dev',
   // baseUrl: 'http://139.224.2.45:11024',
-  baseUrl: '/api',
+  baseUrl: '',
   //baseUrl: 'http://101.132.92.213:9083',
   receiptUrl: 'http://106.15.26.10:10080/receipt',
   budgetUrl: '/api/budget',
@@ -11,7 +11,7 @@ const config = {
   // payUrl: 'http://116.228.77.183:25297/payment',
   payUrl: '/api/payment',
   contractUrl: '/api/contract',
-  prePaymentUrl: "/api/prepayment",
+  prePaymentUrl: "/prepayment",
   // vendorUrl:`http://116.228.77.183:25297/vendor`, //供应商url    +  /vendor-info-service
   localUrl:`http://localhost:9998`,
   mapUrl: 'http://apis.map.qq.com',

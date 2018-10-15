@@ -222,7 +222,7 @@ export default class SiderMenu extends React.Component {
   };
 
   render() {
-    const { logo, collapsed, onCollapse } = this.props;
+    const { logo, collapsed, onCollapse, activeKey } = this.props;
     const { openKeys } = this.state;
     // Don't show popup menu when it is been collapsed
     const menuProps = collapsed
@@ -231,10 +231,11 @@ export default class SiderMenu extends React.Component {
           openKeys,
         };
     // if pathname can't match, use the nearest parent's key
-    let selectedKeys = this.getSelectedMenuKeys();
-    if (!selectedKeys.length) {
-      selectedKeys = [openKeys[openKeys.length - 1]];
-    }
+    // let selectedKeys = this.getSelectedMenuKeys();
+    // if (!selectedKeys.length) {
+    //   selectedKeys = [openKeys[openKeys.length - 1]];
+    // }
+
 
     return (
       <Sider
@@ -258,7 +259,7 @@ export default class SiderMenu extends React.Component {
           mode="inline"
           {...menuProps}
           onOpenChange={this.handleOpenChange}
-          selectedKeys={selectedKeys}
+          selectedKeys={[activeKey]}
           style={{ padding: '16px 0', width: '100%' }}
           onSelect={this.select}
         >

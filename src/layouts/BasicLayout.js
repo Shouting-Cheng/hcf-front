@@ -124,7 +124,7 @@ class BasicLayout extends React.Component {
     path: '',
     panes: [],
     activeKey: '',
-
+    selectKey: ''
   };
 
   getChildContext() {
@@ -154,15 +154,17 @@ class BasicLayout extends React.Component {
       let index = panes.findIndex(o => o.routeKey == component.routeKey);
 
       if (index >= 0) {
+        this.setState({ activeKey: path, selectKey: path  });
       } else {
         panes.push(component);
+        this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname  });
       }
     }
 
-    this.setState({ panes });
   }
 
   componentWillReceiveProps(nextProps) {
+
     // this.getContent();
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
@@ -176,10 +178,27 @@ class BasicLayout extends React.Component {
 
     let component = this.getContent();
 
-    if (component) {
+    if (!component) return;
+
+    if (!this.state.activeKey) {
       panes.push(component);
-      this.setState({ panes, activeKey: component.pathname });
+      this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
+      return;
     }
+
+    index = panes.findIndex(o => o.pathname == this.state.activeKey);
+
+    //三种情况  不会打开新tab页
+    //1.即将跳转的页面是功能页，并且它的父页面是当前页面
+    //2.即将跳转的页面是功能页, 并且当前页面也是功能页面，并且当前页面和即将跳转的页面同属于一个菜单
+    //3.即将跳转的页面是当前页面的父页面，一般页面的返回按钮
+    if ((component.parent && (component.parent == panes[index].parent || component.parent == panes[index].pathname)) || panes[index].parent == component.pathname) {
+      panes[index] = component;
+    } else {
+      panes.push(component);
+    }
+
+    this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
   }
 
   getALlInfo = () => {
@@ -289,7 +308,7 @@ class BasicLayout extends React.Component {
   getUser = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/api/account');
+      let result = await fetch.get('/api/account');
       dispatch({
         type: 'user/saveCurrentUser',
         payload: result,
@@ -305,7 +324,7 @@ class BasicLayout extends React.Component {
     const { dispatch } = this.props;
 
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/api/my/companies');
+      let result = await fetch.get('/api/my/companies');
 
       dispatch({
         type: 'user/saveCompany',
@@ -321,7 +340,7 @@ class BasicLayout extends React.Component {
     return new Promise(async (resolve, reject) => {
       let local = user.language;
 
-      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN').then(res => {
+      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 }).then(res => {
         let languages = {};
 
         res.map(item => {
@@ -510,6 +529,7 @@ class BasicLayout extends React.Component {
         params: { match },
         name: menu.routerData[routeKey].name,
         pathname: path,
+        parent: menu.routerData[routeKey].parent,
       };
     }
 
@@ -553,7 +573,7 @@ class BasicLayout extends React.Component {
       menu,
     } = this.props;
 
-    const { isMobile: mb, menus, loading, panes } = this.state;
+    const { isMobile: mb, menus, loading, panes, selectKey } = this.state;
     const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
@@ -568,6 +588,7 @@ class BasicLayout extends React.Component {
           location={location}
           isMobile={mb}
           onCollapse={this.handleMenuCollapse}
+          activeKey={selectKey}
         />
         <Layout>
           <Header style={{ padding: 0 }}>
@@ -597,24 +618,24 @@ class BasicLayout extends React.Component {
                 <Route render={NotFound} />
               </Switch>
             )} */}
-
-            <Tabs
-              hideAdd
-              onChange={this.onChange}
-              activeKey={this.state.activeKey}
-              type="editable-card"
-              onEdit={this.onEdit}
-              tabBarGutter={2}
-            // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
-            >
-              {panes.map((pane, index) => (
-                <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.pathname}>
-                  <div style={{ padding: '12px 14px', backgroundColor: "#fff" }}>
-                    {React.createElement(pane.component, pane.params)}
-                  </div>
-                </TabPane>
-              ))}
-            </Tabs>
+            {!loading && (
+              <Tabs
+                hideAdd
+                onChange={this.onChange}
+                activeKey={this.state.activeKey}
+                type="editable-card"
+                onEdit={this.onEdit}
+                tabBarGutter={2}
+              // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
+              >
+                {panes.map((pane, index) => (
+                  <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.pathname}>
+                    <div style={{ padding: '12px 14px', backgroundColor: "#fff" }}>
+                      {React.createElement(pane.component, pane.params)}
+                    </div>
+                  </TabPane>
+                ))}
+              </Tabs>)}
 
             {/* {menu.routerData[path] && React.createElement(menu.routerData[path].component, {})} */}
           </Content>

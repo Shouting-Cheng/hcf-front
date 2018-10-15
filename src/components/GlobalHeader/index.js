@@ -9,6 +9,8 @@ import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 import { connect } from 'dva';
 import fetch from '../../utils/fetch';
+import zh_CN from "../../i18n/zh_CN/index"
+import en_US from "../../i18n/en_US/index"
 
 @connect(({ components, languages }) => ({
   components,
@@ -67,19 +69,27 @@ export default class GlobalHeader extends React.Component {
   langChange = value => {
     const { dispatch } = this.props;
 
-    fetch.get('/auth/api/frontKey/query/keyword?lang=' + value).then(res => {
+    fetch.get('/auth/api/frontKey/query/keyword?lang=' + value, { page: 0, size: 99999 }).then(res => {
       let languages = {};
 
       res.map(item => {
         languages[item.keyCode] = item.descriptions;
       });
 
+      window.localStorage.setItem('local', value);
+
+      if (value == "zh_CN") {
+        languages = { ...languages, ...zh_CN };
+      } else {
+        languages = { ...languages, ...en_US };
+      }
+
       dispatch({
         type: 'languages/selectLanguage',
         payload: { languages: languages, local: value },
       });
 
-      fetch.post('/api/api/users/language/' + value);
+      fetch.post('/api/users/language/' + value);
     });
   };
 

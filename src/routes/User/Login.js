@@ -706,7 +706,7 @@ export default class Login extends React.Component {
   getUser = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/api/account');
+      let result = await fetch.get('/api/account');
 
       dispatch({
         type: 'user/saveCurrentUser',
@@ -725,7 +725,7 @@ export default class Login extends React.Component {
     const { dispatch } = this.props;
 
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/api/my/companies');
+      let result = await fetch.get('/api/my/companies');
 
       dispatch({
         type: 'user/saveCompany',
@@ -741,7 +741,7 @@ export default class Login extends React.Component {
     return new Promise(async (resolve, reject) => {
       let local = user.language;
 
-      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN').then(res => {
+      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 }).then(res => {
         let languages = {};
 
         res.map(item => {

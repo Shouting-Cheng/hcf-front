@@ -26,6 +26,7 @@ const statusList = [
 class MyPrePayment extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.company.setOfBooksId);
     this.state = {
       loading: false,
       visible: false,
@@ -168,7 +169,7 @@ class MyPrePayment extends React.Component {
     let currPrePaymentType = prePaymentTypeMenu.find(item => item.id === value.key);
 
     this.props.dispatch(
-      routerRedux.push({
+      routerRedux.replace({
         pathname: `/pre-payment/my-pre-payment/new-pre-payment/${0}/${currPrePaymentType.id}/${currPrePaymentType.formOid ? currPrePaymentType.formOid : 0}`,
       })
     );
@@ -187,7 +188,7 @@ class MyPrePayment extends React.Component {
    */
   rowClick = (record) => {
     this.props.dispatch(
-      routerRedux.push({
+      routerRedux.replace({
         pathname: `/pre-payment/me-pre-payment/pre-payment-detail/${record.id}/prePayment`,
       })
     );
@@ -260,7 +261,8 @@ const wrappedMyPrePayment = Form.create()(MyPrePayment);
 function mapStateToProps(state) {
   return {
     user: state.user.currentUser,
-    company: state.user.company
+    company: state.user.company,
+    languages: state.languages
   }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(wrappedMyPrePayment)

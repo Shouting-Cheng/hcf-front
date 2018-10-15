@@ -24,6 +24,10 @@ server {
     location /auth/ {
         proxy_pass http://116.228.77.183:25297/auth/;
     }
+
+    location /prepayment/ {
+        proxy_pass http://116.228.77.183:25297/prepayment/;
+    }
   
 }
 EOF
