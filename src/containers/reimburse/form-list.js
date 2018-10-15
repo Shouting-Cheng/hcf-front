@@ -692,9 +692,9 @@ class FormList extends React.Component {
   }
 }
 
-FormList.contextTypes = {
-  router: React.PropTypes.object,
-};
+// FormList.contextTypes = {
+//   router: React.PropTypes.object,
+// };
 function mapStateToProps(state) {
   return {
     user: state.login.user,

@@ -350,9 +350,9 @@ class PayInfo extends React.Component {
     }
 }
 
-PayInfo.contextTypes = {
-    router: React.PropTypes.object
-}
+// PayInfo.contextTypes = {
+//     router: React.PropTypes.object
+// }
 
 function mapStateToProps(state) {
     return {

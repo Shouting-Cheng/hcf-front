@@ -35,7 +35,7 @@ import DetailExpense from 'containers/reimburse/expense-detail';
 import NewPayPlan from 'containers/reimburse/new-pay-plan';
 import reimburseService from 'containers/reimburse/reimburse.service';
 import ListSelector from 'containers/reimburse/list-selector';
-import ApproveHistory from 'template/approve-history-work-flow';
+import ApproveHistory from 'widget/template/approve-history-work-flow';
 import Invoice from 'containers/reimburse/invoice';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import VoucherInfo from 'containers/reimburse/voucher-info';

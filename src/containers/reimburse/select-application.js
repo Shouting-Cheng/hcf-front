@@ -441,9 +441,9 @@ SelectContract.propTypes = {
   single: React.PropTypes.bool, //是否单选
 };
 
-SelectContract.contextTypes = {
-  router: React.PropTypes.object,
-};
+// SelectContract.contextTypes = {
+//   router: React.PropTypes.object,
+// };
 
 SelectContract.defaultProps = {
   afterClose: () => {},

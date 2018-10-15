@@ -3,7 +3,7 @@ import { Form, Upload, Icon, message } from 'antd'
 const Dragger = Upload.Dragger;
 
 import config from 'config'
-import {formatMessage} from "share/common"
+
 
 /**
  * 上传附件组件
@@ -47,7 +47,7 @@ class UploadFile extends React.Component {
   beforeUpload = (file) => {
     const isLt3M = file.size / 1024 / 1024 < 3;
     if (!isLt3M) {
-      message.error(formatMessage({ id: "upload.isLt3M" }));
+      message.error(this.$t({ id: "upload.isLt3M" }));
     }
     return isLt3M;
   };
@@ -62,14 +62,14 @@ class UploadFile extends React.Component {
     this.setState({ fileList }, () => {
       const status = info.file.status;
       if (status === 'done') {
-        message.success(`${info.file.name} ${formatMessage({ id: "upload.success" }/*上传成功*/)}`);
+        message.success(`${info.file.name} ${this.$t({ id: "upload.success" }/*上传成功*/)}`);
         OIDs.push(info.file.response.attachmentOID);
         OIDs = OIDs.slice(fileNum);
         this.setState({ OIDs }, () => {
           this.props.uploadHandle(this.state.OIDs)
         })
       } else if (status === 'error') {
-        message.error(`${info.file.name} ${formatMessage({ id: "upload.fail" }/*上传失败*/)}`);
+        message.error(`${info.file.name} ${this.$t({ id: "upload.fail" }/*上传失败*/)}`);
       }
     });
   };
@@ -106,8 +106,8 @@ class UploadFile extends React.Component {
           <p className="ant-upload-drag-icon">
             <Icon type="inbox" />
           </p>
-          <p className="ant-upload-text">{formatMessage({ id: "upload.info" }/*点击或将文件拖拽到这里上传*/)}</p>
-          <p className="ant-upload-hint">{formatMessage({ id: "upload.support.extension" }/*支持扩展名*/)}：{this.props.extensionName}</p>
+          <p className="ant-upload-text">{this.$t({ id: "upload.info" }/*点击或将文件拖拽到这里上传*/)}</p>
+          <p className="ant-upload-hint">{this.$t({ id: "upload.support.extension" }/*支持扩展名*/)}：{this.props.extensionName}</p>
         </Dragger>
       </div>
     )

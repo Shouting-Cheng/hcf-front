@@ -533,9 +533,9 @@ class NewReimburse extends React.Component {
     );
   }
 }
-NewReimburse.contextTypes = {
-  router: React.PropTypes.object,
-};
+// NewReimburse.contextTypes = {
+//   router: React.PropTypes.object,
+// };
 
 NewReimburse = Form.create()(NewReimburse);
 
