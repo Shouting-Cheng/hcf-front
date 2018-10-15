@@ -4,19 +4,18 @@
 import React from 'react'
 import config from 'config'
 import httpFetch from 'share/httpFetch'
-import menuRoute from 'routes/menuRoute'
+// import menuRoute from 'routes/menuRoute'
 import { Form, Affix, Button, message, Row, Col } from 'antd'
 
 import PrePaymentCommon from 'containers/pre-payment/my-pre-payment/pre-payment-common'
 // import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
 import 'styles/contract/my-contract/contract-detail.scss'
 
-import ApproveBar from 'components/template/approve-bar'
+// import ApproveBar from 'widget/template/approve-bar'
 import prePaymentService from "containers/pre-payment/my-pre-payment/me-pre-payment.service"
 import prePaymentReCheckService from 'containers/pre-payment/pre-payment-re-check/pre-payment-re-check.service'
-import { formatMessage } from "share/common"
 
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 
 class PrePaymentDetail extends React.Component {
     constructor(props) {
@@ -24,7 +23,6 @@ class PrePaymentDetail extends React.Component {
         this.state = {
             loading: false,
             dLoading: false,
-            myContract: menuRoute.getRouteItem('pre-payment-re-check', 'key'),
             headerData: {},
             passLoading: false,
             rejectLoading: false
@@ -37,7 +35,7 @@ class PrePaymentDetail extends React.Component {
 
     //获取预付款头信息
     getInfo = () => {
-        prePaymentService.getHeadById(this.props.params.id).then(res => {
+        prePaymentService.getHeadById(this.props.match.params.id).then(res => {
             this.setState({
                 headerData: res.data,
             })
@@ -108,23 +106,23 @@ class PrePaymentDetail extends React.Component {
 
 
         return (
-            <div className="contract-detail pre-payment-detail background-transparent">
-                <PrePaymentCommon flag={false} params={this.state.headerData} contractEdit={true} id={this.props.params.id} />
+            <div className="contract-detail pre-payment-detail">
+                <PrePaymentCommon flag={false} params={this.state.headerData} contractEdit={true} id={this.props.match.params.id} />
                 {
-                    (headerData.status && headerData.status != 1004 && headerData) ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-                        <Row>
-                            <Col span={18}>
-                                <ApproveBar passLoading={passLoading}
-                                    style={{paddingLeft: 20}}
-                                    backUrl={this.state.myContract.url}
-                                    rejectLoading={rejectLoading}
-                                    handleApprovePass={this.handleApprovePass}
-                                    handleApproveReject={this.handleApproveReject} />
-                            </Col>
-                        </Row>
-                    </Affix> : (<Affix offsetBottom={0} className="bottom-bar">
-                        <Button onClick={this.onCancel} className="back-btn">{formatMessage({ id: "common.back" }/*返回*/)}</Button>
-                    </Affix>)
+                    // (headerData.status && headerData.status != 1004 && headerData) ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+                    //     <Row>
+                    //         <Col span={18}>
+                    //             <ApproveBar passLoading={passLoading}
+                    //                 style={{paddingLeft: 20}}
+                    //                 backUrl={this.state.myContract.url}
+                    //                 rejectLoading={rejectLoading}
+                    //                 handleApprovePass={this.handleApprovePass}
+                    //                 handleApproveReject={this.handleApproveReject} />
+                    //         </Col>
+                    //     </Row>
+                    // </Affix> : (<Affix offsetBottom={0} className="bottom-bar">
+                    //     <Button onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+                    // </Affix>)
                 }
 
             </div >
@@ -132,15 +130,10 @@ class PrePaymentDetail extends React.Component {
     }
 }
 
-PrePaymentDetail.contextTypes = {
-    router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
     return {
-        user: state.login.user,
-        company: state.login.company,
-        organization: state.login.organization
+        user: state.user.currentUser,
+        company: state.user.company
     }
 }
 

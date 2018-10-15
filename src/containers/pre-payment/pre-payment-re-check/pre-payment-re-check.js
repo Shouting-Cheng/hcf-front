@@ -8,6 +8,7 @@ import config from 'config'
 
 import SearchArea from 'widget/search-area'
 import moment from 'moment'
+import { routerRedux } from 'dva/router';
 
 class Payment extends React.Component {
     constructor(props) {
@@ -212,7 +213,11 @@ class Payment extends React.Component {
 
     //进入合同详情页
     handleRowClick = (record) => {
-        this.context.router.push(this.state.PrePaymentDetail.url.replace(':id', record.id))
+        this.props.dispatch(
+            routerRedux.replace({
+                pathname: `/pre-payment/pre-payment-recheck/pre-payment-detail/${record.id}`,
+            })
+        );
     };
 
     handleTabsChange = (key) => {
@@ -225,7 +230,7 @@ class Payment extends React.Component {
 
         const { tabValue, loading1, loading2, searchForm1, searchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
         return (
-            <div className="approve-contract">
+            <div className="approve approve-contract">
                 <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
                     <TabPane tab={this.$t("contract.unapproved")} key="unapproved">
                         {
