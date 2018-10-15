@@ -71,5 +71,9 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/contract': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    },
   },
 };
