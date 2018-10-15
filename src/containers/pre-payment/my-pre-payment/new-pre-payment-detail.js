@@ -626,7 +626,7 @@ class NewPrePaymentDetail extends React.Component {
           onCancel={this.handleListCancel}
           onOk={this.handleListOk}
           single={true}
-          params={{ ...contractParams, flag: showListSelector }}
+          params={{ ...contractParams }}
           selectedData={this.state.selectedData}
         />
       </div>

@@ -154,10 +154,10 @@ class BasicLayout extends React.Component {
       let index = panes.findIndex(o => o.routeKey == component.routeKey);
 
       if (index >= 0) {
-        this.setState({ activeKey: path, selectKey: path  });
+        this.setState({ activeKey: path, selectKey: path });
       } else {
         panes.push(component);
-        this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname  });
+        this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
       }
     }
 
@@ -170,6 +170,8 @@ class BasicLayout extends React.Component {
     let path = window.location.hash.replace('#', '');
 
     let index = panes.findIndex(o => o.pathname == path);
+
+    this.setState({ path });
 
     if (index >= 0) {
       this.setState({ activeKey: path });

@@ -84,14 +84,17 @@ export const getRouterData = app => {
     '/setting/language/language-modules/:langType': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/module-list')),
       name: '模块列表',
+      parent: "/setting/language"
     },
     '/setting/language/language-setting/:moduleId': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/setting')),
       name: '语言列表',
+      parent: "/setting/language/language-modules/:langType"
     },
     '/setting/language/other-language-setting/:langType/:moduleId': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/other-language-setting')),
       name: '语言列表',
+      parent: "/setting/language/language-modules/:langType"
     },
     '/setting/language': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/index')),
@@ -148,16 +151,16 @@ export const getRouterData = app => {
     },
     '/pre-payment/my-pre-payment': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/me-pre-payment.js')),
-      name: "pre-payment"
+      name: "prepayment"
     },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/new-pre-payment.js')),
-      name: "新建预付款",
+      name: "new-prepayment",
       parent: '/pre-payment/my-pre-payment'
     },
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
       component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')),
-      name: "预付款详情",
+      name: "prepayment-detail",
       parent: '/pre-payment/my-pre-payment'
     },
 
