@@ -1,14 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Tabs, Table, message, Badge, Popover } from 'antd'
 const TabPane = Tabs.TabPane;
-import menuRoute from 'routes/menuRoute'
+// import menuRoute from 'routes/menuRoute'
 import prePaymentService from './pre-payment-re-check.service'
 import config from 'config'
 
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 import moment from 'moment'
-import { formatMessage } from "share/common"
 
 class Payment extends React.Component {
     constructor(props) {
@@ -100,18 +99,26 @@ class Payment extends React.Component {
             unapprovedPageSize: 10,
             approvedPage: 0,
             approvedPageSize: 10,
-            PrePaymentDetail: menuRoute.getRouteItem('pre-payment-re-check-detail', 'key'), //合同详情
+            // PrePaymentDetail: menuRoute.getRouteItem('pre-payment-re-check-detail', 'key'), //合同详情
         }
     }
 
     componentWillMount() {
-        this.setState({ tabValue: this.props.location.query.approved ? 'approved' : 'unapproved' });
+
+        console.log(window.location);
+        this.setState({ tabValue: window.location.search.approved ? 'approved' : 'unapproved' });
         return new Promise((resolve, reject) => {
             this.getUnapprovedList(resolve, reject);
             this.getApprovedList(resolve, reject)
         }).catch(() => {
-            message.error(formatMessage({ id: "common.error" }/*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/))
+            message.error(this.$t("common.error"/*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/))
         });
+    }
+
+    getQueryString = (name) => {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
     }
 
     //获取未审批列表
@@ -208,11 +215,11 @@ class Payment extends React.Component {
         this.context.router.push(this.state.PrePaymentDetail.url.replace(':id', record.id))
     };
 
-  handleTabsChange = (key)=>{
-    this.setState({
-      tabValue: key
-    })
-  };
+    handleTabsChange = (key) => {
+        this.setState({
+            tabValue: key
+        })
+    };
 
     render() {
 
@@ -220,51 +227,51 @@ class Payment extends React.Component {
         return (
             <div className="approve-contract">
                 <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-                    <TabPane tab={formatMessage({ id: "contract.unapproved" }/*未审批*/)} key="unapproved">
-                      {
-                        tabValue === 'unapproved'&&
-                          <div>
-                            <SearchArea searchForm={searchForm1}
-                                        submitHandle={this.unapprovedSearch} />
-                            <div className="table-header">
-                              <div className="table-header-title">
-                                {formatMessage({ id: "common.total.selected" }, { total: unapprovedPagination.total }/*共搜索到 {total} 条数据*/)}
-                              </div>
+                    <TabPane tab={this.$t("contract.unapproved")} key="unapproved">
+                        {
+                            tabValue === 'unapproved' &&
+                            <div>
+                                <SearchArea searchForm={searchForm1}
+                                    submitHandle={this.unapprovedSearch} />
+                                <div className="table-header">
+                                    <div className="table-header-title">
+                                        {this.$t("common.total.selected", { total: unapprovedPagination.total }/*共搜索到 {total} 条数据*/)}
+                                    </div>
+                                </div>
+                                <Table rowKey={record => record.id} columns={columns} dataSource={unapprovedData} pagination={unapprovedPagination} loading={loading1}
+                                    onRow={record => ({
+                                        onClick: () => this.handleRowClick(record)
+                                    })}
+                                    scroll={{ x: true, y: false }}
+                                    bordered
+                                    size="middle" />
                             </div>
-                            <Table rowKey={record => record.id} columns={columns} dataSource={unapprovedData} pagination={unapprovedPagination} loading={loading1}
-                                   onRow={record => ({
-                                     onClick: () => this.handleRowClick(record)
-                                   })}
-                                   scroll={{ x: true, y: false }}
-                                   bordered
-                                   size="middle" />
-                          </div>
-                      }
+                        }
                     </TabPane>
-                    <TabPane tab={formatMessage({ id: "contract.approved" }/*已审批*/)} key="approved">
-                      {
-                        tabValue === 'approved'&&
-                          <div>
-                            <SearchArea searchForm={searchForm2}
-                                        submitHandle={this.approvedSearch} />
-                            <div className="table-header">
-                              <div className="table-header-title">
-                                {formatMessage({ id: "common.total.selected" }, { total: approvedPagination.total }/*共搜索到 {total} 条数据*/)}
-                              </div>
+                    <TabPane tab={this.$t("contract.approved")} key="approved">
+                        {
+                            tabValue === 'approved' &&
+                            <div>
+                                <SearchArea searchForm={searchForm2}
+                                    submitHandle={this.approvedSearch} />
+                                <div className="table-header">
+                                    <div className="table-header-title">
+                                        {this.$t("common.total.selected", { total: approvedPagination.total }/*共搜索到 {total} 条数据*/)}
+                                    </div>
+                                </div>
+                                <Table rowKey={record => record.id}
+                                    columns={columns}
+                                    dataSource={approvedData}
+                                    pagination={approvedPagination}
+                                    loading={loading2}
+                                    onRow={record => ({
+                                        onClick: () => this.handleRowClick(record)
+                                    })}
+                                    scroll={{ x: true, y: false }}
+                                    bordered
+                                    size="middle" />
                             </div>
-                            <Table rowKey={record => record.id}
-                                   columns={columns}
-                                   dataSource={approvedData}
-                                   pagination={approvedPagination}
-                                   loading={loading2}
-                                   onRow={record => ({
-                                     onClick: () => this.handleRowClick(record)
-                                   })}
-                                   scroll={{ x: true, y: false }}
-                                   bordered
-                                   size="middle" />
-                          </div>
-                      }
+                        }
                     </TabPane>
                 </Tabs>
             </div>
@@ -272,14 +279,11 @@ class Payment extends React.Component {
     }
 }
 
-Payment.contextTypes = {
-    router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
     return {
-        user: state.login.user,
-        company: state.login.company
+        user: state.user.currentUser,
+        company: state.user.company
     }
 }
 
