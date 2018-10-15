@@ -56,7 +56,7 @@ export default {
       changeOrigin: true,
     },
     '/api': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:25297/artemis-sit',
       changeOrigin: true
     },
     '/auth': {

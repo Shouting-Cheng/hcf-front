@@ -586,7 +586,7 @@ export default class Login extends React.Component {
     });
 
     axios({
-      url: '/oauth/token',
+      url: '/auth/oauth/token',
       method: 'POST',
       headers: {
         'x-helios-client': 'web',
