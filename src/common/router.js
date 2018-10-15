@@ -84,17 +84,17 @@ export const getRouterData = app => {
     '/setting/language/language-modules/:langType': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/module-list')),
       name: '模块列表',
-      parent: "/setting/language"
+      parent: '/setting/language',
     },
     '/setting/language/language-setting/:moduleId': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/setting')),
       name: '语言列表',
-      parent: "/setting/language/language-modules/:langType"
+      parent: '/setting/language/language-modules/:langType',
     },
     '/setting/language/other-language-setting/:langType/:moduleId': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/other-language-setting')),
       name: '语言列表',
-      parent: "/setting/language/language-modules/:langType"
+      parent: '/setting/language/language-modules/:langType',
     },
     '/setting/language': {
       component: dynamicWrapper(app, [], () => import('../routes/Language/index')),
@@ -150,22 +150,34 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
     },
     '/pre-payment/my-pre-payment': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/me-pre-payment.js')),
-      name: "prepayment"
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/me-pre-payment.js')
+      ),
+      name: 'prepayment',
     },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/new-pre-payment.js')),
-      name: "new-prepayment",
-      parent: '/pre-payment/my-pre-payment'
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/new-pre-payment.js')
+      ),
+      name: 'new-prepayment',
+      parent: '/pre-payment/my-pre-payment',
     },
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')),
-      name: "prepayment-detail",
-      parent: '/pre-payment/my-pre-payment'
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')
+      ),
+      name: 'prepayment-detail',
+      parent: '/pre-payment/my-pre-payment',
     },
-
-
-
+    '/my-reimburse': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      name: 'my-reimburse',
+    },
+    '/my-reimburse/reimburse-detail/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      name: 'reimburse-detail',
+      parent: '/my-reimburse',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
