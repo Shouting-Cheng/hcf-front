@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import { injectIntl } from 'react-intl';
 import {
   Button,
@@ -22,7 +22,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-import Importer from 'template/importer';
+import Importer from 'widget/Template/importer';
 import Chooser from 'widget/chooser';
 import config from 'config';
 import 'styles/expense-adjust/new-expense-adjust-detail.scss';
