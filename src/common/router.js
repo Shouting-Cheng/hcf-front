@@ -155,6 +155,10 @@ export const getRouterData = app => {
       ),
       name: 'prepayment',
     },
+    '/pre-payment/pre-payment-recheck': {
+      component: dynamicWrapper(app, [], () => import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')),
+      name: "prepayment-recheck"
+    },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/my-pre-payment/new-pre-payment.js')

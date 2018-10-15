@@ -3,9 +3,14 @@ import app from '../index';
 import httpFetch from "utils/httpFetch"
 import config from "config"
 
+
 React.Component.prototype.$t = (id, values = {}) => {
 
   if (!app) return '';
+
+  if (typeof (id) == "object") {
+    id = id.id;
+  }
 
   let result = app.getState().languages.languages[id];
 
@@ -97,8 +102,8 @@ React.Component.prototype.$statusList = {
   1005: { label: '审批驳回', state: 'error' },
   1006: { label: '审核通过', state: 'success' },
   1007: { label: '审核驳回', state: 'success' },
-  2002: { label: '审核通过', state: 'success'},
-  3002: { label: '审核中', state: 'processing'},
+  2002: { label: '审核通过', state: 'success' },
+  3002: { label: '审核中', state: 'processing' },
   5001: { label: '复核(过账)', state: 'processing' },
   5002: { label: '反冲提交', state: 'processing' },
   5003: { label: '反冲审核', state: 'processing' },
@@ -198,24 +203,24 @@ React.Component.prototype.checkPageShowRole = (pageName) => {
 * this.clearBeforePage('myKey')
 * */
 //翻页前缓存页码
-React.Component.prototype.setBeforePage = function(pagination,key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g,"-$1").toLowerCase();
-  if(key){
+React.Component.prototype.setBeforePage = function (pagination, key) {
+  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+  if (key) {
     _key = key;
   }
-  sessionStorage.setItem(_key,JSON.stringify(pagination));
+  sessionStorage.setItem(_key, JSON.stringify(pagination));
 }
 //回来后获取页码
-React.Component.prototype.getBeforePage = function(key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g,"-$1").toLowerCase();
-  if(key){
+React.Component.prototype.getBeforePage = function (key) {
+  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+  if (key) {
     _key = key;
   }
   let pagination = JSON.parse(sessionStorage.getItem(_key));
-  if( pagination === null ||
+  if (pagination === null ||
     pagination === undefined ||
     pagination.page === null ||
-    pagination.page === undefined ){
+    pagination.page === undefined) {
     pagination = {
       page: 0
     }
@@ -224,8 +229,8 @@ React.Component.prototype.getBeforePage = function(key) {
 }
 //清除设置的页面
 React.Component.prototype.clearBeforePage = function (key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g,"-$1").toLowerCase();
-  if(key){
+  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+  if (key) {
     _key = key;
   }
   sessionStorage.removeItem(_key)
