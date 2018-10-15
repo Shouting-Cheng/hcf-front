@@ -3,13 +3,13 @@
  */
 import React from 'react';
 import { Collapse, Timeline, Spin, Row, Col, Icon } from 'antd';
-import moment from 'moment'
-import PropTypes from 'prop-types'
+import moment from 'moment';
+import PropTypes from 'prop-types';
+
 /**
  * 审批历史
  */
 class ApproveHistoryWorkFlow extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -21,15 +21,12 @@ class ApproveHistoryWorkFlow extends React.Component {
     const historyData = this.props.infoData;
     let children = [];
     historyData.map((item, i) => {
-      children.push(
-        this.getHistoryRender(item, i)
-      )
+      children.push(this.getHistoryRender(item, i));
     });
     return children;
   }
 
   getColor(value) {
-
     let model = {};
 
     switch (value.operationType) {

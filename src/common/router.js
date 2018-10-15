@@ -182,6 +182,25 @@ export const getRouterData = app => {
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
+    '/expense-adjust/my-expense-adjust': {
+      component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust')),
+      name: 'my-expense-adjust1',
+    },
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/new-expense-adjust')
+      ),
+      name: 'new-expense-adjust',
+      parent: '/expense-adjust/my-expense-adjust',
+    },
+    '/expense-adjust/my-expense-adjust/:id/:expenseAdjustTypeId/:type/expense-adjust-detail': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/expense-adjust-detail')
+      ),
+      name: 'expense-adjust-detail',
+      parent: '/expense-adjust/my-expense-adjust',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
