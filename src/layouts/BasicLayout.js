@@ -187,6 +187,15 @@ class BasicLayout extends React.Component {
       return;
     }
 
+    //即将跳转的页面是已经打开的页面的父页面
+    index = panes.findIndex(item => item.parent == component.routeKey);
+
+    if(index >= 0) {
+      panes[index] = component;
+      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
+      return;
+    }
+
     index = panes.findIndex(o => o.routeKey == this.state.activeKey);
 
     //三种情况  不会打开新tab页
