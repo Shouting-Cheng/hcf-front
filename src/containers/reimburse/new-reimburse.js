@@ -31,7 +31,6 @@ const Option = Select.Option;
 const CheckableTag = Tag.CheckableTag;
 const { TextArea } = Input;
 
-import { formatMessage } from 'share/common';
 
 class NewReimburse extends React.Component {
   constructor(props) {

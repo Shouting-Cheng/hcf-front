@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import menuRoute from 'routes/menuRoute';
+// import menuRoute from 'routes/menuRoute';
 import PropTypes from 'prop-types';
 import {
   Form,
@@ -35,7 +35,7 @@ import DetailExpense from 'containers/reimburse/expense-detail';
 import NewPayPlan from 'containers/reimburse/new-pay-plan';
 import reimburseService from 'containers/reimburse/reimburse.service';
 import ListSelector from 'containers/reimburse/list-selector';
-import ApproveHistory from 'components/template/approve-history-work-flow';
+import ApproveHistory from 'template/approve-history-work-flow';
 import Invoice from 'containers/reimburse/invoice';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import VoucherInfo from 'containers/reimburse/voucher-info';
@@ -138,8 +138,8 @@ class ContractDetailCommon extends React.Component {
       record: {}, //资金计划行信息
       historyData: [], //历史信息
       defaultApportion: {},
-      editReimburePage: menuRoute.getRouteItem('edit-reimburse', 'key'),
-      myReimburse: menuRoute.getRouteItem('my-reimburse', 'key'), //我的报账单
+      // editReimburePage: menuRoute.getRouteItem('edit-reimburse', 'key'),
+      // myReimburse: menuRoute.getRouteItem('my-reimburse', 'key'), //我的报账单
       flag: true,
       showInvoices: false,
       invoicesLoading: false,
@@ -331,8 +331,8 @@ class ContractDetailCommon extends React.Component {
 
   //编辑报账单
   edit = () => {
-    let path = this.state.editReimburePage.url.replace(':id', this.props.headerData.id);
-    this.context.router.push(path);
+    // let path = this.state.editReimburePage.url.replace(':id', this.props.headerData.id);
+    // this.context.router.push(path);
   };
 
   //删除费用行
@@ -434,7 +434,7 @@ class ContractDetailCommon extends React.Component {
 
   //取消
   onCancel = () => {
-    this.context.router.push(this.state.myReimburse.url);
+    // this.context.router.push(this.state.myReimburse.url);
   };
 
   //显示发票

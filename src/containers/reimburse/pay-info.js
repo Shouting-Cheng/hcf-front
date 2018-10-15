@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon } from 'antd'
 import config from 'config';
-import menuRoute from 'routes/menuRoute';
+// import menuRoute from 'routes/menuRoute';
 
 import 'styles/reimburse/reimburse.scss';
 
@@ -10,7 +10,7 @@ import reimburseService from 'containers/reimburse/reimburse.service'
 import moment from "moment"
 
 import Verification from "containers/reimburse/verification"
-import { formatMessage } from "share/common";
+
 
 class PayInfo extends React.Component {
     constructor(props) {
@@ -145,7 +145,7 @@ class PayInfo extends React.Component {
                     showSizeChanger: true,
                     showQuickJumper: true,
                     onShowSizeChange: this.onShowSizeChange,
-                    showTotal: (total, range) => formatMessage({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
+                    showTotal: (total, range) => this.$t({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
                     pageSizeOptions: ['5','10', '20', '30', '40'],
                 },
                 loading: false
@@ -213,10 +213,10 @@ class PayInfo extends React.Component {
 
     //跳转到合同详情
     toContract = (id) => {
-        if (id) {
-            let url = menuRoute.getRouteItem('contract-detail', 'key');
-            window.open(url.url.replace(':id', id).replace(':from', "reimburse"), "_blank");
-        }
+        // if (id) {
+        //     let url = menuRoute.getRouteItem('contract-detail', 'key');
+        //     window.open(url.url.replace(':id', id).replace(':from', "reimburse"), "_blank");
+        // }
     }
 
     expandedRowRender = (record) => {

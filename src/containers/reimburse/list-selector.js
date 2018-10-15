@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatMessage } from 'share/common';
 import { Modal, Table, message, Button, Input, Row, Col, Spin } from 'antd';
 
 import httpFetch from 'share/httpFetch';
@@ -20,7 +19,7 @@ import SearchArea from 'widget/search-area';
  * @params key  数据主键
  * @params listKey  列表在接口返回值内的变量名，如果接口直接返回数组则置空
  */
-import selectorData from 'share/chooserData';
+import selectorData from 'chooserData';
 
 /**
  * 通用表格选择器组件
@@ -317,10 +316,10 @@ class ListSelector extends React.Component {
           ) : null}
           <div className="table-header">
             <div className="table-header-title">
-              {formatMessage({ id: 'common.total' }, { total: pagination.total })}
+              {this.$t({ id: 'common.total' }, { total: pagination.total })}
               {/* 共 total 条数据 */}
               &nbsp;<span>/</span>&nbsp;
-              {formatMessage(
+              {this.$t(
                 { id: 'common.total.selected' },
                 { total: selectedData.length === 0 ? '0' : selectedData.length }
               )}

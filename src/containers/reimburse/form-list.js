@@ -29,7 +29,6 @@ const { TextArea } = Input;
 import Chooser from 'containers/reimburse/chooser';
 import moment from 'moment';
 
-import { formatMessage } from 'share/common';
 
 class FormList extends React.Component {
   constructor(props) {
@@ -241,7 +240,7 @@ class FormList extends React.Component {
             initialValue: [],
           })(
             <Chooser
-              placeholder={formatMessage({ id: 'common.please.select' })}
+              placeholder={this.$t({ id: 'common.please.select' })}
               type="select_contract"
               labelKey="contractName"
               valueKey="contractHeaderId"
@@ -276,7 +275,7 @@ class FormList extends React.Component {
             ],
           })(
             <Chooser
-              placeholder={formatMessage({ id: 'common.please.select' })}
+              placeholder={this.$t({ id: 'common.please.select' })}
               type="select_contract"
               labelKey="contractName"
               valueKey="contractHeaderId"
@@ -338,7 +337,7 @@ class FormList extends React.Component {
                     ],
               })(
                 <Chooser
-                  placeholder={formatMessage({ id: 'common.please.select' })}
+                  placeholder={this.$t({ id: 'common.please.select' })}
                   type="select_company_reimburse"
                   labelKey="name"
                   valueKey="companyOID"
@@ -365,7 +364,7 @@ class FormList extends React.Component {
                   : [{ departmentOid: i.value, name: i.showValue }],
               })(
                 <Chooser
-                  placeholder={formatMessage({ id: 'common.please.select' })}
+                  placeholder={this.$t({ id: 'common.please.select' })}
                   type="select_department_reimburse"
                   labelKey="name"
                   valueKey="departmentOid"

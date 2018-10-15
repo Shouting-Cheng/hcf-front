@@ -6,10 +6,10 @@ import { Modal, Table, message, Button, Input, Row, Col, Popover } from 'antd';
 import httpFetch from 'share/httpFetch';
 import SearchArea from 'widget/search-area';
 import 'styles/pre-payment/my-pre-payment/select-contract.scss';
-import menuRoute from 'routes/menuRoute';
+// import menuRoute from 'routes/menuRoute';
 import moment from 'moment';
 import config from 'config';
-import { formatMessage } from 'share/common';
+
 
 class SelectContract extends React.Component {
   constructor(props) {
@@ -73,8 +73,8 @@ class SelectContract extends React.Component {
 
   //查看申请单详情
   detail = id => {
-    let url = menuRoute.getRouteItem('contract-detail', 'key');
-    window.open(url.url.replace(':id', id), '_blank');
+    // let url = menuRoute.getRouteItem('contract-detail', 'key');
+    // window.open(url.url.replace(':id', id), '_blank');
   };
 
   search = params => {
@@ -403,9 +403,9 @@ class SelectContract extends React.Component {
         ) : null}
         <div className="table-header">
           <div className="table-header-title">
-            {formatMessage({ id: 'common.total' }, { total: pagination.total })}
+            {this.$t({ id: 'common.total' }, { total: pagination.total })}
             &nbsp;<span>/</span>&nbsp;
-            {formatMessage(
+            {this.$t(
               { id: 'common.total.selected' },
               { total: selectedData.length === 0 ? '0' : selectedData.length }
             )}

@@ -27,7 +27,6 @@ import moment from 'moment';
 
 import reimburseService from 'containers/reimburse/reimburse.service';
 import SelectContract from 'containers/pre-payment/my-pre-payment/select-contract';
-import { formatMessage } from 'share/common';
 import SelectReceivables from 'widget/select-receivables';
 
 class NewPayPlan extends React.Component {
@@ -527,7 +526,7 @@ class NewPayPlan extends React.Component {
                       step="0.01"
                       precision={2}
                       onBlur={this.checkCost}
-                      placeholder={formatMessage({ id: 'common.please.enter' } /*请输入*/)}
+                      placeholder={this.$t({ id: 'common.please.enter' } /*请输入*/)}
                       style={{ width: '100%' }}
                     />
                   )}
@@ -664,13 +663,13 @@ class NewPayPlan extends React.Component {
           </FormItem> */}
             <FormItem
               {...formItemLayout}
-              label={formatMessage({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/)}
+              label={this.$t({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/)}
             >
               {getFieldDecorator('schedulePaymentDate', {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'common.please.select' } /*请选择*/),
+                    message: this.$t({ id: 'common.please.select' } /*请选择*/),
                   },
                 ],
                 initialValue: isNew
@@ -685,7 +684,7 @@ class NewPayPlan extends React.Component {
                 <TextArea
                   autosize={{ minRows: 2 }}
                   style={{ minWidth: '100%' }}
-                  placeholder={formatMessage({ id: 'common.please.enter' } /*请输入*/)}
+                  placeholder={this.$t({ id: 'common.please.enter' } /*请输入*/)}
                 />
               )}
             </FormItem>
@@ -739,10 +738,10 @@ class NewPayPlan extends React.Component {
 
             <div className="slide-footer">
               <Button loading={this.state.saveLoading} type="primary" htmlType="submit">
-                {formatMessage({ id: 'common.save' } /*保存*/)}
+                {this.$t({ id: 'common.save' } /*保存*/)}
               </Button>
               <Button onClick={this.onCancel}>
-                {formatMessage({ id: 'common.cancel' } /*取消*/)}
+                {this.$t({ id: 'common.cancel' } /*取消*/)}
               </Button>
             </div>
           </Form>
