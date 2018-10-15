@@ -1,14 +1,12 @@
 import React from 'react';
 import app from '../index';
-import httpFetch from "utils/httpFetch"
-import config from "config"
-
+import httpFetch from 'utils/httpFetch';
+import config from 'config';
 
 React.Component.prototype.$t = (id, values = {}) => {
-
   if (!app) return '';
 
-  if (typeof (id) == "object") {
+  if (typeof id == 'object') {
     id = id.id;
   }
 
@@ -35,7 +33,7 @@ React.Component.prototype.$t = (id, values = {}) => {
  * @param item  被删的元素
  * @return 被删的下标
  */
-Array.prototype.delete = function (item) {
+Array.prototype.delete = function(item) {
   for (let i = 0; i < this.length; i++) {
     if (this[i] === item) {
       this.splice(i, 1);
@@ -45,38 +43,38 @@ Array.prototype.delete = function (item) {
   return -1;
 };
 
-Array.prototype.has = function (item, func = (a, b) => a === b) {
+Array.prototype.has = function(item, func = (a, b) => a === b) {
   for (let i = 0; i < this.length; i++) {
-    if (func(item, this[i]))
-      return true;
+    if (func(item, this[i])) return true;
   }
   return false;
 };
 
-Array.prototype.addIfNotExist = function (item) {
+Array.prototype.addIfNotExist = function(item) {
   for (let i = 0; i < this.length; i++) {
-    if (this[i] === item)
-      return;
+    if (this[i] === item) return;
   }
-  this.push(item)
+  this.push(item);
 };
 
 //给String类型添加 '_self' 的getter， 使得 typeof a === 'string' && a['_self'] === a 成立
 if (String.prototype.__defineGetter__)
-  String.prototype.__defineGetter__('_self', function () {
+  String.prototype.__defineGetter__('_self', function() {
     return this.toString();
   });
 else
   Object.defineProperty(String.prototype, '_self', {
-    get: function () {
+    get: function() {
       return this.toString();
-    }
+    },
   });
 
 //金额过滤
 React.Component.prototype.filterMoney = (money, fixed = 2, isString = false) => {
-  if (typeof fixed !== "number") fixed = 2;
-  money = Number(money || 0).toFixed(fixed).toString();
+  if (typeof fixed !== 'number') fixed = 2;
+  money = Number(money || 0)
+    .toFixed(fixed)
+    .toString();
   let numberString = '';
   if (money.indexOf('.') > -1) {
     let integer = money.split('.')[0];
@@ -85,7 +83,7 @@ React.Component.prototype.filterMoney = (money, fixed = 2, isString = false) => 
   } else {
     numberString = money.replace(/(\d)(?=(\d{3})+(?!\d))\./g, '$1,');
   }
-  numberString += (numberString.indexOf('.') > -1 ? '' : '.00');
+  numberString += numberString.indexOf('.') > -1 ? '' : '.00';
   if (isString === true) {
     return numberString;
   } else {
@@ -114,24 +112,24 @@ React.Component.prototype.$statusList = {
   9001: { label: '支付', state: 'processing' },
   9002: { label: '退款', state: 'processing' },
   9003: { label: '退票', state: 'processing' },
-  9004: { label: '反冲', state: 'processing' }
+  9004: { label: '反冲', state: 'processing' },
 };
 //格式化金额
 React.Component.prototype.formatMoney = (number, decimals = 2, isString = false) => {
   number = (number + '').replace(/[^0-9+-Ee.]/g, '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+    dec = typeof dec_point === 'undefined' ? '.' : dec_point,
     s = '',
-    toFixedFix = function (n, prec) {
+    toFixedFix = function(n, prec) {
       var k = Math.pow(10, prec);
       return '' + Math.ceil(n * k) / k;
     };
   s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
   var re = /(-?\d+)(\d{3})/;
   while (re.test(s[0])) {
-    s[0] = s[0].replace(re, "$1" + sep + "$2");
+    s[0] = s[0].replace(re, '$1' + sep + '$2');
   }
   if ((s[1] || '').length < prec) {
     s[1] = s[1] || '';
@@ -142,7 +140,7 @@ React.Component.prototype.formatMoney = (number, decimals = 2, isString = false)
   } else {
     return <span className="money-cell">{s.join(dec)}</span>;
   }
-}
+};
 
 //检查用户操作权限
 React.Component.prototype.checkAuthorities = auth => {
@@ -150,16 +148,21 @@ React.Component.prototype.checkAuthorities = auth => {
   let result;
   if (auth.splice) {
     result = true;
-    user.authorities && auth.length >= 1 && auth.map(authItem => {
-      let authFlag = false;
-      user.authorities.map(item => {
-        authFlag = authFlag || authItem === item;
+    user.authorities &&
+      auth.length >= 1 &&
+      auth.map(authItem => {
+        let authFlag = false;
+        user.authorities.map(item => {
+          authFlag = authFlag || authItem === item;
+        });
+        result = result && authFlag;
       });
-      result = result && authFlag;
-    })
   } else {
     result = false;
-    user.authorities && user.authorities.map(item => { result = result || auth === item });
+    user.authorities &&
+      user.authorities.map(item => {
+        result = result || auth === item;
+      });
   }
   return result;
 };
@@ -170,26 +173,23 @@ React.Component.prototype.checkPageRole = (pageName, action) => {
   let result = false;
   if (user.pageRoles && user.pageRoles.splice) {
     user.pageRoles.map(item => {
-      if (item.pageName === pageName && item.action === action)
-        result = true;
-    })
+      if (item.pageName === pageName && item.action === action) result = true;
+    });
   }
   return result;
 };
 
 //检查用户菜单按钮显示权限
-React.Component.prototype.checkPageShowRole = (pageName) => {
+React.Component.prototype.checkPageShowRole = pageName => {
   let user = configureStore.store.getState().login.user;
   let result = false;
   if (user.pageRoles && user.pageRoles.splice) {
     user.pageRoles.map(item => {
-      if (item.pageName === pageName && item.action > 0)
-        result = true;
-    })
+      if (item.pageName === pageName && item.action > 0) result = true;
+    });
   }
   return result;
 };
-
 
 // 记住页码状态需求。需要三个函数---start---
 /*
@@ -203,44 +203,47 @@ React.Component.prototype.checkPageShowRole = (pageName) => {
 * this.clearBeforePage('myKey')
 * */
 //翻页前缓存页码
-React.Component.prototype.setBeforePage = function (pagination, key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+React.Component.prototype.setBeforePage = function(pagination, key) {
+  let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
   }
   sessionStorage.setItem(_key, JSON.stringify(pagination));
-}
+};
 //回来后获取页码
-React.Component.prototype.getBeforePage = function (key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+React.Component.prototype.getBeforePage = function(key) {
+  let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
   }
   let pagination = JSON.parse(sessionStorage.getItem(_key));
-  if (pagination === null ||
+  if (
+    pagination === null ||
     pagination === undefined ||
     pagination.page === null ||
-    pagination.page === undefined) {
+    pagination.page === undefined
+  ) {
     pagination = {
-      page: 0
-    }
+      page: 0,
+    };
   }
   return pagination;
-}
+};
 //清除设置的页面
-React.Component.prototype.clearBeforePage = function (key) {
-  let _key = this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase();
+React.Component.prototype.clearBeforePage = function(key) {
+  let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
   }
-  sessionStorage.removeItem(_key)
-}
+  sessionStorage.removeItem(_key);
+};
 // 记住页码状态需求。需要三个函数---end---
-
 
 //检查单个functionProfile
 let checkFunctionProfile = (fpItem, fpValue, ifTenant) => {
-  let profile = ifTenant ? configureStore.store.getState().login.tenantProfile : configureStore.store.getState().login.profile;
+  let profile = ifTenant
+    ? configureStore.store.getState().login.tenantProfile
+    : configureStore.store.getState().login.profile;
   if (fpItem[0] === '[') {
     fpItem = fpItem.replace(/]/g, '');
     let attrs = fpItem.split('[');
@@ -248,26 +251,26 @@ let checkFunctionProfile = (fpItem, fpValue, ifTenant) => {
     attrs.map(attr => {
       if (attr.length > 0) {
         try {
-          targetItem = targetItem[attr]
+          targetItem = targetItem[attr];
         } catch (e) {
-          targetItem = false
+          targetItem = false;
         }
       }
     });
-    return targetItem && (fpValue.splice ? fpValue.indexOf(targetItem) > -1 : targetItem === fpValue);
+    return (
+      targetItem && (fpValue.splice ? fpValue.indexOf(targetItem) > -1 : targetItem === fpValue)
+    );
   } else {
-    return (fpValue.splice ? fpValue.indexOf(profile[fpItem]) > -1 : profile[fpItem] === fpValue);
+    return fpValue.splice ? fpValue.indexOf(profile[fpItem]) > -1 : profile[fpItem] === fpValue;
   }
 };
 
 //检查用户functionProfile,可为数组或单个值
 React.Component.prototype.checkFunctionProfiles = (fpItem, fpValue, ifTenant) => {
-  if (!fpItem || !fpValue)
-    return false;
+  if (!fpItem || !fpValue) return false;
   //为数组时
   if (fpItem.splice) {
-    if (fpItem.length !== fpValue.length || fpItem.length === 0)
-      return false;
+    if (fpItem.length !== fpValue.length || fpItem.length === 0) return false;
     let result = true;
     fpItem.map((item, index) => {
       result = result && checkFunctionProfile(item, fpValue[index], ifTenant);
@@ -276,7 +279,7 @@ React.Component.prototype.checkFunctionProfiles = (fpItem, fpValue, ifTenant) =>
   }
   //为单字符串时
   else {
-    return checkFunctionProfile(fpItem, fpValue, ifTenant)
+    return checkFunctionProfile(fpItem, fpValue, ifTenant);
   }
 };
 
@@ -284,17 +287,18 @@ React.Component.prototype.checkFunctionProfiles = (fpItem, fpValue, ifTenant) =>
 React.Component.prototype.hasAnyAuthorities = auth => {
   let user = configureStore.store.getState().login.loginUser;
   let result = false;
-  user.authorities && auth.length >= 1 && auth.map(authItem => {
-    user.authorities.map(item => {
-      if (authItem === item)
-        result = true
+  user.authorities &&
+    auth.length >= 1 &&
+    auth.map(authItem => {
+      user.authorities.map(item => {
+        if (authItem === item) result = true;
+      });
     });
-  });
   return result;
 };
 
 // 格式化时间yyyy-MM-dd hh:mm:ss.S
-Date.prototype.format = function (fmt) {
+Date.prototype.format = function(fmt) {
   let o = {
     'M+': this.getMonth() + 1, //月份
     'd+': this.getDate(), //日
@@ -305,33 +309,35 @@ Date.prototype.format = function (fmt) {
     S: this.getMilliseconds(), //毫秒
   };
 
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
 
   for (let k in o)
-    if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+    if (new RegExp('(' + k + ')').test(fmt))
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+      );
   return fmt;
 };
 
 //根据传入的月数计算时间，可计算*月后/前的时间,month可为负数
-Date.prototype.calcMonth = function (month) {
+Date.prototype.calcMonth = function(month) {
   let nowYear = this.getFullYear();
   let nowMonth = this.getMonth() + 1;
   let monthSum = nowMonth + month;
   let yearNumber = monthSum / 12;
   let targetYear = nowYear + Math.floor(yearNumber);
-  if (yearNumber === 0)
-    targetYear--;
+  if (yearNumber === 0) targetYear--;
   while (monthSum < 0) {
     monthSum += 12;
   }
-  let targetMonth = monthSum === 0 ? 12 : (monthSum % 12 === 0 ? 12 : monthSum % 12);
+  let targetMonth = monthSum === 0 ? 12 : monthSum % 12 === 0 ? 12 : monthSum % 12;
   let targetDate = this.getDate();
   let bigMonth = [1, 3, 5, 7, 8, 10, 12];
   if (targetMonth === 2 && targetDate > 28) {
-    if (targetYear % 4 === 0)
-      targetDate = 29;
-    else
-      targetDate = 28;
+    if (targetYear % 4 === 0) targetDate = 29;
+    else targetDate = 28;
   }
   if (bigMonth.indexOf(targetMonth) === -1 && targetDate === 31) {
     targetDate = 30;
@@ -401,14 +407,12 @@ Date.prototype.calcMonth = function (month) {
  *
  * @param code 值列表代码
  */
-React.Component.prototype.getSystemValueList = (code) => {
+React.Component.prototype.getSystemValueList = code => {
   let url = '';
-  if (Number(code) > 2000)
-    url = '/api/custom/enumerations/template/by/type?type=';
-  else
-    url = '/api/custom/enumeration/system/by/type?systemCustomEnumerationType=';
+  if (Number(code) > 2000) url = '/api/custom/enumerations/Template/by/type?type=';
+  else url = '/api/custom/enumeration/system/by/type?systemCustomEnumerationType=';
   return httpFetch.get(`${config.baseUrl}${url}${code}`).then(res => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (res.data.splice) {
         let result = JSON.parse(JSON.stringify(res));
         result.data = { values: res.data };
@@ -430,76 +434,90 @@ React.Component.prototype.getSystemValueList = (code) => {
  * @param duration 动画持续时间
  * @param hoverDom hover所需要的dom
  */
-window.spriteAnimation = function (dom, img, height, width, total, duration = 500, hoverDom = dom) {
+window.spriteAnimation = function(dom, img, height, width, total, duration = 500, hoverDom = dom) {
   dom.style.backgroundImage = `url('${img}')`;
   dom.style.backgroundSize = `${width}px`;
   dom.frames = total;
-  hoverDom.onmouseenter = function () {
+  hoverDom.onmouseenter = function() {
     let enterInterval = setInterval(() => {
       clearInterval(dom.leaveInterval);
       dom.enterInterval = enterInterval;
       dom.style.backgroundPosition = `0 ${dom.frames * height}px`;
       dom.frames--;
-      if (dom.frames === 0)
-        clearInterval(enterInterval);
-    }, duration / total)
+      if (dom.frames === 0) clearInterval(enterInterval);
+    }, duration / total);
   };
-  hoverDom.onmouseleave = function () {
+  hoverDom.onmouseleave = function() {
     let leaveInterval = setInterval(() => {
       clearInterval(dom.enterInterval);
       dom.leaveInterval = leaveInterval;
       dom.frames++;
       dom.style.backgroundPosition = `0 ${dom.frames * height}px`;
-      if (dom.frames === total)
-        clearInterval(leaveInterval);
-    }, duration / total)
+      if (dom.frames === total) clearInterval(leaveInterval);
+    }, duration / total);
   };
 };
-
 
 //公用接口
 React.Component.prototype.service = {
   //获取货币
-  getCurrencyList: (userOID) => {
-    return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll?language=chineseName${userOID ? `&userOID=${userOID}` : ''}`)
+  getCurrencyList: userOID => {
+    return httpFetch.get(
+      `${config.baseUrl}/api/company/standard/currency/getAll?language=chineseName${
+        userOID ? `&userOID=${userOID}` : ''
+      }`
+    );
   },
-
 };
 
 //公共函数:对象深拷贝
 export function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
-let utilDeepCopy = (function () {
+let utilDeepCopy = (function() {
   let class2type = {};
-  ["Null", "Undefined", "Number", "Boolean", "String", "Object", "Function", "Array", "RegExp", "Date"].forEach(function (item) {
-    class2type["[object " + item + "]"] = item.toLowerCase();
-  })
+  [
+    'Null',
+    'Undefined',
+    'Number',
+    'Boolean',
+    'String',
+    'Object',
+    'Function',
+    'Array',
+    'RegExp',
+    'Date',
+  ].forEach(function(item) {
+    class2type['[object ' + item + ']'] = item.toLowerCase();
+  });
   function isType(obj, type) {
     return getType(obj) === type;
   }
   function getType(obj) {
-    return class2type[Object.prototype.toString.call(obj)] || "object";
+    return class2type[Object.prototype.toString.call(obj)] || 'object';
   }
   return {
     isType: isType,
-    getType: getType
-  }
+    getType: getType,
+  };
 })();
 
 //深度copy
 export function deepFullCopy(obj, deep = true) {
   //如果obj不是对象，那么直接返回值就可以了
-  if (obj === null || typeof obj !== "object") {
+  if (obj === null || typeof obj !== 'object') {
     return obj;
   }
   //定义需要的局部变脸，根据obj的类型来调整target的类型
-  let i, target = utilDeepCopy.isType(obj, "array") ? [] : {}, value, valueType;
+  let i,
+    target = utilDeepCopy.isType(obj, 'array') ? [] : {},
+    value,
+    valueType;
   for (i in obj) {
     value = obj[i];
     valueType = utilDeepCopy.getType(value);
     //只有在明确执行深复制，并且当前的value是数组或对象的情况下才执行递归复制
-    if (deep && (valueType === "array" || valueType === "object")) {
+    if (deep && (valueType === 'array' || valueType === 'object')) {
       target[i] = deepFullCopy(value);
     } else {
       target[i] = value;
@@ -525,7 +543,7 @@ export function uniquelizeArray(t, index) {
 export function superThrottle(fn, delay, mustRunDelay) {
   let timer = null;
   let t_start;
-  return function () {
+  return function() {
     let context = this;
     let args = arguments;
     let t_curr = +new Date();
@@ -537,11 +555,11 @@ export function superThrottle(fn, delay, mustRunDelay) {
       fn.apply(context, args);
       t_start = t_curr;
     } else {
-      timer = setTimeout(function () {
+      timer = setTimeout(function() {
         fn.apply(context, args);
       }, delay);
     }
-  }
+  };
 }
 
 //检测空对象
@@ -558,11 +576,11 @@ export function isEmptyObj(obj) {
 export function UrlSearch(url) {
   let name, value;
   let str = url ? url : window.location.href; //取得整个地址栏
-  let num = str.indexOf("?")
+  let num = str.indexOf('?');
   str = str.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
-  let arr = str.split("&"); //各个参数放到数组里
+  let arr = str.split('&'); //各个参数放到数组里
   for (let i = 0; i < arr.length; i++) {
-    num = arr[i].indexOf("=");
+    num = arr[i].indexOf('=');
     if (num > 0) {
       name = arr[i].substring(0, num);
       value = arr[i].substr(num + 1);
@@ -573,7 +591,7 @@ export function UrlSearch(url) {
 
 //验证是否是ip
 export function isValidIP(ip) {
-  let reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+  let reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
   return reg.test(ip);
 }
 
@@ -601,13 +619,13 @@ export function hasAuthority(authoritys, authority) {
 export function fitText(string, length) {
   const obj = {
     origin: string,
-    text: false
-  }
-  if (string === "" || string === null || string === undefined) {
+    text: false,
+  };
+  if (string === '' || string === null || string === undefined) {
     return obj;
   }
   if (string && string.length > length) {
-    obj.text = string.substr(0, length)
+    obj.text = string.substr(0, length);
   }
   return obj;
 }
@@ -625,19 +643,18 @@ export function messages(id, values = {}) {
   let result = configureStore.store.getState().main.language.messages[id];
   //#代表没找到
   if (result === undefined) {
-    return "#";
+    return '#';
   }
   //匹配 {*} 格式
   result = result.replace(/\{(.*?)\}/g, (target, $1) => {
     let replacement = false;
     //values内寻找是否有值，否则不替换
     Object.keys(values).map(key => {
-      if (key === $1)
-        replacement = values[key]
+      if (key === $1) replacement = values[key];
     });
     return replacement === undefined ? target : replacement;
   });
-  return result
+  return result;
 }
 
 /**
@@ -653,21 +670,19 @@ export function formatMessage(obj, values = {}) {
   let result = configureStore.store.getState().main.language.messages[obj.id];
   //#代表没找到
   if (result === undefined) {
-    return "#";
+    return '#';
   }
   //匹配 {*} 格式
   result = result.replace(/\{(.*?)\}/g, (target, $1) => {
     let replacement = false;
     //values内寻找是否有值，否则不替换
     Object.keys(values).map(key => {
-      if (key === $1)
-        replacement = values[key]
+      if (key === $1) replacement = values[key];
     });
     return replacement === undefined ? target : replacement;
   });
-  return result
+  return result;
 }
-
 
 /**
  * 产生随机 id
@@ -691,18 +706,17 @@ export function randomString(length) {
  */
 export function getLanguageName(code, languageList) {
   if (code) {
-    let name = "";
-    languageList.map((item) => {
+    let name = '';
+    languageList.map(item => {
       if (code.toLowerCase() === item.code.toLowerCase()) {
         name = item.comments;
       }
-    })
+    });
     return name;
   } else {
-    return "简体中文";
+    return '简体中文';
   }
 }
-
 
 //获取浏览器名称与版本
 //直接这样获取，并不是很准确
@@ -711,35 +725,35 @@ export function getLanguageName(code, languageList) {
 // 针对主流浏览器，详细给出名称
 export function getBrowserInfo() {
   let userAgent = window.navigator.userAgent; //取得浏览器的userAgent字符串
-  let isOpera = userAgent.indexOf("Opera") > -1;
+  let isOpera = userAgent.indexOf('Opera') > -1;
   let re = {
     name: window.navigator.appName,
-    version: parseFloat(window.navigator.appVersion)
-  }
+    version: parseFloat(window.navigator.appVersion),
+  };
   if (isOpera) {
     ////判断是否Opera浏览器
-    re.name = "Opera";
+    re.name = 'Opera';
     return re;
-  };
-  if (userAgent.indexOf("Firefox") > -1) {
+  }
+  if (userAgent.indexOf('Firefox') > -1) {
     //判断是否Firefox浏览器
-    re.name = "Firefox";
+    re.name = 'Firefox';
     return re;
   }
-  if (userAgent.indexOf("Chrome") > -1) {
+  if (userAgent.indexOf('Chrome') > -1) {
     //判断是否Chrome浏览器
-    re.name = "Chrome";
+    re.name = 'Chrome';
     return re;
   }
-  if (userAgent.indexOf("Safari") > -1) {
+  if (userAgent.indexOf('Safari') > -1) {
     //判断是否Safari浏览器
-    re.name = "Safari";
+    re.name = 'Safari';
     return re;
   }
-  if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
-    re.name = "IE";
+  if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera) {
+    re.name = 'IE';
     return re;
-  };
+  }
   return re;
 }
 
@@ -747,7 +761,7 @@ export function getBrowserInfo() {
 export function removeArryItem(arr, obj) {
   let index = arr.indexOf(obj);
   if (~index) {
-    arr.splice(index, 1)
+    arr.splice(index, 1);
   }
 }
 
@@ -755,7 +769,11 @@ export function removeArryItem(arr, obj) {
 export function invoiceAmountChange(isChange, amount) {
   let _this = React.Component.prototype;
   if (isChange) {
-    return <span className="money-cell" style={{ color: '#FD9828' }}>{messages('common.change')} {(_this.filterMoney(amount, 2, true))}</span>;
+    return (
+      <span className="money-cell" style={{ color: '#FD9828' }}>
+        {messages('common.change')} {_this.filterMoney(amount, 2, true)}
+      </span>
+    );
   } else {
     return _this.filterMoney(amount);
   }
@@ -771,7 +789,7 @@ function renderExpandedRow(title, content) {
       <span>{title}</span>
       {content && <span>:{content}</span>}
     </div>
-  )
+  );
 }
 //处理列表标签
 export function dealListTag(record, type) {
@@ -781,16 +799,24 @@ export function dealListTag(record, type) {
     let content = '';
     warningList.map(item => {
       if (item.showFlag) {
-        content += item.title + '/'
+        content += item.title + '/';
       }
     });
-    content && result.push(renderExpandedRow(messages('common.label'), content.substr(0, content.length - 1)));
+    content &&
+      result.push(
+        renderExpandedRow(messages('common.label'), content.substr(0, content.length - 1))
+      );
   }
   if (record.printFree) {
     result.push(renderExpandedRow(messages('common.print.free'), messages('common.print.require')));
   }
   if (record.noticeFlag) {
-    result.push(renderExpandedRow(messages('finance.view.column.notice'), messages('finance.view.column.noticeContent')));
+    result.push(
+      renderExpandedRow(
+        messages('finance.view.column.notice'),
+        messages('finance.view.column.noticeContent')
+      )
+    );
   }
   if (result.length > 0) {
     return result;
@@ -802,31 +828,31 @@ export function dealListTag(record, type) {
 export function addCalculate(a, b) {
   let c, d, e;
   try {
-    c = a.toString().split(".")[1].length;
+    c = a.toString().split('.')[1].length;
   } catch (f) {
     c = 0;
   }
   try {
-    d = b.toString().split(".")[1].length;
+    d = b.toString().split('.')[1].length;
   } catch (f) {
     d = 0;
   }
-  return e = Math.pow(10, Math.max(c, d)), (mulCalculate(a, e) + mulCalculate(b, e)) / e;
+  return (e = Math.pow(10, Math.max(c, d))), (mulCalculate(a, e) + mulCalculate(b, e)) / e;
 }
 
 export function subCalculate(a, b) {
   let c, d, e;
   try {
-    c = a.toString().split(".")[1].length;
+    c = a.toString().split('.')[1].length;
   } catch (f) {
     c = 0;
   }
   try {
-    d = b.toString().split(".")[1].length;
+    d = b.toString().split('.')[1].length;
   } catch (f) {
     d = 0;
   }
-  return e = Math.pow(10, Math.max(c, d)), (mulCalculate(a, e) - mulCalculate(b, e)) / e;
+  return (e = Math.pow(10, Math.max(c, d))), (mulCalculate(a, e) - mulCalculate(b, e)) / e;
 }
 
 export function mulCalculate(a, b) {
@@ -834,39 +860,41 @@ export function mulCalculate(a, b) {
     d = a.toString(),
     e = b.toString();
   try {
-    c += d.split(".")[1].length;
-  } catch (f) {
-  }
+    c += d.split('.')[1].length;
+  } catch (f) {}
   try {
-    c += e.split(".")[1].length;
-  } catch (f) {
-  }
-  return Number(d.replace(".", "")) * Number(e.replace(".", "")) / Math.pow(10, c);
+    c += e.split('.')[1].length;
+  } catch (f) {}
+  return (Number(d.replace('.', '')) * Number(e.replace('.', ''))) / Math.pow(10, c);
 }
 
 export function divCalculate(a, b) {
-  let c, d, e = 0,
+  let c,
+    d,
+    e = 0,
     f = 0;
   try {
-    e = a.toString().split(".")[1].length;
-  } catch (g) {
-  }
+    e = a.toString().split('.')[1].length;
+  } catch (g) {}
   try {
-    f = b.toString().split(".")[1].length;
-  } catch (g) {
-  }
-  return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mulCalculate(c / d, Math.pow(10, f - e));
+    f = b.toString().split('.')[1].length;
+  } catch (g) {}
+  return (
+    (c = Number(a.toString().replace('.', ''))),
+    (d = Number(b.toString().replace('.', ''))),
+    mulCalculate(c / d, Math.pow(10, f - e))
+  );
 }
 //获取URL问号后面参数
 export function getQueryUrlParam(name) {
   var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
   var href = window.location.href;
-  var r = href.substr(href.toString().indexOf("?") + 1).match(reg);
+  var r = href.substr(href.toString().indexOf('?') + 1).match(reg);
   if (r != null) {
     return unescape(r[2]);
   }
   return '';
-};
+}
 //处理筛选缓存数据
 export function dealCache(searchForm, resultValues) {
   searchForm.map(search => {
@@ -874,14 +902,13 @@ export function dealCache(searchForm, resultValues) {
       search.items.map(item => {
         resultValues[`${item.id}Lable`] = resultValues[item.id];
         item.defaultValue = resultValues[`${item.id}Lable`];
-      })
+      });
     } else {
       search.defaultValue = resultValues[`${search.id}`];
-      if (resultValues[`${search.id}Expand`]) search[`${search.id}Expand`] = resultValues[`${search.id}Expand`];
+      if (resultValues[`${search.id}Expand`])
+        search[`${search.id}Expand`] = resultValues[`${search.id}Expand`];
       if (resultValues[`${search.id}Option`]) search.options = resultValues[`${search.id}Option`];
     }
-
-  })
+  });
   searchForm.expand = resultValues.expand;
 }
-
