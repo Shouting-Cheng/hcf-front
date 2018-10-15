@@ -156,13 +156,17 @@ export const getRouterData = app => {
       name: 'prepayment',
     },
     '/pre-payment/pre-payment-recheck': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')),
-      name: "prepayment-recheck"
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')
+      ),
+      name: 'prepayment-recheck',
     },
     '/pre-payment/pre-payment-recheck/pre-payment-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check-detail.js')),
-      name: "prepayment-detail",
-      parent: '/pre-payment/pre-payment-recheck'
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check-detail.js')
+      ),
+      name: 'prepayment-detail',
+      parent: '/pre-payment/pre-payment-recheck',
     },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () =>
@@ -195,6 +199,26 @@ export const getRouterData = app => {
       ),
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
+    },
+    '/document-type-manage/contract-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/contract-type-define.js')
+      ),
+      name: 'contract-type',
+    },
+    '/document-type-manage/contract-type/new-contract-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/new-contract-type.js')
+      ),
+      name: '合同类型创建/编辑',
+      parent: '/document-type-manage/contract-type',
+    },
+    '/document-type-manage/contract-type/company-distribution/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/company-distribution.js')
+      ),
+      name: '合同类型分配公司',
+      parent: '/document-type-manage/contract-type',
     },
 
     // '/user/:id': {

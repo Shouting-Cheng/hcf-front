@@ -1,25 +1,27 @@
-.new-contract {
-  &.background-transparent {
-    margin-top: -35px;
-    margin-bottom: 40px;
-  }
-  .card-container {
-    margin-bottom: 20px;
-  }
-  .base-info {
-    line-height: 32px;
-  }
-  .bottom-bar {
-    position: fixed;
-    bottom: 0;
-    margin-left: -35px;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.067);
-    background: #fff;
-    .submit {
-      margin: 0 20px;
+:global {
+  .new-contract {
+    &.background-transparent {
+      margin-top: -35px;
+      margin-bottom: 40px;
+    }
+    .card-container {
+      margin-bottom: 20px;
+    }
+    .base-info {
+      line-height: 32px;
+    }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      margin-left: -35px;
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.067);
+      background: #fff;
+      .submit {
+        margin: 0 20px;
+      }
     }
   }
 }
