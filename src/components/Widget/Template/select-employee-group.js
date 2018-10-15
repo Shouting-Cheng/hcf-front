@@ -13,7 +13,6 @@ import httpFetch from 'share/httpFetch';
 import SearchArea from 'widget/search-area';
 
 import config from 'config';
-import { userGroupService } from 'service';
 
 import 'styles/pre-payment/my-pre-payment/select-contract.scss';
 
