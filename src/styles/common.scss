@@ -507,6 +507,10 @@ $default-blue: #108ee9;
       border-top: none;
       border-bottom: none;
     }
+    .approve .ant-tabs-tabpane {
+      border: none;
+      margin: 10px 0;
+    }
     // .ant-tabs-content {
     //   background-color: #f0f2f5;
     //   padding: 8px 16px;

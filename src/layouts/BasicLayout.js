@@ -157,7 +157,7 @@ class BasicLayout extends React.Component {
         this.setState({ activeKey: path, selectKey: path });
       } else {
         panes.push(component);
-        this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
+        this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
       }
     }
 
@@ -176,14 +176,14 @@ class BasicLayout extends React.Component {
 
     if (index >= 0) {
 
-      this.setState({ activeKey: component.routeKey })
+      this.setState({ activeKey: component.routeKey, selectKey: component.parent || component.pathname })
 
       return;
     }
 
     if (!this.state.activeKey || !panes.length) {
       panes.push(component);
-      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
+      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
       return;
     }
 
@@ -199,7 +199,7 @@ class BasicLayout extends React.Component {
       panes.push(component);
     }
 
-    this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
+    this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
   }
 
   getALlInfo = () => {
@@ -575,6 +575,7 @@ class BasicLayout extends React.Component {
     } = this.props;
 
     const { isMobile: mb, menus, loading, panes, selectKey } = this.state;
+    
     const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
