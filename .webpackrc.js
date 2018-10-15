@@ -22,6 +22,7 @@ export default {
     routes: path.resolve(__dirname, 'src/routes/'),
     containers: path.resolve(__dirname, 'src/containers/'),
     widget: path.resolve(__dirname, 'src/components/Widget/'),
+    template: path.resolve(__dirname, 'src/components/Template/'),
     utils: path.resolve(__dirname, 'src/utils/'),
     chooserData: path.resolve(__dirname, 'src/chooser-data/index.js'),
     share: path.resolve(__dirname, 'src/share/'),
@@ -57,7 +58,7 @@ export default {
     },
     '/api': {
       target: 'http://115.159.108.80:25297/artemis-sit',
-      changeOrigin: true
+      changeOrigin: true,
     },
     '/auth': {
       target: 'http://115.159.108.80:25297',
@@ -70,6 +71,6 @@ export default {
     '/prepayment': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
-    }
+    },
   },
 };
