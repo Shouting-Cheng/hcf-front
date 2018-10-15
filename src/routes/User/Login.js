@@ -566,7 +566,6 @@ export default class Login extends React.Component {
   login = (err, values) => {
 
     const { type, username, password } = this.state;
-    console.log(username);
 
     const { dispatch } = this.props;
 

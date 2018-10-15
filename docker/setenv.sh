@@ -14,19 +14,19 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://116.228.77.183:25297/api/;
+        proxy_pass http://115.159.108.80:25297/artemis-sit/api/;
     }
 
     location /oauth/ {
-        proxy_pass http://116.228.77.183:25297/oauth/;
+        proxy_pass http://115.159.108.80:25297/oauth/;
     }
 
     location /auth/ {
-        proxy_pass http://116.228.77.183:25297/auth/;
+        proxy_pass http://115.159.108.80:25297/auth/;
     }
 
     location /prepayment/ {
-        proxy_pass http://116.228.77.183:25297/prepayment/;
+        proxy_pass http://115.159.108.80:25297/prepayment/;
     }
   
 }

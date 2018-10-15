@@ -157,7 +157,7 @@ class BasicLayout extends React.Component {
         this.setState({ activeKey: path, selectKey: path });
       } else {
         panes.push(component);
-        this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
+        this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
       }
     }
 
@@ -165,42 +165,41 @@ class BasicLayout extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    // this.getContent();
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
-
-    let index = panes.findIndex(o => o.pathname == path);
-
-    this.setState({ path });
-
-    if (index >= 0) {
-      this.setState({ activeKey: path });
-      return;
-    }
 
     let component = this.getContent();
 
     if (!component) return;
 
-    if (!this.state.activeKey) {
-      panes.push(component);
-      this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
+    let index = panes.findIndex(o => o.routeKey == component.routeKey);
+
+    if (index >= 0) {
+
+      this.setState({ activeKey: component.routeKey })
+
       return;
     }
 
-    index = panes.findIndex(o => o.pathname == this.state.activeKey);
+    if (!this.state.activeKey || !panes.length) {
+      panes.push(component);
+      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
+      return;
+    }
+
+    index = panes.findIndex(o => o.routeKey == this.state.activeKey);
 
     //三种情况  不会打开新tab页
     //1.即将跳转的页面是功能页，并且它的父页面是当前页面
     //2.即将跳转的页面是功能页, 并且当前页面也是功能页面，并且当前页面和即将跳转的页面同属于一个菜单
     //3.即将跳转的页面是当前页面的父页面，一般页面的返回按钮
-    if ((component.parent && (component.parent == panes[index].parent || component.parent == panes[index].pathname)) || panes[index].parent == component.pathname) {
+    if ((component.parent && (component.parent == panes[index].parent || component.parent == panes[index].routeKey)) || panes[index].parent == component.routeKey) {
       panes[index] = component;
     } else {
       panes.push(component);
     }
 
-    this.setState({ panes, activeKey: component.pathname, selectKey: component.parent || component.pathname });
+    this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.routeKey });
   }
 
   getALlInfo = () => {
@@ -552,13 +551,13 @@ class BasicLayout extends React.Component {
     let activeKey = this.state.activeKey;
     let lastIndex;
     this.state.panes.forEach((pane, i) => {
-      if (pane.pathname === targetKey) {
+      if (pane.routeKey === targetKey) {
         lastIndex = i - 1;
       }
     });
-    const panes = this.state.panes.filter(pane => pane.pathname !== targetKey);
+    const panes = this.state.panes.filter(pane => pane.routeKey !== targetKey);
     if (lastIndex >= 0 && activeKey === targetKey) {
-      activeKey = panes[lastIndex].pathname;
+      activeKey = panes[lastIndex].routeKey;
     }
     this.setState({ panes, activeKey });
   };
@@ -631,7 +630,7 @@ class BasicLayout extends React.Component {
               // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
-                  <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.pathname}>
+                  <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
                     <div style={{ padding: '12px 14px', backgroundColor: "#fff" }}>
                       {React.createElement(pane.component, pane.params)}
                     </div>
