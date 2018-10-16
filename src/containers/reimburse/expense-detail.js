@@ -26,22 +26,14 @@ import {
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
-import Location from 'components/location';
 import 'styles/my-account/new-expense.scss';
-import ExpenseTypeSelector from 'components/Template/expense-type-selector';
-import ImageUpload from 'components/image-upload';
 
 import InvoiceInfo from 'containers/reimburse/invoice-detail';
-import NewShare from 'containers/reimburse/new-share';
-import ShareForm from 'containers/reimburse/share-form';
 import reimburseService from 'containers/reimburse/reimburse.service';
-import Upload from 'components/upload-button';
 import config from 'config';
-import invoiceInfo from './invoice-info';
 import SelectApplication from 'containers/reimburse/select-application';
-import Chooser from 'components/chooser';
-import ShareDetail from 'containers/financial-management/expense-reverse/share-detail';
-import { formatMessage } from 'share/common';
+import Chooser from 'widget/chooser';
+import ShareDetail from 'containers/financial-management/expense-reverse/share-detail.js';
 
 class NewExpense extends React.Component {
   constructor(props) {
@@ -87,32 +79,32 @@ class NewExpense extends React.Component {
       applincationParams: {},
       selectedData: [],
       expenseTypeItem: {
-        title: formatMessage({ id: 'itemMap.expenseType' }),
+        title: this.$t({ id: 'itemMap.expenseType' }),
         url: `${
           config.baseUrl
         }/api/v2/custom/forms/fa94050f-3fba-475a-ae04-8a4291efd957/selected/expense/types`,
         searchForm: [
-          { type: 'input', id: 'name', label: formatMessage({ id: 'itemMap.expenseTypeName' }) },
+          { type: 'input', id: 'name', label: this.$t({ id: 'itemMap.expenseTypeName' }) },
         ],
         columns: [
           {
-            title: formatMessage({ id: 'itemMap.icon' }),
+            title: this.$t({ id: 'itemMap.icon' }),
             dataIndex: 'iconURL',
             render: value => {
               return <img src={value} height="20" width="20" />;
             },
           },
-          { title: formatMessage({ id: 'itemMap.expenseTypeName' }), dataIndex: 'name' },
+          { title: this.$t({ id: 'itemMap.expenseTypeName' }), dataIndex: 'name' },
           {
-            title: formatMessage({ id: 'common.column.status' }),
+            title: this.$t({ id: 'common.column.status' }),
             dataIndex: 'enable',
             render: isEnabled => (
               <Badge
                 status={isEnabled ? 'success' : 'error'}
                 text={
                   isEnabled
-                    ? formatMessage({ id: 'common.status.enable' })
-                    : formatMessage({ id: 'common.status.disable' })
+                    ? this.$t({ id: 'common.status.enable' })
+                    : this.$t({ id: 'common.status.disable' })
                 }
               />
             ),

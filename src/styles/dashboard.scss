@@ -1,262 +1,265 @@
-.dashboard{
-  .ant-card{
-    margin-bottom: 10px;
-    .ant-card-body{
-      padding: 0;
-      .card-title{
-        position: relative;
-        height: 50px;
-        border-bottom: 1px solid #F0F0F0;
-        box-sizing: border-box;
-        line-height: 49px;
-        width: calc(100% - 40px);
-        margin-left: 20px;
-        font-size: 14px;
-        color: #909090;
-        .all-message{
-          position: absolute;
-          right: 0;
-          top: 15px;
-          height: 20px;
-          line-height: 20px;
-          display: inline-block;
-          text-decoration: underline;
-        }
-      }
-      .card-content{
-        width: 100%;
-        position: relative;
-        padding: 10px 20px;
-        height: calc(100% - 50px);
-        .recent-item{
-          color: #3D3D3D;
-          text-align: left;
-        }
-        .recent-img{
-          width: 40%;
-          position: absolute;
-          right: 20px;
-          bottom: 20px;
-        }
-        .amount-card{
-          width: 100%;
-          height: 100px;
+:global {
+  .dashboard{
+    .ant-card{
+      margin-bottom: 10px;
+      .ant-card-body{
+        padding: 0;
+        .card-title{
           position: relative;
-          padding: 20px 0 20px 120px;
-          img{
-            height: 60px;
+          height: 50px;
+          border-bottom: 1px solid #F0F0F0;
+          box-sizing: border-box;
+          line-height: 49px;
+          width: calc(100% - 40px);
+          margin-left: 20px;
+          font-size: 14px;
+          color: #909090;
+          .all-message{
             position: absolute;
-            top: 20px;
-            left: 20px;
+            right: 0;
+            top: 15px;
+            height: 20px;
+            line-height: 20px;
+            display: inline-block;
+            text-decoration: underline;
           }
-          .amount-title{
-            color: #777777;
-            line-height: 35px;
-            height: 35px;
-            b{
-              margin-right: 5px;
-              color: #00050C;
-              font-size: 32px;
+        }
+        .card-content{
+          width: 100%;
+          position: relative;
+          padding: 10px 20px;
+          height: calc(100% - 50px);
+          .recent-item{
+            color: #3D3D3D;
+            text-align: left;
+          }
+          .recent-img{
+            width: 40%;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+          }
+          .amount-card{
+            width: 100%;
+            height: 100px;
+            position: relative;
+            padding: 20px 0 20px 120px;
+            img{
+              height: 60px;
+              position: absolute;
+              top: 20px;
+              left: 20px;
             }
-          }
-          .amount-detail{
-            line-height: 25px;
-            height: 25px;
-            font-size: 22px;
-            color: #00050C;
+            .amount-title{
+              color: #777777;
+              line-height: 35px;
+              height: 35px;
+              b{
+                margin-right: 5px;
+                color: #00050C;
+                font-size: 32px;
+              }
+            }
+            .amount-detail{
+              line-height: 25px;
+              height: 25px;
+              font-size: 22px;
+              color: #00050C;
+            }
           }
         }
       }
     }
-  }
-
-  .chart-card{
-    .ant-card-body{
-      .card-title{
-        padding: 10px 0;
-        line-height: 30px;
-        height: 80px;
-        span{
-           margin-right: 10px;
-           font-size: 32px;
-           color: #00050C;
-           font-weight: 700;
-        }
-      }
-      .card-content{
-        height: 220px;
-        box-sizing: border-box;
-        .ant-col-8{
-          padding-top: 20px;
-          font-size: 14px;
-          .water-wave-container{
-            text-align: center;
+  
+    .chart-card{
+      .ant-card-body{
+        .card-title{
+          padding: 10px 0;
+          line-height: 30px;
+          height: 80px;
+          span{
+             margin-right: 10px;
+             font-size: 32px;
+             color: #00050C;
+             font-weight: 700;
           }
-          div{
-            height: 25px;
-            line-height: 25px;
-            span{
+        }
+        .card-content{
+          height: 220px;
+          box-sizing: border-box;
+          .ant-col-8{
+            padding-top: 20px;
+            font-size: 14px;
+            .water-wave-container{
+              text-align: center;
+            }
+            div{
+              height: 25px;
+              line-height: 25px;
+              span{
+                color: #777777;
+              }
+            }
+            .loan-title{
+              height: 30px;
+              line-height: 30px;
+              color: #00050C;
+              font-weight: 700;
+            }
+            .loan-top-title{
               color: #777777;
             }
           }
-          .loan-title{
-            height: 30px;
-            line-height: 30px;
+        }
+      }
+    }
+  
+    .loan-card.chart-card{
+      position: relative;
+      .ant-calendar-picker{
+        position: absolute;
+        top: 9px;
+        right: 20px;
+      }
+      .ant-card-body{
+        .card-title{
+          height: 50px;
+          line-height: 29px;
+        }
+        .card-content{
+          height: 250px;
+          padding-top: 30px;
+        }
+      }
+    }
+  
+    .document-card{
+      .ant-card-body{
+        .card-title{
+          padding: 10px 0;
+          line-height: 30px;
+          height: 50px;
+          span{
+            margin-left: 10px;
+            font-size: 32px;
             color: #00050C;
             font-weight: 700;
           }
-          .loan-top-title{
-            color: #777777;
-          }
         }
-      }
-    }
-  }
-
-  .loan-card.chart-card{
-    position: relative;
-    .ant-calendar-picker{
-      position: absolute;
-      top: 9px;
-      right: 20px;
-    }
-    .ant-card-body{
-      .card-title{
-        height: 50px;
-        line-height: 29px;
-      }
-      .card-content{
-        height: 250px;
-        padding-top: 30px;
-      }
-    }
-  }
-
-  .document-card{
-    .ant-card-body{
-      .card-title{
-        padding: 10px 0;
-        line-height: 30px;
-        height: 50px;
-        span{
-          margin-left: 10px;
-          font-size: 32px;
-          color: #00050C;
-          font-weight: 700;
-        }
-      }
-      height: 240px;
-      .card-content{
-        height: 210px;
-        padding: 20px;
-        overflow-x: auto;
-        white-space: nowrap;
-        .document-icon{
-          position: relative;
-          height: 126px;
-          width: 50px;
-          display: inline-block;
-          box-sizing: border-box;
-          cursor: pointer;
-          &:hover{
-            background: #e9e9e9;
-          }
-          i{
-            position: absolute;
-            font-size: 20px;
-            left: 15px;
-            top: 53px;
-          }
-        }
-        .application-item{
-          display: inline-block;
-          height: 150px;
-          width: 150px;
-          cursor: pointer;
-          box-sizing: border-box;
-          margin-right: 10px;
-          padding: 10px;
-          border: 2px solid #E4E4E4;
-          div{
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .application-date{
-            height: 16px;
-            line-height: 16px;
-            color: #999999;
-            font-size: 12px;
-          }
-          .application-form-name{
-            height: 30px;
-            line-height: 30px;
-            color: #666666;
-            font-size: 16px;
-            font-weight: 600;
-          }
-          .application-amount{
-            height: 20px;
-            line-height: 20px;
-            color: #666666;
-            font-size: 16px;
-            font-weight: 600;
-          }
-          .application-business-code{
-            height: 20px;
-            line-height: 20px;
-            margin-top: 20px;
-            color: #999999;
-            font-size: 12px;
-          }
-          .application-operate{
+        height: 240px;
+        .card-content{
+          height: 210px;
+          padding: 20px;
+          overflow-x: auto;
+          white-space: nowrap;
+          .document-icon{
             position: relative;
-            height: 20px;
-            line-height: 20px;
-            color: #999999;
-            font-size: 12px;
-            padding-left: 20px;
-            img{
+            height: 126px;
+            width: 50px;
+            display: inline-block;
+            box-sizing: border-box;
+            cursor: pointer;
+            &:hover{
+              background: #e9e9e9;
+            }
+            i{
               position: absolute;
-              top: 0;
-              left: 0;
+              font-size: 20px;
+              left: 15px;
+              top: 53px;
+            }
+          }
+          .application-item{
+            display: inline-block;
+            height: 150px;
+            width: 150px;
+            cursor: pointer;
+            box-sizing: border-box;
+            margin-right: 10px;
+            padding: 10px;
+            border: 2px solid #E4E4E4;
+            div{
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+            .application-date{
+              height: 16px;
+              line-height: 16px;
+              color: #999999;
+              font-size: 12px;
+            }
+            .application-form-name{
+              height: 30px;
+              line-height: 30px;
+              color: #666666;
+              font-size: 16px;
+              font-weight: 600;
+            }
+            .application-amount{
               height: 20px;
+              line-height: 20px;
+              color: #666666;
+              font-size: 16px;
+              font-weight: 600;
+            }
+            .application-business-code{
+              height: 20px;
+              line-height: 20px;
+              margin-top: 20px;
+              color: #999999;
+              font-size: 12px;
+            }
+            .application-operate{
+              position: relative;
+              height: 20px;
+              line-height: 20px;
+              color: #999999;
+              font-size: 12px;
+              padding-left: 20px;
+              img{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 20px;
+              }
             }
           }
         }
       }
     }
-  }
-
-  .ant-card.ant-card-bordered{
-    border: none;
-  }
-
-  .carousels{
-    width: 100%;
-    overflow: hidden;
-    .ant-card-body{
-      .slick-dots{
-        top: 12px;
-        bottom: auto;
-      }
+  
+    .ant-card.ant-card-bordered{
+      border: none;
     }
-    .carousel {
-      position: relative;
+  
+    .carousels{
+      width: 100%;
       overflow: hidden;
-      img {
-        position: relative;
+      .ant-card-body{
+        .slick-dots{
+          top: 12px;
+          bottom: auto;
+        }
       }
-      .carousel-title{
-        position: absolute;
-        width: 100%;
-        left: 0;
-        background: rgba(0, 0, 0, 0.6);
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
+      .carousel {
+        position: relative;
+        overflow: hidden;
+        img {
+          position: relative;
+        }
+        .carousel-title{
+          position: absolute;
+          width: 100%;
+          left: 0;
+          background: rgba(0, 0, 0, 0.6);
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          color: white;
+        }
       }
     }
   }
+  
 }

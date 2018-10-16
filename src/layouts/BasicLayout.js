@@ -147,7 +147,17 @@ class BasicLayout extends React.Component {
       this.getALlInfo();
     }
 
+    let path = window.location.hash.replace('#', '');
+
     let panes = this.state.panes;
+
+    if (path != "/dashboard") {
+      let dashboard = this.getContent("/dashboard");
+      if (dashboard) {
+        panes.push(dashboard);
+      }
+    }
+
     let component = this.getContent();
 
     if (component) {
@@ -159,6 +169,8 @@ class BasicLayout extends React.Component {
         panes.push(component);
         this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
       }
+    } else {
+      this.setState({ panes });
     }
 
   }
@@ -167,6 +179,23 @@ class BasicLayout extends React.Component {
 
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
+
+    if (path == "/") {
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: "/dashboard"
+        })
+      )
+      return;
+    }
+
+    if (panes.findIndex(o => o.routeKey == "/dashboard") < 0) {
+      let dashboard = this.getContent("/dashboard");
+      if (dashboard) {
+        panes.push(dashboard);
+        this.setState({ panes, activeKey: dashboard.routeKey, selectKey: dashboard.parent || dashboard.pathname });
+      }
+    }
 
     let component = this.getContent();
 
@@ -190,7 +219,7 @@ class BasicLayout extends React.Component {
     //即将跳转的页面是已经打开的页面的父页面
     index = panes.findIndex(item => item.parent == component.routeKey);
 
-    if(index >= 0) {
+    if (index >= 0) {
       panes[index] = component;
       this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
       return;
@@ -493,10 +522,10 @@ class BasicLayout extends React.Component {
     }
   };
 
-  getContent = pane => {
+  getContent = path => {
     const { menu } = this.props;
 
-    let path = window.location.hash.replace('#', '');
+    path = path || window.location.hash.replace('#', '');
     let routeKey = '';
     let query = {};
 
@@ -557,6 +586,9 @@ class BasicLayout extends React.Component {
   };
 
   remove = targetKey => {
+
+    if (this.state.panes.length == 1) return;
+
     let activeKey = this.state.activeKey;
     let lastIndex;
     this.state.panes.forEach((pane, i) => {
@@ -584,7 +616,7 @@ class BasicLayout extends React.Component {
     } = this.props;
 
     const { isMobile: mb, menus, loading, panes, selectKey } = this.state;
-    
+
     const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
@@ -641,7 +673,7 @@ class BasicLayout extends React.Component {
               >
                 {panes.map((pane, index) => (
                   <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
-                    <div style={{ padding: '12px 14px', paddingBottom: 0,  backgroundColor: "#fff" }}>
+                    <div style={{ padding: '12px 14px', paddingBottom: 0, backgroundColor: "#fff" }}>
                       {React.createElement(pane.component, pane.params)}
                     </div>
                   </TabPane>

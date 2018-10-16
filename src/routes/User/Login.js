@@ -707,12 +707,12 @@ export default class Login extends React.Component {
     this.setState({ submitting: false });
 
     if (redirect && redirect.indexOf('/user/login') >= 0) {
-      redirect = '/';
+      redirect = '/dashboard';
     }
 
     dispatch(
       routerRedux.replace({
-        pathname: redirect || '/',
+        pathname: redirect || '/dashboard',
       })
     );
   };

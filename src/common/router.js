@@ -72,6 +72,10 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
+    '/dashboard': {
+      component: dynamicWrapper(app, [], () => import('../containers/dashboard')),
+      name: "仪表盘"
+    },
     '/setting/menu': {
       component: dynamicWrapper(app, [], () => import('../routes/Menu/index')),
     },
@@ -149,18 +153,21 @@ export const getRouterData = app => {
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
     },
+    //我的预付款
     '/pre-payment/my-pre-payment': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/my-pre-payment/me-pre-payment.js')
       ),
       name: 'prepayment',
     },
+    //预付款复核
     '/pre-payment/pre-payment-recheck': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')
       ),
       name: 'prepayment-recheck',
     },
+    //预付款复核详情
     '/pre-payment/pre-payment-recheck/pre-payment-detail/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check-detail.js')
@@ -168,6 +175,7 @@ export const getRouterData = app => {
       name: 'prepayment-detail',
       parent: '/pre-payment/pre-payment-recheck',
     },
+    //新建预付款
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/my-pre-payment/new-pre-payment.js')
@@ -175,12 +183,35 @@ export const getRouterData = app => {
       name: 'new-prepayment',
       parent: '/pre-payment/my-pre-payment',
     },
+    //预付款详情
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')
       ),
       name: 'prepayment-detail',
       parent: '/pre-payment/my-pre-payment',
+    },
+    '/my-reimburse': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      name: 'my-reimburse',
+    },
+    '/my-reimburse/reimburse-detail/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      name: 'reimburse-detail',
+      parent: '/my-reimburse',
+    },
+    '/my-reimburse/edit-reimburse/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      name: 'new-reimburse',
+      parent: '/my-reimburse',
+    },
+    //新建报账单
+    '/my-reimburse/new-reimburse/:formId/:formOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/new-reimburse.js')
+      ),
+      name: 'new-reimburse',
+      parent: '/my-reimburse',
     },
     '/expense-adjust/my-expense-adjust': {
       component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust')),
@@ -206,12 +237,20 @@ export const getRouterData = app => {
       ),
       name: 'contract-type',
     },
+    //预付款类型
     '/document-type-manage/prepayment-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/prepayment-type/pre-payment-type.js')
       ),
       name: 'prepayment-type',
     },
+    '/document-type-manage/prepayment-type/distribution-company/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/prepayment-type/distribution-company.js')
+      ),
+      name: 'prepayment-type',
+    },
+ 
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')

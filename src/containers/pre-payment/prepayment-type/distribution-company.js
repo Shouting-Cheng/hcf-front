@@ -1,11 +1,13 @@
 import React from 'react'
-import menuRoute from 'routes/menuRoute'
+
 import config from 'config'
 import { Form, Row, Col, Badge, Button, Table, Checkbox, message, Icon } from 'antd'
-import ListSelector from 'components/list-selector'
+import ListSelector from 'widget/list-selector'
 import httpFetch from 'share/httpFetch'
-import PrePaymentTypeService from 'containers/receipt-type-setting/pre-payment-type/pre-payment-type.service'
-import { formatMessage } from 'share/common'
+import PrePaymentTypeService from './pre-payment-type.service'
+import { routerRedux } from 'dva/router';
+import { connect } from "dva"
+
 class CompanyDistribution extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ class CompanyDistribution extends React.Component {
       pageSize: 10,
       showListSelector: false,
       selectorItem: {},
-      contractTypeDefine: menuRoute.getRouteItem('pre-payment-type', 'key'),    //合同类型定义
+      // contractTypeDefine: menuRoute.getRouteItem('pre-payment-type', 'key'),    //合同类型定义
     };
   }
   componentWillMount() {
@@ -49,8 +51,8 @@ class CompanyDistribution extends React.Component {
     this.getList();
   }
   getBasicInfo = () => {
-    const { params } = this.props;
-    PrePaymentTypeService.getPrePaymentTypeById(params.id).then((res) => {
+    const { match } = this.props;
+    PrePaymentTypeService.getPrePaymentTypeById(match.params.id).then((res) => {
       let selectorItem = {
         title: "批量分配公司",
         url: `${config.prePaymentUrl}/api/cash/pay/requisition/type/assign/companies/filter`,
@@ -72,10 +74,10 @@ class CompanyDistribution extends React.Component {
     });
   }
   getList = () => {
-    const { params } = this.props;
+    const { match } = this.props;
     const { page, pageSize } = this.state;
     this.setState({ loading: true });
-    PrePaymentTypeService.getDistributiveCompany(params.id).then((res) => {
+    PrePaymentTypeService.getDistributiveCompany(match.params.id).then((res) => {
       if (res.status === 200) {
         this.setState({
           data: res.data,
@@ -85,7 +87,7 @@ class CompanyDistribution extends React.Component {
             current: page + 1,
             onChange: this.onChangePaper,
             onShowSizeChange: this.onShowSizeChange,
-            showTotal: total => formatMessage({ id: "common.total" }, { total: total })
+            showTotal: total => this.$t({ id: "common.total" }, { total: total })
           }
         });
       }
@@ -130,12 +132,12 @@ class CompanyDistribution extends React.Component {
   handleListOk = (values) => {
     const { params } = this.props;
     let paramsValue = [];
-    paramsValue.sobPayReqTypeId = this.props.params.id;
+    paramsValue.sobPayReqTypeId = this.props.match.params.id;
     paramsValue.companyId = [];
     paramsValue.compcompanyCodeanyId = [];
     values.result.map(item => {
       let model = {};
-      model.sobPayReqTypeId = this.props.params.id;
+      model.sobPayReqTypeId = this.props.match.params.id;
       model.companyId = item.id;
       model.companyCode = item.code;
       paramsValue.push(model);
@@ -153,7 +155,11 @@ class CompanyDistribution extends React.Component {
     });
   }
   handleBack = () => {
-    this.context.router.push(this.state.contractTypeDefine.url);
+
+    this.props.dispatch(routerRedux.push({
+      pathname: "/document-type-manage/prepayment-type"
+    }));
+    // this.context.router.push(this.state.contractTypeDefine.url);
   }
   render() {
     const { loading, companyTypeList, companyTypeInfo, pagination, columns, data, showListSelector, selectorItem } = this.state;
@@ -200,7 +206,7 @@ class CompanyDistribution extends React.Component {
         <ListSelector visible={showListSelector}
           onCancel={() => this.handleListShow(false)}
           selectorItem={selectorItem}
-          extraParams={{ sobPayReqTypeId: this.props.params.id }}
+          extraParams={{ sobPayReqTypeId: this.props.match.params.id }}
           onOk={this.handleListOk} />
         <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}><Icon type="rollback" style={{ marginRight: '5px' }} />返回</a>
       </div>
@@ -208,10 +214,7 @@ class CompanyDistribution extends React.Component {
   }
 }
 
-CompanyDistribution.contextTypes = {
-  router: React.PropTypes.object
-};
 
 const wrappedCompanyDistribution = Form.create()(CompanyDistribution);
 
-export default wrappedCompanyDistribution;
+export default connect()(wrappedCompanyDistribution);
