@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
-import SelectDepartment from 'widget/template/select-department';
+import SelectDepartment from 'widget/Template/select-department';
 import PropTypes from 'prop-types';
 
 /**

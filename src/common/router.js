@@ -200,6 +200,32 @@ export const getRouterData = app => {
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
     },
+    '/document-type-manage/contract-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/contract-type-define.js')
+      ),
+      name: 'contract-type'
+    },
+    '/document-type-manage/prepayment-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/prepayment-type/pre-payment-type.js')
+      ),
+      name: 'prepayment-type'
+    },
+    '/document-type-manage/contract-type/new-contract-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/new-contract-type.js')
+      ),
+      name: '合同类型创建/编辑',
+      parent: '/document-type-manage/contract-type',
+    },
+    '/document-type-manage/contract-type/company-distribution/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-type/company-distribution.js')
+      ),
+      name: '合同类型分配公司',
+      parent: '/document-type-manage/contract-type',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

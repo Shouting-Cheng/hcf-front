@@ -4,10 +4,9 @@ import { Select, Radio } from 'antd';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-import SelectDepartment from './select-department';
-import SelectEmployeeGroup from 'widget/Template/select-employee-group';
+import SelectDepartment from 'components/Template/select-department';
+import SelectEmployeeGroup from 'components/Template/select-employee-group';
 import PropTypes from 'prop-types';
-
 /**
  * 权限分配组件
  */

@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import config from 'config';
 import { Modal, Button, Tabs, Upload, Icon, message, Table } from 'antd';
 const TabPane = Tabs.TabPane;
 import httpFetch from 'share/httpFetch';
-// import FileSaver from 'file-saver';
 import PropTypes from 'prop-types';
 
 //数据导入组件

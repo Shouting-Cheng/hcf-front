@@ -1,20 +1,16 @@
-/**
- * Created By fudebao on 2017/09/21
- */
 import React from 'react';
 import { connect } from 'dva';
 import { Modal, Table, message, Button, Input, Row, Col, Card, Checkbox } from 'antd';
-import PropTypes from 'prop-types';
 
 const Search = Input.Search;
 const CheckboxGroup = Checkbox.Group;
 
 import httpFetch from 'share/httpFetch';
-import SearchArea from 'widget/search-area';
+import SearchArea from 'components/Widget/search-area';
 
 import config from 'config';
-
-import 'styles/pre-payment/my-pre-payment/select-contract.scss';
+import PropTypes from 'prop-types';
+import 'styles/contract/my-contract/select-contract.scss';
 
 class SelectEmployeeGroup extends React.Component {
   constructor(props) {
@@ -348,7 +344,7 @@ SelectEmployeeGroup.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   };
 }
 
