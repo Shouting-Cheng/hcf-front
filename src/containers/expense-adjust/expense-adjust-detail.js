@@ -4,6 +4,7 @@
 import React from 'react';
 import config from 'config';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import {
   Form,
   Affix,
@@ -36,7 +37,8 @@ const confirm = Modal.confirm;
 class ExpenseAdjustDetail extends React.Component {
   constructor(props) {
     super(props);
-    const type = this.props.params.type === '1001';
+    console.log(props);
+    const type = this.props.match.params.type === '1001';
     this.state = {
       voucherLoading: true,
       loading: true,
@@ -310,7 +312,9 @@ class ExpenseAdjustDetail extends React.Component {
     this.setState({
       showSlideFrame: true,
       slideFrameTitle:
-        this.props.params.type === '1001' ? this.$t('exp.crate.detail') : this.$t('exp.crate.add'),
+        this.props.match.params.type === '1001'
+          ? this.$t('exp.crate.detail')
+          : this.$t('exp.crate.add'),
       record: record,
       type: 'copy',
     });
@@ -320,7 +324,9 @@ class ExpenseAdjustDetail extends React.Component {
     this.setState({
       showSlideFrame: true,
       slideFrameTitle:
-        this.props.params.type === '1001' ? this.$t('exp.edit.detail') : this.$t('exp.edit.add'),
+        this.props.match.params.type === '1001'
+          ? this.$t('exp.edit.detail')
+          : this.$t('exp.edit.add'),
       record: record,
       type: 'copy',
     });
@@ -385,7 +391,7 @@ class ExpenseAdjustDetail extends React.Component {
     const { pagination } = this.state;
     this.setState({ loading: true });
     let params = {
-      expAdjustHeaderId: this.props.params.id,
+      expAdjustHeaderId: this.props.match.params.id,
       page: pagination.page,
       size: pagination.pageSize,
     };
@@ -407,7 +413,7 @@ class ExpenseAdjustDetail extends React.Component {
   }
 
   getHeaderInfo = () => {
-    adjustService.getExpenseAdjustHeadById(this.props.params.id).then(response => {
+    adjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(response => {
       let documentParams = {
         businessCode: response.data.expAdjustHeaderNumber,
         createdDate: moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
@@ -424,7 +430,7 @@ class ExpenseAdjustDetail extends React.Component {
           {
             label: this.$t('exp.adjust.type'),
             value:
-              this.props.params.type === '1001'
+              this.props.match.params.type === '1001'
                 ? this.$t('exp.adjust.exp.detail')
                 : this.$t('exp.adjust.exp.add'),
           },
@@ -473,8 +479,9 @@ class ExpenseAdjustDetail extends React.Component {
   }*/
 
   componentWillMount() {
+    console.log(this.props);
     const { columns } = this.state;
-    if (this.props.params.type === '1001') {
+    if (this.props.match.params.type === '1001') {
       columns.splice(columns.length - 1, 0, {
         title: this.$t('exp.dir.info'),
         dataIndex: 'checkInfo',
@@ -497,10 +504,12 @@ class ExpenseAdjustDetail extends React.Component {
     }
     this.setState({
       slideFrameTitle:
-        this.props.params.type === '1001' ? this.$t('exp.crate.detail') : this.$t('exp.crate.add'),
+        this.props.match.params.type === '1001'
+          ? this.$t('exp.crate.detail')
+          : this.$t('exp.crate.add'),
     });
     this.getHeaderInfo();
-    this.getDimension(this.props.params.expenseAdjustTypeId);
+    this.getDimension(this.props.match.params.expenseAdjustTypeId);
     this.getList();
   }
 
@@ -508,7 +517,9 @@ class ExpenseAdjustDetail extends React.Component {
     this.setState({
       showSlideFrame: true,
       slideFrameTitle:
-        this.props.params.type === '1001' ? this.$t('exp.crate.detail') : this.$t('exp.crate.add'),
+        this.props.match.params.type === '1001'
+          ? this.$t('exp.crate.detail')
+          : this.$t('exp.crate.add'),
       record: undefined,
     });
   };
@@ -517,7 +528,7 @@ class ExpenseAdjustDetail extends React.Component {
   onSubmit = () => {
     this.setState({ loading: true });
     adjustService
-      .checkBudgetAndSubmit(this.props.params.id)
+      .checkBudgetAndSubmit(this.props.match.params.id)
       .then(res => {
         if (res.data.passFlag) {
           //this.submit(true);
@@ -579,7 +590,7 @@ class ExpenseAdjustDetail extends React.Component {
       onOk: () => {
         this.setState({ dLoading: true });
         adjustService
-          .deleteExpenseAdjustHead(this.props.params.id)
+          .deleteExpenseAdjustHead(this.props.match.params.id)
           .then(res => {
             if (res.status === 200) {
               this.setState({ dLoading: false });
@@ -658,7 +669,7 @@ class ExpenseAdjustDetail extends React.Component {
 
   //返回
   onCancel = () => {
-    this.context.router.push(this.state.expenseAdjust.url);
+    this.props.dispatch(routerRedux.push({ pathname: '/expense-adjust/my-expense-adjust' }));
   };
 
   //图片预览
@@ -718,10 +729,12 @@ class ExpenseAdjustDetail extends React.Component {
   };
 
   handleHeadEdit = () => {
-    this.context.router.push(
-      this.state.UpdateExpenseAdjust.url
-        .replace(':id', this.state.headerData.id)
-        .replace(':expenseAdjustTypeId', this.state.headerData.expAdjustTypeId)
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId'
+          .replace(':id', this.state.headerData.id)
+          .replace(':expenseAdjustTypeId', this.state.headerData.expAdjustTypeId),
+      })
     );
   };
 
@@ -834,7 +847,7 @@ class ExpenseAdjustDetail extends React.Component {
                   }}
                 >
                   <Button type="primary" onClick={this.handleCreate}>
-                    {this.props.params.type === '1001'
+                    {this.props.match.params.type === '1001'
                       ? this.$t('exp.crate.detail')
                       : this.$t('exp.crate.add')}
                   </Button>
@@ -845,7 +858,7 @@ class ExpenseAdjustDetail extends React.Component {
                     }}
                     style={{ marginLeft: 15 }}
                   >
-                    {this.props.params.type === '1001'
+                    {this.props.match.params.type === '1001'
                       ? this.$t('exp.import.detail')
                       : this.$t('exp.import.add')}
                   </Button>
@@ -893,14 +906,14 @@ class ExpenseAdjustDetail extends React.Component {
           templateUrl={`${
             config.baseUrl
           }/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
-            this.props.params.id
+            this.props.match.params.id
           }&external=${true}`}
           uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
-            this.props.params.id
+            this.props.match.params.id
           }`}
           listenUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
           errorUrl={`${config.baseUrl}/api/expense/adjust/lines/failed/export/${
-            this.props.params.id
+            this.props.match.params.id
           }/true`}
           title={this.$t('exp.import.line')}
           fileName={this.$t('exp.import.line')}
@@ -911,24 +924,26 @@ class ExpenseAdjustDetail extends React.Component {
           width="900px"
           show={showSlideFrame}
           title={slideFrameTitle}
-          content={NewExpenseAdjustDetail}
-          params={{
-            expenseHeader: headerData,
-            expenseAdjustHeadId: this.props.params.id,
-            adjustLineCategory: this.props.params.type,
-            expenseAdjustTypeId: this.props.params.expenseAdjustTypeId,
-            costCenterData: costCenterData,
-            flag: showSlideFrame,
-            record: this.state.record,
-            type: type,
-            query: this.reloadData,
-            visible: showSlideFrame,
-          }}
           onClose={() => {
             this.setState({ showSlideFrame: false });
           }}
-          afterClose={this.handleCloseSlide}
-        />
+        >
+          <NewExpenseAdjustDetail
+            params={{
+              expenseHeader: headerData,
+              expenseAdjustHeadId: this.props.match.params.id,
+              adjustLineCategory: this.props.match.params.type,
+              expenseAdjustTypeId: this.props.match.params.expenseAdjustTypeId,
+              costCenterData: costCenterData,
+              flag: showSlideFrame,
+              record: this.state.record,
+              type: type,
+              query: this.reloadData,
+              visible: showSlideFrame,
+            }}
+            onClose={this.handleCloseSlide}
+          />
+        </SlideFrame>
         <Modal
           visible={previewVisible}
           footer={null}
@@ -1018,11 +1033,11 @@ class ExpenseAdjustDetail extends React.Component {
   }
 }
 
-ExpenseAdjustDetail.contextTypes = {
+/*ExpenseAdjustDetail.contextTypes = {
   router: React.PropTypes.object,
   isModal: React.PropTypes.bool,
   isChecking: React.PropTypes.bool,
-};
+};*/
 
 ExpenseAdjustDetail.defaultProps = {
   isModal: true,

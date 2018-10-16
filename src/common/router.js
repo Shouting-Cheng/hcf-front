@@ -156,13 +156,17 @@ export const getRouterData = app => {
       name: 'prepayment',
     },
     '/pre-payment/pre-payment-recheck': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')),
-      name: "prepayment-recheck"
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check.js')
+      ),
+      name: 'prepayment-recheck',
     },
     '/pre-payment/pre-payment-recheck/pre-payment-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check-detail.js')),
-      name: "prepayment-detail",
-      parent: '/pre-payment/pre-payment-recheck'
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-re-check/pre-payment-re-check-detail.js')
+      ),
+      name: 'prepayment-detail',
+      parent: '/pre-payment/pre-payment-recheck',
     },
     '/pre-payment/my-pre-payment/new-pre-payment/:id/:prePaymentTypeId/:formOid': {
       component: dynamicWrapper(app, [], () =>
@@ -189,7 +193,7 @@ export const getRouterData = app => {
       name: 'new-expense-adjust',
       parent: '/expense-adjust/my-expense-adjust',
     },
-    '/expense-adjust/my-expense-adjust/:id/:expenseAdjustTypeId/:type/expense-adjust-detail': {
+    '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust-detail')
       ),
