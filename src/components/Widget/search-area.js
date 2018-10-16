@@ -256,7 +256,7 @@ class SearchArea extends React.Component {
   //点击重置的事件，清空值为初始值
   handleReset = () => {
     this.clearSearchAreaSelectData();
-    this.props.clearHandle();
+    this.props.clearHandle && this.props.clearHandle();
   };
 
   //清除searchArea选择数据
@@ -678,7 +678,6 @@ class SearchArea extends React.Component {
             labelInValue={!!item.entity}
             onFocus={item.getUrl ? () => this.getOptions(item) : () => {
             }}
-            getPopupContainer={() => document.getElementById('search-area')}
             notFoundContent={item.fetching ? <Spin size="small" /> : messages('agency.setting.no.result')}
           >
             {item.options.map((option) => {

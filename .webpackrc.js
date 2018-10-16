@@ -46,10 +46,9 @@ export default {
   publicPath: '/',
   hash: true,
   proxy: {
-    '/service': {
-      target: 'http://localhost:8087',
+    '/artemis': {
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
-      pathRewrite: { '^/service': '' },
     },
     '/oauth': {
       target: 'http://115.159.108.80:25297',
@@ -60,10 +59,6 @@ export default {
       changeOrigin: true,
     },
     '/auth': {
-      target: 'http://115.159.108.80:25297',
-      changeOrigin: true,
-    },
-    '/artemis-sit': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },

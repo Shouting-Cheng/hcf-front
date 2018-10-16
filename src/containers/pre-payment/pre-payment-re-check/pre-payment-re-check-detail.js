@@ -106,20 +106,17 @@ class PrePaymentDetail extends React.Component {
 
 
         return (
-            <div className="contract-detail pre-payment-detail">
+            <div style={{ paddingBottom: 0 }} className="contract-detail pre-payment-detail">
                 <PrePaymentCommon flag={false} params={this.state.headerData} contractEdit={true} id={this.props.match.params.id} />
                 {
                     (headerData.status && headerData.status != 1004 && headerData) ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-                        <Row>
-                            <Col span={18}>
-                                <ApproveBar passLoading={passLoading}
-                                    style={{ paddingLeft: 20 }}
-                                    backUrl={'/pre-payment/pre-payment-recheck'}
-                                    rejectLoading={rejectLoading}
-                                    handleApprovePass={this.handleApprovePass}
-                                    handleApproveReject={this.handleApproveReject} />
-                            </Col>
-                        </Row>
+                        <ApproveBar passLoading={passLoading}
+                            style={{ paddingLeft: 20 }}
+                            backUrl={'/pre-payment/pre-payment-recheck'}
+                            rejectLoading={rejectLoading}
+                            handleApprovePass={this.handleApprovePass}
+                            handleApproveReject={this.handleApproveReject} />
+
                     </Affix> : (<Affix offsetBottom={0} className="bottom-bar">
                         <Button onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
                     </Affix>)

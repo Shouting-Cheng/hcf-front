@@ -579,7 +579,7 @@ ApproveBar.defaultProps = {
   invoiceNumber: 0,
   buttons: ['pass', 'reject', 'notice', 'print'],
   priceView: false,
-  width: 'calc(100vw - 202px)',
+  width: '',
   moreButtons: [],
 };
 
