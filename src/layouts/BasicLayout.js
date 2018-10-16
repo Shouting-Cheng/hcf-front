@@ -641,7 +641,7 @@ class BasicLayout extends React.Component {
               >
                 {panes.map((pane, index) => (
                   <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
-                    <div style={{ padding: '12px 14px', backgroundColor: "#fff" }}>
+                    <div style={{ padding: '12px 14px', paddingBottom: 0,  backgroundColor: "#fff" }}>
                       {React.createElement(pane.component, pane.params)}
                     </div>
                   </TabPane>
