@@ -3,6 +3,7 @@ import { Select, Icon } from 'antd';
 
 import ListSelector from 'widget/list-selector';
 import 'styles/components/chooser.scss';
+import PropTypes from 'prop-types';
 
 /**
  * 列表选择表单组件，由antd的select组件改造而来,select + listSelector的自定义表单组件
@@ -213,18 +214,18 @@ class Chooser extends React.Component {
 }
 
 Chooser.propTypes = {
-  placeholder: React.PropTypes.string, //输入框空白时的显示文字
-  disabled: React.PropTypes.bool, //是否可用
-  type: React.PropTypes.string, //list选择的type，参见chooserData内
-  selectorItem: React.PropTypes.object, //listSelector的selectorItem
-  valueKey: React.PropTypes.string, //表单项的id变量名
-  labelKey: React.PropTypes.string, //表单项的显示变量名
-  listExtraParams: React.PropTypes.object, //listSelector的额外参数
-  onChange: React.PropTypes.func, //进行选择后的回调
-  single: React.PropTypes.bool, //是否单选
-  value: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.string]), //已选择的值，需要传入完整目标数组
-  showNumber: React.PropTypes.bool, //是否只显示'已选XX条'
-  onlyNeed: React.PropTypes.string, //只需要对象内的某一值的对应变量名
+  placeholder: PropTypes.string, //输入框空白时的显示文字
+  disabled: PropTypes.bool, //是否可用
+  type: PropTypes.string, //list选择的type，参见chooserData内
+  selectorItem:PropTypes.object, //listSelector的selectorItem
+  valueKey:PropTypes.string, //表单项的id变量名
+  labelKey: PropTypes.string, //表单项的显示变量名
+  listExtraParams: PropTypes.object, //listSelector的额外参数
+  onChange: PropTypes.func, //进行选择后的回调
+  single: PropTypes.bool, //是否单选
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]), //已选择的值，需要传入完整目标数组
+  showNumber: PropTypes.bool, //是否只显示'已选XX条'
+  onlyNeed: PropTypes.string, //只需要对象内的某一值的对应变量名
 };
 
 Chooser.defaultProps = {

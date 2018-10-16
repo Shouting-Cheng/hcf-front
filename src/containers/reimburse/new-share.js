@@ -132,6 +132,8 @@ class NewShare extends Component {
   }
 
   componentDidMount() {
+
+    console.log(this.props.params);
     this.setState(
       {
         defaultApportion: this.props.params.defaultApportion,
@@ -144,7 +146,7 @@ class NewShare extends Component {
         if (this.state.relatedApplication) {
           cols.splice(0, 0, this.state.applicationCol);
         }
-
+      
         if (
           this.state.defaultApportion.costCenterItems &&
           this.state.defaultApportion.costCenterItems.length
@@ -375,8 +377,8 @@ class NewShare extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 

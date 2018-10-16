@@ -191,6 +191,19 @@ export const getRouterData = app => {
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
+    '/my-reimburse/edit-reimburse/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      name: 'new-reimburse',
+      parent: '/my-reimburse',
+    },
+    //新建报账单
+    '/my-reimburse/new-reimburse/:formId/:formOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/new-reimburse.js')
+      ),
+      name: 'new-reimburse',
+      parent: '/my-reimburse',
+    },
     '/expense-adjust/my-expense-adjust': {
       component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust')),
       name: 'my-expense-adjust1',

@@ -132,7 +132,7 @@ class ReimburseDetail extends React.Component {
       headerData.reportStatus == 1003 ||
       headerData.reportStatus == 1005;
     return (
-      <div className="contract-detail background-transparent">
+      <div>
         <ReimburseDetailCommon
           getInfo={this.getInfo}
           headerData={headerData}
@@ -140,7 +140,10 @@ class ReimburseDetail extends React.Component {
           getContractStatus={this.getStatus}
         />
         {isEdit && (
-          <Affix offsetBottom={0} className="bottom-bar">
+          <Affix offsetBottom={0} style={{
+            position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+          }}>
             <Button
               type="primary"
               onClick={this.onSubmit}

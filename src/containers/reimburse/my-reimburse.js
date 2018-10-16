@@ -310,7 +310,7 @@ class MyReimburse extends React.Component {
         break;
       }
     }
-    // //传递参数/:formOID/:formName
+    //传递参数/:formOID/:formName
     // let path = this.state.newReimburePage.url.replace(/:\w+/g, function (a, b, c, d) {
     //   if (a === ":formId")
     //     return formId;
@@ -318,12 +318,15 @@ class MyReimburse extends React.Component {
     //     return formOID;
     // })
     // this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/my-reimburse/new-reimburse/${formId}/${formOID}`,
+      })
+    );
   };
 
   //跳转到详情
   handleRowClick = recode => {
-    // let url = this.state.detailReimburePage.url.replace(":id", recode.expenseReportId);
-    // this.context.router.push(url);
     this.props.dispatch(
       routerRedux.push({
         pathname: `/my-reimburse/reimburse-detail/${recode.expenseReportId}`,

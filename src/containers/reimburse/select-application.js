@@ -9,6 +9,8 @@ import 'styles/pre-payment/my-pre-payment/select-contract.scss';
 // import menuRoute from 'routes/menuRoute';
 import moment from 'moment';
 import config from 'config';
+import PropTypes from 'prop-types'
+
 
 
 class SelectContract extends React.Component {
@@ -430,15 +432,15 @@ class SelectContract extends React.Component {
 }
 
 SelectContract.propTypes = {
-  visible: React.PropTypes.bool, //对话框是否可见
-  onOk: React.PropTypes.func, //点击OK后的回调，当有选择的值时会返回一个数组
-  onCancel: React.PropTypes.func, //点击取消后的回调
-  afterClose: React.PropTypes.func, //关闭后的回调
-  type: React.PropTypes.string, //选择类型
-  selectedData: React.PropTypes.array, //默认选择的值id数组
-  extraParams: React.PropTypes.object, //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
-  selectorItem: React.PropTypes.object, //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
-  single: React.PropTypes.bool, //是否单选
+  visible: PropTypes.bool, //对话框是否可见
+  onOk: PropTypes.func, //点击OK后的回调，当有选择的值时会返回一个数组
+  onCancel: PropTypes.func, //点击取消后的回调
+  afterClose: PropTypes.func, //关闭后的回调
+  type: PropTypes.string, //选择类型
+  selectedData: PropTypes.array, //默认选择的值id数组
+  extraParams: PropTypes.object, //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
+  selectorItem: PropTypes.object, //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
+  single: PropTypes.bool, //是否单选
 };
 
 // SelectContract.contextTypes = {

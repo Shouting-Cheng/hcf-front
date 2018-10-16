@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon } from 'antd'
+import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Card } from 'antd'
 import config from 'config';
 // import menuRoute from 'routes/menuRoute';
 
@@ -99,7 +99,7 @@ class PayInfo extends React.Component {
                 total: 0
             },
             page: 0,
-            pageSize:5,
+            pageSize: 5,
             headerData: {},
             visible: false,
             model: {},
@@ -146,7 +146,7 @@ class PayInfo extends React.Component {
                     showQuickJumper: true,
                     onShowSizeChange: this.onShowSizeChange,
                     showTotal: (total, range) => this.$t({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
-                    pageSizeOptions: ['5','10', '20', '30', '40'],
+                    pageSizeOptions: ['5', '10', '20', '30', '40'],
                 },
                 loading: false
             });
@@ -160,11 +160,11 @@ class PayInfo extends React.Component {
             })
         }
     }
-    onShowSizeChange=(current,pageSize)=>{
+    onShowSizeChange = (current, pageSize) => {
         this.setState({
-            page:current-1,
+            page: current - 1,
             pageSize
-        },()=>{
+        }, () => {
             this.getList()
         })
     }
@@ -325,26 +325,27 @@ class PayInfo extends React.Component {
         const { loading, data, columns, visible, model } = this.state;
         const { summaryView } = this.props;
         return (
-            <div className="tab-container reimburse-container">
-                <h3 style={{ padding: "0 0 10px", margin: 0 }} className="sub-header-title">付款信息</h3>
-                <div style={{ lineHeight: "40px", height: "40px" }} className="table-header">
-                    {!this.props.disabled && <div style={{ float: "left" }} className="table-header-buttons">
-                        <Button type="primary" onClick={this.addItem}>添加付款信息</Button>
-                    </div>}
-                    <span style={{ float: "right" }}>
-                        报账总金额：<span style={{ color: "green" }}>{summaryView.lineCurrency}  {this.filterMoney(summaryView.lineTotalAmount)}</span>&nbsp;&nbsp;/&nbsp;&nbsp;付款总金额：<span style={{ color: "green" }}>{summaryView.paymentLineCurrency}  {this.filterMoney(summaryView.paymentLineTotalAmount)}</span> &nbsp;&nbsp;/&nbsp;&nbsp;核销总金额： <span style={{ color: "green" }}>{summaryView.lineCurrency} {this.filterMoney(summaryView.writeOffAmount)}</span>
-                    </span>
-                </div>
-                <Table style={{ clear: "both" }} rowKey={record => record.id}
-                    columns={columns}
-                    dataSource={data}
-                    loading={loading}
-                    pagination={this.state.pagination}
-                    expandedRowRender={this.expandedRowRender}
-                    bordered
-                    size="middle" />
+            <div>
+                <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="付款信息">
+                    <div className="table-header" style={{marginTop:'0px'}}>
+                        {!this.props.disabled && <div style={{ float: "left" }} className="table-header-buttons">
+                            <Button type="primary" onClick={this.addItem}>添加付款信息</Button>
+                        </div>}
+                        <span style={{ float: "right" }}>
+                            报账总金额：<span style={{ color: "green" }}>{summaryView.lineCurrency}  {this.filterMoney(summaryView.lineTotalAmount)}</span>&nbsp;&nbsp;/&nbsp;&nbsp;付款总金额：<span style={{ color: "green" }}>{summaryView.paymentLineCurrency}  {this.filterMoney(summaryView.paymentLineTotalAmount)}</span> &nbsp;&nbsp;/&nbsp;&nbsp;核销总金额： <span style={{ color: "green" }}>{summaryView.lineCurrency} {this.filterMoney(summaryView.writeOffAmount)}</span>
+                        </span>
+                    </div>
+                    <Table style={{ clear: "both" }} rowKey={record => record.id}
+                        columns={columns}
+                        dataSource={data}
+                        loading={loading}
+                        pagination={this.state.pagination}
+                        expandedRowRender={this.expandedRowRender}
+                        bordered
+                        size="middle" />
 
-                <Verification handleOk={this.writeOffOk} model={model} close={() => { this.setState({ visible: false }) }} visible={visible}></Verification>
+                    <Verification handleOk={this.writeOffOk} model={model} close={() => { this.setState({ visible: false }) }} visible={visible}></Verification>
+                </Card>
             </div>
         )
     }

@@ -15,7 +15,7 @@ import {
   Spin,
 } from 'antd';
 import config from 'config';
-import Upload from 'components/upload';
+import Upload from 'widget/upload';
 
 import 'styles/reimburse/reimburse.scss';
 

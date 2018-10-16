@@ -17,19 +17,20 @@ import {
 import config from 'config';
 import httpFetch from 'share/httpFetch';
 import '../../styles/reimburse/new-reimburse.scss';
-import menuRoute from 'routes/menuRoute';
+// import menuRoute from 'routes/menuRoute';
 
 import ListSelector from 'widget/list-selector';
 
 import reimburseService from 'containers/reimburse/reimburse.service';
 
-import selectorData from 'share/selectorData';
+
 import FormList from './form-list';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckableTag = Tag.CheckableTag;
 const { TextArea } = Input;
+import { routerRedux } from 'dva/router';
 
 
 class NewReimburse extends React.Component {
@@ -68,8 +69,8 @@ class NewReimburse extends React.Component {
       contractSelectedData: [{}],
       receiverSelectedData: [{}],
       receiverExtraParams: {},
-      MyReimburePage: menuRoute.getRouteItem('my-reimburse', 'key'),
-      ReimburseDetail: menuRoute.getRouteItem('reimburse-detail', 'key'),
+      // MyReimburePage: menuRoute.getRouteItem('my-reimburse', 'key'),
+      // ReimburseDetail: menuRoute.getRouteItem('reimburse-detail', 'key'),
       formItemLayoutWithOutLabel: {
         wrapperCol: {
           span: 14,
@@ -85,8 +86,8 @@ class NewReimburse extends React.Component {
 
   //默认字段 公司 部门 事由
   componentDidMount() {
-    if (this.props.params.id) {
-      reimburseService.getReimburseDetailById(this.props.params.id).then(res => {
+    if (this.props.match.params.id) {
+      reimburseService.getReimburseDetailById(this.props.match.params.id).then(res => {
         this.setState({
           headerData: res.data,
           formSetings: res.data,
@@ -316,7 +317,7 @@ class NewReimburse extends React.Component {
   getCustomList = customEnumerationOID => {
     reimburseService
       .getCustomEnumeration(customEnumerationOID)
-      .then(res => {})
+      .then(res => { })
       .catch(err => {
         message.error('网络错误！请稍后重试');
       });
@@ -326,7 +327,7 @@ class NewReimburse extends React.Component {
   getCustomFormFields() {
     this.setState({ loading: true });
     reimburseService
-      .getFormSet(this.props.routeParams.formOID)
+      .getFormSet(this.props.match.params.formOID)
       .then(res => {
         this.setState({
           customFormFields: res.data.customFormFields,
@@ -386,8 +387,8 @@ class NewReimburse extends React.Component {
         });
 
         let data = {
-          formOid: this.props.params.formOID,
-          formId: this.props.params.formId,
+          formOid: this.props.match.params.formOID,
+          formId: this.props.match.params.formId,
           applicationId: this.props.user.id,
           type: '801001',
           customFormValues: customFormFields,
@@ -418,8 +419,11 @@ class NewReimburse extends React.Component {
             if (200 === res.status) {
               this.setState({ saveLoading: false });
               message.success('操作成功');
-              let url = this.state.ReimburseDetail.url.replace(':id', res.data.id);
-              this.context.router.push(url);
+              this.props.dispatch(
+                routerRedux.push({
+                  pathname: `/my-reimburse/reimburse-detail/${res.data.id}`,
+                })
+              );
             } else {
               message.error('操作失败');
               this.setState({ saveLoading: false });
@@ -434,7 +438,11 @@ class NewReimburse extends React.Component {
   };
   //返回按钮
   handleReturn = () => {
-    this.context.router.push(this.state.MyReimburePage.url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/my-reimburse`,
+      })
+    );
   };
 
   render() {
@@ -453,36 +461,55 @@ class NewReimburse extends React.Component {
     } = this.state;
 
     return (
-      <div className="container reimburse">
-        <Form onSubmit={this.handleSubmit}>
-          <FormItem {...formItemLayout} label="申请人">
-            {getFieldDecorator('applicationId', {
-              rules: [{ required: true, message: '请选择申请人' }],
-              initialValue: { key: user.id, label: user.fullName },
-            })(
-              <Select disabled labelInValue placeholder="请选择">
-                {applyer.map(value => {
-                  return (
-                    <Option key={value.id} value={value.id}>
-                      {value.fullName}
-                    </Option>
-                  );
-                })}
-              </Select>
-            )}
-          </FormItem>
-          <Spin spinning={this.state.loading}>
-            <FormList
-              isNew={this.state.isNew}
-              formSetings={this.state.formSetings}
-              customFormFields={this.state.customFormFields}
-              user={this.props.user}
-              company={this.props.company}
-              routeParams={this.props.routeParams}
-              ref="formList"
-            />
-          </Spin>
-        </Form>
+      <div className="new-contract " style={{ marginBottom: '10px' }}>
+        <Spin spinning={false}>
+          <Form onSubmit={this.handleSubmit}>
+            <FormItem {...formItemLayout} label="申请人">
+              {getFieldDecorator('applicationId', {
+                rules: [{ required: true, message: '请选择申请人' }],
+                initialValue: { key: user.id, label: user.fullName },
+              })(
+                <Select disabled labelInValue placeholder="请选择">
+                  {applyer.map(value => {
+                    return (
+                      <Option key={value.id} value={value.id}>
+                        {value.fullName}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              )}
+            </FormItem>
+            <Spin spinning={this.state.loading}>
+              <FormList
+                isNew={this.state.isNew}
+                formSetings={this.state.formSetings}
+                customFormFields={this.state.customFormFields}
+                user={this.props.user}
+                company={this.props.company}
+                routeParams={this.props.match.params}
+                ref="formList"
+              />
+            </Spin>
+            <input ref="chooserBlur" style={{ position: 'absolute', top: '-100vh', zIndex: -1 }} />
+            <Affix offsetBottom={0}  style={{
+                position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px'
+              }}>
+              <Button
+                style={{ marginLeft: 20, marginRight: 20 }}
+                disabled={this.state.loading}
+                loading={this.state.saveLoading}
+                type="primary"
+                onClick={this.handleSubmit}
+              >
+                下一步
+             </Button>
+              <Button onClick={this.handleReturn}>取消</Button>
+            </Affix>
+          </Form>
+        </Spin>
+
         <ListSelector
           visible={showCompanySelector}
           type="reimburse_company"
@@ -516,19 +543,7 @@ class NewReimburse extends React.Component {
                       selectedData={costCenterSelectedData}
                       single={true}/> */}
 
-        <input ref="chooserBlur" style={{ position: 'absolute', top: '-100vh', zIndex: -1 }} />
-        <Affix offsetBottom={0} className="bottom-bar">
-          <Button
-            style={{ marginLeft: 20, marginRight: 20 }}
-            disabled={this.state.loading}
-            loading={this.state.saveLoading}
-            type="primary"
-            onClick={this.handleSubmit}
-          >
-            下一步
-          </Button>
-          <Button onClick={this.handleReturn}>取消</Button>
-        </Affix>
+
       </div>
     );
   }
@@ -541,8 +556,8 @@ NewReimburse = Form.create()(NewReimburse);
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 
