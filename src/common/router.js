@@ -231,7 +231,7 @@ export const getRouterData = app => {
         import('containers/request/request'),
       ),
       name: this.$t('menu.request'),
-    }
+    },
 
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
