@@ -123,15 +123,6 @@ class NewPrePaymentType extends React.Component {
 
   onCancel = () => {
     this.props.close();
-    // this.props.form.resetFields();
-    // this.setState({
-    //   needApply:false,
-    //   applicationFormBasis: "",
-    //   allType: "",
-    //   requisitionTypeIdList: [],
-    //   allClass: true,
-    //   transactionClassList: []
-    // });
   };
 
   handleSave = (e) => {

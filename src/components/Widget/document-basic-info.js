@@ -73,7 +73,7 @@ class DocumentBasicInfo extends React.Component {
             <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.document.code'), data.businessCode) : null}</Col>
             <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.apply.data'), moment(data.createdDate).format('YYYY-MM-DD')) : null}</Col>
             <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.create.person'), data.createByName) : null}</Col>
-            <Col span={4}>
+            <Col style={{ textAlign: "right" }} span={4}>
               {this.props.children}
             </Col>
           </Row>
@@ -93,7 +93,7 @@ class DocumentBasicInfo extends React.Component {
             </Row>
             <Row>
               {
-                (this.state.data.customList && this.state.data.customList.length) && this.state.data.customList.map((item,index) => {
+                (this.state.data.customList && this.state.data.customList.length) && this.state.data.customList.map((item, index) => {
                   return (
                     <Col key={index} span={6}>
                       {this.renderList(item.label, item.value)}
@@ -135,7 +135,7 @@ class DocumentBasicInfo extends React.Component {
                       </Col>
                       <Col style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} span={16}>
                         {
-                          data.attachments.map((item,index) => {
+                          data.attachments.map((item, index) => {
                             return (
                               <Col key={index} span={6} style={{ fontSize: '12px', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left", lineHeight: "32px" }}>
                                 {
