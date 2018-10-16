@@ -151,18 +151,13 @@ class SelectContract extends React.Component {
      * @param nextProps 下一阶段的props
      */
     componentWillReceiveProps = (nextProps) => {
-        if (nextProps.params.flag && !this.props.params.flag) {
+        if (JSON.stringify(nextProps.params) !== "{}" && JSON.stringify(this.props.params) === "{}") {
             this.setState({ page: 0, selectedData: nextProps.selectedData, params: nextProps.params },
                 () => {
                     this.getList();
                 });
         }
-        if (!nextProps.params.flag && this.props.params.flag) {
-            this.setState({
-                selectedData: []
-            })
-        }
-    };
+    }
     handleOk = () => {
         this.setState({ expandedRowKeys: [] });
         this.props.onOk({
