@@ -226,6 +226,12 @@ export const getRouterData = app => {
       name: '合同类型分配公司',
       parent: '/document-type-manage/contract-type',
     },
+    '/request':{//申请单
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/request'),
+      ),
+      name: this.$t('menu.request'),
+    }
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
