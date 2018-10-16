@@ -18,7 +18,7 @@ const config = {
   wsUrl: 'ws://http://106.15.26.10:10080',
   expAdjustUrl: 'http://116.228.77.183:25297',
   //baseUrl:'http://116.228.77.183:25297',
-  jobUrl: '/api/job',
+  jobUrl: '/job',
   vendorUrl: '/api/supplier',
 };
 
