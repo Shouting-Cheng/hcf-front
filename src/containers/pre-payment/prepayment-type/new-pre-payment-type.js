@@ -90,8 +90,9 @@ class NewPrePaymentType extends React.Component {
         })
       })
     } else {
-      this.setSelectEmployeeText();
-      this.getRequisitionList(this.state.nowType.setOfBookId);
+      this.setState({
+        nowType: this.props.params.prePaymentType
+      })
     }
 
     this.getSetOfBookList();
@@ -368,7 +369,7 @@ class NewPrePaymentType extends React.Component {
                   return <Option key={option.value}>{option.label}</Option>
                 })}
               </Select>
-            )}
+              )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={this.$t({ id: 'pre.payment.typeCode' }/*预付款单类型代码*/)}>
@@ -380,7 +381,7 @@ class NewPrePaymentType extends React.Component {
               initialValue: nowType.typeCode
             })(
               <Input disabled={!!nowType.id} placeholder={this.$t({ id: 'common.please.enter' })/* 请输入 */} />
-            )}
+              )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={this.$t({ id: 'pre.payment.typeName' }/*预付款单类型名称*/)}>
@@ -392,7 +393,7 @@ class NewPrePaymentType extends React.Component {
               initialValue: nowType.typeName
             })(
               <Input placeholder={this.$t({ id: 'common.please.enter' })/* 请输入 */} />
-            )}
+              )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={(
@@ -416,7 +417,7 @@ class NewPrePaymentType extends React.Component {
                   })
                 }
               </Select>
-            )}
+              )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={this.$t({ id: 'common.column.status' })/* 状态 */}>
@@ -425,7 +426,7 @@ class NewPrePaymentType extends React.Component {
               valuePropName: 'checked'
             })(
               <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
-            )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })}
+              )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })}
           </FormItem>
 
           <div className="common-item-title">{this.$t({ id: 'pre.payment.paymentMethodCategoryName' }/*付款方式类型*/)}</div>
@@ -442,7 +443,7 @@ class NewPrePaymentType extends React.Component {
                   return <Option key={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
-            )}
+              )}
           </FormItem>
 
           <div className="common-item-title">{this.$t({ id: 'pre.payment.association.requisition.set' })/* 关联申请设置 */}</div>
@@ -492,7 +493,7 @@ class NewPrePaymentType extends React.Component {
               initialValue: this.state.permissions
             })(
               <PermissionsAllocation params={{ setOfBooksId: nowType.setOfBookId }} ></PermissionsAllocation>
-            )}
+              )}
           </FormItem>
 
           <div className="slide-footer">
