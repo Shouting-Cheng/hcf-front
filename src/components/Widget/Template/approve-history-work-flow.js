@@ -206,7 +206,7 @@ class ApproveHistoryWorkFlow extends React.Component {
       <Spin spinning={this.props.loading}>
         <div className="approve-history">
           <div className="collapse">
-            <Collapse bordered={false} defaultActiveKey={['1']}>
+            <Collapse bordered defaultActiveKey={['1']}>
               <Collapse.Panel header={this.$t('expense.approval.history')} key="1">
                 <div style={{ paddingTop: 10, paddingLeft: 15 }}>
                   {this.props.infoData.length ? (

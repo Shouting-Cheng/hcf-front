@@ -203,7 +203,7 @@ class ShareForm extends Component {
                                 initialValue: isNew ? (this.props.flag ? [] : [{ id: defaultApportion.companyId, name: defaultApportion.companyName }]) : [{ id: model.company.id, name: model.company.name }],
                                 rules: [{ message: "请选择", required: true }]
                             })(
-                                <Chooser placeholder={formatMessage({ id: "common.please.select" })}
+                                <Chooser placeholder={this.$t({ id: "common.please.select" })}
                                     type="select_company_reimburse"
                                     labelKey="name"
                                     valueKey="id"
@@ -219,7 +219,7 @@ class ShareForm extends Component {
                                 initialValue: isNew ? (this.props.flag ? [] : [{ departmentId: defaultApportion.departmentId, name: defaultApportion.departmentName }]) : [{ departmentId: model.department.departmentId, name: model.department.name }],
                                 rules: [{ message: "请选择", required: true }]
                             })(
-                                <Chooser placeholder={formatMessage({ id: "common.please.select" })}
+                                <Chooser placeholder={this.$t({ id: "common.please.select" })}
                                     type="department"
                                     labelKey="name"
                                     valueKey="departmentId"

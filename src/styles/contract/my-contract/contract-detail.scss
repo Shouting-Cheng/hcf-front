@@ -1,4 +1,4 @@
-:global {
+:global{
   .contract-detail {
     padding-bottom: 20px;
     .document-basic-info {
@@ -48,7 +48,7 @@
         }
       }
     }
-
+  
     .pay-info{
       background: white;
       margin: 15px 0 0 -6px;
@@ -65,7 +65,7 @@
         }
       }
     }
-
+  
     .bottom-bar-jsq {
       width: 100%;
       height: 50px;
@@ -144,10 +144,11 @@
         float: right;
       }
     }
-
+  
     .ant-tabs-bar{
       background: white;
-    padding: 0 0 20px 12px;
+     padding: 0 0 20px 12px;
     }
   }
+  
 }

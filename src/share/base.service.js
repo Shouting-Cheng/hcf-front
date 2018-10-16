@@ -264,7 +264,7 @@ export default {
   },
 
   //根据语言和本位币获取货币列表
-  getCurrencyList(currencyCode = configureStore.store.getState().login.company.baseCurrency, language = 'chineseName'){
+  getCurrencyList(currencyCode, language = 'chineseName'){
     return httpFetch.get(`${config.baseUrl}/api/currencyI18n?currencyCode=${currencyCode}&language=${language}`)
   },
 

@@ -147,7 +147,6 @@ class BasicLayout extends React.Component {
       this.getALlInfo();
     }
 
-
     let path = window.location.hash.replace('#', '');
 
     let panes = this.state.panes;
