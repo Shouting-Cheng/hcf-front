@@ -74,7 +74,7 @@ export const getRouterData = app => {
     },
     '/dashboard': {
       component: dynamicWrapper(app, [], () => import('../containers/dashboard')),
-      name: "仪表盘"
+      name: '仪表盘',
     },
     '/setting/menu': {
       component: dynamicWrapper(app, [], () => import('../routes/Menu/index')),
@@ -207,9 +207,7 @@ export const getRouterData = app => {
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/reimburse/new-reimburse.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
@@ -250,7 +248,7 @@ export const getRouterData = app => {
       ),
       name: 'prepayment-type',
     },
- 
+
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')
@@ -265,10 +263,55 @@ export const getRouterData = app => {
       name: '合同类型分配公司',
       parent: '/document-type-manage/contract-type',
     },
-    '/request':{//申请单
+    '/contract-manage/contract-recheck': {
+      //合同复核
       component: dynamicWrapper(app, [], () =>
-        import('containers/request/request.js'),
+        import('containers/contract/contract-approve/contract.js')
       ),
+      name: 'contract-recheck',
+    },
+    '/contract-manage/contract-recheck/contract-detail/:id/:status': {
+      //合同审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-approve/contract-detail.js')
+      ),
+      name: 'contract-detail',
+      parent: '/contract-manage/contract-recheck',
+    },
+    '/contract-manage/my-contract': {
+      //我的合同
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/my-contract/my-contract.js')
+      ),
+      name: 'my-contract',
+    },
+    '/contract-manage/my-contract/new-contract/:contractTypeId': {
+      //合同新建
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/my-contract/new-contract.js')
+      ),
+      name: 'new-contract',
+      parent: '/contract-manage/my-contract',
+    },
+    '/contract-manage/my-contract/edit-contract/:id/:contractTypeId': {
+      //合同编辑
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/my-contract/new-contract.js')
+      ),
+      name: 'edit-contract',
+      parent: '/contract-manage/my-contract',
+    },
+    '/contract-manage/my-contract/contract-detail/:id': {
+      //合同详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/my-contract/contract-detail.js')
+      ),
+      name: 'contract-detail',
+      parent: '/contract-manage/my-contract',
+    },
+    '/request': {
+      //申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
 
