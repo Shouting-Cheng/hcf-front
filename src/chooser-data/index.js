@@ -2288,6 +2288,48 @@ const chooserData = {
       { title: messages('bookingManagement.bookingDetails.maintain.chooser.title')/*"职位"*/, dataIndex: 'title' }
     ],
     key: 'userOID'
+  },
+  'department_document': {
+    title: messages("chooser.data.dep.title"),//部门
+    url: `${config.baseUrl}/api/DepartmentGroup/selectDept/enabled`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'deptCode',
+        label: messages("chooser.data.dep.num"),//部门编码
+        defaultValue: ''
+      },
+      {
+        type: 'input',
+        id: 'name',
+        label: messages("chooser.data.dep"),//部门名称
+        defaultValue: ''
+      },
+    ],
+    columns: [
+      {
+        title: messages("chooser.data.dep.num"),//部门编码
+        dataIndex: 'custDeptNumber',
+        render: value => {
+          return <Popover placement="topLeft" content={value}>{value}</Popover>
+        }
+      },
+      {
+        title: messages("chooser.data.dep"),//部门名称
+        dataIndex: 'name',
+        render: (value, record) => {
+          //之前洪阳林这么加了一句：record.name = record.path && React.Component.prototype.checkFunctionProfiles('department.full.path.disabled', [undefined, false]) ? 。。。。。
+          //我实在看不懂，我就先去掉 record.name = record.path，解决部门列表选择bug
+          return (
+            <Popover
+              placement="topLeft" content={record.name}>{record.name}
+            </Popover>
+          )
+        }
+      }
+
+    ],
+    key: 'departmentOid'
   }
 };
 

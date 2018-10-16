@@ -8,7 +8,7 @@ const config = {
   pushUrl: 'http://139.224.2.45:11024/push',
   accountingUrl: '/api/accounting_service',
   // payUrl: 'http://116.228.77.183:25297/payment',
-  payUrl: '/api/payment',
+  payUrl: '/payment',
   contractUrl: '/contract',
   prePaymentUrl: '/prepayment',
   // vendorUrl:`http://116.228.77.183:25297/vendor`, //供应商url    +  /vendor-info-service

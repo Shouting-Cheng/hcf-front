@@ -227,6 +227,33 @@ export const getRouterData = app => {
       parent: '/document-type-manage/contract-type',
     },
 
+    '/payment-requisition/my-payment-requisition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/payment-requisition.js')
+      ),
+      name: 'payment-requisition',
+    },
+    '/payment-requisition/my-payment-requisition/new-payment-requisition/:id/:typeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/new-payment-requisition.js')
+      ),
+      name: '新建付款申请单',
+      parent: '/payment-requisition/my-payment-requisition',
+    },
+    '/payment-requisition/my-payment-requisition/edit-payment-requisition/:id/:typeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/new-payment-requisition.js')
+      ),
+      name: '编辑付款申请单',
+      parent: '/payment-requisition/my-payment-requisition',
+    },
+    '/payment-requisition/my-payment-requisition/payment-requisition-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/new-payment-requisition-detail.js')
+      ),
+      name: '付款申请单详情',
+      parent: '/payment-requisition/my-payment-requisition',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
