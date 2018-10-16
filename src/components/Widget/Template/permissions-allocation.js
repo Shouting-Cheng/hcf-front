@@ -5,7 +5,7 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 import SelectDepartment from './select-department';
-import SelectEmployeeGroup from 'widget/template/select-employee-group';
+import SelectEmployeeGroup from 'widget/Template/select-employee-group';
 import PropTypes from 'prop-types';
 
 /**
