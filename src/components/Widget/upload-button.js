@@ -59,7 +59,7 @@ class UploadButton extends React.Component {
   beforeUpload = file => {
     const isLt3M = file.size / 1024 / 1024 < 3;
     if (!isLt3M) {
-      message.error(this.$({ id: 'upload.isLt3M' }));
+      message.error(this.$t({ id: 'upload.isLt3M' }));
     }
     return isLt3M;
   };
@@ -78,21 +78,21 @@ class UploadButton extends React.Component {
     this.setState({ fileList }, () => {
       const status = info.file.status;
       if (status === 'done') {
-        message.success(`${info.file.name} ${this.$({ id: 'upload.success' } /*上传成功*/)}`);
+        message.success(`${info.file.name} ${this.$t({ id: 'upload.success' } /*上传成功*/)}`);
         OIDs.push(info.file.response.attachmentOID);
         OIDs = OIDs.slice(fileNum);
         this.setState({ OIDs }, () => {
           this.props.uploadHandle(this.state.OIDs);
         });
       } else if (status === 'error') {
-        message.error(`${info.file.name} ${this.$({ id: 'upload.fail' } /*上传失败*/)}`);
+        message.error(`${info.file.name} ${this.$t({ id: 'upload.fail' } /*上传失败*/)}`);
       }
     });
   };
 
   handleRemove = (info, index) => {
     if (this.props.disabled) {
-      message.warn(this.$({ id: 'upload.not.allowed.delete' } /*该状态不允许删除附件*/));
+      message.warn(this.$t({ id: 'upload.not.allowed.delete' } /*该状态不允许删除附件*/));
       return;
     }
     this.setState({ defaultListTag: false });
@@ -116,10 +116,10 @@ class UploadButton extends React.Component {
     //         this.setState({ OIDs }, () => {
     //             this.props.uploadHandle(this.state.OIDs)
     //         });
-    //         message.success(this.props.intl.this.$({ id: "upload.delete.success" }/*附件删除成功*/));
+    //         message.success(this.props.intl.this.$t({ id: "upload.delete.success" }/*附件删除成功*/));
     //     }
     // }).catch(e => {
-    //     message.error(this.props.intl.this.$({ id: "upload.delete.failure" }/*附件删除失败*/));
+    //     message.error(this.props.intl.this.$t({ id: "upload.delete.failure" }/*附件删除失败*/));
     // });
   };
 
@@ -138,20 +138,20 @@ class UploadButton extends React.Component {
   render() {
     const { previewVisible, previewImage } = this.state;
     const upload_headers = {
-      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('hly.token')).access_token,
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
     let fileList = this.state.fileList;
     fileList.map(item => {
       let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
       item['url'] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${
-        JSON.parse(localStorage.getItem('hly.token')).access_token
+       localStorage.getItem('token')
       }`;
     });
     let fileTotal;
     if (this.props.title === undefined) {
       fileTotal = (
         <div>
-          {this.$({ id: 'upload.information' } /*附件信息*/)}{' '}
+          {this.$t({ id: 'upload.information' } /*附件信息*/)}{' '}
           <Badge
             showZero
             count={fileList.length}
@@ -183,7 +183,7 @@ class UploadButton extends React.Component {
         ) : (
           <Button>
             <Icon type="upload" />{' '}
-            {this.props.buttonText || this.$({ id: 'constants.approvelHistory.addAttachment' })}
+            {this.props.buttonText || this.$t({ id: 'constants.approvelHistory.addAttachment' })}
           </Button>
         )}
       </Upload>
@@ -284,7 +284,7 @@ UploadButton.defaultProps = {
   multiple: false,
   disabled: false,
   uploadHandle: () => {},
-  // buttonText:this.props.intl.this.$({id: 'pay.backlash.upload'})
+  // buttonText:this.props.intl.this.$t({id: 'pay.backlash.upload'})
 };
 
 const WrappedUploadButton = Form.create()(UploadButton);

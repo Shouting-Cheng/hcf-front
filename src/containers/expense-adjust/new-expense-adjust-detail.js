@@ -1068,10 +1068,10 @@ class NewExpenseAdjustDetail extends React.Component {
 
 const WrappedNewExpenseAdjustDetail = Form.create()(NewExpenseAdjustDetail);
 function mapStateToProps(state) {
+  console.log(state)
   return {
-    user: state.login.user,
-    company: state.login.company,
-    organization: state.login.organization,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 export default connect(
