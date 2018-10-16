@@ -24,6 +24,7 @@ import 'styles/components/template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+import PropTypes from "prop-types"
 
 class ApproveBar extends React.Component {
   constructor(props) {
@@ -417,10 +418,7 @@ class ApproveBar extends React.Component {
           </Col>
           <Col {...barLayout} className="approve-btn" style={{ paddingRight: '40px' }}>
             {buttons.indexOf('pass') > -1 &&
-              this.checkFunctionProfiles(
-                ['er.disabled', 'er.opt.approval.disabled'],
-                [[undefined, false], [undefined, false]]
-              ) && (
+              (
                 <span>
                   <Button
                     type="primary"
@@ -443,10 +441,7 @@ class ApproveBar extends React.Component {
                 </span>
               )}
             {buttons.indexOf('reject') > -1 &&
-              this.checkFunctionProfiles(
-                ['er.disabled', 'er.opt.approval.disabled'],
-                [[undefined, false], [undefined, false]]
-              ) && (
+              (
                 <Button
                   loading={this.props.rejectLoading}
                   onClick={this.handleApproveReject}
@@ -546,33 +541,33 @@ class ApproveBar extends React.Component {
 }
 
 ApproveBar.propTypes = {
-  handleApprovePass: React.PropTypes.func, //审批通过方法
-  handleApproveReject: React.PropTypes.func, //审批驳回方法
-  handleAuditNotice: React.PropTypes.func, //审核通知方法
-  handleAuditPrint: React.PropTypes.func, //审核打印方法
-  handleAuditCheck: React.PropTypes.func, //重新查验发票方法
-  passLoading: React.PropTypes.bool, //审批通过按钮loading
-  rejectLoading: React.PropTypes.bool, //审批通过按钮loading
-  noticeLoading: React.PropTypes.bool, //审核通知按钮loading
-  printLoading: React.PropTypes.bool, //审核打印按钮loading
-  checkLoading: React.PropTypes.bool, //查验发票按钮loading
-  backUrl: React.PropTypes.string, //点击"返回"按钮跳转到的页面
-  audit: React.PropTypes.bool, //是否为审核
-  batchNumber: React.PropTypes.number, //批量数量
-  buttons: React.PropTypes.array, //显示的按钮，不传则都显示
-  btnShowMode: React.PropTypes.string, //通过／驳回按钮的显示文案，不传的时候显示'通过'，'驳回'，如果传'all'，则显示'全部通过'，'全部驳回'
-  priceView: React.PropTypes.bool, //是否需要加价格审核
-  width: React.PropTypes.any, //宽度
-  moreButtons: React.PropTypes.array, //"更多"里需要显示的按钮，不传则都不显示: additional(加签)
-  invoiceNumber: React.PropTypes.number, //为查验的发票数量
+  handleApprovePass: PropTypes.func, //审批通过方法
+  handleApproveReject: PropTypes.func, //审批驳回方法
+  handleAuditNotice: PropTypes.func, //审核通知方法
+  handleAuditPrint: PropTypes.func, //审核打印方法
+  handleAuditCheck: PropTypes.func, //重新查验发票方法
+  passLoading: PropTypes.bool, //审批通过按钮loading
+  rejectLoading: PropTypes.bool, //审批通过按钮loading
+  noticeLoading: PropTypes.bool, //审核通知按钮loading
+  printLoading: PropTypes.bool, //审核打印按钮loading
+  checkLoading: PropTypes.bool, //查验发票按钮loading
+  backUrl: PropTypes.string, //点击"返回"按钮跳转到的页面
+  audit: PropTypes.bool, //是否为审核
+  batchNumber: PropTypes.number, //批量数量
+  buttons: PropTypes.array, //显示的按钮，不传则都显示
+  btnShowMode: PropTypes.string, //通过／驳回按钮的显示文案，不传的时候显示'通过'，'驳回'，如果传'all'，则显示'全部通过'，'全部驳回'
+  priceView: PropTypes.bool, //是否需要加价格审核
+  width: PropTypes.any, //宽度
+  moreButtons: PropTypes.array, //"更多"里需要显示的按钮，不传则都不显示: additional(加签)
+  invoiceNumber: PropTypes.number, //为查验的发票数量
 };
 
 ApproveBar.defaultProps = {
-  handleApprovePass: () => {},
-  handleApproveReject: () => {},
-  handleAuditNotice: () => {},
-  handleAuditPrint: () => {},
-  handleAuditCheck: () => {},
+  handleApprovePass: () => { },
+  handleApproveReject: () => { },
+  handleAuditNotice: () => { },
+  handleAuditPrint: () => { },
+  handleAuditCheck: () => { },
   passLoading: false,
   rejectLoading: false,
   noticeLoading: false,

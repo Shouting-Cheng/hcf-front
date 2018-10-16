@@ -427,7 +427,7 @@ class BasicLayout extends React.Component {
       }
     });
     if (currRouterData && currRouterData.name) {
-      title = `${currRouterData.name} - 汉得融晶`;
+      title = `${this.$t(currRouterData.name)} - 汉得融晶`;
     }
     return title;
   }
