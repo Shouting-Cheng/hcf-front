@@ -36,6 +36,7 @@ import config from 'config';
 import SelectApplication from 'containers/reimburse/select-application';
 import Chooser from 'widget/chooser';
 
+import { formatMessage } from 'share/common';
 
 class NewExpense extends React.Component {
   constructor(props) {
