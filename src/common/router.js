@@ -193,7 +193,7 @@ export const getRouterData = app => {
       name: 'new-expense-adjust',
       parent: '/expense-adjust/my-expense-adjust',
     },
-    '/expense-adjust/my-expense-adjust/:id/:expenseAdjustTypeId/:type/expense-adjust-detail': {
+    '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust-detail')
       ),

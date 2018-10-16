@@ -329,7 +329,14 @@ class ExpenseAdjust extends React.Component {
   };
 
   rowClick = record => {
-    //this.context.router.push(this.state.ExpenseAdjustDetail.url.replace(':expenseAdjustTypeId', record.expAdjustTypeId).replace(':id', record.id).replace(':type', record.adjustTypeCategory));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type'
+          .replace(':expenseAdjustTypeId', record.expAdjustTypeId)
+          .replace(':id', record.id)
+          .replace(':type', record.adjustTypeCategory),
+      })
+    );
   };
 
   render() {
@@ -400,7 +407,6 @@ class ExpenseAdjust extends React.Component {
 const wrappedExpenseAdjust = Form.create()(ExpenseAdjust);
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     user: state.user.currentUser,
     company: state.user.company,
