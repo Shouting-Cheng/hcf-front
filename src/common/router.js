@@ -204,13 +204,13 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/contract-type-define.js')
       ),
-      name: 'contract-type'
+      name: 'contract-type',
     },
     '/document-type-manage/prepayment-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/prepayment-type/pre-payment-type.js')
       ),
-      name: 'prepayment-type'
+      name: 'prepayment-type',
     },
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
