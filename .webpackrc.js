@@ -70,5 +70,9 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/payment': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    },
   },
 };
