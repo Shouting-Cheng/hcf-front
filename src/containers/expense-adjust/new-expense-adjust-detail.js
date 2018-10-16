@@ -22,7 +22,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-import Importer from 'widget/Template/importer';
+import Importer from 'widget/template/importer';
 import Chooser from 'widget/chooser';
 import config from 'config';
 import 'styles/expense-adjust/new-expense-adjust-detail.scss';

@@ -242,6 +242,7 @@ class PrePaymentType extends React.Component {
         <SlideFrame
           title={this.$t({ id: 'pre.payment.type' })/*预付款类型*/}
           show={showSlideFrame}
+          onClose={this.afterClose}
         >
           <NewPrePaymentType close={() => { this.setState({ showSlideFrame: false }) }} params={{ prePaymentType: nowType, flag: showSlideFrame }} />
         </SlideFrame>
