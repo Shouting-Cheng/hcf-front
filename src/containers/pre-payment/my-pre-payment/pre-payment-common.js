@@ -83,12 +83,12 @@ class PrePaymentCommon extends React.Component {
               return (
                 <Popover content={
                   <div style={{ whiteSpace: "normal" }}>
-                    <div>计划付款日期：{moment(record.requisitionPaymentDate).format('YYYY-MM-DD')}</div>
+                    <div>计划付款日期：{record.requisitionPaymentDate ? moment(record.requisitionPaymentDate).format('YYYY-MM-DD') : ""}</div>
                     <div>付款方式类型：{record.paymentMethodName}</div>
                   </div>}
                 >
                   <div style={{ whiteSpace: "normal" }}>
-                    <div>计划付款日期：{moment(record.requisitionPaymentDate).format('YYYY-MM-DD')}</div>
+                    <div>计划付款日期：{record.requisitionPaymentDate ? moment(record.requisitionPaymentDate).format('YYYY-MM-DD') : ""}</div>
                     <div>付款方式类型：{record.paymentMethodName}</div>
                   </div>
                 </Popover>
@@ -275,13 +275,26 @@ class PrePaymentCommon extends React.Component {
       this.setState({ historyLoading: false });
     });
   }
+
+
+  onChangePaper = (page) => {
+    let pagination = this.state.pagination;
+    pagination.current = page;
+    this.setState({ page: page - 1, pagination }, this.getList);
+  }
+
+
   /**
      * 切换每页显示的条数
      */
   onShowSizeChange = (current, pageSize) => {
+    let pagination = this.state.pagination;
+    pagination.current = 1;
+    pagination.pageSize = pageSize;
     this.setState({
-      page: current - 1,
-      pageSize
+      page: 0,
+      pageSize: pageSize,
+      pagination
     }, () => {
       this.getList();
     });

@@ -16,6 +16,7 @@ import prePaymentService from "containers/pre-payment/my-pre-payment/me-pre-paym
 import prePaymentReCheckService from 'containers/pre-payment/pre-payment-re-check/pre-payment-re-check.service'
 
 import { connect } from 'dva'
+import { routerRedux } from "dva/router"
 
 class PrePaymentDetail extends React.Component {
     constructor(props) {
@@ -86,7 +87,9 @@ class PrePaymentDetail extends React.Component {
 
     //取消
     onCancel = () => {
-        this.context.router.push(this.state.myContract.url);
+        this.props.dispatch(routerRedux.push({
+            pathname: "/pre-payment/pre-payment-recheck"
+        }))
     };
 
     render() {
@@ -109,7 +112,7 @@ class PrePaymentDetail extends React.Component {
             <div style={{ paddingBottom: 0 }} className="contract-detail pre-payment-detail">
                 <PrePaymentCommon flag={false} params={this.state.headerData} contractEdit={true} id={this.props.match.params.id} />
                 {
-                    (headerData.status && headerData.status != 1004 && headerData) ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+                    (headerData.status && headerData.status != 1004 && headerData) ? <Affix offsetBottom={0} className="bottom-bar-approve">
                         <ApproveBar passLoading={passLoading}
                             style={{ paddingLeft: 20 }}
                             backUrl={'/pre-payment/pre-payment-recheck'}
@@ -117,8 +120,10 @@ class PrePaymentDetail extends React.Component {
                             handleApprovePass={this.handleApprovePass}
                             handleApproveReject={this.handleApproveReject} />
 
-                    </Affix> : (<Affix offsetBottom={0} className="bottom-bar">
-                        <Button onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+                    </Affix> : (<Affix offsetBottom={0} className="bottom-bar-approve">
+                        <div style={{ backgroundColor: "#fff", lineHeight: "60px", paddingLeft: 20 }}>
+                            <Button onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+                        </div>
                     </Affix>)
                 }
 

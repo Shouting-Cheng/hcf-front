@@ -157,7 +157,7 @@ class NewPrePaymentDetail extends React.Component {
   }
   //获取币种列表
   getCurrencyList = () => {
-    httpFetch.get(`${config.baseUrl}//api/company/standard/currency/getAll`).then(res => {
+    httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll`).then(res => {
       this.setState({ currencyList: res.data });
     });
   }
