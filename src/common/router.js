@@ -254,6 +254,32 @@ export const getRouterData = app => {
       name: '付款申请单详情',
       parent: '/payment-requisition/my-payment-requisition',
     },
+    '/job/job-actuator': {
+      component: dynamicWrapper(app, [], () => import('containers/job/job-actuator.js')),
+      name: 'job-actuator',
+    },
+    '/job/job-info': {
+      component: dynamicWrapper(app, [], () => import('containers/job/job-info.js')),
+      name: 'job-info',
+    },
+    '/job/job-log': {
+      component: dynamicWrapper(app, [], () => import('containers/job/job-log.js')),
+      name: 'job-log',
+    },
+
+    '/document-type-manage/payment-requisition-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/type/acp-request-type.js')
+      ),
+      name: 'payment-requisition-type',
+    },
+    '/document-type-manage/payment-requisition/acp-request-type/distribution-company/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/payment-requisition/type/distribution-company.js')
+      ),
+      name: '付款申请单类型分配公司',
+      parent: '/document-type-manage/payment-requisition-type',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
