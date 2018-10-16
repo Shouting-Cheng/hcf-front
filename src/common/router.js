@@ -228,9 +228,9 @@ export const getRouterData = app => {
     },
     '/request':{//申请单
       component: dynamicWrapper(app, [], () =>
-        import('containers/request/request'),
+        import('containers/request/request.js'),
       ),
-      name: this.$t('menu.request'),
+      name: 'request',
     },
 
     '/payment-requisition/my-payment-requisition': {
