@@ -8,6 +8,7 @@ import SlideFrame from 'widget/slide-frame'
 import SearchArea from 'widget/search-area'
 import baseService from 'share/base.service'
 import PrePaymentTypeService from './pre-payment-type.service'
+import { routerRedux } from 'dva/router';
 
 class PrePaymentType extends React.Component {
   constructor(props) {
@@ -121,7 +122,11 @@ class PrePaymentType extends React.Component {
   }
   //分配公司
   handleDistribute = (record) => {
-    this.context.router.push(this.state.companyDistribution.url.replace(':setOfBooksId', record.setOfBookId).replace(':id', record.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/document-type-manage/prepayment-type/distribution-company/${record.setOfBookId}/${record.id}`,
+      })
+    );
   }
   //得到列表数据
   getList() {

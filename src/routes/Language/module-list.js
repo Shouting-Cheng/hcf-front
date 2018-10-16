@@ -31,10 +31,6 @@ class LanguageManager extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-
   handleClick = record => {
     if (this.props.match.params.langType == 'zh_CN') {
       this.props.dispatch(

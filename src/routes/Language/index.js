@@ -14,7 +14,7 @@ class LanguageManager extends Component {
     this.state = {
       languages: [],
       images: {
-        en: englishImg,
+        en_US: englishImg,
         zh_CN: chinaImg,
       },
     };
