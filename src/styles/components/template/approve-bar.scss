@@ -1,108 +1,111 @@
-.approve-bar {
-  background: white;
-  .approve-form {
-    position: relative;
-    top: 20px;
-    width: 100%;
-    .ant-form-item-control-wrapper {
-      width: 80%;
-    }
-  }
-  .approve-btn {
-    line-height: 80px;
-    text-align: right;
-    padding-left: 20px;
-    .pass-btn {
-      margin: 0 10px;
-    }
-    .reject-btn {
-      margin: 0 10px;
-      color: #fff;
-      background: #f04134;
-      border-color: #f04134;
-    }
-    .notice-btn{
-      margin: 0 10px;
-    }
-    button.back-btn {
-      margin-right: 0;
-    }
-  }
-  .fast-reply {
-    max-height: 87px;
-    overflow: auto;
-    .add-new-btn, .fast-reply-tag {
-      margin-bottom: 8px;
-      background: none;
-      border-radius: 15px;
-      padding: 3px 10px;
-      height: auto;
-      &.disable-edit{
-        background-color: #f4f4f4;
-        color: #BCBCBC;
+:global {
+  .approve-bar {
+    background: white;
+    .approve-form {
+      position: relative;
+      top: 20px;
+      width: 100%;
+      .ant-form-item-control-wrapper {
+        width: 80%;
       }
     }
-    .add-new-btn {
-      height: 28px;
-    }
-    .fast-reply-tag {
-      border: 1px solid #e9e9e9;
-      &.ant-tag-checkable-checked {
-        border-color: #108ee9;
-        color: #108ee9;
+    .approve-btn {
+      line-height: 80px;
+      text-align: right;
+      padding-left: 20px;
+      .pass-btn {
+        margin: 0 10px;
       }
-      .delete-tag {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        line-height: 20px;
-        font-size: 16px;
-        &:hover {
-          color: #108ee9;
+      .reject-btn {
+        margin: 0 10px;
+        color: #fff;
+        background: #f04134;
+        border-color: #f04134;
+      }
+      .notice-btn{
+        margin: 0 10px;
+      }
+      button.back-btn {
+        margin-right: 0;
+      }
+    }
+    .fast-reply {
+      max-height: 87px;
+      overflow: auto;
+      .add-new-btn, .fast-reply-tag {
+        margin-bottom: 8px;
+        background: none;
+        border-radius: 15px;
+        padding: 3px 10px;
+        height: auto;
+        &.disable-edit{
+          background-color: #f4f4f4;
+          color: #BCBCBC;
         }
       }
+      .add-new-btn {
+        height: 28px;
+      }
+      .fast-reply-tag {
+        border: 1px solid #e9e9e9;
+        &.ant-tag-checkable-checked {
+          border-color: #108ee9;
+          color: #108ee9;
+        }
+        .delete-tag {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          text-align: center;
+          line-height: 20px;
+          font-size: 16px;
+          &:hover {
+            color: #108ee9;
+          }
+        }
+      }
+      .fast-reply-input {
+        width: 106px;
+        height: 28px;
+        margin-bottom: 8px;
+      }
     }
-    .fast-reply-input {
-      width: 106px;
-      height: 28px;
-      margin-bottom: 8px;
+    .fast-reply-title {
+      .info-message{
+        display: inline-block;
+        margin-left: 10px;
+        color: #cccccc;
+        font-size: 12px;
+        font-weight: normal;
+      }
+      .edit {
+        float: right;
+      }
     }
-  }
-  .fast-reply-title {
-    .info-message{
-      display: inline-block;
+    .back-btn {
       margin-left: 10px;
-      color: #cccccc;
-      font-size: 12px;
-      font-weight: normal;
+      //margin-right: 20px;
+      //color: #666666;
+      //background: #fff;
+      //border-color: #666666;
     }
-    .edit {
-      float: right;
-    }
-  }
-  .back-btn {
-    margin-left: 10px;
-    //margin-right: 20px;
-    //color: #666666;
-    //background: #fff;
-    //border-color: #666666;
-  }
-  .additional-alert-info {
-    position: absolute;
-    bottom: 2px;
-    width: calc(100vw - 202px);
-    .ant-alert.ant-alert-no-icon {
-      padding: 0 10px;
-    }
-    .info-col {
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .edit-col {
-      text-align: center;
+    .additional-alert-info {
+      position: absolute;
+      bottom: 2px;
+      width: calc(100vw - 202px);
+      .ant-alert.ant-alert-no-icon {
+        padding: 0 10px;
+      }
+      .info-col {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .edit-col {
+        text-align: center;
+      }
     }
   }
+  
 }

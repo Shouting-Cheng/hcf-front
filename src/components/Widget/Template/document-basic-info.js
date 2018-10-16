@@ -90,7 +90,7 @@ class DocumentBasicInfo extends React.Component {
             <Col span={8}>{data.formName}</Col>
             <Col span={4}>
               {!this.props.noHeader
-                ? this.renderList(this.$('common.document.code'), data.businessCode)
+                ? this.renderList(this.$t('common.document.code'), data.businessCode)
                 : null}
             </Col>
             <Col span={4}>
