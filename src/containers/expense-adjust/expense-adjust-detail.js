@@ -17,7 +17,7 @@ import {
   Divider,
   Row,
   Col,
-  Popconfirm,
+  Popconfirm, Card, Spin,
 } from 'antd';
 import NewExpenseAdjustDetail from 'containers/expense-adjust/new-expense-adjust-detail';
 import ApprotionInfo from 'containers/expense-adjust/approtion-info';
@@ -810,7 +810,7 @@ class ExpenseAdjustDetail extends React.Component {
 
     return (
       <div className="adjust-content" style={{ marginBottom: 50 }}>
-        <div className="document-basic-info" style={flag ? { margin: '-16px -16px 0 -20px' } : {}}>
+        <Card style={{boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)"}}>
           <DocumentBasicInfo params={documentParams}>
             {headerData.status &&
               (headerData.status == 1001 ||
@@ -831,8 +831,8 @@ class ExpenseAdjustDetail extends React.Component {
               </Button>
             )}
           </DocumentBasicInfo>
-        </div>
-        <div className="expense-adjust-detail-center" style={flag ? { marginLeft: 20 } : {}}>
+        </Card>
+        <Card style={{marginTop: 20,boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)"}} className='expense-adjust-detail-center'>
           <div className="center-title">{this.$t('exp.adjust.info')}</div>
           <Row gutter={24} style={{ marginTop: 15 }}>
             <Col span={18} style={{ marginBottom: 5 }}>
@@ -889,8 +889,8 @@ class ExpenseAdjustDetail extends React.Component {
             expandedRowRender={this.expandedRowRender}
             bordered
           />
-        </div>
-        <div className="approve-history" style={{ margin: '20px 20px 0' }}>
+        </Card>
+        <div style={{ marginTop: 20, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
           <ApproveHistory loading={false} infoData={approveHistory} />
         </div>
         <ApprotionInfo
@@ -986,10 +986,7 @@ class ExpenseAdjustDetail extends React.Component {
       approveHistory,
     } = this.state;
     return (
-      <div
-        className="expense-adjust-detail background-transparent"
-        style={{ marginLeft: -40, marginTop: -47 }}
-      >
+      <div className="expense-adjust-detail">
         {headerData.status === 1004 ? (
           <Tabs
             defaultActiveKey="detail"
