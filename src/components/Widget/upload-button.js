@@ -3,7 +3,7 @@ import { Form, Upload, Icon, message, Button, Collapse, Badge, Row, Col, Modal }
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 import "styles/components/upload-button.scss"
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 /**
  * 上传附件组件
@@ -56,16 +56,16 @@ class UploadButton extends React.Component {
     };
   };
 
-  beforeUpload = file => {
+  beforeUpload = (file) => {
     const isLt3M = file.size / 1024 / 1024 < 3;
     if (!isLt3M) {
-      message.error(this.$t({ id: 'upload.isLt3M' }));
+      message.error(this.$t({ id: "upload.isLt3M" }));
     }
     return isLt3M;
   };
 
-  handleChange = info => {
-    this.setState({ activeKey: '1' });
+  handleChange = (info) => {
+    this.setState({ activeKey: "1" })
     if (this.props.disabled) {
       return;
     }
@@ -78,33 +78,23 @@ class UploadButton extends React.Component {
     this.setState({ fileList }, () => {
       const status = info.file.status;
       if (status === 'done') {
-        message.success(`${info.file.name} ${this.$t({ id: 'upload.success' } /*上传成功*/)}`);
+
+        message.success(`${info.file.name} ${this.$t({ id: "upload.success" }/*上传成功*/)}`);
         OIDs.push(info.file.response.attachmentOID);
         OIDs = OIDs.slice(fileNum);
         this.setState({ OIDs }, () => {
-          this.props.uploadHandle(this.state.OIDs);
-        });
+          this.props.uploadHandle(this.state.OIDs)
+        })
       } else if (status === 'error') {
-        message.error(`${info.file.name} ${this.$t({ id: 'upload.fail' } /*上传失败*/)}`);
+        message.error(`${info.file.name} ${this.$t({ id: "upload.fail" }/*上传失败*/)}`);
       }
     });
   };
 
   handleRemove = (info, index) => {
-    if (this.props.disabled) {
-      message.warn(this.$t({ id: 'upload.not.allowed.delete' } /*该状态不允许删除附件*/));
-      return;
-    }
-    this.setState({ defaultListTag: false });
-    let OIDs = this.state.OIDs;
-    OIDs.map(OID => {
-      OID === (info.response ? info.response.attachmentOID : info.attachmentOID) &&
-        OIDs.delete(OID);
-    });
-    let fileList = this.state.fileList;
 
     if (this.props.disabled) {
-      message.warn(this.$t("upload.not.allowed.delete" /*该状态不允许删除附件*/));
+      message.warn(this.$t({ id: "upload.not.allowed.delete" }/*该状态不允许删除附件*/));
       return;
     }
     this.setState({ defaultListTag: false });
@@ -115,6 +105,11 @@ class UploadButton extends React.Component {
     let fileList = this.state.fileList;
 
     fileList.splice(index, 1);
+
+    this.setState({ fileList, OIDs }, () => {
+      this.props.uploadHandle(OIDs)
+    })
+
 
     // let oid = info.response ? info.response.attachmentOID : info.attachmentOID;
     // let url = `${config.baseUrl}/api/attachments/${oid}`;
@@ -128,149 +123,93 @@ class UploadButton extends React.Component {
     // }).catch(e => {
     //     message.error(this.props.intl.this.$t({ id: "upload.delete.failure" }/*附件删除失败*/));
     // });
+
+  };
+
+  onChange = (value) => {
+    this.setState({ activeKey: value });
+  };
+
+  //图片预览
+  preview = (record) => {
+    this.setState({ previewVisible: true, previewImage: record.response ? record.response.thumbnailUrl : record.thumbnailUrl })
   };
 
 
+  render() {
 
-
-};
-
-onChange = (value) => {
-  this.setState({ activeKey: value });
-};
-
-//图片预览
-preview = (record) => {
-  this.setState({ previewVisible: true, previewImage: record.response ? record.response.thumbnailUrl : record.thumbnailUrl })
-};
-
-
-render() {
-  const { previewVisible, previewImage } = this.state;
-  const upload_headers = {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  };
-  let fileList = this.state.fileList;
-  fileList.map(item => {
-    let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-    item['url'] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${
-      localStorage.getItem('token')
-      }`;
-  });
-  let fileTotal;
-  if (this.props.title === undefined) {
-    fileTotal = (
-      <div>
-        {this.$t({ id: 'upload.information' } /*附件信息*/)}{' '}
-        <Badge
-          showZero
-          count={fileList.length}
-          offset={[-16, 0]}
-          style={fileList.length === 0 && { backgroundColor: '#52c41a' }}
-        />
-      </div>
+    const { previewVisible, previewImage } = this.state;
+    const upload_headers = {
+      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).access_token
+    };
+    let fileList = this.state.fileList;
+    fileList.map(item => {
+      let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
+      item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('token')).access_token}`
+    });
+    let fileTotal;
+    if (this.props.title === undefined) {
+      fileTotal = (
+        <div >{this.$t({ id: "upload.information" }/*附件信息*/)} <Badge showZero count={fileList.length} offset={[-16, 0]} style={fileList.length === 0 && { backgroundColor: '#52c41a' }} /></div>
+      );
+    } else {
+      fileTotal = this.props.title
+    }
+    let upload = (
+      <Upload name="file"
+        action={this.props.uploadUrl}
+        headers={upload_headers}
+        data={this.handleData}
+        fileList={fileList}
+        multiple={this.props.multiple}
+        disabled={this.props.disabled}
+        beforeUpload={this.beforeUpload}
+        onChange={this.handleChange}
+        onRemove={this.handleRemove}
+        showUploadList={false}
+        className="upload-list-inline">
+        {this.props.disabled ? '' : <Button><Icon type="upload" /> {this.props.buttonText || this.$t({ id: 'constants.approvelHistory.addAttachment' })}</Button>}
+      </Upload>
     );
-  } else {
-    fileTotal = this.props.title;
-  }
-  let upload = (
-    <Upload
-      name="file"
-      action={this.props.uploadUrl}
-      headers={upload_headers}
-      data={this.handleData}
-      fileList={fileList}
-      multiple={this.props.multiple}
-      disabled={this.props.disabled}
-      beforeUpload={this.beforeUpload}
-      onChange={this.handleChange}
-      onRemove={this.handleRemove}
-      showUploadList={false}
-      className="upload-list-inline"
-    >
-      {this.props.disabled ? (
-        ''
-      ) : (
-          <Button>
-            <Icon type="upload" />{' '}
-            {this.props.buttonText || this.$t({ id: 'constants.approvelHistory.addAttachment' })}
-          </Button>
-        )}
-    </Upload>
-  );
 
-  const { previewVisible, previewImage } = this.state;
-  const upload_headers = {
-    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('hly.token')).access_token
-  };
-  let fileList = this.state.fileList;
-  fileList.map(item => {
-    let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-    item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('hly.token')).access_token}`
-  });
-  let fileTotal;
-  if (this.props.title === undefined) {
-    fileTotal = (
-      <div >{this.$t("upload.information"/*附件信息*/)} <Badge showZero count={fileList.length} offset={[-16, 0]} style={fileList.length === 0 && { backgroundColor: '#52c41a' }} /></div>
-    );
-  } else {
-    fileTotal = this.props.title
-  }
-  let upload = (
-    <Upload name="file"
-      action={this.props.uploadUrl}
-      headers={upload_headers}
-      data={this.handleData}
-      fileList={fileList}
-      multiple={this.props.multiple}
-      disabled={this.props.disabled}
-      beforeUpload={this.beforeUpload}
-      onChange={this.handleChange}
-      onRemove={this.handleRemove}
-      showUploadList={false}
-      className="upload-list-inline">
-      {this.props.disabled ? '' : <Button><Icon type="upload" /> {this.props.buttonText || this.$t('constants.approvelHistory.addAttachment')}</Button>}
-    </Upload>
-  );
-
-  return (
-    <div className={this.props.className || "upload-button"}>
-      <Modal visible={previewVisible} footer={null} onCancel={() => { this.setState({ previewVisible: false }) }}>
-        <img alt="picture is missing." style={{ width: '100%' }} src={previewImage} />
-      </Modal>
-      <Collapse onChange={this.onChange} activeKey={this.state.activeKey} bordered={false} defaultActiveKey={['1']}>
-        <Collapse.Panel header={upload} key="1" style={customPanelStyle}>
-          {
-            fileList.map((item, index) => {
-              let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-              let type = item.response ? item.response.fileType : item.fileType
-              return (
-                <Row key={item.uid} className="file-item">
-                  <Col style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} span={18}>
-                    <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
-                    {
-                      type !== 'IMAGE' ?
-                        <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('hly.token')).access_token}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
-                        :
-                        <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
-                    }
-                  </Col>
-                  {!this.props.noDelete &&
-                    <Col span={6} style={{ textAlign: "right" }}>
-                      <Icon style={{ color: item.status == "error" ? "red" : "" }} onClick={() => this.handleRemove(item, index)} type="delete" />
+    return (
+      <div className={this.props.className || "upload-button"}>
+        <Modal visible={previewVisible} footer={null} onCancel={() => { this.setState({ previewVisible: false }) }}>
+          <img alt="picture is missing." style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+        <Collapse onChange={this.onChange} activeKey={this.state.activeKey} bordered={false} defaultActiveKey={['1']}>
+          <Collapse.Panel header={upload} key="1" style={customPanelStyle}>
+            {
+              fileList.map((item, index) => {
+                let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
+                let type = item.response ? item.response.fileType : item.fileType
+                return (
+                  <Row key={item.uid} className="file-item">
+                    <Col style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} span={18}>
+                      <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
+                      {
+                        type !== 'IMAGE' ?
+                          <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('token')).access_token}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                          :
+                          <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                      }
                     </Col>
-                  }
-                </Row>
-              )
-            })
-          }
+                    {!this.props.noDelete &&
+                      <Col span={6} style={{ textAlign: "right" }}>
+                        <Icon style={{ color: item.status == "error" ? "red" : "" }} onClick={() => this.handleRemove(item, index)} type="delete" />
+                      </Col>
+                    }
+                  </Row>
+                )
+              })
+            }
 
-        </Collapse.Panel>
-      </Collapse>
-    </div>
-  )
+          </Collapse.Panel>
+        </Collapse>
+      </div>
+    )
+  }
 }
-
 
 UploadButton.propTypes = {
   uploadUrl: PropTypes.string,  //上传URL
@@ -294,7 +233,7 @@ UploadButton.defaultProps = {
   defaultOIDs: [],
   multiple: false,
   disabled: false,
-  uploadHandle: () => { },
+  uploadHandle: () => { }
   // buttonText:this.props.intl.this.$t({id: 'pay.backlash.upload'})
 };
 
