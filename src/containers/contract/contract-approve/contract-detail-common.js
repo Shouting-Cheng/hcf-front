@@ -298,7 +298,7 @@ class ContractDetailCommon extends React.Component {
     return (
       <div className="contract-detail" style={{}}>
         <Card
-          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20, marginTop: 10 }}
+          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
         >
           <div style={{ paddingTop: 0, marginTop: '-20px' }}>
             <DocumentBasicInfo params={documentParams} noHeader={true} />
@@ -307,7 +307,7 @@ class ContractDetailCommon extends React.Component {
         <Spin spinning={detailLoading}>
           <div className="contract-info" style={{ margin: 0 }}>
             <Card
-              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20, marginTop: 10 }}
+              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
             >
               <div
                 className="contract-info-header"
@@ -442,7 +442,7 @@ class ContractDetailCommon extends React.Component {
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20 }}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15,marginTop:10 }}>
             <div className="pay-info" style={{ marginTop: '0px' }}>
               <h3
                 className="info-header-title"
@@ -498,8 +498,8 @@ class ContractDetailCommon extends React.Component {
           <Card
             style={{
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-              marginRight: 20,
-              marginTop: 10,
+              marginRight: 15,marginLeft: 15,
+              marginTop: 20,
               marginBottom: 50,
             }}
           >
