@@ -74,7 +74,7 @@ export const getRouterData = app => {
     },
     '/dashboard': {
       component: dynamicWrapper(app, [], () => import('../containers/dashboard')),
-      name: "仪表盘"
+      name: '仪表盘',
     },
     '/setting/menu': {
       component: dynamicWrapper(app, [], () => import('../routes/Menu/index')),
@@ -207,9 +207,7 @@ export const getRouterData = app => {
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/reimburse/new-reimburse.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
@@ -250,7 +248,7 @@ export const getRouterData = app => {
       ),
       name: 'prepayment-type',
     },
- 
+
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')
@@ -265,10 +263,9 @@ export const getRouterData = app => {
       name: '合同类型分配公司',
       parent: '/document-type-manage/contract-type',
     },
-    '/request':{//申请单
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/request.js'),
-      ),
+    '/request': {
+      //申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
 
@@ -324,6 +321,38 @@ export const getRouterData = app => {
       ),
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
+    },
+    '/pay-setting/payment-method': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/payment-method/payment-method.js')
+      ),
+      name: 'payment-method',
+    },
+    '/pay-setting/cash-flow-item': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-flow-item/cash-flow-item.js')
+      ),
+      name: 'cash-flow-item',
+    },
+    '/pay-setting/cash-transaction-class': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/cash-transaction-class.js')
+      ),
+      name: 'cash-transaction-class',
+    },
+    '/pay-setting/cash-transaction-class/new-cash-transaction-class/:setOfBooksId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/new-cash-transaction-class.js')
+      ),
+      name: '新建现金事务分类',
+      parent: '/pay-setting/cash-transaction-class',
+    },
+    '/pay-setting/cash-transaction-class/cash-transaction-class-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/cash-transaction-class-detail.js')
+      ),
+      name: '现金事务分类详情',
+      parent: '/pay-setting/cash-transaction-class',
     },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
