@@ -15,7 +15,6 @@ class TravelUpdateBtn extends React.Component{
     super(props);
     this.state = {
       loading: false,
-      requestEdit: menuRoute.getRouteItem('request-edit','key'), //申请单编辑页
     }
   }
 

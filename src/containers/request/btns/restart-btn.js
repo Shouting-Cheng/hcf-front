@@ -20,7 +20,6 @@ class TraveRestartBtn extends React.Component{
       info: {},
       showRestartBtn: false, //是否显示【重新启用】按钮
       restartCloseDay: 0, //重新启用多少天后停用
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 

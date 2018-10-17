@@ -5,13 +5,12 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Form, Button } from 'antd'
+import { routerRedux } from 'dva/router';
 
 class GoBackBtn extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
-
     }
   }
 
@@ -22,16 +21,18 @@ class GoBackBtn extends React.Component{
         window.history.go(-1);
     }
     else {
-      this.context.router.push(this.state.applicationList.url)
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: '/request'
+        })
+      )
     }
-
-
   };
 
   render() {
     return (
       <div className="go-back-btn request-btn">
-        <Button onClick={this.goBack}>{messages('common.back')}</Button>
+        <Button onClick={this.goBack}>{this.$t('common.back')}</Button>
       </div>
     )
   }

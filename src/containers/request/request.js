@@ -312,7 +312,14 @@ class ApplicationList extends React.Component{
         )
       }
     } else {
-      this.context.router.push(this.state.requestDetail.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':pageFrom','my'));
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: '/request/request-detail/:formOID/:applicationOID/:pageFrom'
+            .replace(':formOID', record.formOID)
+            .replace(':applicationOID', record.applicationOID)
+            .replace(':pageFrom','my')
+        })
+      )
     }
   };
 

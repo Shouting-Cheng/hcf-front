@@ -8,9 +8,7 @@ import 'styles/request/travel-request/travel-previous-version.scss'
 class TravelPreviousVersion extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      requestDetail: menuRoute.getRouteItem('request-detail','key'), //申请单详情页
-    }
+    this.state = {}
   }
 
   toPreviousVersion = () => {

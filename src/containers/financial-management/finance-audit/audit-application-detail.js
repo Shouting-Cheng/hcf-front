@@ -205,11 +205,11 @@ class AuditApplicationDetail extends React.Component{
 }
 
 AuditApplicationDetail.propTypes = {
-  entityOID: React.PropTypes.string,
-  entityType: React.PropTypes.number,
-  status: React.PropTypes.number,//单据状态
-  expenseOid: React.PropTypes.string,
-  afterClose: React.PropTypes.func,
+  entityOID: PropTypes.string,
+  entityType: PropTypes.number,
+  status: PropTypes.number,//单据状态
+  expenseOid: PropTypes.string,
+  afterClose: PropTypes.func,
 };
 
 AuditApplicationDetail.defaultProps = {

@@ -1,171 +1,173 @@
-.base-request-detail {
-  .tabs-info {
-    background: white;
-    padding: 36px 20px 0 20px;
-    margin: -40px -20px 0 -20px;
-  }
-  .top-info {
-    position: relative;
-    .ant-alert-error {
-      margin-bottom: 10px;
+:global{
+  .base-request-detail {
+    .tabs-info {
+      background: white;
+      padding: 36px 20px 0 20px;
+      margin: -40px -20px 0 -20px;
     }
-    .row-container {
-      line-height: 30px;
-      .top-info-name {
-        font-size: 16px;
+    .top-info {
+      position: relative;
+      .ant-alert-error {
+        margin-bottom: 10px;
+      }
+      .row-container {
+        line-height: 30px;
+        .top-info-name {
+          font-size: 16px;
+          font-weight: bolder;
+          color: #666;
+        }
+        .detail-info {
+          color: #989898;
+          margin-left: 10px;
+          font-size: 13px;
+        }
+        .detail-info-first {
+          margin-left: 0;
+        }
+        .link-icon {
+          margin-right: 5px;
+          font-size: 12px;
+          color: #1890ff;
+        }
+        .amount {
+          font-size: 20px;
+          color: #666;
+          margin-top: 10px;
+        }
+        .loan-repayment-amount {
+          .repayment-all {
+            color: #1dbd91;
+            .repayment-all-icon {
+              font-weight: bolder;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+    .approvals {
+      min-height: 180px;
+      margin: 40px 0 50px 25px;
+      .ant-timeline-item-content {
+        padding-left: 25px;
+      }
+      .timeline-icon-my {
+        color: #fff;
+        background: #63B8EE;
+        height: 20px;
+        line-height: 20px;
+        padding: 0 3px;
+        border-radius: 10px;
+        div {
+          transform: scale(0.8);
+        }
+      }
+      .operation-type {
         font-weight: bolder;
         color: #666;
       }
-      .detail-info {
-        color: #989898;
-        margin-left: 10px;
-        font-size: 13px;
+      .operation-name {
+        word-break: break-all;
       }
-      .detail-info-first {
-        margin-left: 0;
+    }
+    .detail-tabs {
+      margin: 0 -20px -20px;
+      .ant-tabs-bar {
+        background: #fff;
+        border-bottom: 1px solid #fff;
+        padding-left: 20px;
       }
-      .link-icon {
-        margin-right: 5px;
-        font-size: 12px;
-        color: #1890ff;
-      }
-      .amount {
-        font-size: 20px;
-        color: #666;
-        margin-top: 10px;
-      }
-      .loan-repayment-amount {
-        .repayment-all {
-          color: #1dbd91;
-          .repayment-all-icon {
-            font-weight: bolder;
-            margin-right: 5px;
+      .ant-tabs-tabpane .tab-container {
+        width: 100% !important;
+        margin: 0 0 16px;
+        background: #fff;
+        padding: 20px;
+        &:last-child {
+          margin-bottom: 60px;
+        }
+        .sub-header-title {
+          font-size: 16px;
+          color: #666;
+          border-bottom: 1px solid #ececec;
+          margin: -20px -20px 20px;
+          height: 54px;
+          line-height: 54px;
+          padding-left: 20px;
+          .edit {
+            font-size: 15px;
+            margin-left: 15px;
+          }
+        }
+        .ant-divider {
+          background: #ccc;
+        }
+        .table-header {
+          margin-bottom: 10px;
+          .order-num {
+            margin-right: 10px;
+          }
+        }
+        .amount-info {
+          margin-top: 10px;
+          .ant-row {
+            line-height: 27px;
+          }
+          .amount-title, .amount {
+            float: right;
+          }
+          .amount {
+            text-align: right;
+          }
+          .total {
+            color: #ff9900;
+            margin: 5px 0 10px;
+            &.amount {
+              font-size: 22px;
+            }
+            &.amount-title {
+              line-height: 27px;
+            }
+          }
+        }
+        .product-img {
+          max-width: 54px;
+          max-height: 54px;
+          margin-right: 10px;
+        }
+        .custom-form-row {
+          margin-bottom: 12px;
+          .field-name {
+            font-size: 12px;
+            color: #989898;
           }
         }
       }
     }
-  }
-  .approvals {
-    min-height: 180px;
-    margin: 40px 0 50px 25px;
-    .ant-timeline-item-content {
-      padding-left: 25px;
-    }
-    .timeline-icon-my {
-      color: #fff;
-      background: #63B8EE;
-      height: 20px;
-      line-height: 20px;
-      padding: 0 3px;
-      border-radius: 10px;
-      div {
-        transform: scale(0.8);
-      }
-    }
-    .operation-type {
-      font-weight: bolder;
-      color: #666;
-    }
-    .operation-name {
-      word-break: break-all;
-    }
-  }
-  .detail-tabs {
-    margin: 0 -20px -20px;
-    .ant-tabs-bar {
+    .bottom-bar {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      position: fixed;
+      bottom: 0;
+      z-index: 5;
+      margin-left: -35px;
       background: #fff;
-      border-bottom: 1px solid #fff;
+      box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
       padding-left: 20px;
-    }
-    .ant-tabs-tabpane .tab-container {
-      width: 100% !important;
-      margin: 0 0 16px;
-      background: #fff;
-      padding: 20px;
-      &:last-child {
-        margin-bottom: 60px;
+      &.bottom-bar-approve {
+        height: 80px;
+        line-height: 80px;
       }
-      .sub-header-title {
-        font-size: 16px;
-        color: #666;
-        border-bottom: 1px solid #ececec;
-        margin: -20px -20px 20px;
-        height: 54px;
-        line-height: 54px;
-        padding-left: 20px;
-        .edit {
-          font-size: 15px;
-          margin-left: 15px;
-        }
-      }
-      .ant-divider {
-        background: #ccc;
-      }
-      .table-header {
-        margin-bottom: 10px;
-        .order-num {
+      .request-btn {
+        display: inline-block;
+        button {
           margin-right: 10px;
         }
       }
-      .amount-info {
-        margin-top: 10px;
-        .ant-row {
-          line-height: 27px;
-        }
-        .amount-title, .amount {
-          float: right;
-        }
-        .amount {
-          text-align: right;
-        }
-        .total {
-          color: #ff9900;
-          margin: 5px 0 10px;
-          &.amount {
-            font-size: 22px;
-          }
-          &.amount-title {
-            line-height: 27px;
-          }
-        }
-      }
-      .product-img {
-        max-width: 54px;
-        max-height: 54px;
-        margin-right: 10px;
-      }
-      .custom-form-row {
-        margin-bottom: 12px;
-        .field-name {
-          font-size: 12px;
-          color: #989898;
-        }
-      }
     }
-  }
-  .bottom-bar {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    position: fixed;
-    bottom: 0;
-    z-index: 5;
-    margin-left: -35px;
-    background: #fff;
-    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
-    padding-left: 20px;
-    &.bottom-bar-approve {
-      height: 80px;
-      line-height: 80px;
+    .ant-tabs-card .ant-tabs-nav {
+      margin-left: 0;
     }
-    .request-btn {
-      display: inline-block;
-      button {
-        margin-right: 10px;
-      }
-    }
-  }
-  .ant-tabs-card .ant-tabs-nav {
-    margin-left: 0;
   }
 }

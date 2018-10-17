@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import {Table, Button, Tabs, Popover} from 'antd'
 
 const TabPane = Tabs.TabPane;
+import PropTypes from 'prop-types';
 
 import httpFetch from 'share/httpFetch'
 import config from 'config'
@@ -671,7 +672,7 @@ class FinanceAudit extends React.Component {
 }
 
 FinanceAudit.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 
 function mapStateToProps(state) {

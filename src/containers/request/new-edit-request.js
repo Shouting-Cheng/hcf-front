@@ -6,7 +6,7 @@ import {Form, Affix, Button, Spin, Icon, Modal, message, Popconfirm, Switch, Sel
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
-
+import { routerRedux } from 'dva/router';
 import moment from 'moment'
 import TravelType from 'containers/request/travel-request/travel-type';
 import  TravelElementType from 'containers/request/travel-request/travel-element-type';
@@ -314,9 +314,9 @@ class NewRequest extends React.Component {
 
     let sub = this.state.subsidyCtrl;
     //是否进行预算校验
-    sub.isBudgetCheck = this.props.profile['travel.budget.check'];
+    //sub.isBudgetCheck = this.props.profile['travel.budget.check'];
     //是否必须添加行程
-    sub.itineraryRequire = this.props.profile['ta.itinerary.required'] ? this.props.profile['ta.itinerary.required'] : false;
+    //sub.itineraryRequire = this.props.profile['ta.itinerary.required'] ? this.props.profile['ta.itinerary.required'] : false;
     this.setState({subsidyCtrl: sub});
   };
 
@@ -783,7 +783,7 @@ class NewRequest extends React.Component {
     const {applicationOID} = this.props.match.params;
     requestService.getRequestDetail(applicationOID).then(res => {
       //代提逻辑
-      if (this.props.loginUser.userOID !== res.data.applicantOID) {
+      if (this.props.user.userOID !== res.data.applicantOID) {
         baseService.changeLoginInfo(res.data.applicantOID);
       }
       this.setApplicantDisable(res.data.custFormValues);
@@ -1553,7 +1553,11 @@ class NewRequest extends React.Component {
   };
   //返回
   goBack = () => {
-    this.context.router.push(this.state.applicationList.url)
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/request'
+      })
+    )
   };
   formItemChange(value){
     let {formInfo,defaultValues}=this.state;
@@ -1632,7 +1636,6 @@ class NewRequest extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     //const { isPreVersion } = this.props.location.query;
     const { getFieldDecorator } = this.props.form;
     const { subsidyCtrl, loading, formInfo, formDefaultValue, defaultValues, saveLoading, deleteLoading, submitLoading, approvalHistory, signEnable, isShowRangePicker, travelItinerarys, dateChage, signCompanyOIDs } = this.state;
@@ -2116,13 +2119,11 @@ class NewRequest extends React.Component {
 
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     company: state.user.company,
     user: state.user.currentUser,
-    loginUser: state.login.loginUser,
     language: state.languages,
-    profile: state.login.profile
+    //profile: state.login.profile
   }
 }
 

@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import moment from 'moment'
 import SlideFrame from 'widget/slide-frame'
 import { Form, Table, Badge, Button } from 'antd'
-
+import PropTypes from 'prop-types';
 import requestService from 'containers/request/request.service'
 import NewRepaymentFrame from 'containers/request/loan-request/new-repayment-frame'
 import RepaymentDetailFrame from 'containers/request/loan-request/repayment-detail-frame'
@@ -183,13 +183,13 @@ class LoanRepayment extends React.Component{
 }
 
 LoanRepayment.propTypes = {
-  info: React.PropTypes.object,
-  loanRefund: React.PropTypes.bool, //是否是借还款管理页面的详情
-  showNewSlide: React.PropTypes.bool,
-  applicationOID: React.PropTypes.string.isRequired,
-  isOwner: React.PropTypes.bool,//是否为登录人控件，涉及权限
-  handleSave: React.PropTypes.func,
-  handleClose: React.PropTypes.func,
+  info: PropTypes.object,
+  loanRefund: PropTypes.bool, //是否是借还款管理页面的详情
+  showNewSlide: PropTypes.bool,
+  applicationOID: PropTypes.string.isRequired,
+  isOwner: PropTypes.bool,//是否为登录人控件，涉及权限
+  handleSave: PropTypes.func,
+  handleClose: PropTypes.func,
 };
 
 LoanRepayment.defaultProps={

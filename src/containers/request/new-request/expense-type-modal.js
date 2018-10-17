@@ -424,10 +424,9 @@ ExpenseTypeModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    user: state.login.user,
-    language: state.main.language,
-    tenantId: state.login.company.tenantId
+    company: state.user.company,
+    user: state.user.currentUser,
+    tenantId: state.user.company.tenantId
   }
 }
 

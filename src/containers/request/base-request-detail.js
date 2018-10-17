@@ -72,18 +72,18 @@ class BaseRequestDetail extends React.Component{
 
   componentDidMount() {
     this.setState({
-      formOID: this.props.params.formOID,
-      approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
+      formOID: this.props.match.params.formOID,
+      /*approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
       audit: this.props.location.pathname.indexOf('loan-request-detail-audit') > -1,
       view: this.props.location.pathname.indexOf('finance-view') > -1,
       loanRefund: this.props.location.pathname.indexOf('loan-refund-detail') > -1,
       rescheduleRefund: this.props.location.pathname.indexOf('reschedule-refund-detail') > -1,
       price: this.props.location.pathname.indexOf('price-review-detail') > -1,
-      confirmPay: this.props.location.pathname.indexOf('confirm-payment') > -1,
+      confirmPay: this.props.location.pathname.indexOf('confirm-payment') > -1,*/
     },() => {
       const { approve, audit, view, loanRefund, rescheduleRefund, price, confirmPay } = this.state;
       this.setState({
-        readOnly: approve || audit || view || loanRefund || rescheduleRefund || price || confirmPay || this.props.location.query.readOnly,
+        readOnly: approve || audit || view || loanRefund || rescheduleRefund || price || confirmPay || this.props.readOnly,
       });
       this.getFormType(this.state.formOID)
     })
@@ -112,7 +112,7 @@ class BaseRequestDetail extends React.Component{
 
   getInfo = () => {
     //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
-    const { applicationOID, bookTaskOID } = this.props.params;
+    const { applicationOID, bookTaskOID } = this.props.match.params;
     let getType = this.state.rescheduleRefund ? 'getBookerTaskRequestDetail' : 'getRequestDetail';
     this.setState({ loading: true });
     requestService[getType](applicationOID, bookTaskOID).then(res => {
@@ -211,7 +211,7 @@ class BaseRequestDetail extends React.Component{
   };
 
   render() {
-    const { approving, isPreVersion, latestApplicationOID, from } = this.props.location.query;
+    const { approving, isPreVersion, latestApplicationOID, from } = this.props;
     const { payProcess, loading, tapValue, subTabValue, formType, formInfo, showNewRepaymentSlide, info, approvalHistory,
       approve, audit, view, loanRefund, rescheduleRefund, price, readOnly , buttonRoleSwitch, repaymentInfo, confirmPay, showApproveBottom } = this.state;
     let applicant = info.applicant || {}; //申请人信息
@@ -302,7 +302,7 @@ class BaseRequestDetail extends React.Component{
               </span>
             )}
             {formType === 2001 && <TravelDate info={info}/>}
-            {(formType === 2005 && (!readOnly || loanRefund)) && <LoanRepaymentAmount info={info} handleToRepayment={this.toRepayment} isOwner={this.props.params.pageFrom === 'my'}/>}
+            {(formType === 2005 && (!readOnly || loanRefund)) && <LoanRepaymentAmount info={info} handleToRepayment={this.toRepayment} isOwner={this.props.match.params.pageFrom === 'my'}/>}
           </Row>
         </div>
       </Spin>
@@ -322,7 +322,7 @@ class BaseRequestDetail extends React.Component{
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info')/*申请单信息*/} key="requestInfo">{requestInfo}</TabPane>
             <TabPane tab={this.$t('request.detail.approve.history'/*审批历史*/)} key="approvals">
-              <ApproveHistory approvalChains={info.approvalChains} isShowReply={this.props.params.pageFrom === 'my' && info.status === 1003} businessCode={info.businessCode} approvalHistory={approvalHistory} applicantInfo={applicant}/>
+              <ApproveHistory approvalChains={info.approvalChains} isShowReply={this.props.match.params.pageFrom === 'my' && info.status === 1003} businessCode={info.businessCode} approvalHistory={approvalHistory} applicantInfo={applicant}/>
             </TabPane>
           </Tabs>
         </div>
@@ -332,17 +332,17 @@ class BaseRequestDetail extends React.Component{
             {(formType === 2005 && (!readOnly || loanRefund)) && (info.status === 1005 || info.status === 1006 || info.status === 1007) && (
               <TabPane tab={this.$t('request.detail.repayment.history'/*还款记录*/)} key="repayment">
                 <LoanRepayment info={info}
-                               isOwner={this.props.params.pageFrom === 'my'}
+                               isOwner={this.props.match.params.pageFrom === 'my'}
                                loanRefund={loanRefund}
                                showNewSlide={showNewRepaymentSlide}
-                               applicationOID={this.props.params.applicationOID}
+                               applicationOID={this.props.match.params.applicationOID}
                                handleSave={this.handleRepaymentSave}
                                handleClose={() => {this.setState({ showNewRepaymentSlide: false })}}/>
               </TabPane>
             )}
             {formType === 2001 && this.state.manageType &&(
               <TabPane tab={this.$t('request.detail.travel.info'/*行程信息*/)} key="travelInfo">
-                <TravelInformation applicationOID={this.props.params.applicationOID}
+                <TravelInformation applicationOID={this.props.match.params.applicationOID}
                                    info={info}
                                    customFormPropertyMap={formInfo.customFormPropertyMap}
                                    controlFields={JSON.parse(formInfo.customFormProperties.controlFields || '{}')}
@@ -352,7 +352,7 @@ class BaseRequestDetail extends React.Component{
             )}
             {formType === 2001 && !this.state.manageType &&(
               <TabPane tab={this.$t('request.detail.travel.info'/*行程信息*/)} key="travelInfo">
-                <TravelInformationElement applicationOID={this.props.params.applicationOID}
+                <TravelInformationElement applicationOID={this.props.match.params.applicationOID}
                                    info={info}
                                    customFormPropertyMap={formInfo.customFormPropertyMap}
                                           isPreVersion={isPreVersion === 'true'}
@@ -373,8 +373,8 @@ class BaseRequestDetail extends React.Component{
           </Tabs>
         )}
         {audit && (buttonRoleSwitch ?
-            <AuditApplicationDetail status={info.status} entityOID={this.props.params.applicationOID} entityType={1001}/> :
-            <Affix offsetBottom={0} className='bottom-bar'><GoBackBtn backType={this.props.params.backType}/></Affix>
+            <AuditApplicationDetail status={info.status} entityOID={this.props.match.params.applicationOID} entityType={1001}/> :
+            <Affix offsetBottom={0} className='bottom-bar'><GoBackBtn backType={this.props.match.params.backType}/></Affix>
         )}
         {(!readOnly || approve || rescheduleRefund || price || loanRefund || payProcess || confirmPay || view) && (
           <Affix offsetBottom={0} className={`bottom-bar ${((approve && approving && showApproveBottom) || (!approve && approving)) ? 'bottom-bar-approve' : ''}`}>
@@ -390,13 +390,13 @@ class BaseRequestDetail extends React.Component{
             {!readOnly && <BookerEndorseBtn formType={Number(formType)} info={info}/>}
             {!readOnly && !payProcess &&
               (from !== 'expense' && from !== 'request') &&  //从报销单／申请单进来的关联申请单，因为是新开tab，不需要返回按钮
-              <GoBackBtn backType={this.props.params.backType}/>}
+              <GoBackBtn backType={this.props.match.params.backType}/>}
 
-            {confirmPay && <SurePayBtn applicantInfo={info} backType={this.props.params.backType} onlyBack={!payProcess}/>}
+            {confirmPay && <SurePayBtn applicantInfo={info} backType={this.props.match.params.backType} onlyBack={!payProcess}/>}
             {loanRefund && <LoanAndRefundBack tab={this.props.location.query.tab} info={info}/>}
             {approve && <ApproveRequestBtn formType={Number(formType)} info={info} approving={!!approving && showApproveBottom} formInfo={formInfo}/>}
-            {rescheduleRefund && <RescheduleRefundBtn approving={!!approving} bookTaskOID={this.props.params.bookTaskOID}/>}
-            {price && <PriceReviewBtn approving={!!approving} applicationOID={this.props.params.applicationOID}/>}
+            {rescheduleRefund && <RescheduleRefundBtn approving={!!approving} bookTaskOID={this.props.match.params.bookTaskOID}/>}
+            {price && <PriceReviewBtn approving={!!approving} applicationOID={this.props.match.params.applicationOID}/>}
           </Affix>
         )}
         {(readOnly && !approve && !rescheduleRefund && !price && !loanRefund && !payProcess && !confirmPay && !view && !audit) && (

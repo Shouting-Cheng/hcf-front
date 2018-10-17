@@ -144,7 +144,7 @@ class TravelInformation extends React.Component{
           itemContent = (
             <div className="flight">
               {(info.version > 0 || isPreVersion) && item.disabled && (
-                <img src={language.code === 'zh_cn' ? disabledImg : disabledEnImg} className="disabled-img"/>
+                <img src={language.code === 'zh_CN' ? disabledImg : disabledEnImg} className="disabled-img"/>
               )}
               <div>
                 {(info.version > 0 || isPreVersion) && (
@@ -578,10 +578,11 @@ TravelInformation.propTypes = {
 };
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
-    company: state.login.company,
-    profile: state.login.profile,
-    language: state.main.language,
+    company: state.user.company,
+    //profile: state.login.profile,
+    language: state.languages,
   }
 }
 

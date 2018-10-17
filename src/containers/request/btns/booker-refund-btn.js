@@ -37,7 +37,6 @@ class BookerRefundBtn extends React.Component{
       ],
       selectedRowKeys: [],
       selectedTravelOrderOID: [],
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 

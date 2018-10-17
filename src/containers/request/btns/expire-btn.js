@@ -18,7 +18,6 @@ class TravelExpireBtn extends React.Component{
       formType: null,
       info: {},
       showExpireBtn: false, //是否显示【停用】按钮
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 

@@ -1,6 +1,6 @@
-﻿import {messages} from "share/common";
-import React from 'react'
-import { connect } from 'react-redux'
+﻿import React from 'react'
+import { connect } from 'dva'
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { message, Button, Modal, Row, Col, Switch, Icon, Badge, Spin, Tooltip, Popover} from 'antd'
 import financeAuditService from 'containers/financial-management/finance-audit/finance-audit.service'
@@ -235,8 +235,8 @@ class ImageAudit extends React.Component{
     invoices.map(invoice => invoice.allChecked && allCheckedNumber++);
     const infoContent = (
       <div>
-        <p>1.{messages('finance.audit.image.audit.info1')/*此模式下只显示该单据所有包含图片的费用*/}</p>
-        <p>2.{messages('finance.audit.image.audit.info2')/*键盘↔可切换图片，↕切换费用，按【空格】标记费用已核对/未核对*/}</p>
+        <p>1.{this.$t('finance.audit.image.audit.info1')/*此模式下只显示该单据所有包含图片的费用*/}</p>
+        <p>2.{this.$t('finance.audit.image.audit.info2')/*键盘↔可切换图片，↕切换费用，按【空格】标记费用已核对/未核对*/}</p>
       </div>
     );
     return (
@@ -247,7 +247,7 @@ class ImageAudit extends React.Component{
              onCancel={onCancel}
              width={1092}
              title={
-               <span>{messages('finance.audit.image.audit')/*附件审核*/}&nbsp;{messages('common.total', {total: totalAttachments})/*共{totalAttachments}张*/}&nbsp;
+               <span>{this.$t('finance.audit.image.audit')/*附件审核*/}&nbsp;{this.$t('common.total', {total: totalAttachments})/*共{totalAttachments}张*/}&nbsp;
                  <Tooltip title={infoContent} placement="bottomLeft">
                    <Icon type="info-circle" style={{ color: '#658FD6', cursor: 'pointer' }}/>
                  </Tooltip>
@@ -255,7 +255,7 @@ class ImageAudit extends React.Component{
              }>
         <Row className="image-audit-content">
           <Col span={8} className="invoice-list">
-            <div className="invoice-count">{messages('finance.audit.wait.for.view')/*待核对费用*/}<span>{invoices.length - allCheckedNumber}{messages('finance.audit.wait.for.view.unit')/*笔*/}</span></div>
+            <div className="invoice-count">{this.$t('finance.audit.wait.for.view')/*待核对费用*/}<span>{invoices.length - allCheckedNumber}{this.$t('finance.audit.wait.for.view.unit')/*笔*/}</span></div>
             <div className="invoice-container">
               {invoices.map((invoice, index) => (
                 <Row key={invoice.invoiceOID} className={`invoice-item ${nowInvoiceIndex === index && 'selected-invoice'}`} onClick={() => this.handleSelectInvoice(index)}>
@@ -280,7 +280,7 @@ class ImageAudit extends React.Component{
                     {checking ? (
                       <div>
                         <Spin/>
-                        <span className="attachment-status-description">{messages('finance.audit.in.hand')/*处理中*/}</span>
+                        <span className="attachment-status-description">{this.$t('finance.audit.in.hand')/*处理中*/}</span>
                       </div>
                     ) : isEnableCheck &&
                       (<div>
@@ -288,7 +288,7 @@ class ImageAudit extends React.Component{
                                 checked={attachment.checked}
                                 onChange={checked => this.handleCheckAttachment(checked, nowInvoiceIndex, nowAttachmentIndex)}/>
                         <span
-                          className="attachment-status-description">{attachment.checked ? messages('finance.audit.checked')/*已核对*/ : messages('finance.audit.unchecked')/*未核对*/}</span>
+                          className="attachment-status-description">{attachment.checked ? this.$t('finance.audit.checked')/*已核对*/ : this.$t('finance.audit.unchecked')/*未核对*/}</span>
                       </div>)
                     }
                   </div>
@@ -332,13 +332,13 @@ class ImageAudit extends React.Component{
 }
 
 ImageAudit.propTypes = {
-  visible: React.PropTypes.bool.isRequired,
-  invoices: React.PropTypes.array.isRequired,
-  currentInvoices: React.PropTypes.array.isRequired,
-  afterClose: React.PropTypes.func,
-  onCancel: React.PropTypes.func,
-  defaultImage: React.PropTypes.any,
-  isEnableCheck: React.PropTypes.bool //是否启用核对功能
+  visible: PropTypes.bool.isRequired,
+  invoices: PropTypes.array.isRequired,
+  currentInvoices: PropTypes.array.isRequired,
+  afterClose: PropTypes.func,
+  onCancel: PropTypes.func,
+  defaultImage: PropTypes.any,
+  isEnableCheck: PropTypes.bool //是否启用核对功能
 };
 
 ImageAudit.defaultProps = {
@@ -348,7 +348,7 @@ ImageAudit.defaultProps = {
 };
 
 ImageAudit.contextTypes = {
-  router: React.PropTypes.object,
+  router: PropTypes.object,
 };
 
 function mapStateToProps(state) {

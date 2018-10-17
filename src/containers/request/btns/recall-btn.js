@@ -16,7 +16,6 @@ class RecallBtn extends React.Component{
     super(props);
     this.state = {
       loading: false,
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 
