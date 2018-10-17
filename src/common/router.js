@@ -399,7 +399,6 @@ export const getRouterData = app => {
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
     },
-<<<<<<< HEAD
     // //报销单
     // '/expense-report': {
     //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
@@ -426,7 +425,6 @@ export const getRouterData = app => {
     // name:'my-gl-work-order-detail',
     // parent:'/gl-work-order/my-gl-work-order'
     // }
-=======
     '/pay-setting/payment-method': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/payment-method/payment-method.js')
@@ -473,7 +471,6 @@ export const getRouterData = app => {
       parent: '/pay-setting/company-account-setting',
     },
 
->>>>>>> develop
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
