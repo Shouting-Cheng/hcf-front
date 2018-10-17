@@ -140,12 +140,12 @@ class UploadButton extends React.Component {
 
     const { previewVisible, previewImage } = this.state;
     const upload_headers = {
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token')).access_token
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
     };
     let fileList = this.state.fileList;
     fileList.map(item => {
       let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-      item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('token')).access_token}`
+      item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${localStorage.getItem('token')}`
     });
     let fileTotal;
     if (this.props.title === undefined) {
@@ -189,7 +189,7 @@ class UploadButton extends React.Component {
                       <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
                       {
                         type !== 'IMAGE' ?
-                          <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${JSON.parse(localStorage.getItem('token')).access_token}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                          <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${localStorage.getItem('token')}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
                           :
                           <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
                       }

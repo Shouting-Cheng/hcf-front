@@ -587,7 +587,7 @@ class BasicLayout extends React.Component {
 
   remove = targetKey => {
 
-    if (this.state.panes.length == 1) return;
+    // if (targetKey == "/dashboard") return;
 
     let activeKey = this.state.activeKey;
     let lastIndex;
@@ -672,7 +672,7 @@ class BasicLayout extends React.Component {
               // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
-                  <TabPane forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
+                  <TabPane closable={pane.routeKey != "/dashboard"} forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
                     <div style={{ padding: '12px 14px', paddingBottom: 0, backgroundColor: "#fff" }}>
                       {React.createElement(pane.component, pane.params)}
                     </div>
