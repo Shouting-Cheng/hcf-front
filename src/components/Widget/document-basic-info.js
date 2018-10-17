@@ -140,7 +140,7 @@ class DocumentBasicInfo extends React.Component {
                               <Col key={index} span={6} style={{ fontSize: '12px', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "left", lineHeight: "32px" }}>
                                 {
                                   item.fileType !== 'IMAGE' ?
-                                    <a href={`${config.baseUrl}/api/attachments/download/${item.attachmentOID}?access_token=${JSON.parse(localStorage.getItem('hly.token')).access_token}`} >{item.fileName}</a>
+                                    <a href={`${config.baseUrl}/api/attachments/download/${item.attachmentOID}?access_token=${localStorage.getItem('token')}`} >{item.fileName}</a>
                                     :
                                     <a onClick={(e) => this.onPreviewClick(e, item.thumbnailUrl)}>{item.fileName}</a>
                                 }

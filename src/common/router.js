@@ -242,13 +242,14 @@ export const getRouterData = app => {
       ),
       name: 'prepayment-type',
     },
+    //预付款分配公司
     '/document-type-manage/prepayment-type/distribution-company/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/prepayment-type/distribution-company.js')
       ),
-      name: 'prepayment-type',
+      name: '分配公司',
+      parent: "/document-type-manage/prepayment-type"
     },
-
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')
