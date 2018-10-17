@@ -2,7 +2,7 @@ import httpFetch from '../../utils/fetch';
 
 export default {
   getMenus() {
-    return httpFetch.get(`/auth/api/menu/query`);
+    return httpFetch.get(`/auth/api/menu/query?size=10000`);
   },
   addMenu(parmas) {
     return httpFetch.post(`/auth/api/menu/create`, parmas);

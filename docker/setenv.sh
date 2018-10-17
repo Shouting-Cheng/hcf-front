@@ -32,7 +32,13 @@ server {
     location /contract/ {
         proxy_pass http://115.159.108.80:25297/contract/;
     }
+
+    location /supplier/ {
+        proxy_pass http://115.159.108.80:25297/contract/;
+    }
 }
+
+
 EOF
 
 echo "starting web server"
