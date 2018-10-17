@@ -68,10 +68,10 @@ class Payment extends React.Component {
             approveSearchParams: {},
             columns: [
                 { title: '序号', dataIndex: 'id', render: (value, record, index) => index + 1, width: 50, align: "center" },
-                { title: '单据编号', dataIndex: 'requisitionNumber', width: 150 },
+                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180 },
                 { title: '单据类型', dataIndex: 'typeName' },
-                { title: '申请人', dataIndex: 'createByName', width: 150 },
-                { title: '提交日期', dataIndex: 'submitDate', render: (value) => moment(value).format('YYYY-MM-DD') },
+                { title: '申请人', dataIndex: 'createByName', width: 110,align:"center" },
+                { title: '提交日期', dataIndex: 'submitDate',width:100, render: (value) => moment(value).format('YYYY-MM-DD') },
                 // {title: '币种', dataIndex: 'currency'},
                 { title: '金额', dataIndex: 'advancePaymentAmount', render: this.filterMoney },
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
@@ -83,7 +83,7 @@ class Payment extends React.Component {
                     }
                 },
                 {
-                    title: '状态', dataIndex: 'status', align: "center", render: (value, record) => {
+                    title: '状态', dataIndex: 'status',width:100, align: "center", render: (value, record) => {
                         return (
                             <Badge status={this.state.status[value].state} text={this.state.status[value].label} />
                         )
