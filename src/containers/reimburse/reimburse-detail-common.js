@@ -434,7 +434,7 @@ class ContractDetailCommon extends React.Component {
               <TabPane tab="单据信息" key="1" style={{border:'none'}}>
                 <DocumentBasicInfo params={this.state.remburseInfo} values={{}}>
                   {isEdit &&
-                    <Button type="primary" style={{marginBottom:'14px'}}>编辑</Button>}
+                    <Button type="primary" style={{marginBottom:'14px'}} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
                     <Button type="primary" style={{marginBottom:'14px'}}
                       onClick={this.withdraw}>撤回</Button>}
