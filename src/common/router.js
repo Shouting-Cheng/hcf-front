@@ -242,13 +242,29 @@ export const getRouterData = app => {
       ),
       name: 'prepayment-type',
     },
+    //预付款分配公司
     '/document-type-manage/prepayment-type/distribution-company/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/prepayment-type/distribution-company.js')
       ),
-      name: 'prepayment-type',
+      name: '分配公司',
+      parent: "/document-type-manage/prepayment-type"
     },
-
+    '/approval-management/pre-payment-approve': {
+      //预付款工作流审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-approve/pre-payment.js')
+      ),
+      name: 'pre-payment-approve',
+    },
+    '/approval-management/pre-payment-approve/pre-payment-approve-detail/:id/:entityOID/:status': {
+      //预付款工作流审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/pre-payment-approve/pre-payment-detail.js')
+      ),
+      name: 'prepayment-detail',
+      parent: '/approval-management/pre-payment-approve',
+    },
     '/document-type-manage/contract-type/new-contract-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')
@@ -271,7 +287,7 @@ export const getRouterData = app => {
       name: 'contract-recheck',
     },
     '/contract-manage/contract-recheck/contract-detail/:id/:status': {
-      //合同审批详情
+      //合同复核详情
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-approve/contract-detail.js')
       ),
@@ -284,6 +300,21 @@ export const getRouterData = app => {
         import('containers/contract/my-contract/my-contract.js')
       ),
       name: 'my-contract',
+    },
+    '/approval-management/contract-approve': {
+      //合同工作流审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-approve/contract-workflow-approve.js')
+      ),
+      name: 'contract-approve',
+    },
+    '/approval-management/contract-approve/contract-workflow-approve-detail/:id/:entityOID/:entityType/:status': {
+      //合同工作流审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-approve/contract-workflow-approve-detail.js')
+      ),
+      name: 'contract-detail',
+      parent: '/approval-management/contract-approve',
     },
     '/contract-manage/my-contract/new-contract/:contractTypeId': {
       //合同新建
@@ -335,7 +366,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/payment-requisition.js')
       ),
-      name: 'payment-requisition',
+      name: 'payment-requisition', // 付款申请单
     },
     '/payment-requisition/my-payment-requisition/new-payment-requisition/:id/:typeId': {
       component: dynamicWrapper(app, [], () =>
@@ -360,22 +391,22 @@ export const getRouterData = app => {
     },
     '/job/job-actuator': {
       component: dynamicWrapper(app, [], () => import('containers/job/job-actuator.js')),
-      name: 'job-actuator',
+      name: 'job-actuator', // 执行器
     },
     '/job/job-info': {
       component: dynamicWrapper(app, [], () => import('containers/job/job-info.js')),
-      name: 'job-info',
+      name: 'job-info', // 任务详情
     },
     '/job/job-log': {
       component: dynamicWrapper(app, [], () => import('containers/job/job-log.js')),
-      name: 'job-log',
+      name: 'job-log', // 任务日志
     },
 
     '/document-type-manage/payment-requisition-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/type/acp-request-type.js')
       ),
-      name: 'payment-requisition-type',
+      name: 'payment-requisition-type', // 付款申请单类型定义
     },
     '/document-type-manage/payment-requisition/acp-request-type/distribution-company/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
@@ -384,6 +415,52 @@ export const getRouterData = app => {
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
     },
+    '/pay-setting/payment-method': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/payment-method/payment-method.js')
+      ),
+      name: 'payment-method', // 付款方式
+    },
+    '/pay-setting/cash-flow-item': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-flow-item/cash-flow-item.js')
+      ),
+      name: 'cash-flow-item', // 现金流量项
+    },
+    '/pay-setting/cash-transaction-class': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/cash-transaction-class.js')
+      ),
+      name: 'cash-transaction-class', // 现金事务分类
+    },
+    '/pay-setting/cash-transaction-class/new-cash-transaction-class/:setOfBooksId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/new-cash-transaction-class.js')
+      ),
+      name: '新建现金事务分类',
+      parent: '/pay-setting/cash-transaction-class',
+    },
+    '/pay-setting/cash-transaction-class/cash-transaction-class-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/cash-transaction-class/cash-transaction-class-detail.js')
+      ),
+      name: '现金事务分类详情',
+      parent: '/pay-setting/cash-transaction-class',
+    },
+    '/pay-setting/company-account-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/company-account-setting/company-account-setting.js')
+      ),
+      name: 'company-account-setting', // 公司账户设置
+    },
+    '/pay-setting/company-account-setting/bank-account-detail/:companyBankId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/company-account-setting/bank-account-detail.js')
+      ),
+      name: '银行账户详情',
+      parent: '/pay-setting/company-account-setting',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

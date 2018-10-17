@@ -894,7 +894,7 @@ class ContractDetailCommon extends React.Component {
     return (
       <div>
         <Card
-          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20, marginTop: 10 }}
+          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
         >
           <div style={flag ? { paddingTop: 0, marginTop: '-20px' } : { marginTop: '-20px' }}>
             <DocumentBasicInfo params={documentParams} noHeader={true}>
@@ -967,7 +967,7 @@ class ContractDetailCommon extends React.Component {
         <Spin spinning={detailLoading}>
           <div className="contract-info" style={{ margin: 0 }}>
             <Card
-              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20, marginTop: 10 }}
+              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
             >
               <div
                 className="contract-info-header"
@@ -1132,7 +1132,7 @@ class ContractDetailCommon extends React.Component {
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20 }}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15,marginTop:10 }}>
             <div className="pay-info" style={{ marginTop: '0px' }}>
               <h3
                 className="info-header-title"
@@ -1206,8 +1206,8 @@ class ContractDetailCommon extends React.Component {
           <Card
             style={{
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-              marginRight: 20,
-              marginTop: 10,
+              marginRight: 15,marginLeft: 15,
+              marginTop: 20,
               marginBottom: 50,
             }}
           >
@@ -1286,8 +1286,8 @@ class ContractDetailCommon extends React.Component {
               {this.renderContent()}
             </TabPane>
             <TabPane tab={this.$t('my.link.info')} key="link">
-              <div style={{ background: 'white', margin: '10px 0 50px 0px', padding: 0 }}>
-                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20 }}>
+              <div style={{ background: 'white', margin: '20px 0 50px 0px', padding: 0 }}>
+                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15 }}>
                   <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
                     {this.$t('my.link.pre')}
                   </h3>
@@ -1301,8 +1301,8 @@ class ContractDetailCommon extends React.Component {
                   />
                 </Card>
               </div>
-              <div style={{ background: 'white', margin: '-40px 0 50px 0px', padding: 0 }}>
-                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20 }}>
+              <div style={{ background: 'white', margin: '-50px 0 50px 0px', padding: 0 }}>
+                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15 }}>
                   <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
                     {this.$t('my.link.rem')}
                   </h3>
@@ -1316,8 +1316,8 @@ class ContractDetailCommon extends React.Component {
                   />
                 </Card>
               </div>
-              <div style={{ background: 'white', margin: '-40px 0 50px 0px', padding: 0 }}>
-                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 20 }}>
+              <div style={{ background: 'white', margin: '-50px 0 50px 0px', padding: 0 }}>
+                <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15 }}>
                   <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
                     {this.$t('my.pay.info')}
                   </h3>

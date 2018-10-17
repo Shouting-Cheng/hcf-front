@@ -1,14 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import { Form, Tabs, Table, message, Badge, Input, Row, Col, Popover } from 'antd';
 const TabPane = Tabs.TabPane;
-import menuRoute from 'routes/menuRoute';
+import { routerRedux } from 'dva/router';
 import config from 'config';
 const Search = Input.Search;
-import SearchArea from 'components/search-area';
+import SearchArea from 'components/Widget/search-area';
 import moment from 'moment';
-import { formatMessage, messages } from 'share/common';
-import CustomTable from 'components/custom-table';
+import CustomTable from 'components/Widget/custom-table';
 
 class ContractWorkflowApprove extends React.Component {
   constructor(props) {
@@ -20,13 +19,13 @@ class ContractWorkflowApprove extends React.Component {
           type: 'input',
           colSpan: '6',
           id: 'name',
-          label: formatMessage({ id: 'my.contract.name' } /*合同名称*/),
+          label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
         },
         {
           type: 'select',
           colSpan: '6',
           id: 'contractTypeId',
-          label: formatMessage({ id: 'my.contract.type' }) /*合同类型*/,
+          label: this.$t({ id: 'my.contract.type' }) /*合同类型*/,
           getUrl: `${config.contractUrl}/api/contract/type/contract/type/by/company`,
           method: 'get',
           options: [],
@@ -34,14 +33,14 @@ class ContractWorkflowApprove extends React.Component {
           getParams: { companyId: this.props.company.id },
           labelKey: 'contractTypeName',
           valueKey: 'id',
-          placeholder: formatMessage({ id: 'common.please.enter' } /*请输入*/),
+          placeholder: this.$t({ id: 'common.please.enter' } /*请输入*/),
         },
         {
           type: 'list',
           listType: 'bgtUserOID',
           options: [],
           id: 'userOID',
-          label: formatMessage({ id: 'pay.refund.employeeName' }),
+          label: this.$t({ id: 'pay.refund.employeeName' }),
           labelKey: 'fullName',
           valueKey: 'userOID',
           colSpan: 6,
@@ -56,19 +55,19 @@ class ContractWorkflowApprove extends React.Component {
             {
               type: 'date',
               id: 'beginDate',
-              label: formatMessage({ id: 'contract.search.date.from' } /*提交时间从*/),
+              label: this.$t({ id: 'contract.search.date.from' } /*提交时间从*/),
             },
             {
               type: 'date',
               id: 'endDate',
-              label: formatMessage({ id: 'contract.search.date.to' } /*提交时间至*/),
+              label: this.$t({ id: 'contract.search.date.to' } /*提交时间至*/),
             },
           ],
         },
         {
           type: 'select',
           id: 'currencyCode',
-          label: formatMessage({ id: 'expense.reverse.currency.code' } /*币种*/),
+          label: this.$t({ id: 'expense.reverse.currency.code' } /*币种*/),
           options: [],
           getUrl: `${config.baseUrl}/api/company/standard/currency/getAll`,
           method: 'get',
@@ -84,14 +83,14 @@ class ContractWorkflowApprove extends React.Component {
             {
               type: 'input',
               id: 'amountFrom',
-              label: messages('my.contract.amount.from'),
-              placeholder: messages('exp.money.from'),
+              label: this.$t('my.contract.amount.from'),
+              placeholder: this.$t('exp.money.from'),
             },
             {
               type: 'input',
               id: 'amountTo',
-              label: messages('my.contract.amount.to'),
-              placeholder: messages('exp.money.to'),
+              label: this.$t('my.contract.amount.to'),
+              placeholder: this.$t('exp.money.to'),
             },
           ],
         },
@@ -99,22 +98,22 @@ class ContractWorkflowApprove extends React.Component {
           type: 'input',
           colSpan: 6,
           id: 'description',
-          label: formatMessage({ id: 'common.comment' } /*备注*/),
+          label: this.$t({ id: 'common.comment' } /*备注*/),
         },
       ],
       searchParams: {},
       columns: [
         {
-          title: formatMessage({ id: 'my.contract.number' } /*合同编号*/),
-          align: 'center',
+          title: this.$t({ id: 'my.contract.number' } /*合同编号*/),
+          align: 'left',
           width: 180,
           dataIndex: 'contractNumber',
           render: (desc, record) => record.contractApprovalView.contractNumber,
         },
         {
-          title: formatMessage({ id: 'my.contract.name' } /*合同名称*/),
+          title: this.$t({ id: 'my.contract.name' } /*合同名称*/),
           dataIndex: 'contractName',
-          align: 'center',
+          align: 'left',
           render: (desc, record) => (
             <Popover content={record.contractApprovalView.contractName}>
               {record.contractApprovalView.contractName}
@@ -122,9 +121,9 @@ class ContractWorkflowApprove extends React.Component {
           ),
         },
         {
-          title: formatMessage({ id: 'my.contract.type' } /*合同类型*/),
+          title: this.$t({ id: 'my.contract.type' } /*合同类型*/),
           dataIndex: 'contractTypeName',
-          align: 'center',
+          align: 'left',
           render: (desc, record) => (
             <Popover content={record.contractApprovalView.contractTypeName}>
               {record.contractApprovalView.contractTypeName}
@@ -132,7 +131,7 @@ class ContractWorkflowApprove extends React.Component {
           ),
         },
         {
-          title: formatMessage({ id: 'contract.createdBy' } /*申请人*/),
+          title: this.$t({ id: 'contract.createdBy' } /*申请人*/),
           align: 'center',
           width: 100,
           dataIndex: 'applicantName',
@@ -143,7 +142,7 @@ class ContractWorkflowApprove extends React.Component {
           ),
         },
         {
-          title: formatMessage({ id: 'contract.sign.date' } /*提交时间*/),
+          title: this.$t({ id: 'contract.sign.date' } /*提交时间*/),
           align: 'center',
           width: 90,
           dataIndex: 'submittedDate',
@@ -151,25 +150,25 @@ class ContractWorkflowApprove extends React.Component {
             moment(record.contractApprovalView.submittedDate).format('YYYY-MM-DD'),
         },
         {
-          title: formatMessage({ id: 'my.contract.currency' } /*币种*/),
+          title: this.$t({ id: 'my.contract.currency' } /*币种*/),
           align: 'center',
           width: 80,
           dataIndex: 'currency',
           render: (desc, record) => record.contractApprovalView.currencyCode,
         },
         {
-          title: formatMessage({ id: 'my.contract.amount' } /*金额*/),
-          align: 'center',
+          title: this.$t({ id: 'my.contract.amount' } /*金额*/),
+          align: 'right',
           dataIndex: 'totalAmount',
           render: (desc, record) => this.filterMoney(record.contractApprovalView.totalAmount),
         },
-        // { title: formatMessage({ id: "my.contract.company" }/*公司*/), dataIndex: 'companyName' },
-        // { title: formatMessage({ id: "my.contract.signDate" }/*签署时间*/), align: 'center', dataIndex: 'signDate', render: signDate => moment(signDate).format('YYYY-MM-DD') },
-        // { title: formatMessage({ id: "contract.form.nane" }/*表单类型名称*/), dataIndex: 'formName' },
+        // { title: this.$t({ id: "my.contract.company" }/*公司*/), dataIndex: 'companyName' },
+        // { title: this.$t({ id: "my.contract.signDate" }/*签署时间*/), align: 'center', dataIndex: 'signDate', render: signDate => moment(signDate).format('YYYY-MM-DD') },
+        // { title: this.$t({ id: "contract.form.nane" }/*表单类型名称*/), dataIndex: 'formName' },
         {
           title: '备注',
           dataIndex: 'remark',
-          align: 'center',
+          align: 'left',
           render: (value, record) => (
             <Popover content={record.contractApprovalView.remark}>
               {record.contractApprovalView.remark}
@@ -177,7 +176,7 @@ class ContractWorkflowApprove extends React.Component {
           ),
         },
         {
-          title: formatMessage({ id: 'common.column.status' } /*状态*/),
+          title: this.$t({ id: 'common.column.status' } /*状态*/),
           align: 'center',
           width: 90,
           dataIndex: 'status',
@@ -190,7 +189,7 @@ class ContractWorkflowApprove extends React.Component {
         },
       ],
 
-      contractWorkflowDetail: menuRoute.getRouteItem('approve-workflow-contract-detail', 'key'), //合同详情
+      //contractWorkflowDetail: menuRoute.getRouteItem('approve-workflow-contract-detail', 'key'), //合同详情
     };
   }
 
@@ -234,7 +233,7 @@ class ContractWorkflowApprove extends React.Component {
   //进入合同详情页
   handleRowClick = (record, flag) => {
     console.log(record);
-    let url = this.state.contractWorkflowDetail.url.replace(
+    /* let url = this.state.contractWorkflowDetail.url.replace(
       ':id',
       record.contractApprovalView.contractId
     );
@@ -242,7 +241,14 @@ class ContractWorkflowApprove extends React.Component {
       .replace(':entityOID', record.entityOID)
       .replace(':entityType', record.entityType)
       .replace(':status', this.state.tabValue);
-    this.context.router.push(url);
+    this.context.router.push(url);*/
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/approval-management/contract-approve/contract-workflow-approve-detail/${
+          record.contractApprovalView.contractId
+        }/${record.entityOID}/${record.entityType}/${this.state.tabValue}`,
+      })
+    );
   };
 
   searchNumber = e => {
@@ -268,13 +274,12 @@ class ContractWorkflowApprove extends React.Component {
           maxLength={4}
           submitHandle={this.handleSearch}
         />
-        <div className="divider" />
-        <div className="table-header" style={{ marginBottom: '5px' }}>
+        <div className="table-header" style={{ marginBottom: 12, marginTop: 12 }}>
           <Row>
             <Col span={18} />
             <Col span={6}>
               <Search
-                placeholder={formatMessage({ id: 'my.please.input.number' })}
+                placeholder={this.$t({ id: 'my.please.input.number' })}
                 onSearch={this.searchNumber}
                 enterButton
               />
@@ -297,8 +302,8 @@ class ContractWorkflowApprove extends React.Component {
     return (
       <div className="pre-payment-container">
         <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-          <TabPane tab={formatMessage({ id: 'contract.unapproved' } /*未审批*/)} key="unapproved" />
-          <TabPane tab={formatMessage({ id: 'contract.approved' } /*已审批*/)} key="approved" />
+          <TabPane tab={this.$t({ id: 'contract.unapproved' } /*未审批*/)} key="unapproved" />
+          <TabPane tab={this.$t({ id: 'contract.approved' } /*已审批*/)} key="approved" />
         </Tabs>
         {this.renderContent()}
       </div>
@@ -306,13 +311,9 @@ class ContractWorkflowApprove extends React.Component {
   }
 }
 
-ContractWorkflowApprove.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   };
 }
 

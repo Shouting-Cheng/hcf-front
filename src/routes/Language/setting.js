@@ -12,6 +12,7 @@ class LanguageManager extends Component {
     this.state = {
       modules: [],
       addShow: false,
+      record: {},
       columns: [
         {
           title: 'key',
@@ -25,8 +26,14 @@ class LanguageManager extends Component {
           title: '操作',
           dataIndex: 'id',
           width: 100,
-          render: value => {
-            return <a onClick={() => this.delete(value)}>删除</a>;
+          render: (value, record) => {
+            return (
+              <span>
+                <a onClick={() => this.edit(record)}>编辑</a>
+                <span className="ant-divider" />
+                <a onClick={() => this.delete(value)}>删除</a>
+              </span>
+            )
           },
         },
       ],
@@ -34,27 +41,48 @@ class LanguageManager extends Component {
   }
 
   add = () => {
-    this.setState({ addShow: true });
+    this.setState({ addShow: true, record: {} });
   };
+
+  edit = (value) => {
+    this.props.form.setFieldsValue({
+      keyCode: value.keyCode,
+      descriptions: value.descriptions
+    })
+    this.setState({ addShow: true, record: value });
+  }
 
   handleSubmit = e => {
     e.preventDefault();
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values = { ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_CN' };
-        service.addLanguage(values).then(res => {
-          message.success('保存成功！');
-          this.setState({ addShow: false });
-          this.props.form.resetFields();
-          this.refs.table.reload();
-        });
+
+        if (this.state.record.id) {
+          values = { ...this.state.record, ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_CN' };
+          service.edit(values).then(res => {
+            message.success('保存成功！');
+            this.setState({ addShow: false });
+            this.props.form.resetFields();
+            this.refs.table.reload();
+          });
+        } else {
+          values = { ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_CN' };
+          service.addLanguage(values).then(res => {
+            message.success('保存成功！');
+            this.setState({ addShow: false });
+            this.props.form.resetFields();
+            this.refs.table.reload();
+          });
+        }
+
       }
     });
   };
 
   handleCancel = () => {
     this.setState({ addShow: false });
+    this.props.form.resetFields();
   };
 
   back = () => {
@@ -73,7 +101,7 @@ class LanguageManager extends Component {
   };
 
   render() {
-    const { columns, addShow } = this.state;
+    const { columns, addShow, record } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { moduleId, langType } = this.props.match.params;
 
@@ -102,14 +130,14 @@ class LanguageManager extends Component {
           columns={columns}
         />
         <Modal
-          title="添加语言"
+          title="添加/编辑语言"
           visible={addShow}
           onOk={this.handleSubmit}
           onCancel={this.handleCancel}
         >
           <Form>
             <Form.Item {...formItemLayout} label="key">
-              {getFieldDecorator('keyCode')(<Input />)}
+              {getFieldDecorator('keyCode')(<Input disabled={!!record.id} />)}
             </Form.Item>
             <Form.Item {...formItemLayout} label="描述">
               {getFieldDecorator('descriptions')(<Input />)}

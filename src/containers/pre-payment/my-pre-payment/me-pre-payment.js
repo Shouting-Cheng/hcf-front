@@ -75,11 +75,11 @@ class MyPrePayment extends React.Component {
       columns:
         [
           {
-            title: '单号', dataIndex: 'requisitionNumber', width: 150, align: 'center',
+            title: '单号', dataIndex: 'requisitionNumber', width: 180, align: 'center',
             render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>
           },
           {
-            title: '单据类型', dataIndex: 'typeName', align: 'center',
+            title: '单据类型', dataIndex: 'typeName', align: 'left',
             render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>
           },
           {
@@ -91,19 +91,19 @@ class MyPrePayment extends React.Component {
             render: desc => <span><Popover content={moment(desc).format('YYYY-MM-DD')}>{desc ? moment(desc).format('YYYY-MM-DD') : "-"}</Popover></span>
           },
           {
-            title: '本币金额', dataIndex: 'advancePaymentAmount', width: 110, align: 'center',
+            title: '本币金额', dataIndex: 'advancePaymentAmount', width: 110, align: 'right',
             render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
           },
           {
-            title: '已核销金额', dataIndex: 'writedAmount', width: 110, align: 'center',
+            title: '已核销金额', dataIndex: 'writedAmount', width: 110, align: 'right',
             render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
           },
           {
-            title: '未核销金额', dataIndex: 'noWritedAmount', width: 110, align: 'center',
+            title: '未核销金额', dataIndex: 'noWritedAmount', width: 110, align: 'right',
             render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
           },
           {
-            title: '备注', dataIndex: 'description', align: 'center',
+            title: '备注', dataIndex: 'description', align: 'left',
             render: (value) => {
               return (
                 <Popover content={value}>{value}</Popover>
@@ -194,8 +194,8 @@ class MyPrePayment extends React.Component {
       })
     );
   }
-  /** 
-   * 根据预付款单单号搜索 
+  /**
+   * 根据预付款单单号搜索
    */
   onDocumentSearch = (value) => {
     this.setState({

@@ -1,10 +1,12 @@
 import React from 'react';
-import menuRoute from 'routes/menuRoute';
-import contractService from 'containers/approve/contract/contract.service';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
+import contractService from 'containers/contract/contract-approve/contract.service';
 import {
   Form,
   Tabs,
   Button,
+  Card,
   Row,
   Col,
   Spin,
@@ -16,20 +18,19 @@ import {
   Icon,
   Breadcrumb,
 } from 'antd';
+
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment';
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'components/Widget/slide-frame';
 import NewPayPlan from 'containers/contract/my-contract/new-pay-plan';
-import ApproveHistoryWorkFlow from 'containers/financial-management/reimburse-review/approve-history-work-flow';
-
 import 'styles/contract/my-contract/contract-detail.scss';
 
-import { formatMessage, messages } from 'share/common';
-import DocumentBasicInfo from 'components/Template/document-basic-info';
-import CustomTable from 'components/custom-table';
+import DocumentBasicInfo from 'components/Widget/document-basic-info';
+import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
-import ApproveHistory from 'components/Template/approve-history-work-flow';
+import ApproveHistory from 'components/Widget/Template/approve-history-work-flow';
+import PropTypes from 'prop-types';
 
 class ContractWorkflowDetailCommon extends React.Component {
   constructor(props) {
@@ -43,78 +44,78 @@ class ContractWorkflowDetailCommon extends React.Component {
       headerData: {},
       contractEdit: false, //合同是否可编辑
       contractStatus: {
-        //CANCEL: {label: formatMessage({id: "my.contract.state.cancel"}/*已取消*/), state: 'default'},
-        //FINISH: {label: formatMessage({id: "my.contract.state.finish"}/*已完成*/), state: 'success'},
-        //GENERATE: {label: formatMessage({id: "my.contract.state.generate"}/*编辑中*/), state: 'processing'},
-        //HOLD: {label: formatMessage({id: "my.contract.state.hold"}/*暂挂*/), state: 'warning'},
-        //SUBMITTED: {label: formatMessage({id: "my.contract.state.submitted"}/*审批中*/), state: 'processing'},
-        //REJECTED: {label: formatMessage({id: "my.contract.state.rejected"}/*已驳回*/), state: 'error'},
-        //CONFIRM: {label: formatMessage({id: "my.contract.state.confirm"}/*已通过*/), state: 'success'},
-        //WITHDRAWAL: {label: formatMessage({id: "my.contract.state.withdrawal"}/*已撤回*/), state: 'warning'},
+        //CANCEL: {label: this.$t({id: "my.contract.state.cancel"}/*已取消*/), state: 'default'},
+        //FINISH: {label: this.$t({id: "my.contract.state.finish"}/*已完成*/), state: 'success'},
+        //GENERATE: {label: this.$t({id: "my.contract.state.generate"}/*编辑中*/), state: 'processing'},
+        //HOLD: {label: this.$t({id: "my.contract.state.hold"}/*暂挂*/), state: 'warning'},
+        //SUBMITTED: {label: this.$t({id: "my.contract.state.submitted"}/*审批中*/), state: 'processing'},
+        //REJECTED: {label: this.$t({id: "my.contract.state.rejected"}/*已驳回*/), state: 'error'},
+        //CONFIRM: {label: this.$t({id: "my.contract.state.confirm"}/*已通过*/), state: 'success'},
+        //WITHDRAWAL: {label: this.$t({id: "my.contract.state.withdrawal"}/*已撤回*/), state: 'warning'},
         6002: {
-          label: formatMessage({ id: 'my.contract.state.cancel' } /*已取消*/),
+          label: this.$t({ id: 'my.contract.state.cancel' } /*已取消*/),
           state: 'default',
         },
         6003: {
-          label: formatMessage({ id: 'my.contract.state.finish' } /*已完成*/),
+          label: this.$t({ id: 'my.contract.state.finish' } /*已完成*/),
           state: 'success',
         },
         1001: {
-          label: formatMessage({ id: 'my.contract.state.generate' } /*编辑中*/),
+          label: this.$t({ id: 'my.contract.state.generate' } /*编辑中*/),
           state: 'processing',
         },
-        6001: { label: formatMessage({ id: 'my.contract.state.hold' } /*暂挂*/), state: 'warning' },
+        6001: { label: this.$t({ id: 'my.contract.state.hold' } /*暂挂*/), state: 'warning' },
         1002: {
-          label: formatMessage({ id: 'my.contract.state.submitted' } /*审批中*/),
+          label: this.$t({ id: 'my.contract.state.submitted' } /*审批中*/),
           state: 'processing',
         },
         1005: {
-          label: formatMessage({ id: 'my.contract.state.rejected' } /*已驳回*/),
+          label: this.$t({ id: 'my.contract.state.rejected' } /*已驳回*/),
           state: 'error',
         },
         1004: {
-          label: formatMessage({ id: 'my.contract.state.confirm' } /*已通过*/),
+          label: this.$t({ id: 'my.contract.state.confirm' } /*已通过*/),
           state: 'success',
         },
         1003: {
-          label: formatMessage({ id: 'my.contract.state.withdrawal' } /*已撤回*/),
+          label: this.$t({ id: 'my.contract.state.withdrawal' } /*已撤回*/),
           state: 'warning',
         },
       },
       subTabsList: [
-        { label: formatMessage({ id: 'my.contract.detail' } /*详情*/), key: 'DETAIL' },
-        { label: formatMessage({ id: 'my.contract.payment.plan' } /*付款计划*/), key: 'PLAN' },
+        { label: this.$t({ id: 'my.contract.detail' } /*详情*/), key: 'DETAIL' },
+        { label: this.$t({ id: 'my.contract.payment.plan' } /*付款计划*/), key: 'PLAN' },
       ],
       columns: [
         {
-          title: formatMessage({ id: 'my.contract.currency' } /*币种*/),
+          title: this.$t({ id: 'my.contract.currency' } /*币种*/),
           dataIndex: 'currency',
           align: 'center',
         },
         {
-          title: formatMessage({ id: 'my.contract.plan.amount' } /*计划金额*/),
+          title: this.$t({ id: 'my.contract.plan.amount' } /*计划金额*/),
           dataIndex: 'amount',
           align: 'center',
           render: this.filterMoney,
         },
         {
-          title: formatMessage({ id: 'my.contract.partner.category' } /*合同方类型*/),
+          title: this.$t({ id: 'my.contract.partner.category' } /*合同方类型*/),
           align: 'center',
           dataIndex: 'partnerCategoryName',
         },
         {
-          title: formatMessage({ id: 'my.contract.partner' } /*合同方*/),
+          title: this.$t({ id: 'my.contract.partner' } /*合同方*/),
           align: 'center',
           dataIndex: 'partnerName',
         },
         {
-          title: formatMessage({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/),
+          title: this.$t({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/),
           align: 'center',
           dataIndex: 'dueDate',
           render: value => moment(value).format('YYYY-MM-DD'),
         },
         {
-          title: formatMessage({ id: 'common.remark' } /*备注*/),
+          title: this.$t({ id: 'common.remark' } /*备注*/),
           align: 'center',
           dataIndex: 'remark',
           render: value => {
@@ -138,7 +139,6 @@ class ContractWorkflowDetailCommon extends React.Component {
       slideFrameTitle: '',
       record: {}, //资金计划行信息
       historyData: [], //历史信息
-      EditContract: menuRoute.getRouteItem('edit-contract', 'key'), //编辑合同
     };
   }
 
@@ -161,20 +161,20 @@ class ContractWorkflowDetailCommon extends React.Component {
         ) {
           //编辑中、已驳回、已撤回
           columns.splice(columns.length, 0, {
-            title: formatMessage({ id: 'common.operation' } /*操作*/),
+            title: this.$t({ id: 'common.operation' } /*操作*/),
             dataIndex: 'id',
             width: '10%',
             render: (text, record) => (
               <span>
                 <a onClick={e => this.editItem(e, record)}>
-                  {formatMessage({ id: 'common.edit' } /*编辑*/)}
+                  {this.$t({ id: 'common.edit' } /*编辑*/)}
                 </a>
                 <span className="ant-divider" />
                 <Popconfirm
-                  title={formatMessage({ id: 'common.confirm.delete' } /*确定要删除吗？*/)}
+                  title={this.$t({ id: 'common.confirm.delete' } /*确定要删除吗？*/)}
                   onConfirm={e => this.deleteItem(e, record)}
                 >
-                  <a>{formatMessage({ id: 'common.delete' } /*删除*/)}</a>
+                  <a>{this.$t({ id: 'common.delete' } /*删除*/)}</a>
                 </Popconfirm>
               </span>
             ),
@@ -188,14 +188,14 @@ class ContractWorkflowDetailCommon extends React.Component {
           businessCode: '12',
           currencyCode: response.data.currency,
           infoList: [
-            { label: messages('my.contract.number'), value: response.data.contractNumber },
+            { label: this.$t('my.contract.number'), value: response.data.contractNumber },
             {
-              label: messages('common.applicant'),
+              label: this.$t('common.applicant'),
               value:
                 response.data.created &&
                 response.data.created.fullName + '-' + response.data.created.employeeId,
             },
-            { label: messages('my.contract.category'), value: response.data.contractCategoryName },
+            { label: this.$t('my.contract.category'), value: response.data.contractCategoryName },
           ],
           attachments: response.data.attachments,
         };
@@ -215,7 +215,7 @@ class ContractWorkflowDetailCommon extends React.Component {
       })
       .catch(e => {
         message.error(
-          formatMessage({ id: 'common.error' } /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
+          this.$t({ id: 'common.error' } /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
         );
       });
   };
@@ -239,7 +239,7 @@ class ContractWorkflowDetailCommon extends React.Component {
       })
       .catch(() => {
         this.setState({ planLoading: false });
-        message.error(formatMessage({ id: 'my.contract.pay.plan.error' } /*付款计划获取失败*/));
+        message.error(this.$t({ id: 'my.contract.pay.plan.error' } /*付款计划获取失败*/));
       });
   };
 
@@ -262,7 +262,7 @@ class ContractWorkflowDetailCommon extends React.Component {
       .catch(() => {
         this.setState({ historyLoading: false });
         message.error(
-          formatMessage({ id: 'common.error' } /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
+          this.$t({ id: 'common.error' } /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
         );
       });
   };
@@ -313,17 +313,12 @@ class ContractWorkflowDetailCommon extends React.Component {
     );
   };
 
-  //编辑
-  edit = () => {
-    this.context.router.push(this.state.EditContract.url.replace(':id', this.props.id));
-  };
-
   //添加资金计划行
   addItem = () => {
     this.setState(
       {
         record: {},
-        slideFrameTitle: formatMessage({ id: 'my.contract.new.pay.plan' } /*新增付款计划*/),
+        slideFrameTitle: this.$t({ id: 'my.contract.new.pay.plan' } /*新增付款计划*/),
       },
       () => {
         this.showSlide(true);
@@ -337,7 +332,7 @@ class ContractWorkflowDetailCommon extends React.Component {
     this.setState({
       record,
       showSlideFrame: true,
-      slideFrameTitle: formatMessage({ id: 'my.contract.edit.pay.plan' } /*编辑付款计划*/),
+      slideFrameTitle: this.$t({ id: 'my.contract.edit.pay.plan' } /*编辑付款计划*/),
     });
   };
 
@@ -348,18 +343,14 @@ class ContractWorkflowDetailCommon extends React.Component {
     contractService
       .deletePayPlan(record.id)
       .then(() => {
-        message.success(
-          formatMessage({ id: 'common.delete.success' }, { name: '' } /*{name} 删除成功*/)
-        );
+        message.success(this.$t({ id: 'common.delete.success' }, { name: '' } /*{name} 删除成功*/));
         this.getPayList();
         this.getInfo();
       })
       .catch(e => {
         this.setState({ planLoading: false });
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -381,15 +372,13 @@ class ContractWorkflowDetailCommon extends React.Component {
         .recallWorkflowContract(params)
         .then(res => {
           if (res.status === 200) {
-            message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+            message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
             this.getInfo();
           }
         })
         .catch(e => {
           message.error(
-            `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              e.response.data.message
-            }`
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
           );
         });
     } else {
@@ -397,15 +386,13 @@ class ContractWorkflowDetailCommon extends React.Component {
         .recallContract(this.props.id)
         .then(res => {
           if (res.status === 200) {
-            message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+            message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
             this.getInfo();
           }
         })
         .catch(e => {
           message.error(
-            `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              e.response.data.message
-            }`
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
           );
         });
     }
@@ -417,15 +404,13 @@ class ContractWorkflowDetailCommon extends React.Component {
       .holdContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -436,15 +421,13 @@ class ContractWorkflowDetailCommon extends React.Component {
       .unHoldContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -455,15 +438,13 @@ class ContractWorkflowDetailCommon extends React.Component {
       .cancelContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -474,15 +455,13 @@ class ContractWorkflowDetailCommon extends React.Component {
       .finishContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -515,117 +494,139 @@ class ContractWorkflowDetailCommon extends React.Component {
 
     return (
       <div className="contract-detail" style={{}}>
-        <div className="document-basic-info" style={{}}>
-          <DocumentBasicInfo params={documentParams} noHeader={true} />
-        </div>
+        <Card
+          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15, marginTop: 20 }}
+        >
+          <div style={{ paddingTop: 0, marginTop: '-20px' }}>
+            <DocumentBasicInfo params={documentParams} noHeader={true} />
+          </div>
+        </Card>
         <Spin spinning={detailLoading}>
-          <div className="contract-info" style={{ margin: '40px 0 5px 0' }}>
-            <div
-              className="contract-info-header"
-              style={{ borderBottom: '1px solid rgb(236, 236, 236)' }}
+          <div className="contract-info" style={{ margin: '0' }}>
+            <Card
+              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15, marginTop: 20 }}
             >
-              <h3 style={{ display: 'inline', marginLeft: '20px', fontSize: '18px' }}>
-                {messages('my.create.contract.info')}
-              </h3>
-            </div>
-            <div style={{ marginLeft: 15 }}>
-              <Row gutter={24} className="info-items">
-                <Col span={2} className="label-tips">
-                  {messages('common.baseInfo')}:
-                </Col>
+              <div
+                className="contract-info-header"
+                style={{
+                  borderBottom: '1px solid rgb(236, 236, 236)',
+                  marginTop: '-20px',
+                  marginLeft: '-10px',
+                }}
+              >
+                <h3 style={{ display: 'inline', marginLeft: '20px', fontSize: '18px' }}>
+                  {this.$t('my.create.contract.info')}
+                </h3>
+              </div>
+              <div style={{ marginLeft: 15 }}>
+                <Row gutter={24} className="info-items">
+                  <Col span={2} className="label-tips">
+                    {this.$t('common.baseInfo')}:
+                  </Col>
 
-                <Col span={2} offset={1} className="item-label">
-                  {messages('my.contract.contractCompany')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.companyName}>{headerData.companyName}</span>
-                </Col>
+                  <Col span={2} offset={1} className="item-label">
+                    {this.$t('my.contract.contractCompany')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.companyName}>{headerData.companyName}</span>
+                  </Col>
 
-                <Col span={2} className="item-label">
-                  {messages('acp.contract.name')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.contractName}>{headerData.contractName}</span>
-                </Col>
+                  <Col span={2} className="item-label">
+                    {this.$t('acp.contract.name')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.contractName}>{headerData.contractName}</span>
+                  </Col>
 
-                <Col span={2} className="item-label">
-                  {messages('my.contract.signDate')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span
-                    title={
-                      headerData.contractName
+                  <Col span={2} className="item-label">
+                    {this.$t('my.contract.signDate')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span
+                      title={
+                        headerData.contractName
+                          ? headerData.signDate
+                            ? moment(new Date(headerData.signDate)).format('YYYY-MM-DD')
+                            : '-'
+                          : ''
+                      }
+                    >
+                      {headerData.contractName
                         ? headerData.signDate
                           ? moment(new Date(headerData.signDate)).format('YYYY-MM-DD')
                           : '-'
-                        : ''
-                    }
-                  >
-                    {headerData.contractName
-                      ? headerData.signDate
-                        ? moment(new Date(headerData.signDate)).format('YYYY-MM-DD')
-                        : '-'
-                      : ''}
-                  </span>
-                </Col>
-              </Row>
-              <Row gutter={25} className="info-items">
-                <Col span={2} className="label-tips">
-                  {messages('my.contract.party.info')}:
-                </Col>
+                        : ''}
+                    </span>
+                  </Col>
+                </Row>
+                <Row gutter={25} className="info-items">
+                  <Col span={2} className="label-tips">
+                    {this.$t('my.contract.party.info')}:
+                  </Col>
 
-                <Col span={2} offset={1} className="item-label">
-                  {messages('my.contract.partner.category')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.partnerCategoryName}>
-                    {headerData.partnerCategoryName}
-                  </span>
-                </Col>
-                <Col span={2} className="item-label">
-                  {messages('my.contract.partner')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.partnerName}>{headerData.partnerName}</span>
-                </Col>
-              </Row>
-              <Row gutter={24} className="info-items">
-                <Col span={2} className="label-tips">
-                  {messages('supplier.management.otherInfo')}:
-                </Col>
+                  <Col span={2} offset={1} className="item-label">
+                    {this.$t('my.contract.partner.category')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.partnerCategoryName}>
+                      {headerData.partnerCategoryName}
+                    </span>
+                  </Col>
+                  <Col span={2} className="item-label">
+                    {this.$t('my.contract.partner')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.partnerName}>{headerData.partnerName}</span>
+                  </Col>
+                </Row>
+                <Row gutter={24} className="info-items">
+                  <Col span={2} className="label-tips">
+                    {this.$t('supplier.management.otherInfo')}:
+                  </Col>
 
-                <Col span={2} offset={1} className="item-label">
-                  {messages('my.contract.responsible.department')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.unitName}>
-                    {headerData.contractName
-                      ? headerData.unitName
+                  <Col span={2} offset={1} className="item-label">
+                    {this.$t('my.contract.responsible.department')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.unitName}>
+                      {headerData.contractName
                         ? headerData.unitName
-                        : '-'
-                      : ''}
-                  </span>
-                </Col>
+                          ? headerData.unitName
+                          : '-'
+                        : ''}
+                    </span>
+                  </Col>
 
-                <Col span={2} className="item-label">
-                  {messages('my.contract.responsible.person')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span title={headerData.employeeId}>
-                    {headerData.contractName
-                      ? headerData.employee
-                        ? headerData.employee.fullName
-                        : '-'
-                      : ''}
-                  </span>
-                </Col>
-                <Col span={2} className="item-label">
-                  {messages('budget.controlRule.effectiveDate')}:
-                </Col>
-                <Col span={5} className="item-value">
-                  <span
-                    title={
-                      headerData.contractName
+                  <Col span={2} className="item-label">
+                    {this.$t('my.contract.responsible.person')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span title={headerData.employeeId}>
+                      {headerData.contractName
+                        ? headerData.employee
+                          ? headerData.employee.fullName
+                          : '-'
+                        : ''}
+                    </span>
+                  </Col>
+                  <Col span={2} className="item-label">
+                    {this.$t('budget.controlRule.effectiveDate')}:
+                  </Col>
+                  <Col span={5} className="item-value">
+                    <span
+                      title={
+                        headerData.contractName
+                          ? (headerData.startDate
+                              ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
+                              : '-') +
+                            ' ~ ' +
+                            (headerData.endDate
+                              ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
+                              : '-')
+                          : ''
+                      }
+                    >
+                      {headerData.contractName
                         ? (headerData.startDate
                             ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
                             : '-') +
@@ -633,78 +634,78 @@ class ContractWorkflowDetailCommon extends React.Component {
                           (headerData.endDate
                             ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
                             : '-')
-                        : ''
-                    }
-                  >
-                    {headerData.contractName
-                      ? (headerData.startDate
-                          ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
-                          : '-') +
-                        ' ~ ' +
-                        (headerData.endDate
-                          ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
-                          : '-')
-                      : ''}
-                  </span>
-                </Col>
-              </Row>
-            </div>
+                        : ''}
+                    </span>
+                  </Col>
+                </Row>
+              </div>
+            </Card>
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <div className="pay-info" style={{ marginLeft: 0 }}>
-            <h3
-              className="info-header-title"
-              style={{
-                borderBottom: '1px solid #ececec',
-                fontSize: 18,
-                padding: '20px 20px 10px',
-                margin: '-20px -20px 20px',
-              }}
-            >
-              {messages('acp.payment.info')}
-            </h3>
-            <Row
-              gutter={24}
-              className="pay-info-header"
-              style={
-                headerData.status === 6001 ||
-                headerData.status === 6003 ||
-                headerData.status === 6002 ||
-                headerData.status === 1002
-                  ? { marginTop: -20 }
-                  : {}
-              }
-            >
-              <Col span={18} />
-              <Col span={6} className="header-tips" style={{ textAlign: 'right' }}>
-                <Breadcrumb style={{ marginBottom: '10px' }}>
-                  <Breadcrumb.Item>
-                    {messages('common.amount')}:&nbsp;<span style={{ color: 'Green' }}>
-                      {' '}
-                      {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
-                    </span>
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>
-                    {messages('acp.function.amount')}:<span style={{ color: 'Green' }}>
-                      {' '}
-                      {headerData.currency}&nbsp;{this.filterMoney(headerData.functionAmount)}
-                    </span>
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </Col>
-            </Row>
-            <CustomTable
-              ref={ref => (this.table = ref)}
-              url={`${config.contractUrl}/api/contract/line/herder/${this.props.id}`}
-              showNumber={true}
-              pagination={{ pageSize: 5 }}
-              columns={columns}
-            />
-          </div>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15,marginTop:10 }}>
+            <div className="pay-info" style={{ marginTop: '0px' }}>
+              <h3
+                className="info-header-title"
+                style={{
+                  borderBottom: '1px solid #ececec',
+                  fontSize: 18,
+                  margin: '-20px -20px 20px -8px',
+                }}
+              >
+                {this.$t('acp.payment.info')}
+              </h3>
+              <Row
+                gutter={24}
+                className="pay-info-header"
+                style={
+                  headerData.status === 6001 ||
+                  headerData.status === 6003 ||
+                  headerData.status === 6002 ||
+                  headerData.status === 1002
+                    ? { marginTop: -20 }
+                    : {}
+                }
+              >
+                <Col span={14} />
+                <Col span={10} className="header-tips" style={{ textAlign: 'right' }}>
+                  <Breadcrumb style={{ marginBottom: '10px' }}>
+                    <Breadcrumb.Item>
+                      {this.$t('common.amount')}:&nbsp;<span style={{ color: 'Green' }}>
+                        {' '}
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                      </span>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                      {this.$t('acp.function.amount')}:<span style={{ color: 'Green' }}>
+                        {' '}
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.functionAmount)}
+                      </span>
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
+                </Col>
+              </Row>
+              <CustomTable
+                ref={ref => (this.table = ref)}
+                url={`${config.contractUrl}/api/contract/line/herder/${this.props.id}`}
+                showNumber={true}
+                pagination={{ pageSize: 5 }}
+                columns={columns}
+              />
+            </div>
+          </Card>
         </Spin>
-        <div style={{ margin: '20px 0 60px 0' }}>
-          <ApproveHistory loading={false} infoData={historyData} />
+        <div style={{ margin: '0px 0 60px 0' }}>
+          <Card
+            style={{
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+              marginRight: 15,marginLeft: 15,
+              marginTop: 20,
+              marginBottom: 50,
+            }}
+          >
+            <ApproveHistory loading={false} infoData={historyData} />
+          </Card>
         </div>
       </div>
     );
@@ -712,20 +713,19 @@ class ContractWorkflowDetailCommon extends React.Component {
 }
 
 ContractWorkflowDetailCommon.propTypes = {
-  id: React.PropTypes.any.isRequired, //显示数据
-  isApprovePage: React.PropTypes.bool, //是否在审批页面
-  getContractStatus: React.PropTypes.func, //确认合同信息状态
+  id: PropTypes.any.isRequired, //显示数据
+  isApprovePage: PropTypes.bool, //是否在审批页面
+  getContractStatus: PropTypes.func, //确认合同信息状态
 };
 
 ContractWorkflowDetailCommon.defaultProps = {
   isApprovePage: false,
   getContractStatus: () => {},
 };
-
-ContractWorkflowDetailCommon.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 const wrappedContractWorkflowDetailCommon = Form.create()(ContractWorkflowDetailCommon);
-
-export default wrappedContractWorkflowDetailCommon;
+export default connect(
+  null,
+  null,
+  null,
+  { withRef: true }
+)(wrappedContractWorkflowDetailCommon);

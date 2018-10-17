@@ -2628,8 +2628,8 @@ const chooserData = {
           //之前洪阳林这么加了一句：record.name = record.path && React.Component.prototype.checkFunctionProfiles('department.full.path.disabled', [undefined, false]) ? 。。。。。
           //我实在看不懂，我就先去掉 record.name = record.path，解决部门列表选择bug
           return (
-            <Popover placement="topLeft" content={record.name}>
-              {record.name}
+            <Popover placement="topLeft" content={record.path}>
+              {record.path}
             </Popover>
           );
         },

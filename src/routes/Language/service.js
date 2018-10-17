@@ -25,7 +25,7 @@ export default {
     return httpFetch.post('/auth/api/frontKey/create', parmas);
   },
   edit(parmas) {
-    return httpFetch.post('/service/component/update', parmas);
+    return httpFetch.put('/auth/api/frontKey/update', parmas);
   },
   delete(id) {
     return httpFetch.delete('/auth/api/frontKey/delete/' + id);
