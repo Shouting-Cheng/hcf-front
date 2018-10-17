@@ -272,7 +272,7 @@ export const getRouterData = app => {
       name: 'contract-recheck',
     },
     '/contract-manage/contract-recheck/contract-detail/:id/:status': {
-      //合同审批详情
+      //合同复核详情
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-approve/contract-detail.js')
       ),
@@ -285,6 +285,21 @@ export const getRouterData = app => {
         import('containers/contract/my-contract/my-contract.js')
       ),
       name: 'my-contract',
+    },
+    '/approval-management/contract-approve': {
+      //合同工作流审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-approve/contract-workflow-approve.js')
+      ),
+      name: 'contract-approve',
+    },
+    '/approval-management/contract-approve/contract-workflow-approve-detail/:id/:entityOID/:entityType/:status': {
+      //合同工作流审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/contract/contract-approve/contract-workflow-approve-detail.js')
+      ),
+      name: 'contract-detail',
+      parent: '/approval-management/contract-approve',
     },
     '/contract-manage/my-contract/new-contract/:contractTypeId': {
       //合同新建
