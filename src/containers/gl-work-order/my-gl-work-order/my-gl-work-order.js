@@ -4,8 +4,9 @@ import config from 'config'
 import { Table, Button, message, Badge, Divider, Dropdown, Menu, Row, Col, Icon, Input, Popover } from 'antd'
 const Search = Input.Search;
 import SearchArea from 'widget/search-area'
-import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order.service'
-import moment from 'moment'
+import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service'
+import moment from 'moment';
+import { routerRedux } from 'dva/router';
 class MyGLWorkOrder extends Component {
     /**
      * 构造函数
@@ -209,9 +210,14 @@ class MyGLWorkOrder extends Component {
      * 新建按钮-选中某一个具体的单据类型
      */
     handleMenuClick = (value) => {
-        // let { glWorkOrderTypeList } = this.state;
-        // let nowType = glWorkOrderTypeList.find(item => item.id === value.key);
+         let { glWorkOrderTypeList } = this.state;
+         let nowType = glWorkOrderTypeList.find(item => item.id === value.key);
         // this.context.router.push(menuRoute.getRouteItem('new-gl-work-order', 'key').url.replace(':typeId', value.key).replace(':formOid', nowType.formOid ? nowType.formOid : 0));
+        this.props.dispatch(
+            routerRedux.push({
+              pathname: `/gl-work-order/my-gl-work-order/new-gl-work-order/${value.key}/${nowType.formOid ? nowType.formOid : 0}/:id`,
+            })
+          );
     }
     /** 
      * 根据核算工单单号搜索 
@@ -255,6 +261,11 @@ class MyGLWorkOrder extends Component {
      */
     onTableRowClick = (record) => {
         // this.context.router.push(menuRoute.getRouteItem('my-gl-work-order-detail', 'key').url.replace(':id', record.id).replace(':oid', record.documentOid));
+        this.props.dispatch(
+            routerRedux.push({
+              pathname: `/gl-work-order/my-gl-work-order/my-gl-work-order-detail/${record.id}/${record.documentOid}`,
+            })
+          );
     }
     /**
      * 渲染函数
