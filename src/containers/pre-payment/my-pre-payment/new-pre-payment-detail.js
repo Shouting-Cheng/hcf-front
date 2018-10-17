@@ -88,21 +88,21 @@ class NewPrePaymentDetail extends React.Component {
         remark: this.props.params.remark,
         partnerInfo: this.props.params.record.id
           ? {
-              isEmp: this.props.params.record.partnerCategory != 'VENDER',
-              code: this.props.params.record.partnerCode,
-              name: this.props.params.record.partnerName,
-              id: this.props.params.record.partnerId,
-              partnerCategory: this.props.params.record.partnerCategory,
-            }
+            isEmp: this.props.params.record.partnerCategory != 'VENDER',
+            code: this.props.params.record.partnerCode,
+            name: this.props.params.record.partnerName,
+            id: this.props.params.record.partnerId,
+            partnerCategory: this.props.params.record.partnerCategory,
+          }
           : {},
         contractValue: this.props.params.record.contractLineId
           ? [
-              {
-                key: this.props.params.record.contractLineId,
-                label: this.props.params.record.contractNumber,
-                value: this.props.params.record,
-              },
-            ]
+            {
+              key: this.props.params.record.contractLineId,
+              label: this.props.params.record.contractNumber,
+              value: this.props.params.record,
+            },
+          ]
           : [],
         selectedData: this.props.params.record.contractLineId
           ? [this.props.params.record.contractLineId]
@@ -155,21 +155,21 @@ class NewPrePaymentDetail extends React.Component {
           remark: nextProps.params.remark,
           partnerInfo: nextProps.params.record.id
             ? {
-                isEmp: nextProps.params.record.partnerCategory != 'VENDER',
-                code: nextProps.params.record.partnerCode,
-                name: nextProps.params.record.partnerName,
-                id: nextProps.params.record.partnerId,
-                partnerCategory: nextProps.params.record.partnerCategory,
-              }
+              isEmp: nextProps.params.record.partnerCategory != 'VENDER',
+              code: nextProps.params.record.partnerCode,
+              name: nextProps.params.record.partnerName,
+              id: nextProps.params.record.partnerId,
+              partnerCategory: nextProps.params.record.partnerCategory,
+            }
             : {},
           contractValue: nextProps.params.record.contractLineId
             ? [
-                {
-                  key: nextProps.params.record.contractLineId,
-                  label: nextProps.params.record.contractNumber,
-                  value: nextProps.params.record,
-                },
-              ]
+              {
+                key: nextProps.params.record.contractLineId,
+                label: nextProps.params.record.contractNumber,
+                value: nextProps.params.record,
+              },
+            ]
             : [],
           selectedData: nextProps.params.record.contractLineId
             ? [nextProps.params.record.contractLineId]
@@ -201,9 +201,9 @@ class NewPrePaymentDetail extends React.Component {
     }
     httpFetch
       .get(
-        `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
-          this.state.paymentReqTypeId
-        }`
+      `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
+      this.state.paymentReqTypeId
+      }`
       )
       .then(res => {
         this.setState({ partnerCategoryOptions: res.data });
@@ -560,7 +560,7 @@ class NewPrePaymentDetail extends React.Component {
                   return <Option key={option.id}>{option.description}</Option>;
                 })}
               </Select>
-            )}
+              )}
           </FormItem>
           <Row gutter={8}>
             <Col span={8} className="ant-form-item-label label-style">
@@ -582,7 +582,7 @@ class NewPrePaymentDetail extends React.Component {
                       return <Option key={item.currency}>{item.currency}</Option>;
                     })}
                   </Select>
-                )}
+                  )}
               </FormItem>
             </Col>
             <Col span={6}>
@@ -599,7 +599,7 @@ class NewPrePaymentDetail extends React.Component {
                     style={{ width: '100%' }}
                     onMouseOut={this.onAmountMouseMove}
                   />
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>
@@ -617,7 +617,7 @@ class NewPrePaymentDetail extends React.Component {
                 <Option value="EMPLOYEE">员工</Option>
                 <Option value="VENDER">供应商</Option>
               </Select>
-            )}
+              )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方">
             {getFieldDecorator('partnerd', {
@@ -636,7 +636,7 @@ class NewPrePaymentDetail extends React.Component {
                 type={this.props.form.getFieldValue('partnerCategory')}
                 disabled={!this.props.form.getFieldValue('partnerCategory')}
               />
-            )}
+              )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方银行账户">
             {getFieldDecorator('accountNumber', {
@@ -657,7 +657,7 @@ class NewPrePaymentDetail extends React.Component {
                   );
                 })}
               </Select>
-            )}
+              )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方户名">
             {getFieldDecorator('accountName', {
@@ -699,7 +699,7 @@ class NewPrePaymentDetail extends React.Component {
                   currencyCode: this.props.form.getFieldValue('currency'),
                 }}
               />
-            )}
+              )}
             {/* <a style={{ position: 'absolute', marginLeft: '21vw', marginTop: -40, left: '102%', top: '1%', whiteSpace: 'nowrap' }}>查看详情</a> */}
           </FormItem>
           <FormItem {...formItemLayout} label="付款方式类型">
@@ -715,7 +715,13 @@ class NewPrePaymentDetail extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label="计划付款日期">
             {getFieldDecorator('requisitionPaymentDate', {
-              initialValue: params.id ? moment(params.requisitionPaymentDate) : moment(new Date()),
+              initialValue: (params.id && params.requisitionPaymentDate) ? moment(params.requisitionPaymentDate) : moment(new Date()),
+              rules: [
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ],
             })(<DatePicker style={{ width: '100%' }} />)}
           </FormItem>
           <FormItem {...formItemLayout} label="备注">
@@ -747,8 +753,8 @@ class NewPrePaymentDetail extends React.Component {
                   {contractValue.length == 0
                     ? '注：根据收款方选择合同'
                     : `付款计划序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
-                        'YYYY-MM-DD'
-                      )}`}
+                      'YYYY-MM-DD'
+                    )}`}
                 </div>
               </Col>
               <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
