@@ -404,6 +404,27 @@ export const getRouterData = app => {
     //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
     //   name: 'expense-report',
     // },
+    '/document-type-manage/gl-work-order-type': {
+      //核算工单类型定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/gl-work-order-type.js')
+      ),
+      name: 'gl-work-order-type',
+    },
+    '/document-type-manage/gl-work-order-type/new-gl-work-order-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/new-gl-work-order-type.js')
+      ),
+      name: '核算工单类型创建/编辑',
+      parent: '/document-type-manage/gl-work-order-type',
+    },
+    '/document-type-manage/gl-work-order-type/company-distribution/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/distribution-company.js')
+      ),
+      name: '核算工单类型分配公司',
+      parent: '/document-type-manage/gl-work-order-type',
+    },
     //核算工单
     '/gl-work-order/my-gl-work-order': {
       component: dynamicWrapper(app, [], () =>
