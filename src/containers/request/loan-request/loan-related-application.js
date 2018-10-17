@@ -1,8 +1,7 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Icon } from 'antd'
+import PropTypes from 'prop-types';
 
 class LoanRelatedApplication extends React.Component{
   constructor(props) {
@@ -24,7 +23,7 @@ class LoanRelatedApplication extends React.Component{
         {info.referenceApplication && info.referenceApplication.businessCode && (
           <div className="row-container">
             <Icon type="link" className="link-icon"/>
-            <a onClick={this.toRelatedApplication}>{messages('request.detail.request')/*申请单*/}：{info.referenceApplication.businessCode}</a>
+            <a onClick={this.toRelatedApplication}>{this.$t('request.detail.request')/*申请单*/}：{info.referenceApplication.businessCode}</a>
           </div>
         )}
       </div>
@@ -33,15 +32,11 @@ class LoanRelatedApplication extends React.Component{
 }
 
 LoanRelatedApplication.propTypes = {
-  info: React.PropTypes.object
+  info: PropTypes.object
 };
 
 LoanRelatedApplication.defaultProps={
   info: {}
-};
-
-LoanRelatedApplication.contextTypes = {
-  router: React.PropTypes.object
 };
 
 function mapStateToProps() {

@@ -8,6 +8,7 @@ import SearchArea from 'widget/search-area'
 const Search = Input.Search;
 const FormItem = Form.Item;
 const Option = Select.Option;
+import { routerRedux } from 'dva/router';
 
 import requestService from 'containers/request/request.service'
 import debounce from 'lodash.debounce'
@@ -66,7 +67,7 @@ class ApplicationList extends React.Component{
         {title: this.$t('request.currency'/*币种*/), dataIndex: 'originCurrencyCode',align:"center", width: '60'},
         {title: this.$t('request.amount'/*金额*/), dataIndex: 'originCurrencyTotalAmount', render: this.filterMoney},
         {title: this.$t('request.base.amount'/*本币金额*/), dataIndex: 'totalAmount', render:  value => value?this.filterMoney(value):<span className="money-cell">-</span>},
-        {title: this.$t('common.column.status'), dataIndex: 'status', width: this.props.language.code === 'zh_cn' ? '80' : '90', render: (value, record) => {
+        {title: this.$t('common.column.status'), dataIndex: 'status', width: this.props.local === 'zh_CN' ? '80' : '90', render: (value, record) => {
           let applicationType = 2005; //申请单
           let text;
           let status;
@@ -288,14 +289,27 @@ class ApplicationList extends React.Component{
   };
 
   handleRowClick = (record) => {
-    configureStore.store.dispatch(setRequest(this.state.cacheSearchData));
+    this.props.dispatch({
+      type: 'cache/request',
+      payload: { request: this.state.cacheSearchData },
+    });
     //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
     if(record.status === 1001) { //编辑页面
       if(record.formType === 2001 || record.formType === 2002 || record.formType === 2003 || record.formType === 2005) {
-        this.context.router.push(this.state.requestEdit.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID));
+        this.props.dispatch(
+          routerRedux.push({
+            pathname: '/request/request-edit/:formOID/:applicationOID'
+              .replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID)
+          })
+        )
       }
       if(record.formType === 2004) {
-        this.context.router.push(this.state.jdRequestEdit.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID));
+        this.props.dispatch(
+          routerRedux.push({
+            pathname: '/request/jd-request-edit/:formOID/:applicationOID'
+              .replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID)
+          })
+        )
       }
     } else {
       this.context.router.push(this.state.requestDetail.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':pageFrom','my'));
@@ -440,7 +454,7 @@ class ApplicationList extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    language: state.main.language,
+    language: state.languages,
     request: state.cache.request,
   }
 }

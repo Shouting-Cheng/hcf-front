@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/3/19 0019.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {
   Input,
   Form,
@@ -167,12 +167,12 @@ class TravelSubsidy extends React.Component {
   toSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if(values.remark && values.remark.length === 201){
-        message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+        message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
         return;
       }
       if (!err) {
         if(!this.currentCity.code){
-          message.error(messages('itinerary.subsidy.slide.select.city.tip')/*'城市不匹配'*/);
+          message.error(this.$t('itinerary.subsidy.slide.select.city.tip')/*'城市不匹配'*/);
           return ;
         }
         values.cityCode = this.currentCity.code;
@@ -190,9 +190,9 @@ class TravelSubsidy extends React.Component {
         });
         if(!expenseTypeOIDs.length){
           if(this.state.subsidyTypeData.length){
-            message.error(messages('itinerary.subsidy.slide.select.expenseType.tip')/*请选择差补类型*/);
+            message.error(this.$t('itinerary.subsidy.slide.select.expenseType.tip')/*请选择差补类型*/);
           }else{
-            message.error(messages('itinerary.subsidy.slide.subsidy.noHave.tip')/*'当前城市无合适差补类型'*/);
+            message.error(this.$t('itinerary.subsidy.slide.subsidy.noHave.tip')/*'当前城市无合适差补类型'*/);
           }
           return ;
         }
@@ -205,7 +205,7 @@ class TravelSubsidy extends React.Component {
         values.deleted = this.state.allSubsidyData.deleted;// false or true 表示啥文档没写？
         if (!this.state.isEditing) {//不是编辑状态属于新建提交
           travelService.travelSubsidySubmit(values).then(res=> {
-            message.success(messages('itinerary.save.tip')/*已保存*/);
+            message.success(this.$t('itinerary.save.tip')/*已保存*/);
             this.closeSubsidy();
           }).catch(err=> {
             message.error(err.response.data.message);
@@ -213,11 +213,11 @@ class TravelSubsidy extends React.Component {
           })
         } else {
           travelService.updateSubsidy(values).then(res=> {
-            message.success(messages('itinerary.update.tip')/*已更新*/);
+            message.success(this.$t('itinerary.update.tip')/*已更新*/);
             this.closeSubsidy();
           }).catch(err=> {
             this.setState({isLoading: false});
-            message.error(messages('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
+            message.error(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
           })
         }
       }
@@ -269,7 +269,7 @@ class TravelSubsidy extends React.Component {
             this.setState({isGetType: false});
           }).catch(e => {
             this.setState({isGetType: false});
-            message.error(messages('itinerary.operation.failed.tip')/*`操作失败:`*/ + e.response.data.message);
+            message.error(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/ + e.response.data.message);
           })
         } else if (this.state.subsidyTypeData && this.currentCity.vendorAlias && this.currentCity.code !== city) {
           this.showConfirm(values, opt);
@@ -363,15 +363,15 @@ class TravelSubsidy extends React.Component {
         <Spin spinning={isLoading}>
           <Form>
             <Tabs defaultAcitiveKey={'1001'} onChange={this.selectProductType}>
-              <TabPane tab={messages('itinerary.subsidy.slide.mainland')/*"国内城市"*/} key={'1001'}></TabPane>
-              <TabPane tab={messages('itinerary.subsidy.slide.international')/*"国际城市"*/} key={'1002'}></TabPane>
+              <TabPane tab={this.$t('itinerary.subsidy.slide.mainland')/*"国内城市"*/} key={'1001'}></TabPane>
+              <TabPane tab={this.$t('itinerary.subsidy.slide.international')/*"国际城市"*/} key={'1002'}></TabPane>
             </Tabs>
-            <FormItem {...formItemLayoutM} label={messages('itinerary.subsidy.slide.city')/*"差补城市"*/}>
+            <FormItem {...formItemLayoutM} label={this.$t('itinerary.subsidy.slide.city')/*"差补城市"*/}>
               {
-                getFieldDecorator('cityName', this.cfo(messages('itinerary.subsidy.slide.city'), {type: 'str', value: isEmpty ? "" : editData.cityName}))(
+                getFieldDecorator('cityName', this.cfo(this.$t('itinerary.subsidy.slide.city'), {type: 'str', value: isEmpty ? "" : editData.cityName}))(
                   <Select
                     mode="combobox"
-                    placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                    placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                     defaultActiveFirstOption={false}
                     showArrow={false}
                     onBlur={this.onBlurCity}
@@ -392,8 +392,8 @@ class TravelSubsidy extends React.Component {
             </FormItem>
             <Row>
               <Col span={12}>
-                <FormItem {...formItemLayoutS} label={messages('itinerary.subsidy.slide.start.date')/*开始日期*/}>
-                  {getFieldDecorator('startDate', this.cfo(messages('itinerary.subsidy.slide.start.date'),
+                <FormItem {...formItemLayoutS} label={this.$t('itinerary.subsidy.slide.start.date')/*开始日期*/}>
+                  {getFieldDecorator('startDate', this.cfo(this.$t('itinerary.subsidy.slide.start.date'),
                     {
                       type: 'moment',
                       value: isEmpty ? this.baseStartDate : editData.startDate
@@ -402,11 +402,11 @@ class TravelSubsidy extends React.Component {
                   )}
                 </FormItem>
               </Col>
-              <Col span={2} className="subsidy-days">{messages('itinerary.subsidy.slide.days',{days:days})/*`${days}天`*/}</Col>
+              <Col span={2} className="subsidy-days">{this.$t('itinerary.subsidy.slide.days',{days:days})/*`${days}天`*/}</Col>
               <Col span={10}>
-                <FormItem {...formItemLayoutS} label={messages('itinerary.subsidy.slide.end.date')/*结束日期*/}>
+                <FormItem {...formItemLayoutS} label={this.$t('itinerary.subsidy.slide.end.date')/*结束日期*/}>
                   {
-                    getFieldDecorator('endDate', this.cfo(messages('itinerary.subsidy.slide.end.date'),
+                    getFieldDecorator('endDate', this.cfo(this.$t('itinerary.subsidy.slide.end.date'),
                       {
                         type: 'moment',
                         value: isEmpty ? this.baseEndDate : editData.endDate
@@ -418,7 +418,7 @@ class TravelSubsidy extends React.Component {
               </Col>
             </Row>
             <Divider></Divider>
-            <FormItem label={messages('itinerary.subsidy.slide.expenseType')/*差补类型*/} {...formItemLayoutL}>
+            <FormItem label={this.$t('itinerary.subsidy.slide.expenseType')/*差补类型*/} {...formItemLayoutL}>
               <Spin spinning={isGetType}>
                 {
                   subsidyTypeData.length > 0 ? <Row>
@@ -434,14 +434,14 @@ class TravelSubsidy extends React.Component {
                         )
                       })
                     }
-                  </Row> : messages('itinerary.subsidy.slide.subsidy.noHave.tip')/*'当前城市无合适差补类型'*/
+                  </Row> : this.$t('itinerary.subsidy.slide.subsidy.noHave.tip')/*'当前城市无合适差补类型'*/
                 }
               </Spin>
             </FormItem>
             <Divider></Divider>
-            <FormItem {...formItemLayoutL} label={messages('itinerary.public.slide.remark')/*备注*/}>
+            <FormItem {...formItemLayoutL} label={this.$t('itinerary.public.slide.remark')/*备注*/}>
               {
-                getFieldDecorator('remark', this.cfo(messages('itinerary.public.slide.remark'), {type: 'str', value: editData.remark}, true))(
+                getFieldDecorator('remark', this.cfo(this.$t('itinerary.public.slide.remark'), {type: 'str', value: editData.remark}, true))(
                   <TextArea style={{marginTop:12}} autosize={{minRows: 3, maxRows: 6}} maxLength={201}/>
                 )
               }
@@ -449,8 +449,8 @@ class TravelSubsidy extends React.Component {
           </Form>
         </Spin>
         <Affix className="travel-affix" offsetBottom={0}>
-          <Button type="primary" loading={isLoading} onClick={this.toSubmit}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
-          <Button className="travel-type-btn" onClick={this.closeSubsidy}>{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+          <Button type="primary" loading={isLoading} onClick={this.toSubmit}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+          <Button className="travel-type-btn" onClick={this.closeSubsidy}>{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )
@@ -458,10 +458,10 @@ class TravelSubsidy extends React.Component {
 
   showConfirm = (values, opt) => {
     confirm({
-      title: messages('itinerary.form.tips')/*'提示?'*/,
-      content: messages('itinerary.subsidy.slide.changeCity.tip')/*'更改城市将清空已添加的差补'*/,
-      okText: messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/,
-      cancelText: messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/,
+      title: this.$t('itinerary.form.tips')/*'提示?'*/,
+      content: this.$t('itinerary.subsidy.slide.changeCity.tip')/*'更改城市将清空已添加的差补'*/,
+      okText: this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/,
+      cancelText: this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/,
       onOk: ()=> {
         this.currentCity = opt.props['data-city'];
         this.currentCity.isChange = false;
@@ -483,7 +483,7 @@ class TravelSubsidy extends React.Component {
           this.setState({isGetType: false});
         }).catch(e => {
           this.setState({isGetType: false});
-          message.error(messages('itinerary.operation.failed.tip')/*`操作失败:`*/ + `${e.response.data.message}`);
+          message.error(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/ + `${e.response.data.message}`);
         })
       },
       onCancel: () => {

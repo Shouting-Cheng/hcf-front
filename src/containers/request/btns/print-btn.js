@@ -1,10 +1,9 @@
-import {messages} from "share/common";
 /**
  * 操作：打印
  * 适用：差旅申请单、费用申请单、借款申请单
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Button } from 'antd'
 
 import requestService from 'containers/request/request.service'
@@ -49,16 +48,12 @@ class PrintBtn extends React.Component{
     const { loading, showPrintBtn } = this.state;
     return (
       <div className="print-btn request-btn">
-        {(showPrintBtn || this.props.printFlag) && <Button type="primary" loading={loading} onClick={this.handlePrint}>{messages('common.print')/*打印*/}</Button>}
+        {(showPrintBtn || this.props.printFlag) && <Button type="primary" loading={loading} onClick={this.handlePrint}>{this.$t('common.print')/*打印*/}</Button>}
       </div>
     )
   }
 }
 
-PrintBtn.contextTypes = {
-  info: React.PropTypes.object,
-  printFlag: React.PropTypes.bool,
-};
 
 function mapStateToProps() {
   return { }

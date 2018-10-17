@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { Form, Switch } from 'antd';
-import Chooser from 'components/chooser';
+import Chooser from 'widget/chooser';
 import { connect } from 'dva';
 import NewVenMaster from 'containers/request/new-request/new-ven-master';
 import PropTypes from 'prop-types';
 
 import customField from 'share/customField';
 
-import 'styles/components/template/combination-custom-form/combination-custom-form.scss';
+import 'styles/components/Template/combination-custom-form/combination-custom-form.scss';
 
 const FormItem = Form.Item;
 

@@ -26,10 +26,10 @@ import ApproveHistoryWorkFlow from 'containers/financial-management/reimburse-re
 import 'styles/contract/my-contract/contract-detail.scss';
 
 import { formatMessage, messages } from 'share/common';
-import DocumentBasicInfo from 'components/template/document-basic-info';
+import DocumentBasicInfo from 'components/Template/document-basic-info';
 import CustomTable from 'components/custom-table';
 import config from 'config';
-import ApproveHistory from 'components/template/approve-history-work-flow';
+import ApproveHistory from 'components/Template/approve-history-work-flow';
 
 class ContractWorkflowDetailCommon extends React.Component {
   constructor(props) {

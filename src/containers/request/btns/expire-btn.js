@@ -1,13 +1,12 @@
-import {messages} from "share/common";
 /**
  * 操作：停用
  * 适用：已通过(info.status === 1003) 且 单据未停用(info.closed === false) 的 差旅申请单、费用申请单
  *      且 info.applicationParticipant.closed === 0 && info.customFormProperties.participantEnable === 1
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Button, Modal, message } from 'antd'
+import PropTypes from 'prop-types';
 
 import requestService from 'containers/request/request.service'
 
@@ -44,8 +43,8 @@ class TravelExpireBtn extends React.Component{
 
   handleExpire = () => {
     Modal.confirm({
-      title: messages('request.detail.btn.expire.is.close.application'), //是否停用该申请单
-      content: messages('request.detail.btn.expire.notice'), //停用后将不可与报销单关联
+      title: this.$t('request.detail.btn.expire.is.close.application'), //是否停用该申请单
+      content: this.$t('request.detail.btn.expire.notice'), //停用后将不可与报销单关联
       onOk: this.handleExpireOk
     });
   };
@@ -56,20 +55,20 @@ class TravelExpireBtn extends React.Component{
       this.setState({ loading: false });
       switch(res.data.errorCode) {
         case 1000:
-          message.success(messages('common.operate.success'));
+          message.success(this.$t('common.operate.success'));
           this.context.router.push(this.state.applicationList.url);
           break;
         case 1001:
-          message.error(messages('request.detail.btn.expire.closeStatus.has.not.paid')); //部分关联报销单未付款
+          message.error(this.$t('request.detail.btn.expire.closeStatus.has.not.paid')); //部分关联报销单未付款
           break;
         case 1002:
-          message.error(messages('request.detail.btn.expire.closeStatus.none.operator')); //当前操作人不存在
+          message.error(this.$t('request.detail.btn.expire.closeStatus.none.operator')); //当前操作人不存在
           break;
         case 1003:
-          message.error(messages('request.detail.btn.expire.closeStatus.already.close')); //当前申请单已停用
+          message.error(this.$t('request.detail.btn.expire.closeStatus.already.close')); //当前申请单已停用
           break;
         default:
-          message.error(messages('common.operate.filed'));
+          message.error(this.$t('common.operate.filed'));
       }
     }).catch(() => {
       this.setState({ loading: false })
@@ -81,7 +80,7 @@ class TravelExpireBtn extends React.Component{
     return (
       <div className="travel-expire-btn request-btn">
         {showExpireBtn && (
-          <Button type="primary" loading={loading} onClick={this.handleExpire}>{messages('request.detail.btn.expire')/*停 用*/}</Button>
+          <Button type="primary" loading={loading} onClick={this.handleExpire}>{this.$t('request.detail.btn.expire')/*停 用*/}</Button>
         )}
       </div>
     )
@@ -89,13 +88,10 @@ class TravelExpireBtn extends React.Component{
 }
 
 TravelExpireBtn.propTypes = {
-  formType: React.PropTypes.number.isRequired,
-  info: React.PropTypes.object.isRequired
+  formType: PropTypes.number.isRequired,
+  info: PropTypes.object.isRequired
 };
 
-TravelExpireBtn.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return { }

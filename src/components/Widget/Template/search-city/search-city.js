@@ -7,9 +7,9 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
 import { Select, Button, Col, Spin } from 'antd';
-import 'styles/components/template/export-modal/export-modal.scss';
-import SCService from 'components/template/search-city/search-city.service';
-import 'styles/components/template/search-city/search-city.scss';
+import 'styles/components/Template/export-modal/export-modal.scss';
+import SCService from 'components/Template/search-city/search-city.service';
+import 'styles/components/Template/search-city/search-city.scss';
 const Option = Select.Option;
 class SearchCity extends React.Component {
   constructor(props) {

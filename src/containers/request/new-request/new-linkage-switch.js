@@ -1,15 +1,15 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 /**
  * 联动开关
  * 目前只有输入框、下拉框两种
  */
 import React from 'react'
 import config from 'config'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Switch, Input, InputNumber } from 'antd'
 const FormItem = Form.Item;
 
-import Selector from 'components/selector'
+import Selector from 'widget/selector'
 import 'styles/request/new-request/new-linkage-switch.scss'
 
 class NewLinkageSwitch extends React.Component {
@@ -148,7 +148,7 @@ class NewLinkageSwitch extends React.Component {
           let option = {
             rules: [{
               required: item.required,
-              message: messages('common.can.not.be.empty', {name: item.fieldName})
+              message: this.$t('common.can.not.be.empty', {name: item.fieldName})
             }],
             initialValue: item.fieldType === 'CUSTOM_ENUMERATION' ? (item.value ? {label: item.name, key: item.value} : undefined) : item.value
           };
@@ -157,7 +157,7 @@ class NewLinkageSwitch extends React.Component {
           if (!(~noMaxLimitFields.indexOf(item.fieldType))) {
             option.rules.push({
               max: 50,
-              message: messages('common.max.characters.length', {max: 50})
+              message: this.$t('common.max.characters.length', {max: 50})
             });
           }
           return (
@@ -174,7 +174,7 @@ class NewLinkageSwitch extends React.Component {
 }
 
 NewLinkageSwitch.propTypes = {
-  value: React.PropTypes.object
+  value: PropTypes.object
 };
 
 NewLinkageSwitch.defaultProps = {

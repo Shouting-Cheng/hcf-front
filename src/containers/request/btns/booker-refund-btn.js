@@ -1,16 +1,15 @@
-import {messages} from "share/common";
 /**
  * 操作：退票
  * 适用：已通过 且 customFormPropertyMap['ticket.alert.disable']不为true 且机票状态为【已订票／已改签／退票审批驳回／改签审批驳回】 的 订票申请单
  * 获取 customFormPropertyMap 的接口：/api/custom/forms/
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Button, Modal, Radio, Input, Row, Col, Table, message, Popover } from 'antd'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const TextArea = Input.TextArea;
+import PropTypes from 'prop-types';
 
 import moment from 'moment'
 import requestService from 'containers/request/request.service'
@@ -25,15 +24,15 @@ class BookerRefundBtn extends React.Component{
       isPersonalReason: false,
       isAdditionalRecord: false,
       columns: [
-        {title: messages('request.detail.btn.endorse.passenger.name'/*乘机人*/), dataIndex: 'name', width: '20%', render: value =>
+        {title: this.$t('request.detail.btn.endorse.passenger.name'/*乘机人*/), dataIndex: 'name', width: '20%', render: value =>
           value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-'},
-        {title: messages('request.detail.btn.endorse.begin.time'/*出发时间*/), dataIndex: 'beginDate', width: '20%', render: value =>
+        {title: this.$t('request.detail.btn.endorse.begin.time'/*出发时间*/), dataIndex: 'beginDate', width: '20%', render: value =>
           value ? <Popover placement="topLeft" content={moment(value).format('YYYY-MM-DD HH:mm')}>{moment(value).format('YYYY-MM-DD HH:mm')}</Popover> : '-'},
-        {title: messages('request.detail.btn.endorse.from.city'/*出发地*/), dataIndex: 'fromCity', width: '20%', render: value =>
+        {title: this.$t('request.detail.btn.endorse.from.city'/*出发地*/), dataIndex: 'fromCity', width: '20%', render: value =>
           value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-'},
-        {title: messages('request.detail.btn.endorse.to.city'/*到达地*/), dataIndex: 'toCity', width: '20%', render: value =>
+        {title: this.$t('request.detail.btn.endorse.to.city'/*到达地*/), dataIndex: 'toCity', width: '20%', render: value =>
           value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-'},
-        {title: messages('request.detail.btn.endorse.travel.no'/*航班号*/), dataIndex: 'travelNo', width: '20%', render: value =>
+        {title: this.$t('request.detail.btn.endorse.travel.no'/*航班号*/), dataIndex: 'travelNo', width: '20%', render: value =>
           value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-'}
       ],
       selectedRowKeys: [],
@@ -102,18 +101,18 @@ class BookerRefundBtn extends React.Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         if (!this.state.selectedTravelOrderOID.length) {
-          message.warning(messages('request.detail.btn.endorse.please.chose.ticket'/*请选择机票*/));
+          message.warning(this.$t('request.detail.btn.endorse.please.chose.ticket'/*请选择机票*/));
           return
         }
         values.skipWorkflow = values.isPersonalReason ? true : values.isAdditionalRecord ? false : values.skipWorkflow;
         values.travelOrderOIDs = this.state.selectedTravelOrderOID;
         values.applicationOID = this.props.info.applicationOID;
         requestService.submitRefundApplication(values).then(() => {
-          message.success(messages('common.operate.success'));
+          message.success(this.$t('common.operate.success'));
           this.setState({ modalVisible: false });
           this.context.router.push(this.state.applicationList.url)
         }).catch(e => {
-          message.error(`${messages('common.operate.filed')}，${e.response.data.message}`)
+          message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`)
         })
       }
     })
@@ -137,10 +136,10 @@ class BookerRefundBtn extends React.Component{
       <div className="booker-refund-btn request-btn">
         {/* status: 1003（已通过） */}
         {formType === 2003 && info.status === 1003 && !!travelOrders.length && (
-          <Button type="primary" onClick={this.showModal}>{messages('request.detail.btn.refund')/*退 票*/}</Button>
+          <Button type="primary" onClick={this.showModal}>{this.$t('request.detail.btn.refund')/*退 票*/}</Button>
         )}
 
-        <Modal title={messages('request.detail.btn.refund')/*退 票*/}
+        <Modal title={this.$t('request.detail.btn.refund')/*退 票*/}
                width={600}
                visible={modalVisible}
                wrapClassName="booker-refund-modal"
@@ -149,25 +148,25 @@ class BookerRefundBtn extends React.Component{
           <Form className="form-container">
             <Row>
               <Col span={12}>
-                <FormItem {...formItemLayout} label={messages('request.detail.booker.refund.reason'/*退票原因*/)}>
+                <FormItem {...formItemLayout} label={this.$t('request.detail.booker.refund.reason'/*退票原因*/)}>
                   {getFieldDecorator('isPersonalReason', {
                     initialValue: false
                   })(
                     <RadioGroup onChange={e => this.setState({isPersonalReason: e.target.value})}>
-                      <Radio value={false}>{messages('request.detail.booker.project'/*项目*/)}</Radio>
-                      <Radio value={true}>{messages('request.detail.booker.person'/*个人*/)}</Radio>
+                      <Radio value={false}>{this.$t('request.detail.booker.project'/*项目*/)}</Radio>
+                      <Radio value={true}>{this.$t('request.detail.booker.person'/*个人*/)}</Radio>
                     </RadioGroup>
                   )}
                 </FormItem>
               </Col>
               <Col span={12}>
-                <FormItem {...formItemLayout} label={messages('request.detail.btn.endorse.is.additional.record')/*该申请为补录*/}>
+                <FormItem {...formItemLayout} label={this.$t('request.detail.btn.endorse.is.additional.record')/*该申请为补录*/}>
                   {getFieldDecorator('isAdditionalRecord', {
                     initialValue: false
                   })(
                     <RadioGroup onChange={e => this.setState({isAdditionalRecord: e.target.value})}>
-                      <Radio value={true}>{messages('request.detail.booker.yes')/*是*/}</Radio>
-                      <Radio value={false}>{messages('request.detail.booker.no')/*否*/}</Radio>
+                      <Radio value={true}>{this.$t('request.detail.booker.yes')/*是*/}</Radio>
+                      <Radio value={false}>{this.$t('request.detail.booker.no')/*否*/}</Radio>
                     </RadioGroup>
                   )}
                 </FormItem>
@@ -175,15 +174,15 @@ class BookerRefundBtn extends React.Component{
             </Row>
             <Row>
               <Col span={12}>
-                <FormItem {...formItemLayout} label={messages('request.detail.btn.endorse.skip.approve')/*是否跳过审批*/}>
+                <FormItem {...formItemLayout} label={this.$t('request.detail.btn.endorse.skip.approve')/*是否跳过审批*/}>
                   {getFieldDecorator('skipWorkflow', {
                     initialValue: false
                   })(
-                    isPersonalReason ? <div>{messages('request.detail.btn.endorse.reason.person.no.approve')/*个人原因无需重新审批*/}</div> :
-                      isAdditionalRecord ? <div>{messages('request.detail.btn.endorse.reason.project.must.approve')/*补录信息需强制重新审批*/}</div> :
+                    isPersonalReason ? <div>{this.$t('request.detail.btn.endorse.reason.person.no.approve')/*个人原因无需重新审批*/}</div> :
+                      isAdditionalRecord ? <div>{this.$t('request.detail.btn.endorse.reason.project.must.approve')/*补录信息需强制重新审批*/}</div> :
                         <RadioGroup onChange={this.onRadioChange}>
-                          <Radio value={true}>{messages('request.detail.booker.yes')/*是*/}</Radio>
-                          <Radio value={false}>{messages('request.detail.booker.no')/*否*/}</Radio>
+                          <Radio value={true}>{this.$t('request.detail.booker.yes')/*是*/}</Radio>
+                          <Radio value={false}>{this.$t('request.detail.booker.no')/*否*/}</Radio>
                         </RadioGroup>
                   )}
                 </FormItem>
@@ -195,21 +194,21 @@ class BookerRefundBtn extends React.Component{
                   {getFieldDecorator('comment', {
                     rules: [{
                       max: 200,
-                      message: messages('common.max.characters.length', {max: 200})
+                      message: this.$t('common.max.characters.length', {max: 200})
                     }],
                     initialValue: ''
                   })(
                     <TextArea rows={2} style={{resize:'none'}}
-                              placeholder={messages('request.detail.btn.refund.reason.input')/*请输入退票人员姓名、退票理由等*/}/>
+                              placeholder={this.$t('request.detail.btn.refund.reason.input')/*请输入退票人员姓名、退票理由等*/}/>
                   )}
                 </FormItem>
               </Col>
             </Row>
             <div className="table-header">
               <div className="table-header-title">
-                {messages('common.total1', {total: travelOrders.length})}
+                {this.$t('common.total1', {total: travelOrders.length})}
                 <span> / </span>
-                {messages('common.total.selected', {total: selectedRowKeys.length})}
+                {this.$t('common.total.selected', {total: selectedRowKeys.length})}
               </div>
             </div>
             <Table rowKey='travelOrderOID'
@@ -227,12 +226,8 @@ class BookerRefundBtn extends React.Component{
 }
 
 BookerRefundBtn.propTypes = {
-  formType: React.PropTypes.number.isRequired,
-  info: React.PropTypes.object.isRequired,
-};
-
-BookerRefundBtn.contextTypes = {
-  router: React.PropTypes.object
+  formType: PropTypes.number.isRequired,
+  info: PropTypes.object.isRequired,
 };
 
 function mapStateToProps() {

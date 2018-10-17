@@ -1,7 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 import config from 'config'
-import {messages, getApprovelHistory} from 'share/common';
+import { getApprovelHistory,deepFullCopy } from 'utils/extend';
 import {
   Input,
   Spin,
@@ -16,13 +16,11 @@ import {
 } from 'antd';
 const {RangePicker,} = DatePicker;
 const FormItem = Form.Item;
-import {deepFullCopy} from 'share/common'
 import moment from 'moment';
-import travelService from 'containers/request/travel-request/travel.service'
 import travelUtil from 'containers/request/travel-request/travelUtil'
 import requestService from 'containers/request/request.service'
-import Selector from 'components/selector'
-import Chooser from 'components/chooser'
+import Selector from 'widget/selector'
+import Chooser from 'widget/chooser'
 const TreeNode = TreeSelect.TreeNode;
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 class TravelElement extends React.Component {
@@ -102,7 +100,7 @@ class TravelElement extends React.Component {
   //提交
   toSubmit = (e) => {
     if(this.state.dateRange.length==0){
-      message.error(messages('itinerary.form.select.time')/*请选择时间*/);
+      message.error(this.$t('itinerary.form.select.time')/*请选择时间*/);
       return;
     }
     e.preventDefault();
@@ -227,7 +225,7 @@ class TravelElement extends React.Component {
       dateArr.push({title:item,value:item,key:item})
     });
     const treeData = [ {
-      title: messages('common.all'),
+      title: this.$t('common.all'),
       value: '0',
       key: '0',
       children: dateArr,
@@ -239,7 +237,7 @@ class TravelElement extends React.Component {
       treeCheckable: true,
       treeDefaultExpandAll :true,
       showCheckedStrategy: SHOW_PARENT,
-      searchPlaceholder: messages('itinerary.form.select.time')/*请选择时间*/,
+      searchPlaceholder: this.$t('itinerary.form.select.time')/*请选择时间*/,
       style: {
         width: 300,
       },
@@ -251,7 +249,7 @@ class TravelElement extends React.Component {
           <Form>
             <Row type="flex" align="middle" style={{marginBottom: '25px'}}>
               <Col span={8} style={{color: 'rgba(0, 0, 0, 0.85)', fontSize: '14px', textAlign: 'right'}}>
-                <span style={{color: '#f5222d'}}>*</span>{messages('itinerary.form.select.time')/*请选择时间*/}：
+                <span style={{color: '#f5222d'}}>*</span>{this.$t('itinerary.form.select.time')/*请选择时间*/}：
               </Col>
               <Col span={16}>
                 <TreeSelect {...tProps} />
@@ -289,8 +287,8 @@ class TravelElement extends React.Component {
                       {
                         required: item.required,
                         message: item.messageKey !== 'input' && item.messageKey !== '' ?
-                          messages('common.please.select') + item.fieldName :
-                          messages('common.please.input') + item.fieldName
+                          this.$t('common.please.select') + item.fieldName :
+                          this.$t('common.please.input') + item.fieldName
                       }
                     ]
                   })(
@@ -301,11 +299,11 @@ class TravelElement extends React.Component {
                                  single={true}
                         /> :
                         <Selector selectorItem={selectorItem}
-                                  placeholder={messages('common.please.select')/* 请选择 */}
+                                  placeholder={this.$t('common.please.select')/* 请选择 */}
                                   showSearch={true}
                                   entity
                                   key={item.formOID}/>) :
-                      <Input placeholder={messages('common.please.input')/* 请输入 */}/>
+                      <Input placeholder={this.$t('common.please.input')/* 请输入 */}/>
                   )}
                 </FormItem>
               );
@@ -315,9 +313,9 @@ class TravelElement extends React.Component {
         </Spin>
         <Affix className="travel-affix" offsetBottom={0}>
           <Button onClick={this.toSubmit} type="primary"
-                  loading={isLoading}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+                  loading={isLoading}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
           <Button className="travel-type-btn"
-                  onClick={this.closeSlide}>{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+                  onClick={this.closeSlide}>{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )

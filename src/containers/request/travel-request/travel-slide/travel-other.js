@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/3/19 0019.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import moment from 'moment'
 import {Row, Col, Spin, Button, Radio, Select, Input, Form, DatePicker, Affix, Divider, Tabs, message} from 'antd';
 const TextArea = Input.TextArea;
@@ -158,29 +158,29 @@ class TravelOther extends React.Component {
         this.props.close(values);
       }else{
       if(values.remark && values.remark.length === 201){
-        message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+        message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
         return;
       }
       if (!err) {
         this.setState({isLoading: true});
         if(values.trafficType === 1001){
-          values.trafficTypeName = messages('itinerary.other.slide.trafficType.car')/*汽车*/;
+          values.trafficTypeName = this.$t('itinerary.other.slide.trafficType.car')/*汽车*/;
         }
         if(values.trafficType === 1002){
-          values.trafficTypeName = messages('itinerary.other.slide.trafficType.ship')/*轮船*/;
+          values.trafficTypeName = this.$t('itinerary.other.slide.trafficType.ship')/*轮船*/;
         }
         if(values.itineraryType === 1002 && startDate > endDate){
-          message.error(messages('itinerary.public.date.checked.tip')/*'返回日期早于出发日期'*/);
+          message.error(this.$t('itinerary.public.date.checked.tip')/*'返回日期早于出发日期'*/);
           return;
         }
         values.startDate = values.startDate.utc().format();
         values.endDate = values.itineraryType === 1002 ? values.endDate.utc().format() : null;
         if(!this.state.selectFromCity.vendorAlias){
-          message.error(messages('itinerary.public.fromCity.checked.tip')/*'出发城市不匹配或未点击选择'*/);
+          message.error(this.$t('itinerary.public.fromCity.checked.tip')/*'出发城市不匹配或未点击选择'*/);
           this.setState({isLoading: false});
           return ;
         } else if(!this.state.selectToCity.vendorAlias){
-          message.error(messages('itinerary.public.toCity.checked.tip')/*'到达城市不匹配或未点击选择'*/);
+          message.error(this.$t('itinerary.public.toCity.checked.tip')/*'到达城市不匹配或未点击选择'*/);
           this.setState({isLoading: false});
           return ;
         }else{
@@ -191,7 +191,7 @@ class TravelOther extends React.Component {
         }
         if (!this.state.editing) {
           travelService.travelOtherSubmit(this.state.params.oid, [values]).then(res => {
-            this.submitFinish(messages('itinerary.save.tip')/*'已保存'*/);
+            this.submitFinish(this.$t('itinerary.save.tip')/*'已保存'*/);
           }).catch(err => {
             message.error(err.message);
           })
@@ -199,7 +199,7 @@ class TravelOther extends React.Component {
           values.otherItineraryOID = this.props.params.editOther.otherItineraryOID;
           values.applicationOID = this.state.params.oid;
           travelService.updateOther(values).then(res => {
-            this.submitFinish(messages('itinerary.update.tip')/*已更新*/);
+            this.submitFinish(this.$t('itinerary.update.tip')/*已更新*/);
           })
         }
       } }
@@ -260,12 +260,12 @@ class TravelOther extends React.Component {
           <Form>
             {!travelElement&&<Row>
               <Col span={12}>
-                <FormItem {...formItemLayoutCity} key="trafficType" label={messages('itinerary.other.slide.trafficType')/*交通类型*/}>
-                  {getFieldDecorator('trafficType', this.cfo(messages('itinerary.other.slide.trafficType'), {type: 'number', value: editData.trafficType ? editData.trafficType : 1001}))(
+                <FormItem {...formItemLayoutCity} key="trafficType" label={this.$t('itinerary.other.slide.trafficType')/*交通类型*/}>
+                  {getFieldDecorator('trafficType', this.cfo(this.$t('itinerary.other.slide.trafficType'), {type: 'number', value: editData.trafficType ? editData.trafficType : 1001}))(
                     <Select onChange={this.trafficTypeHandle}>
-                      <Option value={1001}>{messages('itinerary.other.slide.trafficType.car')/*汽车*/}</Option>
-                      <Option value={1002}>{messages('itinerary.other.slide.trafficType.ship')/*轮船*/}</Option>
-                      <Option value={1003}>{messages('itinerary.other.slide.trafficType.other')/*其他*/}</Option>
+                      <Option value={1001}>{this.$t('itinerary.other.slide.trafficType.car')/*汽车*/}</Option>
+                      <Option value={1002}>{this.$t('itinerary.other.slide.trafficType.ship')/*轮船*/}</Option>
+                      <Option value={1003}>{this.$t('itinerary.other.slide.trafficType.other')/*其他*/}</Option>
                     </Select>
                   )}
                 </FormItem>
@@ -273,23 +273,23 @@ class TravelOther extends React.Component {
               {isOther  && (
                   <Col span={8}>
                     <FormItem key="trafficTypeName">
-                      {getFieldDecorator('trafficTypeName', this.cfo(messages('itinerary.other.slide.trafficType'), {
+                      {getFieldDecorator('trafficTypeName', this.cfo(this.$t('itinerary.other.slide.trafficType'), {
                         type: 'str',
                         value: editData.trafficTypeName
-                      }))(<Input placeholder={messages('itinerary.public.slide.remarkPlaceholder')/*请输入*/}/>)}
+                      }))(<Input placeholder={this.$t('itinerary.public.slide.remarkPlaceholder')/*请输入*/}/>)}
                     </FormItem>
                   </Col>)}
             </Row>}
             {!travelElement &&<Divider style={{marginTop:0}}/>}
             {!travelElement && <FormItem {...formItemLayout}
-              label={messages('itinerary.other.slide.itineraryType')/*行程类型*/}>
-              {getFieldDecorator('itineraryType', this.cfo(messages('itinerary.other.slide.itineraryType'), {
+              label={this.$t('itinerary.other.slide.itineraryType')/*行程类型*/}>
+              {getFieldDecorator('itineraryType', this.cfo(this.$t('itinerary.other.slide.itineraryType'), {
                 type: 'number',
                 value: editData.itineraryType ? editData.itineraryType : 1001
               }))(
                 <RadioGroup className="travel-type-radio" onChange={this.itineraryTypeHandle}>
-                  <Radio value={1001}>{messages('itinerary.public.slide.oneWay')/*单程*/}</Radio>
-                  <Radio value={1002}>{messages('itinerary.public.slide.roundTrip')/*往返*/}</Radio>
+                  <Radio value={1001}>{this.$t('itinerary.public.slide.oneWay')/*单程*/}</Radio>
+                  <Radio value={1002}>{this.$t('itinerary.public.slide.roundTrip')/*往返*/}</Radio>
                 </RadioGroup>
               )}
               </FormItem>
@@ -297,11 +297,11 @@ class TravelOther extends React.Component {
             <FormItem>
               <Row>
                 <Col span={12}>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.departureCity')/*出发城市*/}>
-                    {getFieldDecorator('fromCity', this.cfo(messages('itinerary.public.slide.departureCity'), {type: 'str', value: editData.fromCity}))(
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.departureCity')/*出发城市*/}>
+                    {getFieldDecorator('fromCity', this.cfo(this.$t('itinerary.public.slide.departureCity'), {type: 'str', value: editData.fromCity}))(
                       <Select
                         mode="combobox"
-                        placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                        placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                         defaultActiveFirstOption={false}
                         showArrow={false}
                         filterOption={false}
@@ -317,10 +317,10 @@ class TravelOther extends React.Component {
                       </Select>
                     )}
                   </FormItem>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.arrivalCity')/*到达城市*/}>
-                    {getFieldDecorator('toCity', this.cfo(messages('itinerary.public.slide.arrivalCity'), {type: 'str', value: editData.toCity}))(<Select
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.arrivalCity')/*到达城市*/}>
+                    {getFieldDecorator('toCity', this.cfo(this.$t('itinerary.public.slide.arrivalCity'), {type: 'str', value: editData.toCity}))(<Select
                       mode="combobox"
-                      placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                      placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                       defaultActiveFirstOption={false}
                       showArrow={false}
                       onSelect={this.selectToCity}
@@ -338,19 +338,19 @@ class TravelOther extends React.Component {
                 </Col>
 
                 <div className="line-top"></div>
-                <Button className={this.props.language.code === 'zh_cn' ? "exchange-city" : "exchange-city-en"} onClick={this.exchangeCity}>{messages('itinerary.plane.slide.swap')/*换*/}</Button>
+                <Button className={this.props.language.code === 'zh_cn' ? "exchange-city" : "exchange-city-en"} onClick={this.exchangeCity}>{this.$t('itinerary.plane.slide.swap')/*换*/}</Button>
                 <div className="line-bottom"></div>
 
                 <Col span={12}>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.departure')/*出发日期*/}>
-                    {getFieldDecorator('startDate', this.cfo(messages('itinerary.public.slide.departure'), {
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.departure')/*出发日期*/}>
+                    {getFieldDecorator('startDate', this.cfo(this.$t('itinerary.public.slide.departure'), {
                       type: 'moment',
                       value: isEmpty ? this.startDate : editData.startDate
                     }))
                     (<DatePicker onChange={this.startDateChange} disabledDate={this.disabledDate}/>)}
                   </FormItem>
-                  {!travelElement &&<FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.return')/*返回日期*/}>
-                    {getFieldDecorator('endDate', this.cfo(messages('itinerary.public.slide.return'), {
+                  {!travelElement &&<FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.return')/*返回日期*/}>
+                    {getFieldDecorator('endDate', this.cfo(this.$t('itinerary.public.slide.return'), {
                       type: 'moment',
                       value: !isEmpty && editData.endDate ? editData.endDate : this.startDate,
                     }, !isDouble))
@@ -359,7 +359,7 @@ class TravelOther extends React.Component {
                 </Col>
               </Row>
             </FormItem>
-            {!travelElement && <FormItem {...formItemLayout} label={messages('itinerary.public.slide.remark')/*备注*/}>
+            {!travelElement && <FormItem {...formItemLayout} label={this.$t('itinerary.public.slide.remark')/*备注*/}>
               {getFieldDecorator('remark', this.cfo('', {type: 'str', value: editData.remark}, true))
               (<TextArea autosize={textAreaLayout} maxLength={201}></TextArea>)}
             </FormItem>
@@ -367,8 +367,8 @@ class TravelOther extends React.Component {
           </Form>
         </Spin>
         <Affix className="travel-affix" offsetBottom={0}>
-          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
-          <Button onClick={this.setClose} className="travel-type-btn">{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+          <Button onClick={this.setClose} className="travel-type-btn">{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )

@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import moment from 'moment'
 import {Form, Collapse, Tag, Spin, Row, Col, Avatar, Divider} from 'antd'
 const Panel = Collapse.Panel;
@@ -21,7 +21,7 @@ class TravelInformationElement extends React.Component {
     const {info} = this.props;
     return (
       <div className="travel-information-element tab-container">
-        <h3 className="sub-header-title">{messages('request.detail.travel.info')/*行程信息*/}</h3>
+        <h3 className="sub-header-title">{this.$t('request.detail.travel.info')/*行程信息*/}</h3>
         <Spin spinning={loading}>
           <Collapse>
             {
@@ -29,7 +29,7 @@ class TravelInformationElement extends React.Component {
                 let date = moment(item.itineraryDate).format('YYYY.MM.DD') + " " + travelUtil.getWeed(new Date(item.itineraryDate).getDay());
                 let header = (<span><img style={{marginTop: -4}}/>
                   &nbsp;<Tag
-                    color='#108ee9'>{messages('itinerary.record.public.days.tag', {days: mainIndex + 1})/*第{day}天*/}</Tag>
+                    color='#108ee9'>{this.$t('itinerary.record.public.days.tag', {days: mainIndex + 1})/*第{day}天*/}</Tag>
                   {date}</span>);
                 let showTraffics = item.travelItineraryTraffics && item.travelItineraryTraffics.length > 0;
                 let showElement = item.travelElements && item.travelElements.length > 0;
@@ -91,12 +91,12 @@ class TravelInformationElement extends React.Component {
 }
 
 TravelInformationElement.propTypes = {
-  applicationOID: React.PropTypes.string,
-  latestApplicationOID: React.PropTypes.string,
-  info: React.PropTypes.object,
-  customFormPropertyMap: React.PropTypes.object,
-  controlFields: React.PropTypes.object,
-  isPreVersion: React.PropTypes.bool, //是否为最新版本的上一版本
+  applicationOID: PropTypes.string,
+  latestApplicationOID: PropTypes.string,
+  info: PropTypes.object,
+  customFormPropertyMap: PropTypes.object,
+  controlFields: PropTypes.object,
+  isPreVersion: PropTypes.bool, //是否为最新版本的上一版本
 };
 
 function mapStateToProps(state) {

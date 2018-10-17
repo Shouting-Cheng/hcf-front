@@ -2,6 +2,7 @@ import React from 'react';
 import app from '../index';
 import httpFetch from 'utils/httpFetch';
 import config from 'config';
+import constants from 'share/constants'
 
 React.Component.prototype.$t = (id, values = {}) => {
   if (!app) return '';
@@ -409,7 +410,7 @@ Date.prototype.calcMonth = function(month) {
  */
 React.Component.prototype.getSystemValueList = code => {
   let url = '';
-  if (Number(code) > 2000) url = '/api/custom/enumerations/template/by/type?type=';
+  if (Number(code) > 2000) url = '/api/custom/enumerations/Template/by/type?type=';
   else url = '/api/custom/enumeration/system/by/type?systemCustomEnumerationType=';
   return httpFetch.get(`${config.baseUrl}${url}${code}`).then(res => {
     return new Promise(resolve => {

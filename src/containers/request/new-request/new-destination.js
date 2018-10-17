@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Select } from 'antd'
 const Option = Select.Option;
 
@@ -41,7 +41,7 @@ class NewDestination extends React.Component {
     const { value, destinationOptions } = this.state;
     return (
       <div className="new-destination">
-        <Select placeholder={messages('common.please.enter')}
+        <Select placeholder={this.$t('common.please.enter')}
                 mode="combobox"
                 value={value}
                 showArrow={false}
@@ -59,7 +59,7 @@ class NewDestination extends React.Component {
 }
 
 NewDestination.propTypes = {
-  value: React.PropTypes.string
+  value: PropTypes.string
 };
 
 NewDestination.defaultProps = {

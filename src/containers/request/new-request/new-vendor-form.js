@@ -1,12 +1,12 @@
 
 import React from "react";
 
-import {connect} from "react-redux";
+import {connect} from "dva";
 import {Form, Input, InputNumber, Button, message, Modal} from "antd";
-import {deepCopy, messages} from "share/common";
+import {deepCopy} from "utils/extend";
 import requestService from 'containers/request/request.service'
 import errorMessage from 'share/errorMessage'
-import Chooser from 'components/chooser';
+import Chooser from 'widget/chooser';
 const FormItem = Form.Item;
 import BankPicker from 'containers/financial-management/supplier-management/bank-picker';
 
@@ -45,18 +45,18 @@ class newVendorForm extends React.Component {
    * 设置表单项
    * */
   initCustomFields = () => {
-    let inputTest = messages('common.please.enter');
+    let inputTest = this.$t('common.please.enter');
     this.setState({
       customFields: [
         {
-          title: messages('request.edit.ven.vendorInfo'),
+          title: this.$t('request.edit.ven.vendorInfo'),
           options: [
             {
               id: 'vendorAccount',
               required: true,
               type: 'TEXT',
               placeholder: inputTest,
-              name: messages('request.edit.ven.vendorAccount')
+              name: this.$t('request.edit.ven.vendorAccount')
             },
             //供应商类型字段
             {
@@ -64,7 +64,7 @@ class newVendorForm extends React.Component {
               required: true,
               type: 'vendor_type',
               placeholder: inputTest,
-              name: messages('supplier.management.type'),
+              name: this.$t('supplier.management.type'),
             },
             //供应商代码字段
             {
@@ -72,41 +72,41 @@ class newVendorForm extends React.Component {
               required: true,
               type: 'TEXT',
               placeholder: inputTest,
-              name: messages('supplier.management.code'),
+              name: this.$t('supplier.management.code'),
             },
 
           ]
         }, // 供应商开户名称
         {
-          title: messages('request.edit.ven.vendorOpenBankInfo'),
+          title: this.$t('request.edit.ven.vendorOpenBankInfo'),
           options: [
             {
               id: 'openBankName',
               required: true,
               type: 'bankSelect',
-              placeholder: messages('common.please.select'),
-              name: messages('request.edit.ven.openBankName')
+              placeholder: this.$t('common.please.select'),
+              name: this.$t('request.edit.ven.openBankName')
             }, // 开户银行
             {
               id: 'openBankNum',
               required: true,
               type: 'TEXT',
               placeholder: inputTest,
-              name: messages('request.edit.ven.openBankNum')
+              name: this.$t('request.edit.ven.openBankNum')
             }, // 开户银行联行号
             {
               id: 'openBankCity',
               required: true,
               type: 'TEXT',
               placeholder: inputTest,
-              name: messages('request.edit.ven.openBankCity')
+              name: this.$t('request.edit.ven.openBankCity')
             }, // 开户银行所在地
             {
               id: 'vendorReceiveName',
               required: true,
               type: 'TEXT',
               placeholder: inputTest,
-              name: messages('request.edit.ven.vendorReceiveName')
+              name: this.$t('request.edit.ven.vendorReceiveName')
             } // 供应商收款账号
           ]
         }
@@ -167,7 +167,7 @@ class newVendorForm extends React.Component {
             if (('' + data.code) !== '0000') { //校验失败
               message.error(data.msg);
             } else {
-              message.success(messages("common.operate.success")/*操作成功*/);
+              message.success(this.$t("common.operate.success")/*操作成功*/);
               this.props.form.resetFields();
               this.setState({bankInfo: {}});
               const onOk = this.props.onOk;
@@ -227,7 +227,7 @@ class newVendorForm extends React.Component {
   getOption = (customField) => {
     return {
       rules: [{
-        required: customField.required, message: messages('common.name.is.required', {name: customField.name}),
+        required: customField.required, message: this.$t('common.name.is.required', {name: customField.name}),
       }],
       initialValue: '',
       key: customField.id
@@ -246,7 +246,7 @@ class newVendorForm extends React.Component {
         return (
           <Chooser single={true}
                    type="vendor_type"
-                   placeholder={messages("common.please.select")}
+                   placeholder={this.$t("common.please.select")}
                    labelKey="name"
                    disabled={customField.disabled}
                    onChange={this.handleVendorTypeChange}
@@ -302,10 +302,10 @@ class newVendorForm extends React.Component {
   handleNameChange = (e) => {
     if(e.target.value.length>30){
       Modal.error({
-        title:messages('wait.for.save.tip'),
+        title:this.$t('wait.for.save.tip'),
         content:(
           <div>
-            <p>{messages('wait.for.save.ruleNameTip')}</p>
+            <p>{this.$t('wait.for.save.ruleNameTip')}</p>
           </div>
         )
       })
@@ -330,17 +330,17 @@ class newVendorForm extends React.Component {
           )
         }
         {/*注：如需要对外业务，在联行号中输入相应银行的Swiftcode*/}
-        <p style={{color: '#999'}}>{messages('request.edit.ven.newSupplier.tip')}</p>
+        <p style={{color: '#999'}}>{this.$t('request.edit.ven.newSupplier.tip')}</p>
         {/*请正确的填写并核对所有信息，以便财务及时付款*/}
         <Form.Item>
-          <p style={{display:'inline-block', width: '480px', color: '#999'}}>{messages('request.edit.ven.newSupplier.enterTip')}</p>
+          <p style={{display:'inline-block', width: '480px', color: '#999'}}>{this.$t('request.edit.ven.newSupplier.enterTip')}</p>
           <Button type="default" className="cancel-btn" onClick={this.onCancel} style={{marginRight: '10px'}}>
             {/*取消*/}
-            {messages('common.cancel')}
+            {this.$t('common.cancel')}
           </Button>
           <Button type="primary" htmlType="submit" loading={saving}>
             {/*确定*/}
-            {messages('common.ok')}
+            {this.$t('common.ok')}
           </Button>
         </Form.Item>
       </Form>
@@ -351,10 +351,6 @@ class newVendorForm extends React.Component {
   }
 }
 
-
-newVendorForm.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {

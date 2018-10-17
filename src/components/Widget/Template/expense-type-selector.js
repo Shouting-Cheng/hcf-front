@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { Spin, Input, Card, Row, Col, Icon, Popover, message } from 'antd';
 const Search = Input.Search;
-import 'styles/components/template/expense-type-selector.scss';
+import 'styles/components/Template/expense-type-selector.scss';
 import baseService from 'share/base.service';
 
 class ExpenseTypeSelector extends React.Component {

@@ -11,7 +11,7 @@ import ContractWorkflowDetailCommon from 'containers/approve/contract/contract-w
 import 'styles/contract/my-contract/contract-detail.scss';
 
 import { formatMessage } from 'share/common';
-import ApproveBar from 'components/template/approve-bar';
+import ApproveBar from 'components/Template/approve-bar';
 
 class ContractWorkflowApproveDetail extends React.Component {
   constructor(props) {

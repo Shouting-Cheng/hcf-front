@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { Form, Modal, Button } from 'antd';
-import proxiesService from 'components/template/proxies/proxies-service';
+import proxiesService from 'components/Template/proxies/proxies-service';
 
 import Selector from 'components/selector';
 

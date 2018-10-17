@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/3/15 0015.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {Row, Col, Button, Collapse, Form,InputNumber , Spin,Input, message, Modal, Icon, DatePicker} from 'antd';
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
@@ -17,7 +17,7 @@ import TravelSubsidy from 'containers/request/travel-request/travel-slide/travel
 import TravelRemark from 'containers/request/travel-request/travel-slide/travel-remark';
 import TravelOther from 'containers/request/travel-request/travel-slide/travel-other';
 import TravelHotel from 'containers/request/travel-request/travel-slide/travel-hotel';
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'widget/slide-frame';
 
 import 'styles/request/travel-request/travel-type.scss'
 import travelService from 'containers/request/travel-request/travel.service'
@@ -130,8 +130,8 @@ class TravelType extends React.Component {
       case 'subsidy':
         if(this.changedNotSave){
           Modal.confirm({
-            title: messages('itinerary.form.tips')/*提示*/,
-            content: messages('itinerary.type.add.subsidy.tip')/*'添加差补将自动保存当前单据?'*/,
+            title: this.$t('itinerary.form.tips')/*提示*/,
+            content: this.$t('itinerary.type.add.subsidy.tip')/*'添加差补将自动保存当前单据?'*/,
             onOk:()=>{
                 this.props.beforeAddSubsidyToSave(true);
                 this.changedNotSave = false;
@@ -240,7 +240,7 @@ class TravelType extends React.Component {
       this.setState({setInfo:setInfo});
     }).catch(err =>{
       this.saveLock = false;//接口报错也要解锁
-      message(messages('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
+      message(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
     })
   }
 
@@ -255,31 +255,31 @@ class TravelType extends React.Component {
     };
     let info = this.state.setInfo;
     if(item.isExtend){//是否为原行程，原行程不可修改
-      message.error(messages('itinerary.type.original')/*原行程不可修改*/);
+      message.error(this.$t('itinerary.type.original')/*原行程不可修改*/);
       return;
     }
     switch (title) {
-      case messages('itinerary.plane.collapse.title')/*机票*/:
+      case this.$t('itinerary.plane.collapse.title')/*机票*/:
         info.editPlane = item;
         this.setState({setInfo: info, isShowPlaneSlide: true});
         break;
-      case messages('itinerary.train.collapse.title')/*火车*/:
+      case this.$t('itinerary.train.collapse.title')/*火车*/:
         info.editTrain = item;
         this.setState({setInfo: info, isShowTrainSlide: true});
         break;
-      case messages('itinerary.remark.collapse.title')/*备注*/:
+      case this.$t('itinerary.remark.collapse.title')/*备注*/:
         info.editRemark = item;
         this.setState({setInfo: info, isShowRemarkSlide: true});
         break;
-      case messages('itinerary.other.collapse.title')/*其他*/:
+      case this.$t('itinerary.other.collapse.title')/*其他*/:
         info.editOther = item;
         this.setState({setInfo: info, isShowOtherSlide: true});
         break;
-      case messages('itinerary.subsidy.collapse.title')/*差补*/:
+      case this.$t('itinerary.subsidy.collapse.title')/*差补*/:
         info.editSubsidy = item;
         this.setState({setInfo: info, isShowSubsidySlide: true});
         break;
-      case messages('itinerary.hotel.collapse.title')/*酒店*/:
+      case this.$t('itinerary.hotel.collapse.title')/*酒店*/:
         info.editHotel = item;
         this.setState({setInfo: info, isShowHotelSlide: true});
         break;
@@ -303,18 +303,18 @@ class TravelType extends React.Component {
     item.endDate = null;
     item.itineraryType = 1001;
     switch (title) {
-      case messages('itinerary.plane.collapse.title')/*机票*/:
+      case this.$t('itinerary.plane.collapse.title')/*机票*/:
         travelService.updatePlane(item).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.other.collapse.title')/*其他*/:
+      case this.$t('itinerary.other.collapse.title')/*其他*/:
         travelService.updateOther(item).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
@@ -332,56 +332,56 @@ class TravelType extends React.Component {
   deleteTravel = (item, title, index) => {
     let itinerary = this.state.itinerary;
     switch (title) {
-      case messages('itinerary.plane.collapse.title')/*机票*/:
+      case this.$t('itinerary.plane.collapse.title')/*机票*/:
         itinerary['FLIGHT'][index].loading = true;
         travelService.deletePlane(item.flightItineraryOID).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.train.collapse.title')/*火车*/:
+      case this.$t('itinerary.train.collapse.title')/*火车*/:
         itinerary['TRAIN'][index].loading = true;
         travelService.deleteTrain(item.trainItineraryOID).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.remark.collapse.title')/*备注*/:
+      case this.$t('itinerary.remark.collapse.title')/*备注*/:
         itinerary['REMARK'][index].loading = true;
         travelService.deleteRemark(item.itineraryRemarkOID).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.other.collapse.title')/*其他*/:
+      case this.$t('itinerary.other.collapse.title')/*其他*/:
         itinerary['OTHER'][index].loading = true;
         travelService.deleteOther(item.otherItineraryOID).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.hotel.collapse.title')/*酒店*/:
+      case this.$t('itinerary.hotel.collapse.title')/*酒店*/:
         itinerary['HOTEL'][index].loading = true;
         travelService.deleteHotel(item.hotelItineraryOID).then(res=> {
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.subsidy.collapse.title')/*差补*/:
+      case this.$t('itinerary.subsidy.collapse.title')/*差补*/:
         itinerary['SUBSIDIES'][index].loading = true;
         travelService.deleteSubsidy(item.id).then(res=>{
           this.refreshItinerary();
-          message.success(messages('itinerary.type.delete.tip')/*已删除*/);
+          message.success(this.$t('itinerary.type.delete.tip')/*已删除*/);
         }).catch(err=>{
           message.error(err.response.data.message);
         });
@@ -416,7 +416,7 @@ class TravelType extends React.Component {
     let subData = tempData['SUBSIDIES'];
     let obj = this.state.subCtrlObj;
     switch (this.profile['allowance.amount.modify']){
-      case 1001:message.error(messages('itinerary.subsidy.batch.change.tip')/*不可修改*/);
+      case 1001:message.error(this.$t('itinerary.subsidy.batch.change.tip')/*不可修改*/);
         break;
       case 1002:subData[index].isBatch = !subData[index].isBatch;
         if(!subData[index].isBatch){
@@ -436,7 +436,7 @@ class TravelType extends React.Component {
         obj.isCanMore = true;
         this.setState({subCtrlObj:obj});
         break;
-      default:message.error(messages('itinerary.subsidy.batch.change.tip')/*不可修改*/);
+      default:message.error(this.$t('itinerary.subsidy.batch.change.tip')/*不可修改*/);
         break;
     }
   }
@@ -471,7 +471,7 @@ class TravelType extends React.Component {
         this.props.form.validateFieldsAndScroll((err,values)=>{
           if(values.comment && values.comment.length === 101){
             isCanCommit = false;
-            message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+            message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
           }
           if(this.state.amountProfile === 1002 && values.amount > detailItem.baseAmount){
             message.error('金额不可大于原金额');
@@ -492,7 +492,7 @@ class TravelType extends React.Component {
           }
         })
       }else{
-        message.error(messages('itinerary.subsidy.edit.modal.rateZero')/*汇率等于0*/);
+        message.error(this.$t('itinerary.subsidy.edit.modal.rateZero')/*汇率等于0*/);
         return;
       }
     }
@@ -504,7 +504,7 @@ class TravelType extends React.Component {
     subCtrl.isSaveChange = true;
     this.setState({subCtrlObj:subCtrl});
     travelService.updateSubsidyDetail(saveParams).then(res=>{
-      message.success(messages('itinerary.update.tip')/*已更新*/);
+      message.success(this.$t('itinerary.update.tip')/*已更新*/);
       subCtrl.isSaveChange = false;
       this.setState({subCtrlObj:subCtrl});
       this.refreshItinerary(displayItem);//刷新行程记录
@@ -512,7 +512,7 @@ class TravelType extends React.Component {
     }).catch(er=>{
       this.saveLock = false;
       this.cancelEditSubsidyModal();// 关闭弹框
-      message.error(messages('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
+      message.error(this.$t('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
       subCtrl.isSaveChange = false;
       this.setState({subCtrlObj:subCtrl});
     })
@@ -575,7 +575,7 @@ class TravelType extends React.Component {
     itinerary['REMARK'][index].loading = true;
     travelService.clearRemark(res.itineraryRemarkOID).then(data=> {
       this.refreshItinerary();
-      message.success(messages('itinerary.remark.clear.tip')/*清空成功*/);
+      message.success(this.$t('itinerary.remark.clear.tip')/*清空成功*/);
     }).catch(err=>{
       message.error(err.response.data.message);
     });
@@ -593,7 +593,7 @@ class TravelType extends React.Component {
         itinerary['SUBSIDIES'][index] = res.data;
         this.setState({itinerary:itinerary});
       }).catch(err=>{
-        message.error(messages('itinerary.operation.failed.tip')/*操作失败*/+err.response.data.message);
+        message.error(this.$t('itinerary.operation.failed.tip')/*操作失败*/+err.response.data.message);
       })
     }
   }
@@ -620,7 +620,7 @@ class TravelType extends React.Component {
       this.refreshItinerary(dispalyItem);//刷新行程记录，并解锁
     }).catch(er=>{
       this.saveLock = false;//放开锁
-      message.error(messages('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
+      message.error(this.$t('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
     })
   }
 
@@ -646,7 +646,7 @@ class TravelType extends React.Component {
       this.refreshItinerary(dispalyItem);//刷新行程记录，并解锁
     }).catch(er=>{
       this.saveLock = false;//解锁
-      message.error(messages('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
+      message.error(this.$t('itinerary.operation.failed.tip')/*操作失败*/+er.response.data.message);
     })
   }
 
@@ -654,39 +654,39 @@ class TravelType extends React.Component {
     e.stopPropagation();
     let itinerary = this.state.itinerary;
     switch (title){
-      case messages('itinerary.plane.collapse.title')/*机票*/:
+      case this.$t('itinerary.plane.collapse.title')/*机票*/:
         itinerary['FLIGHT'][index].loading = true;
         travelService.stopPlane(!item.disabled, item.flightItineraryOID).then(res => {
           //'恢复成功' : '停用成功'
-          message.success(item.disabled ? messages('itinerary.disabled.success.tip') : messages('itinerary.recovered.success.tip'));
+          message.success(item.disabled ? this.$t('itinerary.disabled.success.tip') : this.$t('itinerary.recovered.success.tip'));
           this.refreshItinerary();
         }).catch(err => {
           message.error(err.response.data.message);
         });
             break;
-      case messages('itinerary.other.collapse.title')/*其他*/:
+      case this.$t('itinerary.other.collapse.title')/*其他*/:
         itinerary['OTHER'][index].loading = true;
         travelService.stopOther(!item.disabled, item.otherItineraryOID).then(res => {
           this.refreshItinerary();
-          message.success(item.disabled ? messages('itinerary.disabled.success.tip') : messages('itinerary.recovered.success.tip'));
+          message.success(item.disabled ? this.$t('itinerary.disabled.success.tip') : this.$t('itinerary.recovered.success.tip'));
         }).catch(err => {
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.train.collapse.title')/*火车*/:
+      case this.$t('itinerary.train.collapse.title')/*火车*/:
         itinerary['TRAIN'][index].loading = true;
         travelService.stopTrain(!item.disabled, item.trainItineraryOID).then(res => {
           this.refreshItinerary();
-          message.success(item.disabled ? messages('itinerary.disabled.success.tip') : messages('itinerary.recovered.success.tip'));
+          message.success(item.disabled ? this.$t('itinerary.disabled.success.tip') : this.$t('itinerary.recovered.success.tip'));
         }).catch(err => {
           message.error(err.response.data.message);
         });
         break;
-      case messages('itinerary.hotel.collapse.title')/*酒店*/:
+      case this.$t('itinerary.hotel.collapse.title')/*酒店*/:
         itinerary['HOTEL'][index].loading = true;
         travelService.stopHotel(!item.disabled, item.hotelItineraryOID).then(res => {
           this.refreshItinerary();
-          message.success(item.disabled ? messages('itinerary.disabled.success.tip') : messages('itinerary.recovered.success.tip'));
+          message.success(item.disabled ? this.$t('itinerary.disabled.success.tip') : this.$t('itinerary.recovered.success.tip'));
         }).catch(err => {
           message.error(err.response.data.message);
         });
@@ -700,7 +700,7 @@ class TravelType extends React.Component {
 
   showSubsidyTip = () => {
     Modal.info({
-      title: messages('itinerary.subsidy.addition.title'),/*添加差补说明*/
+      title: this.$t('itinerary.subsidy.addition.title'),/*添加差补说明*/
       content:<div style={{maxHeight:'200',overflow:'auto'}}>
         {this.state.tipContent}
       </div>,
@@ -735,36 +735,36 @@ class TravelType extends React.Component {
     return (
       <div className="travel-type-select" style={{width:'90%',paddingBottom:6}}>
         <Row className="travel-type-info">
-          <Col className="travel-info-form" span={9}>{messages('itinerary.form.travel.info.name')/*行程信息*/}：</Col>
-          <Col span={14} style={{paddingLeft:'2%'}}>{messages('itinerary.form.travel.info.content')/*点击下方按钮,完善你的行程信息*/}</Col>
+          <Col className="travel-info-form" span={9}>{this.$t('itinerary.form.travel.info.name')/*行程信息*/}：</Col>
+          <Col span={14} style={{paddingLeft:'2%'}}>{this.$t('itinerary.form.travel.info.content')/*点击下方按钮,完善你的行程信息*/}</Col>
         </Row>
         <Row>
           <Col span={6}></Col>
           <Col className="travel-type" span={17}>
               {
                 mapInfo['ca.travel.flight.disabled'] !== 'true'
-                && <Button className="travel-type-btn" type="dashed" icon="plus" onClick={()=>this.showBaseSlide('plane')}>{messages('itinerary.add.planeBtn')/*添加飞机行程*/}</Button>
+                && <Button className="travel-type-btn" type="dashed" icon="plus" onClick={()=>this.showBaseSlide('plane')}>{this.$t('itinerary.add.planeBtn')/*添加飞机行程*/}</Button>
               }
               {
                 mapInfo['ca.travel.train.disabled'] !== 'true'
-                && <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('train')} type="dashed" icon="plus">{messages('itinerary.add.trainBtn')/*添加火车行程*/}</Button>
+                && <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('train')} type="dashed" icon="plus">{this.$t('itinerary.add.trainBtn')/*添加火车行程*/}</Button>
               }
               {
                 mapInfo['hotel.itinerary.enable'] === "true"
-                && <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('hotel')} type="dashed" icon="plus">{messages('itinerary.add.hotelBtn')/*添加飞酒店*/}</Button>
+                && <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('hotel')} type="dashed" icon="plus">{this.$t('itinerary.add.hotelBtn')/*添加飞酒店*/}</Button>
               }
               {
                 mapInfo['travel.allowance.disabled'] !== 'true'
                 && <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('subsidy')} type="dashed"
-                           icon="plus">{messages('itinerary.add.subsidyBtn')/*添加差补*/}</Button>
+                           icon="plus">{this.$t('itinerary.add.subsidyBtn')/*添加差补*/}</Button>
               }
               {
                 mapInfo['ca.travel.remark.disabled'] !== 'true'
-                &&  <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('remark')} type="dashed" icon="plus">{messages('itinerary.add.remarkBtn')/*添加行程备注*/}</Button>
+                &&  <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('remark')} type="dashed" icon="plus">{this.$t('itinerary.add.remarkBtn')/*添加行程备注*/}</Button>
               }
               {
                 mapInfo['ca.travel.other.disabled'] !== 'true'
-                &&  <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('other')} type="dashed" icon="plus">{messages('itinerary.add.otherBtn')/*添加其他交通*/}</Button>
+                &&  <Button className="travel-type-btn" onClick={()=>this.showBaseSlide('other')} type="dashed" icon="plus">{this.$t('itinerary.add.otherBtn')/*添加其他交通*/}</Button>
               }
           </Col>
         </Row>
@@ -772,7 +772,7 @@ class TravelType extends React.Component {
           <Col span={7}></Col>
           <Col span={17}>
             <Collapse bordered={false} className="type-collapse">
-              { travelUtil.getTravelRecord(messages('itinerary.plane.collapse.title')/*机票*/,
+              { travelUtil.getTravelRecord(this.$t('itinerary.plane.collapse.title')/*机票*/,
                 flight,
                 this.toEditRecord,
                 this.deleteTravel,
@@ -780,8 +780,8 @@ class TravelType extends React.Component {
                 this.stopAndStart,
                 startDate,
                 isChangeVersion) }
-              { travelUtil.getTravelRecord(messages('itinerary.train.collapse.title')/*火车*/, train, this.toEditRecord, this.deleteTravel,'',this.stopAndStart,startDate,isChangeVersion) }
-              { travelUtil.getSubsidyRecord(messages('itinerary.subsidy.collapse.title'),
+              { travelUtil.getTravelRecord(this.$t('itinerary.train.collapse.title')/*火车*/, train, this.toEditRecord, this.deleteTravel,'',this.stopAndStart,startDate,isChangeVersion) }
+              { travelUtil.getSubsidyRecord(this.$t('itinerary.subsidy.collapse.title'),
                 subsidy,
                 this.toEditRecord,
                 this.deleteTravel,
@@ -794,8 +794,8 @@ class TravelType extends React.Component {
                 this.isHiddenItem,
                 this.isCancelHiddenItem,
                 subCtrlObj) }
-              { travelUtil.getHotelRecord(messages('itinerary.hotel.collapse.title')/*酒店*/, hotel, this.toEditRecord, this.deleteTravel,this.stopAndStart,startDate,isChangeVersion) }
-              { travelUtil.getTravelRecord(messages('itinerary.other.collapse.title')/*其他*/,
+              { travelUtil.getHotelRecord(this.$t('itinerary.hotel.collapse.title')/*酒店*/, hotel, this.toEditRecord, this.deleteTravel,this.stopAndStart,startDate,isChangeVersion) }
+              { travelUtil.getTravelRecord(this.$t('itinerary.other.collapse.title')/*其他*/,
                 other,
                 this.toEditRecord,
                 this.deleteTravel,
@@ -803,13 +803,13 @@ class TravelType extends React.Component {
                 this.stopAndStart,
                 startDate,
                 isChangeVersion) }
-              { travelUtil.getRemarkRecord(messages('itinerary.remark.collapse.title')/*备注*/, remark, this.toEditRecord, this.deleteTravel, this.clearRowRemark,startDate) }
+              { travelUtil.getRemarkRecord(this.$t('itinerary.remark.collapse.title')/*备注*/, remark, this.toEditRecord, this.deleteTravel, this.clearRowRemark,startDate) }
             </Collapse>
           </Col>
         </Row>
         {
           mapInfo['ca.travel.flight.disabled'] !== 'true'
-          && <SlideFrame title={messages('itinerary.plane.slide.title')/*飞机行程*/}
+          && <SlideFrame title={this.$t('itinerary.plane.slide.title')/*飞机行程*/}
                          content={TravelPlane}
                          show={isShowPlaneSlide}
                          onClose={this.setClose}
@@ -818,7 +818,7 @@ class TravelType extends React.Component {
         }
         {
           mapInfo['ca.travel.train.disabled'] !== 'true'
-          && <SlideFrame title={messages('itinerary.train.slide.title')/*火车行程*/}
+          && <SlideFrame title={this.$t('itinerary.train.slide.title')/*火车行程*/}
                          content={TravelTrain}
                          show={isShowTrainSlide}
                          onClose={this.setClose}
@@ -828,7 +828,7 @@ class TravelType extends React.Component {
 
         {
           mapInfo['travel.allowance.disabled'] !== 'true'
-          && <SlideFrame title={isShowTip ? <span>{messages('itinerary.subsidy.slide.title')/*添加差补*/}<Icon className="subsidy-tip-icon" onClick={this.showSubsidyTip} type="info-circle-o"/></span> : messages('itinerary.subsidy.slide.title')}
+          && <SlideFrame title={isShowTip ? <span>{this.$t('itinerary.subsidy.slide.title')/*添加差补*/}<Icon className="subsidy-tip-icon" onClick={this.showSubsidyTip} type="info-circle-o"/></span> : this.$t('itinerary.subsidy.slide.title')}
                          content={TravelSubsidy}
                          show={isShowSubsidySlide}
                          params={setInfo}
@@ -838,7 +838,7 @@ class TravelType extends React.Component {
 
         {
           mapInfo['hotel.itinerary.enable'] === "true"
-          && <SlideFrame title={messages('itinerary.hotel.slide.title')/*添加酒店*/}
+          && <SlideFrame title={this.$t('itinerary.hotel.slide.title')/*添加酒店*/}
                          content={TravelHotel}
                          show={isShowHotelSlide}
                          onClose={this.setClose}
@@ -848,7 +848,7 @@ class TravelType extends React.Component {
 
         {
           mapInfo['ca.travel.remark.disabled'] !== 'true'
-          && <SlideFrame title={messages('itinerary.remark.slide.title')/*添加备注*/}
+          && <SlideFrame title={this.$t('itinerary.remark.slide.title')/*添加备注*/}
                          content={TravelRemark}
                          show={isShowRemarkSlide}
                          onClose={this.setClose}
@@ -858,7 +858,7 @@ class TravelType extends React.Component {
 
         {
           mapInfo['ca.travel.other.disabled'] !== 'true'
-          && <SlideFrame title={messages('itinerary.other.slide.title')/*其他行程*/}
+          && <SlideFrame title={this.$t('itinerary.other.slide.title')/*其他行程*/}
                          content={TravelOther}
                          show={isShowOtherSlide}
                          onClose={this.setClose}
@@ -867,51 +867,51 @@ class TravelType extends React.Component {
         }
 
         <div className="type-fotter"></div>
-        <Modal title={messages('itinerary.subsidy.edit.modal.title')/*编辑差补*/}
+        <Modal title={this.$t('itinerary.subsidy.edit.modal.title')/*编辑差补*/}
                visible={subCtrlObj.isEditSubsidyItem}
                onOk={this.toSaveChange}
                onCancel={this.cancelEditSubsidyModal}
-               okText={messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
-               cancelText={messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}
+               okText={this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
+               cancelText={this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}
                getContainer={() => document.getElementsByClassName('type-fotter')[0]}
                width={'50%'}
         >
           <Spin spinning={subCtrlObj.isSaveChange}>
             <Form>
               <Row style={{marginBottom:24}}>
-                <Col className="subsidy-modal-update" span={4}>{messages('itinerary.subsidy.edit.modal.date')/*日期*/}:</Col>
+                <Col className="subsidy-modal-update" span={4}>{this.$t('itinerary.subsidy.edit.modal.date')/*日期*/}:</Col>
                 <Col span={8}><DatePicker disabled={true} value={subsidyItem.subsidiesDate ? moment(subsidyItem.subsidiesDate) : moment(new Date())}/></Col>
-                <Col className="subsidy-modal-update" span={4}>{messages('itinerary.subsidy.edit.modal.city')/*城市*/}:</Col>
+                <Col className="subsidy-modal-update" span={4}>{this.$t('itinerary.subsidy.edit.modal.city')/*城市*/}:</Col>
                 <Col span={8}>{subsidyItem.city}</Col>
               </Row>
               <Row style={{marginBottom:24}}>
-                <Col className="subsidy-modal-update" span={4}>{messages('itinerary.subsidy.edit.modal.type')/*类型*/}:</Col>
+                <Col className="subsidy-modal-update" span={4}>{this.$t('itinerary.subsidy.edit.modal.type')/*类型*/}:</Col>
                 <Col span={18}>{subsidyItem.expenseTypeName}</Col>
               </Row>
               <Row>
                 <Col span={12}>
                   {
-                    <FormItem {...formItemLayoutS} label={`${messages('itinerary.subsidy.edit.modal.amount')/*金额*/}(${subsidyItem.currencyCode})`}>
-                      {getFieldDecorator('amount',this.cfo(messages('itinerary.subsidy.edit.modal.amount'),{type:'number',value:subsidyItem.amount},false))(
+                    <FormItem {...formItemLayoutS} label={`${this.$t('itinerary.subsidy.edit.modal.amount')/*金额*/}(${subsidyItem.currencyCode})`}>
+                      {getFieldDecorator('amount',this.cfo(this.$t('itinerary.subsidy.edit.modal.amount'),{type:'number',value:subsidyItem.amount},false))(
                          <InputNumber precision={2} disabled={amountProfile>1001?false:true} min={0} />
                       )}
                     </FormItem>
                   }
                 </Col>
                 <Col span={12}>
-                  <FormItem {...formItemLayoutS} label={messages('itinerary.subsidy.edit.modal.original')/*原金额*/}>
-                    {getFieldDecorator('baseAmount',this.cfo(messages('itinerary.subsidy.edit.modal.original'),{type:'number',value:subsidyItem.baseAmount},false))(
+                  <FormItem {...formItemLayoutS} label={this.$t('itinerary.subsidy.edit.modal.original')/*原金额*/}>
+                    {getFieldDecorator('baseAmount',this.cfo(this.$t('itinerary.subsidy.edit.modal.original'),{type:'number',value:subsidyItem.baseAmount},false))(
                       <InputNumber disabled={true}/>
                     )}
                   </FormItem>
                 </Col>
               </Row>
               {
-                <FormItem {...formItemLayoutL} label={messages('itinerary.subsidy.edit.modal.rate')/*汇率*/}>
+                <FormItem {...formItemLayoutL} label={this.$t('itinerary.subsidy.edit.modal.rate')/*汇率*/}>
                   {getFieldDecorator('currencyRate',{
                     rules: [{
                       required: true,
-                      message: messages('itinerary.subsidy.edit.modal.rate.tip')/*汇率不为空且大于零*/
+                      message: this.$t('itinerary.subsidy.edit.modal.rate.tip')/*汇率不为空且大于零*/
                     }],
                     initialValue:subsidyItem.currencyRate
                   })(
@@ -926,9 +926,9 @@ class TravelType extends React.Component {
                   }
                 </FormItem>
               }
-              <FormItem {...formItemLayoutL} label={messages('itinerary.subsidy.edit.modal.remark')/*备注*/}>
-                {getFieldDecorator('comment',this.cfo(messages('itinerary.subsidy.edit.modal.remark'),{type:'str',value:subsidyItem.comment,maxNum:100},true))(
-                  <TextArea placeholder={messages('itinerary.subsidy.edit.modal.placeholder')/*非必填,最多100个字符*/}
+              <FormItem {...formItemLayoutL} label={this.$t('itinerary.subsidy.edit.modal.remark')/*备注*/}>
+                {getFieldDecorator('comment',this.cfo(this.$t('itinerary.subsidy.edit.modal.remark'),{type:'str',value:subsidyItem.comment,maxNum:100},true))(
+                  <TextArea placeholder={this.$t('itinerary.subsidy.edit.modal.placeholder')/*非必填,最多100个字符*/}
                             autosize={{minRows: 3, maxRows: 6}}
                             maxLength={101}/>
                 )}

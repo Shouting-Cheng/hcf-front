@@ -2,10 +2,10 @@
  * Created by wangjiakun on 2018/3/15 0015.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
 
-import {messages, getApprovelHistory} from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {Row, Col, Button, Collapse, Form, Input, message, Icon, Tag, Avatar, Popconfirm, Divider} from 'antd';
 const Panel = Collapse.Panel;
 
@@ -14,7 +14,7 @@ import TravelTrain from 'containers/request/travel-request/travel-slide/travel-t
 import TravelOther from 'containers/request/travel-request/travel-slide/travel-other';
 import TravelElement from 'containers/request/travel-request/travel-slide/travel-element';//差旅要素
 
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'widget/slide-frame';
 
 import 'styles/request/travel-request/travel-type.scss'
 import travelService from 'containers/request/travel-request/travel.service'
@@ -217,7 +217,7 @@ class TravelElementType extends React.Component {
     };
     let info = this.state.setInfo;
     if (item.isExtend) {//是否为原行程，原行程不可修改
-      message.error(messages('itinerary.type.original')/*原行程不可修改*/);
+      message.error(this.$t('itinerary.type.original')/*原行程不可修改*/);
       return;
     }
     switch (title) {
@@ -281,9 +281,9 @@ class TravelElementType extends React.Component {
     return (
       <div className="travel-type-select" style={{width: '90%', paddingBottom: 6}}>
         <Row className="travel-type-info">
-          <Col className="travel-info-form" span={9}>{messages('itinerary.form.travel.info.name')/*行程信息*/}：</Col>
+          <Col className="travel-info-form" span={9}>{this.$t('itinerary.form.travel.info.name')/*行程信息*/}：</Col>
           <Col span={14}
-               style={{paddingLeft: '2%'}}>{messages('itinerary.form.travel.info.content')/*点击下方按钮,完善你的行程信息*/}</Col>
+               style={{paddingLeft: '2%'}}>{this.$t('itinerary.form.travel.info.content')/*点击下方按钮,完善你的行程信息*/}</Col>
         </Row>
         <Row>
           <Col span={6}></Col>
@@ -293,19 +293,19 @@ class TravelElementType extends React.Component {
               && <Button className="travel-type-btn"
                          type="dashed"
                          icon="plus"
-                         onClick={() => this.showBaseSlide('plane')}>{messages('itinerary.add.planeBtn')/*添加飞机行程*/}</Button>
+                         onClick={() => this.showBaseSlide('plane')}>{this.$t('itinerary.add.planeBtn')/*添加飞机行程*/}</Button>
             }
             {
               mapInfo['ca.travel.train.disabled'] !== 'true'
               && <Button className="travel-type-btn"
                          onClick={() => this.showBaseSlide('train')}
                          type="dashed"
-                         icon="plus">{messages('itinerary.add.trainBtn')/*添加火车行程*/}</Button>
+                         icon="plus">{this.$t('itinerary.add.trainBtn')/*添加火车行程*/}</Button>
             }
             {
               mapInfo['ca.travel.other.disabled'] !== 'true'
               && <Button className="travel-type-btn" onClick={() => this.showBaseSlide('other')} type="dashed"
-                         icon="plus">{messages('itinerary.add.otherBtn')/*添加其他交通*/}</Button>
+                         icon="plus">{this.$t('itinerary.add.otherBtn')/*添加其他交通*/}</Button>
             }
             { travelElementsList && travelElementsList.length > 0 && travelElementsList.map(item => {
               return (<Button className="travel-type-btn" type="dashed" icon="plus"
@@ -325,7 +325,7 @@ class TravelElementType extends React.Component {
                   let showElement = item.travelElements && item.travelElements.length > 0;
                   let header = (<span><img style={{marginTop: -4}}/>
                     &nbsp;<Tag
-                      color='#108ee9'>{messages('itinerary.record.public.days.tag', {days: mainIndex + 1})/*第{day}天*/}</Tag>
+                      color='#108ee9'>{this.$t('itinerary.record.public.days.tag', {days: mainIndex + 1})/*第{day}天*/}</Tag>
                     {date}</span>);
                   let option = item.travelItineraryTraffics.length === 0 && item.travelElements.length === 0;
                   return (<Panel header={header}
@@ -360,10 +360,10 @@ class TravelElementType extends React.Component {
                           </Col>
                           <Col span={22}>{element.fromCity}-{element.toCity}</Col>
                           <Col span={1}>
-                            <Popconfirm title={messages('itinerary.record.public.delete.tip')/*"你确定删除这行内容吗?"*/}
+                            <Popconfirm title={this.$t('itinerary.record.public.delete.tip')/*"你确定删除这行内容吗?"*/}
                                         onConfirm={() => this.dele('traffic', mainIndex, index)}
-                                        okText={messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
-                                        cancelText={messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}>
+                                        okText={this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
+                                        cancelText={this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}>
                               <Icon type="close-circle" onClick={(e) => {e.stopPropagation()}}/>
                             </Popconfirm>
                           </Col>
@@ -382,10 +382,10 @@ class TravelElementType extends React.Component {
                               })}
                             </Col>
                             <Col span={1}>
-                              <Popconfirm title={messages('itinerary.record.public.delete.tip')/*"你确定删除这行内容吗?"*/}
+                              <Popconfirm title={this.$t('itinerary.record.public.delete.tip')/*"你确定删除这行内容吗?"*/}
                                           onConfirm={() => this.dele('element', mainIndex, index)}
-                                          okText={messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
-                                          cancelText={messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}>
+                                          okText={this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}
+                                          cancelText={this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}>
                                 <Icon type="close-circle" onClick={(e) => {e.stopPropagation()}}/>
                               </Popconfirm>
                             </Col>
@@ -401,7 +401,7 @@ class TravelElementType extends React.Component {
         </Row>
         {
           mapInfo['ca.travel.flight.disabled'] !== 'true' && isShowPlaneSlide
-          && <SlideFrame title={messages('itinerary.plane.slide.title')/*飞机行程*/}
+          && <SlideFrame title={this.$t('itinerary.plane.slide.title')/*飞机行程*/}
                          content={TravelPlane}
                          show={isShowPlaneSlide}
                          onClose={this.setClose}
@@ -410,7 +410,7 @@ class TravelElementType extends React.Component {
         }
         {
           mapInfo['ca.travel.train.disabled'] !== 'true' && isShowTrainSlide
-          && <SlideFrame title={messages('itinerary.train.slide.title')/*火车行程*/}
+          && <SlideFrame title={this.$t('itinerary.train.slide.title')/*火车行程*/}
                          content={TravelTrain}
                          show={isShowTrainSlide}
                          onClose={this.setClose}
@@ -419,7 +419,7 @@ class TravelElementType extends React.Component {
         }
         {
           mapInfo['ca.travel.other.disabled'] !== 'true' && isShowOtherSlide
-          && <SlideFrame title={messages('itinerary.other.slide.title')/*其他行程*/}
+          && <SlideFrame title={this.$t('itinerary.other.slide.title')/*其他行程*/}
                          content={TravelOther}
                          show={isShowOtherSlide}
                          onClose={this.setClose}

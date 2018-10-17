@@ -1,11 +1,9 @@
-import {messages} from "share/common";
 /**
  * 操作：返回
  * 适用：所有申请单
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Button } from 'antd'
 
 class GoBackBtn extends React.Component{
@@ -38,10 +36,6 @@ class GoBackBtn extends React.Component{
     )
   }
 }
-
-GoBackBtn.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return { }
