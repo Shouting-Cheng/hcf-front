@@ -179,7 +179,8 @@ class MyPrePayment extends React.Component {
   search = (values) => {
     values.requisitionDateFrom && (values.requisitionDateFrom = moment(values.requisitionDateFrom).format('YYYY-MM-DD'));
     values.requisitionDateTo && (values.requisitionDateTo = moment(values.requisitionDateTo).format('YYYY-MM-DD'));
-    this.setState({ searchParams: values }, () => {
+    console.log(values);
+    this.setState({ searchParams: { ...values, employeeId: values.employeeId || this.props.user.id } }, () => {
       this.customTable.search(this.state.searchParams);
     });
   }

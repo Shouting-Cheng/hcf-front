@@ -2441,6 +2441,16 @@ const chooserData = {
     columns: [{ title: '代码', dataIndex: 'code' }, { title: '名称', dataIndex: 'name' }],
     key: 'id',
   },
+  select_payee_name_code: {
+    title: '选择收款方',
+    url: `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/getReceivablesByNameAndCode`,
+    searchForm: [
+      { type: 'input', id: 'code', label: '代码', defaultValue: '' },
+      { type: 'input', id: 'name', label: '名称', defaultValue: '' },
+    ],
+    columns: [{ title: '代码', dataIndex: 'code' }, { title: '名称', dataIndex: 'name' }],
+    key: 'id',
+  },
   select_returnee: {
     title: '选择退款方',
     url: `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/getReceivablesByName`,
