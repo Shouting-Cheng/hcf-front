@@ -1,17 +1,17 @@
 import React from 'react';
-import menuRoute from 'routes/menuRoute';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import httpFetch from 'share/httpFetch';
 import config from 'config';
-import contractService from 'containers/approve/contract/contract.service';
+import contractService from 'containers/contract/contract-approve/contract.service';
 import { Form, Affix, Button, Row, Col, Input, Popover, Tag, message } from 'antd';
 const FormItem = Form.Item;
 const { CheckableTag } = Tag;
 
-import ContractWorkflowDetailCommon from 'containers/approve/contract/contract-workflow-common';
+import ContractWorkflowDetailCommon from 'containers/contract/contract-approve/contract-workflow-common';
 import 'styles/contract/my-contract/contract-detail.scss';
 
-import { formatMessage } from 'share/common';
-import ApproveBar from 'components/template/approve-bar';
+import ApproveBar from 'components/Widget/Template/approve-bar';
 
 class ContractWorkflowApproveDetail extends React.Component {
   constructor(props) {
@@ -21,16 +21,14 @@ class ContractWorkflowApproveDetail extends React.Component {
       rejectLoading: false,
       approveType: '', //审批类型：通过 or 驳回
       inputError: false,
-      errorMessage: formatMessage(
-        { id: 'contract.input.rejected.approval' } /*请输入驳回审批意见*/
-      ),
+      errorMessage: this.$t({ id: 'contract.input.rejected.approval' } /*请输入驳回审批意见*/),
       tags: [],
       fastReplyEdit: false,
       fastReplyChosen: [],
       inputVisible: false,
       inputValue: '',
       isConfirm: true, //合同审批是否通过
-      ContractWorkflow: menuRoute.getRouteItem('approve-workflow-contract', 'key'), //合同
+      //ContractWorkflow: menuRoute.getRouteItem('approve-workflow-contract', 'key'), //合同
     };
   }
 
@@ -54,8 +52,8 @@ class ContractWorkflowApproveDetail extends React.Component {
       countersignApproverOIDs: '',
       entities: [
         {
-          entityOID: this.props.params.entityOID,
-          entityType: this.props.params.entityType,
+          entityOID: this.props.match.params.entityOID,
+          entityType: this.props.match.params.entityType,
         },
       ],
     };
@@ -64,13 +62,13 @@ class ContractWorkflowApproveDetail extends React.Component {
       .contractApproveWorkflowPass(params)
       .then(res => {
         if (res.data.successNum) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.goBack();
         } else {
           this.setState({ passLoading: false });
           message.error(
-            `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              res.data.failReason[this.props.params.entityOID]
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${
+              res.data.failReason[this.props.match.params.entityOID]
             }`
           );
         }
@@ -79,7 +77,7 @@ class ContractWorkflowApproveDetail extends React.Component {
         this.setState({ passLoading: false });
         if (e.response)
           message.error(
-            `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${e.res.messageCode}`
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.res.messageCode}`
           );
       });
   };
@@ -91,8 +89,8 @@ class ContractWorkflowApproveDetail extends React.Component {
       countersignApproverOIDs: '',
       entities: [
         {
-          entityOID: this.props.params.entityOID,
-          entityType: this.props.params.entityType,
+          entityOID: this.props.match.params.entityOID,
+          entityType: this.props.match.params.entityType,
         },
       ],
     };
@@ -101,13 +99,13 @@ class ContractWorkflowApproveDetail extends React.Component {
       .contractApproveWorkflowReject(params)
       .then(res => {
         if (res.data.successNum) {
-          message.success(formatMessage({ id: 'common.operate.success' } /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.goBack();
         } else {
           this.setState({ rejectLoading: false });
           message.error(
-            `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              res.data.failReason[this.props.params.entityOID]
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${
+              res.data.failReason[this.props.match.params.entityOID]
             }`
           );
         }
@@ -115,24 +113,27 @@ class ContractWorkflowApproveDetail extends React.Component {
       .catch(e => {
         this.setState({ rejectLoading: false });
         message.error(
-          `${formatMessage({ id: 'common.operate.filed' } /*操作失败*/)}，${
-            e.response.data.message
-          }`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
 
   goBack = () => {
-    if (this.state.isConfirm) {
+    /*if (this.state.isConfirm) {
       this.context.router.push(`${this.state.ContractWorkflow.url}?approved=true`);
     } else {
       this.context.router.push(this.state.ContractWorkflow.url);
-    }
+    }*/
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/approval-management/contract-approve`,
+      })
+    );
   };
 
   //获取合同状态
   getStatus = params => {
-    if (this.props.params.status === 'approved') {
+    if (this.props.match.params.status === 'approved') {
       // 已审批点击进来，不允许再出现 审批按钮
       this.setState({ isConfirm: true });
     } else {
@@ -181,7 +182,7 @@ class ContractWorkflowApproveDetail extends React.Component {
         {!inputVisible &&
           !fastReplyEdit && (
             <Button size="small" type="dashed" className="add-new-btn" onClick={this.showTagInput}>
-              + {formatMessage({ id: 'contract.add.fast.reply' } /*新增快捷回复*/)}
+              + {this.$t({ id: 'contract.add.fast.reply' } /*新增快捷回复*/)}
             </Button>
           )}
         {inputVisible && (
@@ -200,35 +201,53 @@ class ContractWorkflowApproveDetail extends React.Component {
     );
     let fastReplyTitle = (
       <div className="fast-reply-title">
-        {formatMessage({ id: 'contract.fast.reply' } /*快捷回复*/)}
+        {this.$t({ id: 'contract.fast.reply' } /*快捷回复*/)}
         {!fastReplyEdit && (
           <a className="edit" onClick={this.onFastReplyEdit}>
-            {formatMessage({ id: 'common.edit' } /*编辑*/)}
+            {this.$t({ id: 'common.edit' } /*编辑*/)}
           </a>
         )}
         {fastReplyEdit && (
           <a className="edit" onClick={this.onFastReplyEdit}>
-            {formatMessage({ id: 'common.cancel' } /*取消*/)}
+            {this.$t({ id: 'common.cancel' } /*取消*/)}
           </a>
         )}
       </div>
     );
     return (
-      <div className="contract-detail background-transparent">
+      <div className="contract-detail" style={{ margin: '-12px -14px' }}>
         <ContractWorkflowDetailCommon
           wrappedComponentRef={ref => (this.detail = ref)}
-          id={this.props.params.id}
+          id={this.props.match.params.id}
           isApprovePage={true}
           getContractStatus={this.getStatus}
         />
         {!isConfirm && (
-          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+          <Affix
+            offsetBottom={0}
+            className="bottom-bar bottom-bar-approve"
+            style={{ paddingLeft: 15 }}
+          >
+            <Row>
+              <Col span={21}>
+                <ApproveBar
+                  passLoading={passLoading}
+                  style={{ paddingLeft: 40 }}
+                  backUrl={'/approval-management/contract-approve'}
+                  rejectLoading={rejectLoading}
+                  handleApprovePass={this.handleApprove}
+                  handleApproveReject={this.handleApproveReject}
+                />
+              </Col>
+            </Row>
+          </Affix>
+          /*<Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
             <Row style={{ paddingLeft: 20, marginLeft: -15 }}>
               <Col span={24}>
                 <Row>
                   <ApproveBar
-                    backUrl={this.state.ContractWorkflow.url}
-                    style={{ paddingLeft: 20 }}
+                    backUrl={"/approval-management/contract-approve"}
+                    style={{ paddingLeft: 60 }}
                     passLoading={passLoading}
                     rejectLoading={rejectLoading}
                     handleApprovePass={this.handleApprove}
@@ -237,12 +256,12 @@ class ContractWorkflowApproveDetail extends React.Component {
                 </Row>
               </Col>
             </Row>
-          </Affix>
+          </Affix>*/
         )}
         {isConfirm && (
           <Affix offsetBottom={0} className="bottom-bar-jsq">
             <Button style={{ marginLeft: 33 }} onClick={this.goBack} className="back-btn">
-              {formatMessage({ id: 'common.back' } /*返回*/)}
+              {this.$t({ id: 'common.back' } /*返回*/)}
             </Button>
           </Affix>
         )}
@@ -251,10 +270,10 @@ class ContractWorkflowApproveDetail extends React.Component {
   }
 }
 
-ContractWorkflowApproveDetail.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 const wrappedContractWorkflowApproveDetail = Form.create()(ContractWorkflowApproveDetail);
-
-export default wrappedContractWorkflowApproveDetail;
+export default connect(
+  null,
+  null,
+  null,
+  { withRef: true }
+)(wrappedContractWorkflowApproveDetail);

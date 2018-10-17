@@ -91,7 +91,7 @@ class ContractDetail extends React.Component {
             style={{ paddingLeft: 15 }}
           >
             <Row>
-              <Col span={17}>
+              <Col span={21}>
                 <ApproveBar
                   passLoading={passLoading}
                   style={{ paddingLeft: 40 }}
