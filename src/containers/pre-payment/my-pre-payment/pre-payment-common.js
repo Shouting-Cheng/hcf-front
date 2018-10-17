@@ -585,7 +585,7 @@ class PrePaymentCommon extends React.Component {
     subContent = (
       <div>
         <Spin spinning={false}>
-          <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
+          <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",marginRight: 15,marginLeft: 15 }}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
               <TabPane tab="单据信息" key="1">
                 <DocumentBasicInfo params={headerInfo}>
@@ -596,7 +596,7 @@ class PrePaymentCommon extends React.Component {
               </TabPane> */}
             </Tabs>
           </Card>
-          <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="付款信息">
+          <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",marginRight: 15,marginLeft: 15 }} title="付款信息">
             <div className="table-header">
               <div className="table-header-buttons" style={{ float: "left" }} >
                 {
@@ -628,7 +628,7 @@ class PrePaymentCommon extends React.Component {
               expandedRowRender={this.expandedRow}
             />
           </Card>
-          <div style={{ marginTop: 20, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
+          <div style={{ marginTop: 20,marginRight: 15,marginLeft: 15, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <ApproveHistory loading={historyLoading} infoData={approveHistory}></ApproveHistory>
           </div>
         </Spin>
