@@ -415,16 +415,16 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
       ),
-      name:'new-gl-work-order',
-      parent:'/gl-work-order/my-gl-work-order'
+      name: 'new-gl-work-order',
+      parent: '/gl-work-order/my-gl-work-order'
     },
-    // '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid':{
-    //   component: dynamicWrapper(app, [], () =>
-    //   import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
-    // ),
-    // name:'my-gl-work-order-detail',
-    // parent:'/gl-work-order/my-gl-work-order'
-    // }
+    '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
+      ),
+      name: 'my-gl-work-order-detail',
+      parent: '/gl-work-order/my-gl-work-order'
+    },
     '/pay-setting/payment-method': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/payment-method/payment-method.js')

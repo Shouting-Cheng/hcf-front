@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import config from 'config'
-import Pagination, { Popconfirm, Button, Affix, message, Row, Col, Icon, Input, Tabs, Table, Divider, InputNumber, Popover } from 'antd'
+import Pagination, { Popconfirm, Button, Affix, message, Row, Col, Icon, Input, Tabs, Table, Divider, InputNumber, Popover, Spin, Card } from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service'
 import moment from 'moment'
-import DocumentBasicInfo from 'widget/Template/document-basic-info'
+import DocumentBasicInfo from "widget/document-basic-info"
 import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss'
 import ApproveHistory from "containers/pre-payment/my-pre-payment/approve-history-work-flow"
 import Chooser from 'widget/chooser'
-import Importer from 'widget/template/importer'
+import Importer from 'widget/Template/importer'
+import { routerRedux } from 'dva/router';
 class MyGLWorkOrderDetail extends Component {
     /**
      * 构造函数
@@ -352,7 +353,7 @@ class MyGLWorkOrderDetail extends Component {
         let { data } = this.state;
         data[index].enteredAmountCr = value;
         data[index].enteredAmountDr = 0;
-      this.setState({ data });
+        this.setState({ data });
     }
     /**
      * 贷方金额变化事件
@@ -384,7 +385,7 @@ class MyGLWorkOrderDetail extends Component {
      * 获取审批历史
      */
     getHistory = () => {
-        let documentOid = this.props.params.oid;
+        let documentOid = this.props.match.params.oid;
         myGlWorkOrderService.getHistory(documentOid).then(res => {
             if (res.status === 200) {
                 this.setState({
@@ -404,7 +405,7 @@ class MyGLWorkOrderDetail extends Component {
      * 根据头id获取单据数据-初始化的时候
      */
     getDocInfoById = () => {
-        let headId = this.props.params.id;
+        let headId = this.props.match.params.id;
         let page = this.state.page;
         let size = this.state.pageSize;
         myGlWorkOrderService.getHeaderData(headId, page, size).then(res => {
@@ -547,7 +548,11 @@ class MyGLWorkOrderDetail extends Component {
      */
     edit = () => {
         let { docHeadData } = this.state;
-        this.context.router.push(menuRoute.getRouteItem('new-gl-work-order', 'key').url.replace(':id', docHeadData.id));
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/gl-work-order/my-gl-work-order/new-gl-work-order/:typeId/:formOid/${docHeadData.id}`,
+            })
+        );
     }
     /**
      * 新建核算信息
@@ -591,7 +596,7 @@ class MyGLWorkOrderDetail extends Component {
      * 新增行附加方法
      */
     additionalMethod1 = (record) => {
-        let headId = this.props.params.id;
+        let headId = this.props.match.params.id;
         let page = this.state.page;
         let size = this.state.pageSize;
         myGlWorkOrderService.getHeaderData(headId, page, size).then(res => {
@@ -683,7 +688,7 @@ class MyGLWorkOrderDetail extends Component {
                 let recordParam = {
                     id: record.id ? record.id : null,
                     versionNumber: record.versionNumber,
-                    workOrderHeaderId: this.props.params.id,
+                    workOrderHeaderId: this.props.match.params.id,
                     tenantId: this.props.company.tenantId,
                     companyId: record.companyId,
                     unitId: record.unitId,
@@ -745,7 +750,7 @@ class MyGLWorkOrderDetail extends Component {
      */
     onDelete = () => {
         this.setState({ operationLoading: true });
-        let headerId = this.props.params.id;
+        let headerId = this.props.match.params.id;
         myGlWorkOrderService.delDocument(headerId).then(res => {
             if (res.status === 200) {
                 message.success('删除成功');
@@ -805,7 +810,11 @@ class MyGLWorkOrderDetail extends Component {
      * 返回首页
      */
     onBack = () => {
-        this.context.router.push(menuRoute.getRouteItem('my-gl-work-order', 'key').url);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/gl-work-order/my-gl-work-order`,
+            })
+        );
     }
     /**
      * 撤回单据
@@ -846,9 +855,9 @@ class MyGLWorkOrderDetail extends Component {
      */
     getImportUrl = () => {
         let { templateUrl, uploadUrl, errorUrl, listenUrl } = this.state;
-        templateUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.params.id}`;
-        uploadUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/import?headId=${this.props.params.id}`;
-        errorUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/export/fail/${this.props.params.id}`
+        templateUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`;
+        uploadUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/import?headId=${this.props.match.params.id}`;
+        errorUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/export/fail/${this.props.match.params.id}`
         listenUrl = `${config.accountingUrl}/api/general/ledger/batch/transaction/logs`;
         this.setState({
             templateUrl,
@@ -923,60 +932,62 @@ class MyGLWorkOrderDetail extends Component {
         }
         //真正渲染出来的东东
         return (
-            <div className="gl-work-order-detail background-transparent">
-                <div className="top-info" style={{ padding: '40px 20px 20px 20px' }}>
-                    <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-                        <TabPane tab="单据信息" key="1">
-                            <DocumentBasicInfo params={headerInfo}>
-                                {status}
-                            </DocumentBasicInfo>
-                        </TabPane>
-                        {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
-                    </Tabs>
-                </div>
+            <div>
+                <Spin spinning={false}>
+                    <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
+                        <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
+                            <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
+                                <DocumentBasicInfo params={headerInfo}>
+                                    {status}
+                                </DocumentBasicInfo>
+                            </TabPane>
+                            {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
+                        </Tabs>
+                    </Card>
+                    <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="核算信息">
+                        <div className="table-header" style={{marginTop:'-16px'}}>
+                            {
+                                (docHeadData.status === 1001 || docHeadData.status === 1003 || docHeadData.status === 1005)
+                                &&
+                                (
+                                    <div className="table-header" style={{ lineHeight: "32px", height: "32px" }}>
 
-                <div className="tab-container">
-                    <h3 className="sub-header-title">核算信息</h3>
-                    {
-                        (docHeadData.status === 1001 || docHeadData.status === 1003 || docHeadData.status === 1005)
-                        &&
-                        (
-                            <div className="table-header" style={{ lineHeight: "32px", height: "32px" }}>
+                                        <div className="table-header-buttons" style={{ float: "left" }} >
+                                            <div>
+                                                <Button type="primary" onClick={this.addDocLine}>新建核算信息</Button>
+                                                <Button onClick={this.onExportLine}>导入核算信息</Button>
+                                            </div>
+                                        </div>
 
-                                <div className="table-header-buttons" style={{ float: "left" }} >
-                                    <div>
-                                        <Button type="primary" onClick={this.addDocLine}>新建核算信息</Button>
-                                        <Button onClick={this.onExportLine}>导入核算信息</Button>
                                     </div>
-                                </div>
-
-                            </div>
-                        )
-                    }
-                    <Table
-                        rowClassName={
-                            (record, index) => {
-                                return (
-                                    saveFlag && (!(record.description) || !(record.companyId) || !(record.accountId) || (!(record.enteredAmountCr) && !(record.enteredAmountDr)))
-                                        ?
-                                        'row-background-color'
-                                        :
-                                        ''
                                 )
                             }
-                        }
-                        style={{ clear: 'both' }}
-                        bordered
-                        size='middle'
-                        rowKey={record => record['key']}
-                        loading={loading}
-                        columns={columns}
-                        pagination={pagination}
-                        dataSource={data}
-                        scroll={{ x: tableWidth }}
-                    />
-                </div>
-                <div style={{ paddingBottom: 10 }}>
+                            <Table
+                                rowClassName={
+                                    (record, index) => {
+                                        return (
+                                            saveFlag && (!(record.description) || !(record.companyId) || !(record.accountId) || (!(record.enteredAmountCr) && !(record.enteredAmountDr)))
+                                                ?
+                                                'row-background-color'
+                                                :
+                                                ''
+                                        )
+                                    }
+                                }
+                                style={{ clear: 'both' }}
+                                bordered
+                                size='middle'
+                                rowKey={record => record['key']}
+                                loading={loading}
+                                columns={columns}
+                                pagination={pagination}
+                                dataSource={data}
+                                scroll={{ x: tableWidth }}
+                            />
+                        </div>
+                    </Card>
+                </Spin>
+                <div style={{ marginTop: 20, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
                     <ApproveHistory loading={historyLoading} infoData={approveHistory}></ApproveHistory>
                 </div>
                 <Affix offsetBottom={0} className="bottom-bar">
@@ -1011,13 +1022,11 @@ class MyGLWorkOrderDetail extends Component {
         )
     }
 }
-MyGLWorkOrderDetail.contextTypes = {
-    router: React.PropTypes.object
-};
+
 function mapStateToProps(state) {
     return {
-        company: state.login.company,
-        user: state.login.user
+        company: state.user.company,
+        user: state.user.currentUser
     }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(MyGLWorkOrderDetail);

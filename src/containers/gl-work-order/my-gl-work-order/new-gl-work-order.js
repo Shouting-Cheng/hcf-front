@@ -152,6 +152,11 @@ class NewGLWorkOrder extends Component {
                         message.success('保存成功');
                         //跳转到详情界面
                         // this.context.router.push(menuRoute.getRouteItem('my-gl-work-order-detail', 'key').url.replace(':id', res.data.id).replace(':oid', res.data.documentOid));
+                        this.props.dispatch(
+                            routerRedux.push({
+                              pathname: `/gl-work-order/my-gl-work-order/my-gl-work-order-detail/${res.data.id}/${res.data.documentOid}`,
+                            })
+                          );
                     }
                 }).catch(e => {
                     console.log(`保存失败：${e}`);
