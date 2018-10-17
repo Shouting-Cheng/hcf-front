@@ -1058,7 +1058,7 @@ class SearchArea extends React.Component {
       <div style={{ position: 'relative', clear: 'both' }} id="search-area">
         <Form
           className="ant-advanced-search-form search-area"
-          onSubmit={this.handleSearch}
+          // onSubmit={this.handleSearch}
           layout="vertical"
         >
           {this.props.checkboxListForm && this.getCheckboxList()}
@@ -1074,7 +1074,7 @@ class SearchArea extends React.Component {
                 ) : null}
                 {
                   this.props.isHideOkTextText ? "" :
-                    <Button type="primary" htmlType="submit" loading={this.props.loading}>
+                    <Button type="primary" onClick={this.handleSearch} loading={this.props.loading}>
                       {this.$t(this.props.okText)}</Button>
                 }
 

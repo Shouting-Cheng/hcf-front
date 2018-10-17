@@ -11,7 +11,7 @@ const Option = Select.Option;
 import config from 'config'
 import httpFetch from "utils/httpFetch";
 import moment from 'moment'
-// import Upload from 'components/upload'
+import Upload from 'widget/upload'
 import Chooser from './chooser'
 import prePaymentService from "containers/pre-payment/my-pre-payment/me-pre-payment.service"
 
@@ -220,7 +220,7 @@ class MyNewPrePayment extends React.Component {
                       initialValue: isNew ? [{ departmentOid: this.props.user.departmentOID, departmentId: departmentId, name: this.props.user.departmentName }] : [{ departmentOid: model.unitOid, departmentId: model.unitId, name: model.unitName }]
                     })(
                       <Chooser
-                        type='department'
+                        type='department_document'
                         labelKey='name'
                         valueKey='departmentOid'
                         single={true}
@@ -248,7 +248,7 @@ class MyNewPrePayment extends React.Component {
               </Col>
             </Row>
             {/* //附件信息 */}
-            {/* <Row  {...rowLayout} style={{marginBottom:40}}>
+            <Row  {...rowLayout} style={{ marginBottom: 40 }}>
               <Col span={10}>
                 <FormItem label='附件信息' {...formItemLayout}>
                   {
@@ -263,7 +263,7 @@ class MyNewPrePayment extends React.Component {
                   }
                 </FormItem>
               </Col>
-            </Row> */}
+            </Row>
 
             {/* <div style={{textAlign: "center"}}>
               <Button type="primary" htmlType="submit" loading={loading} style={{ margin: '0 20px' }}>{isNew ? "下一步" : "确定"}</Button>
