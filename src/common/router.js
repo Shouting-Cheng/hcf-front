@@ -415,6 +415,32 @@ export const getRouterData = app => {
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
     },
+    // //报销单
+    // '/expense-report': {
+    //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
+    //   name: 'expense-report',
+    // },
+    //核算工单
+    '/gl-work-order/my-gl-work-order': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/my-gl-work-order.js')
+      ),
+      name: 'my-gl-work-order',
+    },
+    '/gl-work-order/my-gl-work-order/new-gl-work-order/:typeId/:formOid/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
+      ),
+      name: 'new-gl-work-order',
+      parent: '/gl-work-order/my-gl-work-order'
+    },
+    '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
+      ),
+      name: 'my-gl-work-order-detail',
+      parent: '/gl-work-order/my-gl-work-order'
+    },
     '/pay-setting/payment-method': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/payment-method/payment-method.js')
