@@ -383,6 +383,18 @@ export const getRouterData = app => {
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
     },
+    // //报销单
+    // '/expense-report': {
+    //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
+    //   name: 'expense-report',
+    // },
+    //核算工单
+    '/gl-work-order/my-gl-work-order': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order.js')
+      ),
+      name: 'gl-work-order',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

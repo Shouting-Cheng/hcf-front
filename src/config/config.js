@@ -6,7 +6,7 @@ const config = {
   receiptUrl: 'http://106.15.26.10:10080/receipt',
   budgetUrl: '/api/budget',
   pushUrl: 'http://139.224.2.45:11024/push',
-  accountingUrl: '/api/accounting_service',
+  accountingUrl: '/accounting',
   // payUrl: 'http://116.228.77.183:25297/payment',
   payUrl: '/payment',
   contractUrl: '/contract',
