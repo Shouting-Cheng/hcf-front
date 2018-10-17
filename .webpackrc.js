@@ -78,5 +78,9 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/supplier': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    },
   },
 };

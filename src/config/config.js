@@ -19,7 +19,7 @@ const config = {
   expAdjustUrl: 'http://116.228.77.183:25297',
   //baseUrl:'http://116.228.77.183:25297',
   jobUrl: '/job',
-  vendorUrl: '/api/supplier',
+  vendorUrl: '/supplier',
 };
 
 export default config;
