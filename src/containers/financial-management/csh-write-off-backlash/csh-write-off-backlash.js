@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import config from 'config'
-import SearchArea from 'components/search-area'
-import baseService from 'share/base.service'
+import { connect } from 'dva'
+import SearchArea from 'widget/search-area'
 import moment from 'moment'
-import { Button, Table, Badge, Divider, message, Tabs, Row, Col, Icon, InputNumber, Input, Popover, Timeline, Popconfirm } from 'antd'
+import {Table, Divider, message, Tabs, Row, Col, Icon, InputNumber, Input, Popover, Timeline, Popconfirm } from 'antd'
 const TabPane = Tabs.TabPane;
-import { format } from 'util'
 import cshWriteOffBacklashService from 'containers/financial-management/csh-write-off-backlash/csh-write-off-backlash.service'
-import EditViewUpload from 'components/template/edit-view-upload'
-import ViewDetailsModal from 'components/template/view-details-modal'
+import EditViewUpload from 'widget/Template/edit-view-upload'
+import ViewDetailsModal from 'widget/Template/view-details-modal'
 import PrePaymentCommonReadonly from 'containers/pre-payment/my-pre-payment/pre-payment-common-readonly'
-import { formatMessage } from 'share/common'
-import menuRoute from 'routes/menuRoute'
 class CshWriteOffBacklash extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +19,7 @@ class CshWriteOffBacklash extends Component {
              */
             columns1: [
                 {
-                    title: formatMessage({ id: 'write.off.backlash.documentNumber' }/**报销单编号*/),
+                    title: this.$t({ id: 'write.off.backlash.documentNumber' }/**报销单编号*/),
                     dataIndex: 'documentNumber', width: '130', align: 'center',
                     render: (documentNumber) => {
                         return (
@@ -723,7 +718,7 @@ class CshWriteOffBacklash extends Component {
                         current: this.state.page1 + 1,
                         showSizeChanger: true,
                         showQuickJumper: true,
-                        showTotal: (total, range) => formatMessage({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total })
+                        showTotal: (total, range) => this.$t({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total })
                     }
                 });
             }
@@ -842,7 +837,7 @@ class CshWriteOffBacklash extends Component {
                         current: this.state.page2 + 1,
                         showSizeChanger: true,
                         showQuickJumper: true,
-                        showTotal: (total, range) => formatMessage({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total })
+                        showTotal: (total, range) => this.$t({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total })
                     }
                 });
             }
@@ -1233,15 +1228,13 @@ class CshWriteOffBacklash extends Component {
 /**
  * router
  */
-CshWriteOffBacklash.contextTypes = {
-    router: React.PropTypes.object
-}
+
 /**
  * redux
  */
 function mapStateToProps(state) {
     return {
-        company: state.login.company
+        company: state.user.company
     }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(CshWriteOffBacklash)

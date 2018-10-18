@@ -325,7 +325,12 @@ class ApplicationList extends React.Component{
 
   //新建申请单
   handleNewRequest = (e) => {
-    this.context.router.push(this.state.newRequest.url.replace(':formOID', e.key));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/request/new-request/:formOID/:applicantOID'
+          .replace(':formOID', e.key)
+      })
+    )
   };
 
   //弹出代提申请单modal
