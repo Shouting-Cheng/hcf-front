@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'antd';
-import 'styles/components/template/select-depment-or-person/org-search-list.scss';
+import 'styles/components/Template/select-depment-or-person/org-search-list.scss';
 class OrgSearchList extends React.Component {
   constructor(props) {
     super(props);

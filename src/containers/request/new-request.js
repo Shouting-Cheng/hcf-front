@@ -1,36 +1,34 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
-import menuRoute from 'routes/menuRoute'
-import { Form, Input, Affix, Button } from 'antd'
+import React from 'react';
+import { connect } from 'dva';
+import { Form, Input, Affix, Button } from 'antd';
 const FormItem = Form.Item;
 
-import requestService from 'containers/request/request.service'
-import 'styles/request/new-request.scss'
+import requestService from 'containers/request/request.service';
+import 'styles/request/new-request.scss';
 
-class NewRequest extends React.Component{
+class NewRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formInfo: {},
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
-    }
+      applicationList: menuRoute.getRouteItem('request', 'key'), //申请单列表页
+    };
   }
 
   componentWillMount() {
-    this.getFormInfo()
+    this.getFormInfo();
   }
 
   //获取表单配置
   getFormInfo = () => {
     requestService.getCustomForm(this.props.params.formOID).then(res => {
-      this.setState({ formInfo: res.data })
-    })
+      this.setState({ formInfo: res.data });
+    });
   };
 
   //返回
   goBack = () => {
-    this.context.router.push(this.state.applicationList.url)
+    this.context.router.push(this.state.applicationList.url);
   };
 
   render() {
@@ -48,13 +46,10 @@ class NewRequest extends React.Component{
           {customFormFields.map(field => {
             return (
               <FormItem {...formItemLayout} label={field.fieldName} key={field.messageKey}>
-                {getFieldDecorator(field.messageKey)(
-                  <Input />
-                )}
+                {getFieldDecorator(field.messageKey)(<Input />)}
               </FormItem>
-            )
+            );
           })}
-
         </Form>
         <Affix offsetBottom={0} className="bottom-bar">
           <Button type="primary">提交</Button>
@@ -62,18 +57,19 @@ class NewRequest extends React.Component{
           <Button onClick={this.goBack}>返回</Button>
         </Affix>
       </div>
-    )
+    );
   }
 }
 
-NewRequest.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps() {
-  return { }
+  return {};
 }
 
-const wrappedNewRequest = Form.create()(injectIntl(NewRequest));
+const wrappedNewRequest = Form.create()(NewRequest);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedNewRequest)
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(wrappedNewRequest);

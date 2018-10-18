@@ -182,7 +182,6 @@ class SearchArea extends React.Component {
   //点击重置的事件，清空值为初始值
   handleReset = () => {
     this.props.form.resetFields();
-    this.props.clearHandle();
   };
 
   //区域点击事件，返回事件给父级进行处理

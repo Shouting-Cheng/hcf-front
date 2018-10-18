@@ -136,16 +136,10 @@ class NewExpense extends React.Component {
       this.setState({ currencyList: res.data });
     });
   }
-
-  componentWillReceiveProps(nextProps) {
-    let params = nextProps.params;
-    //关闭重置表单数据
-    if (!params.visible && this.props.params.visible) {
-      this.resetForm();
-    }
-
+  componentDidMount() {
+    let params = this.props.params;
     //显示并且是新建
-    if (params.visible && !this.props.params.visible && !params.record.id) {
+    if (!params.record.id) {
       let shareParams = {
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
@@ -170,7 +164,7 @@ class NewExpense extends React.Component {
       );
     }
     //显示并且是编辑
-    else if (params.visible && !this.props.params.visible && params.record.id) {
+    else if (pparams.record.id) {
       let shareParams = {
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
@@ -222,6 +216,13 @@ class NewExpense extends React.Component {
           });
         }
       );
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    let params = nextProps.params;
+    //关闭重置表单数据
+    if (!params.visible && this.props.params.visible) {
+      this.resetForm();
     }
   }
 

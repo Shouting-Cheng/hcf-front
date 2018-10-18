@@ -5,12 +5,12 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import 'styles/components/template/language-input/language-input.scss';
+import 'styles/components/Template/language-input/language-input.scss';
 import languageGrey from 'images/components/language-grey.png';
 import language from 'images/components/language.png';
 import { Modal, Button, message } from 'antd';
 //import {deepCopy, messages} from 'share/common';
-import LIService from 'components/template/language-input/language-input.service';
+import LIService from 'components/Template/language-input/language-input.service';
 //这个从后端获取，后端返回空，就给这个默认
 const LANGLIST = [
   {

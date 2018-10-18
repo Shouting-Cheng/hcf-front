@@ -82,5 +82,9 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/accounting': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    },
   },
 };

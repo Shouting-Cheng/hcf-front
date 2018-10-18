@@ -1,20 +1,22 @@
-.application-list {
-  .expanded-row {
-    .row-container:not(:last-child) {
-      padding: 10px 0;
-      border-bottom: 1px solid #e8e8e8;
+:global{
+  .application-list {
+    .expanded-row {
+      .row-container:not(:last-child) {
+        padding: 10px 0;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .row-container:first-child {
+        padding-top: 0;
+      }
+      .row-container:last-child {
+        padding-top: 10px;
+      }
     }
-    .row-container:first-child {
-      padding-top: 0;
+    .input-search {
+      width: 300px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
     }
-    .row-container:last-child {
-      padding-top: 10px;
-    }
-  }
-  .input-search {
-    width: 300px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
   }
 }

@@ -9,10 +9,10 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
 import { Button, Icon, Modal } from 'antd';
-import 'styles/components/template/extend-field-setting/extend-field.scss';
+import 'styles/components/Template/extend-field-setting/extend-field.scss';
 import { deepCopy } from 'share/common';
 import { ListSort } from 'components/index';
-import WidgetSetting from 'components/template/widget/widget-setting';
+import WidgetSetting from 'components/Template/widget/widget-setting';
 
 let customFormFieldsSorted = [];
 

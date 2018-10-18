@@ -715,7 +715,16 @@ class NewPrePaymentDetail extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label="计划付款日期">
             {getFieldDecorator('requisitionPaymentDate', {
-              initialValue: params.id ? moment(params.requisitionPaymentDate) : moment(new Date()),
+              initialValue:
+                params.id && params.requisitionPaymentDate
+                  ? moment(params.requisitionPaymentDate)
+                  : moment(new Date()),
+              rules: [
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ],
             })(<DatePicker style={{ width: '100%' }} />)}
           </FormItem>
           <FormItem {...formItemLayout} label="备注">
