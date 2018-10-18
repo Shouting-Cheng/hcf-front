@@ -444,7 +444,12 @@ export const getRouterData = app => {
       name: '银行账户详情',
       parent: '/pay-setting/company-account-setting',
     },
-
+    '/pay-setting/payment-company-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/payment-company-setting/payment-company-setting.js')
+      ),
+      name: 'payment-company-setting', // 付款公司配置
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
