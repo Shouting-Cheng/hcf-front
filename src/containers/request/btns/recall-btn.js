@@ -1,4 +1,3 @@
-import {messages} from "share/common";
 /**
  * 操作：撤回
  * 适用：审批中 的 所有申请单
@@ -6,9 +5,9 @@ import {messages} from "share/common";
  * fp['ca.opt.withdraw.disabled'] === false 且 fp['bill.approved.withdraw'] === true 且 withdrawFlag === 'N' 则不显示
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Button, message } from 'antd'
+import PropTypes from 'prop-types';
 
 import requestService from 'containers/request/request.service'
 
@@ -17,7 +16,6 @@ class RecallBtn extends React.Component{
     super(props);
     this.state = {
       loading: false,
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 
@@ -37,14 +35,14 @@ class RecallBtn extends React.Component{
         Object.keys(res.data.failReason).map(key => {
           reason = res.data.failReason[key]
         });
-        message.error(`${messages('common.operate.filed')}，${reason}`)
+        message.error(`${this.$t('common.operate.filed')}，${reason}`)
       } else {
-        message.success(messages('common.operate.success'));
+        message.success(this.$t('common.operate.success'));
         this.context.router.push(this.state.applicationList.url)
       }
     }).catch(e => {
       this.setState({ loading: false });
-      message.error(`${messages('common.operate.filed')}，${e.response.data.message}`)
+      message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`)
     })
   };
 
@@ -63,7 +61,7 @@ class RecallBtn extends React.Component{
         {info.status === 1002 && info.rejectType === 1000 && recallVisible &&
           <Button type="primary"
                   loading={loading}
-                  onClick={this.handleRecall}>{messages('request.detail.btn.recall')/*撤 回*/}</Button>
+                  onClick={this.handleRecall}>{this.$t('request.detail.btn.recall')/*撤 回*/}</Button>
         }
       </div>
     )
@@ -71,11 +69,7 @@ class RecallBtn extends React.Component{
 }
 
 RecallBtn.propTypes = {
-  info: React.PropTypes.object.isRequired
-};
-
-RecallBtn.contextTypes = {
-  router: React.PropTypes.object
+  info: PropTypes.object.isRequired
 };
 
 function mapStateToProps() {

@@ -1,11 +1,9 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import moment from 'moment'
-import menuRoute from 'routes/menuRoute'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import { Form, Table, Badge, Button } from 'antd'
-
+import PropTypes from 'prop-types';
 import requestService from 'containers/request/request.service'
 import NewRepaymentFrame from 'containers/request/loan-request/new-repayment-frame'
 import RepaymentDetailFrame from 'containers/request/loan-request/repayment-detail-frame'
@@ -16,19 +14,19 @@ class LoanRepayment extends React.Component{
     this.state = {
       loading: false,
       columns: [
-        {title: messages('request.detail.loan.date'/*日期*/), dataIndex: 'createDate', render: value => moment(value).format('YYYY-MM-DD')},
-        {title: messages('request.detail.loan.payment.code'/*还款单号*/), dataIndex: 'businessCode'},
-        {title: messages('request.detail.loan.payment.method'/*还款方式*/), dataIndex: 'type', render:
-            value => value === '0' ? messages('request.detail.loan.payment.cash'/*现金还款*/) :
-              value === '1' ? messages('request.detail.loan.payment.transfer'/*转账还款*/) : messages('request.detail.loan.payment.expense'/*报销单还款*/)},
-        {title: messages('request.detail.loan.currency'/*币种*/), dataIndex: 'curreny'},
-        {title: messages('request.detail.loan.payment.amount'/*还款金额*/), dataIndex: 'actRepayAmount', render:
+        {title: this.$t('request.detail.loan.date'/*日期*/), dataIndex: 'createDate', render: value => moment(value).format('YYYY-MM-DD')},
+        {title: this.$t('request.detail.loan.payment.code'/*还款单号*/), dataIndex: 'businessCode'},
+        {title: this.$t('request.detail.loan.payment.method'/*还款方式*/), dataIndex: 'type', render:
+            value => value === '0' ? this.$t('request.detail.loan.payment.cash'/*现金还款*/) :
+              value === '1' ? this.$t('request.detail.loan.payment.transfer'/*转账还款*/) : this.$t('request.detail.loan.payment.expense'/*报销单还款*/)},
+        {title: this.$t('request.detail.loan.currency'/*币种*/), dataIndex: 'curreny'},
+        {title: this.$t('request.detail.loan.payment.amount'/*还款金额*/), dataIndex: 'actRepayAmount', render:
           (value, record) => this.filterMoney(value || record.repaymentValue)},
-        {title: messages('common.column.status'), dataIndex: 'status', render: value =>
-          value === '1001' ? <Badge text={messages('request.detail.loan.in.the.payment')/*还款中*/} status="processing"/> :
-          value === '1002' ?  <Badge text={messages('request.detail.loan.has.been.payment')/*已还款*/} status="success"/> :
-            <Badge text={messages('request.detail.loan.rejected')/*被驳回*/} status="error"/>},
-        {title: messages('request.detail.loan.card.no'/*凭证编号*/), dataIndex: 'origDocumentSequence', render: value => value || '-'}
+        {title: this.$t('common.column.status'), dataIndex: 'status', render: value =>
+          value === '1001' ? <Badge text={this.$t('request.detail.loan.in.the.payment')/*还款中*/} status="processing"/> :
+          value === '1002' ?  <Badge text={this.$t('request.detail.loan.has.been.payment')/*已还款*/} status="success"/> :
+            <Badge text={this.$t('request.detail.loan.rejected')/*被驳回*/} status="error"/>},
+        {title: this.$t('request.detail.loan.card.no'/*凭证编号*/), dataIndex: 'origDocumentSequence', render: value => value || '-'}
       ],
       data: [],
       page: 0,
@@ -148,12 +146,12 @@ class LoanRepayment extends React.Component{
     let repaymentInfo = info.writeoffArtificialDTO || {}; //还款信息
     return (
       <div className="loan-repayment tab-container">
-        <h3 className="sub-header-title">{messages('request.detail.repayment.history'/*还款记录*/)}</h3>
+        <h3 className="sub-header-title">{this.$t('request.detail.repayment.history'/*还款记录*/)}</h3>
         <div className="table-header">
           <div className="table-header-buttons">
             {repaymentInfo.stayWriteoffAmount && buttonRoleSwitch?
               <Button type="primary" className="table-header-btn" onClick={() => this.showNewSlide(true)}>
-                {messages('request.detail.loan.create.payment')/*新建还款*/}
+                {this.$t('request.detail.loan.create.payment')/*新建还款*/}
               </Button> : ''}
           </div>
         </div>
@@ -167,13 +165,13 @@ class LoanRepayment extends React.Component{
                pagination={pagination}
                bordered
                size="middle"/>
-        <SlideFrame title={messages('request.detail.loan.create.payment')/*新建还款*/}
+        <SlideFrame title={this.$t('request.detail.loan.create.payment')/*新建还款*/}
                     show={showNewSlide}
                     content={NewRepaymentFrame}
                     params={newParams}
                     afterClose={this.handleCloseSlide}
                     onClose={this.handleNewFrameClose}/>
-        <SlideFrame title={messages('request.detail.loan.payment.detail')/*还款详情*/}
+        <SlideFrame title={this.$t('request.detail.loan.payment.detail')/*还款详情*/}
                     show={showDetailSlide}
                     content={RepaymentDetailFrame}
                     params={detailParams}
@@ -185,13 +183,13 @@ class LoanRepayment extends React.Component{
 }
 
 LoanRepayment.propTypes = {
-  info: React.PropTypes.object,
-  loanRefund: React.PropTypes.bool, //是否是借还款管理页面的详情
-  showNewSlide: React.PropTypes.bool,
-  applicationOID: React.PropTypes.string.isRequired,
-  isOwner: React.PropTypes.bool,//是否为登录人控件，涉及权限
-  handleSave: React.PropTypes.func,
-  handleClose: React.PropTypes.func,
+  info: PropTypes.object,
+  loanRefund: PropTypes.bool, //是否是借还款管理页面的详情
+  showNewSlide: PropTypes.bool,
+  applicationOID: PropTypes.string.isRequired,
+  isOwner: PropTypes.bool,//是否为登录人控件，涉及权限
+  handleSave: PropTypes.func,
+  handleClose: PropTypes.func,
 };
 
 LoanRepayment.defaultProps={

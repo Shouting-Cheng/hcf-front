@@ -9,7 +9,7 @@ const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 
 import moment from 'moment'
-import ApproveBar from 'components/template/approve-bar'
+import ApproveBar from 'components/Template/approve-bar'
 import 'styles/request/jd-request-detail.scss'
 
 class JDRequestDetail extends React.Component{

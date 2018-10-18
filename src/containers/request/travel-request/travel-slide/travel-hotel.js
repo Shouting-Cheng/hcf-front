@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/4/4 0004.
  */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {Input,InputNumber, Form, Tabs, Button, Spin, Radio, Card, Row, Col, message, DatePicker, Affix,Select} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -215,7 +215,7 @@ class TravelHotel extends React.Component{
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(values.remark && values.remark.length === 201){
-        message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+        message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
         return;
       }
       if(!err){
@@ -223,15 +223,15 @@ class TravelHotel extends React.Component{
         values.fromDate = values.fromDate.utc().format();
         values.leaveDate = values.leaveDate.utc().format();;
         if(values.fromDate > values.leaveDate){
-          message.error(messages('itinerary.hotel.slide.in.more.out.tip')/*'退房日期不能小于入住日期'*/);
+          message.error(this.$t('itinerary.hotel.slide.in.more.out.tip')/*'退房日期不能小于入住日期'*/);
           return;
         }
         if(values.fromDate === values.leaveDate){
-          message.error(messages('itinerary.hotel.slide.in.same.out.tip')/*'退房日期不能等于入住日期'*/);
+          message.error(this.$t('itinerary.hotel.slide.in.same.out.tip')/*'退房日期不能等于入住日期'*/);
           return;
         }
         if(this.state.formCtrl.city.required && !this.state.selectCity.code){
-          message.error(messages('itinerary.hotel.slide.city.tip')/*'城市不匹配或未点击选择'*/);
+          message.error(this.$t('itinerary.hotel.slide.city.tip')/*'城市不匹配或未点击选择'*/);
           return ;
         }
         values.cityCode = this.state.selectCity.code?this.state.selectCity.code:null;
@@ -239,13 +239,13 @@ class TravelHotel extends React.Component{
         //wjk add 18 05 22 判断是否跨选日期
         let isReapeatDate = travelUtil.hotelIsRepeatDate(values,this.dateArray);
         if(isReapeatDate.isRepeat){
-          message.error(messages('itinerary.hotel.slide.reserved.tip',{dateStr:isReapeatDate.dateStr})/*`${isReapeatDate.dateStr}已预订`*/);
+          message.error(this.$t('itinerary.hotel.slide.reserved.tip',{dateStr:isReapeatDate.dateStr})/*`${isReapeatDate.dateStr}已预订`*/);
           return;
         }
         this.setState({isLoading:true});
         if(!this.state.editing){
           travelService.travelHotelSubmit(this.state.params.oid,[values]).then(res =>{
-            this.submitFinish(messages('itinerary.save.tip')/*已保存*/);
+            this.submitFinish(this.$t('itinerary.save.tip')/*已保存*/);
           }).catch(err=>{
             message.error(err.response.data.message);
             this.setState({isLoading:false});
@@ -254,7 +254,7 @@ class TravelHotel extends React.Component{
           values.applicationOID = this.state.params.oid;
           values.hotelItineraryOID = this.props.params.editHotel.hotelItineraryOID;
           travelService.updateHotel(values).then(res=>{
-            this.submitFinish(messages('itinerary.update.tip')/*已更新*/)
+            this.submitFinish(this.$t('itinerary.update.tip')/*已更新*/)
           }).catch(err=>{
             message.error(err.response.data.message);
             this.setState({isLoading:false});
@@ -345,7 +345,7 @@ class TravelHotel extends React.Component{
       <div className="travel-hotel">
         <Spin spinning={isLoading}>
           <Form>
-            <FormItem {...formSupplyLayout} label={messages('itinerary.public.slide.supplier')/*供应商*/}>
+            <FormItem {...formSupplyLayout} label={this.$t('itinerary.public.slide.supplier')/*供应商*/}>
               <Row className="supplyRow">
                 {
                   supplies.map((sup, index)=> {
@@ -363,19 +363,19 @@ class TravelHotel extends React.Component{
               </Row>
             </FormItem>
             <Tabs className="plane-tabs" defaultActiveKey={!TAG?editData.productType:'1001'} onChange={this.selectProductType}>
-              <TabPane tab={messages('itinerary.hotel.slide.mainland')/*"国内"*/} key={'1001'}></TabPane>
+              <TabPane tab={this.$t('itinerary.hotel.slide.mainland')/*"国内"*/} key={'1001'}></TabPane>
               {
                 (supplyId !== 'supplyMeiYaService' || supplyId !== 'supplyMeiYaTrainService')
-                  ? (<TabPane tab={messages('itinerary.hotel.slide.international')/*"国际"*/} key={'1002'}></TabPane>):null
+                  ? (<TabPane tab={this.$t('itinerary.hotel.slide.international')/*"国际"*/} key={'1002'}></TabPane>):null
               }
             </Tabs>
             <Row>
               {
                 (formCtrl.city.enable || formCtrl.city.show) &&  <Col span={12}>
-                  <FormItem {...formLayout} label={messages('itinerary.hotel.slide.checkIn.city')/*入住城市*/}>
-                    {getFieldDecorator('cityName',this.cfo(messages('itinerary.hotel.slide.checkIn.city'),{type:'str',value:editData.cityName},!formCtrl.city.required))(<Select
+                  <FormItem {...formLayout} label={this.$t('itinerary.hotel.slide.checkIn.city')/*入住城市*/}>
+                    {getFieldDecorator('cityName',this.cfo(this.$t('itinerary.hotel.slide.checkIn.city'),{type:'str',value:editData.cityName},!formCtrl.city.required))(<Select
                       mode="combobox"
-                      placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                      placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                       defaultActiveFirstOption={false}
                       showArrow={false}
                       filterOption={false}
@@ -394,8 +394,8 @@ class TravelHotel extends React.Component{
               }
               {
                 (formCtrl.roomNumber.enable || formCtrl.roomNumber.show) &&  <Col span={12}>
-                  <FormItem  {...formLayout} label={messages('itinerary.hotel.slide.max.room')/*最大房间数*/}>
-                    {getFieldDecorator('roomNumber',this.cfo(messages('itinerary.hotel.slide.max.room'),{type:'number',value:maxRoom},!formCtrl.roomNumber.required))
+                  <FormItem  {...formLayout} label={this.$t('itinerary.hotel.slide.max.room')/*最大房间数*/}>
+                    {getFieldDecorator('roomNumber',this.cfo(this.$t('itinerary.hotel.slide.max.room'),{type:'number',value:maxRoom},!formCtrl.roomNumber.required))
                     (<InputNumber disabled={true} className="plane-price"/>)}
                   </FormItem>
                 </Col>
@@ -405,18 +405,18 @@ class TravelHotel extends React.Component{
             <Row>
               {
                 (formCtrl.fromDate.enable || formCtrl.fromDate.show) && <Col span={12}>
-                  <FormItem {...formLayout} label={messages('itinerary.hotel.slide.check.in')/*入住日期*/}>
-                    {getFieldDecorator('fromDate',this.cfo(messages('itinerary.hotel.slide.check.in'),{type:'moment',value:editData.isEmpty?this.baseStartDate:editData.fromDate},!formCtrl.fromDate.required))(
+                  <FormItem {...formLayout} label={this.$t('itinerary.hotel.slide.check.in')/*入住日期*/}>
+                    {getFieldDecorator('fromDate',this.cfo(this.$t('itinerary.hotel.slide.check.in'),{type:'moment',value:editData.isEmpty?this.baseStartDate:editData.fromDate},!formCtrl.fromDate.required))(
                       <DatePicker onChange={this.startDateChange} disabledDate={this.disabledDateStart}></DatePicker>
                     )}
                   </FormItem>
                 </Col>
               }
-              <Col span={2} className="night">{messages('itinerary.hotel.slide.night',{nights:nights})/*晚*/}</Col>
+              <Col span={2} className="night">{this.$t('itinerary.hotel.slide.night',{nights:nights})/*晚*/}</Col>
               {
                 (formCtrl.leaveDate.enable || formCtrl.leaveDate.show) &&  <Col span={10}>
-                  <FormItem {...formLayout} label={messages('itinerary.hotel.slide.check.out')/*退房日期*/}>
-                    {getFieldDecorator('leaveDate',this.cfo(messages('itinerary.hotel.slide.check.out'),{type:'moment',value:editData.isEmpty?this.baseEndDate:editData.leaveDate},!formCtrl.leaveDate.required))(
+                  <FormItem {...formLayout} label={this.$t('itinerary.hotel.slide.check.out')/*退房日期*/}>
+                    {getFieldDecorator('leaveDate',this.cfo(this.$t('itinerary.hotel.slide.check.out'),{type:'moment',value:editData.isEmpty?this.baseEndDate:editData.leaveDate},!formCtrl.leaveDate.required))(
                       <DatePicker onChange={this.endDateChange} disabledDate={this.disabledDateEnd}></DatePicker>
                     )}
                   </FormItem>
@@ -428,8 +428,8 @@ class TravelHotel extends React.Component{
               !standardEnable && <Row>
                 {
                   formCtrl.minPrice.show &&  <Col span={12}>
-                    <FormItem {...formLayout} label={messages('itinerary.hotel.slide.min.price')/*最小价格*/}>
-                      {getFieldDecorator('minPrice',this.cfo(messages('itinerary.hotel.slide.min.price'),{type:'number',value:editData.minPrice},!formCtrl.minPrice.required))(
+                    <FormItem {...formLayout} label={this.$t('itinerary.hotel.slide.min.price')/*最小价格*/}>
+                      {getFieldDecorator('minPrice',this.cfo(this.$t('itinerary.hotel.slide.min.price'),{type:'number',value:editData.minPrice},!formCtrl.minPrice.required))(
                         <InputNumber min={0}></InputNumber>
                       )}
                     </FormItem>
@@ -437,8 +437,8 @@ class TravelHotel extends React.Component{
                 }
                 {
                   formCtrl.maxPrice.show && <Col span={12}>
-                    <FormItem {...formLayout} label={messages('itinerary.hotel.slide.max.price')/*最大价格*/}>
-                      {getFieldDecorator('maxPrice',this.cfo(messages('itinerary.hotel.slide.max.price'),{type:'number',value:editData.maxPrice},!formCtrl.maxPrice.required))(
+                    <FormItem {...formLayout} label={this.$t('itinerary.hotel.slide.max.price')/*最大价格*/}>
+                      {getFieldDecorator('maxPrice',this.cfo(this.$t('itinerary.hotel.slide.max.price'),{type:'number',value:editData.maxPrice},!formCtrl.maxPrice.required))(
                         <InputNumber min={minPrice} className="maxPrice"/>
                       )}
                     </FormItem>
@@ -447,16 +447,16 @@ class TravelHotel extends React.Component{
               </Row>
             }
 
-            <FormItem label={messages('itinerary.public.slide.remark')/*备注*/} {...formSupplyLayout}>
-              {getFieldDecorator('remark',this.cfo(messages('itinerary.public.slide.remark'),{type:'str',value:editData.remark},true))(
+            <FormItem label={this.$t('itinerary.public.slide.remark')/*备注*/} {...formSupplyLayout}>
+              {getFieldDecorator('remark',this.cfo(this.$t('itinerary.public.slide.remark'),{type:'str',value:editData.remark},true))(
                 <TextArea maxLength={201}></TextArea>
               )}
             </FormItem>
           </Form>
         </Spin>
         <Affix className="travel-affix" offsetBottom={0}>
-          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
-          <Button className="travel-type-btn" onClick={this.closeSlide} >{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+          <Button className="travel-type-btn" onClick={this.closeSlide} >{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )

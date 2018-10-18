@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import debounce from 'lodash.debounce';
 import { Spin, Input, Card, Row, Col, Icon, Popover, message } from 'antd';
 const Search = Input.Search;
@@ -203,7 +202,6 @@ class ExpenseTypeSelector extends React.Component {
     } = this.state;
     let resultLength = 0;
     let typeLength = filterCategory.length - 1;
-    console.log(this.state.sourceCategory);
     return (
       <div className="expense-type-selector">
         <Spin spinning={loading}>
@@ -256,7 +254,7 @@ class ExpenseTypeSelector extends React.Component {
                 (resultLength += expenseTypeCategory.expenseType.length);
               if (index === typeLength && resultLength === 0) {
                 return (
-                  <div className="search-no-expense">
+                  <div className="search-no-expense" key={index}>
                     {this.$t('expense.invoice.no.expenseType') /*暂无费用类型*/}
                   </div>
                 );

@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/3/14 0014.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {
   Input,
   InputNumber,
@@ -59,7 +59,7 @@ class TravelPlane extends React.Component {
       cityToSearchResult: [],//目的城市搜索结果
       selectFromCity:{},//选择的出发城市
       selectToCity:{},//选择的目的城市
-      discounts: [messages('itinerary.public.select.all')/*所有*/, 1, 2, 3, 4, 5, 6, 7, 8, 9],//折扣
+      discounts: [this.$t('itinerary.public.select.all')/*所有*/, 1, 2, 3, 4, 5, 6, 7, 8, 9],//折扣
     }
   };
 
@@ -215,7 +215,7 @@ class TravelPlane extends React.Component {
         this.props.close(values);
       }else {
       if(values.remark && values.remark.length === 201){
-        message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+        message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
         return;
       }
       if (!err) {
@@ -228,20 +228,20 @@ class TravelPlane extends React.Component {
         values.startDate = values.startDate.utc().format();
         values.endDate = values.itineraryType === 1002 ? values.endDate.utc().format() : null;
         if(values.itineraryType === 1002 && values.startDate > values.endDate){
-          message.error(messages('itinerary.public.date.checked.tip')/*返回日期早于出发日期*/);
+          message.error(this.$t('itinerary.public.date.checked.tip')/*返回日期早于出发日期*/);
           return;
         }
-        values.discount = values.discount === messages('itinerary.public.select.all')/*所有*/ ? "" : values.discount;
+        values.discount = values.discount === this.$t('itinerary.public.select.all')/*所有*/ ? "" : values.discount;
         values.takeOffBeginTime = takeOffBeginTime;
         values.takeOffEndTime = takeOffEndTime;
         values.arrivalBeginTime = values.itineraryType === 1002 ? arrivalBeginTime : null;
         values.arrivalEndTime = values.itineraryType === 1002 ? arrivalEndTime : null;
 
         if(this.state.formCtrl.fromCities.required && !this.state.selectFromCity.vendorAlias){
-          message.error(messages('itinerary.public.fromCity.checked.tip')/*出发城市不匹配或未点击选择*/);
+          message.error(this.$t('itinerary.public.fromCity.checked.tip')/*出发城市不匹配或未点击选择*/);
           return ;
         } else if(this.state.formCtrl.toCities.required && !this.state.selectToCity.vendorAlias){
-          message.error(messages('itinerary.public.toCity.checked.tip')/*到达城市不匹配或未点击选择*/);
+          message.error(this.$t('itinerary.public.toCity.checked.tip')/*到达城市不匹配或未点击选择*/);
           return ;
         }else {
           values.fromCityCode = this.state.selectFromCity.code;
@@ -253,7 +253,7 @@ class TravelPlane extends React.Component {
         this.setState({isLoading: true});
         if (!this.state.editing) {
           travelService.travelPlaneSubmit(this.state.params.oid, [values]).then(res => {
-            this.submitFinish(messages('itinerary.save.tip')/*已保存*/);
+            this.submitFinish(this.$t('itinerary.save.tip')/*已保存*/);
           }).catch(err=> {
             message.error(err.response.data.message);
             this.setState({isLoading: false});
@@ -262,7 +262,7 @@ class TravelPlane extends React.Component {
           values.applicationOID = this.state.params.oid;
           values.flightItineraryOID = this.props.params.editPlane.flightItineraryOID;
           travelService.updatePlane(values).then(res => {
-            this.submitFinish(messages('itinerary.update.tip')/*已更新*/)
+            this.submitFinish(this.$t('itinerary.update.tip')/*已更新*/)
           }).catch(err=> {
             message.error(err.response.data.message);
             this.setState({isLoading: false});
@@ -401,7 +401,7 @@ class TravelPlane extends React.Component {
       <div className="travel-plane">
         <Spin spinning={isLoading}>
           <Form>
-            {!travelElement &&<FormItem {...formItemLayout} label={messages('itinerary.public.slide.supplier')/*供应商*/}>
+            {!travelElement &&<FormItem {...formItemLayout} label={this.$t('itinerary.public.slide.supplier')/*供应商*/}>
               <Row className="supplyRow">
                 {
                   supplies.map((sup, index)=> {
@@ -421,29 +421,29 @@ class TravelPlane extends React.Component {
             }
             {!travelElement && <Tabs className="plane-tabs" defaultActiveKey={!TAG ? editData.productType + '' : '1001'}
                                      onChange={this.selectProductType}>
-              <TabPane tab={messages('itinerary.plane.slide.mainland')/*国内机票*/} key={'1001'}></TabPane>
+              <TabPane tab={this.$t('itinerary.plane.slide.mainland')/*国内机票*/} key={'1001'}></TabPane>
               {
-                supplyId === 'supplyCtripService' || supplyId === 'vendorCtripService' || supplyId === 'other' ? (<TabPane tab={messages('itinerary.plane.slide.international')/*国际机票*/} key={'1002'}></TabPane>) : null
+                supplyId === 'supplyCtripService' || supplyId === 'vendorCtripService' || supplyId === 'other' ? (<TabPane tab={this.$t('itinerary.plane.slide.international')/*国际机票*/} key={'1002'}></TabPane>) : null
               }
             </Tabs>
             }
-            {!travelElement &&<FormItem {...formItemLayout} label={messages('itinerary.plane.slide.VoyageType')/*行程类型*/}>
-              {getFieldDecorator('itineraryType', this.CFO(messages('itinerary.plane.slide.VoyageType'), {type: 'number', value: editData.itineraryType ? editData.itineraryType : 1001}))(
+            {!travelElement &&<FormItem {...formItemLayout} label={this.$t('itinerary.plane.slide.VoyageType')/*行程类型*/}>
+              {getFieldDecorator('itineraryType', this.CFO(this.$t('itinerary.plane.slide.VoyageType'), {type: 'number', value: editData.itineraryType ? editData.itineraryType : 1001}))(
                 <RadioGroup className="travel-type-radio" onChange={this.itineraryTypeHandle}>
-                  <Radio value={1001}>{messages('itinerary.public.slide.oneWay')/*单程*/}</Radio>
-                  <Radio value={1002}>{messages('itinerary.public.slide.roundTrip')/*往返*/}</Radio>
+                  <Radio value={1001}>{this.$t('itinerary.public.slide.oneWay')/*单程*/}</Radio>
+                  <Radio value={1002}>{this.$t('itinerary.public.slide.roundTrip')/*往返*/}</Radio>
                 </RadioGroup>
               )}</FormItem>}
             <FormItem className="plane-city-margin">
               <Row>
                 <Col span={12}>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.departureCity')/*出发城市*/}>
-                    {getFieldDecorator('fromCity', this.CFO(messages('itinerary.public.slide.departureCity'), {type: 'str', value: editData.fromCity},!travelElement ? !formCtrl.fromCities.required : false)
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.departureCity')/*出发城市*/}>
+                    {getFieldDecorator('fromCity', this.CFO(this.$t('itinerary.public.slide.departureCity'), {type: 'str', value: editData.fromCity},!travelElement ? !formCtrl.fromCities.required : false)
                     )
                     (
                       <Select
                         mode="combobox"
-                        placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                        placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                         defaultActiveFirstOption={false}
                         showArrow={false}
                         onSelect={this.selectFromCity}
@@ -459,10 +459,10 @@ class TravelPlane extends React.Component {
                       </Select>
                     )}
                   </FormItem>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.arrivalCity')/*到达城市*/}>
-                    {getFieldDecorator('toCity', this.CFO(messages('itinerary.public.slide.arrivalCity'), {type: 'str', value: editData.toCity},!travelElement ? !formCtrl.toCities.required: false))(<Select
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.arrivalCity')/*到达城市*/}>
+                    {getFieldDecorator('toCity', this.CFO(this.$t('itinerary.public.slide.arrivalCity'), {type: 'str', value: editData.toCity},!travelElement ? !formCtrl.toCities.required: false))(<Select
                       mode="combobox"
-                      placeholder={messages('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
+                      placeholder={this.$t('itinerary.public.slide.cityNamePlaceholder')/*城市名*/}
                       defaultActiveFirstOption={false}
                       showArrow={false}
                       onSelect={this.selectToCity}
@@ -480,20 +480,20 @@ class TravelPlane extends React.Component {
                 </Col>
 
                 <div className="line-top"></div>
-                <Button className={this.props.language.code === 'zh_cn' ? "exchange-city" : "exchange-city-en"} onClick={this.exchangeCity}>{messages('itinerary.plane.slide.swap')/*换*/}</Button>
+                <Button className={this.props.language.code === 'zh_cn' ? "exchange-city" : "exchange-city-en"} onClick={this.exchangeCity}>{this.$t('itinerary.plane.slide.swap')/*换*/}</Button>
                 <div className="line-bottom"></div>
 
                 <Col span={12}>
-                  <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.departure')/*出发日期*/}>
-                    {getFieldDecorator('startDate', this.CFO(messages('itinerary.public.slide.departure'), {
+                  <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.departure')/*出发日期*/}>
+                    {getFieldDecorator('startDate', this.CFO(this.$t('itinerary.public.slide.departure'), {
                         type: 'moment',
                         value: TAG ? this.startDate : editData.startDate,
                       }
                     ))
                     (<DatePicker onChange={this.startDateChange} disabledDate={this.disabledDateStart} format="YYYY-MM-DD"/>)}
                   </FormItem>
-                  {!travelElement &&<FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.return')/*返回日期*/}>
-                    {getFieldDecorator('endDate', this.CFO(messages('itinerary.public.slide.return'), {
+                  {!travelElement &&<FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.return')/*返回日期*/}>
+                    {getFieldDecorator('endDate', this.CFO(this.$t('itinerary.public.slide.return'), {
                       type: 'moment',
                       value: !TAG && editData.endDate ? editData.endDate : this.startDate,
                     }, !isDouble))
@@ -508,7 +508,7 @@ class TravelPlane extends React.Component {
               &&!travelElement && <FormItem>
                 <Row>
                   <Col span={10}>
-                    <FormItem {...formItemLayoutTime} label={messages('itinerary.plane.slide.leaveOn')/*出发起飞时间*/}>
+                    <FormItem {...formItemLayoutTime} label={this.$t('itinerary.plane.slide.leaveOn')/*出发起飞时间*/}>
                       {getFieldDecorator('takeOffBeginTime', this.CFO('', {
                         type: 'moment',
                         value: editData.takeOffBeginTime,
@@ -517,7 +517,7 @@ class TravelPlane extends React.Component {
                       (<TimePicker format={'HH:mm'}></TimePicker>)}
                     </FormItem>
                   </Col>
-                  <Col span={2}>{messages('itinerary.plane.slide.to')/*至*/}</Col>
+                  <Col span={2}>{this.$t('itinerary.plane.slide.to')/*至*/}</Col>
                   <Col span={10} className="plane-time">
                     <FormItem {...formItemLayoutTime}>
                       {getFieldDecorator('takeOffEndTime', this.CFO('', {
@@ -538,7 +538,7 @@ class TravelPlane extends React.Component {
               && !travelElement &&<FormItem>
                 <Row>
                   <Col span={10}>
-                    <FormItem {...formItemLayoutTime} label={messages('itinerary.plane.slide.returnOn')/*返回起飞时间*/}>
+                    <FormItem {...formItemLayoutTime} label={this.$t('itinerary.plane.slide.returnOn')/*返回起飞时间*/}>
                       {getFieldDecorator('arrivalBeginTime', this.CFO('', {
                         type: 'moment',
                         format: 'HH:mm',
@@ -548,7 +548,7 @@ class TravelPlane extends React.Component {
                                    format={'HH:mm'}></TimePicker>)}
                     </FormItem>
                   </Col>
-                  <Col span={2}>{messages('itinerary.plane.slide.to')/*至*/}</Col>
+                  <Col span={2}>{this.$t('itinerary.plane.slide.to')/*至*/}</Col>
                   <Col span={10} className="plane-time">
                     <FormItem {...formItemLayoutTime}>
                       {getFieldDecorator('arrivalEndTime', this.CFO('', {
@@ -569,7 +569,7 @@ class TravelPlane extends React.Component {
               && !travelElement &&<FormItem>
                 <Row>
                   <Col span={12}>
-                    <FormItem  {...formItemLayoutCity} label={messages('itinerary.public.slide.price')/*机票价格*/}>
+                    <FormItem  {...formItemLayoutCity} label={this.$t('itinerary.public.slide.price')/*机票价格*/}>
                       {getFieldDecorator('ticketPrice', this.CFO('', {
                         type: 'number',
                         value: editData.ticketPrice
@@ -579,8 +579,8 @@ class TravelPlane extends React.Component {
                   </Col>
                   <Col span={12}>
                     {
-                      !standardEnable && <FormItem {...formItemLayoutCity} label={messages('itinerary.plane.slide.discount')/*折扣*/}>
-                        {getFieldDecorator('discount', this.CFO(messages('itinerary.plane.slide.discount'), {
+                      !standardEnable && <FormItem {...formItemLayoutCity} label={this.$t('itinerary.plane.slide.discount')/*折扣*/}>
+                        {getFieldDecorator('discount', this.CFO(this.$t('itinerary.plane.slide.discount'), {
                           type: 'number',
                           value: editData.discount ? editData.discount :
                             this.props.language.code === 'zh_cn' ? '所有' : 'All'
@@ -604,8 +604,8 @@ class TravelPlane extends React.Component {
               <FormItem className="plane-seat-margin">
                 <Row>
                   <Col span={12}>
-                    <FormItem {...formItemLayoutCity} label={messages('itinerary.public.slide.class')/*舱等*/}>
-                      {getFieldDecorator('seatClass', this.CFO(messages('itinerary.public.slide.class'), {
+                    <FormItem {...formItemLayoutCity} label={this.$t('itinerary.public.slide.class')/*舱等*/}>
+                      {getFieldDecorator('seatClass', this.CFO(this.$t('itinerary.public.slide.class'), {
                         type: 'str',
                         value: editData.seatClass ? editData.seatClass :
                           this.props.language.code === 'zh_cn' ? '经济舱' : 'Economy class'
@@ -622,16 +622,16 @@ class TravelPlane extends React.Component {
               </FormItem>
             }
 
-            {!travelElement &&<FormItem {...formItemLayout} label={messages('itinerary.public.slide.remark')/*备注*/}
+            {!travelElement &&<FormItem {...formItemLayout} label={this.$t('itinerary.public.slide.remark')/*备注*/}
                                           className={( (formCtrl.ticketPrice.show || formCtrl.discount.show) && (supplyId === 'supplyCtripService' || supplyId === 'vendorCtripService')) ? 'plane-margin-top':''}>
               {getFieldDecorator('remark', this.CFO('', {type: 'str', value: editData.remark}, true))(<TextArea
-                maxLength={201} placeholder={messages('itinerary.public.slide.remarkPlaceholder')/*请输入*/} autosize={textAreaLayout}></TextArea>)}
+                maxLength={201} placeholder={this.$t('itinerary.public.slide.remarkPlaceholder')/*请输入*/} autosize={textAreaLayout}></TextArea>)}
             </FormItem>}
           </Form>
         </Spin>
         <Affix className="travel-affix" offsetBottom={0}>
-          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
-          <Button className="travel-type-btn" onClick={this.closeSlide}>{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+          <Button onClick={this.toSubmit} type="primary" loading={isLoading}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+          <Button className="travel-type-btn" onClick={this.closeSlide}>{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )

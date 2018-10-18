@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import moment from 'moment'
 import trafficLineImg from 'images/request/travel/traffic_line.png'
 import emptyAvatarImg from 'images/request/travel/empty.avatar.jpg'
@@ -66,19 +66,19 @@ class TravelInformation extends React.Component{
   getWeed = (value) => {
     switch(value) {
       case 0:
-        return messages('request.detail.booker.sun');
+        return this.$t('request.detail.booker.sun');
       case 1:
-        return messages('request.detail.booker.mon');
+        return this.$t('request.detail.booker.mon');
       case 2:
-        return messages('request.detail.booker.tues');
+        return this.$t('request.detail.booker.tues');
       case 3:
-        return messages('request.detail.booker.wed');
+        return this.$t('request.detail.booker.wed');
       case 4:
-        return messages('request.detail.booker.thur');
+        return this.$t('request.detail.booker.thur');
       case 5:
-        return messages('request.detail.booker.fri');
+        return this.$t('request.detail.booker.fri');
       case 6:
-        return messages('request.detail.booker.sat');
+        return this.$t('request.detail.booker.sat');
     }
   };
 
@@ -117,9 +117,9 @@ class TravelInformation extends React.Component{
       case 'FLIGHT':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={planeImg}/>{messages('request.detail.travel.flight')/*机票*/}</Col>
+            <Col span={5}><img src={planeImg}/>{this.$t('request.detail.travel.flight')/*机票*/}</Col>
             {info.travelApplication && info.travelApplication.uniformBooking && info.travelApplication.bookingClerkName && (
-              <Col span={10}>{messages('request.detail.travel.booker.ticket.by', {name: info.travelApplication.bookingClerkName})/*由 {name} 统一订机票*/}</Col>
+              <Col span={10}>{this.$t('request.detail.travel.booker.ticket.by', {name: info.travelApplication.bookingClerkName})/*由 {name} 统一订机票*/}</Col>
             )}
           </Row>
         );
@@ -128,31 +128,31 @@ class TravelInformation extends React.Component{
           let time = '';
           if (customFormPropertyMap['ca.travel.applypolicy.enable'] === 'false' || !customFormPropertyMap['ca.travel.applypolicy.enable']) {
             controlFields.discount.show && details.push(item.discount ?
-              `${item.discount}${messages('request.detail.travel.discount')/*折*/}` :
-              messages('request.detail.travel.all.discount'/*所有折扣*/));
-            controlFields.seatClass.show && details.push(item.seatClass ? item.seatClass : messages('request.detail.travel.all.class'/*所有舱位*/));
+              `${item.discount}${this.$t('request.detail.travel.discount')/*折*/}` :
+              this.$t('request.detail.travel.all.discount'/*所有折扣*/));
+            controlFields.seatClass.show && details.push(item.seatClass ? item.seatClass : this.$t('request.detail.travel.all.class'/*所有舱位*/));
           }
           controlFields.ticketPrice.show && details.push(item.ticketPrice ?
             `${this.props.company.baseCurrency} ${this.renderMoney(item.ticketPrice)}` :
-            messages('request.detail.travel.no.limit'/*不限制*/));
+            this.$t('request.detail.travel.no.limit'/*不限制*/));
           if (controlFields.takeOffBeginTime.show && controlFields.takeOffEndTime.show) {
-            time = `${messages('request.detail.booker.departure.time')/*起飞时间*/}：
+            time = `${this.$t('request.detail.booker.departure.time')/*起飞时间*/}：
             ${item.takeOffBeginTime ? 
-              `${item.takeOffBeginTime} ～ ${item.takeOffEndTime || messages('request.detail.travel.no.restriction'/*无限制*/)}` : 
-              messages('request.detail.travel.all.time'/*全部时间段*/)}`;
+              `${item.takeOffBeginTime} ～ ${item.takeOffEndTime || this.$t('request.detail.travel.no.restriction'/*无限制*/)}` : 
+              this.$t('request.detail.travel.all.time'/*全部时间段*/)}`;
           }
           itemContent = (
             <div className="flight">
               {(info.version > 0 || isPreVersion) && item.disabled && (
-                <img src={language.code === 'zh_cn' ? disabledImg : disabledEnImg} className="disabled-img"/>
+                <img src={language.code === 'zh_CN' ? disabledImg : disabledEnImg} className="disabled-img"/>
               )}
               <div>
                 {(info.version > 0 || isPreVersion) && (
                   <Tag color={item.isExtend ? '#f5832b' : '#4cc648'}>
-                    {item.isExtend ? messages('request.detail.travel.previous'/*原*/) : messages('request.detail.travel.latest'/*新*/)}
+                    {item.isExtend ? this.$t('request.detail.travel.previous'/*原*/) : this.$t('request.detail.travel.latest'/*新*/)}
                   </Tag>
                 )}
-                <Tag color="#1890ff">{messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}</Tag>
+                <Tag color="#1890ff">{this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}</Tag>
                 <span className="date">{new Date(item.startDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.startDate).getDay())}</span>
                 {item.supplierName && <div className="supplier"><span>{item.supplierName}</span> <img src={item.supplierIconUrl}/></div>}
               </div>
@@ -162,7 +162,7 @@ class TravelInformation extends React.Component{
                   <img src={trafficLineImg}/>
                   <span className="to">{item.toCity}</span>
                 </Col>
-                {item.approvalNum && <Col span={10}>{messages('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNum}</Col>}
+                {item.approvalNum && <Col span={10}>{this.$t('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNum}</Col>}
               </Row>
               {(item.supplierServiceName === 'vendorCtripService' || item.supplierServiceName === 'supplyCtripService') && (//只有在携程机票下才有可能显示
                 <Row>
@@ -178,7 +178,7 @@ class TravelInformation extends React.Component{
                   <Col span={10}>{time}</Col>
                 </Row>
               )}
-              {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+              {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
             </div>
           )
         }
@@ -186,17 +186,17 @@ class TravelInformation extends React.Component{
       case 'TRAIN':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={trainImg}/>{messages('request.detail.travel.train')/*火车*/}</Col>
+            <Col span={5}><img src={trainImg}/>{this.$t('request.detail.travel.train')/*火车*/}</Col>
             {info.travelApplication && info.travelApplication.trainUniformBooking && info.travelApplication.trainBookingClerkName && (
-              <Col span={10}>{messages('request.detail.travel.booker.train.by', {name: info.travelApplication.trainBookingClerkName})/*由 {name} 统一订火车票*/}</Col>
+              <Col span={10}>{this.$t('request.detail.travel.booker.train.by', {name: info.travelApplication.trainBookingClerkName})/*由 {name} 统一订火车票*/}</Col>
             )}
           </Row>
         );
         if (item) {
           let details = [];
-          controlFields.seatClass.show && details.push(item.seatClass ? item.seatClass : messages('request.detail.travel.no.limit'/*不限制*/));
+          controlFields.seatClass.show && details.push(item.seatClass ? item.seatClass : this.$t('request.detail.travel.no.limit'/*不限制*/));
           controlFields.ticketPrice.show && details.push(item.ticketPrice ? `${this.props.company.baseCurrency} ${this.renderMoney(item.ticketPrice)}` :
-            messages('request.detail.travel.no.limit'/*不限制*/));
+            this.$t('request.detail.travel.no.limit'/*不限制*/));
           itemContent = (
             <div className="train">
               {(info.version > 0 || isPreVersion) && item.disabled && (
@@ -205,10 +205,10 @@ class TravelInformation extends React.Component{
               <div>
                 {(info.version > 0 || isPreVersion) && (
                   <Tag color={item.isExtend ? '#f5832b' : '#4cc648'}>
-                    {item.isExtend ? messages('request.detail.travel.previous'/*原*/) : messages('request.detail.travel.latest'/*新*/)}
+                    {item.isExtend ? this.$t('request.detail.travel.previous'/*原*/) : this.$t('request.detail.travel.latest'/*新*/)}
                   </Tag>
                 )}
-                <Tag color="#1890ff">{messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}</Tag>
+                <Tag color="#1890ff">{this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}</Tag>
                 <span className="date">{new Date(item.startDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.startDate).getDay())}</span>
                 {item.supplierName && <div className="supplier"><span>{item.supplierName}</span> <img src={item.supplierIconUrl}/></div>}
               </div>
@@ -218,7 +218,7 @@ class TravelInformation extends React.Component{
                   <img src={trafficLineImg}/>
                   <span className="to">{item.toCity}</span>
                 </Col>
-                {item.approvalNum && <Col span={10}>{messages('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNum}</Col>}
+                {item.approvalNum && <Col span={10}>{this.$t('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNum}</Col>}
               </Row>
               <div>
                 {details.map((detail, index) => {
@@ -229,7 +229,7 @@ class TravelInformation extends React.Component{
                   }
                 })}
               </div>
-              {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+              {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
             </div>
           )
         }
@@ -237,7 +237,7 @@ class TravelInformation extends React.Component{
       case 'SUBSIDIES':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={subsidyImg}/>{messages('request.detail.travel.allowance')/*差补*/}</Col>
+            <Col span={5}><img src={subsidyImg}/>{this.$t('request.detail.travel.allowance')/*差补*/}</Col>
           </Row>
         );
         if (item && subsidyVersion === 2) {
@@ -248,17 +248,17 @@ class TravelInformation extends React.Component{
               )}
               <div>
                 <Tag color="#1890ff">
-                  { messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
+                  { this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
                   {' ～ '}
-                  {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.endDate)})/*第 {day} 天*/}
+                  {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.endDate)})/*第 {day} 天*/}
                 </Tag>
                 <span className="date">
                   {new Date(item.startDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.startDate).getDay())} ～ {new Date(item.endDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.endDate).getDay())}
                 </span>
               </div>
               <Row className="location">
-                <Col span={10}>{messages('request.detail.travel.destination')/*目的地*/}：<span className="from">{item.cityName || '-'}</span></Col>
-                <Col span={10}>{messages('request.detail.total.amount')/*总金额*/}：
+                <Col span={10}>{this.$t('request.detail.travel.destination')/*目的地*/}：<span className="from">{item.cityName || '-'}</span></Col>
+                <Col span={10}>{this.$t('request.detail.total.amount')/*总金额*/}：
                   <span className="amount">{this.props.company.baseCurrency} {this.renderMoney(item.totalAmount || 0)}</span>
                 </Col>
               </Row>
@@ -267,16 +267,16 @@ class TravelInformation extends React.Component{
                   return (
                     <div key={expense.expenseTypeOID} className="expense-item">
                       <div>
-                        {expense.expenseTypeName} {this.props.company.baseCurrency} {expense.amount}{messages('request.detail.travel.people.day')/*/人/天*/},
-                        {expense.usernames.length}{messages('request.detail.travel.people')/*人*/},
-                        {messages('request.detail.travel.total.day', {day: this.getDifferDays(item.startDate, item.endDate)})/*共{day}天*/}
+                        {expense.expenseTypeName} {this.props.company.baseCurrency} {expense.amount}{this.$t('request.detail.travel.people.day')/*/人/天*/},
+                        {expense.usernames.length}{this.$t('request.detail.travel.people')/*人*/},
+                        {this.$t('request.detail.travel.total.day', {day: this.getDifferDays(item.startDate, item.endDate)})/*共{day}天*/}
                       </div>
                       <div>{expense.usernames.join(', ')}</div>
                     </div>
                   )
                 })
-              ) : <div>{messages('request.detail.travel.city.no.allowance')/*该城市无差补*/}</div>}
-              {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+              ) : <div>{this.$t('request.detail.travel.city.no.allowance')/*该城市无差补*/}</div>}
+              {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
             </div>
           )
         } else if (item && subsidyVersion === 3) {
@@ -288,9 +288,9 @@ class TravelInformation extends React.Component{
               )}
               <div>
                 <Tag color="#1890ff">
-                  {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
+                  {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
                   {' ～ '}
-                  {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.endDate)})/*第 {day} 天*/}
+                  {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.endDate)})/*第 {day} 天*/}
                 </Tag>
                 <span className="date">
                   {new Date(item.startDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.startDate).getDay())} ～ {new Date(item.endDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.endDate).getDay())}
@@ -305,7 +305,7 @@ class TravelInformation extends React.Component{
                   {otherCurrency.join(' + ')}
                 </span>
               </div>
-              {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+              {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
               {(item.travelSubsidiesRequestItemDTOs || []).map((subsidy, itemIndex) => {
                 let expenseTypeAmount = [];
                 let subsidyItemIndex = 0;
@@ -350,14 +350,14 @@ class TravelInformation extends React.Component{
                                 </Tooltip>
                                 {(subsidy.duplicateSubsidiesOIDs || []).map(duplicateOID => {
                                   if (duplicateOID === subsidyItem.travelSubsidiesDetailsOID) {
-                                    return <Tag color="#bababa" style={{verticalAlign:'top'}}>{messages('request.detail.travel.repeat')/*重复*/}</Tag>
+                                    return <Tag color="#bababa" style={{verticalAlign:'top'}}>{this.$t('request.detail.travel.repeat')/*重复*/}</Tag>
                                   }
                                 })}
                                 <div>
-                                  {messages('request.detail.travel.enterprise.rate')/*企业汇率*/}：{Number(subsidyItem.baseCurrencyRate).toFixed(4)}
+                                  {this.$t('request.detail.travel.enterprise.rate')/*企业汇率*/}：{Number(subsidyItem.baseCurrencyRate).toFixed(4)}
                                   {subsidyItem.currencyRate - subsidyItem.baseCurrencyRate >= 0 ? ' + ' : ' - '}
                                   {(subsidyItem.currencyRate - subsidyItem.baseCurrencyRate).toFixed(4) * 100}%
-                                  ，{messages('request.detail.travel.original.amount')/*原金额*/}：{this.renderMoney(subsidyItem.baseAmount)}
+                                  ，{this.$t('request.detail.travel.original.amount')/*原金额*/}：{this.renderMoney(subsidyItem.baseAmount)}
                                 </div>
                               </Col>
                               <Col span={2}>{Number(subsidyItem.currencyRate).toFixed(4)}</Col>
@@ -381,7 +381,7 @@ class TravelInformation extends React.Component{
       case 'REMARK':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={remarkImg}/>{messages('request.detail.travel.itinerary.remark')/*行程备注*/}</Col>
+            <Col span={5}><img src={remarkImg}/>{this.$t('request.detail.travel.itinerary.remark')/*行程备注*/}</Col>
           </Row>
         );
         if (item) {
@@ -396,7 +396,7 @@ class TravelInformation extends React.Component{
                 <img src={language.code === 'zh_cn' ? disabledImg : disabledEnImg} className="disabled-img"/>
               )}
               <div>
-                <Tag color="#1890ff">{messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.remarkDate)})/*第 {day} 天*/}</Tag>
+                <Tag color="#1890ff">{this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.remarkDate)})/*第 {day} 天*/}</Tag>
                 <span className="date">{new Date(item.remarkDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.remarkDate).getDay())}</span>
               </div>
               <div className="remark">
@@ -405,19 +405,19 @@ class TravelInformation extends React.Component{
                   let remark_title = '';
                   switch(key) {
                     case 'FLIGHT':
-                      remark_title = messages('request.detail.travel.flight'); //机票
+                      remark_title = this.$t('request.detail.travel.flight'); //机票
                       break;
                     case 'TRAIN':
-                      remark_title = messages('request.detail.travel.train'); //火车
+                      remark_title = this.$t('request.detail.travel.train'); //火车
                       break;
                     case 'SUBSIDIES':
-                      remark_title =  messages('request.detail.travel.allowance'); //差补
+                      remark_title =  this.$t('request.detail.travel.allowance'); //差补
                       break;
                     case 'HOTEL':
-                      remark_title =  messages('request.detail.travel.hotel'); //酒店
+                      remark_title =  this.$t('request.detail.travel.hotel'); //酒店
                       break;
                     case 'OTHER':
-                      remark_title = messages('request.detail.travel.other.traffic'); //其他交通
+                      remark_title = this.$t('request.detail.travel.other.traffic'); //其他交通
                       break;
                   }
                   if (item.itineraryDetails[key][0].remark) {
@@ -442,9 +442,9 @@ class TravelInformation extends React.Component{
       case 'HOTEL':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={hotelImg}/>{messages('request.detail.travel.hotel')/*酒店*/}</Col>
+            <Col span={5}><img src={hotelImg}/>{this.$t('request.detail.travel.hotel')/*酒店*/}</Col>
             {info.travelApplication && info.travelApplication.hotelUniformBooking && info.travelApplication.hotelBookingClerkName && (
-              <Col span={10}>{messages('request.detail.travel.booker.hotel.by', {name: info.travelApplication.hotelBookingClerkName})/*由 {name} 统一订酒店*/}</Col>
+              <Col span={10}>{this.$t('request.detail.travel.booker.hotel.by', {name: info.travelApplication.hotelBookingClerkName})/*由 {name} 统一订酒店*/}</Col>
             )}
           </Row>
         );
@@ -456,43 +456,43 @@ class TravelInformation extends React.Component{
             <div>
               {(info.version > 0 || isPreVersion) && (
                 <Tag color={item.isExtend ? '#f5832b' : '#4cc648'}>
-                  {item.isExtend ? messages('request.detail.travel.previous'/*原*/) : messages('request.detail.travel.latest'/*新*/)}
+                  {item.isExtend ? this.$t('request.detail.travel.previous'/*原*/) : this.$t('request.detail.travel.latest'/*新*/)}
                 </Tag>
               )}
               <Tag color="#1890ff">
-                {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.fromDate)})/*第 {day} 天*/}
+                {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.fromDate)})/*第 {day} 天*/}
                 {' ～ '}
-                {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.leaveDate)})/*第 {day} 天*/}
+                {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate ,item.leaveDate)})/*第 {day} 天*/}
               </Tag>
               <span className="date">
                 {new Date(item.fromDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.fromDate).getDay())} ～ {new Date(item.leaveDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.leaveDate).getDay())}
               </span>
               <span className="day-and-night">
-                {messages('request.detail.travel.day', {day: this.getDifferDays(item.fromDate, item.leaveDate)})/*{day}天*/}
-                {messages('request.detail.travel.night', {night: this.getDifferDays(item.fromDate, item.leaveDate) - 1})/*{night}晚*/}
+                {this.$t('request.detail.travel.day', {day: this.getDifferDays(item.fromDate, item.leaveDate)})/*{day}天*/}
+                {this.$t('request.detail.travel.night', {night: this.getDifferDays(item.fromDate, item.leaveDate) - 1})/*{night}晚*/}
               </span>
               {item.supplierName && <div className="supplier"><span>{item.supplierName}</span> <img src={item.supplierIconUrl}/></div>}
             </div>
             <Row className="location">
-              <Col span={10}>{messages('request.detail.travel.destination')/*目的地*/}：{item.cityName ? <span className="from">{item.cityName}</span> : '-'}</Col>
-              {item.approvalNumber && <Col span={10}>{messages('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNumber}</Col>}
+              <Col span={10}>{this.$t('request.detail.travel.destination')/*目的地*/}：{item.cityName ? <span className="from">{item.cityName}</span> : '-'}</Col>
+              {item.approvalNumber && <Col span={10}>{this.$t('request.detail.travel.itinerary.number')/*行程单号*/}：{item.approvalNumber}</Col>}
             </Row>
             <div>
-              {item.roomNumber}{messages('request.detail.travel.room')/*间*/}
+              {item.roomNumber}{this.$t('request.detail.travel.room')/*间*/}
               <span className="ant-divider"/>
-              {this.props.company.baseCurrency} {item.minPrice ? this.renderMoney(item.minPrice) : messages('request.detail.travel.no.restriction'/*无限制*/)}
+              {this.props.company.baseCurrency} {item.minPrice ? this.renderMoney(item.minPrice) : this.$t('request.detail.travel.no.restriction'/*无限制*/)}
               {item.maxPrice ? ` -- ${this.renderMoney(item.maxPrice)}` :
-                item.minPrice ? ` -- ${messages('request.detail.travel.no.restriction'/*无限制*/)}` : ''}
-              {` / `}{messages('request.detail.travel.night', {night: ''})/*晚*/}
+                item.minPrice ? ` -- ${this.$t('request.detail.travel.no.restriction'/*无限制*/)}` : ''}
+              {` / `}{this.$t('request.detail.travel.night', {night: ''})/*晚*/}
             </div>
-            {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+            {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
           </div>
         ));
         break;
       case 'OTHER':
         header = (
           <Row className="itinerary-header">
-            <Col span={5}><img src={otherImg}/>{messages('request.detail.travel.other.traffic')/*其他交通*/}</Col>
+            <Col span={5}><img src={otherImg}/>{this.$t('request.detail.travel.other.traffic')/*其他交通*/}</Col>
           </Row>
         );
         item && (itemContent = (
@@ -503,11 +503,11 @@ class TravelInformation extends React.Component{
             <div>
               {(info.version > 0 || isPreVersion) && (
                 <Tag color={item.isExtend ? '#f5832b' : '#4cc648'}>
-                  {item.isExtend ? messages('request.detail.travel.previous'/*原*/) : messages('request.detail.travel.latest'/*新*/)}
+                  {item.isExtend ? this.$t('request.detail.travel.previous'/*原*/) : this.$t('request.detail.travel.latest'/*新*/)}
                 </Tag>
               )}
               <Tag color="#1890ff">
-                {messages('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
+                {this.$t('request.detail.travel.day.number', {day: this.getDifferDays(sDate, item.startDate)})/*第 {day} 天*/}
               </Tag>
               <span className="date">{new Date(item.startDate).format('yyyy.MM.dd')} {this.getWeed(new Date(item.startDate).getDay())}</span>
               {item.supplierName && <div className="supplier"><span>{item.supplierName}</span> <img src={item.supplierIconUrl}/></div>}
@@ -518,7 +518,7 @@ class TravelInformation extends React.Component{
               <img src={trafficLineImg}/>
               <span className="to">{item.toCity}</span>
             </div>
-            {item.remark && <div className="remark">{messages('common.remark')}：{item.remark}</div>}
+            {item.remark && <div className="remark">{this.$t('common.remark')}：{item.remark}</div>}
           </div>
         ));
         break;
@@ -532,7 +532,7 @@ class TravelInformation extends React.Component{
     const { loading, itinerary } = this.state;
     return (
       <div className="travel-information tab-container">
-        <h3 className="sub-header-title">{messages('request.detail.travel.info')/*行程信息*/}</h3>
+        <h3 className="sub-header-title">{this.$t('request.detail.travel.info')/*行程信息*/}</h3>
         <Spin spinning={loading}>
           {Object.keys(itinerary || {}).map(key => {
             itinerary[key] = itinerary[key] || [];
@@ -569,19 +569,20 @@ class TravelInformation extends React.Component{
 }
 
 TravelInformation.propTypes = {
-  applicationOID: React.PropTypes.string,
-  latestApplicationOID: React.PropTypes.string,
-  info: React.PropTypes.object,
-  customFormPropertyMap: React.PropTypes.object,
-  controlFields: React.PropTypes.object,
-  isPreVersion: React.PropTypes.bool, //是否为最新版本的上一版本
+  applicationOID: PropTypes.string,
+  latestApplicationOID: PropTypes.string,
+  info: PropTypes.object,
+  customFormPropertyMap: PropTypes.object,
+  controlFields: PropTypes.object,
+  isPreVersion: PropTypes.bool, //是否为最新版本的上一版本
 };
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
-    company: state.login.company,
-    profile: state.login.profile,
-    language: state.main.language,
+    company: state.user.company,
+    //profile: state.login.profile,
+    language: state.languages,
   }
 }
 

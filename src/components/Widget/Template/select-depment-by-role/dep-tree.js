@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Tree, Icon } from 'antd';
 const TreeNode = Tree.TreeNode;
-import 'styles/components/template/select-depment-by-role/dep-tree.scss';
+import 'styles/components/Template/select-depment-by-role/dep-tree.scss';
 
 class DepTree extends React.Component {
   constructor(props) {

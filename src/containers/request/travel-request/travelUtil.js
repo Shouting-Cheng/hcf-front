@@ -4,7 +4,8 @@
 import React from 'react';
 import {Row, Col, Collapse, Spin, Icon, Popconfirm, Button, DatePicker, InputNumber, Tooltip, message, Tag} from 'antd';
 import moment from 'moment';
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
+import { messages } from "utils/utils"
 import travelService from 'containers/request/travel-request/travel.service';
 import requestService from 'containers/request/request.service'
 import customField from 'share/customField';

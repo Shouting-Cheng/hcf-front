@@ -1,13 +1,12 @@
 
 import React from 'react'
-import {connect} from 'react-redux'
-import menuRoute from 'routes/menuRoute'
-import { messages, getApprovelHistory } from 'share/common'
+import {connect} from 'dva'
+import {getApprovelHistory } from 'utils/extend'
 import {Form, Affix, Button, Spin, Icon, Modal, message, Popconfirm, Switch, Select, Row, Col, Progress, Tabs, Timeline} from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
-
+import { routerRedux } from 'dva/router';
 import moment from 'moment'
 import TravelType from 'containers/request/travel-request/travel-type';
 import  TravelElementType from 'containers/request/travel-request/travel-element-type';
@@ -19,8 +18,8 @@ import baseService from 'share/base.service'
 import requestService from 'containers/request/request.service'
 import TravelPreviousVersion from 'containers/request/travel-request/travel-previous-version'
 import ExpectStopDate from 'containers/request/travel-request/expect-stop-date'
-import ApproveHistory from 'components/template/approve-history'
-import Chooser from 'components/chooser'
+import ApproveHistory from 'widget/Template/approve-history'
+import Chooser from 'widget/chooser'
 import 'styles/request/new-request.scss'
 import config from 'config'
 
@@ -52,7 +51,6 @@ class NewRequest extends React.Component {
       formType: null,
       defaultValues: [],
       copyDefaultValues: [],
-      applicationList: menuRoute.getRouteItem('request', 'key'), //申请单列表页
       subsidyCtrl: {
         flight: false,//是否显示飞机统一订票
         train: false,//。。。。火车统一订票
@@ -138,11 +136,11 @@ class NewRequest extends React.Component {
   };
 
   componentWillMount() {
-    if (this.props.params.applicantOID && this.props.params.applicantOID !== ':applicantOID') {
-      baseService.changeLoginInfo(this.props.params.applicantOID).then(() => {
+    if (this.props.match.params.applicantOID && this.props.match.params.applicantOID !== ':applicantOID') {
+      baseService.changeLoginInfo(this.props.match.params.applicantOID).then(() => {
 
       }).catch(() => {
-        message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
+        message.error(this.$t('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
       });
     }
   }
@@ -213,7 +211,7 @@ class NewRequest extends React.Component {
   //日期连选控件打开或者关闭的时候的回调
   checkedOk = (field,value) => {
     this.canGo = false;
-    let formInfo = this.props.params.applicationOID ? this.state.info : this.state.formInfo;
+    let formInfo = this.props.match.params.applicationOID ? this.state.info : this.state.formInfo;
     let copy = this.state.copyDefaultValues;
     let startDate = null;
     let endDate = null;
@@ -235,7 +233,7 @@ class NewRequest extends React.Component {
         }
 
         //赋值到start_date,end_date控件
-        if (this.props.params.applicationOID) {
+        if (this.props.match.params.applicationOID) {
           this.refreshRangeDate(formInfo.custFormValues, startDate, endDate);
           this.setState({
             info:formInfo
@@ -261,7 +259,7 @@ class NewRequest extends React.Component {
     let formInfo = this.state.info;
     let isChange = false;//日期是否变化
     let isShowModal = false;//是否需要弹框提示
-    if (this.props.params.applicationOID) {
+    if (this.props.match.params.applicationOID) {
       formInfo.custFormValues.map((item, index) => {
         if (item.messageKey === 'start_date' || item.messageKey === 'end_date') {
           let baseStartData = this.state.copyDefaultValues[index];
@@ -278,9 +276,9 @@ class NewRequest extends React.Component {
     if (isShowModal) {
       let currentKey = 'virtual_range_picker';
       let isHaveSubsidy = this.state.total > 0;
-      let fieldStr = messages('itinerary.form.component.range.picker')/*'出差往返日期'*/;
-      let mesStr = messages('itinerary.form.change.about.travel.field.tip',{fieldName: fieldStr})/*'可能导致行程与出差日期不匹配'*/;
-      this.baseModalShowForRangeDateChange(isHaveSubsidy ? messages('itinerary.form.change.about.subsidy.field.tip',{fieldName: fieldStr})/*'更改时间将清空已添加差补'*/ : '', mesStr, currentKey, startDate, endDate);
+      let fieldStr = this.$t('itinerary.form.component.range.picker')/*'出差往返日期'*/;
+      let mesStr = this.$t('itinerary.form.change.about.travel.field.tip',{fieldName: fieldStr})/*'可能导致行程与出差日期不匹配'*/;
+      this.baseModalShowForRangeDateChange(isHaveSubsidy ? this.$t('itinerary.form.change.about.subsidy.field.tip',{fieldName: fieldStr})/*'更改时间将清空已添加差补'*/ : '', mesStr, currentKey, startDate, endDate);
     } else {
       if (isChange) {
         let copy = this.state.copyDefaultValues;
@@ -316,9 +314,9 @@ class NewRequest extends React.Component {
 
     let sub = this.state.subsidyCtrl;
     //是否进行预算校验
-    sub.isBudgetCheck = this.props.profile['travel.budget.check'];
+    //sub.isBudgetCheck = this.props.profile['travel.budget.check'];
     //是否必须添加行程
-    sub.itineraryRequire = this.props.profile['ta.itinerary.required'] ? this.props.profile['ta.itinerary.required'] : false;
+    //sub.itineraryRequire = this.props.profile['ta.itinerary.required'] ? this.props.profile['ta.itinerary.required'] : false;
     this.setState({subsidyCtrl: sub});
   };
 
@@ -354,7 +352,7 @@ class NewRequest extends React.Component {
               if(this.state.isHaveRoute && this.state.total > 0){
                 this.canGo = false;
                 let currentKey = item.formValueOID;
-                this.baseModalShow(messages('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*`更改${item.fieldName}将清空已添加差补`*/,'', baseStartData, currentKey, index, item, true);
+                this.baseModalShow(this.$t('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*`更改${item.fieldName}将清空已添加差补`*/,'', baseStartData, currentKey, index, item, true);
               }else{
                 this.updateCopyDefaultValue(index, item);
               }
@@ -366,7 +364,7 @@ class NewRequest extends React.Component {
   }
 
   componentWillReceiveProps() {
-    let isEditing = !!this.props.params.applicationOID;
+    let isEditing = !!this.props.match.params.applicationOID;
     let values = this.props.form.getFieldsValue();
     let cust = [];
     let custFormValues = isEditing ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
@@ -393,8 +391,8 @@ class NewRequest extends React.Component {
               this.canGo = false;
               let currentKey = item.formValueOID;
               let isHaveSubsidy = this.state.total > 0 ? true : false;
-              let mesStr = messages('itinerary.form.change.about.travel.field.tip',{fieldName:item.fieldName})/*'可能导致行程与出差日期不匹配'*/;
-              this.baseModalShow(isHaveSubsidy ? messages('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*'更改时间将清空已添加差补'*/ : '', mesStr, baseStartData, currentKey, index, item);
+              let mesStr = this.$t('itinerary.form.change.about.travel.field.tip',{fieldName:item.fieldName})/*'可能导致行程与出差日期不匹配'*/;
+              this.baseModalShow(isHaveSubsidy ? this.$t('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*'更改时间将清空已添加差补'*/ : '', mesStr, baseStartData, currentKey, index, item);
             }else{
               this.updateCopyDefaultValue(index, item);
             }
@@ -409,8 +407,8 @@ class NewRequest extends React.Component {
               this.canGo = false;
               let currentKey = item.formValueOID;
               let isHaveSubsidy = this.state.total > 0 ? true : false;
-              let mesStr = messages('itinerary.form.change.about.travel.field.tip',{fieldName:item.fieldName})/*'可能导致行程与出差日期不匹配'*/;
-              this.baseModalShow(isHaveSubsidy ? messages('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*'更改时间将清空已添加差补'*/ : '', mesStr, baseStartData, currentKey, index, item);
+              let mesStr = this.$t('itinerary.form.change.about.travel.field.tip',{fieldName:item.fieldName})/*'可能导致行程与出差日期不匹配'*/;
+              this.baseModalShow(isHaveSubsidy ? this.$t('itinerary.form.change.about.subsidy.field.tip',{fieldName:item.fieldName})/*'更改时间将清空已添加差补'*/ : '', mesStr, baseStartData, currentKey, index, item);
             }else{
               this.updateCopyDefaultValue(index, item);
             }
@@ -424,7 +422,7 @@ class NewRequest extends React.Component {
               if(this.state.isHaveRoute && this.state.total > 0){
                 this.canGo = false;
                 let currentKey = item.formValueOID;
-                this.baseModalShow(messages('itinerary.form.change.participant.tip')/*'更改参与人员将清空已添加差补'*/,'', baseStartData, currentKey, index, item);
+                this.baseModalShow(this.$t('itinerary.form.change.participant.tip')/*'更改参与人员将清空已添加差补'*/,'', baseStartData, currentKey, index, item);
               }else {
                 this.updateCopyDefaultValue(index, item);
               }
@@ -445,8 +443,8 @@ class NewRequest extends React.Component {
             }
             if(isInParticipant){//原申请人在参与人员中-->弹框提示
               let currentKey = isEditing ? item.formValueOID : item.fieldOID;
-              let tipMessage = isEditing && this.state.total > 0 ? messages('itinerary.form.change.participant.tip')/*'更改参与人员将清空已添加差补'*/: '';
-              this.baseModalShow(messages('request.edit.modal.application.change.info')/*'新的申请人将替换原参与人员中的默认数据'*/, tipMessage, baseStartData, currentKey, index, item);
+              let tipMessage = isEditing && this.state.total > 0 ? this.$t('itinerary.form.change.participant.tip')/*'更改参与人员将清空已添加差补'*/: '';
+              this.baseModalShow(this.$t('request.edit.modal.application.change.info')/*'新的申请人将替换原参与人员中的默认数据'*/, tipMessage, baseStartData, currentKey, index, item);
             }else{//原申请人不在参与人员，中直接修改申请人
               this.updateCopyDefaultValue(index, item);
               this.soveApplicant(item, {value:baseStartData.value}, false);//根据申请人修改对应默认值
@@ -461,7 +459,7 @@ class NewRequest extends React.Component {
   handleApplicantChange = (field, applicantOID) => {
     this.setState({ loading: true });
     baseService.changeLoginInfo(applicantOID).then(() => {
-      requestService.getFormValue(this.props.user.userOID, this.props.params.formOID).then(res => {
+      requestService.getFormValue(this.props.user.userOID, this.props.match.params.formOID).then(res => {
         this.setState({
           loading: false,
           formDefaultValue: res.data
@@ -471,7 +469,7 @@ class NewRequest extends React.Component {
       })
     }).catch(() => {
       location.href = '/';
-      message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
+      message.error(this.$t('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
     })
   };
 
@@ -485,9 +483,9 @@ class NewRequest extends React.Component {
         this.noChangePar = false;
       }
     });
-    let status = this.props.params.applicationOID ? 'edit' : 'create';
+    let status = this.props.match.params.applicationOID ? 'edit' : 'create';
     let custFormValues = status === 'edit' ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
-    let formOID = status === 'edit' ? this.props.params.formOID : this.state.formInfo.formOID;
+    let formOID = status === 'edit' ? this.props.match.params.formOID : this.state.formInfo.formOID;
     travelUtil.setDefaultFormUtil(status, custFormValues, newField, formOID, data, this.executeCall, isReplace);
   };
 
@@ -508,13 +506,13 @@ class NewRequest extends React.Component {
 
   baseModalShow = (mes, sage, data, currentKey, index, newField, isSubsidyRule) => {
     Modal.confirm({
-      title: messages('itinerary.form.tips')/*'提示'*/,
+      title: this.$t('itinerary.form.tips')/*'提示'*/,
       content: <div>
         <p>{mes}</p>
         <p>{sage}</p>
       </div>,
-      okText: messages('itinerary.form.change.modal.alter')/*'更改'*/,
-      cancelText: messages('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
+      okText: this.$t('itinerary.form.change.modal.alter')/*'更改'*/,
+      cancelText: this.$t('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
       onOk: ()=> {
         if(data.messageKey === 'applicant'){//更改的是申请人    参与人要替换掉；成本中心，公司，部门都改默认值
           // 单独处理
@@ -537,7 +535,7 @@ class NewRequest extends React.Component {
         }else{
           setData[currentKey] = travelUtil.changeValueUtil(data);
         }
-        if(!!this.props.params.applicationOID){
+        if(!!this.props.match.params.applicationOID){
           defaultValues[index].value = this.state.copyDefaultValues[index].value;
         }
         formInfo['customFormFields'][index].value = this.state.copyDefaultValues[index].value;
@@ -554,13 +552,13 @@ class NewRequest extends React.Component {
 
   baseModalShowForRangeDateChange = (mes, sage, currentKey, startDate, endDate) => {
     Modal.confirm({
-      title: messages('itinerary.form.tips')/*'提示'*/,
+      title: this.$t('itinerary.form.tips')/*'提示'*/,
       content: <div>
         <p>{mes}</p>
         <p>{sage}</p>
       </div>,
-      okText: messages('itinerary.form.change.modal.alter')/*'更改'*/,
-      cancelText: messages('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
+      okText: this.$t('itinerary.form.change.modal.alter')/*'更改'*/,
+      cancelText: this.$t('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
       onOk: ()=> {
         if (this.state.total > 0)
           this.clearSubsidy();
@@ -618,7 +616,7 @@ class NewRequest extends React.Component {
       let rangePicker = {
         messageKey: 'range_picker',
         fieldOID: travelUtil.generateUid(),
-        fieldName: messages('itinerary.form.component.range.picker')/*'出差往返日期'*/,
+        fieldName: this.$t('itinerary.form.component.range.picker')/*'出差往返日期'*/,
         fieldType: 'TEXT',
         enableTime: false,
         defaultValueTime: [], //启用时间的默认值
@@ -733,21 +731,21 @@ class NewRequest extends React.Component {
   //获取表单配置
   getFormInfo = () => {
     this.setState({loading: true});
-    requestService.getCustomForm(this.props.params.formOID).then(res => {
+    requestService.getCustomForm(this.props.match.params.formOID).then(res => {
       this.customFormFieldsOrigin = JSON.parse(JSON.stringify(res.data));
       this.setApplicantDisable(res.data.customFormFields);
       res.data.customFormFields.sort((a, b) => a.sequence > b.sequence || -1);//wjk add 180523
-      !this.props.params.applicationOID && this.copyDefaultCust(res,'create');
+      !this.props.match.params.applicationOID && this.copyDefaultCust(res,'create');
       this.checkedIsSetSubsidyRule(res);//wjk add 18 06 01
       this.setState({
-        loading: !!this.props.params.applicationOID,
+        loading: !!this.props.match.params.applicationOID,
         formInfo: res.data,
         formType: res.data.formType,
         currentCodeTyp:this.props.company.baseCurrency,
         manageType:res.data.customFormProperties.manageType
       },() => {
         const { formType, formInfo } = this.state;
-        if (this.props.params.applicationOID) {
+        if (this.props.match.params.applicationOID) {
           this.getInfo(formType)
         } else {
           this.getFormDefaultValue()
@@ -759,10 +757,10 @@ class NewRequest extends React.Component {
   //获取表单默认值
   getFormDefaultValue = () => {
     let userOID = this.props.user.userOID;
-    if (this.props.params.applicantOID && this.props.params.applicantOID !== ':applicantOID') {
-      userOID = this.props.params.applicantOID;
+    if (this.props.match.params.applicantOID && this.props.match.params.applicantOID !== ':applicantOID') {
+      userOID = this.props.match.params.applicantOID;
     }
-    requestService.getFormValue(userOID, this.props.params.formOID).then(res => {
+    requestService.getFormValue(userOID, this.props.match.params.formOID).then(res => {
       this.setState({
         loading: false,
         formDefaultValue: res.data
@@ -782,10 +780,10 @@ class NewRequest extends React.Component {
   //获取申请单详情
   getInfo = () => {
     //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
-    const {applicationOID} = this.props.params;
+    const {applicationOID} = this.props.match.params;
     requestService.getRequestDetail(applicationOID).then(res => {
       //代提逻辑
-      if (this.props.loginUser.userOID !== res.data.applicantOID) {
+      if (this.props.user.userOID !== res.data.applicantOID) {
         baseService.changeLoginInfo(res.data.applicantOID);
       }
       this.setApplicantDisable(res.data.custFormValues);
@@ -808,7 +806,7 @@ class NewRequest extends React.Component {
   isCounterSignEnable = () => {
     let params = {
       companyOID: this.props.company.companyOID,
-      formOID: this.props.params.formOID,
+      formOID: this.props.match.params.formOID,
       counterSignType: 'enableAddSignForSubmitter',
     };
     approveRequestService.postAddSignEnableScope(params).then(res =>{
@@ -821,9 +819,7 @@ class NewRequest extends React.Component {
             signCompanyOIDs: res.data.approvalAddSignScope.companyOIDs
           }, () => {
           });
-
       }
-
     })
   };
 
@@ -841,7 +837,7 @@ class NewRequest extends React.Component {
     if(res.data.sourceApplicationOID){
       res.data.custFormValues = travelUtil.setDisabledValues(res.data.custFormValues);
     }
-    if(!this.props.params.applicationOID && status === 'create'){
+    if(!this.props.match.params.applicationOID && status === 'create'){
       res.data.customFormFields.map(m => {
         dev.push({
           value: m.value,
@@ -877,7 +873,7 @@ class NewRequest extends React.Component {
 
   //获取保存、提交申请单时的custFormValues
   getCustFormValues = (values) => {
-    let custFormValues = this.props.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
+    let custFormValues = this.props.match.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
     custFormValues.map(item=> {
       Object.keys(values).map(key => {
         if (key === item.fieldOID || key === item.formValueOID) {
@@ -891,14 +887,14 @@ class NewRequest extends React.Component {
   //保存／提交前处理单据数据
   processValues = (params) => {
     //新建的时候的特殊处理
-    if (!this.props.params.applicationOID) {
+    if (!this.props.match.params.applicationOID) {
       params.remark = ''; //新建时要把表单带出的remark清空，这不是单据的remark
     }
   }
 
   //提交前检查组合控件的表单值验证,异步方法
   submitSaveValidateCombinationForm(){
-    let customFormFields = this.props.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
+    let customFormFields = this.props.match.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
     let isHaveValidate=false;
     let needValidateForms = ['venMasterSwitch', 'linkage_switch'];
     customFormFields && customFormFields.map(item=>{
@@ -915,7 +911,7 @@ class NewRequest extends React.Component {
   }
   //组合表单验证结果
   combinationFormValidateResult(){
-    let customFormFields = this.props.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
+    let customFormFields = this.props.match.params.applicationOID ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
     let isPassValid=true;
     let needValidateForms = ['venMasterSwitch', 'linkage_switch'];
     customFormFields && customFormFields.map(item=>{
@@ -944,7 +940,7 @@ class NewRequest extends React.Component {
       }
     });
     if (startDateValue && endDateValue && moment(startDateValue).isAfter(endDateValue)) {
-      message.error(messages('request.detail.travel.dateError'));//开始时间不能晚于结束时间
+      message.error(this.$t('request.detail.travel.dateError'));//开始时间不能晚于结束时间
       isOk = false;
     }
     return isOk;
@@ -968,7 +964,7 @@ class NewRequest extends React.Component {
       if (!err) {
         //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
         const { info, formInfo, formType, referenceApplicationOID,travelItinerarys } = this.state;
-        let params = this.props.params.applicationOID ? JSON.parse(JSON.stringify(info)) : JSON.parse(JSON.stringify(formInfo));
+        let params = this.props.match.params.applicationOID ? JSON.parse(JSON.stringify(info)) : JSON.parse(JSON.stringify(formInfo));
         params.custFormValues = this.getCustFormValues(values, true);
         if(!this.custFormValuesValidate(params.custFormValues)){
           return;
@@ -989,15 +985,15 @@ class NewRequest extends React.Component {
               formType === 2005 ? 'saveLoanRequest' : '';
         requestService[getType](params).then(() => {
           this.setState({saveLoading: false});
-          message.success(messages('common.save.success', {name: ''}));
+          message.success(this.$t('common.save.success', {name: ''}));
           this.goBack()
         }).catch(e => {
           this.setState({saveLoading: false});
           let error = e.response.data;
           if (error.validationErrors && error.validationErrors.length) {
-            message.error(`${messages('common.save.filed')}，${error.validationErrors[0].message}`)
+            message.error(`${this.$t('common.save.filed')}，${error.validationErrors[0].message}`)
           } else {
-            message.error(`${messages('common.save.filed')}，${error.message}`)
+            message.error(`${this.$t('common.save.filed')}，${error.message}`)
           }
         })
       }
@@ -1013,7 +1009,7 @@ class NewRequest extends React.Component {
     let partiOid = "";
     let indexOf = 0;
     let formVs = params.custFormValues;
-    let currentStatus = this.props.params.applicationOID ? 'edit' : 'create';
+    let currentStatus = this.props.match.params.applicationOID ? 'edit' : 'create';
     let isCanSubmit = travelUtil.customFormChecked(formVs);
     if(!isCanSubmit){
       this.setState({loading: false, saveLoading: false, submitLoading: false});
@@ -1021,7 +1017,7 @@ class NewRequest extends React.Component {
     }
     formVs.map((cus, index) => {//通过messageKey拿到对应表单的key，applicationOID存在为编辑状态
       if (cus.messageKey === "select_participant") {
-        partiOid = this.props.params.applicationOID ? cus.formValueOID : cus.fieldOID;
+        partiOid = this.props.match.params.applicationOID ? cus.formValueOID : cus.fieldOID;
         indexOf = index;
       }
     });
@@ -1050,21 +1046,21 @@ class NewRequest extends React.Component {
           if(this.state.info.sourceApplicationOID){
             this.setState({saveLoading: false, loading: false, submitLoading: false});
             Modal.warn({
-              title: messages('itinerary.form.tips')/*'提示'*/,
+              title: this.$t('itinerary.form.tips')/*'提示'*/,
               content: <div>
-                <p>{messages('itinerary.form.submit.power.noChange.tip',{names:showName})/*{showName}不符合数据权限，请检查或联系系统管理员*/}</p>
+                <p>{this.$t('itinerary.form.submit.power.noChange.tip',{names:showName})/*{showName}不符合数据权限，请检查或联系系统管理员*/}</p>
               </div>,
-              okText: messages('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
+              okText: this.$t('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
             });
           }else{
             Modal.confirm({
-              title: messages('itinerary.form.tips')/*'提示'*/,
+              title: this.$t('itinerary.form.tips')/*'提示'*/,
               content: <div>
-                <p>{messages('itinerary.form.submit.power.tip',{names:showName})/*{showName}不在可选人员范围内。是否删除以上人员？*/}</p>
-                { this.state.total>0 && <p style={{fontSize:12}}>{messages('itinerary.form.submit.power.clear.tip')/**更改参与人将清空差补，您要重新添加差补**/}</p>}
+                <p>{this.$t('itinerary.form.submit.power.tip',{names:showName})/*{showName}不在可选人员范围内。是否删除以上人员？*/}</p>
+                { this.state.total>0 && <p style={{fontSize:12}}>{this.$t('itinerary.form.submit.power.clear.tip')/**更改参与人将清空差补，您要重新添加差补**/}</p>}
               </div>,
-              okText: messages('common.delete')/*删除*/,
-              cancelText: messages('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
+              okText: this.$t('common.delete')/*删除*/,
+              cancelText: this.$t('itinerary.type.slide.and.modal.cancel.btn')/*'取消'*/,
               onOk: ()=> this.deletePartis(res, partis, params, type, currentStatus),
               onCancel: () => {this.setState({saveLoading: false, loading: false, submitLoading: false});}
             });
@@ -1080,19 +1076,19 @@ class NewRequest extends React.Component {
           if(error.validationErrors[0].externalPropertyName){
             switch (error.validationErrors[0].externalPropertyName) {
               case '2010': //申请人为空
-                message.error(messages('itinerary.form.submit.applicant.null'));
+                message.error(this.$t('itinerary.form.submit.applicant.null'));
                 break;
               case '2011': //部门为空
-                message.error(messages('itinerary.form.submit.department.null'));
+                message.error(this.$t('itinerary.form.submit.department.null'));
                 break;
               case '2012': //成本中心为空
-                message.error(messages('itinerary.form.submit.constCenter.null'));
+                message.error(this.$t('itinerary.form.submit.constCenter.null'));
                 break;
-              default: message.error(messages('finance.view.search.errorAdmin'));
+              default: message.error(this.$t('finance.view.search.errorAdmin'));
             }
           }
         } else {
-          message.error(`${messages('common.save.filed')}，${error.message}`)
+          message.error(`${this.$t('common.save.filed')}，${error.message}`)
         }
       })
     }else{
@@ -1132,8 +1128,8 @@ class NewRequest extends React.Component {
       params.applicant = null;
       travelService.saveTravelRequest(params).then(res => {
         this.setState({loading: false, saveLoading: false});
-        this.props.params.applicationOID = res.data.applicationOID;
-        message.success(messages('itinerary.save.tip')/*'已保存'*/);
+        this.props.match.params.applicationOID = res.data.applicationOID;
+        message.success(this.$t('itinerary.save.tip')/*'已保存'*/);
         if (status === 'create') {
           requestService.getRequestDetail(res.data.applicationOID).then(res => {
             this.setApplicantDisable(res.data.custFormValues);
@@ -1169,11 +1165,11 @@ class NewRequest extends React.Component {
         }
       }).catch(err => {
         this.setState({loading: false, saveLoading: false});
-        message.error(messages('itinerary.operation.failed.tip')/*`操作失败:`*/  + `${err.response.data.message}`);
+        message.error(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/  + `${err.response.data.message}`);
       });
     } else {//提交走这里：
       if (status === 'create') {
-        message.error(messages('itinerary.form.submit.check.isSave.tip')/*'请先保存!'*/);
+        message.error(this.$t('itinerary.form.submit.check.isSave.tip')/*'请先保存!'*/);
         this.setState({submitLoading: false, loading: false});
         return;
         /*下面注释三行不可删除，以后需求可能会不保存直接操作提交，如果这样只需删除上面三行，并取消注释*/
@@ -1183,7 +1179,7 @@ class NewRequest extends React.Component {
       }
       //提交时校验行程是否必须添加
       if(type === 'submit' && this.state.subsidyCtrl.itineraryRequire && !this.state.isHaveRoute){
-        message.warn(messages('itinerary.form.submit.check.add.itinerary.tip')/*'请添加行程'*/);
+        message.warn(this.$t('itinerary.form.submit.check.add.itinerary.tip')/*'请添加行程'*/);
         this.setState({submitLoading: false, loading: false});
         return;
       }
@@ -1203,10 +1199,10 @@ class NewRequest extends React.Component {
             }
           } else {
             Modal.confirm({
-              title: messages('itinerary.form.submit.check.budget.title')/*'超预算'*/,
+              title: this.$t('itinerary.form.submit.check.budget.title')/*'超预算'*/,
               content: <div>{c.data}</div>,
-              okText: messages('itinerary.form.submit.check.budget.commit')/*'继续提交'*/,
-              cancelText: messages('itinerary.form.submit.check.budget.back')/*'返回修改'*/,
+              okText: this.$t('itinerary.form.submit.check.budget.commit')/*'继续提交'*/,
+              cancelText: this.$t('itinerary.form.submit.check.budget.back')/*'返回修改'*/,
               onOk: ()=> {
                 this.checkedItinerary(params)
               },
@@ -1218,7 +1214,7 @@ class NewRequest extends React.Component {
           }
         }).catch(err => {
           this.setState({percent: 100,budgeting: false,loading: false, submitLoading: false});
-          message.error(messages('itinerary.form.submit.budgeting.result.tip')/*`校验失败:`*/ + `${err.response.data.message}`)
+          message.error(this.$t('itinerary.form.submit.budgeting.result.tip')/*`校验失败:`*/ + `${err.response.data.message}`)
         })
       } else {
         //检查行程中有哪几种，是否弹框统一订票
@@ -1233,13 +1229,13 @@ class NewRequest extends React.Component {
 
   //检查行程数据，是否需要显示统一订票等操作
   checkedItinerary = (params) => {
-    travelService.getItinerary(this.props.params.applicationOID).then(res => {
+    travelService.getItinerary(this.props.match.params.applicationOID).then(res => {
       let it = res.data;
       let sub = this.state.subsidyCtrl;
       if (it['FLIGHT'] && it['FLIGHT'].length > 0) {
         sub.flight = true;
         //获取最大机票数
-        travelService.getMaxFlight(this.props.params.applicationOID).then(f => {
+        travelService.getMaxFlight(this.props.match.params.applicationOID).then(f => {
           this.setState({maxFlight: f.data});
         })
       }
@@ -1360,8 +1356,8 @@ class NewRequest extends React.Component {
   //清空差补
   clearSubsidy = () => {
     this.setState({haveClear:true});
-    travelService.deleteAllSubsidy(this.props.params.applicationOID).then(res => {
-      message.success(messages('itinerary.form.submit.clear.subsidy.tip')/*'已清空差补'*/);
+    travelService.deleteAllSubsidy(this.props.match.params.applicationOID).then(res => {
+      message.success(this.$t('itinerary.form.submit.clear.subsidy.tip')/*'已清空差补'*/);
       this.setState({total: 0, haveClear: true, totalBudget: this.state.amount});
     }).catch(err => {
       message.error(err);
@@ -1393,13 +1389,13 @@ class NewRequest extends React.Component {
         if(man && man.length === maxHotel.maleRoomNumber){
           this.travelParams.travelApplication.travelHotelBookingMaleClerks = man;
         }else if(maxHotel.maleRoomNumber && maxHotel.maleRoomNumber > 0){
-          message.error(messages('itinerary.form.submit.noBooking.hotelMale.tip',{peo:maxHotel.maleRoomNumber}));
+          message.error(this.$t('itinerary.form.submit.noBooking.hotelMale.tip',{peo:maxHotel.maleRoomNumber}));
           return;
         }
         if(women && women.length === maxHotel.femaleRoomNumber){
           this.travelParams.travelApplication.travelHotelBookingFemaleClerks = women;
         }else if(maxHotel.femaleRoomNumber && maxHotel.femaleRoomNumber > 0){
-          message.error(messages('itinerary.form.submit.noBooking.hotelFemale.tip',{peo:maxHotel.femaleRoomNumber}));
+          message.error(this.$t('itinerary.form.submit.noBooking.hotelFemale.tip',{peo:maxHotel.femaleRoomNumber}));
           return;
         }
       }
@@ -1444,11 +1440,11 @@ class NewRequest extends React.Component {
     }
     travelService.submitTravelRequest(this.travelParams).then(res => {
       this.setState({loading: false, submitLoading: false});
-      message.success(messages('itinerary.form.submit.success.tip')/*"提交成功"*/);
+      message.success(this.$t('itinerary.form.submit.success.tip')/*"提交成功"*/);
       this.goBack();
     }).catch(err => {
       this.setState({loading: false, submitLoading: false});
-      message.error(messages('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
+      message.error(this.$t('itinerary.operation.failed.tip')/*`操作失败:`*/ + err.response.data.message);
     });
   };
 
@@ -1492,7 +1488,7 @@ class NewRequest extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let params = this.props.params.applicationOID ? this.state.info : this.state.formInfo;
+        let params = this.props.match.params.applicationOID ? this.state.info : this.state.formInfo;
         params.custFormValues = this.getCustFormValues(values);
         params.referenceApplicationOID = this.state.referenceApplicationOID;
         params.countersignApproverOIDs = this.props.form.getFieldsValue().addSign;
@@ -1511,11 +1507,11 @@ class NewRequest extends React.Component {
                 formType === 2004 ? '' : 'submitLoanRequest';
         requestService[getType](params).then(() => {
           this.setState({submitLoading: false});
-          message.success(messages('common.operate.success'));
+          message.success(this.$t('common.operate.success'));
           this.goBack()
         }).catch(e => {
           this.setState({submitLoading: false});
-          message.error(`${messages('common.operate.filed')}，${e.response.data.message}`)
+          message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`)
         })
       }
     });
@@ -1546,23 +1542,27 @@ class NewRequest extends React.Component {
   //删除
   handleDelete = () => {
     this.setState({deleteLoading: true});
-    requestService.deleteRequest(this.props.params.applicationOID).then(res => {
+    requestService.deleteRequest(this.props.match.params.applicationOID).then(res => {
       this.setState({deleteLoading: false});
-      message.success(messages('common.delete.success', {name: ''}));
+      message.success(this.$t('common.delete.success', {name: ''}));
       this.goBack()
     }).catch(e => {
       this.setState({deleteLoading: false});
-      message.error(messages('common.operate.filed'))
+      message.error(this.$t('common.operate.filed'))
     })
   };
   //返回
   goBack = () => {
-    this.context.router.push(this.state.applicationList.url)
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/request'
+      })
+    )
   };
   formItemChange(value){
     let {formInfo,defaultValues}=this.state;
-    let custForm=this.props.params.applicationOID ? defaultValues || [] : formInfo.customFormFields || [];
-    let id = this.props.params.applicationOID ? 'formValueOID' : 'fieldOID';
+    let custForm=this.props.match.params.applicationOID ? defaultValues || [] : formInfo.customFormFields || [];
+    let id = this.props.match.params.applicationOID ? 'formValueOID' : 'fieldOID';
     custForm.map(item =>{
       //参与人部门权限控件
       //差旅单参与人权限校验不走这里，在提交处校验
@@ -1636,7 +1636,7 @@ class NewRequest extends React.Component {
   }
 
   render() {
-    const { isPreVersion } = this.props.location.query;
+    //const { isPreVersion } = this.props.location.query;
     const { getFieldDecorator } = this.props.form;
     const { subsidyCtrl, loading, formInfo, formDefaultValue, defaultValues, saveLoading, deleteLoading, submitLoading, approvalHistory, signEnable, isShowRangePicker, travelItinerarys, dateChage, signCompanyOIDs } = this.state;
     const { maxHotel, randomHotel, copyDefaultValues, isFlight, isTrain, isHotel, info, formType, total, amount, totalBudget, percent, budgeting, haveClear, formIsChange, currentCodeType} = this.state;
@@ -1656,39 +1656,39 @@ class NewRequest extends React.Component {
       signPerson.push({userOID: item.userOID, fullName: item.fullName})
     });
     let formDetailValues=formInfo;
-    if(this.props.params.applicationOID ){
+    if(this.props.match.params.applicationOID ){
       formDetailValues.currencyCode = info.currencyCode;
       formDetailValues.applicantOID = info.applicant && info.applicant.userOID;
       formDetailValues.customFormFields=defaultValues;
     }
     let chooserItem ={
-      title: messages("chooser.data.selectPerson"),//选择人员
+      title: this.$t("chooser.data.selectPerson"),//选择人员
       url: `${config.baseUrl}/api/users/v3/search`,
       searchForm: [
         {
           type: 'input', id: 'keyword',
-          label: messages("chooser.data.employeeID.fullName.mobile")//员工工号、姓名、手机号
+          label: this.$t("chooser.data.employeeID.fullName.mobile")//员工工号、姓名、手机号
         },
       ],
       columns: [
         {
-          title:  messages("chooser.data.employeeID"),//工号
+          title:  this.$t("chooser.data.employeeID"),//工号
           dataIndex: 'employeeID', width: '10%'
         },
         {
-          title: messages("chooser.data.fullName"),//姓名
+          title: this.$t("chooser.data.fullName"),//姓名
           dataIndex: 'fullName', width: '25%'
         },
         {
-          title: messages("chooser.data.mobile"),//手机号
+          title: this.$t("chooser.data.mobile"),//手机号
           dataIndex: 'mobile', width: '25%'
         },
         {
-          title: messages("chooser.data.dep"),//部门名称
+          title: this.$t("chooser.data.dep"),//部门名称
           dataIndex: 'departmentName', width: '20%', render: value => value || '-'
         },
         {
-          title: messages("chooser.data.duty"),//职务
+          title: this.$t("chooser.data.duty"),//职务
           dataIndex: 'title', width: '20%', render: value => value || '-'
         },
       ],
@@ -1702,13 +1702,13 @@ class NewRequest extends React.Component {
         <h3 className="header-title">{formInfo.formName}</h3>
         <Form className="form-container">
           {
-            info.sourceApplicationOID && <FormItem {...formItemLayout} label={<span><Icon type="exclamation-circle-o" />&nbsp;{messages('itinerary.form.versionNum')/*版本号*/}</span>}>
+            info.sourceApplicationOID && <FormItem {...formItemLayout} label={<span><Icon type="exclamation-circle-o" />&nbsp;{this.$t('itinerary.form.versionNum')/*版本号*/}</span>}>
               {info.version + 1}<TravelPreviousVersion info={info} isPreVersion={isPreVersion}/>
             </FormItem>
           }
           <div style={{margin: '0 0 20px 30%'}}>{customField.instructionsTag(formInfo.customFormPropertyMap)}</div>
           <ExpectStopDate copyValue={copyDefaultValues} callFun={(boo,date)=>this.expectStopDate(boo,date)}/>
-          {this.props.params.applicationOID ? (
+          {this.props.match.params.applicationOID ? (
             defaultValues.map((field, index) => {
               //label
               let label = field.fieldName;
@@ -1721,39 +1721,39 @@ class NewRequest extends React.Component {
                 (field.messageKey === 'title' || field.messageKey === 'input' ? 50 : undefined);
               let rules = [{
                 required: field.required,
-                message: messages('common.can.not.be.empty', {name: field.fieldName})
+                message: this.$t('common.can.not.be.empty', {name: field.fieldName})
               }];
               maxLength && rules.push({
                 max: maxLength,
-                message: messages('common.max.characters.length', {max: maxLength})
+                message: this.$t('common.max.characters.length', {max: maxLength})
               });
               (field.messageKey === 'out_participant_name' || field.messageKey === 'external_participant_name') && rules.push({
                 validator: (rule, value, callback) => {
                   let emptyItem = '';
                   value && value.map(item => {
                     if (!item.name) {
-                      emptyItem = messages('customField.name'/*姓名*/);
+                      emptyItem = this.$t('customField.name'/*姓名*/);
                       return
                     }
                     if (!item.certificateNo) {
-                      emptyItem = messages('customField.id.number'/*证件号*/)
+                      emptyItem = this.$t('customField.id.number'/*证件号*/)
                     }
                   });
                   if (!emptyItem) {
                     callback();
                     return
                   }
-                  callback(messages('common.can.not.be.empty', {name: emptyItem}))
+                  callback(this.$t('common.can.not.be.empty', {name: emptyItem}))
                 }
               });
 
               return (
                 <div key={index}>
                   {index === 0 && field.messageKey !== 'applicant' && (
-                    <RelatedApplication formOID={this.props.params.formOID}
+                    <RelatedApplication formOID={this.props.match.params.formOID}
                                         formInfo={formInfo}
                                         applicantOID={this.props.user.userOID}
-                                        applicationOID={this.props.params.applicationOID}
+                                        applicationOID={this.props.match.params.applicationOID}
                                         info={info}
                                         changeHandle={(value) => {this.setState({referenceApplicationOID: value[0].applicationOID})}}/>
                   )}
@@ -1770,10 +1770,10 @@ class NewRequest extends React.Component {
                   </FormItem>
                   {/*关联申请单在申请人下面*/}
                   {index === 0 && field.messageKey === 'applicant' && (
-                    <RelatedApplication formOID={this.props.params.formOID}
+                    <RelatedApplication formOID={this.props.match.params.formOID}
                                         formInfo={formInfo}
                                         applicantOID={this.props.user.userOID}
-                                        applicationOID={this.props.params.applicationOID}
+                                        applicationOID={this.props.match.params.applicationOID}
                                         info={info}
                                         changeHandle={(value) => {this.setState({referenceApplicationOID: value[0].applicationOID})}}/>
                   )}
@@ -1793,29 +1793,29 @@ class NewRequest extends React.Component {
                 (field.messageKey === 'title' || field.messageKey === 'input' ? 50 : undefined);
               let rules = [{
                 required: field.required,
-                message: messages('common.can.not.be.empty', {name: field.fieldName})
+                message: this.$t('common.can.not.be.empty', {name: field.fieldName})
               }];
               maxLength && rules.push({
                 max: maxLength,
-                message: messages('common.max.characters.length', {max: maxLength})
+                message: this.$t('common.max.characters.length', {max: maxLength})
               });
               (field.messageKey === 'out_participant_name' || field.messageKey === 'external_participant_name') && rules.push({
                 validator: (rule, value, callback) => {
                   let emptyItem = '';
                   value && value.map(item => {
                     if (!item.name) {
-                      emptyItem = messages('customField.name'/*姓名*/);
+                      emptyItem = this.$t('customField.name'/*姓名*/);
                       return
                     }
                     if ((JSON.parse(field.fieldContent || '{}').isContainCard || field.messageKey === 'out_participant_name') && !item.certificateNo) {
-                      emptyItem = messages('customField.id.number'/*证件号*/)
+                      emptyItem = this.$t('customField.id.number'/*证件号*/)
                     }
                   });
                   if (!emptyItem) {
                     callback();
                     return
                   }
-                  callback(messages('common.can.not.be.empty', {name: emptyItem}))
+                  callback(this.$t('common.can.not.be.empty', {name: emptyItem}))
                 }
               });
 
@@ -1828,10 +1828,10 @@ class NewRequest extends React.Component {
               return (
                 <div key={index}>
                   {index === 0 && field.messageKey !== 'applicant' && (
-                    <RelatedApplication formOID={this.props.params.formOID}
+                    <RelatedApplication formOID={this.props.match.params.formOID}
                                         formInfo={formInfo}
                                         applicantOID={this.props.user.userOID}
-                                        applicationOID={this.props.params.applicationOID}
+                                        applicationOID={this.props.match.params.applicationOID}
                                         changeHandle={(value) => {this.setState({referenceApplicationOID: value[0].applicationOID})}}/>
                   )}
                   <FormItem {...formItemLayout} label={label} key={field.fieldOID}>
@@ -1847,10 +1847,10 @@ class NewRequest extends React.Component {
                   </FormItem>
                   {/*关联申请单在申请人下面*/}
                   {index === 0 && field.messageKey === 'applicant' && (
-                    <RelatedApplication formOID={this.props.params.formOID}
+                    <RelatedApplication formOID={this.props.match.params.formOID}
                                         formInfo={formInfo}
                                         applicantOID={this.props.user.userOID}
-                                        applicationOID={this.props.params.applicationOID}
+                                        applicationOID={this.props.match.params.applicationOID}
                                         changeHandle={(value) => {this.setState({referenceApplicationOID: value[0].applicationOID})}}/>
                   )}
                 </div>
@@ -1858,7 +1858,7 @@ class NewRequest extends React.Component {
             })
           )}
           {signEnable && (
-            <FormItem {...formItemLayout} label={messages('customField.special.signer')} key="addSign">
+            <FormItem {...formItemLayout} label={this.$t('customField.special.signer')} key="addSign">
               {getFieldDecorator('addSign', {
                 initialValue: signPerson
               })(
@@ -1874,22 +1874,22 @@ class NewRequest extends React.Component {
           )}
         </Form>
         {formType === 2001 && this.state.manageType &&
-        formInfo.customFormPropertyMap && this.props.params.applicationOID && defaultValues.length > 0 &&
+        formInfo.customFormPropertyMap && this.props.match.params.applicationOID && defaultValues.length > 0 &&
         <TravelType updateTotalBudget={(total, clear, isHaveRoute,isRepeatSubsidy) => this.updateTotalBudget(total, clear, isHaveRoute,isRepeatSubsidy)}
                     beforeAddSubsidyToSave = {(boo) => this.beforeAddSubsidyToSave(boo)}
                     infoDetail = {info}
                     formIsChange = {formIsChange}
                     setInfo={
                       {
-                        oid:this.props.params.applicationOID,
+                        oid:this.props.match.params.applicationOID,
                         travelInfo:formInfo,
                         defaultValue:defaultValues,
                         clearSubsidy:haveClear,
-                        formOID:  this.props.params.formOID
+                        formOID:  this.props.match.params.formOID
                       }
                     }/>}
 
-        { formType === 2001 && !this.state.manageType && dateChage  && this.props.params.applicationOID && !loading &&
+        { formType === 2001 && !this.state.manageType && dateChage  && this.props.match.params.applicationOID && !loading &&
                 <TravelElementType updateTotalBudget={(total, clear, isHaveRoute,isRepeatSubsidy) => this.updateTotalBudget(total, clear, isHaveRoute,isRepeatSubsidy)}
                                    beforeAddSubsidyToSave = {(boo) => this.beforeAddSubsidyToSave(boo)}
                                    updateTravelItinerarys = {travelItinerarys => this.setState({travelItinerarys:travelItinerarys})}
@@ -1897,11 +1897,11 @@ class NewRequest extends React.Component {
                                    formIsChange = {formIsChange}
                                    setInfo={
                                      {
-                                       oid:this.props.params.applicationOID,
+                                       oid:this.props.match.params.applicationOID,
                                        travelInfo:formInfo,
                                        defaultValue:defaultValues,
                                        clearSubsidy:haveClear,
-                                       formOID:  this.props.params.formOID,
+                                       formOID:  this.props.match.params.formOID,
                                        travelElement:!this.state.manageType,
                                        travelItinerarys
                                      }
@@ -1914,8 +1914,8 @@ class NewRequest extends React.Component {
         <Spin spinning={loading}>
           { !! approvalHistory.length && !loading && (
             <Tabs type="card">
-              <TabPane tab={messages('request.detail.request.info')/*申请单信息*/} key="requestInfo">{requestInfo}</TabPane>
-              <TabPane tab={messages('request.detail.approve.history'/*审批历史*/)} key="approvals">
+              <TabPane tab={this.$t('request.detail.request.info')/*申请单信息*/} key="requestInfo">{requestInfo}</TabPane>
+              <TabPane tab={this.$t('request.detail.approve.history'/*审批历史*/)} key="approvals">
                 <ApproveHistory approvalChains={info.approvalChains} isShowReply={false} businessCode={info.businessCode} approvalHistory={approvalHistory} applicantInfo={info.applicant || {}}/>
               </TabPane>
             </Tabs>
@@ -1924,35 +1924,35 @@ class NewRequest extends React.Component {
         </Spin>
 
         <Affix offsetBottom={0} className="bottom-bar">
-          <Button type="primary" onClick={this.handleSubmit} loading={submitLoading}>{messages('common.submit')}</Button>
-          <Button onClick={this.handleSave} loading={saveLoading}>{messages('common.save')}</Button>
-          <Button onClick={this.goBack}>{messages('common.back')}</Button>
+          <Button type="primary" onClick={this.handleSubmit} loading={submitLoading}>{this.$t('common.submit')}</Button>
+          <Button onClick={this.handleSave} loading={saveLoading}>{this.$t('common.save')}</Button>
+          <Button onClick={this.goBack}>{this.$t('common.back')}</Button>
           {
             formType === 2001 && <Row className="total-budget">
-              <span className="total">{messages('itinerary.form.travel.info.total')/*总金额*/}:{currentCodeType}&nbsp;{ React.Component.prototype.filterMoney(totalBudget) } </span>
-              <span className="budget">{messages('itinerary.form.travel.info.fee.total')/*费用总金额*/}:{ React.Component.prototype.filterMoney(amount) }
-                + {messages('itinerary.form.travel.info.subsidy.total')/*差补总金额*/}:{ React.Component.prototype.filterMoney(total) }</span>
+              <span className="total">{this.$t('itinerary.form.travel.info.total')/*总金额*/}:{currentCodeType}&nbsp;{ React.Component.prototype.filterMoney(totalBudget) } </span>
+              <span className="budget">{this.$t('itinerary.form.travel.info.fee.total')/*费用总金额*/}:{ React.Component.prototype.filterMoney(amount) }
+                + {this.$t('itinerary.form.travel.info.subsidy.total')/*差补总金额*/}:{ React.Component.prototype.filterMoney(total) }</span>
             </Row>
           }
-          {this.props.params.applicationOID && (
-            <Popconfirm title={messages('common.confirm.delete')} placement="topRight" onConfirm={this.handleDelete}>
-              <Button className="delete-btn" loading={deleteLoading}>{messages('common.delete')}</Button>
+          {this.props.match.params.applicationOID && (
+            <Popconfirm title={this.$t('common.confirm.delete')} placement="topRight" onConfirm={this.handleDelete}>
+              <Button className="delete-btn" loading={deleteLoading}>{this.$t('common.delete')}</Button>
             </Popconfirm>
           )}
         </Affix>
-        <Modal title={messages('itinerary.form.submit.booking.title')}/*"统一订票"*/
+        <Modal title={this.$t('itinerary.form.submit.booking.title')}/*"统一订票"*/
                visible={subsidyCtrl.isShowModal}
                onOk={() => this.goSubmitTravel(false)}
                onCancel={this.cancelSubmit}
                width={'50%'}
-               okText={messages('itinerary.type.slide.and.modal.ok.btn')/*"确定"*/}
-               cancelText={messages('itinerary.type.slide.and.modal.back.btn')}/*"返回"*/
+               okText={this.$t('itinerary.type.slide.and.modal.ok.btn')/*"确定"*/}
+               cancelText={this.$t('itinerary.type.slide.and.modal.back.btn')}/*"返回"*/
         >
           <Form>
             {
               subsidyCtrl.flight && <Row>
                 <Col span={6} style={{marginTop:9}}>
-                  <span>{messages('itinerary.form.submit.booking.flight.title')/*统一订机票*/}：</span>
+                  <span>{this.$t('itinerary.form.submit.booking.flight.title')/*统一订机票*/}：</span>
                 </Col>
                 <Col span={4} style={{marginTop:7}}>
                   <Switch disabled={info.sourceApplicationOID ? true : false}
@@ -1963,7 +1963,7 @@ class NewRequest extends React.Component {
                 <Col span={14} style={{marginTop:isFlight ? 0 : 8}}>
                   {
                     (info.travelApplication.hasOwnProperty("uniformBooking") ? info.travelApplication.uniformBooking : isFlight)
-                      ? <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.booking.flight.peo')/*机票订票人*/}>
+                      ? <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.booking.flight.peo')/*机票订票人*/}>
                         {getFieldDecorator('bookingClerkOID', {
                           initialValue: info.travelApplication.bookingClerkOID ? info.travelApplication.bookingClerkOID : subsidyCtrl.selectPerson[0] ? subsidyCtrl.selectPerson[0].oid : ""
                         })(
@@ -1979,7 +1979,7 @@ class NewRequest extends React.Component {
                         )}
                       </FormItem>
                       : <span>
-                        {messages('itinerary.form.submit.noBooking.tip',{peo:info.createdName})/*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
+                        {this.$t('itinerary.form.submit.noBooking.tip',{peo:info.createdName})/*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
                         </span>
                   }
                 </Col>
@@ -1988,7 +1988,7 @@ class NewRequest extends React.Component {
             {
               subsidyCtrl.train && <Row>
                 <Col span={6} style={{marginTop:9}}>
-                  <span>{messages('itinerary.form.submit.booking.train.title')/*统一订火车票*/}：</span>
+                  <span>{this.$t('itinerary.form.submit.booking.train.title')/*统一订火车票*/}：</span>
                 </Col>
                 <Col span={4} style={{marginTop:7}}>
                   <Switch disabled={info.sourceApplicationOID ? true : false}
@@ -1999,7 +1999,7 @@ class NewRequest extends React.Component {
                 <Col span={14} style={{marginTop:isTrain ? 0 : 8}}>
                   {
                     (info.travelApplication.hasOwnProperty("trainUniformBooking") ? info.travelApplication.trainUniformBooking :isTrain)
-                      ? <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.booking.train.peo')/*火车订票人*/}>
+                      ? <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.booking.train.peo')/*火车订票人*/}>
                       {getFieldDecorator('trainBookingClerkOID', {
                         initialValue: info.travelApplication.trainBookingClerkOID ? info.travelApplication.trainBookingClerkOID : subsidyCtrl.selectPerson[0] ? subsidyCtrl.selectPerson[0].oid : ""
                       })(
@@ -2015,7 +2015,7 @@ class NewRequest extends React.Component {
                       )}
                     </FormItem>
                       : <span>
-                    {messages('itinerary.form.submit.noBooking.tip',{peo:info.createdName})/*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
+                    {this.$t('itinerary.form.submit.noBooking.tip',{peo:info.createdName})/*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
                   </span>
                   }
                 </Col>
@@ -2024,7 +2024,7 @@ class NewRequest extends React.Component {
             {
               subsidyCtrl.hotel && <Row>
                 <Col span={6} style={{marginTop:9}}>
-                  <span>{messages('itinerary.form.submit.booking.hotel.title')/*统一订酒店*/}：</span>
+                  <span>{this.$t('itinerary.form.submit.booking.hotel.title')/*统一订酒店*/}：</span>
                 </Col>
                 <Col span={4} style={{marginTop:7}}>
                   <Switch disabled={info.sourceApplicationOID ? true : false}
@@ -2034,7 +2034,7 @@ class NewRequest extends React.Component {
                 </Col>
                 <Col span={14} style={{marginTop:isHotel ? 0 : 8}}>
                   {
-                    (info.travelApplication.hasOwnProperty("hotelUniformBooking") ? info.travelApplication.hotelUniformBooking : isHotel) ? <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.booking.hotel.peo')/*酒店预订人*/}>
+                    (info.travelApplication.hasOwnProperty("hotelUniformBooking") ? info.travelApplication.hotelUniformBooking : isHotel) ? <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.booking.hotel.peo')/*酒店预订人*/}>
                       {getFieldDecorator('hotelBookingClerkOID', {
                         initialValue: info.travelApplication.hotelBookingClerkOID ? info.travelApplication.hotelBookingClerkOID : subsidyCtrl.selectPerson[0] ? subsidyCtrl.selectPerson[0].oid : ""
                       })(
@@ -2050,16 +2050,16 @@ class NewRequest extends React.Component {
                       )}
                     </FormItem>
                       :(<div>
-                        <p>{messages('itinerary.form.submit.noBooking.hotel.tip',{peo:info.createdName})/*请选择合住房间的预订人，非合住人员各自订票，外部参与人由 {info.createdName} 预订*/}</p>
+                        <p>{this.$t('itinerary.form.submit.noBooking.hotel.tip',{peo:info.createdName})/*请选择合住房间的预订人，非合住人员各自订票，外部参与人由 {info.createdName} 预订*/}</p>
                         { (maxHotel.maleRoomNumber > 0 || maxHotel.femaleRoomNumber > 0) &&
-                          <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.noBooking.hotel.randomBtn.label')/*'合住房间预订人'*/}>
+                          <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.noBooking.hotel.randomBtn.label')/*'合住房间预订人'*/}>
                             {getFieldDecorator('randomHotelPeopleBtn')(
-                              <Button type='primary' loading={randomHotel} ghost disabled={info.sourceApplicationOID ? true : false} onClick={this.createHotelPeople}>{messages('itinerary.form.submit.noBooking.hotel.randomBtn.name')/*随机*/}</Button>
+                              <Button type='primary' loading={randomHotel} ghost disabled={info.sourceApplicationOID ? true : false} onClick={this.createHotelPeople}>{this.$t('itinerary.form.submit.noBooking.hotel.randomBtn.name')/*随机*/}</Button>
                             )}
                           </FormItem>
                         }
                        {
-                         (maxHotel.maleRoomNumber > 0) && <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.noBooking.hotel.male')/*'男士'*/}>
+                         (maxHotel.maleRoomNumber > 0) && <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.noBooking.hotel.male')/*'男士'*/}>
                             {getFieldDecorator('travelHotelBookingMaleClerks', {
                               initialValue: (info.travelApplication.travelHotelBookingMaleClerks && info.sourceApplicationOID) ? info.travelApplication.travelHotelBookingMaleClerks : []
                             })(
@@ -2079,7 +2079,7 @@ class NewRequest extends React.Component {
                           </FormItem>
                         }
                         {
-                          (maxHotel.femaleRoomNumber > 0) && <FormItem {...formItemLayoutModal} label={messages('itinerary.form.submit.noBooking.hotel.female')/*'女士'*/}>
+                          (maxHotel.femaleRoomNumber > 0) && <FormItem {...formItemLayoutModal} label={this.$t('itinerary.form.submit.noBooking.hotel.female')/*'女士'*/}>
                             {getFieldDecorator('travelHotelBookingFemaleClerks', {
                               initialValue: (info.travelApplication.travelHotelBookingFemaleClerks && info.sourceApplicationOID) ? info.travelApplication.travelHotelBookingFemaleClerks : []
                             })(
@@ -2106,28 +2106,24 @@ class NewRequest extends React.Component {
             }
           </Form>
         </Modal>
-        <Modal title={messages('itinerary.form.submit.budgeting.title')/*"预算校验"*/}
+        <Modal title={this.$t('itinerary.form.submit.budgeting.title')/*"预算校验"*/}
                visible={budgeting}
         >
           <Progress percent={percent} status="active"/>
-          <p>{messages('itinerary.form.submit.budgeting.content')/*正在校验...*/}</p>
+          <p>{this.$t('itinerary.form.submit.budgeting.content')/*正在校验...*/}</p>
         </Modal>
       </div>
     )
   }
 }
 
-NewRequest.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    user: state.login.user,
-    loginUser: state.login.loginUser,
-    language: state.main.language,
-    profile: state.login.profile
+    company: state.user.company,
+    user: state.user.currentUser,
+    language: state.languages,
+    //profile: state.login.profile
   }
 }
 
