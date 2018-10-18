@@ -6,7 +6,7 @@ import React from 'react';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
-import 'styles/components/Template/reset-password/password-rule.scss';
+import 'styles/components/template/reset-password/password-rule.scss';
 
 class PasswordRule extends React.Component {
   componentWillMount() {}

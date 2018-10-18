@@ -9,11 +9,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Modal, Input, Icon, Button } from 'antd';
-import DepTreeWithPerson from 'components/Template/select-depment-or-person/dep-tree-with-person';
-import SelectPersonService from 'components/Template/select-depment-or-person/select-depment-or-person.service';
-import OrgSearchList from 'components/Template/select-depment-or-person/org-search-list';
+import DepTreeWithPerson from 'components/template/select-depment-or-person/dep-tree-with-person';
+import SelectPersonService from 'components/template/select-depment-or-person/select-depment-or-person.service';
+import OrgSearchList from 'components/template/select-depment-or-person/org-search-list';
 
-import 'styles/components/Template/select-depment-or-person/select-depment-or-person.scss';
+import 'styles/components/template/select-depment-or-person/select-depment-or-person.scss';
 import PropTypes from 'prop-types';
 
 const treeData = [];

@@ -15,7 +15,7 @@ import financeViewService from 'containers/financial-management/finance-view/fin
 import menuRoute from "../../../routes/menuRoute";
 import {messages, invoiceAmountChange, dealCache, deepFullCopy} from 'share/common';
 import {Dropdown,Menu} from 'antd';
-import Importer from 'components/Template/importer';
+import Importer from 'components/template/importer';
 import configureStore from "stores";
 import {setFinancePayment} from "actions/cache";
 import moment from 'moment'

@@ -291,7 +291,7 @@ export default {
   //下载导入模板:接口测试ok
   downloadSelfBankTemp: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/bank/infos/custom/bank/info/Template', {},{}, {responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/bank/infos/custom/bank/info/template', {},{}, {responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })

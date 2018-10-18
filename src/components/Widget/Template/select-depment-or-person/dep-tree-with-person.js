@@ -9,7 +9,7 @@ import { Tree, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 const TreeNode = Tree.TreeNode;
-import 'styles/components/Template/select-depment-or-person/dep-tree-with-person.scss';
+import 'styles/components/template/select-depment-or-person/dep-tree-with-person.scss';
 // 测试多部门账号uat
 // 吴彪:13500000012  密码：a11111,uat
 class DepTreeWithPerson extends React.Component {

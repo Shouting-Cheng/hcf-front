@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import 'styles/components/Template/language-input/language-input.scss';
+import 'styles/components/template/language-input/language-input.scss';
 import languageGrey from 'images/components/language-grey.png';
 import language from 'images/components/language.png';
 import { Modal, Button, message } from 'antd';

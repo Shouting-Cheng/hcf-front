@@ -14,7 +14,7 @@ import config from 'config';
 import 'styles/basic-data/bank-definition/bank-definition.scss';
 import SlideFrame from 'components/slide-frame';
 import CreateOrUpdateBank from 'containers/basic-data/bank-definition/create-or-update-bank';
-import ImportErrInfo from 'components/Template/import-err-info';
+import ImportErrInfo from 'components/template/import-err-info';
 const TabPane = Tabs.TabPane;
 import BSService from 'containers/basic-data/bank-definition/bank-definition.service';
 import FileSaver from 'file-saver';
