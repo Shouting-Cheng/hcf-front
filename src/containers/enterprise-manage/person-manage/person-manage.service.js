@@ -140,7 +140,7 @@ export default {
   //人员信息模版
   downloadEmployeeTemplate: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/users/v2/fullInfo/Template/export', {},  {},{responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/users/v2/fullInfo/template/export', {},  {},{responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })
@@ -153,7 +153,7 @@ export default {
   //下载携程供应商模版
   downloadCtripSupplierTemplate: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/contact/supplier/ctrip/Template/export', {}, {},{responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/contact/supplier/ctrip/template/export', {}, {},{responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })
@@ -166,7 +166,7 @@ export default {
   //下载银行信息模板
   downloadBankAccountTemplate: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/contact/bank/accounts/Template/export', {},{}, {responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/contact/bank/accounts/template/export', {},{}, {responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })
@@ -179,7 +179,7 @@ export default {
   //下载证件信息模板
   downloadCardAccountTemplate: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/contact/cards/Template/export', {},{}, {responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/contact/cards/template/export', {},{}, {responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })

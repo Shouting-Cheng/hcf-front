@@ -287,7 +287,6 @@ class MyGLWorkOrder extends Component {
                     clearHandle={this.clear}
                     wrappedComponentRef={(inst) => this.formRef = inst}
                 />
-                <div className='divider'></div>
                 <div className='table-header'>
                     <div className='table-header-buttons'>
                         <Row>

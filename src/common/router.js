@@ -349,6 +349,12 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
       name: 'jd-request-edit'
     },
+    '/request/new-request/:formOID/:applicantOID':{
+      //新建申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
+      name: 'new-request',
+      parent: '/request'
+    },
     '/request/request-edit/:formOID/:applicationOID':{
       //编辑申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
@@ -507,6 +513,29 @@ export const getRouterData = app => {
       name: '银行账户详情',
       parent: '/pay-setting/company-account-setting',
     },
+    '/approval-management/gl-work-order-approval': {
+      //核算工单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
+      ),
+      name: 'gl-work-order-approval',
+    },
+    '/approval-management/gl-work-order-approval/gl-work-order-approval-detail/:id/:oid/:status': {
+      //核算工单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval-detail.js')
+      ),
+      name: '核算工单审批详情',
+      parent: '/approval-management/gl-work-order-approval',
+    },
+    '/financial-management/csh-write-off-backlash': {
+      //核销反冲
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-management/csh-write-off-backlash/csh-write-off-backlash')
+      ),
+      name: 'csh-write-off-backlash',
+    }
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
