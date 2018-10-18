@@ -507,6 +507,9 @@ export const getRouterData = app => {
       name: '银行账户详情',
       parent: '/pay-setting/company-account-setting',
     },
+    '/financial-management':{ //财务管理
+
+    }
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
