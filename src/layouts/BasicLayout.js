@@ -648,19 +648,7 @@ class BasicLayout extends React.Component {
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header>
-          <Content style={{ margin: '10px 10px 0', height: '100%' }}>
-            {/* {!loading && (
-              <Switch>
-                {redirectData.map(item => (
-                  <Redirect key={item.from} exact from={item.from} to={item.to} />
-                ))}
-                {getRoutes(match.path, menu.routerData).map(item => (
-                  <Route path={item.path} key={item.key} render={item.component} />
-                ))}
-                <Redirect exact from="/" to={bashRedirect} />
-                <Route render={NotFound} />
-              </Switch>
-            )} */}
+          <Content style={{ margin: '10px 10px 0' }}>
             {!loading && (
               <Tabs
                 hideAdd

@@ -123,7 +123,7 @@ class ContractDetailCommon extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    
     if (nextProps.headerData != this.props.headerData) {
 
       this.setDocumentInfo(nextProps);
@@ -151,6 +151,7 @@ class ContractDetailCommon extends React.Component {
   }
 
   setDocumentInfo = (nextProps) => {
+    console.log(nextProps)
     let list = [];
     nextProps.headerData.customFormValues && nextProps.headerData.customFormValues.map(o => {
       if (o.messageKey != "select_company" && o.messageKey != "select_department" && o.messageKey != "remark" && o.messageKey != "currency_code") {
@@ -170,7 +171,7 @@ class ContractDetailCommon extends React.Component {
         infoList: [
           { label: "申请人", value: nextProps.headerData.applicationName },
           { label: "公司", value: nextProps.headerData.createByCompanyName },
-          { label: "部门", value: nextProps.headerData.createByUnitName },
+          { label: "部门", value: nextProps.headerData.unitName },
           nextProps.headerData.contractHeaderId ? { label: "合同", value: nextProps.headerData.contractHeaderLineDTO.contractNumber, linkId: nextProps.headerData.contractHeaderId } : null
         ],
         customList: list

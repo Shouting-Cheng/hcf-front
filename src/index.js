@@ -10,6 +10,7 @@ import './rollbar';
 
 import './index.less';
 
+
 import './utils/extend';
 // 1. Initialize
 const app = dva({

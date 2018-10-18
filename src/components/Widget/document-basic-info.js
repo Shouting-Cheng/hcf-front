@@ -21,6 +21,7 @@ class DocumentBasicInfo extends React.Component {
     this.setState({
       data: nextProps.params
     });
+    console.log(this.state.data)
   }
   renderList = (title, value, linkId) => {
     return (
@@ -91,17 +92,20 @@ class DocumentBasicInfo extends React.Component {
                 })
               }
             </Row>
-            <Row>
-              {
-                (this.state.data.customList && this.state.data.customList.length) && this.state.data.customList.map((item, index) => {
+            {
+              this.state.data.customList && this.state.data.customList.length > 0 ?
+                this.state.data.customList.map((item, index) => {
                   return (
-                    <Col key={index} span={6}>
-                      {this.renderList(item.label, item.value)}
-                    </Col>
+                    <Row>
+                      <Col key={index} span={6}>
+                        {this.renderList(item.label, item.value)}
+                      </Col>
+                    </Row>
+
                   )
-                })
-              }
-            </Row>
+
+                }) : null
+            }
             <Row>
               <Col span={24}>
                 <Row style={{ fontSize: '12px', lineHeight: "32px", overflow: "hidden", }} className="list-info">

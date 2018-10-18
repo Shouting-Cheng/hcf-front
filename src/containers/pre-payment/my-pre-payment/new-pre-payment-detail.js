@@ -73,7 +73,6 @@ class NewPrePaymentDetail extends React.Component {
   }
 
   componentDidMount() {
-    console.log('1111');
     this.setState(
       {
         paymentRequisitionHeaderId: this.props.params.id,
@@ -120,79 +119,12 @@ class NewPrePaymentDetail extends React.Component {
             this.props.params.record.partnerId,
             this.props.params.record.partnerCategory
           );
-          this.getCashTransactionList();
         }
+        this.getCashTransactionList();
       }
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.params.flag && !nextProps.params.flag) {
-      this.setState({
-        flag: false,
-        contract: {},
-        bankInfos: [],
-        partnerInfo: {},
-        contractValue: [],
-        dueDate: '',
-        lineNumber: '',
-      });
-      this.props.form.resetFields();
-    }
-
-    if (nextProps.params.flag && !this.state.flag) {
-      this.setState(
-        {
-          paymentRequisitionHeaderId: nextProps.params.id,
-          paymentReqTypeId: nextProps.params.paymentReqTypeId,
-          params: nextProps.params.record,
-          newParams: nextProps.params,
-          accountName: nextProps.params.record.accountName,
-          number: nextProps.params.record.accountNumber,
-          lineNumber: nextProps.params.record.contractLineNumber,
-          flag: true,
-          dueDate: nextProps.params.record.dueDate,
-          remark: nextProps.params.remark,
-          partnerInfo: nextProps.params.record.id
-            ? {
-              isEmp: nextProps.params.record.partnerCategory != 'VENDER',
-              code: nextProps.params.record.partnerCode,
-              name: nextProps.params.record.partnerName,
-              id: nextProps.params.record.partnerId,
-              partnerCategory: nextProps.params.record.partnerCategory,
-            }
-            : {},
-          contractValue: nextProps.params.record.contractLineId
-            ? [
-              {
-                key: nextProps.params.record.contractLineId,
-                label: nextProps.params.record.contractNumber,
-                value: nextProps.params.record,
-              },
-            ]
-            : [],
-          selectedData: nextProps.params.record.contractLineId
-            ? [nextProps.params.record.contractLineId]
-            : [],
-          contract: {
-            lineNumber: nextProps.params.record.contractLineNumber,
-            contractLineId: nextProps.params.record.contractLineId,
-            contractNumber: nextProps.params.record.contractNumber,
-            contractId: nextProps.params.record.contractId,
-          },
-        },
-        () => {
-          if (this.state.params.id) {
-            this.getReceivables(
-              nextProps.params.record.partnerId,
-              nextProps.params.record.partnerCategory
-            );
-            this.getCashTransactionList();
-          }
-        }
-      );
-    }
-  }
   //获取现金事务
   getCashTransactionList = () => {
     //如果存在就不需要再获取了
@@ -296,7 +228,8 @@ class NewPrePaymentDetail extends React.Component {
     let url = menuRoute.getRouteItem('contract-detail', 'key');
     window.open(url.url.replace(':id', id).replace(':from', 'pre-payment'), '_blank');
   };
-  clickContractSelect = () => {
+  clickContractSelect = (open) => {
+    if (!open) return;
     if (!this.props.form.getFieldValue('currency')) {
       message.warning('请先选择币种');
       return;
@@ -555,7 +488,7 @@ class NewPrePaymentDetail extends React.Component {
               ],
               initialValue: params.id ? params.cshTransactionClassId.toString() : '',
             })(
-              <Select onFocus={this.getCashTransactionList} placeholder="请选择">
+              <Select placeholder="请选择">
                 {partnerCategoryOptions.map(option => {
                   return <Option key={option.id}>{option.description}</Option>;
                 })}
@@ -747,7 +680,7 @@ class NewPrePaymentDetail extends React.Component {
                   value={contractValue}
                   labelInValue
                   dropdownStyle={{ display: 'none' }}
-                  onFocus={this.clickContractSelect}
+                  onDropdownVisibleChange={this.clickContractSelect}
                 />
                 <div style={{ marginTop: '8px' }}>
                   {contractValue.length == 0
