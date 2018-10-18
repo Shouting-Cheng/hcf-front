@@ -1,15 +1,15 @@
-import {messages} from "share/common";
 /**
  * 关联申请单
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import config from 'config'
 import { Form, Popover } from 'antd'
 const FormItem = Form.Item;
+import PropTypes from 'prop-types';
 
 import moment from 'moment'
-import Chooser from 'components/chooser'
+import Chooser from 'widget/chooser'
 import requestService from 'containers/request/request.service'
 
 class RelatedApplication extends React.Component {
@@ -17,14 +17,14 @@ class RelatedApplication extends React.Component {
     super(props);
     this.state = {
       selectorItem: {
-        title: messages('chooser.data.my.relativeApplication')/*'请选择关联的申请单'*/,
+        title: this.$t('chooser.data.my.relativeApplication')/*'请选择关联的申请单'*/,
         url: `${config.baseUrl}/api/loan/reference/my/application?formOID=${this.props.formOID}&applicantOID=${this.props.applicantOID}&loanApplicationOID=${this.props.applicationOID}`,
-        searchForm: [{type: 'input', id: 'keyword', label: `${messages('common.applicant')}/${messages('chooser.data.my.application.name')}/${messages('common.matter')}`}/*申请人/参与人姓名/事由*/],
+        searchForm: [{type: 'input', id: 'keyword', label: `${this.$t('common.applicant')}/${this.$t('chooser.data.my.application.name')}/${this.$t('common.matter')}`}/*申请人/参与人姓名/事由*/],
         columns: [
-          {title: messages('contract.sign.date')/*提交时间*/, dataIndex: 'submittedDate', render: value => moment(value).format('YYYY-MM-DD')},
-          {title: messages('common.matter')/*事由*/, dataIndex: 'title'},
-          {title: messages('bookingManagement.businessCode')/*'申请单号'*/, dataIndex: 'businessCode'},
-          {title: messages('chooser.data.my.relevantMemeber')/*'相关人员'*/, dataIndex: 'applicationParticipants', render: (value, record) => {
+          {title: this.$t('contract.sign.date')/*提交时间*/, dataIndex: 'submittedDate', render: value => moment(value).format('YYYY-MM-DD')},
+          {title: this.$t('common.matter')/*事由*/, dataIndex: 'title'},
+          {title: this.$t('bookingManagement.businessCode')/*'申请单号'*/, dataIndex: 'businessCode'},
+          {title: this.$t('chooser.data.my.relevantMemeber')/*'相关人员'*/, dataIndex: 'applicationParticipants', render: (value, record) => {
             let participants = [record.applicantName];
             value.map(item => {
               item.participantOID !== record.applicantOID && participants.push(item.fullName)
@@ -101,11 +101,11 @@ class RelatedApplication extends React.Component {
     return (
       <div className="related-application">
         {visible && (
-          <FormItem {...formItemLayout} label={messages('request.edit.related.application')/*关联申请单*/} key='0'>
+          <FormItem {...formItemLayout} label={this.$t('request.edit.related.application')/*关联申请单*/} key='0'>
             {getFieldDecorator('related_application', {
               rules: [{
                 required: formInfo.customFormPropertyMap && JSON.parse(formInfo.customFormPropertyMap['loan.application.configuration'] || '{}').isReference,
-                message: messages('common.please.select')
+                message: this.$t('common.please.select')
               }],
               initialValue: initialValue
             })(
@@ -125,12 +125,12 @@ class RelatedApplication extends React.Component {
 }
 
 RelatedApplication.propTypes = {
-  formOID: React.PropTypes.string.isRequired,
-  formInfo: React.PropTypes.object.isRequired,
-  info: React.PropTypes.object,
-  applicantOID: React.PropTypes.string,
-  applicationOID: React.PropTypes.string,
-  changeHandle: React.PropTypes.func,
+  formOID: PropTypes.string.isRequired,
+  formInfo: PropTypes.object.isRequired,
+  info: PropTypes.object,
+  applicantOID: PropTypes.string,
+  applicationOID: PropTypes.string,
+  changeHandle: PropTypes.func,
 };
 
 RelatedApplication.defaultProps = {

@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form, Input, Affix, Button } from 'antd'
 const FormItem = Form.Item;
 
@@ -66,14 +64,12 @@ class NewRequest extends React.Component{
   }
 }
 
-NewRequest.contextTypes = {
-  router: React.PropTypes.object
-};
+
 
 function mapStateToProps() {
   return { }
 }
 
-const wrappedNewRequest = Form.create()(injectIntl(NewRequest));
+const wrappedNewRequest = Form.create()(NewRequest);
 
 export default connect(mapStateToProps, null, null, { withRef: true })(wrappedNewRequest)

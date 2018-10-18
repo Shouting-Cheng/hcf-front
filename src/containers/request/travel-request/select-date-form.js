@@ -3,14 +3,11 @@
  * Created by wangjiakun on 2018/05/18 0028.
  */
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { messages, getApprovelHistory } from 'share/common';
+import { connect } from 'dva';
+import PropTypes from 'prop-types';
+import { getApprovelHistory } from 'utils/extend';
 import {DatePicker, message, InputNumber, Form, TimePicker} from 'antd';
 const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
-
-import config from 'config'
 import travelUtil from 'containers/request/travel-request/travelUtil'
 import moment from 'moment';
 
@@ -216,12 +213,12 @@ class SelectDateForm extends React.Component{
         }
         {
           isHaveEnd && field.messageKey === 'end_date' && isSetCloseDate && <span>
-            &nbsp;&nbsp;{messages('itinerary.form.component.stop.date')/*预计停用日期*/}: <DatePicker style={{width:'20%'}} disabled={true} value={closeDate} format="YYYY-MM-DD"/>
+            &nbsp;&nbsp;{this.$t('itinerary.form.component.stop.date')/*预计停用日期*/}: <DatePicker style={{width:'20%'}} disabled={true} value={closeDate} format="YYYY-MM-DD"/>
           </span>
         }
         {
           !isHaveEnd && field.messageKey === 'start_date' && isSetCloseDate && <span>
-            &nbsp;&nbsp;{messages('itinerary.form.component.stop.date')/*预计停用日期*/}: <DatePicker style={{width:'20%'}} disabled={true} value={closeDate} format="YYYY-MM-DD"/>
+            &nbsp;&nbsp;{this.$t('itinerary.form.component.stop.date')/*预计停用日期*/}: <DatePicker style={{width:'20%'}} disabled={true} value={closeDate} format="YYYY-MM-DD"/>
           </span>
         }
       </div>
@@ -230,13 +227,13 @@ class SelectDateForm extends React.Component{
 }
 
 SelectDateForm.propTypes = {
-  copyValue:React.PropTypes.array,
-  value:React.PropTypes.oneOfType([
-    React.PropTypes.moment,
-    React.PropTypes.string,
-    React.PropTypes.object,]),
-  onChange: React.PropTypes.func,
-  callFun:React.PropTypes.func,
+  copyValue:PropTypes.array,
+  value:PropTypes.oneOfType([
+    PropTypes.moment,
+    PropTypes.string,
+    PropTypes.object,]),
+  onChange: PropTypes.func,
+  callFun:PropTypes.func,
 }
 
 function mapStateToProps(state) {

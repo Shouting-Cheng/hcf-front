@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 
 import { Modal, Button, Progress, Icon } from 'antd';
 
-import 'styles/components/template/export-modal/export-modal.scss';
-import ExportService from 'components/template/export-modal/export-modal.service';
+import 'styles/components/Template/export-modal/export-modal.scss';
+import ExportService from 'components/Template/export-modal/export-modal.service';
 import FileSaver from 'file-saver';
 
 class ExportModal extends React.Component {

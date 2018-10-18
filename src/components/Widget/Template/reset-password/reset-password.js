@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 
 import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd';
 
-import ResetPasswordService from 'components/template/reset-password/reset-password.service';
-import PasswordRule from 'components/template/reset-password/password-rule';
-import 'styles/components/template/reset-password/reset-password.scss';
+import ResetPasswordService from 'components/Template/reset-password/reset-password.service';
+import PasswordRule from 'components/Template/reset-password/password-rule';
+import 'styles/components/Template/reset-password/reset-password.scss';
 const FormItem = Form.Item;
 //默认的密码规则
 const DefaultRule = {

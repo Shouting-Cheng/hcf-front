@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Alert } from 'antd'
 
 class JDErrorAlert extends React.Component{
@@ -29,7 +29,7 @@ class JDErrorAlert extends React.Component{
     return (
       <div className="jd-error-alert">
         {isOutTime && (
-          <Alert message={messages('request.detail.jd.error.message')/*该京东订单已超时，如需购买商品，请重新提交订单*/}
+          <Alert message={this.$t('request.detail.jd.error.message')/*该京东订单已超时，如需购买商品，请重新提交订单*/}
                  type="error" showIcon />
         )}
       </div>
@@ -38,7 +38,7 @@ class JDErrorAlert extends React.Component{
 }
 
 JDErrorAlert.propTypes = {
-  info: React.PropTypes.object
+  info: PropTypes.object
 };
 
 JDErrorAlert.defaultProps={

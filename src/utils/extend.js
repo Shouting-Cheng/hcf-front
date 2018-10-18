@@ -2,11 +2,12 @@ import React from 'react';
 import app from '../index';
 import httpFetch from 'utils/httpFetch';
 import config from 'config';
+import constants from 'share/constants'
 
 React.Component.prototype.$t = (id, values = {}) => {
   if (!app) return '';
 
-  if (typeof id == 'object') {
+  if (id&&typeof id == 'object') {
     id = id.id;
   }
 
@@ -144,7 +145,7 @@ React.Component.prototype.formatMoney = (number, decimals = 2, isString = false)
 
 //检查用户操作权限
 React.Component.prototype.checkAuthorities = auth => {
-  let user = configureStore.store.getState().login.loginUser;
+  let user = app.getState().user.currentUser;
   let result;
   if (auth.splice) {
     result = true;
@@ -169,7 +170,7 @@ React.Component.prototype.checkAuthorities = auth => {
 
 //检查用户操作权限
 React.Component.prototype.checkPageRole = (pageName, action) => {
-  let user = configureStore.store.getState().login.user;
+  let user = app.getState().user.currentUser;
   let result = false;
   if (user.pageRoles && user.pageRoles.splice) {
     user.pageRoles.map(item => {
@@ -181,7 +182,7 @@ React.Component.prototype.checkPageRole = (pageName, action) => {
 
 //检查用户菜单按钮显示权限
 React.Component.prototype.checkPageShowRole = pageName => {
-  let user = configureStore.store.getState().login.user;
+  let user = app.getState().user.currentUser;
   let result = false;
   if (user.pageRoles && user.pageRoles.splice) {
     user.pageRoles.map(item => {
@@ -241,9 +242,10 @@ React.Component.prototype.clearBeforePage = function(key) {
 
 //检查单个functionProfile
 let checkFunctionProfile = (fpItem, fpValue, ifTenant) => {
-  let profile = ifTenant
+ /* let profile = ifTenant
     ? configureStore.store.getState().login.tenantProfile
-    : configureStore.store.getState().login.profile;
+    : configureStore.store.getState().login.profile;*/
+ let profile = {};
   if (fpItem[0] === '[') {
     fpItem = fpItem.replace(/]/g, '');
     let attrs = fpItem.split('[');
@@ -285,7 +287,7 @@ React.Component.prototype.checkFunctionProfiles = (fpItem, fpValue, ifTenant) =>
 
 //检查用户操作权限拥有任意之一
 React.Component.prototype.hasAnyAuthorities = auth => {
-  let user = configureStore.store.getState().login.loginUser;
+  let user = app.getState().user.currentUser;
   let result = false;
   user.authorities &&
     auth.length >= 1 &&
@@ -409,7 +411,7 @@ Date.prototype.calcMonth = function(month) {
  */
 React.Component.prototype.getSystemValueList = code => {
   let url = '';
-  if (Number(code) > 2000) url = '/api/custom/enumerations/template/by/type?type=';
+  if (Number(code) > 2000) url = '/api/custom/enumerations/Template/by/type?type=';
   else url = '/api/custom/enumeration/system/by/type?systemCustomEnumerationType=';
   return httpFetch.get(`${config.baseUrl}${url}${code}`).then(res => {
     return new Promise(resolve => {

@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 
 import { Modal, Button } from 'antd';
 
-import 'styles/components/template/stop-announce/stop-announce.scss';
-import StopAnnounceService from 'components/template/stop-annonuce/stop-annonuce.service';
+import 'styles/components/Template/stop-announce/stop-announce.scss';
+import StopAnnounceService from 'components/Template/stop-annonuce/stop-annonuce.service';
 import StopAnnounceImage from 'images/stop-annonuce.png';
 import moment from 'moment';
 

@@ -345,6 +345,22 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
+    '/request/jd-request-edit/:formOID/:applicationOID':{//京东申请单编辑页
+      component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
+      name: 'jd-request-edit'
+    },
+    '/request/request-edit/:formOID/:applicationOID':{
+      //编辑申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
+      name: 'request-edit',
+      parent: '/request'
+    },
+    '/request/request-detail/:formOID/:applicationOID/:pageFrom':{
+      //申请单详情
+      component: dynamicWrapper(app, [], ()=> import('containers/request/base-request-detail')),
+      name: 'request-detail',
+      parent: '/request'
+    },
 
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>

@@ -20,7 +20,7 @@ import {
 const FormItem = Form.Item;
 const { CheckableTag } = Tag;
 import ListSelector from 'widget/list-selector';
-import 'styles/components/template/approve-bar.scss';
+import 'styles/components/Template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';

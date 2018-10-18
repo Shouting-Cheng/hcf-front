@@ -1,9 +1,9 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 /**
  * 收款人控件 messageKey: payee
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Select } from 'antd'
 const Option = Select.Option;
 
@@ -46,7 +46,7 @@ class NewPayee extends React.Component {
     const { value, options } = this.state;
     return (
       <div className="new-payee">
-        <Select placeholder={messages('common.please.enter')}
+        <Select placeholder={this.$t('common.please.enter')}
                 showSearch
                 labelInValue
                 allowClear
@@ -62,7 +62,7 @@ class NewPayee extends React.Component {
           {options.map(option => {
             return (
               <Option value={option.userOID} key={option.userOID}>
-                {option.employeeID} | {option.fullName} | {option.department ? option.department.name: messages('expense.invoice.type.unknown')/*"未知"*/} | {option.title || messages('expense.invoice.type.unknown')/*"未知"*/}
+                {option.employeeID} | {option.fullName} | {option.department ? option.department.name: this.$t('expense.invoice.type.unknown')/*"未知"*/} | {option.title || this.$t('expense.invoice.type.unknown')/*"未知"*/}
               </Option>
             )
           })}
@@ -73,8 +73,8 @@ class NewPayee extends React.Component {
 }
 
 NewPayee.propTypes = {
-  value: React.PropTypes.object,
-  disabled: React.PropTypes.bool,
+  value: PropTypes.object,
+  disabled: PropTypes.bool,
 };
 
 NewPayee.defaultProps = {

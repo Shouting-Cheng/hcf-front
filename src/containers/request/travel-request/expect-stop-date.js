@@ -3,9 +3,10 @@
  * Created by wangjiakun on 2018/05/30 0045.
  */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import PropTypes from 'prop-types';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {DatePicker, message, InputNumber, Form, Row, Col} from 'antd';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
@@ -99,7 +100,7 @@ class ExpectStopDate extends React.Component{
     const {haveDate, isSetCloseDate, closeDate} = this.state;
     return (
       !haveDate && isSetCloseDate &&  <Row>
-      <Col span={6}style={{paddingLeft: '5.7%',marginBottom: 36,color: '#272727'}}>{messages('itinerary.form.component.stop.date')/*预计停用日期*/}:</Col>
+      <Col span={6}style={{paddingLeft: '5.7%',marginBottom: 36,color: '#272727'}}>{this.$t('itinerary.form.component.stop.date')/*预计停用日期*/}:</Col>
       <Col span={12}><DatePicker disabled={true} value={closeDate} format="YYYY-MM-DD"/></Col>
     </Row>
     )
@@ -107,8 +108,8 @@ class ExpectStopDate extends React.Component{
 }
 
 ExpectStopDate.propTypes = {
-  copyValue:React.PropTypes.array,
-  callFun:React.PropTypes.func,
+  copyValue:PropTypes.array,
+  callFun:PropTypes.func,
 }
 
 function mapStateToProps(state) {
