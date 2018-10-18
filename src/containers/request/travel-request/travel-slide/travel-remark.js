@@ -3,9 +3,9 @@
  * Created by wangjiakun on 2018/3/19 0019.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {Input, Form, Button, Radio, Row, Col, Affix, message, Spin} from 'antd';
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -112,7 +112,7 @@ class TravelRemark extends React.Component {
   toSubmit = () => {
     this.state.dates.map(item => {
       if(item.remark && item.remark.length === 201){
-        message.error(messages('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
+        message.error(this.$t('itinerary.remark.length.tooLong.tip')/*'备注长度超出'*/);
         return;
       }
     })
@@ -120,7 +120,7 @@ class TravelRemark extends React.Component {
     travelService.remarkSubmit(this.props.params.oid,this.state.dates).then(res=>{
       this.setClose();
       this.setState({isLoading:false});
-      message.success(messages('itinerary.remark.add.success')/*'添加成功'*/);
+      message.success(this.$t('itinerary.remark.add.success')/*'添加成功'*/);
     }).catch(err=>{
       message.error(err.response.data.message);
       this.setState({isLoading:false});
@@ -167,7 +167,7 @@ class TravelRemark extends React.Component {
           <Row>
             <Col span={6}>
               <div className="remark-date-box">
-                <div className="date-title">{messages('itinerary.remark.slide.date')/*日期*/}</div>
+                <div className="date-title">{this.$t('itinerary.remark.slide.date')/*日期*/}</div>
                 <RadioGroup defaultValue={0}>
                   {
                     dates.map((date, index)=> {
@@ -191,8 +191,8 @@ class TravelRemark extends React.Component {
                 {record}
               </div>
               <div className="remark-textarea">
-                <span>{messages('itinerary.remark.slide.supplementary.remarks')/*补充备注*/}</span>
-                <Button className="btn-clear" onClick={this.clearRemark}>{messages('itinerary.remark.slide.clear')/*清空*/}</Button>
+                <span>{this.$t('itinerary.remark.slide.supplementary.remarks')/*补充备注*/}</span>
+                <Button className="btn-clear" onClick={this.clearRemark}>{this.$t('itinerary.remark.slide.clear')/*清空*/}</Button>
               </div>
               <Form>
                 <FormItem>
@@ -204,8 +204,8 @@ class TravelRemark extends React.Component {
           </Row>
         </Spin>
         <Affix className="travel-affix">
-          <Button type="primary" loading={isLoading} onClick={this.toSubmit}>{messages('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
-          <Button className="travel-type-btn" onClick={this.setClose}>{messages('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
+          <Button type="primary" loading={isLoading} onClick={this.toSubmit}>{this.$t('itinerary.type.slide.and.modal.ok.btn')/*确定*/}</Button>
+          <Button className="travel-type-btn" onClick={this.setClose}>{this.$t('itinerary.type.slide.and.modal.cancel.btn')/*取消*/}</Button>
         </Affix>
       </div>
     )

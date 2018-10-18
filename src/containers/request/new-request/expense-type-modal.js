@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Button, Spin, InputNumber, Modal, Checkbox, Row, Col, Select, Popover, Icon, Table, Popconfirm, message } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -8,9 +8,8 @@ const Option = Select.Option;
 import moment from 'moment'
 import baseService from 'share/base.service'
 import requestService from 'containers/request/request.service'
-import ExpenseTypeSelector from 'components/template/expense-type-selector'
+import ExpenseTypeSelector from 'widget/Template/expense-type-selector'
 import 'styles/request/new-request/expense-type-modal.scss'
-import configureStore from 'stores'
 
 class ExpenseTypeModal extends React.Component{
   constructor(props) {
@@ -32,26 +31,26 @@ class ExpenseTypeModal extends React.Component{
       expenseBudgetList: [],
       columns: [
         {title: '', dataIndex: 'id', width: '7%', render: (value, record) => <img src={record.expenseType.iconURL} style={{width:20}}/>},
-        {title: messages('request.edit.expense.type'/*费用类型*/), dataIndex: 'expenseType', render: value =>
+        {title: this.$t('request.edit.expense.type'/*费用类型*/), dataIndex: 'expenseType', render: value =>
           <Popover content={value.name}>{value.name}</Popover>},
-        {title: messages('request.currency'/*币种*/), dataIndex: 'currencyCode', width: '8%'},
-        {title: messages('request.amount'/*金额*/), dataIndex: 'amount', render: this.filterMoney},
-        {title: messages('request.edit.rate'/*汇率*/), dataIndex: 'actualCurrencyRate', render: (value, record) =>{
+        {title: this.$t('request.currency'/*币种*/), dataIndex: 'currencyCode', width: '8%'},
+        {title: this.$t('request.amount'/*金额*/), dataIndex: 'amount', render: this.filterMoney},
+        {title: this.$t('request.edit.rate'/*汇率*/), dataIndex: 'actualCurrencyRate', render: (value, record) =>{
           let rateDeviation = (Math.abs(value - record.companyCurrencyRate) / record.companyCurrencyRate * 100).toFixed(2) + '%';
           let content = (
             <div>
-              <div>{messages('request.edit.company.rate')/*企业汇率*/}：{record.companyCurrencyRate}</div>
-              <div>{messages('request.edit.rate.percentage')/*汇率差异*/}：{rateDeviation}</div>
+              <div>{this.$t('request.edit.company.rate')/*企业汇率*/}：{record.companyCurrencyRate}</div>
+              <div>{this.$t('request.edit.rate.percentage')/*汇率差异*/}：{rateDeviation}</div>
             </div>
           );
           return value || 1;
         }},
-        {title: messages('request.base.amount'/*本币金额*/), dataIndex: 'baseCurrencyAmount', render: value => this.filterMoney(value)},
-        {title: messages('request.edit.pay.way'/*支付方式*/), dataIndex: 'paymentType', width: '12%', render: value =>
-          value === 1001 ? messages('request.edit.pay.by.myself'/*个人支付*/) : messages('request.edit.pay.by.company'/*公司支付*/)},
-        {title: messages('common.operation'), dataIndex: 'expenseTypeOID', width: '9%', render: (value, record, index) =>
-          <Popconfirm title={messages('common.confirm.delete')} onConfirm={(e) => this.deleteExpenseType(e, index)}>
-            <a onClick={(e) => {e.stopPropagation()}}>{messages('common.delete')}</a>
+        {title: this.$t('request.base.amount'/*本币金额*/), dataIndex: 'baseCurrencyAmount', render: value => this.filterMoney(value)},
+        {title: this.$t('request.edit.pay.way'/*支付方式*/), dataIndex: 'paymentType', width: '12%', render: value =>
+          value === 1001 ? this.$t('request.edit.pay.by.myself'/*个人支付*/) : this.$t('request.edit.pay.by.company'/*公司支付*/)},
+        {title: this.$t('common.operation'), dataIndex: 'expenseTypeOID', width: '9%', render: (value, record, index) =>
+          <Popconfirm title={this.$t('common.confirm.delete')} onConfirm={(e) => this.deleteExpenseType(e, index)}>
+            <a onClick={(e) => {e.stopPropagation()}}>{this.$t('common.delete')}</a>
           </Popconfirm>}
       ],
       warnExchangeRateTol: 10, //汇率容差警告值
@@ -73,7 +72,7 @@ class ExpenseTypeModal extends React.Component{
     if (this.state.baseCurrency && nextProps.company.baseCurrency !== this.state.baseCurrency) {
       this.setState({ baseCurrency: nextProps.company.baseCurrency },() => {
         if (this.state.expenseBudgetList.length && this.props.formDetail.currencyCode !== this.state.baseCurrency) {
-          message.info(messages('request.edit.budget.clear')/*申请人本位币变化，已清除添加的预算明细*/);
+          message.info(this.$t('request.edit.budget.clear')/*申请人本位币变化，已清除添加的预算明细*/);
           this.setState({ value: {}, expenseBudgetList: [] });
           this.onChange(null)
         }
@@ -294,7 +293,7 @@ class ExpenseTypeModal extends React.Component{
                                            })}
                                            footer={() => {return(
                                              <div style={{textAlign:'right',color:'#ff9900'}}>
-                                               {messages('request.edit.base.total.amount')/*本币总金额*/}：
+                                               {this.$t('request.edit.base.total.amount')/*本币总金额*/}：
                                                <span style={{fontSize:20}}>{formDetail.currencyCode || company.baseCurrency} {this.filterMoney(amount)}</span>
                                              </div>
                                            )}}
@@ -302,16 +301,16 @@ class ExpenseTypeModal extends React.Component{
                                            size="small"/> : ''}
 
         <a onClick={() => this.showExpenseModal(true)}>
-          <Icon type="plus-circle-o" className="add-budget-detail-icon"/>{messages('request.edit.add.expense.and.amount')/*添加费用类型及金额*/}
+          <Icon type="plus-circle-o" className="add-budget-detail-icon"/>{this.$t('request.edit.add.expense.and.amount')/*添加费用类型及金额*/}
         </a>
 
-        <Modal title={messages('request.edit.add.expense.and.amount')/*添加费用类型及金额*/}
+        <Modal title={this.$t('request.edit.add.expense.and.amount')/*添加费用类型及金额*/}
                wrapClassName="expense-type-modal"
                width={720}
                footer={
                  <div>
-                   <Button onClick={() => this.showExpenseModal(false)}>{messages('common.cancel')}</Button>
-                   <Button type="primary" disabled={!canSubmit} onClick={this.onOk}>{messages('common.ok')}</Button>
+                   <Button onClick={() => this.showExpenseModal(false)}>{this.$t('common.cancel')}</Button>
+                   <Button type="primary" disabled={!canSubmit} onClick={this.onOk}>{this.$t('common.ok')}</Button>
                  </div>
                }
                visible={modalVisible}
@@ -322,7 +321,7 @@ class ExpenseTypeModal extends React.Component{
                 <Row>
                   <Col span={12}>
                     <Row>
-                      <Col span={8} className="item-title">{messages('request.edit.chosen.type')/*已选类型*/}: </Col>
+                      <Col span={8} className="item-title">{this.$t('request.edit.chosen.type')/*已选类型*/}: </Col>
                       <Col span={14} offset={1}>
                         <img src={expenseChosenInfo.expenseType.iconURL} className="icon-img" />
                         <Popover content={expenseChosenInfo.expenseType.name}>
@@ -333,7 +332,7 @@ class ExpenseTypeModal extends React.Component{
                   </Col>
                   <Col span={12}>
                     <Row>
-                      <Col span={8} className="item-title">{messages('request.edit.pay.by.company'/*公司支付*/)}: </Col>
+                      <Col span={8} className="item-title">{this.$t('request.edit.pay.by.company'/*公司支付*/)}: </Col>
                       <Col span={14} offset={1}>
                         <Checkbox defaultChecked={expenseChosenInfo.paymentType === 1002} onChange={this.handleCompanyPay}/>
                       </Col>
@@ -343,7 +342,7 @@ class ExpenseTypeModal extends React.Component{
                 <Row className="currency-row">
                   <Col span={12}>
                     <Row>
-                      <Col span={8} className="item-title required">{messages('request.currency'/*币种*/)}: </Col>
+                      <Col span={8} className="item-title required">{this.$t('request.currency'/*币种*/)}: </Col>
                       <Col span={14} offset={1}>
                         <Select dropdownMatchSelectWidth={false}
                                 style={{width:'100%'}}
@@ -353,7 +352,7 @@ class ExpenseTypeModal extends React.Component{
                                 onChange={this.handleCurrencyChange}
                                 optionFilterProp="children"
                                 filterOption={(input, option) =>option.props.children.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                placeholder={messages('common.please.select')/* 请选择 */}>
+                                placeholder={this.$t('common.please.select')/* 请选择 */}>
                           {currencyOptions.map(item => {
                             return <Option key={item.currency}>{item.currency}{ this.props.language.code === 'zh_cn' ? ` ${item.currencyName}` : ''}</Option>
                           })}
@@ -363,14 +362,14 @@ class ExpenseTypeModal extends React.Component{
                   </Col>
                   <Col span={12}>
                     <Row>
-                      <Col span={8} className="item-title required">{messages('request.amount'/*金额*/)}: </Col>
+                      <Col span={8} className="item-title required">{this.$t('request.amount'/*金额*/)}: </Col>
                       <Col span={14} offset={1}>
                         <InputNumber size="small"
                                      min={0}
                                      precision={2}
                                      step={0.01}
                                      defaultValue={expenseChosenInfo.amount || undefined}
-                                     placeholder={messages('common.please.enter')}
+                                     placeholder={this.$t('common.please.enter')}
                                      style={{width:'100%'}}
                                      onChange={this.handleAmountChange}/>
                       </Col>
@@ -382,7 +381,7 @@ class ExpenseTypeModal extends React.Component{
                   <Row className="rate-row">
                     <Col span={12}>
                       <Row>
-                        <Col span={8} className="item-title required">{messages('request.edit.rate'/*汇率*/)}: </Col>
+                        <Col span={8} className="item-title required">{this.$t('request.edit.rate'/*汇率*/)}: </Col>
                         <Col span={14} offset={1}>
                           <InputNumber size="small"
                                        min={0}
@@ -396,8 +395,8 @@ class ExpenseTypeModal extends React.Component{
                       </Row>
                     </Col>
                     <Col span={12} className="company-rate">
-                      {messages('request.edit.company.rate')/*企业汇率*/}: <span>{companyCurrencyRate}</span>
-                      {messages('request.edit.rate.diverge')/*偏离*/}: <span className={rateDeviation >= prohibitExchangeRateTol ? 'error' :
+                      {this.$t('request.edit.company.rate')/*企业汇率*/}: <span>{companyCurrencyRate}</span>
+                      {this.$t('request.edit.rate.diverge')/*偏离*/}: <span className={rateDeviation >= prohibitExchangeRateTol ? 'error' :
                       rateDeviation >= warnExchangeRateTol ? 'warning' : ''}>{rateDeviation}%</span>
                     </Col>
                   </Row>
@@ -417,18 +416,17 @@ class ExpenseTypeModal extends React.Component{
 }
 
 ExpenseTypeModal.propTypes = {
-  formOID: React.PropTypes.string.isRequired, //表单OID
-  formDetail: React.PropTypes.object.isRequired, //表单OID
-  value: React.PropTypes.object,
-  onChange: React.PropTypes.func,  //进行选择后的回调
+  formOID: PropTypes.string.isRequired, //表单OID
+  formDetail: PropTypes.object.isRequired, //表单OID
+  value: PropTypes.object,
+  onChange: PropTypes.func,  //进行选择后的回调
 };
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    user: state.login.user,
-    language: state.main.language,
-    tenantId: state.login.company.tenantId
+    company: state.user.company,
+    user: state.user.currentUser,
+    tenantId: state.user.company.tenantId
   }
 }
 

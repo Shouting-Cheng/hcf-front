@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Icon, Switch, Select, Radio, Checkbox } from 'antd';
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-import LanguageInput from 'components/template/language-input/language-input';
+import LanguageInput from 'components/Template/language-input/language-input';
 import PropTypes from 'prop-types';
 
 class LinkageSwitchItem extends React.Component {

@@ -63,34 +63,15 @@ class NewPayPlan extends React.Component {
       showPayee: false,
     };
   }
-
-  componentWillReceiveProps(nextProps) {
-    let record = nextProps.params.record;
-    //关闭
-    if (!nextProps.params.visible && this.props.params.visible) {
-      this.setState({
-        contractInfo: {},
-        contractParams: {},
-        value: '',
-        payeeId: '',
-        bankLocationCode: '',
-        bankLocationName: '',
-        model: {},
-        selectedData: [],
-        receivables: [],
-        payeeName: '',
-      });
-    }
-
-    //显示
-    if (nextProps.params.visible && !this.props.params.visible) {
-      //编辑
+  componentDidMount(){
+         //编辑
+      let record=this.props.params.record;
       if (record.id) {
         this.setState(
           {
             model: record,
             isNew: false,
-            headerData: nextProps.params.headerData,
+            headerData: this.props.params.headerData,
             payeeId: record.payeeId,
             payeeName: record.partnerName,
             value: record.partnerName,
@@ -115,7 +96,7 @@ class NewPayPlan extends React.Component {
           }
         );
       } else {
-        this.setState({ isNew: true, headerData: nextProps.params.headerData }, () => {
+        this.setState({ isNew: true, headerData: this.props.params.headerData }, () => {
           const { headerData } = this.state;
           if (headerData.multipleReceivables === false) {
             this.setState({
@@ -127,8 +108,30 @@ class NewPayPlan extends React.Component {
         });
       }
       this.getPayWayTypeList();
-    }
   }
+  // componentWillReceiveProps(nextProps) {
+  //   let record = nextProps.params.record;
+  //   //关闭
+  //   if (!nextProps.params.visible && this.props.params.visible) {
+  //     this.setState({
+  //       contractInfo: {},
+  //       contractParams: {},
+  //       value: '',
+  //       payeeId: '',
+  //       bankLocationCode: '',
+  //       bankLocationName: '',
+  //       model: {},
+  //       selectedData: [],
+  //       receivables: [],
+  //       payeeName: '',
+  //     });
+  //   }
+
+  //   //显示
+  //   if (nextProps.params.visible && !this.props.params.visible) {
+     
+  //   }
+  // }
 
   //获取付款方式类型
   getPayWayTypeList = () => {

@@ -3,16 +3,17 @@
  * Created by wangjiakun on 2018/4/23 0023.
  */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import PropTypes from 'prop-types';
 
-import { messages, getApprovelHistory } from 'share/common';
+import { getApprovelHistory } from 'utils/extend';
 import {Table, message, InputNumber, Form, Popconfirm} from 'antd';
 const FormItem = Form.Item;
 
 import config from 'config'
 import travelUtil from 'containers/request/travel-request/travelUtil'
-import chooserData from 'share/chooserData'
-import Chooser from 'components/chooser'
+import chooserData from 'chooserData'
+import Chooser from 'widget/chooser'
 
 class ExpenseAllocateForm extends React.Component{
   value = [];//承载兼容老版本格式的分摊数据；
@@ -66,7 +67,7 @@ class ExpenseAllocateForm extends React.Component{
   //分摊比例变化监听函数
   scaleChange = (value,index) =>{
     if(this.judgeIsSBCCase(value)){
-      message.error(messages('itinerary.form.component.allocation.input.tip')/*'请切换输入法半角'*/);
+      message.error(this.$t('itinerary.form.component.allocation.input.tip')/*'请切换输入法半角'*/);
       this.updateTable(this.value);
       return;
     }
@@ -76,7 +77,7 @@ class ExpenseAllocateForm extends React.Component{
       this.value[0].scale = formatSurplus;
       this.value[index].scale = value;
     }else{
-      message.error(messages('itinerary.form.component.allocation.error.tip')/*'分摊比例不正确'*/);
+      message.error(this.$t('itinerary.form.component.allocation.error.tip')/*'分摊比例不正确'*/);
     }
     this.updateTable(this.value);
   };
@@ -209,14 +210,14 @@ class ExpenseAllocateForm extends React.Component{
       values.push(tableItem);
     });
     columns.push({
-      title:messages('itinerary.form.component.allocation.scale')/* '分摊比列(%)'*/,
+      title:this.$t('itinerary.form.component.allocation.scale')/* '分摊比列(%)'*/,
       key:'scale',
       dataIndex: 'scale',
       render: (value, record, index) => this.renderScale(value, record, index)
     }),
-      columns.push({title: messages('itinerary.form.component.allocation.operation')/*操作*/, key:'operation', dataIndex: 'operation', render: (value, record, index) =>
-        index===0 ? '---':<Popconfirm title={messages('itinerary.form.component.allocation.delete.tip')/*'确认删除?'*/} onConfirm={(e) => this.deleteAllocate(index)}>
-          <a onClick={(e) => {e.stopPropagation()}}>{messages('itinerary.type.slide.and.modal.delete.btn')/*删除*/}</a>
+      columns.push({title: this.$t('itinerary.form.component.allocation.operation')/*操作*/, key:'operation', dataIndex: 'operation', render: (value, record, index) =>
+        index===0 ? '---':<Popconfirm title={this.$t('itinerary.form.component.allocation.delete.tip')/*'确认删除?'*/} onConfirm={(e) => this.deleteAllocate(index)}>
+          <a onClick={(e) => {e.stopPropagation()}}>{this.$t('itinerary.type.slide.and.modal.delete.btn')/*删除*/}</a>
         </Popconfirm>
       });
     this.setState({values:values,columns});
@@ -282,7 +283,7 @@ class ExpenseAllocateForm extends React.Component{
   //新增分摊
   addNewAllocate = () =>{
     if(this.value[0].scale <= 0){
-      message.error(messages('itinerary.form.component.allocation.noEnough.tip')/*'分摊比例不足'*/);
+      message.error(this.$t('itinerary.form.component.allocation.noEnough.tip')/*'分摊比例不足'*/);
       return;
     }
     let value = this.value;
@@ -374,7 +375,7 @@ class ExpenseAllocateForm extends React.Component{
                bordered
                size="small"/>
         {
-          isShowAddBtn && <a onClick={()=>this.addNewAllocate()}>{messages('itinerary.form.component.allocation.new')/*+新增分摊*/}</a>
+          isShowAddBtn && <a onClick={()=>this.addNewAllocate()}>{this.$t('itinerary.form.component.allocation.new')/*+新增分摊*/}</a>
         }
       </div>
     )
@@ -382,9 +383,9 @@ class ExpenseAllocateForm extends React.Component{
 }
 
 ExpenseAllocateForm.propTypes = {
-  copyValue:React.PropTypes.array,
-  value:React.PropTypes.array,
-  onChange: React.PropTypes.func,
+  copyValue:PropTypes.array,
+  value:PropTypes.array,
+  onChange: PropTypes.func,
 }
 
 function mapStateToProps(state) {

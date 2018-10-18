@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message } from 'antd';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 
 import ListSelector from 'widget/list-selector';
 import reimburseService from 'containers/reimburse/reimburse.service';
@@ -132,8 +132,6 @@ class NewShare extends Component {
   }
 
   componentDidMount() {
-
-    console.log(this.props.params);
     this.setState(
       {
         defaultApportion: this.props.params.defaultApportion,

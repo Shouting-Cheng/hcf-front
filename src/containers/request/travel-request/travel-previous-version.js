@@ -1,17 +1,14 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import { Form } from 'antd'
+import PropTypes from 'prop-types';
 
 import 'styles/request/travel-request/travel-previous-version.scss'
 
 class TravelPreviousVersion extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      requestDetail: menuRoute.getRouteItem('request-detail','key'), //申请单详情页
-    }
+    this.state = {}
   }
 
   toPreviousVersion = () => {
@@ -30,8 +27,8 @@ class TravelPreviousVersion extends React.Component{
 }
 
 TravelPreviousVersion.propTypes = {
-  info: React.PropTypes.object,
-  isPreVersion: React.PropTypes.string,
+  info: PropTypes.object,
+  isPreVersion: PropTypes.string,
 };
 
 function mapStateToProps() {

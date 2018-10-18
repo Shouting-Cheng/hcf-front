@@ -1,16 +1,15 @@
-import {messages} from "share/common";
 /**
  * 操作：重新启用
  * 适用：已通过(info.status === 1003) 且 单据未停用(info.closed === false) 的 差旅申请单、费用申请单
  *      且 info.applicationParticipant.closed === 0 && info.customFormProperties.participantEnable === 1
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import moment from 'moment'
 import { Form, Button, Modal, message } from 'antd'
 
 import requestService from 'containers/request/request.service'
+import PropTypes from 'prop-types';
 
 class TraveRestartBtn extends React.Component{
   constructor(props) {
@@ -21,7 +20,6 @@ class TraveRestartBtn extends React.Component{
       info: {},
       showRestartBtn: false, //是否显示【重新启用】按钮
       restartCloseDay: 0, //重新启用多少天后停用
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 
@@ -51,8 +49,8 @@ class TraveRestartBtn extends React.Component{
   handleRestart = () => {
     let closeDate = new Date(new Date().getTime() + this.state.restartCloseDay * 24 * 60 * 60 * 1000);
     Modal.confirm({
-      title: messages('request.detail.btn.restart.confirm.title'), //是否重新启用该申请单
-      content: `${messages('request.detail.btn.restart.next.close.date')/*下次停用时间*/}：${moment(closeDate).format('YYYY-MM-DD')}`,
+      title: this.$t('request.detail.btn.restart.confirm.title'), //是否重新启用该申请单
+      content: `${this.$t('request.detail.btn.restart.next.close.date')/*下次停用时间*/}：${moment(closeDate).format('YYYY-MM-DD')}`,
       onOk: this.handleRestartOk
     });
   };
@@ -63,10 +61,10 @@ class TraveRestartBtn extends React.Component{
     requestService.restartApplication(info.applicationOID, info.applicationParticipant.participantOID, restartCloseDay).then(res => {
       this.setState({ loading: false });
       if (res.data) {
-        message.success(messages('common.operate.success'));
+        message.success(this.$t('common.operate.success'));
         this.context.router.push(this.state.applicationList.url);
       } else {
-        message.success(messages('common.operate.filed'));
+        message.success(this.$t('common.operate.filed'));
       }
     }).catch(() => {
       this.setState({ loading: false })
@@ -78,7 +76,7 @@ class TraveRestartBtn extends React.Component{
     return (
       <div className="travel-expire-btn request-btn">
         {showRestartBtn && (
-          <Button type="primary" loading={loading} onClick={this.handleRestart}>{messages('request.detail.btn.restart')/*重新启用*/}</Button>
+          <Button type="primary" loading={loading} onClick={this.handleRestart}>{this.$t('request.detail.btn.restart')/*重新启用*/}</Button>
         )}
       </div>
     )
@@ -86,12 +84,8 @@ class TraveRestartBtn extends React.Component{
 }
 
 TraveRestartBtn.propTypes = {
-  formType: React.PropTypes.number.isRequired,
-  info: React.PropTypes.object.isRequired
-};
-
-TraveRestartBtn.contextTypes = {
-  router: React.PropTypes.object
+  formType: PropTypes.number.isRequired,
+  info: PropTypes.object.isRequired
 };
 
 function mapStateToProps() {

@@ -345,6 +345,22 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
+    '/request/jd-request-edit/:formOID/:applicationOID':{//京东申请单编辑页
+      component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
+      name: 'jd-request-edit'
+    },
+    '/request/request-edit/:formOID/:applicationOID':{
+      //编辑申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
+      name: 'request-edit',
+      parent: '/request'
+    },
+    '/request/request-detail/:formOID/:applicationOID/:pageFrom':{
+      //申请单详情
+      component: dynamicWrapper(app, [], ()=> import('containers/request/base-request-detail')),
+      name: 'request-detail',
+      parent: '/request'
+    },
 
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
@@ -398,6 +414,53 @@ export const getRouterData = app => {
       ),
       name: '付款申请单类型分配公司',
       parent: '/document-type-manage/payment-requisition-type',
+    },
+    // //报销单
+    // '/expense-report': {
+    //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
+    //   name: 'expense-report',
+    // },
+    '/document-type-manage/gl-work-order-type': {
+      //核算工单类型定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/gl-work-order-type.js')
+      ),
+      name: 'gl-work-order-type',
+    },
+    '/document-type-manage/gl-work-order-type/new-gl-work-order-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/new-gl-work-order-type.js')
+      ),
+      name: '核算工单类型创建/编辑',
+      parent: '/document-type-manage/gl-work-order-type',
+    },
+    '/document-type-manage/gl-work-order-type/company-distribution/:setOfBooksId/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-type/distribution-company.js')
+      ),
+      name: '核算工单类型分配公司',
+      parent: '/document-type-manage/gl-work-order-type',
+    },
+    //核算工单
+    '/gl-work-order/my-gl-work-order': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/my-gl-work-order.js')
+      ),
+      name: 'my-gl-work-order',
+    },
+    '/gl-work-order/my-gl-work-order/new-gl-work-order/:typeId/:formOid/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
+      ),
+      name: 'new-gl-work-order',
+      parent: '/gl-work-order/my-gl-work-order'
+    },
+    '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
+      ),
+      name: 'my-gl-work-order-detail',
+      parent: '/gl-work-order/my-gl-work-order'
     },
     '/pay-setting/payment-method': {
       component: dynamicWrapper(app, [], () =>

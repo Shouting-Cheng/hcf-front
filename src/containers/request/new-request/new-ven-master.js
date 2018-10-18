@@ -1,10 +1,10 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Icon, Modal, Table, message, Card, Row, Col, Popconfirm, Button, Popover } from 'antd';
 import NewVendorForm from 'containers/request/new-request/new-vendor-form'
+import PropTypes from 'prop-types';
 
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 import requestService from 'containers/request/request.service'
 
 import 'styles/request/new-request/new-ven-master.scss'
@@ -19,11 +19,11 @@ class NewVenMaster extends React.Component {
       loading: false,
       payeeModalVisible: false,
       accountModalVisible: false,
-      searchForm: [{type: 'input', id: 'venNickname', label: messages('request.edit.ven.name'/*名称*/)}],
+      searchForm: [{type: 'input', id: 'venNickname', label: this.$t('request.edit.ven.name'/*名称*/)}],
       searchParams: {},
       columns: [
-        {title: messages('common.sequence'), dataIndex: 'index', width: '10%', render: (value, record, index) => index + 1},
-        {title: messages('request.edit.ven.name'/*名称*/), dataIndex: 'venNickname' ,render:(value,record)=>(+record.venType === 1002?<span style={{color:'#dcdcdc'}}>{value}({messages('org.tree.has-disabled')})</span>:value) }
+        {title: this.$t('common.sequence'), dataIndex: 'index', width: '10%', render: (value, record, index) => index + 1},
+        {title: this.$t('request.edit.ven.name'/*名称*/), dataIndex: 'venNickname' ,render:(value,record)=>(+record.venType === 1002?<span style={{color:'#dcdcdc'}}>{value}({this.$t('org.tree.has-disabled')})</span>:value) }
       ],
       data: [],
       page: 0,
@@ -33,10 +33,10 @@ class NewVenMaster extends React.Component {
       },
       payeeInfo: {},
       accountColumns: [
-        {title: messages('request.edit.ven.account'/*供应商收款账号*/), dataIndex: 'bankAccount', width: '20%'},
-        {title: messages('request.detail.loan.account.bank'/*开户银行*/), dataIndex: 'bankName', width: '35%'},
-        {title: messages('request.edit.ven.bank.no'/*开户银行联行号*/), dataIndex: 'bankCode', width: '20%'},
-        {title: messages('request.edit.ven.bank.location'/*开户银行所在地*/), dataIndex: 'bankOpeningCity', width: '18%'}
+        {title: this.$t('request.edit.ven.account'/*供应商收款账号*/), dataIndex: 'bankAccount', width: '20%'},
+        {title: this.$t('request.detail.loan.account.bank'/*开户银行*/), dataIndex: 'bankName', width: '35%'},
+        {title: this.$t('request.edit.ven.bank.no'/*开户银行联行号*/), dataIndex: 'bankCode', width: '20%'},
+        {title: this.$t('request.edit.ven.bank.location'/*开户银行所在地*/), dataIndex: 'bankOpeningCity', width: '18%'}
       ],
       accountData: [],
       selectedRowKeys: [],
@@ -66,22 +66,22 @@ class NewVenMaster extends React.Component {
     // 可以手动添加收款人按钮
     // 没有搜索到想要的供应商？新增供应商
     let addNewSupplierBtn = (<div style={{float: 'left'}}>
-      {messages('request.edit.ven.no.search.result')}? <Button type='primary' size="small" onClick={() => {
+      {this.$t('request.edit.ven.no.search.result')}? <Button type='primary' size="small" onClick={() => {
       this.setState({newVendorVisible: true, payeeModalVisible: false, chooseInfo: {}})
-    }}>{messages('request.edit.ven.new.vendor')}</Button>
+    }}>{this.$t('request.edit.ven.new.vendor')}</Button>
     </div>);
     // 没有想要的收款账号？新增银行账号
     let addNewBankInfoBtn= (<div style={{float:'left'}}>
-      {messages('request.edit.ven.no.account.info')}? <Button type='primary' size="small"
+      {this.$t('request.edit.ven.no.account.info')}? <Button type='primary' size="small"
                                                               onClick={this.addNewBankInfoBtnHandler}>
-      {messages('request.edit.ven.new.account')}</Button>
+      {this.$t('request.edit.ven.new.account')}</Button>
     </div>);
     // 取消按钮
-    let cancelBtn = (<Button type="default" onClick={this.handleCancel}>{messages('common.cancel')}</Button>);
+    let cancelBtn = (<Button type="default" onClick={this.handleCancel}>{this.$t('common.cancel')}</Button>);
     // 返回按钮
-    let backBtn = (<Button type="default" onClick={() => {this.handleAccountModalShow(false)}}>{messages('common.back')}</Button>);
+    let backBtn = (<Button type="default" onClick={() => {this.handleAccountModalShow(false)}}>{this.$t('common.back')}</Button>);
     // 确认按钮
-    let okBtn = (<Button type="primary" onClick={this.handleModalOk}>{messages('common.ok')}</Button>);
+    let okBtn = (<Button type="primary" onClick={this.handleModalOk}>{this.$t('common.ok')}</Button>);
     customFormPropertyMap && `${customFormPropertyMap['document.venmasteradd.enable']}` === 'true' && (
       footer.push(addNewSupplierBtn), accountFooter.push(addNewBankInfoBtn)
     );
@@ -95,7 +95,7 @@ class NewVenMaster extends React.Component {
   addNewBankInfoBtnHandler = () => {
     if(this.state.chooseInfo.source === "TENANT"){
       // "租户级的供应商，不允许新增银行账户"
-      message.warn(messages("request.edit.ven.supplier.stop1"))
+      message.warn(this.$t("request.edit.ven.supplier.stop1"))
 
     }else {
       this.setState({newVendorVisible: true, accountModalVisible: false})
@@ -115,9 +115,9 @@ class NewVenMaster extends React.Component {
       data.map(item => {
         if (payeeInfo && item.id === payeeInfo.id && item.venType === 1002) {
           Modal.info({
-            title: messages('request.edit.ven.supplier.bockUp')/*该供应商已被企业停用*/,
+            title: this.$t('request.edit.ven.supplier.bockUp')/*该供应商已被企业停用*/,
             content: (
-              <div><p>{messages('request.edit.ven.supplier.reSelection')}{/*请重新选择供应商*/}</p></div>
+              <div><p>{this.$t('request.edit.ven.supplier.reSelection')}{/*请重新选择供应商*/}</p></div>
             ),
             onOk() {
             },
@@ -280,7 +280,7 @@ class NewVenMaster extends React.Component {
           this.onChange(this.state.value)
         })
       } else {
-        message.warning(messages('request.edit.ven.please.select.account'/*请选择收款账号*/))
+        message.warning(this.$t('request.edit.ven.please.select.account'/*请选择收款账号*/))
       }
     })
   };
@@ -381,10 +381,10 @@ class NewVenMaster extends React.Component {
       <div>
         <a onClick={() => {
           this.clickAccountModalShow(true)
-        }}>{messages('common.edit')/*编辑*/}</a>
+        }}>{this.$t('common.edit')/*编辑*/}</a>
         <span className="ant-divider"/>
-        <Popconfirm title={messages('common.confirm.delete')} onConfirm={this.handleDelete}>
-          <a>{messages('common.delete')}</a>
+        <Popconfirm title={this.$t('common.confirm.delete')} onConfirm={this.handleDelete}>
+          <a>{this.$t('common.delete')}</a>
         </Popconfirm>
       </div>
     );
@@ -392,15 +392,15 @@ class NewVenMaster extends React.Component {
       <div className="new-ven-master">
         {selectedRows[0] ? (
           <div>
-            <Row><Col span={9}>{messages('request.edit.ven.account.name')/*供应商开户名称*/}：</Col><Col
+            <Row><Col span={9}>{this.$t('request.edit.ven.account.name')/*供应商开户名称*/}：</Col><Col
               span={15}>{payeeInfo.venNickname}</Col></Row>
-            <Row><Col span={9}>{messages('request.edit.ven.account'/*供应商收款账号*/)}：</Col><Col
+            <Row><Col span={9}>{this.$t('request.edit.ven.account'/*供应商收款账号*/)}：</Col><Col
               span={15}>{selectedRows[0].bankAccount}</Col></Row>
-            <Row><Col span={9}>{messages('request.detail.loan.account.bank'/*开户银行*/)}：</Col><Col
+            <Row><Col span={9}>{this.$t('request.detail.loan.account.bank'/*开户银行*/)}：</Col><Col
               span={15}>{selectedRows[0].bankName}</Col></Row>
-            <Row><Col span={9}>{messages('request.edit.ven.bank.no'/*开户银行联行号*/)}：</Col><Col
+            <Row><Col span={9}>{this.$t('request.edit.ven.bank.no'/*开户银行联行号*/)}：</Col><Col
               span={15}>{selectedRows[0].bankCode}</Col></Row>
-            <Row><Col span={9}>{messages('request.edit.ven.bank.location'/*开户银行所在地*/)}：</Col><Col
+            <Row><Col span={9}>{this.$t('request.edit.ven.bank.location'/*开户银行所在地*/)}：</Col><Col
               span={15}>{selectedRows[0].bankOpeningCity}</Col></Row>
           </div>
         ) : '-'}
@@ -408,27 +408,27 @@ class NewVenMaster extends React.Component {
     ) : (
       <div className="new-ven-master">
         {selectedRows[0] ? (
-          <Card title={messages('request.edit.ven.unit.payee')/*收款单位*/} extra={card_extra} className="account-card">
-            <Card.Grid className='card-left'>{messages('request.edit.ven.account.name')/*供应商开户名称*/}</Card.Grid>
+          <Card title={this.$t('request.edit.ven.unit.payee')/*收款单位*/} extra={card_extra} className="account-card">
+            <Card.Grid className='card-left'>{this.$t('request.edit.ven.account.name')/*供应商开户名称*/}</Card.Grid>
             <Card.Grid className='card-right'><Popover content={payeeInfo.venNickname}><div className='card-right-content'>{payeeInfo.venNickname}</div></Popover></Card.Grid>
-            <Card.Grid className='card-left'>{messages('request.edit.ven.account'/*供应商收款账号*/)}</Card.Grid>
+            <Card.Grid className='card-left'>{this.$t('request.edit.ven.account'/*供应商收款账号*/)}</Card.Grid>
             <Card.Grid className='card-right'><Popover content={selectedRows[0].bankName}><div className='card-right-content'>{selectedRows[0].bankAccount}</div></Popover></Card.Grid>
-            <Card.Grid className='card-left'>{messages('request.detail.loan.account.bank'/*开户银行*/)}</Card.Grid>
+            <Card.Grid className='card-left'>{this.$t('request.detail.loan.account.bank'/*开户银行*/)}</Card.Grid>
             <Card.Grid className='card-right'><Popover content={selectedRows[0].bankName}><div className='card-right-content'>{selectedRows[0].bankName}</div></Popover></Card.Grid>
-            <Card.Grid className='card-left'>{messages('request.edit.ven.bank.no'/*开户银行联行号*/)}</Card.Grid>
+            <Card.Grid className='card-left'>{this.$t('request.edit.ven.bank.no'/*开户银行联行号*/)}</Card.Grid>
             <Card.Grid className='card-right'><Popover content={selectedRows[0].bankCode}><div className='card-right-content'>{selectedRows[0].bankCode}</div></Popover></Card.Grid>
-            <Card.Grid className='card-left'>{messages('request.edit.ven.bank.location'/*开户银行所在地*/)}</Card.Grid>
+            <Card.Grid className='card-left'>{this.$t('request.edit.ven.bank.location'/*开户银行所在地*/)}</Card.Grid>
             <Card.Grid className='card-right'><Popover content={selectedRows[0].bankOpeningCity}><div className='card-right-content'>{selectedRows[0].bankOpeningCity}</div></Popover></Card.Grid>
           </Card>
         ) : (
           <a onClick={() => this.handlePayeeModalShow(true)}>
-            <Icon type="plus-circle-o" className="add-budget-detail-icon"/>{messages('request.edit.ven.add')/*添加*/}
+            <Icon type="plus-circle-o" className="add-budget-detail-icon"/>{this.$t('request.edit.ven.add')/*添加*/}
           </a>
         )}
         <Modal visible={payeeModalVisible}
                wrapClassName="new-ven-master"
                className="ven-master-modal"
-               title={messages('request.edit.ven.add.receive.info')/*添加收款人信息*/}
+               title={this.$t('request.edit.ven.add.receive.info')/*添加收款人信息*/}
                width={800}
                footer={footer}
                onCancel={this.handleCancel}>
@@ -450,11 +450,11 @@ class NewVenMaster extends React.Component {
         <Modal visible={accountModalVisible}
                wrapClassName="new-ven-master"
                className="payment-account-modal"
-               title={`${messages('supplier.management.detail')}:${messages('request.edit.ven.please.select.account')}`}
+               title={`${this.$t('supplier.management.detail')}:${this.$t('request.edit.ven.please.select.account')}`}
                width={800}
                onCancel={this.handleModalCancel}
                footer={accountFooter}>
-          <div className="account-name">{messages('request.edit.ven.account.name')/*供应商开户名称*/}：<h3>{chooseInfo.venNickname || payeeInfo.venNickname}</h3></div>
+          <div className="account-name">{this.$t('request.edit.ven.account.name')/*供应商开户名称*/}：<h3>{chooseInfo.venNickname || payeeInfo.venNickname}</h3></div>
           <div className="account-list">
             <Table rowKey="id"
                    columns={accountColumns}
@@ -473,8 +473,8 @@ class NewVenMaster extends React.Component {
         {/* 新增供应商弹窗*/}
         <Modal visible={newVendorVisible}
                wrapClassName="new-vendor-modal"
-               title={chooseInfo.id ? `${messages('request.edit.ven.new.account')}` : `${messages('request.edit.ven.new.vendor')}`}
-               cancelText={messages('common.back')/*返回*/}
+               title={chooseInfo.id ? `${this.$t('request.edit.ven.new.account')}` : `${this.$t('request.edit.ven.new.vendor')}`}
+               cancelText={this.$t('common.back')/*返回*/}
                width={700}
                onCancel={this.handleCancelNewVendor}
                footer={null}>
@@ -490,8 +490,8 @@ class NewVenMaster extends React.Component {
 }
 
 NewVenMaster.propTypes = {
-  value: React.PropTypes.string,
-  onlyShow: React.PropTypes.bool, //是否用于详情页的展示
+  value: PropTypes.string,
+  onlyShow: PropTypes.bool, //是否用于详情页的展示
 };
 
 NewVenMaster.defaultProps = {

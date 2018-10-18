@@ -1,11 +1,10 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Alert, Button, Spin, Row, Col, Modal, InputNumber, message, Input, Timeline, Icon } from 'antd'
 const TextArea = Input.TextArea;
 
 import moment from 'moment'
-import ImageUpload from 'components/image-upload'
+import ImageUpload from 'widget/image-upload'
 import loanAndRefundService from 'containers/financial-management/loan-and-refund/loan-and-refund.service'
 import 'styles/request/loan-request/repayment-detail-frame.scss'
 
@@ -52,27 +51,27 @@ class RepaymentDetailFrame extends React.Component{
   getRefundStatus = (operation) => {
     let history = {};
     if (operation === 5000) {
-      history.text = messages('request.detail.loan.transfer.repayment.submit'); //转账还款提交
+      history.text = this.$t('request.detail.loan.transfer.repayment.submit'); //转账还款提交
       history.icon = "up-circle-o";
       history.color = "#4CA8BC"
     }
     if (operation === 5001) {
-      history.text = messages('request.detail.loan.cash.repayment.submit'); //现金还款提交
+      history.text = this.$t('request.detail.loan.cash.repayment.submit'); //现金还款提交
       history.icon = "up-circle-o";
       history.color = "#4CA8BC"
     }
     if (operation === 5002) {
-      history.text = messages('request.detail.loan.finance.gathering.pass'); //财务收款通过
+      history.text = this.$t('request.detail.loan.finance.gathering.pass'); //财务收款通过
       history.icon = "check-circle-o";
       history.color = "#5EBD93"
     }
     if (operation === 5003) {
-      history.text = messages('request.detail.loan.finance.gathering.reject'); //财务收款驳回
+      history.text = this.$t('request.detail.loan.finance.gathering.reject'); //财务收款驳回
       history.icon = "close-circle-o";
       history.color = "#E57670"
     }
     if (operation === 1002) {
-      history.text = messages('request.detail.loan.finance.withdraw.payment'); //财务撤回还款
+      history.text = this.$t('request.detail.loan.finance.withdraw.payment'); //财务撤回还款
       history.icon = "close-circle-o";
       history.color = "#E57670"
     }
@@ -103,7 +102,7 @@ class RepaymentDetailFrame extends React.Component{
   handleConfirm = (value) => {
     const repaymentAmount = this.state.repaymentAmount;
     if (value === 'PASS' && !repaymentAmount) {
-      message.error(messages('request.detail.loan.please.input.payment.amount'/*请输入还款金额*/))
+      message.error(this.$t('request.detail.loan.please.input.payment.amount'/*请输入还款金额*/))
     } else {
       let params = {
         repaymentOid: this.state.oid,
@@ -120,10 +119,10 @@ class RepaymentDetailFrame extends React.Component{
           notReceivedModalVisible: false,
         });
         this.props.close(true);
-        message.success(messages('common.operate.success'));
+        message.success(this.$t('common.operate.success'));
       }).catch(e => {
         this.setState({ modalLoading: false });
-        message.error(`${messages('common.operate.filed')}，${e.response.data.message}`)
+        message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`)
       })
     }
   };
@@ -131,10 +130,10 @@ class RepaymentDetailFrame extends React.Component{
   //财务确认撤回弹框
   showConfirm = () => {
     Modal.confirm({
-      title: messages('request.detail.loan.confirm.withdraw.payment'/*确认撤回还款*/),
-      content: messages('request.detail.loan.notification.staff.after.delete.record'/*将删除该条还款记录，并通知员工*/),
-      okText: messages('request.detail.loan.delete.and.notification.staff'/*删除并通知员工*/),
-      cancelText: messages('common.back'),
+      title: this.$t('request.detail.loan.confirm.withdraw.payment'/*确认撤回还款*/),
+      content: this.$t('request.detail.loan.notification.staff.after.delete.record'/*将删除该条还款记录，并通知员工*/),
+      okText: this.$t('request.detail.loan.delete.and.notification.staff'/*删除并通知员工*/),
+      cancelText: this.$t('common.back'),
       iconType: 'exclamation-circle',
       onOk: this.handleCallBack
     })
@@ -143,11 +142,11 @@ class RepaymentDetailFrame extends React.Component{
   //撤回
   handleCallBack = () => {
     let params = {
-      reason: messages('request.detail.loan.finance.withdraw.payment'/*财务撤回还款*/),
+      reason: this.$t('request.detail.loan.finance.withdraw.payment'/*财务撤回还款*/),
       repaymentOid: this.state.oid
     };
     loanAndRefundService.callBackRefund(params).then(() => {
-      message.success(messages('common.operate.success'));
+      message.success(this.$t('common.operate.success'));
       this.handleCancel();
       this.props.close(true)
     })
@@ -165,33 +164,33 @@ class RepaymentDetailFrame extends React.Component{
     let actRepayAmount = info.actRepayAmount || info.repaymentValue;
     let alertContent = (
       <div className="alert-content-warn">
-        {info.status === '1001' && <div>{messages('request.detail.loan.wait.finance.confirm')/*等待财务确认*/}…</div>}
+        {info.status === '1001' && <div>{this.$t('request.detail.loan.wait.finance.confirm')/*等待财务确认*/}…</div>}
         {info.status === '1002' && (
           <div>
             {moment(info.updateDate || info.createDate).format('YYYY-MM-DD HH:mm')} {info.financeName}-{info.financeID} {info.isFinance ?
-            messages('request.detail.loan.create.payment.record'/*创建还款记录*/) : messages('request.detail.loan.confirm.receipt'/*确认收款*/)}
+            this.$t('request.detail.loan.create.payment.record'/*创建还款记录*/) : this.$t('request.detail.loan.confirm.receipt'/*确认收款*/)}
           </div>
         )}
         {info.status === '1003' && <div>{moment(info.writeoffDetail[0].createdDate).format('YYYY-MM-DD HH:mm')} {info.writeoffDetail[0].title}</div>}
         <div>
-          {messages('request.detail.loan.date'/*日期*/)}：{moment(info.createDate).format('YYYY-MM-DD')}
+          {this.$t('request.detail.loan.date'/*日期*/)}：{moment(info.createDate).format('YYYY-MM-DD')}
           <span className="ant-divider"/>
-          {messages('request.detail.loan.payment.code'/*还款单号*/)}：{info.businessCode}
+          {this.$t('request.detail.loan.payment.code'/*还款单号*/)}：{info.businessCode}
           <span className="ant-divider"/>
-          {messages('request.detail.loan.payment.method'/*还款方式*/)}：{info.type === '0' ? messages('request.detail.loan.payment.cash'/*现金还款*/) :
-              info.type === '1' ? messages('request.detail.loan.payment.transfer'/*转账还款*/) : messages('request.detail.loan.payment.expense'/*报销单还款*/)}
+          {this.$t('request.detail.loan.payment.method'/*还款方式*/)}：{info.type === '0' ? this.$t('request.detail.loan.payment.cash'/*现金还款*/) :
+              info.type === '1' ? this.$t('request.detail.loan.payment.transfer'/*转账还款*/) : this.$t('request.detail.loan.payment.expense'/*报销单还款*/)}
           <span className="ant-divider"/>
-          {messages('request.detail.status'/*当前状态*/)}：{info.status === '1001' ? messages('request.detail.loan.in.the.payment'/*还款中*/) :
-            info.status === '1002' ? messages('request.detail.loan.has.been.payment'/*已还款*/) : messages('request.detail.loan.rejected'/*被驳回*/)}
+          {this.$t('request.detail.status'/*当前状态*/)}：{info.status === '1001' ? this.$t('request.detail.loan.in.the.payment'/*还款中*/) :
+            info.status === '1002' ? this.$t('request.detail.loan.has.been.payment'/*已还款*/) : this.$t('request.detail.loan.rejected'/*被驳回*/)}
         </div>
       </div>
     );
     return(
       <div className="repayment-detail-frame">
         {info.status && (
-          <Alert message={info.status === '1001' ? messages('request.detail.loan.in.the.payment'/*还款中*/) :
-            info.status === '1002' ? `${messages('request.detail.loan.payment.amount'/*还款金额*/)}：${info.curreny} ${this.renderMoney(actRepayAmount)}` :
-              messages('request.detail.loan.rejected'/*被驳回*/)}
+          <Alert message={info.status === '1001' ? this.$t('request.detail.loan.in.the.payment'/*还款中*/) :
+            info.status === '1002' ? `${this.$t('request.detail.loan.payment.amount'/*还款金额*/)}：${info.curreny} ${this.renderMoney(actRepayAmount)}` :
+              this.$t('request.detail.loan.rejected'/*被驳回*/)}
                  description={alertContent}
                  type={info.status === '1001' ? 'warning' : info.status === '1002' ? 'success' : 'error'}
                  className="alert-info"
@@ -201,31 +200,31 @@ class RepaymentDetailFrame extends React.Component{
           {info.type !== '0' && (
             <div className="refund-info">
               <Row>
-                <Col span={12}><h4>{messages('request.detail.loan.payer.info')/*还款方信息*/}</h4></Col>
-                <Col span={11} offset={1}><h4>{messages('request.detail.loan.receiver.info')/*收款方信息*/}</h4></Col>
+                <Col span={12}><h4>{this.$t('request.detail.loan.payer.info')/*还款方信息*/}</h4></Col>
+                <Col span={11} offset={1}><h4>{this.$t('request.detail.loan.receiver.info')/*收款方信息*/}</h4></Col>
               </Row>
               <Row>
-                <Col span={12}>{this.renderInfo(messages('request.detail.loan.account.name'/*开户名*/), info.payAccountName)}</Col>
-                <Col span={11} offset={1}>{this.renderInfo(messages('request.detail.loan.account.name'/*开户名*/), info.acceptAccountName)}</Col>
+                <Col span={12}>{this.renderInfo(this.$t('request.detail.loan.account.name'/*开户名*/), info.payAccountName)}</Col>
+                <Col span={11} offset={1}>{this.renderInfo(this.$t('request.detail.loan.account.name'/*开户名*/), info.acceptAccountName)}</Col>
               </Row>
               <Row>
-                <Col span={12}>{this.renderInfo(messages('request.detail.loan.account.number'/*开户账号*/), info.payAccount)}</Col>
-                <Col span={11} offset={1}>{this.renderInfo(messages('request.detail.loan.account.number'/*开户账号*/), info.acceptAccount)}</Col>
+                <Col span={12}>{this.renderInfo(this.$t('request.detail.loan.account.number'/*开户账号*/), info.payAccount)}</Col>
+                <Col span={11} offset={1}>{this.renderInfo(this.$t('request.detail.loan.account.number'/*开户账号*/), info.acceptAccount)}</Col>
               </Row>
               <Row>
-                <Col span={12}>{this.renderInfo(messages('request.detail.loan.account.bank'/*开户银行*/), info.payBankName)}</Col>
-                <Col span={11} offset={1}>{this.renderInfo(messages('request.detail.loan.account.bank'/*开户银行*/), info.acceptBankName)}</Col>
+                <Col span={12}>{this.renderInfo(this.$t('request.detail.loan.account.bank'/*开户银行*/), info.payBankName)}</Col>
+                <Col span={11} offset={1}>{this.renderInfo(this.$t('request.detail.loan.account.bank'/*开户银行*/), info.acceptBankName)}</Col>
               </Row>
               <Row>
                 <Col span={12}>
-                  {this.renderInfo(messages('request.detail.loan.payment.amount'/*还款金额*/),
+                  {this.renderInfo(this.$t('request.detail.loan.payment.amount'/*还款金额*/),
                     (info.curreny || '') + ' ' + this.renderMoney(info.repaymentValue))}
                 </Col>
               </Row>
               {info.status === '1002' && (
                 <Row className="confirm-amount">
                   <Col span={12}>
-                    {this.renderInfo(messages('request.detail.loan.confirm.payment.amount'/*确认还款金额*/),
+                    {this.renderInfo(this.$t('request.detail.loan.confirm.payment.amount'/*确认还款金额*/),
                       (info.curreny || '') + ' ' + this.renderMoney(actRepayAmount))}
                   </Col>
                 </Row>
@@ -241,12 +240,12 @@ class RepaymentDetailFrame extends React.Component{
           )}
           {info.isFinance && (
             <div className="remark-info">
-              <h4>{messages('common.remark')}：</h4>
+              <h4>{this.$t('common.remark')}：</h4>
               <div>{info.remark || '-'}</div>
             </div>
           )}
           <div className="approvals refund-history">
-            <h4>{messages('request.detail.loan.payment.history')/*还款历史*/}</h4>
+            <h4>{this.$t('request.detail.loan.payment.history')/*还款历史*/}</h4>
             <Timeline>
               {info.approvalHistoryDTOs && info.approvalHistoryDTOs.map(item => {
                 return (
@@ -268,19 +267,19 @@ class RepaymentDetailFrame extends React.Component{
         {this.props.params.loanRefund && info.status === '1001' && buttonRoleSwitch? (
           <div className="slide-footer">
             <Button type="primary" onClick={this.handleConfirmAmount}>
-              {messages('request.detail.loan.confirm.receipt')/*确认收款*/}
+              {this.$t('request.detail.loan.confirm.receipt')/*确认收款*/}
             </Button>
-            <Button onClick={() => this.setState({notReceivedModalVisible: true})}>{messages('request.detail.loan.no.receipt')/*未收到*/}</Button>
+            <Button onClick={() => this.setState({notReceivedModalVisible: true})}>{this.$t('request.detail.loan.no.receipt')/*未收到*/}</Button>
           </div>
         ) : (
           info.isFinance && info.status === '1002' && buttonRoleSwitch ? (
             <div className="slide-footer">
-              <Button onClick={this.showConfirm}>{messages('request.detail.loan.cancel.payment')/*撤销还款*/}</Button>
-              <Button onClick={this.handleCancel}>{messages('request.detail.loan.close')/*关闭*/}</Button>
+              <Button onClick={this.showConfirm}>{this.$t('request.detail.loan.cancel.payment')/*撤销还款*/}</Button>
+              <Button onClick={this.handleCancel}>{this.$t('request.detail.loan.close')/*关闭*/}</Button>
             </div>
           ) : (
             <div className="slide-footer">
-              <Button onClick={this.handleCancel}>{messages('request.detail.loan.close')/*关闭*/}</Button>
+              <Button onClick={this.handleCancel}>{this.$t('request.detail.loan.close')/*关闭*/}</Button>
             </div>
           )
         )}
@@ -289,13 +288,13 @@ class RepaymentDetailFrame extends React.Component{
                confirmLoading={modalLoading}
                onOk={() => this.handleConfirm('PASS')}
                onCancel={() => this.setState({confirmAmountModalVisible: false})}
-               okText={messages('request.detail.loan.confirm.and.notification.staff')/*确认并通知员工*/}
-               title={messages('request.detail.loan.confirm.payment.amount'/*确认还款金额*/)}>
+               okText={this.$t('request.detail.loan.confirm.and.notification.staff')/*确认并通知员工*/}
+               title={this.$t('request.detail.loan.confirm.payment.amount'/*确认还款金额*/)}>
           <div>
             {!this.props.profile['finance.modify.repayment.money.disabled'] && (
-              <div>{messages('request.detail.loan.update.amount.notice')/*如实际还款和申请不符，可在下方修改金额*/}</div>
+              <div>{this.$t('request.detail.loan.update.amount.notice')/*如实际还款和申请不符，可在下方修改金额*/}</div>
             )}
-            {messages('request.detail.loan.amount1')/*金额*/}{info.curreny ? `（${info.curreny}）` : ''}：
+            {this.$t('request.detail.loan.amount1')/*金额*/}{info.curreny ? `（${info.curreny}）` : ''}：
             <InputNumber min={0}
                          max={Number(Number(info.repaymentValue).toFixed(2))}
                          value={repaymentAmount}
@@ -309,11 +308,11 @@ class RepaymentDetailFrame extends React.Component{
                confirmLoading={modalLoading}
                onOk={() => this.handleConfirm('REJECT')}
                onCancel={() => this.setState({notReceivedModalVisible: false})}
-               okText={messages('request.detail.loan.confirm.and.notification.staff')/*确认并通知员工*/}
-               title={messages('request.detail.loan.input.content')/*输入内容*/}>
+               okText={this.$t('request.detail.loan.confirm.and.notification.staff')/*确认并通知员工*/}
+               title={this.$t('request.detail.loan.input.content')/*输入内容*/}>
           <div>
             <TextArea rows={3}
-                      placeholder={messages('request.detail.loan.default.content')/*如不输入，默认理由：未收到款项*/}
+                      placeholder={this.$t('request.detail.loan.default.content')/*如不输入，默认理由：未收到款项*/}
                       style={{resize: 'none'}}
                       onChange={e => this.setState({notReceivedReason: e.target.value})}/>
           </div>

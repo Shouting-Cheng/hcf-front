@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form } from 'antd'
 
 import moment from 'moment'
@@ -25,16 +25,16 @@ class TravelDate extends React.Component{
     let eDate = info.travelApplication && info.travelApplication.endDate;
     return (
       <div className="travel-date">
-        {messages('request.detail.travel.date.range')/*出差日期*/}：
+        {this.$t('request.detail.travel.date.range')/*出差日期*/}：
         {moment(sDate).format('YYYY-MM-DD')} ～ {moment(eDate).format('YYYY-MM-DD')}，
-        {messages('request.detail.travel.total.day', {day: this.getDifferDays(sDate, eDate) || 0})/*共 {day} 天*/}
+        {this.$t('request.detail.travel.total.day', {day: this.getDifferDays(sDate, eDate) || 0})/*共 {day} 天*/}
       </div>
     )
   }
 }
 
 TravelDate.propTypes = {
-  info: React.PropTypes.object,
+  info: PropTypes.object,
 };
 
 TravelDate.defaultProps={

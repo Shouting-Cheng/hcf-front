@@ -3,7 +3,7 @@
  */
 import config from 'config'
 import httpFetch from 'share/httpFetch'
-import configureStore from 'stores';
+//import configureStore from 'stores';
 
 export default {
 
@@ -456,7 +456,6 @@ export default {
   },
 
   getCostItem(costItemOID){
-    console.log(costItemOID)
     return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costItemOID}`)
   }
 

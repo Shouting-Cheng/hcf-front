@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import PropTypes from 'prop-types';
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Form, Table, Row, Col, Tag } from 'antd'
 
 class JDOrderInfo extends React.Component{
@@ -10,16 +10,16 @@ class JDOrderInfo extends React.Component{
       info: {},
       productInfo: {},
       columns: [
-        {title: messages('request.detail.jd.product'/*商品*/), dataIndex: 'name',render: (value, record) => (
+        {title: this.$t('request.detail.jd.product'/*商品*/), dataIndex: 'name',render: (value, record) => (
           <div>
             <img src={record.imgPath} className="product-img"/>
             {value}
           </div>
         )},
-        {title: messages('request.detail.jd.product.no'/*商品编号*/), dataIndex: 'skuId'},
-        {title: messages('request.detail.jd.price'/*价格*/), dataIndex: 'amount', render: value =>
+        {title: this.$t('request.detail.jd.product.no'/*商品编号*/), dataIndex: 'skuId'},
+        {title: this.$t('request.detail.jd.price'/*价格*/), dataIndex: 'amount', render: value =>
           <span className="money-cell">{this.state.info.currencyCode} {this.renderMoney(value)}</span>},
-        {title: messages('request.detail.jd.product.num'/*商品数量*/), dataIndex: 'count'}
+        {title: this.$t('request.detail.jd.product.num'/*商品数量*/), dataIndex: 'count'}
       ],
       data: [],
     }
@@ -47,11 +47,11 @@ class JDOrderInfo extends React.Component{
     let remainDay = 7 - Math.ceil(remainMs / (1000 * 3600 * 24));  // 计算剩余天数,向上取整
     let remainHour = 24 - Math.ceil(remainMs % (1000 * 3600 * 24) / (1000 * 3600));  // 计算除去天数之后剩余小时,向上取整
     if(remainDay < 0){  //京东订单时间超时
-      return <Tag color="#ff0000">{messages('request.detail.jd.order.timeout')/*订单超时*/}</Tag>
+      return <Tag color="#ff0000">{this.$t('request.detail.jd.order.timeout')/*订单超时*/}</Tag>
     } else if(remainDay < 1){
-      return <Tag color="#ff9900">{messages('request.detail.jd.remind.time', {hour: remainHour})/*剩余付款时间：{hour}小时*/}</Tag>
+      return <Tag color="#ff9900">{this.$t('request.detail.jd.remind.time', {hour: remainHour})/*剩余付款时间：{hour}小时*/}</Tag>
     } else if(remainDay >= 1) {
-      return <Tag color="#ff9900">{messages('request.detail.jd.remind.day', {day: remainDay, hour: remainHour})/*剩余付款时间：{day}天{hour}小时*/}</Tag>
+      return <Tag color="#ff9900">{this.$t('request.detail.jd.remind.day', {day: remainDay, hour: remainHour})/*剩余付款时间：{day}天{hour}小时*/}</Tag>
     }
   };
 
@@ -66,9 +66,9 @@ class JDOrderInfo extends React.Component{
     const { info, productInfo, columns, data } = this.state;
     return (
       <div className="jd-order-info tab-container">
-        <h3 className="sub-header-title">{messages('request.detail.jd.order.info')/*订单信息*/}</h3>
+        <h3 className="sub-header-title">{this.$t('request.detail.jd.order.info')/*订单信息*/}</h3>
         <div className="table-header">
-          <span className="order-num">{messages('request.detail.jd.order.no')/*订单号*/}：{productInfo.orderNum}</span>
+          <span className="order-num">{this.$t('request.detail.jd.order.no')/*订单号*/}：{productInfo.orderNum}</span>
           {info.jingDongOrderApplication && this.getRemainingTime(info.jingDongOrderApplication.createdDate)}
         </div>
         <Table rowKey={(record, index) => index}
@@ -81,15 +81,15 @@ class JDOrderInfo extends React.Component{
         <div className="amount-info">
           <Row>
             <Col span={3} className="amount">{info.currencyCode} {this.renderMoney(productInfo.totalAmount || 0)}</Col>
-            <Col span={2} className="amount-title">{messages('request.detail.jd.product.amount')/*商品总额*/}：</Col>
+            <Col span={2} className="amount-title">{this.$t('request.detail.jd.product.amount')/*商品总额*/}：</Col>
           </Row>
           <Row>
             <Col span={3} className="amount">{info.currencyCode} {this.renderMoney(productInfo.freight || 0)}</Col>
-            <Col span={2} className="amount-title">{messages('request.detail.jd.freight')/*运费*/}：</Col>
+            <Col span={2} className="amount-title">{this.$t('request.detail.jd.freight')/*运费*/}：</Col>
           </Row>
           <Row>
             <Col span={3} className="amount total">{info.currencyCode} {this.renderMoney((productInfo.totalAmount || 0) + (productInfo.freight || 0))}</Col>
-            <Col span={2} className="amount-title total">{messages('request.detail.jd.total.amount')/*总计金额*/}：</Col>
+            <Col span={2} className="amount-title total">{this.$t('request.detail.jd.total.amount')/*总计金额*/}：</Col>
           </Row>
         </div>
       </div>
@@ -98,7 +98,7 @@ class JDOrderInfo extends React.Component{
 }
 
 JDOrderInfo.propTypes = {
-  info: React.PropTypes.object
+  info: PropTypes.object
 };
 
 JDOrderInfo.defaultProps={

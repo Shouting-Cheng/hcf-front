@@ -1,26 +1,28 @@
-.travel-information-element {
-  .element-item{
-    position: relative;
-    background-color: white;
-    border-radius: 6px;
-    padding:12px;
-    margin-bottom: 6px;
-  }
-  .ant-collapse {
-    border: none;
-    background: #fff;
-    .ant-collapse-item {
-      background: #f7f7f7;
-      border-radius: 4px;
-      margin-top: 10px;
+:global{
+  .travel-information-element {
+    .element-item{
+      position: relative;
+      background-color: white;
+      border-radius: 6px;
+      padding:12px;
+      margin-bottom: 6px;
+    }
+    .ant-collapse {
       border: none;
-      overflow: hidden;
+      background: #fff;
+      .ant-collapse-item {
+        background: #f7f7f7;
+        border-radius: 4px;
+        margin-top: 10px;
+        border: none;
+        overflow: hidden;
+      }
+      .ant-collapse-content {
+        background: #f7f7f7;
+      }
     }
-    .ant-collapse-content {
-      background: #f7f7f7;
+    .value-item{
+      padding: 5px 0;
     }
-  }
-  .value-item{
-    padding: 5px 0;
   }
 }

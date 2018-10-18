@@ -19,12 +19,12 @@ const RadioGroup = Radio.Group;
 const Option = Select.Option;
 import PropTypes from 'prop-types';
 
-import LanguageInput from 'components/template/language-input/language-input';
+import LanguageInput from 'components/Template/language-input/language-input';
 import formService from 'containers/setting/form/form.service';
 import baseService from 'share/base.service';
-import 'styles/components/template/widget/widget-setting.scss';
+import 'styles/components/Template/widget/widget-setting.scss';
 //import { this.$t, randomString } from 'share/common'
-import LinkageSwitchItem from 'components/template/widget/linkage-switch-item';
+import LinkageSwitchItem from 'components/Template/widget/linkage-switch-item';
 import moment from 'moment';
 
 class WidgetSetting extends React.Component {
