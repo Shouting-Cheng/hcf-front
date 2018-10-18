@@ -248,7 +248,7 @@ export const getRouterData = app => {
         import('containers/pre-payment/prepayment-type/distribution-company.js')
       ),
       name: '分配公司',
-      parent: "/document-type-manage/prepayment-type"
+      parent: '/document-type-manage/prepayment-type',
     },
     '/approval-management/pre-payment-approve': {
       //预付款工作流审批
@@ -345,27 +345,28 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
-    '/request/jd-request-edit/:formOID/:applicationOID':{//京东申请单编辑页
+    '/request/jd-request-edit/:formOID/:applicationOID': {
+      //京东申请单编辑页
       component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
-      name: 'jd-request-edit'
+      name: 'jd-request-edit',
     },
-    '/request/new-request/:formOID/:applicantOID':{
+    '/request/new-request/:formOID/:applicantOID': {
       //新建申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'new-request',
-      parent: '/request'
+      parent: '/request',
     },
-    '/request/request-edit/:formOID/:applicationOID':{
+    '/request/request-edit/:formOID/:applicationOID': {
       //编辑申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'request-edit',
-      parent: '/request'
+      parent: '/request',
     },
-    '/request/request-detail/:formOID/:applicationOID/:pageFrom':{
+    '/request/request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单详情
-      component: dynamicWrapper(app, [], ()=> import('containers/request/base-request-detail')),
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
-      parent: '/request'
+      parent: '/request',
     },
 
     '/payment-requisition/my-payment-requisition': {
@@ -459,14 +460,14 @@ export const getRouterData = app => {
         import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
       ),
       name: 'new-gl-work-order',
-      parent: '/gl-work-order/my-gl-work-order'
+      parent: '/gl-work-order/my-gl-work-order',
     },
     '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
       ),
       name: 'my-gl-work-order-detail',
-      parent: '/gl-work-order/my-gl-work-order'
+      parent: '/gl-work-order/my-gl-work-order',
     },
     '/pay-setting/payment-method': {
       component: dynamicWrapper(app, [], () =>
@@ -514,6 +515,12 @@ export const getRouterData = app => {
       parent: '/pay-setting/company-account-setting',
     },
     '/approval-management/gl-work-order-approval': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
+      ),
+      name: 'gl-work-order-approval',
+    },
+    '/approval-management/gl-work-order-approval': {
       //核算工单审批
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
@@ -530,12 +537,39 @@ export const getRouterData = app => {
     },
     '/financial-management/csh-write-off-backlash': {
       //核销反冲
-      component: dynamicWrapper(app, [], ()=>
+      component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/csh-write-off-backlash/csh-write-off-backlash')
       ),
       name: 'csh-write-off-backlash',
-    }
-
+    },
+    '/financial-management/supplier-maintain': {
+      //财务管理-供应商维护
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-management.js')
+      ),
+      name: 'supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/new-update-supplier': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/new-update-supplier.js')
+      ),
+      name: '供应商维护',
+      parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/supplier-bank-account/:id/:source': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-bank-account.js')
+      ),
+      name: '银行账号',
+      parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/delivery-company/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-company-delivery.js')
+      ),
+      name: '供应商分配公司',
+      parent: '/financial-management/supplier-maintain',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
