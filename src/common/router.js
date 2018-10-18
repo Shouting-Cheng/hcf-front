@@ -470,6 +470,28 @@ export const getRouterData = app => {
       name: '银行账户详情',
       parent: '/pay-setting/company-account-setting',
     },
+    '/approval-management/gl-work-order-approval': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
+      ),
+      name: 'gl-work-order-approval',
+    },
+    '/approval-management/gl-work-order-approval': {
+      //核算工单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
+      ),
+      name: 'gl-work-order-approval',
+    },
+    '/approval-management/gl-work-order-approval/gl-work-order-approval-detail/:id/:oid/:status': {
+      //核算工单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval-detail.js')
+      ),
+      name: '核算工单审批详情',
+      parent: '/approval-management/gl-work-order-approval',
+    }
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
