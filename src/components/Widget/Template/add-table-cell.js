@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Form, Icon, Input, Popconfirm, Table, Tooltip, message } from 'antd';
 
-import 'styles/components/Template/add-table-cell.scss';
+import 'styles/components/template/add-table-cell.scss';
 
 class EditableCell extends React.Component {
   constructor(props) {
