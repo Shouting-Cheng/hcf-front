@@ -1,5 +1,7 @@
-.new-linkage-switch {
-  .ant-form-item {
-    margin-bottom: 0;
+:global{
+  .new-linkage-switch {
+    .ant-form-item {
+      margin-bottom: 0;
+    }
   }
 }
