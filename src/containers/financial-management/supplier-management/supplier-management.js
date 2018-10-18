@@ -14,7 +14,7 @@ import SlideFrame from 'components/slide-frame'
 import NewUpdateSupplier from 'containers/financial-management/supplier-management/new-update-supplier'
 import 'styles/financial-management/supplier-management/supplier-management.scss'
 import menuRoute from 'routes/menuRoute'
-import Importer from 'components/Template/importer'
+import Importer from 'components/template/importer'
 import moment from 'moment'
 import ListSelector from 'components/list-selector'
 

@@ -9,7 +9,7 @@ import expenseReportService from 'containers/expense-report/expense-report.servi
 import debounce from 'lodash.debounce'
 import moment from 'moment'
 import 'styles/request/request.scss'
-import Proxies from 'widget/Template/proxies/proxies'
+import Proxies from 'widget/template/proxies/proxies'
 import { dealCache, deepFullCopy, messages } from "share/common";
 import { setExpenseReport } from "actions/cache";
 import configureStore from "stores";

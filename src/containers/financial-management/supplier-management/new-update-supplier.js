@@ -10,7 +10,7 @@ import vendorService from 'containers/financial-management/supplier-management/v
 import baseService from 'share/base.service'
 import config from 'config'
 import menuRoute from 'routes/menuRoute'
-import Importer from 'components/Template/importer'
+import Importer from 'components/template/importer'
 import 'styles/financial-management/supplier-management/new-update-supplier.scss'
 import Chooser from "../../../components/chooser";
 
