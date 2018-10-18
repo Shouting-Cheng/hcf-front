@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message } from 'antd';
+import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message, Input } from 'antd';
 import { connect } from 'dva';
 
 import ListSelector from 'widget/list-selector';
@@ -18,7 +18,7 @@ class NewShare extends Component {
           width: 200,
           render: (value, record, index) => {
             return record.status == 'edit' || record.status == 'new' ? (
-              <Select
+              <Input
                 disabled={record.isCreateByApplication}
                 ref={ref => {
                   this['company' + index] = ref;
@@ -41,7 +41,7 @@ class NewShare extends Component {
           width: 200,
           render: (value, record, index) => {
             return record.status == 'edit' || record.status == 'new' ? (
-              <Select
+              <Input
                 disabled={record.isCreateByApplication}
                 ref={ref => {
                   this['department' + index] = ref;
@@ -161,7 +161,7 @@ class NewShare extends Component {
                     labelInValue
                     value={value}
                     onChange={val => this.centerChange(index, val, o.costCenterOID)}
-                    onFocus={() => this.handleFocus(o.costCenterOID)}
+                    onDropdownVisibleChange={(open) => this.handleFocus(o.costCenterOID,open)}
                   >
                     {this.state.costCenterData[o.costCenterOID] &&
                       this.state.costCenterData[o.costCenterOID].map(item => {
@@ -282,6 +282,9 @@ class NewShare extends Component {
 
   //成本中心得到焦点时
   handleFocus = oid => {
+    if(open===false){
+      return
+    }
     if (this.state.costCenterData[oid]) return;
 
     let costCenterData = { ...this.state.costCenterData };
