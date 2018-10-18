@@ -106,7 +106,7 @@ class ContractDetail extends React.Component {
         )}
         {isConfirm && (
           <Affix offsetBottom={0} className="bottom-bar">
-            <Button style={{ marginLeft: 33 }} onClick={this.goBack} className="back-btn">
+            <Button style={{ marginLeft: 80 }} onClick={this.goBack} className="back-btn">
               {this.$t({ id: 'common.back' } /*返回*/)}
             </Button>
           </Affix>
