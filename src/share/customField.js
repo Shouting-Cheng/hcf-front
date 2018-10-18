@@ -4,6 +4,7 @@ import config from 'config'
 import {deepCopy, deepFullCopy} from 'utils/extend'
 import { messages } from "utils/utils"
 import {Switch, Input, Select, Row, Col, InputNumber, DatePicker, Table, Popover, TimePicker} from 'antd'
+import app from '../index';
 
 const {TextArea} = Input;
 const Option = Select.Option;
@@ -348,7 +349,7 @@ export default {
       case 'currency_code':
         let params = {
           language: 'chineseName',
-          userOID: configureStore.store.getState().login.user.userOID
+          userOID: app.getState().user.currentUser.userOID
         };
         return (
           <Selector type={'currency'} params={params} filter={item => item.enable}
@@ -369,7 +370,7 @@ export default {
                         placeholder={field.promptInfo}
                         valueKey="costCenterItemOID"
                         labelKey="name"
-                        listExtraParams={{applicantOID: configureStore.store.getState().login.user.userOID}}
+                        listExtraParams={{applicantOID: app.getState().user.currentUser.userOID}}
                         onlyNeed="costCenterItemOID"
                         onChange={(e, all) => {
                           copyValue && copyValue.checkedChange && copyValue.checkedChange(field, e, all)
@@ -408,7 +409,7 @@ export default {
             costCentreValuesSet = '&' + costCentreValue.join('&');
           }
         }
-        chooserItem.url += `?proposerOID=${configureStore.store.getState().login.user.userOID}${departmentOIDSet}${costCentreValuesSet}`;
+        chooserItem.url += `?proposerOID=${app.getState().user.currentUser.userOID}${departmentOIDSet}${costCentreValuesSet}`;
         return <Chooser selectorItem={chooserItem}
                         valueKey="userOID"
                         labelKey="fullName"
@@ -438,7 +439,7 @@ export default {
       case 'payee':
         return <NewPayee disabled={field.isReadOnly}/>;
       case 'contact_bank_account':
-        let userOID=configureStore.store.getState().login.user.userOID;
+        let userOID=app.getState().user.currentUser.userOID;
         formDetail.customFormFields.map(item => {
           if (item.messageKey === 'payee' && item.value) {
             userOID = item.value;
@@ -621,7 +622,7 @@ export default {
       case 'select_company':
         let showCode = JSON.parse(field.fieldConstraint || '{}').showCode;
         let selectorItemCompany = {
-          url: `${config.baseUrl}/api/refactor/companies/user/setOfBooks?userOID=${configureStore.store.getState().login.user.userOID}&enabled=true&page=0&size=1000`,
+          url: `${config.baseUrl}/api/refactor/companies/user/setOfBooks?userOID=${app.getState().user.currentUser.userOID}&enabled=true&page=0&size=1000`,
           label: record => showCode ? `${record.name} - ${record.companyCode}` : record.name,
           key: 'companyOID'
         };
@@ -812,8 +813,8 @@ export default {
     return values;
   },
   getDefaultValue(field, fieldDefaultValue) {
-    let user = configureStore.store.getState().login.user;
-    let company = configureStore.store.getState().login.company;
+    let user = app.getState().user.currentUser;
+    let company = app.getState().user.company;
     switch (field.messageKey) {
 
       /********** 根据接口:/api/custom/form/user/default/values 拿到默认值 Begin ***********/
