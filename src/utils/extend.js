@@ -411,7 +411,7 @@ Date.prototype.calcMonth = function(month) {
  */
 React.Component.prototype.getSystemValueList = code => {
   let url = '';
-  if (Number(code) > 2000) url = '/api/custom/enumerations/Template/by/type?type=';
+  if (Number(code) > 2000) url = '/api/custom/enumerations/template/by/type?type=';
   else url = '/api/custom/enumeration/system/by/type?systemCustomEnumerationType=';
   return httpFetch.get(`${config.baseUrl}${url}${code}`).then(res => {
     return new Promise(resolve => {

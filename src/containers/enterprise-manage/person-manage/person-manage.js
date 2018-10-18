@@ -22,9 +22,9 @@ import {isEmptyObj, messages} from 'share/common';
 import FileSaver from 'file-saver';
 import {deepCopy} from 'share/common';
 import {SelectDepOrPerson} from 'components/index';
-import ImportErrInfo from 'components/Template/import-err-info';
+import ImportErrInfo from 'components/template/import-err-info';
 import InvitePersonModal from 'containers/enterprise-manage/person-manage/person-manage-components/invite.person.modal'
-import ExportModal from 'components/Template/export-modal/export-modal';
+import ExportModal from 'components/template/export-modal/export-modal';
 
 class PersonManage extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
 import { Icon, Switch } from 'antd';
-import 'styles/components/Template/drag-widget-page/widget-item.scss';
+import 'styles/components/template/drag-widget-page/widget-item.scss';
 // todo
 // 组件的使用示例
 // 国际化

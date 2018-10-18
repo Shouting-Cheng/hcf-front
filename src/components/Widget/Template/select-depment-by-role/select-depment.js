@@ -7,9 +7,9 @@ import { connect } from 'dva';
 
 import { Modal, Input, Icon, Button } from 'antd';
 
-import 'styles/components/Template/select-depment-by-role/select-depment.scss';
-import DepTree from 'components/Template/select-depment-by-role/dep-tree';
-import SelectRoleDepService from 'components/Template/select-depment-by-role/select-depment.service';
+import 'styles/components/template/select-depment-by-role/select-depment.scss';
+import DepTree from 'components/template/select-depment-by-role/dep-tree';
+import SelectRoleDepService from 'components/template/select-depment-by-role/select-depment.service';
 
 const treeData = [];
 

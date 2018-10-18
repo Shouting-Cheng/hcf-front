@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Select, Modal, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
-import DepTreeSelect from 'components/Template/select-depment-with-children/dep-tree-select';
-import 'styles/components/Template/select-depment-with-children/select-depment-with-children.scss';
+import DepTreeSelect from 'components/template/select-depment-with-children/dep-tree-select';
+import 'styles/components/template/select-depment-with-children/select-depment-with-children.scss';
 class SelectDepWithChildren extends React.Component {
   constructor() {
     super();

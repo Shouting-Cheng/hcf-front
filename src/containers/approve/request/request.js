@@ -1,18 +1,16 @@
 
 import React from 'react'
-import menuRoute from 'routes/menuRoute'
 
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import constants from 'share/constants'
-import configureStore from "stores";
 import { setApproveRequest } from "actions/cache";
 import { messages, deepFullCopy, dealCache } from "share/common";
 import { Form, Tabs, Badge, Popover, Table, Affix, message } from 'antd'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment'
-import SearchArea from 'components/search-area'
-import ApproveBar from 'components/Template/approve-bar'
+import SearchArea from 'widget/search-area'
+import ApproveBar from 'widget/Template/approve-bar'
 import approveRequestService from 'containers/approve/request/request.service'
 import 'styles/approve/request/request.scss'
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Tree, Icon, Spin } from 'antd';
-import SelectDepWithChildrenService from 'components/Template/select-depment-with-children/select-depment-with-children.service';
-import 'styles/components/Template/select-depment-with-children/select-depment-with-children.scss';
+import SelectDepWithChildrenService from 'components/template/select-depment-with-children/select-depment-with-children.service';
+import 'styles/components/template/select-depment-with-children/select-depment-with-children.scss';
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
 import PropTypes from 'prop-types';
