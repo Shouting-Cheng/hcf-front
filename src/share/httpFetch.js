@@ -11,7 +11,7 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      params: params,
+      params: { ...params, roleType: "TENANT" },
     };
     return axios(option);
   },
@@ -57,7 +57,7 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      body: params,
+      data: params,
     };
     return axios(baseUrl + url, option);
   },
