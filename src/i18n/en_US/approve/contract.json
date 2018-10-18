@@ -2,6 +2,8 @@
   "contract.search.name.employeeId": "Applicant Name/No.",
   "contract.search.date.from": "Request Date From",
   "contract.search.date.to": "Request Date To",
+  "contract.search.submit.date.from": "Request Date From",
+  "contract.search.submit.date.to": "Request Date To",
   "contract.createdBy": "Applicant",
   "contract.sign.date": "Request Date",
   "contract.amount": "Amount",

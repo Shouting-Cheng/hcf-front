@@ -2239,6 +2239,8 @@
   "contract.search.name.employeeId": "申請者姓名/従業員番号",
   "contract.search.date.from": "提出時間From",
   "contract.search.date.to": "提出時間To",
+  "contract.search.submit.date.from": "提出日From",
+  "contract.search.submit.date.to": "提出日To",
   "contract.createdBy": "申請者",
   "contract.sign.date": "提出日",
   "contract.amount": "金額",
