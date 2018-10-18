@@ -64,6 +64,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('supplier.management.ordinalNumber'),
           key: 'ordinalNumber',
           dataIndex: 'ordinalNumber',
+          align:"center",
           width: '5%',
         },
         {
@@ -82,6 +83,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('bank.bankName'),
           key: 'bankName',
           dataIndex: 'bankName',
+          width:180,
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -93,6 +95,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('supplier.bank.account'),
           key: 'bankAccount',
           dataIndex: 'bankAccount',
+          width:180,
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -115,6 +118,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('bank.country'),
           key: 'country',
           dataIndex: 'country',
+          width:90,
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -126,6 +130,8 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('supplier.management.lastUpdate'),
           key: 'webUpdateDate',
           dataIndex: 'webUpdateDate',
+          width:100,
+          align:"center",
           render: desc => (
             <span>
               <Popover content={moment(new Date(desc)).format('YYYY-MM-DD')}>
@@ -139,6 +145,8 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('common.column.status'),
           key: 'venType',
           dataIndex: 'venType',
+          width:90,
+          align:"center",
           render: venType => (
             <Badge
               status={venType === 1001 ? 'success' : 'error'}
@@ -155,20 +163,23 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('supplier.main.account'),
           key: 'primaryFlag',
           dataIndex: 'primaryFlag',
-          render: desc => <span>{desc ? 'Y' : 'N'}</span>,
+          width:90,
+          align:"center",
+          render: desc => <span>{desc ? '是' : '否'}</span>,
         },
         {
           /*操作*/
           title: this.$t('common.operation'),
           key: 'operate',
           dataIndex: 'operate',
-          width: '80',
+          width:80,
+          align:"center",
           render: (text, record, index) => (
             <span>
               {/*如果是 TENANT且公司模式公司模式  就不能编辑*/}
               {/*{(!this.props.main.tenantMode && this.props.match.params.source === "TENANT") ? this.$t("common.edit") : <a href="#" onClick={(e) => this.handleUpdate(e, record, index)}>{this.$t('common.edit')}</a>}*/}
               {
-                <a href="#" onClick={e => this.handleUpdate(e, record, index)}>
+                <a onClick={e => this.handleUpdate(e, record, index)}>
                   {this.$t('common.edit')}
                 </a>
               }
@@ -229,7 +240,7 @@ class SupplierBankAccount extends React.Component {
     let slideFrame = {
       title: this.$t('supplier.add.bank.account'),
       visible: true,
-      params: { vendorId: this.props.match.params.id },
+      params: {},
     };
     this.setState({
       slideFrame,

@@ -7,7 +7,7 @@ const FormItem = Form.Item;
 import expenseReportService from 'containers/expense-report/expense-report.service';
 
 import moment from 'moment';
-import 'styles/components/Template/approve-history.scss';
+import 'styles/components/template/approve-history.scss';
 import { connect } from 'dva';
 import { message } from 'antd/lib/index';
 import PropTypes from 'prop-types';

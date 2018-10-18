@@ -42,19 +42,15 @@ class NewUpdateBankAccount extends React.Component {
 
   componentWillMount() {
     let params = this.props.params;
-    if (JSON.stringify(params) !== '{}') {
+    if (JSON.stringify(params) != '{}') {
       //编辑
-      this.props.form.setFieldsValue({ venBankAccountBeans: params.bankName });
-      params.bankDefaultName = [{ bankCode: params.bankCode, bankBranchName: params.bankName }];
+      this.props.form.setFieldsValue({venBankAccountBeans: params.bankName});
+      params.bankDefaultName = [{bankCode: params.bankCode, bankBranchName: params.bankName}];
       this.setState({
         bankInfo: params,
         enabled: params.venType === 1001 ? true : false,
         isMainAccount: params.primaryFlag,
       });
-    } else {
-      notification.close('section');
-      this.setState({ loading: false });
-      this.props.form.resetFields();
     }
   }
 
@@ -99,7 +95,7 @@ class NewUpdateBankAccount extends React.Component {
         if (response.data.code === '0000') {
           this.props.form.resetFields();
           this.setState({ loading: false });
-          this.props.close(true);
+          this.props.onClose(true);
         } else {
           message.warning(`保存失败,${respone.data.msg}`);
           this.setState({ loading: false });
@@ -207,7 +203,7 @@ class NewUpdateBankAccount extends React.Component {
                   enabled: true,
                   isMainAccount: true,
                 });
-                this.props.close(true);
+                this.props.onClose(true);
               } else {
                 message.warning(`${this.$t(`common.save.filed`)},${response.data.msg}`);
                 this.setState({ loading: false });
@@ -251,7 +247,6 @@ class NewUpdateBankAccount extends React.Component {
 
   onCancel = () => {
     this.props.onClose(false);
-    this.props.form.resetFields();
     notification.close('section');
     this.setState({ loading: false });
   };

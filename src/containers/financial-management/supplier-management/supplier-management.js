@@ -303,6 +303,11 @@ class SupplierManagement extends React.Component {
       // search: "search"
     }*/
     //this.context.router.push(_path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/financial-management/supplier-maintain/delivery-company/${record.id}`,
+      })
+    );
   };
 
   handleSearch = params => {
@@ -474,6 +479,8 @@ class SupplierManagement extends React.Component {
     };
     this.setState({
       slideFrame,
+    },()=>{
+      this.getList();
     });
   };
 

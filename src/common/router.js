@@ -563,6 +563,13 @@ export const getRouterData = app => {
       name: '银行账号',
       parent: '/financial-management/supplier-maintain',
     },
+    '/financial-management/supplier-maintain/delivery-company/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-company-delivery.js')
+      ),
+      name: '供应商分配公司',
+      parent: '/financial-management/supplier-maintain',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

@@ -192,14 +192,6 @@ class NewUpdateSupplier extends React.Component {
 
   componentDidMount() {
     let param = Object.assign({}, this.props.params);
-    if (JSON.stringify(param) === '{}') {
-      this.setState({
-        firstRender: true,
-        loading: false,
-        isEdit: false,
-        enabled: param.venType === 1001 ? true : false,
-      });
-    } else {
       //编辑
       let basicInfo = this.state.basicInfo;
       basicInfo[0].disabled = true;
@@ -213,14 +205,12 @@ class NewUpdateSupplier extends React.Component {
           },
         ],
       });
-
       this.setState({
         vendorInfo: param,
         basicInfo,
         isEdit: true,
         enabled: param.venType === 1001 ? true : false,
       });
-    }
 
     // //获取国家
     // let params = { language: this.props.language.code === 'zh_cn' ? "zh_cn" : "en_us", page: 0, size: 9999 };

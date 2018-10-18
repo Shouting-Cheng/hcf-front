@@ -9,7 +9,7 @@ export default {
 
   //条件查询供应商（分页）
   getVenInfoByOptions(params) {
-    return httpFetch.get(`${config.vendorUrl}/api/ven/info?roleType=TENANT`, params);
+    return httpFetch.get(`${config.vendorUrl}/api/ven/info`, params);
   },
 
   //新增供应商信息
@@ -19,7 +19,7 @@ export default {
 
   //更新供应商信息
   updateVendorInfo(params) {
-    return httpFetch.put(`${config.vendorUrl}/api/ven/info/update?roleType=TENANT`, params);
+    return httpFetch.put(`${config.vendorUrl}/api/ven/info/update`, params);
   },
 
   //查询供应商下的银行信息
