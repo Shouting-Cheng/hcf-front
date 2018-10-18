@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 import customField from 'share/customField';
 
-import 'styles/components/template/combination-custom-form/combination-custom-form.scss';
+import 'styles/components/Template/combination-custom-form/combination-custom-form.scss';
 
 const FormItem = Form.Item;
 

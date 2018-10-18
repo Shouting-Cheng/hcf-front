@@ -20,11 +20,11 @@ import {
 const FormItem = Form.Item;
 const { CheckableTag } = Tag;
 import ListSelector from 'widget/list-selector';
-import 'styles/components/template/approve-bar.scss';
+import 'styles/components/Template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 class ApproveBar extends React.Component {
   constructor(props) {
@@ -417,44 +417,42 @@ class ApproveBar extends React.Component {
             </Form>
           </Col>
           <Col {...barLayout} className="approve-btn" style={{ paddingRight: '40px' }}>
-            {buttons.indexOf('pass') > -1 &&
-              (
-                <span>
-                  <Button
-                    type="primary"
-                    onClick={this.handleApprovePass}
-                    loading={this.props.passLoading}
-                    htmlType="submit"
-                    className="pass-btn"
-                  >
-                    {batchNumber > 0
-                      ? this.$t('common.pass.number', { number: batchNumber })
-                      : btnShowMode === 'all'
-                        ? this.$t('common.pass.all')
-                        : this.$t('common.pass')}
-                  </Button>
-                  {priceView && (
-                    <Checkbox onChange={this.handlePriceView}>
-                      {this.$t('approve-bar.price.audit') /*价格审核*/}
-                    </Checkbox>
-                  )}
-                </span>
-              )}
-            {buttons.indexOf('reject') > -1 &&
-              (
+            {buttons.indexOf('pass') > -1 && (
+              <span>
                 <Button
-                  loading={this.props.rejectLoading}
-                  onClick={this.handleApproveReject}
+                  type="primary"
+                  onClick={this.handleApprovePass}
+                  loading={this.props.passLoading}
                   htmlType="submit"
-                  className="reject-btn"
+                  className="pass-btn"
                 >
                   {batchNumber > 0
-                    ? this.$t('common.reject.number', { number: batchNumber })
+                    ? this.$t('common.pass.number', { number: batchNumber })
                     : btnShowMode === 'all'
-                      ? this.$t('common.reject.all')
-                      : this.$t('common.reject')}
+                      ? this.$t('common.pass.all')
+                      : this.$t('common.pass')}
                 </Button>
-              )}
+                {priceView && (
+                  <Checkbox onChange={this.handlePriceView}>
+                    {this.$t('approve-bar.price.audit') /*价格审核*/}
+                  </Checkbox>
+                )}
+              </span>
+            )}
+            {buttons.indexOf('reject') > -1 && (
+              <Button
+                loading={this.props.rejectLoading}
+                onClick={this.handleApproveReject}
+                htmlType="submit"
+                className="reject-btn"
+              >
+                {batchNumber > 0
+                  ? this.$t('common.reject.number', { number: batchNumber })
+                  : btnShowMode === 'all'
+                    ? this.$t('common.reject.all')
+                    : this.$t('common.reject')}
+              </Button>
+            )}
             {!!moreButtons.length && (
               <Dropdown overlay={moreMenu} placement="topCenter">
                 <Button>
@@ -563,11 +561,11 @@ ApproveBar.propTypes = {
 };
 
 ApproveBar.defaultProps = {
-  handleApprovePass: () => { },
-  handleApproveReject: () => { },
-  handleAuditNotice: () => { },
-  handleAuditPrint: () => { },
-  handleAuditCheck: () => { },
+  handleApprovePass: () => {},
+  handleApproveReject: () => {},
+  handleAuditNotice: () => {},
+  handleAuditPrint: () => {},
+  handleAuditCheck: () => {},
   passLoading: false,
   rejectLoading: false,
   noticeLoading: false,
