@@ -2,7 +2,7 @@
  * Created by zhouli on 18/2/26
  * Email li.zhou@huilianyi.com
  */
-import { isEmptyObj, deepCopy } from 'share/common';
+import { isEmptyObj, deepCopy } from 'utils/extend';
 
 export default {
   /**

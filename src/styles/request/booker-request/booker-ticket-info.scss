@@ -1,37 +1,39 @@
-.booker-ticket-info {
-  .ant-card {
-    margin-bottom: 10px;
-  }
-  .ant-card-wider-padding .ant-card-body {
-    padding: 10px 20px;
-    line-height: 30px;
-  }
-  .sub-header-title span {
-    font-size: 14px;
-    margin-left: 5px;
-  }
-  .ticket-disabled, .ticket-disabled .title {
-    color: #d3d3d3;
-  }
-  .title {
-    .status-tag {
-      background-color: #d3d3d3;
-      margin-left: 10px;
-      vertical-align: text-top;
+:global{
+  .booker-ticket-info {
+    .ant-card {
+      margin-bottom: 10px;
     }
-    .boarding-confirmation-btn {
-      float: right;
+    .ant-card-wider-padding .ant-card-body {
+      padding: 10px 20px;
+      line-height: 30px;
     }
-  }
-  .confirm-info-row {
-    word-wrap: break-word;
-    span {
-      margin-right: 5px;
-      .info-not-checked {
-        color: #108ee9
+    .sub-header-title span {
+      font-size: 14px;
+      margin-left: 5px;
+    }
+    .ticket-disabled, .ticket-disabled .title {
+      color: #d3d3d3;
+    }
+    .title {
+      .status-tag {
+        background-color: #d3d3d3;
+        margin-left: 10px;
+        vertical-align: text-top;
       }
-      .info-checked {
-        color: #5ebd93;
+      .boarding-confirmation-btn {
+        float: right;
+      }
+    }
+    .confirm-info-row {
+      word-wrap: break-word;
+      span {
+        margin-right: 5px;
+        .info-not-checked {
+          color: #108ee9
+        }
+        .info-checked {
+          color: #5ebd93;
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-import { messages } from 'share/common';
+import { messages } from 'utils/utils';
 /**
  * Created by zhouli on 18/2/2
  * Email li.zhou@huilianyi.com

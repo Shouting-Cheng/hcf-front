@@ -322,6 +322,15 @@ class MyContract extends React.Component {
   search = values => {
     values.signDateFrom && (values.signDateFrom = moment(values.signDateFrom).format('YYYY-MM-DD'));
     values.signDateTo && (values.signDateTo = moment(values.signDateTo).format('YYYY-MM-DD'));
+    if(values.companyId && values.companyId[0]){
+      values.companyId = values.companyId[0];
+    }
+    if(values.contractTypeId && values.contractTypeId[0]){
+      values.contractTypeId = values.contractTypeId[0];
+    }
+    if(values.partnerId && values.partnerId[0]){
+      values.partnerId = values.partnerId[0];
+    }
     this.setState({ ...this.state.searchParams, ...values }, () => {
       this.customTable.search({ ...this.state.searchParams, ...values });
     });

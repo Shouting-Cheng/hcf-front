@@ -28,7 +28,7 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      params: { ...params, roleType: "TENANT" },
+      params: { ...params, roleType: 'TENANT' },
     };
     return axios(option);
   },

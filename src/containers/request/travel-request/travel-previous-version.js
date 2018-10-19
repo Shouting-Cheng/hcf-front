@@ -1,28 +1,33 @@
-import React from 'react'
-import { connect } from 'dva'
-import { Form } from 'antd'
+import React from 'react';
+import { connect } from 'dva';
+import { Form } from 'antd';
 import PropTypes from 'prop-types';
 
-import 'styles/request/travel-request/travel-previous-version.scss'
+import 'styles/request/travel-request/travel-previous-version.scss';
 
-class TravelPreviousVersion extends React.Component{
+class TravelPreviousVersion extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   toPreviousVersion = () => {
     const { info } = this.props;
-    window.open(this.state.requestDetail.url.replace(':formOID', info.formOID).replace(':applicationOID', info.sourceApplicationOID) + `?readOnly=true&isPreVersion=true&latestApplicationOID=${info.applicationOID}`);
+    window.open(
+      this.state.requestDetail.url
+        .replace(':formOID', info.formOID)
+        .replace(':applicationOID', info.sourceApplicationOID) +
+        `?readOnly=true&isPreVersion=true&latestApplicationOID=${info.applicationOID}`
+    );
   };
 
   render() {
     const { info, isPreVersion } = this.props;
     return (
       <div className="travel-previous-version">
-        {info.version > 0 && !isPreVersion &&  <a onClick={this.toPreviousVersion}>查看上一版本</a>}
+        {info.version > 0 && !isPreVersion && <a onClick={this.toPreviousVersion}>查看上一版本</a>}
       </div>
-    )
+    );
   }
 }
 
@@ -32,9 +37,14 @@ TravelPreviousVersion.propTypes = {
 };
 
 function mapStateToProps() {
-  return {}
+  return {};
 }
 
 const wrappedLoanRepayment = Form.create()(TravelPreviousVersion);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedLoanRepayment)
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(wrappedLoanRepayment);

@@ -5,6 +5,7 @@ export default {
     languages: {},
     languageType: [],
     local: '',
+    languageList: []
   },
 
   reducers: {
@@ -14,6 +15,13 @@ export default {
         ...state,
         languages,
         local,
+      };
+    },
+    setLanguageList(state, action) {
+      let { languageList } = action.payload;
+      return {
+        ...state,
+        languageList,
       };
     },
     setLanguageType(state, action) {

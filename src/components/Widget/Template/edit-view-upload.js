@@ -89,7 +89,7 @@ class EditViewUpload extends Component {
         previewImage: file.thumbnailUrl ? file.thumbnailUrl : file.response.thumbnailUrl,
       });
     } else {
-      console.log(localStorage.getItem('token'))
+      console.log(localStorage.getItem('token'));
       this.a.href = `${config.baseUrl}/api/attachments/download/${
         file.attachmentOID ? file.attachmentOID : file.response.attachmentOID
       }?access_token=${localStorage.getItem('token')}`;
@@ -123,7 +123,7 @@ class EditViewUpload extends Component {
     } = this.props;
     const upload_headers = {
       //JSON.parse(localStorage.getItem('hly.token')).access_token
-      Authorization: 'Bearer ' +localStorage.getItem('token'),
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
     const { fileList } = this.state;
     const footer = disabled ? { footer: ' ' } : {};
@@ -161,7 +161,7 @@ class EditViewUpload extends Component {
               top: '50px',
               zIndex: '1',
             }}
-            offsetTop="0"
+            offsetTop={0}
           >
             <Button disabled={disabled}>
               <Icon type="upload" />上传附件

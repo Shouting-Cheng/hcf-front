@@ -136,88 +136,87 @@ class NewExpense extends React.Component {
       this.setState({ currencyList: res.data });
     });
   }
-  componentDidMount(){
-    let params=this.props.params;
-      //显示并且是新建
-      if (!params.record.id) {
-        let shareParams = {
-          relatedApplication: params.headerData.relatedApplication,
+  componentDidMount() {
+    let params = this.props.params;
+    //显示并且是新建
+    if (!params.record.id) {
+      let shareParams = {
+        relatedApplication: params.headerData.relatedApplication,
+        defaultApportion: params.defaultApportion,
+      };
+      // this.refs.invoice.resetForm();
+      this.setState(
+        {
+          isCopy: false,
           defaultApportion: params.defaultApportion,
-        };
-        // this.refs.invoice.resetForm();
-        this.setState(
-          {
-            isCopy: false,
-            defaultApportion: params.defaultApportion,
-            headerData: params.headerData,
-            isShowInvoice: false,
-            editModel: {},
-            expenseType: {},
-            nowPage: 'type',
-            shareParams,
-          },
-          () => {
-            if (this.state.headerData.relatedApplication === false) {
-              this.setDefaultApplication();
-            }
+          headerData: params.headerData,
+          isShowInvoice: false,
+          editModel: {},
+          expenseType: {},
+          nowPage: 'type',
+          shareParams,
+        },
+        () => {
+          if (this.state.headerData.relatedApplication === false) {
+            this.setDefaultApplication();
           }
-        );
-      }
-      //显示并且是编辑
-      else if (pparams.record.id) {
-        let shareParams = {
-          relatedApplication: params.headerData.relatedApplication,
-          defaultApportion: params.defaultApportion,
-        };
-  
-        this.setState(
-          {
-            nowPage: 'form',
-            isCopy: params.isCopy,
-            defaultApportion: params.defaultApportion,
-            headerData: params.headerData,
-            isShowInvoice: params.record.vatInvoice,
-            loading: true,
-            shareParams,
-          },
-          () => {
-            reimburseService.getCostDetail(params.record.id).then(res => {
-              if (this.state.isShowInvoice) {
-                this.setState({
-                  invoiceData: res.data,
-                  currentRate: res.data.taxRate,
-                  isCalculation: !(res.data.receiptTypeNo == '10' || res.data.receiptTypeNo == '04'),
-                });
-              }
-              let attachments = res.data.attachments.map(o => {
-                return {
-                  ...o,
-                  uid: o.attachmentOID,
-                  name: o.fileName,
-                };
-              });
-              this.setState(
-                {
-                  editModel: res.data,
-                  loading: false,
-                  fileList: attachments,
-                  attachmentOID: res.data.attachments.map(o => o.attachmentOID),
-                  expenseType: {
-                    name: res.data.expenseTypeName,
-                    iconURL: res.data.expenseTypeIconURL,
-                    id: res.data.expenseTypeId,
-                    expenseTypeOID: res.data.expenseTypeOID,
-                  },
-                },
-                () => {
-                  this.setShareTableData();
-                }
-              );
-            });
-          }
-        );
-      }
+        }
+      );
+    }
+    //显示并且是编辑
+    else if (pparams.record.id) {
+      let shareParams = {
+        relatedApplication: params.headerData.relatedApplication,
+        defaultApportion: params.defaultApportion,
+      };
 
+      this.setState(
+        {
+          nowPage: 'form',
+          isCopy: params.isCopy,
+          defaultApportion: params.defaultApportion,
+          headerData: params.headerData,
+          isShowInvoice: params.record.vatInvoice,
+          loading: true,
+          shareParams,
+        },
+        () => {
+          reimburseService.getCostDetail(params.record.id).then(res => {
+            if (this.state.isShowInvoice) {
+              this.setState({
+                invoiceData: res.data,
+                currentRate: res.data.taxRate,
+                isCalculation: !(res.data.receiptTypeNo == '10' || res.data.receiptTypeNo == '04'),
+              });
+            }
+            let attachments = res.data.attachments.map(o => {
+              return {
+                ...o,
+                uid: o.attachmentOID,
+                name: o.fileName,
+              };
+            });
+            this.setState(
+              {
+                editModel: res.data,
+                loading: false,
+                fileList: attachments,
+                attachmentOID: res.data.attachments.map(o => o.attachmentOID),
+                expenseType: {
+                  name: res.data.expenseTypeName,
+                  iconURL: res.data.expenseTypeIconURL,
+                  id: res.data.expenseTypeId,
+                  expenseTypeOID: res.data.expenseTypeOID,
+                },
+              },
+              () => {
+                this.setShareTableData();
+              }
+            );
+          });
+        }
+      );
+    }
   }
   componentWillReceiveProps(nextProps) {
     let params = nextProps.params;
@@ -225,8 +224,6 @@ class NewExpense extends React.Component {
     if (!params.visible && this.props.params.visible) {
       this.resetForm();
     }
-
-  
   }
 
   //重置表单

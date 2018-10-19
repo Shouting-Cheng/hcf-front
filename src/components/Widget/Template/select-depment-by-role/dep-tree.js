@@ -8,6 +8,7 @@ import React from 'react';
 import { Tree, Icon } from 'antd';
 const TreeNode = Tree.TreeNode;
 import 'styles/components/template/select-depment-by-role/dep-tree.scss';
+import PropTypes from 'prop-types';
 
 class DepTree extends React.Component {
   constructor(props) {

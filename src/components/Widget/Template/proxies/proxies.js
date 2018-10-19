@@ -1,13 +1,15 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import { Form, Modal, Button } from 'antd';
-import proxiesService from 'components/Template/proxies/proxies-service';
+import proxiesService from './proxies-service';
 
-import Selector from 'components/selector';
+import Selector from 'widget/selector';
 
 const FormItem = Form.Item;
-import menuRoute from 'routes/menuRoute';
+
+import PropTypes from 'prop-types';
+// import menuRoute from 'routes/menuRoute';
 
 class Proxies extends React.Component {
   constructor(props) {
@@ -53,13 +55,13 @@ class Proxies extends React.Component {
     validateFieldsAndScroll((err, value) => {
       if (!err) {
         let menuKey = this.isExpenseReport() ? 'new-expense-report' : 'new-request';
-        this.context.router.push(
-          menuRoute
-            .getRouteItem(menuKey)
-            .url.replace(':formId', getFieldValue('formOID'))
-            .replace(':userOID', getFieldValue('agent'))
-            .replace(':formOID', getFieldValue('formOID'))
-        );
+        // this.context.router.push(
+        //   menuRoute
+        //     .getRouteItem(menuKey)
+        //     .url.replace(':formId', getFieldValue('formOID'))
+        //     .replace(':userOID', getFieldValue('agent'))
+        //     .replace(':formOID', getFieldValue('formOID'))
+        // );
         this.modalControl(false);
       }
     });
@@ -139,14 +141,12 @@ class Proxies extends React.Component {
 }
 
 Proxies.propTypes = {
-  formType: React.PropTypes.string, //代理单据类型102.报销单；101.申请单
+  formType: PropTypes.string, //代理单据类型102.报销单；101.申请单
 };
 Proxies.defaultProps = {
   formType: '102',
 };
-Proxies.contextTypes = {
-  router: React.PropTypes.object,
-};
+
 const WrappedProxies = Form.create()(Proxies);
 
 function mapStateToProps(state) {

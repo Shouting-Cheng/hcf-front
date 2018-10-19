@@ -1,14 +1,16 @@
-.reschedule-refund-info {
-  .ant-card {
-    margin-bottom: 10px;
-  }
-  .ant-card-wider-padding .ant-card-body {
-    padding: 10px 20px;
-    line-height: 30px;
-  }
-  .card-style-en {
-    .line-height-18 {
-      line-height: 18px;
+:global{
+  .reschedule-refund-info {
+    .ant-card {
+      margin-bottom: 10px;
+    }
+    .ant-card-wider-padding .ant-card-body {
+      padding: 10px 20px;
+      line-height: 30px;
+    }
+    .card-style-en {
+      .line-height-18 {
+        line-height: 18px;
+      }
     }
   }
 }

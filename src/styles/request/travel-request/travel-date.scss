@@ -1,6 +1,8 @@
-.travel-date {
-  display: inline-block;
-  margin-left: 50px;
-  font-size: 20px;
-  color: #666;
+:global{
+  .travel-date {
+    display: inline-block;
+    margin-left: 50px;
+    font-size: 20px;
+    color: #666;
+  }
 }

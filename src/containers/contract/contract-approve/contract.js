@@ -422,6 +422,10 @@ class Contract extends React.Component {
       (values.submittedDateFrom = moment(values.submittedDateFrom).format('YYYY-MM-DD'));
     values.submittedDateTo &&
       (values.submittedDateTo = moment(values.submittedDateTo).format('YYYY-MM-DD'));
+    //处理查询条件为弹出框时返回的数组问题
+    if(values.createdBy[0]){
+      values.createdBy = values.createdBy[0];
+    }
     this.setState({ unApproveSearchParams: values, approveSearchParams: values }, () => {
       this.customTable.search(this.state.unApproveSearchParams);
     });
@@ -433,6 +437,10 @@ class Contract extends React.Component {
       (values.submittedDateFrom = moment(values.submittedDateFrom).format('YYYY-MM-DD'));
     values.submittedDateTo &&
       (values.submittedDateTo = moment(values.submittedDateTo).format('YYYY-MM-DD'));
+    //处理查询条件为弹出框时返回的数组问题
+    if(values.createdBy && values.createdBy[0]){
+      values.createdBy = values.createdBy[0];
+    }
     this.setState({ approveSearchParams: values, unApproveSearchParams: values }, () => {
       this.customTable2.search(this.state.approveSearchParams);
     });
