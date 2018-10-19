@@ -427,13 +427,12 @@ class ContractDetailCommon extends React.Component {
   getInfo = () => {
     const { columns } = this.state;
     this.setState({ detailLoading: true });
-    contractService
-      .getContractHeaderInfo(this.props.id)
-      .then(response => {
+    contractService.getContractHeaderInfo(this.props.id).then(response => {
+       console.log(columns.length);
         if (
-          response.data.status === 1001 ||
-          response.data.status === 1003 ||
-          response.data.status === 1005
+          (response.data.status === 1001 ||
+            response.data.status === 1003 ||
+            response.data.status === 1005) && columns[columns.length-1].dataIndex !="id"
         ) {
           //编辑中、已驳回、已撤回
           columns.splice(columns.length, 0, {
