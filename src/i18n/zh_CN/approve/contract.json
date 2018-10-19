@@ -2,6 +2,8 @@
   "contract.search.name.employeeId": "申请人姓名/工号",
   "contract.search.date.from": "提交时间从",
   "contract.search.date.to": "提交时间至",
+  "contract.search.submit.date.from": "提交日期从",
+  "contract.search.submit.date.to": "提交日期至",
   "contract.createdBy": "申请人",
   "contract.sign.date": "提交时间",
   "contract.amount": "金额",

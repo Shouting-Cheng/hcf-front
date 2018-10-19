@@ -8,6 +8,11 @@
  * Copyright (c) 2017 Daniel Eden
  */
 
+
+
+
+
+
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -1623,4 +1628,3 @@
     opacity: 1;
   }
 }
-/*费用侧边栏上一页、下一页切换动画效果结束*/

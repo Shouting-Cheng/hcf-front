@@ -617,6 +617,9 @@ export default class Login extends React.Component {
       Promise.all([this.getMenuList(), this.getUser()]).then(() => {
         this.redirect();
       });
+    }).catch(e => {
+      message.error("用户名或密码错误！");
+      this.setState({ loading: false });
     });
   };
 
@@ -686,33 +689,12 @@ export default class Login extends React.Component {
 
   redirect = () => {
     const { dispatch } = this.props;
-    const urlParams = new URL(window.location.href);
-    const params = getPageQuery();
-
-    let { redirect } = params;
-
-    if (redirect) {
-      const redirectUrlParams = new URL(redirect);
-      if (redirectUrlParams.origin === urlParams.origin) {
-        redirect = redirect.substr(urlParams.origin.length);
-        if (redirect.startsWith('/#')) {
-          redirect = redirect.substr(2);
-        }
-      } else {
-        window.location.href = redirect;
-        return;
-      }
-    }
 
     this.setState({ submitting: false });
 
-    if (redirect && redirect.indexOf('/user/login') >= 0) {
-      redirect = '/dashboard';
-    }
-
     dispatch(
       routerRedux.replace({
-        pathname: redirect || '/dashboard',
+        pathname: '/dashboard',
       })
     );
   };
@@ -1072,7 +1054,7 @@ export default class Login extends React.Component {
           });
         }
       })
-      .catch(err => {});
+      .catch(err => { });
   };
 
   renderAccountWayLoginEnter = () => {
@@ -1450,8 +1432,8 @@ export default class Login extends React.Component {
                     {messages('login.receive.again')}
                   </span>
                 ) : (
-                  <span style={{ display: 'inline-block', marginTop: 10 }}>{codeTime}&nbsp;S</span>
-                )}
+                    <span style={{ display: 'inline-block', marginTop: 10 }}>{codeTime}&nbsp;S</span>
+                  )}
               </div>
             </Col>
           </Row>
