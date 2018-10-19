@@ -11,23 +11,32 @@
 //   employeeType_code: "null,//员工类型编码
 //   rank_code: null",//级别编码
 import React from 'react';
-import {Button, Form, Select, Input, Col, Row, message, Tooltip, DatePicker,Icon,TimePicker} from 'antd';
+import {
+  Button,
+  Form,
+  Select,
+  Input,
+  Col,
+  Row,
+  message,
+  Tooltip,
+  DatePicker,
+  Icon,
+  TimePicker,
+} from 'antd';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
 import moment from 'moment';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Chooser from 'components/chooser';
 import menuRoute from 'routes/menuRoute';
-import {messages, deepCopy,fitText} from 'share/common';
-import {
-  personObjDefaultWithoutExtend,
-} from 'containers/enterprise-manage/person-manage/person-detail/person-detail.model';
+import { messages, deepCopy, fitText } from 'share/common';
+import { personObjDefaultWithoutExtend } from 'containers/enterprise-manage/person-manage/person-detail/person-detail.model';
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/basic-info.scss';
-import {ImageUpload} from 'components/index';
+import { ImageUpload } from 'components/index';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const {TextArea} = Input;
-
+const { TextArea } = Input;
 
 class PersonBasicInfo extends React.Component {
   constructor(props) {
@@ -35,16 +44,16 @@ class PersonBasicInfo extends React.Component {
     this.state = {
       loading: false,
       personObj: {
-        customFormValues: []
+        customFormValues: [],
       },
       data: [],
       genderData: [],
       preFixList: [],
-    }
+    };
   }
 
   componentWillMount() {
-    this.setState({personObj: this.props.basicInfoData});
+    this.setState({ personObj: this.props.basicInfoData });
   }
   componentDidMount() {
     //手机号前缀
@@ -52,41 +61,42 @@ class PersonBasicInfo extends React.Component {
     //性别
     this.getSystemValueList(1007).then(res => {
       this.setState({
-        genderData: res.data.values
-      })
+        genderData: res.data.values,
+      });
     });
   }
 
   componentWillReceiveProps(nextProps) {
     let personObj = nextProps.basicInfoData;
-    this.setState({personObj});
+    this.setState({ personObj });
   }
 
   getMobilevalidateList = () => {
-    PDService.getMobilevalidateList()
-      .then((res) => {
-        this.setState({
-          preFixList: res.data
-        });
-      })
-  }
+    PDService.getMobilevalidateList().then(res => {
+      this.setState({
+        preFixList: res.data,
+      });
+    });
+  };
 
   // 把表单的值设置到人员信息扩展字段里面去
-  setFromToCustomFormValues = (values) => {
-    if(this.state.personObj.customFormValues){
+  setFromToCustomFormValues = values => {
+    if (this.state.personObj.customFormValues) {
       let customFormValues = this.state.personObj.customFormValues;
       for (let key in values) {
         for (let i = 0; i < customFormValues.length; i++) {
           if (customFormValues[i].fieldOID === key) {
-            if (customFormValues[i].messageKey === "common.date") {
-              customFormValues[i].value = values[key] ? new Date(moment(values[key]).format("YYYY-MM-DD")) : "";
-            } else if (customFormValues[i].messageKey === "time") {
+            if (customFormValues[i].messageKey === 'common.date') {
+              customFormValues[i].value = values[key]
+                ? new Date(moment(values[key]).format('YYYY-MM-DD'))
+                : '';
+            } else if (customFormValues[i].messageKey === 'time') {
               if (values[key]) {
-                customFormValues[i].value = moment(values[key]).format("HH:mm");
+                customFormValues[i].value = moment(values[key]).format('HH:mm');
               } else {
-                customFormValues[i].value = "";
+                customFormValues[i].value = '';
               }
-            } else if (customFormValues[i].messageKey === "image") {
+            } else if (customFormValues[i].messageKey === 'image') {
               //把attachmentImages赋值，只是为了前端展示
               customFormValues[i].attachmentImages = values[key];
               //这个地方要注意一下 服务端返回的图片字段是attachmentImages
@@ -101,65 +111,82 @@ class PersonBasicInfo extends React.Component {
                 customFormValues[i].value = JSON.stringify(_values);
               }
             } else {
-              customFormValues[i].value = values[key]
+              customFormValues[i].value = values[key];
             }
           }
         }
       }
     }
-  }
+  };
 
   //点击保存
-  handleSave = (e) => {
+  handleSave = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setFromToCustomFormValues(values);
-        if(values.gender + "" === "0" || values.gender === "男"){
+        if (values.gender + '' === '0' || values.gender === '男') {
           values.gender = 0;
-        }else if(values.gender + "" === "1" || values.gender === "女"){
+        } else if (values.gender + '' === '1' || values.gender === '女') {
           values.gender = 1;
-        }else {
+        } else {
           //2代表未知
           values.gender = 2;
         }
         let originPersonObj = deepCopy(this.state.personObj);
-        console.log(originPersonObj)
-        console.log(values)
+        console.log(originPersonObj);
+        console.log(values);
         if (this.state.personObj.userOID) {
           //更新用户信息
-          let personObj = Object.assign({}, {
-            userOID: this.state.personObj.userOID,
+          let personObj = Object.assign(
+            {},
+            {
+              userOID: this.state.personObj.userOID,
 
-            companyOID: values.companyOID[0] ? values.companyOID[0].companyOID : this.state.personObj.companyOID,
-            companyName: values.companyOID[0] ? values.companyOID[0].name : this.state.personObj.companyName,
-            //
-            departmentOID: values.departmentName[0] ? values.departmentName[0].departmentOid : this.state.personObj.departmentOID,
-            departmentName: values.departmentName[0] ? values.departmentName[0].name : this.state.personObj.departmentName,
-            //
-            directManager: values.directManager[0] ? values.directManager[0].userOID : "",
-            //
-            // duty: values.duty[0] ? values.duty[0].messageKey : this.state.personObj.duty,
-            dutyCode: values.duty[0] ? values.duty[0].value : null,
-            // employeeType: values.employeeType[0] ? values.employeeType[0].messageKey : this.state.personObj.employeeType,
-            employeeTypeCode: values.employeeType[0] ? values.employeeType[0].value : null,
-            // rank: values.rank[0] ? values.rank[0].messageKey : this.state.personObj.rank,
-            rankCode: values.rank[0] ? values.rank[0].value : null,
-            title: values.title,
-            //
-            email: values.email,
-            mobile: values.mobile,
-            countryCode: values.mobilePrefix.split("$$").length > 1 ? values.mobilePrefix.split("$$")[0] : this.state.personObj.countryCode,
-            mobileCode: values.mobilePrefix.split("$$").length > 1 ? values.mobilePrefix.split("$$")[1] : this.state.personObj.mobileCode,//手机前缀:默认86
-            //
-            employeeID: values.employeeID,
-            fullName: values.fullName,
-            //男
-            // gender: values.gender,//必须是int类型不然报错,可以不传，后端用的是genderCode
-            genderCode: values.gender,
-            birthday: values.birthday ? values.birthday.format("YYYY-MM-DD") : null,
-            entryTime: values.entryTime ? values.entryTime.format("YYYY-MM-DD") : null,
-          });
+              companyOID: values.companyOID[0]
+                ? values.companyOID[0].companyOID
+                : this.state.personObj.companyOID,
+              companyName: values.companyOID[0]
+                ? values.companyOID[0].name
+                : this.state.personObj.companyName,
+              //
+              departmentOID: values.departmentName[0]
+                ? values.departmentName[0].departmentOid
+                : this.state.personObj.departmentOID,
+              departmentName: values.departmentName[0]
+                ? values.departmentName[0].name
+                : this.state.personObj.departmentName,
+              //
+              directManager: values.directManager[0] ? values.directManager[0].userOID : '',
+              //
+              // duty: values.duty[0] ? values.duty[0].messageKey : this.state.personObj.duty,
+              dutyCode: values.duty[0] ? values.duty[0].value : null,
+              // employeeType: values.employeeType[0] ? values.employeeType[0].messageKey : this.state.personObj.employeeType,
+              employeeTypeCode: values.employeeType[0] ? values.employeeType[0].value : null,
+              // rank: values.rank[0] ? values.rank[0].messageKey : this.state.personObj.rank,
+              rankCode: values.rank[0] ? values.rank[0].value : null,
+              title: values.title,
+              //
+              email: values.email,
+              mobile: values.mobile,
+              countryCode:
+                values.mobilePrefix.split('$$').length > 1
+                  ? values.mobilePrefix.split('$$')[0]
+                  : this.state.personObj.countryCode,
+              mobileCode:
+                values.mobilePrefix.split('$$').length > 1
+                  ? values.mobilePrefix.split('$$')[1]
+                  : this.state.personObj.mobileCode, //手机前缀:默认86
+              //
+              employeeID: values.employeeID,
+              fullName: values.fullName,
+              //男
+              // gender: values.gender,//必须是int类型不然报错,可以不传，后端用的是genderCode
+              genderCode: values.gender,
+              birthday: values.birthday ? values.birthday.format('YYYY-MM-DD') : null,
+              entryTime: values.entryTime ? values.entryTime.format('YYYY-MM-DD') : null,
+            }
+          );
           this.setState({
             loading: true,
           });
@@ -167,129 +194,146 @@ class PersonBasicInfo extends React.Component {
           //这个接口报错信息注意，
           //邮箱格式传的不对：email，报错说传的不是json
           //性别字段传的不对：gender，报错说传的不是json
-          PDService.updatePersonDetail(personObj)
-            .then((res) => {
-              //操作成功
-              message.success(messages("common.operate.success"));
-              this.setState({
-                loading: false,
-              });
-              this.props.savedData(res.data);
-            })
+          PDService.updatePersonDetail(personObj).then(res => {
+            //操作成功
+            message.success(messages('common.operate.success'));
+            this.setState({
+              loading: false,
+            });
+            this.props.savedData(res.data);
+          });
         } else {
           let personObj = Object.assign(personObjDefaultWithoutExtend, {
-            companyOID: values.companyOID[0] ? values.companyOID[0].companyOID : this.state.personObj.companyOID,
-            companyName: values.companyOID[0] ? values.companyOID[0].name : this.state.personObj.companyName,
+            companyOID: values.companyOID[0]
+              ? values.companyOID[0].companyOID
+              : this.state.personObj.companyOID,
+            companyName: values.companyOID[0]
+              ? values.companyOID[0].name
+              : this.state.personObj.companyName,
             //
-            departmentOID: values.departmentName[0] ? values.departmentName[0].departmentOid : this.state.personObj.departmentOID,
-            departmentName: values.departmentName[0] ? values.departmentName[0].name : this.state.personObj.departmentName,
+            departmentOID: values.departmentName[0]
+              ? values.departmentName[0].departmentOid
+              : this.state.personObj.departmentOID,
+            departmentName: values.departmentName[0]
+              ? values.departmentName[0].name
+              : this.state.personObj.departmentName,
             //
-            directManager: values.directManager[0] ? values.directManager[0].userOID : "",
+            directManager: values.directManager[0] ? values.directManager[0].userOID : '',
             //
             // duty: values.duty[0] ? values.duty[0].messageKey : this.state.personObj.duty,
             dutyCode: values.duty[0] ? values.duty[0].value : this.state.personObj.dutyCode,
             // employeeType: values.employeeType[0] ? values.employeeType[0].messageKey : this.state.personObj.employeeType,
-            employeeTypeCode: values.employeeType[0] ? values.employeeType[0].value : this.state.personObj.employeeTypeCode,
+            employeeTypeCode: values.employeeType[0]
+              ? values.employeeType[0].value
+              : this.state.personObj.employeeTypeCode,
             // rank: values.rank[0] ? values.rank[0].messageKey : this.state.personObj.rank,
             rankCode: values.rank[0] ? values.rank[0].value : this.state.personObj.rankCode,
             title: values.title,
             //
             email: values.email,
             mobile: values.mobile,
-            countryCode: values.mobilePrefix.split("$$").length > 1 ? values.mobilePrefix.split("$$")[0] : this.state.personObj.countryCode,
-            mobileCode: values.mobilePrefix.split("$$").length > 1 ? values.mobilePrefix.split("$$")[1] : this.state.personObj.mobileCode,//手机前缀:默认86
+            countryCode:
+              values.mobilePrefix.split('$$').length > 1
+                ? values.mobilePrefix.split('$$')[0]
+                : this.state.personObj.countryCode,
+            mobileCode:
+              values.mobilePrefix.split('$$').length > 1
+                ? values.mobilePrefix.split('$$')[1]
+                : this.state.personObj.mobileCode, //手机前缀:默认86
             //
             employeeID: values.employeeID,
             fullName: values.fullName,
             //
             // gender: values.gender,//必须是int类型不然报错，可以不传，后端用的是genderCode
             genderCode: values.gender,
-            birthday: values.birthday ? values.birthday.format("YYYY-MM-DD") : null,
-            entryTime: values.entryTime ? values.entryTime.format("YYYY-MM-DD") : null,
+            birthday: values.birthday ? values.birthday.format('YYYY-MM-DD') : null,
+            entryTime: values.entryTime ? values.entryTime.format('YYYY-MM-DD') : null,
           });
 
           this.setState({
             loading: true,
           });
           personObj.customFormValues = originPersonObj.customFormValues;
-          PDService.createPersonDetail(personObj)
-            .then((res) => {
-              // 操作成功
-              message.success(messages("common.operate.success"));
-              this.setState({
-                loading: false,
-              });
-              this.props.savedData(res.data);
-              let record = res.data;
-              let path = menuRoute.getRouteItem('person-detail', 'key').url.replace(":userOID", record.userOID);
-              this.context.router.push(path);
-            })
+          PDService.createPersonDetail(personObj).then(res => {
+            // 操作成功
+            message.success(messages('common.operate.success'));
+            this.setState({
+              loading: false,
+            });
+            this.props.savedData(res.data);
+            let record = res.data;
+            let path = menuRoute
+              .getRouteItem('person-detail', 'key')
+              .url.replace(':userOID', record.userOID);
+            this.context.router.push(path);
+          });
         }
       }
     });
   };
 
-
-  handleChange = (val) => {
+  handleChange = val => {
     if (this.state.loading) {
       this.setState({
-        loading: false
-      })
+        loading: false,
+      });
     }
   };
 
   //点击取消
-  handleCancel = (e) => {
+  handleCancel = e => {
     e.preventDefault();
     this.props.form.resetFields();
     this.props.toNoEditing();
   };
   //渲染手机前缀
-  renderMobilePrefix = (preFixList) => {
+  renderMobilePrefix = preFixList => {
     if (preFixList.length > 1) {
-      let preFixListDom = preFixList.map((item) => {
+      let preFixListDom = preFixList.map(item => {
         return (
           // CN + 86 + 中国
-          <Option value={item.shortName + "$$" + item.countryCode + "$$" + item.countryName}
-                  key={item.countryCode}>{item.countryName + "(" + item.countryCode + ")"}</Option>
-        )
-      })
+          <Option
+            value={item.shortName + '$$' + item.countryCode + '$$' + item.countryName}
+            key={item.countryCode}
+          >
+            {item.countryName + '(' + item.countryCode + ')'}
+          </Option>
+        );
+      });
       return (
-        <Select style={{width: 150}} showSearch>
+        <Select style={{ width: 150 }} showSearch>
           {preFixListDom}
         </Select>
-      )
+      );
     } else {
       return (
-        <Select style={{width: 150}}>
+        <Select style={{ width: 150 }}>
           <Option value="86">+86</Option>
         </Select>
-      )
+      );
     }
-  }
+  };
 
   //渲染字段的内容，根据情况进行截取，鼠标浮动有提示
-  renderNoEditingText = (text) => {
+  renderNoEditingText = text => {
     let _text = fitText(text, 12);
     if (_text.text) {
       return (
         <Tooltip title={_text.origin}>
           <span>{_text.text}</span>
         </Tooltip>
-      )
+      );
     } else {
-      return (
-        text
-      )
+      return text;
     }
-  }
-  renderNoEditingTextTime=(date)=>{
-    if(date){
-       return moment(date).format("YYYY-MM-DD");
-    }else {
-      return "";
+  };
+  renderNoEditingTextTime = date => {
+    if (date) {
+      return moment(date).format('YYYY-MM-DD');
+    } else {
+      return '';
     }
-  }
+  };
   //渲染非编辑状态
   renderNoEditing = () => {
     //这个显示也可以尝试弄成3列
@@ -299,21 +343,17 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*工号：*/}
-            {messages("pdc.basic.info.employeeId")}：
+            {messages('pdc.basic.info.employeeId')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.employeeID)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.employeeID)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*姓名：*/}
-            {messages("pdc.basic.info.name")}：
+            {messages('pdc.basic.info.name')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.fullName)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.fullName)}</div>
         </div>
 
         <div className="info-item f-left">
@@ -321,127 +361,99 @@ class PersonBasicInfo extends React.Component {
             {/*公司：*/}
             {/*这地方原本老公司是线上法人实体*/}
             {/*今天与产品共同商量，达成一致，无论新老公司，都显示为  公司*/}
-            {messages("pdc.basic.info.company")}：
+            {messages('pdc.basic.info.company')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.companyName)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.companyName)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*部门：*/}
-            {messages("pdc.basic.info.dep")}：
+            {messages('pdc.basic.info.dep')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.departmentName)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.departmentName)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*邮箱：*/}
-            {messages("pdc.basic.info.email")}：
+            {messages('pdc.basic.info.email')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.email)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.email)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*手机：*/}
-            {messages("pdc.basic.info.mobile")}：
+            {messages('pdc.basic.info.mobile')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.mobile)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.mobile)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*直属领导：*/}
-            {messages("pdc.basic.info.direct.manager")}：
+            {messages('pdc.basic.info.direct.manager')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.directManagerName)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.directManagerName)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*职务：*/}
-            {messages("pdc.basic.info.duty")}：
+            {messages('pdc.basic.info.duty')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.duty)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.duty)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*职位：*/}
-            {messages("pdc.basic.info.title")}：
+            {messages('pdc.basic.info.title')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.title)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.title)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*人员类型：*/}
-            {messages("pdc.basic.info.person.type")}：
+            {messages('pdc.basic.info.person.type')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.employeeType)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.employeeType)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*级别：*/}
-            {messages("pdc.basic.info.level")}：
+            {messages('pdc.basic.info.level')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingText(person.rank)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingText(person.rank)}</div>
         </div>
 
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*性别：*/}
-            {messages("pdc.basic.info.sex")}：
+            {messages('pdc.basic.info.sex')}：
           </div>
-          <div className="info-item-text">
-            {person.gender}
-          </div>
+          <div className="info-item-text">{person.gender}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*生日：*/}
-            {messages("pdc.basic.info.bird")}：
+            {messages('pdc.basic.info.bird')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingTextTime(person.birthday)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingTextTime(person.birthday)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*入职时间：*/}
-            {messages("pdc.basic.info.enter.time")}：
+            {messages('pdc.basic.info.enter.time')}：
           </div>
-          <div className="info-item-text">
-            {this.renderNoEditingTextTime(person.entryTime)}
-          </div>
+          <div className="info-item-text">{this.renderNoEditingTextTime(person.entryTime)}</div>
         </div>
 
-        <div className="clear"></div>
-        <div>
-          {this.renderExtendTitle()}
-        </div>
-        {
-          this.renderNoEditingForExtend()
-        }
+        <div className="clear" />
+        <div>{this.renderExtendTitle()}</div>
+        {this.renderNoEditingForExtend()}
       </div>
-    )
+    );
   };
 
   //渲染非编辑状态
@@ -451,68 +463,68 @@ class PersonBasicInfo extends React.Component {
 
     let dom = [];
     for (let i = 0; i < values.length; i++) {
-      dom.push(this.renderContentByMessageKey(values[i]))
+      dom.push(this.renderContentByMessageKey(values[i]));
     }
     return (
       <div>
-        {
-          dom
-        }
-        <div className="clear"></div>
+        {dom}
+        <div className="clear" />
       </div>
-    )
+    );
   };
   // -----扩展字段-非编辑状态---start
-  renderContentByMessageKey = (field) => {
+  renderContentByMessageKey = field => {
     let messageKey = field.messageKey;
     //分为：单行输入框，多行输入框，值列表，日期，数字，时间，图片
     switch (messageKey) {
-      case "input": {
+      case 'input': {
         return this.renderFiled_input(field);
         break;
       }
-      case "text_area": {
+      case 'text_area': {
         return this.renderFiled_text_area(field);
         break;
       }
-      case "cust_list": {
+      case 'cust_list': {
         return this.renderFiled_cust_list(field);
         break;
       }
-      case "date": {
+      case 'date': {
         return this.renderFiled_date(field);
         break;
       }
-      case "common.date": {
+      case 'common.date': {
         return this.renderFiled_date(field);
         break;
       }
-      case "number": {
+      case 'number': {
         return this.renderFiled_number(field);
         break;
       }
-      case "time": {
+      case 'time': {
         return this.renderFiled_time(field);
         break;
       }
-      case "image": {
+      case 'image': {
         return this.renderFiled_image(field);
         break;
       }
     }
-  }
-  renderFiled_input = (field) => {
+  };
+  renderFiled_input = field => {
     let messageKey = field.messageKey;
     //后端可能返回的是值列表值对应的code（value），不是messageKey，需要找一下
     //参见bug13014
-    if(messageKey === "cust_list" &&
+    if (
+      messageKey === 'cust_list' &&
       field.customEnumerationList &&
       field.customEnumerationList.values &&
       field.customEnumerationList.values.length &&
-      field.customEnumerationList.values.length > 0){
+      field.customEnumerationList.values.length > 0
+    ) {
       let customEnumerationList = field.customEnumerationList.values;
-      for(let i = 0; i < customEnumerationList.length; i++){
-        if(field.value === customEnumerationList[i].value){
+      for (let i = 0; i < customEnumerationList.length; i++) {
+        if (field.value === customEnumerationList[i].value) {
           field.value = customEnumerationList[i].messageKey;
         }
       }
@@ -521,32 +533,27 @@ class PersonBasicInfo extends React.Component {
     return (
       <div className="info-item f-left" key={field.fieldOID}>
         <div className="info-item-title">{field.fieldName}：</div>
-        <div className="info-item-text">
-          {
-            this.renderNoEditingText(field.value)
-          }
-        </div>
+        <div className="info-item-text">{this.renderNoEditingText(field.value)}</div>
       </div>
-    )
-  }
-  renderFiled_text_area = (field) => {
+    );
+  };
+  renderFiled_text_area = field => {
     return this.renderFiled_input(field);
-  }
-  renderFiled_cust_list = (field) => {
+  };
+  renderFiled_cust_list = field => {
     return this.renderFiled_input(field);
-  }
-  renderFiled_date = (field) => {
-
-    let date = field.value ? (new Date(field.value)).format("yyyy-MM-dd") : "";
+  };
+  renderFiled_date = field => {
+    let date = field.value ? new Date(field.value).format('yyyy-MM-dd') : '';
     return (
       <div className="info-item f-left" key={field.fieldOID}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{date}</div>
       </div>
-    )
-  }
-  renderFiled_number = (field) => {
-    field.unit = "";
+    );
+  };
+  renderFiled_number = field => {
+    field.unit = '';
     if (field.fieldContent) {
       let content = JSON.parse(field.fieldContent);
       field.unit = content.unit;
@@ -554,248 +561,219 @@ class PersonBasicInfo extends React.Component {
     return (
       <div className="info-item f-left" key={field.fieldOID}>
         <div className="info-item-title">{field.fieldName}：</div>
-        <div className="info-item-text">{field.value}&nbsp;{field.value ? field.unit : ""}</div>
+        <div className="info-item-text">
+          {field.value}&nbsp;{field.value ? field.unit : ''}
+        </div>
       </div>
-    )
-  }
-  renderFiled_time = (field) => {
-    let val = moment(field.value, 'HH:mm').format("HH:mm");
-    if (field.value === null || field.value === "") {
-      val = "";
+    );
+  };
+  renderFiled_time = field => {
+    let val = moment(field.value, 'HH:mm').format('HH:mm');
+    if (field.value === null || field.value === '') {
+      val = '';
     }
     if (field.value && field.value.length > 5) {
       //兼容以前的
-      val = moment(field.value).format("HH:mm");
+      val = moment(field.value).format('HH:mm');
     }
     return (
       <div className="info-item f-left" key={field.fieldOID}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{val}</div>
       </div>
-    )
-  }
-  renderFiled_image = (field) => {
+    );
+  };
+  renderFiled_image = field => {
     //可能需要渲染多张图片（1-3张）
     function _getTooltipImages(imgs) {
       let imgsDom = [];
       if (imgs && imgs.length > 0) {
-        imgs.map((item) => {
+        imgs.map(item => {
           imgsDom.push(
-            <Tooltip title={
-              <img className="info-item-img-tip"
-                   src={item.thumbnailUrl}/>
-            }>
-              <img src={item.thumbnailUrl}/>
+            <Tooltip title={<img className="info-item-img-tip" src={item.thumbnailUrl} />}>
+              <img src={item.thumbnailUrl} />
             </Tooltip>
-          )
-        })
+          );
+        });
         return imgsDom;
       } else {
-        return (
-          <div></div>
-        );
+        return <div />;
       }
     }
 
     return (
       <div className="info-item f-left" key={field.fieldOID}>
         <div className="info-item-title">{field.fieldName}：</div>
-        <div className="info-item-text">
-          {
-            _getTooltipImages(field.attachmentImages)
-          }
-        </div>
+        <div className="info-item-text">{_getTooltipImages(field.attachmentImages)}</div>
       </div>
-    )
-  }
+    );
+  };
   // -----扩展字段-非编辑状态---end
 
   // -----扩展字段 编辑状态---start
-  renderEditingField = (values) => {
+  renderEditingField = values => {
     let dom = [];
     for (let i = 0; i < values.length; i++) {
-      dom.push(this.renderEditingContentByMessageKey(values[i]))
+      dom.push(this.renderEditingContentByMessageKey(values[i]));
     }
     return dom;
-  }
-  renderEditingContentByMessageKey = (field) => {
+  };
+  renderEditingContentByMessageKey = field => {
     let messageKey = field.messageKey;
     //分为：单行输入框，多行输入框，值列表，日期，数字，时间，图片
     switch (messageKey) {
-      case "input": {
+      case 'input': {
         return this.renderEditingFiled_input(field);
         break;
       }
-      case "text_area": {
+      case 'text_area': {
         return this.renderEditingFiled_text_area(field);
         break;
       }
-      case "cust_list": {
+      case 'cust_list': {
         return this.renderEditingFiled_cust_list(field);
         break;
       }
-      case "date": {
+      case 'date': {
         return this.renderEditingFiled_date(field);
         break;
       }
-      case "common.date": {
+      case 'common.date': {
         return this.renderEditingFiled_date(field);
         break;
       }
-      case "number": {
+      case 'number': {
         return this.renderEditingFiled_number(field);
         break;
       }
-      case "time": {
+      case 'time': {
         return this.renderEditingFiled_time(field);
         break;
       }
-      case "image": {
+      case 'image': {
         return this.renderEditingFiled_image(field);
         break;
       }
     }
-  }
-  renderEditingFiled_input = (field) => {
-    const {getFieldDecorator} = this.props.form;
+  };
+  renderEditingFiled_input = field => {
+    const { getFieldDecorator } = this.props.form;
 
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: field.value,
           rules: [
             {
               max: 50,
-              message: messages("pdc.basic.e.info.max.inp.50")//"最多50个"
+              message: messages('pdc.basic.e.info.max.inp.50'), //"最多50个"
             },
             {
               required: field.required,
-              message: messages('common.please.enter')
-            }
-          ]
-        })(
-          <Input placeholder={messages('common.please.enter')}/>)
-        }
+              message: messages('common.please.enter'),
+            },
+          ],
+        })(<Input placeholder={messages('common.please.enter')} />)}
       </FormItem>
-    )
-  }
-  renderEditingFiled_text_area = (field) => {
-    const {getFieldDecorator} = this.props.form;
+    );
+  };
+  renderEditingFiled_text_area = field => {
+    const { getFieldDecorator } = this.props.form;
 
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: field.value,
           rules: [
             {
               max: 200,
-              message: messages("pdc.basic.e.info.max.inp.200")//"最多输入200个字符"
+              message: messages('pdc.basic.e.info.max.inp.200'), //"最多输入200个字符"
             },
             {
               required: field.required,
-              message: messages('common.please.enter')
-            }
-          ]
-        })(
-          <TextArea placeholder={messages('common.please.enter')}/>)
-        }
+              message: messages('common.please.enter'),
+            },
+          ],
+        })(<TextArea placeholder={messages('common.please.enter')} />)}
       </FormItem>
-    )
-  }
-  renderEditingFiled_cust_list = (field) => {
-    const {getFieldDecorator} = this.props.form;
+    );
+  };
+  renderEditingFiled_cust_list = field => {
+    const { getFieldDecorator } = this.props.form;
 
     //如果是值列表类型，在返回的数据上，前端多挂了一个customEnumerationList属性，
     //这个选择列表就从这个属性上拿了
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: field.value,
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter')
-            }
-          ]
-        })(
-          <Select>
-            {_renderCustomEnumerationList(field.customEnumerationList.values)}
-          </Select>
-        )
-        }
+              message: messages('common.please.enter'),
+            },
+          ],
+        })(<Select>{_renderCustomEnumerationList(field.customEnumerationList.values)}</Select>)}
       </FormItem>
-    )
+    );
 
     //渲染值列表
     function _renderCustomEnumerationList(list) {
       let dom = [];
       if (list.length > 0) {
-        list.map(function (item) {
+        list.map(function(item) {
           //要做多语言，这个地方上传code，后端返回的时候，任然是messageKey，所以显示的时候用messageKey去查value显示
           //code值是null，所以传value，值列表的value就是code
-          dom.push(<Option key={item.id} value={item.value}>{item.messageKey}</Option>)
+          dom.push(
+            <Option key={item.id} value={item.value}>
+              {item.messageKey}
+            </Option>
+          );
           //之前上传的是messageKey
           // dom.push(<Option key={item.id} value={item.messageKey}>{item.messageKey}</Option>)
-        })
+        });
         return dom;
       } else {
-        return ("");
+        return '';
       }
     }
-  }
-  renderEditingFiled_date = (field) => {
-    const {getFieldDecorator} = this.props.form;
+  };
+  renderEditingFiled_date = field => {
+    const { getFieldDecorator } = this.props.form;
 
-    let val = field.value ? moment(field.value).format("YYYY-MM-DD") : new Date();
+    let val = field.value ? moment(field.value).format('YYYY-MM-DD') : new Date();
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: moment(val, 'YYYY-MM-DD'),
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter')
-            }
-          ]
-        })(
-          <DatePicker
-            format={'YYYY-MM-DD'}
-          />
-        )
-        }
+              message: messages('common.please.enter'),
+            },
+          ],
+        })(<DatePicker format={'YYYY-MM-DD'} />)}
       </FormItem>
-    )
-  }
-  renderEditingFiled_number = (field) => {
-    const {getFieldDecorator} = this.props.form;
+    );
+  };
+  renderEditingFiled_number = field => {
+    const { getFieldDecorator } = this.props.form;
 
     field.unit = null;
     if (field.fieldContent) {
       let content = JSON.parse(field.fieldContent);
       field.unit = content.unit;
-      if(field.unit && field.unit.length > 0){
-        field.unit = "(" + field.unit + ")";
-      }else {
-        field.unit = "";
+      if (field.unit && field.unit.length > 0) {
+        field.unit = '(' + field.unit + ')';
+      } else {
+        field.unit = '';
       }
     }
     // 要根据限制条件进行校验
     let fieldConstraint = {
-      integerMaxLength: "",
-      decimalMaxLength: "",
-    }
+      integerMaxLength: '',
+      decimalMaxLength: '',
+    };
     if (field.fieldConstraint) {
       let _fieldConstraint = JSON.parse(field.fieldConstraint);
       fieldConstraint.integerMaxLength = _fieldConstraint.integerMaxLength;
@@ -804,27 +782,32 @@ class PersonBasicInfo extends React.Component {
     }
 
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName + field.unit}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName + field.unit} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: field.value,
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter')
+              message: messages('common.please.enter'),
             },
             {
               // 整数位数最多
               // 小数位最多
-              message: messages("pdc.basic.e.info.max.int") + fieldConstraint.integerMaxLength + "," + messages("pdc.basic.e.info.max.deci") + fieldConstraint.decimalMaxLength,
+              message:
+                messages('pdc.basic.e.info.max.int') +
+                fieldConstraint.integerMaxLength +
+                ',' +
+                messages('pdc.basic.e.info.max.deci') +
+                fieldConstraint.decimalMaxLength,
               validator: (fieldConstraint, value, cb) => {
                 //必须是必填的才有校验
                 if (field.fieldConstraint && field.required && value) {
                   let fieldConstraint = field._fieldConstraint;
-                  if ((value.split(".")[0].length > fieldConstraint.integerMaxLength) ||
-                    (value.split(".")[1] && value.split(".")[1].length > fieldConstraint.decimalMaxLength)) {
+                  if (
+                    value.split('.')[0].length > fieldConstraint.integerMaxLength ||
+                    (value.split('.')[1] &&
+                      value.split('.')[1].length > fieldConstraint.decimalMaxLength)
+                  ) {
                     cb(false);
                     return;
                   } else {
@@ -834,107 +817,95 @@ class PersonBasicInfo extends React.Component {
                   cb();
                 }
               },
-            }
-          ]
-        })(
-          <Input type="number" placeholder={messages('common.please.enter')}/>)
-        }
+            },
+          ],
+        })(<Input type="number" placeholder={messages('common.please.enter')} />)}
       </FormItem>
-    )
-  }
-  onChangeTime = (time) => {
-  }
-  renderEditingFiled_time = (field) => {
-    const {getFieldDecorator} = this.props.form;
+    );
+  };
+  onChangeTime = time => {};
+  renderEditingFiled_time = field => {
+    const { getFieldDecorator } = this.props.form;
 
     //周宗云说，这个  field.value就直接显示，正式环境没有这种数据
     //其他环境不管
     let val = moment(field.value, 'HH:mm');
-    if (field.value === null || field.value === "") {
-      val = "";
+    if (field.value === null || field.value === '') {
+      val = '';
     }
     if (field.value && field.value.length > 5) {
       //兼容以前的
-      val = moment(field.value).format("HH:mm");
+      val = moment(field.value).format('HH:mm');
       val = moment(val, 'HH:mm');
     }
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: val,
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter')
-            }
-          ]
-        })(
-          <TimePicker onChange={this.onChangeTime}
-                      format={"HH:mm"}/>
-        )
-        }
+              message: messages('common.please.enter'),
+            },
+          ],
+        })(<TimePicker onChange={this.onChangeTime} format={'HH:mm'} />)}
       </FormItem>
-    )
-  }
-  renderEditingFiled_image = (field) => {
-    const {getFieldDecorator} = this.props.form;
+    );
+  };
+  renderEditingFiled_image = field => {
+    const { getFieldDecorator } = this.props.form;
 
     //上传之后，图片对象直接就绑定到field.attachmentImages里面了
     const fileList = field.attachmentImages;
-    function handleUploadImageChange(fileList) {
-
-
-    }
+    function handleUploadImageChange(fileList) {}
 
     return (
-      <FormItem
-        key={field.fieldOID}
-        label={field.fieldName}
-        colon={true}>
+      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: fileList,
-          rules: [
-            {required: field.required, message: messages('common.please.enter')}
-          ]
+          rules: [{ required: field.required, message: messages('common.please.enter') }],
         })(
-          <ImageUpload attachmentType="INVOICE_IMAGES"
-                       fileType={["PNG", 'png', 'jpeg', 'jpeg', 'jpg', 'JPG', 'bmp', 'BMP']}
-                       defaultFileList={fileList}
-                       isShowDefault={true}
-                       onChange={handleUploadImageChange}
-                       maxNum={field.fieldConstraint ? JSON.parse(field.fieldConstraint).maxNumber : 9}/>
-        )
-        }
+          <ImageUpload
+            attachmentType="INVOICE_IMAGES"
+            fileType={['PNG', 'png', 'jpeg', 'jpeg', 'jpg', 'JPG', 'bmp', 'BMP']}
+            defaultFileList={fileList}
+            isShowDefault={true}
+            onChange={handleUploadImageChange}
+            maxNum={field.fieldConstraint ? JSON.parse(field.fieldConstraint).maxNumber : 9}
+          />
+        )}
       </FormItem>
-    )
-  }
+    );
+  };
   // -----扩展字段 编辑状态---end
 
   //渲染性别
-  renderGenderOption = (data) => {
+  renderGenderOption = data => {
     if (data && data.length) {
-      return data.map((item) => {
-        return <Option value={item.value} key={item.value}>{item.messageKey}</Option>
-      })
+      return data.map(item => {
+        return (
+          <Option value={item.value} key={item.value}>
+            {item.messageKey}
+          </Option>
+        );
+      });
     } else {
-      return (<Option value={1} key={1}>
-        {
-        messages("pdc.basic.info.female")
-        // "女"
-        }
-        </Option>)
+      return (
+        <Option value={1} key={1}>
+          {messages('pdc.basic.info.female')
+          // "女"
+          }
+        </Option>
+      );
     }
-  }
-  handleGenderChange = (value) => {
+  };
+  handleGenderChange = value => {
     //性别的值
-  }
+  };
   //渲染编辑状态
   renderEditing = () => {
-    const {getFieldDecorator} = this.props.form;
-    const {loading, genderData, personObj} = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { loading, genderData, personObj } = this.state;
     let fields = personObj.customFormValues ? personObj.customFormValues : [];
     return (
       <div className="info-item-edit-wrap">
@@ -942,373 +913,375 @@ class PersonBasicInfo extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.employeeId")}//工号
-                colon={true}>
+                label={messages('pdc.basic.info.employeeId')} //工号
+                colon={true}
+              >
                 {getFieldDecorator('employeeID', {
                   initialValue: personObj.employeeID,
                   rules: [
                     {
                       max: 40,
-                      message: messages("pdc.basic.info.max.inp.40")//"最多输入40个字符"
+                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
                     },
                     {
                       required: true,
-                      message: messages("common.please.enter")
-                    }
-                  ]
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>
-                )
-                }
+                      message: messages('common.please.enter'),
+                    },
+                  ],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.name")}//姓名
-                colon={true}>
+                label={messages('pdc.basic.info.name')} //姓名
+                colon={true}
+              >
                 {getFieldDecorator('fullName', {
                   initialValue: personObj.fullName,
                   rules: [
                     {
                       max: 40,
-                      message: messages("pdc.basic.info.max.inp.40")//"最多输入40个字符"
+                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
                     },
                     {
                       required: true,
-                      message: messages("common.please.enter")
+                      message: messages('common.please.enter'),
                     },
-                  ]
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>
-                )
-                }
+                  ],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-              label={messages("pdc.basic.info.company")}//公司
-                colon={true}>
+                label={messages('pdc.basic.info.company')} //公司
+                colon={true}
+              >
                 {getFieldDecorator('companyOID', {
-                  initialValue: personObj.companyOID ? [
-                    {
-                      companyName: personObj.companyName,
-                      companyOID: personObj.companyOID
-                    }
-                  ] : [],
+                  initialValue: personObj.companyOID
+                    ? [
+                        {
+                          companyName: personObj.companyName,
+                          companyOID: personObj.companyOID,
+                        },
+                      ]
+                    : [],
                   rules: [
                     {
                       required: true,
-                      message: messages("common.please.select")
+                      message: messages('common.please.select'),
                     },
-                  ]
+                  ],
                 })(
-                  <Chooser single={true}
-                           type="all_company_with_legal_entity"
-                           labelKey="companyName"
-                           valueKey="companyOID"
-                           onChange={this.handleChange}
-                           listExtraParams={{}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="all_company_with_legal_entity"
+                    labelKey="companyName"
+                    valueKey="companyOID"
+                    onChange={this.handleChange}
+                    listExtraParams={{}}
+                  />
+                )}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.dep")}//部门
-                colon={true}>
+                label={messages('pdc.basic.info.dep')} //部门
+                colon={true}
+              >
                 {getFieldDecorator('departmentName', {
-                  initialValue: personObj.departmentOID ? [
-                    {
-                      name: personObj.departmentName,
-                      departmentOid: personObj.departmentOID
-                    }
-                  ] : [],
+                  initialValue: personObj.departmentOID
+                    ? [
+                        {
+                          name: personObj.departmentName,
+                          departmentOid: personObj.departmentOID,
+                        },
+                      ]
+                    : [],
                   rules: [
                     {
                       required: true,
-                      message: messages("common.please.select")
+                      message: messages('common.please.select'),
                     },
-                  ]
+                  ],
                 })(
-                  <Chooser single={true}
-                           type="department"
-                           labelKey="name"
-                           valueKey="departmentOid"
-                           onChange={this.handleChange}
-                           listExtraParams={{}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="department"
+                    labelKey="name"
+                    valueKey="departmentOid"
+                    onChange={this.handleChange}
+                    listExtraParams={{}}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.email")}//邮箱
-                colon={true}>
+                label={messages('pdc.basic.info.email')} //邮箱
+                colon={true}
+              >
                 {getFieldDecorator('email', {
                   initialValue: personObj.email,
                   rules: [
                     {
                       type: 'email',
-                      message: messages("pdc.basic.info.email.error")//"邮箱格式不对"
+                      message: messages('pdc.basic.info.email.error'), //"邮箱格式不对"
                     },
                     {
                       required: true,
-                      message: messages("common.please.enter"),
-                    }
+                      message: messages('common.please.enter'),
+                    },
                   ],
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>)
-                }
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.mobile")}//手机
-                colon={true}>
+                label={messages('pdc.basic.info.mobile')} //手机
+                colon={true}
+              >
                 {getFieldDecorator('mobile', {
                   initialValue: personObj.mobile,
                   rules: [
                     {
                       max: 30,
-                      message: messages("pdc.basic.info.max.inp.30")//"最多输入30个字符"
+                      message: messages('pdc.basic.info.max.inp.30'), //"最多输入30个字符"
                     },
                     {
-                      message: messages("org.role.type-number"),//"必须是数字
-                      validator: (personObj,value, cb) => {
-                        if(value === "" || value === undefined || value === null){
+                      message: messages('org.role.type-number'), //"必须是数字
+                      validator: (personObj, value, cb) => {
+                        if (value === '' || value === undefined || value === null) {
                           cb();
                           return;
-                        };
-                        let reg = new RegExp("^[0-9]*$");
-                        if(!reg.test(value)){
+                        }
+                        let reg = new RegExp('^[0-9]*$');
+                        if (!reg.test(value)) {
                           cb(false);
-                        }else {
+                        } else {
                           cb();
                         }
                       },
-                    }
-                  ]
+                    },
+                  ],
                 })(
-                  <Input addonBefore={this.props.form.getFieldDecorator('mobilePrefix', {
-                    initialValue: personObj.mobileCode,
-                  })(
-                    this.renderMobilePrefix(this.state.preFixList)
-                  )}
-                         placeholder={messages("common.please.enter")}/>)
-                }
+                  <Input
+                    addonBefore={this.props.form.getFieldDecorator('mobilePrefix', {
+                      initialValue: personObj.mobileCode,
+                    })(this.renderMobilePrefix(this.state.preFixList))}
+                    placeholder={messages('common.please.enter')}
+                  />
+                )}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
-
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.direct.manager")}//直属领导
-                colon={true}>
+                label={messages('pdc.basic.info.direct.manager')} //直属领导
+                colon={true}
+              >
                 {getFieldDecorator('directManager', {
-                  initialValue: personObj.directManagerName ? [
-                    {
-                      fullName: personObj.directManagerName,
-                      userOID: personObj.directManager
-                    }
-                  ] : [],
-                  rules: []
+                  initialValue: personObj.directManagerName
+                    ? [
+                        {
+                          fullName: personObj.directManagerName,
+                          userOID: personObj.directManager,
+                        },
+                      ]
+                    : [],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           placeholder={messages("common.please.select")}
-                           labelKey="fullName"
-                           valueKey="userOID"
-                           onChange={this.handleChange}
-                           type="user"/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    placeholder={messages('common.please.select')}
+                    labelKey="fullName"
+                    valueKey="userOID"
+                    onChange={this.handleChange}
+                    type="user"
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.duty")}//职务
-                colon={true}>
+                label={messages('pdc.basic.info.duty')} //职务
+                colon={true}
+              >
                 {getFieldDecorator('duty', {
-                  initialValue: personObj.duty ? [
-                    {
-                      value: personObj.dutyCode,
-                      messageKey: personObj.duty
-                    }
-                  ] : [],
-                  rules: []
+                  initialValue: personObj.duty
+                    ? [
+                        {
+                          value: personObj.dutyCode,
+                          messageKey: personObj.duty,
+                        },
+                      ]
+                    : [],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           type="personDutyModel"
-                           labelKey="messageKey"
-                           valueKey="value"
-                           onChange={this.handleChange}
-                           placeholder={messages("common.please.select")}
-                           listExtraParams={{systemCustomEnumerationType: "1002"}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="personDutyModel"
+                    labelKey="messageKey"
+                    valueKey="value"
+                    onChange={this.handleChange}
+                    placeholder={messages('common.please.select')}
+                    listExtraParams={{ systemCustomEnumerationType: '1002' }}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.title")}//职位
-                colon={true}>
+                label={messages('pdc.basic.info.title')} //职位
+                colon={true}
+              >
                 {getFieldDecorator('title', {
                   initialValue: personObj.title,
                   rules: [
                     {
                       max: 40,
-                      message: messages("pdc.basic.info.max.inp.40")//"最多输入40个字符"
-                    }
-                  ]
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>)
-                }
+                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
+                    },
+                  ],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.person.type")}//人员类型
-                colon={true}>
+                label={messages('pdc.basic.info.person.type')} //人员类型
+                colon={true}
+              >
                 {getFieldDecorator('employeeType', {
-                  initialValue: personObj.employeeType ? [
-                    {
-                      value: personObj.employeeTypeCode,
-                      messageKey: personObj.employeeType
-                    }
-                  ] : [],
-                  rules: []
+                  initialValue: personObj.employeeType
+                    ? [
+                        {
+                          value: personObj.employeeTypeCode,
+                          messageKey: personObj.employeeType,
+                        },
+                      ]
+                    : [],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           type="personTypeModel"
-                           labelKey="messageKey"
-                           valueKey="value"
-                           placeholder={messages("common.please.select")}
-                           onChange={this.handleChange}
-                           listExtraParams={{systemCustomEnumerationType: "1001"}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="personTypeModel"
+                    labelKey="messageKey"
+                    valueKey="value"
+                    placeholder={messages('common.please.select')}
+                    onChange={this.handleChange}
+                    listExtraParams={{ systemCustomEnumerationType: '1001' }}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.level")}//级别
-                colon={true}>
+                label={messages('pdc.basic.info.level')} //级别
+                colon={true}
+              >
                 {getFieldDecorator('rank', {
-                  initialValue: personObj.rank ? [
-                    {
-                      value: personObj.rankCode,
-                      messageKey: personObj.rank
-                    }
-                  ] : [],
-                  rules: []
+                  initialValue: personObj.rank
+                    ? [
+                        {
+                          value: personObj.rankCode,
+                          messageKey: personObj.rank,
+                        },
+                      ]
+                    : [],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           type="personRankModel"
-                           labelKey="messageKey"
-                           valueKey="value"
-                           onChange={this.handleChange}
-                           placeholder={messages("common.please.select")}
-                           listExtraParams={{systemCustomEnumerationType: "1008"}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="personRankModel"
+                    labelKey="messageKey"
+                    valueKey="value"
+                    onChange={this.handleChange}
+                    placeholder={messages('common.please.select')}
+                    listExtraParams={{ systemCustomEnumerationType: '1008' }}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.sex")}//性别
-                colon={true}>
+                label={messages('pdc.basic.info.sex')} //性别
+                colon={true}
+              >
                 {getFieldDecorator('gender', {
                   initialValue: personObj.genderCode,
-                  rules: []
+                  rules: [],
                 })(
                   <Select
                     className="select-country"
                     showSearch
-                    placeholder={messages("common.please.select")}
+                    placeholder={messages('common.please.select')}
                     optionFilterProp="children"
                     onChange={this.handleGenderChange}
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {
-                      this.renderGenderOption(genderData)
+                    filterOption={(input, option) =>
+                      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
+                  >
+                    {this.renderGenderOption(genderData)}
                   </Select>
-                )
-                }
+                )}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.bird")}//生日
-                colon={true}>
+                label={messages('pdc.basic.info.bird')} //生日
+                colon={true}
+              >
                 {getFieldDecorator('birthday', {
-                  initialValue: personObj.birthday ? moment(personObj.birthday) : "",
-                  rules: []
-                })(
-                  <DatePicker
-                    format={'YYYY-MM-DD'}
-                    onChange={this.handleChange}/>
-                )
-                }
+                  initialValue: personObj.birthday ? moment(personObj.birthday) : '',
+                  rules: [],
+                })(<DatePicker format={'YYYY-MM-DD'} onChange={this.handleChange} />)}
               </FormItem>
             </Col>
 
             <Col span={8}>
               <FormItem
-                label={messages("pdc.basic.info.enter.time")}//入职时间
-                colon={true}>
+                label={messages('pdc.basic.info.enter.time')} //入职时间
+                colon={true}
+              >
                 {getFieldDecorator('entryTime', {
-                  initialValue: personObj.entryTime ? moment(personObj.entryTime) : "",
-                  rules: []
-                })(
-                  <DatePicker
-                    format={'YYYY-MM-DD'}
-                    onChange={this.handleChange}/>
-                )
-                }
+                  initialValue: personObj.entryTime ? moment(personObj.entryTime) : '',
+                  rules: [],
+                })(<DatePicker format={'YYYY-MM-DD'} onChange={this.handleChange} />)}
               </FormItem>
             </Col>
-
           </Row>
 
-          <div>
-            {this.renderExtendTitle()}
-          </div>
-          <div style={{"width":500}}>
-            {
-              this.renderEditingField(fields)
-            }
-          </div>
-          <Button type="primary"
-                  loading={loading}
-                  htmlType="submit">
-            {messages( "common.save") /*保存*/}
+          <div>{this.renderExtendTitle()}</div>
+          <div style={{ width: 500 }}>{this.renderEditingField(fields)}</div>
+          <Button type="primary" loading={loading} htmlType="submit">
+            {messages('common.save') /*保存*/}
           </Button>
-          <Button onClick={this.handleCancel}
-                  style={{marginLeft: 8}}>
-            {messages("common.cancel") /*取消*/}
+          <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
+            {messages('common.cancel') /*取消*/}
           </Button>
         </Form>
       </div>
-    )
+    );
   };
 
-  renderExtendTitle = ()=>{
-    return  <p>
-      {/*个人信息扩展字段*/}
-      {messages("pm.detail.person.info.field")}
-      &nbsp;&nbsp;<Tooltip title={messages("pm.detail.tips")}>
-      {/*可以在企业管理-扩展字段进行编辑扩展字段*/}
-      <Icon type="question-circle-o"/>
-    </Tooltip>
-    </p>
-  }
+  renderExtendTitle = () => {
+    return (
+      <p>
+        {/*个人信息扩展字段*/}
+        {messages('pm.detail.person.info.field')}
+        &nbsp;&nbsp;<Tooltip title={messages('pm.detail.tips')}>
+          {/*可以在企业管理-扩展字段进行编辑扩展字段*/}
+          <Icon type="question-circle-o" />
+        </Tooltip>
+      </p>
+    );
+  };
 
   //渲染入口
   renderEnter = () => {
@@ -1317,25 +1290,19 @@ class PersonBasicInfo extends React.Component {
     } else {
       return this.renderNoEditing();
     }
-  }
+  };
 
   render() {
-    return (
-      <div className="person-basic-info-wrap">
-        {
-          this.renderEnter()
-        }
-      </div>
-    )
+    return <div className="person-basic-info-wrap">{this.renderEnter()}</div>;
   }
 }
 
 PersonBasicInfo.propTypes = {
-  savedData: React.PropTypes.func.isRequired,//点击保存
-  toEditing: React.PropTypes.func.isRequired,//设置编辑
-  toNoEditing: React.PropTypes.func.isRequired,//设置显示
-  basicInfoData: React.PropTypes.object.isRequired,//基础信息数据对象
-  originEditingStatus: React.PropTypes.bool//初始化是否是编辑:默认非编辑
+  savedData: React.PropTypes.func.isRequired, //点击保存
+  toEditing: React.PropTypes.func.isRequired, //设置编辑
+  toNoEditing: React.PropTypes.func.isRequired, //设置显示
+  basicInfoData: React.PropTypes.object.isRequired, //基础信息数据对象
+  originEditingStatus: React.PropTypes.bool, //初始化是否是编辑:默认非编辑
 };
 PersonBasicInfo.defaultProps = {
   originEditingStatus: false,
@@ -1344,11 +1311,15 @@ PersonBasicInfo.defaultProps = {
 function mapStateToProps(state) {
   return {
     isOldCompany: state.login.isOldCompany,
-  }
+  };
 }
 PersonBasicInfo.contextTypes = {
-  router: React.PropTypes.object
-}
+  router: React.PropTypes.object,
+};
 const WrappedPersonBasicInfo = Form.create()(PersonBasicInfo);
-export default connect(mapStateToProps, null, null, { withRef: true })(WrappedPersonBasicInfo);
-
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(WrappedPersonBasicInfo);

@@ -76,63 +76,65 @@ export default {
   // 查询所有集团部门
   getTenantAllDepRes() {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/departments/root/v2?flag=1001')
-        .then((res) => {
+      httpFetch
+        .get(config.baseUrl + '/api/departments/root/v2?flag=1001')
+        .then(res => {
           resolve(res);
           //不在这里写逻辑，其他地方服务复用
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 查询所有集团部门：设置节点
   getTenantAllDep() {
     return new Promise((resolve, reject) => {
       this.getTenantAllDepRes()
-        .then((res) => {
+        .then(res => {
           this.resetTreeData();
           this.setTreeData(res.data);
-          resolve(this.getTreeData())
+          resolve(this.getTreeData());
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 通过部门oid查询子部门
-  getChildDepByDepOIDRes(Dep,flag) {
+  getChildDepByDepOIDRes(Dep, flag) {
     //为了不影响之前的功能
     let _flag = 1001;
-    if(flag){
+    if (flag) {
       _flag = flag;
     }
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/department/child/' + Dep.departmentOID + '/?flag='+_flag)
-        .then((res) => {
+      httpFetch
+        .get(config.baseUrl + '/api/department/child/' + Dep.departmentOID + '/?flag=' + _flag)
+        .then(res => {
           resolve(res);
           //不在这里写逻辑，其他地方服务复用
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 通过部门oid查询子部门:设置节点
   getChildDepByDepOID(Dep, parentNode) {
     return new Promise((resolve, reject) => {
       this.getChildDepByDepOIDRes(Dep)
-        .then((res) => {
+        .then(res => {
           this.setLeafByParentOID(res.data, parentNode);
           resolve(this.getTreeData());
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
 
   //禁用一个部门树节点
@@ -170,7 +172,7 @@ export default {
     for (let i = 0; i < treeData.length; i++) {
       //看看本级部门有没有
       if (treeData[i].key === nodeKey) {
-        treeData.splice(i, 1)
+        treeData.splice(i, 1);
         //干掉就结束
         return;
       }
@@ -276,7 +278,6 @@ export default {
   },
   //这是后端点击一个部门查询子部门，前端再添加新节点的case-----end---
 
-
   //把部门经理放在第一位
   sortDepartmentPositionDTOList(roleList) {
     let temp = roleList[0];
@@ -292,36 +293,37 @@ export default {
   // 通过部门oid查询部门详情
   getDepDetailByDepOID(Dep) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/departments/' + Dep.departmentOID)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .get(config.baseUrl + '/api/departments/' + Dep.departmentOID)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 通过部门oid查询部门下面的员工
   //todo  前面的参数Dep要消灭掉才行
   getDepUserByDepOID(Dep, params) {
     let _params = {
-      departmentOID:  Dep.departmentOID,
+      departmentOID: Dep.departmentOID,
       page: params.page,
       size: params.size,
-      roleType: "TENANT",
-    }
+      roleType: 'TENANT',
+    };
     //已传入的参数params为主
-    let options = Object.assign({},_params,params);
+    let options = Object.assign({}, _params, params);
     return new Promise((resolve, reject) => {
       this.searchPersonInDep(options)
-        .then((res)=>{
-          resolve(res)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
 
     //这接口慢，用上面新的
     // params = {page,size}
@@ -341,29 +343,31 @@ export default {
     let params = {
       flag: 1002,
       hasChildren: false,
-      name: keyWord
-    }
+      name: keyWord,
+    };
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/department/like', params)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .get(config.baseUrl + '/api/department/like', params)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
   //部门名称，部门编号或者员工姓名搜索:扁平化的展示部门结构，与树形结构
   searchDepOrPersonV2(keyWord) {
     let params = {
-      keyword: keyWord,//部门名称，部门编号或者员工姓名
-      needEmployeeId: false,//是否支持员工工号搜索
-      departmentStatus: null//101启用，102停用，103删除，默认查询101启用，102停用
-    }
+      keyword: keyWord, //部门名称，部门编号或者员工姓名
+      needEmployeeId: false, //是否支持员工工号搜索
+      departmentStatus: null, //101启用，102停用，103删除，默认查询101启用，102停用
+    };
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/department/user/keyword', params)
-        .then((response) => {
-          response.data.users = response.data.users.map(function (item) {
+      httpFetch
+        .get(config.baseUrl + '/api/department/user/keyword', params)
+        .then(response => {
+          response.data.users = response.data.users.map(function(item) {
             if (item.contact) {
               item.fullName = item.contact.fullName;
               item.email = item.contact.email;
@@ -381,106 +385,110 @@ export default {
               item.entryDate = item.contact.entryDate;
             }
             return item;
-          })
-          resolve(response)
+          });
+          resolve(response);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
-
 
   // 针对部门的操作curd-------start
   //停用该部门
   disabledDep(depOID) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(config.baseUrl + '/api/department/disable/' + depOID)
-        .then((res) => {
+      httpFetch
+        .put(config.baseUrl + '/api/department/disable/' + depOID)
+        .then(res => {
           this._disabledDep(depOID);
           resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
   //启用该部门
   enabledDep(depOID) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(config.baseUrl + '/api/department/enable/' + depOID)
-        .then((res) => {
+      httpFetch
+        .put(config.baseUrl + '/api/department/enable/' + depOID)
+        .then(res => {
           this._enabledDep(depOID);
-          resolve(res)
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   //删除部门
   deleteDep(depOID) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(config.baseUrl + '/api/department/delete/' + depOID)
-        .then((res) => {
+      httpFetch
+        .delete(config.baseUrl + '/api/department/delete/' + depOID)
+        .then(res => {
           this._deleteDep(depOID);
           resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
   //创建子部门
   //第二个参数是当前部门树节点，创建成功后，需要在节点上添加子部门
   createChildDep(data, treeNode) {
     // let data = {"parentDepartmentOID":"f789179f-1102-4791-b84d-186e53f6c0fa","name":"111","path":"cciae|111","companyOID":null}
     return new Promise((resolve, reject) => {
-      httpFetch.post(config.baseUrl + '/api/departments/', data)
-        .then((res) => {
+      httpFetch
+        .post(config.baseUrl + '/api/departments/', data)
+        .then(res => {
           this._createDep(res.data);
-          resolve(res)
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   //创建顶层部门，平级部门
   //第二个参数是当前部门树节点，创建成功后，需要在节点上添加子部门
   createTopDep(data, treeNode) {
     // let data={"companyOID":"1af2a30d-9719-419b-a7ef-68078462baed","name":"as12","path":"as12","i18n":{"name":[{"language":"zh_cn","value":"as12"},{"language":"en","value":"as12"}]}}
     return new Promise((resolve, reject) => {
-      httpFetch.post(config.baseUrl + '/api/departments/', data)
-        .then((res) => {
+      httpFetch
+        .post(config.baseUrl + '/api/departments/', data)
+        .then(res => {
           this._createDep(res.data);
-          resolve(res)
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   //修改部门详情，带部门角色
   updateDep(dep) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(config.baseUrl + '/api/departments', dep)
-        .then((res) => {
+      httpFetch
+        .put(config.baseUrl + '/api/departments', dep)
+        .then(res => {
           res.data.parentId = res.data.parentDepartmentId;
           this._updateDep(res.data);
-          resolve(res)
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 针对部门的操作curd-------end
-
 
   //批量移动：批量部门oid与人员oid移动到目标部门
   batchMovePerson(params) {
@@ -490,15 +498,16 @@ export default {
     //   "oldDepartmentList":["c07cc878-8165-4fe4-a1c0-269e154f4841"]
     // }
     return new Promise((resolve, reject) => {
-      httpFetch.put(config.baseUrl + '/api/departments/change/list', params)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .put(config.baseUrl + '/api/departments/change/list', params)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   //目前新的v3接口还没完善，不支持多部门参数，多法人实体参数
   //v3完善之后，这个就换
@@ -527,34 +536,34 @@ export default {
     // }
 
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/users/v3/search', params)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .get(config.baseUrl + '/api/users/v3/search', params)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
-
+        });
+    });
   },
-
 
   //这是全部部门查询的case,把所有部门存在前端---start----
 
   // 查询所有集团部门(含子部门)
   getTenantAllDepResV2() {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/department/tenant/all')
-        .then((res) => {
+      httpFetch
+        .get(config.baseUrl + '/api/department/tenant/all')
+        .then(res => {
           resolve(res);
           //不在这里写逻辑，其他地方服务复用
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 查询所有集团部门(含子部门),设置节点
   getTenantAllDepV2(expandedKeys) {
@@ -564,20 +573,20 @@ export default {
         this.setTreeList(TREELIST);
         this.setTreeData(this._getTopDepFromList(TREELIST));
         resolve(this.getTreeData());
-      })
+      });
     } else {
       return new Promise((resolve, reject) => {
         this.getTenantAllDepResV2()
-          .then((res) => {
+          .then(res => {
             this.resetTreeData();
             this.setTreeList(res.data);
             this.setTreeData(this._getTopDepFromList(TREELIST));
-            resolve(this.getTreeData())
+            resolve(this.getTreeData());
           })
-          .catch((err) => {
+          .catch(err => {
             reject(err);
-          })
-      })
+          });
+      });
     }
   },
 
@@ -585,7 +594,7 @@ export default {
     //前端分词搜索，就可以做到单个字搜索
     return new Promise((resolve, reject) => {
       let res = [];
-      TREELIST.map(function (item) {
+      TREELIST.map(function(item) {
         //正则匹配
         if (item.name.match(keyword)) {
           const dep = {};
@@ -595,9 +604,9 @@ export default {
           //搜索的结果还可以搞成一个部门树的形式
           res.push(dep);
         }
-      })
+      });
       resolve(res);
-    })
+    });
   },
 
   //删除部门
@@ -651,19 +660,19 @@ export default {
       let list = this._getDepChildrenFromTreelist(Dep.id, TREELIST);
       this.setLeafByParentOID(list, parentNode);
       resolve(this.getTreeData());
-    })
+    });
   },
   // 获取对应子部门从前端缓存的列表中
   _getDepChildrenFromTreelist(depid, list) {
     let arr = [];
     for (let i = 0; i < list.length; i++) {
-      if (list[i].parentId + "" === depid + "") {
+      if (list[i].parentId + '' === depid + '') {
         if (this._checkDepHasChildren(list[i], list)) {
-          list[i].hasChildrenDepartments = true
+          list[i].hasChildrenDepartments = true;
         } else {
-          list[i].hasChildrenDepartments = false
+          list[i].hasChildrenDepartments = false;
         }
-        arr.push(list[i])
+        arr.push(list[i]);
       }
     }
     return arr;
@@ -675,11 +684,11 @@ export default {
       //没有parentId或者parentDepartmentOID
       if (!list[i].parentId && !list[i].parentDepartmentOID) {
         if (this._checkDepHasChildren(list[i], list)) {
-          list[i].hasChildrenDepartments = true
+          list[i].hasChildrenDepartments = true;
         } else {
-          list[i].hasChildrenDepartments = false
+          list[i].hasChildrenDepartments = false;
         }
-        arr.push(list[i])
+        arr.push(list[i]);
       }
     }
     return arr;
@@ -687,7 +696,7 @@ export default {
   //判断这个部门是否有子部门，后端返回的节点没有字段标志说这个部门是否是父级部门
   _checkDepHasChildren(item, list) {
     for (let i = 0; i < list.length; i++) {
-      if (item.id + "" === list[i].parentId) {
+      if (item.id + '' === list[i].parentId) {
         return true;
       }
     }
@@ -695,34 +704,34 @@ export default {
   },
   //这是全部部门查询的case,把所有部门存在前端---end----
 
-
   // 部门角色页面的接口----start
   //获取角色列表：翻页的
   getRoleList(params) {
     // params = {page,size}
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/departmentposition/page', params)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .get(config.baseUrl + '/api/departmentposition/page', params)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
-        })
-    })
+        });
+    });
   },
   //创建或者修改部门角色
   createUpdateRole(role) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(config.baseUrl + '/api/departmentposition', role)
-        .then((res) => {
-          resolve(res)
+      httpFetch
+        .post(config.baseUrl + '/api/departmentposition', role)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           errorMessage(err.response);
           reject(err);
-        })
-    })
+        });
+    });
   },
   // 部门角色页面的接口----end
-}
-
+};

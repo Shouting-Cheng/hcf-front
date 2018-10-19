@@ -1,11 +1,11 @@
 // 为了0416迭代上线，重构此文件
 import React from 'react';
-import {connect} from 'react-redux';
-import {Form, Switch, Icon, Input, Button, Row, Col, message, DatePicker,Select} from 'antd';
-import moment from "moment";
+import { connect } from 'react-redux';
+import { Form, Switch, Icon, Input, Button, Row, Col, message, DatePicker, Select } from 'antd';
+import moment from 'moment';
 import config from 'config';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
-import {messages} from "share/common";
+import { messages } from 'share/common';
 import Selector from 'components/selector';
 import 'styles/enterprise-manage/company-maintain/new-company-maintain.scss';
 
@@ -18,23 +18,23 @@ class WrappedNewCompanyMaintain extends React.Component {
     this.state = {
       companyDetail: {
         companyOID: null,
-        companyCode: null,//公司代码
-        name: "",//公司名称
-        companyTypeId: "4993798",//类型后端已经默认：业务实体
-        companyTypeName: "",//类型后端已经默认：业务实体
-        companyLevelId: null,//公司级别
-        companyLevelName: "",//公司级别名称：用于显示
-        legalEntityId: null,//法人
-        legalEntityName: "",//法人名称：用于显示
-        parentCompanyId: null,//非比填:上级公司
-        parentCompanyName: "",//非比填:上级公司：用于显示
-        setOfBooksId: null,//账套,也不用上传，默认是法人一个账套
-        setOfBooksName: "",//账套：用于显示
-        startDateActive: null,//有效期从
-        endDateActive: null,//有效期到
-        address: "",//非比填
-        enabled: true,//状态
-        id: ""
+        companyCode: null, //公司代码
+        name: '', //公司名称
+        companyTypeId: '4993798', //类型后端已经默认：业务实体
+        companyTypeName: '', //类型后端已经默认：业务实体
+        companyLevelId: null, //公司级别
+        companyLevelName: '', //公司级别名称：用于显示
+        legalEntityId: null, //法人
+        legalEntityName: '', //法人名称：用于显示
+        parentCompanyId: null, //非比填:上级公司
+        parentCompanyName: '', //非比填:上级公司：用于显示
+        setOfBooksId: null, //账套,也不用上传，默认是法人一个账套
+        setOfBooksName: '', //账套：用于显示
+        startDateActive: null, //有效期从
+        endDateActive: null, //有效期到
+        address: '', //非比填
+        enabled: true, //状态
+        id: '',
       },
       loading: false,
       //公司级别下拉单
@@ -52,7 +52,13 @@ class WrappedNewCompanyMaintain extends React.Component {
       //上级公司：需要过滤本公司，所以有参数
       //如果是新增不过滤
       selectListParentCompany: {
-        url:config.baseUrl + '/api/company/by/tenant?setOfBooksId=' + this.props.company.setOfBooksId +  (this.props.params.companyOID === ":companyOID" ? "" :  "&filterCompanyOIDs=" + this.props.params.companyOID),
+        url:
+          config.baseUrl +
+          '/api/company/by/tenant?setOfBooksId=' +
+          this.props.company.setOfBooksId +
+          (this.props.params.companyOID === ':companyOID'
+            ? ''
+            : '&filterCompanyOIDs=' + this.props.params.companyOID),
         label: record => `${record.name}`,
         key: 'id',
       },
@@ -74,42 +80,46 @@ class WrappedNewCompanyMaintain extends React.Component {
   }
 
   //获取公司详情：如果是编辑
-  getCompanyById = (id) => {
-    companyMaintainService.getCompanyById(id)
-      .then((res) => {
-        this.setState({
-          companyDetail: res.data
-        },()=>{
-          this.getSelectListParentCompany(this.state.companyDetail.legalEntityId,this.props.params.companyOID);
-        })
-      })
-  }
+  getCompanyById = id => {
+    companyMaintainService.getCompanyById(id).then(res => {
+      this.setState(
+        {
+          companyDetail: res.data,
+        },
+        () => {
+          this.getSelectListParentCompany(
+            this.state.companyDetail.legalEntityId,
+            this.props.params.companyOID
+          );
+        }
+      );
+    });
+  };
 
-  getSelectListParentCompany = (legalEntityId,companyOID) => {
+  getSelectListParentCompany = (legalEntityId, companyOID) => {
     let params = {
       legalEntityId: legalEntityId ? legalEntityId : 0,
-      filterCompanyOIDs: companyOID ? companyOID : null
-    }
-    companyMaintainService.getSelectListParentCompany(params)
-      .then((res) => {
-        console.log(res.data)
-        let selectListParentCompany = this.state.selectListParentCompany;
-        selectListParentCompany = res.data;
-        this.setState({
-          selectListParentCompany
-        })
-      })
-  }
+      filterCompanyOIDs: companyOID ? companyOID : null,
+    };
+    companyMaintainService.getSelectListParentCompany(params).then(res => {
+      console.log(res.data);
+      let selectListParentCompany = this.state.selectListParentCompany;
+      selectListParentCompany = res.data;
+      this.setState({
+        selectListParentCompany,
+      });
+    });
+  };
 
   //保存新建公司
-  handleSave = (e) => {
+  handleSave = e => {
     e.preventDefault();
     let _company = this.state.companyDetail;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         if (!_company.startDateActive) {
           //请选择有效期从
-          message.warning(messages("common.please.select") + messages("company.startDateActive"));
+          message.warning(messages('common.please.select') + messages('company.startDateActive'));
           return;
         }
 
@@ -118,152 +128,150 @@ class WrappedNewCompanyMaintain extends React.Component {
           values.endDateActive = values.endDateActive.format();
         }
 
-        if(values.legalEntityId === _company.legalEntityName){
+        if (values.legalEntityId === _company.legalEntityName) {
           values.legalEntityId = _company.legalEntityId;
         }
-        if(values.companyLevelId === _company.companyLevelName){
+        if (values.companyLevelId === _company.companyLevelName) {
           values.companyLevelId = _company.companyLevelId;
-        }else {
+        } else {
           _company.companyLevelId = values.companyLevelId;
         }
-        if(values.parentCompanyId === _company.parentCompanyName){
+        if (values.parentCompanyId === _company.parentCompanyName) {
           //进入页面，未修改
           values.parentCompanyId = _company.parentCompanyId;
-        }else {
+        } else {
           //修改后
           _company.parentCompanyId = values.parentCompanyId;
         }
 
         if (_company.id && _company.companyOID) {
           //当删除某一个字段的时候，values 为null，导致没有覆盖原有属性
-          let company = Object.assign(_company, values)
-          if(company.companyLevelId === null || company.companyLevelId === undefined){
+          let company = Object.assign(_company, values);
+          if (company.companyLevelId === null || company.companyLevelId === undefined) {
             company.companyLevelName = null;
-            company.companyLevelId = null
+            company.companyLevelId = null;
           }
-          if(company.parentCompanyId === null || company.parentCompanyId === undefined){
+          if (company.parentCompanyId === null || company.parentCompanyId === undefined) {
             company.parentCompanyName = null;
             company.parentCompanyId = null;
           }
-          this.updateCompany(company)
+          this.updateCompany(company);
         } else {
-          this.addCompany(values)
+          this.addCompany(values);
         }
       }
     });
   };
   //新增公司
-  addCompany = (company) => {
-    this.setState({loading:true});
+  addCompany = company => {
+    this.setState({ loading: true });
     companyMaintainService.addCompany(company).then(response => {
-        this.context.router.goBack();
+      this.context.router.goBack();
     });
-    this.setState({loading:false});
-  }
+    this.setState({ loading: false });
+  };
   //编辑公司
-  updateCompany = (company) => {
-    this.setState({loading:true});
+  updateCompany = company => {
+    this.setState({ loading: true });
     companyMaintainService.updateCompany(company).then(response => {
-        this.context.router.goBack();
+      this.context.router.goBack();
     });
-    this.setState({loading:false});
-  }
+    this.setState({ loading: false });
+  };
   //返回
   handleCancel = () => {
     this.context.router.goBack();
   };
   //不能大于endDate
-  disabledStartDate = (startValue) => {
+  disabledStartDate = startValue => {
     const endValue = this.state.companyDetail.endDateActive;
     if (!startValue || !endValue) {
       return false;
     }
     return startValue.valueOf() > endValue.valueOf();
-  }
+  };
   //不能小于于startDate
-  disabledEndDate = (endValue) => {
+  disabledEndDate = endValue => {
     const startValue = this.state.companyDetail.startDateActive;
     if (!endValue || !startValue) {
       return false;
     }
     return endValue.valueOf() <= startValue.valueOf();
-  }
-  onStartTimeChange = (val) => {
+  };
+  onStartTimeChange = val => {
     let companyDetail = this.state.companyDetail;
     companyDetail.startDateActive = val;
     this.setState({
-      companyDetail
-    })
-  }
-  onEndTimeChange = (val) => {
+      companyDetail,
+    });
+  };
+  onEndTimeChange = val => {
     let companyDetail = this.state.companyDetail;
     companyDetail.endDateActive = val;
     this.setState({
-      companyDetail
-    })
-  }
+      companyDetail,
+    });
+  };
   //监听表单值
-  handleChange = (e) => {
+  handleChange = e => {
     if (this.state.loading) {
       this.setState({
         loading: false,
-      })
+      });
     }
   };
 
-  legalEntityIdChange = (legalEntityId) => {
+  legalEntityIdChange = legalEntityId => {
     this.getSelectListParentCompany(legalEntityId);
-  }
+  };
 
-  renderParentCompanyList = (list) => {
+  renderParentCompanyList = list => {
     if (list.length > 1) {
-      let listOption = list.map((item) => {
+      let listOption = list.map(item => {
         return (
-          <Option value={item.id}
-                  key={item.id}>
+          <Option value={item.id} key={item.id}>
             {item.name}
           </Option>
-        )
+        );
       });
       return (
-        <Select showSearch placeholder={messages("common.select")} allowClear={true}>
+        <Select showSearch placeholder={messages('common.select')} allowClear={true}>
           {listOption}
         </Select>
-      )
-    }
-    else {
+      );
+    } else {
       return (
-        <Select placeholder={messages("common.select")} disabled={true}>
+        <Select placeholder={messages('common.select')} disabled={true}>
           {/*<Option value="null">*/}
-            {/*{messages("common.select")}{messages("company.maintain.company.legalEntityName")}*/}
+          {/*{messages("common.select")}{messages("company.maintain.company.legalEntityName")}*/}
           {/*</Option>*/}
         </Select>
-      )
+      );
     }
   };
 
   render() {
-    const {getFieldDecorator} = this.props.form;
-    const {companyDetail, loading} = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { companyDetail, loading } = this.state;
     return (
-
       <div className="new-company-maintain-warp">
         <Form onSubmit={this.handleSave} onChange={this.handleChange}>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.companyCode")}//公司代码
-                colon={true}>
+                label={messages('company.maintain.company.companyCode')} //公司代码
+                colon={true}
+              >
                 {getFieldDecorator('companyCode', {
                   initialValue: companyDetail.companyCode,
                   rules: [
                     {
                       required: true,
-                      message: messages("common.please.enter")
+                      message: messages('common.please.enter'),
                     },
                     {
                       max: 35,
-                      message: messages("company.maintain.new.tips1")//"不能超过35个字符"
+                      message: messages('company.maintain.new.tips1'), //"不能超过35个字符"
                     },
                     //公司代码直接使用后端校验，前端提示
                     // {
@@ -283,102 +291,102 @@ class WrappedNewCompanyMaintain extends React.Component {
                     //     }
                     //   },
                     // }
-                  ]
+                  ],
                 })(
                   <Input
                     disabled={!!companyDetail.companyCode}
-                    placeholder={messages("common.please.enter")}/>)
-                }
+                    placeholder={messages('common.please.enter')}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.name")} /* 公司名称*/
-                colon={true}>
+                label={messages('company.maintain.company.name')} /* 公司名称*/
+                colon={true}
+              >
                 {getFieldDecorator('name', {
                   initialValue: companyDetail.name,
                   rules: [
                     {
                       required: true,
-                      message: messages("common.please.enter")
+                      message: messages('common.please.enter'),
                     },
                     {
                       max: 100,
-                      message: messages("company.maintain.new.tips3")//"不能超过100个字符"
+                      message: messages('company.maintain.new.tips3'), //"不能超过100个字符"
                     },
-                  ]
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>
-                )
-                }
+                  ],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.companyLevelName")} /* 公司级别*/
-                colon={true}>
+                label={messages('company.maintain.company.companyLevelName')} /* 公司级别*/
+                colon={true}
+              >
                 {getFieldDecorator('companyLevelId', {
                   initialValue: companyDetail.companyLevelName,
                 })(
                   <Selector
-                    placeholder={messages("common.please.select")}
-                    selectorItem={this.state.selectListCompanyLevel}/>
-                )
-                }
+                    placeholder={messages('common.please.select')}
+                    selectorItem={this.state.selectListCompanyLevel}
+                  />
+                )}
               </FormItem>
-
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.legalEntityName")}  /* 法人*/
-                colon={true}>
+                label={messages('company.maintain.company.legalEntityName')} /* 法人*/
+                colon={true}
+              >
                 {getFieldDecorator('legalEntityId', {
                   initialValue: companyDetail.legalEntityName,
                   rules: [
                     {
                       required: true,
-                      message: messages("common.please.select")
+                      message: messages('common.please.select'),
                     },
-                  ]
+                  ],
                 })(
                   <Selector
                     onChange={this.legalEntityIdChange}
                     disabled={companyDetail.legalEntityId}
-                    placeholder={messages("common.please.select")}
-                    selectorItem={this.state.selectListLegalEntity}/>
-                )
-                }
+                    placeholder={messages('common.please.select')}
+                    selectorItem={this.state.selectListLegalEntity}
+                  />
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.parentCompanyName")} /* 上级公司*/
-                colon={true}>
+                label={messages('company.maintain.company.parentCompanyName')} /* 上级公司*/
+                colon={true}
+              >
                 {getFieldDecorator('parentCompanyId', {
-                  initialValue: companyDetail.parentCompanyName
-                })(this.renderParentCompanyList(this.state.selectListParentCompany))
-                }
+                  initialValue: companyDetail.parentCompanyName,
+                })(this.renderParentCompanyList(this.state.selectListParentCompany))}
               </FormItem>
             </Col>
 
             <Col span={8}>
               <FormItem
-                label={messages("common.column.status")}//状态
-                colon={false}>
-                {getFieldDecorator("enabled", {
+                label={messages('common.column.status')} //状态
+                colon={false}
+              >
+                {getFieldDecorator('enabled', {
                   initialValue: companyDetail.enabled,
                   valuePropName: 'checked',
-                })
-                (
+                })(
                   <Switch
                     //defaultChecked={companyDetail.enabled}
                     //checked={companyDetail.enabled}
-                    checkedChildren={<Icon type="check"/>}
-                    unCheckedChildren={<Icon type="cross"/>}/>
-                )
-                }
+                    checkedChildren={<Icon type="check" />}
+                    unCheckedChildren={<Icon type="cross" />}
+                  />
+                )}
               </FormItem>
             </Col>
             {/*账套默认是法人的账套，暂时不用选择*/}
@@ -402,84 +410,80 @@ class WrappedNewCompanyMaintain extends React.Component {
               <FormItem
                 label={
                   <span>
-                   <span className="required-red">*&nbsp;</span>
-                   <span>{messages("company.maintain.company.startDateActive")}</span>
-                </span>
-                }//有效期从
-                colon={true}>
+                    <span className="required-red">*&nbsp;</span>
+                    <span>{messages('company.maintain.company.startDateActive')}</span>
+                  </span>
+                } //有效期从
+                colon={true}
+              >
                 {getFieldDecorator('startDateActive', {
-                  initialValue: companyDetail.startDateActive ? moment(companyDetail.startDateActive) : null,
-                  rules: []
+                  initialValue: companyDetail.startDateActive
+                    ? moment(companyDetail.startDateActive)
+                    : null,
+                  rules: [],
                 })(
                   <div>
                     <DatePicker
-                      value={companyDetail.startDateActive ? moment(companyDetail.startDateActive) : null}
+                      value={
+                        companyDetail.startDateActive ? moment(companyDetail.startDateActive) : null
+                      }
                       onChange={this.onStartTimeChange}
                       disabledDate={this.disabledStartDate}
                     />
                   </div>
-                )
-                }
+                )}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages("company.maintain.company.endDateActive")}//有效期到
-                colon={true}>
+                label={messages('company.maintain.company.endDateActive')} //有效期到
+                colon={true}
+              >
                 {getFieldDecorator('endDateActive', {
-                  initialValue: companyDetail.endDateActive ? moment(companyDetail.endDateActive) : null,
-                  rules: []
+                  initialValue: companyDetail.endDateActive
+                    ? moment(companyDetail.endDateActive)
+                    : null,
+                  rules: [],
                 })(
                   <div>
                     <DatePicker
-                      value={companyDetail.endDateActive ? moment(companyDetail.endDateActive) : null}
+                      value={
+                        companyDetail.endDateActive ? moment(companyDetail.endDateActive) : null
+                      }
                       onChange={this.onEndTimeChange}
                       disabledDate={this.disabledEndDate}
                     />
                   </div>
-                )
-                }
+                )}
               </FormItem>
             </Col>
-
           </Row>
           <Row>
             <Col>
-              <FormItem
-                label={messages("company.maintain.company.address")}  /* 地址*/
-                colon={true}>
-                {getFieldDecorator("address", {
+              <FormItem label={messages('company.maintain.company.address')} /* 地址*/ colon={true}>
+                {getFieldDecorator('address', {
                   initialValue: companyDetail.address,
-                  rules: []
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>
-                )
-                }
+                  rules: [],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <div>
-            <Button type="primary" loading={loading}
-                    htmlType="submit">
-              {messages("common.save") /*保存*/}
+            <Button type="primary" loading={loading} htmlType="submit">
+              {messages('common.save') /*保存*/}
             </Button>
-            <Button onClick={this.handleCancel}
-                    style={{marginLeft: 8}}>
-              {messages("common.cancel") /*取消*/}
+            <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
+              {messages('common.cancel') /*取消*/}
             </Button>
           </div>
         </Form>
       </div>
-
-    )
+    );
   }
-
 }
 
-
-
 WrappedNewCompanyMaintain.contextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object,
 };
 function mapStateToProps(state) {
   return {
@@ -487,10 +491,13 @@ function mapStateToProps(state) {
     user: state.login.user,
     tenantMode: state.main.tenantMode,
     company: state.login.company,
-  }
+  };
 }
 const NewCompanyMaintain = Form.create()(WrappedNewCompanyMaintain);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(NewCompanyMaintain);
-
-
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(NewCompanyMaintain);

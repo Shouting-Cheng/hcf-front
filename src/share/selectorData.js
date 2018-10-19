@@ -1,57 +1,62 @@
-import React from 'react'
-import config from 'config'
+import React from 'react';
+import config from 'config';
 //import configureStore from 'stores'
 
 const selectorData = {
-  'currency': {
+  currency: {
     url: `${config.baseUrl}/api/company/standard/currency/getAll`,
-    label: record => `${record.currency} ${configureStore.store.getState().main.language.code === 'zh_CN' ? `-${record.currencyName}` : ''}`,
+    label: record =>
+      `${record.currency} ${
+        configureStore.store.getState().main.language.code === 'zh_CN'
+          ? `-${record.currencyName}`
+          : ''
+      }`,
     key: 'currency',
-    offlineSearchMode: true
+    offlineSearchMode: true,
   },
-  'supplier': {
+  supplier: {
     url: `${config.baseUrl}/api/suppliers`,
     label: record => record.name,
-    key: 'supplierOID'
+    key: 'supplierOID',
   },
-  'agent': {
+  agent: {
     label: record => `${record.fullName}-${record.employeeID}`,
     key: 'userOID',
     offlineSearchMode: true,
     url: `${config.baseUrl}/api/bill/proxy/query/my/principals`,
   },
-  'proxyForm': {
-      url: `${config.baseUrl}/api/custom/forms/my/available`,
-      label: record => record.formName,
-      key: 'formOID',
-      offlineSearchMode: true,
-      dynamicUrl: true
+  proxyForm: {
+    url: `${config.baseUrl}/api/custom/forms/my/available`,
+    label: record => record.formName,
+    key: 'formOID',
+    offlineSearchMode: true,
+    dynamicUrl: true,
   },
-  'city': {
+  city: {
     url: `${config.baseUrl}/location-service/api/location/search`,
     label: record => {
       let result = record.description;
       return result;
     },
     key: 'code',
-    searchKey: 'keyWord'
+    searchKey: 'keyWord',
   },
-  'externalExpense': {
+  externalExpense: {
     url: `${config.baseUrl}/api/expense/search/types`,
     label: 'name',
     key: 'id',
     offlineSearchMode: true,
-    listKey:'expenseTypes',
+    listKey: 'expenseTypes',
   },
-  'expense_type_category': {
+  expense_type_category: {
     url: `${config.baseUrl}/api/expense/types/category`,
     label: 'name',
-    key: 'expenseTypeCategoryOID'
+    key: 'expenseTypeCategoryOID',
   },
-  'setOfBooksByTenant': {
+  setOfBooksByTenant: {
     url: `${config.baseUrl}/api/setOfBooks/by/tenant`,
     label: 'setOfBooksName',
-    key: 'id'
+    key: 'id',
   },
 };
 

@@ -34,7 +34,13 @@ server {
     }
 
     location /supplier/ {
-        proxy_pass http://115.159.108.80:25297/contract/;
+        proxy_pass http://115.159.108.80:25297/supplier/;
+    }
+    location /job/ {
+            proxy_pass http://115.159.108.80:25297/job/;
+    }
+    location /payment/ {
+            proxy_pass http://115.159.108.80:25297/payment/;
     }
     
     location /accounting/ {

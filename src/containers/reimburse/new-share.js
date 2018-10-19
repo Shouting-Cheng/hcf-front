@@ -144,7 +144,7 @@ class NewShare extends Component {
         if (this.state.relatedApplication) {
           cols.splice(0, 0, this.state.applicationCol);
         }
-      
+
         if (
           this.state.defaultApportion.costCenterItems &&
           this.state.defaultApportion.costCenterItems.length
