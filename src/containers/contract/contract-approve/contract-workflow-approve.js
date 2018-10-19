@@ -202,6 +202,10 @@ class ContractWorkflowApprove extends React.Component {
     } else {
       values.finished = false;
     }
+    //处理查询条件为弹出框时返回的数组问题
+    if(values.createdBy && values.createdBy[0]){
+      values.createdBy = values.createdBy[0];
+    }
     this.setState({ searchParams: values });
     this.table.search(values);
   };

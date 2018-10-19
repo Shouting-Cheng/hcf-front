@@ -115,15 +115,14 @@ class NewContractType extends React.Component {
         } else {
           method = contractService.addContractInfo;
         }
-        method(values)
-          .then(res => {
+        method(values).then(res => {
+            console.log(res);
             if (res.status === 200) {
               this.setState({ loading: false });
               message.success(this.$t({ id: 'common.save.success' }, { name: '' } /*保存成功*/));
               this.props.onClose(true);
             }
-          })
-          .catch(e => {
+          }).catch(e => {
             this.setState({ loading: false });
             message.error(
               `${this.$t({ id: 'common.save.filed' } /*保存失败*/)}，${e.response.data.message}`
@@ -184,7 +183,10 @@ class NewContractType extends React.Component {
       headerData.unitId = value;
       this.props.form.setFieldsValue({ unitId: value });
       this.setState({ headerData, employeeDisabled: false });
+    }else{
+      this.setState({ employeeDisabled: true });
     }
+    this.props.form.setFieldsValue({ employeeId:'',employee:'' });
   };
 
   //取消
@@ -385,7 +387,7 @@ class NewContractType extends React.Component {
               />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t('my.limit.time')}>
+          <FormItem {...formItemLayout} label={this.$t('budget.controlRule.effectiveDate')}>
             {getFieldDecorator('startDate', {
               initialValue:
                 headerData.contractName && headerData.startDate
