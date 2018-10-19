@@ -5,7 +5,8 @@ export default {
 
   state: {
     currentUser: {},
-    company: {}
+    company: {},
+    organization: {}
   },
 
   reducers: {
@@ -19,6 +20,12 @@ export default {
       return {
         ...state,
         company: action.payload || {},
+      };
+    },
+    saveOrganization(state, action) {
+      return {
+        ...state,
+        organization: action.payload || {},
       };
     },
     changeNotifyCount(state, action) {
