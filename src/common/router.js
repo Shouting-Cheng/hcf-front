@@ -531,6 +531,20 @@ export const getRouterData = app => {
       parent: '/approval-management/gl-work-order-approval',
     },
 
+    '/pay/pay-workbench/:tab': {
+      //付款工作台
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-workbench/pay-workbench.js')
+      ),
+      name: 'pay-workbench',
+    },
+    '/pay/pay-workbench/payment-detail/:tab/:subTab/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-workbench/payment-detail.js')
+      ),
+      name: '支付详情',
+      parent: '/pay/pay-workbench/:tab',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

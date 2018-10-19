@@ -58,6 +58,7 @@
   "pay.get.tax.failed": "Failure to acquire exchange rate!",
   "pay.amount.from": "Pay. amount from",
   "pay.amount.to": "Pay. amount to",
+  "pay.account.number":"Pay account number",
   "pay.batch.number": "Payment batch number",
   "pay.date.from": "Payment date from",
   "pay.date": "Payment date",
