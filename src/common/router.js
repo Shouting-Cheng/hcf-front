@@ -569,6 +569,14 @@ export const getRouterData = app => {
         import('containers/financial-management/finance-audit/finance-audit')
       ),
       name: 'finance-audit',
+    },
+
+    '/financial-accounting-setting/section-structure':{
+      //科目段结构，
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/section-structure/section-structure')
+      ),
+      name: 'section-structure'
     }
 
     // '/user/:id': {

@@ -15,7 +15,6 @@ import SearchArea from 'widget/search-area'
 import {invoiceAmountChange, dealCache, removeArryItem, deepFullCopy} from "utils/extend";
 import {message, Modal} from "antd/lib/index";
 import ReconnectingWebSocket from "reconnectingwebsocket";
-import en_US from "../../../i18n/en_US";
 let cacheSearchData={};
 let defaultSearchForm=[];
 let defaultCheckboxListForm={};
