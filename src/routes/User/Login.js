@@ -728,9 +728,31 @@ export default class Login extends React.Component {
         payload: result,
       });
 
-      resolve();
+      try {
+        await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
+        resolve();
+
+      } catch (e) {
+        resolve();
+      }
+
     });
   };
+
+  getOrganizationBySetOfBooksId = (id) => {
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.get(`${config.budgetUrl}/api/budget/organizations/default/${id}`).then(result => {
+        dispatch({
+          type: 'user/saveOrganization',
+          payload: result,
+        });
+        resolve();
+      }).catch(e => {
+        resolve();
+      })
+    });
+  }
 
   getLanguage = user => {
     const { dispatch } = this.props;

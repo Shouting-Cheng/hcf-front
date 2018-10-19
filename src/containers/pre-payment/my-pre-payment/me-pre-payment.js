@@ -260,6 +260,7 @@ class MyPrePayment extends React.Component {
 const wrappedMyPrePayment = Form.create()(MyPrePayment);
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     user: state.user.currentUser,
     company: state.user.company,
