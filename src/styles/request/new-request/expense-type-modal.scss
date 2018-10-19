@@ -1,81 +1,83 @@
-.expense-type-modal {
-  .add-budget-detail-icon {
-    font-size: 16px;
-    margin-right: 5px;
-  }
-  .rate-deviation-cell {
-    position: relative;
-    color: #ff1711;
-    span {
-      color: #999;
-      font-size: 12px;
-      margin-left: 5px;
+:global{
+  .expense-type-modal {
+    .add-budget-detail-icon {
+      font-size: 16px;
+      margin-right: 5px;
     }
-  }
-  .ant-modal-body {
-    padding: 0;
-    .expense-type-chosen {
-      padding: 10px 15px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #f2f2f2;
-      .form-container {
-        background: #f2f2f2;
-        padding: 10px 20px;
-        border-radius: 10px;
-        .item-title {
-          text-align: right;
-          &.required:before {
-            display: inline-block;
-            margin-right: 4px;
-            content: "*";
-            font-family: SimSun;
-            line-height: 1;
-            font-size: 14px;
-            color: #f5222d;
-          }
-        }
+    .rate-deviation-cell {
+      position: relative;
+      color: #ff1711;
+      span {
+        color: #999;
+        font-size: 12px;
+        margin-left: 5px;
       }
-      .title {
-        vertical-align: middle;
-      }
-      .icon-img {
-        height: 25px;
-        margin: 0 5px 0 10px;
-      }
-      .icon-name {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: inline-block;
-        max-width: 260px;
-        vertical-align: middle;
-      }
-      .currency-row {
-        margin-top: 10px;
-      }
-      .rate-row {
-        margin-top: 10px;
-        .company-rate {
-          line-height: 24px;
-          span {
-            color: #108EE9;
-            margin-right: 10px;
-            &.error {
-              color: #ff1711;
-            }
-            &.warning {
-              color: #ffcd10;
+    }
+    .ant-modal-body {
+      padding: 0;
+      .expense-type-chosen {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #f2f2f2;
+        .form-container {
+          background: #f2f2f2;
+          padding: 10px 20px;
+          border-radius: 10px;
+          .item-title {
+            text-align: right;
+            &.required:before {
+              display: inline-block;
+              margin-right: 4px;
+              content: "*";
+              font-family: SimSun;
+              line-height: 1;
+              font-size: 14px;
+              color: #f5222d;
             }
           }
         }
+        .title {
+          vertical-align: middle;
+        }
+        .icon-img {
+          height: 25px;
+          margin: 0 5px 0 10px;
+        }
+        .icon-name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          max-width: 260px;
+          vertical-align: middle;
+        }
+        .currency-row {
+          margin-top: 10px;
+        }
+        .rate-row {
+          margin-top: 10px;
+          .company-rate {
+            line-height: 24px;
+            span {
+              color: #108EE9;
+              margin-right: 10px;
+              &.error {
+                color: #ff1711;
+              }
+              &.warning {
+                color: #ffcd10;
+              }
+            }
+          }
+        }
+      }
+      .expense-type-container {
+        max-height: calc(100vh - 300px);
+        overflow: auto;
+        padding: 0;
       }
     }
-    .expense-type-container {
-      max-height: calc(100vh - 300px);
-      overflow: auto;
+    .ant-table-small>.ant-table-content>.ant-table-body>table {
       padding: 0;
     }
-  }
-  .ant-table-small>.ant-table-content>.ant-table-body>table {
-    padding: 0;
   }
 }

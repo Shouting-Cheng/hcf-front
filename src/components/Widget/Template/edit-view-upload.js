@@ -89,9 +89,10 @@ class EditViewUpload extends Component {
         previewImage: file.thumbnailUrl ? file.thumbnailUrl : file.response.thumbnailUrl,
       });
     } else {
+      console.log(localStorage.getItem('token'));
       this.a.href = `${config.baseUrl}/api/attachments/download/${
         file.attachmentOID ? file.attachmentOID : file.response.attachmentOID
-      }?access_token=${JSON.parse(localStorage.getItem('hly.token')).access_token}`;
+      }?access_token=${localStorage.getItem('token')}`;
       this.a.click();
     }
   };
@@ -121,7 +122,8 @@ class EditViewUpload extends Component {
       defaultFileList,
     } = this.props;
     const upload_headers = {
-      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('hly.token')).access_token,
+      //JSON.parse(localStorage.getItem('hly.token')).access_token
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
     const { fileList } = this.state;
     const footer = disabled ? { footer: ' ' } : {};
@@ -159,7 +161,7 @@ class EditViewUpload extends Component {
               top: '50px',
               zIndex: '1',
             }}
-            offsetTop="0"
+            offsetTop={0}
           >
             <Button disabled={disabled}>
               <Icon type="upload" />上传附件
@@ -219,8 +221,8 @@ EditViewUpload.propTypes = {
  */
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    user: state.login.user,
+    company: state.user.company,
+    user: state.user.currentUser,
   };
 }
 export default connect(

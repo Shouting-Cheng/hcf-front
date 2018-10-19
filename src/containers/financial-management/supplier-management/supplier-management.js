@@ -1,22 +1,17 @@
-import { messages } from 'share/common';
-/**
- *  created by jsq on 2017/12/18
- */
 //租户与公司模式控制
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Button, Table, Badge, notification, Popover, Popconfirm, message } from 'antd';
-import SearchArea from 'components/search-area';
+import SearchArea from 'components/Widget/search-area';
 import vendorService from 'containers/financial-management/supplier-management/vendorService';
 import config from 'config';
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'components/Widget/slide-frame';
 import NewUpdateSupplier from 'containers/financial-management/supplier-management/new-update-supplier';
 import 'styles/financial-management/supplier-management/supplier-management.scss';
-import menuRoute from 'routes/menuRoute';
-import Importer from 'components/Template/importer';
+import Importer from 'components/Widget/Template/importer';
 import moment from 'moment';
-import ListSelector from 'components/list-selector';
+import ListSelector from 'components/Widget/list-selector';
 
 class SupplierManagement extends React.Component {
   constructor(props) {
@@ -49,7 +44,8 @@ class SupplierManagement extends React.Component {
         {
           type: 'select',
           id: 'venderTypeId',
-          label: messages('supplier.management.type') /*供应商类型*/,
+          label: this.$t('supplier.management.type') /*供应商类型*/,
+          colSpan: '6',
           valueKey: 'id',
           labelKey: 'name',
           options: [],
@@ -59,23 +55,31 @@ class SupplierManagement extends React.Component {
         },
         {
           type: 'input',
+          colSpan: '6',
           id: 'venderCode',
-          label: messages('supplier.management.code') /*供应商代码*/,
+          label: this.$t('supplier.management.code') /*供应商代码*/,
         },
         {
           type: 'input',
+          colSpan: '6',
           id: 'venNickname',
-          label: messages('supplier.management.name') /*供应商名称*/,
+          label: this.$t('supplier.management.name') /*供应商名称*/,
         },
-        { type: 'input', id: 'bankAccount', label: messages('supplier.bank.account') /*银行账号*/ },
+        {
+          type: 'input',
+          colSpan: '6',
+          id: 'bankAccount',
+          label: this.$t('supplier.bank.account') /*银行账号*/,
+        },
         {
           type: 'radio',
+          colSpan: '6',
           id: 'venType',
-          label: messages('common.column.status') /*状态*/,
+          label: this.$t('common.column.status') /*状态*/,
           options: [
-            { label: messages('supplier.management.all'), value: null },
-            { label: messages('common.status.enable'), value: '1001' },
-            { label: messages('common.status.disable'), value: '1002' },
+            { label: this.$t('supplier.management.all'), value: null },
+            { label: this.$t('common.status.enable'), value: '1001' },
+            { label: this.$t('common.status.disable'), value: '1002' },
           ],
           defaultValue: null,
         },
@@ -83,45 +87,45 @@ class SupplierManagement extends React.Component {
       innerColumns: [
         {
           /*序号*/
-          title: messages('supplier.management.index'),
+          title: this.$t('supplier.management.index'),
           key: 'order',
           dataIndex: 'order',
         },
         {
           /*银行账号*/
-          title: messages('supplier.bank.account'),
+          title: this.$t('supplier.bank.account'),
           key: 'bankAccount',
           dataIndex: 'bankAccount',
         },
         {
           /*银行代码*/
-          title: messages('supplier.bank.code'),
+          title: this.$t('supplier.bank.code'),
           key: 'bankCode',
           dataIndex: 'bankCode',
         },
         {
           /*银行名称*/
-          title: messages('supplier.bank.name'),
+          title: this.$t('supplier.bank.name'),
           key: 'bankName',
           dataIndex: 'bankName',
         },
         {
           /*国家*/
-          title: messages('supplier.management.country'),
+          title: this.$t('supplier.management.country'),
           key: 'country',
           dataIndex: 'country',
           render: desc => <span>{desc ? desc : '-'}</span>,
         },
         {
           /*开户地*/
-          title: messages('supplier.bank.address'),
+          title: this.$t('supplier.bank.address'),
           key: 'bankAddress',
           dataIndex: 'bankAddress',
           render: desc => <span>{desc ? <Popover content={desc}>{desc}</Popover> : '-'}</span>,
         },
         {
           /*状态*/
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           key: 'venType',
           dataIndex: 'venType',
           width: '8%',
@@ -130,15 +134,15 @@ class SupplierManagement extends React.Component {
               status={venType === 1001 ? 'success' : 'error'}
               text={
                 venType === 1001
-                  ? messages('common.status.enable')
-                  : messages('common.status.disable')
+                  ? this.$t('common.status.enable')
+                  : this.$t('common.status.disable')
               }
             />
           ),
         },
         {
           /*最近更新时间*/
-          title: messages('supplier.bank.lastTime'),
+          title: this.$t('supplier.bank.lastTime'),
           key: 'webUpdateDate',
           dataIndex: 'webUpdateDate',
           render: value => moment(new Date(value)).format('YYYY-MM-DD'),
@@ -147,7 +151,7 @@ class SupplierManagement extends React.Component {
       columns: [
         {
           /*供应商代码*/
-          title: messages('supplier.management.code'),
+          title: this.$t('supplier.management.code'),
           key: 'venderCode',
           dataIndex: 'venderCode',
           render: desc => (
@@ -158,12 +162,12 @@ class SupplierManagement extends React.Component {
         },
         //需求7348
         // {          /*外部标识ID*/
-        //   title: messages('supplier.management.outerId'), key: "venNickOid", dataIndex: 'venNickOid',
+        //   title: this.$t('supplier.management.outerId'), key: "venNickOid", dataIndex: 'venNickOid',
         //   render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>
         // },
         {
           /*供应商名称*/
-          title: messages('supplier.management.name'),
+          title: this.$t('supplier.management.name'),
           key: 'venNickname',
           dataIndex: 'venNickname',
           width: '15%',
@@ -171,7 +175,7 @@ class SupplierManagement extends React.Component {
         },
         {
           /*供应商类型*/
-          title: messages('supplier.management.type'),
+          title: this.$t('supplier.management.type'),
           key: 'venderTypeName',
           dataIndex: 'venderTypeName',
           render: desc => (
@@ -182,7 +186,7 @@ class SupplierManagement extends React.Component {
         },
         {
           /*更新日志*/
-          title: messages('supplier.management.updateLog'),
+          title: this.$t('supplier.management.updateLog'),
           key: 'updateLog',
           dataIndex: 'updateTime',
           width: '17%',
@@ -199,7 +203,7 @@ class SupplierManagement extends React.Component {
         },
         {
           /*状态*/
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           key: 'status',
           dataIndex: 'venType',
           width: '7%',
@@ -208,37 +212,34 @@ class SupplierManagement extends React.Component {
               status={venType === 1001 ? 'success' : 'error'}
               text={
                 venType === 1001
-                  ? messages('common.status.enable')
-                  : messages('common.status.disable')
+                  ? this.$t('common.status.enable')
+                  : this.$t('common.status.disable')
               }
             />
           ),
         },
         {
-          title: messages('common.operation'),
+          title: this.$t('common.operation'),
           key: 'operation',
           width: '18%',
           render: (text, record, index) => (
             <span>
               {/*如果是 TENANT且公司模式公司模式  就不能编辑*/}
-              {!this.props.main.tenantMode && record.source === 'TENANT' ? (
-                messages('common.edit')
-              ) : (
-                <a href="#" onClick={e => this.editItem(e, record, index)}>
-                  {messages('common.edit')}
-                </a>
-              )}
+              {/* {!this.props.main.tenantMode && record.source === "TENANT" ? this.$t("common.edit") : <a href="#"
+                onClick={(e) => this.editItem(e, record, index)}>
+                {this.$t("common.edit")}
+              </a>}*/}
+              {<a onClick={e => this.editItem(e, record, index)}>{this.$t('common.edit')}</a>}
               <span className="ant-divider" />
-              <a href="#" onClick={e => this.handleLinkAccount(e, record, index)}>
-                {messages('supplier.bank.account')}
+              <a onClick={e => this.handleLinkAccount(e, record, index)}>
+                {this.$t('supplier.bank.account')}
               </a>
-
-              {this.props.main.tenantMode && <span className="ant-divider" />}
-              {this.props.main.tenantMode && (
-                <a href="#" onClick={e => this.handleLinkCompany(e, record, index)}>
-                  {messages('supplier.management.deliveryCompany')}
+              {<span className="ant-divider" />}
+              {
+                <a onClick={e => this.handleLinkCompany(e, record, index)}>
+                  {this.$t('supplier.management.deliveryCompany')}
                 </a>
-              )}
+              }
             </span>
           ),
         },
@@ -276,27 +277,37 @@ class SupplierManagement extends React.Component {
   }
 
   handleLinkAccount = (e, record, index) => {
-    this.setBeforePage(this.state.pagination);
-    let pathComp = menuRoute.getMenuItemByAttr('supplier-bank-account', 'key');
+    //this.setBeforePage(this.state.pagination);
+    //let pathComp = menuRoute.getMenuItemByAttr('supplier-bank-account', 'key');
     //source是判定此供应商属于公司还是租户，
     //公司模式下，租户级供应商不能编辑
-    let path = pathComp.children.supplierBankAccount.url
-      .replace(':id', record.id)
-      .replace(':source', record.source);
-    this.context.router.push(path);
+    //let path = pathComp.children.supplierBankAccount.url.replace(':id', ecord.id).replace(":source", record.source);
+    //this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/financial-management/supplier-maintain/supplier-bank-account/${record.id}/${
+          record.source
+        }`,
+      })
+    );
   };
 
   handleLinkCompany = (e, record, index) => {
     this.setBeforePage(this.state.pagination);
-    let pathComp = menuRoute.getMenuItemByAttr('supplier-bank-account', 'key');
-    let path = pathComp.children.supplierCompanyDelivery.url.replace(':id', record.id);
-    let _path = {
+    //let pathComp = menuRoute.getMenuItemByAttr('supplier-bank-account', 'key');
+    //let path = pathComp.children.supplierCompanyDelivery.url.replace(':id', record.id);
+    /*let _path = {
       pathname: path,
       // query: "query",
       // state: "state",
       // search: "search"
-    };
-    this.context.router.push(_path);
+    }*/
+    //this.context.router.push(_path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/financial-management/supplier-maintain/delivery-company/${record.id}`,
+      })
+    );
   };
 
   handleSearch = params => {
@@ -433,7 +444,7 @@ class SupplierManagement extends React.Component {
   //新建侧滑
   handleCreate = () => {
     let slideFrame = {
-      title: messages('supplier.management.newSupplier'),
+      title: this.$t('supplier.management.newSupplier'),
       visible: true,
       params: { flag: 'create' },
     };
@@ -451,7 +462,7 @@ class SupplierManagement extends React.Component {
     }
 
     let slideFrame = {
-      title: messages('supplier.management.updateSupplier'),
+      title: this.$t('supplier.management.updateSupplier'),
       visible: true,
       params: record,
     };
@@ -468,6 +479,8 @@ class SupplierManagement extends React.Component {
     };
     this.setState({
       slideFrame,
+    },()=>{
+      this.getList();
     });
   };
 
@@ -510,7 +523,7 @@ class SupplierManagement extends React.Component {
       vendorService
         .batchDeliveryCompany(params)
         .then(response => {
-          message.success(`${messages('common.operate.success')}`);
+          message.success(`${this.$t('common.operate.success')}`);
           this.setState(
             {
               loading: false,
@@ -523,7 +536,7 @@ class SupplierManagement extends React.Component {
         })
         .catch(e => {
           if (e.response) {
-            message.error(`${messages('common.operate.filed')},${e.response.data.message}`);
+            message.error(`${this.$t('common.operate.filed')},${e.response.data.message}`);
           }
         });
     }
@@ -540,44 +553,33 @@ class SupplierManagement extends React.Component {
   //非租户模式只显示新增按钮
   renderNewByTenant = () => {
     const { batchCompany, showImportFrame } = this.state;
-    let tenantMode = this.props.main.tenantMode;
-    if (tenantMode) {
-      return (
-        <div className="table-header-buttons">
-          <Button type="primary" onClick={this.handleCreate}>
-            {/*新 建*/}
-            {messages('common.create')}
-          </Button>
-          {/*<Button type="primary" onClick={() => this.showImport(true)}>*/}
-          {/*/!*导入*!/*/}
-          {/*{messages('importer.import')}*/}
-          {/*</Button>*/}
-          <Importer
-            visible={showImportFrame}
-            title={messages('supplier.management.upload')}
-            templateUrl={`${config.budgetUrl}/api/budget/items/export/template`}
-            uploadUrl={`${config.budgetUrl}/api/budget/items/import`}
-            errorUrl={`${config.budgetUrl}/api/budget/items/export/failed/data`}
-            fileName={messages('item.itemUploadFile')}
-            onOk={this.handleImportOk}
-            afterClose={() => this.showImport(false)}
-          />
-          <Button onClick={() => this.showListSelector(true)} disabled={batchCompany}>
-            {messages('supplier.management.deliveryCompany')}
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="table-header-buttons">
-          <Button type="primary" onClick={this.handleCreate}>
-            {/*新 建*/}
-            {messages('common.create')}
-          </Button>
-        </div>
-      );
-    }
+    return (
+      <div className="table-header-buttons">
+        <Button type="primary" onClick={this.handleCreate}>
+          {/*新 建*/}
+          {this.$t('common.create')}
+        </Button>
+        {/*<Button type="primary" onClick={() => this.showImport(true)}>*/}
+        {/*/!*导入*!/*/}
+        {/*{this.$t('importer.import')}*/}
+        {/*</Button>*/}
+        <Importer
+          visible={showImportFrame}
+          title={this.$t('supplier.management.upload')}
+          templateUrl={`${config.budgetUrl}/api/budget/items/export/template`}
+          uploadUrl={`${config.budgetUrl}/api/budget/items/import`}
+          errorUrl={`${config.budgetUrl}/api/budget/items/export/failed/data`}
+          fileName={this.$t('item.itemUploadFile')}
+          onOk={this.handleImportOk}
+          afterClose={() => this.showImport(false)}
+        />
+        <Button onClick={() => this.showListSelector(true)} disabled={batchCompany}>
+          {this.$t('supplier.management.deliveryCompany')}
+        </Button>
+      </div>
+    );
   };
+
   render() {
     const {
       loading,
@@ -597,11 +599,11 @@ class SupplierManagement extends React.Component {
     };
     return (
       <div className="supplier-management">
-        <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
+        <SearchArea searchForm={searchForm} maxLength={4} submitHandle={this.handleSearch} />
         <div className="table-header">
           <div className="table-header-title">
-            {messages('supplier.management.total', { total: `${pagination.total}` })}
-          </div>{' '}
+            {this.$t('supplier.management.total', { total: `${pagination.total}` })}
+          </div>
           {/*共搜索到*个供应商，*个已停用*/}
           {this.renderNewByTenant()}
         </div>
@@ -613,6 +615,7 @@ class SupplierManagement extends React.Component {
           rowSelection={rowSelection}
           columns={columns}
           expandedRowRender={this.renderInnerTable}
+          rowKey={record => record.id}
           pagination={pagination}
           onChange={this.onChangePager}
           size="middle"
@@ -621,11 +624,10 @@ class SupplierManagement extends React.Component {
         <SlideFrame
           title={slideFrame.title}
           show={slideFrame.visible}
-          content={NewUpdateSupplier}
-          onClose={this.handleOnClose}
-          afterClose={this.handleAfterClose}
-          params={slideFrame.params}
-        />
+          onClose={this.handleAfterClose}
+        >
+          <NewUpdateSupplier onClose={this.handleOnClose} params={slideFrame.params} />
+        </SlideFrame>
         <ListSelector
           type="vendor_company"
           visible={companyListSelector}
@@ -638,15 +640,10 @@ class SupplierManagement extends React.Component {
   }
 }
 
-SupplierManagement.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    main: state.main,
-    user: state.login.user,
+    company: state.user.company,
+    user: state.user.currentUser,
   };
 }
 

@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import config from 'config';
+import PropTypes from 'prop-types';
 import httpFetch from 'share/httpFetch';
-import menuRoute from 'routes/menuRoute';
 import {
   Form,
   Icon,
@@ -22,13 +22,13 @@ import {
   Popconfirm,
 } from 'antd';
 const TabPane = Tabs.TabPane;
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'widget/slide-frame';
 import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
-import DocumentBasicInfo from 'components/Template/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import moment from 'moment';
 class PrePaymentCommon extends React.Component {
   constructor(props) {
@@ -684,21 +684,18 @@ class PrePaymentCommon extends React.Component {
   }
 }
 PrePaymentCommon.propTypes = {
-  id: React.PropTypes.any.isRequired, //显示数据
-  flag: React.PropTypes.bool, //是否显示审批历史
+  id: PropTypes.any.isRequired, //显示数据
+  flag: PropTypes.bool, //是否显示审批历史
 };
 PrePaymentCommon.defaultProps = {
   flag: true,
 };
-PrePaymentCommon.contextTypes = {
-  router: React.PropTypes.object,
-};
+
 const wrappedPrePaymentCommon = Form.create()(PrePaymentCommon);
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
-    organization: state.login.organization,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 export default connect(

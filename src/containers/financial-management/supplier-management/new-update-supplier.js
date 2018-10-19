@@ -1,10 +1,6 @@
-import { messages } from 'share/common';
-/**
- *  created by jsq on 2017/12/18
- */
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import {
   Button,
   Table,
@@ -22,10 +18,9 @@ import {
 import vendorService from 'containers/financial-management/supplier-management/vendorService';
 import baseService from 'share/base.service';
 import config from 'config';
-import menuRoute from 'routes/menuRoute';
-import Importer from 'components/Template/importer';
+import Importer from 'components/Widget/Template/importer';
 import 'styles/financial-management/supplier-management/new-update-supplier.scss';
-import Chooser from '../../../components/chooser';
+import Chooser from 'components/Widget/chooser';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -48,7 +43,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'chooser',
           flag: 'basic',
           isRequired: true,
-          label: messages('supplier.management.type'),
+          label: this.$t('supplier.management.type'),
           key: 'venTypes', //供应商类型
           valueKey: 'id',
           labelKey: 'name',
@@ -60,29 +55,29 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'basic',
           isRequired: true,
-          label: messages('supplier.management.code'),
+          label: this.$t('supplier.management.code'),
           key: 'venderCode',
         }, //供应商代码
         {
           type: 'input',
           flag: 'basic',
           isRequired: true,
-          label: messages('supplier.management.name'),
+          label: this.$t('supplier.management.name'),
           key: 'venNickname',
         }, //供应商名称
         {
           type: 'date',
           flag: 'basic',
           isRequired: false,
-          label: messages('supplier.management.commissionDate'),
+          label: this.$t('supplier.management.commissionDate'),
           key: 'effectiveDate',
         }, //启用日期
-        // { type: 'input', flag: 'basic', isRequired: false, label: messages('supplier.management.outerId'), key: 'venNickOid' }, //外部标识id
+        // { type: 'input', flag: 'basic', isRequired: false, label: this.$t('supplier.management.outerId'), key: 'venNickOid' }, //外部标识id
         {
           type: 'switch',
           flag: 'basic',
           isRequired: false,
-          label: messages('common.column.status'),
+          label: this.$t('common.column.status'),
           key: 'venType', //状态
         },
       ],
@@ -91,7 +86,7 @@ class NewUpdateSupplier extends React.Component {
         //   type: 'select',
         //   flag: 'other',
         //   isRequired: false,
-        //   label: messages("supplier.management.industryCategories"),
+        //   label: this.$t("supplier.management.industryCategories"),
         //   key: 'industryName',//行业类别
         //   options: [],
         //   labelKey: 'messageKey',
@@ -102,7 +97,7 @@ class NewUpdateSupplier extends React.Component {
         //   type: 'select',
         //   flag: 'other',
         //   isRequired: false,
-        //   label: messages("supplier.management.rateLevel"),
+        //   label: this.$t("supplier.management.rateLevel"),
         //   key: 'venderLevelName',
         //   options: [],
         //   labelKey: 'messageKey',
@@ -113,7 +108,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.legalRepresentative'),
+          label: this.$t('supplier.management.legalRepresentative'),
           key: 'artificialPerson',
         },
         //税务登记号
@@ -121,7 +116,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.taxNumber'),
+          label: this.$t('supplier.management.taxNumber'),
           key: 'taxIdNumber',
         },
         //联系人
@@ -129,7 +124,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.person'),
+          label: this.$t('supplier.management.person'),
           key: 'contact',
         },
         //联系人电话
@@ -137,7 +132,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.personPhone'),
+          label: this.$t('supplier.management.personPhone'),
           key: 'contactPhone',
         },
         //邮箱
@@ -145,7 +140,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.main'),
+          label: this.$t('supplier.management.main'),
           key: 'contactMail',
         },
         //传真
@@ -153,7 +148,7 @@ class NewUpdateSupplier extends React.Component {
           type: 'input',
           flag: 'other',
           isRequired: false,
-          label: messages('supplier.management.facsimile'),
+          label: this.$t('supplier.management.facsimile'),
           key: 'fax',
         },
         //国家
@@ -161,7 +156,7 @@ class NewUpdateSupplier extends React.Component {
         //   type: 'select',
         //   flag: 'other',
         //   isRequired: false,
-        //   label: messages("supplier.management.country"),
+        //   label: this.$t("supplier.management.country"),
         //   key: 'country',
         //   options: [],
         //   labelKey: 'country',
@@ -172,14 +167,14 @@ class NewUpdateSupplier extends React.Component {
         {
           type: 'textArea',
           isRequired: false,
-          label: messages('supplier.management.address'),
+          label: this.$t('supplier.management.address'),
           key: 'address',
         },
         //备注
         {
           type: 'textArea',
           isRequired: false,
-          label: messages('supplier.management.remark'),
+          label: this.$t('supplier.management.remark'),
           key: 'notes',
         },
       ],
@@ -197,14 +192,6 @@ class NewUpdateSupplier extends React.Component {
 
   componentDidMount() {
     let param = Object.assign({}, this.props.params);
-    if (JSON.stringify(param) === '{}') {
-      this.setState({
-        firstRender: true,
-        loading: false,
-        isEdit: false,
-        enabled: param.venType === 1001 ? true : false,
-      });
-    } else {
       //编辑
       let basicInfo = this.state.basicInfo;
       basicInfo[0].disabled = true;
@@ -218,14 +205,12 @@ class NewUpdateSupplier extends React.Component {
           },
         ],
       });
-
       this.setState({
         vendorInfo: param,
         basicInfo,
         isEdit: true,
         enabled: param.venType === 1001 ? true : false,
       });
-    }
 
     // //获取国家
     // let params = { language: this.props.language.code === 'zh_cn' ? "zh_cn" : "en_us", page: 0, size: 9999 };
@@ -253,25 +238,25 @@ class NewUpdateSupplier extends React.Component {
     // });
   }
 
-  componentWillReceiveProps(nextProps) {
+  /*componentWillReceiveProps(nextProps) {
     let params = nextProps.params;
     if (JSON.stringify(params) !== '{}') {
       if (typeof params.id === 'undefined') {
         if (this.state.firstRender) {
           this.setState({
             firstRender: false,
-            enabled: true,
-          });
+            enabled: true
+          })
         }
       }
     } else {
       this.props.form.resetFields();
       this.setState({
         firstRender: true,
-        enabled: true,
-      });
+        enabled: true
+      })
     }
-  }
+  }*/
 
   handleChange = key => {
     /* switch (key){
@@ -328,7 +313,7 @@ class NewUpdateSupplier extends React.Component {
       case 'input': {
         return (
           <Input
-            placeholder={messages('common.please.enter')}
+            placeholder={this.$t('common.please.enter')}
             onChange={this.handleChange(item.key)}
             disabled={item.disabled}
           />
@@ -338,7 +323,7 @@ class NewUpdateSupplier extends React.Component {
       case 'select': {
         return (
           <Select
-            placeholder={messages('common.please.select')}
+            placeholder={this.$t('common.please.select')}
             onChange={this.handleChange(item.key)}
             allowClear
             showSearch
@@ -349,7 +334,11 @@ class NewUpdateSupplier extends React.Component {
             }
           >
             {item.options.map(option => {
-              return <Option key={option.key}>{option.label}</Option>;
+              return (
+                <Option key={option.key} value={option.key}>
+                  {option.label}
+                </Option>
+              );
             })}
           </Select>
         );
@@ -367,7 +356,7 @@ class NewUpdateSupplier extends React.Component {
               disabled={item.disabled}
             />
             <span className="enabled-type" style={{ marginLeft: 20, width: 100 }}>
-              {this.state.enabled ? messages('common.status.enable') : messages('common.disabled')}
+              {this.state.enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
             </span>
           </div>
         );
@@ -377,12 +366,12 @@ class NewUpdateSupplier extends React.Component {
         return <DatePicker format="YYYY-MM-DD" disabled={item.disabled} />;
       }
       case 'textArea': {
-        return <TextArea disabled={item.disabled} placeholder={messages('common.please.enter')} />;
+        return <TextArea disabled={item.disabled} placeholder={this.$t('common.please.enter')} />;
       }
       case 'chooser': {
         return (
           <Chooser
-            placeholder={messages('common.please.select')}
+            placeholder={this.$t('common.please.select')}
             type={item.listType}
             valueKey={item.valueKey}
             labelKey={item.labelKey}
@@ -408,7 +397,7 @@ class NewUpdateSupplier extends React.Component {
       let rules = [
         {
           required: item.isRequired,
-          message: messages('common.can.not.be.empty', { name: item.label }), //name 不可为空
+          message: this.$t('common.can.not.be.empty', { name: item.label }), //name 不可为空
         },
       ];
       if (item.key == 'address' || item.key == 'notes') {
@@ -461,10 +450,7 @@ class NewUpdateSupplier extends React.Component {
         values.venOperatorNumber = this.props.user.employeeID;
         values.venOperatorName = this.props.user.fullName;
         let method = null;
-        let source = 'COMPANY';
-        if (this.props.main.tenantMode) {
-          source = 'TENANT';
-        }
+        let source = 'TENANT';
         values.source = source;
         if (this.state.isEdit) {
           let vendorInfo = this.state.vendorInfo;
@@ -496,26 +482,26 @@ class NewUpdateSupplier extends React.Component {
             if (response.data.msg === '成功' || response.data.code === '0000') {
               this.props.form.resetFields();
               this.setState({ loading: false });
-              this.props.close(true);
+              this.props.onClose(true);
               if (!this.state.isEdit) {
-                message.success(`${messages('common.save.success', { name: '' })}`);
+                message.success(`${this.$t('common.save.success', { name: '' })}`);
               } else {
-                message.success(`${messages('common.operate.success')}`);
+                message.success(`${this.$t('common.operate.success')}`);
               }
             } else {
               this.setState({ loading: false });
               if (!this.state.isEdit) {
-                message.error(`${messages('common.save.filed')}, ${response.data.msg}`);
+                message.error(`${this.$t('common.save.filed')}, ${response.data.msg}`);
               } else {
-                message.error(`${messages('common.operate.filed')}, ${response.data.msg}`);
+                message.error(`${this.$t('common.operate.filed')}, ${response.data.msg}`);
               }
             }
           })
           .catch(e => {
             if (!this.state.isEdit) {
-              message.error(`${messages('common.save.filed')}, ${e.response.data.message}`);
+              message.error(`${this.$t('common.save.filed')}, ${e.response.data.message}`);
             } else {
-              message.error(`${messages('common.operate.filed')}, ${e.response.data.message}`);
+              message.error(`${this.$t('common.operate.filed')}, ${e.response.data.message}`);
             }
             this.setState({ loading: false });
           });
@@ -524,7 +510,7 @@ class NewUpdateSupplier extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.close(false);
+    this.props.onClose(false);
   };
 
   render() {
@@ -535,19 +521,19 @@ class NewUpdateSupplier extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <div className="new-update-supplier-basic">
             <div className="basic-icon" />
-            <div className="basic-title">{messages('supplier.management.basicInfo')}</div>
+            <div className="basic-title">{this.$t('supplier.management.basicInfo')}</div>
             <div className="basic-content">{this.getFields(basicInfo)}</div>
           </div>
           <div className="new-update-supplier-other">
             <div className="other-icon" />
-            <div className="other-title">{messages('supplier.management.otherInfo')}</div>
+            <div className="other-title">{this.$t('supplier.management.otherInfo')}</div>
             <div className="other-content">{this.getFields(otherInfo)}</div>
           </div>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              {messages('common.save')}
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.handleCancel}>{messages('common.cancel')}</Button>
+            <Button onClick={this.handleCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
       </div>
@@ -555,15 +541,10 @@ class NewUpdateSupplier extends React.Component {
   }
 }
 
-NewUpdateSupplier.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    main: state.main,
-    language: state.main.language,
-    user: state.login.user,
+    language: state.languages.languages,
+    user: state.user.currentUser,
   };
 }
 const WrappedNewUpdateSupplier = Form.create()(NewUpdateSupplier);

@@ -1,11 +1,9 @@
-import { messages } from 'share/common';
 import React from 'react';
 import { Form, Card, Row, Col, Badge, Icon } from 'antd';
-
-import SearchArea from 'components/search-area';
+import SearchArea from 'components/Widget/search-area';
 import moment from 'moment';
 import 'styles/components/basic-info.scss';
-
+import PropTypes from 'prop-types';
 /**
  * 基本信息组件
  * @params infoList   渲染表单所需要的配置项，详见search-area组件的 searchForm 表单列表
@@ -75,8 +73,8 @@ class BasicInfo extends React.Component {
           status={this.state.infoData[item.id] ? 'success' : 'error'}
           text={
             this.state.infoData[item.id]
-              ? messages('common.status.enable') /*启用*/
-              : messages('common.status.disable') /*禁用*/
+              ? this.$t('common.status.enable') /*启用*/
+              : this.$t('common.status.disable') /*禁用*/
           }
         />
       );
@@ -105,7 +103,7 @@ class BasicInfo extends React.Component {
       } else {
         returnRender = (
           <div style={{ wordWrap: 'break-word' }}>
-            {messages('common.total.selected', {
+            {this.$t('common.total.selected', {
               total: item.defaultValue.length,
             }) /* 已选 {total} 条 */}
           </div>
@@ -206,7 +204,7 @@ class BasicInfo extends React.Component {
     let domRender;
     if (cardShow) {
       domRender = (
-        <Card title={messages('common.baseInfo') /* 基本信息 */}>
+        <Card title={this.$t('common.baseInfo') /* 基本信息 */}>
           <Row>{this.getInfo()}</Row>
         </Card>
       );
@@ -218,8 +216,8 @@ class BasicInfo extends React.Component {
           clearHandle={this.handelCancel}
           eventHandle={this.handelEvent}
           wrappedComponentRef={inst => (this.formRef = inst)}
-          okText={messages('common.save') /* 保存 */}
-          clearText={messages('common.cancel') /* 取消 */}
+          okText={this.$t('common.save') /* 保存 */}
+          clearText={this.$t('common.cancel') /* 取消 */}
           loading={loading}
         />
       );
@@ -229,12 +227,12 @@ class BasicInfo extends React.Component {
 }
 
 BasicInfo.propTypes = {
-  infoList: React.PropTypes.array.isRequired, //传入的基础信息列表
-  infoData: React.PropTypes.object.isRequired, //传入的基础信息值
-  updateHandle: React.PropTypes.func.isRequired, //更新表单事件
-  updateState: React.PropTypes.bool.isRequired, //更新状态（true／false）
-  loading: React.PropTypes.bool, //保存按钮状态（true／false）
-  eventHandle: React.PropTypes.func, //表单的onChang事件
+  infoList: PropTypes.array.isRequired, //传入的基础信息列表
+  infoData: PropTypes.object.isRequired, //传入的基础信息值
+  updateHandle: PropTypes.func.isRequired, //更新表单事件
+  updateState: PropTypes.bool.isRequired, //更新状态（true／false）
+  loading: PropTypes.bool, //保存按钮状态（true／false）
+  eventHandle: PropTypes.func, //表单的onChang事件
 };
 
 BasicInfo.defaultProps = {

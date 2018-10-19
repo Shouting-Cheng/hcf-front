@@ -5,12 +5,14 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import 'styles/components/Template/language-input/language-input.scss';
+import 'styles/components/template/language-input/language-input.scss';
 import languageGrey from 'images/components/language-grey.png';
 import language from 'images/components/language.png';
 import { Modal, Button, message } from 'antd';
 //import {deepCopy, messages} from 'share/common';
-import LIService from 'components/Template/language-input/language-input.service';
+import LIService from './language-input.service';
+
+import PropTypes from 'prop-types';
 //这个从后端获取，后端返回空，就给这个默认
 const LANGLIST = [
   {
@@ -517,18 +519,18 @@ class LanguageInput extends React.Component {
 }
 
 LanguageInput.propTypes = {
-  disabled: React.PropTypes.bool, //是否禁用,true代表禁用
-  width: React.PropTypes.any, //输入框宽度
-  name: React.PropTypes.string, //直接绑定多语言实属性
-  i18nName: React.PropTypes.array, //绑定的i18n对象，如果没有会初始化
-  nameChange: React.PropTypes.func, //监控输入绑定的字段
-  isEdit: React.PropTypes.any, //是否是编辑，有值就是编辑：可以传id；undefined，null 空字符串等都默认为false，将会创建；
-  value: React.PropTypes.string, //默认显示值
-  mainLanguageIsRequired: React.PropTypes.bool, //主语言是否必填,默认必填
-  inpRule: React.PropTypes.array, //中英文输入规则
-  textArea: React.PropTypes.bool, //是否显示文本域
-  textAreaFormat: React.PropTypes.string, //是否存换行符，默认不存soft或者hard
-  origin: React.PropTypes.any, //源数据
+  disabled: PropTypes.bool, //是否禁用,true代表禁用
+  width: PropTypes.any, //输入框宽度
+  name: PropTypes.string, //直接绑定多语言实属性
+  i18nName: PropTypes.array, //绑定的i18n对象，如果没有会初始化
+  nameChange: PropTypes.func, //监控输入绑定的字段
+  isEdit: PropTypes.any, //是否是编辑，有值就是编辑：可以传id；undefined，null 空字符串等都默认为false，将会创建；
+  value: PropTypes.string, //默认显示值
+  mainLanguageIsRequired: PropTypes.bool, //主语言是否必填,默认必填
+  inpRule: PropTypes.array, //中英文输入规则
+  textArea: PropTypes.bool, //是否显示文本域
+  textAreaFormat: PropTypes.string, //是否存换行符，默认不存soft或者hard
+  origin: PropTypes.any, //源数据
 };
 
 LanguageInput.defaultProps = {

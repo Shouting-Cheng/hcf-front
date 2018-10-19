@@ -9,11 +9,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Modal, Input, Icon, Button } from 'antd';
-import DepTreeWithPerson from 'components/Template/select-depment-or-person/dep-tree-with-person';
-import SelectPersonService from 'components/Template/select-depment-or-person/select-depment-or-person.service';
-import OrgSearchList from 'components/Template/select-depment-or-person/org-search-list';
+import DepTreeWithPerson from 'widget/Template/select-depment-or-person/dep-tree-with-person';
+import SelectPersonService from './select-depment-or-person.service';
+import OrgSearchList from 'widget/Template/select-depment-or-person/org-search-list';
 
-import 'styles/components/Template/select-depment-or-person/select-depment-or-person.scss';
+import 'styles/components/template/select-depment-or-person/select-depment-or-person.scss';
 import PropTypes from 'prop-types';
 
 const treeData = [];
@@ -46,7 +46,7 @@ class SelectDepOrPerson extends React.Component {
     // this.getTenantAllDep();
   }
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) { }
 
   showModal = () => {
     SelectPersonService.setIsLoadingPerson(!this.props.onlyDep);
@@ -253,7 +253,7 @@ class SelectDepOrPerson extends React.Component {
       {
         selectedKeysDepDataFromSearch: newList,
       },
-      () => {}
+      () => { }
     );
   }
 
@@ -286,7 +286,7 @@ class SelectDepOrPerson extends React.Component {
           selectedKeys: personSelected.keys,
           selectedKeysDepData: personSelected.nodes,
         },
-        () => {}
+        () => { }
       );
     } else {
       //部门与人都可以选择
@@ -316,7 +316,7 @@ class SelectDepOrPerson extends React.Component {
         selectedKeys: removedSelectedKeys,
         selectedKeysDepData: removedSelectedKeysDepData,
       },
-      () => {}
+      () => { }
     );
   };
   // 点击展开的时候
@@ -550,7 +550,7 @@ class SelectDepOrPerson extends React.Component {
         <div className="no-person">
           <Icon type="left" />
           {/*请在左边选择*/
-          this.$t('sdp.please-chose-left')}
+            this.$t('sdp.please-chose-left')}
         </div>
       );
     }
@@ -603,7 +603,7 @@ class SelectDepOrPerson extends React.Component {
           disabled={this.props.buttonDisabled}
           type={this.props.buttonType}
         >
-          {this.props.title}
+          {this.$t(this.props.title)}
         </Button>
       );
     } else {
@@ -620,7 +620,7 @@ class SelectDepOrPerson extends React.Component {
       return (
         <div className="selected-person-title">
           {/*已经选择的部门*/
-          this.$t('sdp.chosed-dep')}
+            this.$t('sdp.chosed-dep')}
         </div>
       );
     }
@@ -628,14 +628,14 @@ class SelectDepOrPerson extends React.Component {
       return (
         <div className="selected-person-title">
           {/*已经选择的人*/
-          this.$t('sdp.chosed-person')}
+            this.$t('sdp.chosed-person')}
         </div>
       );
     }
     return (
       <div className="selected-person-title">
         {/*已经选择的人或部门*/
-        this.$t('sdp.chosed-dep-person')}
+          this.$t('sdp.chosed-dep-person')}
       </div>
     );
   };
@@ -709,7 +709,7 @@ SelectDepOrPerson.propTypes = {
 };
 
 SelectDepOrPerson.defaultProps = {
-  title: this.$t('sdp.chose-dep-person'),
+  title: 'sdp.chose-dep-person',
   multiple: true,
   onlyDep: false,
   onlyPerson: false,

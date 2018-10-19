@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 import EFService from 'containers/enterprise-manage/extend-field/extend-field.service';
 import 'styles/enterprise-manage/extend-field/extend-field.scss';
-import ExtendFieldComponent from 'components/Template/extend-field-setting/extend-field';
+import ExtendFieldComponent from 'components/template/extend-field-setting/extend-field';
 
 import BaseService from 'share/base.service';
 import { message } from 'antd';

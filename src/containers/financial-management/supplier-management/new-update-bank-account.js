@@ -1,10 +1,6 @@
-import { formatMessage, messages } from 'share/common';
-/**
- *  created by jsq on 2017/12/18
- */
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import {
   Button,
   Table,
@@ -21,9 +17,8 @@ import {
   notification,
 } from 'antd';
 import vendorService from 'containers/financial-management/supplier-management/vendorService';
-import menuRoute from 'routes/menuRoute';
 import 'styles/financial-management/supplier-management/new-update-bank-account.scss';
-import Chooser from 'components/chooser';
+import Chooser from 'components/Widget/chooser';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -47,22 +42,19 @@ class NewUpdateBankAccount extends React.Component {
 
   componentWillMount() {
     let params = this.props.params;
-    if (JSON.stringify(params) !== '{}') {
+    if (JSON.stringify(params) != '{}') {
       //编辑
-      this.props.form.setFieldsValue({ venBankAccountBeans: params.bankName });
-      params.bankDefaultName = [{ bankCode: params.bankCode, bankBranchName: params.bankName }];
+      this.props.form.setFieldsValue({venBankAccountBeans: params.bankName});
+      params.bankDefaultName = [{bankCode: params.bankCode, bankBranchName: params.bankName}];
       this.setState({
         bankInfo: params,
         enabled: params.venType === 1001 ? true : false,
         isMainAccount: params.primaryFlag,
       });
-    } else {
-      notification.close('section');
-      this.setState({ loading: false });
-      this.props.form.resetFields();
     }
   }
 
+  /*
   componentWillReceiveProps(nextProps) {
     let params = nextProps.params;
     if (JSON.stringify(params) === '{}') {
@@ -70,10 +62,11 @@ class NewUpdateBankAccount extends React.Component {
       notification.close('section');
       this.setState({
         enabled: true,
-        isMainAccount: true,
-      });
+        isMainAccount: true
+      })
     }
   }
+*/
 
   statusChange = () => {
     this.setState(prevState => ({
@@ -102,7 +95,7 @@ class NewUpdateBankAccount extends React.Component {
         if (response.data.code === '0000') {
           this.props.form.resetFields();
           this.setState({ loading: false });
-          this.props.close(true);
+          this.props.onClose(true);
         } else {
           message.warning(`保存失败,${respone.data.msg}`);
           this.setState({ loading: false });
@@ -113,13 +106,13 @@ class NewUpdateBankAccount extends React.Component {
         if (e.response) {
           if (typeof this.state.bankInfo.id === 'undefined')
             message.error(
-              `${messages('common.save.filed')}, ${
+              `${this.$t('common.save.filed')}, ${
                 !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
               }`
             );
           else
             message.error(
-              `${messages('common.operate.filed')}, ${
+              `${this.$t('common.operate.filed')}, ${
                 !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
               }`
             );
@@ -157,19 +150,19 @@ class NewUpdateBankAccount extends React.Component {
               notification.open({
                 message: (
                   <span>
-                    {messages('supplier.vendor')}
+                    {this.$t('supplier.vendor')}
                     <span style={{ color: '#2292dd' }}>{response.data.venInfoName}</span>
-                    {messages('vendor.notification.left')}
+                    {this.$t('vendor.notification.left')}
                     <span style={{ color: '#2292dd' }}>{response.data.mesBankName}</span>
-                    {messages('vendor.notification.bank')}
+                    {this.$t('vendor.notification.bank')}
                     <span style={{ color: '#2292dd' }}>{response.data.mesVenBankNumberName}</span>
                   </span>
                 ),
                 description: (
                   <span>
-                    {messages('vendor.notification.right')}
+                    {this.$t('vendor.notification.right')}
                     <span style={{ color: '#2292dd' }}>{response.data.mesVenBankNumberName}</span>
-                    {messages('vendor.notification.right.tips')}
+                    {this.$t('vendor.notification.right.tips')}
                   </span>
                 ),
                 icon: <Icon type="exclamation-circle" style={{ color: '#faad14' }} />,
@@ -184,7 +177,7 @@ class NewUpdateBankAccount extends React.Component {
                         notification.close('section');
                       }}
                     >
-                      {messages('common.cancel')}
+                      {this.$t('common.cancel')}
                     </Button>
                     <Button
                       type="primary"
@@ -192,7 +185,7 @@ class NewUpdateBankAccount extends React.Component {
                       size="small"
                       onClick={() => this.handleNotification(response.data)}
                     >
-                      {messages('section.continue')}
+                      {this.$t('section.continue')}
                     </Button>
                   </div>
                 ),
@@ -200,9 +193,9 @@ class NewUpdateBankAccount extends React.Component {
             } else {
               if (response.data.code === '0000') {
                 if (typeof this.state.bankInfo.id === 'undefined') {
-                  message.success(messages('structure.saveSuccess')); /*保存成功！*/
+                  message.success(this.$t('structure.saveSuccess')); /*保存成功！*/
                 } else {
-                  message.success(`${messages('common.operate.success')}`);
+                  message.success(`${this.$t('common.operate.success')}`);
                 }
                 this.props.form.resetFields();
                 this.setState({
@@ -210,9 +203,9 @@ class NewUpdateBankAccount extends React.Component {
                   enabled: true,
                   isMainAccount: true,
                 });
-                this.props.close(true);
+                this.props.onClose(true);
               } else {
-                message.warning(`${messages(`common.save.filed`)},${response.data.msg}`);
+                message.warning(`${this.$t(`common.save.filed`)},${response.data.msg}`);
                 this.setState({ loading: false });
                 return;
               }
@@ -222,13 +215,13 @@ class NewUpdateBankAccount extends React.Component {
             if (e.response) {
               if (typeof this.state.bankInfo.id === 'undefined')
                 message.error(
-                  `${messages('common.save.filed')}, ${
+                  `${this.$t('common.save.filed')}, ${
                     !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
                   }`
                 );
               else
                 message.error(
-                  `${messages('common.operate.filed')}, ${
+                  `${this.$t('common.operate.filed')}, ${
                     !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
                   }`
                 );
@@ -253,8 +246,7 @@ class NewUpdateBankAccount extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close(false);
-    this.props.form.resetFields();
+    this.props.onClose(false);
     notification.close('section');
     this.setState({ loading: false });
   };
@@ -286,10 +278,10 @@ class NewUpdateBankAccount extends React.Component {
     return (
       <div className="new-update-bank-account">
         <Form onSubmit={this.handleSubmit}>
-          <div className="basic-title">{messages('supplier.management.basicInfo')}</div>
+          <div className="basic-title">{this.$t('supplier.management.basicInfo')}</div>
           <Row gutter={24} className="new-update-bank-account-formItem1">
             <Col offset={4} span={7}>
-              <FormItem {...formItemLayout} label={messages('common.column.status')} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
                 {getFieldDecorator('enabled', {
                   valuePropName: 'checked',
                   initialValue: enabled,
@@ -302,14 +294,14 @@ class NewUpdateBankAccount extends React.Component {
                       onChange={this.statusChange}
                     />
                     <span className="enabled-type" style={{ marginLeft: 20, width: 100 }}>
-                      {enabled ? messages('common.status.enable') : messages('common.disabled')}
+                      {enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                     </span>
                   </div>
                 )}
               </FormItem>
             </Col>
             <Col span={8} offset={1}>
-              <FormItem {...formItemLayout} label={messages('supplier.main.account')} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t('supplier.main.account')} colon={true}>
                 {getFieldDecorator('primaryFlag', {
                   valuePropName: 'checked',
                   initialValue: isMainAccount,
@@ -322,7 +314,7 @@ class NewUpdateBankAccount extends React.Component {
                       onChange={this.mainAccountChange}
                     />
                     <span className="enabled-type" style={{ marginLeft: 20, width: 100 }}>
-                      {isMainAccount ? messages('supplier.bank.yes') : messages('supplier.bank.no')}
+                      {isMainAccount ? this.$t('supplier.bank.yes') : this.$t('supplier.bank.no')}
                     </span>
                   </div>
                 )}
@@ -331,13 +323,13 @@ class NewUpdateBankAccount extends React.Component {
           </Row>
           <Row gutter={22}>
             <Col span={22}>
-              <FormItem {...formItemLayout} label={messages('bank.bankName')} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t('bank.bankName')} colon={true}>
                 {getFieldDecorator('venBankAccountBeans', {
                   initialValue: bankInfo.bankDefaultName,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.select'),
+                      message: this.$t('common.please.select'),
                     },
                   ],
                 })(
@@ -345,7 +337,7 @@ class NewUpdateBankAccount extends React.Component {
                     type="select_bank_supplier"
                     single={true}
                     labelKey="bankBranchName"
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     valueKey="id"
                     listExtraParams={{ isAll: true }}
                     onChange={this.handleBankChange}
@@ -358,7 +350,7 @@ class NewUpdateBankAccount extends React.Component {
             <Col span={22}>
               <FormItem
                 {...formItemLayout}
-                label={messages('supplier.management.bank.accountName')}
+                label={this.$t('supplier.management.bank.accountName')}
                 colon={true}
               >
                 {getFieldDecorator('venBankNumberName', {
@@ -366,10 +358,10 @@ class NewUpdateBankAccount extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
@@ -378,8 +370,8 @@ class NewUpdateBankAccount extends React.Component {
               <FormItem
                 {...formItemLayout}
                 validateStatus={validateAccount ? 'error' : null}
-                help={validateAccount ? messages('supplier.account.tips') : ''}
-                label={messages('supplier.bank.account')}
+                help={validateAccount ? this.$t('supplier.account.tips') : ''}
+                label={this.$t('supplier.bank.account')}
                 colon={true}
               >
                 {getFieldDecorator('bankAccount', {
@@ -387,20 +379,20 @@ class NewUpdateBankAccount extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
                       validator: (item, value, callback) =>
                         this.validateAccount(item, value, callback),
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={22}>
             <Col span={22}>
-              <FormItem {...formItemLayout} label={messages('bank.country')} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t('bank.country')} colon={true}>
                 {getFieldDecorator('country', {
                   initialValue: bankInfo.country,
                 })(
@@ -409,7 +401,7 @@ class NewUpdateBankAccount extends React.Component {
                     allowClear
                     showSearch
                     onChange={this.countryChange}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                   >
                     {country.map(item => <Option value={item.key}>{item.label}</Option>)}
                   </Select>
@@ -419,10 +411,10 @@ class NewUpdateBankAccount extends React.Component {
           </Row>
           <Row gutter={22}>
             <Col span={22}>
-              <FormItem {...formItemLayout} label={messages('bank.address')} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t('bank.address')} colon={true}>
                 {getFieldDecorator('bankAddress', {
                   initialValue: bankInfo.bankAddress,
-                })(<Select disabled placeholder={messages('common.please.select')} />)}
+                })(<Select disabled placeholder={this.$t('common.please.select')} />)}
               </FormItem>
             </Col>
           </Row>
@@ -431,25 +423,25 @@ class NewUpdateBankAccount extends React.Component {
             <Col span={22}>
               <FormItem
                 {...formItemLayout}
-                label={messages('supplier.management.remark')}
+                label={this.$t('supplier.management.remark')}
                 colon={true}
               >
                 {getFieldDecorator('notes', {
                   initialValue: bankInfo.notes,
-                })(<TextArea placeholder={messages('common.please.enter')} />)}
+                })(<TextArea placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <div className="bank-account-tips">
-            {messages('bank.account.tips.left')}
-            {messages('bank.account.tips.center')}
-            {messages('common.add')}
+            {this.$t('bank.account.tips.left')}
+            {this.$t('bank.account.tips.center')}
+            {this.$t('common.add')}
           </div>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              {messages('common.save')}
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.onCancel}>{messages('common.cancel')}</Button>
+            <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
       </div>
@@ -457,15 +449,11 @@ class NewUpdateBankAccount extends React.Component {
   }
 }
 
-NewUpdateBankAccount.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    language: state.main.language,
-    company: state.login.company,
-    user: state.login.user,
+    language: state.languages.languages,
+    company: state.user.company,
+    user: state.user.currentUser,
   };
 }
 const WrappedNewUpdateBankAccount = Form.create()(NewUpdateBankAccount);

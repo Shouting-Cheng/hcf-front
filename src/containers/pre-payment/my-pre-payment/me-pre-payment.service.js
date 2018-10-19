@@ -1,5 +1,5 @@
 import config from 'config'
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 export default {
     /**
      * 获取我的预付款列表

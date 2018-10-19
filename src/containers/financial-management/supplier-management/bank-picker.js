@@ -339,8 +339,8 @@ BankPicker.propTypes = {
 };
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
-    company: state.login.company,
+    organization: state.user.organization,
+    company: state.user.company,
     language: state.main.language,
     tenantMode: state.main.tenantMode,
   };

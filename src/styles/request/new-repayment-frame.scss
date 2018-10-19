@@ -1,27 +1,29 @@
-.new-repayment-frame {
-  .title {
-    background: #f8f8f8;
-    padding: 5px 10px;
-    color: #666;
-    margin-bottom: 20px;
-    span {
-      font-weight: normal;
-      margin-left: 7px;
-      font-size: 13px;
-      color: #999;
+:global{
+  .new-repayment-frame {
+    .title {
+      background: #f8f8f8;
+      padding: 5px 10px;
+      color: #666;
+      margin-bottom: 20px;
+      span {
+        font-weight: normal;
+        margin-left: 7px;
+        font-size: 13px;
+        color: #999;
+      }
     }
-  }
-  .form-define-title {
-    text-align: right;
-    line-height: 30px;
-  }
-  .form-define-title:before {
-    display: inline-block;
-    margin-right: 4px;
-    content: "*";
-    line-height: 1;
-    font-family: SimSun;
-    font-size: 14px;
-    color: #f5222d;
+    .form-define-title {
+      text-align: right;
+      line-height: 30px;
+    }
+    .form-define-title:before {
+      display: inline-block;
+      margin-right: 4px;
+      content: "*";
+      line-height: 1;
+      font-family: SimSun;
+      font-size: 14px;
+      color: #f5222d;
+    }
   }
 }

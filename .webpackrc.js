@@ -47,17 +47,21 @@ export default {
   hash: true,
   proxy: {
     '/artemis': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://localhost:9083',
       changeOrigin: true,
     },
     '/oauth': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
-    '/api': {
+   '/api': {
       target: 'http://115.159.108.80:25297/artemis-sit',
       changeOrigin: true,
     },
+    // '/api': {
+    // target: 'http://localhost:9083',
+    //   changeOrigin: true,
+    // },
     '/auth': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
@@ -67,7 +71,7 @@ export default {
       changeOrigin: true,
     },
     '/contract': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://localhost:9087',
       changeOrigin: true,
     },
     '/payment': {
@@ -86,5 +90,9 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/budget': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    }
   },
 };

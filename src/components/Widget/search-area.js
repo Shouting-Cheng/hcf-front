@@ -721,14 +721,13 @@ class SearchArea extends React.Component {
       case 'date': {
         let formatValue = item.showTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD';
         return <DatePicker format={formatValue} onChange={handle} disabled={item.disabled} showTime={item.showTime}
-          placeholder={item.placeholder || messages('common.please.select')}
-          getCalendarContainer={() => document.getElementById('search-area')} />
+          placeholder={item.placeholder || messages('common.please.select')} />
       }
       //日期
       case 'datePicker': {
         return <RangePicker format="YYYY-MM-DD" onChange={handle} disabled={item.disabled}
           // disabledDate={date => { return date && date.valueOf() > new Date().getTime()}}
-          getCalendarContainer={() => document.getElementById('search-area')} />
+         />
       }
       // 日期范围选择
       // noRange 是否有范围限制
@@ -737,11 +736,11 @@ class SearchArea extends React.Component {
           disabledDate={date => {
             return !item.noRange && date && date.valueOf() > new Date().getTime()
           }}
-          getCalendarContainer={() => document.getElementById('search-area')} />
+        />
       }
       // 单日期组成的日期选择框
       case 'rangePickerInput': {
-        return
+        return null;
       }
       // 日期范围组件，可选时分秒
       case 'rangeDateTimePicker': {
@@ -792,7 +791,6 @@ class SearchArea extends React.Component {
           disabled={item.disabled}
           optionFilterProp="children"
           filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          getPopupContainer={() => document.getElementById('search-area')}
         >
           {item.options.map((option) => {
             return <Option key={option.value}
@@ -814,7 +812,6 @@ class SearchArea extends React.Component {
           onSearch={item.searchUrl ? (key) => this.setOptionsToFormItem(item, item.searchUrl, key) : () => {
           }}
           disabled={item.disabled}
-          getPopupContainer={() => document.getElementById('search-area')}
         >
           {item.options.map((option) => {
             return <Option key={option.value}

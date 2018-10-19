@@ -1,20 +1,13 @@
-import { messages } from 'share/common';
-/**
- *  created by jsq on 2017/12/18
- */
-//租户与公司模式控制
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Button, Table, Badge, notification, Popover, Popconfirm, Icon } from 'antd';
-import SearchArea from 'components/search-area';
-import SlideFrame from 'components/slide-frame';
+import SearchArea from 'components/Widget/search-area';
+import SlideFrame from 'components/Widget/slide-frame';
 import vendorService from 'containers/financial-management/supplier-management/vendorService';
 import 'styles/financial-management/supplier-management/supplier-bank-account.scss';
 import NewUpdateBankAccount from 'containers/financial-management/supplier-management/new-update-bank-account';
-import menuRoute from 'routes/menuRoute';
 import BasicInfo from 'containers/financial-management/supplier-management/basic-info';
-
 import moment from 'moment';
 
 class SupplierBankAccount extends React.Component {
@@ -44,38 +37,39 @@ class SupplierBankAccount extends React.Component {
           type: 'input',
           id: 'venderTypeName',
           disabled: true,
-          label: messages('supplier.management.type'),
+          label: this.$t('supplier.management.type'),
         } /*供应商类型*/,
         {
           type: 'input',
           id: 'venderCode',
           disabled: true,
-          label: messages('supplier.management.code'),
+          label: this.$t('supplier.management.code'),
         } /*供应商代码*/,
         {
           type: 'input',
           id: 'venNickname',
           disabled: true,
-          label: messages('supplier.management.name'),
+          label: this.$t('supplier.management.name'),
         } /*供应商名称*/,
         {
           type: 'switch',
           id: 'venType',
           defaultValue: true,
-          label: messages('common.column.status'),
+          label: this.$t('common.column.status'),
         } /*状态*/,
       ],
       columns: [
         {
           /*序号*/
-          title: messages('supplier.management.ordinalNumber'),
+          title: this.$t('supplier.management.ordinalNumber'),
           key: 'ordinalNumber',
           dataIndex: 'ordinalNumber',
+          align:"center",
           width: '5%',
         },
         {
           /*银行代码*/
-          title: messages('bank.bankCode'),
+          title: this.$t('bank.bankCode'),
           key: 'bankCode',
           dataIndex: 'bankCode',
           render: desc => (
@@ -86,9 +80,10 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*银行名称*/
-          title: messages('bank.bankName'),
+          title: this.$t('bank.bankName'),
           key: 'bankName',
           dataIndex: 'bankName',
+          width:180,
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -97,9 +92,10 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*银行账号*/
-          title: messages('supplier.bank.account'),
+          title: this.$t('supplier.bank.account'),
           key: 'bankAccount',
           dataIndex: 'bankAccount',
+          width:180,
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -108,7 +104,7 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*银行户名*/
-          title: messages('bank.account.name'),
+          title: this.$t('bank.account.name'),
           key: 'venBankNumberName',
           dataIndex: 'venBankNumberName',
           render: desc => (
@@ -119,9 +115,10 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*国家*/
-          title: messages('bank.country'),
+          title: this.$t('bank.country'),
           key: 'country',
           dataIndex: 'country',
+          width:90,
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -130,9 +127,11 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*最近更新时间*/
-          title: messages('supplier.management.lastUpdate'),
+          title: this.$t('supplier.management.lastUpdate'),
           key: 'webUpdateDate',
           dataIndex: 'webUpdateDate',
+          width:100,
+          align:"center",
           render: desc => (
             <span>
               <Popover content={moment(new Date(desc)).format('YYYY-MM-DD')}>
@@ -143,43 +142,47 @@ class SupplierBankAccount extends React.Component {
         },
         {
           /*状态*/
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           key: 'venType',
           dataIndex: 'venType',
+          width:90,
+          align:"center",
           render: venType => (
             <Badge
               status={venType === 1001 ? 'success' : 'error'}
               text={
                 venType === 1001
-                  ? messages('common.status.enable')
-                  : messages('common.status.disable')
+                  ? this.$t('common.status.enable')
+                  : this.$t('common.status.disable')
               }
             />
           ),
         },
         {
           /*主账户*/
-          title: messages('supplier.main.account'),
+          title: this.$t('supplier.main.account'),
           key: 'primaryFlag',
           dataIndex: 'primaryFlag',
-          render: desc => <span>{desc ? 'Y' : 'N'}</span>,
+          width:90,
+          align:"center",
+          render: desc => <span>{desc ? '是' : '否'}</span>,
         },
         {
           /*操作*/
-          title: messages('common.operation'),
+          title: this.$t('common.operation'),
           key: 'operate',
           dataIndex: 'operate',
-          width: '80',
+          width:80,
+          align:"center",
           render: (text, record, index) => (
             <span>
               {/*如果是 TENANT且公司模式公司模式  就不能编辑*/}
-              {!this.props.main.tenantMode && this.props.params.source === 'TENANT' ? (
-                messages('common.edit')
-              ) : (
-                <a href="#" onClick={e => this.handleUpdate(e, record, index)}>
-                  {messages('common.edit')}
+              {/*{(!this.props.main.tenantMode && this.props.match.params.source === "TENANT") ? this.$t("common.edit") : <a href="#" onClick={(e) => this.handleUpdate(e, record, index)}>{this.$t('common.edit')}</a>}*/}
+              {
+                <a onClick={e => this.handleUpdate(e, record, index)}>
+                  {this.$t('common.edit')}
                 </a>
-              )}
+              }
             </span>
           ),
         },
@@ -192,8 +195,7 @@ class SupplierBankAccount extends React.Component {
     // console.log(query)
     // console.log(this.props.location)
 
-    let params = this.props.params;
-    console.log(this.props.params);
+    let params = this.props.match.params;
     //根据id查完整供应商信息
     vendorService.getVendorInfoById(params.id).then(response => {
       this.setState(
@@ -236,9 +238,9 @@ class SupplierBankAccount extends React.Component {
   //新建侧滑
   handleCreate = () => {
     let slideFrame = {
-      title: messages('supplier.add.bank.account'),
+      title: this.$t('supplier.add.bank.account'),
       visible: true,
-      params: { vendorId: this.props.params.id },
+      params: {},
     };
     this.setState({
       slideFrame,
@@ -247,9 +249,9 @@ class SupplierBankAccount extends React.Component {
 
   handleUpdate = (e, record, index) => {
     let slideFrame = {
-      title: messages('supplier.update.bank.account'),
+      title: this.$t('supplier.update.bank.account'),
       visible: true,
-      params: { vendorId: this.props.params.id, ...record },
+      params: { vendorId: this.props.match.params.id, ...record },
     };
     this.setState({
       slideFrame,
@@ -304,7 +306,12 @@ class SupplierBankAccount extends React.Component {
 
   //返回
   handleBack = () => {
-    this.context.router.push(menuRoute.getRouteItem('supplier-maintain', 'key').url);
+    //this.context.router.push(menuRoute.getRouteItem('supplier-maintain', 'key').url)
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/financial-management/supplier-maintain`,
+      })
+    );
   };
 
   handleChange = () => {};
@@ -332,17 +339,17 @@ class SupplierBankAccount extends React.Component {
         />
         <div className="table-header">
           <div className="table-header-title">
-            {messages('common.total', { total: `${pagination.total}` })}
+            {this.$t('common.total', { total: `${pagination.total}` })}
           </div>{' '}
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
             <Button
               type="primary"
-              disabled={!this.props.main.tenantMode && this.props.params.source === 'TENANT'}
+              disabled={!true && this.props.match.params.source === 'TENANT'}
               onClick={this.handleCreate}
             >
               {/*新 建*/}
-              {messages('common.create')}
+              {this.$t('common.create')}
             </Button>
           </div>
         </div>
@@ -357,33 +364,18 @@ class SupplierBankAccount extends React.Component {
         />
         <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />
-          {messages('common.back')}
+          {this.$t('common.back')}
         </a>
-        <SlideFrame
-          title={slideFrame.title}
-          show={slideFrame.visible}
-          content={NewUpdateBankAccount}
-          onClose={this.handleOnClose}
-          afterClose={this.handleAfterClose}
-          params={slideFrame.params}
-        />
+        <SlideFrame title={slideFrame.title} show={slideFrame.visible} onClose={this.handleOnClose}>
+          <NewUpdateBankAccount onClose={this.handleAfterClose} params={slideFrame.params} />
+        </SlideFrame>
       </div>
     );
   }
 }
 
-SupplierBankAccount.contextTypes = {
-  router: React.PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  return {
-    main: state.main,
-  };
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   null,
   null,
   { withRef: true }

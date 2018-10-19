@@ -350,6 +350,12 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
       name: 'jd-request-edit',
     },
+    '/request/new-request/:formOID/:applicantOID': {
+      //新建申请单
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
+      name: 'new-request',
+      parent: '/request',
+    },
     '/request/request-edit/:formOID/:applicationOID': {
       //编辑申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
@@ -362,7 +368,6 @@ export const getRouterData = app => {
       name: 'request-detail',
       parent: '/request',
     },
-
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/payment-requisition.js')
@@ -508,13 +513,6 @@ export const getRouterData = app => {
       name: '银行账户详情',
       parent: '/pay-setting/company-account-setting',
     },
-    '/pay-setting/payment-company-setting': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/pay-setting/payment-company-setting/payment-company-setting.js')
-      ),
-      name: 'payment-company-setting', // 付款公司配置
-    },
-
     '/approval-management/gl-work-order-approval': {
       //核算工单审批
       component: dynamicWrapper(app, [], () =>
@@ -530,7 +528,61 @@ export const getRouterData = app => {
       name: '核算工单审批详情',
       parent: '/approval-management/gl-work-order-approval',
     },
+    '/financial-management/csh-write-off-backlash': {
+      //核销反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/csh-write-off-backlash/csh-write-off-backlash')
+      ),
+      name: 'csh-write-off-backlash',
+    },
+    '/financial-management/supplier-maintain': {
+      //财务管理-供应商维护
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-management.js')
+      ),
+      name: 'supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/new-update-supplier': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/new-update-supplier.js')
+      ),
+      name: '供应商维护',
+      parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/supplier-bank-account/:id/:source': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-bank-account.js')
+      ),
+      name: '银行账号',
+      parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/supplier-maintain/delivery-company/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/supplier-management/supplier-company-delivery.js')
+      ),
+      name: '供应商分配公司',
+      parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/finance-audit': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/finance-audit/finance-audit')
+      ),
+      name: 'finance-audit',
+    },
 
+    '/financial-accounting-setting/section-structure':{
+      //科目段结构，
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/section-structure/section-structure')
+      ),
+      name: 'section-structure'
+    },
+    '/admin-setting/expense-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/expense-type.js')
+      ),
+      name: 'expense-type'
+    },
     '/pay/pay-workbench/:tab': {
       //付款工作台
       component: dynamicWrapper(app, [], () =>
@@ -544,7 +596,9 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
-    },
+    }
+
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

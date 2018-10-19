@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Spin, Input, Card, Row, Col, Icon, message, Checkbox, Button } from 'antd';
 const Search = Input.Search;
-import 'styles/components/Template/business-card-consumption-selector.scss';
+import 'styles/components/template/business-card-consumption-selector.scss';
 
 import baseService from 'share/base.service';
 

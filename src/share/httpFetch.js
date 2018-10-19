@@ -1,6 +1,23 @@
 import axios from 'axios';
-import { routerRedux } from 'dva/router';
 import { notification } from 'antd';
+import store from '../index';
+import { routerRedux } from 'dva/router';
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+  // 对响应数据做点什么
+  return response;
+}, function (error) {
+  // 对响应错误做点什么
+
+  if (error.response.status == 401) {
+    store.dispatch({
+      type: 'login/logout',
+    });
+  }
+
+  return Promise.reject(error);
+});
 
 const baseUrl = '';
 export default {
@@ -23,6 +40,7 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       data: params,
+      params: { roleType: "TENANT" }
     };
 
     return axios(option);
@@ -48,6 +66,7 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       data: params,
+      params: { roleType: "TENANT" }
     };
     return axios(baseUrl + url, option);
   },
@@ -58,6 +77,7 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       data: params,
+      params: { roleType: "TENANT" }
     };
     return axios(baseUrl + url, option);
   },
