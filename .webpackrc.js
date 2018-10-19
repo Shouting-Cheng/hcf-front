@@ -54,14 +54,14 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
-   /* '/api': {
+   '/api': {
       target: 'http://115.159.108.80:25297/artemis-sit',
       changeOrigin: true,
-    },*/
-    '/api': {
-    target: 'http://localhost:9083',
-      changeOrigin: true,
     },
+    // '/api': {
+    // target: 'http://localhost:9083',
+    //   changeOrigin: true,
+    // },
     '/auth': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
