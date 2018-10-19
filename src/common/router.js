@@ -368,7 +368,6 @@ export const getRouterData = app => {
       name: 'request-detail',
       parent: '/request',
     },
-
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/payment-requisition.js')
@@ -570,6 +569,13 @@ export const getRouterData = app => {
       name: '供应商分配公司',
       parent: '/financial-management/supplier-maintain',
     },
+    '/admin-setting/expense-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/expense-type.js')
+      ),
+      name: 'expense-type'
+    }
+    
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

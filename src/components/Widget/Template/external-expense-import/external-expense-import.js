@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
 import { Modal, Button, Tabs, Upload, Icon, message, Table, Steps, Timeline } from 'antd';
-import { Selector } from 'components/index';
+import { Selector } from 'widget/index';
 
 const Step = Steps.Step;
 import httpFetch from 'share/httpFetch';
-import expenseService from 'containers/my-account/expense.service';
+// import expenseService from 'containers/my-account/expense.service';
 import PropTypes from 'prop-types';
 
 import FileSaver from 'file-saver';
-import configureStore from 'stores';
+import configureStore from '../../../../index';
 
 //数据导入组件
 class ExternalExpenseImport extends React.Component {
@@ -69,21 +69,21 @@ class ExternalExpenseImport extends React.Component {
         uploading: true,
       });
 
-      expenseService
-        .invoiceTemplateUpload(formData)
-        .then(res => {
-          this.setState({
-            fileList: [],
-            tabKey: 'SUCCESS',
-            uploading: false,
-            result: { successEntities: 1 },
-          });
-          this.props.onOk();
-        })
-        .catch(() => {
-          this.setState({ uploading: false });
-          message.error(this.$t('importer.import.error.info') /*导入失败，请重试*/);
-        });
+      // expenseService
+      //   .invoiceTemplateUpload(formData)
+      //   .then(res => {
+      //     this.setState({
+      //       fileList: [],
+      //       tabKey: 'SUCCESS',
+      //       uploading: false,
+      //       result: { successEntities: 1 },
+      //     });
+      //     this.props.onOk();
+      //   })
+      //   .catch(() => {
+      //     this.setState({ uploading: false });
+      //     message.error(this.$t('importer.import.error.info') /*导入失败，请重试*/);
+      //   });
     } else {
       this.props.onOk('close');
       this.setState({
@@ -150,21 +150,21 @@ class ExternalExpenseImport extends React.Component {
   //下载导入模板
   downloadTemplate = () => {
     let hide = message.loading(this.$t('importer.spanned.file') /*正在生成文件..*/);
-    expenseService
-      .invoiceTemplateDown(this.state.expenseTypeId)
-      .then(res => {
-        let b = new Blob([res.data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-        let name = this.state.option.children + new Date().format('yyyyMMddhhmmss');
-        FileSaver.saveAs(b, `${name}.xlsx`);
-        this.setState({ currentStep: 2 });
-        hide();
-      })
-      .catch(() => {
-        message.error(this.$t('importer.download.error.info') /*下载失败，请重试*/);
-        hide();
-      });
+    // expenseService
+    //   .invoiceTemplateDown(this.state.expenseTypeId)
+    //   .then(res => {
+    //     let b = new Blob([res.data], {
+    //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //     });
+    //     let name = this.state.option.children + new Date().format('yyyyMMddhhmmss');
+    //     FileSaver.saveAs(b, `${name}.xlsx`);
+    //     this.setState({ currentStep: 2 });
+    //     hide();
+    //   })
+    //   .catch(() => {
+    //     message.error(this.$t('importer.download.error.info') /*下载失败，请重试*/);
+    //     hide();
+    //   });
   };
   //选择费用类型回调
   selectExpenseTypeCallBack = (changedValue, option) => {
