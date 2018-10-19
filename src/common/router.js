@@ -514,12 +514,6 @@ export const getRouterData = app => {
       parent: '/pay-setting/company-account-setting',
     },
     '/approval-management/gl-work-order-approval': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
-      ),
-      name: 'gl-work-order-approval',
-    },
-    '/approval-management/gl-work-order-approval': {
       //核算工单审批
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.js')
@@ -569,13 +563,27 @@ export const getRouterData = app => {
       name: '供应商分配公司',
       parent: '/financial-management/supplier-maintain',
     },
+    '/financial-management/finance-audit': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/finance-audit/finance-audit')
+      ),
+      name: 'finance-audit',
+    },
+
+    '/financial-accounting-setting/section-structure':{
+      //科目段结构，
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/section-structure/section-structure')
+      ),
+      name: 'section-structure'
+    },
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')
       ),
       name: 'expense-type'
     }
-    
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

@@ -54,6 +54,7 @@
     "react-dom": "^16.4.1",
     "react-fittext": "^1.0.0",
     "react-intl": "^2.4.0",
+    "reconnectingwebsocket": "^1.0.0",
     "rollbar": "^2.3.4",
     "sass-loader": "^7.1.0",
     "setprototypeof": "^1.1.0",

@@ -1,6 +1,6 @@
 import React from 'react';
 
-//import { this.$t, getApprovelHistory } from 'share/common'
+import { getApprovelHistory } from 'utils/extend';
 import { Form, Icon, Timeline, Row, Col, Tag, Modal, Button, Input } from 'antd';
 const { TextArea } = Input;
 const FormItem = Form.Item;
