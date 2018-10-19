@@ -260,11 +260,11 @@ class MyPrePayment extends React.Component {
 const wrappedMyPrePayment = Form.create()(MyPrePayment);
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     user: state.user.currentUser,
     company: state.user.company,
-    languages: state.languages
+    language: state.languages.languages,
+    languageList: state.languages.languageList,
   }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(wrappedMyPrePayment)

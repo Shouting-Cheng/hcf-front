@@ -712,6 +712,7 @@ export default class Login extends React.Component {
       await this.getCompany();
       await this.getLanguage(result);
       await this.getLanguageType();
+      await this.getLanguageList();
 
       resolve();
     });
@@ -799,11 +800,23 @@ export default class Login extends React.Component {
           type: 'languages/setLanguageType',
           payload: { languageType: res },
         });
-
         resolve();
       });
     });
   };
+
+  getLanguageList = () => {
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.post(`${config.baseUrl}/api/lov/language/zh_CN`).then(res => {
+        dispatch({
+          type: 'languages/setLanguageList',
+          payload: { languageList: res },
+        });
+        resolve();
+      });
+    });
+  }
 
   formatter = (data, parentPath = '/', parentAuthority) => {
     return data.map(item => {
