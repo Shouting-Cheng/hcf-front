@@ -577,6 +577,15 @@ export const getRouterData = app => {
       ),
       name: 'section-structure'
     },
+    '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId':{
+      //科目段设置
+      component: dynamicWrapper(app,[],()=>
+        import('containers/financial-accounting-setting/section-structure/section-setting')
+      ),
+      name: 'section-setting',
+      parent:'/financial-accounting-setting/section-structure'
+    },
+
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')

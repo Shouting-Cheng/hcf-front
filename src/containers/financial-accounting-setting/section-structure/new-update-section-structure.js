@@ -24,7 +24,6 @@ class NewUpdateSectionStructure extends React.Component{
   }
 
   componentDidMount(){
-    console.log(this.props)
     this.getSetOfBook();
     this.setState({
       enabled: this.props.params.id ? this.props.params.enabled : true,
@@ -33,7 +32,6 @@ class NewUpdateSectionStructure extends React.Component{
     });
   }
   componentWillReceiveProps(nextprops){
-    console.log(nextprops)
     let params = nextprops.params;
     if(!this.props.params.visible&&nextprops.params.visible){
       this.setState({

@@ -2,16 +2,14 @@
  * created by jsq on 2017/12/26
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import { Button, Input, Switch, Select, Form, Table,Spin, notification, Popconfirm, message  } from 'antd'
+import { connect } from 'dva'
+import { Button, Input, Select, Form, Table, notification, Popconfirm, message  } from 'antd'
 import accountingService from 'containers/financial-accounting-setting/section-structure/section-structure.service';
 import config from 'config'
 import 'styles/financial-accounting-setting/section-structure/section-mapping-set.scss'
 import debounce from 'lodash.debounce';
-import Importer from 'components/template/importer'
+import Importer from 'widget/Template/importer'
 import FileSaver from 'file-saver'
-import {formatMessage} from 'share/common'
-
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Search = Input.Search;
@@ -42,22 +40,22 @@ class SectionMappingSet extends React.Component{
       },
       columns:[
         {          /*科目段值代码*/
-          title: formatMessage({id:"section.value.code"}), key: "segmentValueCode", dataIndex: 'segmentValueCode',
+          title: this.$t({id:"section.value.code"}), key: "segmentValueCode", dataIndex: 'segmentValueCode',
           render: (text, record, index) => this.renderColumns(text, record,index, 'segmentValueCode')
         },
         {          /*总账科目段值代码*/
-          title: formatMessage({id:"section.value.code.total"}), key: "glSegmentValueCode", dataIndex: 'glSegmentValueCode',
+          title: this.$t({id:"section.value.code.total"}), key: "glSegmentValueCode", dataIndex: 'glSegmentValueCode',
           render: (text, record, index) => this.renderColumns(text, record,index, 'glSegmentValueCode')
         },
-        {title: formatMessage({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record, index) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record, index) => (
           <span>
-            <a href="#" onClick={record.edit ? (e)=>this.saveItem(e,record,index) :(e) => this.operateItem(e, record,index,true)}>{formatMessage({id: record.edit ? "common.save":"common.edit"})}</a>
+            <a href="#" onClick={record.edit ? (e)=>this.saveItem(e,record,index) :(e) => this.operateItem(e, record,index,true)}>{this.$t({id: record.edit ? "common.save":"common.edit"})}</a>
             {record.edit ?
               <a href="#" style={{marginLeft: 12}}
-                 onClick={(e) => this.operateItem(e, record, index, false)} >{ formatMessage({id: "common.cancel" })}</a>
+                 onClick={(e) => this.operateItem(e, record, index, false)} >{ this.$t({id: "common.cancel" })}</a>
               :
-              <Popconfirm onConfirm={(e) => this.deleteItem(e, record,index)} title={formatMessage({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
-                <a href="#" style={{marginLeft: 12}}>{ formatMessage({id: "common.delete"})}</a>
+              <Popconfirm onConfirm={(e) => this.deleteItem(e, record,index)} title={this.$t({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
+                <a href="#" style={{marginLeft: 12}}>{ this.$t({id: "common.delete"})}</a>
               </Popconfirm>
 
             }
@@ -79,11 +77,11 @@ class SectionMappingSet extends React.Component{
     let selectedRowKeys = this.state.selectedRowKeys;
     accountingService.deleteSectionMap(param).then((response)=>{
       this.getList();
-      message.success(`${formatMessage({id:"common.operate.success"})}`);
+      message.success(`${this.$t({id:"common.operate.success"})}`);
 
     }).catch((e)=>{
       if(e.response){
-        message.error(`${formatMessage({id:"common.operate.filed"})},${e.response.data.message}`)
+        message.error(`${this.$t({id:"common.operate.filed"})},${e.response.data.message}`)
       }
     })
   };
@@ -95,14 +93,14 @@ class SectionMappingSet extends React.Component{
     if(typeof record.segmentValueCode !== 'undefined' && record.glSegmentValueName !== 'undefined') {
       record.segmentId = this.props.params.id;
       accountingService.addOrUpdateSectionMapping([record]).then((response) => {
-        message.success(`${formatMessage({id: "common.save.success"}, {name: ""})}`);
+        message.success(`${this.$t({id: "common.save.success"}, {name: ""})}`);
         this.setState({
           loading: true,
           isSave: true,
         }, this.getList())
       }).catch((e) => {
         if(e.response){
-          message.error(`${formatMessage({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`)
+          message.error(`${this.$t({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`)
         }
       })
     }else {
@@ -162,7 +160,7 @@ class SectionMappingSet extends React.Component{
     const { paramValueMap,sourceType } = this.state;
     if( record.edit) {
       return (
-        <Input onBlur={(e)=>this.handValueChange(e,index,flag)} defaultValue={decode} placeholder={formatMessage({id: 'common.please.enter'})}/>
+        <Input onBlur={(e)=>this.handValueChange(e,index,flag)} defaultValue={decode} placeholder={this.$t({id: 'common.please.enter'})}/>
       );
     }else
       return decode;
@@ -295,7 +293,7 @@ class SectionMappingSet extends React.Component{
       this.setState({ data: newArray,paramsKey});
     }else {
       notification.warning({
-        message: `${formatMessage({id: "section.notification.mapping"})}`,
+        message: `${this.$t({id: "section.notification.mapping"})}`,
         duration: 3,
       })
     }
@@ -321,25 +319,25 @@ class SectionMappingSet extends React.Component{
     let params = {
       segmentId: this.props.params.id
     };
-    let hide = message.loading(formatMessage({id: "importer.spanned.file"}/*正在生成文件..*/));
+    let hide = message.loading(this.$t({id: "importer.spanned.file"}/*正在生成文件..*/));
     accountingService.downLoadMapping(params).then(response=>{
       let b = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-      let name = formatMessage({id:'section.mapping.export.fileName'});
+      let name = this.$t({id:'section.mapping.export.fileName'});
       FileSaver.saveAs(b, `${name}.xlsx`);
       hide();
     }).catch(() => {
-      message.error(formatMessage({id: "importer.download.error.info"}/*下载失败，请重试*/));
+      message.error(this.$t({id: "importer.download.error.info"}/*下载失败，请重试*/));
       hide();
     })
   };
 
   handleDelete = ()=>{
     accountingService.deleteSectionMap(this.state.selectedEntityOIDs).then((response)=>{
-      message.success(`${formatMessage({id:"common.operate.success"})}`);
+      message.success(`${this.$t({id:"common.operate.success"})}`);
       this.getList();
     }).catch((e)=>{
       if(e.response){
-        message.error(`${formatMessage({id:"common.operate.filed"})},${e.response.data.message}`)
+        message.error(`${this.$t({id:"common.operate.filed"})},${e.response.data.message}`)
       }
     })
   };
@@ -358,12 +356,12 @@ class SectionMappingSet extends React.Component{
 
     if(params.length>0){
       accountingService.addOrUpdateSectionMapping(params).then(response=>{
-        message.success(`${formatMessage({id: "common.save.success"}, {name: ""})}`);
+        message.success(`${this.$t({id: "common.save.success"}, {name: ""})}`);
         this.setState({loading: false});
         this.props.close(true);
       }).catch(e=>{
         if(e.response){
-          message.error(`${formatMessage({id:"common.operate.filed"})},${e.response.data.message}`)
+          message.error(`${this.$t({id:"common.operate.filed"})},${e.response.data.message}`)
           this.setState({loading: false})
         }
       })
@@ -382,25 +380,25 @@ class SectionMappingSet extends React.Component{
     return(
       <div className="section-mapping-set">
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})+" / "+formatMessage({id:"section.selected"},{selected:selectedRowKeys.length})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})+" / "+this.$t({id:"section.selected"},{selected:selectedRowKeys.length})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleAdd}>{formatMessage({id: 'common.add'})}</Button>  {/*添加*/}
-            <Button onClick={() => this.showImport(true)}>{formatMessage({id: 'importer.import'})}</Button>  {/*导入*/}
+            <Button type="primary" onClick={this.handleAdd}>{this.$t({id: 'common.add'})}</Button>  {/*添加*/}
+            <Button onClick={() => this.showImport(true)}>{this.$t({id: 'importer.import'})}</Button>  {/*导入*/}
             <Importer visible={showImportFrame}
-                      title={formatMessage({id:"section.mapping.set.import"})}
+                      title={this.$t({id:"section.mapping.set.import"})}
                       templateUrl={`${config.accountingUrl}/api/general/ledger/segment/map/export/template`}
                       uploadUrl={`${config.accountingUrl}/api/general/ledger/segment/map/import?segmentId=${this.props.params.id}`}
                       errorUrl={`${config.accountingUrl}/api/general/ledger/segment/map/export/failed/data`}
                       listenUrl={`${config.accountingUrl}/api/general/ledger/batch/transaction/logs`}
-                      fileName={formatMessage({id:"section.mapping.import.fileName"})}
+                      fileName={this.$t({id:"section.mapping.import.fileName"})}
                       onOk={this.handleImportOk}
                       afterClose={() => this.showImport(false)}/>
-            <Button onClick={this.handleDownLoad}>{formatMessage({id: 'importer.importOut'})}</Button>  {/*导出*/}
-            <Popconfirm onConfirm={this.handleDelete} title={formatMessage({id:"budget.are.you.sure.to.delete.rule"})}>
-              <Button disabled={isDelete}>{formatMessage({id: 'common.delete'})}</Button>
+            <Button onClick={this.handleDownLoad}>{this.$t({id: 'importer.importOut'})}</Button>  {/*导出*/}
+            <Popconfirm onConfirm={this.handleDelete} title={this.$t({id:"budget.are.you.sure.to.delete.rule"})}>
+              <Button disabled={isDelete}>{this.$t({id: 'common.delete'})}</Button>
             </Popconfirm>
             <Search className="table-header-search"
-                    placeholder={formatMessage({id:"section.mapping.set.placeholder"})}
+                    placeholder={this.$t({id:"section.mapping.set.placeholder"})}
                     onChange={e=>this.handleSearch(e)}
                     style={{ width: 320 ,float: 'right'}}/>
           </div>
@@ -415,8 +413,8 @@ class SectionMappingSet extends React.Component{
           bordered
           size="middle"/>
         <div className="slide-footer">
-          <Button type="primary" disabled={isSave} onClick={this.handleSave} loading={this.state.btnLoading}>{formatMessage({id:"common.save"})}</Button>
-          <Button onClick={this.onCancel}>{formatMessage({id:"common.cancel"})}</Button>
+          <Button type="primary" disabled={isSave} onClick={this.handleSave} loading={this.state.btnLoading}>{this.$t({id:"common.save"})}</Button>
+          <Button onClick={this.onCancel}>{this.$t({id:"common.cancel"})}</Button>
         </div>
       </div>
     )
@@ -425,7 +423,7 @@ class SectionMappingSet extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

@@ -2,13 +2,11 @@
  * created by jsq on 2017/12/25
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Input, Switch, Select, Form, Icon, notification, Alert, Row, Col, message } from 'antd'
-import config from 'config'
 import 'styles/financial-accounting-setting/section-structure/new-update-section.scss'
-import Chooser from 'components/chooser'
+import Chooser from 'widget/chooser'
 import accountingService from 'containers/financial-accounting-setting/section-structure/section-structure.service';
-import {formatMessage} from 'share/common'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -26,6 +24,7 @@ class NewUpdateSection extends React.Component{
   }
 
   componentWillReceiveProps(nextProps){
+    console.log(nextProps)
     let params = Object.assign({}, nextProps.params);
     if(JSON.stringify(params) == "{}"){
       this.props.form.resetFields();
@@ -83,19 +82,19 @@ class NewUpdateSection extends React.Component{
             loading: false,
           });
           if(typeof this.state.section.id === 'undefined' )
-            message.success(`${formatMessage({id: "common.save.success"},{name:""})}`);
+            message.success(`${this.$t({id: "common.save.success"},{name:""})}`);
           else
-            message.success(`${formatMessage({id:"common.operate.success"})}`);
+            message.success(`${this.$t({id:"common.operate.success"})}`);
           this.props.form.resetFields();
           this.props.close(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.section.id === 'undefined' ){
-              message.error(`${formatMessage({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
               this.setState({loading: false})
             }
             else{
-              message.error(`${formatMessage({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
               this.setState({loading: false})
             }
           }
@@ -142,45 +141,45 @@ class NewUpdateSection extends React.Component{
         <Form onSubmit={this.handleSubmit} className="new-update-section-form">
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'section.code'})  /*科目段代码*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'section.code'})  /*科目段代码*/}>
             {getFieldDecorator('segmentCode', {
               initialValue: section.segmentCode,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Input disabled={typeof section.id === 'undefined' ? false : true} className="input-disabled-color" placeholder={ formatMessage({id:"common.please.enter"})}/>
+              <Input disabled={typeof section.id === 'undefined' ? false : true} className="input-disabled-color" placeholder={ this.$t({id:"common.please.enter"})}/>
             )}
           </FormItem>
             </Col>
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'section.name'})  /*科目段名称*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'section.name'})  /*科目段名称*/}>
             {getFieldDecorator('segmentName', {
               initialValue: section.segmentName,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Input className="input-disabled-color" placeholder={ formatMessage({id:"common.please.enter"})}/>
+              <Input className="input-disabled-color" placeholder={ this.$t({id:"common.please.enter"})}/>
             )}
           </FormItem>
             </Col>
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'section.field'})  /*科目段字段*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'section.field'})  /*科目段字段*/}>
             {getFieldDecorator('segmentField', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }]
             })(
               <Chooser
-                placeholder={formatMessage({id:"common.please.select"})}
+                placeholder={this.$t({id:"common.please.select"})}
                 type="section"
                 single={true}
                 labelKey="code"
@@ -193,7 +192,7 @@ class NewUpdateSection extends React.Component{
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-             <FormItem {...formItemLayout} label={formatMessage({id:'section.field.name'})  /*科目段字段名称*/}>
+             <FormItem {...formItemLayout} label={this.$t({id:'section.field.name'})  /*科目段字段名称*/}>
             {getFieldDecorator('segmentFieldName')(
               <lable>{typeof section.segmentFieldName === 'undefined' || section.segmentFieldName ==='' ? "-" : section.segmentFieldName}</lable>
             )}
@@ -203,19 +202,19 @@ class NewUpdateSection extends React.Component{
           <FormItem
             labelCol={{span: 5}}
             wrapperCol={{span: 14, offset: 1}}
-            label={formatMessage({id:"common.column.status"})} colon={true}>
+            label={this.$t({id:"common.column.status"})} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName:"checked",
               initialValue: enabled
             })(
               <div>
                 <Switch checked={enabled}  checkedChildren={<Icon type="check"/>} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
-                <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? formatMessage({id:"common.status.enable"}) : formatMessage({id:"common.disabled"}) }</span>
+                <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? this.$t({id:"common.status.enable"}) : this.$t({id:"common.disabled"}) }</span>
               </div>)}
           </FormItem>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{formatMessage({id:"common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id:"common.cancel"})}</Button>
+            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{this.$t({id:"common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id:"common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -225,7 +224,7 @@ class NewUpdateSection extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 
