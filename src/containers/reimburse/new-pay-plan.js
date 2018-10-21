@@ -334,7 +334,6 @@ class NewPayPlan extends React.Component {
   //选定合同后
   handleListOk = values => {
     if(values && values.result[0]){
-      debugger;
       this.setState({
         contractInfo: values.result[0],
         showSelectContract: false,
@@ -633,7 +632,7 @@ class NewPayPlan extends React.Component {
                 initialValue: isNew ? '' : model.cshTransactionClassId,
                 rules: [{ message: '请输入', required: true }],
               })(
-                <Select>
+                <Select allowClear>
                   {cashTransactionClassList.map(o => {
                     return (
                       <Option key={o.id} value={o.id}>
@@ -711,7 +710,7 @@ class NewPayPlan extends React.Component {
                       关联合同:
                     </Col>
                     <Col span={16}>
-                      <Select
+                      <Select allowClear
                         ref="contractSelect"
                         onDropdownVisibleChange={this.showSelectContract}
                         defaultValue={

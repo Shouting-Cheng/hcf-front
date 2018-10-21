@@ -674,7 +674,7 @@ class NewPrePaymentDetail extends React.Component {
                 关联合同:
               </Col>
               <Col span={16}>
-                <Select
+                <Select allowClear
                   ref="contractSelect"
                   value={contractValue}
                   labelInValue
@@ -689,11 +689,11 @@ class NewPrePaymentDetail extends React.Component {
                     )}`}
                 </div>
               </Col>
-              <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+             {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
                 {contractValue.length > 0 && (
                   <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                 )}
-              </Col>
+              </Col>*/}
             </Row>
           </div>
           <div className="slide-footer">
