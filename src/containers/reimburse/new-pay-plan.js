@@ -333,12 +333,15 @@ class NewPayPlan extends React.Component {
 
   //选定合同后
   handleListOk = values => {
-    this.setState({
-      contractInfo: values.result[0],
-      showSelectContract: false,
-      contractParams: {},
-      selectedData: [values.result[0].contractLineId],
-    });
+    if(values && values.result[0]){
+      debugger;
+      this.setState({
+        contractInfo: values.result[0],
+        showSelectContract: false,
+        contractParams: {},
+        selectedData: [values.result[0].contractLineId],
+      });
+    }
   };
 
   //显示选择合同
@@ -710,7 +713,7 @@ class NewPayPlan extends React.Component {
                     <Col span={16}>
                       <Select
                         ref="contractSelect"
-                        onFocus={this.showSelectContract}
+                        onDropdownVisibleChange={this.showSelectContract}
                         defaultValue={
                           isNew
                             ? ''
@@ -729,11 +732,11 @@ class NewPayPlan extends React.Component {
                             ).format('YYYY-MM-DD')}`}
                       </div>
                     </Col>
-                    <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
-                      {contractInfo.lineNumber && (
+                    {/*<Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+                      {contractInfo.contractId && (
                         <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                       )}
-                    </Col>
+                    </Col>*/}
                   </Row>
                 </div>
               </div>
