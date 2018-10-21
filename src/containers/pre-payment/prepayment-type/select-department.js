@@ -105,7 +105,7 @@ class SelectEmployeeGroup extends React.Component {
         this.setState({ loading: true });
         let useData = this.state.useData;
 
-        httpFetch.get(`${config.baseUrl}/api/departments/root?flag=1001`).then(res => {
+        httpFetch.get(`${config.baseUrl}/api/departments/root?flag=1002`).then(res => {
 
             if (res.data && res.data.length) {
                 let temp = [];

@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import constants from 'share/constants'
 import { setApproveRequest } from "actions/cache";
 import { messages, deepFullCopy, dealCache } from "share/common";
-import { Form, Tabs, Badge, Popover, Table, Affix, message } from 'antd'
+import { Form, Tabs, Badge, Popover, Table, Affix, message,Input,InputNumber } from 'antd'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment'
@@ -35,8 +35,8 @@ class ApproveRequest extends React.Component {
         {type: 'list', id: 'applicantOIDs', label: messages('finance.view.search.applicant'/*申请人*/), listType: 'user', labelKey: 'fullName', valueKey: 'userOID',listExtraParams:{roleType: 'TENANT'}},
         {type: 'list', id: 'departmentOIDs', label: messages('request.detail.department.name'/*部门*/), listType: 'department', labelKey: 'name', valueKey: 'departmentOid', single: true},
         {type: 'items', id: 'priceRange', items: [
-          {type: 'input', id: 'minAmount', label: messages("approve.request.moneyFrom")/*金额从*/},
-          {type: 'input', id: 'maxAmount', label: messages("approve.request.moneyTo")/*金额至*/}
+          {type: 'inputNumber', id: 'minAmount', label: messages("approve.request.moneyFrom")/*金额从*/},
+          {type: 'inputNumber', id: 'maxAmount', label: messages("approve.request.moneyTo")/*金额至*/}
         ]},
         {type: 'items', id: 'dateRange', items: [
           {type: 'date', id: 'beginDate', label: messages('finance.audit.startDate'/*日期从*/)},

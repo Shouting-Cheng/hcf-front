@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Tabs, Table, message, Badge, Popover } from 'antd'
+import { Form, Tabs, Table, message, Badge, Popover,InputNumber } from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import prePaymentService from './pre-payment-re-check.service'
@@ -35,8 +35,8 @@ class Payment extends React.Component {
                 },
                 {
                     type: 'items', id: 'amountRange', items: [
-                        { type: 'input', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
-                        { type: 'input', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
+                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
+                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
                     ]
                 },
                 {
@@ -55,8 +55,8 @@ class Payment extends React.Component {
                 },
                 {
                     type: 'items', id: 'amountRange', items: [
-                        { type: 'input', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
-                        { type: 'input', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
+                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
+                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
                     ]
                 },
                 {

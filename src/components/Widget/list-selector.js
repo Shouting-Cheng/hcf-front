@@ -395,10 +395,11 @@ class ListSelector extends React.Component {
           <div className="table-header-title">
             {selectAll && <Button style={{ marginRight: 10 }} loading={selectAllLoading} onClick={onSelectAll} type="primary">{this.$t('common.selectAll')/*选择全部*/}</Button>}
             {this.$t('common.total', { total: pagination.total || data.length })}{/* 共 total 条数据 */}
+            {/* 已选数据显示有问题，所有注掉了
             {this.props.showSelectTotal?undefined:<span style={{color:'rgba(0, 0, 0, 0.65)'}}>
               &nbsp;<span>/</span>&nbsp;
-            {this.$t('common.total.selected', { total: selectedData.length === 0 ? '0' : selectedData.length })}{/* 已选 total 条 */}
-            </span>}
+            {this.$t('common.total.selected', { total: selectedData.length === 0 ? '0' : selectedData.length })} 已选 total 条
+            </span>}*/}
           </div>
         </div>
         <div>

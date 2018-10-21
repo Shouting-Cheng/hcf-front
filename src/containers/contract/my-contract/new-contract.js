@@ -131,6 +131,7 @@ class NewContract extends React.Component {
     httpFetch.get(`${config.baseUrl}/api/departments/root/v2?flag=1001`).then(res => {
       res.status === 200 && this.setState({ unitIdOptions: res.data });
     });
+    this.getCurrencyOptions();
   }
   // componentDidMount = () => {
   //   Number(this.props.match.params.id) && this.getInfo(); //合同编辑
@@ -150,6 +151,7 @@ class NewContract extends React.Component {
           });
         });
       }
+
       this.setState({
         record: res.data,
         isNew: false,
@@ -192,10 +194,9 @@ class NewContract extends React.Component {
         values.unitId = this.state.departmentId;
         values.applicantOid = this.props.user.userOID;
         values.companyId = values.companyId && values.companyId[0].companyId;
+        values.currency = values.currency && values.currency.key;
         this.setState({ loading: true });
-        contractService
-          .newContractHeader(values)
-          .then(res => {
+        contractService.newContractHeader(values).then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
               message.success(this.$t({ id: 'common.save.success' }, { name: '' } /*保存成功*/));
@@ -238,13 +239,12 @@ class NewContract extends React.Component {
         //values.contractTypeId = this.props.match.params.contractTypeId;
         values.id = this.state.record.id;
         values.companyId = values.companyId && values.companyId[0].companyId;
+        values.currency = values.currency && values.currency.key;
         values.versionNumber = this.state.record.versionNumber;
         //values.unitId = this.state.departmentId;
         //values.employeeId = (values.employeeId && values.employeeId.length) ? values.employeeId[0].userId : "";
         this.setState({ loading: true });
-        contractService
-          .updateContractHeader(params)
-          .then(res => {
+        contractService.updateContractHeader(params).then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
               message.success(this.$t({ id: 'common.update.success' }, { name: '' } /*保存成功*/));
@@ -470,12 +470,12 @@ class NewContract extends React.Component {
                         message: this.$t({ id: 'common.please.select' }),
                       },
                     ],
-                    initialValue: record.id ? record.currency : 'CNY',
-                  })(
-                    <Select
+                    initialValue:  { key:  record.id ? record.currency : 'CNY', label: "CNY-人民币"},
+                    })(
+                    <Select labelInValue
                       disabled={record.id}
                       placeholder={this.$t({ id: 'common.please.select' } /*请选择*/)}
-                      onFocus={this.getCurrencyOptions}
+                      onDropdownVisibleChange={this.getCurrencyOptions}
                       notFoundContent={
                         currencyLoading ? (
                           <Spin size="small" />
@@ -485,7 +485,7 @@ class NewContract extends React.Component {
                       }
                     >
                       {currencyOptions.map(option => {
-                        return <Option key={option.currency}>{option.currency}</Option>;
+                        return <Option key={option.currency}>{option.currency}-{option.currencyName}</Option>;
                       })}
                     </Select>
                   )}
