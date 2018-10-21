@@ -527,10 +527,9 @@ class NewPrePaymentDetail extends React.Component {
                     : '',
                 })(
                   <InputNumber
-                    precision={2}
                     placeholder="请输入"
                     style={{ width: '100%' }}
-                    onMouseOut={this.onAmountMouseMove}
+                    onBlur={this.onAmountMouseMove}
                   />
                   )}
               </FormItem>
