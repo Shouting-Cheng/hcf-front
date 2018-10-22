@@ -563,6 +563,19 @@ export const getRouterData = app => {
       name: '供应商分配公司',
       parent: '/financial-management/supplier-maintain',
     },
+    '/admin-setting/form-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/admin-setting/form/form-list.js')
+      ),
+      name: '表单管理',
+    },
+    '/admin-setting/form-list/new-form/:formType/:booksID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/admin-setting/form/form-detail/form-detail.js')
+      ),
+      name: '新建表单',
+      parent: '/admin-setting/form-list',
+    },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/finance-audit/finance-audit')

@@ -16,6 +16,7 @@ import {
   Col,
   Icon,
   Input,
+  InputNumber
 } from 'antd';
 import config from 'config';
 import ListSelector from 'widget/list-selector';
@@ -121,8 +122,8 @@ class ExpenseAdjust extends React.Component {
           colSpan: 6,
           items: [
             //金额从
-            { type: 'input', id: 'amountMin', label: this.$t('exp.money.from') },
-            { type: 'input', id: 'amountMax', label: this.$t('exp.money.from') },
+            { type: 'inputNumber', id: 'amountMin', label: this.$t('exp.money.from') },
+            { type: 'inputNumber', id: 'amountMax', label: this.$t('exp.money.from') },
           ], //金额至
         },
         {

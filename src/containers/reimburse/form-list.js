@@ -46,6 +46,7 @@ class FormList extends React.Component {
       currencyCodeList: [],
       contarctList: [],
       currencyCode: '',
+      currencyName:'',
       companyId: '',
       value: '',
       receivables: [],
@@ -94,6 +95,7 @@ class FormList extends React.Component {
             formSetings: nextProps.formSetings,
             payeeId: { key: sign, label: nextProps.formSetings.defaultPaymentInfo.partnerName },
             currencyCode: nextProps.formSetings.currencyCode,
+            currencyName: nextProps.formSetings.currencyName,
           },
           () => {
             this.getReceivables('', sign);
@@ -108,6 +110,7 @@ class FormList extends React.Component {
   //加载公司和部门的默认值设置
   listInit = () => {
     const { user, company } = this.props;
+    this.getCurrencyList();
     this.setState({
       companySelectedData: [
         {
@@ -132,7 +135,6 @@ class FormList extends React.Component {
       currnetApplyerId: user.id,
       setOfBooksId: company.setOfBooksId,
       baseCurrency: company.baseCurrency,
-      currencyCode: company.baseCurrency,
       companyId: user.companyId,
     });
   };
@@ -404,7 +406,7 @@ class FormList extends React.Component {
                   labelInValue
                   placeholder={i.promptInfo ? i.promptInfo : '请选择'}
                   disabled={i.readonly}
-                  onFocus={() => this.handleFocus(i, 'costCenterOID', i.fieldOID)}
+                  onDropdownVisibleChange={() => this.handleFocus(i, 'costCenterOID', i.fieldOID)}
                 >
                   {this.state.costData[i.fieldOID] &&
                     this.state.costData[i.fieldOID].map(o => {
@@ -472,17 +474,17 @@ class FormList extends React.Component {
             <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
               {getFieldDecorator(i.fieldOID, {
                 rules: [{ required: i.required, message: i.promptInfo }],
-                initialValue: i.value || this.state.currencyCode,
+                initialValue: i.value || "CNY",
               })(
                 <Select
                   disabled={!isNew}
-                  onFocus={this.getCurrencyList}
+                  onDropdownVisibleChange={this.getCurrencyList}
                   onChange={this.handleCurrencyChange}
                 >
                   {currencyCodeList.map(value => {
                     return (
                       <Option key={value.currency} value={value.currency}>
-                        {value.currency}
+                        {value.currency} - {value.currencyName}
                       </Option>
                     );
                   })}
@@ -518,7 +520,7 @@ class FormList extends React.Component {
                 rules: [{ required: i.required, message: i.promptInfo }],
                 initialValue: i.value || '',
               })(
-                <Select onFocus={this.selectApprover}>
+                <Select onDropdownVisibleChange={this.selectApprover}>
                   {this.state.approverList.map(o => {
                     return (
                       <Option key={o.userId} value={o.userId}>
@@ -638,10 +640,14 @@ class FormList extends React.Component {
   };
 
   getCurrencyList = () => {
-    reimburseService
-      .getCurrencyCode()
-      .then(res => {
-        this.setState({ currencyCodeList: res.data });
+      !this.state.currencyCodeList.length &&reimburseService.getCurrencyCode().then(res => {
+        let currencyName='';
+        res.data.map(item => {
+          if(item.currency === this.state.currencyCode){
+            currencyName = item.currencyName;
+          }
+        })
+        this.setState({ currencyCodeList: res.data,currencyName });
       })
       .catch(err => {
         message.error('获取币种失败！');
