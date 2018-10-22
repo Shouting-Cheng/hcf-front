@@ -624,13 +624,26 @@ export const getRouterData = app => {
       name: 'pay-refund',
     },
     '/pay/pay-refund-check': {
-      //付款退款
+      //付款退款复核
       component: dynamicWrapper(app, [], () =>
         import('containers/pay/pay-refund/pay-refund-check-query.js')
       ),
       name: 'pay-refund-check',
     },
-
+    '/pay/pay-backlash/:tab': {
+      //付款反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash/pay-backlash.js')
+      ),
+      name: 'pay-backlash',
+    },
+    '/pay/pay-backlash-recheck/:tab': {
+      //付款反冲复核
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash-recheck/pay-backlash-recheck.js')
+      ),
+      name: 'pay-backlash-recheck',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

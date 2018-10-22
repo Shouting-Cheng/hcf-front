@@ -22,7 +22,7 @@ class PrePaymentDetail extends React.Component {
       // myContract: menuRoute.getRouteItem('me-pre-payment', 'key'),
       // paymentDetail: menuRoute.getRouteItem('payment-detail', 'key'),    //支付详情
       headerData: {},
-      id: null
+      id: 0
     };
   }
   componentDidMount() {
