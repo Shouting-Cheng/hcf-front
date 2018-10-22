@@ -671,15 +671,14 @@ class ContractWorkflowDetailCommon extends React.Component {
                 <Col span={10} className="header-tips" style={{ textAlign: 'right' }}>
                   <Breadcrumb style={{ marginBottom: '10px' }}>
                     <Breadcrumb.Item>
-                      {this.$t('common.amount')}:&nbsp;<span style={{ color: 'Green' }}>
+                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('common.amount')}:</span>&nbsp;<span style={{ color: 'Green'}}>
                         {' '}
-                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                      {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
                       </span>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                      {this.$t('acp.function.amount')}:<span style={{ color: 'Green' }}>
-                        {' '}
-                        {headerData.currency}&nbsp;{this.filterMoney(headerData.functionAmount)}
+                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('acp.function.amount')}</span><span style={{ color: 'Green' }}>
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
                       </span>
                     </Breadcrumb.Item>
                   </Breadcrumb>

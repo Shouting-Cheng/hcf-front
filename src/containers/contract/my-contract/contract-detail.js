@@ -133,7 +133,7 @@ class ContractDetail extends React.Component {
               {this.$t({ id: 'my.contract.submit' } /*提 交*/)}
             </Button>
             <Button style={{ marginLeft: '0px' }} onClick={this.onDelete} loading={dLoading}>
-              {this.$t({ id: 'my.contract.delete.contract' } /*删除合同*/)}
+              {this.$t({ id: 'common.delete' } /*删除合同*/)}
             </Button>
             <Button style={{ marginLeft: '20px' }} onClick={this.onCancel}>
               {this.$t({ id: 'common.back' } /*返回*/)}
