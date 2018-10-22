@@ -7,6 +7,7 @@ import { Button, Table, Badge, Icon, Popconfirm, message, Input, Popover } from 
 import SlideFrame from 'containers/financial-accounting-setting/accounting-source/slide-frame'
 import newUpDataLineModeDataRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-data-rules'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
+import { routerRedux } from 'dva/router';
 
 class LineModeDataRulesSystem extends React.Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class LineModeDataRulesSystem extends React.Component {
   }
 
   getLineMode() {
-    accountingService.getSourceTransactionModelbyID(this.props.params.lineModelId).then((response) => {
+    accountingService.getSourceTransactionModelbyID(this.props.match.params.lineModelId).then((response) => {
       this.setState({
         journalLineModel: response.data
       })
@@ -56,7 +57,7 @@ class LineModeDataRulesSystem extends React.Component {
   }
 
   // getSourceTransactionData() {
-  //   accountingService.getSourceTransactionDatabyID(this.props.params.id).then((response) => {
+  //   accountingService.getSourceTransactionDatabyID(this.props.match.params.id).then((response) => {
   //     this.setState({
   //       sourceTransactionCode: response.data.sourceTransactionCode,
   //     })
@@ -74,7 +75,7 @@ class LineModeDataRulesSystem extends React.Component {
     }
     params.page = this.state.page;
     params.size = this.state.pageSize;
-    params.journalLineModelId = this.props.params.lineModelId;
+    params.journalLineModelId = this.props.match.params.lineModelId;
     if (searchText) {
       params.elementNature = searchText;
     } else {
@@ -117,8 +118,8 @@ class LineModeDataRulesSystem extends React.Component {
       params: {
         isNew: true,
         timestamp: timestamp,
-        sourceTransactionId: this.props.params.id,
-        lineModelId: this.props.params.lineModelId,
+        sourceTransactionId: this.props.match.params.id,
+        lineModelId: this.props.match.params.lineModelId,
         glSceneId: this.state.journalLineModel.glSceneId,
         journalLineModel: this.state.journalLineModel,
         sourceTransactionCode: this.state.sourceTransactionCode,
@@ -135,8 +136,8 @@ class LineModeDataRulesSystem extends React.Component {
       record: record,
       isNew: false,
       timestamp: timestamp,
-      sourceTransactionId: this.props.params.id,
-      lineModelId: this.props.params.lineModelId,
+      sourceTransactionId: this.props.match.params.id,
+      lineModelId: this.props.match.params.lineModelId,
       glSceneId: this.state.journalLineModel.glSceneId,
       journalLineModel: this.state.journalLineModel,
       sourceTransactionCode: this.state.sourceTransactionCode,
@@ -163,12 +164,12 @@ class LineModeDataRulesSystem extends React.Component {
             record: res.data,
             isNew: false,
             timestamp: timestamp,
-            sourceTransactionId: this.props.params.id,
-            lineModelId: this.props.params.lineModelId,
+            sourceTransactionId: this.props.match.params.id,
+            lineModelId: this.props.match.params.lineModelId,
             glSceneId: this.state.journalLineModel.glSceneId,
             journalLineModel: this.state.journalLineModel,
             sourceTransactionCode: this.state.sourceTransactionCode,
-          }
+          };
           let lov = {
             title: this.$t({ id: "accounting.source.editDataRules" }),
             visible: true,
@@ -221,7 +222,12 @@ class LineModeDataRulesSystem extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source-system', 'key').children.voucherTemplate.url.replace(':id', this.props.params.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType'
+          .replace(':id', this.props.match.params.id)
+      })
+    );
   };
 
   //取消添加凭证模板

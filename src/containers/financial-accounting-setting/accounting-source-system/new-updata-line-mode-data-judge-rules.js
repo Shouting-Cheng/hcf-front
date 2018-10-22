@@ -102,7 +102,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
           accountingService.addSystemSourceLineModelJudgeRules(data).then((res) => {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields;
           }).catch((e) => {
             this.setState({loading: false})
@@ -122,7 +122,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
           accountingService.upSystemSourceLineModelJudgeRules(data).then((res) => {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields;
           }).catch((e) => {
             this.setState({loading: false})
@@ -137,7 +137,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields;
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {

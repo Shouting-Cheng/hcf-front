@@ -600,12 +600,28 @@ export const getRouterData = app => {
       name: 'voucher-template',
       parent: '/financial-accounting-setting/accounting-source-system'
     },
-    '/financial-accounting-setting/accounting-source-system/voucher-template/:id/line-mode-data-rules-system/:lineModelId':{
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id':{
       //取值规则
       component: dynamicWrapper(app, [], ()=>
         import('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
       ),
       name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id':{
+      //判断规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-judge-rules')
+      ),
+      name: 'judge-rules',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id':{
+      //核算规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-rules')
+      ),
+      name: 'account-rules',
       parent: '/financial-accounting-setting/accounting-source-system'
     },
 

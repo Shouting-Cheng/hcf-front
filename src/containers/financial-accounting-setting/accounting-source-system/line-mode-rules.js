@@ -5,9 +5,10 @@ import React from 'react'
 import {connect} from 'dva'
 import {Button, Table, Badge, Icon, Popconfirm, message, Input, Popover} from 'antd'
 import SlideFrame from 'widget/slide-frame'
-import newUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-rules'
+import NewUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-rules'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import PropTypes from 'prop-types';
+import { routerRedux } from 'dva/router';
 
 class LineModeRulesSystem extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class LineModeRulesSystem extends React.Component {
       lov: {
         visible: false,
         params: {
-          lineModelId: this.props.params.lineModelId,
+          lineModelId: this.props.match.params.lineModelId,
         }
       },
       journalLineModel: {},
@@ -54,7 +55,7 @@ class LineModeRulesSystem extends React.Component {
 
   //获取来源事务的账套
   getSource() {
-    let sourceId = this.props.params.id;
+    let sourceId = this.props.match.params.id;
     accountingService.getSourceTransactionbyID(sourceId).then((response) => {
       let data = response.data;
       this.setState({
@@ -65,7 +66,7 @@ class LineModeRulesSystem extends React.Component {
 
 
   getLineMode() {
-    accountingService.getSourceTransactionModelbyID(this.props.params.lineModelId).then((response) => {
+    accountingService.getSourceTransactionModelbyID(this.props.match.params.lineModelId).then((response) => {
       this.setState({
         journalLineModel: response.data
       })
@@ -81,7 +82,7 @@ class LineModeRulesSystem extends React.Component {
     }
     params.page = this.state.page;
     params.size = this.state.pageSize;
-    params.journalLineModelId = this.props.params.lineModelId;
+    params.journalLineModelId = this.props.match.params.lineModelId;
     if (searchText) {
       params.journalFieldName = searchText;
     } else {
@@ -119,8 +120,8 @@ class LineModeRulesSystem extends React.Component {
       visible: true,
       params: {
         isNew: true,
-        sourceTransactionId: this.props.params.id,
-        lineModelId: this.props.params.lineModelId,
+        sourceTransactionId: this.props.match.params.id,
+        lineModelId: this.props.match.params.lineModelId,
         glSceneId: this.state.journalLineModel.glSceneId,
         setOfBooksId: this.state.setOfBooksId,
         journalLineModel: this.state.journalLineModel,
@@ -138,13 +139,13 @@ class LineModeRulesSystem extends React.Component {
     let params = {
       record: record,
       isNew: false,
-      sourceTransactionId: this.props.params.id,
-      lineModelId: this.props.params.lineModelId,
+      sourceTransactionId: this.props.match.params.id,
+      lineModelId: this.props.match.params.lineModelId,
       glSceneId: this.state.journalLineModel.glSceneId,
       setOfBooksId: this.state.setOfBooksId,
       journalLineModel: this.state.journalLineModel,
       time: time
-    }
+    };
     let lov = {
       title:this.$t({id: "accounting.source.editRule" }),
       visible: true,
@@ -187,7 +188,12 @@ class LineModeRulesSystem extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source-system', 'key').children.voucherTemplate.url.replace(':id', this.props.params.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType'
+          .replace(':id', this.props.match.params.id)
+      })
+    );
   };
 
   //取消添加凭证模板
@@ -198,7 +204,7 @@ class LineModeRulesSystem extends React.Component {
 
   onInputChange = (e) => {
     this.setState({searchText: e.target.value});
-  }
+  };
 
   onSearch = () => {
     const {searchText} = this.state;
@@ -207,7 +213,7 @@ class LineModeRulesSystem extends React.Component {
     }, () => {
       this.getList(searchText)
     })
-  }
+  };
 
   render() {
     const {loading, data, pagination, lov, journalLineModel} = this.state;
@@ -318,10 +324,11 @@ class LineModeRulesSystem extends React.Component {
         </a>
         <SlideFrame title={lov.title}
                     show={lov.visible}
-                    content={newUpDataLineModeRules}
-                    afterClose={this.handleAfterClose}
-                    onClose={() => this.handleShowSlide(false)}
-                    params={lov.params}/>
+                    onClose={() => this.handleShowSlide(false)}>
+            <NewUpDataLineModeRules
+              onClose={this.handleAfterClose}
+              params={lov.params}/>
+        </SlideFrame>
       </div>
     )
   }

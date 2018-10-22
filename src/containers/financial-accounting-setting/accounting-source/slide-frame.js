@@ -1,5 +1,6 @@
 import React from 'react'
 import {Icon} from 'antd'
+import PropTypes from 'prop-types';
 
 import 'styles/components/slide-frame.scss'
 
@@ -87,14 +88,14 @@ class SlideFrame extends React.Component{
 }
 
 SlideFrame.propTypes = {
-  width: React.PropTypes.string,  //宽度
-  title: React.PropTypes.string,  //标题
-  show: React.PropTypes.bool,  //是否显示
-  hasMask: React.PropTypes.bool,  //是否有遮罩层
-  onClose: React.PropTypes.func,  //点击遮罩层或右上方x时触发的事件
-  content: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]),  //内容component，包裹后的元素添加this.props.close方法进行侧滑关闭
-  afterClose: React.PropTypes.func,  //关闭后触发的事件，用于更新外层的show值
-  params: React.PropTypes.object  //外部传入内部组件props
+  width: PropTypes.string,  //宽度
+  title: PropTypes.string,  //标题
+  show: PropTypes.bool,  //是否显示
+  hasMask: PropTypes.bool,  //是否有遮罩层
+  onClose: PropTypes.func,  //点击遮罩层或右上方x时触发的事件
+  content: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),  //内容component，包裹后的元素添加this.props.close方法进行侧滑关闭
+  afterClose: PropTypes.func,  //关闭后触发的事件，用于更新外层的show值
+  params: PropTypes.object  //外部传入内部组件props
 };
 
 SlideFrame.defaultProps = {

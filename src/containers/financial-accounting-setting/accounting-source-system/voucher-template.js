@@ -100,7 +100,7 @@ class AccountingSource extends React.Component {
   handleJudgeRules = (e, record, index) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/line-mode-judge-rules-system/:lineModelId'
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id'
           .replace(':id', this.props.match.params.id).replace(':lineModelId', record.id)
       })
     );
@@ -109,7 +109,7 @@ class AccountingSource extends React.Component {
   handleRules = (e, record, index) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/line-mode-rules-system/:lineModelId'
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id'
           .replace(':id', this.props.match.params.id).replace(':lineModelId', record.id)
       })
     );
@@ -118,7 +118,7 @@ class AccountingSource extends React.Component {
   handleDataRules = (e, record, index) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/line-mode-data-rules-system/:lineModelId'
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id'
           .replace(':id', this.props.match.params.id).replace(':lineModelId', record.id)
       })
     );

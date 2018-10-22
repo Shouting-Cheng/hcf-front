@@ -32,45 +32,41 @@ class NewUpdateLineModeRulesSystem extends React.Component {
 
   componentWillMount() {
     this.getDataRule();
+    if (this.props.params.isNew == true) {
+      //新建
+      this.setState({
+        isNew: true,
+        record: {},
+        dataRule: "NULL"
+      }, () => {
+      })
+    } else if (this.props.params.isNew == false) {
+      //编辑
+      let data = this.props.params.record;
+      let valueData = [];
+      if (data.dataRule === "ACCOUNT_ELEMENT" || data.dataRule === "ACCOUNT_ELEMENT_MAP") {
+        let dataValue = {
+          description: data.elementName,
+          code: data.data,
+          key: data.data,
+        }
+        valueData.push(dataValue);
+      }
+      let dataRule = data.dataRule;
+      this.setState({
+        isNew: false,
+        record: data,
+        dataRule,
+      }, () => {
+        this.setState({
+          accountElementData:valueData
+        })
+      })
+    }
   }
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params && nextProps.params.time && nextProps.params.time != this.props.params.time) {
-      this.props.form.resetFields();
-      // this.getSegement(nextProps.params);
-      if (nextProps.params.isNew == true) {
-        //新建
-        this.setState({
-          isNew: true,
-          record: {},
-          dataRule: "NULL"
-        }, () => {
-        })
-      } else if (nextProps.params.isNew == false) {
-        //编辑
-        let data = nextProps.params.record;
-        let valueData = [];
-        if (data.dataRule === "ACCOUNT_ELEMENT" || data.dataRule === "ACCOUNT_ELEMENT_MAP") {
-          let dataValue = {
-            description: data.elementName,
-            code: data.data,
-            key: data.data,
-          }
-          valueData.push(dataValue);
-        }
-        let dataRule = data.dataRule;
-        this.setState({
-          isNew: false,
-          record: data,
-          dataRule,
-        }, () => {
-          this.setState({
-            accountElementData:valueData
-          })
-        })
-      }
-    }
   }
 
   //获取科目段值
@@ -150,7 +146,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
           accountingService.addSystemSourceLineModelRules(dataValue).then((res) => {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields();
           }).catch((e) => {
             this.setState({loading: false});
@@ -171,7 +167,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
           accountingService.upSystemSourceLineModelRules(editData).then((res) => {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields();
           }).catch((e) => {
             this.setState({loading: false});
@@ -183,7 +179,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {

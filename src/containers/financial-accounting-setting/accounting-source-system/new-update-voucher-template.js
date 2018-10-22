@@ -90,7 +90,7 @@ class NewUpdateSection extends React.Component {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
           }).catch((e) => {
             this.setState({loading: false});
             message.error(e.response.data.message);
@@ -111,7 +111,7 @@ class NewUpdateSection extends React.Component {
             message.success(this.$t({id: "common.operate.success"}));
             this.props.form.resetFields();
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
           }).catch((e) => {
             this.setState({loading: false});
             message.error(e.response.data.message);
