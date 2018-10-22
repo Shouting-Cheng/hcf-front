@@ -6,6 +6,7 @@ import {
   Input,
   Row,
   Col,
+  InputNumber,
   message,
   Menu,
   Badge,
@@ -49,6 +50,7 @@ class MyContract extends React.Component {
           colSpan: 6,
           id: 'contractName',
           label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
+          event:"CONTRACT_NAME"
         },
         {
           type: 'list',
@@ -62,6 +64,7 @@ class MyContract extends React.Component {
           event: 'id',
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
           single: true,
+          event:"COMPANY_ID"
         },
         {
           type: 'list',
@@ -73,6 +76,7 @@ class MyContract extends React.Component {
           valueKey: 'id',
           listType: 'contract_type',
           listExtraParams: { companyId: this.props.company.id },
+          event:"CONTRACT_TYPE_ID"
         },
         {
           type: 'select',
@@ -80,6 +84,7 @@ class MyContract extends React.Component {
           id: 'status',
           label: this.$t({ id: 'common.column.status' } /*状态*/),
           options: statusList,
+          event:"STATUS"
         },
         {
           type: 'items',
@@ -90,11 +95,13 @@ class MyContract extends React.Component {
               type: 'date',
               id: 'signDateFrom',
               label: this.$t({ id: 'my.contract.signDate.from' } /*签署日期从*/),
+              event:"SIGN_DATE_FROM"
             },
             {
               type: 'date',
               id: 'signDateTo',
               label: this.$t({ id: 'my.contract.signDate.to' } /*签署日期至*/),
+              event:"SIGN_DATE_TO"
             },
           ],
         },
@@ -117,6 +124,7 @@ class MyContract extends React.Component {
           valueKey: 'id',
           disabled: true,
           labelKey: 'name',
+          event:"PARTNER_ID"
         },
         {
           type: 'select',
@@ -128,6 +136,7 @@ class MyContract extends React.Component {
           labelKey: 'currency',
           valueKey: 'currency',
           colSpan: 6,
+          event:"CURRENCY"
         },
         {
           type: 'items',
@@ -135,14 +144,16 @@ class MyContract extends React.Component {
           id: 'amountRange',
           items: [
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountFrom',
               label: this.$t({ id: 'my.contract.amount.from' } /*合同金额从*/),
+              event:"AMOUNT_FROM"
             },
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountTo',
               label: this.$t({ id: 'my.contract.amount.to' } /*合同金额至*/),
+              event:"AMOUNT_TO"
             },
           ],
         },
@@ -151,6 +162,7 @@ class MyContract extends React.Component {
           colSpan: 6,
           id: 'remark',
           label: this.$t({ id: 'common.comment' } /*备注*/),
+          event:"REMARK"
         },
       ],
       searchParams: {},
@@ -331,10 +343,20 @@ class MyContract extends React.Component {
     if(values.partnerId && values.partnerId[0]){
       values.partnerId = values.partnerId[0];
     }
-    this.setState({ ...this.state.searchParams, ...values }, () => {
+    this.setState({ searchParams:{...this.state.searchParams, ...values} }, () => {
       this.customTable.search({ ...this.state.searchParams, ...values });
     });
   };
+
+  change = (e) =>{
+    const { searchParams } = this.state;
+    if(e && e.target && e.target.value){
+      searchParams.contractNumber = e.target.value;
+    }else{
+      searchParams.contractNumber = '';
+    }
+    this.setState({searchParams});
+  }
 
   clear = () => {
     const { searchForm } = this.state;
@@ -358,8 +380,11 @@ class MyContract extends React.Component {
 
   eventHandle = (type, value) => {
     let searchForm = this.state.searchForm;
+    const { searchParams } = this.state;
     switch (type) {
       case 'CON_PARTNER_TYPE': {
+        searchParams.partnerCategory = value;
+        this.setState({searchParams});
         if (value) {
           searchForm[6].disabled = false;
           searchForm[6].listExtraParams = {
@@ -373,6 +398,55 @@ class MyContract extends React.Component {
         }
         break;
       }
+      case 'CONTRACT_NAME': {
+        searchParams.contractName = value;
+        break;
+      }
+      case 'CONTRACT_TYPE_ID': {
+        searchParams.contractTypeId = value;
+        break;
+      }
+      case 'STATUS': {
+        searchParams.status = value;
+        break;
+      }
+      case 'SIGN_DATE_FROM': {
+        if(value){
+          searchParams.signDateFrom = moment(value).format('YYYY-MM-DD')
+        }else{
+          searchParams.signDateFrom = '';
+        }
+        break;
+      }
+      case 'SIGN_DATE_TO': {
+        if(value){
+          searchParams.signDateTo = moment(value).format('YYYY-MM-DD')
+        }else{
+          searchParams.signDateTo = '';
+        }
+        break;
+      }
+      case 'PARTNER_ID': {
+        searchParams.partnerId = value;
+        break;
+      }
+      case 'CURRENCY': {
+        searchParams.currency = value;
+        break;
+      }
+      case 'AMOUNT_FROM': {
+        searchParams.amountFrom = value;
+        break;
+      }
+      case 'AMOUNT_TO': {
+        searchParams.amountTo = value;
+        break;
+      }
+      case 'REMARK': {
+        searchParams.remark = value;
+      break;
+    }
+      this.setState({searchParams});
     }
 
     /*if (type === 'id') {  //合同类型
@@ -476,6 +550,7 @@ class MyContract extends React.Component {
             <Search
               placeholder={this.$t('my.please.input.number')}
               onSearch={this.searchNumber}
+              onChange={this.change}
               className="search-number"
               enterButton
             />

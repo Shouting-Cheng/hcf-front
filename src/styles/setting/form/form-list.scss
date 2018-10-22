@@ -1,12 +1,14 @@
-.form-design-form-list{
-  .condition-rule-icon-tips{
-    background: #e7f3fc;
-    border: solid 1px #c2e4fd;
-    padding: 6px 15px 6px 15px;
-    border-radius: 2px;
-    margin-bottom: 10px;
-    .tips-text{
-      padding-left: 10px;
+:global{
+  .form-design-form-list{
+    .condition-rule-icon-tips{
+      background: #e7f3fc;
+      border: solid 1px #c2e4fd;
+      padding: 6px 15px 6px 15px;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      .tips-text{
+        padding-left: 10px;
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Button, Table, message, Badge, Popover, Dropdown, Icon, Menu, Row, Col, Input } from 'antd'
+import { Form, Button, Table, message, Badge, Popover, Dropdown, Icon, Menu, Row, Col, Input,InputNumber } from 'antd'
 const Search = Input.Search;
 import config from 'config'
 
@@ -56,8 +56,8 @@ class MyPrePayment extends React.Component {
             type: 'items', colSpan: '6', id: 'amountRange',
             items:
               [
-                { type: 'input', id: 'advancePaymentAmountFrom', label: "本币金额从" },
-                { type: 'input', id: 'advancePaymentAmountTo', label: "本币金额至" }
+                { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "本币金额从" },
+                { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "本币金额至" }
               ]
           },
           {

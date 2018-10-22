@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Tabs, Table, message, Badge, Input, Row, Col, Popover } from 'antd';
+import { Form, Tabs, Table, message,InputNumber, Badge, Input, Row, Col, Popover } from 'antd';
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';
 import config from 'config';
@@ -81,13 +81,13 @@ class ContractWorkflowApprove extends React.Component {
           id: 'noWritedAmount',
           items: [
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountFrom',
               label: this.$t('my.contract.amount.from'),
               placeholder: this.$t('exp.money.from'),
             },
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountTo',
               label: this.$t('my.contract.amount.to'),
               placeholder: this.$t('exp.money.to'),
@@ -202,12 +202,16 @@ class ContractWorkflowApprove extends React.Component {
     } else {
       values.finished = false;
     }
+    if(values.userOID && values.userOID[0]){
+      values.userOID = values.userOID[0];
+    }
     //处理查询条件为弹出框时返回的数组问题
     if(values.createdBy && values.createdBy[0]){
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ searchParams: values });
-    this.table.search(values);
+    this.setState({ ...this.state.searchParams,...values },()=>{
+      this.table.search({ ...this.state.searchParams,...values });
+    });
   };
 
   handleTabsChange = key => {
@@ -267,6 +271,29 @@ class ContractWorkflowApprove extends React.Component {
     );
   };
 
+  clear = () => {
+    const { searchParams } = this.state;
+    searchParams.contractNumber = '';
+    this.setState({
+      searchParams,
+    });
+  };
+  change = (e) =>{
+    if(e && e.target && e.target.value){
+      const { searchParams } = this.state;
+      searchParams.contractNumber = e.target.value;
+      this.setState({
+        searchParams,
+      });
+    }else{
+      const { searchParams } = this.state;
+      searchParams.contractNumber = '';
+      this.setState({
+        searchParams,
+      });
+    }
+  }
+
   renderContent = () => {
     const { searchForm, tabValue, columns } = this.state;
 
@@ -285,6 +312,8 @@ class ContractWorkflowApprove extends React.Component {
               <Search
                 placeholder={this.$t({ id: 'my.please.input.number' })}
                 onSearch={this.searchNumber}
+                onChange={this.change}
+                clearHandle={this.clear}
                 enterButton
               />
             </Col>
