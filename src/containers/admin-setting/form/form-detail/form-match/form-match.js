@@ -9,6 +9,7 @@ import config from 'config';
 import PropTypes from 'prop-types'
 const FormItem = Form.Item;
 const Option = Select.Option;
+import { routerRedux } from 'dva/router';
 
 
 class FormMatch extends React.Component {
@@ -205,6 +206,11 @@ class FormMatch extends React.Component {
     //返回
     backFun = () => {
         // this.context.router.push(this.state.formMenu.url)
+        this.props.dispatch(
+            routerRedux.push({
+              pathname: `/admin-setting/form-list`,
+            })
+          );
     }
     //关闭弹出框
     showListSelector = () => {

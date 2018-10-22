@@ -183,7 +183,7 @@ class FormDetail extends React.Component {
             <div className="form-detail">
                 {loading ? <Spin /> : (
                     <div>
-                        <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
+                        <Tabs onChange={this.onChangeTabs} activeKey={nowTab} style={{paddingBottom:'20px'}}>
                             {this.renderTabs()}
                         </Tabs>
                         {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase} />}
