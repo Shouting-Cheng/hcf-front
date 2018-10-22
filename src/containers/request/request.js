@@ -47,10 +47,10 @@ class ApplicationList extends React.Component{
       }],
       searchForm: [
         {type: 'items', id: 'dateRange', items: [
-          {type: 'date', id: 'startDate', label: this.$t('request.start.date'/*起始日期*/)},
-          {type: 'date', id: 'endDate', label: this.$t('request.end.date'/*结束日期*/)}
+          {type: 'date', id: 'startDate', label: this.$t('request.start.date'/*起始日期*/),event:"startDate"},
+          {type: 'date', id: 'endDate', label: this.$t('request.end.date'/*结束日期*/),event:"endDate"}
         ]},
-        {type: 'input', label: this.$t('request.applicant'/*申请人*/), id: 'keyword'}
+        {type: 'input', label: this.$t('request.applicant'/*申请人*/), id: 'keyword',event:"keyword"}
       ],
       searchParams: {status: '10011002100310041005100610071008'},
       columns: [
@@ -226,11 +226,12 @@ class ApplicationList extends React.Component{
 
   search = (values) => {
     this.setCache({...values});
+    let {searchParams} = this.state;
     values.formOID === 'all' && (values.formOID = '');
     values.startDate && (values.startDate = moment(values.startDate).format('YYYY-MM-DD+00:00:00'));
     values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD+23:59:59'));
     this.setState({
-      searchParams: values,
+      searchParams: {...searchParams,values},
       page: 0,
       pagination: {
         total: 0
@@ -253,7 +254,7 @@ class ApplicationList extends React.Component{
   };
 
   handleSearch= (value) => {
-    let searchParams = this.state.searchParams;
+    let {searchParams} = this.state;
     searchParams.businessCode = value;
     this.setState({
       searchParams,
@@ -266,6 +267,36 @@ class ApplicationList extends React.Component{
     })
   };
 
+  change = (e) =>{
+    const { searchParams } = this.state;
+    if(e && e.target && e.target.value){
+      searchParams.businessCode = e.target.value;
+    }else{
+      searchParams.businessCode = '';
+    }
+    this.setState({searchParams});
+    this.setCache({searchParams});
+  }
+
+  eventHandle2 = (type, value) => {
+    let searchForm = this.state.searchForm;
+    const {searchParams} = this.state;
+    switch (type) {
+      case 'startDate': {
+        searchParams.startDate = moment(value).format('YYYY-MM-DD+00:00:00');
+      }
+      case 'endDate': {
+        searchParams.endDate = moment(value).format('YYYY-MM-DD+23:59:59');
+        break;
+      }
+      case 'keyword': {
+        searchParams.keyword = value;
+        break;
+      }
+      this.setState({searchParams});
+      this.setCache({searchParams});
+    }
+  }
   expandedRowRender= (record) => {
     let expandedFlag = false;
     if (record.warning || record.rejectType === 1002 || record.rejectType === 1003 || (record.participantClosed || record.closed || (record.applicationParticipant && record.applicationParticipant.closed)) || (record.referenceExpenseReportsCode && record.referenceExpenseReportsCode.length)) {
@@ -400,6 +431,7 @@ class ApplicationList extends React.Component{
       <div className="application-list">
         <SearchArea searchForm={searchForm}
                     submitHandle={this.search}
+                    eventHandle={this.eventHandle2}
                     clearHandle={this.clear}
                     checkboxListForm={checkboxListForm}/>
         <div className="table-header">
@@ -411,7 +443,10 @@ class ApplicationList extends React.Component{
             {isShowProxy && <Button onClick={() => this.showProxyModal()}>{this.$t('request.proxy')/*代提申请单*/}</Button>}
             <Search className="input-search"
                     placeholder={this.$t('request.input.request.number')/*输入申请单号*/}
-                    onChange={(e) => this.handleSearch(e.target.value)} />
+                    onSearch={this.handleSearch}
+                    onChange={this.change}
+                    enterButton
+            />
           </div>
         </div>
         <Table rowKey="applicationOID"

@@ -13,6 +13,7 @@ import {
   Icon,
   Row,
   Input,
+  InputNumber,
   Popover,
   Tag,
 } from 'antd';
@@ -58,6 +59,7 @@ class Contract extends React.Component {
           colSpan: 6,
           id: 'contractName',
           label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
+          event:"contractName"
         },
         {
           type: 'select',
@@ -72,6 +74,7 @@ class Contract extends React.Component {
           labelKey: 'contractTypeName',
           valueKey: 'id',
           placeholder: this.$t({ id: 'common.please.enter' } /*请输入*/),
+          event:"contractTypeId"
         },
         {
           type: 'list',
@@ -84,6 +87,7 @@ class Contract extends React.Component {
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+          event:"createdBy"
         },
         {
           type: 'items',
@@ -94,11 +98,13 @@ class Contract extends React.Component {
               type: 'date',
               id: 'submittedDateFrom',
               label: this.$t({ id: 'contract.search.submit.date.from' } /*提交日期从*/),
+              event:"submittedDateFrom"
             },
             {
               type: 'date',
               id: 'submittedDateTo',
               label: this.$t({ id: 'contract.search.submit.date.to' } /*提交日期至*/),
+              event:"submittedDateTo"
             },
           ],
         },
@@ -112,6 +118,7 @@ class Contract extends React.Component {
           labelKey: 'currency',
           valueKey: 'currency',
           colSpan: 6,
+          event:"currency"
         },
         {
           type: 'items',
@@ -119,14 +126,16 @@ class Contract extends React.Component {
           id: 'amountRange',
           items: [
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountFrom',
               label: this.$t({ id: 'my.contract.amount.from' } /*合同金额从*/),
+              event:"amountFrom"
             },
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'amountTo',
               label: this.$t({ id: 'my.contract.amount.to' } /*合同金额至*/),
+              event:"amountTo"
             },
           ],
         },
@@ -135,6 +144,7 @@ class Contract extends React.Component {
           colSpan: 6,
           id: 'remark',
           label: this.$t({ id: 'common.comment' } /*备注*/),
+          event:"remark"
         },
       ],
       columns: [
@@ -230,7 +240,7 @@ class Contract extends React.Component {
           type: 'input',
           id: 'keyword',
           colSpan: 6,
-          label: this.$t({ id: 'contract.search.name.employeeId' } /*申请人姓名/工号*/),
+          label: this.$t({ id: 'contract.search.name.createdBy' } /*申请人姓名/工号*/),
         },
         // {type: 'combobox', id: 'contractTypeId', label: this.$t({id: "my.contract.type"}/*合同类型*/),
         //   searchUrl: `${config.contractUrl}/api/contract/type/contract/type/by/company`, method: 'get', options: [],
@@ -423,7 +433,7 @@ class Contract extends React.Component {
     values.submittedDateTo &&
       (values.submittedDateTo = moment(values.submittedDateTo).format('YYYY-MM-DD'));
     //处理查询条件为弹出框时返回的数组问题
-    if(values.createdBy[0]){
+    if(values.createdBy && values.createdBy[0]){
       values.createdBy = values.createdBy[0];
     }
     this.setState({ unApproveSearchParams: values, approveSearchParams: values }, () => {
@@ -463,6 +473,100 @@ class Contract extends React.Component {
       tabValue: key,
     });
   };
+  eventHandle = (type, value) => {
+    let {unApproveSearchParams,approveSearchParams} = this.state;
+    switch (type) {
+      case 'contractName': {
+        unApproveSearchParams.contractName = value;
+        approveSearchParams.contractName = value;
+        break;
+      }
+      case 'contractTypeId': {
+        unApproveSearchParams.contractTypeId = value;
+        approveSearchParams.contractTypeId = value;
+        break;
+      }
+      case 'createdBy': {
+        debugger;
+        if(value && value[0]){
+          unApproveSearchParams.createdBy = value[0].id;
+          approveSearchParams.createdBy = value[0].id;
+        }else{
+          unApproveSearchParams.createdBy = '';
+          approveSearchParams.createdBy = '';
+        }
+        break;
+      }
+      case 'submittedDateFrom': {
+        if (value) {
+          unApproveSearchParams.submittedDateFrom = moment(value).format('YYYY-MM-DD');
+          approveSearchParams.submittedDateFrom = moment(value).format('YYYY-MM-DD');
+        } else {
+          unApproveSearchParams.submittedDateFrom = '';
+          approveSearchParams.submittedDateFrom = '';
+        }
+        break;
+      }
+      case 'submittedDateTo': {
+        if (value) {
+          unApproveSearchParams.submittedDateTo = moment(value).format('YYYY-MM-DD');
+          approveSearchParams.submittedDateTo = moment(value).format('YYYY-MM-DD');
+        } else {
+          unApproveSearchParams.submittedDateTo = '';
+          approveSearchParams.submittedDateTo = '';
+        }
+        break;
+      }
+      case 'currency': {
+        unApproveSearchParams.currency = value;
+        approveSearchParams.currency = value;
+        break;
+      }
+      case 'amountFrom': {
+        unApproveSearchParams.amountFrom = value;
+        approveSearchParams.amountFrom = value;
+        break;
+      }
+      case 'amountTo': {
+        unApproveSearchParams.amountTo = value;
+        approveSearchParams.amountTo = value;
+        break;
+      }
+      case 'remark': {
+        unApproveSearchParams.remark = value;
+        approveSearchParams.remark = value;
+        break;
+      }
+      this.setState({unApproveSearchParams,approveSearchParams});
+    }
+  }
+
+  searchNumber = e => {
+    let {unApproveSearchParams,approveSearchParams} = this.state;
+    unApproveSearchParams.contractNumber = e;
+    approveSearchParams.contractNumber = e;
+    this.setState({unApproveSearchParams,approveSearchParams},() => {
+        if(this.state.tabValue === 'unapproved'){
+          this.customTable.search({ ...this.state.unApproveSearchParams});
+        }else{
+          this.customTable.search({ ...this.state.approveSearchParams});
+        }
+      }
+    );
+  };
+
+  change = (e) =>{
+    let {unApproveSearchParams,approveSearchParams} = this.state;
+    if(e && e.target && e.target.value){
+      unApproveSearchParams.contractNumber = e.target.value;
+      approveSearchParams.contractNumber = e.target.value;
+    }else{
+      unApproveSearchParams.contractNumber = '';
+      approveSearchParams.contractNumber = '';
+    }
+    this.setState({unApproveSearchParams,approveSearchParams});
+  }
+
 
   renderContent() {
     const {
@@ -486,6 +590,7 @@ class Contract extends React.Component {
           <SearchArea
             searchForm={SearchForm1}
             maxLength={4}
+            eventHandle={this.eventHandle}
             clearHandle={() => {}}
             submitHandle={this.unapprovedSearch}
           />
@@ -494,10 +599,8 @@ class Contract extends React.Component {
             <Col span={6}>
               <Search
                 placeholder={this.$t({ id: 'my.please.input.number' })}
-                onSearch={e => {
-                  this.customTable &&
-                    this.customTable.search({ ...searchParams, contractNumber: e });
-                }}
+                onSearch={this.searchNumber}
+                onChange={this.change}
                 className="search-number"
                 enterButton
               />
@@ -517,6 +620,7 @@ class Contract extends React.Component {
           <SearchArea
             searchForm={SearchForm1}
             clearHandle={() => {}}
+            eventHandle={this.eventHandle}
             maxLength={4}
             submitHandle={this.approvedSearch}
           />

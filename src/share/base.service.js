@@ -1,6 +1,6 @@
 import config from 'config'
 import React from 'react'
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 // import configureStore from 'stores'
 // import { setUser, setLoginUser, setCompany, setLoginCompany, setTenant,
 //   setProfile, setTenantProfile, setCompanyConfiguration, setIsOldCompany, setLanguageList} from 'actions/login'

@@ -13,6 +13,7 @@ import {
   Popconfirm,
   Popover,
   Input,
+  InputNumber,
   message,
   Divider,
 } from 'antd';

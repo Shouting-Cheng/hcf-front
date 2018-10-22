@@ -262,7 +262,7 @@ BudgetJournalReCheck.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    organization: state.login.organization
+    organization: state.user.organization
   }
 }
 
