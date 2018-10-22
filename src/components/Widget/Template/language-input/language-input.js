@@ -9,7 +9,7 @@ import 'styles/components/template/language-input/language-input.scss';
 import languageGrey from 'images/components/language-grey.png';
 import language from 'images/components/language.png';
 import { Modal, Button, message } from 'antd';
-//import {deepCopy, messages} from 'share/common';
+import {deepCopy} from 'utils/extend';
 import LIService from './language-input.service';
 
 import PropTypes from 'prop-types';
@@ -91,6 +91,7 @@ class LanguageInput extends React.Component {
           });
         } else {
           const i18nName = this.initLanguageListForCreate(languageListLocal);
+          console.log(i18nName)
           let i18nNameForShow = deepCopy(i18nName);
           let nameForShow = this.getNameForShow(currentUseLanguage, i18nName);
           this.setState({
@@ -560,8 +561,8 @@ LanguageInput.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    languageList: state.login.languageList,
-    language: state.main.language,
+    languageList:state.languages.languageList,
+    language: state.languages.languages,
     user: state.user.currentUser,
   };
 }

@@ -231,7 +231,7 @@ Widget.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    language: state.main.language,
+    language: state.languages.languages,
   };
 }
 
