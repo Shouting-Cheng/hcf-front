@@ -21,7 +21,8 @@ class PrePaymentDetail extends React.Component {
       dLoading: false,
       // myContract: menuRoute.getRouteItem('me-pre-payment', 'key'),
       // paymentDetail: menuRoute.getRouteItem('payment-detail', 'key'),    //支付详情
-      headerData: {}
+      headerData: {},
+      id: null
     };
   }
   componentDidMount() {
@@ -29,12 +30,19 @@ class PrePaymentDetail extends React.Component {
   }
   //获取预付款头信息
   getInfo = () => {
-    prePaymentService.getHeadById(this.props.match.params.id).then(res => {
+    let id = null;
+    if (this.props.params && this.props.params.refund){
+      id = this.props.params.id;
+    }else{
+      id = this.props.match.params.id
+    }
+    prePaymentService.getHeadById(id).then(res => {
       if(!res.data) {
         message.error('该单据不存在！');
       }
       this.setState({
         headerData: res.data,
+        id:id
       });
     }).catch((e) => {
       console.log(`获取预付款头信息失败：${e}`);
@@ -127,7 +135,7 @@ class PrePaymentDetail extends React.Component {
     }
   }
   render() {
-    const { loading, dLoading, headerData } = this.state;
+    const { loading, dLoading, headerData,id} = this.state;
     const newState =
       (
         <div>
@@ -144,9 +152,9 @@ class PrePaymentDetail extends React.Component {
       );
     return (
       <div style={{ paddingBottom: 50 }} className="pre-payment-detail">
-        <PrePaymentCommon params={headerData} contractEdit={true} id={this.props.match.params.id} />
+        <PrePaymentCommon params={headerData} contractEdit={true} id={id} />
         {
-          this.props.match.params.refund
+          this.props.params && this.props.params.refund
             ?
             ''
             :
