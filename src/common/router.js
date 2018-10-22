@@ -576,6 +576,13 @@ export const getRouterData = app => {
       name: '新建表单',
       parent: '/admin-setting/form-list',
     },
+    '/admin-setting/form-list/form-detail/:formOID/:booksID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/admin-setting/form/form-detail/form-detail.js')
+      ),
+      name: '表单详情',
+      parent: '/admin-setting/form-list',
+    },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/finance-audit/finance-audit')

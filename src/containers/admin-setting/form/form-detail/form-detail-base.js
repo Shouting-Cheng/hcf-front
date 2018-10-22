@@ -14,6 +14,7 @@ import PermissionsAllocation from 'widget/Template/permissions-allocation'
 import formService from 'containers/admin-setting/form/form.service'
 import Chooser from 'widget/chooser'
 import PropTypes from 'prop-types'
+import { routerRedux } from 'dva/router'
 
 class FormDetailBase extends React.Component {
   constructor(props) {
@@ -166,9 +167,12 @@ class FormDetailBase extends React.Component {
       this.setState({saving: false});
     //   let redirect_url = menuRoute.getRouteItem('form-detail').url.replace(':formOID', res.data.formOID);
       if (booksID && booksID !== ':booksID') {
-        redirect_url = redirect_url.replace(':booksID', booksID);
+        this.props.dispatch(
+          routerRedux.push({
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+          })
+        );
       }
-      this.context.router.replace(redirect_url);
       this.props.handleNew(res.data);
     })
   };
@@ -510,16 +514,16 @@ function mapStateToProps(state) {
   }
 }
 
-// FormDetailBase.contextTypes = {
-//   formType: React.PropTypes.any,
-//   formOID: React.PropTypes.string,
-//   booksID: React.PropTypes.string,
-//   form: React.PropTypes.object,
-//   expenseTypeScope: React.PropTypes.object,
-//   userScope: React.PropTypes.object,
-//   propertyList: React.PropTypes.array,
-//   router: React.PropTypes.object
-// };
+FormDetailBase.contextTypes = {
+  formType:PropTypes.any,
+  formOID: PropTypes.string,
+  booksID: PropTypes.string,
+  form: PropTypes.object,
+  expenseTypeScope: PropTypes.object,
+  userScope:PropTypes.object,
+  propertyList:PropTypes.array,
+  // router: React.PropTypes.object
+};
 
 const WrappedFormDetailBase = Form.create()(FormDetailBase);
 
