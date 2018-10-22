@@ -943,10 +943,6 @@ class BudgetJournalDetail extends React.Component {
     );
   };
 
-  handleCloseSlide = () => {
-    this.setState({ showSlideFrameNew: false });
-  };
-
   onLoadOk = transactionID => {
     budgetJournalService.confirmation(transactionID).then(res => {
       this.showImport(false);
@@ -1050,7 +1046,7 @@ class BudgetJournalDetail extends React.Component {
             show={showSlideFrameNew}
             onClose={() => this.showSlideFrameNew(false)}
           >
-            <NewBudgetJournalDetail onClose={this.handleCloseSlide} params={this.state.params} />
+            <NewBudgetJournalDetail onClose={this.handleAfterCloseNewSlide} params={this.state.params} />
           </SlideFrame>
           <div className="divider"> </div>
           <Affix

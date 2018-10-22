@@ -414,8 +414,6 @@ class NewBudgetJournalDetail extends React.Component {
   componentDidMount = () => {
     if (this.props.params && JSON.stringify(this.props.params) !== '{}') {
       if (this.props.params.isNew === false) {
-        console.log('============================');
-        console.log(this.props.params);
         if (this.props.params.company.length > 0) {
           this.getItemAbled(false, this.props.params.company[0].id, '');
         }
@@ -491,7 +489,7 @@ class NewBudgetJournalDetail extends React.Component {
           this.props.form.resetFields();
           this.props.form.setFieldsValue({
             currency: JSON.stringify(this.state.currencys[0]),
-            rate: this.state.currencys[0].rate,
+            //rate: this.state.currencys[0].rate,
           });
         }
       });
