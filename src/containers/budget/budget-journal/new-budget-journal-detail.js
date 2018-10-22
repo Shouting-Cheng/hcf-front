@@ -472,31 +472,29 @@ class NewBudgetJournalDetail extends React.Component {
         );
       }
 
-      if (this.props.params.time !== this.props.params.time) {
-        this.setState({ params: this.props.params }, () => {
-          let params = this.props.form.getFieldsValue();
-          let result = {};
-          if (!this.props.params.isNew) {
-            this.setState(
-              {
-                rate: this.props.params.rate,
-              },
-              () => {
-                for (let name in params) {
-                  result[name] = this.props.params[name];
-                }
-                this.props.form.setFieldsValue(result);
+      this.setState({ params: this.props.params }, () => {
+        let params = this.props.form.getFieldsValue();
+        let result = {};
+        if (!this.props.params.isNew) {
+          this.setState(
+            {
+              rate: this.props.params.rate,
+            },
+            () => {
+              for (let name in params) {
+                result[name] = this.props.params[name];
               }
-            );
-          } else {
-            this.props.form.resetFields();
-            this.props.form.setFieldsValue({
-              currency: JSON.stringify(this.state.currencys[0]),
-              rate: this.state.currencys[0].rate,
-            });
-          }
-        });
-      }
+              this.props.form.setFieldsValue(result);
+            }
+          );
+        } else {
+          this.props.form.resetFields();
+          this.props.form.setFieldsValue({
+            currency: JSON.stringify(this.state.currencys[0]),
+            rate: this.state.currencys[0].rate,
+          });
+        }
+      });
     } else {
       this.setState({ params: {} });
     }
