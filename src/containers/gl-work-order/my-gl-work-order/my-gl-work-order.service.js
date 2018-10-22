@@ -1,5 +1,5 @@
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 
 export default {
   /**

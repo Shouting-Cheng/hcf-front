@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 import {
   Form,
   Button,

@@ -506,6 +506,12 @@ export const getRouterData = app => {
       ),
       name: 'company-account-setting', // 公司账户设置
     },
+    '/pay-setting/payment-company-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/payment-company-setting/payment-company-setting.js')
+      ),
+      name: 'payment-company-setting', // 付款公司配置
+    },
     '/pay-setting/company-account-setting/bank-account-detail/:companyBankId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/company-account-setting/bank-account-detail.js')
@@ -616,9 +622,35 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
-    }
-
-
+    },
+    '/pay/pay-refund': {
+      //付款退款
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-refund/pay-refund-query.js')
+      ),
+      name: 'pay-refund',
+    },
+    '/pay/pay-refund-check': {
+      //付款退款复核
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-refund/pay-refund-check-query.js')
+      ),
+      name: 'pay-refund-check',
+    },
+    '/pay/pay-backlash/:tab': {
+      //付款反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash/pay-backlash.js')
+      ),
+      name: 'pay-backlash',
+    },
+    '/pay/pay-backlash-recheck/:tab': {
+      //付款反冲复核
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash-recheck/pay-backlash-recheck.js')
+      ),
+      name: 'pay-backlash-recheck',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
