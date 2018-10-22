@@ -2,13 +2,12 @@
  * Created by 13576 on 2018/1/14.
  */
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import {Button, Input, Switch, Select, Form, Icon, notification, Alert, Row, Col, message} from 'antd'
 import baseService from 'share/base.service'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/accounting-source-system/new-update-voucher-template.scss'
-import Chooser from 'components/chooser'
-import {formatMessage} from 'share/common'
+import Chooser from 'widget/chooser'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -149,7 +148,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
         if (isNew) {
           //新建
           accountingService.addSystemSourceLineModelRules(dataValue).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.close(true);
             this.props.form.resetFields();
@@ -170,7 +169,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
             editData.data = "";
           }
           accountingService.upSystemSourceLineModelRules(editData).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.close(true);
             this.props.form.resetFields();
@@ -231,19 +230,19 @@ class NewUpdateLineModeRulesSystem extends React.Component {
 
     return (
       <div className="new-update-voucher-template">
-        <Alert message={formatMessage({id: "accounting.source.voucher.headTips"})} type="warning"/>
+        <Alert message={this.$t({id: "accounting.source.voucher.headTips"})} type="warning"/>
         {accountElementData.key}
         <Form onSubmit={this.handleSubmit} className="voucher-template-form">
-          <FormItem {...formItemLayout} label={formatMessage({id:"accounting.source.journalFieldCode"})}>{/*核算分录段*/}
+          <FormItem {...formItemLayout} label={this.$t({id:"accounting.source.journalFieldCode"})}>{/*核算分录段*/}
             {getFieldDecorator('journalFieldCode', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: journalFieldCode
             })(
               <Chooser
-                placeholder={formatMessage({id: "common.please.select"})}
+                placeholder={this.$t({id: "common.please.select"})}
                 type="accounting_journalField_system"
                 single={true}
                 labelKey="description"
@@ -254,15 +253,15 @@ class NewUpdateLineModeRulesSystem extends React.Component {
               />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.dataRule"})}>{/*取值方式*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.dataRule"})}>{/*取值方式*/}
             {getFieldDecorator('dataRule', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: isNew ? "" : dataRule
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}
                       onSelect={this.handleSelectDataRules}>
                 {
                   dataRuleOption.map((item) => <Option key={item.code}>{item.messageKey}</Option>)
@@ -272,31 +271,31 @@ class NewUpdateLineModeRulesSystem extends React.Component {
           </FormItem>
           {
             dataRule === "FIXED_VALUE" ? (
-              <FormItem {...formItemLayout} label={formatMessage({id:"accounting.source.data"})}>{/*值*/}
+              <FormItem {...formItemLayout} label={this.$t({id:"accounting.source.data"})}>{/*值*/}
                 {getFieldDecorator('fixedValue', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"})
+                    message: this.$t({id: "common.please.enter"})
                   }],
                   //initialValue: isNew ? "" : record.data?record.data:""
                   initialValue: isNew ? "" : record.elementName
                 })(
-                  <Input className="input-disabled-color" placeholder={formatMessage({id:"accounting.source.stateData"})}/>
+                  <Input className="input-disabled-color" placeholder={this.$t({id:"accounting.source.stateData"})}/>
                 )}
               </FormItem>
             ) : ""
           }
           {dataRule === "ACCOUNT_ELEMENT_MAP"?(
-            <FormItem {...formItemLayout}  label={formatMessage({id:"accounting.source.data"})}>{/*值*/}
+            <FormItem {...formItemLayout}  label={this.$t({id:"accounting.source.data"})}>{/*值*/}
               {getFieldDecorator('data', {
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.enter"})
+                  message: this.$t({id: "common.please.enter"})
                 }],
                 initialValue: isNew ? [] : accountElementData
               })(
                 <Chooser
-                  placeholder={formatMessage({id: "common.please.select"})}
+                  placeholder={this.$t({id: "common.please.select"})}
                   type="accounting_scene_elements"
                   single={true}
                   labelKey="description"
@@ -310,16 +309,16 @@ class NewUpdateLineModeRulesSystem extends React.Component {
             </FormItem>):" "}
           {
              dataRule === "ACCOUNT_ELEMENT"? (
-              <FormItem {...formItemLayout}  label={formatMessage({id:"accounting.source.data"})}>{/*值*/}
+              <FormItem {...formItemLayout}  label={this.$t({id:"accounting.source.data"})}>{/*值*/}
                 {getFieldDecorator('data', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"})
+                    message: this.$t({id: "common.please.enter"})
                   }],
                   initialValue: isNew ? [] : accountElementData
                 })(
                   <Chooser
-                    placeholder={formatMessage({id: "common.please.select"})}
+                    placeholder={this.$t({id: "common.please.select"})}
                     type="accounting_scene_elements"
                     single={true}
                     labelKey="description"
@@ -332,11 +331,11 @@ class NewUpdateLineModeRulesSystem extends React.Component {
                 )}
               </FormItem>) : ""
           }
-          {/*<FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.segment"})}>/!*科目段值*!/*/}
+          {/*<FormItem {...formItemLayout} label={this.$t({id: "accounting.source.segment"})}>/!*科目段值*!/*/}
             {/*{getFieldDecorator('segmentId', {*/}
               {/*initialValue: isNew ? "" : record.segmentId ? record.segmentId : ""*/}
             {/*})(*/}
-              {/*<Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}*/}
+              {/*<Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}*/}
                       {/*allowClear={true}>*/}
                 {/*{*/}
                   {/*segementOption.map((item) => <Option key={item.id}>{item.segmentName}</Option>)*/}
@@ -345,7 +344,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
             {/*)}*/}
           {/*</FormItem>*/}
           <FormItem {...formItemLayout}
-                    label={formatMessage({id: "common.column.status"})} colon={true}>
+                    label={this.$t({id: "common.column.status"})} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName: "checked",
               initialValue: isNew ? true : record.enabled
@@ -355,8 +354,8 @@ class NewUpdateLineModeRulesSystem extends React.Component {
           </FormItem>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit"
-                    loading={this.state.loading}>{formatMessage({id: "common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"})}</Button>
+                    loading={this.state.loading}>{this.$t({id: "common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -366,7 +365,7 @@ class NewUpdateLineModeRulesSystem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

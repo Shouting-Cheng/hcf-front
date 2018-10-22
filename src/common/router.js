@@ -585,6 +585,29 @@ export const getRouterData = app => {
       name: 'section-setting',
       parent:'/financial-accounting-setting/section-structure'
     },
+    '/financial-accounting-setting/accounting-source-system':{
+      //来源事务定义
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/accounting-source-system')
+      ),
+      name: 'source-affair-define'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType':{
+      //凭证模版
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/voucher-template')
+      ),
+      name: 'voucher-template',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/:id/line-mode-data-rules-system/:lineModelId':{
+      //取值规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
+      ),
+      name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
 
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>

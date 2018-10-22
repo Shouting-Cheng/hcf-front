@@ -2,16 +2,13 @@
  * created by jsq on 2017/12/27
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Table, Badge} from 'antd'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import NewUpdateScenariosSystem from 'containers/financial-accounting-setting/accounting-scenarios-system/new-update-scenarios-system'
-import SearchArea from 'components/search-area';
-import config from 'config'
-import menuRoute from 'routes/menuRoute'
+import SearchArea from 'widget/search-area';
 import 'styles/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system.scss'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system.service';
-import {formatMessage} from 'share/common'
 
 class AccountingScenariosSystem extends React.Component {
   constructor(props) {
@@ -37,34 +34,34 @@ class AccountingScenariosSystem extends React.Component {
       },
       searchForm: [
         {                                                                        //核算场景代码
-          type: 'input', id: 'glSceneCode', label: formatMessage({id: 'accounting.scenarios.code'})
+          type: 'input', id: 'glSceneCode', label: this.$t({id: 'accounting.scenarios.code'})
         },
         {                                                                        //核算场景名称
-          type: 'input', id: 'glSceneName', label: formatMessage({id: 'accounting.scenarios.name'})
+          type: 'input', id: 'glSceneName', label: this.$t({id: 'accounting.scenarios.name'})
         },
       ],
       columns: [
         {          /*核算场景代码*/
-          title: formatMessage({id:"accounting.scenarios.code"}), key: "glSceneCode", dataIndex: 'glSceneCode'
+          title: this.$t({id:"accounting.scenarios.code"}), key: "glSceneCode", dataIndex: 'glSceneCode'
         },
         {          /*核算场景名称*/
-          title: formatMessage({id:"accounting.scenarios.name"}), key: "glSceneName", dataIndex: 'glSceneName'
+          title: this.$t({id:"accounting.scenarios.name"}), key: "glSceneName", dataIndex: 'glSceneName'
         },
         {           /*状态*/
-          title: formatMessage({id:"common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
+          title: this.$t({id:"common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
           render: enabled => (
             <Badge status={ enabled ? 'success' : 'error'}
-                   text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})} />
+                   text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})} />
           )
         },
-        {title: formatMessage({id:"accounting.scenarios.elements"}), key: 'elements', width: '10%', render: (text, record, index) => (
+        {title: this.$t({id:"accounting.scenarios.elements"}), key: 'elements', width: '10%', render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleLinkElement(e, record,index)}>{formatMessage({id: "accounting.scenarios.elements"})}</a>   {/*编辑*/}
+            <a href="#" onClick={(e) => this.handleLinkElement(e, record,index)}>{this.$t({id: "accounting.scenarios.elements"})}</a>   {/*编辑*/}
           </span>)
         },
-        {title: formatMessage({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record, index) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record,index)}>{formatMessage({id: "common.edit"})}</a>   {/*编辑*/}
+            <a href="#" onClick={(e) => this.handleUpdate(e, record,index)}>{this.$t({id: "common.edit"})}</a>   {/*编辑*/}
           </span>)
         },
       ],
@@ -116,7 +113,7 @@ class AccountingScenariosSystem extends React.Component {
 
   handleCreate = ()=>{
     let lov = {
-      title: formatMessage({id:"accounting.scenarios.new"}),
+      title: this.$t({id:"accounting.scenarios.new"}),
       visible: true,
       params: {flag: true}
     };
@@ -127,7 +124,7 @@ class AccountingScenariosSystem extends React.Component {
 
   handleUpdate = (e,record,index)=>{
     let lov = {
-      title: formatMessage({id:"accounting.scenarios.update"}),
+      title: this.$t({id:"accounting.scenarios.update"}),
       visible: true,
       params: record
     };
@@ -176,13 +173,13 @@ class AccountingScenariosSystem extends React.Component {
     return(
       <div className="accounting-scenarios-system">
         {/*<div className="accounting-scenarios-head-tips">
-          {formatMessage({id:"accounting.scenarios.system.tips"})}
+          {this.$t({id:"accounting.scenarios.system.tips"})}
         </div>*/}
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button>  {/*新 建*/}
           </div>
         </div>
         <Table
@@ -203,11 +200,6 @@ class AccountingScenariosSystem extends React.Component {
     )
   }
 }
-
-
-AccountingScenariosSystem.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {}
