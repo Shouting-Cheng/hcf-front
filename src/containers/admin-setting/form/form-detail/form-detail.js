@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { Tabs, Spin } from 'antd'
 const TabPane = Tabs.TabPane;
-// import FormDetailBase from 'containers/admin-setting/form/form-detail/form-detail-base'
+import FormDetailBase from 'containers/admin-setting/form/form-detail/form-detail-base'
 // import FormDetailCustom from 'containers/setting/form/form-detail/form-detail-custom/form-detail-custom'
 // import FormPermission from 'containers/setting/form/form-detail/form-permission/form-permission'
 // import FormSetting from 'containers/setting/form/form-detail/form-setting/form-setting'
@@ -186,7 +186,7 @@ class FormDetail extends React.Component {
                         <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
                             {this.renderTabs()}
                         </Tabs>
-                        {/* {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase} />} */}
+                        {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase} />}
                         {/* {nowTab === 'custom' && <FormDetailCustom />}
                         {nowTab === 'permission' && <FormPermission refreshData={this.refreshData} />}
                         {nowTab === 'form' && <FormSetting formOID={formOID} handlePageJump={this.pageJump} />}

@@ -504,8 +504,8 @@ FormDetailBase.propTypes = {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
-    language: state.main.language,
-    languageList: state.login.languageList,
+    language: state.languages.languages,
+    languageList: state.languages.languageList,
     tenantMode: true
   }
 }
