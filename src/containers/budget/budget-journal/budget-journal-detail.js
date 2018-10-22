@@ -758,10 +758,11 @@ class BudgetJournalDetail extends React.Component {
 
   //获得表单数据,保存或者修改
   handleAfterCloseNewSlide = value => {
+    this.setState({
+      showSlideFrameNew: false,
+    });
     if (value) {
-      this.setState({
-        showSlideFrameNew: false,
-      });
+      
       let data = value;
       data.journalHeaderId = this.state.headerAndListData.dto.id;
       data.functionalAmount = data.functionalAmount
