@@ -583,18 +583,18 @@ export const getRouterData = app => {
       name: 'finance-audit',
     },
 
-    '/financial-accounting-setting/section-structure':{
+    '/financial-accounting-setting/section-structure': {
       //科目段结构，
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-accounting-setting/section-structure/section-structure')
       ),
-      name: 'section-structure'
+      name: 'section-structure',
     },
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')
       ),
-      name: 'expense-type'
+      name: 'expense-type',
     },
     '/pay/pay-workbench/:tab': {
       //付款工作台
@@ -609,8 +609,39 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
-    }
+    },
 
+    //预算日记本
+    '/budget/budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal.js')
+      ),
+      name: 'budget-journal',
+    },
+    //新建预算日记账
+    '/budget/budget-journal/new-budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/new-budget-journal.js')
+      ),
+      name: '新建预算日记账',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情
+    '/budget/budget-journal/budget-journal-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail.js')
+      ),
+      name: '预算日记账详情',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情(已经提交过的)
+    '/budget/budget-journal/budget-journal-detail-submit/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail-submit.js')
+      ),
+      name: '预算日记账详情(已提交)',
+      parent: '/budget/budget-journal',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
