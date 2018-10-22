@@ -93,7 +93,7 @@ class DocumentBasicInfo extends React.Component {
               }
             </Row>
             {
-              this.state.data.customList && this.state.data.customList.length > 0 ?
+              this.state.data.customList && !!this.state.data.customList.length ?
                 this.state.data.customList.map((item, index) => {
                   return (
                     <Row>

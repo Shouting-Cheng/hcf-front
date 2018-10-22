@@ -207,10 +207,9 @@ class NewPayPlan extends React.Component {
                   initialValue: record.amount,
                 })(
                   <InputNumber
-                    precision={2}
                     onBlur={this.toDecimal2}
                     placeholder={this.$t({ id: 'common.please.enter' } /*请输入*/)}
-                    style={{ width: '99%' }}
+                    style={{ width: '100%' }}
                   />
                 )}
               </FormItem>

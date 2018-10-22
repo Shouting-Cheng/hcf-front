@@ -78,7 +78,7 @@ class MyGLWorkOrderDetail extends Component {
           title: '序号',
           dataIndex: 'seq',
           align: 'center',
-          width: '60',
+          width: 60,
           render: (seq, record, index) => {
             return <span>{index + 1}</span>;
           },
@@ -91,7 +91,7 @@ class MyGLWorkOrderDetail extends Component {
           ),
           dataIndex: 'description',
           align: 'center',
-          width: '140',
+          width: 140,
           render: (description, record, index) => {
             if (record.lineStatus === 'normal') {
               return (
@@ -121,7 +121,7 @@ class MyGLWorkOrderDetail extends Component {
           ),
           dataIndex: 'companyName',
           align: 'center',
-          width: '140',
+          width: 140,
           render: (companyName, record, index) => {
             if (record.lineStatus === 'normal') {
               return <span>{companyName}</span>;
@@ -147,7 +147,7 @@ class MyGLWorkOrderDetail extends Component {
           title: '部门',
           dataIndex: 'unitName',
           align: 'center',
-          width: '140',
+          width: 140,
           render: (unitName, record, index) => {
             if (record.lineStatus === 'normal') {
               return <span>{unitName}</span>;
@@ -185,7 +185,7 @@ class MyGLWorkOrderDetail extends Component {
           ),
           dataIndex: 'accountName',
           align: 'center',
-          width: '140',
+          width: 140,
           render: (accountName, record, index) => {
             if (record.lineStatus === 'normal') {
               return <span>{accountName}</span>;
@@ -224,7 +224,7 @@ class MyGLWorkOrderDetail extends Component {
           ),
           dataIndex: 'enteredAmountCr',
           align: 'center',
-          width: '140',
+          width: 140,
           fixed: 'right',
           render: (enteredAmountDr, record, index) => {
             if (record.lineStatus === 'normal') {
@@ -250,7 +250,7 @@ class MyGLWorkOrderDetail extends Component {
           ),
           dataIndex: 'enteredAmountDr',
           align: 'center',
-          width: '140',
+          width: 140,
           fixed: 'right',
           render: (enteredAmountCr, record, index) => {
             if (record.lineStatus === 'normal') {
@@ -273,7 +273,7 @@ class MyGLWorkOrderDetail extends Component {
           title: '操作',
           dataIndex: 'operation',
           align: 'center',
-          width: '150',
+          width: 150,
           fixed: 'right',
           render: (operation, record, index) => {
             if (record.lineStatus === 'normal') {
@@ -1119,7 +1119,7 @@ class MyGLWorkOrderDetail extends Component {
                 columns={columns}
                 pagination={pagination}
                 dataSource={data}
-                scroll={{ x: tableWidth }}
+                scroll={{ x: 1300 }}
               />
             </div>
           </Card>
