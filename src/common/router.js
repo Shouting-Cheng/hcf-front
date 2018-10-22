@@ -368,6 +368,7 @@ export const getRouterData = app => {
       name: 'request-detail',
       parent: '/request',
     },
+
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/payment-requisition.js')
@@ -609,7 +610,24 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
-    }
+    },
+
+    //预算日记账复核
+    '/budget/budget-journal-re-check': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js'),
+      ),
+      name: 'budget-journal-re-check',
+    },
+
+    //预算日记账复核详情
+    '/budget/budget-journal-re-check/budget-journal-re-check-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check-detail.js')
+      ),
+      name: '预算日记账复核详情',
+      parent: '/budget/budget-journal-re-check',
+    },
 
 
     // '/user/:id': {
