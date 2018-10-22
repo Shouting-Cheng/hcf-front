@@ -100,7 +100,7 @@ class NewUpdateSection extends React.Component {
               message.success(`${this.$t({ id: 'common.save.success' }, { name: '' })}`);
             else message.success(`${this.$t({ id: 'common.operate.success' })}`);
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
           })
           .catch(e => {
             if (e.response) {

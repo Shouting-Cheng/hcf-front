@@ -9,6 +9,7 @@ import NewUpdateScenariosSystem from 'containers/financial-accounting-setting/ac
 import SearchArea from 'widget/search-area';
 import 'styles/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system.scss'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system.service';
+import { routerRedux } from 'dva/router';
 
 class AccountingScenariosSystem extends React.Component {
   constructor(props) {
@@ -56,12 +57,12 @@ class AccountingScenariosSystem extends React.Component {
         },
         {title: this.$t({id:"accounting.scenarios.elements"}), key: 'elements', width: '10%', render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleLinkElement(e, record,index)}>{this.$t({id: "accounting.scenarios.elements"})}</a>   {/*编辑*/}
+            <a onClick={(e) => this.handleLinkElement(e, record,index)}>{this.$t({id: "accounting.scenarios.elements"})}</a>   {/*编辑*/}
           </span>)
         },
         {title: this.$t({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record,index)}>{this.$t({id: "common.edit"})}</a>   {/*编辑*/}
+            <a onClick={(e) => this.handleUpdate(e, record,index)}>{this.$t({id: "common.edit"})}</a>   {/*编辑*/}
           </span>)
         },
       ],
@@ -69,7 +70,12 @@ class AccountingScenariosSystem extends React.Component {
   }
 
   handleLinkElement = (e, record,index)=>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-scenarios-system', 'key').children.accountingElements.url.replace(':id', record.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id'
+          .replace(':id', record.id)
+      })
+    )
   };
 
   componentWillMount() {
@@ -192,10 +198,11 @@ class AccountingScenariosSystem extends React.Component {
           size="middle"/>
         <SlideFrame title= {lov.title}
                     show={lov.visible}
-                    content={NewUpdateScenariosSystem}
-                    afterClose={this.handleAfterClose}
-                    onClose={()=>this.handleShowSlide(false)}
-                    params={{...lov.params,visible: lov.visible}}/>
+                    onClose={()=>this.handleShowSlide(false)}>
+            <NewUpdateScenariosSystem
+              onClose={this.handleAfterClose}
+              params={{...lov.params,visible: lov.visible}}/>
+        </SlideFrame>
       </div>
     )
   }

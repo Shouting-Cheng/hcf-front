@@ -73,7 +73,6 @@ class SectionMappingSet extends React.Component {
               </a>
               {record.edit ? (
                 <a
-                  href="#"
                   style={{ marginLeft: 12 }}
                   onClick={e => this.operateItem(e, record, index, false)}
                 >
@@ -428,7 +427,7 @@ class SectionMappingSet extends React.Component {
         .then(response => {
           message.success(`${this.$t({ id: 'common.save.success' }, { name: '' })}`);
           this.setState({ loading: false });
-          this.props.close(true);
+          this.props.onClose(true);
         })
         .catch(e => {
           if (e.response) {
@@ -436,7 +435,7 @@ class SectionMappingSet extends React.Component {
             this.setState({ loading: false });
           }
         });
-    } else this.props.close(false);
+    } else this.props.onClose(false);
   };
 
   render() {

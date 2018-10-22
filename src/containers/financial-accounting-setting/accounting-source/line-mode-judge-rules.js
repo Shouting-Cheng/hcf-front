@@ -210,7 +210,7 @@ class LineModeJudgeRules extends React.Component {
         title:formatMessage({id : "accounting.source.leftBracket"}), key: "leftBracket", dataIndex: 'leftBracket', width: '8%',
         render: recode => (
           <Popover content={recode}>
-            <a src="#">{recode}</a>
+            <a >{recode}</a>
           </Popover>)
       },
       {
@@ -287,7 +287,7 @@ class LineModeJudgeRules extends React.Component {
         width: '5%',
         render: (text, record, index) => (
           <span>
-        <a href="#" onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
+        <a onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
         </span>)
       },
     ]

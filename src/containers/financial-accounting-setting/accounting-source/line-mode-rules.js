@@ -282,7 +282,7 @@ class LineModeRules extends React.Component {
         width: '8%',
         render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
+            <a onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
            </span>)
       },
 

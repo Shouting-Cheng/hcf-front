@@ -85,7 +85,7 @@ class NewUpdateSectionStructure extends React.Component {
               message.success(this.$t({ id: 'structure.saveSuccess' })); /*保存成功！*/
               this.props.form.resetFields();
               this.setState({ loading: false });
-              this.props.close(true);
+              this.props.onClose(true);
             })
             .catch(e => {
               if (e.response) {
@@ -104,7 +104,7 @@ class NewUpdateSectionStructure extends React.Component {
             .updateSectionStructure(values)
             .then(response => {
               this.props.form.resetFields();
-              this.props.close(true);
+              this.props.onClose(true);
               message.success(this.$t({ id: 'common.operate.success' }));
             })
             .catch(e => {

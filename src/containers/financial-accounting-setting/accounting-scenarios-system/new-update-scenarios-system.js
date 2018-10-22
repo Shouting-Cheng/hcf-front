@@ -58,7 +58,7 @@ class NewUpdateScenariosSystem extends React.Component{
          else
            message.success(`${this.$t({id:"common.operate.success"})}`);
           this.props.form.resetFields();
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.scenarios.id === 'undefined' )
@@ -75,7 +75,7 @@ class NewUpdateScenariosSystem extends React.Component{
   onCancel = ()=>{
     this.props.form.resetFields();
     this.setState({loading: false});
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {
