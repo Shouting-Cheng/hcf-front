@@ -1,4 +1,4 @@
-import {messages} from "share/common";
+import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/3/8
  * Email li.zhou@huilianyi.com
@@ -7,13 +7,12 @@ import {messages} from "share/common";
 import React from 'react';
 
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/vendor-info.scss';
-import {Button, Form, Select, Col, Row, Switch, Icon,Input} from 'antd';
+import { Button, Form, Select, Col, Row, Switch, Icon, Input } from 'antd';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 import Chooser from 'components/chooser';
-
 
 class PersonVendorInfo extends React.Component {
   constructor(props) {
@@ -21,29 +20,28 @@ class PersonVendorInfo extends React.Component {
     this.state = {
       loading: false,
       data: [],
-      ctripList: [],//携程子账户
+      ctripList: [], //携程子账户
       vendorObj: {},
-    }
+    };
   }
 
   componentDidMount() {
     let vendorObj = this.props.vendorObj;
-    this.setState({vendorObj});
+    this.setState({ vendorObj });
     //获取携程子账户
     this.getSystemValueList(1003).then(res => {
       this.setState({
-        ctripList: res.data.values
-      })
+        ctripList: res.data.values,
+      });
     });
   }
 
   componentWillReceiveProps(nextProps) {
     let vendorObj = nextProps.vendorObj;
-    this.setState({vendorObj});
+    this.setState({ vendorObj });
   }
 
-
-  handleSave = (e) => {
+  handleSave = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -51,70 +49,81 @@ class PersonVendorInfo extends React.Component {
 
         vendorObj.confirmPassword = values.confirmPassword;
         //todo  需要做非空判断
-        vendorObj.confirmUserOID = values.confirmUser.length > 0 ? values.confirmUser[0].userOID : null;
-        vendorObj.confirm2UserOID = values.confirm2User.length > 0 ? values.confirm2User[0].userOID : null;
-        vendorObj.confirmCCUserOID = values.confirmCCUser.length > 0 ? values.confirmCCUser[0].userOID : null;
-        vendorObj.confirm2CCUserOID = values.confirm2CCUser.length > 0 ? values.confirm2CCUser[0].userOID : null;
+        vendorObj.confirmUserOID =
+          values.confirmUser.length > 0 ? values.confirmUser[0].userOID : null;
+        vendorObj.confirm2UserOID =
+          values.confirm2User.length > 0 ? values.confirm2User[0].userOID : null;
+        vendorObj.confirmCCUserOID =
+          values.confirmCCUser.length > 0 ? values.confirmCCUser[0].userOID : null;
+        vendorObj.confirm2CCUserOID =
+          values.confirm2CCUser.length > 0 ? values.confirm2CCUser[0].userOID : null;
         // vendorObj.subAccountName = values.subAccountName;
-        if(vendorObj.subAccountName === values.subAccountName){
+        if (vendorObj.subAccountName === values.subAccountName) {
           //前端没有边界，直接上传源值
-        }else {
+        } else {
           vendorObj.subAccountCode = values.subAccountName;
         }
-        this.updateSupplierInfo(vendorObj)
+        this.updateSupplierInfo(vendorObj);
       }
     });
   };
   //更新携程子账户
-  updateSupplierInfo = (data) => {
+  updateSupplierInfo = data => {
     this.setState({
       loading: true,
     });
     PDService.updateSupplierInfo(data)
-      .then((data) => {
+      .then(data => {
         this.setState({
           loading: false,
         });
         this.props.savedData(data);
       })
-      .catch((err) => {
+      .catch(err => {
         this.props.savedData();
-      })
-  }
-  handleChange = (e) => {
+      });
+  };
+  handleChange = e => {
     if (this.state.loading) {
       this.setState({
-        loading: false
-      })
+        loading: false,
+      });
     }
   };
-  handleCancel = (e) => {
+  handleCancel = e => {
     e.preventDefault();
     this.props.toNoEditing();
   };
 
-  switchCardStatusChange = (e) => {
+  switchCardStatusChange = e => {
     let vendorObj = this.state.vendorObj;
     vendorObj.enable = e;
     this.setState({
       loading: false,
-      vendorObj
-    })
-
+      vendorObj,
+    });
   };
-  handleCtripAccountName = (value) => {
+  handleCtripAccountName = value => {
     //携程子账户
-  }
-  renderCtripAccountOption = (data) => {
+  };
+  renderCtripAccountOption = data => {
     //渲染携程子账户
     if (data && data.length) {
-      return data.map((item) => {
-        return <Option value={item.value} key={item.code}>{item.messageKey}</Option>
-      })
+      return data.map(item => {
+        return (
+          <Option value={item.value} key={item.code}>
+            {item.messageKey}
+          </Option>
+        );
+      });
     } else {
-      return (<Option value={""} key={1}>{""}</Option>)
+      return (
+        <Option value={''} key={1}>
+          {''}
+        </Option>
+      );
     }
-  }
+  };
 
   renderNoEditing = () => {
     let vendorObj = this.state.vendorObj;
@@ -125,34 +134,35 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*启用状态：*/}
-              {messages("pdc.vendor.info.status")}：
+              {messages('pdc.vendor.info.status')}：
             </div>
             <div className="info-item-text">
               {/*? "已启用" : "已禁用"*/}
-              {vendorObj.enable ? messages("pdc.vendor.info.enable") : messages("pdc.vendor.info.disable")}</div>
+              {vendorObj.enable
+                ? messages('pdc.vendor.info.enable')
+                : messages('pdc.vendor.info.disable')}
+            </div>
           </div>
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*携程子账户：*/}
-              {messages("pdc.vendor.info.ctrip.account")}：
+              {messages('pdc.vendor.info.ctrip.account')}：
             </div>
             <div className="info-item-text">{vendorObj.subAccountName}</div>
           </div>
 
-
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*授权密码：*/}
-              {messages("pdc.vendor.info.ctrip.password")}：
+              {messages('pdc.vendor.info.ctrip.password')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmPasswordView}</div>
           </div>
 
-
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*授权人：*/}
-              {messages("pdc.vendor.info.s.person")}：
+              {messages('pdc.vendor.info.s.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmUser.fullName}</div>
           </div>
@@ -160,7 +170,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*二次授权人：*/}
-              {messages("pdc.vendor.info.s2.person")}：
+              {messages('pdc.vendor.info.s2.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirm2User.fullName}</div>
           </div>
@@ -168,7 +178,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*抄送授权人：*/}
-              {messages("pdc.vendor.info.cs.person")}：
+              {messages('pdc.vendor.info.cs.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmCCUser.fullName}</div>
           </div>
@@ -176,87 +186,91 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*抄送二次授权人：*/}
-              {messages("pdc.vendor.info.cs2.person")}：
+              {messages('pdc.vendor.info.cs2.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirm2CCUser.fullName}</div>
           </div>
 
-          <div className="clear"></div>
+          <div className="clear" />
         </div>
-      )
+      );
     } else {
-      return (<div></div>)
+      return <div />;
     }
-
-  }
+  };
   renderEditing = () => {
-    const {getFieldDecorator} = this.props.form;
-    const {loading, vendorObj} = this.state;
-    
+    const { getFieldDecorator } = this.props.form;
+    const { loading, vendorObj } = this.state;
 
     return (
       <div className="info-item-edit-wrap">
         <Form onSubmit={this.handleSave} onChange={this.handleChange}>
-
-
           <Row gutter={24}>
             <Col span={12}>
               <FormItem
-                label={messages("pdc.vendor.info.status")}//启用状态
-                colon={true}>
+                label={messages('pdc.vendor.info.status')} //启用状态
+                colon={true}
+              >
                 {getFieldDecorator('enable', {
                   initialValue: vendorObj.enable,
-                  rules: []
+                  rules: [],
                 })(
                   <div>
-                    <Switch defaultChecked={vendorObj.enable}
-                            checkedChildren={<Icon type="check"/>}
-                            unCheckedChildren={<Icon type="cross"/>}
-                            onChange={this.switchCardStatusChange}/>
-                    <span className="enabled-type" style={{
-                      marginLeft: 20,
-                      width: 100
-                    }}>{vendorObj.enable ? messages("common.status.enable") : messages("common.disabled")}</span>
+                    <Switch
+                      defaultChecked={vendorObj.enable}
+                      checkedChildren={<Icon type="check" />}
+                      unCheckedChildren={<Icon type="cross" />}
+                      onChange={this.switchCardStatusChange}
+                    />
+                    <span
+                      className="enabled-type"
+                      style={{
+                        marginLeft: 20,
+                        width: 100,
+                      }}
+                    >
+                      {vendorObj.enable
+                        ? messages('common.status.enable')
+                        : messages('common.disabled')}
+                    </span>
                   </div>
-                )
-                }
+                )}
               </FormItem>
             </Col>
 
             <Col span={12}>
               <FormItem
-                label={messages("pdc.vendor.info.ctrip.password")}//授权密码
-                colon={true}>
+                label={messages('pdc.vendor.info.ctrip.password')} //授权密码
+                colon={true}
+              >
                 {getFieldDecorator('confirmPassword', {
                   initialValue: vendorObj.confirmPassword,
                   rules: [
                     {
                       max: 20,
-                      message: messages("pdc.basic.info.max.inp.20")//"最多输入20个字符"
+                      message: messages('pdc.basic.info.max.inp.20'), //"最多输入20个字符"
                     },
-                  ]
-                })(
-                  <Input placeholder={messages("common.please.enter")}/>)
-                }
+                  ],
+                })(<Input placeholder={messages('common.please.enter')} />)}
               </FormItem>
             </Col>
-
           </Row>
 
           <Row gutter={24}>
             <Col span={24}>
               {/*bug14085 携程子账户名称 有些很长*/}
               <FormItem
-                label={messages("pdc.vendor.info.ctrip.account")}//携程子账户
-                colon={true}>
+                label={messages('pdc.vendor.info.ctrip.account')} //携程子账户
+                colon={true}
+              >
                 {getFieldDecorator('subAccountName', {
                   initialValue: vendorObj.subAccountName,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter')
-                    }
-                  ]
+                      message: messages('common.please.enter'),
+                    },
+                  ],
                 })(
                   <Select
                     className="select-ctrip-account"
@@ -264,14 +278,13 @@ class PersonVendorInfo extends React.Component {
                     placeholder={messages('common.please.select')}
                     optionFilterProp="children"
                     onChange={this.handleCtripAccountName}
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {
-                      this.renderCtripAccountOption(this.state.ctripList)
+                    filterOption={(input, option) =>
+                      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
+                  >
+                    {this.renderCtripAccountOption(this.state.ctripList)}
                   </Select>
-                )
-                }
+                )}
               </FormItem>
             </Col>
           </Row>
@@ -279,112 +292,123 @@ class PersonVendorInfo extends React.Component {
           <Row gutter={24}>
             {/*授权人*/}
             <Col span={6}>
-              <FormItem
-                label={messages("pdc.vendor.info.s.person")}
-                colon={true}>
+              <FormItem label={messages('pdc.vendor.info.s.person')} colon={true}>
                 {getFieldDecorator('confirmUser', {
-                  initialValue: vendorObj.confirmUser.userOID === null ? [] : [
-                    {
-                      userOID: vendorObj.confirmUser.userOID,
-                      fullName: vendorObj.confirmUser.fullName
-                    }
-                  ],
-                  rules: []
+                  initialValue:
+                    vendorObj.confirmUser.userOID === null
+                      ? []
+                      : [
+                          {
+                            userOID: vendorObj.confirmUser.userOID,
+                            fullName: vendorObj.confirmUser.fullName,
+                          },
+                        ],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           type="user"
-                           labelKey="fullName"
-                           valueKey="userOID"
-                           placeholder={messages('common.please.select')}
-                           onChange={this.handleChange}
-                           listExtraParams={{}}/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    type="user"
+                    labelKey="fullName"
+                    valueKey="userOID"
+                    placeholder={messages('common.please.select')}
+                    onChange={this.handleChange}
+                    listExtraParams={{}}
+                  />
+                )}
               </FormItem>
             </Col>
             {/*二次授权人*/}
             <Col span={6}>
-              <FormItem
-                label={messages("pdc.vendor.info.s2.person")}
-                colon={true}>
+              <FormItem label={messages('pdc.vendor.info.s2.person')} colon={true}>
                 {getFieldDecorator('confirm2User', {
-                  initialValue: vendorObj.confirm2User.userOID === null ? [] : [
-                    {
-                      userOID: vendorObj.confirm2User.userOID,
-                      fullName: vendorObj.confirm2User.fullName
-                    }
-                  ],
-                  rules: []
+                  initialValue:
+                    vendorObj.confirm2User.userOID === null
+                      ? []
+                      : [
+                          {
+                            userOID: vendorObj.confirm2User.userOID,
+                            fullName: vendorObj.confirm2User.fullName,
+                          },
+                        ],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           labelKey="fullName"
-                           valueKey="userOID"
-                           placeholder={messages('common.please.select')}
-                           onChange={this.handleChange}
-                           type="user"/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    labelKey="fullName"
+                    valueKey="userOID"
+                    placeholder={messages('common.please.select')}
+                    onChange={this.handleChange}
+                    type="user"
+                  />
+                )}
               </FormItem>
             </Col>
 
             {/*//抄送授权人*/}
             <Col span={6}>
-              <FormItem
-                label={messages("pdc.vendor.info.cs.person")}
-                colon={true}>
+              <FormItem label={messages('pdc.vendor.info.cs.person')} colon={true}>
                 {getFieldDecorator('confirmCCUser', {
-                  initialValue: vendorObj.confirmCCUser.userOID === null ? [] : [
-                    {
-                      userOID: vendorObj.confirmCCUser.userOID,
-                      fullName: vendorObj.confirmCCUser.fullName
-                    }
-                  ],
-                  rules: []
+                  initialValue:
+                    vendorObj.confirmCCUser.userOID === null
+                      ? []
+                      : [
+                          {
+                            userOID: vendorObj.confirmCCUser.userOID,
+                            fullName: vendorObj.confirmCCUser.fullName,
+                          },
+                        ],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           placeholder={messages('common.please.select')}
-                           labelKey="fullName"
-                           valueKey="userOID"
-                           onChange={this.handleChange}
-                           type="user"/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    placeholder={messages('common.please.select')}
+                    labelKey="fullName"
+                    valueKey="userOID"
+                    onChange={this.handleChange}
+                    type="user"
+                  />
+                )}
               </FormItem>
             </Col>
             {/*//抄送二次授权人*/}
             <Col span={6}>
-              <FormItem
-                label={messages("pdc.vendor.info.cs2.person")}
-                colon={true}>
+              <FormItem label={messages('pdc.vendor.info.cs2.person')} colon={true}>
                 {getFieldDecorator('confirm2CCUser', {
-                  initialValue: vendorObj.confirm2CCUser.userOID === null ? [] : [
-                    {
-                      userOID: vendorObj.confirm2CCUser.userOID,
-                      fullName: vendorObj.confirm2CCUser.fullName
-                    }
-                  ],
-                  rules: []
+                  initialValue:
+                    vendorObj.confirm2CCUser.userOID === null
+                      ? []
+                      : [
+                          {
+                            userOID: vendorObj.confirm2CCUser.userOID,
+                            fullName: vendorObj.confirm2CCUser.fullName,
+                          },
+                        ],
+                  rules: [],
                 })(
-                  <Chooser single={true}
-                           labelKey="fullName"
-                           placeholder={messages('common.please.select')}
-                           valueKey="userOID"
-                           onChange={this.handleChange}
-                           type="user"/>
-                )
-                }
+                  <Chooser
+                    single={true}
+                    labelKey="fullName"
+                    placeholder={messages('common.please.select')}
+                    valueKey="userOID"
+                    onChange={this.handleChange}
+                    type="user"
+                  />
+                )}
               </FormItem>
             </Col>
           </Row>
 
-          <Button type="primary" loading={loading}
-                  htmlType="submit">{messages('common.save') /*保存*/}</Button>
-          <Button onClick={this.handleCancel}
-                  style={{marginLeft: 8}}> {messages('common.cancel') /*取消*/}</Button>
+          <Button type="primary" loading={loading} htmlType="submit">
+            {messages('common.save') /*保存*/}
+          </Button>
+          <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
+            {' '}
+            {messages('common.cancel') /*取消*/}
+          </Button>
         </Form>
       </div>
-    )
-  }
+    );
+  };
   //渲染入口
   renderEnter = () => {
     if (this.props.originEditingStatus) {
@@ -392,25 +416,19 @@ class PersonVendorInfo extends React.Component {
     } else {
       return this.renderNoEditing();
     }
-  }
+  };
 
   render() {
-    return (
-      <div className="person-vendor-info-wrap">
-        {
-          this.renderEnter()
-        }
-      </div>
-    )
+    return <div className="person-vendor-info-wrap">{this.renderEnter()}</div>;
   }
 }
 
 PersonVendorInfo.propTypes = {
-  savedData: React.PropTypes.func.isRequired,//点击保存
-  vendorObj: React.PropTypes.object,//基础信息数据对象
-  toEditing: React.PropTypes.func,//设置编辑
-  toNoEditing: React.PropTypes.func,//设置显示
-  originEditingStatus: React.PropTypes.bool//初始化是否是编辑
+  savedData: React.PropTypes.func.isRequired, //点击保存
+  vendorObj: React.PropTypes.object, //基础信息数据对象
+  toEditing: React.PropTypes.func, //设置编辑
+  toNoEditing: React.PropTypes.func, //设置显示
+  originEditingStatus: React.PropTypes.bool, //初始化是否是编辑
 };
 PersonVendorInfo.defaultProps = {
   originEditingStatus: false,

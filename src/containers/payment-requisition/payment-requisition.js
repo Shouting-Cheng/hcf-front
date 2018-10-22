@@ -15,6 +15,7 @@ import {
   Menu,
   Icon,
   Input,
+  InputNumber,
   Row,
   Col,
 } from 'antd';
@@ -91,12 +92,12 @@ class PaymentRequisition extends React.Component {
           id: 'amountRange',
           items: [
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'functionAmountFrom',
               label: this.$t( 'acp.amount.from'  /*总金额从*/),
             },
             {
-              type: 'input',
+              type: 'inputNumber',
               id: 'functionAmountTo',
               label: this.$t( 'acp.amount.to'/*总金额至*/),
             },

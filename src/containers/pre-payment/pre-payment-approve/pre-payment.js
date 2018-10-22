@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'dva';
-import {Form, Tabs, Table, message, Badge, Popover, Row, Col, Input} from 'antd'
+import {Form, Tabs, Table, message, Badge, Popover, Row, Col, Input,InputNumber} from 'antd'
 
 const TabPane = Tabs.TabPane;
 import {routerRedux} from "dva/router";
@@ -62,8 +62,8 @@ class Payment extends React.Component {
         },
         {
           type: 'items', id: 'amountRange', items: [
-            {type: 'input', id: 'amountFrom', label: '本币金额从'},
-            {type: 'input', id: 'amountTo', label: '本币金额至'},
+            {type: 'inputNumber', id: 'amountFrom', label: '本币金额从'},
+            {type: 'inputNumber', id: 'amountTo', label: '本币金额至'},
           ], colSpan: '6'
         },
         {type: 'input', id: 'description', label: "备注", colSpan: '6'},

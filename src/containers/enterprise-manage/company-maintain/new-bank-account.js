@@ -1,19 +1,18 @@
-
 /**
  * Created by 13576 on 2017/11/22.
  */
 // 为了0416迭代上线，重构此文件
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {Form, Switch, Icon, Input, Select, Button, Row, Col, message} from 'antd';
+import { Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd';
 import Chooser from 'components/chooser';
 import config from 'config';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
 import Selector from 'components/selector';
 
 const FormItem = Form.Item;
-import {deepCopy, messages} from "share/common";
+import { deepCopy, messages } from 'share/common';
 import configureStore from 'stores';
 class WrappedNewBankAccount extends React.Component {
   constructor(props) {
@@ -22,73 +21,71 @@ class WrappedNewBankAccount extends React.Component {
       loading: false,
 
       bankObj: {
-        bank: [],//这个字段只是用来显示，可以不传给后端，
-        bankName: "",
+        bank: [], //这个字段只是用来显示，可以不传给后端，
+        bankName: '',
 
-        countryCode: "",//银行国家code：根据银行来显示
-        country: "",//国家名称：根据银行来显示
-        accountOpening: "",//开户地：根据银行来显示
-        accountOpeningAddress: "",//银行详细地址：根据银行来显示
-        swiftCode: "",//开户支行Swift：：根据银行来显示
+        countryCode: '', //银行国家code：根据银行来显示
+        country: '', //国家名称：根据银行来显示
+        accountOpening: '', //开户地：根据银行来显示
+        accountOpeningAddress: '', //银行详细地址：根据银行来显示
+        swiftCode: '', //开户支行Swift：：根据银行来显示
 
-        bankAccountName: "",//银行账户名称
-        bankAccountNumber: "",//银行账户账号
-        accountCode: "",//账户账号
-        currencyCode: "",//币种
-        remark: "",//备注
-        enabled: true,//状态
+        bankAccountName: '', //银行账户名称
+        bankAccountNumber: '', //银行账户账号
+        accountCode: '', //账户账号
+        currencyCode: '', //币种
+        remark: '', //备注
+        enabled: true, //状态
       },
       //币种下拉单
       selectListCurrencyCode: {
         url: config.baseUrl + '/api/company/standard/currency/getAll?language=chineseName',
-        label: record => record.currency + "-" + record.currencyName,
+        label: record => record.currency + '-' + record.currencyName,
         key: 'currency',
       },
       bankCode: '',
-      bankInfo: {}
+      bankInfo: {},
     };
   }
-
 
   componentDidMount() {
     if (this.props.params.flag === 'create') {
     } else {
       //更新
-      companyMaintainService.getCompanyBankInfoById(this.props.params.flag)
-        .then((res) => {
-          let bankObj = deepCopy(res.data);
+      companyMaintainService.getCompanyBankInfoById(this.props.params.flag).then(res => {
+        let bankObj = deepCopy(res.data);
 
-          let _bank = deepCopy(res.data);
-          // countryName要注意接口的坑，前端上传的时候与解析的时候，要转换
-          // openAccount要注意接口的坑，前端上传的时候与解析的时候，要转换
-          bankObj.bank = [
-            {
-              bankCode: _bank.bankCode,
-              bankBranchName: _bank.bankBranchName,
-              bankName: _bank.bankName,
-              city: _bank.city,
-              cityCode: _bank.cityCode,
-              province: _bank.province,
-              provinceCode: _bank.provinceCode,
-              countryCode: _bank.countryCode,
-              countryName: _bank.country,
-              country: _bank.country,
-              bankAddress: _bank.accountOpeningAddress,
-              accountOpeningAddress:_bank.accountOpeningAddress,
-              detailAddress:_bank.accountOpeningAddress,
-              swiftCode : _bank.swiftCode,
-              openAccount: _bank.bankAddress
-            }
-          ]
-          this.setState({bankObj})
-        })
+        let _bank = deepCopy(res.data);
+        // countryName要注意接口的坑，前端上传的时候与解析的时候，要转换
+        // openAccount要注意接口的坑，前端上传的时候与解析的时候，要转换
+        bankObj.bank = [
+          {
+            bankCode: _bank.bankCode,
+            bankBranchName: _bank.bankBranchName,
+            bankName: _bank.bankName,
+            city: _bank.city,
+            cityCode: _bank.cityCode,
+            province: _bank.province,
+            provinceCode: _bank.provinceCode,
+            countryCode: _bank.countryCode,
+            countryName: _bank.country,
+            country: _bank.country,
+            bankAddress: _bank.accountOpeningAddress,
+            accountOpeningAddress: _bank.accountOpeningAddress,
+            detailAddress: _bank.accountOpeningAddress,
+            swiftCode: _bank.swiftCode,
+            openAccount: _bank.bankAddress,
+          },
+        ];
+        this.setState({ bankObj });
+      });
     }
   }
 
   //保存新建公司
-  handleSave = (e) => {
+  handleSave = e => {
     e.preventDefault();
-    let {bankObj} = this.state;
+    let { bankObj } = this.state;
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -104,29 +101,27 @@ class WrappedNewBankAccount extends React.Component {
         values.countryCode = values.bank[0].countryCode;
         if (bankObj.id) {
           //编辑时，传id
-          values.id = bankObj.id
+          values.id = bankObj.id;
         }
-        this.addOrUpdateBankAccount(values)
+        this.addOrUpdateBankAccount(values);
       }
-    })
-
+    });
   };
 
   //更新或者创建银行账户
-  addOrUpdateBankAccount = (bankAccount) => {
+  addOrUpdateBankAccount = bankAccount => {
     //todo
     //这个接口一定要重构，一来是抛错信息，二来是前端只需要传银行代码
     //还有改为创建是post,编辑是put,现在都是post
-    this.setState({loading: true});
-    companyMaintainService.addOrUpdateBankAccount(bankAccount)
-      .then(res => {
-        this.setState({loading: false});
-        //保存成功或者更新成功
-        message.success(messages("common.operate.success"));
-        this.setState({loading: false});
-        this.context.router.goBack();
-      })
-  }
+    this.setState({ loading: true });
+    companyMaintainService.addOrUpdateBankAccount(bankAccount).then(res => {
+      this.setState({ loading: false });
+      //保存成功或者更新成功
+      message.success(messages('common.operate.success'));
+      this.setState({ loading: false });
+      this.context.router.goBack();
+    });
+  };
 
   //取消就直接返回
   handleCancel = () => {
@@ -136,159 +131,163 @@ class WrappedNewBankAccount extends React.Component {
   //银行
   //todo
   //期望后端只需要前端传一个银行代码就可以了
-  handleBankCodeChange = (e) => {
+  handleBankCodeChange = e => {
     //选择银行之后，国家，开户地，银行详细地址，swiftCode显示出来
     let bankObj = this.state.bankObj;
     if (e.length > 0) {
       let bank = e[0];
       bankObj.countryCode = bank.countryCode;
       bankObj.country = bank.countryName;
-      bankObj.bankAddress = bank.openAccount;//注意字段不一样
+      bankObj.bankAddress = bank.openAccount; //注意字段不一样
       bankObj.accountOpeningAddress = bank.detailAddress;
       bankObj.swiftCode = bank.swiftCode;
     } else {
-      bankObj.countryCode = "";
-      bankObj.country = "";
-      bankObj.bankAddress = "";
-      bankObj.accountOpeningAddress = "";
+      bankObj.countryCode = '';
+      bankObj.country = '';
+      bankObj.bankAddress = '';
+      bankObj.accountOpeningAddress = '';
     }
     this.setState({
       loading: false,
-      bankObj
-    })
-  }
+      bankObj,
+    });
+  };
   //监听表单值
-  handleChange = (e) => {
+  handleChange = e => {
     if (this.state.loading) {
       this.setState({
         loading: false,
-      })
+      });
     }
   };
 
   render() {
-    const {bankObj, loading} = this.state;
-    const {getFieldDecorator} = this.props.form;
+    const { bankObj, loading } = this.state;
+    const { getFieldDecorator } = this.props.form;
     let params = {
       language: 'chineseName',
-      userOID: configureStore.store.getState().login.user.userOID
+      userOID: configureStore.store.getState().login.user.userOID,
     };
     return (
-      <Form className="ant-advanced-search-form"
-            onSubmit={this.handleSave}
-            onChange={this.handleChange}>
-
+      <Form
+        className="ant-advanced-search-form"
+        onSubmit={this.handleSave}
+        onChange={this.handleChange}
+      >
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.bankName")}//银行名称
-              colon={true}>
+              label={messages('company.maintain.bank.account.bankName')} //银行名称
+              colon={true}
+            >
               {getFieldDecorator('bank', {
                 initialValue: bankObj.bank,
                 rules: [
                   {
                     required: true,
-                    message: messages("common.please.select")
+                    message: messages('common.please.select'),
                   },
-                ]
+                ],
               })(
-                <Chooser single={true}
-                         type="select_bank"
-                         //value={bankObj.bank}
-                         placeholder={messages("common.please.select")}
-                         labelKey="bankBranchName"
-                         onChange={this.handleBankCodeChange}
-                         valueKey="bankCode"
-                         listExtraParams={{}}/>
-              )
-              }
+                <Chooser
+                  single={true}
+                  type="select_bank"
+                  //value={bankObj.bank}
+                  placeholder={messages('common.please.select')}
+                  labelKey="bankBranchName"
+                  onChange={this.handleBankCodeChange}
+                  valueKey="bankCode"
+                  listExtraParams={{}}
+                />
+              )}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.country")} /* 国家*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.country')} /* 国家*/
+              colon={true}
+            >
               {getFieldDecorator('country', {
                 initialValue: bankObj.country,
-                rules: []
+                rules: [],
               })(
-                <Input disabled={true}
-                       //value={bankObj.country}
-                       placeholder={messages("company.maintain.bank.account.genrateByBankName")}
-
+                <Input
+                  disabled={true}
+                  //value={bankObj.country}
+                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
                 />
-              )
-              }
+              )}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.opening")} /* 开户地*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.opening')} /* 开户地*/
+              colon={true}
+            >
               {getFieldDecorator('bankAddress', {
                 initialValue: bankObj.bankAddress,
               })(
-                <Input disabled={true}
-                       //value={bankObj.bankAddress}
-                       placeholder={messages("company.maintain.bank.account.genrateByBankName")}
-
+                <Input
+                  disabled={true}
+                  //value={bankObj.bankAddress}
+                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
                 />
-              )
-              }
+              )}
             </FormItem>
-
           </Col>
         </Row>
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.bankAddress")}  /* 银行详细地址*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.bankAddress')} /* 银行详细地址*/
+              colon={true}
+            >
               {getFieldDecorator('accountOpeningAddress', {
                 initialValue: bankObj.accountOpeningAddress,
-                rules: []
+                rules: [],
               })(
-                <Input disabled={true}
-                       //value={bankObj.accountOpeningAddress}
-                       placeholder={messages("company.maintain.bank.account.genrateByBankName")}
-
+                <Input
+                  disabled={true}
+                  //value={bankObj.accountOpeningAddress}
+                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
                 />
-              )
-              }
+              )}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.swiftCode")}  /* 开户支行Swift Code*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.swiftCode')} /* 开户支行Swift Code*/
+              colon={true}
+            >
               {getFieldDecorator('swiftCode', {
                 initialValue: bankObj.swiftCode,
-                rules: []
+                rules: [],
               })(
-                <Input disabled={true}
-                       //value={bankObj.swiftCode}
-                       placeholder={messages("company.maintain.bank.account.genrateByBankName")}
+                <Input
+                  disabled={true}
+                  //value={bankObj.swiftCode}
+                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
                 />
-              )
-              }
+              )}
             </FormItem>
           </Col>
 
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.bankAccountNumber")}//银行账户账号
-              colon={true}>
-              {getFieldDecorator("bankAccountNumber", {
+              label={messages('company.maintain.bank.account.bankAccountNumber')} //银行账户账号
+              colon={true}
+            >
+              {getFieldDecorator('bankAccountNumber', {
                 initialValue: bankObj.bankAccountNumber,
                 rules: [
                   {
                     required: true,
-                    message: messages("common.please.enter")
+                    message: messages('common.please.enter'),
                   },
                   {
-                    message: messages("pdc.bank.card.reg2"),//"只能是数字与-",
+                    message: messages('pdc.bank.card.reg2'), //"只能是数字与-",
                     validator: (rule, value, cb) => {
-                      if (value === null || value === undefined || value === "") {
+                      if (value === null || value === undefined || value === '') {
                         cb();
                         return;
                       }
@@ -304,60 +303,54 @@ class WrappedNewBankAccount extends React.Component {
                   },
                   {
                     max: 30,
-                    message: messages("company.maintain.new.tips0")//"不能超过30个字符"
+                    message: messages('company.maintain.new.tips0'), //"不能超过30个字符"
                   },
-                ]
-              })
-              (
-                <Input placeholder={messages("common.please.enter")}/>
-              )
-              }
+                ],
+              })(<Input placeholder={messages('common.please.enter')} />)}
             </FormItem>
           </Col>
-
         </Row>
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.bankAccountName")} /* 银行账户名称*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.bankAccountName')} /* 银行账户名称*/
+              colon={true}
+            >
               {getFieldDecorator('bankAccountName', {
                 initialValue: bankObj.bankAccountName,
                 rules: [
                   {
                     required: true,
-                    message: messages("common.please.enter")
+                    message: messages('common.please.enter'),
                   },
                   {
                     max: 30,
-                    message: messages("company.maintain.new.tips0")//"不能超过30个字符"
+                    message: messages('company.maintain.new.tips0'), //"不能超过30个字符"
                   },
-                ]
-              })(
-                <Input placeholder={messages("common.please.enter")}/>
-              )
-              }
+                ],
+              })(<Input placeholder={messages('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.accountCode1")} /* 账户代码*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.accountCode1')} /* 账户代码*/
+              colon={true}
+            >
               {getFieldDecorator('accountCode', {
                 initialValue: bankObj.accountCode,
                 rules: [
                   {
                     required: true,
-                    message: messages("common.please.enter")
+                    message: messages('common.please.enter'),
                   },
                   {
                     max: 35,
-                    message: messages("company.maintain.new.tips1")//"不能超过35个字符"
+                    message: messages('company.maintain.new.tips1'), //"不能超过35个字符"
                   },
                   {
-                    message: messages("company.maintain.new.tips2"),//只能输入数字与字母
+                    message: messages('company.maintain.new.tips2'), //只能输入数字与字母
                     validator: (rule, value, cb) => {
-                      if (value === null || value === undefined || value === "") {
+                      if (value === null || value === undefined || value === '') {
                         cb();
                         return;
                       }
@@ -371,66 +364,62 @@ class WrappedNewBankAccount extends React.Component {
                       }
                     },
                   },
-                ]
-              })(
-                <Input placeholder={messages("common.please.enter")}/>
-              )
-              }
+                ],
+              })(<Input placeholder={messages('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.currencyCode")}//币种
-              colon={true}>
-              {getFieldDecorator("currencyCode", {
+              label={messages('company.maintain.bank.account.currencyCode')} //币种
+              colon={true}
+            >
+              {getFieldDecorator('currencyCode', {
                 initialValue: bankObj.currencyCode,
                 rules: [
                   {
                     required: true,
-                    message: messages("common.please.select")
+                    message: messages('common.please.select'),
                   },
-                ]
-              })
-              (
-
-                <Selector type={'currency'} params={params} filter={item => item.enable}
-                          showSearch={true}
-                          placeholder={messages("common.please.select")}
-                          allowClear={false}
-                         />
+                ],
+              })(
+                <Selector
+                  type={'currency'}
+                  params={params}
+                  filter={item => item.enable}
+                  showSearch={true}
+                  placeholder={messages('common.please.select')}
+                  allowClear={false}
+                />
 
                 // <Selector
                 // placeholder={messages("common.please.select")}
                 //   selectorItem={this.state.selectListCurrencyCode}/>
-              )
-              }
+              )}
             </FormItem>
           </Col>
-
         </Row>
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.remark")}  /* 备注*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.remark')} /* 备注*/
+              colon={true}
+            >
               {getFieldDecorator('remark', {
                 initialValue: bankObj.remark,
                 rules: [
                   {
                     max: 100,
-                    message: messages("company.maintain.new.tips3")//"不能超过100个字符"
+                    message: messages('company.maintain.new.tips3'), //"不能超过100个字符"
                   },
-                ]
-              })(
-                <Input placeholder={messages("common.please.enter")}/>
-              )
-              }
+                ],
+              })(<Input placeholder={messages('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages("company.maintain.bank.account.state")} /* 状态*/
-              colon={true}>
+              label={messages('company.maintain.bank.account.state')} /* 状态*/
+              colon={true}
+            >
               {getFieldDecorator('enabled', {
                 initialValue: bankObj.enabled,
                 valuePropName: 'checked',
@@ -438,39 +427,39 @@ class WrappedNewBankAccount extends React.Component {
                 <Switch
                   defaultChecked={bankObj.enabled}
                   //checked={bankObj.enabled}
-                  checkedChildren={<Icon type="check"/>}
-                  unCheckedChildren={<Icon type="cross"/>}/>
-              )
-              }
+                  checkedChildren={<Icon type="check" />}
+                  unCheckedChildren={<Icon type="cross" />}
+                />
+              )}
             </FormItem>
           </Col>
-
         </Row>
         <div>
-          <Button type="primary" loading={loading}
-                  htmlType="submit">
-            {messages("common.save") /*保存*/}
+          <Button type="primary" loading={loading} htmlType="submit">
+            {messages('common.save') /*保存*/}
           </Button>
-          <Button onClick={this.handleCancel}
-                  style={{marginLeft: 8}}>
-            {messages("common.cancel") /*取消*/}
+          <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
+            {messages('common.cancel') /*取消*/}
           </Button>
         </div>
-
       </Form>
-    )
+    );
   }
-
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
 WrappedNewBankAccount.contextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object,
 };
 
 const NewBankAccount = Form.create()(WrappedNewBankAccount);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(NewBankAccount);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(NewBankAccount);

@@ -2,12 +2,12 @@ import React from 'react';
 import app from '../index';
 import httpFetch from 'utils/httpFetch';
 import config from 'config';
-import constants from 'share/constants'
+import constants from 'share/constants';
 
 React.Component.prototype.$t = (id, values = {}) => {
   if (!app) return '';
 
-  if (id&&typeof id == 'object') {
+  if (id && typeof id == 'object') {
     id = id.id;
   }
 
@@ -242,10 +242,10 @@ React.Component.prototype.clearBeforePage = function(key) {
 
 //检查单个functionProfile
 let checkFunctionProfile = (fpItem, fpValue, ifTenant) => {
- /* let profile = ifTenant
+  /* let profile = ifTenant
     ? configureStore.store.getState().login.tenantProfile
     : configureStore.store.getState().login.profile;*/
- let profile = {};
+  let profile = {};
   if (fpItem[0] === '[') {
     fpItem = fpItem.replace(/]/g, '');
     let attrs = fpItem.split('[');

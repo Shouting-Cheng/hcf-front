@@ -63,51 +63,51 @@ class NewPayPlan extends React.Component {
       showPayee: false,
     };
   }
-  componentDidMount(){
-         //编辑
-      let record=this.props.params.record;
-      if (record.id) {
-        this.setState(
-          {
-            model: record,
-            isNew: false,
-            headerData: this.props.params.headerData,
-            payeeId: record.payeeId,
-            payeeName: record.partnerName,
-            value: record.partnerName,
-            bankLocationCode: record.bankLocationCode,
-            bankLocationName: record.bankLocationName,
-            selectedData: record.contractHeaderId ? [record.contractHeaderLineDTO.lineId] : [],
-            contractInfo: record.contractHeaderId
-              ? {
-                  contractId: record.contractHeaderId,
-                  contractLineId: record.contractHeaderLineDTO.lineId,
-                  lineNumber: record.contractHeaderLineDTO.lineNumber,
-                  contractLineAmount: record.contractLineAmount,
-                  dueDate: record.contractHeaderLineDTO.dueDate,
-                  contractNumber: record.contractHeaderLineDTO.contractNumber,
-                }
-              : {},
-          },
-          () => {
-            this.props.form.setFieldsValue({ payeeCategory: record.payeeCategory });
-            this.getReceivables(record.payeeId, record.payeeCategory);
-            this.queryCashTransactionClassForForm();
-          }
-        );
-      } else {
-        this.setState({ isNew: true, headerData: this.props.params.headerData }, () => {
-          const { headerData } = this.state;
-          if (headerData.multipleReceivables === false) {
-            this.setState({
-              payeeId: headerData.defaultPaymentInfo.partnerId,
-              payeeName: headerData.defaultPaymentInfo.partnerName,
-            });
-          }
+  componentDidMount() {
+    //编辑
+    let record = this.props.params.record;
+    if (record.id) {
+      this.setState(
+        {
+          model: record,
+          isNew: false,
+          headerData: this.props.params.headerData,
+          payeeId: record.payeeId,
+          payeeName: record.partnerName,
+          value: record.partnerName,
+          bankLocationCode: record.bankLocationCode,
+          bankLocationName: record.bankLocationName,
+          selectedData: record.contractHeaderId ? [record.contractHeaderLineDTO.lineId] : [],
+          contractInfo: record.contractHeaderId
+            ? {
+                contractId: record.contractHeaderId,
+                contractLineId: record.contractHeaderLineDTO.lineId,
+                lineNumber: record.contractHeaderLineDTO.lineNumber,
+                contractLineAmount: record.contractLineAmount,
+                dueDate: record.contractHeaderLineDTO.dueDate,
+                contractNumber: record.contractHeaderLineDTO.contractNumber,
+              }
+            : {},
+        },
+        () => {
+          this.props.form.setFieldsValue({ payeeCategory: record.payeeCategory });
+          this.getReceivables(record.payeeId, record.payeeCategory);
           this.queryCashTransactionClassForForm();
-        });
-      }
-      this.getPayWayTypeList();
+        }
+      );
+    } else {
+      this.setState({ isNew: true, headerData: this.props.params.headerData }, () => {
+        const { headerData } = this.state;
+        if (headerData.multipleReceivables === false) {
+          this.setState({
+            payeeId: headerData.defaultPaymentInfo.partnerId,
+            payeeName: headerData.defaultPaymentInfo.partnerName,
+          });
+        }
+        this.queryCashTransactionClassForForm();
+      });
+    }
+    this.getPayWayTypeList();
   }
   // componentWillReceiveProps(nextProps) {
   //   let record = nextProps.params.record;
@@ -129,7 +129,7 @@ class NewPayPlan extends React.Component {
 
   //   //显示
   //   if (nextProps.params.visible && !this.props.params.visible) {
-     
+
   //   }
   // }
 
@@ -333,12 +333,14 @@ class NewPayPlan extends React.Component {
 
   //选定合同后
   handleListOk = values => {
-    this.setState({
-      contractInfo: values.result[0],
-      showSelectContract: false,
-      contractParams: {},
-      selectedData: [values.result[0].contractLineId],
-    });
+    if(values && values.result[0]){
+      this.setState({
+        contractInfo: values.result[0],
+        showSelectContract: false,
+        contractParams: {},
+        selectedData: [values.result[0].contractLineId],
+      });
+    }
   };
 
   //显示选择合同
@@ -630,7 +632,7 @@ class NewPayPlan extends React.Component {
                 initialValue: isNew ? '' : model.cshTransactionClassId,
                 rules: [{ message: '请输入', required: true }],
               })(
-                <Select>
+                <Select allowClear>
                   {cashTransactionClassList.map(o => {
                     return (
                       <Option key={o.id} value={o.id}>
@@ -708,9 +710,9 @@ class NewPayPlan extends React.Component {
                       关联合同:
                     </Col>
                     <Col span={16}>
-                      <Select
+                      <Select allowClear
                         ref="contractSelect"
-                        onFocus={this.showSelectContract}
+                        onDropdownVisibleChange={this.showSelectContract}
                         defaultValue={
                           isNew
                             ? ''
@@ -729,11 +731,11 @@ class NewPayPlan extends React.Component {
                             ).format('YYYY-MM-DD')}`}
                       </div>
                     </Col>
-                    <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
-                      {contractInfo.lineNumber && (
+                    {/*<Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+                      {contractInfo.contractId && (
                         <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                       )}
-                    </Col>
+                    </Col>*/}
                   </Row>
                 </div>
               </div>
@@ -743,9 +745,7 @@ class NewPayPlan extends React.Component {
               <Button loading={this.state.saveLoading} type="primary" htmlType="submit">
                 {this.$t({ id: 'common.save' } /*保存*/)}
               </Button>
-              <Button onClick={this.onCancel}>
-                {this.$t({ id: 'common.cancel' } /*取消*/)}
-              </Button>
+              <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' } /*取消*/)}</Button>
             </div>
           </Form>
         )}

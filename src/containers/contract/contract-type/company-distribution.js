@@ -1,7 +1,7 @@
 import React from 'react';
 import config from 'config';
 import { connect } from 'dva';
-import { Form, Row, Col, Badge, Button, Table, Checkbox, message, Icon } from 'antd';
+import { Form, Row, Col, Badge,Card, Button, Table, Checkbox, message, Icon } from 'antd';
 import contractService from 'containers/contract/contract-type/contract-type-define.service';
 import ListSelector from 'components/Widget/list-selector';
 import { routerRedux } from 'dva/router';
@@ -54,9 +54,7 @@ class CompanyDistribution extends React.Component {
 
   getBasicInfo = () => {
     const { params } = this.props.match;
-    contractService
-      .getContractTypeInfo(params.setOfBooksId, params.id, { roleType: 'TENANT' })
-      .then(res => {
+    contractService.getContractTypeInfo(params.setOfBooksId, params.id, { roleType: 'TENANT' }).then(res => {
         let selectorItem = {
           title: this.$t('budget.item.batchCompany'),
           url: `${config.contractUrl}/api/contract/type/${
@@ -95,9 +93,7 @@ class CompanyDistribution extends React.Component {
     const { params } = this.props.match;
     const { page, pageSize } = this.state;
     this.setState({ loading: true });
-    contractService
-      .getCompanyDistributionByContractType(page, pageSize, params.setOfBooksId, params.id)
-      .then(res => {
+    contractService.getCompanyDistributionByContractType(page, pageSize, params.setOfBooksId, params.id).then(res => {
         if (res.status === 200) {
           this.setState({
             data: res.data,
@@ -129,9 +125,7 @@ class CompanyDistribution extends React.Component {
       enabled: e.target.checked,
       versionNumber: record.versionNumber,
     };
-    contractService
-      .updateCompanyDistributionStatus(this.props.match.params.setOfBooksId, params)
-      .then(res => {
+    contractService.updateCompanyDistributionStatus(this.props.match.params.setOfBooksId, params).then(res => {
         if (res.status === 200) {
           this.getList();
           message.success(this.$t('common.operate.success'));
@@ -154,15 +148,17 @@ class CompanyDistribution extends React.Component {
     values.result.map(item => {
       paramsValue.companyIds.push(item.id);
     });
-    contractService
-      .distributionCompany(params.setOfBooksId, paramsValue)
-      .then(res => {
-        if (res.status === 200) {
-          message.success(this.$t('common.operate.success'));
-          this.handleListShow(false);
-          this.getList();
-        }
-      })
+    if(paramsValue.companyIds.length === 0){
+      message.warn(this.$t('common.select.one.more'));
+      return;
+    }
+    contractService.distributionCompany(params.setOfBooksId, paramsValue).then(res => {
+      if (res.status === 200) {
+        message.success(this.$t('common.operate.success'));
+        this.handleListShow(false);
+        this.getList();
+      }
+    })
       .catch(e => {
         if (e.response) {
           message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`);
@@ -195,7 +191,7 @@ class CompanyDistribution extends React.Component {
       index <= 2 &&
         periodCol.push(
           <Col span={6} style={{ marginBottom: '15px' }} key={item.id}>
-            <div style={{ color: '#989898' }}>{item.label}</div>
+            <div>{item.label}</div>
             <div style={{ wordWrap: 'break-word' }}>
               {item.id === 'setOfBooksCode'
                 ? companyTypeInfo[item.id]
@@ -208,7 +204,7 @@ class CompanyDistribution extends React.Component {
       if (index === 2) {
         periodRow.push(
           <Col
-            style={{ background: '#f7f7f7', padding: '20px 25px 0', borderRadius: '6px 6px 0 0' }}
+            style={{ padding: '20px 25px 0',borderRadius: '6px 6px 0 0' }}
             key="1"
           >
             {periodCol}
@@ -217,8 +213,8 @@ class CompanyDistribution extends React.Component {
       }
       if (index === 3) {
         periodRow.push(
-          <Col span={6} style={{ marginBottom: '15px' }} key={item.id}>
-            <div style={{ color: '#989898' }}>{item.label}</div>
+          <Col span={6} style={{ marginBottom: '15px'}} key={item.id}>
+            <div>{item.label}</div>
             <Badge
               status={companyTypeInfo[item.id] ? 'success' : 'error'}
               text={
@@ -230,14 +226,12 @@ class CompanyDistribution extends React.Component {
       }
     });
     return (
-      <div className="company-distribution">
-        <div
-          className="jsq"
-          style={{ background: '#f5f5f5', width: '100%', height: '80', borderRadius: '4' }}
-        >
+      <div>
+        <div style={{background: '#f5f5f5'}}>
+        <div style={{ background: '#f5f5f5', height: '80', borderRadius: '4' }}>
           {periodRow}
         </div>
-        <div className="table-header">
+        <div className="table-header" style={{marginTop:60,background: '#ffffff',paddingTop:10 }}>
           <div className="table-header-buttons">
             <Button
               type="primary"
@@ -247,6 +241,7 @@ class CompanyDistribution extends React.Component {
               {this.$t('budget.item.batchCompany') /*批量分配公司*/}
             </Button>
           </div>
+        </div>
         </div>
         <Table
           rowKey={record => record.companyId}

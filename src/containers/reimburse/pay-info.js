@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Card } from 'antd'
 import config from 'config';
-// import menuRoute from 'routes/menuRoute';
-
 import 'styles/reimburse/reimburse.scss';
 
 import reimburseService from 'containers/reimburse/reimburse.service'
@@ -357,8 +356,8 @@ class PayInfo extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.login.user,
-        company: state.login.company
+        user: state.user.currentUser,
+        company: state.user.company
     }
 }
 

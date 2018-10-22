@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
 import SearchArea from 'widget/search-area';
+import { routerRedux } from 'dva/router';
 import moment from 'moment';
 import {
   Table,
@@ -304,6 +304,7 @@ class CshWriteOffBacklash extends Component {
         {
           type: 'items',
           colSpan: '6',
+          id: 'date',
           items: [
             { type: 'date', id: 'writeOffDateFrom', label: '核销反冲日期从' },
             { type: 'date', id: 'writeOffDateTo', label: '核销反冲日期至' },
@@ -312,6 +313,7 @@ class CshWriteOffBacklash extends Component {
         {
           type: 'items',
           colSpan: '6',
+          id: 'amount',
           items: [
             { type: 'input', id: 'writeOffAmountFrom', label: '核销金额从' },
             { type: 'input', id: 'writeOffAmountTo', label: '核销金额至' },
@@ -586,6 +588,7 @@ class CshWriteOffBacklash extends Component {
         {
           type: 'items',
           colSpan: '6',
+          id: 'date',
           items: [
             { type: 'date', id: 'writeOffDateFrom', label: '核销反冲日期从' },
             { type: 'date', id: 'writeOffDateTo', label: '核销反冲日期至' },
@@ -594,6 +597,7 @@ class CshWriteOffBacklash extends Component {
         {
           type: 'items',
           colSpan: '6',
+          id: 'amount',
           items: [
             { type: 'input', id: 'writeOffAmountFrom', label: '核销金额从' },
             { type: 'input', id: 'writeOffAmountTo', label: '核销金额至' },
@@ -602,6 +606,7 @@ class CshWriteOffBacklash extends Component {
         {
           type: 'items',
           colSpan: '6',
+          id: 'thisAmount',
           items: [
             { type: 'input', id: 'writeOffReverseAmountFrom', label: '本次核销反冲额' },
             { type: 'input', id: 'writeOffReverseAmountTo', label: ':' },
@@ -1237,10 +1242,9 @@ class CshWriteOffBacklash extends Component {
       this.clear2();
     }
     this.setState({ nowStatus: key }, () => {
-      //this.context.router.replace(`${menuRoute.getRouteItem('csh-write-off-backlash', 'key').url}?tab=${this.state.nowStatus}`);
       this.props.dispatch(
-        routerRedux.push({
-          pathname: `/financial-management/csh-write-off-backlash?tab=${this.state.nowStatus}`,
+        routerRedux.replace({
+          pathname: '/financial-management/csh-write-off-backlash?tab=' + this.state.nowStatus,
         })
       );
     });

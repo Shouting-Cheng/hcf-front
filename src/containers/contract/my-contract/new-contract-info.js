@@ -302,7 +302,7 @@ class NewContractType extends React.Component {
               <Select
                 labelInValue
                 onChange={this.handlePartnerCategory}
-                onFocus={partnerCategoryOptions.length === 0 ? this.getContractType : () => {}}
+                onDropdownVisibleChange={partnerCategoryOptions.length === 0 ? this.getContractType : () => {}}
                 placeholder={this.$t({ id: 'common.please.select' })}
               >
                 {partnerCategoryOptions.map(item => (

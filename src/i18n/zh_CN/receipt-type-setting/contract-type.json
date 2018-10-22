@@ -1,7 +1,7 @@
 {
   "contract.type.code": "合同类型代码",
   "contract.type.name": "合同类型名称",
-  "contract.type.status": "合同类型状态",
+  "contract.type.status": "状态",
   "contract.edit.type": "编辑合同类型",
   "contract.new.type": "新建合同类型",
   "contract.re.tips": "关联表单设计器中的单据类型，用来使用工作流"

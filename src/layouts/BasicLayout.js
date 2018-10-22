@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Layout, Icon, message, Spin, Tabs } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
+import config from "config"
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
@@ -355,6 +356,7 @@ class BasicLayout extends React.Component {
       await this.getCompany();
       await this.getLanguage(result);
       await this.getLanguageType();
+      await this.getLanguageList();
       resolve();
     });
   };
@@ -363,16 +365,39 @@ class BasicLayout extends React.Component {
     const { dispatch } = this.props;
 
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/my/companies');
 
+      let result = await fetch.get('/api/my/companies');
+      
       dispatch({
         type: 'user/saveCompany',
         payload: result,
       });
 
-      resolve();
+      try {
+        await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
+        resolve();
+
+      } catch (e) {
+        resolve();
+      }
     });
   };
+
+
+  getOrganizationBySetOfBooksId = (id) => {
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.get(`${config.budgetUrl}/api/budget/organizations/default/${id}`).then(result => {
+        dispatch({
+          type: 'user/saveOrganization',
+          payload: result,
+        });
+        resolve();
+      }).catch(e => {
+        resolve();
+      })
+    });
+  }
 
   getLanguage = user => {
     const { dispatch } = this.props;
@@ -421,6 +446,19 @@ class BasicLayout extends React.Component {
       });
     });
   };
+
+  getLanguageList = () => {
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.post(`${config.baseUrl}/api/lov/language/zh_CN`).then(res => {
+        dispatch({
+          type: 'languages/setLanguageList',
+          payload: { languageList: res },
+        });
+        resolve();
+      });
+    });
+  }
 
   formatter = (data, parentPath = '/', parentAuthority) => {
     return data.map(item => {
