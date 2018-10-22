@@ -573,9 +573,31 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')
       ),
-      name: 'expense-type'
-    }
-    
+      name: 'expense-type',
+    },
+    '/admin-setting/company-group': {
+      //公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group.js')
+      ),
+      name: 'company-group',
+    },
+    '/admin-setting/company-group/new-company-group/:companyGroupId': {
+      //新建公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/new-company-group.js')
+      ),
+      name: 'new-company-group',
+      parent: '/admin-setting/company-group',
+    },
+    '/admin-setting/company-group/company-group-detail/:id': {
+      //公司组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group-detail.js')
+      ),
+      name: 'company-group-detail',
+      parent: '/admin-setting/company-group',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
