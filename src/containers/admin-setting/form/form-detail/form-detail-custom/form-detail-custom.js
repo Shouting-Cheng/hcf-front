@@ -1,10 +1,10 @@
-
 import React from 'react'
-import { connect } from 'dva'
-import { Row, Col, Spin, Modal, Button, message } from 'antd'
+import {connect} from 'dva'
+import {Row, Col, Spin, Modal, Button, message} from 'antd'
+
 const confirm = Modal.confirm;
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import 'styles/components/template/drag-widget-page/drag-widget-page.scss'
 import formService from 'containers/admin-setting/form/form.service'
 import DragWidgetItem from 'containers/admin-setting/form/form-detail/form-detail-custom/drag-source/drag-widget-item'
@@ -13,7 +13,7 @@ import PhoneContent from 'containers/admin-setting/form/form-detail/form-detail-
 import WidgetSetting from 'widget/Template/widget/widget-setting'
 import PropTypes from 'prop-types'
 
-class FormDetailCustom extends React.Component{
+class FormDetailCustom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,8 +29,8 @@ class FormDetailCustom extends React.Component{
     }
   }
 
-  componentWillMount(){
-    const { form, propertyList } = this.context;
+  componentWillMount() {
+    const {form, propertyList} = this.context;
     let nowWidget = form.customFormFields;
     let participantsIndex = -1;
     let outIndex = -1;
@@ -42,22 +42,22 @@ class FormDetailCustom extends React.Component{
       //内部参与人控件需要检测out_participant_num/out_participant_name控件，
       //因为内部参与人控件包含了两个组件
       //所以为了符合widget控件的设计思路，现在数组里删除，保存的时候再进行添加
-      if(widget.messageKey === 'out_participant_num' || widget.messageKey === 'out_participant_name'){
+      if (widget.messageKey === 'out_participant_num' || widget.messageKey === 'out_participant_name') {
         outIndex = index;
       }
-      if(widget.messageKey === 'select_participant'){
+      if (widget.messageKey === 'select_participant') {
         participantsIndex = index;
       }
-      if(widget.messageKey === 'linkage_switch'){
+      if (widget.messageKey === 'linkage_switch') {
         widget.customFormFieldI18nDTOS && widget.customFormFieldI18nDTOS.map(i18nDTO => {
-          if(i18nDTO.fieldContent){
-            if(i18nDTO.language.toLowerCase() === this.props.language.code){
+          if (i18nDTO.fieldContent) {
+            if (i18nDTO.language.toLowerCase() === this.props.language.code) {
               widget.fieldContent = i18nDTO.fieldContent;
             }
           }
         });
       }
-      if(!widget.customFormFieldI18nDTOS || widget.customFormFieldI18nDTOS.length === 0){
+      if (!widget.customFormFieldI18nDTOS || widget.customFormFieldI18nDTOS.length === 0) {
         widget.customFormFieldI18nDTOS = [];
         this.props.languageList.map(language => {
           let i18nDTO = {
@@ -70,7 +70,7 @@ class FormDetailCustom extends React.Component{
       }
       return widget;
     });
-    if(outIndex > -1 && participantsIndex > -1){
+    if (outIndex > -1 && participantsIndex > -1) {
       let participantsWidget = nowWidget[participantsIndex];
       let outWidget = nowWidget[outIndex];
       participantsWidget.outFieldName = outWidget.fieldName;
@@ -87,14 +87,14 @@ class FormDetailCustom extends React.Component{
       //收款方控件需要检测contact_bank_account控件，
       //因为收款方控件包含了两个组件
       //所以为了符合widget控件的设计思路，现在数组里删除，保存的时候再进行添加
-      if(widget.messageKey === 'payee'){
+      if (widget.messageKey === 'payee') {
         payeeIndex = index;
       }
-      if(widget.messageKey === 'contact_bank_account'){
+      if (widget.messageKey === 'contact_bank_account') {
         bankAccountIndex = index;
       }
     });
-    if(payeeIndex > -1 && bankAccountIndex > -1){
+    if (payeeIndex > -1 && bankAccountIndex > -1) {
       let payeeWidget = nowWidget[payeeIndex];
       let bankAccountWidget = nowWidget[bankAccountIndex];
       payeeWidget.bankFieldName = bankAccountWidget.fieldName;
@@ -122,11 +122,11 @@ class FormDetailCustom extends React.Component{
       }
     });
     propertyList && propertyList.map(property => {
-      if(property.propertyName === 'form.description'){
-        if(property.propertyValue){
+      if (property.propertyName === 'form.description') {
+        if (property.propertyValue) {
           formDescriptionWidget = JSON.parse(property.propertyValue);
           formDescriptionWidget.messageKey = 'form.description';
-          if(formDescriptionWidget[this.props.user.language.toLowerCase()]){
+          if (formDescriptionWidget[this.props.user.language.toLowerCase()]) {
             let nowInfo = formDescriptionWidget[this.props.user.language.toLowerCase()];
             formDescriptionWidget.title = nowInfo.title;
             formDescriptionWidget.content = nowInfo.content;
@@ -136,39 +136,39 @@ class FormDetailCustom extends React.Component{
           }
         }
       }
-      if(property.propertyName === 'application.participants.import.scope'){
+      if (property.propertyName === 'application.participants.import.scope') {
         nowWidget.map(widget => {
-          if(widget.messageKey === 'select_participant'){
+          if (widget.messageKey === 'select_participant') {
             widget.participantsImportScope = property.propertyValue;
             return widget;
           }
         })
       }
     });
-    this.setState({ nowWidget, counter: nowWidget.length, formDescriptionWidget }, () => {
+    this.setState({nowWidget, counter: nowWidget.length, formDescriptionWidget}, () => {
       this.getWidgetList();
     });
     this.getReportScope();
   }
 
   getWidgetList = () => {
-    const { formType } = this.context;
-    if(formType){
-      this.setState({ loading: true });
+    const {formType} = this.context;
+    if (formType) {
+      this.setState({loading: true});
       Promise.all([formService.getWidgetList(formType, 1001), formService.getWidgetList(formType, 1002)]).then(res => {
         res[0].data.map(item => {
           item.fieldConstraint = item.constraintRule;
-          item.readonly = !item.deleted;
+          //item.readonly = !item.deleted;
         });
         res[1].data.map(item => {
           item.fieldConstraint = item.constraintRule;
-          item.readonly = !item.deleted;
+          //item.readonly = !item.deleted;
         });
-        let normalWidget=[];
+        let normalWidget = [];
         res[0].data.map(item => {
           //老公司只显示法人控件新公司显示公司控件
           if (this.props.isOldCompany) {
-            if(item.messageKey != 'select_company'){
+            if (item.messageKey != 'select_company') {
               normalWidget.push(item)
             }
           } else {
@@ -176,7 +176,7 @@ class FormDetailCustom extends React.Component{
               normalWidget.push(item)
           }
         });
-        this.setState({ normalWidget: normalWidget, combineWidget: res[1].data, loading: false }, () => {
+        this.setState({normalWidget: normalWidget, combineWidget: res[1].data, loading: false}, () => {
           this.processWidget();
         });
       });
@@ -185,7 +185,7 @@ class FormDetailCustom extends React.Component{
 
   //处理控件是否可删除
   processWidget = () => {
-    const { normalWidget, combineWidget, nowWidget } = this.state;
+    const {normalWidget, combineWidget, nowWidget} = this.state;
     nowWidget.map(widget => {
       normalWidget.map(norWidget => {
         if (widget.messageKey === norWidget.messageKey) {
@@ -225,46 +225,46 @@ class FormDetailCustom extends React.Component{
    * @param index 拖入后的index
    */
   handleDrop = (widget, index) => {
-    let { nowWidget, counter } = this.state;
+    let {nowWidget, counter} = this.state;
     if (widget.maxAmount === 0) {
       message.error(this.$t('form.setting.max.add', {num: widget.maxAmount}));//该控件只能有${widget.maxAmount}个
-      return ;
+      return;
     }
-    if(widget.maxAmount){
+    if (widget.maxAmount) {
       let count = 0;
       nowWidget.map(item => {
         item.messageKey === widget.messageKey && count++;
       });
-      if(count >= widget.maxAmount){
+      if (count >= widget.maxAmount) {
         message.error(this.$t('form.setting.max.add', {num: widget.maxAmount}));//该控件只能有${widget.maxAmount}个
-        return ;
+        return;
       }
     }
     //收款方控件和银行卡号控件不能同时存在于一个表单上
     let payeeIndex = -1;
     let bankAccountIndex = -1;
     nowWidget.map((singleWidget, index) => {
-      if(singleWidget.messageKey === 'payee'){
+      if (singleWidget.messageKey === 'payee') {
         payeeIndex = index;
       }
-      if(singleWidget.messageKey === 'contact_bank_account'){
+      if (singleWidget.messageKey === 'contact_bank_account') {
         bankAccountIndex = index;
       }
     });
     if (payeeIndex > -1 && widget.messageKey === 'contact_bank_account') {
       message.error(this.$t('form.setting.bank.account.disabled'));//银行卡号控件已禁用
-      return ;
+      return;
     }
     if (bankAccountIndex > -1 && widget.messageKey === 'payee') {
       message.error(this.$t('form.setting.payee.disabled'));//收款方控件已禁用
-      return ;
+      return;
     }
     let tempWidget = JSON.parse(JSON.stringify(widget));
     //因为ListSort根据key值排序，key值不能改变和重复，所以此处给每一个拖拽进入的组件一个counter计数为counterFlag
     tempWidget.counterFlag = counter++;
     tempWidget.fieldName = tempWidget.name;
     nowWidget.splice(index, 0, tempWidget);
-    this.setState({ nowWidget, counter, nowSelectedIndex: index });
+    this.setState({nowWidget, counter, nowSelectedIndex: index});
   };
 
   /**
@@ -273,7 +273,7 @@ class FormDetailCustom extends React.Component{
    * @param widget  对应widget对象
    */
   handleSelectWidget = (nowSelectedIndex, widget) => {
-    this.setState({ nowSelectedIndex })
+    this.setState({nowSelectedIndex})
   };
 
   /**
@@ -281,7 +281,7 @@ class FormDetailCustom extends React.Component{
    * @param result 返回的ReactDom，key值为拖拽进入时定义的counterFlag
    */
   handleSort = (result) => {
-    let { nowWidget, nowSelectedIndex } = this.state;
+    let {nowWidget, nowSelectedIndex} = this.state;
     //记录当前选择的counterFlag
     let nowSelectWidgetCounter = nowWidget[nowSelectedIndex].counterFlag;
     let targetIndex = -1;
@@ -294,10 +294,10 @@ class FormDetailCustom extends React.Component{
     });
     //寻找之前选择的index
     tempWidget.map((item, index) => {
-      if(item.counterFlag === nowSelectWidgetCounter)
+      if (item.counterFlag === nowSelectWidgetCounter)
         targetIndex = index;
     });
-    this.setState({ nowWidget: tempWidget, nowSelectedIndex: targetIndex })
+    this.setState({nowWidget: tempWidget, nowSelectedIndex: targetIndex})
   };
 
   /**
@@ -305,7 +305,7 @@ class FormDetailCustom extends React.Component{
    * @param index 待删除的索引
    */
   handleDelete = (index) => {
-    let { nowWidget, nowSelectedIndex } = this.state;
+    let {nowWidget, nowSelectedIndex} = this.state;
     confirm({
       title: this.$t('form.setting.delete.toast1'),//你确定要删除这个组件吗?
       content: this.$t('form.setting.delete.toast2'),//配置项将不会保存
@@ -315,7 +315,7 @@ class FormDetailCustom extends React.Component{
       onOk: () => {
         nowWidget.splice(index, 1);
         nowSelectedIndex = -1;
-        this.setState({ nowWidget, nowSelectedIndex })
+        this.setState({nowWidget, nowSelectedIndex})
       }
     });
   };
@@ -325,10 +325,10 @@ class FormDetailCustom extends React.Component{
    * @param widget
    */
   handleChangeWidget = (widget) => {
-    if(widget.messageKey === 'form.description'){
+    if (widget.messageKey === 'form.description') {
       let formDescriptionWidget = {};
       widget.titleI18n.map(i18n => {
-        if(!formDescriptionWidget[i18n.language])
+        if (!formDescriptionWidget[i18n.language])
           formDescriptionWidget[i18n.language] = {};
         formDescriptionWidget[i18n.language].title = i18n.value;
       });
@@ -345,20 +345,19 @@ class FormDetailCustom extends React.Component{
       }
       formDescriptionWidget.title = nowInfo.title;
       formDescriptionWidget.content = nowInfo.content;
-      this.setState({ formDescriptionWidget })
+      this.setState({formDescriptionWidget})
     } else {
-      const { nowWidget, nowSelectedIndex } = this.state;
+      const {nowWidget, nowSelectedIndex} = this.state;
       nowWidget[nowSelectedIndex] = widget;
-      this.setState({ nowWidget });
+      this.setState({nowWidget});
     }
   };
 
   //保存表单
   handleSave = () => {
-    const { formDescriptionWidget, nowWidget } = this.state;
-    const { form } = this.context;
-    const macthFormData=this.props.matchFormData;
-
+    const {formDescriptionWidget, nowWidget} = this.state;
+    const {form} = this.context;
+    const macthFormData = this.props.matchFormData;
     //组装说明文字
     let formDescriptionData = {};
     formDescriptionData.formOID = form.formOID;
@@ -367,7 +366,7 @@ class FormDetailCustom extends React.Component{
     descriptionValue.enable = formDescriptionWidget.enable;
     Object.keys(formDescriptionWidget).map(key => {
       this.props.languageList.map(language => {
-        if(key === language.code.toLowerCase()){
+        if (key === language.code.toLowerCase()) {
           descriptionValue[key] = formDescriptionWidget[key];
         }
       });
@@ -375,8 +374,8 @@ class FormDetailCustom extends React.Component{
     formDescriptionData.propertyValue = JSON.stringify(descriptionValue);
     let targetWidgets = [].concat(nowWidget);
     targetWidgets.map((widget, index) => {
-      if(widget.messageKey === 'select_participant' && widget.fieldContent &&
-        JSON.parse(widget.fieldContent).out){
+      if (widget.messageKey === 'select_participant' && widget.fieldContent &&
+        JSON.parse(widget.fieldContent).out) {
         let newWidget = {};
         newWidget.messageKey = widget.outMessageKey ? widget.outMessageKey : 'out_participant_num';
         newWidget.fieldName = widget.outFieldName;
@@ -396,7 +395,7 @@ class FormDetailCustom extends React.Component{
       }
     });
     targetWidgets.map((widget, index) => {
-      if(widget.messageKey === 'payee'){
+      if (widget.messageKey === 'payee') {
         let newWidget = {};
         newWidget.messageKey = 'contact_bank_account';
         newWidget.fieldName = widget.bankFieldName;
@@ -418,7 +417,7 @@ class FormDetailCustom extends React.Component{
     //组装表单控件
     let participantsImportScopeData = null;
     targetWidgets.map((widget, index) => {
-      if(widget.messageKey === 'select_participant'){
+      if (widget.messageKey === 'select_participant') {
         participantsImportScopeData = {
           formOID: form.formOID,
           propertyName: 'application.participants.import.scope',
@@ -441,7 +440,7 @@ class FormDetailCustom extends React.Component{
       });
       widget.sequence = index;
 
-      if(widget.messageKey === 'linkage_switch'){
+      if (widget.messageKey === 'linkage_switch') {
         widget.i18n.fieldContent = [];
         widget.customFormFieldI18nDTOS.map(i18nDTO => {
           widget.i18n.fieldContent.push({
@@ -452,17 +451,25 @@ class FormDetailCustom extends React.Component{
       }
       return widget;
     });
+
+    targetWidgets.map(item => {
+      item.i18n.promptInfo.map(i18n => {
+        if (i18n.value == null || i18n.value == 'null') {
+          i18n.value = this.$t({ id: 'common.please.enter' });
+        }
+      });
+    });
     form.customFormFields = targetWidgets;
 
     if (!this.validateData(form)) {
       return;
     }
-    
-    const formVal={
+
+    const formVal = {
       ...form,
       ...macthFormData
     }
-    this.setState({ saving: true });
+    this.setState({saving: true});
     let serviceArray = [
       formService.saveFormProperty([formDescriptionData]),
       formService.saveFormDetail(formVal)
@@ -470,7 +477,7 @@ class FormDetailCustom extends React.Component{
     participantsImportScopeData && serviceArray.unshift(formService.saveFormProperty([participantsImportScopeData]));
     Promise.all(serviceArray).then(res => {
       message.success(this.$t('common.save.success', {name: form.formName}));
-      this.setState({ saving: false });
+      this.setState({saving: false});
     }).catch(e => {
       let error = e.response.data;
       if (error.validationErrors && error.validationErrors.length) {
@@ -478,13 +485,13 @@ class FormDetailCustom extends React.Component{
       } else {
         message.error(`${this.$t('common.save.filed')}，${error.message}`)
       }
-      this.setState({ saving: false });
+      this.setState({saving: false});
     });
   };
 
   //是否包含某种类型的控件
   isHasSpecialField = (messageKey) => {
-    const { nowWidget } = this.state;
+    const {nowWidget} = this.state;
     let isHas = false;
     nowWidget.map(widget => {
       if (messageKey === widget.messageKey) {
@@ -497,7 +504,7 @@ class FormDetailCustom extends React.Component{
 
   //定位到报错的控件
   handleErrorIndex = (messageKey) => {
-    const { nowWidget } = this.state;
+    const {nowWidget} = this.state;
     let errorIndex = -1;
     if (messageKey === 'out_participant_num') {
       errorIndex = this.handleErrorIndex('select_participant');
@@ -525,36 +532,36 @@ class FormDetailCustom extends React.Component{
         errorMessageKey = customFormField.messageKey;
         isOk = false;
       }
-      if(customFormField.reportShow && !customFormField.reportOrmKey){
+      if (customFormField.reportShow && !customFormField.reportOrmKey) {
         errorMsg = this.$t('form.setting.error02', {fieldName: customFormField.fieldName});//请选择${customFormField.fieldName}代入报表的属性
         errorMessageKey = customFormField.messageKey;
         isOk = false;
       }
-      if(customFormField.messageKey==='employee_expand' &&customFormField.dataSource===''){
+      if (customFormField.messageKey === 'employee_expand' && customFormField.dataSource === '') {
         errorMsg = this.$t('form.setting.error03', {fieldName: customFormField.fieldName});//请选择${customFormField.fieldName}扩展字段选项
         errorMessageKey = customFormField.messageKey;
         isOk = false;
       }
-      if(customFormField.messageKey==='cust_list' &&customFormField.dataSource===''){
+      if (customFormField.messageKey === 'cust_list' && customFormField.dataSource === '') {
         errorMsg = `${customFormField.fieldName}${this.$t('extend.field.list.no.empty')}`;
         errorMessageKey = customFormField.messageKey;
         isOk = false;
       }
-      if(customFormField.messageKey==='select_cost_center' &&customFormField.dataSource===''){
+      if (customFormField.messageKey === 'select_cost_center' && customFormField.dataSource === '') {
         errorMsg = this.$t('form.setting.error04', {fieldName: customFormField.fieldName});//${customFormField.fieldName}成本中心列表不可为空
         errorMessageKey = customFormField.messageKey;
         isOk = false;
       }
-      if(customFormField.messageKey==='select_box'){
+      if (customFormField.messageKey === 'select_box') {
         JSON.parse(customFormField.fieldContent).map(item => {
-           if(!item.name||item.name===''){
-             errorMsg = this.$t('form.setting.error05', {fieldName: customFormField.fieldName});//${customFormField.fieldName}选项名称不能为空
-             errorMessageKey = customFormField.messageKey;
-             isOk = false;
-           }
+          if (!item.name || item.name === '') {
+            errorMsg = this.$t('form.setting.error05', {fieldName: customFormField.fieldName});//${customFormField.fieldName}选项名称不能为空
+            errorMessageKey = customFormField.messageKey;
+            isOk = false;
+          }
         })
       }
-      if(customFormField.messageKey==='select_participant' && customFormField.fieldContent){
+      if (customFormField.messageKey === 'select_participant' && customFormField.fieldContent) {
         let fieldContent = JSON.parse(customFormField.fieldContent);
         if (!fieldContent.out && !fieldContent.isUse) {
           errorMsg = this.$t('form.setting.error06');//参与人控件需必选一项
@@ -592,11 +599,11 @@ class FormDetailCustom extends React.Component{
 
   //渲染每个控件可关联的报表属性
   renderReportScopeList = (reportOrmKey) => {
-    const { nowWidget } = this.state;
+    const {nowWidget} = this.state;
     let reportScopeList = [];
     let selectedReportScopeList = [];
     nowWidget.map((widget) => {
-      if(widget.reportShow && widget.reportOrmKey){
+      if (widget.reportShow && widget.reportOrmKey) {
         selectedReportScopeList.push(widget.reportOrmKey);
       }
     });
@@ -610,15 +617,15 @@ class FormDetailCustom extends React.Component{
 
   renderWidgetArea = () => {
     //账套级表单要隐藏这边
-    const { normalWidget, combineWidget} = this.state;
-    if(!this.props.tenantMode && this.context.form.fromType === 2){
+    const {normalWidget, combineWidget} = this.state;
+    if (!this.props.tenantMode && this.context.form.fromType === 2) {
       return (
         <Col span={4}>
           <div>
           </div>
         </Col>
       )
-    }else {
+    } else {
       return (
         <Col span={8}>
           <div className="widget-area">
@@ -638,18 +645,19 @@ class FormDetailCustom extends React.Component{
     }
 
   }
+
   render() {
-    const { normalWidget, combineWidget, nowWidget, nowSelectedIndex, loading, formDescriptionWidget, saving } = this.state;
+    const {normalWidget, combineWidget, nowWidget, nowSelectedIndex, loading, formDescriptionWidget, saving} = this.state;
     const selectedWidget = nowSelectedIndex === -1 ? formDescriptionWidget : nowWidget[nowSelectedIndex];
     return (
       <div className="drag-widget-page form-detail-custom">
         {loading ? <Spin/> : (
           <div>
-            <FakeDropLayout />
+            <FakeDropLayout/>
             <Row gutter={40}>
-                {
-                  this.renderWidgetArea()
-                }
+              {
+                this.renderWidgetArea()
+              }
               <Col span={8}>
                 <div className="fake-phone">
                   <div className="phone-buttons">
@@ -684,7 +692,8 @@ class FormDetailCustom extends React.Component{
                                widgetList={normalWidget.concat(combineWidget)}
                                onChange={this.handleChangeWidget}/>
                 <div className="operate-area">
-                  <Button type="primary" loading={saving} onClick={this.handleSave}>{this.$t('common.save')/*保存*/}</Button>
+                  <Button type="primary" loading={saving}
+                          onClick={this.handleSave}>{this.$t('common.save')/*保存*/}</Button>
                 </div>
               </Col>
             </Row>
@@ -713,4 +722,4 @@ FormDetailCustom.contextTypes = {
   propertyList: PropTypes.array
 };
 
-export default connect(mapStateToProps, null, null, { withRef: true })(DragDropContext(HTML5Backend)(FormDetailCustom))
+export default connect(mapStateToProps, null, null, {withRef: true})(DragDropContext(HTML5Backend)(FormDetailCustom))

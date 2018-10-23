@@ -589,6 +589,13 @@ export const getRouterData = app => {
       name: '表单详情',
       parent: '/admin-setting/form-list',
     },
+    //供应商类型
+    '/admin-setting/supplier-type':{
+      component:dynamicWrapper(app,[],() =>
+      import('containers/setting/supplier-type/supplier-type')
+      ),
+      name:'供应商类型定义',
+    },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/finance-audit/finance-audit')
@@ -733,6 +740,29 @@ export const getRouterData = app => {
       ),
       name: 'expense-type',
     },
+    '/admin-setting/company-group': {
+      //公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group.js')
+      ),
+      name: 'company-group',
+    },
+    '/admin-setting/company-group/new-company-group/:companyGroupId': {
+      //新建公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/new-company-group.js')
+      ),
+      name: 'new-company-group',
+      parent: '/admin-setting/company-group',
+    },
+    '/admin-setting/company-group/company-group-detail/:id': {
+      //公司组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group-detail.js')
+      ),
+      name: 'company-group-detail',
+      parent: '/admin-setting/company-group',
+    },
     '/pay/pay-workbench/:tab': {
       //付款工作台
       component: dynamicWrapper(app, [], () =>
@@ -746,6 +776,38 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
+    },
+
+    //预算日记本
+    '/budget/budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal.js')
+      ),
+      name: 'budget-journal',
+    },
+    //新建预算日记账
+    '/budget/budget-journal/new-budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/new-budget-journal.js')
+      ),
+      name: '新建预算日记账',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情
+    '/budget/budget-journal/budget-journal-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail.js')
+      ),
+      name: '预算日记账详情',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情(已经提交过的)
+    '/budget/budget-journal/budget-journal-detail-submit/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail-submit.js')
+      ),
+      name: '预算日记账详情(已提交)',
+      parent: '/budget/budget-journal',
     },
     '/pay/pay-refund': {
       //付款退款
