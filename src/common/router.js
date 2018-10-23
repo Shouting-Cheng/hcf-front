@@ -340,7 +340,7 @@ export const getRouterData = app => {
       name: 'contract-detail',
       parent: '/contract-manage/my-contract',
     },
-    '/request': {
+    '/request/my-request': {
       //申请单
       component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
@@ -354,19 +354,19 @@ export const getRouterData = app => {
       //新建申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'new-request',
-      parent: '/request',
+      parent: '/request/my-request',
     },
     '/request/request-edit/:formOID/:applicationOID': {
       //编辑申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'request-edit',
-      parent: '/request',
+      parent: '/request/my-request',
     },
     '/request/request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
-      parent: '/request',
+      parent: '/request/my-request',
     },
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
