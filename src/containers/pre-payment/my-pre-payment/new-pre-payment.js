@@ -4,20 +4,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {
-  Form,
-  Card,
-  Input,
-  Row,
-  Col,
-  Affix,
-  Button,
-  DatePicker,
-  Select,
-  InputNumber,
-  message,
-  Spin,
-} from 'antd';
+import {Form,Card,Input,Row,Col,Affix,Button,DatePicker,Select,InputNumber,message,Spin,} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 // import menuRoute from 'routes/menuRoute'
