@@ -841,7 +841,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-    }
+    },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
       component: dynamicWrapper(app, [], () =>
