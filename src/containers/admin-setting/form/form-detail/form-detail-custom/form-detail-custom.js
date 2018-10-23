@@ -158,11 +158,11 @@ class FormDetailCustom extends React.Component{
       Promise.all([formService.getWidgetList(formType, 1001), formService.getWidgetList(formType, 1002)]).then(res => {
         res[0].data.map(item => {
           item.fieldConstraint = item.constraintRule;
-          item.readonly = !item.deleted;
+          //item.readonly = !item.deleted;
         });
         res[1].data.map(item => {
           item.fieldConstraint = item.constraintRule;
-          item.readonly = !item.deleted;
+          //item.readonly = !item.deleted;
         });
         let normalWidget=[];
         res[0].data.map(item => {
@@ -457,7 +457,7 @@ class FormDetailCustom extends React.Component{
     if (!this.validateData(form)) {
       return;
     }
-    
+
     const formVal={
       ...form,
       ...macthFormData
