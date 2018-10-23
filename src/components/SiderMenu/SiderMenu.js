@@ -119,8 +119,8 @@ export default class SiderMenu extends React.Component {
         onClick={
           isMobile
             ? () => {
-                onCollapse(true);
-              }
+              onCollapse(true);
+            }
             : undefined
         }
       >
@@ -147,8 +147,8 @@ export default class SiderMenu extends React.Component {
                   <span>{this.$t(item.name)}</span>
                 </span>
               ) : (
-                this.$t(item.name)
-              )
+                  this.$t(item.name)
+                )
             }
             key={item.path}
           >
@@ -228,8 +228,8 @@ export default class SiderMenu extends React.Component {
     const menuProps = collapsed
       ? {}
       : {
-          openKeys,
-        };
+        openKeys,
+      };
     // if pathname can't match, use the nearest parent's key
     // let selectedKeys = this.getSelectedMenuKeys();
     // if (!selectedKeys.length) {
@@ -253,18 +253,20 @@ export default class SiderMenu extends React.Component {
             <h1>汉得融晶</h1>
           </Link>
         </div>
-        <Menu
-          key="Menu"
-          theme="dark"
-          mode="inline"
-          {...menuProps}
-          onOpenChange={this.handleOpenChange}
-          selectedKeys={[activeKey]}
-          style={{ padding: '16px 0', width: '100%' }}
-          onSelect={this.select}
-        >
-          {this.getNavMenuItems(this.menus)}
-        </Menu>
+        <div className="menu-container">
+          <Menu
+            key="Menu"
+            theme="dark"
+            mode="inline"
+            {...menuProps}
+            onOpenChange={this.handleOpenChange}
+            selectedKeys={[activeKey]}
+            style={{ padding: '16px 0', paddingRight: 18, width: '100%' }}
+            onSelect={this.select}
+          >
+            {this.getNavMenuItems(this.menus)}
+          </Menu>
+        </div>
       </Sider>
     );
   }
