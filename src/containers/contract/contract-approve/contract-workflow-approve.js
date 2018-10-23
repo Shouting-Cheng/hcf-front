@@ -55,12 +55,12 @@ class ContractWorkflowApprove extends React.Component {
             {
               type: 'date',
               id: 'beginDate',
-              label: this.$t({ id: 'contract.search.date.from' } /*提交时间从*/),
+              label: this.$t({ id: 'contract.search.submit.date.from' } /*提交时间从*/),
             },
             {
               type: 'date',
               id: 'endDate',
-              label: this.$t({ id: 'contract.search.date.to' } /*提交时间至*/),
+              label: this.$t({ id: 'contract.search.submit.date.to' } /*提交时间至*/),
             },
           ],
         },
