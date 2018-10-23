@@ -711,7 +711,6 @@ export const getRouterData = app => {
       name: 'get-value-rule',
       parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId'
     },
-
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')
@@ -760,6 +759,24 @@ export const getRouterData = app => {
       ),
       name: 'pay-backlash-recheck',
     },
+    //预算日记账复核
+    '/budget/budget-journal-re-check': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js'),
+      ),
+      name: 'budget-journal-re-check',
+    },
+
+    //预算日记账复核详情
+    '/budget/budget-journal-re-check/budget-journal-re-check-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check-detail.js')
+      ),
+      name: '预算日记账复核详情',
+      parent: '/budget/budget-journal-re-check',
+    },
+
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
