@@ -107,7 +107,7 @@ class NewPaymentCompanySetting extends React.Component {
           paymentCompanySettingService.addOrUpdataPaymentCompanySetting(toValue).then((res) => {
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(messages('common.operate.success'));
           }).catch((e) => {
             this.setState({loading: false});
@@ -127,7 +127,7 @@ class NewPaymentCompanySetting extends React.Component {
           paymentCompanySettingService.addOrUpdataPaymentCompanySetting(toValue).then((res) => {
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(messages('common.operate.success'));
           }).catch((e) => {
             this.setState({loading: false});
@@ -140,7 +140,7 @@ class NewPaymentCompanySetting extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close(false);
+    this.props.onClose(false);
   };
 
   switchChange = () => {

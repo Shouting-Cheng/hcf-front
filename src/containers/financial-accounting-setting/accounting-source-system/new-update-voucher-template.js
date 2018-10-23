@@ -2,12 +2,11 @@
  * created by jsq on 2017/12/27
  */
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import {Button, Input, Switch, Select, Form, Icon, notification, Alert, Row, Col, message} from 'antd'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/accounting-source-system/new-update-voucher-template.scss'
-import Chooser from 'components/chooser'
-import {formatMessage} from 'share/common'
+import Chooser from 'widget/chooser'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -74,7 +73,7 @@ class NewUpdateSection extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {isNew, record} = this.state
+    const {isNew, record} = this.state;
     this.setState({
       loading: true,
     });
@@ -86,12 +85,12 @@ class NewUpdateSection extends React.Component {
             ...values,
             basicSourceDate: values.basicSourceDate[0].code,
             sourceTransactionId: this.props.params.sourceTransactionId
-          }
+          };
           accountingService.addSourceTransactionModel(data).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
           }).catch((e) => {
             this.setState({loading: false});
             message.error(e.response.data.message);
@@ -103,16 +102,16 @@ class NewUpdateSection extends React.Component {
             versionNumber: record.versionNumber,
             ...values,
             basicSourceDate: values.basicSourceDate[0].code,
-          }
+          };
 
           data.glSceneId = data.glSceneId?data.glSceneId:"";
 
           delete data["journalLineModelCode"];
           accountingService.upSourceTransactionModel(data).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.props.form.resetFields();
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
           }).catch((e) => {
             this.setState({loading: false});
             message.error(e.response.data.message);
@@ -126,14 +125,14 @@ class NewUpdateSection extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   renderMessage() {
     return (
       <ul>
         <li className="header-tips-li"><span
-          className="header-tips-content">{formatMessage({id: "voucher.template.tips2"})}</span></li>
+          className="header-tips-content">{this.$t({id: "voucher.template.tips2"})}</span></li>
       </ul>)
   }
 
@@ -158,38 +157,38 @@ class NewUpdateSection extends React.Component {
       <div className="new-update-voucher-template">
         {isNew?(  <Alert message={this.renderMessage()} type="warning"/>):""}
         <Form onSubmit={this.handleSubmit} className="voucher-template-form">
-          <FormItem {...formItemLayout} label={formatMessage({id: 'voucher.template.code'})  /*凭证模板行代码*/}>
+          <FormItem {...formItemLayout} label={this.$t({id: 'voucher.template.code'})  /*凭证模板行代码*/}>
             {getFieldDecorator('journalLineModelCode', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }],
               initialValue: isNew ? "" : record.journalLineModelCode,
             })(
-              <Input className="input-disabled-color" placeholder={ formatMessage({id: "common.please.enter"})}
+              <Input className="input-disabled-color" placeholder={ this.$t({id: "common.please.enter"})}
                      disabled={!this.props.params.isNew}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: 'voucher.template.name'})  /*凭证模板行名称*/}>
+          <FormItem {...formItemLayout} label={this.$t({id: 'voucher.template.name'})  /*凭证模板行名称*/}>
             {getFieldDecorator('description', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }],
               initialValue: isNew ? "" : record.description,
             })(
-              <Input className="input-disabled-color" placeholder={ formatMessage({id: "common.please.enter"})}/>
+              <Input className="input-disabled-color" placeholder={ this.$t({id: "common.please.enter"})}/>
             )}
           </FormItem>
           <FormItem {...formItemLayout} label={"核算场景"} disabled={!this.props.params.isNew}>
             {getFieldDecorator('glSceneId', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: isNew ? "" : record.glSceneId,
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}>
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}>
                 {
                   scenariosOption.map((item) => <Option
                     key={item.id}>{item.glSceneName + " - " + item.glSceneCode}</Option>)
@@ -197,16 +196,16 @@ class NewUpdateSection extends React.Component {
               </Select>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: 'basic.data.sheet'})  /*基础数据表*/}>
+          <FormItem {...formItemLayout} label={this.$t({id: 'basic.data.sheet'})  /*基础数据表*/}>
             {getFieldDecorator('basicSourceDate', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: basicSourceDate,
             })(
               <Chooser
-                placeholder={formatMessage({id: "common.please.select"})}
+                placeholder={this.$t({id: "common.please.select"})}
                 type="source_transactions_data"
                 single={true}
                 labelKey="description"
@@ -217,7 +216,7 @@ class NewUpdateSection extends React.Component {
             )}
           </FormItem>
           <FormItem {...formItemLayout}
-                    label={formatMessage({id: "common.column.status"})} colon={true}>
+                    label={this.$t({id: "common.column.status"})} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName: "checked",
               initialValue: isNew ? true : record.enabled
@@ -226,8 +225,8 @@ class NewUpdateSection extends React.Component {
             )}
           </FormItem>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit" loading={loading}>{formatMessage({id: "common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"})}</Button>
+            <Button type="primary" htmlType="submit" loading={loading}>{this.$t({id: "common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
           </div>
         </Form>
       </div>
