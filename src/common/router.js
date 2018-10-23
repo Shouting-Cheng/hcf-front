@@ -589,6 +589,13 @@ export const getRouterData = app => {
       name: '表单详情',
       parent: '/admin-setting/form-list',
     },
+    //供应商类型
+    '/admin-setting/supplier-type':{
+      component:dynamicWrapper(app,[],() =>
+      import('containers/setting/supplier-type/supplier-type')
+      ),
+      name:'供应商类型定义',
+    },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/finance-audit/finance-audit')
