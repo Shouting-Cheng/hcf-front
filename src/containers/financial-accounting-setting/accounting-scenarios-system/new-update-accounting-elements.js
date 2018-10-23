@@ -2,14 +2,11 @@
  * created by jsq on 2017/12/28
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Input, Switch, Form, Icon, Select, notification, message,Row, Col } from 'antd'
-import httpFetch from 'share/httpFetch';
-import config from 'config'
 import 'styles/financial-accounting-setting/accounting-scenarios-system/new-update-accounting-elements.scss'
-import Chooser from 'components/chooser'
+import Chooser from 'widget/chooser'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system.service';
-import {formatMessage} from 'share/common'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -35,7 +32,10 @@ class NewUpdateScenariosSystem extends React.Component{
       elements: params,
       enabled: typeof params.enabled === 'undefined' ? true : params.enabled,
       accountElementCode: typeof params.accountElementCode === 'undefined' ? [] : [{code: params.accountElementCode}]
-    })
+    });
+    if(params.id){
+      this.props.form.setFieldsValue({accountElementName: params.accountElementName})
+    }
   }
 
   componentWillMount() {
@@ -45,12 +45,11 @@ class NewUpdateScenariosSystem extends React.Component{
         enabled: params.enabled,
         transactionSceneId: params.transactionSceneId,
         accountElementCode: params.accountElementCode
-      },this.handleGroup())
+      },this.handleGroup)
     }
   }
 
   componentWillReceiveProps(nextprops){
-
     let params = {...{},...nextprops.params};
     if(JSON.stringify(params)==='{}'){
         this.props.form.resetFields();
@@ -107,18 +106,18 @@ class NewUpdateScenariosSystem extends React.Component{
         }
         method.then(response=>{
           if(typeof this.state.elements.id === 'undefined' )
-            message.success(`${formatMessage({id: "common.save.success"},{name:""})}`);
+            message.success(`${this.$t({id: "common.save.success"},{name:""})}`);
           else
-            message.success(`${formatMessage({id:"common.operate.success"})}`);
+            message.success(`${this.$t({id:"common.operate.success"})}`);
           this.setState({loading: false});
           this.props.form.resetFields();
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.scenarios.id === 'undefined' )
-              message.error(`${formatMessage({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             else
-              message.error(`${formatMessage({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             this.setState({loading: false})
           }
         })
@@ -128,7 +127,7 @@ class NewUpdateScenariosSystem extends React.Component{
 
   onCancel = ()=>{
     this.props.form.resetFields();
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {
@@ -139,7 +138,7 @@ class NewUpdateScenariosSystem extends React.Component{
 
   handleElement = (value)=>{
     if(typeof value !== 'undefined'&& value.length>0){
-      this.props.form.setFieldsValue({accountElementName: value[0].description})
+      value[0].description&&this.props.form.setFieldsValue({accountElementName: value[0].description})
     }
   };
 
@@ -167,21 +166,20 @@ class NewUpdateScenariosSystem extends React.Component{
       labelCol: { span: 6 },
       wrapperCol: { span: 14, offset: 1 },
     };
-
     return(
       <div className="new-update-accounting-elements">
         <Form onSubmit={this.handleSubmit} className="accounting-elements-form">
           <Row gutter={20}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'accounting.scenarios.elements'})  /*核算要素*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'accounting.scenarios.elements'})  /*核算要素*/}>
               {getFieldDecorator('accountElementCode', {
                 initialValue: this.state.accountElementCode,
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.select"})
+                  message: this.$t({id: "common.please.select"})
                 }]
                 })(
-                <Chooser placeholder={formatMessage({id:"common.please.select"})}
+                <Chooser placeholder={this.$t({id:"common.please.select"})}
                     type='accounting_elements'
                     valueKey="code"
                     labelKey="code"
@@ -195,7 +193,7 @@ class NewUpdateScenariosSystem extends React.Component{
           </Row>
           <Row gutter={20}>
             <Col span={20}>
-             <FormItem {...formItemLayout} label={formatMessage({id:'accounting.elements.name'})  /*核算要素名称*/}>
+             <FormItem {...formItemLayout} label={this.$t({id:'accounting.elements.name'})  /*核算要素名称*/}>
             {getFieldDecorator('accountElementName',{
               initialValue: elements.accountElementName
             })(
@@ -206,26 +204,26 @@ class NewUpdateScenariosSystem extends React.Component{
           </Row>
           <Row gutter={20}>
             <Col span={20}>
-             <FormItem {...formItemLayout} label={formatMessage({id:'accounting.elements.nature'})  /*核算要素性质*/}>
+             <FormItem {...formItemLayout} label={this.$t({id:'accounting.elements.nature'})  /*核算要素性质*/}>
             {getFieldDecorator('elementNature', {
               initialValue: elements.elementNature,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Input placeholder={formatMessage({id:"common.please.enter"})}/>
+              <Input placeholder={this.$t({id:"common.please.enter"})}/>
             )}
           </FormItem>
             </Col>
           </Row>
           <Row gutter={20}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'accounting.matching.group.field'})  /*匹配组字段*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'accounting.matching.group.field'})  /*匹配组字段*/}>
               {getFieldDecorator('mappingGroupCode',{
                 initialValue: elements.mappingGroupCode
               })(
-                <Select onFocus={this.handleGroup} allowClear placeholder={formatMessage({id:"common.please.select"})}>
+                <Select onFocus={this.handleGroup} allowClear placeholder={this.$t({id:"common.please.select"})}>
                   {matchGroup.map(item=><Option key={item.key}>{item.label}</Option>)}
                 </Select>
               )}
@@ -237,20 +235,20 @@ class NewUpdateScenariosSystem extends React.Component{
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 14, offset: 1}}
-              label={formatMessage({id:"common.column.status"})} colon={true}>
+              label={this.$t({id:"common.column.status"})} colon={true}>
               {getFieldDecorator('enabled', {
                 valuePropName:"checked",
                 initialValue: enabled
               })(
                 <div>
                   <Switch defaultChecked={enabled}  checkedChildren={<Icon type="check"/>} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
-                  <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? formatMessage({id:"common.status.enable"}) : formatMessage({id:"common.disabled"}) }</span>
+                  <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? this.$t({id:"common.status.enable"}) : this.$t({id:"common.disabled"}) }</span>
                 </div>)}
             </FormItem>
           }
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{formatMessage({id:"common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id:"common.cancel"})}</Button>
+            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{this.$t({id:"common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id:"common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -260,7 +258,7 @@ class NewUpdateScenariosSystem extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

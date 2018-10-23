@@ -1,62 +1,64 @@
-.new-update-matching-group{
-  .matching-group-form{
-    .section-structure-header{
-      border: 1px solid #ffE58f;
-      border-radius: 3px;
-      padding-left: 15px;
-      background: #FFFBE6;
-      text-align: center;
-      height: 30px ;
-      line-height:30px;
-      overflow:hidden;
-      margin-bottom: 15px;
+:global{
+  .new-update-matching-group{
+    .matching-group-form{
+      .section-structure-header{
+        border: 1px solid #ffE58f;
+        border-radius: 3px;
+        padding-left: 15px;
+        background: #FFFBE6;
+        text-align: center;
+        height: 30px ;
+        line-height:30px;
+        overflow:hidden;
+        margin-bottom: 15px;
+      }
+      .matching-group-circle{
+        width: 40px;
+        height: 40px;
+        background-color: #1890ff;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        line-height:40px;
+        text-align: center;
+        display: inline-block;
+        overflow:hidden;
+        color: #ffffff;
+      }
+      .matching-group-form-tips{
+        margin-left: 15px;
+        font-size: 15px;
+        text-align: center;
+        line-height:40px;
+        height: 40px;
+        overflow:hidden;
+        display: inline-block;
+      }
+      .matching-group-form-label{
+        margin-left: 15px;
+        text-align: center;
+        line-height:40px;
+        color: #9f9f9f;
+        height: 40px;
+        overflow:hidden;
+        display: inline-block;
+      }
     }
-    .matching-group-circle{
-      width: 40px;
+    .accounting-matching-table-head{
+      background: #e6f7ff;
       height: 40px;
-      background-color: #1890ff;
-      border-radius: 50%;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
       line-height:40px;
-      text-align: center;
-      display: inline-block;
       overflow:hidden;
-      color: #ffffff;
-    }
-    .matching-group-form-tips{
-      margin-left: 15px;
-      font-size: 15px;
-      text-align: center;
-      line-height:40px;
-      height: 40px;
-      overflow:hidden;
-      display: inline-block;
-    }
-    .matching-group-form-label{
-      margin-left: 15px;
-      text-align: center;
-      line-height:40px;
-      color: #9f9f9f;
-      height: 40px;
-      overflow:hidden;
-      display: inline-block;
-    }
-  }
-  .accounting-matching-table-head{
-    background: #e6f7ff;
-    height: 40px;
-    line-height:40px;
-    overflow:hidden;
-    border-radius: 5px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    .head-icon{
-      margin-left: 15px;
-      margin-right: 10px;
-    }
-    .info-clear{
-      margin-left: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      .head-icon{
+        margin-left: 15px;
+        margin-right: 10px;
+      }
+      .info-clear{
+        margin-left: 10px;
+      }
     }
   }
 }

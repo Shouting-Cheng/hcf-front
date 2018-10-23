@@ -132,6 +132,30 @@ class PrePaymentCommon extends React.Component {
    * 生命周期函数，重新渲染
    */
 
+  /*componentDidMount(){
+    const { columns } = this.state;
+    if ((this.props.params.status === 1001 || this.props.params.status === 1003 || this.props.params.status === 1005) && columns[columns.length-1].dataIndex !="id") {
+      columns.splice(columns.length, 0, {
+        title: '操作', dataIndex: 'id', width: 100, align: "center",
+        render: (text, record) => (
+          <span>
+            <a onClick={(e) => this.editItem(e, record)}>编辑</a>
+            <span className="ant-divider" />
+            <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteItem(e, record)}><a>删除</a></Popconfirm>
+          </span>
+        )
+      })
+    }
+    if (this.props.params.id) {
+      this.setState({
+        headerData: this.props.params
+      }, () => {
+        this.getApproveHistory();
+        this.getList();
+        this.getAmountByHeadId();
+      });
+    }
+  }*/
 
   componentWillReceiveProps(nextProps) {
     const { columns } = this.state;

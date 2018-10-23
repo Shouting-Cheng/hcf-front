@@ -195,8 +195,8 @@ class Payment extends React.Component {
 
     //未审批搜索
     unapprovedSearch = (values) => {
-        values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
-        values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
+      values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
+      values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
         this.setState({ unApproveSearchParams: values }, () => {
             this.getUnapprovedList()
         })
