@@ -837,6 +837,13 @@ export const getRouterData = app => {
       name: '预算日记账复核详情',
       parent: '/budget/budget-journal-re-check',
     },
+    //账套设置
+    '/finance-setting/set-of-books':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/set-of-books/set-of-books.js')
+      ),
+      name: '账套定义'
+    }
 
 
     // '/user/:id': {
