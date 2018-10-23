@@ -506,6 +506,12 @@ export const getRouterData = app => {
       ),
       name: 'company-account-setting', // 公司账户设置
     },
+    '/pay-setting/payment-company-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay-setting/payment-company-setting/payment-company-setting.js')
+      ),
+      name: 'payment-company-setting', // 付款公司配置
+    },
     '/pay-setting/company-account-setting/bank-account-detail/:companyBankId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/company-account-setting/bank-account-detail.js')
@@ -576,6 +582,20 @@ export const getRouterData = app => {
       name: '新建表单',
       parent: '/admin-setting/form-list',
     },
+    '/admin-setting/form-list/form-detail/:formOID/:booksID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/admin-setting/form/form-detail/form-detail.js')
+      ),
+      name: '表单详情',
+      parent: '/admin-setting/form-list',
+    },
+    //供应商类型
+    '/admin-setting/supplier-type':{
+      component:dynamicWrapper(app,[],() =>
+      import('containers/setting/supplier-type/supplier-type')
+      ),
+      name:'供应商类型定义',
+    },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/finance-audit/finance-audit')
@@ -583,18 +603,149 @@ export const getRouterData = app => {
       name: 'finance-audit',
     },
 
-    '/financial-accounting-setting/section-structure':{
+    '/financial-accounting-setting/section-structure': {
       //科目段结构，
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-accounting-setting/section-structure/section-structure')
       ),
       name: 'section-structure'
     },
+    '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId':{
+      //科目段设置
+      component: dynamicWrapper(app,[],()=>
+        import('containers/financial-accounting-setting/section-structure/section-setting')
+      ),
+      name: 'section-setting',
+      parent:'/financial-accounting-setting/section-structure'
+    },
+    '/financial-accounting-setting/accounting-source-system':{
+      //来源事务定义
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/accounting-source-system')
+      ),
+      name: 'source-affair-define'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType':{
+      //凭证模版
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/voucher-template')
+      ),
+      name: 'voucher-template',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id':{
+      //取值规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
+      ),
+      name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id':{
+      //判断规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-judge-rules')
+      ),
+      name: 'judge-rules',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id':{
+      //核算规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-rules')
+      ),
+      name: 'account-rules',
+      parent: '/financial-accounting-setting/accounting-source-system'
+    },
+    '/financial-accounting-setting/accounting-scenarios-system':{
+      //核算场景定义
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system')
+      ),
+      name: 'accounting-scenarios-define',
+    },
+    "/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id":{
+      //核算要素
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-scenarios-system/accounting-elements')
+      ),
+      name: 'account-element',
+      parent: '/financial-accounting-setting/accounting-scenarios-system'
+    },
+    '/financial-accounting-setting/accounting-scenarios/:setOfBooksId':{
+      //科目映射规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios')
+      ),
+      name: 'section-map-rule',
+    },
+    '/financial-accounting-setting/accounting-scenarios/matching-group-elements/:setOfBooksId/:id':{
+      //匹配组
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-scenarios/matching-group-elements')
+      ),
+      name: 'match-group-element',
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId'
+    },
+    '/financial-accounting-setting/accounting-scenarios/matching-group-elements/subject-matching-setting/:id/:groupId':{
+        //科目匹配设置
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-scenarios/subject-matching-setting')
+      ),
+      name: 'subj-match-setting',
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId'
+    },
+    '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId':{
+      //来源事务凭证模板
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source/accounting-source')
+      ),
+      name: 'voucher-model',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/:id':{
+      //帐套级凭证模板
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source/voucher-template')
+      ),
+      name: 'sob-voucher-model',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId'
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-data-rules/:id/:lineModelId':{
+      //取值规则
+      component: dynamicWrapper(app, [], ()=>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-data-rules'),
+      ),
+      name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId'
+    },
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/expense-type.js')
       ),
-      name: 'expense-type'
+      name: 'expense-type',
+    },
+    '/admin-setting/company-group': {
+      //公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group.js')
+      ),
+      name: 'company-group',
+    },
+    '/admin-setting/company-group/new-company-group/:companyGroupId': {
+      //新建公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/new-company-group.js')
+      ),
+      name: 'new-company-group',
+      parent: '/admin-setting/company-group',
+    },
+    '/admin-setting/company-group/company-group-detail/:id': {
+      //公司组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group-detail.js')
+      ),
+      name: 'company-group-detail',
+      parent: '/admin-setting/company-group',
     },
     '/pay/pay-workbench/:tab': {
       //付款工作台
@@ -616,6 +767,82 @@ export const getRouterData = app => {
         import('containers/basic-data/bank-definition/bank-definition.js')
       ),
       name: '银行定义',
+    },
+
+    //预算日记本
+    '/budget/budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal.js')
+      ),
+      name: 'budget-journal',
+    },
+    //新建预算日记账
+    '/budget/budget-journal/new-budget-journal': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/new-budget-journal.js')
+      ),
+      name: '新建预算日记账',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情
+    '/budget/budget-journal/budget-journal-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail.js')
+      ),
+      name: '预算日记账详情',
+      parent: '/budget/budget-journal',
+    },
+    //预算日记账详情(已经提交过的)
+    '/budget/budget-journal/budget-journal-detail-submit/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal/budget-journal-detail-submit.js')
+      ),
+      name: '预算日记账详情(已提交)',
+      parent: '/budget/budget-journal',
+    },
+    '/pay/pay-refund': {
+      //付款退款
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-refund/pay-refund-query.js')
+      ),
+      name: 'pay-refund',
+    },
+    '/pay/pay-refund-check': {
+      //付款退款复核
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-refund/pay-refund-check-query.js')
+      ),
+      name: 'pay-refund-check',
+    },
+    '/pay/pay-backlash/:tab': {
+      //付款反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash/pay-backlash.js')
+      ),
+      name: 'pay-backlash',
+    },
+    '/pay/pay-backlash-recheck/:tab': {
+      //付款反冲复核
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/payment-backlash-recheck/pay-backlash-recheck.js')
+      ),
+      name: 'pay-backlash-recheck',
+    },
+    //预算日记账复核
+    '/budget/budget-journal-re-check': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js'),
+      ),
+      name: 'budget-journal-re-check',
+    },
+
+    //预算日记账复核详情
+    '/budget/budget-journal-re-check/budget-journal-re-check-detail/:journalCode': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check-detail.js')
+      ),
+      name: '预算日记账复核详情',
+      parent: '/budget/budget-journal-re-check',
     },
 
 

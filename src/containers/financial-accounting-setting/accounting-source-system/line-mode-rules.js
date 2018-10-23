@@ -2,13 +2,13 @@
  * Created by 13576 on 2018/1/14.
  */
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import {Button, Table, Badge, Icon, Popconfirm, message, Input, Popover} from 'antd'
-import SlideFrame from 'components/slide-frame'
-import newUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-rules'
-import menuRoute from 'routes/menuRoute'
+import SlideFrame from 'widget/slide-frame'
+import NewUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-rules'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
-import {formatMessage} from 'share/common'
+import PropTypes from 'prop-types';
+import { routerRedux } from 'dva/router';
 
 class LineModeRulesSystem extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class LineModeRulesSystem extends React.Component {
       lov: {
         visible: false,
         params: {
-          lineModelId: this.props.params.lineModelId,
+          lineModelId: this.props.match.params.lineModelId,
         }
       },
       journalLineModel: {},
@@ -35,10 +35,10 @@ class LineModeRulesSystem extends React.Component {
       },
       searchForm: [
         {                                                                        //来源事物代码
-          type: 'input', id: 'journalLineModelCode', label: formatMessage({id: 'accounting.source.code'})
+          type: 'input', id: 'journalLineModelCode', label: this.$t({id: 'accounting.source.code'})
         },
         {                                                                        //来源事物名称
-          type: 'input', id: 'description', label: formatMessage({id: 'section.structure.name'})
+          type: 'input', id: 'description', label: this.$t({id: 'section.structure.name'})
         },
       ],
 
@@ -55,7 +55,7 @@ class LineModeRulesSystem extends React.Component {
 
   //获取来源事务的账套
   getSource() {
-    let sourceId = this.props.params.id;
+    let sourceId = this.props.match.params.id;
     accountingService.getSourceTransactionbyID(sourceId).then((response) => {
       let data = response.data;
       this.setState({
@@ -66,7 +66,7 @@ class LineModeRulesSystem extends React.Component {
 
 
   getLineMode() {
-    accountingService.getSourceTransactionModelbyID(this.props.params.lineModelId).then((response) => {
+    accountingService.getSourceTransactionModelbyID(this.props.match.params.lineModelId).then((response) => {
       this.setState({
         journalLineModel: response.data
       })
@@ -82,7 +82,7 @@ class LineModeRulesSystem extends React.Component {
     }
     params.page = this.state.page;
     params.size = this.state.pageSize;
-    params.journalLineModelId = this.props.params.lineModelId;
+    params.journalLineModelId = this.props.match.params.lineModelId;
     if (searchText) {
       params.journalFieldName = searchText;
     } else {
@@ -116,12 +116,12 @@ class LineModeRulesSystem extends React.Component {
   handleCreate = () => {
     let time = (new Date()).valueOf();
     let lov = {
-      title:formatMessage({id: "accounting.source.newRule"}),
+      title:this.$t({id: "accounting.source.newRule"}),
       visible: true,
       params: {
         isNew: true,
-        sourceTransactionId: this.props.params.id,
-        lineModelId: this.props.params.lineModelId,
+        sourceTransactionId: this.props.match.params.id,
+        lineModelId: this.props.match.params.lineModelId,
         glSceneId: this.state.journalLineModel.glSceneId,
         setOfBooksId: this.state.setOfBooksId,
         journalLineModel: this.state.journalLineModel,
@@ -139,15 +139,15 @@ class LineModeRulesSystem extends React.Component {
     let params = {
       record: record,
       isNew: false,
-      sourceTransactionId: this.props.params.id,
-      lineModelId: this.props.params.lineModelId,
+      sourceTransactionId: this.props.match.params.id,
+      lineModelId: this.props.match.params.lineModelId,
       glSceneId: this.state.journalLineModel.glSceneId,
       setOfBooksId: this.state.setOfBooksId,
       journalLineModel: this.state.journalLineModel,
       time: time
-    }
+    };
     let lov = {
-      title:formatMessage({id: "accounting.source.editRule" }),
+      title:this.$t({id: "accounting.source.editRule" }),
       visible: true,
       params: params
     };
@@ -188,7 +188,12 @@ class LineModeRulesSystem extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source-system', 'key').children.voucherTemplate.url.replace(':id', this.props.params.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType'
+          .replace(':id', this.props.match.params.id)
+      })
+    );
   };
 
   //取消添加凭证模板
@@ -199,7 +204,7 @@ class LineModeRulesSystem extends React.Component {
 
   onInputChange = (e) => {
     this.setState({searchText: e.target.value});
-  }
+  };
 
   onSearch = () => {
     const {searchText} = this.state;
@@ -208,19 +213,19 @@ class LineModeRulesSystem extends React.Component {
     }, () => {
       this.getList(searchText)
     })
-  }
+  };
 
   render() {
     const {loading, data, pagination, lov, journalLineModel} = this.state;
     let columns = [
       {
         /*核算分录段*/
-        title: formatMessage({id:"accounting.source.journalFieldCode"}), key: "journalFieldName", dataIndex: 'journalFieldName',
+        title: this.$t({id:"accounting.source.journalFieldCode"}), key: "journalFieldName", dataIndex: 'journalFieldName',
         filterDropdown: (
           <div className="custom-filter-dropdown">
             <Input
               ref={ele => this.searchInput = ele}
-              placeholder={formatMessage({id:"accounting.source.journalFieldCode"})}
+              placeholder={this.$t({id:"accounting.source.journalFieldCode"})}
               value={this.state.searchText}
               onChange={this.onInputChange}
               onPressEnter={this.onSearch}
@@ -242,7 +247,7 @@ class LineModeRulesSystem extends React.Component {
       },
       {
         /*取值方式*/
-        title:formatMessage({id : "accounting.source.dataRule"}), key: "dataRuleName", dataIndex: 'dataRuleName',
+        title:this.$t({id : "accounting.source.dataRule"}), key: "dataRuleName", dataIndex: 'dataRuleName',
         render: recode => (
           <Popover content={recode}>
             {recode}
@@ -262,7 +267,7 @@ class LineModeRulesSystem extends React.Component {
       },
     /*  {
         /!*科目段值*!/
-        title:formatMessage({id: "accounting.source.segment"}), key: "segmentName", dataIndex: 'segmentName',
+        title:this.$t({id: "accounting.source.segment"}), key: "segmentName", dataIndex: 'segmentName',
         render: recode => (
           <Popover content={recode}>
             {recode}
@@ -270,19 +275,19 @@ class LineModeRulesSystem extends React.Component {
       },*/
       {
         /*状态*/
-        title: formatMessage({id: "common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
+        title: this.$t({id: "common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
         render: enabled => (
           <Badge status={enabled ? 'success' : 'error'}
-                 text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}/>
+                 text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}/>
         )
       },
       {
-        title: formatMessage({id: "common.operation"}),
+        title: this.$t({id: "common.operation"}),
         key: 'operation',
         width: '8%',
         render: (text, record, index) => (
           <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
+            <a onClick={(e) => this.handleUpdate(e, record, index)}>{this.$t({id: "common.edit"})}</a>
            </span>)
       },
 
@@ -292,18 +297,18 @@ class LineModeRulesSystem extends React.Component {
       <div className="voucher-template">
         <div className="voucher-template-header">
           <h3>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.source"})}:{journalLineModel.sourceTransactionName}</span>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.mode"})}:{journalLineModel.journalLineModelCode}</span>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.scenarios"})}:{journalLineModel.glSceneName}</span>
+            <span style={{marginLeft: "16px", size: "16px"}}>{this.$t({id: "accounting.source.source"})}:{journalLineModel.sourceTransactionName}</span>
+            <span style={{marginLeft: "16px", size: "16px"}}>{this.$t({id: "accounting.source.mode"})}:{journalLineModel.journalLineModelCode}</span>
+            <span style={{marginLeft: "16px", size: "16px"}}>{this.$t({id: "accounting.source.scenarios"})}:{journalLineModel.glSceneName}</span>
           </h3>
         </div>
 
         <div className="table-header">
           <div
-            className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title">{this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button> {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button> {/*新 建*/}
           </div>
         </div>
         <Table
@@ -315,14 +320,15 @@ class LineModeRulesSystem extends React.Component {
           bordered
           size="middle"/>
         <a style={{fontSize: '14px', paddingBottom: '20px'}} onClick={this.handleBack}><Icon type="rollback"
-                                                                                             style={{marginRight: '5px'}}/>{formatMessage({id: "common.back"})}
+                                                                                             style={{marginRight: '5px'}}/>{this.$t({id: "common.back"})}
         </a>
         <SlideFrame title={lov.title}
                     show={lov.visible}
-                    content={newUpDataLineModeRules}
-                    afterClose={this.handleAfterClose}
-                    onClose={() => this.handleShowSlide(false)}
-                    params={lov.params}/>
+                    onClose={() => this.handleShowSlide(false)}>
+            <NewUpDataLineModeRules
+              onClose={this.handleAfterClose}
+              params={lov.params}/>
+        </SlideFrame>
       </div>
     )
   }
@@ -330,7 +336,7 @@ class LineModeRulesSystem extends React.Component {
 
 
 LineModeRulesSystem.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 
 function mapStateToProps(state) {

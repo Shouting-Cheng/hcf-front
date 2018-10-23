@@ -2,15 +2,14 @@
  * created by jsq on 2017/12/22
  */
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import {Button, Table, Checkbox, message} from 'antd'
-import SearchArea from 'components/search-area';
-import ListSelector from 'components/list-selector'
+import SearchArea from 'widget/search-area';
+import ListSelector from 'widget/list-selector'
 import config from 'config'
-import menuRoute from 'routes/menuRoute'
 import accountingService from 'containers/financial-accounting-setting/accounting-source/accounting-source.service'
 import 'styles/financial-accounting-setting/accounting-source/accounting-source.scss'
-import {formatMessage} from 'share/common'
+import { routerRedux } from 'dva/router';
 
 class AccountingSource extends React.Component {
   constructor(props) {
@@ -21,12 +20,12 @@ class AccountingSource extends React.Component {
       dataVisible: false,
       lovVisible: false,
       lov: {
-        title: formatMessage({id: "accounting.source.lovTitle"}),
+        title: this.$t({id: "accounting.source.lovTitle"}),
         url: `${config.accountingUrl}/api/general/ledger/sob/source/transactions/query/filter`,
         searchForm: [],
         columns: [
-          {title: formatMessage({id: "accounting.source.code"}), dataIndex: 'sourceTransactionCode'},
-          {title: formatMessage({id: "accounting.source.name"}), dataIndex: 'description'},
+          {title: this.$t({id: "accounting.source.code"}), dataIndex: 'sourceTransactionCode'},
+          {title: this.$t({id: "accounting.source.name"}), dataIndex: 'description'},
         ],
         key: 'id'
       },
@@ -44,30 +43,30 @@ class AccountingSource extends React.Component {
         pageSize: 10,
       },
       searchForm: [
-        {type: 'select', id: 'setOfBooksId', label:formatMessage({id: "paymentCompanySetting.setOfBooks"}), options: [], defaultValue: '', isRequired: true,
+        {type: 'select', id: 'setOfBooksId', label:this.$t({id: "paymentCompanySetting.setOfBooks"}), options: [], defaultValue: '', isRequired: true,
           labelKey: 'setOfBooksCode', valueKey: 'setOfBooksId',event:'setOfBook'
         },
         {                                                                        //来源事物代码
-          type: 'input', id: 'sourceTransactionCode', label: formatMessage({id: 'accounting.source.code'})
+          type: 'input', id: 'sourceTransactionCode', label: this.$t({id: 'accounting.source.code'})
         },
         {                                                                        //来源事物名称
-          type: 'input', id: 'description', label: formatMessage({id: 'accounting.source.name'})
+          type: 'input', id: 'description', label: this.$t({id: 'accounting.source.name'})
         },
       ],
       columns: [
         {
           /*来源事物代码*/
-          title: formatMessage({id: "accounting.source.code"}),
+          title: this.$t({id: "accounting.source.code"}),
           key: "sourceTransactionCode",
           dataIndex: 'sourceTransactionCode'
         },
         {
           /*来源事物名称*/
-          title: formatMessage({id: "accounting.source.name"}), key: "description", dataIndex: 'description'
+          title: this.$t({id: "accounting.source.name"}), key: "description", dataIndex: 'description'
         },
         {
           /*自动过账*/
-          title: formatMessage({id: "accounting.auto.checked"}),
+          title: this.$t({id: "accounting.auto.checked"}),
           key: "glInterfaceFlag",
           dataIndex: 'glInterfaceFlag',
           width: '10%',
@@ -76,20 +75,20 @@ class AccountingSource extends React.Component {
         },
         /*启用*/
         {
-          title: formatMessage({id: "common.column.status"}),
+          title: this.$t({id: "common.column.status"}),
           key: 'enabled',
           width: '10%',
           render: (enabled, record) => <Checkbox onChange={(e) => this.onChangeEnabled(e, record)}
                                                    checked={record.enabled}/>
         },
         {
-          title: formatMessage({id: "accounting.source.setting"}),
+          title: this.$t({id: "accounting.source.setting"}),
           key: 'operation',
           width: '10%',
           render: (text, record, index) => (
             <span>
-            <a href="#"
-               onClick={(e) => this.handleLinkTemplate(e, record, index)}>{formatMessage({id: "accounting.source.setOfBook.template"})}</a> {/*凭证模板*/}
+            <a
+               onClick={(e) => this.handleLinkTemplate(e, record, index)}>{this.$t({id: "accounting.source.setOfBook.template"})}</a> {/*凭证模板*/}
           </span>)
 
         },
@@ -99,7 +98,12 @@ class AccountingSource extends React.Component {
 
 
   handleLinkTemplate = (e, record, index) => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source', 'key').children.voucherTemplateSob.url.replace(':id', record.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-source/voucher-template-sob/:id'
+          .replace(':id', record.id)
+      })
+    );
   };
 
   componentWillMount() {
@@ -107,7 +111,7 @@ class AccountingSource extends React.Component {
     accountingService.getSetOfBooksByTenant().then((res) => {
       let searchForm = this.state.searchForm;
       let searchParams = this.state.searchParams;
-      let setOfBooksId = this.props.params.sourceSetOfBooksId!=":sourceSetOfBooksId"?this.props.params.sourceSetOfBooksId:this.props.company.setOfBooksId;
+      let setOfBooksId = this.props.match.params.sourceSetOfBooksId&&this.props.match.params.sourceSetOfBooksId!=":sourceSetOfBooksId"?this.props.match.params.sourceSetOfBooksId:this.props.company.setOfBooksId;
       searchForm[0].defaultValue = setOfBooksId;
       const options =[];
       res.data.map((item)=>{
@@ -176,7 +180,7 @@ class AccountingSource extends React.Component {
     record.enabled = e.target.checked;
     data.push(record);
     accountingService.upSourceTransactionSob(data).then(() => {
-      message.success(`${formatMessage({id: 'common.operate.success'})}`);
+      message.success(`${this.$t({id: 'common.operate.success'})}`);
       this.setState({loading: false}, () => {
         this.getList();
       })
@@ -194,7 +198,7 @@ class AccountingSource extends React.Component {
     record.glInterfaceFlag = e.target.checked
     data.push(record);
     accountingService.upSourceTransactionSob(data).then(() => {
-      message.success(`${formatMessage({id: 'common.operate.success'})}`);
+      message.success(`${this.$t({id: 'common.operate.success'})}`);
       this.setState({loading: false}, () => {
         this.getList();
       })
@@ -241,7 +245,7 @@ class AccountingSource extends React.Component {
     }
     this.setState({loading: true});
     accountingService.addSourceTransactionSob(this.state.setOfBooksId, valueData).then(() => {
-      message.success(`${formatMessage({id: 'common.operate.success'})}`);
+      message.success(`${this.$t({id: 'common.operate.success'})}`);
       this.setState({loading: false, lovVisible: false}, () => {
         this.getList();
       })
@@ -284,10 +288,10 @@ class AccountingSource extends React.Component {
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} eventHandle={this.handleSetOfBookChang}/>
         <div className="table-header">
           <div
-            className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title">{this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.add'})}</Button> {/*添加*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.add'})}</Button> {/*添加*/}
           </div>
         </div>
         <Table
@@ -309,16 +313,10 @@ class AccountingSource extends React.Component {
   }
 }
 
-
-AccountingSource.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    tenantMode: state.main.tenantMode,
-    user: state.login.user,
-    company: state.login.company
+    user: state.user.currentUser,
+    company: state.user.company
   }
 }
 

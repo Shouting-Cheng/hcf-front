@@ -2,15 +2,14 @@
  * created by jsq on 2018/01/02
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Form, Icon, Select, Row, Col, message} from 'antd'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios.service';
 import config from 'config'
 import 'styles/financial-accounting-setting/accounting-scenarios/new-update-subject-mapping.scss'
-import Chooser from "components/chooser";
+import Chooser from "widget/chooser";
 const Option = Select.Option;
 const FormItem = Form.Item;
-import {formatMessage} from 'share/common'
 
 class NewUpdateMatchingGroup extends React.Component {
   constructor(props) {
@@ -37,7 +36,143 @@ class NewUpdateMatchingGroup extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
+  componentDidMount(){
+    console.log(this.props)
+    let params = this.props.params;
+    if(JSON.stringify(params)==='{}'){
+      this.props.form.resetFields();
+      this.setState({
+        firstRender:  true,
+        loading: false,
+        sectionMatch: {
+          accountName: "-"
+        },
+      })
+    }else {
+      if(this.state.firstRender){
+        //新增
+        if(typeof params.lines !== 'undefined'){
+          if(params.lines.length>0){//有核算要素
+            let selectorMap = {};
+            params.lines.map(item=>{
+              let selectorItem = null;
+              if(item.isSystem){
+                selectorItem={
+                  listExtraParams: {
+                    groupCode: item.groupCode,
+                    tenantId: this.props.company.tenantId,
+                    setOfBooksId: params.setOfBooksId
+                  },
+                }
+              }else {
+                selectorItem = {
+                  id: item.elementId,
+                  title: item.elementNature,
+                  url:`${config.accountingUrl}/api/general/match/group/filed/values`,
+                  searchForm:[
+                    {type: 'input', id: 'valueCode', label: this.$t({id:"account.code"},{name: item.elementNature})},
+                    {type: 'input', id: 'valueDesc', label: this.$t({id:"account.name"},{name: item.elementNature})}
+                  ],
+                  columns: [
+                    {title: this.$t({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
+                    {title: this.$t({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
+                  ],
+                  key: 'id'
+                };
+              }
+              selectorMap[item.elementId] = {
+                selectorItem: selectorItem,
+                listExtraParams: {
+                  groupCode: item.groupCode,
+                  tenantId: this.props.company.tenantId,
+                  setOfBooksId: params.setOfBooksId
+                },
+                valueKey: 'code',
+                labelKey: 'name',
+                value: [],
+                array: item.isSystem ? [] : undefined
+              };
+            });
+            this.setState({
+              firstRender: false,
+              matchGroup: params,
+              elements: params.lines,
+              noLines: false,
+              selectorMap
+            })
+          }else {//没有核算要素
+            this.setState({
+              firstRender: false,
+              noLines: true,
+              matchGroup: params,
+            })
+          }
+        }else {
+          //更新
+          let sectionMatch = Object.assign({},params.sectionMatch);
+          let matchGroup = Object.assign({},params.matchGroup);
+          let defaultValue = {
+            sectionCode: [{id: sectionMatch.accountId, accountCode: sectionMatch.accountCode, accountName: sectionMatch.accountName }],
+          };
+          let selectorMap = {};
+          if(sectionMatch.lineInfo !== null){
+            sectionMatch.lineInfo.map(item=>{
+              let selectorItem = {
+                id: item.elementId,
+                title: item.elementNature,
+                url:`${config.accountingUrl}/api/general/match/group/filed/values`,
+                searchForm: item.isSystem ? [] :[
+                  {type: 'input', id: 'valueCode', label: this.$t({id:"account.code"},{name: item.elementNature})},
+                  {type: 'input', id: 'valueDesc', label: this.$t({id:"account.name"},{name: item.elementNature})}
+                ],
+                columns: [
+                  {title: this.$t({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
+                  {title: this.$t({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
+                ],
+                key: 'id'
+              };
+              selectorMap[item.elementId] = {
+                selectorItem: selectorItem,
+                listExtraParams: {
+                  groupCode: item.groupCode,
+                  tenantId: this.props.company.tenantId,
+                  setOfBooksId: params.matchGroup.setOfBooksId
+                },
+                valueKey: 'code',
+                labelKey: 'name',
+                value: [{ code: item.elementValue,name: item.elementName}]
+              };
+
+              defaultValue[item.elementId] = [{id: item}];
+              let value = {};
+              value[item.elementId] = [{code: item.elementValue, name: item.elementName}];
+              this.props.form.setFieldsValue(value)
+            });
+            this.setState({
+              firstRender: false,
+              defaultValue,
+              sectionMatch,
+              noLines: false,
+              matchGroup,
+              elements: sectionMatch.lineInfo,
+              selectorMap
+            })
+          }else {
+            this.setState({
+              noLines: true,
+              firstRender: false,
+              defaultValue,
+              sectionMatch,
+              matchGroup,
+            })
+          }
+        }
+      }
+    }
+  }
+
+  /*componentWillReceiveProps(nextProps){
+    console.log(nextProps)
     let params = nextProps.params;
     if(JSON.stringify(params)==='{}'){
       this.props.form.resetFields();
@@ -70,12 +205,12 @@ class NewUpdateMatchingGroup extends React.Component {
                   title: item.elementNature,
                   url:`${config.accountingUrl}/api/general/match/group/filed/values`,
                   searchForm:[
-                    {type: 'input', id: 'valueCode', label: formatMessage({id:"account.code"},{name: item.elementNature})},
-                    {type: 'input', id: 'valueDesc', label: formatMessage({id:"account.name"},{name: item.elementNature})}
+                    {type: 'input', id: 'valueCode', label: this.$t({id:"account.code"},{name: item.elementNature})},
+                    {type: 'input', id: 'valueDesc', label: this.$t({id:"account.name"},{name: item.elementNature})}
                   ],
                   columns: [
-                    {title: formatMessage({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
-                    {title: formatMessage({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
+                    {title: this.$t({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
+                    {title: this.$t({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
                   ],
                   key: 'id'
                 };
@@ -122,12 +257,12 @@ class NewUpdateMatchingGroup extends React.Component {
                 title: item.elementNature,
                 url:`${config.accountingUrl}/api/general/match/group/filed/values`,
                 searchForm: item.isSystem ? [] :[
-                  {type: 'input', id: 'valueCode', label: formatMessage({id:"account.code"},{name: item.elementNature})},
-                  {type: 'input', id: 'valueDesc', label: formatMessage({id:"account.name"},{name: item.elementNature})}
+                  {type: 'input', id: 'valueCode', label: this.$t({id:"account.code"},{name: item.elementNature})},
+                  {type: 'input', id: 'valueDesc', label: this.$t({id:"account.name"},{name: item.elementNature})}
                 ],
                 columns: [
-                  {title: formatMessage({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
-                  {title: formatMessage({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
+                  {title: this.$t({id:"account.code"},{name: item.elementNature}), dataIndex: 'code'},
+                  {title: this.$t({id:"account.name"},{name: item.elementNature}), dataIndex: 'name'},
                 ],
                 key: 'id'
               };
@@ -169,7 +304,7 @@ class NewUpdateMatchingGroup extends React.Component {
         }
       }
     }
-  }
+  }*/
 
   handleValueList = (param)=>{
     let selectorMap = this.state.selectorMap;
@@ -234,9 +369,9 @@ class NewUpdateMatchingGroup extends React.Component {
         console.log(params)
         accountingService.batchInsertOrUpdateSection([params]).then(response=>{
           if(typeof this.state.sectionMatch.id === 'undefined' )
-            message.success(`${formatMessage({id: "common.save.success"},{name:""})}`);
+            message.success(`${this.$t({id: "common.save.success"},{name:""})}`);
           else
-            message.success(`${formatMessage({id:"common.operate.success"})}`);
+            message.success(`${this.$t({id:"common.operate.success"})}`);
           this.setState({
             loading: false,
             sectionMatch:{
@@ -245,13 +380,13 @@ class NewUpdateMatchingGroup extends React.Component {
           });
           this.setState({loading: false});
           this.props.form.resetFields();
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.sectionMatch.id === 'undefined' )
-              message.error(`${formatMessage({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             else
-              message.error(`${formatMessage({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             this.setState({loading: false})
           }
         })
@@ -272,7 +407,7 @@ class NewUpdateMatchingGroup extends React.Component {
         accountName: "-"
       },
     },
-      this.props.close(false)
+      this.props.onClose(false)
     )
   };
 
@@ -298,18 +433,18 @@ class NewUpdateMatchingGroup extends React.Component {
     return(
       <div className="new-update-subject-matching">
         <Form onSubmit={this.handleSave}>
-          <div className="subject-matching-title">{formatMessage({id:"account.select.subject"})}</div>
+          <div className="subject-matching-title">{this.$t({id:"account.select.subject"})}</div>
           <Row gutter={22}>
             <Col span={22}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'accounting.subject'})  /*科目*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'accounting.subject'})  /*科目*/}>
               {getFieldDecorator('sectionCode', {
                 initialValue: defaultValue.sectionCode,
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.select"})
+                  message: this.$t({id: "common.please.select"})
                 }]
               })(
-              <Chooser placeholder={formatMessage({id:"common.please.select"})}
+              <Chooser placeholder={this.$t({id:"common.please.select"})}
                       type='segment_map'
                       single={true}
                       listExtraParams={{setOfBooksId: matchGroup.setOfBooksId,headId: matchGroup.headId}}
@@ -322,14 +457,14 @@ class NewUpdateMatchingGroup extends React.Component {
           </Row>
           <Row gutter={22}>
             <Col span={22}>
-              <FormItem {...formItemLayout} label={formatMessage({id:'accounting.subject.name'})  /*科目名称*/}>
+              <FormItem {...formItemLayout} label={this.$t({id:'accounting.subject.name'})  /*科目名称*/}>
             <label>{sectionMatch.accountName}</label>
           </FormItem>
             </Col>
           </Row>
           { noLines ? null :
             <div>
-              <div className="subject-matching-title">{formatMessage({id:"account.select.element"})}</div>
+              <div className="subject-matching-title">{this.$t({id:"account.select.element"})}</div>
             </div>
           }
           { noLines ? null :
@@ -341,7 +476,7 @@ class NewUpdateMatchingGroup extends React.Component {
                   initialValue: selectorMap[item.elementId].value,
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.select"})
+                    message: this.$t({id: "common.please.select"})
                   }]
                 })(
                   item.isSystem ?
@@ -349,7 +484,7 @@ class NewUpdateMatchingGroup extends React.Component {
                       {selectorMap[item.elementId].array.map(children=><Option key={children.id}>{children.name}</Option>)}
                     </Select>
                     :
-                  <Chooser placeholder={formatMessage({id:"common.please.select"})}
+                  <Chooser placeholder={this.$t({id:"common.please.select"})}
                      selectorItem={selectorMap[item.elementId].selectorItem}
                      listExtraParams={selectorMap[item.elementId].listExtraParams}
                      labelKey={selectorMap[item.elementId].labelKey}
@@ -362,8 +497,8 @@ class NewUpdateMatchingGroup extends React.Component {
               </Row>)
           }
           <div className="slide-footer">
-            <Button type="primary" htmlType='submit' loading={loading}>{formatMessage({id:"common.save"})}</Button>
-            <Button onClick={this.handleCancel}>{formatMessage({id:"common.cancel"})}</Button>
+            <Button type="primary" htmlType='submit' loading={loading}>{this.$t({id:"common.save"})}</Button>
+            <Button onClick={this.handleCancel}>{this.$t({id:"common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -372,13 +507,9 @@ class NewUpdateMatchingGroup extends React.Component {
 }
 
 
-NewUpdateMatchingGroup.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 const WrappedNewUpdateMatchingGroup = Form.create()(NewUpdateMatchingGroup);

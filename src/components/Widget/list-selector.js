@@ -6,7 +6,7 @@ import React from 'react';
 import { connect } from 'dva'
 import { Modal, Table, message, Button, Input, Row, Col, Tag, Icon, Popover } from 'antd'
 
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 import SearchArea from 'widget/search-area'
 import PropTypes from 'prop-types';
 

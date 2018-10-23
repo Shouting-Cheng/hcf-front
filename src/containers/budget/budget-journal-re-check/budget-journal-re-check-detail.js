@@ -2,35 +2,18 @@
  * Created by 13576 on 2017/10/20.
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {
-  Spin,
-  Popover,
-  Button,
-  Collapse,
-  Table,
-  Select,
-  Modal,
-  message,
-  Popconfirm,
-  notification,
-  Icon,
-  Badge,
-  Row,
-  Col,
-  Input,
-  Steps,
-  Affix
+import { connect } from 'dva'
+import { routerRedux } from "dva/router"
+import { Spin, Popover, Button, Collapse, Table, Select, Modal,
+  message, Popconfirm, notification, Icon, Badge, Row, Col, Input, Steps, Affix
 } from 'antd';
 const Step = Steps.Step;
 import "styles/budget/budget-journal-re-check/budget-journal-re-check-detail.scss"
 import httpFetch from 'share/httpFetch';
 import config from 'config';
-import menuRoute from 'routes/menuRoute.js'
 import budgetJournalService from 'containers/budget/budget-journal-re-check/budget-journal-re-check.service'
 
-import { formatMessage } from "share/common"
-import ApproveBar from "components/template/approve-bar";
+import ApproveBar from "components/Widget/Template/approve-bar";
 
 
 class BudgetJournalReCheckDetail extends React.Component {
@@ -67,7 +50,7 @@ class BudgetJournalReCheckDetail extends React.Component {
       columns: [
         {
           /*公司*/
-          title: formatMessage({ id: "budgetJournal.companyId" }), key: "companyName", dataIndex: 'companyName', width: '8%',
+          title: this.$t({ id: "budgetJournal.companyId" }), key: "companyName", dataIndex: 'companyName', width: '8%',
           render: companyName => (
             <Popover content={companyName}>
               {companyName}
@@ -75,7 +58,7 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
         {
           /*部门*/
-          title: formatMessage({ id: "budgetJournal.unitId" }), key: "departmentName", dataIndex: 'departmentName', width: '8%',
+          title: this.$t({ id: "budgetJournal.unitId" }), key: "departmentName", dataIndex: 'departmentName', width: '8%',
           render: unitName => (
             <Popover content={unitName}>
               {unitName}
@@ -83,7 +66,7 @@ class BudgetJournalReCheckDetail extends React.Component {
 
         },
         {          /*人员*/
-          title: formatMessage({ id: "budgetJournal.employeeId" }), key: "employeeName", dataIndex: 'employeeName',
+          title: this.$t({ id: "budgetJournal.employeeId" }), key: "employeeName", dataIndex: 'employeeName',
           render: recode => (
             <Popover content={recode}>
               {recode}
@@ -91,7 +74,7 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
         {
           /*预算项目*/
-          title: formatMessage({ id: "budgetJournal.item" }), key: "itemName", dataIndex: 'itemName', width: '16%',
+          title: this.$t({ id: "budgetJournal.item" }), key: "itemName", dataIndex: 'itemName', width: '16%',
           render: itemName => (
             <Popover content={itemName}>
               {itemName}
@@ -99,30 +82,30 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
         {
           /*期间*/
-          title: formatMessage({ id: "budgetJournal.periodName" }), key: "periodName", dataIndex: 'periodName', width: '6%',
+          title: this.$t({ id: "budgetJournal.periodName" }), key: "periodName", dataIndex: 'periodName', width: '6%',
 
         },
         {
           /*季度*/
-          title: formatMessage({ id: "budgetJournal.periodQuarter" }), width: '6%',
+          title: this.$t({ id: "budgetJournal.periodQuarter" }), width: '6%',
           key: "periodQuarterName",
           dataIndex: 'periodQuarterName'
         },
         {
           /*年度*/
-          title: formatMessage({ id: "budgetJournal.periodYear" }), key: "periodYear", dataIndex: 'periodYear', width: '8%'
+          title: this.$t({ id: "budgetJournal.periodYear" }), key: "periodYear", dataIndex: 'periodYear', width: '8%'
         },
         {
           /*币种*/
-          title: formatMessage({ id: "budgetJournal.currency" }), key: "currency", dataIndex: 'currency', width: '8%'
+          title: this.$t({ id: "budgetJournal.currency" }), key: "currency", dataIndex: 'currency', width: '8%'
         },
         {
           /*汇率*/
-          title: formatMessage({ id: "budgetJournal.rate" }), key: "rate", dataIndex: 'rate', width: '8%',
+          title: this.$t({ id: "budgetJournal.rate" }), key: "rate", dataIndex: 'rate', width: '8%',
         },
         {
           /*金额*/
-          title: formatMessage({ id: "budgetJournal.amount" }), key: "amount", dataIndex: 'amount',
+          title: this.$t({ id: "budgetJournal.amount" }), key: "amount", dataIndex: 'amount',
           render: recode => (
             <Popover content={this.filterMoney(recode)}>
               {this.filterMoney(recode)}
@@ -130,7 +113,7 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
         {
           /*本币今额*/
-          title: formatMessage({ id: "budgetJournal.functionalAmount" }),
+          title: this.$t({ id: "budgetJournal.functionalAmount" }),
           key: "functionalAmount",
           dataIndex: 'functionalAmount',
           render: recode => (
@@ -140,11 +123,11 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
         {
           /*数字*/
-          title: formatMessage({ id: "budgetJournal.quantity" }), key: "quantity", dataIndex: 'quantity', with: '8%',
+          title: this.$t({ id: "budgetJournal.quantity" }), key: "quantity", dataIndex: 'quantity', with: '8%',
         },
         {
           /*备注*/
-          title: formatMessage({ id: "budgetJournal.remark" }), key: "remark", dataIndex: 'remark',
+          title: this.$t({ id: "budgetJournal.remark" }), key: "remark", dataIndex: 'remark',
           render: remark => (
             <Popover content={remark}>
               {remark}
@@ -152,7 +135,6 @@ class BudgetJournalReCheckDetail extends React.Component {
         },
       ],
 
-      budgetJournalDetailReCheckPage: menuRoute.getRouteItem('budget-journal-re-check', 'key'),    //预算日记账复核
     };
   }
 
@@ -166,7 +148,7 @@ class BudgetJournalReCheckDetail extends React.Component {
   //获取日记账总金额
   getToleAmount() {
     let infoDate = this.state.infoDate;
-    budgetJournalService.getTotalCurrencyAmount(this.props.params.journalCode).then((response) => {
+    budgetJournalService.getTotalCurrencyAmount(this.props.match.params.journalCode).then((response) => {
       let totalAmount = response.data;
       this.setState({ infoDate, totalAmount });
     })
@@ -174,9 +156,7 @@ class BudgetJournalReCheckDetail extends React.Component {
 
   //获取日记账头
   getBudgetJournalHead() {
-    const budgetCode = this.props.params.journalCode;
-
-    console.log(this.props.params);
+    const budgetCode = this.props.match.params.journalCode;
     budgetJournalService.getBudgetJournalHeaderDetil(budgetCode).then((request) => {
       this.getDimensionByStructureId(request.data.structureId);
       let headerData = request.data;
@@ -206,7 +186,7 @@ class BudgetJournalReCheckDetail extends React.Component {
       loading: true,
       spinLoading: true,
     })
-    const budgetCode = this.props.params.journalCode;
+    const budgetCode = this.props.match.params.journalCode;
     budgetJournalService.getBudgetJournalLineDetil(budgetCode, params).then((response) => {
       this.setState({
         loading: false,
@@ -256,13 +236,13 @@ class BudgetJournalReCheckDetail extends React.Component {
         fileList: fileList
       })
     }).catch(e => {
-      message.error(`${formatMessage({ id: "budgetJournal.getAttachmentFail" })},${e.response.data.message}`);
+      message.error(`${this.$t({ id: "budgetJournal.getAttachmentFail" })},${e.response.data.message}`);
     })
   }
 
   //根据预算日记账编码查询预算日记账头行
   getDataByBudgetJournalCode = () => {
-    const budgetCode = this.props.params.journalCode;
+    const budgetCode = this.props.match.params.journalCode;
     budgetJournalService.getBudgetJournalHeaderLine(budgetCode).then((request) => {
       let listData = request.data.list;
       let headerData = request.data.dto;
@@ -285,7 +265,7 @@ class BudgetJournalReCheckDetail extends React.Component {
     httpFetch.get(`${config.budgetUrl}/api/budget/journals/getLayoutsByStructureId?enabled=true&structureId=${value}`).then((resp) => {
       this.getColumnsAndDimensionhandleData(resp.data);
     }).catch(e => {
-      message.error(`${formatMessage({ id: "budgetJournal.getDimensionFail" })},${e.response.data.message}`);
+      message.error(`${this.$t({ id: "budgetJournal.getDimensionFail" })},${e.response.data.message}`);
     })
   }
 
@@ -317,18 +297,21 @@ class BudgetJournalReCheckDetail extends React.Component {
 
   //通过
   handlePass = (values) => {
-    message.warning(formatMessage({ id: "budgetJournal.passHint" }));
+    message.warning(this.$t({ id: "budgetJournal.passHint" }));
     this.setState({ spinLoading: true });
     const id = this.state.headerAndListData.dto&&this.state.headerAndListData.dto.id;
     let data = [];
     data.addIfNotExist(id);
     budgetJournalService.passJournal(values,data).then((request) => {
-      message.success(formatMessage({ id: "common.operate.success" }));
-      let path = this.state.budgetJournalDetailReCheckPage.url;
-      this.context.router.push(path);
+      message.success(this.$t({ id: "common.operate.success" }));
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: `/budget/budget-journal-re-check`,
+        })
+      );
     }).catch((e) => {
       this.setState({ spinLoading: false });
-      message.error(`${formatMessage({ id: "common.operate.filed" })},${e.response.data.message}`);
+      message.error(`${this.$t({ id: "common.operate.filed" })},${e.response.data.message}`);
     })
   };
 
@@ -339,22 +322,28 @@ class BudgetJournalReCheckDetail extends React.Component {
     let data = [];
     data.addIfNotExist(id);
     budgetJournalService.rejectJournal(values,data).then((request) => {
-      message.success(formatMessage({ id: "common.operate.success" }));
-      let path = this.state.budgetJournalDetailReCheckPage.url;
-      this.context.router.push(path);
+      message.success(this.$t({ id: "common.operate.success" }));
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: `/budget/budget-journal-re-check`,
+        })
+      );
       this.setState({ rejectLoading: false });
 
     }).catch((e) => {
       this.setState({ rejectLoading: false });
-      message.error(`${formatMessage({ id: "common.operate.filed" })},${e.response.data.message}`);
+      message.error(`${this.$t({ id: "common.operate.filed" })},${e.response.data.message}`);
     })
 
   }
 
   //返回列表页
   HandleReturn = () => {
-    let path = this.state.budgetJournalDetailReCheckPage.url;
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/budget/budget-journal-re-check`,
+      })
+    );
   }
 
   //返回状态
@@ -403,81 +392,81 @@ class BudgetJournalReCheckDetail extends React.Component {
 
         <div className="base-info">
           <div className="base-info-header">
-            {formatMessage({ id: "budgetJournal.basicInformation" })}
+            {this.$t({ id: "budgetJournal.basicInformation" })}
           </div>
 
           <Row className="base-info-cent">
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.status" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.status" })}:</div>
               <div className="beep-info-text">
                 {this.getStatus()}
               </div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.journalCode" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.journalCode" })}:</div>
               <div className="beep-info-text">{infoData.journalCode ? infoData.journalCode : '-'}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.amount" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.amount" })}:</div>
               <div className="beep-info-text">
                 {this.state.totalAmount}
               </div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.employeeId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.employeeId" })}:</div>
               <div className="beep-info-text">{infoData.employeeName ? infoData.employeeName : '-'}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.unitId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.unitId" })}:</div>
               <div className="beep-info-text">{infoData.unitName ? infoData.unitName : '-'}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.createdDate" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.createdDate" })}:</div>
               <div className="beep-info-text">{String(infoData.createdDate).substring(0, 10)}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.journalTypeId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.journalTypeId" })}:</div>
               <div className="beep-info-text">{infoData.journalTypeName}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.structureId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.structureId" })}:</div>
               <div className="beep-info-text">{infoData.structureName}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.scenarioId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.scenarioId" })}:</div>
               <div className="beep-info-text">{infoData.scenario}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.versionId" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.versionId" })}:</div>
               <div className="beep-info-text">{infoData.versionName}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.periodStrategy" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.periodStrategy" })}:</div>
               <div className="beep-info-text">{infoData.periodStrategyName}</div>
             </Col>
             <Col span={8}>
-              <div className="base-info-title">{formatMessage({ id: "budgetJournal.attachment" })}:</div>
+              <div className="base-info-title">{this.$t({ id: "budgetJournal.attachment" })}:</div>
               <div className="beep-info-text">{this.getFile()}</div>
             </Col>
           </Row>
         </div>
         <Spin spinning={this.state.spinLoading}>
           <Table columns={columns}
-            dataSource={data}
-            loading={this.state.loading}
-            bordered
-            size="middle"
-            scroll={{ x: '150%' }}
-            rowKey={recode => { return recode.id }}
-            pagination={this.state.pagination}
+                 dataSource={data}
+                 loading={this.state.loading}
+                 bordered
+                 size="middle"
+                 scroll={{ x: '150%' }}
+                 rowKey={recode => { return recode.id }}
+                 pagination={this.state.pagination}
           />
         </Spin>
         <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-          <ApproveBar backUrl={this.state.budgetJournalDetailReCheckPage.url} passLoading={spinLoading}
-            style={{paddingLeft: 20}}
-            rejectLoading={rejectLoading}
-            handleApprovePass={this.handlePass}
-            handleApproveReject={this.handleReject} />
+          <ApproveBar backUrl={`/budget/budget-journal-re-check`} passLoading={spinLoading}
+                      style={{paddingLeft: 20}}
+                      rejectLoading={rejectLoading}
+                      handleApprovePass={this.handlePass}
+                      handleApproveReject={this.handleReject} />
         </Affix>
       </div>
 
@@ -488,9 +477,6 @@ class BudgetJournalReCheckDetail extends React.Component {
 }
 
 
-BudgetJournalReCheckDetail.contextTypes = {
-  router: React.PropTypes.object
-}
 
 function mapStateToProps() {
   return {}

@@ -5,6 +5,7 @@ import contractService from 'containers/contract/contract-approve/contract.servi
 import {
   Form,
   Tabs,
+  Tag,
   Button,
   Card,
   Row,
@@ -91,42 +92,61 @@ class ContractWorkflowDetailCommon extends React.Component {
           title: this.$t({ id: 'my.contract.currency' } /*币种*/),
           dataIndex: 'currency',
           align: 'center',
+          width: 90,
         },
         {
-          title: this.$t({ id: 'my.contract.plan.amount' } /*计划金额*/),
+          title: this.$t({ id: 'request.amount' } /*金额*/),
           dataIndex: 'amount',
           align: 'center',
-          render: this.filterMoney,
+          render: desc => this.filterMoney(desc),
         },
         {
-          title: this.$t({ id: 'my.contract.partner.category' } /*合同方类型*/),
+          title: this.$t({ id: 'request.base.amount' } /*本币金额*/),
+          dataIndex: 'funcAmount',
           align: 'center',
-          dataIndex: 'partnerCategoryName',
+          render: (desc, record) => this.filterMoney(record.amount),
         },
         {
-          title: this.$t({ id: 'my.contract.partner' } /*合同方*/),
-          align: 'center',
+          title: this.$t({ id: 'my.receivable' } /*收款方*/),
           dataIndex: 'partnerName',
+          align: 'center',
+          render: (value, record) => {
+            return (
+              <div>
+                <Tag color="#000">
+                  {record.partnerCategory == 'EMPLOYEE'
+                    ? this.$t('acp.employee')
+                    : this.$t('acp.vendor')}
+                </Tag>
+                <div style={{ whiteSpace: 'normal' }}>
+                  {record.partnerName}
+                </div>
+              </div>
+            );
+          },
         },
         {
           title: this.$t({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/),
-          align: 'center',
           dataIndex: 'dueDate',
-          render: value => moment(value).format('YYYY-MM-DD'),
+          align: 'center',
+          render: value => (
+            <Popover content={value ? moment(value).format('YYYY-MM-DD') : '-'}>
+              {value ? moment(value).format('YYYY-MM-DD') : '-'}
+            </Popover>
+          ),
         },
         {
           title: this.$t({ id: 'common.remark' } /*备注*/),
-          align: 'center',
           dataIndex: 'remark',
-          render: value => {
-            return value ? (
-              <Popover placement="topLeft" content={value} overlayStyle={{ maxWidth: 300 }}>
+          align: 'center',
+          render: value =>
+            value ? (
+              <Popover content={value} overlayStyle={{ maxWidth: 300 }}>
                 {value}
               </Popover>
             ) : (
               '-'
-            );
-          },
+            ),
         },
       ],
       data: [],

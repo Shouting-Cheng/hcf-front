@@ -1,4 +1,5 @@
-$content-font-color: #9BA2BB;
+:global{
+  $content-font-color: #9BA2BB;
 .widget-item.default-item{
   cursor: not-allowed;
   padding: 10px 0;
@@ -275,4 +276,6 @@ $content-font-color: #9BA2BB;
       }
     }
   }
+}
+
 }
