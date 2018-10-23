@@ -760,6 +760,27 @@ export const getRouterData = app => {
       ),
       name: 'pay-backlash-recheck',
     },
+    '/approval-management/approval-my-reimburse': {
+      //报账单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-approve/my-reimburse.js')
+      ),
+      name: 'approval-my-reimburse',
+    },
+    '/approval-management/approval-my-reimburse': {
+      //报账单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-approve/my-reimburse.js')
+      ),
+      name: 'approval-my-reimburse',
+    },
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+      //报账单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-approve/reimburse-detail.js')
+      ),
+      name: 'approve-reimburse-detail',
+    }
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
