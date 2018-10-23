@@ -358,7 +358,6 @@ class FormDetailCustom extends React.Component {
     const {formDescriptionWidget, nowWidget} = this.state;
     const {form} = this.context;
     const macthFormData = this.props.matchFormData;
-    debugger;
     //组装说明文字
     let formDescriptionData = {};
     formDescriptionData.formOID = form.formOID;
