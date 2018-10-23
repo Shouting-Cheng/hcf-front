@@ -311,18 +311,18 @@ class FormList extends React.Component {
   };
 
   rowClick = (record) => {
-    // let redirect_url = menuRoute.getRouteItem('form-detail').url.replace(':formOID', record.formOID);
-    // if (this.state.currentSetOfBooksID) {
-    //   redirect_url = redirect_url.replace(':booksID', this.state.currentSetOfBooksID);
-    // }
-    // this.context.router.push(redirect_url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/admin-setting/form-list/form-detail/${record.formOID}/${this.state.currentSetOfBooksID}`
+      })
+    )  
   };
   rowClickForSob = (record) => {
-    // let redirect_url = menuRoute.getRouteItem('form-detail').url.replace(':formOID', record.formOID);
-    // if (this.state.currentSetOfBooksID) {
-    //   redirect_url = redirect_url.replace(':booksID', this.state.currentSetOfBooksID);
-    // }
-    // this.context.router.push(redirect_url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/admin-setting/form-list/form-detail/${record.formOID}/${this.state.currentSetOfBooksID}`
+      })
+    )  
   };
   //Tabs点击
   onChangeTabs = (key) => {

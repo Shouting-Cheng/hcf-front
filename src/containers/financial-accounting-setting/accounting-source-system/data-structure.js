@@ -2,11 +2,10 @@
  * created by jsq on 2017/12/27
  */
 import React from 'react'
-import {connect} from 'react-redux'
-import {Button, Input, Switch, Select, Form, Table, Spin, notification, Popconfirm, message} from 'antd'
+import {connect} from 'dva'
+import {Button,Form, Table,message} from 'antd'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/section-structure/section-mapping-set.scss'
-import {formatMessage} from 'share/common'
 
 class DataStructure extends React.Component {
   constructor(props) {
@@ -18,11 +17,11 @@ class DataStructure extends React.Component {
       columns: [
         {
           /*数据结构代码*/
-          title: formatMessage({id: "data.structure.code"}), key: "code", dataIndex: 'code',
+          title: this.$t({id: "data.structure.code"}), key: "code", dataIndex: 'code',
         },
         {
           /*数据结构名称*/
-          title: formatMessage({id: "data.structure.name"}), key: "description", dataIndex: 'description',
+          title: this.$t({id: "data.structure.name"}), key: "description", dataIndex: 'description',
         },
       ],
       selectedEntityOIDs: []    //已选择的列表项的OIDs
@@ -49,7 +48,7 @@ class DataStructure extends React.Component {
     }
     accountingService.getSourceTransactionData(params).then((response) => {
       response.data.map(item => {
-        item.key = item.id
+        item.key = item.code
       });
       this.setState({
         data: response.data,
@@ -57,14 +56,14 @@ class DataStructure extends React.Component {
         total: Number(response.headers['x-total-count']),
       })
     }).catch((e) => {
-      this.setState({loading: false})
+      this.setState({loading: false});
       message.error(e.response.data.message)
     })
   }
 
 
   onCancel = () => {
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   render() {
@@ -72,7 +71,7 @@ class DataStructure extends React.Component {
     return (
       <div className="section-mapping-set">
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${total}`})}</div>
+          <div className="table-header-title">{this.$t({id: 'common.total'}, {total: `${total}`})}</div>
           {/*共搜索到*条数据*/}
         </div>
         <Table
@@ -82,7 +81,7 @@ class DataStructure extends React.Component {
           bordered
           size="middle"/>
         <div className="slide-footer">
-          <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"})}</Button>
+          <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
         </div>
       </div>
     )
@@ -91,7 +90,7 @@ class DataStructure extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

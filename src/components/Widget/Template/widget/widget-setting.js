@@ -19,12 +19,12 @@ const RadioGroup = Radio.Group;
 const Option = Select.Option;
 import PropTypes from 'prop-types';
 
-import LanguageInput from 'components/template/language-input/language-input';
-import formService from 'containers/setting/form/form.service';
+import LanguageInput from 'widget/Template/language-input/language-input';
+import formService from 'containers/admin-setting/form/form.service';
 import baseService from 'share/base.service';
 import 'styles/components/template/widget/widget-setting.scss';
 //import { this.$t, randomString } from 'share/common'
-import LinkageSwitchItem from 'components/template/widget/linkage-switch-item';
+import LinkageSwitchItem from 'widget/Template/widget/linkage-switch-item';
 import moment from 'moment';
 
 class WidgetSetting extends React.Component {
@@ -1364,11 +1364,11 @@ class WidgetSetting extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    tenantMode: state.main.tenantMode,
-    language: state.main.language,
-    languageList: state.login.languageList,
-    profile: state.login.profile,
+    company: state.user.company,
+    tenantMode: true,
+    language: state.languages.languages,
+    languageList: state.languages.languageList,
+    profile: "01ffe44c-2f0a-453e-b4e2-33ee6664624a",
   };
 }
 

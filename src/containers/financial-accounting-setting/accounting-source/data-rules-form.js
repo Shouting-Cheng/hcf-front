@@ -2,15 +2,15 @@
  * Created by 13576 on 2018/1/23.
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Input, Switch, Select, Form, Icon, notification, Alert, Row, Col, message, InputNumber } from 'antd'
 import baseService from 'share/base.service'
 import accountingService from 'containers/financial-accounting-setting/accounting-source/accounting-source.service'
 import 'styles/financial-accounting-setting/accounting-source/new-update-voucher-template.scss'
-import Chooser from 'components/chooser'
-import {formatMessage} from 'share/common'
+import Chooser from 'widget/chooser'
 const { Option } = Select;
 const FormItem = Form.Item;
+import PropTypes from 'prop-types';
 
 
 class DataRulesForm extends React.Component {
@@ -173,7 +173,7 @@ class DataRulesForm extends React.Component {
         if (isNew) {
           //新建
           accountingService.addSourceLineModelDataRules(data).then((res) => {
-            message.success(formatMessage({ id: "common.operate.success" }));
+            message.success(this.$t({ id: "common.operate.success" }));
             this.setState({ loading: false });
             this.props.form.resetFields();
             this.props.upDataHandle(res.data);
@@ -190,7 +190,7 @@ class DataRulesForm extends React.Component {
             ...data
           }
           accountingService.upSourceLineModelDataRules(editData).then((res) => {
-            message.success(formatMessage({ id: "common.operate.success" }));
+            message.success(this.$t({ id: "common.operate.success" }));
             this.setState({ loading: false });
             this.props.form.resetFields();
             this.props.upDataHandle(res.data);
@@ -347,7 +347,7 @@ class DataRulesForm extends React.Component {
       <div className="new-update-voucher-template">
         <Form onSubmit={this.handleSubmit} className="voucher-template-form">
           <FormItem {...formItemLayout}
-            label={formatMessage({ id: "common.column.status" })} colon={true}>
+            label={this.$t({ id: "common.column.status" })} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName: "checked",
               initialValue: isNew ? true : record.enabled
@@ -355,16 +355,16 @@ class DataRulesForm extends React.Component {
               <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.accountElementCode" })}>{/*核算要素*/}
+          <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.accountElementCode" })}>{/*核算要素*/}
             {getFieldDecorator('accountElementCode', {
               rules: [{
                 required: true,
-                message: formatMessage({ id: "common.please.select" })
+                message: this.$t({ id: "common.please.select" })
               }],
               initialValue: isNew ? [] : accountElementCode
             })(
               <Chooser
-                placeholder={formatMessage({ id: "common.please.select" })}
+                placeholder={this.$t({ id: "common.please.select" })}
                 type="accounting_scene_data_elements"
                 single={true}
                 labelKey="code"
@@ -378,23 +378,23 @@ class DataRulesForm extends React.Component {
               />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.elementNature" })}>{/*要素性质*/}
+          <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.elementNature" })}>{/*要素性质*/}
             {getFieldDecorator('elementNature', {
               initialValue: isNew ? "" : record.elementNature
             })(
               <Input disabled={true} />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.dataRule" })}>{/*取值方式*/}
+          <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.dataRule" })}>{/*取值方式*/}
             {getFieldDecorator('dataRule', {
               rules: [{
                 required: true,
-                message: formatMessage({ id: "common.please.select" })
+                message: this.$t({ id: "common.please.select" })
               }],
               initialValue: isNew ? "" : record.dataRule
             })(
               <Select className="input-disabled-color"
-                placeholder={formatMessage({ id: "common.please.select" })} onSelect={this.handleSelectDataRules}>
+                placeholder={this.$t({ id: "common.please.select" })} onSelect={this.handleSelectDataRules}>
                 {
                   dataRuleOption.map((item) => <Option key={item.code}>{item.messageKey}</Option>)
                 }
@@ -404,11 +404,11 @@ class DataRulesForm extends React.Component {
           {
             /*固定值*/
             dataRule === "FIXED_VALUE" ? (<div>
-              <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.stateValue" })}>{/*固定值*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.stateValue" })}>{/*固定值*/}
                 {getFieldDecorator('tableFieldValue', {
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.enter" })
+                    message: this.$t({ id: "common.please.enter" })
                   }],
                   initialValue: isNew ? "" : tableFieldValue
                 })(
@@ -421,15 +421,15 @@ class DataRulesForm extends React.Component {
             /*取自来源表*/
             dataRule === "INTERFACE_DATA" || dataRule === "VALUE_OF_MAPPING_GROUP" || dataRule === "VALUE_OF_RULE" ? (
               <div>
-                <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.sourceDataCode" })}>{/*数据来源*/}
+                <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.sourceDataCode" })}>{/*数据来源*/}
                   {getFieldDecorator('sourceDataCode', {
                     rules: [{
                       required: true,
-                      message: formatMessage({ id: "common.please.select" })
+                      message: this.$t({ id: "common.please.select" })
                     }],
                     initialValue: isNew ? "" : sourceDataCode
                   })(
-                    <Select className="input-disabled-color" placeholder={formatMessage({ id: "common.please.select" })}
+                    <Select className="input-disabled-color" placeholder={this.$t({ id: "common.please.select" })}
                       onSelect={this.handleSourceDataChange}>
                       {
                         sourceDataOption.map((item) => <Option key={item.code}>{item.description}</Option>)
@@ -441,16 +441,16 @@ class DataRulesForm extends React.Component {
           }
           {
             (dataRule === "INTERFACE_DATA" || dataRule === "VALUE_OF_MAPPING_GROUP" || dataRule === "VALUE_OF_RULE") && sourceDataCode ? (
-              <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.sourceDatafile" })}>
+              <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.sourceDatafile" })}>
                 {getFieldDecorator('tableField', {
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   }],
                   initialValue: isNew ? [] : tableField
                 })(
                   <Chooser
-                    placeholder={formatMessage({ id: "common.please.select" })}
+                    placeholder={this.$t({ id: "common.please.select" })}
                     type="data-source-fields_dataRules"
                     single={true}
                     labelKey="description"
@@ -468,16 +468,16 @@ class DataRulesForm extends React.Component {
           {
             /*取自API*/
             dataRule === "VALUE_OF_API" ? (<div>
-              <FormItem {...formItemLayout} label={formatMessage({ id: "accounting.source.fromAPI" })}>{/*取自API*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: "accounting.source.fromAPI" })}>{/*取自API*/}
                 {getFieldDecorator('tableFieldApi', {
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "accounting.source.selectSQL" })
+                    message: this.$t({ id: "accounting.source.selectSQL" })
                   }],
                   initialValue: isNew ? [] : tableField,
                 })(
                   <Chooser
-                    placeholder={formatMessage({ id: "common.please.select" })}
+                    placeholder={this.$t({ id: "common.please.select" })}
                     type="sqlAPI"
                     single={true}
                     labelKey="description"
@@ -491,8 +491,8 @@ class DataRulesForm extends React.Component {
           }
           <div className="slide-footer">
             <Button type="primary" htmlType="submit"
-              loading={this.state.loading}>{formatMessage({ id: "common.save" })}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({ id: "common.cancel" })}</Button>
+              loading={this.state.loading}>{this.$t({ id: "common.save" })}</Button>
+            <Button onClick={this.onCancel}>{this.$t({ id: "common.cancel" })}</Button>
           </div>
         </Form>
       </div>
@@ -502,13 +502,13 @@ class DataRulesForm extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 
 DataRulesForm.propTypes = {
-  params: React.PropTypes.object.isRequired,  //传入数据
-  upDataHandle: React.PropTypes.func.isRequired,  //更新表单事件
+  params: PropTypes.object.isRequired,  //传入数据
+  upDataHandle: PropTypes.func.isRequired,  //更新表单事件
 
 };
 

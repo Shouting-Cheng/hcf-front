@@ -65,6 +65,7 @@ class PaymentDetail extends React.Component {
       logData: [],
       payWorkbench:  "/pay/pay-workbench",    //付款工作台
       PayRequisitionDetail: "/pre-payment/me-pre-payment/pre-payment-detail/:id/prePayment", //预付款详情,
+      id:null
     };
   }
 
@@ -87,15 +88,21 @@ class PaymentDetail extends React.Component {
     this.getInfo();
   }
 
-  componentWillReceiveProps(nextProps){
+  /*componentWillReceiveProps(nextProps){
     if(nextProps.params.flag&&!this.props.match.params.flag){
       this.getInfo(nextProps.params.id)
     }
-  }
+  }*/
 
   getInfo = (id) => {
+    let detailId ;
+    if (this.props.params && this.props.params.refund){
+      detailId = this.props.params.id;
+    }else{
+      detailId = this.props.match.params.id
+    }
     this.setState({loading: true});
-    paymentService.getPayDetail(id||this.props.match.params.id).then(res => {
+    paymentService.getPayDetail(id||detailId).then(res => {
       if (res.status === 200) {
         this.setState({
           billsData: [res.data.payDocumentDTO],
@@ -104,7 +111,8 @@ class PaymentDetail extends React.Component {
           offHistoryDate: res.data.writeOffHistoryDTO,
           logData: res.data.operationDTO,
           payStatusValue: res.data.payStatus,
-          loading: false
+          loading: false,
+          id: detailId
         })
       }
     })
@@ -122,7 +130,7 @@ class PaymentDetail extends React.Component {
 
   render(){
 
-    const { loading, billsColumns, detailColumns, financeColumns, offHistoryColumns, logColumns, billsData, detailData, financeData, offHistoryDate, logData, payStatusValue, payStatus } = this.state;
+    const { loading, billsColumns, detailColumns, financeColumns, offHistoryColumns, logColumns, billsData, detailData, financeData, offHistoryDate, logData, payStatusValue, payStatus, id } = this.state;
     const gridLeftStyle = {
       width: '20%',
       textAlign: 'left',
@@ -200,7 +208,7 @@ class PaymentDetail extends React.Component {
                  style={{marginBottom:'50px'}}
                  expandedRowRender={record => <p>{record.bankMessage || messages('wait.for.billing.none')}</p>}
                  size="middle"/>
-            {this.props.match.params.refund ?'':<a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}>
+            {this.props.params && this.props.params.refund  ?'':<a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}>
             <Icon type="rollback" style={{marginRight:'5px'}}/>{messages('common.back')/*返回*/}
           </a>}
         </Spin>
@@ -210,9 +218,6 @@ class PaymentDetail extends React.Component {
 
 }
 
-PaymentDetail.contextTypes = {
-  router: PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

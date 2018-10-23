@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 import {
   Form,
   Button,
@@ -204,6 +204,7 @@ class NewPrePaymentDetail extends React.Component {
         values.bankBranchName = this.state.bankBranchName;
         values.paymentMethodCategory = this.state.params.paymentMethodCode;
         values.isEnabled = true;
+        values.currency = values.currency && values.currency.key;
         delete values.application;
         delete values.partnerd;
         let url = `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/insertOrUpdateLine`;
@@ -499,7 +500,7 @@ class NewPrePaymentDetail extends React.Component {
             <Col span={8} className="ant-form-item-label label-style">
               预付款金额：
             </Col>
-            <Col span={4} className="ant-col-offset-1">
+            <Col span={5} className="ant-col-offset-1">
               <FormItem>
                 {getFieldDecorator('currency', {
                   rules: [
@@ -508,17 +509,17 @@ class NewPrePaymentDetail extends React.Component {
                       message: '请选择币种',
                     },
                   ],
-                  initialValue: params.id ? params.currency : 'CNY',
+                  initialValue:{key: params.id ? params.currency : 'CNY',label:params.id ? params.currencyName : 'CNY-人民币'},
                 })(
-                  <Select onChange={this.currencyChange}>
+                  <Select onChange={this.currencyChange} labelInValue>
                     {currencyList.map(item => {
-                      return <Option key={item.currency}>{item.currency}</Option>;
+                      return <Option key={item.currency}>{item.currency}-{item.currencyName}</Option>;
                     })}
                   </Select>
                   )}
               </FormItem>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <FormItem className="ant-col-offset-1">
                 {getFieldDecorator('amount', {
                   rules: [{ validator: this.checkPrice }],
@@ -628,7 +629,7 @@ class NewPrePaymentDetail extends React.Component {
                   companyId: this.state.newParams.companyId,
                   unitId: this.props.params.headerData.unitId,
                   applicantId: this.props.params.headerData.createdBy,
-                  currencyCode: this.props.form.getFieldValue('currency'),
+                  currencyCode: this.props.form.getFieldValue('currency').key,
                 }}
               />
               )}

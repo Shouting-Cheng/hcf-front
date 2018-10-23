@@ -2,15 +2,10 @@
  * created by jsq on 2018/01/02
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Table, Badge, Form, Input, Switch, Icon, InputNumber, message} from 'antd'
-import SlideFrame from 'components/slide-frame'
-import NewUpdateScenariosSystem from 'containers/financial-accounting-setting/accounting-scenarios-system/new-update-scenarios-system'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios.service';
-import config from 'config'
-import menuRoute from 'routes/menuRoute'
 import 'styles/financial-accounting-setting/accounting-scenarios/new-update-matching-group.scss'
-import {formatMessage} from 'share/common'
 
 const FormItem = Form.Item;
 
@@ -37,13 +32,13 @@ class NewUpdateMatchingGroup extends React.Component {
       },
       columns: [
         {          /*核算要素*/
-          title: formatMessage({id:"accounting.scenarios.elements"}), key: "accountElementCode", dataIndex: 'accountElementCode'
+          title: this.$t({id:"accounting.scenarios.elements"}), key: "accountElementCode", dataIndex: 'accountElementCode'
         },
         {          /*要素性质*/
-          title: formatMessage({id:"accounting.matching.elements.nature"}), key: "elementNature", dataIndex: 'elementNature'
+          title: this.$t({id:"accounting.matching.elements.nature"}), key: "elementNature", dataIndex: 'elementNature'
         },
         {           /*匹配字段*/
-          title: formatMessage({id:"accounting.match.field"}),key: 'mappingGroupCode', dataIndex: 'mappingGroupCode',
+          title: this.$t({id:"accounting.match.field"}),key: 'mappingGroupCode', dataIndex: 'mappingGroupCode',
         },
       ],
       selectedEntityOIDs: []    //已选择的列表项的OIDs
@@ -178,18 +173,18 @@ class NewUpdateMatchingGroup extends React.Component {
         };
         accountingService.addOrUpdateSobElements(params).then(response=>{
           if(typeof this.state.matchGroup.id === 'undefined')
-            message.success(`${formatMessage({id: "common.save.success"},{name:""})}`);
+            message.success(`${this.$t({id: "common.save.success"},{name:""})}`);
           else
-            message.success(`${formatMessage({id:"common.operate.success"})}`);
+            message.success(`${this.$t({id:"common.operate.success"})}`);
           this.props.form.resetFields();
           this.setState({loading: false,btnLoading: false});
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.scenarios.id === 'undefined' )
-              message.error(`${formatMessage({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.save.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             else
-              message.error(`${formatMessage({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+              message.error(`${this.$t({id: "common.operate.filed"})}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
             this.setState({loading: false,btnLoading: false})
           }
         });
@@ -198,7 +193,7 @@ class NewUpdateMatchingGroup extends React.Component {
   };
 
   handleCancel = ()=>{
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {
@@ -273,71 +268,71 @@ class NewUpdateMatchingGroup extends React.Component {
       <div className="new-update-matching-group">
         <div className="matching-group-form">
           <div className="matching-group-circle">1</div>
-          <span className="matching-group-form-tips">{formatMessage({id:"matching.group.basicInfo"})}</span>
+          <span className="matching-group-form-tips">{this.$t({id:"matching.group.basicInfo"})}</span>
           <Form onChange={()=>this.setState({btnLoading:false})}>
-            <FormItem {...formItemLayout} label={formatMessage({id:'matching.group.code'})  /*匹配组代码*/}>
+            <FormItem {...formItemLayout} label={this.$t({id:'matching.group.code'})  /*匹配组代码*/}>
               {getFieldDecorator('code', {
                 initialValue: matchGroup.code,
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.enter"})
+                  message: this.$t({id: "common.please.enter"})
                 }]
               })(
-                <Input disabled={typeof matchGroup.id === 'undefined' ? false : true} placeholder={formatMessage({id:"common.please.enter"})}/>
+                <Input disabled={typeof matchGroup.id === 'undefined' ? false : true} placeholder={this.$t({id:"common.please.enter"})}/>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={formatMessage({id:'matching.group.name'})  /*匹配组名称*/}>
+            <FormItem {...formItemLayout} label={this.$t({id:'matching.group.name'})  /*匹配组名称*/}>
               {getFieldDecorator('description', {
                 initialValue: matchGroup.description,
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.enter"})
+                  message: this.$t({id: "common.please.enter"})
                 }]
               })(
-                <Input placeholder={formatMessage({id:"common.please.enter"})}/>
+                <Input placeholder={this.$t({id:"common.please.enter"})}/>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={formatMessage({id:'accounting.priority'})  /*优先级*/}>
+            <FormItem {...formItemLayout} label={this.$t({id:'accounting.priority'})  /*优先级*/}>
               {getFieldDecorator('priority', {
                 initialValue: matchGroup.priority,
                 rules: [{
                   required: true,
-                  message: formatMessage({id: "common.please.enter"})
+                  message: this.$t({id: "common.please.enter"})
                 }]
               })(
-                <InputNumber disabled={typeof matchGroup.id === 'undefined' ? false : true} placeholder={formatMessage({id:"common.please.enter"})}/>
+                <InputNumber disabled={typeof matchGroup.id === 'undefined' ? false : true} placeholder={this.$t({id:"common.please.enter"})}/>
               )}
             </FormItem>
             {
               this.props.params.visible&&
               <FormItem {...formItemLayout}
-                        label={formatMessage({id:"common.column.status"})} colon={true}>
+                        label={this.$t({id:"common.column.status"})} colon={true}>
                 {getFieldDecorator('enabled', {
                   valuePropName:"checked",
                   initialValue: enabled
                 })(
                   <div>
                     <Switch defaultChecked={enabled}  checkedChildren={<Icon type="check"/>} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
-                    <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? formatMessage({id:"common.status.enable"}) : formatMessage({id:"common.disabled"}) }</span>
+                    <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? this.$t({id:"common.status.enable"}) : this.$t({id:"common.disabled"}) }</span>
                   </div>)}
               </FormItem>
             }
             <div className="section-structure-header">
-              {formatMessage({id:"account.scenario.match.tips"})}
+              {this.$t({id:"account.scenario.match.tips"})}
             </div>
           </Form>
           <div className="matching-group-circle">2</div>
-          <span className="matching-group-form-tips">{formatMessage({id:"accounting.scenarios.elements"})}</span>
-          <span className="matching-group-form-label">{formatMessage({id:"accounting.scenarios.elements.select"})}</span>
+          <span className="matching-group-form-tips">{this.$t({id:"accounting.scenarios.elements"})}</span>
+          <span className="matching-group-form-label">{this.$t({id:"accounting.scenarios.elements.select"})}</span>
         </div>
         {
           typeof this.state.matchGroup.id !== 'undefined' ? null :
             <div className="accounting-matching-table-head">
               <Icon type="info-circle" style={{color: '#1890ff'}} className="head-icon"/>
-              {formatMessage({id: "accounting.total"}, {total: pagination.total}) + formatMessage({id: "accounting.selected"}, {count: this.state.selectedEntityOIDs.length})}
+              {this.$t({id: "accounting.total"}, {total: pagination.total}) + this.$t({id: "accounting.selected"}, {count: this.state.selectedEntityOIDs.length})}
               <a className="info-clear" onClick={() => {
                 this.setState({selectedEntityOIDs: [], selectedRowKeys: []})
-              }}>{formatMessage({id: "common.clear"})}</a>
+              }}>{this.$t({id: "common.clear"})}</a>
             </div>
         }
         <Table
@@ -351,18 +346,13 @@ class NewUpdateMatchingGroup extends React.Component {
           size="middle"/>
 
         <div className="slide-footer">
-          <Button type="primary" onClick={this.handleSave}  loading={btnLoading}>{formatMessage({id:"common.save"})}</Button>
-          <Button onClick={this.handleCancel}>{formatMessage({id:"common.cancel"})}</Button>
+          <Button type="primary" onClick={this.handleSave}  loading={btnLoading}>{this.$t({id:"common.save"})}</Button>
+          <Button onClick={this.handleCancel}>{this.$t({id:"common.cancel"})}</Button>
         </div>
       </div>
     )
   }
 }
-
-
-NewUpdateMatchingGroup.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {}

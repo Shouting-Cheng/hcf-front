@@ -136,7 +136,7 @@ class PrePaymentDetail extends React.Component {
             <Row>
               <Col span={21}>
                 <ApproveBar
-                  style={{paddingLeft: 40}}
+                  style={{paddingLeft: 45}}
                   passLoading={loading}
                   backUrl={"/approval-management/pre-payment-approve"}
                   rejectLoading={dLoading}
@@ -146,7 +146,7 @@ class PrePaymentDetail extends React.Component {
             </Row>
           </Affix> :
             <Affix offsetBottom={0} className="bottom-bar">
-              <Button style={{marginLeft: 33}} loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+              <Button style={{marginLeft: 45}} loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
             </Affix>
         }
 

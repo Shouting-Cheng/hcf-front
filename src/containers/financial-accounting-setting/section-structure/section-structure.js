@@ -70,9 +70,9 @@ class SectionStructure extends React.Component{
           title: this.$t({id:"common.operation"}), key: "operate", dataIndex: 'operate',width:'14%',
           render: (text, record, index) => (
             <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record,index)}>{this.$t({id: "common.edit"})}</a>
+            <a  onClick={(e) => this.handleUpdate(e, record,index)}>{this.$t({id: "common.edit"})}</a>
             <span className="ant-divider" />
-            <a href="#" onClick={(e) => this.handleLinkSetting(e, record,index)}>{this.$t({id: "section.setting"})}</a>
+            <a  onClick={(e) => this.handleLinkSetting(e, record,index)}>{this.$t({id: "section.setting"})}</a>
           </span>)
         },
       ]
@@ -81,7 +81,7 @@ class SectionStructure extends React.Component{
 
   handleLinkSetting = (e,record)=>{
     this.props.dispatch(
-      routerRedux.push({
+      routerRedux.replace({
         pathname: '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId'
           .replace(':id', record.id).replace(':setOfBooksId',record.setOfBooksId)
       })

@@ -2,14 +2,14 @@
  * Created by 13576 on 2017/11/25.
  */
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect} from 'dva';
 import {Button, Form, Switch, Input, message, Icon, InputNumber, Select, Card, Row, Col, Badge} from 'antd';
-import {formatMessage} from 'share/common'
 const FormItem = Form.Item;
 const Option = Select.Option;
-import Chooser from 'components/chooser'
+import Chooser from 'widget/chooser'
 import baseService from 'share/base.service'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
+import PropTypes from 'prop-types';
 
 class LineModelChangeRulesSystem extends React.Component {
   constructor(props) {
@@ -150,7 +150,7 @@ class LineModelChangeRulesSystem extends React.Component {
         }
         if (status === "NEW") {
           accountingService.addSystemSourceLineModelChangeRules(data).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.upDataEvent(res.data);
             this.props.form.resetFields;
@@ -168,7 +168,7 @@ class LineModelChangeRulesSystem extends React.Component {
             valuesData.compareElementCode = values.compareElementCode[0].code
           }
           accountingService.upSystemSourceLineModelChangRules(valuesData).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.upDataEvent(res.data);
             this.props.form.resetFields;
@@ -245,22 +245,22 @@ class LineModelChangeRulesSystem extends React.Component {
     if (show) {
       domRender = (
         <div className="line-model-change-rules">
-          <Card type="inner" title={`${formatMessage({id: "accounting.source.sequence"})} : ` + infoData.priority}
-                extra={<a onClick={this.editInfo}>{formatMessage({id: 'common.edit'})}</a>}>
+          <Card type="inner" title={`${this.$t({id: "accounting.source.sequence"})} : ` + infoData.priority}
+                extra={<a onClick={this.editInfo}>{this.$t({id: 'common.edit'})}</a>}>
               <Row>
                 <Col span={24}>
-                  <span style={{marginLeft: "8px"}}>{`${formatMessage({id: "accounting.source.compare"})} :`}</span>
+                  <span style={{marginLeft: "8px"}}>{`${this.$t({id: "accounting.source.compare"})} :`}</span>
                   <span style={{marginLeft: "8px"}}><b>{infoData.changeRuleName}</b></span>{/*比较符号*/}
-                  <span style={{marginLeft: "8px"}}>{infoData.compareElementCode ? formatMessage({id: "accounting.source.accountElementCode"}) : formatMessage({id: "accounting.source.stateValue"})}</span>{/*核算要素/固定值*/}
+                  <span style={{marginLeft: "8px"}}>{infoData.compareElementCode ? this.$t({id: "accounting.source.accountElementCode"}) : this.$t({id: "accounting.source.stateValue"})}</span>{/*核算要素/固定值*/}
                   <span style={{marginLeft: "8px"}}><b>{infoData.compareElementCode ? infoData.compareElementName : infoData.compareData}</b></span>{/*核算要素名称/固定值*/}
-                  {changeDataFlag?(<span> <span style={{marginLeft: "8px"}}>{`${formatMessage({id: "accounting.source.changeData"})} :`}</span>{/*转化值*/}
+                  {changeDataFlag?(<span> <span style={{marginLeft: "8px"}}>{`${this.$t({id: "accounting.source.changeData"})} :`}</span>{/*转化值*/}
                     <span style={{marginLeft: "8px"}}><b>{infoData.changeData}</b></span>{/*值*/}</span>):""}
                 </Col>
               </Row>
               <Row>
                 <Col span={24}>
-                  <span style={{marginLeft: "8px"}}>{`${ formatMessage({id: "common.column.status"})} :`}</span>&nbsp;&nbsp;
-                  <Badge status={enabled ? 'success' : 'error'} text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}/>
+                  <span style={{marginLeft: "8px"}}>{`${ this.$t({id: "common.column.status"})} :`}</span>&nbsp;&nbsp;
+                  <Badge status={enabled ? 'success' : 'error'} text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}/>
                 </Col>
               </Row>
           </Card>
@@ -274,21 +274,21 @@ class LineModelChangeRulesSystem extends React.Component {
               <Card type="inner" title={this.props.status === "NEW" ? "新建转换规则" : "编辑转换规则"}>
                 <Row gutter={36}>
                   <Col span={12}>
-                    <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.sequence"})}>
+                    <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.sequence"})}>
                       {getFieldDecorator('priority', {
                         rules: [{
                           required: true,
-                          message: formatMessage({id: "common.please.enter"})
+                          message: this.$t({id: "common.please.enter"})
                         }],
                         initialValue: isEdit ? infoData.priority : "",
                       })(
-                        <InputNumber placeholder={formatMessage({id: "common.please.enter"})} disabled={isEdit} precision={0}/>
+                        <InputNumber placeholder={this.$t({id: "common.please.enter"})} disabled={isEdit} precision={0}/>
                       )}
                     </FormItem>
                   </Col>
                   <Col span={12}>
                     <FormItem {...formItemLayout}
-                              label={formatMessage({id: "common.column.status"})}>
+                              label={this.$t({id: "common.column.status"})}>
                       {getFieldDecorator('enabled', {
                         valuePropName: 'checked',
                         initialValue: true
@@ -300,15 +300,15 @@ class LineModelChangeRulesSystem extends React.Component {
                     </FormItem>
                   </Col>
                   <Col span={12}>
-                    <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.dataRules"})}>
+                    <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.dataRules"})}>
                       {getFieldDecorator('changeRule', {
                         rules: [{
                           required: true,
-                          message: formatMessage({id: "common.please.enter"})
+                          message: this.$t({id: "common.please.enter"})
                         }],
                         initialValue: isEdit ? infoData.changeRule : "",
                       })(
-                        <Select placeholder={formatMessage({id: "common.please.enter"})} onSelect={this.handleChangeRuleChange}>
+                        <Select placeholder={this.$t({id: "common.please.enter"})} onSelect={this.handleChangeRuleChange}>
                           {changeDataOptions.map((item) => {
                             return (<Select.Option value={item.value}>{item.messageKey}</Select.Option>)
                           })}
@@ -317,33 +317,33 @@ class LineModelChangeRulesSystem extends React.Component {
                     </FormItem>
                   </Col>
                   <Col span={12}>
-                    <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.compareWay"})}>
+                    <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.compareWay"})}>
                       {getFieldDecorator('compareWay', {
                         rules: [{
                           required: true,
-                          message: formatMessage({id: "common.please.enter"})
+                          message: this.$t({id: "common.please.enter"})
                         }],
                         initialValue: isEdit ? infoData.compareData ? "compareData" : "compareElement" : compareWay,
                       })(
                         <Select onSelect={this.handleCompareWayChang}>
-                          <Option value={"compareData"}>{formatMessage({id: "accounting.source.compareData"})}</Option>
+                          <Option value={"compareData"}>{this.$t({id: "accounting.source.compareData"})}</Option>
                           <Option
-                            value={"compareElement"}>{formatMessage({id: "accounting.source.compareElementCode"})}</Option>
+                            value={"compareElement"}>{this.$t({id: "accounting.source.compareElementCode"})}</Option>
                         </Select>
                       )}
                     </FormItem>
                   </Col>
                   { compareWay === "compareData" ?
                     (<Col span={12}>
-                        <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.compareData"})}>
+                        <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.compareData"})}>
                           {getFieldDecorator('compareData', {
                             rules: [{
                               required: true,
-                              message: formatMessage({id: "common.please.enter"})
+                              message: this.$t({id: "common.please.enter"})
                             }],
                             initialValue: isEdit ? infoData.compareData : "",
                           })(
-                            <Input placeholder={formatMessage({id: "common.please.enter"})}/>
+                            <Input placeholder={this.$t({id: "common.please.enter"})}/>
                           )}
                         </FormItem>
                       </Col>
@@ -352,16 +352,16 @@ class LineModelChangeRulesSystem extends React.Component {
                   { compareWay === "compareElement" ? (
                     <Col span={12}>
                       <FormItem {...formItemLayout}
-                                label={formatMessage({id: "accounting.source.compareElementCode"})}>{/*对比核算要素*/}
+                                label={this.$t({id: "accounting.source.compareElementCode"})}>{/*对比核算要素*/}
                         {getFieldDecorator('compareElementCode', {
                           rules: [{
                             required: true,
-                            message: formatMessage({id: "common.please.select"})
+                            message: this.$t({id: "common.please.select"})
                           }],
                           initialValue: compareElementCode,
                         })(
                           <Chooser
-                            placeholder={formatMessage({id: "common.please.select"})}
+                            placeholder={this.$t({id: "common.please.select"})}
                             type="accounting_scene_elements"
                             single={true}
                             labelKey="description"
@@ -373,15 +373,15 @@ class LineModelChangeRulesSystem extends React.Component {
                     </Col>) : ""}
                   { changeDataFlag?(
                     <Col span={12}>
-                      <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.changeData"})}>
+                      <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.changeData"})}>
                         {getFieldDecorator('changeData', {
                           rules: [{
                             required: true,
-                            message: formatMessage({id: "common.please.enter"})
+                            message: this.$t({id: "common.please.enter"})
                           }],
                           initialValue: isEdit ? infoData.changeData : "",
                         })(
-                          <Input placeholder={formatMessage({id: "common.please.enter"})}/>
+                          <Input placeholder={this.$t({id: "common.please.enter"})}/>
                         )}
                       </FormItem>
                     </Col>
@@ -389,9 +389,9 @@ class LineModelChangeRulesSystem extends React.Component {
                 </Row>
                 <Row>
                   <Button type="primary" htmlType="submit" style={{marginLeft: "16px"}}
-                          loading={this.state.loading}>{formatMessage({id: "common.save"})}</Button>
+                          loading={this.state.loading}>{this.$t({id: "common.save"})}</Button>
                   <Button onClick={this.handleCancel}
-                          style={{marginLeft: "16px"}}>{formatMessage({id: "common.cancel"})}</Button>
+                          style={{marginLeft: "16px"}}>{this.$t({id: "common.cancel"})}</Button>
                 </Row>
               </Card>
             </Form>
@@ -411,10 +411,10 @@ class LineModelChangeRulesSystem extends React.Component {
 }
 
 LineModelChangeRulesSystem.propTypes = {
-  params: React.PropTypes.object,  //传入的基础信息值
-  status: React.PropTypes.string,// 状态(NEW,EDIT,SHOW)
-  upDataEvent: React.PropTypes.func,
-  cancelHandle: React.PropTypes.func, //取消
+  params: PropTypes.object,  //传入的基础信息值
+  status: PropTypes.string,// 状态(NEW,EDIT,SHOW)
+  upDataEvent: PropTypes.func,
+  cancelHandle: PropTypes.func, //取消
 };
 
 LineModelChangeRulesSystem.defaultProps = {

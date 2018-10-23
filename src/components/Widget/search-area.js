@@ -708,7 +708,6 @@ class SearchArea extends React.Component {
             disabled={item.disabled}
             labelInValue={!!item.entity}
             onFocus={() => this.getValueListOptions(item)}
-            getPopupContainer={() => document.getElementById('search-area')}
           >
             {item.options.map((option) => {
               return <Option key={option.value}
