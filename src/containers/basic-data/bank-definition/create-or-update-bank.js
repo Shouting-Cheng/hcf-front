@@ -1,9 +1,5 @@
-import { messages } from 'share/common';
-/**
- * created by jsq on 2017/10/9
- */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 
 import { Button, Form, Input, Switch, Icon, Cascader, Select } from 'antd';
 const Option = Select.Option;
@@ -41,6 +37,12 @@ class CreateOrUpdateBank extends React.Component {
 
   componentDidMount() {
     let params = this.props.params;
+    this.setState({
+      bank: params,
+      country: params.countryCode,
+      countryDefaultValue: [params.provinceCode, params.cityCode],
+      countryData: params.countryData ? params.countryData : [],
+    });
     //省市下拉列表，默认北京-朝阳
     const countryDefaultValue = ['CHN011000000', 'CHN011005000'];
     if (params.countryCode === 'CHN000000000') {
@@ -124,7 +126,7 @@ class CreateOrUpdateBank extends React.Component {
             this.setState({
               loading: false,
             });
-            this.props.close(true);
+            this.props.onClose(true);
           })
           .catch(e => {
             this.setState({ loading: false });
@@ -148,7 +150,7 @@ class CreateOrUpdateBank extends React.Component {
             this.setState({
               loading: false,
             });
-            this.props.close(true);
+            this.props.onClose(true);
           })
           .catch(e => {
             this.setState({ loading: false });
@@ -170,7 +172,7 @@ class CreateOrUpdateBank extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close(false);
+    this.props.onClose(false);
   };
 
   handleFormChange = () => {
@@ -222,14 +224,14 @@ class CreateOrUpdateBank extends React.Component {
         /*省市:只有中国时才联动*/
       }
       openAccountDom = (
-        <FormItem {...formItemLayout} label={messages('bank.openAccount')} help={bankTypeHelp}>
+        <FormItem {...formItemLayout} label={this.$t('bank.openAccount')} help={bankTypeHelp}>
           {getFieldDecorator('openAccount', {
             initialValue: this.state.countryDefaultValue,
           })(
             <Cascader
               options={BSService.getCountryDataByCode('CHN000000000', this.state.countryData)}
               onChange={this.onStateChange}
-              placeholder={messages('common.please.select')}
+              placeholder={this.$t('common.please.select')}
             />
           )}
         </FormItem>
@@ -239,10 +241,10 @@ class CreateOrUpdateBank extends React.Component {
         /*开户地*/
       }
       openAccountDom = (
-        <FormItem {...formItemLayout} label={messages('bank.openAccount')} help={bankTypeHelp}>
+        <FormItem {...formItemLayout} label={this.$t('bank.openAccount')} help={bankTypeHelp}>
           {getFieldDecorator('openAccount', {
             initialValue: bank.openAccount,
-          })(<Input placeholder={messages('common.please.enter')} />)}
+          })(<Input placeholder={this.$t('common.please.enter')} />)}
         </FormItem>
       );
     }
@@ -261,7 +263,7 @@ class CreateOrUpdateBank extends React.Component {
       <div className="new-bank-definition">
         {/*状态*/}
         <Form onSubmit={this.handleSubmit} onChange={this.handleFormChange}>
-          <FormItem {...formItemLayout} label={messages('common.column.status')} colon={true}>
+          <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
             {getFieldDecorator('enable', {
               initialValue: enable,
             })(
@@ -280,25 +282,25 @@ class CreateOrUpdateBank extends React.Component {
                     width: 100,
                   }}
                 >
-                  {enable ? messages('common.status.enable') : messages('common.disabled')}
+                  {enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
                 </span>
               </div>
             )}
           </FormItem>
           {/*银行代码*/}
-          <FormItem {...formItemLayout} label={messages('bank.bankCode')}>
+          <FormItem {...formItemLayout} label={this.$t('bank.bankCode')}>
             {getFieldDecorator('bankCode', {
               initialValue: bank.bankCode,
               rules: [
                 {
                   required: true,
-                  message: messages('common.please.enter'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
             })(
               <Input
                 disabled={typeof bank.id === 'undefined' ? false : true}
-                placeholder={messages('common.please.enter')}
+                placeholder={this.$t('common.please.enter')}
               />
             )}
           </FormItem>
@@ -306,44 +308,44 @@ class CreateOrUpdateBank extends React.Component {
           <FormItem {...formItemLayout} label="Swift Code">
             {getFieldDecorator('swiftCode', {
               initialValue: bank.swiftCode,
-            })(<Input disabled={isEditor} placeholder={messages('common.please.enter')} />)}
+            })(<Input disabled={isEditor} placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
 
           {/*银行名称*/}
-          <FormItem {...formItemLayout} label={messages('bank.bankName')}>
+          <FormItem {...formItemLayout} label={this.$t('bank.bankName')}>
             {getFieldDecorator('bankName', {
               initialValue: bank.bankName,
               rules: [
                 {
                   required: true,
-                  message: messages('common.please.enter'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
-            })(<Input placeholder={messages('common.please.enter')} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
 
           {/*支行名称*/}
-          <FormItem {...formItemLayout} label={messages('bank.bankBranchName')}>
+          <FormItem {...formItemLayout} label={this.$t('bank.bankBranchName')}>
             {getFieldDecorator('bankBranchName', {
               initialValue: bank.bankBranchName,
               rules: [
                 {
                   required: true,
-                  message: messages('common.please.enter'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
-            })(<Input placeholder={messages('common.please.enter')} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
 
           {/*国家*/}
-          <FormItem {...formItemLayout} label={messages('bank.country')} help={bankTypeHelp}>
+          <FormItem {...formItemLayout} label={this.$t('bank.country')} help={bankTypeHelp}>
             {getFieldDecorator('country', {
               initialValue: this.state.country,
             })(
               <Select
                 className="select-country"
                 showSearch
-                placeholder={messages('common.please.select')}
+                placeholder={this.$t('common.please.select')}
                 optionFilterProp="children"
                 onChange={this.handleCountryChange}
                 filterOption={(input, option) =>
@@ -359,16 +361,16 @@ class CreateOrUpdateBank extends React.Component {
           this.renderOpenAccountByChina()}
 
           {/*详情地址*/}
-          <FormItem {...formItemLayout} label={messages('bank.detailAddress')} help={bankTypeHelp}>
+          <FormItem {...formItemLayout} label={this.$t('bank.detailAddress')} help={bankTypeHelp}>
             {getFieldDecorator('detailAddress', {
               initialValue: bank.detailAddress,
-            })(<Input placeholder={messages('common.please.enter')} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              {messages('common.save')}
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.onCancel}>{messages('common.cancel')}</Button>
+            <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
       </div>
@@ -378,10 +380,9 @@ class CreateOrUpdateBank extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
-    company: state.login.company,
-    language: state.main.language,
-    tenantMode: state.main.tenantMode,
+    organization: state.user.organization,
+    company: state.user.company,
+    language: state.languages.languages,
   };
 }
 

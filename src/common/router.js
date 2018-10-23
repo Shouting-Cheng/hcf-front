@@ -609,7 +609,14 @@ export const getRouterData = app => {
       ),
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
-    }
+    },
+    //基础数据/银行定义
+    '/basic-data/bank-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/basic-data/bank-definition/bank-definition.js')
+      ),
+      name: '银行定义',
+    },
 
 
     // '/user/:id': {
