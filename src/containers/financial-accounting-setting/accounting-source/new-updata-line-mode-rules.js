@@ -148,7 +148,7 @@ class NewUpdateLineModeRules extends React.Component {
           accountingService.addSourceLineModelRules(dataValue).then((res) => {
             message.success(formatMessage({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields();
           }).catch((e) => {
             this.setState({loading: false});
@@ -169,7 +169,7 @@ class NewUpdateLineModeRules extends React.Component {
           accountingService.upSourceLineModelRules(editData).then((res) => {
             message.success(formatMessage({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields();
           }).catch((e) => {
             this.setState({loading: false});
@@ -181,7 +181,7 @@ class NewUpdateLineModeRules extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {

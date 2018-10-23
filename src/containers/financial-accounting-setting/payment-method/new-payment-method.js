@@ -89,7 +89,7 @@ class NewPaymentMethod extends React.Component {
           paymentMethodService.addOrUpDataPaymentType(toValue).then((res) => {
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(messages('common.operate.success'));
           }).catch((e) => {
             this.setState({loading: false});
@@ -104,7 +104,7 @@ class NewPaymentMethod extends React.Component {
           paymentMethodService.addOrUpDataPaymentType(toValue).then((res) => {
             this.setState({loading: false});
             this.props.form.resetFields();
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(messages('common.operate.success'));
           }).catch((e) => {
             this.setState({loading: false});
@@ -117,7 +117,7 @@ class NewPaymentMethod extends React.Component {
   }
 
   onCancel = () => {
-    this.props.close();
+    this.props.onClose();
   };
 
   switchChange = (value) => {

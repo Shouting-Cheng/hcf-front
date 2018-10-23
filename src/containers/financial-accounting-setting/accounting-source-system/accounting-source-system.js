@@ -2,16 +2,15 @@
  * created by jsq on 2017/12/22
  */
 import React from 'react'
-import {connect} from 'react-redux'
-import {Button, Table, Badge, message, Checkbox} from 'antd'
-import SlideFrame from 'components/slide-frame'
+import {connect} from 'dva'
+import {Button, Table, message, Checkbox} from 'antd'
+import SlideFrame from 'widget/slide-frame'
 import DataStructure from 'containers/financial-accounting-setting/accounting-source-system/data-structure'
-import SearchArea from 'components/search-area';
-import ListSelector from 'components/list-selector'
-import menuRoute from 'routes/menuRoute'
+import SearchArea from 'widget/search-area';
+import ListSelector from 'widget/list-selector'
 import  accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/accounting-source-system/accounting-source-system.scss'
-import {formatMessage} from 'share/common'
+import { routerRedux } from 'dva/router';
 
 class AccountingSourceSystem extends React.Component {
   constructor(props) {
@@ -37,42 +36,40 @@ class AccountingSourceSystem extends React.Component {
       },
       searchForm: [
         {                                                                        //来源事物代码
-          type: 'input', id: 'sourceTransactionCode', label: formatMessage({id: 'accounting.source.code'})
+          type: 'input', id: 'sourceTransactionCode', label: this.$t({id: 'accounting.source.code'})
         },
         {                                                                        //来源事物名称
-          type: 'input', id: 'description', label: formatMessage({id: 'accounting.source.name'})
+          type: 'input', id: 'description', label: this.$t({id: 'accounting.source.name'})
         },
       ],
       columns: [
         {
           /*来源事物代码*/
-          title: formatMessage({id: "accounting.source.code"}),
+          title: this.$t({id: "accounting.source.code"}),
           key: "sourceTransactionCode",
           dataIndex: 'sourceTransactionCode'
         },
         {
           /*来源事物名称*/
-          title: formatMessage({id: "accounting.source.name"}), key: "description", dataIndex: 'description'
+          title: this.$t({id: "accounting.source.name"}), key: "description", dataIndex: 'description'
         },
         /*是否启用*/
         {
-          title: formatMessage({id: "common.column.status"}),
+          title: this.$t({id: "common.column.status"}),
           key: 'enabled',dataIndex: 'description',
           width: '10%',
           render: (enabled, record) => <Checkbox onChange={(e) => this.onChangeEnabled(e, record)}
                                                    checked={record.enabled}/>
         },
         {
-          title: formatMessage({id: "common.operation"}),
+          title: this.$t({id: "common.operation"}),
           key: 'operation',
           width: '25%',
           render: (text, record, index) => (
             <span>
-            <a href="#"
-               onClick={(e) => this.handleLinkDataStructure(e, record, index)}>{formatMessage({id: "accounting.source.data.setting"})}</a> {/*数据结构设置*/}
+            <a onClick={(e) => this.handleLinkDataStructure(e, record, index)}>{this.$t({id: "accounting.source.data.setting"})}</a> {/*数据结构设置*/}
               <span className="ant-divider"/>
-            <a href="#"
-               onClick={(e) => this.handleLinkTemplate(e, record, index)}>{formatMessage({id: "accounting.source.template"})}</a> {/*凭证模板设置*/}
+            <a onClick={(e) => this.handleLinkTemplate(e, record, index)}>{this.$t({id: "accounting.source.template"})}</a> {/*凭证模板设置*/}
           </span>)
         },
       ],
@@ -90,7 +87,12 @@ class AccountingSourceSystem extends React.Component {
   };
 
   handleLinkTemplate = (e, record, index) => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source-system', 'key').children.voucherTemplate.url.replace(':id', record.id).replace(':sourceTransactionType', record.sourceTransactionCode))
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType'
+        .replace(':id', record.id).replace(':sourceTransactionType', record.sourceTransactionCode)
+      })
+    );
   };
 
   componentWillMount() {
@@ -218,10 +220,10 @@ class AccountingSourceSystem extends React.Component {
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
           <div
-            className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title">{this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.add'})}</Button> {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.add'})}</Button> {/*新 建*/}
           </div>
         </div>
         <Table
@@ -232,13 +234,13 @@ class AccountingSourceSystem extends React.Component {
           onChange={this.onChangePager}
           bordered
           size="middle"/>
-        <SlideFrame title={formatMessage({id: "data.structure"})}
+        <SlideFrame title={this.$t({id: "data.structure"})}
                     show={dataVisible}
-                    content={DataStructure}
-                    afterClose={(value) => {
-                    }}
-                    onClose={() => this.setState({dataVisible: false})}
-                    params={lov.params}/>
+                    onClose={() => this.setState({dataVisible: false})}>
+          <DataStructure
+            onClose={(value) => {this.setState({dataVisible: false})}}
+            params={lov.params}/>
+        </SlideFrame>
         <ListSelector visible={showListSelector}
                       onOk={this.handleAdd}
                       onCancel={this.handleCancel}
@@ -250,14 +252,9 @@ class AccountingSourceSystem extends React.Component {
 }
 
 
-AccountingSourceSystem.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    tenantMode: state.main.tenantMode,
+    company: state.user.company,
   }
 }
 
