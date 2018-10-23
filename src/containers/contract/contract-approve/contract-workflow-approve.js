@@ -213,7 +213,25 @@ class ContractWorkflowApprove extends React.Component {
       this.table.search({ ...this.state.searchParams,...values });
     });
   };
+//点击重置的事件，清空值为初始值
+  handleReset = () => {
+    this.clearSearchAreaSelectData();
+    this.props.clearHandle && this.props.clearHandle();
+    this.setState({searchParams:{}});
 
+  };
+
+//清除searchArea选择数据
+  clearSearchAreaSelectData = () => {
+    this.props.form.resetFields();
+    this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
+      if (!list.single) {
+        list.items.map(item => {
+          item.checked = []
+        })
+      }
+    });
+  }
   handleTabsChange = key => {
     this.setState({ tabValue: key }, () => {
       if (key === 'approved') {
@@ -271,13 +289,6 @@ class ContractWorkflowApprove extends React.Component {
     );
   };
 
-  clear = () => {
-    const { searchParams } = this.state;
-    searchParams.contractNumber = '';
-    this.setState({
-      searchParams,
-    });
-  };
   change = (e) =>{
     if(e && e.target && e.target.value){
       const { searchParams } = this.state;
@@ -313,7 +324,7 @@ class ContractWorkflowApprove extends React.Component {
                 placeholder={this.$t({ id: 'my.please.input.number' })}
                 onSearch={this.searchNumber}
                 onChange={this.change}
-                clearHandle={this.clear}
+                clearHandle={this.handleReset}
                 enterButton
               />
             </Col>
