@@ -8,6 +8,8 @@ import 'styles/setting/company-group/new-company-group.scss';
 import companyGroupService from 'containers/setting/company-group/company-group.service';
 import LanguageInput from 'widget/Template/language-input/language-input';
 
+import { routerRedux } from 'dva/router';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -76,7 +78,15 @@ class NewCompanyGroup extends React.Component {
             .then(response => {
               if (response) {
                 message.success(this.$t({ id: 'structure.saveSuccess' })); /*保存成功！*/
-                window.history.go(-1);
+                // window.history.go(-1);
+
+                this.props.dispatch(
+                  routerRedux.push({
+                    pathname: `/admin-setting/company-group`,
+                  })
+                );
+
+
               }
             })
             .catch(e => {
@@ -99,7 +109,7 @@ class NewCompanyGroup extends React.Component {
                   routerRedux.push({
                     pathname: `/admin-setting/company-group/company-group-detail/${
                       response.data.id
-                    }`,
+                      }`,
                   })
                 );
 
@@ -170,7 +180,7 @@ class NewCompanyGroup extends React.Component {
                   ],
                 })(
                   <Input placeholder={this.$t({ id: 'common.please.enter' })} disabled={isEdit} />
-                )}
+                  )}
               </FormItem>
               <div className="company-group-tips">
                 {this.$t({ id: 'setting.companyGroup.tips' })}
@@ -206,7 +216,7 @@ class NewCompanyGroup extends React.Component {
                     i18nName={companyGroupName}
                     isEdit={isEdit}
                   />
-                )}
+                  )}
               </FormItem>
             </Col>
             <Col span={8}>
@@ -217,7 +227,7 @@ class NewCompanyGroup extends React.Component {
                   <Select placeholder={this.$t({ id: 'common.please.select' })} disabled={isEdit}>
                     {setOfBooks.map(item => <Option key={item.id}>{item.value}</Option>)}
                   </Select>
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>
@@ -247,7 +257,7 @@ class NewCompanyGroup extends React.Component {
                     checkedChildren={<Icon type="check" />}
                     unCheckedChildren={<Icon type="cross" />}
                   />
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>

@@ -4,23 +4,13 @@ import { connect } from 'dva';
 import companyGroupService from 'containers/setting/company-group/company-group.service';
 import config from 'config';
 
-import {
-  Form,
-  Button,
-  Select,
-  Popover,
-  Input,
-  Switch,
-  Icon,
-  Popconfirm,
-  Tabs,
-  Table,
-  message,
-} from 'antd';
+import { Form, Button, Select, Popover, Input, Switch, Icon, Popconfirm, Tabs, Table, message, } from 'antd';
 
 import ListSelector from 'widget/list-selector';
 import BasicInfo from 'widget/basic-info';
 import 'styles/setting/company-group/company-group-detail.scss';
+
+import { routerRedux } from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -274,7 +264,12 @@ class CompanyGroupDetail extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('company-group', 'key').url);
+    // this.context.router.push(menuRoute.getMenuItemByAttr('company-group', 'key').url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/admin-setting/company-group`,
+      })
+    );
   };
 
   //列表选择更改

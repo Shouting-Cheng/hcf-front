@@ -205,7 +205,7 @@ class CompanyGroup extends React.Component {
     // this.context.router.push(menuRoute.getRouteItem('new-company-group').url.replace(':companyGroupId', 'NEW'));
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/company-group/new-company-group/'NEW'`,
+        pathname: `/admin-setting/company-group/new-company-group/NEW`,
       })
     );
   };
@@ -213,11 +213,11 @@ class CompanyGroup extends React.Component {
   //点击行，进入该行详情页面
   handleRowClick = (record, index, event) => {
     // this.context.router.push(menuRoute.getMenuItemByAttr('company-group', 'key').children.companyGroupDetail.url.replace(':id',record.id));
-    // this.props.dispatch(
-    //     routerRedux.push({
-    //         pathname: `/admin-setting/company-group/company-group-detail/`,
-    //     })
-    // );
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/admin-setting/company-group/company-group-detail/${record.id}`,
+      })
+    );
   };
 
   render() {
@@ -227,7 +227,7 @@ class CompanyGroup extends React.Component {
         <SearchArea
           searchForm={searchForm}
           submitHandle={this.handleSearch}
-          clearHandle={() => {}}
+          clearHandle={() => { }}
         />
         <div className="table-header">
           <div className="table-header-title">
