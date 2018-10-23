@@ -1,3 +1,4 @@
+
 /**
  * Created by 13576 on 2018/1/25.
  */
@@ -9,7 +10,6 @@ import PropTypes from 'prop-types'
  * 审批历史
  */
 class ApproveHistoryWorkFlow extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,6 @@ class ApproveHistoryWorkFlow extends React.Component {
   }
 
   getColor(value) {
-
     let model = {};
 
     switch (value.operationType) {
