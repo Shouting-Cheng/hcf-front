@@ -2,13 +2,12 @@
  * Created by 13576 on 2018/1/14.
  */
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 import {Button, Input, Switch, Select, Form, Icon, notification, Alert, Row, Col, message, InputNumber} from 'antd'
 import baseService from 'share/base.service'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/accounting-source-system/new-update-voucher-template.scss'
-import Chooser from 'components/chooser'
-import {formatMessage} from 'share/common'
+import Chooser from 'widget/chooser'
 const {Option, OptGroup} = Select;
 const FormItem = Form.Item;
 
@@ -101,9 +100,9 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
             journalLineModelId: this.props.params.lineModelId
           }
           accountingService.addSystemSourceLineModelJudgeRules(data).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields;
           }).catch((e) => {
             this.setState({loading: false})
@@ -121,9 +120,9 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
             id: record.id
           }
           accountingService.upSystemSourceLineModelJudgeRules(data).then((res) => {
-            message.success(formatMessage({id: "common.operate.success"}));
+            message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields;
           }).catch((e) => {
             this.setState({loading: false})
@@ -138,7 +137,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields;
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {
@@ -175,36 +174,36 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
     return (
       <div className="new-update-voucher-template">
         <Form onSubmit={this.handleSubmit} className="voucher-template-form">
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.sequence"})}>{/*优先级*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.sequence"})}>{/*优先级*/}
             {getFieldDecorator('sequence', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }],
               initialValue: isNew ? "" : record.sequence
             })(
               <InputNumber style={{with: "200px"}} disabled={!isNew}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.andOr"})}>{/*逻辑操作*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.andOr"})}>{/*逻辑操作*/}
             {getFieldDecorator('andOr', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: isNew ? "" : record.andOr
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}>
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}>
                 <Option key={"AND"}>{"AND"}</Option>
                 <Option key={"OR"}>{"OR"}</Option>
               </Select>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.leftBracket"})}>{/*左括号*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.leftBracket"})}>{/*左括号*/}
             {getFieldDecorator('leftBracket', {
               initialValue: isNew ? "" : record.leftBracket
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}
                       allowClear={true}>
                 {
                   <Option key={"("}>{"("}</Option>
@@ -212,16 +211,16 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
               </Select>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.accountElementCode"})}>{/*核算要素*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.accountElementCode"})}>{/*核算要素*/}
             {getFieldDecorator('accountElementCode', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: accountElementCode
             })(
               <Chooser
-                placeholder={formatMessage({id: "common.please.select"})}
+                placeholder={this.$t({id: "common.please.select"})}
                 type="accounting_scene_elements"
                 single={true}
                 labelKey="code"
@@ -234,44 +233,44 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
                 onChange={this.handleAccountingChange}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.elementNature"})}>{/*要素性质*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.elementNature"})}>{/*要素性质*/}
             {getFieldDecorator('elementNature', {
               initialValue: isNew ? elementNature : record.elementNature
             })(
               <Input disabled={true}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout}  label={formatMessage({id: "accounting.source.judgeRuleName"})}>{/*判断条件*/}
+          <FormItem {...formItemLayout}  label={this.$t({id: "accounting.source.judgeRuleName"})}>{/*判断条件*/}
             {getFieldDecorator('judgeRule', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: isNew ? "" : record.judgeRule
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}>
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}>
                 {
                   judgeRuleOption.map((item) => <Option key={item.value}>{item.messageKey}</Option>)
                 }
               </Select>
             )}
           </FormItem>
-          <FormItem {...formItemLayout}  label={formatMessage({id: "accounting.source.data"})}>{/*值*/}
+          <FormItem {...formItemLayout}  label={this.$t({id: "accounting.source.data"})}>{/*值*/}
             {getFieldDecorator('judgeData', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.select"})
+                message: this.$t({id: "common.please.select"})
               }],
               initialValue: isNew ? "" : record.judgeData
             })(
               <Input/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "accounting.source.rightBracket"})}>{/*右括号*/}
+          <FormItem {...formItemLayout} label={this.$t({id: "accounting.source.rightBracket"})}>{/*右括号*/}
             {getFieldDecorator('rightBracket', {
               initialValue: isNew ? "" : record.rightBracket
             })(
-              <Select className="input-disabled-color" placeholder={ formatMessage({id: "common.please.select"})}
+              <Select className="input-disabled-color" placeholder={ this.$t({id: "common.please.select"})}
                       allowClear={true}>
                 {
                   <Option key={")"}>{")"}</Option>
@@ -280,7 +279,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
             )}
           </FormItem>
           <FormItem {...formItemLayout}
-                    label={formatMessage({id: "common.column.status"})} colon={true}>
+                    label={this.$t({id: "common.column.status"})} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName: "checked",
               initialValue: isNew ? true : record.enabled
@@ -292,8 +291,8 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
 
           <div className="slide-footer">
             <Button type="primary" htmlType="submit"
-                    loading={this.state.loading}>{formatMessage({id: "common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"})}</Button>
+                    loading={this.state.loading}>{this.$t({id: "common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -303,7 +302,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

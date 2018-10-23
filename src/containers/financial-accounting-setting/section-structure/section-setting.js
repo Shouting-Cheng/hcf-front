@@ -1,111 +1,152 @@
 /**
  * created by jsq on 2017/12/25
  */
-import React from 'react'
-import { connect } from 'react-redux'
-import { Button, Table, Icon, Badge, Popover } from 'antd'
-import SlideFrame from 'components/slide-frame'
-import NewUpdateSection from 'containers/financial-accounting-setting/section-structure/new-update-section'
-import SectionMappingSet from 'containers/financial-accounting-setting/section-structure/section-mapping-set'
-import SearchArea from 'components/search-area';
-import menuRoute from 'routes/menuRoute'
+import React from 'react';
+import { connect } from 'dva';
+import { Button, Table, Icon, Badge, Popover } from 'antd';
+import SlideFrame from 'widget/slide-frame';
+import NewUpdateSection from 'containers/financial-accounting-setting/section-structure/new-update-section';
+import SectionMappingSet from 'containers/financial-accounting-setting/section-structure/section-mapping-set';
+import SearchArea from 'widget/search-area';
 import accountingService from 'containers/financial-accounting-setting/section-structure/section-structure.service';
-import config from 'config'
-import {formatMessage} from 'share/common'
+import { routerRedux } from 'dva/router';
 
-class SectionSetting extends React.Component{
-  constructor(props){
+class SectionSetting extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       loading: false,
       mapVisible: false,
       data: [],
-      record:{},
-      lov:{
-        visible: false
+      record: {},
+      lov: {
+        visible: false,
       },
       pagination: {
         current: 1,
         page: 0,
-        total:0,
-        pageSize:10,
-        showSizeChanger:true,
-        showQuickJumper:true,
+        total: 0,
+        pageSize: 10,
+        showSizeChanger: true,
+        showQuickJumper: true,
       },
-      searchParams:{
-        segmentSetId: this.props.params.id
+      searchParams: {
+        segmentSetId: this.props.match.params.id,
       },
       searchForm: [
-        {                                                    //科目段代码
-          type: 'input', id: 'segmentCode', label: formatMessage({id: 'section.code'}),
+        {
+          //科目段代码
+          type: 'input',
+          id: 'segmentCode',
+          label: this.$t({ id: 'section.code' }),
         },
-        {                                                                        //科目段名称
-          type: 'input', id: 'segmentName', label: formatMessage({id: 'section.name'})
+        {
+          //科目段名称
+          type: 'input',
+          id: 'segmentName',
+          label: this.$t({ id: 'section.name' }),
         },
-        {                                                                        //科目段字段代码
-          type: 'input', id: 'segmentField', label: formatMessage({id: 'section.field.code'})
+        {
+          //科目段字段代码
+          type: 'input',
+          id: 'segmentField',
+          label: this.$t({ id: 'section.field.code' }),
         },
       ],
-      columns:[
-        {          /*科目段代码*/
-          title: formatMessage({id:"section.code"}), key: "segmentCode", dataIndex: 'segmentCode'
+      columns: [
+        {
+          /*科目段代码*/
+          title: this.$t({ id: 'section.code' }),
+          key: 'segmentCode',
+          dataIndex: 'segmentCode',
         },
-        {          /*科目段名称*/
-          title: formatMessage({id:"section.name"}), key: "segmentName", dataIndex: 'segmentName',
+        {
+          /*科目段名称*/
+          title: this.$t({ id: 'section.name' }),
+          key: 'segmentName',
+          dataIndex: 'segmentName',
           render: description => (
-            <span>{description ? <Popover content={description}>{description} </Popover> : '-'} </span>)
-
+            <span>
+              {description ? <Popover content={description}>{description} </Popover> : '-'}{' '}
+            </span>
+          ),
         },
-        {          /*科目段字段代码*/
-          title: formatMessage({id:"section.field.code"}), key: "segmentField", dataIndex: 'segmentField'
+        {
+          /*科目段字段代码*/
+          title: this.$t({ id: 'section.field.code' }),
+          key: 'segmentField',
+          dataIndex: 'segmentField',
         },
-        {          /*科目段字段名称*/
-          title: formatMessage({id:"section.field.name"}), key: "segmentFieldName", dataIndex: 'segmentFieldName',
+        {
+          /*科目段字段名称*/
+          title: this.$t({ id: 'section.field.name' }),
+          key: 'segmentFieldName',
+          dataIndex: 'segmentFieldName',
           render: description => (
-            <span>{description ? <Popover content={description}>{description} </Popover> : '-'} </span>)
+            <span>
+              {description ? <Popover content={description}>{description} </Popover> : '-'}{' '}
+            </span>
+          ),
         },
-        {          /*状态*/
-          title: formatMessage({id:"common.column.status"}), key: "enabled", dataIndex: 'enabled',
+        {
+          /*状态*/
+          title: this.$t({ id: 'common.column.status' }),
+          key: 'enabled',
+          dataIndex: 'enabled',
           render: enabled => (
-            <Badge status={enabled ? 'success' : 'error'}
-                   text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})} />
-          )
+            <Badge
+              status={enabled ? 'success' : 'error'}
+              text={
+                enabled
+                  ? this.$t({ id: 'common.status.enable' })
+                  : this.$t({ id: 'common.status.disable' })
+              }
+            />
+          ),
         },
 
-        {          /*操作*/
-          title: formatMessage({id:"common.operation"}), key: "operate", dataIndex: 'operate',
+        {
+          /*操作*/
+          title: this.$t({ id: 'common.operation' }),
+          key: 'operate',
+          dataIndex: 'operate',
           render: (text, record, index) => (
             <span>
-            <a href="#" onClick={(e) => this.handleUpdate(e, record,index)}>{formatMessage({id: "common.edit"})}</a>
-            <span className="ant-divider" />
-            <a href="#" onClick={(e) => this.handleLinkMapping(e, record,index)}>{formatMessage({id: "section.mapping.setting"})}</a>
-          </span>)
+              <a onClick={e => this.handleUpdate(e, record, index)}>
+                {this.$t({ id: 'common.edit' })}
+              </a>
+              <span className="ant-divider" />
+              <a onClick={e => this.handleLinkMapping(e, record, index)}>
+                {this.$t({ id: 'section.mapping.setting' })}
+              </a>
+            </span>
+          ),
         },
-      ]
+      ],
     };
   }
 
-  handleLinkMapping = (e,record,index)=>{
+  handleLinkMapping = (e, record, index) => {
     this.setState({
       mapVisible: true,
-      record
-    })
+      record,
+    });
   };
 
   componentWillMount() {
     this.getList();
   }
 
-  getList(){
-    this.setState({loading: true});
+  getList() {
+    this.setState({ loading: true });
     let params = this.state.searchParams;
-    for(let paramName in params){
-      !params[paramName]&& delete params[paramName]
+    for (let paramName in params) {
+      !params[paramName] && delete params[paramName];
     }
     params.page = this.state.pagination.page;
     params.size = this.state.pagination.pageSize;
-    accountingService.getSectionSettingsByOptions(params).then(response=>{
-      response.data.map(item=>{
+    accountingService.getSectionSettingsByOptions(params).then(response => {
+      response.data.map(item => {
         item.key = item.id;
       });
       let pagination = this.state.pagination;
@@ -113,85 +154,102 @@ class SectionSetting extends React.Component{
       this.setState({
         loading: false,
         data: response.data,
-        pagination
-      })
-    })
-  };
+        pagination,
+      });
+    });
+  }
 
-  handleSearch = (values)=>{
+  handleSearch = values => {
     let searchParams = this.state.searchParams;
-    for(let paramName in values){
-        searchParams[paramName] = values[paramName]
+    for (let paramName in values) {
+      searchParams[paramName] = values[paramName];
     }
-    this.setState({
-      searchParams
-    },this.getList)
+    this.setState(
+      {
+        searchParams,
+      },
+      this.getList
+    );
   };
 
-  handleCreate = ()=>{
+  handleCreate = () => {
     let lov = {
-        title: formatMessage({id: "section.new"}),
-        visible: true,
-        params: {segmentSetId: this.props.params.id}
+      title: this.$t({ id: 'section.new' }),
+      visible: true,
+      params: { segmentSetId: this.props.match.params.id },
     };
     this.setState({
       lov,
       mapVisible: false,
-    })
+    });
   };
 
-  handleUpdate = (e, record,index)=>{
+  handleUpdate = (e, record, index) => {
     let lov = {
-      title: formatMessage({id:"section.update"}),
+      title: this.$t({ id: 'section.update' }),
       visible: true,
-      params: {record}
+      params: { record },
     };
     this.setState({
       lov,
-      mapVisible: false
-    })
+      mapVisible: false,
+    });
   };
 
-  handleAfterClose = (params)=>{
+  handleAfterClose = params => {
     this.setState({
-      lov:{
-        visible: false
-      }
+      lov: {
+        visible: false,
+      },
     });
-    if(params){
-      this.setState({loading: true},this.getList())
+    if (params) {
+      this.setState({ loading: true }, this.getList());
     }
   };
 
-  handleShowSlide = ()=>{
+  handleShowSlide = () => {
     this.setState({
-      lov:{
-        visible: false
-      }
-    })
+      lov: {
+        visible: false,
+      },
+    });
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('section-structure', 'key')
-      .url.replace(":setOfBooksId",this.props.params.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/section-structure',
+        //.replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+      })
+    );
   };
 
-  handleCloseMap = (params) =>{
+  handleCloseMap = params => {
     this.setState({
       record: {},
-      mapVisible: false
-    })
+      mapVisible: false,
+    });
   };
 
-  render(){
+  render() {
     const { loading, data, columns, searchForm, pagination, lov, mapVisible, record } = this.state;
     return (
       <div className="section-setting">
-        <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} clearHandle={()=>{}} />
+        <SearchArea
+          searchForm={searchForm}
+          submitHandle={this.handleSearch}
+          clearHandle={() => {}}
+        />
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">
+            {this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}
+          </div>{' '}
+          {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>
+              {this.$t({ id: 'common.create' })}
+            </Button>{' '}
+            {/*新 建*/}
           </div>
         </div>
         <Table
@@ -200,32 +258,38 @@ class SectionSetting extends React.Component{
           columns={columns}
           pagination={pagination}
           bordered
-          size="middle"/>
-        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{formatMessage({id:"common.back"})}</a>
-        <SlideFrame title= {lov.title}
-                    show={lov.visible}
-                    content={NewUpdateSection}
-                    afterClose={this.handleAfterClose}
-                    onClose={()=>this.handleShowSlide(false)}
-                    params={lov.params}/>
-        <SlideFrame title= {formatMessage({id:"section.mapping"})}
-                    show={mapVisible}
-                    content={SectionMappingSet}
-                    afterClose={this.handleCloseMap}
-                    onClose={()=>this.setState({mapVisible:false})}
-                    params={record}/>
+          size="middle"
+        />
+        <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
+          <Icon type="rollback" style={{ marginRight: '5px' }} />
+          {this.$t({ id: 'common.back' })}
+        </a>
+        <SlideFrame
+          title={lov.title}
+          show={lov.visible}
+          onClose={() => this.handleShowSlide(false)}
+        >
+          <NewUpdateSection onClose={this.handleAfterClose} params={lov.params} />
+        </SlideFrame>
+        <SlideFrame
+          title={this.$t({ id: 'section.mapping' })}
+          show={mapVisible}
+          onClose={() => this.setState({ mapVisible: false })}
+        >
+          <SectionMappingSet onClose={this.handleCloseMap} params={record} />
+        </SlideFrame>
       </div>
-    )
+    );
   }
 }
 
-
-SectionSetting.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(SectionSetting);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(SectionSetting);

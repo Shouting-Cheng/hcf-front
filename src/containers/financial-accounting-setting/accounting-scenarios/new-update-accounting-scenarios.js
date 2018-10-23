@@ -2,14 +2,11 @@
  * created by jsq on 2017/12/27
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Input, Switch, Form, Icon,message, Select } from 'antd'
-import httpFetch from 'share/httpFetch';
-import config from 'config'
 import 'styles/financial-accounting-setting/accounting-scenarios-system/new-update-scenarios-system.scss'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios.service';
 const FormItem = Form.Item;
-import {formatMessage} from 'share/common'
 
 class NewUpdateAccountingScenarios extends React.Component{
   constructor(props){
@@ -44,13 +41,13 @@ class NewUpdateAccountingScenarios extends React.Component{
         values.versionNumber = this.state.scenarios.versionNumber;
         values.setOfBooksId = this.state.scenarios.setOfBooksId;
         accountingService.addOrUpdateScenarios([values]).then(response=>{
-          message.success(`${formatMessage({id:"common.operate.success"})}`);
+          message.success(`${this.$t({id:"common.operate.success"})}`);
           this.props.form.resetFields();
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch(e=>{
           if(e.response){
             if(typeof this.state.scenarios.id === 'undefined' )
-              message.error(`${formatMessage({id: "common.operate.filed"})}, ${e.response.data.message}`);
+              message.error(`${this.$t({id: "common.operate.filed"})}, ${e.response.data.message}`);
           }
         })
       }
@@ -59,7 +56,7 @@ class NewUpdateAccountingScenarios extends React.Component{
 
   onCancel = ()=>{
     this.props.form.resetFields();
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
   switchChange = () => {
@@ -80,53 +77,53 @@ class NewUpdateAccountingScenarios extends React.Component{
     return(
       <div className="new-update-accounting-source">
         <Form onSubmit={this.handleSubmit} className="accounting-source-form">
-          <FormItem {...formItemLayout} label={formatMessage({id:'section.setOfBook'})  /*账套*/}>
+          <FormItem {...formItemLayout} label={this.$t({id:'section.setOfBook'})  /*账套*/}>
             {getFieldDecorator('setOfBooksId', {
               initialValue: scenarios.setOfBooksName,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Select disabled={true} placeholder={formatMessage({id:"common.please.select"})}/>
+              <Select disabled={true} placeholder={this.$t({id:"common.please.select"})}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id:'accounting.scenarios.code'})  /*核算场景代码*/}>
+          <FormItem {...formItemLayout} label={this.$t({id:'accounting.scenarios.code'})  /*核算场景代码*/}>
             {getFieldDecorator('transactionSceneCode', {
               initialValue: scenarios.transactionSceneCode,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Input disabled={true} placeholder={formatMessage({id:"common.please.enter"})}/>
+              <Input disabled={true} placeholder={this.$t({id:"common.please.enter"})}/>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id:'accounting.scenarios.name'})  /*核算场景名称*/}>
+          <FormItem {...formItemLayout} label={this.$t({id:'accounting.scenarios.name'})  /*核算场景名称*/}>
             {getFieldDecorator('transactionSceneName', {
               initialValue: scenarios.transactionSceneName,
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"})
+                message: this.$t({id: "common.please.enter"})
               }]
             })(
-              <Input disabled={true} placeholder={formatMessage({id:"common.please.enter"})}/>
+              <Input disabled={true} placeholder={this.$t({id:"common.please.enter"})}/>
             )}
           </FormItem>
           <FormItem {...formItemLayout}
-                    label={formatMessage({id:"common.column.status"})} colon={true}>
+                    label={this.$t({id:"common.column.status"})} colon={true}>
             {getFieldDecorator('enabled', {
               valuePropName:"checked",
               initialValue: enabled
             })(
               <div>
                 <Switch defaultChecked={enabled}  checkedChildren={<Icon type="check"/>} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
-                <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? formatMessage({id:"common.status.enable"}) : formatMessage({id:"common.disabled"}) }</span>
+                <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? this.$t({id:"common.status.enable"}) : this.$t({id:"common.disabled"}) }</span>
               </div>)}
           </FormItem>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit"  loading={loading}>{formatMessage({id:"common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id:"common.cancel"})}</Button>
+            <Button type="primary" htmlType="submit"  loading={loading}>{this.$t({id:"common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id:"common.cancel"})}</Button>
           </div>
         </Form>
       </div>
@@ -136,7 +133,7 @@ class NewUpdateAccountingScenarios extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

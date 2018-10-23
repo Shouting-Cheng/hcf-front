@@ -133,9 +133,9 @@ class SelectDepartment extends React.Component {
   getList = () => {
     this.setState({ loading: true });
 
-    let url = `${config.baseUrl}/api/departments/root?flag=1001`;
+    let url = `${config.baseUrl}/api/departments/root?flag=1002`;
     if (this.props.mode == 'oid') {
-      url = `${config.baseUrl}/api/departments/root/v2?flag=1001`;
+      url = `${config.baseUrl}/api/departments/root/v2?flag=1002`;
     }
 
     httpFetch

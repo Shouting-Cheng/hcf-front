@@ -36,40 +36,42 @@ class MyPrePayment extends React.Component {
           {
             type: 'select', colSpan: '6', id: 'paymentReqTypeId', label: '单据类型',
             getUrl: `${config.prePaymentUrl}/api/cash/pay/requisition/types//queryAll?setOfBookId=${props.company.setOfBooksId}`,
-            options: [], method: "get", valueKey: "id", labelKey: "typeName"
+            options: [], method: "get", valueKey: "id", labelKey: "typeName",
+            event:"paymentReqTypeId"
           },
           {
             type: 'items', colSpan: '6', id: 'dateRange',
             items:
               [
-                { type: 'date', id: 'requisitionDateFrom', label: "申请日期从" },
-                { type: 'date', id: 'requisitionDateTo', label: "申请日期至" }
+                { type: 'date', id: 'requisitionDateFrom', label: "申请日期从",event:"requisitionDateFrom" },
+                { type: 'date', id: 'requisitionDateTo', label: "申请日期至" ,event:"requisitionDateTo"}
               ]
           },
           {
             type: 'list', colSpan: '6', listExtraParams: { setOfBookId: props.company.setOfBooksId },
             id: 'employeeId', label: '申请人',
-            listType: 'user', valueKey: 'id', labelKey: 'fullName', single: true, disabled: true
+            listType: 'user', valueKey: 'id', labelKey: 'fullName', single: true,
+            event:"employeeId"
           },
-          { type: 'select', colSpan: '6', id: 'status', label: '状态', options: statusList },
+          { type: 'select', colSpan: '6', id: 'status', label: '状态', options: statusList,event:"status" },
           {
             type: 'items', colSpan: '6', id: 'amountRange',
             items:
               [
-                { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "本币金额从" },
-                { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "本币金额至" }
+                { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "本币金额从" ,event:"advancePaymentAmountFrom" },
+                { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "本币金额至",event:"advancePaymentAmountTo" }
               ]
           },
           {
             type: 'items', colSpan: '6', id: 'noWritedAmount',
             items:
               [
-                { type: 'input', id: 'noWritedAmountFrom', label: "未核销金额从" },
-                { type: 'input', id: 'noWritedAmountTo', label: "未核销金额至" }
+                { type: 'input', id: 'noWritedAmountFrom', label: "未核销金额从",event:"noWritedAmountFrom" },
+                { type: 'input', id: 'noWritedAmountTo', label: "未核销金额至" ,event:"noWritedAmountTo" }
               ]
           },
           {
-            type: 'input', colSpan: '6', id: 'description', label: '备注'
+            type: 'input', colSpan: '6', id: 'description', label: '备注',event:"description"
           }
         ],
       columns:
@@ -174,13 +176,48 @@ class MyPrePayment extends React.Component {
       })
     );
   }
-
+  change = (e) =>{
+    const { searchParams } = this.state;
+    if(e && e.target && e.target.value){
+      searchParams.requisitionNumber = e.target.value;
+    }else{
+      searchParams.requisitionNumber = '';
+    }
+    this.setState({searchParams});
+  }
+  eventHandle = (type, value) => {
+    const {searchParams} = this.state;
+    switch (type) {
+      case 'requisitionDateFrom': {
+        if(value){
+          searchParams.requisitionDateFrom = moment(value).format('YYYY-MM-DD');
+        }else{
+          searchParams.requisitionDateFrom = '';
+        }
+        break;
+      }
+      case 'requisitionDateTo': {
+        if(value){
+          searchParams.requisitionDateTo = moment(value).format('YYYY-MM-DD');
+        }else{
+          searchParams.requisitionDateTo = '';
+        }
+        break;
+      }
+      default:
+        searchParams[type] = value;
+        break;
+    }
+    this.setState(searchParams);
+  }
   //搜索
   search = (values) => {
     values.requisitionDateFrom && (values.requisitionDateFrom = moment(values.requisitionDateFrom).format('YYYY-MM-DD'));
     values.requisitionDateTo && (values.requisitionDateTo = moment(values.requisitionDateTo).format('YYYY-MM-DD'));
-    console.log(values);
-    this.setState({ searchParams: { ...values, employeeId: values.employeeId || this.props.user.id } }, () => {
+    if(values.employeeId && values.employeeId[0]){
+      values.employeeId = values.employeeId[0];
+    }
+    this.setState({ searchParams: { ...this.state.searchParams,...values, employeeId: values.employeeId || this.props.user.id } }, () => {
       this.customTable.search(this.state.searchParams);
     });
   }
@@ -213,6 +250,7 @@ class MyPrePayment extends React.Component {
         <SearchArea
           searchForm={searchForm}
           submitHandle={this.search}
+          eventHandle={this.eventHandle}
           maxLength={4} />
         {/* <div className='divider'></div> */}
         <div style={{ marginBottom: 10, marginTop: 10 }}>
@@ -233,6 +271,7 @@ class MyPrePayment extends React.Component {
             <Col span={6}>
               <Search
                 placeholder='请输入预付款单单号'
+                onChange={this.change}
                 onSearch={this.onDocumentSearch}
                 enterButton
               />

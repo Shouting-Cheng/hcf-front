@@ -148,7 +148,7 @@ class NewGLWorkOrder extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         let { currencyList, uploadOIDs, orderData } = this.state;
-        let nowCurrencyObj = currencyList.find(item => item.currencyCode === values.currency);
+        let nowCurrencyObj = currencyList.find(item => item.currencyCode === values.currency.key);
         let params = {
           ...orderData,
           id: orderData.id ? orderData.id : null,
@@ -166,7 +166,7 @@ class NewGLWorkOrder extends Component {
           unitId: values.unitId[0].departmentId,
           employeeId: this.props.user.id,
           remark: values.remark,
-          currency: values.currency,
+          currency: values.currency && values.currency.key,
           exchangeRate: nowCurrencyObj.rate,
         };
         if (orderData.id) {
@@ -320,11 +320,11 @@ class NewGLWorkOrder extends Component {
                       message: this.$t({ id: 'common.please.select' }),
                     },
                   ],
-                  initialValue: orderData.id ? orderData.currency : this.props.company.baseCurrency,
+                  initialValue: {key:orderData.id ? orderData.currency : this.props.company.baseCurrency,label:orderData.id ? orderData.currency-orderData.currencyName : this.props.company.baseCurrency-this.props.company.baseCurrencyName},
                 })(
-                  <Select placeholder="请选择" disabled={Boolean(orderData.id)}>
+                  <Select placeholder="请选择" disabled={Boolean(orderData.id)} labelInValue>
                     {currencyList.map(item => {
-                      return <Option value={item.currencyCode}>{item.currencyCode}</Option>;
+                      return <Option value={item.currencyCode}>{item.currencyCode}-{item.currencyName}</Option>;
                     })}
                   </Select>
                 )}

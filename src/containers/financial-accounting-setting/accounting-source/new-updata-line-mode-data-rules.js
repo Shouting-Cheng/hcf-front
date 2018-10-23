@@ -2,13 +2,12 @@
  * Created by 13576 on 2018/1/14.
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Button, Icon, message, Spin, Row, Col } from 'antd'
 import accountingService from 'containers/financial-accounting-setting/accounting-source/accounting-source.service'
 import 'styles/financial-accounting-setting/accounting-source/new-updata-line-mode-data-rules.scss'
 import LineModelChangeRules from 'containers/financial-accounting-setting/accounting-source/line-model-change-rules'
 import DataRulesForm from 'containers/financial-accounting-setting/accounting-source/data-rules-form'
-import {formatMessage} from 'share/common'
 
 
 class NewUpDataLineModeDataRules extends React.Component {
@@ -121,7 +120,7 @@ class NewUpDataLineModeDataRules extends React.Component {
 
 
   onCancel = () => {
-    this.props.close(false)
+    this.props.onClose(false)
   };
 
 
@@ -195,7 +194,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       });
       this.props.setParams({value:value, saveCount:this.state.saveCount});
     } else {
-      this.props.close({value:value,saveCount:this.state.saveCount});
+      this.props.onClose({value:value,saveCount:this.state.saveCount});
     }
   }
 
@@ -238,7 +237,7 @@ class NewUpDataLineModeDataRules extends React.Component {
               buttonRender ?
                 <Row>
                   <Col offset={3} span={18} >
-                    <Button type="dashed" style={{ high: 40, width: "100%" }} onClick={this.addApply}><Icon type="plus" />{formatMessage({ id: "accounting.source.addChangeRule" })} </Button>
+                    <Button type="dashed" style={{ high: 40, width: "100%" }} onClick={this.addApply}><Icon type="plus" />{this.$t({ id: "accounting.source.addChangeRule" })} </Button>
                   </Col>
                 </Row> : ""
 
