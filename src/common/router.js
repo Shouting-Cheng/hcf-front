@@ -368,6 +368,17 @@ export const getRouterData = app => {
       name: 'request-detail',
       parent: '/request',
     },
+    '/approval-management/approve-request': {
+      //申请单审批
+      component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
+      name: 'request-approve',
+    },
+    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
+      //申请单审批详情
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
+      name: 'request-approve',
+      parent: '/approval-management/approve-request',
+    },
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/payment-requisition.js')
@@ -590,11 +601,11 @@ export const getRouterData = app => {
       parent: '/admin-setting/form-list',
     },
     //供应商类型
-    '/admin-setting/supplier-type':{
-      component:dynamicWrapper(app,[],() =>
-      import('containers/setting/supplier-type/supplier-type')
+    '/admin-setting/supplier-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/supplier-type/supplier-type')
       ),
-      name:'供应商类型定义',
+      name: '供应商类型定义',
     },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
@@ -851,7 +862,7 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
@@ -861,7 +872,7 @@ export const getRouterData = app => {
     //预算日记账复核
     '/budget/budget-journal-re-check': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js'),
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js')
       ),
       name: 'budget-journal-re-check',
     },
@@ -897,7 +908,6 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
-
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
