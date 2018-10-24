@@ -7,6 +7,8 @@ export default {
     let result = '';
     this[type] && this[type].map(item => {
       if ((item.value + '') === (value + ''))
+        if(value==='1001')
+          console.log(item[attr]);
         result = item[attr];
     });
     return result;

@@ -608,7 +608,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-accounting-setting/section-structure/section-structure')
       ),
-      name: 'section-structure'
+      name: 'section-structure',
     },
     '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId': {
       //科目段设置
@@ -616,14 +616,14 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/section-structure/section-setting')
       ),
       name: 'section-setting',
-      parent: '/financial-accounting-setting/section-structure'
+      parent: '/financial-accounting-setting/section-structure',
     },
     '/financial-accounting-setting/accounting-source-system': {
       //来源事务定义
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-accounting-setting/accounting-source-system/accounting-source-system')
       ),
-      name: 'source-affair-define'
+      name: 'source-affair-define',
     },
     '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType': {
       //凭证模版
@@ -631,7 +631,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-source-system/voucher-template')
       ),
       name: 'voucher-template',
-      parent: '/financial-accounting-setting/accounting-source-system'
+      parent: '/financial-accounting-setting/accounting-source-system',
     },
     '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id': {
       //取值规则
@@ -639,7 +639,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
       ),
       name: 'get-value-rule',
-      parent: '/financial-accounting-setting/accounting-source-system'
+      parent: '/financial-accounting-setting/accounting-source-system',
     },
     '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id': {
       //判断规则
@@ -647,7 +647,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-source-system/line-mode-judge-rules')
       ),
       name: 'judge-rules',
-      parent: '/financial-accounting-setting/accounting-source-system'
+      parent: '/financial-accounting-setting/accounting-source-system',
     },
     '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id': {
       //核算规则
@@ -655,7 +655,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-source-system/line-mode-rules')
       ),
       name: 'account-rules',
-      parent: '/financial-accounting-setting/accounting-source-system'
+      parent: '/financial-accounting-setting/accounting-source-system',
     },
     '/financial-accounting-setting/accounting-scenarios-system': {
       //核算场景定义
@@ -664,13 +664,13 @@ export const getRouterData = app => {
       ),
       name: 'accounting-scenarios-define',
     },
-    "/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id": {
+    '/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id': {
       //核算要素
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-accounting-setting/accounting-scenarios-system/accounting-elements')
       ),
       name: 'account-element',
-      parent: '/financial-accounting-setting/accounting-scenarios-system'
+      parent: '/financial-accounting-setting/accounting-scenarios-system',
     },
     '/financial-accounting-setting/accounting-scenarios/:setOfBooksId': {
       //科目映射规则
@@ -685,7 +685,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-scenarios/matching-group-elements')
       ),
       name: 'match-group-element',
-      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId'
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
     },
     '/financial-accounting-setting/accounting-scenarios/matching-group-elements/subject-matching-setting/:id/:groupId': {
       //科目匹配设置
@@ -693,7 +693,7 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-scenarios/subject-matching-setting')
       ),
       name: 'subj-match-setting',
-      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId'
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
     },
     '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId': {
       //来源事务凭证模板
@@ -708,15 +708,31 @@ export const getRouterData = app => {
         import('containers/financial-accounting-setting/accounting-source/voucher-template')
       ),
       name: 'sob-voucher-model',
-      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId'
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
     },
     '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-data-rules/:id/:lineModelId': {
       //取值规则
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-accounting-setting/accounting-source/line-mode-data-rules'),
+        import('containers/financial-accounting-setting/accounting-source/line-mode-data-rules')
       ),
       name: 'get-value-rule',
-      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId'
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-judge-rules/:id/:lineModelId': {
+      //判断规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-judge-rules')
+      ),
+      name: 'judge-rules',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-rules/:id/:lineModelId': {
+      //核算规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-rules')
+      ),
+      name: 'account-rules',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
     },
     '/admin-setting/expense-type': {
       component: dynamicWrapper(app, [], () =>
@@ -827,13 +843,6 @@ export const getRouterData = app => {
         import('containers/pay/payment-backlash-recheck/pay-backlash-recheck.js')
       ),
       name: 'pay-backlash-recheck',
-    },
-    '/approval-management/approval-my-reimburse': {
-      //报账单审批
-      component: dynamicWrapper(app, [], () =>
-        import('containers/reimburse/reimburse-approve/my-reimburse.js')
-      ),
-      name: 'approval-my-reimburse',
     },
     '/approval-management/approval-my-reimburse': {
       //报账单审批
