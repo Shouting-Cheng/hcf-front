@@ -5,7 +5,25 @@ import React from 'react';
 import config from 'config';
 import httpFetch from 'utils/httpFetch';
 // import menuRoute from 'routes/menuRoute'
-import {Form,Icon,Tag,Tabs,Button,Row,Col,Spin,Breadcrumb,Table,Timeline,message,Popover,Popconfirm,Divider,Card,Drawer,} from 'antd';
+import {
+  Form,
+  Icon,
+  Tag,
+  Tabs,
+  Button,
+  Row,
+  Col,
+  Spin,
+  Breadcrumb,
+  Table,
+  Timeline,
+  message,
+  Popover,
+  Popconfirm,
+  Divider,
+  Card,
+  Drawer,
+} from 'antd';
 const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
 import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';
@@ -742,7 +760,7 @@ class PrePaymentCommon extends React.Component {
                     <Breadcrumb.Item>
                       本币金额:<span style={{ color: 'Green' }}>
                         {' '}
-                        {'CNY'} {this.filterMoney(functionAmount)}
+                        {this.props.company.baseCurrency} {this.filterMoney(functionAmount)}
                       </span>
                     </Breadcrumb.Item>
                   </Breadcrumb>

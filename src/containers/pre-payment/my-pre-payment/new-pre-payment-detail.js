@@ -33,6 +33,7 @@ import Header from 'antd/lib/calendar/Header';
 import mePrePaymentService from './me-pre-payment.service';
 
 import SelectReceivables from 'widget/select-receivables';
+import { connect } from 'dva/index';
 class NewPrePaymentDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -87,21 +88,21 @@ class NewPrePaymentDetail extends React.Component {
         remark: this.props.params.remark,
         partnerInfo: this.props.params.record.id
           ? {
-            isEmp: this.props.params.record.partnerCategory != 'VENDER',
-            code: this.props.params.record.partnerCode,
-            name: this.props.params.record.partnerName,
-            id: this.props.params.record.partnerId,
-            partnerCategory: this.props.params.record.partnerCategory,
-          }
+              isEmp: this.props.params.record.partnerCategory != 'VENDER',
+              code: this.props.params.record.partnerCode,
+              name: this.props.params.record.partnerName,
+              id: this.props.params.record.partnerId,
+              partnerCategory: this.props.params.record.partnerCategory,
+            }
           : {},
         contractValue: this.props.params.record.contractLineId
           ? [
-            {
-              key: this.props.params.record.contractLineId,
-              label: this.props.params.record.contractNumber,
-              value: this.props.params.record,
-            },
-          ]
+              {
+                key: this.props.params.record.contractLineId,
+                label: this.props.params.record.contractNumber,
+                value: this.props.params.record,
+              },
+            ]
           : [],
         selectedData: this.props.params.record.contractLineId
           ? [this.props.params.record.contractLineId]
@@ -133,9 +134,9 @@ class NewPrePaymentDetail extends React.Component {
     }
     httpFetch
       .get(
-      `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
-      this.state.paymentReqTypeId
-      }`
+        `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
+          this.state.paymentReqTypeId
+        }`
       )
       .then(res => {
         this.setState({ partnerCategoryOptions: res.data });
@@ -229,7 +230,7 @@ class NewPrePaymentDetail extends React.Component {
     let url = menuRoute.getRouteItem('contract-detail', 'key');
     window.open(url.url.replace(':id', id).replace(':from', 'pre-payment'), '_blank');
   };
-  clickContractSelect = (open) => {
+  clickContractSelect = open => {
     if (!open) return;
     if (!this.props.form.getFieldValue('currency')) {
       message.warning('请先选择币种');
@@ -494,7 +495,7 @@ class NewPrePaymentDetail extends React.Component {
                   return <Option key={option.id}>{option.description}</Option>;
                 })}
               </Select>
-              )}
+            )}
           </FormItem>
           <Row gutter={8}>
             <Col span={8} className="ant-form-item-label label-style">
@@ -509,14 +510,23 @@ class NewPrePaymentDetail extends React.Component {
                       message: '请选择币种',
                     },
                   ],
-                  initialValue:{key: params.id ? params.currency : 'CNY',label:params.id ? params.currencyName : 'CNY-人民币'},
+                  initialValue: {
+                    key: params.id ? params.currency : this.props.company.baseCurrency,
+                    label: params.id
+                      ? params.currency + '-' + params.currencyName
+                      : this.props.company.baseCurrency + '-' + this.props.company.baseCurrencyName,
+                  },
                 })(
                   <Select onChange={this.currencyChange} labelInValue>
                     {currencyList.map(item => {
-                      return <Option key={item.currency}>{item.currency}-{item.currencyName}</Option>;
+                      return (
+                        <Option key={item.currency}>
+                          {item.currency}-{item.currencyName}
+                        </Option>
+                      );
                     })}
                   </Select>
-                  )}
+                )}
               </FormItem>
             </Col>
             <Col span={5}>
@@ -532,7 +542,7 @@ class NewPrePaymentDetail extends React.Component {
                     style={{ width: '100%' }}
                     onBlur={this.onAmountMouseMove}
                   />
-                  )}
+                )}
               </FormItem>
             </Col>
           </Row>
@@ -550,7 +560,7 @@ class NewPrePaymentDetail extends React.Component {
                 <Option value="EMPLOYEE">员工</Option>
                 <Option value="VENDER">供应商</Option>
               </Select>
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方">
             {getFieldDecorator('partnerd', {
@@ -569,7 +579,7 @@ class NewPrePaymentDetail extends React.Component {
                 type={this.props.form.getFieldValue('partnerCategory')}
                 disabled={!this.props.form.getFieldValue('partnerCategory')}
               />
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方银行账户">
             {getFieldDecorator('accountNumber', {
@@ -590,7 +600,7 @@ class NewPrePaymentDetail extends React.Component {
                   );
                 })}
               </Select>
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方户名">
             {getFieldDecorator('accountName', {
@@ -632,7 +642,7 @@ class NewPrePaymentDetail extends React.Component {
                   currencyCode: this.props.form.getFieldValue('currency').key,
                 }}
               />
-              )}
+            )}
             {/* <a style={{ position: 'absolute', marginLeft: '21vw', marginTop: -40, left: '102%', top: '1%', whiteSpace: 'nowrap' }}>查看详情</a> */}
           </FormItem>
           <FormItem {...formItemLayout} label="付款方式类型">
@@ -648,7 +658,10 @@ class NewPrePaymentDetail extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label="计划付款日期">
             {getFieldDecorator('requisitionPaymentDate', {
-              initialValue: (params.id && params.requisitionPaymentDate) ? moment(params.requisitionPaymentDate) : moment(new Date()),
+              initialValue:
+                params.id && params.requisitionPaymentDate
+                  ? moment(params.requisitionPaymentDate)
+                  : moment(new Date()),
               rules: [
                 {
                   required: true,
@@ -675,7 +688,8 @@ class NewPrePaymentDetail extends React.Component {
                 关联合同:
               </Col>
               <Col span={16}>
-                <Select allowClear
+                <Select
+                  allowClear
                   ref="contractSelect"
                   value={contractValue}
                   labelInValue
@@ -686,11 +700,11 @@ class NewPrePaymentDetail extends React.Component {
                   {contractValue.length == 0
                     ? '注：根据收款方选择合同'
                     : `付款计划序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
-                      'YYYY-MM-DD'
-                    )}`}
+                        'YYYY-MM-DD'
+                      )}`}
                 </div>
               </Col>
-             {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+              {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
                 {contractValue.length > 0 && (
                   <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                 )}
@@ -716,7 +730,15 @@ class NewPrePaymentDetail extends React.Component {
     );
   }
 }
-
+function mapStateToProps(state) {
+  return {
+    company: state.user.company,
+  };
+}
 const wrappedNewPrePaymentDetail = Form.create()(NewPrePaymentDetail);
-
-export default wrappedNewPrePaymentDetail;
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(wrappedNewPrePaymentDetail);

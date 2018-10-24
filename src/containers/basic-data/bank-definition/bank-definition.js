@@ -1,12 +1,5 @@
-import { messages } from 'share/common';
-/**
- * created by jsq on 2017/10/9
- * 银行定义重新开发了，之前的接口废弃
- * 字段也改变
- * 没有联动二级城市了
- */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 
 import {
   Button,
@@ -20,12 +13,12 @@ import {
   Icon,
   message,
 } from 'antd';
-import SearchArea from 'components/search-area';
+import SearchArea from 'components/Widget/search-area';
 import config from 'config';
 import 'styles/basic-data/bank-definition/bank-definition.scss';
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'components/Widget/slide-frame';
 import CreateOrUpdateBank from 'containers/basic-data/bank-definition/create-or-update-bank';
-import ImportErrInfo from 'components/template/import-err-info';
+//import ImportErrInfo from 'components/Widget/Template/import-err-info';
 const TabPane = Tabs.TabPane;
 import BSService from 'containers/basic-data/bank-definition/bank-definition.service';
 import FileSaver from 'file-saver';
@@ -33,7 +26,6 @@ import FileSaver from 'file-saver';
 class BankDefinition extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       slideFrameKey: 0,
       loading: true,
@@ -54,8 +46,8 @@ class BankDefinition extends React.Component {
         params: {},
       },
       tabs: [
-        { key: 'customBank', name: messages('bank.customBank') } /*自定义银行*/,
-        { key: 'commonBank', name: messages('bank.commonBank') } /*通用银行*/,
+        { key: 'customBank', name: this.$t('bank.customBank') } /*自定义银行*/,
+        { key: 'commonBank', name: this.$t('bank.commonBank') } /*通用银行*/,
       ],
       //点击顶部搜索时要参数
       searchParams: {
@@ -70,22 +62,22 @@ class BankDefinition extends React.Component {
       },
       //顶部搜索区域
       searchForm: [
-        { type: 'input', id: 'bankCode', label: messages('bank.bankCode') } /*银行代码*/,
-        { type: 'input', id: 'bankBranchName', label: messages('bank.bankBranchName') } /*支行*/,
+        { type: 'input', id: 'bankCode', label: this.$t('bank.bankCode') } /*银行代码*/,
+        { type: 'input', id: 'bankBranchName', label: this.$t('bank.bankBranchName') } /*支行*/,
         {
           type: 'select',
           id: 'countryCode',
           options: [],
           labelKey: 'country',
           valueKey: 'code',
-          label: messages('bank.country') /*国家*/,
+          label: this.$t('bank.country') /*国家*/,
           event: 'COUNTRY_CHANGE',
           //defaultValue:'中国',
-          getUrl: config.localUrl + '/api/localization/query/country',
+          getUrl: config.locationUrl + '/api/localization/query/country',
           method: 'get',
           //默认国家是分页的20个一页，这里下拉列表直接显示全部
           getParams: {
-            language: this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US',
+            language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
             page: 0,
             size: 1000,
           },
@@ -95,7 +87,7 @@ class BankDefinition extends React.Component {
           id: 'openAccount',
           options: [],
           event: 'ADDRESS_CHANGE',
-          label: messages('bank.openAccount') /*开户地*/,
+          label: this.$t('bank.openAccount') /*开户地*/,
         },
       ],
       pagination: {
@@ -110,7 +102,7 @@ class BankDefinition extends React.Component {
       customBankColumns: [
         {
           /*国家*/
-          title: messages('bank.country'),
+          title: this.$t('bank.country'),
           key: 'countryName',
           dataIndex: 'countryName',
           width: '10%',
@@ -129,7 +121,7 @@ class BankDefinition extends React.Component {
         {
           /*银行代码*/
           width: '15%',
-          title: messages('bank.bankCode'),
+          title: this.$t('bank.bankCode'),
           key: 'bankCode',
           dataIndex: 'bankCode',
         },
@@ -141,7 +133,7 @@ class BankDefinition extends React.Component {
         },
         {
           /*银行名称*/
-          title: messages('bank.bankName'),
+          title: this.$t('bank.bankName'),
           key: 'bankName',
           dataIndex: 'bankName',
           render: desc => (
@@ -158,61 +150,58 @@ class BankDefinition extends React.Component {
         },
         {
           /*支行名称*/
-          title: messages('bank.bankBranchName'),
+          title: this.$t('bank.bankBranchName'),
           key: 'bankBranchName',
           dataIndex: 'bankBranchName',
         },
         {
           /*开户地*/
-          title: messages('bank.openAccount'),
+          title: this.$t('bank.openAccount'),
           key: 'openAccount',
           dataIndex: 'openAccount',
         },
         {
           /*详细地址*/
-          title: messages('bank.detailAddress'),
+          title: this.$t('bank.detailAddress'),
           key: 'detailAddress',
           dataIndex: 'detailAddress',
         },
         {
           /*状态*/
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           key: 'status',
           width: '10%',
           dataIndex: 'enable',
           render: enable => (
             <Badge
               status={enable ? 'success' : 'error'}
-              text={enable ? messages('common.status.enable') : messages('common.status.disable')}
+              text={enable ? this.$t('common.status.enable') : this.$t('common.status.disable')}
             />
           ),
         },
         {
           /*操作*/
-          title: messages('common.operation'),
+          title: this.$t('common.operation'),
           key: 'operation',
           dataIndex: 'operation',
           render: (text, record) => (
             <span>
-              <a href="#" onClick={e => this.editItem(e, record)}>
-                {messages('common.edit')}
-              </a>
+              <a onClick={e => this.editItem(e, record)}>{this.$t('common.edit')}</a>
               <span className="ant-divider" />
               <Popconfirm
                 onConfirm={e => this.deleteItem(e, record)}
-                title={messages('budget.are.you.sure.to.delete.rule', {
+                title={this.$t('budget.are.you.sure.to.delete.rule', {
                   controlRule: record.controlRuleName,
                 })}
               >
                 {/* 你确定要删除organizationName吗 */}
                 <a
-                  href="#"
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
                   }}
                 >
-                  {messages('common.delete')}
+                  {this.$t('common.delete')}
                 </a>
               </Popconfirm>
             </span>
@@ -223,7 +212,7 @@ class BankDefinition extends React.Component {
       commonBankColumns: [
         {
           /*国家*/
-          title: messages('bank.country'),
+          title: this.$t('bank.country'),
           key: 'countryName',
           dataIndex: 'countryName',
           width: '10%',
@@ -242,7 +231,7 @@ class BankDefinition extends React.Component {
         {
           /*银行代码*/
           width: '15%',
-          title: messages('bank.bankCode'),
+          title: this.$t('bank.bankCode'),
           key: 'bankCode',
           dataIndex: 'bankCode',
         },
@@ -254,7 +243,7 @@ class BankDefinition extends React.Component {
         },
         {
           /*银行名称*/
-          title: messages('bank.bankName'),
+          title: this.$t('bank.bankName'),
           key: 'bankName',
           dataIndex: 'bankName',
           render: desc => (
@@ -271,7 +260,7 @@ class BankDefinition extends React.Component {
         },
         {
           /*支行名称*/
-          title: messages('bank.bankBranchName'),
+          title: this.$t('bank.bankBranchName'),
           key: 'bankBranchName',
           dataIndex: 'bankBranchName',
           render: desc => (
@@ -288,13 +277,13 @@ class BankDefinition extends React.Component {
         },
         {
           /*开户地*/
-          title: messages('bank.openAccount'),
+          title: this.$t('bank.openAccount'),
           key: 'openAccount',
           dataIndex: 'openAccount',
         },
         {
           /*详细地址*/
-          title: messages('bank.detailAddress'),
+          title: this.$t('bank.detailAddress'),
           key: 'detailAddress',
           dataIndex: 'detailAddress',
         },
@@ -357,7 +346,7 @@ class BankDefinition extends React.Component {
     let slideFrame = {};
     let slideFrameKey = this.state.slideFrameKey;
     slideFrameKey++;
-    slideFrame.title = messages('bank.editorBank'); //编辑银行
+    slideFrame.title = this.$t('bank.editorBank'); //编辑银行
     slideFrame.visible = true;
     slideFrame.params = record;
     slideFrame.params.countryData = this.state.country;
@@ -373,7 +362,7 @@ class BankDefinition extends React.Component {
     };
     let slideFrameKey = this.state.slideFrameKey;
     slideFrameKey++;
-    slideFrame.title = messages('bank.createBank'); //新建银行
+    slideFrame.title = this.$t('bank.createBank'); //新建银行
     slideFrame.visible = true;
     slideFrame.params.countryData = this.state.country;
     this.setState({
@@ -415,7 +404,7 @@ class BankDefinition extends React.Component {
   }
 
   getCountrys = () => {
-    BSService.getCountries(this.props.language.locale).then(response => {
+    BSService.getCountries(this.props.language.local).then(response => {
       let country = response.data.map(item => {
         item.label = item.country;
         item.value = item.code;
@@ -439,7 +428,7 @@ class BankDefinition extends React.Component {
   //获取中国的所有省
   getChinaState = () => {
     let params = {
-      language: this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US',
+      language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
       code: 'CHN000000000',
       vendorType: 'standard',
       page: 0,
@@ -468,7 +457,7 @@ class BankDefinition extends React.Component {
   //获取市
   getCityByCode = code => {
     let params = {
-      language: this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US',
+      language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
       code: code,
       vendorType: 'standard',
     };
@@ -564,7 +553,7 @@ class BankDefinition extends React.Component {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         //自定义银行
-        let name = messages('bank.customBank');
+        let name = this.$t('bank.customBank');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
       .catch(res => {
@@ -586,7 +575,7 @@ class BankDefinition extends React.Component {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         // 证件信息模板
-        let name = messages('bank.customBank.temp');
+        let name = this.$t('bank.customBank.temp');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
       .catch(res => {});
@@ -652,7 +641,7 @@ class BankDefinition extends React.Component {
           //导入完成了
           this.getList();
           if (this.state.errorsList.length === 0 && progressImportErrInfo === 100) {
-            message.success(messages('common.operate.success'));
+            message.success(this.$t('common.operate.success'));
             this.hideImportErrInfo();
           }
         }
@@ -692,7 +681,7 @@ class BankDefinition extends React.Component {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         // 银行导入错误信息
-        let name = messages('bank.customBank.error.info');
+        let name = this.$t('bank.customBank.error.info');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
       .catch(res => {});
@@ -704,15 +693,15 @@ class BankDefinition extends React.Component {
       return (
         <div>
           <Button type="primary" onClick={this.handleCreate}>
-            {messages('common.create')}
+            {this.$t('common.create')}
           </Button>
           <Button onClick={this.handleImportShow}>
             {/*批量导入*/}
-            {messages('bank.customBank.import')}
+            {this.$t('bank.customBank.import')}
           </Button>
           <Button onClick={this.handleExport}>
             {/*批量导出*/}
-            {messages('bank.customBank.export')}
+            {this.$t('bank.customBank.export')}
           </Button>
         </div>
       );
@@ -771,7 +760,7 @@ class BankDefinition extends React.Component {
         />
         <div className="table-header">
           <div className="table-header-title">
-            {messages('common.total', { total: `${pagination.total}` })}
+            {this.$t('common.total', { total: `${pagination.total}` })}
           </div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">{this.renderBtns(label)}</div>
@@ -789,17 +778,16 @@ class BankDefinition extends React.Component {
           slideFrameKey={this.state.slideFrameKey}
           title={slideFrame.title}
           show={slideFrame.visible}
-          content={CreateOrUpdateBank}
-          afterClose={this.handleCloseSlide}
           onClose={() => this.setState({ slideFrame: { visible: false } })}
-          params={slideFrame.params}
-        />
+        >
+          <CreateOrUpdateBank params={slideFrame.params} onClose={this.handleCloseSlide} />
+        </SlideFrame>
 
         <Modal
           closable
           width={800}
           className="pm-import-person-modal"
-          title={messages('person.manage.im')} //导入
+          title={this.$t('person.manage.im')} //导入
           visible={this.state.showImportBankModel}
           footer={null}
           onCancel={this.cancelImport}
@@ -810,33 +798,33 @@ class BankDefinition extends React.Component {
               <div>
                 <p>
                   {/*1.创建导入文件*/}
-                  {messages('bank.customBank.im.tip1')}
+                  {this.$t('bank.customBank.im.tip1')}
                 </p>
                 <p>
                   {/*2.严格按照导入模板整理数据，检查必输事项是否缺少数据*/}
-                  {messages('bank.customBank.im.tip2')}
+                  {this.$t('bank.customBank.im.tip2')}
                 </p>
                 <p>
                   {/*3.关闭文件后，方可进行数据导入*/}
-                  {messages('bank.customBank.im.tip3')}
+                  {this.$t('bank.customBank.im.tip3')}
                 </p>
               </div>
               <div className="download-list-item" onClick={this.downloadTemplate}>
                 {/*点击下载模板*/}
-                {messages('bank.customBank.download.temp')}
+                {this.$t('bank.customBank.download.temp')}
               </div>
             </div>
             <div className="f-right import-person-modal-right">
               <div className="import-person-right-tips">
                 {/*上传模板*/}
-                {messages('bank.customBank.upload.temp')}
+                {this.$t('bank.customBank.upload.temp')}
               </div>
               <div className="upload-file-wrap">
                 <Upload {...props}>
                   <Button>
                     <Icon type="upload" />
                     {/*选择一个文件*/}
-                    {messages('person.manage.select.file')}
+                    {this.$t('person.manage.select.file')}
                   </Button>
                 </Upload>
                 <Button
@@ -848,36 +836,31 @@ class BankDefinition extends React.Component {
                 >
                   {/*?上传中:开始上传*/}
                   {this.state.flieUploading
-                    ? messages('person.manage.uploading')
-                    : messages('person.manage.start.upload')}
+                    ? this.$t('person.manage.uploading')
+                    : this.$t('person.manage.start.upload')}
                 </Button>
               </div>
             </div>
             <div className="clear" />
           </div>
         </Modal>
-        <ImportErrInfo
+        {/* <ImportErrInfo
           progress={this.state.progressImportErrInfo}
           cancel={this.hideImportErrInfo}
           exportErrInfo={this.exportFailedLog}
           errorsList={this.state.errorsList}
           visible={this.state.showImportErrInfo}
-        />
+        /> */}
       </div>
     );
   }
 }
 
-BankDefinition.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
-    company: state.login.company,
-    language: state.main.language,
-    tenantMode: state.main.tenantMode,
+    organization: state.user.organization,
+    company: state.user.company,
+    language: state.languages,
   };
 }
 

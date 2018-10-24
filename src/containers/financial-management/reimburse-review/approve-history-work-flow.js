@@ -1,7 +1,10 @@
+/**
+ * Created by 13576 on 2018/1/25.
+ */
 import React from 'react';
 import { Collapse, Timeline, Spin, Row, Col, Icon } from 'antd';
-import PropTypes from 'prop-types';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 /**
  * 审批历史
  */

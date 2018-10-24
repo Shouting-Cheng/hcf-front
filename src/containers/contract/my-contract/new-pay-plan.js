@@ -82,7 +82,9 @@ class NewPayPlan extends React.Component {
         values.dueDate = new Date(moment(values.dueDate).format('YYYY-MM-DD'));
         values.partnerId = values.partnerId.key;
         this.setState({ loading: true });
-        contractService.newPayPlan(values).then(res => {
+        contractService
+          .newPayPlan(values)
+          .then(res => {
             if (res.status === 200) {
               this.props.onClose(true);
               message.success(this.$t({ id: 'common.save.success' }, { name: '' } /*保存成功*/));
@@ -111,7 +113,9 @@ class NewPayPlan extends React.Component {
         values.dueDate = new Date(moment(values.dueDate).format('YYYY-MM-DD'));
         values.partnerId = values.partnerId.key;
         this.setState({ loading: true });
-        contractService.updatePayPlan(values).then(res => {
+        contractService
+          .updatePayPlan(values)
+          .then(res => {
             if (res.status === 200) {
               this.props.onClose(true);
               message.success(this.$t({ id: 'common.save.success' }, { name: '' } /*保存成功*/));
@@ -196,7 +200,7 @@ class NewPayPlan extends React.Component {
                       message: this.$t({ id: 'common.please.select' } /*请选择*/),
                     },
                   ],
-                  initialValue: headerData.currency,
+                  initialValue: headerData.currency + '-' + headerData.currencyName,
                 })(<Input disabled />)}
               </FormItem>
             </Col>

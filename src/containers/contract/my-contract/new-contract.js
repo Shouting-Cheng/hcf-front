@@ -195,8 +195,14 @@ class NewContract extends React.Component {
         values.applicantOid = this.props.user.userOID;
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
+        let nowCurrencyObj = this.state.currencyOptions.find(
+          item => item.currency === values.currency
+        );
+        values.exchangeRate = nowCurrencyObj.rate;
         this.setState({ loading: true });
-        contractService.newContractHeader(values).then(res => {
+        contractService
+          .newContractHeader(values)
+          .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
               message.success(this.$t({ id: 'common.save.success' }, { name: '' } /*保存成功*/));
@@ -241,10 +247,18 @@ class NewContract extends React.Component {
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
         values.versionNumber = this.state.record.versionNumber;
+
+        let nowCurrencyObj = this.state.currencyOptions.find(
+          item => item.currency === values.currency
+        );
+        values.exchangeRate = nowCurrencyObj.rate;
+
         //values.unitId = this.state.departmentId;
         //values.employeeId = (values.employeeId && values.employeeId.length) ? values.employeeId[0].userId : "";
         this.setState({ loading: true });
-        contractService.updateContractHeader(params).then(res => {
+        contractService
+          .updateContractHeader(params)
+          .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
               message.success(this.$t({ id: 'common.update.success' }, { name: '' } /*保存成功*/));
@@ -470,9 +484,14 @@ class NewContract extends React.Component {
                         message: this.$t({ id: 'common.please.select' }),
                       },
                     ],
-                    initialValue:  { key:  record.id ? record.currency : 'CNY', label: "CNY-人民币"},
-                    })(
-                    <Select labelInValue
+                    initialValue: {
+                      key: record.id ? record.currency : this.props.company.baseCurrency,
+                      label:
+                        this.props.company.baseCurrency + '-' + this.props.company.baseCurrencyName,
+                    },
+                  })(
+                    <Select
+                      labelInValue
                       disabled={record.id}
                       placeholder={this.$t({ id: 'common.please.select' } /*请选择*/)}
                       onDropdownVisibleChange={this.getCurrencyOptions}
@@ -485,7 +504,11 @@ class NewContract extends React.Component {
                       }
                     >
                       {currencyOptions.map(option => {
-                        return <Option key={option.currency}>{option.currency}-{option.currencyName}</Option>;
+                        return (
+                          <Option key={option.currency}>
+                            {option.currency}-{option.currencyName}
+                          </Option>
+                        );
                       })}
                     </Select>
                   )}

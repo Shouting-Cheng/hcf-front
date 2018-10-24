@@ -1,10 +1,11 @@
-import { getQueryUrlParam } from 'utils/extend';
+import { messages, getQueryUrlParam } from 'share/common';
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
+import menuRoute from 'routes/menuRoute';
 import { Form, Button, message, Modal } from 'antd';
 
 import approveRequestService from 'containers/approve/request/request.service';
-import ApproveBar from 'widget/Template/approve-bar';
+import ApproveBar from 'components/template/approve-bar';
 
 import 'styles/approve/request/approve-request-btn.scss';
 
@@ -92,7 +93,7 @@ class ApproveRequestBtn extends React.Component {
     if (additionalHaveApprovedNames.length) {
       Modal.confirm({
         title: `${additionalHaveApprovedNames.join('、')} ${
-          this.$t('approve.request.has.approved') /*已经审批通过，是否继续*/
+          messages('approve.request.has.approved') /*已经审批通过，是否继续*/
         }？`,
         onOk: () => this.handleApprovePass(value, additionalOIDs, priceAuditor),
       });
@@ -120,13 +121,13 @@ class ApproveRequestBtn extends React.Component {
       .handleRequestApprovePass(params)
       .then(res => {
         if (res.data.failNum === 0) {
-          message.success(this.$t('common.operate.success'));
+          message.success(messages('common.operate.success'));
           this.setState({ passLoading: false });
           this.goBack();
         } else {
           this.setState({ passLoading: false });
           message.error(
-            `${this.$t('common.operate.filed')}，${
+            `${messages('common.operate.filed')}，${
               res.data.failReason[this.state.info.applicationOID]
             }`
           );
@@ -134,7 +135,7 @@ class ApproveRequestBtn extends React.Component {
       })
       .catch(e => {
         this.setState({ passLoading: false });
-        message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`);
+        message.error(`${messages('common.operate.filed')}，${e.response.data.message}`);
       });
   };
 
@@ -159,13 +160,13 @@ class ApproveRequestBtn extends React.Component {
       .handleRequestApproveReject(params)
       .then(res => {
         if (res.data.failNum === 0) {
-          message.success(this.$t('common.operate.success'));
+          message.success(messages('common.operate.success'));
           this.setState({ rejectLoading: false });
           this.goBack();
         } else {
           this.setState({ rejectLoading: false });
           message.error(
-            `${this.$t('common.operate.filed')}，${
+            `${messages('common.operate.filed')}，${
               res.data.failReason[this.state.info.applicationOID]
             }`
           );
@@ -173,7 +174,7 @@ class ApproveRequestBtn extends React.Component {
       })
       .catch(e => {
         this.setState({ rejectLoading: false });
-        message.error(`${this.$t('common.operate.filed')}，${e.response.data.message}`);
+        message.error(`${messages('common.operate.filed')}，${e.response.data.message}`);
       });
   };
 
@@ -213,7 +214,7 @@ class ApproveRequestBtn extends React.Component {
           />
         ) : (
           <Button type="primary" className="back-btn" onClick={this.goBack}>
-            {this.$t('common.back')}
+            {messages('common.back')}
           </Button>
         )}
       </div>

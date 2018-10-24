@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Tabs, Table, message,InputNumber, Badge, Input, Row, Col, Popover } from 'antd';
+import { Form, Tabs, Table, message, InputNumber, Badge, Input, Row, Col, Popover } from 'antd';
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';
 import config from 'config';
@@ -202,18 +202,36 @@ class ContractWorkflowApprove extends React.Component {
     } else {
       values.finished = false;
     }
-    if(values.userOID && values.userOID[0]){
+    if (values.userOID && values.userOID[0]) {
       values.userOID = values.userOID[0];
     }
     //处理查询条件为弹出框时返回的数组问题
-    if(values.createdBy && values.createdBy[0]){
+    if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ ...this.state.searchParams,...values },()=>{
-      this.table.search({ ...this.state.searchParams,...values });
+    this.setState({ ...this.state.searchParams, ...values }, () => {
+      this.table.search({ ...this.state.searchParams, ...values });
     });
   };
+  //点击重置的事件，清空值为初始值
+  handleReset = () => {
+    this.clearSearchAreaSelectData();
+    this.props.clearHandle && this.props.clearHandle();
+    this.setState({ searchParams: {} });
+  };
 
+  //清除searchArea选择数据
+  clearSearchAreaSelectData = () => {
+    this.props.form.resetFields();
+    this.state.checkboxListForm &&
+      this.state.checkboxListForm.map(list => {
+        if (!list.single) {
+          list.items.map(item => {
+            item.checked = [];
+          });
+        }
+      });
+  };
   handleTabsChange = key => {
     this.setState({ tabValue: key }, () => {
       if (key === 'approved') {
@@ -271,28 +289,21 @@ class ContractWorkflowApprove extends React.Component {
     );
   };
 
-  clear = () => {
-    const { searchParams } = this.state;
-    searchParams.contractNumber = '';
-    this.setState({
-      searchParams,
-    });
-  };
-  change = (e) =>{
-    if(e && e.target && e.target.value){
+  change = e => {
+    if (e && e.target && e.target.value) {
       const { searchParams } = this.state;
       searchParams.contractNumber = e.target.value;
       this.setState({
         searchParams,
       });
-    }else{
+    } else {
       const { searchParams } = this.state;
       searchParams.contractNumber = '';
       this.setState({
         searchParams,
       });
     }
-  }
+  };
 
   renderContent = () => {
     const { searchForm, tabValue, columns } = this.state;
@@ -313,7 +324,7 @@ class ContractWorkflowApprove extends React.Component {
                 placeholder={this.$t({ id: 'my.please.input.number' })}
                 onSearch={this.searchNumber}
                 onChange={this.change}
-                clearHandle={this.clear}
+                clearHandle={this.handleReset}
                 enterButton
               />
             </Col>

@@ -104,7 +104,7 @@ class ContractWorkflowDetailCommon extends React.Component {
           title: this.$t({ id: 'request.base.amount' } /*本币金额*/),
           dataIndex: 'funcAmount',
           align: 'center',
-          render: (desc, record) => this.filterMoney(record.amount),
+          render: (desc, record) => this.filterMoney(record.functionAmount),
         },
         {
           title: this.$t({ id: 'my.receivable' } /*收款方*/),
@@ -118,9 +118,7 @@ class ContractWorkflowDetailCommon extends React.Component {
                     ? this.$t('acp.employee')
                     : this.$t('acp.vendor')}
                 </Tag>
-                <div style={{ whiteSpace: 'normal' }}>
-                  {record.partnerName}
-                </div>
+                <div style={{ whiteSpace: 'normal' }}>{record.partnerName}</div>
               </div>
             );
           },
@@ -515,7 +513,12 @@ class ContractWorkflowDetailCommon extends React.Component {
     return (
       <div className="contract-detail" style={{}}>
         <Card
-          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15, marginTop: 20 }}
+          style={{
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+            marginRight: 15,
+            marginLeft: 15,
+            marginTop: 20,
+          }}
         >
           <div style={{ paddingTop: 0, marginTop: '-20px' }}>
             <DocumentBasicInfo params={documentParams} noHeader={true} />
@@ -524,7 +527,12 @@ class ContractWorkflowDetailCommon extends React.Component {
         <Spin spinning={detailLoading}>
           <div className="contract-info" style={{ margin: '0' }}>
             <Card
-              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',marginRight: 15,marginLeft: 15, marginTop: 20 }}
+              style={{
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                marginRight: 15,
+                marginLeft: 15,
+                marginTop: 20,
+              }}
             >
               <div
                 className="contract-info-header"
@@ -663,7 +671,14 @@ class ContractWorkflowDetailCommon extends React.Component {
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15,marginTop:10 }}>
+          <Card
+            style={{
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+              marginRight: 15,
+              marginLeft: 15,
+              marginTop: 10,
+            }}
+          >
             <div className="pay-info" style={{ marginTop: '0px' }}>
               <h3
                 className="info-header-title"
@@ -691,14 +706,21 @@ class ContractWorkflowDetailCommon extends React.Component {
                 <Col span={10} className="header-tips" style={{ textAlign: 'right' }}>
                   <Breadcrumb style={{ marginBottom: '10px' }}>
                     <Breadcrumb.Item>
-                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('common.amount')}:</span>&nbsp;<span style={{ color: 'Green'}}>
+                      <span style={{ color: 'rgba(0, 0, 0, 0.60)' }}>
+                        {this.$t('common.amount')}:
+                      </span>&nbsp;<span style={{ color: 'Green' }}>
                         {' '}
-                      {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
                       </span>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('acp.function.amount')}</span><span style={{ color: 'Green' }}>
-                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                      <span style={{ color: 'rgba(0, 0, 0, 0.60)' }}>
+                        {this.$t('acp.function.amount')}
+                      </span>
+                      <span style={{ color: 'Green' }}>
+                        {this.props.company.baseCurrency}&nbsp;{this.filterMoney(
+                          headerData.functionAmount
+                        )}
                       </span>
                     </Breadcrumb.Item>
                   </Breadcrumb>
@@ -718,7 +740,8 @@ class ContractWorkflowDetailCommon extends React.Component {
           <Card
             style={{
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-              marginRight: 15,marginLeft: 15,
+              marginRight: 15,
+              marginLeft: 15,
               marginTop: 20,
               marginBottom: 50,
             }}
@@ -741,9 +764,14 @@ ContractWorkflowDetailCommon.defaultProps = {
   isApprovePage: false,
   getContractStatus: () => {},
 };
+function mapStateToProps(state) {
+  return {
+    company: state.user.company,
+  };
+}
 const wrappedContractWorkflowDetailCommon = Form.create()(ContractWorkflowDetailCommon);
 export default connect(
-  null,
+  mapStateToProps,
   null,
   null,
   { withRef: true }
