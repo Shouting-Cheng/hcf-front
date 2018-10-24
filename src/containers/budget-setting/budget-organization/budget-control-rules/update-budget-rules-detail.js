@@ -2,13 +2,12 @@
  * created by jsq on 2017/9/28
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage,messages} from 'share/common'
+import { connect } from 'dva'
 import moment from 'moment'
 import { Form, Input, Switch, Button, Icon, Row, Col, Checkbox, Alert, message, DatePicker, Select } from 'antd'
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
 import selectorData from 'share/chooserData'
-import Selput from 'components/selput'
+import Selput from 'widget/selput'
 import "styles/budget-setting/budget-organization/budget-control-rules/new-budget-rules-detail.scss"
 
 const FormItem = Form.Item;
@@ -326,13 +325,13 @@ class UpdateBudgetRulesDetail extends React.Component {
         this.setState({loading: true});
         budgetService.updateRuleDetail(values).then((res) => {
           if (res.status === 200) {
-            message.success(`${formatMessage({ id: "common.operate.success" })}`);
+            message.success(`${this.$t({ id: "common.operate.success" })}`);
             this.props.form.resetFields();
             this.onCancel(true);
           }
         }).catch((e) => {
           if (e.response) {
-            message.error(`${formatMessage({ id: "common.create.filed" })}, ${e.response.data.message}`);
+            message.error(`${this.$t({ id: "common.create.filed" })}, ${e.response.data.message}`);
           }
           this.setState({ loading: false });
         })
@@ -405,8 +404,8 @@ class UpdateBudgetRulesDetail extends React.Component {
   handleMethodChange = (value) => {
     this.setState({
       filtrateMethodHelp: value === "INCLUDE" ?
-        messages('budget.filtrateMethodHelp.contain') /*值范围为闭区间，包含左右边界值*/
-        : value === "EXCLUDE" ? messages('budget.filtrateMethodHelp.exclude') : messages('common.please.select'), /*值范围为开区间，不包含左右边界值*/
+        this.$t('budget.filtrateMethodHelp.contain') /*值范围为闭区间，包含左右边界值*/
+        : value === "EXCLUDE" ? this.$t('budget.filtrateMethodHelp.exclude') : this.$t('common.please.select'), /*值范围为开区间，不包含左右边界值*/
       filtrateMethodStatus: typeof value === 'undefined' ? "error" : null
     });
   };
@@ -423,12 +422,12 @@ class UpdateBudgetRulesDetail extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.ruleParameterType' })  /*规则参数类型*/}>
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.ruleParameterType' })  /*规则参数类型*/}>
                 {getFieldDecorator('ruleParameterType', {
                   initialValue: ruleParamDetail.ruleParameterType,
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   },
                     {
                       validator: (item, value, callback) => {
@@ -438,7 +437,7 @@ class UpdateBudgetRulesDetail extends React.Component {
                   ]
                 })(
                   <Select
-                    className="input-disabled-color" placeholder={formatMessage({ id: "common.please.select" })}
+                    className="input-disabled-color" placeholder={this.$t({ id: "common.please.select" })}
                     onChange={this.handleSelectType}
                   >
                     {
@@ -451,14 +450,14 @@ class UpdateBudgetRulesDetail extends React.Component {
           </Row>
           <Row span={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.ruleParameter' })  /*规则参数*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.ruleParameter' })  /*规则参数*/}
                         validateStatus={validateStatusMap.ruleParameter}
                         help={helpMap.ruleParameter}>
                 {getFieldDecorator('ruleParameter', {
                   initialValue: ruleParamDetail.ruleParameterType === 'BGT_RULE_PARAMETER_DIM' ? ruleParamDetail.ruleParameterDescription : ruleParamDetail.ruleParameter,
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   },
                     {
                       validator: (item, value, callback) => {
@@ -470,7 +469,7 @@ class UpdateBudgetRulesDetail extends React.Component {
                 })(
                   <Select
                     onChange={this.handleChangeParam}
-                    className="input-disabled-color" placeholder={formatMessage({ id: "common.please.select" })}>
+                    className="input-disabled-color" placeholder={this.$t({ id: "common.please.select" })}>
                     {
                       ruleParamsArray.map((item) => <Option key={item.id}>{item.value}</Option>)
                     }
@@ -482,13 +481,13 @@ class UpdateBudgetRulesDetail extends React.Component {
           <Row span={30}>
             <Col span={20}>
               <FormItem {...formItemLayout}
-                        label={formatMessage({ id: 'budget.filtrateMethod' })  /*取值方式*/}
+                        label={this.$t({ id: 'budget.filtrateMethod' })  /*取值方式*/}
                         help={filtrateMethodHelp}>
                 {getFieldDecorator('filtrateMethod', {
                   initialValue: ruleParamDetail.filtrateMethod,
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   },
                     {
                       validator: (item, value, callback) => {
@@ -499,7 +498,7 @@ class UpdateBudgetRulesDetail extends React.Component {
                 })(
                   <Select
                     onChange={this.handleMethodChange}
-                    placeholder={formatMessage({ id: "common.please.select" })}>
+                    placeholder={this.$t({ id: "common.please.select" })}>
                     {filtrateMethodArray.map((item) => <Option key={item.id}>{item.value}</Option>)}
                   </Select>
                 )}
@@ -509,18 +508,18 @@ class UpdateBudgetRulesDetail extends React.Component {
           <Row gutter={30}>
             <Col span={20}>
               <FormItem {...formItemLayout}
-                        label={formatMessage({ id: 'budget.summaryOrDetail' })  /*取值范围*/}
+                        label={this.$t({ id: 'budget.summaryOrDetail' })  /*取值范围*/}
                         help={summaryOrDetailHelp}>
                 {getFieldDecorator('summaryOrDetail', {
                   initialValue: ruleParamDetail.summaryOrDetail,
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: "common.please.select" })
+                      message: this.$t({ id: "common.please.select" })
                     },
                   ]
                 })(
-                  <Select disabled placeholder={formatMessage({ id: "common.please.select" })}>
+                  <Select disabled placeholder={this.$t({ id: "common.please.select" })}>
                     {summaryOrDetailArray.map((item) => <Option key={item.id}>{item.value}</Option>)}
                   </Select>
                 )}
@@ -529,14 +528,14 @@ class UpdateBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterLowerLimit' })  /*下限值*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterLowerLimit' })  /*下限值*/}
                         validateStatus={validateStatusMap.parameterLowerLimit}
                         help={helpMap.parameterLowerLimit}>
                 {getFieldDecorator('parameterLowerLimit', {
                   initialValue: ruleParamDetail.parameterLowerLimit,
                   rules: [
                     {
-                      required: true, message: formatMessage({ id: "common.please.select" })
+                      required: true, message: this.$t({ id: "common.please.select" })
                     },
                     {
                       validator: (item, value, callback) => {
@@ -557,14 +556,14 @@ class UpdateBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterUpperLimit' })  /*上限值*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterUpperLimit' })  /*上限值*/}
                         validateStatus={validateStatusMap.parameterUpperLimit}
                         help={helpMap.parameterUpperLimit}>
                 {getFieldDecorator('parameterUpperLimit', {
                   initialValue: ruleParamDetail.parameterUpperLimit,
                   rules: [
                     {
-                      required: true, message: formatMessage({ id: "common.please.select" })
+                      required: true, message: this.$t({ id: "common.please.select" })
                     },
                     {
                       validator: (item, value, callback) => {
@@ -584,18 +583,18 @@ class UpdateBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.invalidDate' })  /*失效日期*/}>
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.invalidDate' })  /*失效日期*/}>
                 {getFieldDecorator('invalidDate', {
                   initialValue: ruleParamDetail.invalidDate ? moment(ruleParamDetail.invalidDate, 'YYYY-MM-DD') : null
                 })(
-                  <DatePicker placeholder={formatMessage({ id: "common.please.enter" })} />
+                  <DatePicker placeholder={this.$t({ id: "common.please.enter" })} />
                 )}
               </FormItem>
             </Col>
           </Row>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit" loading={loading}>{formatMessage({ id: "common.save" })}</Button>
-            <Button onClick={() => this.onCancel(false)}>{formatMessage({ id: "common.cancel" })}</Button>
+            <Button type="primary" htmlType="submit" loading={loading}>{this.$t({ id: "common.save" })}</Button>
+            <Button onClick={() => this.onCancel(false)}>{this.$t({ id: "common.cancel" })}</Button>
             <input ref="blur" style={{ position: 'absolute', top: '-100vh' }} /> {/* 隐藏的input标签，用来取消list控件的focus事件  */}
           </div>
         </Form>

@@ -1,10 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table, Badge, Popover } from 'antd'
 
-import SearchArea from 'components/search-area'
-import menuRoute from 'routes/menuRoute'
+import SearchArea from 'widget/search-area'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 
@@ -14,20 +12,20 @@ class BudgetStrategy extends React.Component {
     this.state = {
       loading: false,
       searchForm: [
-        {type: 'input', id: 'controlStrategyCode', label: formatMessage({id: "budget.strategy.code"}/*预算控制策略代码*/)},
-        {type: 'input', id: 'controlStrategyName', label: formatMessage({id: "budget.strategy.name"}/*预算控制策略名称*/)}
+        {type: 'input', id: 'controlStrategyCode', label: this.$t({id: "budget.strategy.code"}/*预算控制策略代码*/)},
+        {type: 'input', id: 'controlStrategyName', label: this.$t({id: "budget.strategy.name"}/*预算控制策略名称*/)}
       ],
       searchParams: {
         controlStrategyCode: "",
         controlStrategyName: ""
       },
       columns: [
-        {title: formatMessage({id: "budget.strategy.code"}/*预算控制策略代码*/), dataIndex: 'controlStrategyCode', key: 'controlStrategyCode'},
-        {title: formatMessage({id: "budget.strategy.name"}/*预算控制策略名称*/), dataIndex: 'controlStrategyName', key: 'controlStrategyName',
+        {title: this.$t({id: "budget.strategy.code"}/*预算控制策略代码*/), dataIndex: 'controlStrategyCode', key: 'controlStrategyCode'},
+        {title: this.$t({id: "budget.strategy.name"}/*预算控制策略名称*/), dataIndex: 'controlStrategyName', key: 'controlStrategyName',
           render: desc => <Popover placement="topLeft" content={desc}>{desc}</Popover>},
-        {title: formatMessage({id: "common.column.status"}/*状态*/), dataIndex: 'enabled', key: 'enabled', width: '10%', render: enabled =>
+        {title: this.$t({id: "common.column.status"}/*状态*/), dataIndex: 'enabled', key: 'enabled', width: '10%', render: enabled =>
           <Badge status={enabled ? 'success' : 'error'}
-                 text={enabled ? formatMessage({id: "common.status.enable"}/*启用*/) : formatMessage({id: "common.status.disable"}/*禁用*/)} />}
+                 text={enabled ? this.$t({id: "common.status.enable"}/*启用*/) : this.$t({id: "common.status.disable"}/*禁用*/)} />}
       ],
       data: [],    //列表值
       pagination: {
@@ -123,9 +121,9 @@ class BudgetStrategy extends React.Component {
           submitHandle={this.search}
           clearHandle={this.clear}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}</div>
+          <div className="table-header-title">{this.$t({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}</div>
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleNew}>{formatMessage({id: "common.create"}/*新建*/)}</Button>
+            <Button type="primary" onClick={this.handleNew}>{this.$t({id: "common.create"}/*新建*/)}</Button>
           </div>
         </div>
         <Table columns={columns}
@@ -142,10 +140,6 @@ class BudgetStrategy extends React.Component {
   }
 
 }
-
-BudgetStrategy.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

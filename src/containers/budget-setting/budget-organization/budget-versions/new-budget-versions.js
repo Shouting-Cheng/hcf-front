@@ -2,12 +2,8 @@
  * Created by 13576 on 2017/9/18.
  */
 import React from 'react'
-import {connect} from 'react-redux'
-import {formatMessage} from 'share/common'
-import config from 'config'
-import httpFetch from 'share/httpFetch';
+import {connect} from 'dva'
 import moment from 'moment'
-import menuRoute from 'routes/menuRoute'
 import {Form, Input, Switch, Button, Col, Row, Select, DatePicker, Alert, notification, Icon, message} from 'antd'
 import budgetVersionsService from 'containers/budget-setting/budget-organization/budget-versions/budget-version.service'
 
@@ -75,14 +71,14 @@ class NewBudgetVersions extends React.Component {
   saveData(value) {
     budgetVersionsService.addVersions(value).then((response) => {
       if(response.status === 200){
-        message.success(formatMessage({id: "common.create.success"}, {name: formatMessage({id: "budgetVersion.version"})}));
+        message.success(this.$t({id: "common.create.success"}, {name: this.$t({id: "budgetVersion.version"})}));
         this.setState({loading: false});
         this.props.close(true);
       }
     }).catch(e => {
       this.setState({loading: false});
       if (e.response) {
-        message.error(formatMessage({id: "common.save.filed"}) + "," + `${e.response.data.message}`);
+        message.error(this.$t({id: "common.save.filed"}) + "," + `${e.response.data.message}`);
         this.setState({loading: false});
       }
     });
@@ -93,14 +89,14 @@ class NewBudgetVersions extends React.Component {
     value.versionNumber = this.state.version.versionNumber;
     budgetVersionsService.updateVersions(value).then((response) => {
       if(response.status === 200){
-        message.success(formatMessage({id: "common.operate.success"}));
+        message.success(this.$t({id: "common.operate.success"}));
         this.setState({loading: false});
         this.props.close(true);
       }
     }).catch(e => {
       this.setState({loading: false});
       if (e.response) {
-        message.error(formatMessage({id: "common.save.filed"}) + "," + `${e.response.data.message}`);
+        message.error(this.$t({id: "common.save.filed"}) + "," + `${e.response.data.message}`);
         this.setState({loading: false});
       }
     });
@@ -124,8 +120,8 @@ class NewBudgetVersions extends React.Component {
       <div className="new-budget-versions">
         <div className="new-budget-versions-help">
           <Alert
-            message={formatMessage({id: "common.help"})}
-            description={formatMessage({id: "budgetVersion.newVersion.info"})}
+            message={this.$t({id: "common.help"})}
+            description={this.$t({id: "budgetVersion.newVersion.info"})}
             type="info"
             showIcon
           />
@@ -133,7 +129,7 @@ class NewBudgetVersions extends React.Component {
         <div className="new-budget-versions-from">
           <Form onSubmit={this.handleSave}>
             <FormItem {...formItemLayout}
-                      label={formatMessage({id: "budget.organization"})}>
+                      label={this.$t({id: "budget.organization"})}>
               {getFieldDecorator('organizationName',
                 {
                   initialValue: this.props.organization.organizationName,
@@ -145,41 +141,41 @@ class NewBudgetVersions extends React.Component {
               )}
             </FormItem>
             <FormItem {...formItemLayout}
-                      label={formatMessage({id: "budgetVersion.versionCode"})}>
+                      label={this.$t({id: "budgetVersion.versionCode"})}>
               {getFieldDecorator('versionCode', {
                 initialValue: version.versionCode,
-                rules: [{required: true, message: formatMessage({id: "common.please.enter"})},]
+                rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
               })(
                 <Input disabled={version.id}/>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={formatMessage({id: "budgetVersion.versionName"})}>
+            <FormItem {...formItemLayout} label={this.$t({id: "budgetVersion.versionName"})}>
               {getFieldDecorator('versionName', {
                 initialValue: version.versionName,
-                rules: [{required: true, message: formatMessage({id: "common.please.enter"})}],
+                rules: [{required: true, message: this.$t({id: "common.please.enter"})}],
               })(<Input />)}
 
             </FormItem>
             <FormItem {...formItemLayout}
-                      label={formatMessage({id: "budgetVersion.versionStatus"})}>
+                      label={this.$t({id: "budgetVersion.versionStatus"})}>
               {getFieldDecorator('status', {
                 initialValue: typeof version.id === 'undefined' ? "NEW" : version.status.value,
                 rules: [{required: true,}],
               })(
-                <Select placeholder={formatMessage({id: "common.please.select"})}>
+                <Select placeholder={this.$t({id: "common.please.select"})}>
                   {statusOptions.map((option) => {
                     return <Option key={option.value}>{option.messageKey}</Option>
                   })}
                 </Select>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={formatMessage({id: "budgetVersion.versionDescription"})}>
+            <FormItem {...formItemLayout} label={this.$t({id: "budgetVersion.versionDescription"})}>
               {getFieldDecorator('description', {
                 initialValue: version.description
               })(<Input />)}
             </FormItem>
             <FormItem {...formItemLayout}
-                      label={formatMessage({id: "budgetVersion.versionDate"})}>
+                      label={this.$t({id: "budgetVersion.versionDate"})}>
               {getFieldDecorator('versionDate',
                 {
                   initialValue:typeof version.id === 'undefined'? null: moment( version.versionDate, 'YYYY-MM-DD'),
@@ -190,7 +186,7 @@ class NewBudgetVersions extends React.Component {
               )}
             </FormItem>
             <FormItem {...formItemLayout}
-                      label={formatMessage({id: "budgetVersion.enabled"})}>
+                      label={this.$t({id: "budgetVersion.enabled"})}>
               {getFieldDecorator('enabled', {
                   valuePropName: "checked",
                   initialValue: typeof version.id === 'undefined' ? true: version.enabled,
@@ -200,8 +196,8 @@ class NewBudgetVersions extends React.Component {
               )}
             </FormItem>
             <div className="slide-footer">
-              <Button type="primary" htmlType="submit" loading={this.state.loading}>{formatMessage({id: "common.save"})}</Button>
-              <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"})}</Button>
+              <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"})}</Button>
+              <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
             </div>
           </Form>
         </div>
@@ -211,12 +207,6 @@ class NewBudgetVersions extends React.Component {
   }
 
 }
-
-
-NewBudgetVersions.contextTypes = {
-  router: React.PropTypes.object
-}
-
 
 const WrappedNewBudgetVersions = Form.create()(NewBudgetVersions);
 

@@ -824,6 +824,29 @@ export const getRouterData = app => {
       ),
       name: '银行定义',
     },
+    //预算设置
+    '/budget-setting':{//预算组织定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization')
+      ),
+      name: 'budget-org-define',
+    },
+    '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id':{
+      //参数设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
+      ),
+      name: 'params-setting',
+      parent: '/budget-setting'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id':{
+      //预算设置详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization-detail')
+      ),
+      name: 'budget-org-detail',
+      parent: '/budget-setting'
+    },
 
     //预算日记本
     '/budget/budget-journal': {

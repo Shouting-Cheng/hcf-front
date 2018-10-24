@@ -2,16 +2,15 @@
  * created by jsq on 2017/9/18
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
-import { Button, Table, Badge, notification, Popover  } from 'antd';
-import SearchArea from 'components/search-area';
+import { connect } from 'dva'
+import {Button, Table, Badge, notification, Popover, Icon} from 'antd';
+import SearchArea from 'widget/search-area';
 import httpFetch from 'share/httpFetch';
 import config from 'config'
+import { routerRedux } from 'dva/router';
 
 //import menuRoute from 'share/menuRoute'
-import menuRoute from 'routes/menuRoute'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure.scss';
 import UpdateBudgetOrganization from 'containers/budget-setting/budget-organization/budget-parameter/update-budget-parameter-setting'
 
@@ -35,27 +34,27 @@ class BudgetParameterSetting extends React.Component {
         showQuickJumper:true,
       },
       searchForm: [
-        {type: 'input', id: 'parameterCode', label: formatMessage({id: 'budget.parameterCode'}) }, /*参数代码*/
-        {type: 'input', id: 'parameterName', label: formatMessage({id: 'budget.parameterName'}) }, /*参数名称*/
+        {type: 'input', id: 'parameterCode', label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
+        {type: 'input', id: 'parameterName', label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {          /*参数代码*/
-          title: formatMessage({id:"budget.parameterCode"}), key: "parameterCode", dataIndex: 'parameterCode'
+          title: this.$t({id:"budget.parameterCode"}), key: "parameterCode", dataIndex: 'parameterCode'
         },
         {          /*参数名称*/
-          title: formatMessage({id:"budget.parameterName"}), key: "parameterName", dataIndex: 'parameterName'
+          title: this.$t({id:"budget.parameterName"}), key: "parameterName", dataIndex: 'parameterName'
         },
         {          /*参数值代码*/
-          title: formatMessage({id:"budget.parameterValueCode"}), key: "parameterValueCode", dataIndex: 'parameterValueCode'
+          title: this.$t({id:"budget.parameterValueCode"}), key: "parameterValueCode", dataIndex: 'parameterValueCode'
 
         },
         {          /*参数值名称*/
-          title: formatMessage({id:"budget.parameterValueName"}), key: "parameterValueName", dataIndex: 'parameterValueName'
+          title: this.$t({id:"budget.parameterValueName"}), key: "parameterValueName", dataIndex: 'parameterValueName'
 
         },
-        {title: formatMessage({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record) => (
           <span>
-              <a href="#" onClick={(e) => this.editItem(e, record)}>{formatMessage({id: "common.edit"})}</a>
+              <a onClick={(e) => this.editItem(e, record)}>{this.$t({id: "common.edit"})}</a>
              </span>)}
       ],
       nowOrganization: {},
@@ -77,7 +76,7 @@ class BudgetParameterSetting extends React.Component {
   };
   componentWillMount(){
     //查出当前预算组织数据
-    httpFetch.get(`${config.budgetUrl}/api/budget/organizations/${this.props.params.id}`).then((response)=>{
+    httpFetch.get(`${config.budgetUrl}/api/budget/organizations/${this.props.match.params.id}`).then((response)=>{
       this.setState({
         organization: response.data
       })
@@ -88,7 +87,7 @@ class BudgetParameterSetting extends React.Component {
   //获取预算表数据
   getList(){
     let params = this.state.searchParams;
-    let url = `${config.budgetUrl}/api/budget/parameterSettings/dto/query?organizationId=${this.props.params.id}&page=${this.state.pagination.page}&size=${this.state.pagination.pageSize}`;
+    let url = `${config.budgetUrl}/api/budget/parameterSettings/dto/query?organizationId=${this.props.match.params.id}&page=${this.state.pagination.page}&size=${this.state.pagination.pageSize}`;
     for(let paramsName in params){
       url += params[paramsName] ? `&${paramsName}=${params[paramsName]}` : '';
     }
@@ -126,6 +125,11 @@ class BudgetParameterSetting extends React.Component {
     })
   };
 
+  handleBack = () =>{
+    this.props.dispatch(routerRedux.replace({
+      pathname: '/budget-setting'
+    }))
+  };
   //分页点击
   onChangePager = (pagination,filters, sorter) =>{
     let temp = this.state.pagination;
@@ -146,7 +150,7 @@ class BudgetParameterSetting extends React.Component {
       this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetStructure.url.replace(':id', this.props.id));
     }else{
       notification["error"]({
-        description: formatMessage({id:"structure.validateCreate"})  /*请维护当前账套下的预算组织*/
+        description: this.$t({id:"structure.validateCreate"})  /*请维护当前账套下的预算组织*/
       })
     }
   };
@@ -163,9 +167,9 @@ class BudgetParameterSetting extends React.Component {
         <h3 className="header-title">{this.state.organization.organizationName}</h3>
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            {/* <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  新 建 */}
+            {/* <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button>  新 建 */}
           </div>
         </div>
         <Table
@@ -179,22 +183,22 @@ class BudgetParameterSetting extends React.Component {
           // })}
           size="middle"
           bordered/>
+        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
         {/* 编辑参数设置 */}
-        <SlideFrame title={formatMessage({id:"budget.parameter.setting.edit"})}
+        <SlideFrame title={this.$t({id:"budget.parameter.setting.edit"})}
                     show={showSlideFrame}
-                    content={UpdateBudgetOrganization}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.setState({showSlideFrame : false})}
-                    params={nowOrganization}/>
+                    onClose={() => this.setState({showSlideFrame : false})}>
+          <UpdateBudgetOrganization
+            onClose={this.handleCloseSlide}
+            params={nowOrganization}/>
+        </SlideFrame>
       </div>
     )
   }
 
 }
 
-BudgetParameterSetting.contextTypes = {
-  router: React.PropTypes.object
-};
+
 
 function mapStateToProps(state) {
   return {
