@@ -9,7 +9,7 @@ import {
 
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute';
-import formService from 'containers/admin-setting/form/form.service';
+import formService from 'containers/setting/form/form.service';
 import constants from 'share/constants';
 import BaseService from 'share/base.service';
 

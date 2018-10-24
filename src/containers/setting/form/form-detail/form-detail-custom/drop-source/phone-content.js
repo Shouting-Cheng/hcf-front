@@ -3,7 +3,7 @@ import { Icon } from 'antd'
 import { DropTarget } from 'react-dnd'
 import ListSort from 'widget/list-sort'
 import Widget from 'widget/Template/widget/widget'
-import DropWidgetItem from 'containers/admin-setting/form/form-detail/form-detail-custom/drop-source/drop-widget-item'
+import DropWidgetItem from 'containers/setting/form/form-detail/form-detail-custom/drop-source/drop-widget-item'
 import PropTypes from 'prop-types'
 /**
  * 手机内部dropTarget

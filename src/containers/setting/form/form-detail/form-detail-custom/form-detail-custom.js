@@ -6,10 +6,10 @@ const confirm = Modal.confirm;
 import HTML5Backend from 'react-dnd-html5-backend';
 import {DragDropContext} from 'react-dnd';
 import 'styles/components/template/drag-widget-page/drag-widget-page.scss'
-import formService from 'containers/admin-setting/form/form.service'
-import DragWidgetItem from 'containers/admin-setting/form/form-detail/form-detail-custom/drag-source/drag-widget-item'
-import FakeDropLayout from 'containers/admin-setting/form/form-detail/form-detail-custom/drop-source/fake-drop-layout'
-import PhoneContent from 'containers/admin-setting/form/form-detail/form-detail-custom/drop-source/phone-content'
+import formService from 'containers/setting/form/form.service'
+import DragWidgetItem from 'containers/setting/form/form-detail/form-detail-custom/drag-source/drag-widget-item'
+import FakeDropLayout from 'containers/setting/form/form-detail/form-detail-custom/drop-source/fake-drop-layout'
+import PhoneContent from 'containers/setting/form/form-detail/form-detail-custom/drop-source/phone-content'
 import WidgetSetting from 'widget/Template/widget/widget-setting'
 import PropTypes from 'prop-types'
 

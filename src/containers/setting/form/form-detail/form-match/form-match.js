@@ -3,7 +3,7 @@ import { Input, Col, Row, Form, Radio, Checkbox, Select, Button, message } from 
 import RadioGroup from 'antd/lib/radio/group';
 import ListSelector from 'widget/list-selector'
 import { connect } from 'dva';
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 import config from 'config';
 // import menuRoute from 'routes/menuRoute'
 import PropTypes from 'prop-types'
@@ -208,7 +208,7 @@ class FormMatch extends React.Component {
         // this.context.router.push(this.state.formMenu.url)
         this.props.dispatch(
             routerRedux.push({
-              pathname: `/admin-setting/form-list`,
+              pathname: `/setting/form-list`,
             })
           );
     }

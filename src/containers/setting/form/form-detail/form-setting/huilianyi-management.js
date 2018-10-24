@@ -6,7 +6,7 @@ import { Alert, Divider, Switch, InputNumber, Button, Form, message, Select } fr
 const FormItem = Form.Item;
 import 'styles/setting/form/form-detail.scss'
 // import menuRoute from "routes/menuRoute";
-import formService from "containers/admin-setting/form/form.service";
+import formService from "containers/setting/form/form.service";
 
 const Option = Select.Option;
 import PropTypes from 'prop-types'
@@ -275,7 +275,7 @@ class HuilianyiManagement extends React.Component {
     back = () => {
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/form-list`,
+                pathname: `/setting/form-list`,
             })
         );
     }
