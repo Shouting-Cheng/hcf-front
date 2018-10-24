@@ -838,6 +838,14 @@ export const getRouterData = app => {
       parent: '/budget/budget-journal-re-check',
     },
 
+    //会计期间定义
+    '/finance-setting/account-period-define': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-define/account-period-define.js')
+      ),
+      name: '会计期间定义',
+    },
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
