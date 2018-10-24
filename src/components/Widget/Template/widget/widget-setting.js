@@ -20,7 +20,7 @@ const Option = Select.Option;
 import PropTypes from 'prop-types';
 
 import LanguageInput from 'widget/Template/language-input/language-input';
-import formService from 'containers/admin-setting/form/form.service';
+import formService from 'containers/setting/form/form.service';
 import baseService from 'share/base.service';
 import 'styles/components/template/widget/widget-setting.scss';
 //import { this.$t, randomString } from 'share/common'
