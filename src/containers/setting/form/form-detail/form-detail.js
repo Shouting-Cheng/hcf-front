@@ -3,13 +3,13 @@ import React from 'react'
 import { connect } from 'dva'
 import { Tabs, Spin } from 'antd'
 const TabPane = Tabs.TabPane;
-import FormDetailBase from 'containers/admin-setting/form/form-detail/form-detail-base'
-import FormDetailCustom from 'containers/admin-setting/form/form-detail/form-detail-custom/form-detail-custom'
-import FormPermission from 'containers/admin-setting/form/form-detail/form-permission/form-permission'
-import FormSetting from 'containers/admin-setting/form/form-detail/form-setting/form-setting'
-import FormMatch from "containers/admin-setting/form/form-detail/form-match/form-match"
+import FormDetailBase from 'containers/setting/form/form-detail/form-detail-base'
+import FormDetailCustom from 'containers/setting/form/form-detail/form-detail-custom/form-detail-custom'
+import FormPermission from 'containers/setting/form/form-detail/form-permission/form-permission'
+import FormSetting from 'containers/setting/form/form-detail/form-setting/form-setting'
+import FormMatch from "containers/setting/form/form-detail/form-match/form-match"
 import 'styles/setting/form/form-detail.scss'
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 import PropTypes from 'prop-types'
 
 class FormDetail extends React.Component {

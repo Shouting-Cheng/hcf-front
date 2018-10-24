@@ -4,7 +4,7 @@ import { connect } from 'dva';
 
 import { Alert, Table, Checkbox, message, Button, Form, Divider} from 'antd';
 const FormItem = Form.Item;
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 import 'styles/setting/form/form-detail.scss'
 // import menuRoute from "routes/menuRoute";
 import PropTypes from 'prop-types'
@@ -1021,7 +1021,7 @@ class TravelItinerarySetting extends React.Component{
               onClick={() => {
                 this.props.dispatch(
                   routerRedux.push({
-                      pathname: `/admin-setting/form-list`,
+                      pathname: `/setting/form-list`,
                   })
                 )
               }}
@@ -1034,7 +1034,7 @@ class TravelItinerarySetting extends React.Component{
               onClick={() => {
                 this.props.dispatch(
                   routerRedux.push({
-                      pathname: `/admin-setting/form-list`,
+                      pathname: `/setting/form-list`,
                   })
               );
               }}
