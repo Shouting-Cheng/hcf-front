@@ -1030,7 +1030,6 @@ class NewExpense extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
     company: state.login.company,
     companyConfiguration: state.login.companyConfiguration,
     profile: state.login.profile,

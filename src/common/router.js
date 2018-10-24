@@ -777,6 +777,13 @@ export const getRouterData = app => {
       name: '支付详情',
       parent: '/pay/pay-workbench/:tab',
     },
+    //基础数据/银行定义
+    '/basic-data/bank-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/basic-data/bank-definition/bank-definition.js')
+      ),
+      name: '银行定义',
+    },
 
     //预算日记本
     '/budget/budget-journal': {
@@ -837,6 +844,20 @@ export const getRouterData = app => {
       ),
       name: 'pay-backlash-recheck',
     },
+    '/approval-management/approval-my-reimburse': {
+      //报账单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-approve/my-reimburse.js')
+      ),
+      name: 'approval-my-reimburse',
+    },
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+      //报账单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-approve/reimburse-detail.js')
+      ),
+      name: 'approve-reimburse-detail',
+    },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
       component: dynamicWrapper(app, [], () =>
@@ -852,6 +873,29 @@ export const getRouterData = app => {
       ),
       name: '预算日记账复核详情',
       parent: '/budget/budget-journal-re-check',
+    },
+    '/admin-setting/department-group': {
+      //部门组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/department-group/department-group.js')
+      ),
+      name: 'department-group',
+    },
+    '/admin-setting/department-group/new-department-group': {
+      //新建部门组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/department-group/new-department-group.js')
+      ),
+      name: 'new-department-group',
+      parent: '/admin-setting/department-group',
+    },
+    '/admin-setting/department-group/department-group-detail/:id': {
+      //部门组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/department-group/department-group-detail.js')
+      ),
+      name: 'department-group-detail',
+      parent: '/admin-setting/department-group',
     },
 
 

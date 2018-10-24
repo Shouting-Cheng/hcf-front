@@ -195,6 +195,8 @@ class NewContract extends React.Component {
         values.applicantOid = this.props.user.userOID;
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
+        let nowCurrencyObj =  this.state.currencyOptions.find(item => item.currency === values.currency);
+        values.exchangeRate = nowCurrencyObj.rate;
         this.setState({ loading: true });
         contractService.newContractHeader(values).then(res => {
             if (res.status === 200) {
@@ -241,6 +243,10 @@ class NewContract extends React.Component {
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
         values.versionNumber = this.state.record.versionNumber;
+
+        let nowCurrencyObj =  this.state.currencyOptions.find(item => item.currency === values.currency);
+        values.exchangeRate = nowCurrencyObj.rate;
+
         //values.unitId = this.state.departmentId;
         //values.employeeId = (values.employeeId && values.employeeId.length) ? values.employeeId[0].userId : "";
         this.setState({ loading: true });
@@ -470,7 +476,7 @@ class NewContract extends React.Component {
                         message: this.$t({ id: 'common.please.select' }),
                       },
                     ],
-                    initialValue:  { key:  record.id ? record.currency : 'CNY', label: "CNY-人民币"},
+                    initialValue:  { key:  record.id ? record.currency : this.props.company.baseCurrency, label: this.props.company.baseCurrency+"-"+this.props.company.baseCurrencyName},
                     })(
                     <Select labelInValue
                       disabled={record.id}

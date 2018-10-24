@@ -70,12 +70,12 @@ export default {
   //获取所有国家列表
   getCountries(lang) {
     let params = {
-      language: lang === 'zh' ? "zh_CN" : "en_US",
+      language: lang === 'zh_CN' ? "zh_CN" : "en_US",
       page: 0,
       size: 1000
     };
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.localUrl + '/api/localization/query/country', params)
+      httpFetch.get(config.locationUrl + '/api/localization/query/country', params)
         .then(function (res) {
           resolve(res)
         })
@@ -95,7 +95,7 @@ export default {
     //   vendorType: "standard"
     // }
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.localUrl + '/api/localization/query/state', params)
+      httpFetch.get(config.locationUrl + '/api/localization/query/state', params)
         .then(function (res) {
           resolve(res)
         })
@@ -113,7 +113,7 @@ export default {
     //   vendorType: "standard"
     // }
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.localUrl + '/api/localization/query/city', params)
+      httpFetch.get(config.locationUrl + '/api/localization/query/city', params)
         .then(function (res) {
           resolve(res)
         })

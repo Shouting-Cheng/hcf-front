@@ -196,7 +196,7 @@ class NewPayPlan extends React.Component {
                       message: this.$t({ id: 'common.please.select' } /*请选择*/),
                     },
                   ],
-                  initialValue: headerData.currency,
+                  initialValue: headerData.currency +"-"+ headerData.currencyName,
                 })(<Input disabled />)}
               </FormItem>
             </Col>

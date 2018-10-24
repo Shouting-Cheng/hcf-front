@@ -487,7 +487,6 @@ class Contract extends React.Component {
         break;
       }
       case 'createdBy': {
-        debugger;
         if(value && value[0]){
           unApproveSearchParams.createdBy = value[0].id;
           approveSearchParams.createdBy = value[0].id;
@@ -566,7 +565,25 @@ class Contract extends React.Component {
     }
     this.setState({unApproveSearchParams,approveSearchParams});
   }
+  //点击重置的事件，清空值为初始值
+  handleReset = () => {
+    this.clearSearchAreaSelectData();
+    this.props.clearHandle && this.props.clearHandle();
+    this.setState({unApproveSearchParams:{},approveSearchParams:{}})
 
+  };
+
+//清除searchArea选择数据
+  clearSearchAreaSelectData = () => {
+    this.props.form.resetFields();
+    this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
+      if (!list.single) {
+        list.items.map(item => {
+          item.checked = []
+        })
+      }
+    });
+  }
 
   renderContent() {
     const {
@@ -591,7 +608,7 @@ class Contract extends React.Component {
             searchForm={SearchForm1}
             maxLength={4}
             eventHandle={this.eventHandle}
-            clearHandle={() => {}}
+            clearHandle={this.handleReset}
             submitHandle={this.unapprovedSearch}
           />
           <Row gutter={24} style={{ marginBottom: 12, marginTop: 12 }}>

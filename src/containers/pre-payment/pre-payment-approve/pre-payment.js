@@ -321,6 +321,27 @@ class Payment extends React.Component {
     })
   };
 
+  //点击重置的事件，清空值为初始值
+  handleReset = () => {
+    this.clearSearchAreaSelectData();
+    let {unApproveSearchParams,approveSearchParams} = this.state;
+    this.props.clearHandle && this.props.clearHandle();
+    this.setState({unApproveSearchParams:{},approveSearchParams:{}})
+
+  };
+
+  //清除searchArea选择数据
+  clearSearchAreaSelectData = () => {
+    this.props.form.resetFields();
+    this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
+      if (!list.single) {
+        list.items.map(item => {
+          item.checked = []
+        })
+      }
+    });
+  }
+
   render() {
     const {tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination} = this.state;
     return (
@@ -333,6 +354,7 @@ class Payment extends React.Component {
                 <SearchArea searchForm={SearchForm1}
                             submitHandle={this.unapprovedSearch}
                             eventHandle={this.eventHandle}
+                            clearHandle={this.handleReset}
                             maxLength={4}
                 />
                 <div className="table-header" style={{marginBottom: 12, marginTop: 12}}>
