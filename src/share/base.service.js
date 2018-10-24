@@ -1,5 +1,6 @@
 import config from 'config'
 import React from 'react'
+import app from '../index';
 import httpFetch from 'share/httpFetch'
 // import configureStore from 'stores'
 // import { setUser, setLoginUser, setCompany, setLoginCompany, setTenant,
@@ -172,8 +173,9 @@ export default {
 
   //得到公司的functionProfile并存储在redux内
   getProfile(){
+    console.log(app)
     return httpFetch.get(`${config.baseUrl}/api/function/profiles`).then((response)=>{
-      configureStore.store.dispatch(setProfile(response.data));
+      app.dispatch({type:'user',profile:response.data});
       return response;
     })
   },
