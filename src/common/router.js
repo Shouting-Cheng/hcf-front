@@ -212,22 +212,35 @@ export const getRouterData = app => {
       parent: '/my-reimburse',
     },
     '/expense-adjust/my-expense-adjust': {
-      component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust')),
+      component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust/expense-adjust')),
       name: 'my-expense-adjust1',
     },
     '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/expense-adjust/new-expense-adjust')
+        import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
       name: 'new-expense-adjust',
       parent: '/expense-adjust/my-expense-adjust',
     },
     '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/expense-adjust/expense-adjust-detail')
+        import('containers/expense-adjust/expense-adjust/expense-adjust-detail')
       ),
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
+    },
+    '/document-type-manage/exp-adjust-type/:setOfBooksId':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-adjust-type/exp-adjust-type')
+      ),
+      name: 'exp-adjust-type-define',
+    },
+    '/document-type-manage/exp-adjust-type/distribution-company-exp-adjust-type/:setOfBooksId/:id':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-adjust-type/distribution-company-exp-adjust-type')
+      ),
+      name: 'exp-adjust-type-company',
+      parent: '/document-type-manage/exp-adjust-type/:setOfBooksId'
     },
     '/document-type-manage/contract-type': {
       component: dynamicWrapper(app, [], () =>

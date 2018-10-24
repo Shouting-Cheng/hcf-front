@@ -26,7 +26,7 @@ import Importer from 'widget/Template/importer';
 import Chooser from 'widget/chooser';
 import config from 'config';
 import 'styles/expense-adjust/new-expense-adjust-detail.scss';
-import expenseAdjustService from 'containers/expense-adjust/expense-adjust.service';
+import expenseAdjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 import Upload from 'widget/upload-button';
 const TextArea = Input.TextArea;
 
