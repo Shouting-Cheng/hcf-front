@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Row, Col, Input, Select, message, InputNumber, DatePicker, Form, Popover, Checkbox } from 'antd'
 import "styles/reimburse/invoice-info.scss"
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import baseService from 'share/base.service'
 import moment from "moment"
 const FormItem = Form.Item;
@@ -115,6 +115,7 @@ class InvoiceInfo extends Component {
 
     //开票类型切换事件
     typeChange = (value) => {
+
         reimburseService.getRate(value).then(res => {
 
             let isCalculation = this.state.isCalculation;
@@ -281,8 +282,6 @@ class InvoiceInfo extends Component {
         cost = this.toDecimal2(cost);
         // let rate = this.props.form.getFieldValue("taxRate");
         // this.props.onAmountChange && this.props.onAmountChange(cost, rate, this.state.isCalculation);
-        this.props.form.setFieldsValue({ priceTaxAmount: cost });
-
         this.setCost(cost);
     }
 
@@ -348,6 +347,7 @@ class InvoiceInfo extends Component {
     render() {
         const { typeList, typeId, rateList, invoiceNumber, invoiceCode, invoiceDate, defaultRate, currencyList, rateTotal, costTotal, cost } = this.state;
         const { getFieldDecorator } = this.props.form;
+
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 18, },
@@ -371,7 +371,7 @@ class InvoiceInfo extends Component {
                                             rules: [{ required: true, message: "请选择" }],
                                             initialValue: ""
                                         })(
-                                            <Select onChange={this.typeChange}>
+                                            <Select disabled onChange={this.typeChange}>
                                                 {
                                                     typeList.map(o => {
                                                         return <Select.Option value={o.value} key={o.value}>{o.messageKey}</Select.Option>
@@ -389,7 +389,7 @@ class InvoiceInfo extends Component {
                                             rules: [{ required: true, message: "请选择" }],
                                             initialValue: moment(new Date())
                                         })(
-                                            <DatePicker onChange={this.invoiceDateChange} />
+                                            <DatePicker disabled onChange={this.invoiceDateChange} />
                                             )
                                     }
                                 </FormItem>
@@ -401,7 +401,7 @@ class InvoiceInfo extends Component {
                                             rules: [{ required: true, message: "请选择" }],
                                             initialValue: ""
                                         })(
-                                            <Input onChange={this.invoiceCodeChange} />
+                                            <Input disabled onChange={this.invoiceCodeChange} />
                                             )
                                     }
                                 </FormItem>
@@ -414,7 +414,7 @@ class InvoiceInfo extends Component {
                                             rules: [{ required: true, message: "请选择" }],
                                             initialValue: ""
                                         })(
-                                            <Input onChange={this.invoiceNumberChange} />
+                                            <Input disabled onChange={this.invoiceNumberChange} />
                                             )
                                     }
                                 </FormItem>
@@ -449,7 +449,7 @@ class InvoiceInfo extends Component {
                                                     rules: [{ validator: this.checkPrice }],
                                                     initialValue: 0
                                                 })(
-                                                    <InputNumber style={{ width: "100%" }} onBlur={this.checkCost} onChange={this.costChange} />
+                                                    <InputNumber disabled style={{ width: "100%" }} onBlur={this.checkCost} step={0.01} onChange={this.costChange} />
                                                     )}
                                             </FormItem>
                                         </Col>
@@ -468,7 +468,7 @@ class InvoiceInfo extends Component {
                                                         rules: [{ required: true, message: "请选择" }],
                                                         initialValue: ""
                                                     })(
-                                                        <Select placeholder="税率" onChange={this.rateChange}>
+                                                        <Select disabled placeholder="税率" onChange={this.rateChange}>
                                                             {
                                                                 rateList.map(o => {
                                                                     return <Select.Option value={o.taxRateValue} key={o.taxRateValue}>{o.taxRateKey}</Select.Option>
@@ -486,7 +486,7 @@ class InvoiceInfo extends Component {
                                                         rules: [{ required: true, message: "请选择" }],
                                                         initialValue: this.formatMoney(this.state.rateTotal)
                                                     })(
-                                                        <Input placeholder="税额合计" disabled onChange={this.invoiceNumberChange} />
+                                                        <Input  placeholder="税额合计" disabled onChange={this.invoiceNumberChange} />
                                                         )
                                                 }
                                             </FormItem>
@@ -539,7 +539,7 @@ class InvoiceInfo extends Component {
                             </Col>
                             <Col span={11} offset={2}>
                                 <FormItem {...formItemLayout}>
-                                    <Checkbox>分期抵扣</Checkbox>
+                                    <Checkbox disabled>分期抵扣</Checkbox>
                                 </FormItem>
                             </Col>
                         </Row>
@@ -550,5 +550,5 @@ class InvoiceInfo extends Component {
     }
 }
 
-export default Form.create()((InvoiceInfo))
+export default Form.create()(InvoiceInfo)
 //

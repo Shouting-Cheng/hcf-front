@@ -2,9 +2,9 @@ import React, { Component } from "react"
 import { Modal, Form, Input, Select, InputNumber } from "antd"
 import { connect } from 'react-redux'
 const FormItem = Form.Item;
-import reimburseService from 'containers/reimburse/reimburse.service'
-import SelectApplication from 'containers/reimburse/select-application'
-import Chooser from 'containers/reimburse/chooser'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
+import SelectApplication from 'containers/reimburse/my-reimburse/select-application'
+import Chooser from 'containers/reimburse/my-reimburse/chooser'
 
 class ShareForm extends Component {
     constructor(props) {

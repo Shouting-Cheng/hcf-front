@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 import ListSelector from 'widget/list-selector';
 import moment from 'moment';
 
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import SelectContract from 'containers/pre-payment/my-pre-payment/select-contract';
 import SelectReceivables from 'widget/select-receivables';
 

@@ -192,22 +192,22 @@ export const getRouterData = app => {
       parent: '/pre-payment/my-pre-payment',
     },
     '/my-reimburse': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/my-reimburse.js')),
       name: 'my-reimburse',
     },
     '/my-reimburse/reimburse-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/reimburse-detail.js')),
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
     '/my-reimburse/edit-reimburse/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
@@ -569,22 +569,43 @@ export const getRouterData = app => {
       name: '供应商分配公司',
       parent: '/financial-management/supplier-maintain',
     },
+    '/financial-management/reimburse-review': {
+      //财务管理-供应商维护
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review.js')
+      ),
+      name: 'reimburse-review',
+    },
+    '/financial-management/reimburse-review/reimburse-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review-detail.js')
+      ),
+      name: '报账单审核',
+      parent: '/financial-management/reimburse-review',
+    },
+    '/financial-management/reimburse-review/loan-request-detail-review/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/loan-request-detail.js')
+      ),
+      name: '借款单审核',
+      parent: '/financial-management/reimburse-review',
+    },
     '/admin-setting/form-list': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/setting/form/form-list.js')
+        import('containers/admin-setting/form/form-list.js')
       ),
       name: '表单管理',
     },
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/setting/form/form-detail/form-detail.js')
+        import('containers/admin-setting/form/form-detail/form-detail.js')
       ),
       name: '新建表单',
       parent: '/admin-setting/form-list',
     },
     '/admin-setting/form-list/form-detail/:formOID/:booksID': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/setting/form/form-detail/form-detail.js')
+        import('containers/admin-setting/form/form-detail/form-detail.js')
       ),
       name: '表单详情',
       parent: '/admin-setting/form-list',
@@ -851,13 +872,6 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approval-my-reimburse': {
-      //报账单审批
-      component: dynamicWrapper(app, [], () =>
-        import('containers/reimburse/reimburse-approve/my-reimburse.js')
-      ),
-      name: 'approval-my-reimburse',
-    },
     '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
@@ -911,26 +925,6 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
-    '/admin-setting/currency-setting': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/currency-setting/currency-setting.js')
-      ),
-      name: '币种设置',
-    },
-    '/admin-setting/currency-setting/currency-setting-add/:baseCurrency/:baseCurrencyName/:setOfBooksId/:tenantId/:enableAutoUpdate': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/currency-setting/currency-setting-add.js')
-      ),
-      name: '新增汇率',
-      parent: '/admin-setting/currency-setting',
-    },
-    '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/currency-setting/currency-setting-edit.js')
-      ),
-      name: '编辑汇率',
-      parent:'/admin-setting/currency-setting'
-    }
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

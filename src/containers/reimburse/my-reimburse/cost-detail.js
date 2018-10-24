@@ -28,8 +28,8 @@ import moment from 'moment';
 
 import 'styles/reimburse/reimburse.scss';
 
-import reimburseService from 'containers/reimburse/reimburse.service';
-import ApprotionInfo from 'containers/reimburse/approtion-info';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
+import ApprotionInfo from 'containers/reimburse/my-reimburse/approtion-info';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
