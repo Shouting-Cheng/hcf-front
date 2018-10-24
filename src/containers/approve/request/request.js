@@ -1,16 +1,18 @@
 
 import React from 'react'
+import menuRoute from 'routes/menuRoute'
 
-import { connect } from 'dva'
+import { connect } from 'react-redux'
 import constants from 'share/constants'
+import configureStore from "stores";
 import { setApproveRequest } from "actions/cache";
 import { messages, deepFullCopy, dealCache } from "share/common";
-import { Form, Tabs, Badge, Popover, Table, Affix, message,Input,InputNumber } from 'antd'
+import { Form, Tabs, Badge, Popover, Table, Affix, message } from 'antd'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment'
-import SearchArea from 'widget/search-area'
-import ApproveBar from 'widget/Template/approve-bar'
+import SearchArea from 'components/search-area'
+import ApproveBar from 'components/template/approve-bar'
 import approveRequestService from 'containers/approve/request/request.service'
 import 'styles/approve/request/request.scss'
 
@@ -35,8 +37,8 @@ class ApproveRequest extends React.Component {
         {type: 'list', id: 'applicantOIDs', label: messages('finance.view.search.applicant'/*申请人*/), listType: 'user', labelKey: 'fullName', valueKey: 'userOID',listExtraParams:{roleType: 'TENANT'}},
         {type: 'list', id: 'departmentOIDs', label: messages('request.detail.department.name'/*部门*/), listType: 'department', labelKey: 'name', valueKey: 'departmentOid', single: true},
         {type: 'items', id: 'priceRange', items: [
-          {type: 'inputNumber', id: 'minAmount', label: messages("approve.request.moneyFrom")/*金额从*/},
-          {type: 'inputNumber', id: 'maxAmount', label: messages("approve.request.moneyTo")/*金额至*/}
+          {type: 'input', id: 'minAmount', label: messages("approve.request.moneyFrom")/*金额从*/},
+          {type: 'input', id: 'maxAmount', label: messages("approve.request.moneyTo")/*金额至*/}
         ]},
         {type: 'items', id: 'dateRange', items: [
           {type: 'date', id: 'beginDate', label: messages('finance.audit.startDate'/*日期从*/)},
