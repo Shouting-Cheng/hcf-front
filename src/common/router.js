@@ -590,11 +590,11 @@ export const getRouterData = app => {
       parent: '/admin-setting/form-list',
     },
     //供应商类型
-    '/admin-setting/supplier-type':{
-      component:dynamicWrapper(app,[],() =>
-      import('containers/setting/supplier-type/supplier-type')
+    '/admin-setting/supplier-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/supplier-type/supplier-type')
       ),
-      name:'供应商类型定义',
+      name: '供应商类型定义',
     },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
@@ -851,7 +851,7 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
@@ -861,7 +861,7 @@ export const getRouterData = app => {
     //预算日记账复核
     '/budget/budget-journal-re-check': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js'),
+        import('containers/budget/budget-journal-re-check/budget-journal-re-check.js')
       ),
       name: 'budget-journal-re-check',
     },
@@ -897,7 +897,38 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
-
+    //企业管理-公司维护
+    '/enterprise-manage/company-maintain': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/company-maintain.js')
+      ),
+      name: 'company-maintain',
+      parent: '/enterprise-manage',
+    },
+    //企业管理-公司维护-新建编辑公司
+    '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/new-company-maintain.js')
+      ),
+      name: 'new-company-maintain',
+      parent: '/enterprise-manage/company-maintain',
+    },
+    //企业管理-公司维护-详情
+    '/enterprise-manage/company-maintain/company-maintain-detail/:companyOId/:companyId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/company-maintain-detail.js')
+      ),
+      name: 'company-maintain-detail',
+      parent: '/enterprise-manage/company-maintain',
+    },
+    //企业管理-公司维护-公司详情-新建银行账户
+    '/enterprise-manage/company-maintain/new-bank-account/:companyOId/:companyId/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/new-bank-account.js')
+      ),
+      name: 'new-bank-account',
+      parent: '/enterprise-manage/company-maintain/company-maintain-detail',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
