@@ -348,6 +348,28 @@ class MyContract extends React.Component {
     });
   };
 
+  //点击重置的事件，清空值为初始值
+  handleReset = () => {
+    this.clearSearchAreaSelectData();
+    let {searchParams} = this.state;
+    this.props.clearHandle && this.props.clearHandle();
+    this.setState({searchParams:{}})
+    this.eventHandle('id', null);
+    this.eventHandle('code', null);
+  };
+
+//清除searchArea选择数据
+  clearSearchAreaSelectData = () => {
+    this.props.form.resetFields();
+    this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
+      if (!list.single) {
+        list.items.map(item => {
+          item.checked = []
+        })
+      }
+    });
+  }
+
   change = (e) =>{
     const { searchParams } = this.state;
     if(e && e.target && e.target.value){
@@ -358,15 +380,6 @@ class MyContract extends React.Component {
     this.setState({searchParams});
   }
 
-  clear = () => {
-    const { searchForm } = this.state;
-    searchForm[6].disabled = true;
-    this.setState({
-      searchForm,
-    });
-    this.eventHandle('id', null);
-    this.eventHandle('code', null);
-  };
 
   //合同详情
   rowClick = record => {
@@ -524,7 +537,7 @@ class MyContract extends React.Component {
           searchForm={searchForm}
           eventHandle={this.eventHandle}
           submitHandle={this.search}
-          clearHandle={this.clear}
+          clearHandle={this.handleReset}
           maxLength={4}
           wrappedComponentRef={inst => (this.formRef = inst)}
         />
