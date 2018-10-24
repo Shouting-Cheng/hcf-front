@@ -23,7 +23,7 @@ import httpFetch from 'share/httpFetch';
 import moment from 'moment';
 
 import 'styles/reimburse/reimburse.scss';
-import SearchArea from './search-area';
+import SearchArea from 'widget/search-area';
 
 import CustomTable from 'widget/custom-table';
 

@@ -33,6 +33,7 @@ import Header from 'antd/lib/calendar/Header';
 import mePrePaymentService from './me-pre-payment.service';
 
 import SelectReceivables from 'widget/select-receivables';
+import {connect} from "dva/index";
 class NewPrePaymentDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -509,7 +510,7 @@ class NewPrePaymentDetail extends React.Component {
                       message: '请选择币种',
                     },
                   ],
-                  initialValue:{key: params.id ? params.currency : 'CNY',label:params.id ? params.currencyName : 'CNY-人民币'},
+                  initialValue:{key: params.id ? params.currency : this.props.company.baseCurrency,label:params.id ? params.currency+"-"+params.currencyName : this.props.company.baseCurrency+"-"+this.props.company.baseCurrencyName},
                 })(
                   <Select onChange={this.currencyChange} labelInValue>
                     {currencyList.map(item => {
@@ -716,7 +717,16 @@ class NewPrePaymentDetail extends React.Component {
     );
   }
 }
-
+function mapStateToProps(state) {
+  return {
+    company: state.user.company,
+  };
+}
 const wrappedNewPrePaymentDetail = Form.create()(NewPrePaymentDetail);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(wrappedNewPrePaymentDetail);
 
-export default wrappedNewPrePaymentDetail;

@@ -636,7 +636,7 @@ class PrePaymentCommon extends React.Component {
                     <Breadcrumb.Item>
                       本币金额:<span style={{ color: 'Green' }}>
                         {' '}
-                        {'CNY'} {this.filterMoney(functionAmount)}
+                        {this.props.company.baseCurrency} {this.filterMoney(functionAmount)}
                       </span>
                     </Breadcrumb.Item>
                   </Breadcrumb>

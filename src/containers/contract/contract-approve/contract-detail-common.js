@@ -82,7 +82,7 @@ class ContractDetailCommon extends React.Component {
           title: this.$t({ id: 'request.base.amount' } /*本币金额*/),
           dataIndex: 'funcAmount',
           align: 'center',
-          render: (desc, record) => this.filterMoney(record.amount),
+          render: (desc, record) => this.filterMoney(record.functionAmount),
         },
         {
           title: this.$t({ id: 'my.receivable' } /*收款方*/),
@@ -477,7 +477,7 @@ class ContractDetailCommon extends React.Component {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
                       <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('acp.function.amount')}</span><span style={{ color: 'Green' }}>
-                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                        {this.props.company.baseCurrency}&nbsp;{this.filterMoney(headerData.functionAmount)}
                       </span>
                     </Breadcrumb.Item>
                   </Breadcrumb>
@@ -520,9 +520,14 @@ ContractDetailCommon.defaultProps = {
   isApprovePage: false,
   getContractStatus: () => {},
 };
+function mapStateToProps(state) {
+  return {
+    company: state.user.company,
+  };
+}
 const wrappedContractDetailCommon = Form.create()(ContractDetailCommon);
 export default connect(
-  null,
+  mapStateToProps,
   null,
   null,
   { withRef: true }

@@ -1,14 +1,13 @@
 /**
  * Created by 13576 on 2018/1/14.
  */
-import React from 'react'
-import {connect} from 'react-redux'
-import {Button, Table, Badge, Icon, Popconfirm, message, Input, Popover} from 'antd'
-import SlideFrame from 'components/slide-frame'
-import newUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source/new-updata-line-mode-rules'
-import menuRoute from 'routes/menuRoute'
-import accountingService from 'containers/financial-accounting-setting/accounting-source/accounting-source.service'
-import {formatMessage} from 'share/common'
+import React from 'react';
+import { connect } from 'dva';
+import { Button, Table, Badge, Icon, Popconfirm, message, Input, Popover } from 'antd';
+import SlideFrame from 'widget/slide-frame';
+import NewUpDataLineModeRules from 'containers/financial-accounting-setting/accounting-source/new-updata-line-mode-rules';
+import accountingService from 'containers/financial-accounting-setting/accounting-source/accounting-source.service';
+import { routerRedux } from 'dva/router';
 
 class LineModeRules extends React.Component {
   constructor(props) {
@@ -16,15 +15,15 @@ class LineModeRules extends React.Component {
     this.state = {
       loading: false,
       dataVisible: false,
-      searchText: "",
+      searchText: '',
       filterDropdownVisible: false,
-      data: [{id: 1}],
+      data: [{ id: 1 }],
       setOfBooksId: null,
       lov: {
         visible: false,
         params: {
-          lineModelId: this.props.params.lineModelId,
-        }
+          lineModelId: this.props.match.params.lineModelId,
+        },
       },
       journalLineModel: {},
       page: 0,
@@ -34,276 +33,325 @@ class LineModeRules extends React.Component {
         total: 0,
       },
       searchForm: [
-        {                                                                        //来源事物代码
-          type: 'input', id: 'journalLineModelCode', label: formatMessage({id: 'accounting.source.code'})
+        {
+          //来源事物代码
+          type: 'input',
+          id: 'journalLineModelCode',
+          label: this.$t({ id: 'accounting.source.code' }),
         },
-        {                                                                        //来源事物名称
-          type: 'input', id: 'description', label: formatMessage({id: 'section.structure.name'})
+        {
+          //来源事物名称
+          type: 'input',
+          id: 'description',
+          label: this.$t({ id: 'section.structure.name' }),
         },
       ],
-
     };
   }
-
 
   componentWillMount() {
     this.getList();
     this.getLineMode();
     this.getSource();
-
   }
 
   //获取来源事务的账套
   getSource() {
-    let sourceId = this.props.params.id;
-    accountingService.getSourceTransactionbyIDSob(sourceId).then((response) => {
+    let sourceId = this.props.match.params.id;
+    accountingService.getSourceTransactionbyIDSob(sourceId).then(response => {
       let data = response.data;
       this.setState({
         setOfBooksId: data.setOfBooksId,
-      })
-    })
+      });
+    });
   }
-
 
   getLineMode() {
-    accountingService.getSourceTransactionModelSobById(this.props.params.lineModelId).then((response) => {
-      this.setState({
-        journalLineModel: response.data
-      })
-    })
+    accountingService
+      .getSourceTransactionModelSobById(this.props.match.params.lineModelId)
+      .then(response => {
+        this.setState({
+          journalLineModel: response.data,
+        });
+      });
   }
 
-
   getList(searchText) {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let params = Object.assign({}, this.state.searchParams);
     for (let paramsName in params) {
       !params[paramsName] && delete params[paramsName];
     }
     params.page = this.state.page;
     params.size = this.state.pageSize;
-    params.sobJournalLineModelId = this.props.params.lineModelId;
+    params.sobJournalLineModelId = this.props.match.params.lineModelId;
     if (searchText) {
       params.journalFieldName = searchText;
     } else {
-      params.journalFieldName = "";
+      params.journalFieldName = '';
     }
-    accountingService.getSourceLineModelRules(params).then((response) => {
-      response.data.map((item, index) => {
-        item.key = item.id;
-      });
-      this.setState({
-        data: response.data,
-        loading: false,
-        pagination: {
-          total: Number(response.headers['x-total-count']),
-          onChange: this.onChangePager,
-          pageSize: this.state.pageSize,
-          current: this.state.page + 1
-        }
+    accountingService
+      .getSourceLineModelRules(params)
+      .then(response => {
+        response.data.map((item, index) => {
+          item.key = item.id;
+        });
+        this.setState({
+          data: response.data,
+          loading: false,
+          pagination: {
+            total: Number(response.headers['x-total-count']),
+            onChange: this.onChangePager,
+            pageSize: this.state.pageSize,
+            current: this.state.page + 1,
+          },
+        });
       })
-    }).catch(e => {
-      message.error(`${e.response.data.message}`)
-    });
-
+      .catch(e => {
+        message.error(`${e.response.data.message}`);
+      });
   }
 
-  handleSearch = (params) => {
-
-  };
+  handleSearch = params => {};
 
   //新建
   handleCreate = () => {
-    let time = (new Date()).valueOf();
+    let time = new Date().valueOf();
     let lov = {
-      title:formatMessage({id: "accounting.source.newRule"}),
+      title: this.$t({ id: 'accounting.source.newRule' }),
       visible: true,
       params: {
         isNew: true,
-        sourceTransactionId: this.props.params.id,
-        lineModelId: this.props.params.lineModelId,
+        sourceTransactionId: this.props.match.params.id,
+        lineModelId: this.props.match.params.lineModelId,
         glSceneId: this.state.journalLineModel.glSceneId,
         setOfBooksId: this.state.setOfBooksId,
         journalLineModel: this.state.journalLineModel,
-        time: time
-      }
+        time: time,
+      },
     };
     this.setState({
-      lov
-    })
+      lov,
+    });
   };
 
   //编辑
   handleUpdate = (e, record, index) => {
-    let time = (new Date()).valueOf();
+    let time = new Date().valueOf();
     let params = {
       record: record,
       isNew: false,
-      sourceTransactionId: this.props.params.id,
-      lineModelId: this.props.params.lineModelId,
+      sourceTransactionId: this.props.match.params.id,
+      lineModelId: this.props.match.params.lineModelId,
       glSceneId: this.state.journalLineModel.glSceneId,
       setOfBooksId: this.state.setOfBooksId,
       journalLineModel: this.state.journalLineModel,
-      time: time
-    }
+      time: time,
+    };
     let lov = {
-      title:formatMessage({id: "accounting.source.editRule" }),
+      title: this.$t({ id: 'accounting.source.editRule' }),
       visible: true,
-      params: params
+      params: params,
     };
     this.setState({
-      lov
-    })
+      lov,
+    });
   };
 
-  handleAfterClose = (value) => {
-    this.setState({
-      lov: {
-        visible: false
+  handleAfterClose = value => {
+    this.setState(
+      {
+        lov: {
+          visible: false,
+        },
+      },
+      () => {
+        if (value) {
+          this.getList();
+        }
       }
-    }, () => {
-      if (value) {
-        this.getList();
-      }
-    })
+    );
   };
 
   handleShowSlide = () => {
     this.setState({
       lov: {
-        visible: false
-      }
-    })
+        visible: false,
+      },
+    });
   };
 
   //分页点击
-  onChangePager = (page) => {
+  onChangePager = page => {
     if (page - 1 !== this.state.page)
-      this.setState({
-        page: page - 1,
-        loading: true
-      }, () => {
-        this.getList();
-      })
+      this.setState(
+        {
+          page: page - 1,
+          loading: true,
+        },
+        () => {
+          this.getList();
+        }
+      );
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('accounting-source', 'key').children.voucherTemplateSob.url.replace(':id', this.props.params.id))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-accounting-setting/accounting-source/voucher-template-sob/:id'.replace(
+          ':id',
+          this.props.match.params.id
+        ),
+      })
+    );
   };
 
   //取消添加凭证模板
   handleCancel = () => {
-    this.setState({showListSelector: false})
+    this.setState({ showListSelector: false });
   };
 
-
-  onInputChange = (e) => {
-    this.setState({searchText: e.target.value});
-  }
+  onInputChange = e => {
+    this.setState({ searchText: e.target.value });
+  };
 
   onSearch = () => {
-    const {searchText} = this.state;
-    this.setState({
-      filterDropdownVisible: false,
-    }, () => {
-      this.getList(searchText)
-    })
-  }
+    const { searchText } = this.state;
+    this.setState(
+      {
+        filterDropdownVisible: false,
+      },
+      () => {
+        this.getList(searchText);
+      }
+    );
+  };
 
   render() {
-    const {loading, data, pagination, lov, journalLineModel} = this.state;
+    const { loading, data, pagination, lov, journalLineModel } = this.state;
     let columns = [
       {
         /*核算分录段*/
-        title: formatMessage({id:"accounting.source.journalFieldCode"}), key: "journalFieldName", dataIndex: 'journalFieldName',
+        title: this.$t({ id: 'accounting.source.journalFieldCode' }),
+        key: 'journalFieldName',
+        dataIndex: 'journalFieldName',
         filterDropdown: (
           <div className="custom-filter-dropdown">
             <Input
-              ref={ele => this.searchInput = ele}
-              placeholder={formatMessage({id:"accounting.source.journalFieldCode"})}
+              ref={ele => (this.searchInput = ele)}
+              placeholder={this.$t({ id: 'accounting.source.journalFieldCode' })}
               value={this.state.searchText}
               onChange={this.onInputChange}
               onPressEnter={this.onSearch}
             />
-            <Button type="primary" onClick={this.onSearch}>Search</Button>
+            <Button type="primary" onClick={this.onSearch}>
+              Search
+            </Button>
           </div>
         ),
-        filterIcon: <Icon type="filter"/>,
+        filterIcon: <Icon type="filter" />,
         filterDropdownVisible: this.state.filterDropdownVisible,
-        onFilterDropdownVisibleChange: (visible) => {
-          this.setState({
-            filterDropdownVisible: visible,
-          }, () => this.searchInput && this.searchInput.focus());
+        onFilterDropdownVisibleChange: visible => {
+          this.setState(
+            {
+              filterDropdownVisible: visible,
+            },
+            () => this.searchInput && this.searchInput.focus()
+          );
         },
-        render: recode => (
-          <Popover content={recode}>
-            {recode}
-          </Popover>)
+        render: recode => <Popover content={recode}>{recode}</Popover>,
       },
       {
         /*取值方式*/
-        title:formatMessage({id : "accounting.source.dataRule"}), key: "dataRuleName", dataIndex: 'dataRuleName',
-        render: recode => (
-          <Popover content={recode}>
-            {recode}
-          </Popover>)
+        title: this.$t({ id: 'accounting.source.dataRule' }),
+        key: 'dataRuleName',
+        dataIndex: 'dataRuleName',
+        render: recode => <Popover content={recode}>{recode}</Popover>,
       },
       {
         /*取值*/
-        title: formatMessage({id:'accounting.source.getData'}), key: "data", tableField: 'data', width: '35%',
+        title: this.$t({ id: 'accounting.source.getData' }),
+        key: 'data',
+        tableField: 'data',
+        width: '35%',
         render: (value, record) => {
-            return (
-              <div style={{whiteSpace: "normal"}}>
-                <div>{record.dataRule == "ACCOUNT_ELEMENT" ? record.elementName : record.data?record.data:"-"}</div>
+          return (
+            <div style={{ whiteSpace: 'normal' }}>
+              <div>
+                {record.dataRule == 'ACCOUNT_ELEMENT'
+                  ? record.elementName
+                  : record.data
+                    ? record.data
+                    : '-'}
               </div>
-            )
-
-        }
+            </div>
+          );
+        },
       },
       {
         /*科目段值*/
-        title:formatMessage({id: "accounting.source.segment"}), key: "segmentName", dataIndex: 'segmentName',
-        render: recode => (
-          <Popover content={recode}>
-            {recode}
-          </Popover>)
+        title: this.$t({ id: 'accounting.source.segment' }),
+        key: 'segmentName',
+        dataIndex: 'segmentName',
+        render: recode => <Popover content={recode}>{recode}</Popover>,
       },
       {
         /*状态*/
-        title: formatMessage({id: "common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
+        title: this.$t({ id: 'common.column.status' }),
+        key: 'status',
+        width: '10%',
+        dataIndex: 'enabled',
         render: enabled => (
-          <Badge status={enabled ? 'success' : 'error'}
-                 text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}/>
-        )
+          <Badge
+            status={enabled ? 'success' : 'error'}
+            text={
+              enabled
+                ? this.$t({ id: 'common.status.enable' })
+                : this.$t({ id: 'common.status.disable' })
+            }
+          />
+        ),
       },
       {
-        title: formatMessage({id: "common.operation"}),
+        title: this.$t({ id: 'common.operation' }),
         key: 'operation',
         width: '8%',
         render: (text, record, index) => (
           <span>
-            <a onClick={(e) => this.handleUpdate(e, record, index)}>{formatMessage({id: "common.edit"})}</a>
-           </span>)
+            <a onClick={e => this.handleUpdate(e, record, index)}>
+              {this.$t({ id: 'common.edit' })}
+            </a>
+          </span>
+        ),
       },
-
-    ]
+    ];
 
     return (
       <div className="voucher-template">
         <div className="voucher-template-header">
           <h3>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.source"})}:{journalLineModel.sourceTransactionName}</span>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.mode"})}:{journalLineModel.journalLineModelCode}</span>
-            <span style={{marginLeft: "16px", size: "16px"}}>{formatMessage({id: "accounting.source.scenarios"})}:{journalLineModel.glSceneName}</span>
+            <span style={{ marginLeft: '16px', size: '16px' }}>
+              {this.$t({ id: 'accounting.source.source' })}:{journalLineModel.sourceTransactionName}
+            </span>
+            <span style={{ marginLeft: '16px', size: '16px' }}>
+              {this.$t({ id: 'accounting.source.mode' })}:{journalLineModel.journalLineModelCode}
+            </span>
+            <span style={{ marginLeft: '16px', size: '16px' }}>
+              {this.$t({ id: 'accounting.source.scenarios' })}:{journalLineModel.glSceneName}
+            </span>
           </h3>
         </div>
 
         <div className="table-header">
-          <div
-            className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+          <div className="table-header-title">
+            {this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}
+          </div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button> {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>
+              {this.$t({ id: 'common.create' })}
+            </Button>{' '}
+            {/*新 建*/}
           </div>
         </div>
         <Table
@@ -313,28 +361,34 @@ class LineModeRules extends React.Component {
           pagination={pagination}
           rowKey={record => record.id}
           bordered
-          size="middle"/>
-        <a style={{fontSize: '14px', paddingBottom: '20px'}} onClick={this.handleBack}><Icon type="rollback"
-                                                                                             style={{marginRight: '5px'}}/>{formatMessage({id: "common.back"})}
+          size="middle"
+        />
+        <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
+          <Icon type="rollback" style={{ marginRight: '5px' }} />
+          {this.$t({ id: 'common.back' })}
         </a>
-        <SlideFrame title={lov.title}
-                    show={lov.visible}
-                    content={newUpDataLineModeRules}
-                    afterClose={this.handleAfterClose}
-                    onClose={() => this.handleShowSlide(false)}
-                    params={{...lov.params,flag: lov.visible}}/>
+        <SlideFrame
+          title={lov.title}
+          show={lov.visible}
+          onClose={() => this.handleShowSlide(false)}
+        >
+          <NewUpDataLineModeRules
+            onClose={this.handleAfterClose}
+            params={{ ...lov.params, flag: lov.visible }}
+          />
+        </SlideFrame>
       </div>
-    )
+    );
   }
 }
 
-
-LineModeRules.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(LineModeRules);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(LineModeRules);
