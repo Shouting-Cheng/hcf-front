@@ -127,7 +127,7 @@ class BudgetParameterSetting extends React.Component {
 
   handleBack = () =>{
     this.props.dispatch(routerRedux.replace({
-      pathname: '/budget-setting'
+      pathname: '/budget-setting/budget-organization'
     }))
   };
   //分页点击

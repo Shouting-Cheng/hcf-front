@@ -18,7 +18,7 @@ class UpdateBudgetOrganization extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
     
   };
 

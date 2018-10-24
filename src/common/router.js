@@ -825,7 +825,7 @@ export const getRouterData = app => {
       name: '银行定义',
     },
     //预算设置
-    '/budget-setting':{//预算组织定义
+    '/budget-setting/budget-organization':{//预算组织定义
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-organization')
       ),
@@ -837,7 +837,15 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
       ),
       name: 'params-setting',
-      parent: '/budget-setting'
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/new-budget-organization':{
+      //新建预算组织
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/new-budget-organization')
+      ),
+      name: 'budget-org-new',
+      parent: '/budget-setting/budget-organization'
     },
     '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id':{
       //预算设置详情
@@ -845,7 +853,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-organization/budget-organization-detail')
       ),
       name: 'budget-org-detail',
-      parent: '/budget-setting'
+      parent: '/budget-setting/budget-organization'
     },
 
     //预算日记本

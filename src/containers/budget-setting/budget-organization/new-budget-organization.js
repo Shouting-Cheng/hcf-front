@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message, Spin } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+import { routerRedux } from 'dva/router';
 import budgetOrganizationService from 'containers/budget-setting/budget-organization/budget-organnization.service'
 import baseService from 'share/base.service'
 import 'styles/budget-setting/budget-organization/new-budget-organization.scss'
@@ -13,7 +13,6 @@ class NewBudgetOrganization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      budgetOrganization: menuRoute.getRouteItem('budget-organization','key'),    //组织定义的页面项
       loading: false,
       setOfBooks: [],
     };
@@ -108,7 +107,11 @@ class NewBudgetOrganization extends React.Component {
           <FormItem wrapperCol={{ offset: 7 }}>
             <Row gutter={1}>
               <Col span={3}><Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: 'common.save'})/* 保存 */}</Button></Col>
-              <Col span={3}><Button onClick={() => {this.context.router.replace(budgetOrganization.url);}}>{this.$t({id: 'common.cancel'})/* 取消 */}</Button></Col>
+              <Col span={3}><Button onClick={() => {this.props.dispatch(
+                routerRedux.push({
+                  pathname: '/budget-setting/budget-organization'
+                })
+              );}}>{this.$t({id: 'common.cancel'})/* 取消 */}</Button></Col>
             </Row>
           </FormItem>
         </Form>
