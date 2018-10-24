@@ -229,7 +229,23 @@ export const getRouterData = app => {
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
     },
+    '/approval-management/approve-expense-adjust':{
+      //费用调整单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-approve/expense-adjust-approve')
+      ),
+      name: 'approve-expense-adjust',
+    },
+    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag':{
+      //费用调整单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-approve/expense-adjust-approve-detail')
+      ),
+      name: 'approve-exp-adjust',
+      parent: '/approval-management/approve-expense-adjust',
+    },
     '/document-type-manage/exp-adjust-type/:setOfBooksId':{
+      //调整单类型定义
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-adjust-type/exp-adjust-type')
       ),
