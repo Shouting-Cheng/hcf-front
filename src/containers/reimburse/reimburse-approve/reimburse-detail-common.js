@@ -15,7 +15,7 @@ import DetailExpense from "containers/reimburse/expense-detail"
 import NewPayPlan from "containers/reimburse/new-pay-plan"
 import reimburseService from 'containers/reimburse/reimburse.service'
 import ListSelector from 'containers/reimburse/list-selector'
-import ApproveHistory from "containers/financial-management/reimburse-review/approve-history-work-flow"
+import ApproveHistory from "widget/Template/approve-history-work-flow"
 import DocumentBasicInfo from 'widget/document-basic-info'
 import PropTypes from 'prop-types'
 class ContractDetailCommon extends React.Component {
@@ -319,9 +319,8 @@ class ContractDetailCommon extends React.Component {
     };
     subContent.DETAIL = (
       <div>
-
           <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="费用明细">
-            <Row style={{ margin: "20px 0" }}>
+            <Row>
               <Col>
                 <CostDetail costDetail={this.costDetail} deleteCost={this.deleteCost} costCopy={this.costCopy} costEdit={this.costEdit} flag={isLoadCostData} disabled={true} headerData={this.props.headerData}></CostDetail>
               </Col>

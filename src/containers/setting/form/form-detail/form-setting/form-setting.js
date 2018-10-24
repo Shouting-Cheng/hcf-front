@@ -4,10 +4,10 @@ import { connect } from 'dva';
 
 import { Tabs} from 'antd'
 const TabPane = Tabs.TabPane;
-import HuilianyiManagement from 'containers/admin-setting/form/form-detail/form-setting/huilianyi-management'
-import SupplierManagement from 'containers/admin-setting/form/form-detail/form-setting/supplier-management'
-import TravelItinerarySetting from 'containers/admin-setting/form/form-detail/form-setting/travel-itinerary-setting'
-import formService from 'containers/admin-setting/form/form.service'
+import HuilianyiManagement from 'containers/setting/form/form-detail/form-setting/huilianyi-management'
+import SupplierManagement from 'containers/setting/form/form-detail/form-setting/supplier-management'
+import TravelItinerarySetting from 'containers/setting/form/form-detail/form-setting/travel-itinerary-setting'
+import formService from 'containers/setting/form/form.service'
 import 'styles/setting/form/form-detail.scss'
 import PropTypes from 'prop-types'
 

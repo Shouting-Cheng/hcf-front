@@ -571,30 +571,30 @@ export const getRouterData = app => {
     },
     '/admin-setting/form-list': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/admin-setting/form/form-list.js')
+        import('containers/setting/form/form-list.js')
       ),
       name: '表单管理',
     },
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/admin-setting/form/form-detail/form-detail.js')
+        import('containers/setting/form/form-detail/form-detail.js')
       ),
       name: '新建表单',
       parent: '/admin-setting/form-list',
     },
     '/admin-setting/form-list/form-detail/:formOID/:booksID': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/admin-setting/form/form-detail/form-detail.js')
+        import('containers/setting/form/form-detail/form-detail.js')
       ),
       name: '表单详情',
       parent: '/admin-setting/form-list',
     },
     //供应商类型
-    '/admin-setting/supplier-type':{
-      component:dynamicWrapper(app,[],() =>
-      import('containers/setting/supplier-type/supplier-type')
+    '/admin-setting/supplier-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/supplier-type/supplier-type')
       ),
-      name:'供应商类型定义',
+      name: '供应商类型定义',
     },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
@@ -842,7 +842,7 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
@@ -888,8 +888,26 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
-
-
+    '/admin-setting/currency-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/currency-setting/currency-setting.js')
+      ),
+      name: '币种设置',
+    },
+    '/admin-setting/currency-setting/currency-setting-add/:baseCurrency/:baseCurrencyName/:setOfBooksId/:tenantId/:enableAutoUpdate': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/currency-setting/currency-setting-add.js')
+      ),
+      name: '新增汇率',
+      parent: '/admin-setting/currency-setting',
+    },
+    '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/currency-setting/currency-setting-edit.js')
+      ),
+      name: '编辑汇率',
+      parent:'/admin-setting/currency-setting'
+    }
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

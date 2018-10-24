@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 import LanguageInput from 'widget/Template/language-input/language-input'
 import PermissionsAllocation from 'widget/Template/permissions-allocation'
 // import ExpenseAllocation from 'containers/setting/form/form-detail/expense-allocation/expense-allocation'
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 import Chooser from 'widget/chooser'
 import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
@@ -169,7 +169,7 @@ class FormDetailBase extends React.Component {
       if (booksID && booksID !== ':booksID') {
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+            pathname: `/setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
           })
         );
       }
