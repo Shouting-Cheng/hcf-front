@@ -5,7 +5,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Button, Input, Radio, Row, Col, message, Icon } from 'antd'
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 // import menuRoute from 'routes/menuRoute'
 import Chooser from 'widget/chooser'
 import PermissionsAllocation from 'widget/Template/permissions-allocation'

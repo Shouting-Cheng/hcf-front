@@ -1,56 +1,59 @@
-.currency-setting{
-  margin-bottom: 25px;
-  .currency-setting-currency{
-    margin:0 20px;
-  }
-  .currency-setting-note{
-    color: #1890ff;
-  }
-  .currency-setting-edit{
-    .ant-form-item{
-      margin: 0;
-      .ant-form-item-control{
-        line-height: 1;
+:global{
+  .currency-setting{
+    margin-bottom: 25px;
+    .currency-setting-currency{
+      margin:0 20px;
+    }
+    .currency-setting-note{
+      color: #1890ff;
+    }
+    .currency-setting-edit{
+      .ant-form-item{
+        margin: 0;
+        .ant-form-item-control{
+          line-height: 1;
+        }
       }
-    }
-    .currency-setting-item{
-      display: inline-block;
-    }
-    .currency-setting-buttons{
-      margin-left: 15px;
-      .currency-setting-cancel{
+      .currency-setting-item{
+        display: inline-block;
+      }
+      .currency-setting-buttons{
         margin-left: 15px;
+        .currency-setting-cancel{
+          margin-left: 15px;
+        }
       }
     }
   }
-}
-.currency-setting-button-edit{
-  margin: 20px;
-}
-.currency-setting-table{
-  margin-top: 30px;
-}
-.currency-setting-modal{
-  .ant-modal{
-    width: 700px !important;
-    .ant-modal-body{
-      height: 400px;
-      overflow: auto;
-      .modal-title{
-        text-align: center;
-      }
-      .modal-paragraph{
-        margin: 0 0 5px 40px;
+  .currency-setting-button-edit{
+    margin: 20px;
+  }
+  .currency-setting-table{
+    margin-top: 30px;
+  }
+  .currency-setting-modal{
+    .ant-modal{
+      width: 700px !important;
+      .ant-modal-body{
+        height: 400px;
+        overflow: auto;
+        .modal-title{
+          text-align: center;
+        }
+        .modal-paragraph{
+          margin: 0 0 5px 40px;
+        }
       }
     }
+    .currency-setting-blue{
+      color: #1890ff;
+    }
+    .currency-setting-bold{
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.85);
+    }
   }
-  .currency-setting-blue{
-    color: #1890ff;
-  }
-  .currency-setting-bold{
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.85);
-  }
+  
+  
+  
 }
-
-

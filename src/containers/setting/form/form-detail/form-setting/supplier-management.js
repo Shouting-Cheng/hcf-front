@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 import 'styles/setting/form/form-detail.scss'
 // import menuRoute from "routes/menuRoute";
-import formService from 'containers/admin-setting/form/form.service'
+import formService from 'containers/setting/form/form.service'
 import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router';
 
@@ -2036,7 +2036,7 @@ class SupplierManagement extends React.Component {
                   onClick={() => {
                     this.props.dispatch(
                       routerRedux.push({
-                          pathname: `/admin-setting/form-list`,
+                          pathname: `/setting/form-list`,
                       })
                   );
                   }}
@@ -2049,7 +2049,7 @@ class SupplierManagement extends React.Component {
                    onClick={() => {
                     this.props.dispatch(
                       routerRedux.push({
-                          pathname: `/admin-setting/form-list`,
+                          pathname: `/setting/form-list`,
                       })
                   );
                   }}
