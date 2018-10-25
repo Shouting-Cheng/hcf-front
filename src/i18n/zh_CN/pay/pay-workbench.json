@@ -79,7 +79,7 @@
   "pay.pay.account.tips": "请务必向银行确认该付款支付失败，以免产生重复支付",
   "pay.account.tips.third": "请通过网银或询问银行的方式确认该笔付款已成功转账",
   "pay.refund": "退票",
-  "pay.account.number":"付款账户",
+  "pay.account.number":"付款账号",
   "pay.cancel.success": "取消支付成功",
   "pay.cancel.failed": "取消支付失败，请重试",
   "pay.cancel.confirm": "确定取消支付吗",
