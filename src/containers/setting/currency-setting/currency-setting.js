@@ -93,6 +93,8 @@ class CurrencySetting extends React.Component {
       this.clearBeforePage();
       this.getSetOfBooks();
     })
+    console.log(this.props)
+
   }
 
   //初始化选择账套的options
@@ -197,7 +199,7 @@ class CurrencySetting extends React.Component {
     this.setState({loading: true});
     let params = {
       baseCurrencyCode: functionalCurrencyCode,
-      language: this.props.language.code,
+      language: this.props.language.local,
       page: pagination.page,
       size: pagination.pageSize,
       setOfBooksId: setOfBooksId,
@@ -832,10 +834,10 @@ class CurrencySetting extends React.Component {
 // };
 function mapStateToProps(state) {
   return {
-    language:state.languages.languages,
-    languageList: state.languages.languageList,
+    language:state.languages,
     company: state.user.company,
     tenantMode: true,
+    proFile:state.user.proFile
   }
 }
 

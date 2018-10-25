@@ -152,8 +152,11 @@ class PayMyBacklash extends React.Component {
   canBacklashHandle = (values) => {
     values.payDateFrom && (values.payDateFrom = values.payDateFrom.format('YYYY-MM-DD'));
     values.payDateTo && (values.payDateTo = values.payDateTo.format('YYYY-MM-DD'));
+    if (JSON.stringify(values.applicant) !== '[]' && values.applicant){
+      (values.applicant = values.applicant[0]);
+    }
     if (JSON.stringify(values.partnerId) !== '[]' && values.partnerId) {
-      (values.partnerId = values.partnerId[0].id)
+      (values.partnerId = values.partnerId[0].id);
     }
     this.setState({ canBacklashSearchParams: values, canBacklashPage: 0 }, () => {
       this.getCanBacklashList()
