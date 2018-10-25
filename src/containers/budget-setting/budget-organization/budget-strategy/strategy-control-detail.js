@@ -1,8 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
-import menuRoute from 'routes/menuRoute'
 import config from 'config'
 import { Form, Button, Table, Input, message, Icon } from 'antd'
 const Search = Input.Search;
@@ -20,28 +18,28 @@ class StrategyControlDetail extends React.Component {
       loading: false,
       strategyControlId: null,
       infoList: [
-        {type: 'input', label: formatMessage({id: "common.sequence"}/*序号*/), id: 'detailSequence', isRequired: true, disabled: true},
-        {type: 'input', label: formatMessage({id: "budget.strategy.rule.code"}/*规则代码*/), id: 'detailCode', isRequired: true, disabled: true},
-        {type: 'value_list', label: formatMessage({id: "budget.strategy.control.strategy"}/*控制策略*/), id: 'controlMethod',
+        {type: 'input', label: this.$t({id: "common.sequence"}/*序号*/), id: 'detailSequence', isRequired: true, disabled: true},
+        {type: 'input', label: this.$t({id: "budget.strategy.rule.code"}/*规则代码*/), id: 'detailCode', isRequired: true, disabled: true},
+        {type: 'value_list', label: this.$t({id: "budget.strategy.control.strategy"}/*控制策略*/), id: 'controlMethod',
           isRequired: true, options: [], valueListCode: 2005, event: 'controlMethod'},
-        {type: 'input', label: formatMessage({id: "budget.strategy.rule.name"}/*控制规则名称*/), id: 'detailName', isRequired: true},
-        {type: 'value_list', label: formatMessage({id: "budget.strategy.message"}/*消息*/), id: 'messageCode',
+        {type: 'input', label: this.$t({id: "budget.strategy.rule.name"}/*控制规则名称*/), id: 'detailName', isRequired: true},
+        {type: 'value_list', label: this.$t({id: "budget.strategy.message"}/*消息*/), id: 'messageCode',
           options: [], valueListCode: 2022, isRequired: true, disabled: false},
-        {type: 'input', label: formatMessage({id: "budget.strategy.event"}/*事件*/), id: 'expWfEvent'},
+        {type: 'input', label: this.$t({id: "budget.strategy.event"}/*事件*/), id: 'expWfEvent'},
       ],
       infoData: {},
       updateState: false,
       baseInfoLoading: false,
       columns: [
-        {title: formatMessage({id: "budget.strategy.detail.type"}/*类型*/), dataIndex: 'id',
-          render:() => {return formatMessage({id: "budget.strategy.detail.formula"}/*公式*/)}},
-        {title: formatMessage({id: "budget.strategy.detail.control.object"}/*控制对象*/), dataIndex: 'object', render: value => <span>{value.label}</span>},
-        {title: formatMessage({id: "budget.strategy.detail.compare"}/*比较*/), dataIndex: 'range', render: value => <span>{value.label}</span>},
-        {title: formatMessage({id: "budget.strategy.detail.control.period"}/*控制期段*/), dataIndex: 'periodStrategy', render: value => <span>{value.label}</span>},
-        {title: formatMessage({id: "budget.strategy.detail.manner"}/*方式*/), dataIndex: 'manner', render: value => <span>{value.label}</span>},
-        {title: formatMessage({id: "common.operation"}/*操作*/), dataIndex: 'operator',
+        {title: this.$t({id: "budget.strategy.detail.type"}/*类型*/), dataIndex: 'id',
+          render:() => {return this.$t({id: "budget.strategy.detail.formula"}/*公式*/)}},
+        {title: this.$t({id: "budget.strategy.detail.control.object"}/*控制对象*/), dataIndex: 'object', render: value => <span>{value.label}</span>},
+        {title: this.$t({id: "budget.strategy.detail.compare"}/*比较*/), dataIndex: 'range', render: value => <span>{value.label}</span>},
+        {title: this.$t({id: "budget.strategy.detail.control.period"}/*控制期段*/), dataIndex: 'periodStrategy', render: value => <span>{value.label}</span>},
+        {title: this.$t({id: "budget.strategy.detail.manner"}/*方式*/), dataIndex: 'manner', render: value => <span>{value.label}</span>},
+        {title: this.$t({id: "common.operation"}/*操作*/), dataIndex: 'operator',
           render:(value, record)=>{return record.manner.value === 'FIXED_AMOUNT' ? value.label : '-'}},
-        {title: formatMessage({id: "budget.strategy.detail.value"}/*值*/), dataIndex: 'value',
+        {title: this.$t({id: "budget.strategy.detail.value"}/*值*/), dataIndex: 'value',
           render:(value, record)=>{return record.manner.value === 'PERCENTAGE' ? value+'%' : value}},
       ],
       data: [],
@@ -151,13 +149,13 @@ class StrategyControlDetail extends React.Component {
     if (params.controlMethod === 'NO_MESSAGE') {
       params.messageCode = undefined
     } else if (params.controlMethod !== 'NO_MESSAGE' && !params.messageCode) {
-      message.error(formatMessage({id: "budget.strategy.select.message"}/*请选择消息*/));
+      message.error(this.$t({id: "budget.strategy.select.message"}/*请选择消息*/));
       return;
     }
     this.setState({ baseInfoLoading: true }, () => {
       httpFetch.put(`${config.budgetUrl}/api/budget/control/strategy/details`, params).then((response)=>{
         if(response.status === 200) {
-          message.success(formatMessage({id: "common.save.success"}, {name: ""}/*保存成功*/));
+          message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           this.getBasicInfo();
           this.setState({ updateState: true, baseInfoLoading: false }, () => {
             this.setState({ updateState: false })
@@ -166,7 +164,7 @@ class StrategyControlDetail extends React.Component {
       }).catch((e)=>{
         this.setState({ updateState: false, baseInfoLoading: false });
         if(e.response){
-          message.error(`${formatMessage({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
+          message.error(`${this.$t({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
         }
       })
     })
@@ -217,11 +215,11 @@ class StrategyControlDetail extends React.Component {
                    loading={baseInfoLoading}/>
         <div className="table-header">
           <div className="table-header-title">
-            <h5>{formatMessage({id: "budget.strategy.detail.condition"}/*触发条件*/)}</h5>
-            {formatMessage({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}
+            <h5>{this.$t({id: "budget.strategy.detail.condition"}/*触发条件*/)}</h5>
+            {this.$t({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}
           </div>
           <div className="table-header-buttons">
-            <Button type="primary"  onClick={() => this.showSlide(true)}>{formatMessage({id: "common.create"}/*新建*/)}</Button>
+            <Button type="primary"  onClick={() => this.showSlide(true)}>{this.$t({id: "common.create"}/*新建*/)}</Button>
           </div>
         </div>
         <Table columns={columns}
@@ -234,23 +232,19 @@ class StrategyControlDetail extends React.Component {
                })}
                bordered
                size="middle"/>
-        <SlideFrame title={(isNew ? formatMessage({id: "common.create"}/*新建*/) : formatMessage({id: "common.edit"}/*编辑*/)) + ' ' + formatMessage({id: "budget.strategy.detail.condition"}/*触发条件*/)}
+        <SlideFrame title={(isNew ? this.$t({id: "common.create"}/*新建*/) : this.$t({id: "common.edit"}/*编辑*/)) + ' ' + this.$t({id: "budget.strategy.detail.condition"}/*触发条件*/)}
                     show={showSlideFrame}
                     content={NewStrategyControlDetail}
                     afterClose={this.handleCloseSlide}
                     onClose={() => this.showUpdateSlide(false)}
                     params={{newParams, isNew}}/>
         <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}>
-          <Icon type="rollback" style={{marginRight:'5px'}}/>{formatMessage({id:"common.back"}/*返回*/)}
+          <Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"}/*返回*/)}
         </a>
       </div>
     )
   }
 }
-
-StrategyControlDetail.contextTypes={
-  router:React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

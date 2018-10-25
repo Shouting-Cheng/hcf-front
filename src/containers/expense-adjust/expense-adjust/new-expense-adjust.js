@@ -24,7 +24,7 @@ import httpFetch from 'share/httpFetch';
 import moment from 'moment';
 import Upload from 'widget/upload';
 import Chooser from 'widget/chooser';
-import expenseAdjustService from 'containers/expense-adjust/expense-adjust.service';
+import expenseAdjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 import { routerRedux } from 'dva/router';
 
 class NewExpenseAdjust extends React.Component {

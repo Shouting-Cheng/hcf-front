@@ -26,7 +26,7 @@ import CustomTable from 'widget/custom-table';
 import moment from 'moment';
 import SearchArea from 'widget/search-area';
 
-import expenseAdjustService from 'containers/expense-adjust/expense-adjust.service';
+import expenseAdjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 
 const Search = Input.Search;
 
