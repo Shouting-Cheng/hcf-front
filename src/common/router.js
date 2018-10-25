@@ -590,11 +590,11 @@ export const getRouterData = app => {
       parent: '/admin-setting/form-list',
     },
     //供应商类型
-    '/admin-setting/supplier-type':{
-      component:dynamicWrapper(app,[],() =>
-      import('containers/setting/supplier-type/supplier-type')
+    '/admin-setting/supplier-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/supplier-type/supplier-type')
       ),
-      name:'供应商类型定义',
+      name: '供应商类型定义',
     },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
@@ -851,7 +851,7 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag':{
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
@@ -896,6 +896,22 @@ export const getRouterData = app => {
       ),
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
+    },
+
+    '/admin-setting/subject-sheet': {
+      //科目表定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet.js')
+      ),
+      name: 'subject-sheet',
+    },
+    '/admin-setting/subject-sheet/subject-sheet-detail/:accountSetId': {
+      //科目表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet-detail.js')
+      ),
+      name: 'subject-sheet-detail',
+      parent: '/admin-setting/subject-sheet',
     },
 
 
