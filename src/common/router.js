@@ -615,6 +615,70 @@ export const getRouterData = app => {
       ),
       name: '表单管理',
     },
+    //值列表
+    '/admin-setting/value-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/value-list.js')
+      ),
+      name: 'value-list',
+    },
+    //新建值列表
+    '/admin-setting/new-value-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/new-value-list.js')
+      ),
+      name: 'new-value-list',
+      parent: "/admin-setting/value-list"
+    },
+    //值列表详情
+    '/admin-setting/value-list-detail/:customEnumerationOID/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/new-value-list.js')
+      ),
+      name: 'value-list',
+      parent: "/admin-setting/value-list"
+    },
+    //编码规则对象定义
+    '/admin-setting/coding-rule-object': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule-object.js')
+      ),
+      name: 'coding-rule-object',
+    },
+    //新建编码规则对象定义
+    '/admin-setting/new-coding-rule-object': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/new-coding-rule-object.js')
+      ),
+      name: 'new-coding-rule-object',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //编码规则
+    '/admin-setting/coding-rule/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule.js')
+      ),
+      name: 'coding-rule',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //新建编码规则
+    '/admin-setting/new-coding-rule/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/new-coding-rule.js')
+      ),
+      name: 'new-coding-rule',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //编码规则明细
+    '/admin-setting/coding-rule-value/:id/:ruleId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule-value.js')
+      ),
+      name: 'coding-rule-value',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    
+
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/form/form-detail/form-detail.js')
@@ -642,7 +706,6 @@ export const getRouterData = app => {
       ),
       name: 'finance-audit',
     },
-
     '/financial-accounting-setting/section-structure': {
       //科目段结构，
       component: dynamicWrapper(app, [], () =>
