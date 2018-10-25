@@ -30,7 +30,7 @@ import FormCard from 'containers/contract/my-contract/form-card';
 import 'styles/contract/my-contract/contract-detail.scss';
 import ApproveHistory from 'components/Widget/Template/approve-history-work-flow';
 import CustomTable from 'components/Widget/custom-table';
-import VoucherInfo from 'containers/reimburse/voucher-info';
+import VoucherInfo from 'containers/reimburse/my-reimburse/voucher-info';
 
 class ContractDetailCommon extends React.Component {
   constructor(props) {

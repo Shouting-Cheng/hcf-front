@@ -192,22 +192,22 @@ export const getRouterData = app => {
       parent: '/pre-payment/my-pre-payment',
     },
     '/my-reimburse': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/my-reimburse.js')),
       name: 'my-reimburse',
     },
     '/my-reimburse/reimburse-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/reimburse-detail.js')),
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
     '/my-reimburse/edit-reimburse/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
@@ -608,6 +608,27 @@ export const getRouterData = app => {
       ),
       name: '供应商分配公司',
       parent: '/financial-management/supplier-maintain',
+    },
+    '/financial-management/reimburse-review': {
+      //财务管理-供应商维护
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review.js')
+      ),
+      name: 'reimburse-review',
+    },
+    '/financial-management/reimburse-review/reimburse-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review-detail.js')
+      ),
+      name: '报账单审核',
+      parent: '/financial-management/reimburse-review',
+    },
+    '/financial-management/reimburse-review/loan-request-detail-review/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/loan-request-detail.js')
+      ),
+      name: '借款单审核',
+      parent: '/financial-management/reimburse-review',
     },
     '/admin-setting/form-list': {
       component: dynamicWrapper(app, [], () =>

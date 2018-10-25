@@ -13,7 +13,7 @@ import PayDetail from 'containers/pay/pay-workbench/payment-detail' //支付详�
 import PrepaymentDetail from 'containers/pre-payment/my-pre-payment/pre-payment-detail' //预付款详情
 import ApproveHistory from "./approve-history-work-flow"
 import PaymentRequisitionDetail from 'containers/payment-requisition/new-payment-requisition-detail' //付款申请单
-import PublicReport from 'containers/reimburse/reimburse-detail' // 对公报账单
+import PublicReport from 'containers/reimburse/my-reimburse/reimburse-detail' // 对公报账单
 
 class PayRefundCheckDetail extends React.Component {
     constructor(props) {

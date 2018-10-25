@@ -28,10 +28,10 @@ const Option = Select.Option;
 const { TextArea } = Input;
 import 'styles/my-account/new-expense.scss';
 
-import InvoiceInfo from 'containers/reimburse/invoice-detail';
-import reimburseService from 'containers/reimburse/reimburse.service';
+import InvoiceInfo from 'containers/reimburse/my-reimburse/invoice-detail';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import config from 'config';
-import SelectApplication from 'containers/reimburse/select-application';
+import SelectApplication from 'containers/reimburse/my-reimburse/select-application';
 import Chooser from 'widget/chooser';
 import ShareDetail from 'containers/financial-management/expense-reverse/share-detail.js';
 
