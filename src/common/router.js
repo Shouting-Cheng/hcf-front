@@ -1010,6 +1010,13 @@ export const getRouterData = app => {
       name: '预算审核详情',
       parent: '/approval-management/budget-journal-check',
     },
+    //会计期间定义
+    '/finance-setting/account-period-define': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-define/account-period-define.js')
+      ),
+      name: '会计期间定义',
+    },
 
 
     // '/user/:id': {
