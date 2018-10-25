@@ -930,7 +930,13 @@ export const getRouterData = app => {
       ),
       name: '编辑汇率',
       parent:'/admin-setting/currency-setting'
-    }
+    },
+    '/admin-setting/company-level-define': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-level-define/company-level-define.js')
+      ),
+      name: '公司级别定义',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
