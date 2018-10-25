@@ -1018,6 +1018,39 @@ export const getRouterData = app => {
       name: '会计期间定义',
     },
 
+    },
+    //企业管理-公司维护
+    '/enterprise-manage/company-maintain': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/company-maintain.js')
+      ),
+      name: 'company-maintain',
+      parent: '/enterprise-manage',
+    },
+    //企业管理-公司维护-新建编辑公司
+    '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/new-company-maintain.js')
+      ),
+      name: 'new-company-maintain',
+      parent: '/enterprise-manage/company-maintain',
+    },
+    //企业管理-公司维护-详情
+    '/enterprise-manage/company-maintain/company-maintain-detail/:companyOId/:companyId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/company-maintain-detail.js')
+      ),
+      name: 'company-maintain-detail',
+      parent: '/enterprise-manage/company-maintain',
+    },
+    //企业管理-公司维护-公司详情-新建银行账户
+    '/enterprise-manage/company-maintain/new-bank-account/:companyOId/:companyId/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/new-bank-account.js')
+      ),
+      name: 'new-bank-account',
+      parent: '/enterprise-manage/company-maintain/company-maintain-detail',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

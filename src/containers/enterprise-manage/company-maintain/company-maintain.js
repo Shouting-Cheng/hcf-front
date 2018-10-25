@@ -1,14 +1,10 @@
-import { messages } from 'share/common';
-/**
- * Created by 13576 on 2017/11/1.
- */
 //为了0416迭代上线，重构此文件
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 
 import { Button, Table, Badge, Popover } from 'antd';
-import menuRoute from 'routes/menuRoute';
-import SearchArea from 'components/search-area';
+import SearchArea from 'components/Widget/search-area';
 
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
 import config from 'config';
@@ -37,7 +33,7 @@ class CompanyMaintain extends React.Component {
         {
           type: 'select',
           id: 'setOfBooksId',
-          label: messages('setting.set.of.book'),
+          label: this.$t('setting.set.of.book'),
           options: [],
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
@@ -49,7 +45,7 @@ class CompanyMaintain extends React.Component {
         {
           type: 'select',
           id: 'legalEntityId',
-          label: messages('company.maintain.company.legalEntityName') /*法人*/,
+          label: this.$t('company.maintain.company.legalEntityName') /*法人*/,
           options: [],
           getUrl: `${config.baseUrl}/api/all/legalentitys`,
           method: 'get',
@@ -59,19 +55,19 @@ class CompanyMaintain extends React.Component {
         {
           type: 'input',
           id: 'companyCode',
-          label: messages('company.maintain.company.companyCode') /*公司代码*/,
+          label: this.$t('company.maintain.company.companyCode') /*公司代码*/,
         },
         {
           type: 'input',
           id: 'name',
-          label: messages('company.maintain.company.name') /*公司名称*/,
+          label: this.$t('company.maintain.company.name') /*公司名称*/,
         },
       ],
 
       columns: [
         {
           /*公司代码*/
-          title: messages('company.maintain.company.companyCode'),
+          title: this.$t('company.maintain.company.companyCode'),
           key: 'companyCode',
           dataIndex: 'companyCode',
           render: desc => (
@@ -82,7 +78,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*公司名称*/
-          title: messages('company.maintain.company.name'),
+          title: this.$t('company.maintain.company.name'),
           key: 'name',
           dataIndex: 'name',
           render: desc => (
@@ -93,7 +89,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*账套*/
-          title: messages('company.maintain.company.setOfBooksName'),
+          title: this.$t('company.maintain.company.setOfBooksName'),
           key: 'setOfBooksName',
           dataIndex: 'setOfBooksName',
           render: desc => (
@@ -104,7 +100,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*法人*/
-          title: messages('company.maintain.company.legalEntityName'),
+          title: this.$t('company.maintain.company.legalEntityName'),
           key: 'legalEntityName',
           dataIndex: 'legalEntityName',
           render: desc => (
@@ -115,7 +111,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*公司级别*/
-          title: messages('company.maintain.company.companyLevelName'),
+          title: this.$t('company.maintain.company.companyLevelName'),
           key: 'companyLevelName',
           dataIndex: 'companyLevelName',
           render: desc => (
@@ -126,7 +122,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*上级机构*/
-          title: messages('company.maintain.company.parentCompanyName'),
+          title: this.$t('company.maintain.company.parentCompanyName'),
           key: 'parentCompanyName',
           dataIndex: 'parentCompanyName',
           render: desc => (
@@ -137,7 +133,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*有效日期从*/
-          title: messages('company.maintain.company.startDateActive'),
+          title: this.$t('company.maintain.company.startDateActive'),
           key: 'startDateActive',
           dataIndex: 'startDateActive',
           render(recode) {
@@ -150,7 +146,7 @@ class CompanyMaintain extends React.Component {
         },
         {
           /*有效日期至*/
-          title: messages('company.maintain.company.endDateActive'),
+          title: this.$t('company.maintain.company.endDateActive'),
           key: 'endDateActive',
           dataIndex: 'endDateActive',
           render(recode) {
@@ -162,20 +158,18 @@ class CompanyMaintain extends React.Component {
           },
         },
         {
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           dataIndex: 'enabled',
           width: 100,
           render: isEnabled => (
             <Badge
               status={isEnabled ? 'success' : 'error'}
-              text={
-                isEnabled ? messages('common.status.enable') : messages('common.status.disable')
-              }
+              text={isEnabled ? this.$t('common.status.enable') : this.$t('common.status.disable')}
             />
           ),
         },
         {
-          title: messages('common.operation'), //操作
+          title: this.$t('common.operation'), //操作
           dataIndex: 'operation',
           width: '10%',
           key: 'id',
@@ -183,18 +177,18 @@ class CompanyMaintain extends React.Component {
             <span>
               <a style={{ marginRight: 10 }} onClick={e => this.handleRowClick(e, record)}>
                 {/*详情*/}
-                {messages('common.detail')}
+                {this.$t('common.detail')}
               </a>
               <a onClick={e => this.editItem(e, record)}>
                 {/*编辑*/}
-                {messages('common.edit')}
+                {this.$t('common.edit')}
               </a>
             </span>
           ),
         },
       ],
-      newCompanyMaintainPage: menuRoute.getRouteItem('new-company-maintain', 'key'), //公司新建
-      companyMaintainDetailPage: menuRoute.getRouteItem('company-maintain-detail', 'key'), //公司详情
+      // newCompanyMaintainPage: menuRoute.getRouteItem('new-company-maintain', 'key'), //公司新建
+      // companyMaintainDetailPage: menuRoute.getRouteItem('company-maintain-detail', 'key'), //公司详情
     };
   }
 
@@ -272,21 +266,40 @@ class CompanyMaintain extends React.Component {
   };
   //新建
   handleCreate = () => {
-    let path = this.state.newCompanyMaintainPage.url.replace(':flag', 'create');
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/new-company-maintain/create/:companyOID`,
+      })
+    );
+    // let path = this.state.newCompanyMaintainPage.url.replace(':flag', 'create');
+    // this.context.router.push(path);
   };
   //跳到新增页面，进行编辑
   editItem = (e, record) => {
     //companyOID需要传过去的，过滤本公司需要用
-    let path = this.state.newCompanyMaintainPage.url.replace(':companyOID', record.companyOID);
-    path = path.replace(':flag', record.id);
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/new-company-maintain/${record.id}/${
+          record.companyOID
+        }`,
+      })
+    );
+    // let path = this.state.newCompanyMaintainPage.url.replace(':companyOID', record.companyOID);
+    // path = path.replace(':flag', record.id);
+    // this.context.router.push(path);
   };
   //跳转到详情
   handleRowClick = (e, value) => {
-    let path = this.state.companyMaintainDetailPage.url.replace(':companyOId', value.companyOID);
-    path = path.replace(':companyId', value.id);
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/company-maintain-detail/${
+          value.companyOID
+        }/${value.id}`,
+      })
+    );
+    // let path = this.state.companyMaintainDetailPage.url.replace(':companyOId', value.companyOID);
+    // path = path.replace(':companyId', value.id);
+    // this.context.router.push(path);
   };
 
   render() {
@@ -300,13 +313,13 @@ class CompanyMaintain extends React.Component {
         />
         <div className="table-header">
           <div className="table-header-title">
-            {messages('common.total', { total: `${pagination.total}` })}
+            {this.$t('common.total', { total: `${pagination.total}` })}
           </div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleCreate}>
               {/*新 建*/}
-              {messages('common.create')}
+              {this.$t('common.create')}
             </Button>
           </div>
         </div>
@@ -324,13 +337,9 @@ class CompanyMaintain extends React.Component {
   }
 }
 
-CompanyMaintain.contextTypes = {
-  router: React.PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
-    organization: state.login.organization,
+    organization: state.user.organization,
   };
 }
 
