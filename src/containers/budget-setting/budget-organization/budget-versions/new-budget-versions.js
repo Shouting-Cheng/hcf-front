@@ -23,8 +23,6 @@ class NewBudgetVersions extends React.Component {
       statusOptions:[],
       checkoutCodeData: [],
       loading: false,
-      budgetVersionsDetailDetailPage: menuRoute.getRouteItem('budget-versions-detail', 'key'),    //预算版本详情的页面项
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key'),  //预算组织详情的页面项
     };
   }
 
@@ -73,7 +71,7 @@ class NewBudgetVersions extends React.Component {
       if(response.status === 200){
         message.success(this.$t({id: "common.create.success"}, {name: this.$t({id: "budgetVersion.version"})}));
         this.setState({loading: false});
-        this.props.close(true);
+        this.props.onClose(true);
       }
     }).catch(e => {
       this.setState({loading: false});
@@ -91,7 +89,7 @@ class NewBudgetVersions extends React.Component {
       if(response.status === 200){
         message.success(this.$t({id: "common.operate.success"}));
         this.setState({loading: false});
-        this.props.close(true);
+        this.props.onClose(true);
       }
     }).catch(e => {
       this.setState({loading: false});
@@ -104,7 +102,7 @@ class NewBudgetVersions extends React.Component {
 
   onCancel =()=>{
     this.props.form.resetFields()
-    this.props.close(true);
+    this.props.onClose(true);
   };
 
   render() {
@@ -146,7 +144,7 @@ class NewBudgetVersions extends React.Component {
                 initialValue: version.versionCode,
                 rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
               })(
-                <Input disabled={version.id}/>
+                <Input disabled={!!version.id}/>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label={this.$t({id: "budgetVersion.versionName"})}>
@@ -186,7 +184,7 @@ class NewBudgetVersions extends React.Component {
               )}
             </FormItem>
             <FormItem {...formItemLayout}
-                      label={this.$t({id: "budgetVersion.enabled"})}>
+                      label={this.$t({id: "common.column.status"})}>
               {getFieldDecorator('enabled', {
                   valuePropName: "checked",
                   initialValue: typeof version.id === 'undefined' ? true: version.enabled,
@@ -212,7 +210,7 @@ const WrappedNewBudgetVersions = Form.create()(NewBudgetVersions);
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

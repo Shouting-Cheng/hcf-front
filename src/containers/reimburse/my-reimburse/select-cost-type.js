@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Button, Icon, Input, Card, message } from 'antd';
 
-import reimburseService from 'containers/reimburse/reimburse.service';
-import '../../styles/reimburse/select-cost-type.scss';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
+import '../../../styles/reimburse/select-cost-type.scss';
 import ExpenseTypeSelector from 'components/Template/expense-type-selector';
 
 const Search = Input.Search;

@@ -53,7 +53,7 @@ class BudgetVersions extends React.Component {
           }
         },
         {
-          title: this.$t({id: "budgetVersion.enabled"}), dataIndex: 'enabled', key: 'enabled',
+          title: this.$t({id: "common.column.status"}), dataIndex: 'enabled', key: 'enabled',
           render: (recode, text) => {
             return (
               <div >
@@ -85,9 +85,6 @@ class BudgetVersions extends React.Component {
       redirect: true,
       loading: true,
       newData: {versionCode: ''},
-      newBudgetVersionsPage: menuRoute.getRouteItem('new-budget-versions', 'key'),
-      budgetVersionsDetailDetailPage: menuRoute.getRouteItem('budget-versions-detail', 'key'),    //预算版本详情的页面项
-
     };
 
   }
@@ -237,10 +234,12 @@ class BudgetVersions extends React.Component {
 
         <SlideFrame title={slideFrame.title}
                     show={slideFrame.visible}
-                    content={NewBudgetVersion}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.showSlide(false)}
-                    params={slideFrame.params}/>
+                    onClose={() => this.showSlide(false)}>
+          <NewBudgetVersion
+            onClose={this.handleCloseSlide}
+
+            params={slideFrame.params}/>
+        </SlideFrame>
       </div>
     )
   }
@@ -249,7 +248,7 @@ class BudgetVersions extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

@@ -11,18 +11,19 @@
  */
 import React from 'react';
 import { Button, Form, Input, Col, Row, Switch, message, Icon, Select } from 'antd';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 
 import config from 'config';
 import 'styles/enterprise-manage/legal-person/new-legal-person.scss';
 import LPService from 'containers/enterprise-manage/legal-person/legal-person.service';
-import Selector from 'components/selector';
-import { LanguageInput } from 'components/index';
-import { messages, isEmptyObj, getLanguageName } from 'share/common';
+import Selector from 'components/Widget/selector';
+import { LanguageInput } from 'components/Widget/index';
+import { isEmptyObj, getLanguageName } from 'utils/extend';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-import { ImageUpload } from 'components/index';
+import { ImageUpload } from 'components/Widget/index';
 
 class NewLegalPerson extends React.Component {
   constructor(props) {
@@ -35,9 +36,9 @@ class NewLegalPerson extends React.Component {
           `${config.baseUrl}/api/find/parent/legalentitys?setOfBookID=${
             props.company.setOfBooksId
           }&legalEntityId=` +
-          (this.props.params.legalPersonID === ':legalPersonID'
+          (this.props.match.params.legalPersonID === ':legalPersonID'
             ? ''
-            : this.props.params.legalPersonID),
+            : this.props.match.params.legalPersonID),
         label: record => `${record.entityName}`,
         key: 'id',
       },
@@ -66,7 +67,7 @@ class NewLegalPerson extends React.Component {
         parentLegalEntityId: '', //上级法人
         attachmentId: '', //发票二维码上传图片后的id
         mainLanguage: 'zh_cn', //开票显示语言
-        mainLanguageName: messages('legal.person.new.chinese'), //简体中文
+        mainLanguageName: this.$t('legal.person.new.chinese'), //简体中文
         i118entityName: null, //对应的是companyName多语言
         i118accountBank: null,
         i118address: null,
@@ -81,14 +82,14 @@ class NewLegalPerson extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.params.legalPersonOID === ':legalPersonOID') {
+    if (this.props.match.params.legalPersonOID === ':legalPersonOID') {
     } else {
       this.getLegalPersonDetail();
     }
   }
 
   getLegalPersonDetail = () => {
-    LPService.getLegalPersonDetail(this.props.params.legalPersonOID).then(res => {
+    LPService.getLegalPersonDetail(this.props.match.params.legalPersonOID).then(res => {
       let data = res.data;
       let uploadedImages = [];
       let uploadedImage = this.getUploadedImage(data);
@@ -107,7 +108,7 @@ class NewLegalPerson extends React.Component {
     });
   };
 
-  getUploadedImage = data => {
+  getUploadedImage = (data) => {
     let uploadedImage = {};
     if (data.iconURL) {
       uploadedImage.iconURL = data.iconURL;
@@ -127,14 +128,14 @@ class NewLegalPerson extends React.Component {
   };
 
   //校验多语言
-  validateI18n = legalPerson => {
+  validateI18n = (legalPerson) => {
     if (
       legalPerson.companyName === '' ||
       legalPerson.companyName === undefined ||
       legalPerson.companyName === null
     ) {
       // 请填写法人实体名称
-      message.error(messages('legal.person.new.title.p'));
+      message.error(this.$t('legal.person.new.title.p'));
       return false;
     }
     if (
@@ -143,7 +144,7 @@ class NewLegalPerson extends React.Component {
       legalPerson.accountBank === null
     ) {
       // 请填写开户行
-      message.error(messages('legal.person.new.account.p'));
+      message.error(this.$t('legal.person.new.account.p'));
       return false;
     }
     if (
@@ -152,19 +153,19 @@ class NewLegalPerson extends React.Component {
       legalPerson.address === null
     ) {
       // 请填写地址
-      message.error(messages('legal.person.new.address.p'));
+      message.error(this.$t('legal.person.new.address.p'));
       return false;
     }
     return true;
   };
 
-  handleSave = e => {
+  handleSave = (e) => {
     e.preventDefault();
     let _legalPerson = this.state.legalPerson;
     if (this.validateI18n(_legalPerson)) {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          if (this.props.params.legalPersonOID === ':legalPersonOID') {
+          if (this.props.match.params.legalPersonOID === ':legalPersonOID') {
             //创建法人实体
             let legalPerson = Object.assign({}, values, {
               attachmentId: values['attachmentId'][0] ? values['attachmentId'][0].id : '',
@@ -207,10 +208,14 @@ class NewLegalPerson extends React.Component {
     }
   };
   //保存所做的详情修改
-  handleUpdate = legalPerson => {
+  handleUpdate = (legalPerson) => {
     LPService.updateLegalPerson(legalPerson)
       .then(res => {
-        this.context.router.goBack();
+        this.props.dispatch(
+          routerRedux.replace({
+             pathname: '/enterprise-manage/legal-person',
+             })
+          );
         this.setState({
           legalPerson: res.data,
         });
@@ -218,7 +223,7 @@ class NewLegalPerson extends React.Component {
       .catch(res => {});
   };
   //创建法人实体
-  createLegalPerson = legalPerson => {
+  createLegalPerson = (legalPerson) => {
     this.setState({
       loading: true,
     });
@@ -228,7 +233,11 @@ class NewLegalPerson extends React.Component {
         this.setState({
           loading: false,
         });
-        this.context.router.goBack();
+        this.props.dispatch(
+          routerRedux.replace({
+             pathname: '/enterprise-manage/legal-person',
+             })
+          );
       })
       .catch(res => {
         this.setState({
@@ -237,12 +246,16 @@ class NewLegalPerson extends React.Component {
       });
   };
   //点击取消，返回
-  handleCancel = e => {
+  handleCancel = (e) => {
     e.preventDefault();
-    this.context.router.goBack();
+    this.props.dispatch(
+      routerRedux.replace({
+         pathname: '/enterprise-manage/legal-person',
+         })
+      );
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     if (this.state.loading) {
       this.setState({
         loading: false,
@@ -251,7 +264,7 @@ class NewLegalPerson extends React.Component {
   };
 
   //上传图片后的回调函数
-  handleUploadImageChange = fileList => {};
+  handleUploadImageChange = (fileList) => {};
 
   //地址：多语言
   i18nAddressChange = (name, i18nName) => {
@@ -273,25 +286,25 @@ class NewLegalPerson extends React.Component {
     legalPerson.i18n.entityName = i18nName;
   };
   //渲染语言
-  renderLanguageList = list => {
+  renderLanguageList = (list) => {
+
     if (list.length > 1) {
-      return list.map(item => {
+      return list.map((item) => {
         return (
-          <Option value={item.code} key={item.code}>
-            {item.comments}
-          </Option>
-        );
-      });
+          <Option value={item.code}
+                  key={item.code}>{item.comments}</Option>
+        )
+      })
     } else {
       return (
         <Option value="zh_cn" key={1}>
           {/*简体中文*/}
-          {messages('legal.person.new.chinese')}
+          {messages("legal.person.new.chinese")}
         </Option>
-      );
+      )
     }
-  };
-  handleLanguage = value => {
+  }
+  handleLanguage = (value) => {
     const { legalPerson } = this.state;
     legalPerson.mainLanguage = value;
     legalPerson.mainLanguageName = getLanguageName(value, this.props.languageList);
@@ -313,7 +326,7 @@ class NewLegalPerson extends React.Component {
                 <span className="new-lp-row-re">*</span>
                 <span>
                   {/*法人实体名称*/}
-                  {messages('legal.person.new.name')}
+                  {this.$t('legal.person.new.name')}
                 </span>
               </div>
               <LanguageInput
@@ -329,7 +342,7 @@ class NewLegalPerson extends React.Component {
                 <span className="new-lp-row-re">*</span>
                 <span>
                   {/*开户行*/}
-                  {messages('legal.person.new.account')}
+                  {this.$t('legal.person.new.account')}
                 </span>
               </div>
               <LanguageInput
@@ -345,7 +358,7 @@ class NewLegalPerson extends React.Component {
                 <span className="new-lp-row-re">*</span>
                 <span>
                   {/*地址*/}
-                  {messages('legal.person.new.address')}
+                  {this.$t('legal.person.new.address')}
                 </span>
               </div>
               <LanguageInput
@@ -359,20 +372,20 @@ class NewLegalPerson extends React.Component {
           </Row>
           <Row gutter={24}>
             <Col span={8}>
-              <FormItem label={messages('legal.person.new.mobile')} /* 电话*/ colon={true}>
+              <FormItem label={this.$t('legal.person.new.mobile')} /* 电话*/ colon={true}>
                 {getFieldDecorator('telephone', {
                   initialValue: legalPerson.telephone,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
                       max: 20,
-                      message: messages('legal.person.new.tips3'), //"不能超过20个字符"
+                      message: this.$t('legal.person.new.tips3'), //"不能超过20个字符"
                     },
                     {
-                      message: messages('legal.person.new.tips2'), //"只能是数字与-",
+                      message: this.$t('legal.person.new.tips2'), //"只能是数字与-",
                       validator: (rule, value, cb) => {
                         if (value === null || value === undefined || value === '') {
                           cb();
@@ -389,20 +402,20 @@ class NewLegalPerson extends React.Component {
                       },
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={messages('legal.person.new.tax')} /* 纳税人识别号*/ colon={true}>
+              <FormItem label={this.$t('legal.person.new.tax')} /* 纳税人识别号*/ colon={true}>
                 {getFieldDecorator('taxpayerNumber', {
                   initialValue: legalPerson.taxpayerNumber,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
-                      message: messages('legal.person.new.tips1'), //"纳税人识别号数字与字母，长度不能超过30",
+                      message: this.$t('legal.person.new.tips1'), //"纳税人识别号数字与字母，长度不能超过30",
                       validator: (rule, value, cb) => {
                         if (value === null || value === undefined || value === '') {
                           cb();
@@ -419,19 +432,19 @@ class NewLegalPerson extends React.Component {
                       },
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               {/*todo*/}
               {/*必须是数字或者减号*/}
-              <FormItem label={messages('legal.person.new.bank.card')} /* 银行账号*/ colon={true}>
+              <FormItem label={this.$t('legal.person.new.bank.card')} /* 银行账号*/ colon={true}>
                 {getFieldDecorator('cardNumber', {
                   initialValue: legalPerson.cardNumber,
                   rules: [
-                    { required: true, message: messages('common.please.enter') },
+                    { required: true, message: this.$t('common.please.enter') },
                     {
-                      message: messages('legal.person.new.tips2'), //"只能是数字与-",
+                      message: this.$t('legal.person.new.tips2'), //"只能是数字与-",
                       validator: (rule, value, cb) => {
                         if (value === null || value === undefined || value === '') {
                           cb();
@@ -449,27 +462,27 @@ class NewLegalPerson extends React.Component {
                     },
                     {
                       max: 30,
-                      message: messages('legal.person.new.tips4'), //不能超过30个字符
+                      message: this.$t('legal.person.new.tips4'), //不能超过30个字符
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
-              <FormItem label={messages('legal.person.new.sob')} /* 账套*/ colon={true}>
+              <FormItem label={this.$t('legal.person.new.sob')} /* 账套*/ colon={true}>
                 {getFieldDecorator('setOfBooksId', {
                   initialValue: legalPerson.setOfBooksName,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.select'),
+                      message: this.$t('common.please.select'),
                     },
                   ],
                 })(
                   <Selector
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     disabled={legalPerson.setOfBooksId}
                     selectorItem={this.state.sob}
                   />
@@ -478,14 +491,14 @@ class NewLegalPerson extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('legal.person.new.parent.legal')} /* 上级法人*/
+                label={this.$t('legal.person.new.parent.legal')} /* 上级法人*/
                 colon={true}
               >
                 {getFieldDecorator('parentLegalEntityId', {
                   initialValue: legalPerson.parentLegalEntityName,
                 })(
                   <Selector
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     selectorItem={this.state.parentLegalEntity}
                   />
                 )}
@@ -493,7 +506,7 @@ class NewLegalPerson extends React.Component {
             </Col>
             <Col span={8}>
               {/*状态*/}
-              <FormItem label={messages('common.status', { status: '' })} colon={true}>
+              <FormItem label={this.$t('common.status', { status: '' })} colon={true}>
                 {getFieldDecorator('enable', {
                   initialValue: legalPerson.enable,
                   valuePropName: 'checked',
@@ -510,7 +523,7 @@ class NewLegalPerson extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('legal.person.new.mainLanguage')} /* 开票显示语言*/
+                label={this.$t('legal.person.new.mainLanguage')} /* 开票显示语言*/
                 colon={true}
               >
                 {getFieldDecorator('mainLanguage', {
@@ -519,7 +532,7 @@ class NewLegalPerson extends React.Component {
                   <Select
                     className="select-language"
                     showSearch
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     optionFilterProp="children"
                     onChange={this.handleLanguage}
                     filterOption={(input, option) =>
@@ -535,7 +548,7 @@ class NewLegalPerson extends React.Component {
 
           <Row>
             <Col>
-              <FormItem label={messages('legal.person.new.qcode')} /* 二维码*/ colon={true}>
+              <FormItem label={this.$t('legal.person.new.qcode')} /* 二维码*/ colon={true}>
                 {getFieldDecorator('attachmentId', {
                   initialValue: legalPerson.attachmentId,
                   rules: [],
@@ -555,10 +568,10 @@ class NewLegalPerson extends React.Component {
           </Row>
           <div>
             <Button type="primary" loading={loading} htmlType="submit">
-              {messages('common.save') /*保存*/}
+              {this.$t('common.save') /*保存*/}
             </Button>
             <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
-              {messages('common.cancel') /*取消*/}
+              {this.$t('common.cancel') /*取消*/}
             </Button>
           </div>
         </Form>
@@ -567,16 +580,14 @@ class NewLegalPerson extends React.Component {
   }
 }
 
-NewLegalPerson.contextTypes = {
-  router: React.PropTypes.object,
-};
+
 
 function mapStateToProps(state) {
   return {
-    languageList: state.login.languageList,
-    language: state.main.language,
-    user: state.login.user,
-    company: state.login.company,
+    languageList: state.languages.languageList,
+    language: state.languages,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 

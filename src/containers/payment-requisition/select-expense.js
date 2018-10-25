@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import httpFetch from 'share/httpFetch';
 import SearchArea from 'widget/search-area';
 import config from 'config';
-import ExpreportDetail from 'containers/reimburse/reimburse-detail1'; // todo
+import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
 import PropTypes from 'prop-types';
 
 class SelectExpense extends React.Component {

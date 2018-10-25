@@ -217,18 +217,19 @@ class BudgetItemType extends React.Component {
 
         <SlideFrame title={this.$t({id: "budgetItemType.newItemType"})}
                     show={showSlideFrameNew}
-                    content={WrappedNewBudgetItemType}
-                    afterClose={this.handleCloseNewSlide}
-                    onClose={() => this.showSlideNew(false)}
-                    params={{...updateParams,flag: showSlideFrameNew}}/>
+                    onClose={() => this.showSlideNew(false)}>
+          <WrappedNewBudgetItemType
+            onClose={this.handleCloseNewSlide}
+            params={{...updateParams,flag: showSlideFrameNew}}/>
+        </SlideFrame>
 
         <SlideFrame title={this.$t({id: "budgetItemType.editItemType"})}
                     show={showSlideFramePut}
-                    content={WrappedPutBudgetItemType}
-                    afterClose={this.handleCloseUpdateSlide}
-                    onClose={() => this.showSlidePut(false)}
-                    params={{...updateParams,flag: showSlideFramePut}}/>
-
+                    onClose={() => this.showSlidePut(false)}>
+          <WrappedPutBudgetItemType
+            onClose={this.handleCloseUpdateSlide}
+            params={{...updateParams,flag: showSlideFramePut}}/>
+        </SlideFrame>
 
       </div>
     );
@@ -238,7 +239,7 @@ class BudgetItemType extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

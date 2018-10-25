@@ -46,7 +46,7 @@ class NewBudgetScenarios extends React.Component{
         httpFetch.post(`${config.budgetUrl}/api/budget/scenarios`, values).then((res)=>{
           this.setState({loading: false});
           if(res.status === 200){
-            this.props.close(true);
+            this.props.onClose(true);
             this.props.form.resetFields();
             message.success(this.$t({id: "common.create.success"}, {name: ""})/*新建成功*/);
           }
@@ -62,7 +62,7 @@ class NewBudgetScenarios extends React.Component{
 
   onCancel = () =>{
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
   };
 
   switchChange = () => {

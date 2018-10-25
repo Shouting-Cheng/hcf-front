@@ -7,6 +7,7 @@ import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 import 'styles/budget-setting/budget-organization/budget-structure/new-budget-structure.scss';
 import debounce from 'lodash.debounce';
+import { routerRedux } from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -23,7 +24,7 @@ class NewBudgetStructure extends React.Component{
     this.validateStructureCode = debounce(this.validateStructureCode,1000)
   }
 
-  componentWillMount(){
+  componentDidMount(){
     //获取编制期段
     this.getSystemValueList(2002).then((response)=>{
       let periodStrategy = [];
@@ -64,7 +65,14 @@ class NewBudgetStructure extends React.Component{
           if(response) {
             message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
             response.data.organizationName = values.organizationName;
-            this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetStructureDetail.url.replace(':id', this.props.params.id).replace(':structureId',response.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
+            this.props.dispatch(
+              routerRedux.push({
+                pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/orgId/:setOfBooksId/:id'
+                  .replace(':orgId', this.props.organization.id)
+                  .replace(":setOfBooksId",this.props.setOfBooksId)
+                  .replace(':id', response.data.id)
+              })
+            );
             this.setState({loading:false})
           }
         }).catch((e)=>{
@@ -80,7 +88,14 @@ class NewBudgetStructure extends React.Component{
   //点击取消，返回预算组织详情
   handleCancel = (e) =>{
     e.preventDefault();
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId)+ '?tab=STRUCTURE');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','STRUCTURE')
+      })
+    );
   };
 
   validateStructureCode = (item,value,callback)=>{
@@ -227,7 +242,7 @@ class NewBudgetStructure extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

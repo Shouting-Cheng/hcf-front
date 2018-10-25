@@ -199,7 +199,7 @@ ImageUpload.defaultProps = {
 };
 function mapStateToProps(state) {
   return {
-    authToken: state.main.authToken,
+    authToken: window.localStorage.getItem('token'),
   };
 }
 // 注意

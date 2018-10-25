@@ -19,14 +19,14 @@ import Upload from 'widget/upload';
 
 import 'styles/reimburse/reimburse.scss';
 
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckableTag = Tag.CheckableTag;
 const { TextArea } = Input;
 
-import Chooser from 'containers/reimburse/chooser';
+import Chooser from 'containers/reimburse/my-reimburse/chooser';
 import moment from 'moment';
 
 
