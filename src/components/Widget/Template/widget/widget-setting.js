@@ -1368,7 +1368,7 @@ function mapStateToProps(state) {
     tenantMode: true,
     language: state.languages.languages,
     languageList: state.languages.languageList,
-    profile: state.user.proFile,
+    profile:state.user.proFile,
   };
 }
 

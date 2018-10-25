@@ -2,16 +2,15 @@
  * created by jsq on 2017/11/25
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table, Select, Popover, Badge, message, Form, Spin, Popconfirm } from 'antd';
-import SearchArea from 'components/search-area';
-import Chooser from 'components/chooser'
+import SearchArea from 'widget/search-area';
+import Chooser from 'widget/chooser'
 import "styles/budget-setting/budget-organization/budget-item-map/budget-item-map.scss"
 import budgetService from 'containers/budget-setting/budget-organization/budget-item-map/budget-item-map.service'
 import config from 'config'
 import selectorData from 'share/chooserData'
-import Importer from 'components/template/importer'
+import Importer from 'widget/Template/importer'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -40,34 +39,34 @@ class BudgetItemMap extends React.Component {
       },
       paramValueMap: {},
       searchForm: [
-        { type: 'select', options: [], id: 'sourceType', label: formatMessage({ id: 'itemMap.sourceType' }) }, /*来源类别*/
+        { type: 'select', options: [], id: 'sourceType', label: this.$t({ id: 'itemMap.sourceType' }) }, /*来源类别*/
         {
           type: 'select', id: 'itemId', options: [], labelKey: 'itemName', valueKey: 'id',
-          label: formatMessage({ id: 'itemMap.item' }),  /*预算项目*/
+          label: this.$t({ id: 'itemMap.item' }),  /*预算项目*/
           listExtraParams: { organizationId: this.props.id },
           getUrl: `${config.budgetUrl}/api/budget/items/find/all`, method: 'get', getParams: { organizationId: this.props.id, enabled: true }
         },
       ],
       columns: [
         {          /*来源类别*/
-          title: formatMessage({ id: "itemMap.sourceType" }), key: "sourceType", dataIndex: 'sourceType', render: (text, record, index) => this.renderColumns(text, record, index, 'sourceType')
+          title: this.$t({ id: "itemMap.sourceType" }), key: "sourceType", dataIndex: 'sourceType', render: (text, record, index) => this.renderColumns(text, record, index, 'sourceType')
         },
         {          /*明细类型*/
-          title: formatMessage({ id: "itemMap.detailType" }), key: "sourceItemName", dataIndex: 'sourceItemName', render: (text, record, index) => this.renderColumns(text, record, index, 'detail')
+          title: this.$t({ id: "itemMap.detailType" }), key: "sourceItemName", dataIndex: 'sourceItemName', render: (text, record, index) => this.renderColumns(text, record, index, 'detail')
         },
         {          /*预算项目*/
-          title: formatMessage({ id: "itemMap.item" }), key: "budgetItemName", dataIndex: 'budgetItemName', render: (text, record, index) => this.renderColumns(text, record, index, 'item')
+          title: this.$t({ id: "itemMap.item" }), key: "budgetItemName", dataIndex: 'budgetItemName', render: (text, record, index) => this.renderColumns(text, record, index, 'item')
         },                            //操作
         {
-          title: formatMessage({ id: "common.operation" }), key: 'operation', width: '15%', render: (text, record, index) => (
+          title: this.$t({ id: "common.operation" }), key: 'operation', width: '15%', render: (text, record, index) => (
           <span>
-              <a href="#" onClick={record.edit ? (e) => this.saveItem(e, record, index) : (e) => this.operateItem(e, record, index, true)}>{formatMessage({ id: record.edit ? "common.save" : "common.edit" })}</a>
+              <a href="#" onClick={record.edit ? (e) => this.saveItem(e, record, index) : (e) => this.operateItem(e, record, index, true)}>{this.$t({ id: record.edit ? "common.save" : "common.edit" })}</a>
             {record.edit ?
               <a href="#" style={{ marginLeft: 12 }}
-                 onClick={(e) => this.operateItem(e, record, index, false)} >{formatMessage({ id: "common.cancel" })}</a>
+                 onClick={(e) => this.operateItem(e, record, index, false)} >{this.$t({ id: "common.cancel" })}</a>
               :
-              <Popconfirm onConfirm={(e) => this.deleteItem(e, record, index)} title={formatMessage({ id: "budget.are.you.sure.to.delete.rule" }, { controlRule: record.controlRuleName })}>{/* 你确定要删除organizationName吗 */}
-                <a href="#" style={{ marginLeft: 12 }}>{formatMessage({ id: "common.delete" })}</a>
+              <Popconfirm onConfirm={(e) => this.deleteItem(e, record, index)} title={this.$t({ id: "budget.are.you.sure.to.delete.rule" }, { controlRule: record.controlRuleName })}>{/* 你确定要删除organizationName吗 */}
+                <a href="#" style={{ marginLeft: 12 }}>{this.$t({ id: "common.delete" })}</a>
               </Popconfirm>
             }
             </span>)
@@ -84,7 +83,7 @@ class BudgetItemMap extends React.Component {
     if (record.sourceType !== "" && typeof record.budgetItemId !== 'undefined' && typeof record.sourceItemId !== 'undefined') {
       record.budgetOrganizationId = this.props.id;
       budgetService.insertOrUpdateItemMap([record]).then((response) => {
-        message.success(`${formatMessage({ id: "common.save.success" }, { name: "" })}`);
+        message.success(`${this.$t({ id: "common.save.success" }, { name: "" })}`);
 
         let params = this.state.params;
 
@@ -118,11 +117,11 @@ class BudgetItemMap extends React.Component {
         }
       }).catch((e) => {
         if (e.response) {
-          message.error(`${formatMessage({ id: "common.save.filed" })}, ${e.response.data.message}`)
+          message.error(`${this.$t({ id: "common.save.filed" })}, ${e.response.data.message}`)
         }
       })
     } else {
-      message.warning(formatMessage({ id: "item.errorMessage" }));
+      message.warning(this.$t({ id: "item.errorMessage" }));
       return;
     }
   };
@@ -170,7 +169,7 @@ class BudgetItemMap extends React.Component {
     e.stopPropagation();
     let param = [record.id];
     budgetService.deleteItemMap(param).then((response) => {
-      message.success(`${formatMessage({ id: "common.operate.success" })}`);
+      message.success(`${this.$t({ id: "common.operate.success" })}`);
       let params = this.state.params;
 
       params.delete(params[index]);
@@ -192,7 +191,7 @@ class BudgetItemMap extends React.Component {
       });
     }).catch((e) => {
       if (e.response) {
-        message.error(`${formatMessage({ id: "common.operate.filed" })},${e.response.data.message}`)
+        message.error(`${this.$t({ id: "common.operate.filed" })},${e.response.data.message}`)
       }
     })
   };
@@ -209,24 +208,24 @@ class BudgetItemMap extends React.Component {
 
     let paramValueMap = {
       EXPENSE_TYPE: {
-        title: formatMessage({ id: "itemMap.expenseType" }),
+        title: this.$t({ id: "itemMap.expenseType" }),
         url: `${config.baseUrl}/api/company/integration/expense/types/and/name`,
         searchForm: [
-          { type: 'input', id: 'name', label: formatMessage({ id: "itemMap.expenseTypeName" }) },
+          { type: 'input', id: 'name', label: this.$t({ id: "itemMap.expenseTypeName" }) },
         ],
         columns: [
           {
-            title: formatMessage({ id: "itemMap.icon" }), dataIndex: 'iconURL',
+            title: this.$t({ id: "itemMap.icon" }), dataIndex: 'iconURL',
             render: (value) => {
               return <img src={value} height="20" width="20" />
             }
           },
-          { title: formatMessage({ id: "itemMap.expenseTypeName" }), dataIndex: 'name' },
+          { title: this.$t({ id: "itemMap.expenseTypeName" }), dataIndex: 'name' },
           {
-            title: formatMessage({ id: "common.column.status" }), dataIndex: 'enabled',
+            title: this.$t({ id: "common.column.status" }), dataIndex: 'enabled',
             render: enabled => (
               <Badge status={enabled ? 'success' : 'error'}
-                     text={enabled ? formatMessage({ id: "common.status.enable" }) : formatMessage({ id: "common.status.disable" })} />
+                     text={enabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
             )
           },
         ],
@@ -350,7 +349,7 @@ class BudgetItemMap extends React.Component {
       switch (dataIndex) {
         case 'sourceType': {
           return (
-            <Select placeholder={formatMessage({ id: 'common.please.select' })}
+            <Select placeholder={this.$t({ id: 'common.please.select' })}
                     onChange={(value) => this.handleChangeType(value, index)}
                     value={record.sourceType}
                     notFoundContent={<Spin size="small" />}>
@@ -404,7 +403,7 @@ class BudgetItemMap extends React.Component {
       }
     } else {
       switch (dataIndex) {
-        case 'sourceType': return decode === "EXPENSE_TYPE" ? `${formatMessage({ id: "itemMap.expenseType" })}` : `${formatMessage({ id: "itemMap.applyType" })}`; break;
+        case 'sourceType': return decode === "EXPENSE_TYPE" ? `${this.$t({ id: "itemMap.expenseType" })}` : `${this.$t({ id: "itemMap.applyType" })}`; break;
         case 'detail': return record.sourceItemName ? record.sourceItemName : '-'; break;
         case 'item': return record.budgetItemName; break
       }
@@ -460,12 +459,12 @@ class BudgetItemMap extends React.Component {
     });
 
     if (flag) {
-      message.warning(formatMessage({ id: "item.errorMessage" }));
+      message.warning(this.$t({ id: "item.errorMessage" }));
       return;
     }
 
     budgetService.insertOrUpdateItemMap(value).then((response) => {
-      message.success(`${formatMessage({ id: "common.save.success" }, { name: "" })}`);
+      message.success(`${this.$t({ id: "common.save.success" }, { name: "" })}`);
       this.setState({
         loading: true,
         btnLoading: true,
@@ -478,7 +477,7 @@ class BudgetItemMap extends React.Component {
       }, this.getList())
     }).catch((e) => {
       if (e.response) {
-        message.error(`${formatMessage({ id: "common.save.filed" })}, ${e.response.data.message}`)
+        message.error(`${this.$t({ id: "common.save.filed" })}, ${e.response.data.message}`)
       }
     })
   };
@@ -489,19 +488,19 @@ class BudgetItemMap extends React.Component {
       <div className="budget-item-map">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({ id: 'common.total' }, { total: `${pagination.total}` })}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleAdd}>{formatMessage({ id: 'common.add' })}</Button>  {/*添加*/}
-            <Button type="primary" onClick={() => this.showImport(true)}>{formatMessage({ id: 'importer.import' })}</Button>  {/*导入*/}
+            <Button type="primary" onClick={this.handleAdd}>{this.$t({ id: 'common.add' })}</Button>  {/*添加*/}
+            <Button type="primary" onClick={() => this.showImport(true)}>{this.$t({ id: 'importer.import' })}</Button>  {/*导入*/}
             <Importer visible={showImportFrame}
-                      title={formatMessage({ id: "itemMap.itemUpload" })}
+                      title={this.$t({ id: "itemMap.itemUpload" })}
                       templateUrl={`${config.budgetUrl}/api/budget/itemsMapping/export/template`}
                       uploadUrl={`${config.budgetUrl}/api/budget/itemsMapping/import?orgId=${this.props.id}`}
                       errorUrl={`${config.budgetUrl}/api/budget/itemsMapping/export/failed/data`}
-                      fileName={formatMessage({ id: "itemMap.itemUploadFile" })}
+                      fileName={this.$t({ id: "itemMap.itemUploadFile" })}
                       onOk={this.handleImportOk}
                       afterClose={() => this.showImport(false)} />
-            <Button type="primary" loading={btnLoading} disabled={isSave} onClick={this.handleSave}>{formatMessage({ id: 'common.save' })}</Button>  {/*保存*/}
+            <Button type="primary" loading={btnLoading} disabled={isSave} onClick={this.handleSave}>{this.$t({ id: 'common.save' })}</Button>  {/*保存*/}
           </div>
         </div>
         <Form
@@ -519,14 +518,12 @@ class BudgetItemMap extends React.Component {
   }
 
 }
-BudgetItemMap.contextTypes = {
-  router: React.PropTypes.object
-};
+
 
 function mapStateToProps(state) {
   return {
     organization: state.budget.organization,
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

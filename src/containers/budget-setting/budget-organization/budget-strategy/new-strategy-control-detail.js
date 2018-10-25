@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
-import {formatMessage} from 'share/common'
 import { Form, Button, Radio, Select, Row, Col, InputNumber, Popover, Icon, message } from 'antd'
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -104,11 +103,11 @@ class NewStrategyControlDetail extends React.Component{
           if(res.status === 200){
             this.setState({ updateParams: {} });
             this.props.close(true);
-            message.success(formatMessage({id: "common.save.success"}, {name: ""}/*保存成功*/));
+            message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           }
         }).catch((e)=>{
           this.setState({loading: false});
-          message.error(`${formatMessage({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
+          message.error(`${this.$t({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
         })
       }
     });
@@ -127,11 +126,11 @@ class NewStrategyControlDetail extends React.Component{
           if(res.status === 200){
             this.setState({loading: false});
             this.props.close(true);
-            message.success(formatMessage({id: "common.save.success"}, {name: ""}/*保存成功*/));
+            message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           }
         }).catch((e)=>{
           this.setState({ loading: false });
-          message.error(`${formatMessage({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
+          message.error(`${this.$t({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
         })
       }
     });
@@ -139,13 +138,13 @@ class NewStrategyControlDetail extends React.Component{
 
   handlePeriodStrategy = (value) => {
     const config = {
-      YEAR: formatMessage({id: "budget.strategy.detail.config.year"}/*全年预算额*/),
-      YTD: formatMessage({id: "budget.strategy.detail.config.ytd"}/*年初至今预算额*/),
-      YTQ: formatMessage({id: "budget.strategy.detail.config.ytq"}/*年初至当季度预算额*/),
-      RQB: formatMessage({id: "budget.strategy.detail.config.rqb"}/*当月至后两个月共3个月合计预算额*/),
-      QUARTER: formatMessage({id: "budget.strategy.detail.config.quarter"}/*当季预算额*/),
-      QTD: formatMessage({id: "budget.strategy.detail.config.qtd"}/*季度初至今预算额*/),
-      MONTH: formatMessage({id: "budget.strategy.detail.config.month"}/*当月录入预算额*/)
+      YEAR: this.$t({id: "budget.strategy.detail.config.year"}/*全年预算额*/),
+      YTD: this.$t({id: "budget.strategy.detail.config.ytd"}/*年初至今预算额*/),
+      YTQ: this.$t({id: "budget.strategy.detail.config.ytq"}/*年初至当季度预算额*/),
+      RQB: this.$t({id: "budget.strategy.detail.config.rqb"}/*当月至后两个月共3个月合计预算额*/),
+      QUARTER: this.$t({id: "budget.strategy.detail.config.quarter"}/*当季预算额*/),
+      QTD: this.$t({id: "budget.strategy.detail.config.qtd"}/*季度初至今预算额*/),
+      MONTH: this.$t({id: "budget.strategy.detail.config.month"}/*当月录入预算额*/)
     };
     this.setState({ periodStrategyValue: config[value] });
     return config[value]
@@ -160,67 +159,67 @@ class NewStrategyControlDetail extends React.Component{
     };
     const content = (
       <div style={{color:'#999'}}>
-        <div style={{marginBottom:'10px'}}>{formatMessage({id: "budget.strategy.detail.period.title"}/*控制策略控制期段即以何种方式对预算进行控制*/)}</div>
+        <div style={{marginBottom:'10px'}}>{this.$t({id: "budget.strategy.detail.period.title"}/*控制策略控制期段即以何种方式对预算进行控制*/)}</div>
         <div>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.period"}/*期间*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.period"}/*按当月录入预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.period"}/*期间*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.period"}/*按当月录入预算额控制*/)}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.quarter"}/*季度*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.quarter"}/*按当季预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.quarter"}/*季度*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.quarter"}/*按当季预算额控制*/)}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.year"}/*年度*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.year"}/*按全年预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.year"}/*年度*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.year"}/*按全年预算额控制*/)}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.qtd"})/*季度至今*/}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.qtd"})/*按季度初至今预算额控制*/}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.qtd"})/*季度至今*/}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.qtd"})/*按季度初至今预算额控制*/}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.ytd"}/*年度至今*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.ytd"}/*按年初至今预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.ytd"}/*年度至今*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.ytd"}/*按年初至今预算额控制*/)}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.rqb"}/*季度滚动*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.rqb"}/*按当月至后两个月共3个月合计预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.rqb"}/*季度滚动*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.rqb"}/*按当月至后两个月共3个月合计预算额控制*/)}
           <br/>
-          <span style={{color:'#666'}}>【{formatMessage({id: "budget.strategy.detail.period.ytq"}/*累计季度*/)}】：</span>
-          {formatMessage({id: "budget.strategy.detail.period.content.ytq"}/*按年初至当季度预算额控制*/)}
+          <span style={{color:'#666'}}>【{this.$t({id: "budget.strategy.detail.period.ytq"}/*累计季度*/)}】：</span>
+          {this.$t({id: "budget.strategy.detail.period.content.ytq"}/*按年初至当季度预算额控制*/)}
         </div>
       </div>
     );
     return (
       <div className="new-strategy-control-detail">
         <Form onSubmit={updateParams.id ? this.handleUpdate : this.handleSave}>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.detail.type"}/*类型*/)} style={{margin:'24px 0'}}>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.detail.type"}/*类型*/)} style={{margin:'24px 0'}}>
             {getFieldDecorator('organizationName', {
               initialValue: '10'
             })(
               <RadioGroup>
-                <RadioButton value="10">{formatMessage({id: "budget.strategy.detail.formula"}/*公式*/)}</RadioButton>
+                <RadioButton value="10">{this.$t({id: "budget.strategy.detail.formula"}/*公式*/)}</RadioButton>
               </RadioGroup>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.detail.control.object"}/*控制对象*/)}>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.detail.control.object"}/*控制对象*/)}>
             {getFieldDecorator('object', {
               rules: [{
                 required: true,
-                message: formatMessage({id: 'common.please.select'})/*请选择*/
+                message: this.$t({id: 'common.please.select'})/*请选择*/
               }],
               initialValue: updateParams.object && updateParams.object.value
             })(
-              <Select onChange={(value)=>{this.setState({ objectValue: value })}} placeholder={formatMessage({id: 'common.please.select'})/*请选择*/}>
+              <Select onChange={(value)=>{this.setState({ objectValue: value })}} placeholder={this.$t({id: 'common.please.select'})/*请选择*/}>
                 {controlObjectOptions.map((option)=>{
                   return <Option key={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.detail.compare"}/*比较*/)}>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.detail.compare"}/*比较*/)}>
             {getFieldDecorator('range', {
               rules: [{
                 required: true,
-                message: formatMessage({id: 'common.please.select'})/*请选择*/
+                message: this.$t({id: 'common.please.select'})/*请选择*/
               }],
               initialValue: updateParams.range && updateParams.range.value
             })(
-              <Select onChange={(value)=>{this.setState({ rangeValue: value })}} placeholder={formatMessage({id: 'common.please.select'})/*请选择*/}>
+              <Select onChange={(value)=>{this.setState({ rangeValue: value })}} placeholder={this.$t({id: 'common.please.select'})/*请选择*/}>
                 {rangeOptions.map((option)=>{
                   return <Option key={option.value}>{option.messageKey}</Option>
                 })}
@@ -228,17 +227,17 @@ class NewStrategyControlDetail extends React.Component{
             )}
           </FormItem>
           <Row>
-            <Col span={6} className="ant-form-item-label label-style">{formatMessage({id: "budget.strategy.detail.manner"}/*方式*/)}： </Col>
+            <Col span={6} className="ant-form-item-label label-style">{this.$t({id: "budget.strategy.detail.manner"}/*方式*/)}： </Col>
             <Col span={5} className="ant-col-offset-1">
               <FormItem>
                 {getFieldDecorator('manner', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: 'common.please.select'})/*请选择*/
+                    message: this.$t({id: 'common.please.select'})/*请选择*/
                   }],
                   initialValue: updateParams.manner && updateParams.manner.value
                 })(
-                  <Select onChange={(value)=>{this.setState({ mannerValue: value })}} placeholder={formatMessage({id: 'common.please.select'})/*请选择*/}>
+                  <Select onChange={(value)=>{this.setState({ mannerValue: value })}} placeholder={this.$t({id: 'common.please.select'})/*请选择*/}>
                     {mannerOptions.map((option)=>{
                       return <Option key={option.value}>{option.messageKey}</Option>
                     })}
@@ -252,11 +251,11 @@ class NewStrategyControlDetail extends React.Component{
                   {getFieldDecorator('operator', {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.select'})/*请选择*/
+                      message: this.$t({id: 'common.please.select'})/*请选择*/
                     }],
                     initialValue: updateParams.operator && updateParams.operator.value
                   })(
-                    <Select onChange={(value)=>{this.setState({ operatorValue:value })}} placeholder={formatMessage({id: 'common.please.select'})/*请选择*/}>
+                    <Select onChange={(value)=>{this.setState({ operatorValue:value })}} placeholder={this.$t({id: 'common.please.select'})/*请选择*/}>
                       {operatorOptions.map((option)=>{
                         return <Option key={option.value}>{option.messageKey}</Option>
                       })}
@@ -270,12 +269,12 @@ class NewStrategyControlDetail extends React.Component{
                 {getFieldDecorator('value', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"}/*请输入*/)
+                    message: this.$t({id: "common.please.enter"}/*请输入*/)
                   }],
                   initialValue: updateParams.value
                 })(
                   <InputNumber min={0}
-                               placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)}
+                               placeholder={this.$t({id: "common.please.enter"}/*请输入*/)}
                                style={{width:'100%'}}
                                formatter={value => mannerValue !== 'PERCENTAGE' ? value : `${value}%`}
                                parser={value => mannerValue !== 'PERCENTAGE' ? value : value.replace('%', '')}
@@ -285,17 +284,17 @@ class NewStrategyControlDetail extends React.Component{
             </Col>
           </Row>
           <Row>
-            <Col span={6} className="ant-form-item-label label-style">{formatMessage({id: "budget.strategy.detail.control.period"}/*控制期段*/)}： </Col>
+            <Col span={6} className="ant-form-item-label label-style">{this.$t({id: "budget.strategy.detail.control.period"}/*控制期段*/)}： </Col>
             <Col span={12} className="ant-col-offset-1">
               <FormItem>
                 {getFieldDecorator('periodStrategy', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: 'common.please.select'})/*请选择*/
+                    message: this.$t({id: 'common.please.select'})/*请选择*/
                   }],
                   initialValue: updateParams.periodStrategy && updateParams.periodStrategy.value
                 })(
-                  <Select onChange={this.handlePeriodStrategy} placeholder={formatMessage({id: 'common.please.select'})/*请选择*/}>
+                  <Select onChange={this.handlePeriodStrategy} placeholder={this.$t({id: 'common.please.select'})/*请选择*/}>
                     {periodStrategyOptions.map((option)=>{
                       return <Option key={option.value}>{option.messageKey}</Option>
                     })}
@@ -304,13 +303,13 @@ class NewStrategyControlDetail extends React.Component{
               </FormItem>
             </Col>
             <Col span={2} className="ant-col-offset-1">
-              <Popover placement="topLeft" content={content} title={formatMessage({id: "budget.strategy.detail.budget.control.period"}/*预算控制期段*/)}>
+              <Popover placement="topLeft" content={content} title={this.$t({id: "budget.strategy.detail.budget.control.period"}/*预算控制期段*/)}>
                 <Icon type="question-circle-o"
                       style={{fontSize:'18px',cursor:'pointer',color:'#49a9ee',position:'relative',top:'7px'}}/>
               </Popover>
             </Col>
           </Row>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.detail.condition"}/*触发条件*/)}>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.detail.condition"}/*触发条件*/)}>
             {getFieldDecorator('scenarioName')(
               <div>
                 {controlObjectOptions.map(option => {
@@ -324,8 +323,8 @@ class NewStrategyControlDetail extends React.Component{
             )}
           </FormItem>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit" loading={loading}>{formatMessage({id: "common.save"}/*保存*/)}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id: "common.cancel"}/*取消*/)}</Button>
+            <Button type="primary" htmlType="submit" loading={loading}>{this.$t({id: "common.save"}/*保存*/)}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"}/*取消*/)}</Button>
           </div>
         </Form>
       </div>

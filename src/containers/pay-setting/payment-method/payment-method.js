@@ -195,11 +195,6 @@ class PaymentMethod extends React.Component {
     );
   };
 
-  handleCloseNewSlide = params => {
-    this.setState({ loading: true, showSlideFrameNew: false }, () => {
-      params && this.getList();
-    });
-  };
 
   handleClose = params => {
     this.setState(
@@ -297,10 +292,8 @@ class PaymentMethod extends React.Component {
           }
           show={showSlideFrameNew}
           afterClose={this.handleCloseNewSlide}
-          onClose={this.handleClose}
-          params={{ updateParams, timestamp }}
-        >
-          <WrappedPaymentMethod params={{ updateParams, timestamp }} onClose={this.handleClose} />
+          onClose={this.handleClose}>
+          <WrappedPaymentMethod params={{ updateParams, timestamp }} onClose={(e) => {this.handleClose(e)}} />
         </SlideFrame>
       </div>
     );
