@@ -1,19 +1,16 @@
-/**
- * Created by 13576 on 2017/11/22.
- */
 // 为了0416迭代上线，重构此文件
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd';
-import Chooser from 'components/chooser';
+import Chooser from 'components/Widget/chooser';
 import config from 'config';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
-import Selector from 'components/selector';
+import Selector from 'components/Widget/selector';
 
 const FormItem = Form.Item;
-import { deepCopy, messages } from 'share/common';
-import configureStore from 'stores';
+import { deepCopy } from 'utils/extend';
+// import configureStore from 'stores';
 class WrappedNewBankAccount extends React.Component {
   constructor(props) {
     super(props);
@@ -49,10 +46,10 @@ class WrappedNewBankAccount extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.params.flag === 'create') {
+    if (this.props.match.params.flag === 'create') {
     } else {
       //更新
-      companyMaintainService.getCompanyBankInfoById(this.props.params.flag).then(res => {
+      companyMaintainService.getCompanyBankInfoById(this.props.match.params.flag).then(res => {
         let bankObj = deepCopy(res.data);
 
         let _bank = deepCopy(res.data);
@@ -89,7 +86,7 @@ class WrappedNewBankAccount extends React.Component {
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.companyId = this.props.params.companyId;
+        values.companyId = this.props.match.params.companyId;
         values.bankCode = values.bank[0].bankCode;
         values.bankBranchName = values.bank[0].bankBranchName;
         values.bankKey = values.bank[0].bankCode;
@@ -117,15 +114,28 @@ class WrappedNewBankAccount extends React.Component {
     companyMaintainService.addOrUpdateBankAccount(bankAccount).then(res => {
       this.setState({ loading: false });
       //保存成功或者更新成功
-      message.success(messages('common.operate.success'));
+      message.success(this.$t('common.operate.success'));
       this.setState({ loading: false });
-      this.context.router.goBack();
+      // this.context.router.goBack();
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/enterprise-manage/company-maintain/company-maintain-detail/${
+            this.props.match.params.companyOId
+          }/${this.props.match.params.companyId}`,
+        })
+      );
     });
   };
 
   //取消就直接返回
   handleCancel = () => {
-    this.context.router.goBack();
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/company-maintain-detail/${
+          this.props.match.params.companyOId
+        }/${this.props.match.params.companyId}`,
+      })
+    );
   };
 
   //银行
@@ -166,7 +176,8 @@ class WrappedNewBankAccount extends React.Component {
     const { getFieldDecorator } = this.props.form;
     let params = {
       language: 'chineseName',
-      userOID: configureStore.store.getState().login.user.userOID,
+      userOID: this.props.user.userOID,
+      // userOID: configureStore.store.getState().login.user.userOID,
     };
     return (
       <Form
@@ -177,7 +188,7 @@ class WrappedNewBankAccount extends React.Component {
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.bankName')} //银行名称
+              label={this.$t('company.maintain.bank.account.bankName')} //银行名称
               colon={true}
             >
               {getFieldDecorator('bank', {
@@ -185,7 +196,7 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.select'),
+                    message: this.$t('common.please.select'),
                   },
                 ],
               })(
@@ -193,7 +204,7 @@ class WrappedNewBankAccount extends React.Component {
                   single={true}
                   type="select_bank"
                   //value={bankObj.bank}
-                  placeholder={messages('common.please.select')}
+                  placeholder={this.$t('common.please.select')}
                   labelKey="bankBranchName"
                   onChange={this.handleBankCodeChange}
                   valueKey="bankCode"
@@ -204,7 +215,7 @@ class WrappedNewBankAccount extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.country')} /* 国家*/
+              label={this.$t('company.maintain.bank.account.country')} /* 国家*/
               colon={true}
             >
               {getFieldDecorator('country', {
@@ -214,14 +225,14 @@ class WrappedNewBankAccount extends React.Component {
                 <Input
                   disabled={true}
                   //value={bankObj.country}
-                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
+                  placeholder={this.$t('company.maintain.bank.account.genrateByBankName')}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.opening')} /* 开户地*/
+              label={this.$t('company.maintain.bank.account.opening')} /* 开户地*/
               colon={true}
             >
               {getFieldDecorator('bankAddress', {
@@ -230,7 +241,7 @@ class WrappedNewBankAccount extends React.Component {
                 <Input
                   disabled={true}
                   //value={bankObj.bankAddress}
-                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
+                  placeholder={this.$t('company.maintain.bank.account.genrateByBankName')}
                 />
               )}
             </FormItem>
@@ -239,7 +250,7 @@ class WrappedNewBankAccount extends React.Component {
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.bankAddress')} /* 银行详细地址*/
+              label={this.$t('company.maintain.bank.account.bankAddress')} /* 银行详细地址*/
               colon={true}
             >
               {getFieldDecorator('accountOpeningAddress', {
@@ -249,14 +260,14 @@ class WrappedNewBankAccount extends React.Component {
                 <Input
                   disabled={true}
                   //value={bankObj.accountOpeningAddress}
-                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
+                  placeholder={this.$t('company.maintain.bank.account.genrateByBankName')}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.swiftCode')} /* 开户支行Swift Code*/
+              label={this.$t('company.maintain.bank.account.swiftCode')} /* 开户支行Swift Code*/
               colon={true}
             >
               {getFieldDecorator('swiftCode', {
@@ -266,7 +277,7 @@ class WrappedNewBankAccount extends React.Component {
                 <Input
                   disabled={true}
                   //value={bankObj.swiftCode}
-                  placeholder={messages('company.maintain.bank.account.genrateByBankName')}
+                  placeholder={this.$t('company.maintain.bank.account.genrateByBankName')}
                 />
               )}
             </FormItem>
@@ -274,7 +285,7 @@ class WrappedNewBankAccount extends React.Component {
 
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.bankAccountNumber')} //银行账户账号
+              label={this.$t('company.maintain.bank.account.bankAccountNumber')} //银行账户账号
               colon={true}
             >
               {getFieldDecorator('bankAccountNumber', {
@@ -282,10 +293,10 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
-                    message: messages('pdc.bank.card.reg2'), //"只能是数字与-",
+                    message: this.$t('pdc.bank.card.reg2'), //"只能是数字与-",
                     validator: (rule, value, cb) => {
                       if (value === null || value === undefined || value === '') {
                         cb();
@@ -303,17 +314,17 @@ class WrappedNewBankAccount extends React.Component {
                   },
                   {
                     max: 30,
-                    message: messages('company.maintain.new.tips0'), //"不能超过30个字符"
+                    message: this.$t('company.maintain.new.tips0'), //"不能超过30个字符"
                   },
                 ],
-              })(<Input placeholder={messages('common.please.enter')} />)}
+              })(<Input placeholder={this.$t('common.please.enter')} />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.bankAccountName')} /* 银行账户名称*/
+              label={this.$t('company.maintain.bank.account.bankAccountName')} /* 银行账户名称*/
               colon={true}
             >
               {getFieldDecorator('bankAccountName', {
@@ -321,19 +332,19 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
                     max: 30,
-                    message: messages('company.maintain.new.tips0'), //"不能超过30个字符"
+                    message: this.$t('company.maintain.new.tips0'), //"不能超过30个字符"
                   },
                 ],
-              })(<Input placeholder={messages('common.please.enter')} />)}
+              })(<Input placeholder={this.$t('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.accountCode1')} /* 账户代码*/
+              label={this.$t('company.maintain.bank.account.accountCode1')} /* 账户代码*/
               colon={true}
             >
               {getFieldDecorator('accountCode', {
@@ -341,14 +352,14 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
                     max: 35,
-                    message: messages('company.maintain.new.tips1'), //"不能超过35个字符"
+                    message: this.$t('company.maintain.new.tips1'), //"不能超过35个字符"
                   },
                   {
-                    message: messages('company.maintain.new.tips2'), //只能输入数字与字母
+                    message: this.$t('company.maintain.new.tips2'), //只能输入数字与字母
                     validator: (rule, value, cb) => {
                       if (value === null || value === undefined || value === '') {
                         cb();
@@ -365,12 +376,12 @@ class WrappedNewBankAccount extends React.Component {
                     },
                   },
                 ],
-              })(<Input placeholder={messages('common.please.enter')} />)}
+              })(<Input placeholder={this.$t('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.currencyCode')} //币种
+              label={this.$t('company.maintain.bank.account.currencyCode')} //币种
               colon={true}
             >
               {getFieldDecorator('currencyCode', {
@@ -378,7 +389,7 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.select'),
+                    message: this.$t('common.please.select'),
                   },
                 ],
               })(
@@ -387,12 +398,12 @@ class WrappedNewBankAccount extends React.Component {
                   params={params}
                   filter={item => item.enable}
                   showSearch={true}
-                  placeholder={messages('common.please.select')}
+                  placeholder={this.$t('common.please.select')}
                   allowClear={false}
                 />
 
                 // <Selector
-                // placeholder={messages("common.please.select")}
+                // placeholder={this.$t("common.please.select")}
                 //   selectorItem={this.state.selectListCurrencyCode}/>
               )}
             </FormItem>
@@ -401,7 +412,7 @@ class WrappedNewBankAccount extends React.Component {
         <Row gutter={24}>
           <Col span={8}>
             <FormItem
-              label={messages('company.maintain.bank.account.remark')} /* 备注*/
+              label={this.$t('company.maintain.bank.account.remark')} /* 备注*/
               colon={true}
             >
               {getFieldDecorator('remark', {
@@ -409,17 +420,14 @@ class WrappedNewBankAccount extends React.Component {
                 rules: [
                   {
                     max: 100,
-                    message: messages('company.maintain.new.tips3'), //"不能超过100个字符"
+                    message: this.$t('company.maintain.new.tips3'), //"不能超过100个字符"
                   },
                 ],
-              })(<Input placeholder={messages('common.please.enter')} />)}
+              })(<Input placeholder={this.$t('common.please.enter')} />)}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem
-              label={messages('company.maintain.bank.account.state')} /* 状态*/
-              colon={true}
-            >
+            <FormItem label={this.$t('company.maintain.bank.account.state')} /* 状态*/ colon={true}>
               {getFieldDecorator('enabled', {
                 initialValue: bankObj.enabled,
                 valuePropName: 'checked',
@@ -436,10 +444,10 @@ class WrappedNewBankAccount extends React.Component {
         </Row>
         <div>
           <Button type="primary" loading={loading} htmlType="submit">
-            {messages('common.save') /*保存*/}
+            {this.$t('common.save') /*保存*/}
           </Button>
           <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
-            {messages('common.cancel') /*取消*/}
+            {this.$t('common.cancel') /*取消*/}
           </Button>
         </div>
       </Form>
@@ -448,12 +456,10 @@ class WrappedNewBankAccount extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    user: state.user.currentUser,
+  };
 }
-
-WrappedNewBankAccount.contextTypes = {
-  router: React.PropTypes.object,
-};
 
 const NewBankAccount = Form.create()(WrappedNewBankAccount);
 

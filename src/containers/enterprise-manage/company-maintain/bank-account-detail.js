@@ -1,7 +1,3 @@
-import { messages } from 'share/common';
-/**
- * Created by 13576 on 2017/11/22.
- */
 //bank-account-detail.js //BankAccountDetail
 
 //这个我们汇联易这边没有用

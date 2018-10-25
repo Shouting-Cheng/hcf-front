@@ -1,15 +1,13 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {formatMessage} from 'share/common'
+import {connect} from 'dva'
 import {Button, Table, Badge} from 'antd'
 
-import SlideFrame from 'components/slide-frame'
-import SearchArea from 'components/search-area'
+import SlideFrame from 'widget/slide-frame'
+import SearchArea from 'widget/search-area'
 import WrappedNewBudgetItemType from 'containers/budget-setting/budget-organization/budget-item-type/new-budget-item-type'
 import WrappedPutBudgetItemType from 'containers/budget-setting/budget-organization/budget-item-type/put-budget-item-type'
 import budgetItemTypeService from 'containers/budget-setting/budget-organization/budget-item-type/budget-item-type.service'
 import 'styles/budget-setting/budget-organization/buget-item-type/budget-item-type.scss'
-
 
 class BudgetItemType extends React.Component {
   constructor(props) {
@@ -18,29 +16,29 @@ class BudgetItemType extends React.Component {
       data: [],
       columns: [
         {
-          title: formatMessage({id: "budgetItemType.itemTypeCode"}),
+          title: this.$t({id: "budgetItemType.itemTypeCode"}),
           dataIndex: 'itemTypeCode',
           key: 'itemTypeCode',
         },
         {
-          title: formatMessage({id: "budgetItemType.itemTypeName"}),
+          title: this.$t({id: "budgetItemType.itemTypeName"}),
           dataIndex: 'itemTypeName',
           key: 'itemTypeName',
         },
         {
-          title: formatMessage({id: "budgetItemType.enabled"}),
+          title: this.$t({id: "budgetItemType.enabled"}),
           dataIndex: 'enabled',
           key: 'enabled',
           render: (recode, text) => {
             return (<div ><Badge status={ recode ? "success" : "error"}/>
-              {recode ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}
+              {recode ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}
             </div>);
           }
         },
       ],
       searchForm: [
-        {type: 'input', id: 'itemTypeCode', label: formatMessage({id: "budgetItemType.itemTypeCode"})},
-        {type: 'input', id: 'itemTypeName', label: formatMessage({id: "budgetItemType.itemTypeName"})},
+        {type: 'input', id: 'itemTypeCode', label: this.$t({id: "budgetItemType.itemTypeCode"})},
+        {type: 'input', id: 'itemTypeName', label: this.$t({id: "budgetItemType.itemTypeName"})},
       ],
       pageSize: 10,
       page: 0,
@@ -196,10 +194,10 @@ class BudgetItemType extends React.Component {
 
         <div className="table-header">
           <div
-            className="table-header-title">{formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title">{this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
           <div className="table-header-buttons">
             <Button type="primary"
-                    onClick={this.newItemTypeShowSlide}>{formatMessage({id: "common.create"}) }</Button>
+                    onClick={this.newItemTypeShowSlide}>{this.$t({id: "common.create"}) }</Button>
           </div>
         </div>
 
@@ -217,14 +215,14 @@ class BudgetItemType extends React.Component {
           />
         </div>
 
-        <SlideFrame title={formatMessage({id: "budgetItemType.newItemType"})}
+        <SlideFrame title={this.$t({id: "budgetItemType.newItemType"})}
                     show={showSlideFrameNew}
                     content={WrappedNewBudgetItemType}
                     afterClose={this.handleCloseNewSlide}
                     onClose={() => this.showSlideNew(false)}
                     params={{...updateParams,flag: showSlideFrameNew}}/>
 
-        <SlideFrame title={formatMessage({id: "budgetItemType.editItemType"})}
+        <SlideFrame title={this.$t({id: "budgetItemType.editItemType"})}
                     show={showSlideFramePut}
                     content={WrappedPutBudgetItemType}
                     afterClose={this.handleCloseUpdateSlide}

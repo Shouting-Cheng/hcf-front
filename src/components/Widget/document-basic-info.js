@@ -80,7 +80,7 @@ class DocumentBasicInfo extends React.Component {
           </Row>
         </div>
         <Row>
-          <Col span={18}>
+          <Col span={16}>
             <Row>
               {
                 (this.state.data.infoList && this.state.data.infoList.length) && this.state.data.infoList.map((item, index) => {
@@ -160,7 +160,7 @@ class DocumentBasicInfo extends React.Component {
                 null
             }
           </Col>
-          <Col span={6}>
+          <Col span={8}>
             <div style={{ float: 'right' }}>
               <div style={{ textAlign: "right", fontSize: 14 }} className="amount-title">{this.$t('common.amount')}</div>
               <div style={{ fontSize: "20px" }} className="amount-content">{data.currencyCode} {this.filterMoney(data.totalAmount)}</div>

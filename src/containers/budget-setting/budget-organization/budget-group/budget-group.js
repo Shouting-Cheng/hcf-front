@@ -1,11 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {messages} from 'share/common'
+import { connect } from 'dva'
 import { Table, Badge, Button } from 'antd';
-import menuRoute from 'routes/menuRoute'
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
 
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 
 class BudgetGroup extends React.Component {
   constructor(props) {
@@ -16,16 +14,16 @@ class BudgetGroup extends React.Component {
       page: 0,
       pageSize: 10,
       columns: [
-        {title: messages('budgetGroup.code')/*'预算项目组代码'*/, dataIndex: 'itemGroupCode', width: '35%'},
-        {title: messages('budgetGroup.name')/*'预算项目组名称'*/, dataIndex: 'itemGroupName', width: '50%'},
-        {title: messages('common.column.status')/* 状态 */, dataIndex: 'enabled', width: '15%', render: enabled => <Badge status={enabled ? 'success' : 'error'} text={enabled ? messages('common.status.enable')/*启用*/ : messages('common.status.disable')/*禁用*/} />}
+        {title: this.$t('budgetGroup.code')/*'预算项目组代码'*/, dataIndex: 'itemGroupCode', width: '35%'},
+        {title: this.$t('budgetGroup.name')/*'预算项目组名称'*/, dataIndex: 'itemGroupName', width: '50%'},
+        {title: this.$t('common.column.status')/* 状态 */, dataIndex: 'enabled', width: '15%', render: enabled => <Badge status={enabled ? 'success' : 'error'} text={enabled ? this.$t('common.status.enable')/*启用*/ : this.$t('common.status.disable')/*禁用*/} />}
       ],
       pagination: {
         total: 0
       },
       searchForm: [
-        {type: 'input', id: 'itemGroupCode', label: messages('budgetGroup.code')/*'预算项目组代码'*/,},
-        {type: 'input', id: 'itemGroupName', label: messages('budgetGroup.name')/*'预算项目组名称'*/}
+        {type: 'input', id: 'itemGroupCode', label: this.$t('budgetGroup.code')/*'预算项目组代码'*/,},
+        {type: 'input', id: 'itemGroupName', label: this.$t('budgetGroup.name')/*'预算项目组名称'*/}
       ],
       searchParams: {
         groupCode: '',
@@ -113,9 +111,9 @@ class BudgetGroup extends React.Component {
           submitHandle={this.search}
           clearHandle={this.clear}/>
         <div className="table-header">
-          <div className="table-header-title">{messages('common.total1',{total:pagination.total})}{/*共 {pagination.total} 条数据*/}</div>
+          <div className="table-header-title">{this.$t('common.total1',{total:pagination.total})}{/*共 {pagination.total} 条数据*/}</div>
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleNew}>{messages('common.create')}{/*新建*/}</Button>
+            <Button type="primary" onClick={this.handleNew}>{this.$t('common.create')}{/*新建*/}</Button>
           </div>
         </div>
         <Table columns={columns}
@@ -130,10 +128,6 @@ class BudgetGroup extends React.Component {
   }
 
 }
-
-BudgetGroup.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {}

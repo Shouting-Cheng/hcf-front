@@ -2,8 +2,7 @@ import React from 'react'
 import httpFetch from 'share/httpFetch';
 
 import config from 'config'
-import { connect } from 'react-redux'
-import { formatMessage,messages } from 'share/common'
+import { connect } from 'dva'
 
 import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd'
 const FormItem = Form.Item;
@@ -43,7 +42,7 @@ class UpdateBudgetParameterSetting extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
   };
 
   handleSave = (e) => {
@@ -62,11 +61,11 @@ class UpdateBudgetParameterSetting extends React.Component {
         };
         budgetOrganizationService.updateParameterSetting(params).then((res)=>{
           this.setState({loading: false});
-          message.success(messages('common.save.success', {name: ''}));  //保存成功
+          message.success(this.$t('common.save.success', {name: ''}));  //保存成功
           this.props.close(true);
         }).catch((e) => {
           if (e.response) {
-            message.error(`${messages('common.save.filed')}, ${e.response.data.message}`);
+            message.error(`${this.$t('common.save.filed')}, ${e.response.data.message}`);
           }
           this.setState({ loading: false });
         })
@@ -84,7 +83,7 @@ class UpdateBudgetParameterSetting extends React.Component {
     return (
       <div className="new-budget-organization">
         <Form onSubmit={this.handleSave}>
-          <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterCode' })/* 参数代码 */}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterCode' })/* 参数代码 */}>
             {getFieldDecorator('parameterCode', {
               rules: [{
                 required: true
@@ -94,7 +93,7 @@ class UpdateBudgetParameterSetting extends React.Component {
               <Input disabled />
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterName' })/* 参数名称 */}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterName' })/* 参数名称 */}>
             {getFieldDecorator('parameterName', {
               rules: [{
                 required: true
@@ -104,15 +103,15 @@ class UpdateBudgetParameterSetting extends React.Component {
               <Input disabled />
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterValueName' })/* 参数值名称 */}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterValueName' })/* 参数值名称 */}>
             {getFieldDecorator('parameterValueCode', {
               rules: [{
                 required: true,
-                message: formatMessage({ id: 'common.please.enter' }),  //请输入
+                message: this.$t({ id: 'common.please.enter' }),  //请输入
               }],
               initialValue: this.props.params.parameterValueCode
             })(
-              <Select placeholder={formatMessage({ id: "common.please.select" })}>
+              <Select placeholder={this.$t({ id: "common.please.select" })}>
                 {statusOptions.map((option) => {
                   return <Option key={option.parameterValueCode}>{option.parameterValueName}</Option>
                 })}
@@ -123,17 +122,17 @@ class UpdateBudgetParameterSetting extends React.Component {
 
 
           {/* 状态 */}
-          {/* <FormItem {...formItemLayout} label={formatMessage({id: 'common.column.status'})}>
+          {/* <FormItem {...formItemLayout} label={this.$t({id: 'common.column.status'})}>
            {getFieldDecorator('enabled', {
            initialValue: this.props.params.enabled,
            valuePropName: 'checked'
            })(
            <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />}/>
-           )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}
+           )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}
            </FormItem> */}
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit" loading={this.state.loading}>{formatMessage({ id: 'common.save' })/* 保存 */}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({ id: 'common.cancel' })/* 取消 */}</Button>
+            <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({ id: 'common.save' })/* 保存 */}</Button>
+            <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' })/* 取消 */}</Button>
           </div>
         </Form>
       </div>
