@@ -26,6 +26,7 @@ app.model(require('./models/components').default);
 app.model(require('./models/languages').default);
 app.model(require('./models/menu').default);
 app.model(require('./models/cache').default);
+app.model(require('./models/budget').default);
 // 4. Router
 app.router(require('./router').default);
 

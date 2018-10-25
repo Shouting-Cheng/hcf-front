@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 import { Form, Input, Row, Col, Select, Button, message } from 'antd'
@@ -40,19 +38,19 @@ class NewBudgetStrategyDetail extends React.Component {
       if (!err) {
         values.controlStrategyId = this.props.params.strategyId;
         if (values.controlMethod !== 'NO_MESSAGE' && !values.messageCode) {
-          message.error(formatMessage({id: "budget.strategy.select.message"}/*请选择消息*/));
+          message.error(this.$t({id: "budget.strategy.select.message"}/*请选择消息*/));
           return;
         }
         this.setState({loading: true});
         httpFetch.post(`${config.budgetUrl}/api/budget/control/strategy/details`, values).then((res)=>{
           if(res.status === 200){
             this.setState({loading: false});
-            message.success(formatMessage({id: 'common.create.success'},{name: ''}) /* 新建成功 */);
+            message.success(this.$t({id: 'common.create.success'},{name: ''}) /* 新建成功 */);
             this.handleCancel();
           }
         }).catch((e)=>{
           if(e.response){
-            message.error(`${formatMessage({id: 'common.create.filed'}) /* 新建失败 */}, ${e.response.data.message}`);
+            message.error(`${this.$t({id: 'common.create.filed'}) /* 新建失败 */}, ${e.response.data.message}`);
           }
           this.setState({loading: false});
         })
@@ -67,11 +65,11 @@ class NewBudgetStrategyDetail extends React.Component {
   handleMethodChange = (value) => {
     let controlMethodNotice = '';
     if(value === 'BLOCK') {
-      controlMethodNotice = formatMessage({id: "budget.strategy.notice.forbid.submit"}/*如果满足触发条件，当单据提交时，禁止提交*/);
+      controlMethodNotice = this.$t({id: "budget.strategy.notice.forbid.submit"}/*如果满足触发条件，当单据提交时，禁止提交*/);
     } else if(value === 'ALLOWED') {
-      controlMethodNotice = formatMessage({id: "budget.strategy.notice.show.notice"}/*如果满足触发条件，当单据提交时，进行提示*/);
+      controlMethodNotice = this.$t({id: "budget.strategy.notice.show.notice"}/*如果满足触发条件，当单据提交时，进行提示*/);
     } else {
-      controlMethodNotice = formatMessage({id: "budget.strategy.notice.no.control"}/*不做任何控制*/);
+      controlMethodNotice = this.$t({id: "budget.strategy.notice.no.control"}/*不做任何控制*/);
       this.props.form.setFieldsValue({messageCode: null})
     }
     this.setState({ controlMethodNotice, controlMethodValue: value })
@@ -85,39 +83,39 @@ class NewBudgetStrategyDetail extends React.Component {
         <Form onSubmit={this.handleSave}>
           <Row>
             <Col span={7}>
-              <FormItem label={formatMessage({id: "common.sequence"}/*序号*/)}>
+              <FormItem label={this.$t({id: "common.sequence"}/*序号*/)}>
                 {getFieldDecorator('detailSequence', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"}/*请输入*/)
+                    message: this.$t({id: "common.please.enter"}/*请输入*/)
                   }],
                   initialValue: ''
                 })(
-                  <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+                  <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
                 )}
               </FormItem>
             </Col>
             <Col span={7} offset={1}>
-              <FormItem label={formatMessage({id: "budget.strategy.rule.code"}/*规则代码*/)}>
+              <FormItem label={this.$t({id: "budget.strategy.rule.code"}/*规则代码*/)}>
                 {getFieldDecorator('detailCode', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"}/*请输入*/)
+                    message: this.$t({id: "common.please.enter"}/*请输入*/)
                   }],
                   initialValue: ''
                 })(
-                  <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+                  <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
                 )}
               </FormItem>
             </Col>
             <Col span={7} offset={1}>
-              <FormItem label={formatMessage({id: "budget.strategy.control.strategy"}/*控制策略*/)} help={controlMethodNotice}>
+              <FormItem label={this.$t({id: "budget.strategy.control.strategy"}/*控制策略*/)} help={controlMethodNotice}>
                 {getFieldDecorator('controlMethod', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"}/*请输入*/)
+                    message: this.$t({id: "common.please.enter"}/*请输入*/)
                   }]})(
-                  <Select onChange={this.handleMethodChange} placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)}>
+                  <Select onChange={this.handleMethodChange} placeholder={this.$t({id: "common.please.enter"}/*请输入*/)}>
                     {controlMethodOptions.map((option)=>{
                       return <Option key={option.value}>{option.messageKey}</Option>
                     })}
@@ -128,26 +126,26 @@ class NewBudgetStrategyDetail extends React.Component {
           </Row>
           <Row>
             <Col span={7}>
-              <FormItem label={formatMessage({id: "budget.strategy.rule.name"}/*控制规则名称*/)}>
+              <FormItem label={this.$t({id: "budget.strategy.rule.name"}/*控制规则名称*/)}>
                 {getFieldDecorator('detailName', {
                   rules: [{
                     required: true,
-                    message: formatMessage({id: "common.please.enter"}/*请输入*/)
+                    message: this.$t({id: "common.please.enter"}/*请输入*/)
                   }],
                   initialValue: ''
                 })(
-                  <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+                  <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
                 )}
               </FormItem>
             </Col>
             <Col span={7} offset={1}>
-              <FormItem label={formatMessage({id: "budget.strategy.message"}/*消息*/)}>
+              <FormItem label={this.$t({id: "budget.strategy.message"}/*消息*/)}>
                 {getFieldDecorator('messageCode', {
                   rules: [{
                     required: !(controlMethodValue === 'NO_MESSAGE'),
-                    message: formatMessage({id: "common.please.select"}/*请选择*/)
+                    message: this.$t({id: "common.please.select"}/*请选择*/)
                   }]})(
-                  <Select placeholder={formatMessage({id: "common.please.select"}/*请选择*/)} disabled={controlMethodValue === 'NO_MESSAGE'}>
+                  <Select placeholder={this.$t({id: "common.please.select"}/*请选择*/)} disabled={controlMethodValue === 'NO_MESSAGE'}>
                     {messageCodeOptions && messageCodeOptions.map((option)=>{
                       return <Option key={option.value}>{option.messageKey}</Option>
                     })}
@@ -156,28 +154,24 @@ class NewBudgetStrategyDetail extends React.Component {
               </FormItem>
             </Col>
             <Col span={7} offset={1}>
-              <FormItem label={formatMessage({id: "budget.strategy.event"}/*事件*/)}>
+              <FormItem label={this.$t({id: "budget.strategy.event"}/*事件*/)}>
                 {getFieldDecorator('expWfEvent', {
                   initialValue: ''
                 })(
-                  <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+                  <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
                 )}
               </FormItem>
             </Col>
           </Row>
           <div>
-            <Button type="primary" htmlType="submit" loading={this.state.loading}>{formatMessage({id: "common.save"}/*保存*/)}</Button>
-            <Button className="btn-cancel" onClick={this.handleCancel}>{formatMessage({id: "common.cancel"}/*取消*/)}</Button>
+            <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"}/*保存*/)}</Button>
+            <Button className="btn-cancel" onClick={this.handleCancel}>{this.$t({id: "common.cancel"}/*取消*/)}</Button>
           </div>
         </Form>
       </div>
     )
   }
 }
-
-NewBudgetStrategyDetail.contextTypes={
-  router:React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return { }

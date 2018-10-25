@@ -2,12 +2,10 @@
  * created by jsq on 2017/9/28
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import { formatMessage } from 'share/common'
+import { connect } from 'dva'
 import { Form, Input, Switch, Button, Icon, Row, Col, Alert, message, DatePicker, Select } from 'antd'
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
-import debounce from 'lodash.debounce';
-import Selput from 'components/selput'
+import Selput from 'widget/selput'
 import selectorData from 'share/chooserData'
 
 import "styles/budget-setting/budget-organization/budget-control-rules/new-budget-rules-detail.scss"
@@ -265,7 +263,7 @@ class NewBudgetRulesDetail extends React.Component {
           });
           if (res.status == 200) {
             this.props.close(true);
-            message.success(`${formatMessage({ id: "common.save.success" }, { name: "" })}`);
+            message.success(`${this.$t({ id: "common.save.success" }, { name: "" })}`);
             let { validateStatusMap, helpMap } = this.state;
             validateStatusMap = {};
             helpMap = {};
@@ -278,7 +276,7 @@ class NewBudgetRulesDetail extends React.Component {
           }
         }).catch((e) => {
           if (e.response) {
-            message.error(`${formatMessage({ id: "common.save.failed" })}, ${e.response.data.message}`);
+            message.error(`${this.$t({ id: "common.save.failed" })}, ${e.response.data.message}`);
             this.setState({ loading: false });
           }
         })
@@ -332,13 +330,13 @@ class NewBudgetRulesDetail extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.ruleParameterType' })  /*规则参数类型*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.ruleParameterType' })  /*规则参数类型*/}
                         validateStatus={validateStatusMap.ruleParameterType}
                         help={helpMap.ruleParameterType}>
                 {getFieldDecorator('ruleParameterType', {
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   },
                     {
                       validator: (item, value, callback) => {
@@ -374,7 +372,7 @@ class NewBudgetRulesDetail extends React.Component {
                           callback();
                         } else {
                           validateStatusMap.ruleParameterType = "error";
-                          helpMap.ruleParameterType = formatMessage({ id: "common.please.select" });
+                          helpMap.ruleParameterType = this.$t({ id: "common.please.select" });
                           this.setState({ validateStatusMap, helpMap })
                         }
                       }
@@ -382,7 +380,7 @@ class NewBudgetRulesDetail extends React.Component {
                   ]
                 })(
                   <Select
-                    className="input-disabled-color" placeholder={formatMessage({ id: "common.please.select" })}
+                    className="input-disabled-color" placeholder={this.$t({ id: "common.please.select" })}
                     onFocus={() => this.getValueList(2012, ruleParameterTypeArray)}>
                     {
                       ruleParameterTypeArray.map((item) => <Option key={item.id}>{item.value}</Option>)
@@ -394,7 +392,7 @@ class NewBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.ruleParameter' })  /*规则参数*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.ruleParameter' })  /*规则参数*/}
                 validateStatus={validateStatusMap.ruleParameter}
                 help={helpMap.ruleParameter}>
                 {getFieldDecorator('ruleParameter', {
@@ -405,7 +403,7 @@ class NewBudgetRulesDetail extends React.Component {
                       validator: (item, value, callback) => {
                         if (typeof value === 'undefined' || value==='') {
                           validateStatusMap.ruleParameter = "error";
-                          helpMap.ruleParameter = formatMessage({ id: "common.please.select" })
+                          helpMap.ruleParameter = this.$t({ id: "common.please.select" })
                         } else {
                           let temp = {};
                           if (lov.type === 'BGT_RULE_PARAMETER_DIM') {
@@ -439,7 +437,7 @@ class NewBudgetRulesDetail extends React.Component {
                 })(
                   <Select
                     onFocus={this.handleSelectParam}
-                    className="input-disabled-color" placeholder={formatMessage({ id: "common.please.select" })}>
+                    className="input-disabled-color" placeholder={this.$t({ id: "common.please.select" })}>
                     {
                       ruleParamsArray.map((item) => <Option key={item.id}>{item.value}</Option>)
                     }
@@ -451,18 +449,18 @@ class NewBudgetRulesDetail extends React.Component {
           <Row gutter={30}>
             <Col span={20}>
               <FormItem {...formItemLayout}
-                        label={formatMessage({ id: 'budget.filtrateMethod' })  /*取值方式*/}
+                        label={this.$t({ id: 'budget.filtrateMethod' })  /*取值方式*/}
                         validateStatus={validateStatusMap.filtrateMethod}
                         help={helpMap.filtrateMethod}>
                 {getFieldDecorator('filtrateMethod', {
                   rules: [{
                     required: true,
-                    message: formatMessage({ id: "common.please.select" })
+                    message: this.$t({ id: "common.please.select" })
                   },
                     {
                       validator: (item, value, callback) => {
-                        helpMap.filtrateMethod = value === "INCLUDE" ? formatMessage({id:'budget.filtrateMethodHelp.contain'}) /*值范围为闭区间，包含左右边界值*/
-                          : value === "EXCLUDE" ? formatMessage({id:'budget.filtrateMethodHelp.exclude'}) : formatMessage({id:'common.please.select'}),/*值范围为开区间，不包含左右边界值*/
+                        helpMap.filtrateMethod = value === "INCLUDE" ? this.$t({id:'budget.filtrateMethodHelp.contain'}) /*值范围为闭区间，包含左右边界值*/
+                          : value === "EXCLUDE" ? this.$t({id:'budget.filtrateMethodHelp.exclude'}) : this.$t({id:'common.please.select'}),/*值范围为开区间，不包含左右边界值*/
                           validateStatusMap.filtrateMethod = typeof value === 'undefined' ? "error" : "";
                         this.setState({
                           helpMap,
@@ -474,7 +472,7 @@ class NewBudgetRulesDetail extends React.Component {
                     }]
                 })(
                   <Select
-                    placeholder={formatMessage({ id: "common.please.select" })}
+                    placeholder={this.$t({ id: "common.please.select" })}
                     onFocus={() => this.getValueList(2013, filtrateMethodArray)}
                     Control periodControl period       >
                     {filtrateMethodArray.map((item) => <Option key={item.id}>{item.value}</Option>)}
@@ -486,7 +484,7 @@ class NewBudgetRulesDetail extends React.Component {
           <Row gutter={30}>
             <Col span={20}>
               <FormItem {...formItemLayout}
-                        label={formatMessage({ id: 'budget.summaryOrDetail' })  /*取值范围*/}
+                        label={this.$t({ id: 'budget.summaryOrDetail' })  /*取值范围*/}
                         validateStatus={validateStatusMap.summaryOrDetail}
                         help={helpMap.summaryOrDetail}>
                 {getFieldDecorator('summaryOrDetail', {
@@ -494,7 +492,7 @@ class NewBudgetRulesDetail extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: "common.please.select" })
+                      message: this.$t({ id: "common.please.select" })
                     },
                     {
                       validator: (item, value, callback) => {
@@ -507,7 +505,7 @@ class NewBudgetRulesDetail extends React.Component {
                 })(
                   <Select
                     disabled
-                    placeholder={formatMessage({ id: "common.please.select" })}
+                    placeholder={this.$t({ id: "common.please.select" })}
                   >
                     {summaryOrDetailArray.map((item) => <Option key={item.id}>{item.value}</Option>)}
                   </Select>
@@ -517,7 +515,7 @@ class NewBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterLowerLimit' })  /*下限值*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterLowerLimit' })  /*下限值*/}
                         validateStatus={validateStatusMap.parameterLowerLimit}
                         help={helpMap.parameterLowerLimit}>
                 {getFieldDecorator('parameterLowerLimit',
@@ -525,13 +523,13 @@ class NewBudgetRulesDetail extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: formatMessage({ id: "common.please.select" })
+                        message: this.$t({ id: "common.please.select" })
                       },
                       {
                         validator: (item, value, callback) => {
                           if (typeof value === 'undefined'|| value==='') {
                             validateStatusMap.parameterLowerLimit = "error";
-                            helpMap.parameterLowerLimit = formatMessage({ id: "common.please.select" })
+                            helpMap.parameterLowerLimit = this.$t({ id: "common.please.select" })
                           }else {
                             validateStatusMap.parameterLowerLimit = "";
                             helpMap.parameterLowerLimit = '';
@@ -553,20 +551,20 @@ class NewBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.parameterUpperLimit' })  /*上限值*/}
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.parameterUpperLimit' })  /*上限值*/}
                         validateStatus={validateStatusMap.parameterUpperLimit}
                         help={helpMap.parameterUpperLimit}>
                 {getFieldDecorator('parameterUpperLimit', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: "common.please.select" })
+                      message: this.$t({ id: "common.please.select" })
                     },
                     {
                       validator: (item, value, callback) => {
                         if (typeof value === 'undefined'||value==='') {
                           validateStatusMap.parameterUpperLimit = "error";
-                          helpMap.parameterUpperLimit = formatMessage({ id: "common.please.select" })
+                          helpMap.parameterUpperLimit = this.$t({ id: "common.please.select" })
                         }else {
                           validateStatusMap.parameterUpperLimit = "";
                           helpMap.parameterUpperLimit = '';
@@ -587,16 +585,16 @@ class NewBudgetRulesDetail extends React.Component {
           </Row>
           <Row gutter={30}>
             <Col span={20}>
-              <FormItem {...formItemLayout} label={formatMessage({ id: 'budget.invalidDate' })  /*失效日期*/}>
+              <FormItem {...formItemLayout} label={this.$t({ id: 'budget.invalidDate' })  /*失效日期*/}>
                 {getFieldDecorator('invalidDate')(
-                  <DatePicker placeholder={formatMessage({ id: "common.please.enter" })} />
+                  <DatePicker placeholder={this.$t({ id: "common.please.enter" })} />
                 )}
               </FormItem>
             </Col>
           </Row>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit" loading={loading}>{formatMessage({ id: "common.save" })}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({ id: "common.cancel" })}</Button>
+            <Button type="primary" htmlType="submit" loading={loading}>{this.$t({ id: "common.save" })}</Button>
+            <Button onClick={this.onCancel}>{this.$t({ id: "common.cancel" })}</Button>
             <input ref="blur" style={{ position: 'absolute', top: '-100vh' }} />
           </div>
         </Form>
@@ -607,7 +605,7 @@ class NewBudgetRulesDetail extends React.Component {
 function mapStateToProps(state) {
   return {
     organization: state.budget.organization,
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

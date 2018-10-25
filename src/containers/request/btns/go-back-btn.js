@@ -18,6 +18,7 @@ class GoBackBtn extends React.Component {
     if (this.props.backType === 'history') {
       window.history.go(-1);
     } else {
+      console.log(this.props.backType);
       this.props.dispatch(
         routerRedux.push({
           pathname: '/request',

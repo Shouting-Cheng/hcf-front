@@ -2,7 +2,7 @@
  *  created by jsq on 2017/9/22
  */
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import {formatMessage} from 'share/common'
 import menuRoute from 'routes/menuRoute'
 import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, Table, message, Checkbox   } from 'antd'

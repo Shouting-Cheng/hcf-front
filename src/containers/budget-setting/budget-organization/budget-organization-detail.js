@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {messages} from 'share/common'
+import { connect } from 'dva'
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -15,24 +14,22 @@ import BudgetControlRules from 'containers/budget-setting/budget-organization/bu
 import BudgetJournalType from 'containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type'
 import BudgetItemMap from 'containers/budget-setting/budget-organization/budget-item-map/budget-item-map'
 
-import menuRoute from 'routes/menuRoute'
-
 class BudgetOrganizationDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       nowStatus: 'SCENARIOS',
       tabs: [
-        {key: 'SCENARIOS', name: messages('budget.setting.scenarios') },
-        {key: 'VERSIONS', name: messages('budget.setting.version')},
-        {key: 'STRUCTURE', name: messages('budget.setting.structure')},
-        {key: 'TYPE', name: messages('budget.setting.item.type')},
-        {key: 'ITEM', name: messages('budget.setting.item')},
-        {key: 'GROUP', name: messages('budget.setting.item.group')},
-        {key: 'STRATEGY', name: messages('budget.setting.control.strategy')},
-        {key: 'RULE', name: messages('budget.setting.control.rule')},
-        {key: 'ITEM_MAP', name: messages('budget.setting.item.map')},
-        {key: 'JOURNAL_TYPE', name: messages('budget.setting.journal.type')}
+        {key: 'SCENARIOS', name: this.$t('budget.setting.scenarios') },
+        {key: 'VERSIONS', name: this.$t('budget.setting.version')},
+        {key: 'STRUCTURE', name: this.$t('budget.setting.structure')},
+        {key: 'TYPE', name: this.$t('budget.setting.item.type')},
+        {key: 'ITEM', name: this.$t('budget.setting.item')},
+        {key: 'GROUP', name: this.$t('budget.setting.item.group')},
+        {key: 'STRATEGY', name: this.$t('budget.setting.control.strategy')},
+        {key: 'RULE', name: this.$t('budget.setting.control.rule')},
+        {key: 'ITEM_MAP', name: this.$t('budget.setting.item.map')},
+        {key: 'JOURNAL_TYPE', name: this.$t('budget.setting.journal.type')}
       ],
       budgetOrganizationDetailPage: menuRoute.getRouteItem('budget-organization-detail','key'),    //组织定义详情的页面项
     };
