@@ -62,7 +62,7 @@ class SelectEmployeeGroup extends React.Component {
         return;
       }
 
-      httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?id=${treeNode.props.eventKey}&name=`).then(res => {
+      httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?status=102&id=${treeNode.props.eventKey}&name=`).then(res => {
         let temp = [];
 
         res.data.map(item => {

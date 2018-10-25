@@ -1,16 +1,11 @@
-import { messages } from 'share/common';
-/**
- * Created by zhouli on 18/2/7
- * Email li.zhou@huilianyi.com
- */
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 import { Table, Button, Badge, Tooltip, Icon, Popover } from 'antd';
 
 import LPService from 'containers/enterprise-manage/legal-person/legal-person.service';
-import SearchArea from 'components/search-area.js';
-import menuRoute from 'routes/menuRoute';
+import SearchArea from 'components/Widget/search-area.js';
+
 
 class LegalPerson extends React.Component {
   constructor(props) {
@@ -32,18 +27,18 @@ class LegalPerson extends React.Component {
           type: 'input',
           key: 'keyword', //必填，唯一，每行的标识
           id: 'keyword',
-          label: messages('legal.person.name'), //'法人实体名称',
+          label: this.$t('legal.person.name'), //'法人实体名称',
         },
       ],
       //老集团表格
       columns: [
         {
-          title: messages('legal.person.index'), //'序号',
+          title: this.$t('legal.person.index'), //'序号',
           dataIndex: 'index',
           width: '8%',
         },
         {
-          title: messages('legal.person.name'), // "法人实体名称",
+          title: this.$t('legal.person.name'), // "法人实体名称",
           key: 'companyName',
           dataIndex: 'companyName',
           render: text => (
@@ -59,23 +54,23 @@ class LegalPerson extends React.Component {
           ),
         },
         {
-          title: messages('legal.person.person.total'), //"员工数量",
+          title: this.$t('legal.person.person.total'), //"员工数量",
           key: 'userAmount',
           dataIndex: 'userAmount',
         },
         {
-          title: messages('legal.person.status'), //'状态',
+          title: this.$t('legal.person.status'), //'状态',
           dataIndex: 'enable',
           width: '15%',
           render: enable => (
             <Badge
               status={enable ? 'success' : 'error'}
-              text={enable ? messages('common.enabled') : messages('common.disabled')}
+              text={enable ? this.$t('common.enabled') : this.$t('common.disabled')}
             />
           ),
         },
         {
-          title: messages('common.operation'), //"操作",
+          title: this.$t('common.operation'), //"操作",
           dataIndex: 'id',
           key: 'id',
           render: (text, record) => (
@@ -85,12 +80,12 @@ class LegalPerson extends React.Component {
                 disabled={!this.props.tenantMode}
               >
                 {/*编辑*/}
-                {messages('common.edit')}
+                {this.$t('common.edit')}
               </a>
               &nbsp;&nbsp;&nbsp;
               <a onClick={e => this.handleRowClick(e, record)}>
                 {/*详情*/}
-                {messages('common.detail')}
+                {this.$t('common.detail')}
               </a>
             </span>
           ),
@@ -99,28 +94,28 @@ class LegalPerson extends React.Component {
       //新集团表格
       columnsNew: [
         {
-          title: messages('legal.person.index'), //'序号',
+          title: this.$t('legal.person.index'), //'序号',
           dataIndex: 'index',
           width: '8%',
         },
         {
-          title: messages('legal.person.name'), // "法人实体名称",
+          title: this.$t('legal.person.name'), // "法人实体名称",
           key: 'companyName',
           dataIndex: 'companyName',
         },
         {
-          title: messages('legal.person.status'), //'状态',
+          title: this.$t('legal.person.status'), //'状态',
           dataIndex: 'enable',
           width: '15%',
           render: enable => (
             <Badge
               status={enable ? 'success' : 'error'}
-              text={enable ? messages('common.enabled') : messages('common.disabled')}
+              text={enable ? this.$t('common.enabled') : this.$t('common.disabled')}
             />
           ),
         },
         {
-          title: messages('common.operation'), //"操作",
+          title: this.$t('common.operation'), //"操作",
           dataIndex: 'id',
           key: 'id',
           render: (text, record) => (
@@ -130,12 +125,12 @@ class LegalPerson extends React.Component {
                 disabled={!this.props.tenantMode}
               >
                 {/*编辑*/}
-                {messages('common.edit')}
+                {this.$t('common.edit')}
               </a>
               &nbsp;&nbsp;&nbsp;
               <a onClick={e => this.handleRowClick(e, record)}>
                 {/*详情*/}
-                {messages('common.detail')}
+                {this.$t('common.detail')}
               </a>
             </span>
           ),
@@ -222,19 +217,29 @@ class LegalPerson extends React.Component {
   };
   //新增法人实体
   handleCreateLP = () => {
-    this.context.router.push(
-      menuRoute.getMenuItemByAttr('legal-person', 'key').children.newLegalPerson.url
-    );
+     this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID`,
+        })
+      );
+    // this.context.router.push(
+    //   menuRoute.getMenuItemByAttr('legal-person', 'key').children.newLegalPerson.url
+    // );
   };
   //编辑法人实体
   editItemLegalPerson = (e, record) => {
     this.setBeforePage(this.state.pagination);
     e.stopPropagation();
-    let detailUrl = menuRoute
-      .getMenuItemByAttr('legal-person', 'key')
-      .children.newLegalPerson.url.replace(':legalPersonOID', record.companyReceiptedOID);
-    detailUrl = detailUrl.replace(':legalPersonID', record.id);
-    this.context.router.push(detailUrl);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/legal-person/new-legal-person/${record.companyReceiptedOID}/${record.id}`,
+      })
+    );
+    // let detailUrl = menuRoute
+    //   .getMenuItemByAttr('legal-person', 'key')
+    //   .children.newLegalPerson.url.replace(':legalPersonOID', record.companyReceiptedOID);
+    // detailUrl = detailUrl.replace(':legalPersonID', record.id);
+    // this.context.router.push(detailUrl);
   };
   //分页点击
   onChangePager = (pagination, filters, sorter) => {
@@ -255,11 +260,16 @@ class LegalPerson extends React.Component {
   //为了适应新老集团，这里传两个参数
   handleRowClick = (e, record) => {
     this.setBeforePage(this.state.pagination);
-    let detailUrl = menuRoute
-      .getMenuItemByAttr('legal-person', 'key')
-      .children.legalPersonDetail.url.replace(':legalPersonOID', record.companyReceiptedOID);
-    detailUrl = detailUrl.replace(':legalPersonID', record.id);
-    this.context.router.push(detailUrl);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/legal-person/legal-person-detail/${record.companyReceiptedOID}/${record.id}`,
+      })
+    );
+    // let detailUrl = menuRoute
+    //   .getMenuItemByAttr('legal-person', 'key')
+    //   .children.legalPersonDetail.url.replace(':legalPersonOID', record.companyReceiptedOID);
+    // detailUrl = detailUrl.replace(':legalPersonID', record.id);
+    // this.context.router.push(detailUrl);
   };
 
   renderCreateBtn = () => {
@@ -267,18 +277,18 @@ class LegalPerson extends React.Component {
       <div className="table-header-buttons">
         <Button type="primary" disabled={!this.props.tenantMode} onClick={this.handleCreateLP}>
           {/*新增法人实体*/}
-          {messages('legal.person.new')}
+          {this.$t('legal.person.new')}
         </Button>
         <Tooltip
           title={
             <div>
               <p>
-                {messages('legal.person.tips1')}
+                {this.$t('legal.person.tips1')}
                 {/*1.法人实体名称是员工在法律上归属的公司注册名称,*/}
                 {/*在应用开票平台开具增值税发票时,作为选择开票费用集合的单位*/}
               </p>
               <p>
-                {messages('legal.person.tips2')}
+                {this.$t('legal.person.tips2')}
                 {/*2.法人实体详细信息是员工个人开具增值税发票的必要信息,*/}
                 {/*用户可在APP我的-开票信息中查看*/}
               </p>
@@ -304,7 +314,7 @@ class LegalPerson extends React.Component {
         <div className="table-header">
           <div className="table-header-title">
             {/*共搜索到*条数据*/}
-            {messages('common.total', { total: `${this.state.pagination.total}` })}
+            {this.$t('common.total', { total: `${this.state.pagination.total}` })}
           </div>
           {this.renderCreateBtn()}
         </div>
@@ -324,17 +334,14 @@ class LegalPerson extends React.Component {
   }
 }
 
-LegalPerson.contextTypes = {
-  router: React.PropTypes.object,
-};
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
-    company: state.login.company,
-    isOldCompany: state.login.isOldCompany,
-    tenantMode: state.main.tenantMode,
+    profile: state.user.profile,
+    user: state.user.currentUser,
+    company: state.user.company,
+    isOldCompany: state.user.isOldCompany,
+    tenantMode: true,
   };
 }
 

@@ -74,7 +74,7 @@ class SelectEmployeeGroup extends React.Component {
 
             let model = JSON.parse(treeNode.props.eventKey);
 
-            httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?id=${model.id}&name=`).then(res => {
+            httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?status=102&id=${model.id}&name=`).then(res => {
 
                 let temp = [];
                 let selected = this.state.toSelectList.concat([]);

@@ -32,7 +32,7 @@ class CurrencySettingEdit extends React.Component {
             outEditRateSave: false,
             startDate: null,//查询历史汇率的起始日期
             endDate: null,//查询历史汇率的截止日期
-            language: this.props.language.code ? this.props.language.code : 'zh_CN',
+            language: this.props.language.local,
             loading: false,
             columns: [
                 {
@@ -51,7 +51,7 @@ class CurrencySettingEdit extends React.Component {
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD HH:mm:ss')) }
                 },
                 {
-                    title: this.props.tenantMode ? '操作' : '', dataIndex: 'operation', width: this.props.language.code === 'zh_cn' ? '7%' : '10%',
+                    title: this.props.tenantMode ? '操作' : '', dataIndex: 'operation', width: this.props.language.local === 'zh_cn' ? '7%' : '10%',
                     render: (text, record) => this.displayOperation(text, record)
                 },
             ],
@@ -275,7 +275,7 @@ class CurrencySettingEdit extends React.Component {
         Modal.confirm({
             content: this.$t("currency.setting.add.edit.confirm")/*是否确认修改*/,
             onOk: () => {
-                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?language=${this.props.language.code}&tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.location.state.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
+                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?language=${this.props.language.local}&tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.location.state.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
                     if (res.data) {
                         record.enableAutoUpdate = e.target.checked;
                         this.setState({
@@ -345,7 +345,7 @@ class CurrencySettingEdit extends React.Component {
             currencyRateOid: record.currencyRateOid,
             endDate: endDate ? endDate.utc().format() : null,
             startDate: startDate ? startDate.utc().format() : null,
-            language: this.props.language.code,
+            language: this.props.language.local,
             page: 0,
             size: pageSize,
         };
@@ -610,7 +610,7 @@ class CurrencySettingEdit extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        language: state.languages.languages,
+        language: state.languages,
         company: state.user.company,
         tenantMode: true,
     }

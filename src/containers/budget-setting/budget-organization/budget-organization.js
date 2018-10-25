@@ -1,55 +1,51 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Table, Badge, Button, Popover, message } from 'antd';
-import menuRoute from 'routes/menuRoute'
 import config from 'config'
 
 import budgetOrganizationService from 'containers/budget-setting/budget-organization/budget-organnization.service'
 import UpdateBudgetOrganization from 'containers/budget-setting/budget-organization/update-budget-organization'
-import SearchArea from 'components/search-area'
-import SlideFrame from 'components/slide-frame'
+import SearchArea from 'widget/search-area'
+import SlideFrame from 'widget/slide-frame'
+import { routerRedux } from 'dva/router';
 
 class BudgetOrganization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      BudgetParameterSetting: menuRoute.getRouteItem('budget-parameter-setting', 'key'),
       loading: true,
       data: [],
       page: 0,
       pageSize: 10,
       columns: [
-        {title: formatMessage({id:"budget.organization.code"}), dataIndex: 'organizationCode', width: '20%'},  //预算组织代码
-        {title: formatMessage({id:"budget.organization.name"}), dataIndex: 'organizationName', width: '30%',   //预算组织名称
+        {title: this.$t({id:"budget.organization.code"}), dataIndex: 'organizationCode', width: '20%'},  //预算组织代码
+        {title: this.$t({id:"budget.organization.name"}), dataIndex: 'organizationName', width: '30%',   //预算组织名称
           render: organizationName => (
             <Popover content={organizationName}>
               {organizationName}
             </Popover>)
         },
-        {title: formatMessage({id:"budget.organization.set.of.books"}), dataIndex: 'setOfBooksCode', width: '20%'},  //账套
-        {title: formatMessage({id:"common.column.status"}), dataIndex: 'enabled', width: '15%',
+        {title: this.$t({id:"budget.organization.set.of.books"}), dataIndex: 'setOfBooksCode', width: '20%'},  //账套
+        {title: this.$t({id:"common.column.status"}), dataIndex: 'enabled', width: '15%',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                   text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})} />
+                   text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})} />
           )}, //状态
-        {title: formatMessage({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '15%', render: (text, record) => (
           <span>
-            <a href="#" onClick={(e) => this.editItem(e, record)}>{formatMessage({id: "common.edit"})}</a>
+            <a href="#" onClick={(e) => this.editItem(e, record)}>{this.$t({id: "common.edit"})}</a>
             <span className="ant-divider" />
-            <a onClick={e => this.parameterSetting(e, record)}>{formatMessage({ id: 'budget.parameter.setting' })}</a>
+            <a onClick={e => this.parameterSetting(e, record)}>{this.$t({ id: 'budget.parameter.setting' })}</a>
           </span>)},  //操作
       ],
       pagination: {
         total: 0
       },
-      budgetOrganizationDetailPage: menuRoute.getRouteItem('budget-organization-detail','key'),    //组织定义详情的页面项
-      newBudgetOrganization:  menuRoute.getRouteItem('new-budget-organization','key'),    //新建组织定义的页面项
       searchForm: [
-        {type: 'select', id: 'setOfBooksId', label: formatMessage({id:"budget.organization.set.of.books"}), options: [],
+        {type: 'select', id: 'setOfBooksId', label: this.$t({id:"budget.organization.set.of.books"}), options: [],
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`, method: 'get', labelKey: 'setOfBooksCode', valueKey: 'id', getParams: {roleType: 'TENANT'}}, //账套
-        {type: 'input', id: 'organizationCode', label: formatMessage({id:"budget.organization.code"})},  //预算组织代码
-        {type: 'input', id: 'organizationName', label: formatMessage({id:"budget.organization.name"})}  //预算组织名称
+        {type: 'input', id: 'organizationCode', label: this.$t({id:"budget.organization.code"})},  //预算组织代码
+        {type: 'input', id: 'organizationName', label: this.$t({id:"budget.organization.name"})}  //预算组织名称
       ],
       searchParams: {
         setOfBooksId: '',
@@ -65,9 +61,13 @@ class BudgetOrganization extends React.Component {
   parameterSetting = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
-    this.context.router.push(this.state.BudgetParameterSetting.url.replace(':id', record.id));
-
-  }
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id'
+          .replace(':id', record.id)
+      })
+    );
+  };
 
   componentWillMount(){
     this.getList();
@@ -105,7 +105,7 @@ class BudgetOrganization extends React.Component {
         }
       })
     }).catch(e => {
-      message.error(formatMessage({id: 'common.error'}));
+      message.error(this.$t({id: 'common.error'}));
       this.setState({loading: false});
     });
   }
@@ -122,7 +122,12 @@ class BudgetOrganization extends React.Component {
   };
 
   handleRowClick = (record) => {
-    this.context.router.push(this.state.budgetOrganizationDetailPage.url.replace(':id', record.id).replace(":setOfBooksId",record.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', record.id).replace(":setOfBooksId",record.setOfBooksId)
+      })
+    );
   };
 
   search = (result) => {
@@ -153,7 +158,11 @@ class BudgetOrganization extends React.Component {
   };
 
   handleNew = () => {
-    this.context.router.push(this.state.newBudgetOrganization.url);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/new-budget-organization'
+      })
+    );
   };
 
   handleCloseSlide = (success) => {
@@ -165,7 +174,7 @@ class BudgetOrganization extends React.Component {
     const { columns, data, loading,  pagination, searchForm, nowOrganization, showSlideFrame } = this.state;
     return (
       <div className="budget-organization">
-        <h3 className="header-title">{formatMessage({id:"menu.budget-organization"})}</h3> {/* 预算组织定义 */}
+        <h3 className="header-title">{this.$t({id:"menu.budget-organization"})}</h3> {/* 预算组织定义 */}
         <SearchArea
           searchForm={searchForm}
           submitHandle={this.search}
@@ -173,9 +182,9 @@ class BudgetOrganization extends React.Component {
           eventHandle={this.searchEventHandle}/>
 
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:"common.total"}, {total: pagination.total ? pagination.total : '0'})}</div> {/* 共total条数据 */}
+          <div className="table-header-title">{this.$t({id:"common.total"}, {total: pagination.total ? pagination.total : '0'})}</div> {/* 共total条数据 */}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleNew}>{formatMessage({id:"common.create"})}</Button> {/* 新建 */}
+            <Button type="primary" onClick={this.handleNew}>{this.$t({id:"common.create"})}</Button> {/* 新建 */}
           </div>
         </div>
         <Table columns={columns}
@@ -186,21 +195,18 @@ class BudgetOrganization extends React.Component {
                onRow={record => ({onClick: () => this.handleRowClick(record)})}
                size="middle"/>
         {/* 编辑预算组织 */}
-        <SlideFrame title={formatMessage({id:"budget.organization.edit"})}
+        <SlideFrame title={this.$t({id:"budget.organization.edit"})}
                     show={showSlideFrame}
-                    content={UpdateBudgetOrganization}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.setState({showSlideFrame : false})}
-                    params={nowOrganization}/>
+                    onClose={() => this.setState({showSlideFrame : false})}>
+          <UpdateBudgetOrganization
+            onClose={this.handleCloseSlide}
+            params={nowOrganization}/>
+        </SlideFrame>
       </div>
     )
   }
 
 }
-
-BudgetOrganization.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

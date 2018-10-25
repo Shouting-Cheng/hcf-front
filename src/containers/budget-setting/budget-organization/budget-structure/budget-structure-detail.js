@@ -2,19 +2,17 @@
  *  created by jsq on 2017/9/20
  */
 import React from 'react';
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
-import menuRoute from 'routes/menuRoute'
 
 import { Form, Button, Select, Input, Switch, Icon, Badge, Tabs, Checkbox, Table, message, Popover  } from 'antd'
-
+import { routerRedux } from 'dva/router';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
-import SlideFrame from "components/slide-frame";
+import SlideFrame from "widget/slide-frame";
 import NewDimension from 'containers/budget-setting/budget-organization/budget-structure/new-dimension'
 import UpdateDimension from 'containers/budget-setting/budget-organization/budget-structure/update-dimension'
-import ListSelector from 'components/list-selector'
-import BasicInfo from 'components/basic-info'
+import ListSelector from 'widget/list-selector'
+import BasicInfo from 'widget/basic-info'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -40,7 +38,7 @@ class BudgetStructureDetail extends React.Component{
       dimension: {},
       showSlideFrame: false,
       showSlideFrameUpdate: false,
-      statusCode: formatMessage({id:"common.status.enable"}) /*启用*/,
+      statusCode: this.$t({id:"common.status.enable"}) /*启用*/,
       total:0,
       data:[],
       pagination: {
@@ -54,64 +52,64 @@ class BudgetStructureDetail extends React.Component{
       label:"",
       columns:[],
       infoList: [
-        {type: 'input', id: 'organizationName',isRequired: true, disabled: true, label: formatMessage({id: 'budget.organization'})+" :" /*预算组织*/},
-        {type: 'input', id: 'structureCode',isRequired: true, disabled: true, label: formatMessage({id: 'budget.structureCode'})+" :" /*预算表代码*/},
-        {type: 'input', id: 'structureName' ,isRequired: true, label: formatMessage({id: 'budget.structureName'}) +" :"/*预算表名称*/},
-        {type: 'select',options: periodStrategy , isRequired: true, id: 'periodStrategy', label: formatMessage({id: 'budget.periodStrategy'}) +" :"/*编制期段*/},
-        {type: 'input', id: 'description', label: formatMessage({id: 'budget.structureDescription'}) +" :"/*预算表描述*/},
-        {type: 'switch', id: 'enabled', label: formatMessage({id: 'common.column.status'}) +" :"/*状态*/},
+        {type: 'input', id: 'organizationName',isRequired: true, disabled: true, label: this.$t({id: 'budget.organization'})+" :" /*预算组织*/},
+        {type: 'input', id: 'structureCode',isRequired: true, disabled: true, label: this.$t({id: 'budget.structureCode'})+" :" /*预算表代码*/},
+        {type: 'input', id: 'structureName' ,isRequired: true, label: this.$t({id: 'budget.structureName'}) +" :"/*预算表名称*/},
+        {type: 'select',options: periodStrategy , isRequired: true, id: 'periodStrategy', label: this.$t({id: 'budget.periodStrategy'}) +" :"/*编制期段*/},
+        {type: 'input', id: 'description', label: this.$t({id: 'budget.structureDescription'}) +" :"/*预算表描述*/},
+        {type: 'switch', id: 'enabled', label: this.$t({id: 'common.column.status'}) +" :"/*状态*/},
       ],
       columnGroup:{
         company: [
           {                        /*公司代码*/
-            title:formatMessage({id:"structure.companyCode"}), key: "companyCode", dataIndex: 'companyCode'
+            title:this.$t({id:"structure.companyCode"}), key: "companyCode", dataIndex: 'companyCode'
           },
           {                        /*公司名称*/
-            title:formatMessage({id:"structure.companyName"}), key: "companyName", dataIndex: 'companyName'
+            title:this.$t({id:"structure.companyName"}), key: "companyName", dataIndex: 'companyName'
           },
           {                        /*公司类型*/
-            title:formatMessage({id:"structure.companyType"}), key: "companyTypeName", dataIndex: 'companyTypeName',
+            title:this.$t({id:"structure.companyType"}), key: "companyTypeName", dataIndex: 'companyTypeName',
             render:recode=> <span>{recode ? recode : '-'}</span>
           },
           {                        /*启用*/
-            title:formatMessage({id:"structure.enablement"}), key: "doneRegisterLead", dataIndex: 'doneRegisterLead',width:'10%',
+            title:this.$t({id:"structure.enablement"}), key: "doneRegisterLead", dataIndex: 'doneRegisterLead',width:'10%',
             render: (enabled, record) => <Checkbox onChange={(e) => this.onChangeEnabled(e, record)} checked={record.enabled}/>
           },
         ],
         dimension: [
           {                        /*维度代码*/
-            title:formatMessage({id:"structure.dimensionCode"}), key: "dimensionCode", dataIndex: 'dimensionCode'
+            title:this.$t({id:"structure.dimensionCode"}), key: "dimensionCode", dataIndex: 'dimensionCode'
           },
           {                        /*维度名称*/
-            title:formatMessage({id:"structure.dimensionName"}), key: "dimensionName", dataIndex: 'dimensionName',
+            title:this.$t({id:"structure.dimensionName"}), key: "dimensionName", dataIndex: 'dimensionName',
             render: record => (
               <span>{record ? <Popover content={record}>{record} </Popover> : '-'} </span>)
           },
           {                        /*布局位置*/
-            title:formatMessage({id:"structure.layoutPosition"}), key: "layoutPositionName", dataIndex: 'layoutPositionName'
+            title:this.$t({id:"structure.layoutPosition"}), key: "layoutPositionName", dataIndex: 'layoutPositionName'
           },
           {                        /*布局顺序*/
-            title:formatMessage({id:"structure.layoutPriority"}), key: "layoutPriority", dataIndex: 'layoutPriority'
+            title:this.$t({id:"structure.layoutPriority"}), key: "layoutPriority", dataIndex: 'layoutPriority'
           },
           {                        /*默认维值代码*/
-            title:formatMessage({id:"structure.defaultDimValueCode"}), key: "defaultDimValueCode", dataIndex: 'defaultDimValueCode',
+            title:this.$t({id:"structure.defaultDimValueCode"}), key: "defaultDimValueCode", dataIndex: 'defaultDimValueCode',
             render:recode=> <span>{recode ? recode : '-'}</span>
           },
           {                        /*默认维值名称*/
-            title:formatMessage({id:"structure.defaultDimValueName"}), key: "defaultDimValueName", dataIndex: 'defaultDimValueName',
+            title:this.$t({id:"structure.defaultDimValueName"}), key: "defaultDimValueName", dataIndex: 'defaultDimValueName',
             render: record => (
               <span>{record ? <Popover content={record}>{record} </Popover> : '-'} </span>)
           },
-          {title: formatMessage({id:"common.column.status"}), dataIndex: 'enabled', width: '15%',
+          {title: this.$t({id:"common.column.status"}), dataIndex: 'enabled', width: '15%',
             render: enabled => (
               <Badge status={enabled ? 'success' : 'error'}
-                     text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.disabled"})} />
+                     text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.disabled"})} />
             )}, //状态
         ]
       },
       tabs: [
-        {key: 'dimension', name: formatMessage({id:"structure.dimensionDistribute"})}, /*维度分配*/
-        {key: 'company', name: formatMessage({id:"structure.companyDistribute"})}  /*公司分配*/
+        {key: 'dimension', name: this.$t({id:"structure.dimensionDistribute"})}, /*维度分配*/
+        {key: 'company', name: this.$t({id:"structure.companyDistribute"})}  /*公司分配*/
       ],
     };
   }
@@ -137,7 +135,7 @@ class BudgetStructureDetail extends React.Component{
     });
 
     //获取某预算表某行的数据
-    budgetService.getStructureById(this.props.params.structureId).then((response)=> {
+    budgetService.getStructureById(this.props.match.params.id).then((response)=> {
       let periodStrategy = {label:response.data.periodStrategyName,value:response.data.periodStrategy};
       response.data.periodStrategy = periodStrategy;
       if(response.status === 200){
@@ -161,7 +159,7 @@ class BudgetStructureDetail extends React.Component{
       if(response.status === 200) {
         let structure = response.data;
         structure.organizationName = this.state.structure.organizationName;
-        message.success(formatMessage({id: "structure.saveSuccess"})); /*保存成功！*/
+        message.success(this.$t({id: "structure.saveSuccess"})); /*保存成功！*/
         structure.periodStrategy = {label:response.data.periodStrategyName, value:response.data.periodStrategy}
         this.setState({
             structure: structure,
@@ -172,7 +170,7 @@ class BudgetStructureDetail extends React.Component{
       }
     }).catch((e)=>{
       if(e.response){
-        message.error(`${formatMessage({id:"common.operate.filed"})}, ${e.response.data.message}`);
+        message.error(`${this.$t({id:"common.operate.filed"})}, ${e.response.data.message}`);
       }
     })
   };
@@ -209,7 +207,7 @@ class BudgetStructureDetail extends React.Component{
   getList = ()=>{
     const { pagination } = this.state;
     let params = {
-      structureId: this.props.params.structureId,
+      structureId: this.props.match.params.id,
       page: pagination.page,
       size: pagination.pageSize
     };
@@ -310,7 +308,7 @@ class BudgetStructureDetail extends React.Component{
   handleListOk = (result) => {
     let company = [];
     result.result.map((item)=>{
-      company.push({companyCode: item.companyCode,companyId:item.id,structureId:this.props.params.structureId,enabled:item.enabled})
+      company.push({companyCode: item.companyCode,companyId:item.id,structureId:this.props.match.params.id,enabled:item.enabled})
     });
     budgetService.structureAssignCompany(company).then((response)=>{
       if(response.status === 200) {
@@ -323,7 +321,7 @@ class BudgetStructureDetail extends React.Component{
       }
     }).catch((e)=>{
       if(e.response){
-        message.error(`${formatMessage({id:"common.operate.filed"})}, ${e.response.data.message}`);
+        message.error(`${this.$t({id:"common.operate.filed"})}, ${e.response.data.message}`);
       }
       this.setState({loading: false});
     });
@@ -331,7 +329,14 @@ class BudgetStructureDetail extends React.Component{
 
   //返回预算表页面
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId)+ '?tab=STRUCTURE');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','STRUCTURE')
+      })
+    );
   };
 
   //分页点击
@@ -365,10 +370,10 @@ class BudgetStructureDetail extends React.Component{
           </Tabs>
         </div>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" disabled={label === 'company' ? false : structure.usedFlag } onClick={this.handleCreate}>{label === 'company'? formatMessage({id:'structure.addCompany'}) :
-              formatMessage({id: 'common.create'})}</Button>  {/*新建*/}
+            <Button type="primary" disabled={label === 'company' ? false : structure.usedFlag } onClick={this.handleCreate}>{label === 'company'? this.$t({id:'structure.addCompany'}) :
+              this.$t({id: 'common.create'})}</Button>  {/*新建*/}
           </div>
         </div>
         <Table
@@ -382,15 +387,15 @@ class BudgetStructureDetail extends React.Component{
           pagination={pagination}
           size="middle"
           bordered/>
-        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{formatMessage({id:"common.back"})}</a>
+        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
 
-        <SlideFrame title={formatMessage({id:"structure.newDimension"})}
+        <SlideFrame title={this.$t({id:"structure.newDimension"})}
                     show={showSlideFrame}
                     content={NewDimension}
                     afterClose={this.handleCloseSlide}
                     onClose={() => this.showSlide(false)}
                     params={structure}/>
-        <SlideFrame title={formatMessage({id:"structure.updateDimension"})}
+        <SlideFrame title={this.$t({id:"structure.updateDimension"})}
                     show={showSlideFrameUpdate}
                     content={UpdateDimension}
                     afterClose={this.handleCloseSlideUpdate}
@@ -407,13 +412,10 @@ class BudgetStructureDetail extends React.Component{
   }
 
 }
-BudgetStructureDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

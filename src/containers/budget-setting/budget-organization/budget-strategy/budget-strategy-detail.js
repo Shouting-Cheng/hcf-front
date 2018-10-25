@@ -1,15 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 
-import menuRoute from 'routes/menuRoute'
 import httpFetch from 'share/httpFetch'
 import debounce from 'lodash.debounce'
 import config from 'config'
 import { Table, Button, Input, Popover, message, Icon } from 'antd'
 const Search = Input.Search;
 
-import BasicInfo from 'components/basic-info'
+import BasicInfo from 'widget/basic-info'
 
 import 'styles/budget-setting/budget-organization/budget-strategy/budget-strategy-detail.scss'
 
@@ -19,24 +17,24 @@ class BudgetStrategyDetail extends React.Component {
     this.state = {
       loading: false,
       infoList: [
-        {type: 'input', id: 'controlStrategyCode', label: formatMessage({id: "budget.strategy.code"}/*预算控制策略代码*/), isRequired: true, disabled: true},
-        {type: 'input', id: 'controlStrategyName', label: formatMessage({id: "budget.strategy.name"}/*预算控制策略名称*/), isRequired: true},
-        {type: 'switch', id: 'enabled', label: formatMessage({id: "common.column.status"}/*状态*/)}
+        {type: 'input', id: 'controlStrategyCode', label: this.$t({id: "budget.strategy.code"}/*预算控制策略代码*/), isRequired: true, disabled: true},
+        {type: 'input', id: 'controlStrategyName', label: this.$t({id: "budget.strategy.name"}/*预算控制策略名称*/), isRequired: true},
+        {type: 'switch', id: 'enabled', label: this.$t({id: "common.column.status"}/*状态*/)}
       ],
       infoData: {},
       updateState: false,
       baseInfoLoading: false,
       columns: [
-        {title: formatMessage({id: "common.sequence"}/*序号*/), dataIndex: "detailSequence", key: "detailSequence", width: '7%'},
-        {title: formatMessage({id: "budget.strategy.rule.code"}/*规则代码*/), dataIndex: "detailCode", key: "detailCode"},
-        {title: formatMessage({id: "budget.strategy.control.strategy"}/*控制策略*/), dataIndex: "controlMethod", key: "controlMethod",
+        {title: this.$t({id: "common.sequence"}/*序号*/), dataIndex: "detailSequence", key: "detailSequence", width: '7%'},
+        {title: this.$t({id: "budget.strategy.rule.code"}/*规则代码*/), dataIndex: "detailCode", key: "detailCode"},
+        {title: this.$t({id: "budget.strategy.control.strategy"}/*控制策略*/), dataIndex: "controlMethod", key: "controlMethod",
           render: method => <span>{method.label}</span>},
-        {title: formatMessage({id: "budget.strategy.rule.name"}/*控制规则名称*/), dataIndex: "detailName", key: "detailName",
+        {title: this.$t({id: "budget.strategy.rule.name"}/*控制规则名称*/), dataIndex: "detailName", key: "detailName",
           render: desc => <Popover placement="topLeft" content={desc}>{desc}</Popover>},
-        {title: formatMessage({id: "budget.strategy.message"}/*消息*/), dataIndex: "messageCode", key: "messageCode",
+        {title: this.$t({id: "budget.strategy.message"}/*消息*/), dataIndex: "messageCode", key: "messageCode",
           render: (message, record) => (record.controlMethod.value === 'NO_MESSAGE' ? <span>-</span> :
             <Popover placement="topLeft" content={message ? message.label : '-'}>{message ? message.label : '-'}</Popover> )},
-        {title: formatMessage({id: "budget.strategy.event"}/*事件*/), dataIndex: "expWfEvent", key: "expWfEvent",
+        {title: this.$t({id: "budget.strategy.event"}/*事件*/), dataIndex: "expWfEvent", key: "expWfEvent",
           render: event => <span>{event ? event : '-'}</span>}
       ],
       data: [],
@@ -132,7 +130,7 @@ class BudgetStrategyDetail extends React.Component {
     this.setState({ baseInfoLoading: true }, () => {
       httpFetch.put(`${config.budgetUrl}/api/budget/control/strategies`, params).then((res) => {
         if(res.status === 200) {
-          message.success(formatMessage({id: "common.save.success"}, {name: ""}/*保存成功*/));
+          message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           this.getBasicInfo();
           this.setState({ updateState: true, baseInfoLoading: false },() => {
             this.setState({ updateState: false })
@@ -140,7 +138,7 @@ class BudgetStrategyDetail extends React.Component {
         }
       }).catch((e) => {
         this.setState({ updateState: false, baseInfoLoading: false });
-        message.error(`${formatMessage({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
+        message.error(`${this.$t({id: "common.save.filed"},/*保存失败*/)}, ${e.response.data.message}`);
       })
     });
   };
@@ -161,13 +159,13 @@ class BudgetStrategyDetail extends React.Component {
                    loading={baseInfoLoading}/>
         <div className="table-header">
           <div className="table-header-title">
-            <h5>{formatMessage({id: "budget.strategy.detail"}/*策略明细*/)}</h5>
-            {formatMessage({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}
+            <h5>{this.$t({id: "budget.strategy.detail"}/*策略明细*/)}</h5>
+            {this.$t({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}
           </div>
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleNew}>{formatMessage({id: "common.create"}/*新建*/)}</Button>
+            <Button type="primary" onClick={this.handleNew}>{this.$t({id: "common.create"}/*新建*/)}</Button>
             <Search className="input-search"
-                    placeholder={formatMessage({id: "budget.strategy.input.name.code"}/*请输入策略明细名称/代码*/)}
+                    placeholder={this.$t({id: "budget.strategy.input.name.code"}/*请输入策略明细名称/代码*/)}
                     onChange={(e) => this.handleSearch(e.target.value)} />
           </div>
         </div>
@@ -183,20 +181,16 @@ class BudgetStrategyDetail extends React.Component {
                size="middle"/>
         <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}>
           <Icon type="rollback" style={{marginRight:'5px'}}/>
-          {formatMessage({id: "common.back"}/*返回*/)}
+          {this.$t({id: "common.back"}/*返回*/)}
         </a>
       </div>
     )
   }
 }
 
-BudgetStrategyDetail.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
+    organization: state.user.organization,
     strategyId: state.budget.strategyId
   }
 }

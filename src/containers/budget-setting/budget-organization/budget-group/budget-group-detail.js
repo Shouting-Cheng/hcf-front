@@ -1,17 +1,15 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import {connect} from 'dva'
 
 
 import {Table, Form, Select, Button, Icon, message, Popconfirm} from 'antd'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+import { routerRedux } from 'dva/router';
+import ListSelector from 'widget/list-selector'
+import BasicInfo from 'widget/basic-info'
 
-import {messages} from "share/common";
-import ListSelector from 'components/list-selector'
-import BasicInfo from 'components/basic-info'
-
-import menuRoute from 'routes/menuRoute'
 import config from 'config'
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
 
@@ -26,45 +24,45 @@ class BudgetGroupDetail extends React.Component {
       saving: false,
       groupData: {},
       columns: [
-        {title: messages('budget.itemCode')/*"预算项目代码",*/, dataIndex: "itemCode", width: '25%'},
-        {title: messages('budget.itemName')/*"预算项目名称",*/, dataIndex: "itemName", width: '35%'},
-        {title: messages('budget.itemType') /*预算项目类型*/, dataIndex: "itemTypeName", width: '25%'},
+        {title: this.$t('budget.itemCode')/*"预算项目代码",*/, dataIndex: "itemCode", width: '25%'},
+        {title: this.$t('budget.itemName')/*"预算项目名称",*/, dataIndex: "itemName", width: '35%'},
+        {title: this.$t('budget.itemType') /*预算项目类型*/, dataIndex: "itemTypeName", width: '25%'},
         {
-          title: messages('common.operation')/*操作*/, key: 'operation', width: '15%', render: (text, record) => (
+          title: this.$t('common.operation')/*操作*/, key: 'operation', width: '15%', render: (text, record) => (
             <Popconfirm onConfirm={(e) => this.deleteItem(e, record)}
-                        title={messages('common.confirm.delete.filed', {name: record.itemName})}>
+                        title={this.$t('common.confirm.delete.filed', {name: record.itemName})}>
               <a href="#" onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-              }}>{messages('common.delete')/*删除*/}</a>
+              }}>{this.$t('common.delete')/*删除*/}</a>
             </Popconfirm>)
         }
       ],
       infoList: [
         {
           type: 'input',
-          label: messages('budget.organization')/*预算组织*/,
+          label: this.$t('budget.organization')/*预算组织*/,
           id: 'organizationName',
-          message: messages('common.please.enter')/*请输入*/,
+          message: this.$t('common.please.enter')/*请输入*/,
           disabled: true,
           isRequired: true
         },
         {
           type: 'input',
-          label: messages('budgetGroup.code')/*'预算项目组代码'*/,
+          label: this.$t('budgetGroup.code')/*'预算项目组代码'*/,
           id: 'itemGroupCode',
-          message: messages('common.please.enter')/*请输入*/,
+          message: this.$t('common.please.enter')/*请输入*/,
           disabled: true,
           isRequired: true
         },
         {
           type: 'input',
-          label: messages('budgetGroup.name')/*'预算项目组名称'*/,
+          label: this.$t('budgetGroup.name')/*'预算项目组名称'*/,
           id: 'itemGroupName',
-          message: messages('common.please.enter')/*请输入*/,
+          message: this.$t('common.please.enter')/*请输入*/,
           isRequired: true
         },
-        {type: 'switch', label: messages('common.column.status')/*状态*/, id: 'enabled'}
+        {type: 'switch', label: this.$t('common.column.status')/*状态*/, id: 'enabled'}
       ],
       data: [],
       pagination: {
@@ -84,19 +82,18 @@ class BudgetGroupDetail extends React.Component {
         onSelectAll: this.onSelectAll
       },
       editing: false,
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key')  //预算组织详情的页面项
     };
   }
 
   componentWillMount() {
-    budgetGroupService.getOrganizationGroupById(this.props.params.groupId).then(response => {
+    budgetGroupService.getOrganizationGroupById(this.props.match.params.id).then(response => {
       response.data.organizationName = this.props.organization.organizationName;
       this.setState({groupData: response.data});
     });
     this.getList();
     let selectorItem = chooserData['budget_item_filter'];
-    selectorItem.url = `${config.budgetUrl}/api/budget/groupDetail/${this.props.params.groupId}/query/filter`;
-    budgetGroupService.filterItemByGroupIdAndOrganizationId(this.props.params.groupId, this.props.organization.id).then(response => {
+    selectorItem.url = `${config.budgetUrl}/api/budget/groupDetail/${this.props.match.params.id}/query/filter`;
+    budgetGroupService.filterItemByGroupIdAndOrganizationId(this.props.match.params.id, this.props.organization.id).then(response => {
       let result = [];
       response.data.map((item) => {
         result.push({
@@ -113,7 +110,7 @@ class BudgetGroupDetail extends React.Component {
   updateHandleInfo = (params) => {
     this.setState({editing: true});
     budgetGroupService.updateOrganizationGroup(Object.assign({}, this.state.groupData, params)).then(response => {
-      message.success(messages("wait.for.save.modifySuccess")/*修改成功*/);
+      message.success(this.$t("wait.for.save.modifySuccess")/*修改成功*/);
       response.data.organizationName = this.props.organization.organizationName;
       this.setState({
         editing: false,
@@ -122,7 +119,7 @@ class BudgetGroupDetail extends React.Component {
       });
     }).catch(e => {
       if (e.response) {
-        message.error(`${messages("wait.for.save.modifyFail")/*修改失败*/}, ${e.response.data.message}`);
+        message.error(`${this.$t("wait.for.save.modifyFail")/*修改失败*/}, ${e.response.data.message}`);
       }
       this.setState({
         editing: false,
@@ -190,7 +187,7 @@ class BudgetGroupDetail extends React.Component {
 
   getList = () => {
     const {page, pageSize} = this.state;
-    return budgetGroupService.getItemByGroupId(this.props.params.groupId, page, pageSize).then(response => {
+    return budgetGroupService.getItemByGroupId(this.props.match.params.id, page, pageSize).then(response => {
       response.data.map((item) => {
         item.key = item.id;
       });
@@ -210,8 +207,8 @@ class BudgetGroupDetail extends React.Component {
 
   deleteItem = (text, record) => {
     this.setState({loading: true}, () => {
-      budgetGroupService.deleteItemFromGroup(this.props.params.groupId, record.id).then(response => {
-        message.success(messages('common.delete.success', {name: ""})/*删除成功*/);
+      budgetGroupService.deleteItemFromGroup(this.props.match.params.id, record.id).then(response => {
+        message.success(this.$t('common.delete.success', {name: ""})/*删除成功*/);
         this.getList();
       })
     })
@@ -223,8 +220,8 @@ class BudgetGroupDetail extends React.Component {
       paramList.push(item.id);
     });
     this.setState({loading: true}, () => {
-      budgetGroupService.batchDeleteItemFromGroup(this.props.params.groupId, paramList).then(response => {
-        message.success(messages('common.delete.success', {name: ""})/*删除成功*/);
+      budgetGroupService.batchDeleteItemFromGroup(this.props.match.params.id, paramList).then(response => {
+        message.success(this.$t('common.delete.success', {name: ""})/*删除成功*/);
         this.getList();
       })
     })
@@ -238,12 +235,12 @@ class BudgetGroupDetail extends React.Component {
     this.setState({showListSelector: false});
     if (result.result.length > 0) {
       result.result.map(item => {
-        item.itemGroupId = this.props.params.groupId;
+        item.itemGroupId = this.props.match.params.id;
         item.itemId = item.id;
         delete item.id;
       });
-      budgetGroupService.batchAddItemToGroup(this.props.params.groupId, result.result).then(response => {
-        message.success(messages('itinerary.remark.add.success')/*'添加成功'*/);
+      budgetGroupService.batchAddItemToGroup(this.props.match.params.id, result.result).then(response => {
+        message.success(this.$t('itinerary.remark.add.success')/*'添加成功'*/);
         this.setState({
           page: 0,
           saving: false
@@ -270,10 +267,10 @@ class BudgetGroupDetail extends React.Component {
                    updateState={updateState}
                    loading={editing}/>
         <div className="table-header">
-          <div className="table-header-title"> {messages('common.total1',{total:pagination.total})}{/*共 {pagination.total} 条数据*/}</div>
+          <div className="table-header-title"> {this.$t('common.total1',{total:pagination.total})}{/*共 {pagination.total} 条数据*/}</div>
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleNew} loading={saving}>{messages('common.add')}{/*添 加*/}</Button>
-            <Button onClick={this.handleBatchDelete} disabled={selectedData.length === 0}>{messages('common.delete')/*删除*/}</Button>
+            <Button type="primary" onClick={this.handleNew} loading={saving}>{this.$t('common.add')}{/*添 加*/}</Button>
+            <Button onClick={this.handleBatchDelete} disabled={selectedData.length === 0}>{this.$t('common.delete')/*删除*/}</Button>
           </div>
         </div>
         <Table columns={columns}
@@ -285,9 +282,16 @@ class BudgetGroupDetail extends React.Component {
                rowSelection={rowSelection}/>
 
         <a className="back" onClick={() => {
-          this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id).replace(":setOfBooksId",this.props.params.setOfBooksId) + '?tab=GROUP');
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                .replace(':id', this.props.match.params.orgId)
+                .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                .replace(':tab','GROUP')
+            })
+          );
         }}>
-          <Icon type="rollback" style={{marginRight: '5px'}}/>{messages('common.back')/*返回*/}
+          <Icon type="rollback" style={{marginRight: '5px'}}/>{this.$t('common.back')/*返回*/}
         </a>
 
         <ListSelector visible={showListSelector}
@@ -304,13 +308,9 @@ class BudgetGroupDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
-
-BudgetGroupDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 const WrappedBudgetGroupDetail = Form.create()(BudgetGroupDetail);
 

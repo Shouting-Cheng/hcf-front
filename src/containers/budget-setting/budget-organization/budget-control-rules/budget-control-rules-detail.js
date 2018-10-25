@@ -2,19 +2,17 @@
  *  crated by jsq on 2017/9/27
  */
 import React from 'react';
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
-import menuRoute from 'routes/menuRoute'
 
 import { Form, Button, Select, Icon, Table, message, Popconfirm,  } from 'antd'
 
 import 'styles/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail.scss';
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import NewBudgetRulesDetail from 'containers/budget-setting/budget-organization/budget-control-rules/new-budget-rules-detail'
 import UpdateBudgetRulesDetail from 'containers/budget-setting/budget-organization/budget-control-rules/update-budget-rules-detail'
 
-import BasicInfo from 'components/basic-info'
+import BasicInfo from 'widget/basic-info'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -45,45 +43,45 @@ class BudgetControlRulesDetail extends React.Component{
         showQuickJumper: true,
       },
       infoList: [
-        {type: 'input', id: 'controlRuleCode', isRequired: true, disabled: true, label: formatMessage({id: 'budget.controlRuleCode'})+" :" /*业务规则代码*/},
-        {type: 'input', id: 'controlRuleName', isRequired: true, label: formatMessage({id: 'budget.controlRuleName'})+" :" /*业务规则名称*/},
-        {type: 'select', options: [],isRequired: true, id: 'strategyGroupName', label: formatMessage({id:"budget.strategy"})+" :"},
-        {type: 'items', id: 'effectiveDate', infoLabel: formatMessage({id:"budget.controlRule.effectiveDate"})+":" ,  items: [
-          {type: 'date', id: 'startDate', label: formatMessage({id:"budget.controlRule.effectiveDateFrom"})+" :", isRequired: true, event: 'DATE_FROM'},
-          {type: 'date', id: 'endDate',  label: formatMessage({id:"budget.controlRule.effectiveDateTo"})+" :",isRequired: false, event:'DATE_TO'}
+        {type: 'input', id: 'controlRuleCode', isRequired: true, disabled: true, label: this.$t({id: 'budget.controlRuleCode'})+" :" /*业务规则代码*/},
+        {type: 'input', id: 'controlRuleName', isRequired: true, label: this.$t({id: 'budget.controlRuleName'})+" :" /*业务规则名称*/},
+        {type: 'select', options: [],isRequired: true, id: 'strategyGroupName', label: this.$t({id:"budget.strategy"})+" :"},
+        {type: 'items', id: 'effectiveDate', infoLabel: this.$t({id:"budget.controlRule.effectiveDate"})+":" ,  items: [
+          {type: 'date', id: 'startDate', label: this.$t({id:"budget.controlRule.effectiveDateFrom"})+" :", isRequired: true, event: 'DATE_FROM'},
+          {type: 'date', id: 'endDate',  label: this.$t({id:"budget.controlRule.effectiveDateTo"})+" :",isRequired: false, event:'DATE_TO'}
         ]},
-        {type: 'input', id: 'priority', isRequired: true, disabled: true, label: formatMessage({id:"budget.controlRules.priority"}) /*优先级*/}
+        {type: 'input', id: 'priority', isRequired: true, disabled: true, label: this.$t({id:"budget.controlRules.priority"}) /*优先级*/}
       ],
       columns: [
         {          /*规则参数类型*/
-          title: formatMessage({id:"budget.ruleParameterType"}), key: "ruleParameterTypeDescription", dataIndex: 'ruleParameterTypeDescription',
+          title: this.$t({id:"budget.ruleParameterType"}), key: "ruleParameterTypeDescription", dataIndex: 'ruleParameterTypeDescription',
           render: recode =>{
             return recode
           }
         },
         {          /*规则参数*/
-          title: formatMessage({id:"budget.ruleParameter"}), key: "ruleParameterDescription", dataIndex: 'ruleParameterDescription'
+          title: this.$t({id:"budget.ruleParameter"}), key: "ruleParameterDescription", dataIndex: 'ruleParameterDescription'
         },
         {          /*取值方式*/
-          title: formatMessage({id:"budget.filtrateMethod"}), key: "filtrateMethodDescription", dataIndex: 'filtrateMethodDescription'
+          title: this.$t({id:"budget.filtrateMethod"}), key: "filtrateMethodDescription", dataIndex: 'filtrateMethodDescription'
         },
         {          /*取值范围*/
-          title: formatMessage({id:"budget.summaryOrDetail"}), key: "summaryOrDetailDescription", dataIndex: 'summaryOrDetailDescription'
+          title: this.$t({id:"budget.summaryOrDetail"}), key: "summaryOrDetailDescription", dataIndex: 'summaryOrDetailDescription'
         },
         {          /*下限值*/
-          title: formatMessage({id:"budget.parameterLowerLimit"}), key: "parameterLowerLimit", dataIndex: 'parameterLowerLimit'
+          title: this.$t({id:"budget.parameterLowerLimit"}), key: "parameterLowerLimit", dataIndex: 'parameterLowerLimit'
         },
         {          /*上限值*/
-          title: formatMessage({id:"budget.parameterUpperLimit"}), key: "parameterUpperLimit", dataIndex: 'parameterUpperLimit'
+          title: this.$t({id:"budget.parameterUpperLimit"}), key: "parameterUpperLimit", dataIndex: 'parameterUpperLimit'
         },
         {          /*失效日期*/
-          title: formatMessage({id:"budget.invalidDate"}), key: "invalidDate", dataIndex: 'invalidDate',
+          title: this.$t({id:"budget.invalidDate"}), key: "invalidDate", dataIndex: 'invalidDate',
           render: description => (<span>{description === null ? "-" : description.substring(0,10)}</span>)
         },
-        {title: formatMessage({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record) => (
           <span>
-            <Popconfirm onConfirm={(e) => this.deleteItem(e, record)} title={formatMessage({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
-              <a href="#" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{formatMessage({id: "common.delete"})}</a>
+            <Popconfirm onConfirm={(e) => this.deleteItem(e, record)} title={this.$t({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
+              <a href="#" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t({id: "common.delete"})}</a>
             </Popconfirm>
           </span>)},  //操作
       ]
@@ -92,7 +90,7 @@ class BudgetControlRulesDetail extends React.Component{
 
   deleteItem = (e, record) => {
     budgetService.deleteRuleDetail(record.id).then(response => {
-      message.success(formatMessage({id:"common.delete.success"}, {name: record.organizationName})); // name删除成功
+      message.success(this.$t({id:"common.delete.success"}, {name: record.organizationName})); // name删除成功
       this.getList();
     })
   };
@@ -221,7 +219,7 @@ class BudgetControlRulesDetail extends React.Component{
             response.data.strategyGroupName = item.value;
           }
         });
-        message.success(formatMessage({id:"structure.saveSuccess"})); /*保存成功！*/
+        message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
         this.setState({
           controlRule: response.data,
           updateState: true
@@ -229,7 +227,7 @@ class BudgetControlRulesDetail extends React.Component{
       }
     }).catch((e)=>{
       if(e.response){
-        message.error(`${formatMessage({id:"common.operate.filed"})}, ${e.response.data.message}`);
+        message.error(`${this.$t({id:"common.operate.filed"})}, ${e.response.data.message}`);
       }
       this.setState({loading: false});
     })
@@ -287,9 +285,9 @@ class BudgetControlRulesDetail extends React.Component{
           updateHandle={this.handleUpdate}
           updateState={updateState}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button onClick={()=>this.showSlideCreate(true)} type="primary" >{formatMessage({id: 'common.create'})}</Button>  {/*新建*/}
+            <Button onClick={()=>this.showSlideCreate(true)} type="primary" >{this.$t({id: 'common.create'})}</Button>  {/*新建*/}
           </div>
         </div>
         <Table
@@ -303,16 +301,16 @@ class BudgetControlRulesDetail extends React.Component{
           onChange={this.onChangePager}
           size="middle"
           bordered/>
-        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{formatMessage({id:"common.back"})}</a>
+        <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
 
-        <SlideFrame title= {formatMessage({id: 'budget.createRulesDetail'})}
+        <SlideFrame title= {this.$t({id: 'budget.createRulesDetail'})}
                     show={showSlideFrameCreate}
                     content={NewBudgetRulesDetail}
                     afterClose={this.handleCloseSlideCreate}
                     onClose={() => this.showSlideCreate(false)}
                     params={{ruleId:this.props.params.ruleId,visible: showSlideFrameCreate}}/>
 
-        <SlideFrame title= {formatMessage({id: 'budget.editRulesDetail'})}
+        <SlideFrame title= {this.$t({id: 'budget.editRulesDetail'})}
                     show={showSlideFrameUpdate}
                     content={UpdateBudgetRulesDetail}
                     afterClose={this.handleCloseSlideUpdate}
@@ -323,13 +321,9 @@ class BudgetControlRulesDetail extends React.Component{
   }
 }
 
-BudgetControlRulesDetail.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {messages} from 'share/common'
+import { connect } from 'dva'
 
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -14,8 +13,7 @@ import BudgetStrategy from 'containers/budget-setting/budget-organization/budget
 import BudgetControlRules from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules'
 import BudgetJournalType from 'containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type'
 import BudgetItemMap from 'containers/budget-setting/budget-organization/budget-item-map/budget-item-map'
-
-import menuRoute from 'routes/menuRoute'
+import { routerRedux } from 'dva/router';
 
 class BudgetOrganizationDetail extends React.Component {
   constructor(props) {
@@ -23,18 +21,17 @@ class BudgetOrganizationDetail extends React.Component {
     this.state = {
       nowStatus: 'SCENARIOS',
       tabs: [
-        {key: 'SCENARIOS', name: messages('budget.setting.scenarios') },
-        {key: 'VERSIONS', name: messages('budget.setting.version')},
-        {key: 'STRUCTURE', name: messages('budget.setting.structure')},
-        {key: 'TYPE', name: messages('budget.setting.item.type')},
-        {key: 'ITEM', name: messages('budget.setting.item')},
-        {key: 'GROUP', name: messages('budget.setting.item.group')},
-        {key: 'STRATEGY', name: messages('budget.setting.control.strategy')},
-        {key: 'RULE', name: messages('budget.setting.control.rule')},
-        {key: 'ITEM_MAP', name: messages('budget.setting.item.map')},
-        {key: 'JOURNAL_TYPE', name: messages('budget.setting.journal.type')}
+        {key: 'SCENARIOS', name: this.$t('budget.setting.scenarios') },
+        {key: 'VERSIONS', name: this.$t('budget.setting.version')},
+        {key: 'STRUCTURE', name: this.$t('budget.setting.structure')},
+        {key: 'TYPE', name: this.$t('budget.setting.item.type')},
+        {key: 'ITEM', name: this.$t('budget.setting.item')},
+        {key: 'GROUP', name: this.$t('budget.setting.item.group')},
+        {key: 'STRATEGY', name: this.$t('budget.setting.control.strategy')},
+        {key: 'RULE', name: this.$t('budget.setting.control.rule')},
+        {key: 'ITEM_MAP', name: this.$t('budget.setting.item.map')},
+        {key: 'JOURNAL_TYPE', name: this.$t('budget.setting.journal.type')}
       ],
-      budgetOrganizationDetailPage: menuRoute.getRouteItem('budget-organization-detail','key'),    //组织定义详情的页面项
     };
   }
 
@@ -48,11 +45,19 @@ class BudgetOrganizationDetail extends React.Component {
   }
 
   componentWillMount(){
-    if(this.props.location.query.tab)
-      this.setState({nowStatus: this.props.location.query.tab})
+    if(this.props.match.params.tab!==':tab' )
+      this.setState({nowStatus: this.props.match.params.tab})
   }
 
   onChangeTabs = (key) =>{
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.match.params.setOfBooksId)
+          .replace(':tab', key)
+      })
+    );
     this.setState({
       nowStatus: key
     })
@@ -92,7 +97,7 @@ class BudgetOrganizationDetail extends React.Component {
         content = BudgetItemMap;
         break;
     }
-    return this.props.organization.id ? React.createElement(content, Object.assign({}, this.props.params, {organization: this.props.organization})) : null;
+    return this.props.match.params.id ? React.createElement(content, Object.assign({}, this.props.match.params, {organization: this.props.organization})) : null;
   };
 
   render(){
@@ -111,12 +116,9 @@ class BudgetOrganizationDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 
-BudgetOrganizationDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 export default connect(mapStateToProps, null, null, { withRef: true })(BudgetOrganizationDetail);

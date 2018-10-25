@@ -1,19 +1,16 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
-import menuRoute from 'routes/menuRoute'
+import { routerRedux } from 'dva/router';
 
 class NewBudgetGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      budgetGroupDetail: menuRoute.getRouteItem('budget-group-detail','key'),    //项目组详情的页面项
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key'),  //预算组织详情的页面项
       loading: false
     };
   }
@@ -26,11 +23,18 @@ class NewBudgetGroup extends React.Component {
         this.setState({loading: true});
         budgetGroupService.addOrganizationGroup(values).then((res)=>{
           this.setState({loading: false});
-          message.success(`${formatMessage({id:'budget.setting.item.group'})}${formatMessage({id:'common.create.success'}, {name: "res.data.itemGroupName"})}`);/*项目组新建成功*/
-          this.context.router.replace(this.state.budgetGroupDetail.url.replace(":id", this.props.organization.id).replace(":groupId", res.data.id));
+          message.success(`${this.$t({id:'budget.setting.item.group'})}${this.$t({id:'common.create.success'}, {name: "res.data.itemGroupName"})}`);/*项目组新建成功*/
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id'
+                .replace(':orgId', this.props.organization.id)
+                .replace(":setOfBooksId",this.props.setOfBooksId)
+                .replace(':id', res.data.id)
+            })
+          );
         }).catch((e)=>{
           if(e.response){
-            message.error(`${formatMessage({id:"common.create.filed"}/*新建失败*/)}, ${e.response.data.message}`);
+            message.error(`${this.$t({id:"common.create.filed"}/*新建失败*/)}, ${e.response.data.message}`);
           }
           this.setState({loading: false});
         })
@@ -43,12 +47,12 @@ class NewBudgetGroup extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div onSubmit={this.handleSave}>
-        <h3 className="header-title">{formatMessage({id:'budgetGroup.new'})}{/*新建预算项目组*/}</h3>
+        <h3 className="header-title">{this.$t({id:'budgetGroup.new'})}{/*新建预算项目组*/}</h3>
         <div className="common-top-area">
           <Form>
             <Row gutter={40}>
               <Col span={8}>
-                <FormItem label={formatMessage({id:'budget.organization'})/*预算组织*/}>
+                <FormItem label={this.$t({id:'budget.organization'})/*预算组织*/}>
                   {getFieldDecorator("organizationName", {
                     initialValue: this.props.organization.organizationName
                   })(
@@ -57,28 +61,28 @@ class NewBudgetGroup extends React.Component {
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label={formatMessage({id:'budgetGroup.code'})/*'预算项目组代码'*/}>
+                <FormItem label={this.$t({id:'budgetGroup.code'})/*'预算项目组代码'*/}>
                   {getFieldDecorator("itemGroupCode", {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.enter'}),  //请输入
+                      message: this.$t({id: 'common.please.enter'}),  //请输入
                     }],
                     initialValue: ''
                   })(
-                    <Input placeholder={formatMessage({id:'common.please.enter'})/*请输入*/}/>
+                    <Input placeholder={this.$t({id:'common.please.enter'})/*请输入*/}/>
                   )}
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem label={formatMessage({id:'budgetGroup.name'})/*'预算项目组名称'*/}>
+                <FormItem label={this.$t({id:'budgetGroup.name'})/*'预算项目组名称'*/}>
                   {getFieldDecorator("itemGroupName", {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.enter'}),  //请输入
+                      message: this.$t({id: 'common.please.enter'}),  //请输入
                     }],
                     initialValue: ''
                   })(
-                    <Input placeholder={formatMessage({id:'common.please.enter'})/*请输入*/}/>
+                    <Input placeholder={this.$t({id:'common.please.enter'})/*请输入*/}/>
                   )}
                 </FormItem>
               </Col>
@@ -91,14 +95,23 @@ class NewBudgetGroup extends React.Component {
                     valuePropName: 'checked'
                   })(
                     <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />}/>
-                  )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}
+                  )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}
                 </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span={8}>
-                <Button htmlType="submit" type="primary" loading={loading}>{formatMessage({id:'common.save'}) /* 保存 */}</Button>
-                <Button style={{ marginLeft: 8 }} onClick={() => {this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id) + '?tab=GROUP');}}>{formatMessage({id:'common.cancel'})/*取消*/}</Button>
+                <Button htmlType="submit" type="primary" loading={loading}>{this.$t({id:'common.save'}) /* 保存 */}</Button>
+                <Button style={{ marginLeft: 8 }} onClick={() => {
+                  this.props.dispatch(
+                    routerRedux.push({
+                      pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                        .replace(':id', this.props.match.params.orgId)
+                        .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                        .replace(':tab','GROUP')
+                    })
+                  );
+                }}>{this.$t({id:'common.cancel'})/*取消*/}</Button>
               </Col>
             </Row>
           </Form>
@@ -111,13 +124,10 @@ class NewBudgetGroup extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 
-NewBudgetGroup.contextTypes = {
-  router: React.PropTypes.object
-};
 
 const WrappedNewBudgetGroup = Form.create()(NewBudgetGroup);
 

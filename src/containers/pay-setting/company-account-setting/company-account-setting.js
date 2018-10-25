@@ -33,10 +33,11 @@ class WrappedCompanyAccountSetting extends React.Component {
       data: [],
       searchForm: [
         {
-          type: 'select', colSpan: 6, id: 'setOfBooksId', label: messages('company.setOfBooksName'), options: [], defaultValue: '', event: 'setOfBooksId',
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant?roleType=TENANT`,
+          type: 'select', colSpan: 6, id: 'setOfBooksId', label: messages('company.setOfBooksName'), options: [],
+          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
           renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
+
         },/*账套*/
         { type: 'input', colSpan: 6, id: 'companyCode', label: messages('bank.account.companyCode') }, /*公司代码*/
         { type: 'input', colSpan: 6, id: 'companyName', label: messages('bank.account.companyName') }, /*公司名称*/
@@ -141,8 +142,7 @@ class WrappedCompanyAccountSetting extends React.Component {
 
   componentWillMount() {
 
-    let forms = this.state.searchForm;
-
+    //let forms = this.state.searchForm;
     /*if (!this.props.main.tenantMode) {
       forms[0] = {
         type: "input",
@@ -166,7 +166,7 @@ class WrappedCompanyAccountSetting extends React.Component {
           disabled: true
         }
     }*/   // todo 不是租户模式暂不处理，等待后续要求
-    this.setState({ searchForm: forms });
+    //this.setState({ searchForm: forms });
 
     // const { company } = this.props;
     // const { searchForm, searchParams } = this.state;
@@ -304,7 +304,6 @@ class WrappedCompanyAccountSetting extends React.Component {
     return (
       <div>
         <SearchArea searchForm={searchForm}
-          eventHandle={this.eventHandle}
           submitHandle={this.search}
           clearHandle={this.clear}
           maxLength={4}
