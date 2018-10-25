@@ -975,6 +975,21 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
+    '/finance-setting/account-period-control': {
+      //会计期间控制
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-control/account-period-control.js')
+      ),
+      name: '会计期间控制',
+    },
+    '/finance-setting/account-period-control/account-period-detail/:periodSetId/:setOfBooksId': {
+      //会计期间信息详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-control/account-period-detail.js')
+      ),
+      name: '会计期间信息详情',
+      parent: '/finance-setting/account-period-control',
+    },
     '/admin-setting/currency-setting': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting.js')
