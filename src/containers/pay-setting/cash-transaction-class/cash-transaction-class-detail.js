@@ -89,12 +89,12 @@ class CashTransactionClassDetail extends React.Component {
       },
       pagination: {
         current: 1,
-        page: 0,
         total: 0,
-        pageSize: 10,
         showSizeChanger: true,
         showQuickJumper: true,
       },
+      page:0,
+      pageSize: 10,
       showListSelector: false,
       newData: [],
       cashTransactionClass: '/pay-setting/cash-transaction-class',
@@ -151,8 +151,8 @@ class CashTransactionClassDetail extends React.Component {
 
   getList = () => {
     let params = {};
-    params.page = this.state.pagination.page;
-    params.size = this.state.pagination.pageSize;
+    params.page = this.state.page;
+    params.size = this.state.pageSize;
     params.transactionClassId = this.props.match.params.id;
     return cashTransactionClassService
       .getCashTransactionClassRefCashFlowItem(params)
@@ -166,7 +166,7 @@ class CashTransactionClassDetail extends React.Component {
           pagination: {
             total: Number(response.headers['x-total-count']) || 0,
             onChange: this.onChangePager,
-            current: this.state.page + 1,
+            current: params.page + 1,
             pageSizeOptions: ['10', '20', '30', '40'],
             showSizeChanger: true,
             onShowSizeChange: this.onChangePageSize,
@@ -183,13 +183,11 @@ class CashTransactionClassDetail extends React.Component {
 
   //每页多少条
   onChangePageSize = (page, pageSize) => {
-    if (page - 1 !== this.state.pagination.page || pageSize !== this.state.pagination.pageSize) {
+    if (page - 1 !== this.state.page || pageSize !== this.state.pageSize) {
       this.setState(
         {
-          pagination: {
-            page: page - 1,
-            pageSize: pageSize,
-          },
+          page: page - 1,
+          pageSize: pageSize,
         },
         () => {
           this.getList();
@@ -255,13 +253,11 @@ class CashTransactionClassDetail extends React.Component {
 
   //分页点击
   onChangePager = page => {
-    if (page - 1 !== this.state.pagination.page)
+    if (page - 1 !== this.state.page)
       this.setState(
         {
-          pagination: {
             page: page - 1,
-            pageSize: pageSize,
-          },
+
         },
         () => {
           this.getList();
@@ -331,7 +327,6 @@ class CashTransactionClassDetail extends React.Component {
         <Table
           columns={cashFlowItemData.columns}
           dataSource={data}
-          onChange={this.onChangePager}
           pagination={pagination}
           loading={loading}
           bordered
