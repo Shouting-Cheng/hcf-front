@@ -3,7 +3,8 @@ export default {
 
   state: {
     request: {},
-    financeAudit:{}
+    financeAudit: {},
+    approveRequest: {},
   },
 
   reducers: {
@@ -14,9 +15,13 @@ export default {
         request,
       };
     },
+    setApproveRequest(state, action) {
+      let { approveRequest } = action.payload;
+      return { ...state, approveRequest };
+    },
 
-    setFinanceAudit(state, action){
-      return {...state,...action.payload}
-    }
+    setFinanceAudit(state, action) {
+      return { ...state, ...action.payload };
+    },
   },
 };

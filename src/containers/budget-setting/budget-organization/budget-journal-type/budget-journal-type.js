@@ -1,14 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 
 import { Table, Badge, Button } from 'antd'
 
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
-
-import menuRoute from "routes/menuRoute";
 
 class BudgetJournalType extends React.Component {
   constructor(props) {
@@ -134,9 +131,6 @@ class BudgetJournalType extends React.Component {
 
 }
 
-BudgetJournalType.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

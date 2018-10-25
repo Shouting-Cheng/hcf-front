@@ -2,11 +2,9 @@
  * created by jsq on 2017/9/18
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table, Badge, notification, Popover  } from 'antd';
-import SearchArea from 'components/search-area';
-import menuRoute from 'routes/menuRoute'
+import SearchArea from 'widget/search-area';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure.scss';
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 import organizationService from 'containers/budget-setting/budget-organization/budget-organnization.service'
@@ -31,39 +29,39 @@ class BudgetStructure extends React.Component {
         showQuickJumper:true,
       },
       searchForm: [
-        {type: 'input', id: 'structureCode', label: formatMessage({id: 'budget.structureCode'}) }, /*预算表代码*/
-        {type: 'input', id: 'structureName', label: formatMessage({id: 'budget.structureName'}) }, /*预算表名称*/
+        {type: 'input', id: 'structureCode', label: this.$t({id: 'budget.structureCode'}) }, /*预算表代码*/
+        {type: 'input', id: 'structureName', label: this.$t({id: 'budget.structureName'}) }, /*预算表名称*/
       ],
       columns: [
         {          /*预算表代码*/
-          title: formatMessage({id:"budget.structureCode"}), key: "structureCode", dataIndex: 'structureCode'
+          title: this.$t({id:"budget.structureCode"}), key: "structureCode", dataIndex: 'structureCode'
         },
         {          /*预算表名称*/
-          title: formatMessage({id:"budget.structureName"}), key: "structureName", dataIndex: 'structureName'
+          title: this.$t({id:"budget.structureName"}), key: "structureName", dataIndex: 'structureName'
         },
         {          /*编制期段*/
-          title: formatMessage({id:"budget.periodStrategy"}), key: "periodStrategy", dataIndex: 'periodStrategy', width: '10%',
+          title: this.$t({id:"budget.periodStrategy"}), key: "periodStrategy", dataIndex: 'periodStrategy', width: '10%',
           render: (recode)=>{
             if(recode === "MONTH")
-              return formatMessage({id:"periodStrategy.month"}) /*月度*/
+              return this.$t({id:"periodStrategy.month"}) /*月度*/
             if(recode === "QUARTER")
-              return formatMessage({id:"periodStrategy.quarter"}) /*季度*/
+              return this.$t({id:"periodStrategy.quarter"}) /*季度*/
             if(recode === "YEAR")
-              return formatMessage({id:"periodStrategy.year"}) /*年度*/
+              return this.$t({id:"periodStrategy.year"}) /*年度*/
           }
         },
         {           /*备注*/
-          title: formatMessage({id:"budget.structureDescription"}), key: "description", dataIndex: 'description',
+          title: this.$t({id:"budget.structureDescription"}), key: "description", dataIndex: 'description',
           render: desc => <span>{desc ? <Popover placement="topLeft" content={desc}>{desc}</Popover> : '-'}</span>
         },
         {           /*状态*/
-          title: formatMessage({id:"common.column.status"}),
+          title: this.$t({id:"common.column.status"}),
           key: 'status',
           width: '10%',
           dataIndex: 'enabled',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                   text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})} />
+                   text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})} />
           )
         }
       ],
@@ -141,7 +139,7 @@ class BudgetStructure extends React.Component {
       this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetStructure.url.replace(':id', this.props.id));
     }else{
       notification["error"]({
-        description: formatMessage({id:"structure.validateCreate"})  /*请维护当前账套下的预算组织*/
+        description: this.$t({id:"structure.validateCreate"})  /*请维护当前账套下的预算组织*/
       })
     }
   };
@@ -157,9 +155,9 @@ class BudgetStructure extends React.Component {
       <div className="budget-structure">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button>  {/*新 建*/}
           </div>
         </div>
         <Table
@@ -178,10 +176,6 @@ class BudgetStructure extends React.Component {
   }
 
 }
-
-BudgetStructure.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {

@@ -22,7 +22,7 @@ class CurrencySettingAdd extends React.Component {
             data: [],
             pageSize: 10,
             params: {},//路由参数
-            language: this.props.language.code?this.props.language.code:'zh_CN',
+            language: this.props.language.local,
             //   backUrl: menuRoute.getRouteItem('currency-setting', 'key').url,//币种设置
         }
     }
@@ -34,7 +34,7 @@ class CurrencySettingAdd extends React.Component {
     //获取币种名的option
     getCurrencyName = () => {
         const { baseCurrency, setOfBooksId, tenantId, } = this.props.match.params;
-        httpFetch.get(`${config.baseUrl}/api/currencyI18n/select/not/created/currency?baseCurrencyCode=${baseCurrency}&language=zh_CN&setOfBooksId=${setOfBooksId}&tenantId=${tenantId}`).then(res => {
+        httpFetch.get(`${config.baseUrl}/api/currencyI18n/select/not/created/currency?baseCurrencyCode=${baseCurrency}&language=${this.state.language}&setOfBooksId=${setOfBooksId}&tenantId=${tenantId}`).then(res => {
             if (res.status === 200) {
                 this.setState({
                     currencyOptions: res.data.rows
@@ -232,7 +232,7 @@ class CurrencySettingAdd extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        language: state.languages.languages,
+        language: state.languages,
         tenantMode: true,
     }
 }
