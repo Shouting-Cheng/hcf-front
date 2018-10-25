@@ -187,16 +187,18 @@ class BudgetScenarios extends React.Component {
 
         <SlideFrame title={this.$t({id: "budget.scenarios.new"}/*新建预算场景*/)}
                     show={showSlideFrame}
-                    content={NewBudgetScenarios}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.showSlide(false)}
-                    params={{...newParams,flag: showSlideFrame}}/>
+                    onClose={() => this.showSlide(false)}>
+          <NewBudgetScenarios
+            onClose={this.handleCloseSlide}
+            params={{...newParams,flag: showSlideFrame}}/>
+        </SlideFrame>
         <SlideFrame title={this.$t({id: "budget.scenarios.edit"}/*编辑预算场景*/)}
                     show={showUpdateSlideFrame}
-                    content={UpdateBudgetScenarios}
-                    afterClose={this.handleCloseUpdateSlide}
-                    onClose={() => this.showUpdateSlide(false)}
-                    params={{...updateParams,flag: showUpdateSlideFrame}}/>
+                    onClose={() => this.showUpdateSlide(false)}>
+          <UpdateBudgetScenarios
+            onClose={this.handleCloseUpdateSlide}
+            params={{...updateParams,flag: showUpdateSlideFrame}}/>
+        </SlideFrame>
       </div>
     )
   }

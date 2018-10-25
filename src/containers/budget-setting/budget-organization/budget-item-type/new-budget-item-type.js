@@ -81,7 +81,7 @@ class NewBudgetItemType extends React.Component {
           {
             this.props.params.flag&&
             <FormItem {...formItemLayout}
-                      label={this.$t({id: "budgetItemType.enabled"})}>
+                      label={this.$t({id: "common.column.status"})}>
               {getFieldDecorator('enabled', {
                 valuePropName: "defaultChecked",
                 initialValue: enabled
@@ -142,7 +142,7 @@ class NewBudgetItemType extends React.Component {
 const WrappedNewBudgetItemType = Form.create()(NewBudgetItemType);
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(WrappedNewBudgetItemType);

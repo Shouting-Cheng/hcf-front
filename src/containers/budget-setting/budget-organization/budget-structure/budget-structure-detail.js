@@ -6,7 +6,7 @@ import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 
 import { Form, Button, Select, Input, Switch, Icon, Badge, Tabs, Checkbox, Table, message, Popover  } from 'antd'
-
+import { routerRedux } from 'dva/router';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
 import SlideFrame from "widget/slide-frame";
 import NewDimension from 'containers/budget-setting/budget-organization/budget-structure/new-dimension'
@@ -135,7 +135,7 @@ class BudgetStructureDetail extends React.Component{
     });
 
     //获取某预算表某行的数据
-    budgetService.getStructureById(this.props.params.structureId).then((response)=> {
+    budgetService.getStructureById(this.props.match.params.id).then((response)=> {
       let periodStrategy = {label:response.data.periodStrategyName,value:response.data.periodStrategy};
       response.data.periodStrategy = periodStrategy;
       if(response.status === 200){
@@ -207,7 +207,7 @@ class BudgetStructureDetail extends React.Component{
   getList = ()=>{
     const { pagination } = this.state;
     let params = {
-      structureId: this.props.params.structureId,
+      structureId: this.props.match.params.id,
       page: pagination.page,
       size: pagination.pageSize
     };
@@ -308,7 +308,7 @@ class BudgetStructureDetail extends React.Component{
   handleListOk = (result) => {
     let company = [];
     result.result.map((item)=>{
-      company.push({companyCode: item.companyCode,companyId:item.id,structureId:this.props.params.structureId,enabled:item.enabled})
+      company.push({companyCode: item.companyCode,companyId:item.id,structureId:this.props.match.params.id,enabled:item.enabled})
     });
     budgetService.structureAssignCompany(company).then((response)=>{
       if(response.status === 200) {
@@ -329,7 +329,14 @@ class BudgetStructureDetail extends React.Component{
 
   //返回预算表页面
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId)+ '?tab=STRUCTURE');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','STRUCTURE')
+      })
+    );
   };
 
   //分页点击
@@ -405,13 +412,10 @@ class BudgetStructureDetail extends React.Component{
   }
 
 }
-BudgetStructureDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

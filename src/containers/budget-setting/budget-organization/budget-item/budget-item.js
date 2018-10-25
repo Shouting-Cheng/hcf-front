@@ -10,6 +10,7 @@ import config from 'config'
 import ListSelector from 'widget/list-selector'
 import Importer from 'widget/Template/importer'
 import budgetService from 'containers/budget-setting/budget-organization/budget-item/budget-item.service'
+import { routerRedux } from 'dva/router';
 
 const itemCode = [];
 class BudgetItem extends React.Component {
@@ -209,7 +210,13 @@ class BudgetItem extends React.Component {
 
   //新建
   handleCreate = () =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetItem.url.replace(':id', this.props.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
 
@@ -248,9 +255,15 @@ class BudgetItem extends React.Component {
   };
 
   //点击行，进入该行详情页面
-  handleRowClick = (record, index, event) =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.
-    budgetItemDetail.url.replace(':id', this.props.id).replace(':itemId', record.id).replace(":setOfBooksId",this.props.setOfBooksId));
+  handleRowClick = (record) =>{
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.id)
+          .replace(':id', record.id)
+          .replace(":setOfBooksId",this.props.setOfBooksId)
+      })
+    );
   };
 
   showImport = (flag) => {
@@ -315,7 +328,7 @@ class BudgetItem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
+    organization: state.user.organization,
     company: state.user.company,
   }
 }

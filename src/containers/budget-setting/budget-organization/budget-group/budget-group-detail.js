@@ -6,7 +6,7 @@ import {Table, Form, Select, Button, Icon, message, Popconfirm} from 'antd'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+import { routerRedux } from 'dva/router';
 import ListSelector from 'widget/list-selector'
 import BasicInfo from 'widget/basic-info'
 
@@ -82,19 +82,18 @@ class BudgetGroupDetail extends React.Component {
         onSelectAll: this.onSelectAll
       },
       editing: false,
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key')  //预算组织详情的页面项
     };
   }
 
   componentWillMount() {
-    budgetGroupService.getOrganizationGroupById(this.props.params.groupId).then(response => {
+    budgetGroupService.getOrganizationGroupById(this.props.match.params.id).then(response => {
       response.data.organizationName = this.props.organization.organizationName;
       this.setState({groupData: response.data});
     });
     this.getList();
     let selectorItem = chooserData['budget_item_filter'];
-    selectorItem.url = `${config.budgetUrl}/api/budget/groupDetail/${this.props.params.groupId}/query/filter`;
-    budgetGroupService.filterItemByGroupIdAndOrganizationId(this.props.params.groupId, this.props.organization.id).then(response => {
+    selectorItem.url = `${config.budgetUrl}/api/budget/groupDetail/${this.props.match.params.id}/query/filter`;
+    budgetGroupService.filterItemByGroupIdAndOrganizationId(this.props.match.params.id, this.props.organization.id).then(response => {
       let result = [];
       response.data.map((item) => {
         result.push({
@@ -188,7 +187,7 @@ class BudgetGroupDetail extends React.Component {
 
   getList = () => {
     const {page, pageSize} = this.state;
-    return budgetGroupService.getItemByGroupId(this.props.params.groupId, page, pageSize).then(response => {
+    return budgetGroupService.getItemByGroupId(this.props.match.params.id, page, pageSize).then(response => {
       response.data.map((item) => {
         item.key = item.id;
       });
@@ -208,7 +207,7 @@ class BudgetGroupDetail extends React.Component {
 
   deleteItem = (text, record) => {
     this.setState({loading: true}, () => {
-      budgetGroupService.deleteItemFromGroup(this.props.params.groupId, record.id).then(response => {
+      budgetGroupService.deleteItemFromGroup(this.props.match.params.id, record.id).then(response => {
         message.success(this.$t('common.delete.success', {name: ""})/*删除成功*/);
         this.getList();
       })
@@ -221,7 +220,7 @@ class BudgetGroupDetail extends React.Component {
       paramList.push(item.id);
     });
     this.setState({loading: true}, () => {
-      budgetGroupService.batchDeleteItemFromGroup(this.props.params.groupId, paramList).then(response => {
+      budgetGroupService.batchDeleteItemFromGroup(this.props.match.params.id, paramList).then(response => {
         message.success(this.$t('common.delete.success', {name: ""})/*删除成功*/);
         this.getList();
       })
@@ -236,11 +235,11 @@ class BudgetGroupDetail extends React.Component {
     this.setState({showListSelector: false});
     if (result.result.length > 0) {
       result.result.map(item => {
-        item.itemGroupId = this.props.params.groupId;
+        item.itemGroupId = this.props.match.params.id;
         item.itemId = item.id;
         delete item.id;
       });
-      budgetGroupService.batchAddItemToGroup(this.props.params.groupId, result.result).then(response => {
+      budgetGroupService.batchAddItemToGroup(this.props.match.params.id, result.result).then(response => {
         message.success(this.$t('itinerary.remark.add.success')/*'添加成功'*/);
         this.setState({
           page: 0,
@@ -283,7 +282,14 @@ class BudgetGroupDetail extends React.Component {
                rowSelection={rowSelection}/>
 
         <a className="back" onClick={() => {
-          this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id).replace(":setOfBooksId",this.props.params.setOfBooksId) + '?tab=GROUP');
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                .replace(':id', this.props.match.params.orgId)
+                .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                .replace(':tab','GROUP')
+            })
+          );
         }}>
           <Icon type="rollback" style={{marginRight: '5px'}}/>{this.$t('common.back')/*返回*/}
         </a>
@@ -302,7 +308,7 @@ class BudgetGroupDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 
