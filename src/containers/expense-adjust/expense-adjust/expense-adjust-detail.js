@@ -19,11 +19,11 @@ import {
   Col,
   Popconfirm, Card, Spin,
 } from 'antd';
-import NewExpenseAdjustDetail from 'containers/expense-adjust/new-expense-adjust-detail';
-import ApprotionInfo from 'containers/expense-adjust/approtion-info';
+import NewExpenseAdjustDetail from 'containers/expense-adjust/expense-adjust/new-expense-adjust-detail';
+import ApprotionInfo from 'containers/expense-adjust/expense-adjust/approtion-info';
 import Importer from 'widget/Template/importer';
 import 'styles/expense-adjust/expense-adjust-detail.scss';
-import adjustService from 'containers/expense-adjust/expense-adjust.service';
+import adjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 import DocumentBasicInfo from 'widget/document-basic-info'
 import ApproveHistory from 'widget/Template/approve-history-work-flow';
 import SlideFrame from 'widget/slide-frame';

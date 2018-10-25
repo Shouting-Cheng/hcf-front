@@ -1,6 +1,6 @@
 import {messages} from "share/common";
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import menuRoute from 'routes/menuRoute'
 import config from 'config'
 import SearchArea from 'components/search-area'
