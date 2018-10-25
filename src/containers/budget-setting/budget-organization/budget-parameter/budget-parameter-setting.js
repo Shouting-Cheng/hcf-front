@@ -202,7 +202,7 @@ class BudgetParameterSetting extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 
