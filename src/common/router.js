@@ -229,14 +229,14 @@ export const getRouterData = app => {
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
     },
-    '/approval-management/approve-expense-adjust':{
+    '/approval-management/approve-expense-adjust': {
       //费用调整单审批
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-approve/expense-adjust-approve')
       ),
       name: 'approve-expense-adjust',
     },
-    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag':{
+    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag': {
       //费用调整单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-approve/expense-adjust-approve-detail')
@@ -244,14 +244,14 @@ export const getRouterData = app => {
       name: 'approve-exp-adjust',
       parent: '/approval-management/approve-expense-adjust',
     },
-    '/document-type-manage/exp-adjust-type/:setOfBooksId':{
+    '/document-type-manage/exp-adjust-type/:setOfBooksId': {
       //调整单类型定义
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-adjust-type/exp-adjust-type')
       ),
       name: 'exp-adjust-type-define',
     },
-    '/document-type-manage/exp-adjust-type/distribution-company-exp-adjust-type/:setOfBooksId/:id':{
+    '/document-type-manage/exp-adjust-type/distribution-company-exp-adjust-type/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-adjust-type/distribution-company-exp-adjust-type')
       ),
@@ -825,13 +825,13 @@ export const getRouterData = app => {
       name: '银行定义',
     },
     //预算设置
-    '/budget-setting/budget-organization':{//预算组织定义
+    '/budget-setting/budget-organization': {//预算组织定义
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-organization')
       ),
       name: 'budget-org-define',
     },
-    '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id':{
+    '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id': {
       //参数设置
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
@@ -839,7 +839,7 @@ export const getRouterData = app => {
       name: 'params-setting',
       parent: '/budget-setting/budget-organization'
     },
-    '/budget-setting/budget-organization/new-budget-organization':{
+    '/budget-setting/budget-organization/new-budget-organization': {
       //新建预算组织
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/new-budget-organization')
@@ -847,7 +847,7 @@ export const getRouterData = app => {
       name: 'budget-org-new',
       parent: '/budget-setting/budget-organization'
     },
-    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id':{
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id': {
       //预算设置详情
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-organization-detail')
@@ -993,10 +993,10 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: '编辑汇率',
-      parent:'/admin-setting/currency-setting'
+      parent: '/admin-setting/currency-setting'
     },
     //预算审核
-    '/approval-management/budget-journal-check' :{
+    '/approval-management/budget-journal-check': {
       component: dynamicWrapper(app, [], () =>
         import('containers/approve/budget-journal-check/budget-journal-check.js'),
       ),
@@ -1016,8 +1016,6 @@ export const getRouterData = app => {
         import('containers/finance-setting/account-period-define/account-period-define.js')
       ),
       name: '会计期间定义',
-    },
-
     },
     //企业管理-公司维护
     '/enterprise-manage/company-maintain': {
