@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Row, Col, List, Form, Input, Button, Table, Select, Switch, message, Radio } from 'antd'
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;

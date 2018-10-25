@@ -1,12 +1,10 @@
-import { messages } from 'share/common';
 // 为了0416迭代上线，重构此文件
 import React from 'react';
-import { connect } from 'react-redux';
-
-import menuRoute from 'routes/menuRoute';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Form, Button, Icon, Tabs, Table, message, Popover } from 'antd';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
-import ListSelector from 'components/list-selector';
+import ListSelector from 'components/Widget/list-selector';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
 const TabPane = Tabs.TabPane;
 
@@ -30,11 +28,11 @@ class WrappedCompanyMaintainDetail extends React.Component {
       tabs: [
         {
           key: 'BANK',
-          name: messages('company.maintain.bankAccountInfo1'),
+          name: this.$t('company.maintain.bankAccountInfo1'),
         } /*银行账户信息*/,
         {
           key: 'USER',
-          name: messages('company.maintain.userInfo1'),
+          name: this.$t('company.maintain.userInfo1'),
         } /*员工信息*/,
       ],
       data: [],
@@ -44,7 +42,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
           columns: [
             {
               //银行名称
-              title: messages('company.maintain.bank.account.bankName'),
+              title: this.$t('company.maintain.bank.account.bankName'),
               dataIndex: 'bankName',
               width: '15%',
               render: desc => (
@@ -55,7 +53,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //支行名称
-              title: messages('bank.bankBranchName'),
+              title: this.$t('bank.bankBranchName'),
               dataIndex: 'bankBranchName',
               width: '15%',
               render: bankBranchName => (
@@ -68,7 +66,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //国家
-              title: messages('company.maintain.bank.account.country'),
+              title: this.$t('company.maintain.bank.account.country'),
               dataIndex: 'country',
               width: '15%',
               render: desc => (
@@ -79,13 +77,13 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //开户地
-              title: messages('company.maintain.bank.account.opening'),
+              title: this.$t('company.maintain.bank.account.opening'),
               dataIndex: 'bankAddress',
               width: '15%',
             },
             {
               //详细地址
-              title: messages('company.maintain.bank.account.bankAddress'),
+              title: this.$t('company.maintain.bank.account.bankAddress'),
               dataIndex: 'accountOpeningAddress',
               width: '15%',
               render: desc => (
@@ -96,7 +94,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //账户名称
-              title: messages('company.maintain.bank.account.bankAccountName'),
+              title: this.$t('company.maintain.bank.account.bankAccountName'),
               dataIndex: 'bankAccountName',
               width: '15%',
               render: desc => (
@@ -107,7 +105,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //银行账户账号
-              title: messages('company.maintain.bank.account.bankAccountNumber'),
+              title: this.$t('company.maintain.bank.account.bankAccountNumber'),
               dataIndex: 'bankAccountNumber',
               width: '15%',
               render: desc => (
@@ -118,7 +116,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
             },
             {
               //swiftCode
-              title: messages('company.maintain.bank.account.swiftCode'),
+              title: this.$t('company.maintain.bank.account.swiftCode'),
               dataIndex: 'swiftCode',
               width: '12%',
               render: desc => (
@@ -128,18 +126,18 @@ class WrappedCompanyMaintainDetail extends React.Component {
               ),
             },
             {
-              title: messages('company.maintain.bank.account.remark'),
+              title: this.$t('company.maintain.bank.account.remark'),
               dataIndex: 'remark',
               width: '15%',
               render: remark => <Popover content={remark}>{remark ? remark : '-'}</Popover>,
             },
             {
-              title: messages('common.operation'),
+              title: this.$t('common.operation'),
               dataIndex: 'operation',
               width: '10%',
               render: (text, record) => (
                 <span>
-                  <a onClick={e => this.editItem(e, record)}>{messages('common.edit')}</a>
+                  <a onClick={e => this.editItem(e, record)}>{this.$t('common.edit')}</a>
                 </span>
               ),
             },
@@ -153,37 +151,37 @@ class WrappedCompanyMaintainDetail extends React.Component {
           },
           columns: [
             {
-              title: messages('company.maintain.fullName1'),
+              title: this.$t('company.maintain.fullName1'),
               key: 'fullName',
               dataIndex: 'fullName',
               width: '16%',
             } /*姓名*/,
             {
-              title: messages('company.maintain.id1'),
+              title: this.$t('company.maintain.id1'),
               key: 'id',
               dataIndex: 'employeeID',
               width: '8%',
             } /*工号*/,
             {
-              title: messages('company.maintain.departmentName1'),
+              title: this.$t('company.maintain.departmentName1'),
               key: 'departmentName',
               dataIndex: 'departmentName',
               width: '10%',
             } /*部门名称*/,
             {
-              title: messages('company.maintain.mobile1'),
+              title: this.$t('company.maintain.mobile1'),
               key: 'mobile',
               dataIndex: 'mobile',
               width: '10%',
             } /*联系方式*/,
             {
-              title: messages('company.maintain.email1'),
+              title: this.$t('company.maintain.email1'),
               key: 'email',
               dataIndex: 'email',
               width: '10%',
             } /*邮箱*/,
             {
-              title: messages('common.column.status'), // "状态",
+              title: this.$t('common.column.status'), // "状态",
               key: 'status',
               dataIndex: 'status',
               render: text => {
@@ -192,9 +190,9 @@ class WrappedCompanyMaintainDetail extends React.Component {
                     <span>
                       <Popover
                         placement="topLeft"
-                        content={messages('person.manage.working.person')}
+                        content={this.$t('person.manage.working.person')}
                       >
-                        {messages('person.manage.working.person')}
+                        {this.$t('person.manage.working.person')}
                       </Popover>
                     </span>
                   );
@@ -203,17 +201,17 @@ class WrappedCompanyMaintainDetail extends React.Component {
                     <span>
                       <Popover
                         placement="topLeft"
-                        content={messages('person.manage.will.go.person')}
+                        content={this.$t('person.manage.will.go.person')}
                       >
-                        {messages('person.manage.will.go.person')}
+                        {this.$t('person.manage.will.go.person')}
                       </Popover>
                     </span>
                   );
                 } else if (text === 1003) {
                   return (
                     <span>
-                      <Popover placement="topLeft" content={messages('person.manage.gone.person')}>
-                        {messages('person.manage.gone.person')}
+                      <Popover placement="topLeft" content={this.$t('person.manage.gone.person')}>
+                        {this.$t('person.manage.gone.person')}
                       </Popover>
                     </span>
                   );
@@ -229,7 +227,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
       //   onChange: this.onSelectChange,
       // },
       nowStatus: 'BANK',
-      newBankAccountPage: menuRoute.getRouteItem('new-bank-account', 'key'), //新建银行账户
+      // newBankAccountPage: menuRoute.getRouteItem('new-bank-account', 'key'), //新建银行账户
     };
   }
 
@@ -251,7 +249,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
     let params = {
       page: pagination.page,
       pageSize: pagination.pageSize,
-      companyId: this.props.params.companyId,
+      companyId: this.props.match.params.companyId,
     };
     companyMaintainService.getBankAccountInfo(params).then(response => {
       response.data.map((item, index) => {
@@ -271,7 +269,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
     let params = {
       page: pagination.page,
       size: pagination.pageSize,
-      corporationOID: this.props.params.companyOId,
+      corporationOID: this.props.match.params.companyOId,
     };
     companyMaintainService.getUserInfo(params).then(response => {
       response.data.map((item, index) => {
@@ -294,11 +292,18 @@ class WrappedCompanyMaintainDetail extends React.Component {
 
   //编辑
   editItem = (e, record) => {
-    let path = this.state.newBankAccountPage.url
-      .replace(':companyOId', this.props.params.companyOId)
-      .replace(':companyId', this.props.params.companyId)
-      .replace(':flag', record.id);
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/new-bank-account/${
+          this.props.match.params.companyOId
+        }/${this.props.match.params.companyId}/${record.id}`,
+      })
+    );
+    // let path = this.state.newBankAccountPage.url
+    //   .replace(':companyOId', this.props.match.params.companyOId)
+    //   .replace(':companyId', this.props.match.params.companyId)
+    //   .replace(':flag', record.id);
+    // this.context.router.push(path);
   };
   //分页点击
   onChangePager = (pagination, filters, sorter) => {
@@ -344,16 +349,28 @@ class WrappedCompanyMaintainDetail extends React.Component {
 
   //新建
   handleNew = () => {
-    let path = this.state.newBankAccountPage.url
-      .replace(':companyOId', this.props.params.companyOId)
-      .replace(':companyId', this.props.params.companyId)
-      .replace(':flag', 'create');
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain/new-bank-account/${
+          this.props.match.params.companyOId
+        }/${this.props.match.params.companyId}/create`,
+      })
+    );
+    // let path = this.state.newBankAccountPage.url
+    //   .replace(':companyOId', this.props.match.params.companyOId)
+    //   .replace(':companyId', this.props.match.params.companyId)
+    //   .replace(':flag', 'create');
+    // this.context.router.push(path);
   };
 
   //返回
   handleBack = () => {
-    this.context.router.goBack();
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain`,
+      })
+    );
+    // this.context.router.goBack();
   };
 
   //渲染按钮
@@ -365,14 +382,14 @@ class WrappedCompanyMaintainDetail extends React.Component {
         <div>
           <div className="table-header-title">
             {/*共 {pagination.total} 条数据 / 已经选择了 {this.state.selectedRowKeys.length} 条数据*/}
-            {messages('common.total1', { total: pagination.total })}
+            {this.$t('common.total1', { total: pagination.total })}
             /
-            {messages('common.total.selected', { total: this.state.selectedRowKeys.length })}
+            {this.$t('common.total.selected', { total: this.state.selectedRowKeys.length })}
           </div>
           <div className="table-header-buttons">
             <Button onClick={this.removeUser} disabled={selectedRowKeys.length <= 0}>
               {/*移动*/}
-              {messages('common.move')}
+              {this.$t('common.move')}
             </Button>
           </div>
         </div>
@@ -382,11 +399,11 @@ class WrappedCompanyMaintainDetail extends React.Component {
         <div>
           <div className="table-header-title">
             {/*共 {pagination.total} 条数据*/}
-            {messages('common.total1', { total: pagination.total })}
+            {this.$t('common.total1', { total: pagination.total })}
           </div>
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleNew} loading={saving}>
-              {messages('common.create')}
+              {this.$t('common.create')}
             </Button>
           </div>
         </div>
@@ -397,7 +414,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
   //确认移动员工
   submitHandle = value => {
     const companyOIDTo = value.result[0].companyOID;
-    const companyOIDFrom = this.props.params.companyOId;
+    const companyOIDFrom = this.props.match.params.companyOId;
     const selectedRowKeys = this.state.selectedRowKeys;
     let params = {
       companyOIDFrom: companyOIDFrom,
@@ -406,7 +423,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
       selectMode: 'default',
     };
     companyMaintainService.movePersonToCompany(params).then(res => {
-      message.success(messages('common.operate.success'));
+      message.success(this.$t('common.operate.success'));
       this.getList(this.state.nowStatus);
       this.setState({
         selectedRowKeys: [],
@@ -454,7 +471,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
         />
         <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />
-          {messages('common.back')}
+          {this.$t('common.back')}
         </a>
 
         <ListSelector
@@ -463,16 +480,12 @@ class WrappedCompanyMaintainDetail extends React.Component {
           onCancel={this.cancelHandle}
           type="available_company"
           single={true}
-          extraParams={{ versionId: this.props.params.versionId, enabled: true }}
+          extraParams={{ versionId: this.props.match.params.versionId, enabled: true }}
         />
       </div>
     );
   }
 }
-
-WrappedCompanyMaintainDetail.contextTypes = {
-  router: React.PropTypes.object,
-};
 
 function mapStateToProps(state) {
   return {};

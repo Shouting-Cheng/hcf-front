@@ -71,7 +71,7 @@ class SelectDepartment extends React.Component {
       }
 
       let model = JSON.parse(treeNode.props.eventKey);
-      let url = `${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?id=${model.id}&name=`;
+      let url = `${config.baseUrl}/api/DepartmentGroup/get/dept/by/id?status=102&id=${model.id}&name=`;
 
       if (this.props.mode == 'oid') {
         url = `${config.baseUrl}/api/department/child/${model.id}?flag=1001`;

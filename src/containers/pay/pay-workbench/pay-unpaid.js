@@ -32,7 +32,7 @@ class PayUnpaid extends React.Component {
         {
           type: 'list', isRequired: true, colSpan: 6, selectorItem: {
             title: messages('pay.select.pay.company'), //选择付款公司
-            url: `${config.baseUrl}/api/companyBankAuth/get/own/info/${this.props.user.userOID}`,
+            url: `${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${this.props.user.userOID}`,
             searchForm: [
               { type: 'input', id: 'companyCode', label: messages('chooser.data.companyCode'/*公司代码*/) },
               { type: 'input', id: 'companyName', label: messages('chooser.data.companyName'/*公司名称*/) }
@@ -457,9 +457,23 @@ class PayUnpaid extends React.Component {
           // }else if(res.paymentMethodCategory === "EBANK_PAYMENT"){
           //   this.getFileList();
           // }
-          this.getOnlineList();
-          this.getOfflineList();
-          this.getFileList()
+
+          // 如果修改付款方式，需要清空选择的行
+          if ("paymentMethodCategory" === key){
+            this.setState({
+              selectedRows:[],
+              selectedRowKeys: []
+            },() =>{
+              this.getList();
+              this.noticeAlert(this.state.selectedRows);
+            })
+          }else{
+            this.getOnlineList();
+            this.getOfflineList();
+            this.getFileList()
+          }
+
+
         });
       }
     }).catch(e => {
@@ -978,7 +992,9 @@ class PayUnpaid extends React.Component {
                     onChange={this.selectHandleChange}
                     labelInValue>
                     {payAccountOptions.map(option => {
-                      return <Option key={option.bankAccountNumber}>{option.bankAccountName+'-'+option.bankAccountNumber.substr(option.bankAccountNumber.length-4)}</Option>
+                      return <Option key={option.bankAccountNumber}>
+                        {option.bankAccountName + '-' + option.bankAccountNumber.padStart(4,"*").substr(option.bankAccountNumber.padStart(4,"*").length -4)}
+                      </Option>
                     })}
                   </Select>
                   )}
@@ -1063,7 +1079,9 @@ class PayUnpaid extends React.Component {
                     onChange={this.selectHandleChange}
                     labelInValue>
                     {payAccountOptions.map(option => {
-                      return <Option key={option.bankAccountNumber}>{option.bankAccountName+'-'+option.bankAccountNumber.substr(option.bankAccountNumber.length-4)}</Option>
+                      return <Option key={option.bankAccountNumber}>
+                        {option.bankAccountName + '-' + option.bankAccountNumber.padStart(4,"*").substr(option.bankAccountNumber.padStart(4,"*").length -4)}
+                      </Option>
                     })}
                   </Select>
                   )}
@@ -1146,10 +1164,17 @@ class PayUnpaid extends React.Component {
                         onChange={this.selectHandleChange}
                         labelInValue>
                         {payAccountOptions.map(option => {
-                          return <Option key={option.bankAccountNumber}>{option.bankAccountName}</Option>
+                          return <Option key={option.bankAccountNumber}>
+                            {option.bankAccountName + '-' + option.bankAccountNumber.padStart(4,"*").substr(option.bankAccountNumber.padStart(4,"*").length -4)}
+                          </Option>
                         })}
                       </Select>
                       )}
+                  </FormItem>
+                  <FormItem  {...formItemLayout} label={messages('pay.account.number')}>
+                    {getFieldDecorator('_payCompanyBankNumber',{})(
+                      <Input disabled/>
+                    )}
                   </FormItem>
                   <FormItem  {...formItemLayout} label={messages('common.currency')}>
                     {getFieldDecorator('currency', {

@@ -428,10 +428,10 @@ class JobLog extends React.Component {
       });
   };
 
-  handleMenuClick = e => {
+  handleMenuClick = (e) => {
     let deleteParams = {};
     deleteParams['type'] = e.key;
-    if (this.props.params.jobInfoDetail) {
+    if (this.props.params && this.props.params.jobInfoDetail) {
       deleteParams['jobGroup'] = this.props.params.jobInfoDetail.jobGroup;
       deleteParams['jobId'] = this.props.params.jobInfoDetail.id;
     } else {
@@ -452,7 +452,6 @@ class JobLog extends React.Component {
       searchForm,
       searchForm1,
     } = this.state;
-
     const menu = (
       <Menu onClick={this.handleMenuClick}>
         <Menu.Item key={1}>

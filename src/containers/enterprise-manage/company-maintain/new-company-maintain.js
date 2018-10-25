@@ -1,12 +1,12 @@
 // 为了0416迭代上线，重构此文件
 import React from 'react';
-import { connect } from 'react-redux';
+import { routerRedux } from 'dva/router';
+import { connect } from 'dva';
 import { Form, Switch, Icon, Input, Button, Row, Col, message, DatePicker, Select } from 'antd';
 import moment from 'moment';
 import config from 'config';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
-import { messages } from 'share/common';
-import Selector from 'components/selector';
+import Selector from 'components/Widget/selector';
 import 'styles/enterprise-manage/company-maintain/new-company-maintain.scss';
 
 const Option = Select.Option;
@@ -56,9 +56,9 @@ class WrappedNewCompanyMaintain extends React.Component {
           config.baseUrl +
           '/api/company/by/tenant?setOfBooksId=' +
           this.props.company.setOfBooksId +
-          (this.props.params.companyOID === ':companyOID'
+          (this.props.match.params.companyOID === ':companyOID'
             ? ''
-            : '&filterCompanyOIDs=' + this.props.params.companyOID),
+            : '&filterCompanyOIDs=' + this.props.match.params.companyOID),
         label: record => `${record.name}`,
         key: 'id',
       },
@@ -72,10 +72,10 @@ class WrappedNewCompanyMaintain extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.params.flag === 'create') {
+    if (this.props.match.params.flag === 'create') {
       this.getSelectListParentCompany();
     } else {
-      this.getCompanyById(this.props.params.flag);
+      this.getCompanyById(this.props.match.params.flag);
     }
   }
 
@@ -89,7 +89,7 @@ class WrappedNewCompanyMaintain extends React.Component {
         () => {
           this.getSelectListParentCompany(
             this.state.companyDetail.legalEntityId,
-            this.props.params.companyOID
+            this.props.match.params.companyOID
           );
         }
       );
@@ -119,7 +119,7 @@ class WrappedNewCompanyMaintain extends React.Component {
       if (!err) {
         if (!_company.startDateActive) {
           //请选择有效期从
-          message.warning(messages('common.please.select') + messages('company.startDateActive'));
+          message.warning(this.$t('common.please.select') + this.$t('company.startDateActive'));
           return;
         }
 
@@ -166,7 +166,11 @@ class WrappedNewCompanyMaintain extends React.Component {
   addCompany = company => {
     this.setState({ loading: true });
     companyMaintainService.addCompany(company).then(response => {
-      this.context.router.goBack();
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/enterprise-manage/company-maintain`,
+        })
+      );
     });
     this.setState({ loading: false });
   };
@@ -174,13 +178,21 @@ class WrappedNewCompanyMaintain extends React.Component {
   updateCompany = company => {
     this.setState({ loading: true });
     companyMaintainService.updateCompany(company).then(response => {
-      this.context.router.goBack();
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/enterprise-manage/company-maintain`,
+        })
+      );
     });
     this.setState({ loading: false });
   };
   //返回
   handleCancel = () => {
-    this.context.router.goBack();
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/company-maintain`,
+      })
+    );
   };
   //不能大于endDate
   disabledStartDate = startValue => {
@@ -235,15 +247,15 @@ class WrappedNewCompanyMaintain extends React.Component {
         );
       });
       return (
-        <Select showSearch placeholder={messages('common.select')} allowClear={true}>
+        <Select showSearch placeholder={this.$t('common.select')} allowClear={true}>
           {listOption}
         </Select>
       );
     } else {
       return (
-        <Select placeholder={messages('common.select')} disabled={true}>
+        <Select placeholder={this.$t('common.select')} disabled={true}>
           {/*<Option value="null">*/}
-          {/*{messages("common.select")}{messages("company.maintain.company.legalEntityName")}*/}
+          {/*{this.$t("common.select")}{this.$t("company.maintain.company.legalEntityName")}*/}
           {/*</Option>*/}
         </Select>
       );
@@ -259,7 +271,7 @@ class WrappedNewCompanyMaintain extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('company.maintain.company.companyCode')} //公司代码
+                label={this.$t('company.maintain.company.companyCode')} //公司代码
                 colon={true}
               >
                 {getFieldDecorator('companyCode', {
@@ -267,15 +279,15 @@ class WrappedNewCompanyMaintain extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
                       max: 35,
-                      message: messages('company.maintain.new.tips1'), //"不能超过35个字符"
+                      message: this.$t('company.maintain.new.tips1'), //"不能超过35个字符"
                     },
                     //公司代码直接使用后端校验，前端提示
                     // {
-                    //   message: messages("company.maintain.new.tips2"),//"只能是数字与字母",
+                    //   message: this.$t("company.maintain.new.tips2"),//"只能是数字与字母",
                     //   validator: (rule, value, cb) => {
                     //     if (value === null || value === undefined || value === "") {
                     //       cb();
@@ -295,41 +307,38 @@ class WrappedNewCompanyMaintain extends React.Component {
                 })(
                   <Input
                     disabled={!!companyDetail.companyCode}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 )}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem
-                label={messages('company.maintain.company.name')} /* 公司名称*/
-                colon={true}
-              >
+              <FormItem label={this.$t('company.maintain.company.name')} /* 公司名称*/ colon={true}>
                 {getFieldDecorator('name', {
                   initialValue: companyDetail.name,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
                       max: 100,
-                      message: messages('company.maintain.new.tips3'), //"不能超过100个字符"
+                      message: this.$t('company.maintain.new.tips3'), //"不能超过100个字符"
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('company.maintain.company.companyLevelName')} /* 公司级别*/
+                label={this.$t('company.maintain.company.companyLevelName')} /* 公司级别*/
                 colon={true}
               >
                 {getFieldDecorator('companyLevelId', {
                   initialValue: companyDetail.companyLevelName,
                 })(
                   <Selector
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     selectorItem={this.state.selectListCompanyLevel}
                   />
                 )}
@@ -339,7 +348,7 @@ class WrappedNewCompanyMaintain extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('company.maintain.company.legalEntityName')} /* 法人*/
+                label={this.$t('company.maintain.company.legalEntityName')} /* 法人*/
                 colon={true}
               >
                 {getFieldDecorator('legalEntityId', {
@@ -347,14 +356,14 @@ class WrappedNewCompanyMaintain extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.select'),
+                      message: this.$t('common.please.select'),
                     },
                   ],
                 })(
                   <Selector
                     onChange={this.legalEntityIdChange}
                     disabled={companyDetail.legalEntityId}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     selectorItem={this.state.selectListLegalEntity}
                   />
                 )}
@@ -362,7 +371,7 @@ class WrappedNewCompanyMaintain extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('company.maintain.company.parentCompanyName')} /* 上级公司*/
+                label={this.$t('company.maintain.company.parentCompanyName')} /* 上级公司*/
                 colon={true}
               >
                 {getFieldDecorator('parentCompanyId', {
@@ -373,7 +382,7 @@ class WrappedNewCompanyMaintain extends React.Component {
 
             <Col span={8}>
               <FormItem
-                label={messages('common.column.status')} //状态
+                label={this.$t('common.column.status')} //状态
                 colon={false}
               >
                 {getFieldDecorator('enabled', {
@@ -398,7 +407,7 @@ class WrappedNewCompanyMaintain extends React.Component {
             {/*initialValue: companyDetail.setOfBooksName*/}
             {/*})(*/}
             {/*<Selector*/}
-            {/*placeholder={messages("common.please.select")}*/}
+            {/*placeholder={this.$t("common.please.select")}*/}
             {/*selectorItem={this.state.selectListSob}/>*/}
             {/*)*/}
             {/*}*/}
@@ -411,7 +420,7 @@ class WrappedNewCompanyMaintain extends React.Component {
                 label={
                   <span>
                     <span className="required-red">*&nbsp;</span>
-                    <span>{messages('company.maintain.company.startDateActive')}</span>
+                    <span>{this.$t('company.maintain.company.startDateActive')}</span>
                   </span>
                 } //有效期从
                 colon={true}
@@ -436,7 +445,7 @@ class WrappedNewCompanyMaintain extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('company.maintain.company.endDateActive')} //有效期到
+                label={this.$t('company.maintain.company.endDateActive')} //有效期到
                 colon={true}
               >
                 {getFieldDecorator('endDateActive', {
@@ -460,20 +469,20 @@ class WrappedNewCompanyMaintain extends React.Component {
           </Row>
           <Row>
             <Col>
-              <FormItem label={messages('company.maintain.company.address')} /* 地址*/ colon={true}>
+              <FormItem label={this.$t('company.maintain.company.address')} /* 地址*/ colon={true}>
                 {getFieldDecorator('address', {
                   initialValue: companyDetail.address,
                   rules: [],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <div>
             <Button type="primary" loading={loading} htmlType="submit">
-              {messages('common.save') /*保存*/}
+              {this.$t('common.save') /*保存*/}
             </Button>
             <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
-              {messages('common.cancel') /*取消*/}
+              {this.$t('common.cancel') /*取消*/}
             </Button>
           </div>
         </Form>
@@ -482,15 +491,12 @@ class WrappedNewCompanyMaintain extends React.Component {
   }
 }
 
-WrappedNewCompanyMaintain.contextTypes = {
-  router: React.PropTypes.object,
-};
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
-    tenantMode: state.main.tenantMode,
-    company: state.login.company,
+    profile: state.user.profile,
+    user: state.user.currentSser,
+    tenantMode: true,
+    company: state.user.company,
   };
 }
 const NewCompanyMaintain = Form.create()(WrappedNewCompanyMaintain);

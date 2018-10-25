@@ -258,6 +258,7 @@ class BaseRequestDetail extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { approving, isPreVersion, latestApplicationOID, from } = this.props;
     const {
       payProcess,
@@ -618,7 +619,7 @@ class BaseRequestDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
+    user: state.user.user,
   };
 }
 

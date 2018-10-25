@@ -3,11 +3,9 @@
  */
 import React from 'react';
 import { Button, Form, Select,Input, Col, Row, Switch, message, Icon} from 'antd';
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 import 'styles/budget-setting/budget-organization/budget-structure/new-budget-structure.scss';
-import menuRoute from 'routes/menuRoute'
 import debounce from 'lodash.debounce';
 
 const FormItem = Form.Item;
@@ -18,7 +16,7 @@ class NewBudgetStructure extends React.Component{
     super(props);
     this.state = {
       loading: false,
-      statusCode: formatMessage({id:"common.enabled"}),  /*启用*/
+      statusCode: this.$t({id:"common.enabled"}),  /*启用*/
       organization:{},
       periodStrategy: []  //值列表：编制期段
     };
@@ -64,14 +62,14 @@ class NewBudgetStructure extends React.Component{
         values.organizationId = this.state.organization.id;
         budgetService.addStructure(values).then((response)=>{
           if(response) {
-            message.success(formatMessage({id:"structure.saveSuccess"})); /*保存成功！*/
+            message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
             response.data.organizationName = values.organizationName;
             this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetStructureDetail.url.replace(':id', this.props.params.id).replace(':structureId',response.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
             this.setState({loading:false})
           }
         }).catch((e)=>{
           if(e.response){
-            message.error(`${formatMessage({id:"common.save.filed"})}, ${e.response.data.message}`);
+            message.error(`${this.$t({id:"common.save.filed"})}, ${e.response.data.message}`);
           }
           this.setState({loading: false});
         })
@@ -99,7 +97,7 @@ class NewBudgetStructure extends React.Component{
           }
         })
       }
-      flag >0 ? callback(formatMessage({id:"budget.structureCode.exist"})) : callback();
+      flag >0 ? callback(this.$t({id:"budget.structureCode.exist"})) : callback();
 
     });
   };
@@ -124,7 +122,7 @@ class NewBudgetStructure extends React.Component{
             <Row gutter={24}>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"budget.organization"})}  /*{/!*预算组织*!/}*/
+                  label={this.$t({id:"budget.organization"})}  /*{/!*预算组织*!/}*/
                   colon={true}>
                   {getFieldDecorator('organizationName', {
                     initialValue: organization.organizationName,
@@ -138,31 +136,31 @@ class NewBudgetStructure extends React.Component{
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"budget.structureCode"})} /* {/!*预算表代码*!/}*/
+                  label={this.$t({id:"budget.structureCode"})} /* {/!*预算表代码*!/}*/
                   colon={true}>
                   {getFieldDecorator('structureCode', {
                     rules:[
-                      {required:true,message:formatMessage({id:"common.please.enter"})},
+                      {required:true,message:this.$t({id:"common.please.enter"})},
                       {
                         validator:(item,value,callback)=>this.validateStructureCode(item,value,callback)
                       }
                     ]
                   })(
-                    <Input placeholder={formatMessage({id:"common.please.enter"})}
+                    <Input placeholder={this.$t({id:"common.please.enter"})}
                     />)
                   }
                 </FormItem>
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"budget.structureName"})} /* {/!*预算表名称*!/}*/
+                  label={this.$t({id:"budget.structureName"})} /* {/!*预算表名称*!/}*/
                   colon={true}>
                   {getFieldDecorator('structureName', {
                     rules:[
-                      {required:true,message:formatMessage({id:"common.please.enter"})},
+                      {required:true,message:this.$t({id:"common.please.enter"})},
                     ]
                   })(
-                    <Input placeholder={formatMessage({id:"common.please.enter"})}
+                    <Input placeholder={this.$t({id:"common.please.enter"})}
                     />)
                   }
                 </FormItem>
@@ -171,14 +169,14 @@ class NewBudgetStructure extends React.Component{
             <Row gutter={24}>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"budget.periodStrategy"})}  /*{/!*编制期段*!/}*/
+                  label={this.$t({id:"budget.periodStrategy"})}  /*{/!*编制期段*!/}*/
                   colon={true}>
                   {getFieldDecorator('periodStrategy', {
                     rules:[
-                      {required:true,message:formatMessage({id:"common.please.enter"})},/* {/!*请输入*!/}*/
+                      {required:true,message:this.$t({id:"common.please.enter"})},/* {/!*请输入*!/}*/
                     ],
                   })(
-                    <Select placeholder={formatMessage({id:"common.please.select"})}  /* {/!*请选择*!/}*/>
+                    <Select placeholder={this.$t({id:"common.please.select"})}  /* {/!*请选择*!/}*/>
                       {options}
                     </Select>)
                   }
@@ -186,17 +184,17 @@ class NewBudgetStructure extends React.Component{
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"budget.structureDescription"})} /* {/!*备注*!/}*/
+                  label={this.$t({id:"budget.structureDescription"})} /* {/!*备注*!/}*/
                   colon={true}>
                   {getFieldDecorator('description')(
-                    <Input placeholder={formatMessage({id:"common.please.enter"})}
+                    <Input placeholder={this.$t({id:"common.please.enter"})}
                     />)
                   }
                 </FormItem>
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={formatMessage({id:"common.status"},{status:statusCode})} /* {/!*状态*!/}*/
+                  label={this.$t({id:"common.status"},{status:statusCode})} /* {/!*状态*!/}*/
                   colon={false}>
                   {getFieldDecorator("enabled", {
                     initialValue: true,
@@ -205,8 +203,8 @@ class NewBudgetStructure extends React.Component{
                       {
                         validator: (item,value,callback)=>{
                           this.setState({
-                            statusCode: value ? formatMessage({id:"common.enabled"}) /*启用*/
-                              : formatMessage({id:"common.disabled"}) /*禁用*/
+                            statusCode: value ? this.$t({id:"common.enabled"}) /*启用*/
+                              : this.$t({id:"common.disabled"}) /*禁用*/
                           })
                           callback();
                         }
@@ -218,18 +216,14 @@ class NewBudgetStructure extends React.Component{
                 </FormItem>
               </Col>
             </Row>
-            <Button type="primary" loading={loading} htmlType="submit">{formatMessage({id:"common.save"}) /*保存*/}</Button>
-            <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}> {formatMessage({id:"common.cancel"}) /*取消*/}</Button>
+            <Button type="primary" loading={loading} htmlType="submit">{this.$t({id:"common.save"}) /*保存*/}</Button>
+            <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}> {this.$t({id:"common.cancel"}) /*取消*/}</Button>
           </Form>
         </div>
       </div>
     )
   }
 }
-
-NewBudgetStructure.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {

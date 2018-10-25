@@ -1,12 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table, Badge, Popover, message } from 'antd'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
-
-import SearchArea from 'components/search-area'
-import SlideFrame from 'components/slide-frame'
+import SearchArea from 'widget/search-area'
+import SlideFrame from 'widget/slide-frame'
 import NewBudgetScenarios from 'containers/budget-setting/budget-organization/budget-scenarios/new-budget-scenarios'
 import UpdateBudgetScenarios from 'containers/budget-setting/budget-organization/budget-scenarios/update-budget-scenarios'
 
@@ -18,8 +16,8 @@ class BudgetScenarios extends React.Component {
       newParams: {},
       updateParams: {},
       searchForm: [
-        {type: 'input', id: 'scenarioCode', label: formatMessage({id: "budget.scenarios.code"}/*预算场景代码*/)},
-        {type: 'input', id: 'scenarioName', label: formatMessage({id: "budget.scenarios.name"}/*预算场景名称*/)}
+        {type: 'input', id: 'scenarioCode', label: this.$t({id: "budget.scenarios.code"}/*预算场景代码*/)},
+        {type: 'input', id: 'scenarioName', label: this.$t({id: "budget.scenarios.name"}/*预算场景名称*/)}
       ],
       searchParams: {
         scenarioCode: "",
@@ -27,16 +25,16 @@ class BudgetScenarios extends React.Component {
       },
       loading: true,
       columns: [
-        {title: formatMessage({id: "budget.scenarios.code"}/*预算场景代码*/), dataIndex: 'scenarioCode', key: 'scenarioCode'},
-        {title: formatMessage({id: "budget.scenarios.name"}/*预算场景名称*/), dataIndex: 'scenarioName', key: 'scenarioName',
+        {title: this.$t({id: "budget.scenarios.code"}/*预算场景代码*/), dataIndex: 'scenarioCode', key: 'scenarioCode'},
+        {title: this.$t({id: "budget.scenarios.name"}/*预算场景名称*/), dataIndex: 'scenarioName', key: 'scenarioName',
           render: desc => <Popover placement="topLeft" content={desc}>{desc}</Popover>},
-        {title: formatMessage({id: "common.remark"}/*备注*/), dataIndex: 'description', key: 'description',
+        {title: this.$t({id: "common.remark"}/*备注*/), dataIndex: 'description', key: 'description',
           render: desc => desc ? <Popover placement="topLeft" content={desc}>{desc}</Popover> : '-'},
-        {title: formatMessage({id: "budget.scenarios.default"}/*默认场景*/), dataIndex: 'defaultFlag', key: 'defaultFlag', width: '10%' ,
+        {title: this.$t({id: "budget.scenarios.default"}/*默认场景*/), dataIndex: 'defaultFlag', key: 'defaultFlag', width: '10%' ,
           render: defaultFlag => defaultFlag ? 'Y' : '-'},
-        {title: formatMessage({id: "common.column.status"}/*状态*/), dataIndex: 'enabled', key: 'enabled', width: '10%', render: enabled =>
+        {title: this.$t({id: "common.column.status"}/*状态*/), dataIndex: 'enabled', key: 'enabled', width: '10%', render: enabled =>
           <Badge status={enabled ? 'success' : 'error'}
-                 text={enabled ? formatMessage({id: "common.status.enable"}/*启用*/) : formatMessage({id: "common.status.disable"}/*禁用*/)} />}
+                 text={enabled ? this.$t({id: "common.status.enable"}/*启用*/) : this.$t({id: "common.status.disable"}/*禁用*/)} />}
       ],
       pagination: {
         total: 0
@@ -86,7 +84,7 @@ class BudgetScenarios extends React.Component {
       }
     }).catch(()=>{
       this.setState({ loading: false });
-      message.error(formatMessage({id: "common.error"}/*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/))
+      message.error(this.$t({id: "common.error"}/*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/))
     })
   }
 
@@ -172,9 +170,9 @@ class BudgetScenarios extends React.Component {
           clearHandle={this.clear}
           eventHandle={this.searchEventHandle}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}</div>
+          <div className="table-header-title">{this.$t({id: "common.total"},{total:`${pagination.total || 0}`}/*共搜索到 {total} 条数据*/)}</div>
           <div className="table-header-buttons">
-            <Button type="primary" onClick={() => this.showSlide(true)}>{formatMessage({id: "common.create"}/*新建*/)}</Button>
+            <Button type="primary" onClick={() => this.showSlide(true)}>{this.$t({id: "common.create"}/*新建*/)}</Button>
           </div>
         </div>
         <Table columns={columns}
@@ -187,13 +185,13 @@ class BudgetScenarios extends React.Component {
                bordered
                size="middle"/>
 
-        <SlideFrame title={formatMessage({id: "budget.scenarios.new"}/*新建预算场景*/)}
+        <SlideFrame title={this.$t({id: "budget.scenarios.new"}/*新建预算场景*/)}
                     show={showSlideFrame}
                     content={NewBudgetScenarios}
                     afterClose={this.handleCloseSlide}
                     onClose={() => this.showSlide(false)}
                     params={{...newParams,flag: showSlideFrame}}/>
-        <SlideFrame title={formatMessage({id: "budget.scenarios.edit"}/*编辑预算场景*/)}
+        <SlideFrame title={this.$t({id: "budget.scenarios.edit"}/*编辑预算场景*/)}
                     show={showUpdateSlideFrame}
                     content={UpdateBudgetScenarios}
                     afterClose={this.handleCloseUpdateSlide}

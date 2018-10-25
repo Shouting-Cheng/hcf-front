@@ -55,7 +55,6 @@ class JobInfoGlue extends React.Component {
   handleSave = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      debugger;
       if (!err) {
         this.setState({ loading: true });
         let param = { ...values };
