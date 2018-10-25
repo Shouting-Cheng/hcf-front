@@ -1,9 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import config from 'config'
 import { Form, Input, Row, Col, Switch, Button, Icon, Checkbox, Alert, message, Select, InputNumber } from 'antd'
-import Chooser from 'components/chooser'
+import Chooser from 'widget/chooser'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 import 'styles/budget-setting/budget-organization/budget-structure/new-dimension.scss'
 
@@ -25,28 +24,28 @@ class NewDimension extends React.Component{
       defaultDimension: [],
       dimensionValue:{},
       dimensionSelectorItem:{
-        title: formatMessage({id:"structure.selectDim"}),
+        title: this.$t({id:"structure.selectDim"}),
         url: `${config.budgetUrl}/api/budget/structure/assign/layouts/queryNotSaveDimension`,
         searchForm: [
-          {type: 'input', id: 'dimensionCode', label: formatMessage({id:"structure.dimensionCode"})},
-          {type: 'input', id: 'dimensionName', label: formatMessage({id:"structure.dimensionName"})},
+          {type: 'input', id: 'dimensionCode', label: this.$t({id:"structure.dimensionCode"})},
+          {type: 'input', id: 'dimensionName', label: this.$t({id:"structure.dimensionName"})},
         ],
         columns: [
-          {title: formatMessage({id:"structure.dimensionCode"}), dataIndex: 'dimensionCode'},
-          {title: formatMessage({id:"structure.dimensionName"}), dataIndex: 'dimensionName'},
+          {title: this.$t({id:"structure.dimensionCode"}), dataIndex: 'dimensionCode'},
+          {title: this.$t({id:"structure.dimensionName"}), dataIndex: 'dimensionName'},
         ],
         key: 'dimensionId'
       },
       selectorItem:{
-        title: formatMessage({id:'structure.selectDefaultDim'}),
+        title: this.$t({id:'structure.selectDefaultDim'}),
         url: `${config.baseUrl}/api/costcenter/items`,
         searchForm: [
-          {type: 'input', id: 'code', label: formatMessage({id:'structure.dimensionValueCode'})},
-          {type: 'input', id: 'name', label: formatMessage({id:'structure.dimensionValueName'})},
+          {type: 'input', id: 'code', label: this.$t({id:'structure.dimensionValueCode'})},
+          {type: 'input', id: 'name', label: this.$t({id:'structure.dimensionValueName'})},
         ],
         columns: [
-          {title: formatMessage({id:'structure.dimensionValueCode'}), dataIndex: 'code'},
-          {title: formatMessage({id:'structure.dimensionValueName'}), dataIndex: 'name'},
+          {title: this.$t({id:'structure.dimensionValueCode'}), dataIndex: 'code'},
+          {title: this.$t({id:'structure.dimensionValueName'}), dataIndex: 'name'},
         ],
         key: 'id'
       },
@@ -88,11 +87,11 @@ class NewDimension extends React.Component{
           if(res.status == 200){
             this.props.close(true);
             this.onCancel();
-            message.success(`${formatMessage({id:"common.save.success"},{name: ''})}`);
+            message.success(`${this.$t({id:"common.save.success"},{name: ''})}`);
           }
         }).catch((e)=>{
           if(e.response){
-            message.error(`${formatMessage({id:"common.save.filed"})}, ${e.response.data.message}`);
+            message.error(`${this.$t({id:"common.save.filed"})}, ${e.response.data.message}`);
           }
           this.setState({loading: false});
         })
@@ -135,7 +134,7 @@ class NewDimension extends React.Component{
   //没有选择维度时，提示
   validateValue = ()=>{
     let dimensionValue = {
-      help: formatMessage({id:"structure.validateDimension"}),  /*请先选择维度代码*/
+      help: this.$t({id:"structure.validateDimension"}),  /*请先选择维度代码*/
       validateStatus: 'warning'
     };
     this.setState({
@@ -157,24 +156,24 @@ class NewDimension extends React.Component{
           <Row gutter={18}>
             <Col span={18}>
               <FormItem {...formItemLayout}
-                        label={formatMessage({id:"common.column.status"})} colon={true}>
+                        label={this.$t({id:"common.column.status"})} colon={true}>
                 {getFieldDecorator('enabled', {
                   valuePropName:"defaultChecked",
                   initialValue:enabled
                 })(
                   <div>
                     <Switch defaultChecked={enabled}  checkedChildren={<Icon type="check"/>} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
-                    <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? formatMessage({id:"common.status.enable"}) : formatMessage({id:"common.disabled"}) }</span>
+                    <span className="enabled-type" style={{marginLeft:20,width:100}}>{ enabled ? this.$t({id:"common.status.enable"}) : this.$t({id:"common.disabled"}) }</span>
                   </div>)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={18}>
             <Col span={18}>                                          {/* 维度代码*/}
-              <FormItem {...formItemLayout} label={formatMessage({id: "structure.dimensionCode"})} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t({id: "structure.dimensionCode"})} colon={true}>
                 {getFieldDecorator('dimensionCode', {
                   rules: [{
-                    required: true, message: formatMessage({id:"common.please.select"})
+                    required: true, message: this.$t({id:"common.please.select"})
                   },{
                     validator:(item,value,callback)=>{
                       callback();
@@ -183,7 +182,7 @@ class NewDimension extends React.Component{
                   ],
                 })(
                   <Chooser
-                    placeholder={ formatMessage({id:"common.please.enter"}) }
+                    placeholder={ this.$t({id:"common.please.enter"}) }
                     type={"select_dimension"}
                     single={true}
                     labelKey="dimensionCode"
@@ -196,7 +195,7 @@ class NewDimension extends React.Component{
           </Row>
           <Row gutter={18}>
             <Col span={18}>                  {/* 维度名称*/}
-              <FormItem {...formItemLayout} label={formatMessage({id:"structure.dimensionName"})} colon={true} >
+              <FormItem {...formItemLayout} label={this.$t({id:"structure.dimensionName"})} colon={true} >
                 {getFieldDecorator('dimensionName', {
                   initialValue: dimensionCode.length>0 ? dimensionCode[0].dimensionName : null,
                 })(
@@ -207,14 +206,14 @@ class NewDimension extends React.Component{
           </Row>
           <Row gutter={18}>
             <Col span={18}>                             {/* 布局位置*/}
-              <FormItem {...formItemLayout} label={formatMessage({id:"structure.layoutPosition"})} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t({id:"structure.layoutPosition"})} colon={true}>
                 {getFieldDecorator('layoutPosition', {
                   initialValue: "DOCUMENTS_LINE",
                   rules: [{
-                    required: true, message:formatMessage({id:"common.please.select"})
+                    required: true, message:this.$t({id:"common.please.select"})
                   }],
                 })(
-                  <Select disabled  placeholder={formatMessage({id:"common.please.select"})}>
+                  <Select disabled  placeholder={this.$t({id:"common.please.select"})}>
                     {options}
                   </Select>
                 )}
@@ -223,11 +222,11 @@ class NewDimension extends React.Component{
           </Row>
           <Row gutter={18}>
             <Col span={18}>                        {/* 布局顺序*/}
-              <FormItem {...formItemLayout} label={formatMessage({id:"structure.layoutPriority"})} colon={true}>
+              <FormItem {...formItemLayout} label={this.$t({id:"structure.layoutPriority"})} colon={true}>
                 {getFieldDecorator('layoutPriority', {
                   rules: [
                     {
-                      required: true, message: formatMessage({id:"common.please.enter"})
+                      required: true, message: this.$t({id:"common.please.enter"})
                     },
                     {
                       validator:(item,value,callback)=>{
@@ -235,14 +234,14 @@ class NewDimension extends React.Component{
                       }
                     }],
                 })(
-                  <InputNumber placeholder={formatMessage({id:"common.please.enter"})}/>
+                  <InputNumber placeholder={this.$t({id:"common.please.enter"})}/>
                 )}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={18}>
             <Col span={18}>                          {/* 默认维值代码*/}
-              <FormItem {...formItemLayout} label={formatMessage({id:"structure.defaultDimValueCode"})} colon={true}
+              <FormItem {...formItemLayout} label={this.$t({id:"structure.defaultDimValueCode"})} colon={true}
                         help={dimensionValue.help}
                         validateStatus={dimensionValue.validateStatus}>
                 {getFieldDecorator('defaultDimensionCode', {
@@ -256,10 +255,10 @@ class NewDimension extends React.Component{
                   <div>
                     {
                       typeof this.props.form.getFieldValue("dimensionCode") === 'undefined' ?
-                        <Input onFocus={this.validateValue} placeholder={formatMessage({id:"common.please.select"})}/>
+                        <Input onFocus={this.validateValue} placeholder={this.$t({id:"common.please.select"})}/>
                         :
                         <Chooser
-                          placeholder={formatMessage({id:"common.please.select"})}
+                          placeholder={this.$t({id:"common.please.select"})}
                           type={"select_dimensionValue"}
                           single={true}
                           labelKey="code"
@@ -275,7 +274,7 @@ class NewDimension extends React.Component{
           </Row>
           <Row gutter={18}>
             <Col span={18}>
-             <FormItem {...formItemLayout} label={formatMessage({id:'structure.defaultDimValueCode'})} >
+             <FormItem {...formItemLayout} label={this.$t({id:'structure.defaultDimValueCode'})} >
               {getFieldDecorator('defaultDimValueCode', {
                 initialValue: defaultDimension.length>0 ? defaultDimension[0].name : null
               })(
@@ -285,8 +284,8 @@ class NewDimension extends React.Component{
             </Col>
           </Row>
           <div className="slide-footer">
-            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{formatMessage({id:"common.save"})}</Button>
-            <Button onClick={this.onCancel}>{formatMessage({id:"common.cancel"})}</Button>
+            <Button type="primary" htmlType="submit"  loading={this.state.loading}>{this.$t({id:"common.save"})}</Button>
+            <Button onClick={this.onCancel}>{this.$t({id:"common.cancel"})}</Button>
           </div>
         </Form>
 
@@ -298,7 +297,7 @@ class NewDimension extends React.Component{
 function mapStateToProps(state) {
   return {
     organization: state.budget.organization,
-    company: state.login.company,
+    company: state.user.company,
   }
 }
 

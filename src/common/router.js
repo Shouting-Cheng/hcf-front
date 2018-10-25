@@ -212,22 +212,51 @@ export const getRouterData = app => {
       parent: '/my-reimburse',
     },
     '/expense-adjust/my-expense-adjust': {
-      component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust')),
+      component: dynamicWrapper(app, [], () => import('containers/expense-adjust/expense-adjust/expense-adjust')),
       name: 'my-expense-adjust1',
     },
     '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/expense-adjust/new-expense-adjust')
+        import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
       name: 'new-expense-adjust',
       parent: '/expense-adjust/my-expense-adjust',
     },
     '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/expense-adjust/expense-adjust-detail')
+        import('containers/expense-adjust/expense-adjust/expense-adjust-detail')
       ),
       name: 'expense-adjust-detail',
       parent: '/expense-adjust/my-expense-adjust',
+    },
+    '/approval-management/approve-expense-adjust':{
+      //费用调整单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-approve/expense-adjust-approve')
+      ),
+      name: 'approve-expense-adjust',
+    },
+    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag':{
+      //费用调整单审批详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-approve/expense-adjust-approve-detail')
+      ),
+      name: 'approve-exp-adjust',
+      parent: '/approval-management/approve-expense-adjust',
+    },
+    '/document-type-manage/exp-adjust-type/:setOfBooksId':{
+      //调整单类型定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-adjust-type/exp-adjust-type')
+      ),
+      name: 'exp-adjust-type-define',
+    },
+    '/document-type-manage/exp-adjust-type/distribution-company-exp-adjust-type/:setOfBooksId/:id':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-adjust/exp-adjust-type/distribution-company-exp-adjust-type')
+      ),
+      name: 'exp-adjust-type-company',
+      parent: '/document-type-manage/exp-adjust-type/:setOfBooksId'
     },
     '/document-type-manage/contract-type': {
       component: dynamicWrapper(app, [], () =>
@@ -367,6 +396,17 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
       parent: '/request',
+    },
+    '/approval-management/approve-request': {
+      //申请单审批
+      component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
+      name: 'request-approve',
+    },
+    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
+      //申请单审批详情
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
+      name: 'request-approve',
+      parent: '/approval-management/approve-request',
     },
     '/payment-requisition/my-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
@@ -783,6 +823,37 @@ export const getRouterData = app => {
         import('containers/basic-data/bank-definition/bank-definition.js')
       ),
       name: '银行定义',
+    },
+    //预算设置
+    '/budget-setting/budget-organization':{//预算组织定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization')
+      ),
+      name: 'budget-org-define',
+    },
+    '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id':{
+      //参数设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
+      ),
+      name: 'params-setting',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/new-budget-organization':{
+      //新建预算组织
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/new-budget-organization')
+      ),
+      name: 'budget-org-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id':{
+      //预算设置详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization-detail')
+      ),
+      name: 'budget-org-detail',
+      parent: '/budget-setting/budget-organization'
     },
 
     //预算日记本
