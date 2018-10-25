@@ -851,13 +851,6 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approval-my-reimburse': {
-      //报账单审批
-      component: dynamicWrapper(app, [], () =>
-        import('containers/reimburse/reimburse-approve/my-reimburse.js')
-      ),
-      name: 'approval-my-reimburse',
-    },
     '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
@@ -930,7 +923,23 @@ export const getRouterData = app => {
       ),
       name: '编辑汇率',
       parent:'/admin-setting/currency-setting'
-    }
+    },
+    //预算审核
+    '/approval-management/budget-journal-check' :{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/budget-journal-check/budget-journal-check.js'),
+      ),
+      name: 'budget-journal-check',
+    },
+    //预算审核详情
+    '/approval-management/budget-journal-check/budget-journal-check-detail/:id/:journalCode/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/budget-journal-check/budget-journal-check-detail.js')
+      ),
+      name: '预算审核详情',
+      parent: '/approval-management/budget-journal-check',
+    },
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
