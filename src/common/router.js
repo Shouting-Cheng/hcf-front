@@ -192,22 +192,22 @@ export const getRouterData = app => {
       parent: '/pre-payment/my-pre-payment',
     },
     '/my-reimburse': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/my-reimburse.js')),
       name: 'my-reimburse',
     },
     '/my-reimburse/reimburse-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/reimburse-detail.js')),
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
     '/my-reimburse/edit-reimburse/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
