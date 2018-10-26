@@ -1128,6 +1128,31 @@ export const getRouterData = app => {
       ),
       name: 'company-level-define',
     },
+    //实体法人
+    '/enterprise-manage/legal-person' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/legal-person.js')
+      ),
+      name: 'legal-person',
+      parent:'/enterprise-manage'
+    },
+    //实体法人详情
+    '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/legal-person-detail.js')
+      ),
+      name: 'legal-person-detail',
+      parent:'/enterprise-manage/legal-person'
+    },
+    //编辑实体法人
+    '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/new-legal-person.js')
+      ),
+      name: 'new-legal-person',
+      parent:'/enterprise-manage/legal-person'
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
