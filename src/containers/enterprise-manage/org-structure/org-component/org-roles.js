@@ -5,16 +5,16 @@
  * 两种状态，编辑与非编辑
  */
 import React from 'react';
-import { deepCopy, deepFullCopy, messages } from 'share/common';
+// import { deepCopy, deepFullCopy } from 'utils/extend';
 import 'styles/enterprise-manage/org-structure/org-component/org-roles.scss';
 import OrgService from 'containers/enterprise-manage/org-structure/org-structure.service';
 import { Button, Icon, Menu, Dropdown, message, Popover } from 'antd';
-import ListSelector from 'components/list-selector.js';
+import ListSelector from 'components/Widget/list-selector.js';
 //需要在这个里面去配置弹窗类型
 import chooserData from 'share/chooserData';
-
-import { LanguageInput } from 'components/index';
-import { fitText } from 'share/common';
+import PropTypes from 'prop-types'
+import { LanguageInput } from 'components/Widget/index';
+import { fitText } from 'utils/extend';
 //点击取消时用
 class OrgStructureRoles extends React.Component {
   constructor(props) {
@@ -36,6 +36,21 @@ class OrgStructureRoles extends React.Component {
 
   componentWillMount() {
     this.setState({ selectedKeysDepDataByApi: this.props.selectedKeysDepDataByApi });
+  }
+
+  componentDidMount(){
+    this.setState({ selectedKeysDepDataByApi: this.props.selectedKeysDepDataByApi }, () => {
+      let codeClass = 'f-left roles-title-text';
+      let codeDisabled = false;
+      if (this.state.selectedKeysDepDataByApi.custDeptNumber) {
+        codeClass = 'f-left roles-title-text roles-title-text-disabled';
+        codeDisabled = true;
+      }
+      this.setState({
+        codeDisabled,
+        codeClass,
+      });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -144,7 +159,7 @@ class OrgStructureRoles extends React.Component {
     //校验一下部门编码
     // if(!validCode(this.state.selectedKeysDepDataByApi.custDeptNumber,100)){
     // 部门代码数字与字母，长度不能超过100
-    // message.error(messages('org-new-dep.dep-code-reg'));
+    // message.error(this.$t('org-new-dep.dep-code-reg'));
     // return;
     // }
     if (this.checkManagerIsOk()) {
@@ -175,7 +190,7 @@ class OrgStructureRoles extends React.Component {
         });
     } else {
       // 请填写部门经理/
-      message.error(messages('org.roles.please-input-manager'));
+      message.error(this.$t('org.roles.please-input-manager'));
     }
   };
   //停用该部门
@@ -197,7 +212,7 @@ class OrgStructureRoles extends React.Component {
             }}
           >
             {/*编辑*/}
-            {messages('org.roles.edit')}
+            {this.$t('org.roles.edit')}
           </div>
         </Menu.Item>
         <Menu.Item key="1">
@@ -207,7 +222,7 @@ class OrgStructureRoles extends React.Component {
             }}
           >
             {/*停用该部门*/}
-            {messages('org.roles.disabled')}
+            {this.$t('org.roles.disabled')}
           </div>
         </Menu.Item>
 
@@ -218,7 +233,7 @@ class OrgStructureRoles extends React.Component {
             }}
           >
             {/*创建子部门*/}
-            {messages('org.roles.create-child-dep')}
+            {this.$t('org.roles.create-child-dep')}
           </div>
         </Menu.Item>
       </Menu>
@@ -281,7 +296,7 @@ class OrgStructureRoles extends React.Component {
       return (
         <div className="please-select">
           {/*请选择*/}
-          {messages('org.roles.please-select')}
+          {this.$t('org.roles.please-select')}
         </div>
       );
     }
@@ -348,7 +363,7 @@ class OrgStructureRoles extends React.Component {
         <div className="f-left">
           <div className="f-left roles-title">
             {/*部门名称：*/}
-            {messages('org.roles.dep-name')}
+            {this.$t('org.roles.dep-name')}
           </div>
 
           <div className="f-left roles-title-text">
@@ -362,7 +377,7 @@ class OrgStructureRoles extends React.Component {
 
           <div className="f-left roles-title">
             {/*部门编码：*/}
-            {messages('org.roles.dep-code')}
+            {this.$t('org.roles.dep-code')}
           </div>
           <input
             className="f-left roles-title-text"
@@ -373,7 +388,7 @@ class OrgStructureRoles extends React.Component {
                 ? this.state.selectedKeysDepDataByApi.custDeptNumber
                 : ''
             }
-            placeholder={messages('org.roles.please-input') /*请输入*/}
+            placeholder={this.$t('org.roles.please-input') /*请输入*/}
           />
           <div className="clear" />
         </div>
@@ -384,10 +399,10 @@ class OrgStructureRoles extends React.Component {
           <div className="clear" />
           <div className="btn-wrap">
             <Button type="primary" loading={this.state.loading} onClick={this.confirmRoleHandle}>
-              {messages('common.save') /*保存*/}
+              {this.$t('common.save') /*保存*/}
             </Button>
             <Button type="danger" onClick={this.cancelRoleHandle}>
-              {messages('common.cancel') /*取消*/}
+              {this.$t('common.cancel') /*取消*/}
             </Button>
           </div>
         </div>
@@ -397,14 +412,14 @@ class OrgStructureRoles extends React.Component {
         <div className="f-left">
           <div className="f-left roles-title">
             {/*部门名称：*/}
-            {messages('org.roles.dep-name')}
+            {this.$t('org.roles.dep-name')}
           </div>
           <div className="f-left roles-title-text">
             {this.renderNoEditingText(this.state.selectedKeysDepDataByApi.name)}
           </div>
           <div className="f-left roles-title">
             {/*部门编码：*/}
-            {messages('org.roles.dep-code')}
+            {this.$t('org.roles.dep-code')}
           </div>
           <div className="f-left roles-title-text">
             {this.renderNoEditingText(this.state.selectedKeysDepDataByApi.custDeptNumber)}
@@ -441,15 +456,17 @@ class OrgStructureRoles extends React.Component {
 }
 
 OrgStructureRoles.propTypes = {
-  ROLE_TENANT_ADMIN: React.PropTypes.bool,
-  CREATE_DATA_TYPE: React.PropTypes.bool,
-  emitIsEdit: React.PropTypes.func.isRequired, //改变编辑状态的回调
-  managerIsRequired: React.PropTypes.bool, //部门经理是否必填
-  clickMeunNewChildDep: React.PropTypes.func, //点击创建子部门的回调
-  disabledDep: React.PropTypes.func, //点击禁用的回调
-  updateDepSuccess: React.PropTypes.func, //修改成功的
-  selectedKeysDepDataByApi: React.PropTypes.object.isRequired, //被选择了的部门数据通过api
-  selectedKeysDepData: React.PropTypes.object.isRequired, //被选择了的部门数据
-  selectedKeys: React.PropTypes.array.isRequired, //被选择了的部门
+  ROLE_TENANT_ADMIN: PropTypes.bool,
+  CREATE_DATA_TYPE: PropTypes.bool,
+  emitIsEdit: PropTypes.func.isRequired, //改变编辑状态的回调
+  managerIsRequired: PropTypes.bool, //部门经理是否必填
+  clickMeunNewChildDep: PropTypes.func, //点击创建子部门的回调
+  disabledDep: PropTypes.func, //点击禁用的回调
+  updateDepSuccess: PropTypes.func, //修改成功的
+  selectedKeysDepDataByApi: PropTypes.object.isRequired, //被选择了的部门数据通过api
+  selectedKeysDepData: PropTypes.object.isRequired, //被选择了的部门数据
+  selectedKeys: PropTypes.array.isRequired, //被选择了的部门
 };
 export default OrgStructureRoles;
+
+

@@ -3,12 +3,11 @@
  * Email li.zhou@huilianyi.com
  */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import { Button, Form, Input, Select, Switch, Icon } from 'antd';
 import 'styles/enterprise-manage/org-structure/org-component/org-new-dep.scss';
 import OrgService from 'containers/enterprise-manage/org-structure/org-structure.service';
-import { LanguageInput } from 'components/index';
-import { messages } from 'share/common';
+import { LanguageInput } from 'components/Widget/index';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -63,7 +62,7 @@ class OrgNewDep extends React.Component {
           dep.parentId = params.parentId;
         } else {
           // "无";
-          dep.parentName = messages('org-new-dep.empty');
+          dep.parentName = this.$t('org-new-dep.empty');
           dep.parentDepartmentOID = null;
           dep.parentId = null;
         }
@@ -172,11 +171,11 @@ class OrgNewDep extends React.Component {
       <div className="org-new-dep">
         <Form onSubmit={this.handleSubmit} onChange={this.handleFormChange}>
           {/*所属部门*/}
-          <FormItem {...formItemLayout} label={messages('org-new-dep.in-dep')}>
+          <FormItem {...formItemLayout} label={this.$t('org-new-dep.in-dep')}>
             {getFieldDecorator('parentName', {
               initialValue: dep.parentName,
               rules: [],
-            })(<Input disabled={true} placeholder={messages('common.please.enter')} />)}
+            })(<Input disabled={true} placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
 
           {/*部门名称*/}
@@ -186,7 +185,7 @@ class OrgNewDep extends React.Component {
                 <span className="new-lp-row-re">*</span>
                 <span>
                   {/*部门名称：*/}
-                  {messages('org-new-dep.dep-name')}:
+                  {this.$t('org-new-dep.dep-name')}:
                 </span>
               </div>
               <div>
@@ -202,23 +201,23 @@ class OrgNewDep extends React.Component {
           </FormItem>
 
           {/*部门编码*/}
-          <FormItem {...formItemLayout} label={messages('org-new-dep.dep-code')}>
+          <FormItem {...formItemLayout} label={this.$t('org-new-dep.dep-code')}>
             {getFieldDecorator('custDeptNumber', {
               initialValue: dep.custDeptNumber,
               rules: [
                 {
                   required: true,
-                  message: messages('common.please.enter'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
-            })(<Input placeholder={messages('common.please.enter')} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
 
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              {messages('common.save')}
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.onCancel}>{messages('common.cancel')}</Button>
+            <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
       </div>
@@ -229,11 +228,11 @@ class OrgNewDep extends React.Component {
 function mapStateToProps(state) {
   return {
     organization: state.budget.organization,
-    company: state.login.company,
-    language: state.main.language,
-    tenantMode: state.main.tenantMode,
+    company: state.user.company,
+    language: state.languages,
+    tenantMode: true,
   };
 }
 
 const WrappedOrgNewDep = Form.create()(OrgNewDep);
-export default connect(mapStateToProps)(WrappedOrgNewDep);
+export default connect(mapStateToProps,null,null,{ withRef: true })(WrappedOrgNewDep);
