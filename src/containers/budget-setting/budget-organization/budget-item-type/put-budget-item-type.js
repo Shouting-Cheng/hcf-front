@@ -87,7 +87,7 @@ class PutBudgetItemType extends React.Component {
         <Form onSubmit={this.handlePut}>
           {this.props.params.flag&&
           <FormItem {...formItemLayout}
-                    label={this.$t({id: "budgetItemType.enabled"})}>
+                    label={this.$t({id: "common.column.status"})}>
             {getFieldDecorator('enabled', {})(
               <div>
                 <Switch defaultChecked={params.enabled} checkedChildren={<Icon type="check"/>}
@@ -144,7 +144,7 @@ class PutBudgetItemType extends React.Component {
 const WrappedPutBudgetItemType = Form.create()(PutBudgetItemType);
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(WrappedPutBudgetItemType);

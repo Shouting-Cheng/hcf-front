@@ -11,7 +11,7 @@ import httpFetch from 'share/httpFetch'
 import PayDetail from 'containers/pay/pay-workbench/payment-detail' //支付详情
 import PrepaymentDetail from 'containers/pre-payment/my-pre-payment/pre-payment-detail' //预付款详情
 import PaymentRequisitionDetail from 'containers/payment-requisition/new-payment-requisition-detail' //付款申请单
-import PublicReport from 'containers/reimburse/reimburse-detail' // 对公报账单
+import PublicReport from 'containers/reimburse/my-reimburse/reimburse-detail' // 对公报账单
 import Upload from 'widget/upload-button'
 class NewPayRefund extends React.Component {
     constructor(props) {

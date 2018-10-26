@@ -9,12 +9,12 @@ const Option = Select.Option;
 const { TextArea } = Input;
 import 'styles/my-account/new-expense.scss'
 
-import InvoiceInfo from 'containers/reimburse/invoice-info'
-import NewShare from 'containers/reimburse/new-share'
-import reimburseService from 'containers/reimburse/reimburse.service'
+import InvoiceInfo from 'containers/reimburse/my-reimburse/invoice-info'
+import NewShare from 'containers/reimburse/my-reimburse/new-share'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import Upload from 'widget/upload-button'
 import config from 'config';
-import SelectApplication from 'containers/reimburse/select-application'
+import SelectApplication from 'containers/reimburse/my-reimburse/select-application'
 import Chooser from 'widget/chooser'
 
 

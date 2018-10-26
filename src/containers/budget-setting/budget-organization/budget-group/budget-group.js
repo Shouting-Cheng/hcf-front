@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { Table, Badge, Button } from 'antd';
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
-
+import { routerRedux } from 'dva/router';
 import SearchArea from 'widget/search-area'
 
 class BudgetGroup extends React.Component {
@@ -29,8 +29,6 @@ class BudgetGroup extends React.Component {
         groupCode: '',
         groupName: ''
       },
-      newBudgetGroupPage: menuRoute.getRouteItem('new-budget-group','key'),    //新建预算组的页面项
-      budgetGroupDetail: menuRoute.getRouteItem('budget-group-detail', 'key')  //预算组详情
     };
   }
 
@@ -85,7 +83,13 @@ class BudgetGroup extends React.Component {
   };
 
   handleNew = () => {
-    this.context.router.push(this.state.newBudgetGroupPage.url.replace(":id", this.props.organization.id).replace(":setOfBooksId",this.props.setOfBooksId))
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
   onChangePager = (page) => {
@@ -99,7 +103,14 @@ class BudgetGroup extends React.Component {
   };
 
   handleRowClick = (record) => {
-    this.context.router.replace(this.state.budgetGroupDetail.url.replace(":id", this.props.organization.id).replace(":groupId", record.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.organization.id)
+          .replace(":setOfBooksId",this.props.setOfBooksId)
+          .replace(':id', record.id)
+      })
+    );
   };
 
   render(){

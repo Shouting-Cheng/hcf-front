@@ -2,14 +2,14 @@
  * Created by zaranengap on 2017/11/14
  */
 import React  from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva';
+import { routerRedux } from "dva/router"
 import { injectIntl } from 'react-intl';
-import menuRoute from 'routes/menuRoute'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 import 'styles/request/loan-request-detail.scss'
 import moment from 'moment'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'components/Widget/slide-frame'
 import NewRepaymentFrame from 'containers/request/new-repayment-frame'
 import RepaymentDetailFrame from 'containers/request/repayment-detail-frame'
 
@@ -73,7 +73,7 @@ class LoanRequestDetail extends React.Component{
       repaymentList: [],
       info: {},
       approvalHistory: [],
-      applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
+      //applicationList: menuRoute.getRouteItem('request','key'), //申请单列表页
     }
   }
 
@@ -248,7 +248,7 @@ class LoanRequestDetail extends React.Component{
   };
 
   goBack = () => {
-    this.context.router.push(this.state.applicationList.url)
+    //this.context.router.push(this.state.applicationList.url)
   };
 
   render(){
@@ -394,9 +394,6 @@ class LoanRequestDetail extends React.Component{
   }
 }
 
-LoanRequestDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {}

@@ -144,6 +144,7 @@ class SelectMenus extends React.Component {
         visible={visible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
+        bodyStyle={{ height: "60vh", overflow: "auto" }}
       >
         <Spin spinning={loading}>
           <Tree checkable autoExpandParent onCheck={this.onCheck} checkedKeys={checkedKeys}>

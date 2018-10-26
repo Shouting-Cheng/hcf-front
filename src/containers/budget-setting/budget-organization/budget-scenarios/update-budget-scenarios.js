@@ -18,20 +18,11 @@ class UpdateBudgetScenarios extends React.Component{
     };
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.setState({
       params: this.props.params,
       enabled: this.props.params.enabled
     })
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.params.flag&&!this.props.params.flag) {
-      this.setState({
-        params: nextProps.params,
-        enabled: nextProps.params.enabled
-      })
-    }
   }
 
   handleSave = (e) =>{
@@ -50,7 +41,7 @@ class UpdateBudgetScenarios extends React.Component{
         httpFetch.put(`${config.budgetUrl}/api/budget/scenarios`, values).then((res)=>{
           this.setState({loading: false});
           if(res.status === 200){
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           }
         }).catch((e)=>{
@@ -65,10 +56,10 @@ class UpdateBudgetScenarios extends React.Component{
 
   onCancel = () =>{
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
   };
 
-  switchChange = () => {
+  switchChange = (e) => {
     this.setState((prevState) => ({
       enabled: !prevState.enabled
     }))
@@ -127,15 +118,15 @@ class UpdateBudgetScenarios extends React.Component{
                         placeholder={this.$t({id: "common.please.enter"}/*请输入*/)}/>
             )}
           </FormItem>
-          {
-            this.props.params.flag &&
             <FormItem {...formItemLayout} label={this.$t({id: "common.column.status"}/*状态*/)}>
               {getFieldDecorator('enabled', {
-                initialValue: enabled
+                initialValue: enabled,
+                valuePropName: 'checked'
               })(
                 <div>
-                  <Switch defaultChecked={params.enabled}
-                          checkedChildren={<Icon type="check"/>}
+                  <Switch
+                    checked={enabled}
+                     checkedChildren={<Icon type="check"/>}
                           unCheckedChildren={<Icon type="cross" />}
                           onChange={this.switchChange}/>
                   <span className="enabled-type">
@@ -144,13 +135,12 @@ class UpdateBudgetScenarios extends React.Component{
                 </div>
               )}
             </FormItem>
-          }
           <FormItem {...formItemLayout} label={this.$t({id: "budget.scenarios.is.default"}/*是否默认*/)}>
             {getFieldDecorator('defaultFlag', {
               initialValue: params.defaultFlag,
               valuePropName:'checked'
             })(
-              <Checkbox defaultChecked={params.defaultFlag}/>
+              <Checkbox/>
             )}
           </FormItem>
           <div className="slide-footer">

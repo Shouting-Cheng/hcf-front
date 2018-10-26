@@ -3,7 +3,7 @@ import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, mes
 import { connect } from 'react-redux';
 
 import ListSelector from 'widget/list-selector';
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 
 class NewShare extends Component {
   constructor(props) {

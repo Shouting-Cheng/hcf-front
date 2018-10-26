@@ -82,7 +82,7 @@ class PayRefund extends React.Component {
                     defaultValue: this.props.user.id,
                     options: [{
                         value: this.props.user.id,
-                        label: this.props.user.id + '-' + this.props.user.fullName
+                        label: this.props.user.employeeID + '-' + this.props.user.fullName
                     }],
                     disabled: true
                 }

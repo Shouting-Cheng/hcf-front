@@ -124,7 +124,7 @@ class BudgetOrganization extends React.Component {
   handleRowClick = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id'
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
           .replace(':id', record.id).replace(":setOfBooksId",record.setOfBooksId)
       })
     );
