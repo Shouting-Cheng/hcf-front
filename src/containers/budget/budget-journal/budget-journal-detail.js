@@ -327,6 +327,7 @@ class BudgetJournalDetail extends React.Component {
           title: this.$t({ id: 'budgetJournal.amount' }),
           key: 'amount',
           dataIndex: 'amount',
+          
           width: 180,
           render: recode => (
             <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
@@ -444,10 +445,8 @@ class BudgetJournalDetail extends React.Component {
 
   //根据attachmentOID，查询附件
   getFile = value => {
-    let valueData = {};
-    valueData.oid = value;
     budgetJournalService
-      .getFileByAttachmentOID(valueData)
+      .getFileByAttachmentOID(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);
