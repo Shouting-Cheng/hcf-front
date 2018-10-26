@@ -3,6 +3,7 @@ export default {
 
   state: {
     organization: {},
+    organizationStrategyId: null
   },
 
   reducers: {
@@ -13,5 +14,9 @@ export default {
         organization,
       };
     },
+    setOrganizationStrategyId(state, action) {
+      let { organizationStrategyId } = action;
+      return organizationStrategyId
+    }
   },
 };
