@@ -1,11 +1,7 @@
-import { messages } from 'share/common';
-/**
- * Created by zhouli on 18/1/30
- * Email li.zhou@huilianyi.com
- */
-import React from 'react';
-import { connect } from 'react-redux';
 
+import React from 'react';
+import { connect } from 'dva';  
+import { routerRedux } from "dva/router";
 import { Button, Table, Icon, Menu, Dropdown, Input, Modal, Popover } from 'antd';
 
 const confirm = Modal.confirm;
@@ -20,12 +16,12 @@ import OrgPersonInfo from 'containers/enterprise-manage/org-structure/org-compon
 import OrgRoles from 'containers/enterprise-manage/org-structure/org-component/org-roles';
 import 'styles/enterprise-manage/org-structure/org-structure.scss';
 import OrgService from 'containers/enterprise-manage/org-structure/org-structure.service';
-import { SelectDepOrPerson } from 'components/index';
-import menuRoute from 'routes/menuRoute';
+import { SelectDepOrPerson } from 'components/Widget/index';
+
 import { getErrorMessage } from 'share/errorMessage';
-import SlideFrame from 'components/slide-frame';
+import SlideFrame from 'components/Widget/slide-frame';
 import OrgNewDep from 'containers/enterprise-manage/org-structure/org-component/org-new-dep';
-import { superThrottle, hasAuthority } from 'share/common';
+import { superThrottle, hasAuthority } from 'utils/extend';
 
 const treeData = [];
 
@@ -71,7 +67,7 @@ class OrgStructure extends React.Component {
       columns: [
         {
           /*工号*/
-          title: messages('org.employeeID'),
+          title: this.$t('org.employeeID'),
           key: 'employeeID',
           dataIndex: 'employeeID',
           width: '10%',
@@ -79,7 +75,7 @@ class OrgStructure extends React.Component {
         {
           /*姓名*/
           width: '20%',
-          title: messages('org.name'),
+          title: this.$t('org.name'),
           key: 'fullName',
           dataIndex: 'fullName',
           render: text => (
@@ -96,7 +92,7 @@ class OrgStructure extends React.Component {
         },
         {
           /*联系方式*/
-          title: messages('org.contact-way'),
+          title: this.$t('org.contact-way'),
           key: 'mobile',
           dataIndex: 'mobile',
           render: text => (
@@ -113,7 +109,7 @@ class OrgStructure extends React.Component {
         },
         {
           /*邮箱*/
-          title: messages('org.email'),
+          title: this.$t('org.email'),
           key: 'email',
           dataIndex: 'email',
           render: text => (
@@ -131,14 +127,14 @@ class OrgStructure extends React.Component {
         //这个列下期把人员信息详情做好之后才显示
         {
           //操作
-          title: messages('org.operation'),
+          title: this.$t('org.operation'),
           key: 'operation',
           dataIndex: 'operation',
           width: '10%',
           render: (text, record) => (
             <span>
-              <a href="#" onClick={e => this.useDetail(e, record)}>
-                {messages('common.detail')}
+            <a onClick={e => this.useDetail(e, record)}>
+                {this.$t('common.detail')}
               </a>
             </span>
           ),
@@ -174,16 +170,26 @@ class OrgStructure extends React.Component {
 
   //用户详情页面
   useDetail = (e, record) => {
-    let path = menuRoute
-      .getRouteItem('person-detail', 'key')
-      .url.replace(':userOID', record.userOID);
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/setting/employee/person-detail/person-detail/${record.userOID}`,
+      })
+    );
+    // let path = menuRoute
+    //   .getRouteItem('person-detail', 'key')
+    //   .url.replace(':userOID', record.userOID);
+    // this.context.router.push(path);
   };
   //角色设置页面
   goToRolesList = () => {
-    this.context.router.push(
-      menuRoute.getMenuItemByAttr('org-structure', 'key').children.orgStructureRolesList.url
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/org-structure/org-roles-list`,
+      })
     );
+    // this.context.router.push(
+    //   menuRoute.getMenuItemByAttr('org-structure', 'key').children.orgStructureRolesList.url
+    // );
   };
 
   // 查询所有集团部门
@@ -314,8 +320,8 @@ class OrgStructure extends React.Component {
     let _this = this;
     if (this.state.roleIsEdit) {
       confirm({
-        title: messages('org.tips'), //提示
-        content: messages('org.tip-role-is-edit'), //部门正在编辑没有保存，是否跳转?
+        title: this.$t('org.tips'), //提示
+        content: this.$t('org.tip-role-is-edit'), //部门正在编辑没有保存，是否跳转?
         onOk() {
           _this.onSelectConfrim(selectedKeys, info);
         },
@@ -377,7 +383,7 @@ class OrgStructure extends React.Component {
             }}
           >
             {/*设置部门角色*/}
-            {messages('org.set-role')}
+            {this.$t('org.set-role')}
           </div>
         </Menu.Item>
         <Menu.Item key="1">
@@ -387,7 +393,7 @@ class OrgStructure extends React.Component {
             }}
           >
             {/*批量调整*/}
-            {messages('org.batch-move')}
+            {this.$t('org.batch-move')}
           </div>
         </Menu.Item>
         <Menu.Item key="2">
@@ -397,7 +403,7 @@ class OrgStructure extends React.Component {
             }}
           >
             {/*创建部门*/}
-            {messages('org.create-dep')}
+            {this.$t('org.create-dep')}
           </div>
         </Menu.Item>
       </Menu>
@@ -419,7 +425,7 @@ class OrgStructure extends React.Component {
         let message = getErrorMessage(res.response);
 
         Modal.warning({
-          title: messages('org.tips'), //提示
+          title: this.$t('org.tips'), //提示
           content: message,
         });
       });
@@ -437,7 +443,7 @@ class OrgStructure extends React.Component {
     item.treeNode = node;
 
     let slideFrame = {
-      title: messages('org.create-dep'), //创建部门"",
+      title: this.$t('org.create-dep'), //创建部门"",
       visible: true,
       params: item,
     };
@@ -451,7 +457,7 @@ class OrgStructure extends React.Component {
     //传入的部门
     item.c_type = 'C_CHILD';
     let slideFrame = {
-      title: messages('org.create-child-dep'), //创建子部门"",
+      title: this.$t('org.create-child-dep'), //创建子部门"",
       visible: true,
       params: item,
     };
@@ -472,7 +478,7 @@ class OrgStructure extends React.Component {
         let message = getErrorMessage(res.response);
 
         Modal.warning({
-          title: messages('org.tips'), //提示
+          title: this.$t('org.tips'), //提示
           content: message,
         });
       });
@@ -539,14 +545,14 @@ class OrgStructure extends React.Component {
       return (
         <span>
           {/*还未选择*/}
-          {messages('org.no-select')}
+          {this.$t('org.no-select')}
         </span>
       );
     } else {
       return (
         <span>
           {/*已选*/}
-          {messages('org.selected')}
+          {this.$t('org.selected')}
           {arr[0].name}
         </span>
       );
@@ -846,7 +852,8 @@ class OrgStructure extends React.Component {
             <OrgRoles
               ROLE_TENANT_ADMIN={this.state.ROLE_TENANT_ADMIN}
               CREATE_DATA_TYPE={this.state.CREATE_DATA_TYPE}
-              managerIsRequired={!this.props.profile['department.manager.required.disable']}
+              managerIsRequired={!true}
+            // managerIsRequired={!this.props.profile["department.manager.required.disable"]}
               disabledDep={this.disabledDep}
               clickMeunNewChildDep={this.clickMeunNewChildDep}
               updateDepSuccess={this.updateDepSuccess}
@@ -864,7 +871,7 @@ class OrgStructure extends React.Component {
                   <SelectDepOrPerson
                     buttonType={'primary'}
                     buttonDisabled={!this.state.ROLE_TENANT_ADMIN || !this.state.CREATE_DATA_TYPE}
-                    title={messages('org.movein-person')}
+                    title={this.$t('org.movein-person')}
                     onlyPerson={true}
                     onConfirm={this.moveInPerson}
                   />
@@ -878,7 +885,7 @@ class OrgStructure extends React.Component {
                       !this.state.ROLE_TENANT_ADMIN ||
                       !this.state.CREATE_DATA_TYPE
                     }
-                    title={messages('org.moveout-person')}
+                    title={this.$t('org.moveout-person')}
                     multiple={false}
                     onlyDep={true}
                     onConfirm={this.moveOutPerson}
@@ -890,7 +897,7 @@ class OrgStructure extends React.Component {
                 {/*员工名称/工号*/}
                 <Input
                   key={'depsearch'}
-                  placeholder={messages('org.employeeID-name')}
+                  placeholder={this.$t('org.employeeID-name')}
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   suffix={suffix}
                   value={userName}
@@ -956,17 +963,17 @@ class OrgStructure extends React.Component {
           <div className="org-structure-tree-title-wrap">
             <div className="f-left org-structure-tree-title">
               {/*组织架构*/}
-              {messages('org.org-structure')}
+              {this.$t('org.org-structure')}
             </div>
             {this.renderOrgMoreMeunByRole()}
             <div className="clear" />
             {/*部门名称/部门编码/员工名称*/}
             <Search
-              placeholder={messages('org.dep-name-code-name')}
+              placeholder={this.$t('org.dep-name-code-name')}
               enterButton={
                 <span>
                   {/*搜索*/}
-                  {messages('org.search')}
+                  {this.$t('org.search')}
                 </span>
               }
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -989,14 +996,14 @@ class OrgStructure extends React.Component {
         {/*批量调整的模态框，先选择部门与人，再选择目标部门*/}
         <Modal
           className="org-batch-adjustment-model"
-          title={messages('org.batch-move')} //批量调整
+          title={this.$t('org.batch-move')} //批量调整
           width={400}
           onCancel={this.handleBatchAdjustmentCancel}
           visible={this.state.visibleBatchAdjustment}
           footer={[
             <Button key="back" onClick={this.handleBatchAdjustmentCancel}>
               {/*取消*/}
-              {messages('org.cancel')}
+              {this.$t('org.cancel')}
             </Button>,
             <Button
               key="submit"
@@ -1006,22 +1013,22 @@ class OrgStructure extends React.Component {
               onClick={this.handleBatchAdjustmentOk}
             >
               {/*确定*/}
-              {messages('org.ok')}
+              {this.$t('org.ok')}
             </Button>,
           ]}
         >
           <h3>
             {/*请选择*/}
-            {messages('org.please-select')}
+            {this.$t('org.please-select')}
             <b>
               {/*部门或人*/}
-              {messages('org.dep-or-person')}
+              {this.$t('org.dep-or-person')}
             </b>
             {/*移到*/}
-            {messages('org.move')}
+            {this.$t('org.move')}
             <b>
               {/*另一个部门*/}
-              {messages('org.other-dep')}
+              {this.$t('org.other-dep')}
             </b>
           </h3>
 
@@ -1031,26 +1038,26 @@ class OrgStructure extends React.Component {
                 <SelectDepOrPerson
                   // depResList={['departmentOID']}
                   // personResList={['userOID']}
-                  title={messages('org.select-dep-or-person')} //选择部门或人
+                  title={this.$t('org.select-dep-or-person')} //选择部门或人
                   onConfirm={this.callbackBatchAdjustmentFrom}
                 />
               </div>
               <div className="tips-box">
                 {/*已选择*/}
-                {messages('org.has-select')}
+                {this.$t('org.has-select')}
                 {this.state.batchAdjustmentFrom.length}
                 {/*条数据*/}
-                {messages('org.item-data')}
+                {this.$t('org.item-data')}
               </div>
             </div>
             <div className="f-left middle-text">
               {/*移入到*/}
-              {messages('org.move-to')}
+              {this.$t('org.move-to')}
             </div>
             <div className="f-left batch-adjustment-to">
               <div>
                 <SelectDepOrPerson
-                  title={messages('org.select-target')} //选择目标部门
+                  title={this.$t('org.select-target')} //选择目标部门
                   multiple={false}
                   onlyDep={true}
                   onConfirm={this.callbackBatchAdjustmentTo}
@@ -1068,26 +1075,29 @@ class OrgStructure extends React.Component {
         <SlideFrame
           title={this.state.slideFrame.title}
           show={this.state.slideFrame.visible}
-          content={OrgNewDep}
-          afterClose={this.handleCloseSlide}
+          // content={OrgNewDep}
           onClose={() => this.setState({ slideFrame: { visible: false } })}
-          params={{ ...this.state.slideFrame.params, flag: this.state.slideFrame.visible }}
-        />
+          params={{ ...this.state.slideFrame.params, flag: this.state.slideFrame.visible }}  
+        >
+        <OrgNewDep
+        onClose={this.handleCloseSlide}
+        params={{
+           ...this.state.slideFrame.params,
+         flag: this.state.slideFrame.visible
+          }}/>
+        </SlideFrame>
       </div>
     );
   }
 }
 
-OrgStructure.contextTypes = {
-  router: React.PropTypes.object,
-};
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
-    company: state.login.company,
-    tenantMode: state.main.tenantMode,
+    // profile: state.user.profile,
+    user: state.user.currentUser,
+    company: state.user.company,
+    tenantMode: true,
   };
 }
 
