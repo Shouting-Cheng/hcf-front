@@ -1,4 +1,3 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/3/8
  * Email li.zhou@huilianyi.com
@@ -9,10 +8,10 @@ import React from 'react';
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/vendor-info.scss';
 import { Button, Form, Select, Col, Row, Switch, Icon, Input } from 'antd';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
-
+import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 const Option = Select.Option;
-import Chooser from 'components/chooser';
+import Chooser from 'components/Widget/chooser';
 
 class PersonVendorInfo extends React.Component {
   constructor(props) {
@@ -134,19 +133,19 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*启用状态：*/}
-              {messages('pdc.vendor.info.status')}：
+              {this.$t('pdc.vendor.info.status')}：
             </div>
             <div className="info-item-text">
               {/*? "已启用" : "已禁用"*/}
               {vendorObj.enable
-                ? messages('pdc.vendor.info.enable')
-                : messages('pdc.vendor.info.disable')}
+                ? this.$t('pdc.vendor.info.enable')
+                : this.$t('pdc.vendor.info.disable')}
             </div>
           </div>
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*携程子账户：*/}
-              {messages('pdc.vendor.info.ctrip.account')}：
+              {this.$t('pdc.vendor.info.ctrip.account')}：
             </div>
             <div className="info-item-text">{vendorObj.subAccountName}</div>
           </div>
@@ -154,7 +153,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*授权密码：*/}
-              {messages('pdc.vendor.info.ctrip.password')}：
+              {this.$t('pdc.vendor.info.ctrip.password')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmPasswordView}</div>
           </div>
@@ -162,7 +161,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*授权人：*/}
-              {messages('pdc.vendor.info.s.person')}：
+              {this.$t('pdc.vendor.info.s.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmUser.fullName}</div>
           </div>
@@ -170,7 +169,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*二次授权人：*/}
-              {messages('pdc.vendor.info.s2.person')}：
+              {this.$t('pdc.vendor.info.s2.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirm2User.fullName}</div>
           </div>
@@ -178,7 +177,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*抄送授权人：*/}
-              {messages('pdc.vendor.info.cs.person')}：
+              {this.$t('pdc.vendor.info.cs.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirmCCUser.fullName}</div>
           </div>
@@ -186,7 +185,7 @@ class PersonVendorInfo extends React.Component {
           <div className="info-item f-left">
             <div className="info-item-title">
               {/*抄送二次授权人：*/}
-              {messages('pdc.vendor.info.cs2.person')}：
+              {this.$t('pdc.vendor.info.cs2.person')}：
             </div>
             <div className="info-item-text">{vendorObj.confirm2CCUser.fullName}</div>
           </div>
@@ -208,7 +207,7 @@ class PersonVendorInfo extends React.Component {
           <Row gutter={24}>
             <Col span={12}>
               <FormItem
-                label={messages('pdc.vendor.info.status')} //启用状态
+                label={this.$t('pdc.vendor.info.status')} //启用状态
                 colon={true}
               >
                 {getFieldDecorator('enable', {
@@ -230,8 +229,8 @@ class PersonVendorInfo extends React.Component {
                       }}
                     >
                       {vendorObj.enable
-                        ? messages('common.status.enable')
-                        : messages('common.disabled')}
+                        ? this.$t('common.status.enable')
+                        : this.$t('common.disabled')}
                     </span>
                   </div>
                 )}
@@ -240,7 +239,7 @@ class PersonVendorInfo extends React.Component {
 
             <Col span={12}>
               <FormItem
-                label={messages('pdc.vendor.info.ctrip.password')} //授权密码
+                label={this.$t('pdc.vendor.info.ctrip.password')} //授权密码
                 colon={true}
               >
                 {getFieldDecorator('confirmPassword', {
@@ -248,10 +247,10 @@ class PersonVendorInfo extends React.Component {
                   rules: [
                     {
                       max: 20,
-                      message: messages('pdc.basic.info.max.inp.20'), //"最多输入20个字符"
+                      message: this.$t('pdc.basic.info.max.inp.20'), //"最多输入20个字符"
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
@@ -260,7 +259,7 @@ class PersonVendorInfo extends React.Component {
             <Col span={24}>
               {/*bug14085 携程子账户名称 有些很长*/}
               <FormItem
-                label={messages('pdc.vendor.info.ctrip.account')} //携程子账户
+                label={this.$t('pdc.vendor.info.ctrip.account')} //携程子账户
                 colon={true}
               >
                 {getFieldDecorator('subAccountName', {
@@ -268,14 +267,14 @@ class PersonVendorInfo extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                   ],
                 })(
                   <Select
                     className="select-ctrip-account"
                     showSearch
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     optionFilterProp="children"
                     onChange={this.handleCtripAccountName}
                     filterOption={(input, option) =>
@@ -292,7 +291,7 @@ class PersonVendorInfo extends React.Component {
           <Row gutter={24}>
             {/*授权人*/}
             <Col span={6}>
-              <FormItem label={messages('pdc.vendor.info.s.person')} colon={true}>
+              <FormItem label={this.$t('pdc.vendor.info.s.person')} colon={true}>
                 {getFieldDecorator('confirmUser', {
                   initialValue:
                     vendorObj.confirmUser.userOID === null
@@ -310,7 +309,7 @@ class PersonVendorInfo extends React.Component {
                     type="user"
                     labelKey="fullName"
                     valueKey="userOID"
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
                     listExtraParams={{}}
                   />
@@ -319,7 +318,7 @@ class PersonVendorInfo extends React.Component {
             </Col>
             {/*二次授权人*/}
             <Col span={6}>
-              <FormItem label={messages('pdc.vendor.info.s2.person')} colon={true}>
+              <FormItem label={this.$t('pdc.vendor.info.s2.person')} colon={true}>
                 {getFieldDecorator('confirm2User', {
                   initialValue:
                     vendorObj.confirm2User.userOID === null
@@ -336,7 +335,7 @@ class PersonVendorInfo extends React.Component {
                     single={true}
                     labelKey="fullName"
                     valueKey="userOID"
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
                     type="user"
                   />
@@ -346,7 +345,7 @@ class PersonVendorInfo extends React.Component {
 
             {/*//抄送授权人*/}
             <Col span={6}>
-              <FormItem label={messages('pdc.vendor.info.cs.person')} colon={true}>
+              <FormItem label={this.$t('pdc.vendor.info.cs.person')} colon={true}>
                 {getFieldDecorator('confirmCCUser', {
                   initialValue:
                     vendorObj.confirmCCUser.userOID === null
@@ -361,7 +360,7 @@ class PersonVendorInfo extends React.Component {
                 })(
                   <Chooser
                     single={true}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     labelKey="fullName"
                     valueKey="userOID"
                     onChange={this.handleChange}
@@ -372,7 +371,7 @@ class PersonVendorInfo extends React.Component {
             </Col>
             {/*//抄送二次授权人*/}
             <Col span={6}>
-              <FormItem label={messages('pdc.vendor.info.cs2.person')} colon={true}>
+              <FormItem label={this.$t('pdc.vendor.info.cs2.person')} colon={true}>
                 {getFieldDecorator('confirm2CCUser', {
                   initialValue:
                     vendorObj.confirm2CCUser.userOID === null
@@ -388,7 +387,7 @@ class PersonVendorInfo extends React.Component {
                   <Chooser
                     single={true}
                     labelKey="fullName"
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     valueKey="userOID"
                     onChange={this.handleChange}
                     type="user"
@@ -399,11 +398,11 @@ class PersonVendorInfo extends React.Component {
           </Row>
 
           <Button type="primary" loading={loading} htmlType="submit">
-            {messages('common.save') /*保存*/}
+            {this.$t('common.save') /*保存*/}
           </Button>
           <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
             {' '}
-            {messages('common.cancel') /*取消*/}
+            {this.$t('common.cancel') /*取消*/}
           </Button>
         </Form>
       </div>
@@ -424,11 +423,11 @@ class PersonVendorInfo extends React.Component {
 }
 
 PersonVendorInfo.propTypes = {
-  savedData: React.PropTypes.func.isRequired, //点击保存
-  vendorObj: React.PropTypes.object, //基础信息数据对象
-  toEditing: React.PropTypes.func, //设置编辑
-  toNoEditing: React.PropTypes.func, //设置显示
-  originEditingStatus: React.PropTypes.bool, //初始化是否是编辑
+  savedData: PropTypes.func.isRequired, //点击保存
+  vendorObj: PropTypes.object, //基础信息数据对象
+  toEditing: PropTypes.func, //设置编辑
+  toNoEditing: PropTypes.func, //设置显示
+  originEditingStatus: PropTypes.bool, //初始化是否是编辑
 };
 PersonVendorInfo.defaultProps = {
   originEditingStatus: false,

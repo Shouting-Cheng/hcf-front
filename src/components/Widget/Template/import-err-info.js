@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { connect } from 'dva';
-
+import { messages } from 'utils/utils';
 import { Modal, Button, Tabs, Progress, Icon, Table, Popover } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -143,7 +143,7 @@ ImportErrInfo.propTypes = {
 
 ImportErrInfo.defaultProps = {
   exportBtn: false,
-  title: this.$t('importer.err.errinfo'), //错误信息
+  title: messages('importer.err.errinfo'), //错误信息
 };
 
 function mapStateToProps() {

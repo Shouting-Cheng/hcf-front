@@ -1,41 +1,43 @@
-.export-modal-wrap{
-
-}
-.export-modal-wrap-modal{
-  .export-modal{
-    .title-wrap{
-      margin-bottom: 20px;
-      font-size: 16px;
-      font-weight: 500;
-      .icon-success{
-        margin-right: 12px;
-        color: #15a715;
-        font-size: 18px;
-      }
-      .icon-error{
-        margin-right: 12px;
-        font-size: 18px;
-        color: #eb2828;
-      }
+:global{
+    .export-modal-wrap{
 
     }
-    .loading-tip{
-      margin-top: 5px;
-    }
-    .btn-wrap{
-      margin-top: 20px;
-      .download-btn{
-        line-height: 30px;
-        display: inline-block;
-        padding-left: 18px;
-        padding-right: 18px;
-        border-radius: 4px;
-        color: white;
-        background: #1890ff;
+    .export-modal-wrap-modal{
+      .export-modal{
+        .title-wrap{
+          margin-bottom: 20px;
+          font-size: 16px;
+          font-weight: 500;
+          .icon-success{
+            margin-right: 12px;
+            color: #15a715;
+            font-size: 18px;
+          }
+          .icon-error{
+            margin-right: 12px;
+            font-size: 18px;
+            color: #eb2828;
+          }
+
+        }
+        .loading-tip{
+          margin-top: 5px;
+        }
+        .btn-wrap{
+          margin-top: 20px;
+          .download-btn{
+            line-height: 30px;
+            display: inline-block;
+            padding-left: 18px;
+            padding-right: 18px;
+            border-radius: 4px;
+            color: white;
+            background: #1890ff;
+          }
+          .download-btn:hover{
+            background: #108afa;
+          }
+        }
       }
-      .download-btn:hover{
-        background: #108afa;
-      }
     }
-  }
 }

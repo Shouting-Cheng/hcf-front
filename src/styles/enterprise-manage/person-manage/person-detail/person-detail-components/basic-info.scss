@@ -1,57 +1,59 @@
-.person-basic-info-wrap{
-  .f-left{
-    float: left;
-  }
-  .f-right{
-    float: right;
-  }
-  .clear{
-    clear: both;
-  }
-  .info-item-wrap{
-    padding: 10px;
-    .info-item{
-      margin-bottom: 10px;
-      margin-right: 10px;
-      width: 240px;
-      overflow: hidden;
-      height: 32px;
-      .info-item-title{
-        color: #999999;
-        line-height: 32px;
-        height: 32px;
+:global{
+  .person-basic-info-wrap{
+    .f-left{
+      float: left;
+    }
+    .f-right{
+      float: right;
+    }
+    .clear{
+      clear: both;
+    }
+    .info-item-wrap{
+      padding: 10px;
+      .info-item{
+        margin-bottom: 10px;
+        margin-right: 10px;
+        width: 240px;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        float: left;
-        max-width: 100px;
-      }
-      .info-item-text{
-        color: #333;
-        cursor: pointer;
-        line-height: 32px;
         height: 32px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 140px;
-        float: left;
-        img{
+        .info-item-title{
+          color: #999999;
+          line-height: 32px;
           height: 32px;
-          width: auto;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          float: left;
+          max-width: 100px;
+        }
+        .info-item-text{
+          color: #333;
+          cursor: pointer;
+          line-height: 32px;
+          height: 32px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 140px;
+          float: left;
+          img{
+            height: 32px;
+            width: auto;
+          }
         }
       }
     }
+    .info-item-edit-wrap{
+      padding: 10px;
+    }
   }
-  .info-item-edit-wrap{
-    padding: 10px;
+  .info-item-img-tooltip{
+    background: white;
   }
-}
-.info-item-img-tooltip{
-  background: white;
-}
-.info-item-img-tip{
-  background: white;
-  width: 200px;
-  height: 100%;
+  .info-item-img-tip{
+    background: white;
+    width: 200px;
+    height: 100%;
+  }
 }
