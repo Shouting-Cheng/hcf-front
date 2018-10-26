@@ -193,24 +193,24 @@ export const getRouterData = app => {
     },
     //我的报账单
     '/my-reimburse': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/my-reimburse.js')),
       name: 'my-reimburse',
     },
     //我的报账单详情
     '/my-reimburse/reimburse-detail/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/reimburse-detail.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/reimburse-detail.js')),
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
     //编辑我的报账单
     '/my-reimburse/edit-reimburse/:id': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
     '/my-reimburse/new-reimburse/:formId/:formOID': {
-      component: dynamicWrapper(app, [], () => import('containers/reimburse/new-reimburse.js')),
+      component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
       parent: '/my-reimburse',
     },
@@ -621,6 +621,69 @@ export const getRouterData = app => {
       ),
       name: 'form-list',
     },
+    //值列表
+    '/admin-setting/value-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/value-list.js')
+      ),
+      name: 'value-list',
+    },
+    //新建值列表
+    '/admin-setting/new-value-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/new-value-list.js')
+      ),
+      name: 'new-value-list',
+      parent: "/admin-setting/value-list"
+    },
+    //值列表详情
+    '/admin-setting/value-list-detail/:customEnumerationOID/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/value-list/new-value-list.js')
+      ),
+      name: 'value-list',
+      parent: "/admin-setting/value-list"
+    },
+    //编码规则对象定义
+    '/admin-setting/coding-rule-object': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule-object.js')
+      ),
+      name: 'coding-rule-object',
+    },
+    //新建编码规则对象定义
+    '/admin-setting/new-coding-rule-object': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/new-coding-rule-object.js')
+      ),
+      name: 'new-coding-rule-object',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //编码规则
+    '/admin-setting/coding-rule/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule.js')
+      ),
+      name: 'coding-rule',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //新建编码规则
+    '/admin-setting/new-coding-rule/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/new-coding-rule.js')
+      ),
+      name: 'new-coding-rule',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    //编码规则明细
+    '/admin-setting/coding-rule-value/:id/:ruleId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/coding-rule-object/coding-rule-value.js')
+      ),
+      name: 'coding-rule-value',
+      parent: "/admin-setting/coding-rule-object"
+    },
+    
     //新建表单
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
@@ -650,7 +713,6 @@ export const getRouterData = app => {
       ),
       name: 'finance-audit',
     },
-
     '/financial-accounting-setting/section-structure': {
       //科目段结构，
       component: dynamicWrapper(app, [], () =>
@@ -936,7 +998,6 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-      parent:'/approval-management/approval-my-reimburse'
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1005,14 +1066,7 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: 'currency-setting-edit',
-      parent:'/admin-setting/currency-setting'
-    },
-    //公司级别定义
-    '/admin-setting/company-level-define': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/company-level-define/company-level-define.js')
-      ),
-      name: 'company-level-define',
+      parent: '/admin-setting/currency-setting'
     },
     //预算审核
     '/approval-management/budget-journal-check': {
@@ -1068,7 +1122,12 @@ export const getRouterData = app => {
       name: 'new-bank-account',
       parent: '/enterprise-manage/company-maintain/company-maintain-detail',
     },
-
+    '/admin-setting/company-level-define': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-level-define/company-level-define.js')
+      ),
+      name: 'company-level-define',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
@@ -1105,3 +1164,4 @@ export const getRouterData = app => {
   });
   return routerData;
 };
+
