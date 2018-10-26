@@ -7,8 +7,6 @@ export default {
     let result = '';
     this[type] && this[type].map(item => {
       if ((item.value + '') === (value + ''))
-        if(value==='1001')
-          console.log(item[attr]);
         result = item[attr];
     });
     return result;
@@ -16,7 +14,7 @@ export default {
   apportionInvoiceType: ['01', '03', '004', '005', '007', '008', '009', '010'],
   documentType: [{
     value: 3001,
-    text: messages('documentType.expense.report') //日常报销单
+    text: '报销单' //日常报销单
   },
   //   {
   //   value: 2001,
@@ -27,8 +25,9 @@ export default {
   // },
   {
     value: 2005,
-    text: messages('documentType.loan.request') //借款
-  }, {
+    text: "借款申请单" //借款
+  }, 
+  {
     value: 801008,
     text: "核算工单"
   },
@@ -76,13 +75,13 @@ export default {
   ],
   documentTypeForShow: [{
     value: 3001,
-    text: messages('documentType.expense.report') //报销单
+    text: "报销单" //报销单
   }, {
     value: 3002,
-    text: messages('documentType.expense.report') //报销单
+    text: "报销单" //报销单
   }, {
     value: 3003,
-    text: messages('documentType.expense.report') //报销单
+    text: "报销单" //报销单
   },
   // {
   //   value: 2001,
@@ -96,10 +95,11 @@ export default {
   // }, {
   //   value: 2004,
   //   text: messages('documentType.jd.request') //京东
-  // }, {
-  //   value: 2005,
-  //   text: messages('documentType.loan.request') //借款
-  // },
+  // }, 
+  {
+    value: 2005,
+    text: '借款申请单' //借款
+  },
   {
     value: 801008,
     text: "核算工单"
