@@ -227,9 +227,7 @@ class BudgetJournalReCheckDetail extends React.Component {
 
   //根据attachmentOID，查询附件
   getFileByAttachmentOID = (value) => {
-    let valueData = {};
-    valueData.oid = value;
-    budgetJournalService.getFileByAttachmentOID(valueData).then((resp) => {
+    budgetJournalService.getFileByAttachmentOID(value).then((resp) => {
       let fileList = this.state.fileList;
       fileList.addIfNotExist(resp.data)
       this.setState({
