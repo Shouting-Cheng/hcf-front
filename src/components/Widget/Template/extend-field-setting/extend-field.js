@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 
 import { Button, Icon, Modal } from 'antd';
 import 'styles/components/template/extend-field-setting/extend-field.scss';
-import { deepCopy } from 'share/common';
-import { ListSort } from 'components/index';
-import WidgetSetting from 'components/Template/widget/widget-setting';
+import { deepCopy } from 'utils/extend';
+import { ListSort } from 'widget/index';
+import WidgetSetting from 'widget/Template/widget/widget-setting';
 
 let customFormFieldsSorted = [];
 
@@ -28,7 +28,7 @@ class ExtendFieldComponent extends React.Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -39,7 +39,7 @@ class ExtendFieldComponent extends React.Component {
     });
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   addFieldItem = field => {
     let item = deepCopy(field);

@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 
 import { Modal, Button, Progress, Icon } from 'antd';
 
-import 'styles/components/Template/export-modal/export-modal.scss';
-import ExportService from 'components/Template/export-modal/export-modal.service';
+import 'styles/components/template/export-modal/export-modal.scss';
+import ExportService from 'widget/Template/export-modal/export-modal.service';
 import FileSaver from 'file-saver';
 
 class ExportModal extends React.Component {
@@ -26,9 +26,9 @@ class ExportModal extends React.Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   exportInfo = () => {
     let timestamp = Date.parse(new Date());
@@ -44,7 +44,7 @@ class ExportModal extends React.Component {
           .then(res => {
             this.exportInfoProgress(param);
           })
-          .catch(err => {});
+          .catch(err => { });
         break;
       }
       case 'USER': {
@@ -58,7 +58,7 @@ class ExportModal extends React.Component {
           .then(res => {
             this.exportInfoProgress(param);
           })
-          .catch(err => {});
+          .catch(err => { });
         break;
       }
       case 'COST_CENTER_ITEM': {
@@ -72,7 +72,7 @@ class ExportModal extends React.Component {
           .then(res => {
             this.exportInfoProgress(param);
           })
-          .catch(err => {});
+          .catch(err => { });
         break;
       }
       case 'REPORT': {
@@ -92,7 +92,7 @@ class ExportModal extends React.Component {
           .then(res => {
             this.exportInfoProgressForReport(param);
           })
-          .catch(err => {});
+          .catch(err => { });
         break;
       }
       case 'DEPARTMENT_POSITION_USER': {
@@ -106,7 +106,7 @@ class ExportModal extends React.Component {
           .then(res => {
             this.exportInfoProgress(param);
           })
-          .catch(err => {});
+          .catch(err => { });
         break;
       }
     }
@@ -140,7 +140,7 @@ class ExportModal extends React.Component {
         } else {
           clearInterval(this.state.timer);
           let that = this;
-          this.state.timer = setInterval(function() {
+          this.state.timer = setInterval(function () {
             that.exportInfoProgress(param);
           }, 2000);
         }
@@ -323,8 +323,8 @@ class ExportModal extends React.Component {
             {this.props.exportTitle}
           </Button>
         ) : (
-          <div onClick={this.setInitState}>{this.props.exportTitle}</div>
-        )}
+            <div onClick={this.setInitState}>{this.props.exportTitle}</div>
+          )}
 
         <Modal
           width={500}

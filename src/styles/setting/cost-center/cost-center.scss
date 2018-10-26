@@ -1,18 +1,20 @@
-.cost-center{
-  .table-header{
-    .cost-center-dep-wrap{
-      .cost-center-dep{
-        background: #e7f3fc;
-        border: solid 1px #c2e4fd;
-        padding: 6px 15px 6px 15px;
-        margin-bottom: 10px;
-        border-radius: 2px;
-        .cost-center-btn{
-          color: #569BE5;
-          cursor: pointer;
-        }
-        .cost-center-gray{
-          color: #a9a9a9;
+:global {
+  .cost-center{
+    .table-header{
+      .cost-center-dep-wrap{
+        .cost-center-dep{
+          background: #e7f3fc;
+          border: solid 1px #c2e4fd;
+          padding: 6px 15px 6px 15px;
+          margin-bottom: 10px;
+          border-radius: 2px;
+          .cost-center-btn{
+            color: #569BE5;
+            cursor: pointer;
+          }
+          .cost-center-gray{
+            color: #a9a9a9;
+          }
         }
       }
     }

@@ -1271,6 +1271,56 @@ export const getRouterData = app => {
       parent: '/admin-setting/person-group',
     },
 
+    '/admin-setting/cost-center': {
+      //成本中心
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center.js')
+      ),
+      name: 'cost-center',
+    },
+    '/admin-setting/cost-center/new-cost-center/:id': {
+      //新增成本中心
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/new-cost-center.js')
+      ),
+      name: 'new-cost-center',
+      parent: '/admin-setting/cost-center',
+    },
+    '/admin-setting/cost-center/cost-center-detail/:id': {
+      //成本中心详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-detail.js')
+      ),
+      name: 'cost-center-detail',
+      parent: '/admin-setting/cost-center',
+    },
+    '/admin-setting/cost-center/cost-center-detail/:id/cost-center-item/cost-center-item-detail/:itemId': {
+      //成本中心项详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-item/cost-center-item-detail.js')
+      ),
+      name: 'cost-center-item-detail',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+    },
+    '/admin-setting/cost-center/cost-center-detail/:id/cost-center-item/new-cost-center-item/:itemId': {
+      //新增成本中心项:编辑成本中心项
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-item/new-cost-center-item.js')
+      ),
+      name: 'new-cost-center-item',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+    },
+    '/admin-setting/cost-center/cost-center-extend-filed': {
+      //成本中心扩展字段
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-extend-filed/cost-center-extend-filed.js')
+      ),
+      name: 'cost-center-extend-filed',
+      parent: '/admin-setting/cost-center',
+    },
+
+
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
