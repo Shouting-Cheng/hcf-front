@@ -910,12 +910,60 @@ export const getRouterData = app => {
       name: 'budget-org-new',
       parent: '/budget-setting/budget-organization'
     },
-    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id': {
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab': {
       //预算设置详情
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-organization-detail')
       ),
       name: 'budget-org-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/:orgId/:setOfBooksId/:id':{
+      //预算表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/budget-structure-detail')
+      ),
+      name: 'budget-structure-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/:setOfBooksId/:orgId':{
+      //新建预算表
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/new-budget-structure')
+      ),
+      name: 'budget-structure-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId':{
+      //新建预算项目
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/new-budget-item')
+      ),
+      name: 'budget-item-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id':{
+      //预算项目详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/budget-item-detail')
+      ),
+      name: 'budget-item-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId':{
+      //新建项目组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/new-budget-group')
+      ),
+      name: 'budget-group-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id':{
+      //项目组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/budget-group-detail')
+      ),
+      name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization'
     },
 
