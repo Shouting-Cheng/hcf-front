@@ -1176,6 +1176,27 @@ export const getRouterData = app => {
       ),
       name: 'company-level-define',
     },
+    //设置-公告信息
+    '/admin-setting/announcement-information' :{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/announcement-information/announcement-information.js')
+      ),name: 'announcement-information',
+    },
+    //设置-新建公告信息
+    '/admin-setting/announcement-information/new-announcement-information' :{
+      component: dynamicWrapper(app, [], () =>import('containers/setting/announcement-information/announcement-information-detail.js')
+      ),
+      parent:'/setting/announcement-information',
+      name: 'new-announcement-information',
+    },
+    //设置-公告信息-详情
+    '/admin-setting/announcement-information/announcement-information-detail/:OID/:id' :{
+      component: dynamicWrapper(app, [], () =>import('containers/setting/announcement-information/announcement-information-detail.js')
+      ),
+      parent:'/setting/announcement-information',
+      name: 'announcement-information-detail',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
