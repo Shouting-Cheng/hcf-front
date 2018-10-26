@@ -6,7 +6,7 @@ import httpFetch from 'share/httpFetch';
 import config from 'config';
 import 'styles/setting/company-group/new-company-group.scss';
 import companyGroupService from 'containers/setting/company-group/company-group.service';
-import LanguageInput from 'widget/Template/language-input/language-input';
+import LanguageInput from 'components/Widget/Template/language-input/language-input';
 
 import { routerRedux } from 'dva/router';
 

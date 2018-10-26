@@ -47,7 +47,7 @@ export default {
   hash: true,
   proxy: {
     '/artemis': {
-      target: 'http://localhost:9083',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
     '/oauth': {
@@ -71,7 +71,7 @@ export default {
       changeOrigin: true,
     },
     '/contract': {
-      target: 'http://localhost:9087',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
     '/payment': {
@@ -91,6 +91,10 @@ export default {
       changeOrigin: true,
     },
     '/budget': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
+    },
+    '/location': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     }

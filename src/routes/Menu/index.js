@@ -33,6 +33,11 @@ class LanguageManager extends Component {
           render: value => <Icon type={value} />,
         },
         {
+          title: "序号",
+          dataIndex: 'seqNumber',
+          width: 80
+        },
+        {
           title: '代码',
           dataIndex: 'menuCode',
         },
@@ -44,6 +49,7 @@ class LanguageManager extends Component {
         {
           title: '类型',
           dataIndex: 'menuTypeEnum',
+          width: 100,
           render: value =>
             value == 1001 ? <Tag color="blue">目录</Tag> : <Tag color="green">功能</Tag>,
         },
@@ -159,7 +165,7 @@ class LanguageManager extends Component {
     };
 
     return (
-      <div style={{ backgroundColor: '#fff', padding: 10, overflow: 'auto' }}>
+      <div style={{ backgroundColor: '#fff', padding: 10, paddingBottom: 20 }}>
         <Alert
           closable
           message="添加完菜单后，用户刷新当前页面，或则重新登录才能生效！"
@@ -175,6 +181,7 @@ class LanguageManager extends Component {
           bordered
           loading={loading}
           rowKey="id"
+          size="middle"
         />
         <NewMenu model={model} visible={addShow} parentId={menuId} onClose={this.handleClose} />
       </div>

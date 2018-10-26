@@ -198,7 +198,7 @@ class FileUpload extends React.Component {
       </Button>
     );
     const upload_headers = {
-      Authorization: 'Bearer ' + this.props.authToken.access_token,
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
     let imageList = [];
     result.map(item => this.isImage(item) && imageList.push(item));
@@ -311,7 +311,7 @@ FileUpload.defaultProps = {
 };
 function mapStateToProps(state) {
   return {
-    authToken: state.main.authToken,
+
   };
 }
 // 注意

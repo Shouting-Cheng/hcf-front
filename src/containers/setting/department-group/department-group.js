@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 
 import { Button, Table, Badge, notification, Popover, Popconfirm, message } from 'antd';
-import SearchArea from 'widget/search-area';
+import SearchArea from 'components/Widget/search-area';
 import 'styles/setting/department-group/department-group.scss';
 import deptGroupService from 'containers/setting/department-group/department-group.service'
 
