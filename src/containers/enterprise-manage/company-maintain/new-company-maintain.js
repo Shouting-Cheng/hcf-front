@@ -238,7 +238,7 @@ class WrappedNewCompanyMaintain extends React.Component {
   };
 
   renderParentCompanyList = list => {
-    if (list.length > 1) {
+    if (list.length >= 1) {
       let listOption = list.map(item => {
         return (
           <Option value={item.id} key={item.id}>

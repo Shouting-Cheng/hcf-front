@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Table, Alert, Input, Popover, message } from "antd"
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import moment from "moment"
 
 class Verification extends Component {
@@ -44,7 +44,7 @@ class Verification extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-   
+
     if (!nextProps.visible && this.props.visible) {
       this.setState({
         data: [], changeList: [], page: 0, pagination: {

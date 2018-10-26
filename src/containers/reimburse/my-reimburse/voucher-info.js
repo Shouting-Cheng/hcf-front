@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Row, Col, message } from 'antd';
 import { connect } from 'react-redux';
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import moment from 'moment'
 class VoucherInfo extends React.Component {
   constructor(props) {

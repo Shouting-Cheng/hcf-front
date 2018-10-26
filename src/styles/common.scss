@@ -550,5 +550,11 @@ $default-blue: #108ee9;
         }
       }
     }
+    .ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+      font-size: 12px;
+      font-weight: 500;
+      font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";
+      color: hsla(0,0%,100%,.65)
+    }
 }
 
