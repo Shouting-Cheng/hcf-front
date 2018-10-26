@@ -44,5 +44,9 @@ export default {
         },
       };
     },
+    setToken(state,{token}){
+      return  token
+    }
+
   },
 };

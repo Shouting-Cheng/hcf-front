@@ -12,8 +12,6 @@ import SlideFrame from 'components/slide-frame';
 import RepaymentDetailFrame from 'containers/request/loan-request/repayment-detail-frame';
 import loanAndRefundService from 'containers/financial-management/loan-and-refund/loan-and-refund.service';
 import 'styles/financial-management/loan-and-refund/loan-and-refund.scss';
-import configureStore from 'stores';
-import { setLoanAndRefund } from 'actions/cache';
 
 let cacheSearchData = {};
 
@@ -278,7 +276,10 @@ class LoanAndRefund extends React.Component {
       dealCache(defaultSearchForm, result);
       this.setState({ tab, [searchFormKey]: defaultSearchForm, page }, () => {
         this.onSearch(result);
-        configureStore.store.dispatch(setLoanAndRefund(null));
+        this.props.dispatch({
+          type: 'cache/serOverallSubList',
+          overallSubList: null
+        });
       });
     }
   }
@@ -408,7 +409,10 @@ class LoanAndRefund extends React.Component {
 
   //进入全局查看详情
   handleOverallRowClick = record => {
-    configureStore.store.dispatch(setLoanAndRefund(cacheSearchData));
+    this.props.dispatch({
+      type: 'cache/serOverallSubList',
+      overallSubList: cacheSearchData
+    });
     this.context.router.push(
       this.state.overallSubList.url
         .replace(':employeeId', record.employeeId)
@@ -418,7 +422,10 @@ class LoanAndRefund extends React.Component {
 
   //借款单管理详情
   handleLoanRowClick = record => {
-    configureStore.store.dispatch(setLoanAndRefund(cacheSearchData));
+    this.props.dispatch({
+      type: 'cache/serOverallSubList',
+      overallSubList: cacheSearchData
+    });
     this.context.router.push(
       this.state.requestDetail.url
         .replace(':formOID', record.formOid)

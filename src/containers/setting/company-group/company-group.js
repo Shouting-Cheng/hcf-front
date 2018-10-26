@@ -9,7 +9,7 @@ import 'styles/setting/company-group/company-group.scss';
 
 import { routerRedux } from 'dva/router';
 
-import SearchArea from 'widget/search-area';
+import SearchArea from 'components/Widget/search-area';
 
 class CompanyGroup extends React.Component {
   constructor(props) {

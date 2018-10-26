@@ -1,127 +1,129 @@
-.rule-info{
-  .rule-info-wrap{
-    margin-bottom: 12px;
-    background:rgb(247, 247, 247);
-    border-radius: 2px;
-    border: solid 1px #e4e4e4;
-  }
-  .rule-info-title{
-    height: 48px;
-    border-bottom: solid 1px #e4e4e4;
-    padding-right: 10px;
-    padding-left: 10px;
-    .rule-wrap-title{
-      float: left;
-      line-height: 48px;
-      font-size: 14px;
-      font-weight: 500;
-      width: 100px;
+:global {
+  .rule-info{
+    .rule-info-wrap{
+      margin-bottom: 12px;
+      background:rgb(247, 247, 247);
+      border-radius: 2px;
+      border: solid 1px #e4e4e4;
     }
-    .rule-btn-wrap{
-      float: left;
-      Button{
-        margin-right: 10px;
-        margin-top: 7px;
-      }
-    }
-    .clear{
-      clear: both;
-    }
-  }
-  .rule-info-content{
-    padding:10px;
-    padding-bottom: 2px;
-  }
-  .rule-info-row{
-    height: auto;
-    margin-bottom: 2px;
-    .rule-condition-checkbox{
-      float: left;
-      width: 20px;
-    }
-    .edit-rule-condition-checkbox{
-      float: left;
-      width: 20px;
-    }
-    .rule-condition-title{
-      float: left;
-      width: 100px;
-      line-height: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #999;
-    }
-    .edit-rule-condition-title{
-      float: left;
-      width: 90px;
-      line-height: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #999;
-    }
-    .rule-condition-sub-title{
-      float: left;
-      width: 72px;
-      line-height: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      margin-left: 4px;
-      margin-right: 4px;
-      color: #333;
-    }
-    .edit-rule-condition-sub-title{
-      float: left;
-      width: 102px;
-      line-height: 24px;
-      font-size: 14px;
-      font-weight: 500;
-      margin-left: 4px;
-      margin-right: 4px;
-      color: #333;
-      .ant-select{
-        width: 102px;
-      }
-    }
-    .rule-condition-content{
-      // checkbox title与sub-title的绝对宽度之和
-      margin-left: 200px;
-      .item{
+    .rule-info-title{
+      height: 48px;
+      border-bottom: solid 1px #e4e4e4;
+      padding-right: 10px;
+      padding-left: 10px;
+      .rule-wrap-title{
         float: left;
+        line-height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        width: 100px;
+      }
+      .rule-btn-wrap{
+        float: left;
+        Button{
+          margin-right: 10px;
+          margin-top: 7px;
+        }
+      }
+      .clear{
+        clear: both;
+      }
+    }
+    .rule-info-content{
+      padding:10px;
+      padding-bottom: 2px;
+    }
+    .rule-info-row{
+      height: auto;
+      margin-bottom: 2px;
+      .rule-condition-checkbox{
+        float: left;
+        width: 20px;
+      }
+      .edit-rule-condition-checkbox{
+        float: left;
+        width: 20px;
+      }
+      .rule-condition-title{
+        float: left;
+        width: 100px;
         line-height: 24px;
         font-size: 14px;
-        height: 24px;
-        margin-right: 6px;
-        padding-left: 6px;
-        padding-right: 6px;
-        margin-bottom: 6px;
-        color: #666;
+        font-weight: 500;
+        color: #999;
       }
-      .add-tag{
-        background: #fff;
-        borderStyle: 'dashed';
-      }
-    }
-    .edit-rule-condition-content{
-      // edit-checkbox  edit-title与edit-sub-title的绝对宽度之和
-      margin-left: 220px;
-      .item{
+      .edit-rule-condition-title{
         float: left;
-        line-height: 32px;
+        width: 90px;
+        line-height: 24px;
         font-size: 14px;
-        height: 32px;
-        margin-right: 6px;
-        padding-left: 6px;
-        padding-right: 6px;
-        margin-bottom: 6px;
-        color: #666;
+        font-weight: 500;
+        color: #999;
       }
-      .add-tag{
-        background: #fff;
-        borderStyle: 'dashed';
+      .rule-condition-sub-title{
+        float: left;
+        width: 72px;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 4px;
+        margin-right: 4px;
+        color: #333;
       }
-    }
-    .clear{
-      clear:both;
+      .edit-rule-condition-sub-title{
+        float: left;
+        width: 102px;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 4px;
+        margin-right: 4px;
+        color: #333;
+        .ant-select{
+          width: 102px;
+        }
+      }
+      .rule-condition-content{
+        // checkbox title与sub-title的绝对宽度之和
+        margin-left: 200px;
+        .item{
+          float: left;
+          line-height: 24px;
+          font-size: 14px;
+          height: 24px;
+          margin-right: 6px;
+          padding-left: 6px;
+          padding-right: 6px;
+          margin-bottom: 6px;
+          color: #666;
+        }
+        .add-tag{
+          background: #fff;
+          borderStyle: 'dashed';
+        }
+      }
+      .edit-rule-condition-content{
+        // edit-checkbox  edit-title与edit-sub-title的绝对宽度之和
+        margin-left: 220px;
+        .item{
+          float: left;
+          line-height: 32px;
+          font-size: 14px;
+          height: 32px;
+          margin-right: 6px;
+          padding-left: 6px;
+          padding-right: 6px;
+          margin-bottom: 6px;
+          color: #666;
+        }
+        .add-tag{
+          background: #fff;
+          borderStyle: 'dashed';
+        }
+      }
+      .clear{
+        clear:both;
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Form, Select, Input, Icon, message, TreeSelect } from 'antd';
+
+import { Modal, Form, Select, Input, Icon, message, TreeSelect, InputNumber } from 'antd';
 import service from './service';
 import icons from '../../assets/icons';
 import { connect } from 'react-redux';
@@ -98,7 +99,7 @@ class NewMenu extends React.Component {
             });
         } else {
 
-          values = { ...values, seqNumber: 0, parentMenuId: this.props.parentId, componentVersionId, componentId };
+          values = { ...values,  parentMenuId: this.props.parentId, componentVersionId, componentId };
           service
             .addMenu(values)
             .then(res => {
@@ -176,17 +177,17 @@ class NewMenu extends React.Component {
               </Select>
               )}
           </Form.Item>
-            <Form.Item {...formItemLayout} label="来源">
-              {getFieldDecorator('fromSource', {
-                initialValue: 'DB',
-                rules: [{ required: true, message: '请选择' }],
-              })(
-                <Select>
-                  <Select.Option value="DB">数据库</Select.Option>
-                  <Select.Option value="FILE">本地文件</Select.Option>
-                </Select>
-                )}
-            </Form.Item>
+          <Form.Item {...formItemLayout} label="来源">
+            {getFieldDecorator('fromSource', {
+              initialValue: 'DB',
+              rules: [{ required: true, message: '请选择' }],
+            })(
+              <Select>
+                <Select.Option value="DB">数据库</Select.Option>
+                <Select.Option value="FILE">本地文件</Select.Option>
+              </Select>
+              )}
+          </Form.Item>
           {this.props.form.getFieldValue('fromSource') == "DB" && (
             <Form.Item {...formItemLayout} label="组件">
               {getFieldDecorator('componentId', {
@@ -233,6 +234,11 @@ class NewMenu extends React.Component {
               )}
             </Form.Item>
           )}
+          <Form.Item {...formItemLayout} label="序号">
+            {getFieldDecorator('seqNumber', {
+              rules: [{ required: true, message: '请输入' }],
+            })(<InputNumber />)}
+          </Form.Item>
         </Form>
       </Modal>
     );
