@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from "dva/router";
+import { routerRedux } from 'dva/router';
 import {
   Spin,
   Popover,
@@ -214,10 +214,8 @@ class BudgetJournalDetailSubmit extends React.Component {
 
   //根据attachmentOID，查询附件
   getFileByAttachmentOID = value => {
-    let valueData = {};
-    valueData.oid = value;
     budgetJournalService
-      .getFileByAttachmentOID(valueData)
+      .getFileByAttachmentOID(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);

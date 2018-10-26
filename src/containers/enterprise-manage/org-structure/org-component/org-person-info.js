@@ -1,4 +1,3 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/1/30
  * Email li.zhou@huilianyi.com
@@ -8,8 +7,8 @@ import React from 'react';
 
 import 'styles/enterprise-manage/org-structure/org-component/org-person-info.scss';
 import { Button, Icon } from 'antd';
-import menuRoute from 'routes/menuRoute';
-
+import { routerRedux } from 'dva/router';
+import PropTypes from 'prop-types';
 class OrgStructurePersonInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -23,16 +22,27 @@ class OrgStructurePersonInfo extends React.Component {
     this.setState({ user: this.props.user });
   }
 
+  componentDidMount() {
+    this.setState({ user: this.props.user });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({ user: nextProps.user });
   }
 
   //去用户详情界面
   goToPersonDetail = () => {
-    let path = menuRoute
-      .getRouteItem('person-detail', 'key')
-      .url.replace(':userOID', this.state.user.userOID);
-    this.context.router.push(path);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${
+          this.state.user.userOID
+        }`,
+      })
+    );
+    // let path = menuRoute
+    //   .getRouteItem('person-detail', 'key')
+    //   .url.replace(':userOID', this.state.user.userOID);
+    // this.context.router.push(path);
   };
 
   //渲染激活状态
@@ -41,14 +51,14 @@ class OrgStructurePersonInfo extends React.Component {
       return (
         <span>
           {/*已激活*/}
-          {messages('org.person.actived')}
+          {this.$t('org.person.actived')}
         </span>
       );
     } else {
       return (
         <span>
           {/*未激活*/}
-          {messages('org.person.no-active')}
+          {this.$t('org.person.no-active')}
         </span>
       );
     }
@@ -60,21 +70,21 @@ class OrgStructurePersonInfo extends React.Component {
       return (
         <div className="content">
           {/*男*/}
-          {messages('org.person.man')}
+          {this.$t('org.person.man')}
         </div>
       );
     } else if (parseInt(gender) === 1) {
       return (
         <div className="content">
           {/*女*/}
-          {messages('org.person.woman')}
+          {this.$t('org.person.woman')}
         </div>
       );
     } else {
       return (
         <div className="content">
           {/*未知*/}
-          {messages('org.person.unkown')}
+          {this.$t('org.person.unkown')}
         </div>
       );
     }
@@ -86,7 +96,7 @@ class OrgStructurePersonInfo extends React.Component {
       return (
         <span>
           {/*未知*/}
-          {messages('org.person.unkown')}
+          {this.$t('org.person.unkown')}
         </span>
       );
     }
@@ -95,16 +105,16 @@ class OrgStructurePersonInfo extends React.Component {
   renderStatus = status => {
     //在职，离职，待离职
     if (status + '' === '1001') {
-      return <span>{messages('org.status.1001')}</span>;
+      return <span>{this.$t('org.status.1001')}</span>;
     } else if (status + '' === '1002') {
-      return <span>{messages('org.status.1002')}</span>;
+      return <span>{this.$t('org.status.1002')}</span>;
     } else if (status + '' === '1003') {
-      return <span>{messages('org.status.1003')}</span>;
+      return <span>{this.$t('org.status.1003')}</span>;
     } else {
       return (
         <span>
           {/*未知*/}
-          {messages('org.person.unkown')}
+          {this.$t('org.person.unkown')}
         </span>
       );
     }
@@ -124,7 +134,7 @@ class OrgStructurePersonInfo extends React.Component {
           <div className="f-right avater-right">
             <Button type="primary" onClick={this.goToPersonDetail}>
               {/*查看详情*/}
-              {messages('org.person.detail')}
+              {this.$t('org.person.detail')}
             </Button>
           </div>
         </div>
@@ -132,7 +142,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*公司*/}
-            {messages('org.person.company')}
+            {this.$t('org.person.company')}
           </div>
           <div className="content">{this.state.user.companyName}</div>
           <div className="clear" />
@@ -140,7 +150,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*直属领导*/}
-            {messages('org.person.directManager')}
+            {this.$t('org.person.directManager')}
           </div>
           <div className="content">{this.state.user.directManagerName}</div>
           <div className="clear" />
@@ -148,7 +158,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*部门*/}
-            {messages('org.person.dep')}
+            {this.$t('org.person.dep')}
           </div>
           <div className="content">{this.state.user.departmentName}</div>
           <div className="clear" />
@@ -156,7 +166,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*邮箱*/}
-            {messages('org.person.email')}
+            {this.$t('org.person.email')}
           </div>
           <div className="content">{this.state.user.email}</div>
           <div className="clear" />
@@ -165,7 +175,7 @@ class OrgStructurePersonInfo extends React.Component {
           <div className="title">
             {/*电话*/}
 
-            {messages('org.person.phone')}
+            {this.$t('org.person.phone')}
           </div>
           <div className="content">{this.state.user.mobile ? this.state.user.mobile : ''}</div>
           <div className="clear" />
@@ -174,7 +184,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*职务*/}
-            {messages('org.person.duty')}
+            {this.$t('org.person.duty')}
           </div>
           <div className="content">{this.state.user.duty}</div>
           <div className="clear" />
@@ -182,7 +192,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*职位*/}
-            {messages('org.person.title')}
+            {this.$t('org.person.title')}
           </div>
           <div className="content">{this.state.user.title}</div>
           <div className="clear" />
@@ -190,7 +200,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*级别*/}
-            {messages('org.person.rank')}
+            {this.$t('org.person.rank')}
           </div>
           <div className="content">{this.state.user.rank}</div>
           <div className="clear" />
@@ -198,7 +208,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*入职时间*/}
-            {messages('org.person.entrytime')}
+            {this.$t('org.person.entrytime')}
           </div>
           <div className="content">{this.renderTime(this.state.user.entryDate)}</div>
           <div className="clear" />
@@ -206,7 +216,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*状态*/}
-            {messages('org.person.status')}
+            {this.$t('org.person.status')}
           </div>
           <div className="content">{this.renderStatus(this.state.user.status)}</div>
           <div className="clear" />
@@ -214,7 +224,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*生日*/}
-            {messages('org.person.birthday')}
+            {this.$t('org.person.birthday')}
           </div>
           <div className="content">{this.renderTime(this.state.user.birthday)}</div>
           <div className="clear" />
@@ -223,7 +233,7 @@ class OrgStructurePersonInfo extends React.Component {
         <div className="person-info-row">
           <div className="title">
             {/*性别*/}
-            {messages('org.person.sex')}
+            {this.$t('org.person.sex')}
           </div>
           {this.renderSex(this.state.user.gender)}
           <div className="clear" />
@@ -234,9 +244,9 @@ class OrgStructurePersonInfo extends React.Component {
 }
 
 OrgStructurePersonInfo.propTypes = {
-  user: React.PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
-OrgStructurePersonInfo.contextTypes = {
-  router: React.PropTypes.object,
-};
+// OrgStructurePersonInfo.contextTypes = {
+//   router: React.PropTypes.object,
+// };
 export default OrgStructurePersonInfo;
