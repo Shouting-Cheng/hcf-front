@@ -1067,6 +1067,38 @@ export const getRouterData = app => {
       parent: '/enterprise-manage/company-maintain/company-maintain-detail',
     },
 
+    '/admin-setting/person-group': {
+      //人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group.js')
+      ),
+      name: 'person-group',
+    },
+    '/admin-setting/person-group/new-person-group': {
+      //新建人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/edit-person-group/:id': {
+      //编辑人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/person-group-detail/:id': {
+      //人员组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group-detail.js')
+      ),
+      name: 'person-group-detail',
+      parent: '/admin-setting/person-group',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
