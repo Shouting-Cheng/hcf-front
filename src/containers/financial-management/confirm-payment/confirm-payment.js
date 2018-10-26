@@ -16,8 +16,6 @@ import menuRoute from "../../../routes/menuRoute";
 import {messages, invoiceAmountChange, dealCache, deepFullCopy} from 'share/common';
 import {Dropdown,Menu} from 'antd';
 import Importer from 'components/template/importer';
-import configureStore from "stores";
-import {setFinancePayment} from "actions/cache";
 import moment from 'moment'
 let cacheSearchData={};
 let defaultSearchForm=[];
@@ -407,7 +405,10 @@ class ConfirmPayment extends React.Component{
       this.setState({status, nowType, searchForm, page}, () => {
         this.search(result);
         this.tableHeaderDeal();
-        configureStore.store.dispatch(setFinancePayment(null));
+        this.props.dispatch({
+          type: 'cache/setFinancePayment',
+          financePayment: null
+        });
       })
     }
   }
@@ -490,7 +491,10 @@ class ConfirmPayment extends React.Component{
       url = loadDetailRuter.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':backType','history');
     status === 'prending_pay' && (url += `?prending_pay=true`);
     status === 'pay_in_process' && (url += `?pay_in_process=true`);
-    configureStore.store.dispatch(setFinancePayment(cacheSearchData));
+    this.props.dispatch({
+      type: 'cache/setFinancePayment',
+      financePayment: cacheSearchData
+    });
     this.context.router.push(url);
   }
 

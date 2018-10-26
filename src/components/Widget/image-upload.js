@@ -134,7 +134,7 @@ class ImageUpload extends React.Component {
       </div>
     );
     const upload_headers = {
-      Authorization: 'Bearer ' + this.props.authToken.access_token,
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
     return (
       <div className="image-upload">
@@ -199,7 +199,6 @@ ImageUpload.defaultProps = {
 };
 function mapStateToProps(state) {
   return {
-    authToken: window.localStorage.getItem('token'),
   };
 }
 // 注意
