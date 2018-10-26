@@ -191,15 +191,18 @@ export const getRouterData = app => {
       name: 'prepayment-detail',
       parent: '/pre-payment/my-pre-payment',
     },
+    //我的报账单
     '/my-reimburse': {
       component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/my-reimburse.js')),
       name: 'my-reimburse',
     },
+    //我的报账单详情
     '/my-reimburse/reimburse-detail/:id': {
       component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/reimburse-detail.js')),
       name: 'reimburse-detail',
       parent: '/my-reimburse',
     },
+    //编辑我的报账单
     '/my-reimburse/edit-reimburse/:id': {
       component: dynamicWrapper(app, [], () => import('containers/reimburse/my-reimburse/new-reimburse.js')),
       name: 'new-reimburse',
@@ -276,7 +279,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/prepayment-type/distribution-company.js')
       ),
-      name: '分配公司',
+      name: 'distribution-company',
       parent: '/document-type-manage/prepayment-type',
     },
     '/approval-management/pre-payment-approve': {
@@ -298,14 +301,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/new-contract-type.js')
       ),
-      name: '合同类型创建/编辑',
+      name: 'new-contract-type',
       parent: '/document-type-manage/contract-type',
     },
     '/document-type-manage/contract-type/company-distribution/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-type/company-distribution.js')
       ),
-      name: '合同类型分配公司',
+      name: 'contract-company-distribution',
       parent: '/document-type-manage/contract-type',
     },
     '/contract-manage/contract-recheck': {
@@ -418,21 +421,21 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/new-payment-requisition.js')
       ),
-      name: '新建付款申请单',
+      name: 'new-payment-requisition',
       parent: '/payment-requisition/my-payment-requisition',
     },
     '/payment-requisition/my-payment-requisition/edit-payment-requisition/:id/:typeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/new-payment-requisition.js')
       ),
-      name: '编辑付款申请单',
+      name: 'edit-payment-requisition',
       parent: '/payment-requisition/my-payment-requisition',
     },
     '/payment-requisition/my-payment-requisition/payment-requisition-detail/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/new-payment-requisition-detail.js')
       ),
-      name: '付款申请单详情',
+      name: 'payment-requisition-detail',
       parent: '/payment-requisition/my-payment-requisition',
     },
     '/job/job-actuator': {
@@ -458,7 +461,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/payment-requisition/type/distribution-company.js')
       ),
-      name: '付款申请单类型分配公司',
+      name: 'payment-distribution-company',
       parent: '/document-type-manage/payment-requisition-type',
     },
     // //报销单
@@ -477,14 +480,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/gl-work-order-type/new-gl-work-order-type.js')
       ),
-      name: '核算工单类型创建/编辑',
+      name: 'new-gl-work-order-type',
       parent: '/document-type-manage/gl-work-order-type',
     },
     '/document-type-manage/gl-work-order-type/company-distribution/:setOfBooksId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/gl-work-order-type/distribution-company.js')
       ),
-      name: '核算工单类型分配公司',
+      name: 'order-type-company-distribution',
       parent: '/document-type-manage/gl-work-order-type',
     },
     //核算工单
@@ -494,6 +497,7 @@ export const getRouterData = app => {
       ),
       name: 'my-gl-work-order',
     },
+    //新建核算工单
     '/gl-work-order/my-gl-work-order/new-gl-work-order/:typeId/:formOid/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
@@ -501,6 +505,7 @@ export const getRouterData = app => {
       name: 'new-gl-work-order',
       parent: '/gl-work-order/my-gl-work-order',
     },
+    //核算工单详情
     '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/my-gl-work-order/my-gl-work-order-detail.js')
@@ -530,14 +535,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/cash-transaction-class/new-cash-transaction-class.js')
       ),
-      name: '新建现金事务分类',
+      name: 'new-cash-transaction-class',
       parent: '/pay-setting/cash-transaction-class',
     },
     '/pay-setting/cash-transaction-class/cash-transaction-class-detail/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/cash-transaction-class/cash-transaction-class-detail.js')
       ),
-      name: '现金事务分类详情',
+      name: 'cash-transaction-class-detail',
       parent: '/pay-setting/cash-transaction-class',
     },
     '/pay-setting/company-account-setting': {
@@ -556,7 +561,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay-setting/company-account-setting/bank-account-detail.js')
       ),
-      name: '银行账户详情',
+      name: 'bank-account-detail',
       parent: '/pay-setting/company-account-setting',
     },
     '/approval-management/gl-work-order-approval': {
@@ -571,7 +576,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/gl-work-order/gl-work-order-approval/gl-work-order-approval-detail.js')
       ),
-      name: '核算工单审批详情',
+      name: 'gl-work-order-approval-detail',
       parent: '/approval-management/gl-work-order-approval',
     },
     '/financial-management/csh-write-off-backlash': {
@@ -592,28 +597,29 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/supplier-management/new-update-supplier.js')
       ),
-      name: '供应商维护',
+      name: 'supplier-maintain',
       parent: '/financial-management/supplier-maintain',
     },
     '/financial-management/supplier-maintain/supplier-bank-account/:id/:source': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/supplier-management/supplier-bank-account.js')
       ),
-      name: '银行账号',
+      name: 'supplier-bank-account',
       parent: '/financial-management/supplier-maintain',
     },
     '/financial-management/supplier-maintain/delivery-company/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/supplier-management/supplier-company-delivery.js')
       ),
-      name: '供应商分配公司',
+      name: 'supplier-delivery-company',
       parent: '/financial-management/supplier-maintain',
     },
+    //表单管理
     '/admin-setting/form-list': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/form/form-list.js')
       ),
-      name: '表单管理',
+      name: 'form-list',
     },
     //值列表
     '/admin-setting/value-list': {
@@ -637,6 +643,20 @@ export const getRouterData = app => {
       ),
       name: 'value-list',
       parent: "/admin-setting/value-list"
+    },
+    '/financial-management/reimburse-review': {
+      //财务管理-供应商维护
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review.js')
+      ),
+      name: 'reimburse-review',
+    },
+    '/financial-management/reimburse-review/reimburse-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/reimburse/reimburse-review/reimburse-review-detail.js')
+      ),
+      name: 'reimburse-review-detail',
+      parent: '/financial-management/reimburse-review',
     },
     //编码规则对象定义
     '/admin-setting/coding-rule-object': {
@@ -678,19 +698,27 @@ export const getRouterData = app => {
       parent: "/admin-setting/coding-rule-object"
     },
 
-
+    '/financial-management/reimburse-review/loan-request-detail-review/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/loan-request-detail.js')
+      ),
+      name: 'reimburse-review',
+      parent: '/financial-management/reimburse-review',
+    },
+    //新建表单
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/form/form-detail/form-detail.js')
       ),
-      name: '新建表单',
+      name: 'new-form',
       parent: '/admin-setting/form-list',
     },
+    //表单详情
     '/admin-setting/form-list/form-detail/:formOID/:booksID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/form/form-detail/form-detail.js')
       ),
-      name: '表单详情',
+      name: 'form-detail',
       parent: '/admin-setting/form-list',
     },
     //供应商类型
@@ -698,7 +726,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/supplier-type/supplier-type')
       ),
-      name: '供应商类型定义',
+      name: 'supplier-type',
     },
     '/financial-management/finance-audit': {
       component: dynamicWrapper(app, [], () =>
@@ -877,7 +905,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/pay/pay-workbench/payment-detail.js')
       ),
-      name: '支付详情',
+      name: 'payment-detail',
       parent: '/pay/pay-workbench/:tab',
     },
     //基础数据/银行定义
@@ -885,7 +913,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/basic-data/bank-definition/bank-definition.js')
       ),
-      name: '银行定义',
+      name: 'bank-definition',
     },
     //预算设置
     '/budget-setting/budget-organization': {//预算组织定义
@@ -910,12 +938,60 @@ export const getRouterData = app => {
       name: 'budget-org-new',
       parent: '/budget-setting/budget-organization'
     },
-    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id': {
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab': {
       //预算设置详情
       component: dynamicWrapper(app, [], () =>
         import('containers/budget-setting/budget-organization/budget-organization-detail')
       ),
       name: 'budget-org-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/:orgId/:setOfBooksId/:id':{
+      //预算表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/budget-structure-detail')
+      ),
+      name: 'budget-structure-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/:setOfBooksId/:orgId':{
+      //新建预算表
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/new-budget-structure')
+      ),
+      name: 'budget-structure-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId':{
+      //新建预算项目
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/new-budget-item')
+      ),
+      name: 'budget-item-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id':{
+      //预算项目详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/budget-item-detail')
+      ),
+      name: 'budget-item-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId':{
+      //新建项目组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/new-budget-group')
+      ),
+      name: 'budget-group-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id':{
+      //项目组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/budget-group-detail')
+      ),
+      name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization'
     },
 
@@ -931,7 +1007,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-journal/new-budget-journal.js')
       ),
-      name: '新建预算日记账',
+      name: 'new-budget-journal',
       parent: '/budget/budget-journal',
     },
     //预算日记账详情
@@ -939,7 +1015,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-journal/budget-journal-detail.js')
       ),
-      name: '预算日记账详情',
+      name: 'budget-journal-detail',
       parent: '/budget/budget-journal',
     },
     //预算日记账详情(已经提交过的)
@@ -947,7 +1023,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-journal/budget-journal-detail-submit.js')
       ),
-      name: '预算日记账详情(已提交)',
+      name: 'budget-journal-detail-submit',
       parent: '/budget/budget-journal',
     },
     '/pay/pay-refund': {
@@ -1005,7 +1081,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-journal-re-check/budget-journal-re-check-detail.js')
       ),
-      name: '预算日记账复核详情',
+      name: 'budget-journal-re-check-detail',
       parent: '/budget/budget-journal-re-check',
     },
     //账套设置
@@ -1013,7 +1089,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/finance-setting/set-of-books/set-of-books.js')
       ),
-      name: '账套定义',
+      name: 'set-of-books',
     },
     '/admin-setting/department-group': {
       //部门组
@@ -1038,25 +1114,82 @@ export const getRouterData = app => {
       name: 'department-group-detail',
       parent: '/admin-setting/department-group',
     },
+    '/finance-setting/account-period-control': {
+      //会计期间控制
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-control/account-period-control.js')
+      ),
+      name: 'account-period-control',
+    },
+    '/finance-setting/account-period-control/account-period-detail/:periodSetId/:setOfBooksId': {
+      //会计期间信息详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/finance-setting/account-period-control/account-period-detail.js')
+      ),
+      name: 'account-period-detail',
+      parent: '/finance-setting/account-period-control',
+    },
+    '/admin-setting/subject-sheet': {
+      //科目表定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet.js')
+      ),
+      name: 'subject-sheet',
+    },
+    '/admin-setting/subject-sheet/subject-sheet-detail/:accountSetId': {
+      //科目表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet-detail.js')
+      ),
+      name: 'subject-sheet-detail',
+      parent: '/admin-setting/subject-sheet',
+    },
+    //币种设置
     '/admin-setting/currency-setting': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting.js')
       ),
-      name: '币种设置',
+      name: 'currency-setting',
     },
+    //新增汇率
     '/admin-setting/currency-setting/currency-setting-add/:baseCurrency/:baseCurrencyName/:setOfBooksId/:tenantId/:enableAutoUpdate': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting-add.js')
       ),
-      name: '新增汇率',
+      name: 'currency-setting-add',
       parent: '/admin-setting/currency-setting',
     },
+    //编辑汇率
     '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
-      name: '编辑汇率',
+      name: 'currency-setting-edit',
       parent: '/admin-setting/currency-setting'
+    },
+    //实体法人
+    '/enterprise-manage/legal-person' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/legal-person.js')
+      ),
+      name: 'legal-person',
+      parent:'/enterprise-manage'
+    },
+    //实体法人详情
+    '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/legal-person-detail.js')
+      ),
+      name: 'legal-person-detail',
+      parent:'/enterprise-manage/legal-person'
+    },
+    //编辑实体法人
+    '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/legal-person/new-legal-person.js')
+      ),
+      name: 'new-legal-person',
+      parent:'/enterprise-manage/legal-person'
     },
     //预算审核
     '/approval-management/budget-journal-check': {
@@ -1070,7 +1203,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/approve/budget-journal-check/budget-journal-check-detail.js')
       ),
-      name: '预算审核详情',
+      name: 'budget-journal-check-detail',
       parent: '/approval-management/budget-journal-check',
     },
     //会计期间定义
@@ -1078,7 +1211,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/finance-setting/account-period-define/account-period-define.js')
       ),
-      name: '会计期间定义',
+      name: 'account-period-define',
     },
     //企业管理-公司维护
     '/enterprise-manage/company-maintain': {
@@ -1111,6 +1244,86 @@ export const getRouterData = app => {
       ),
       name: 'new-bank-account',
       parent: '/enterprise-manage/company-maintain/company-maintain-detail',
+    },
+    '/admin-setting/company-level-define': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-level-define/company-level-define.js')
+      ),
+      name: 'company-level-define',
+    },
+    //设置-公告信息
+    '/admin-setting/announcement-information' :{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/announcement-information/announcement-information.js')
+      ),name: 'announcement-information',
+    },
+    //设置-新建公告信息
+    '/admin-setting/announcement-information/new-announcement-information' :{
+      component: dynamicWrapper(app, [], () =>import('containers/setting/announcement-information/announcement-information-detail.js')
+      ),
+      parent:'/setting/announcement-information',
+      name: 'new-announcement-information',
+    },
+    //设置-公告信息-详情
+    '/admin-setting/announcement-information/announcement-information-detail/:OID/:id' :{
+      component: dynamicWrapper(app, [], () =>import('containers/setting/announcement-information/announcement-information-detail.js')
+      ),
+      parent:'/setting/announcement-information',
+      name: 'announcement-information-detail',
+    },
+    //组织架构
+    '/enterprise-manage/org-structure': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/org-structure/org-structure.js')
+      ),
+      name: 'org-structure',
+      parent: '/enterprise-manage'
+    },
+    //部门角色
+    '/enterprise-manage/org-structure/org-roles-list': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/org-structure/org-component/org-roles-list.js')
+      ),
+      name: 'org-roles-list',
+      parent: '/enterprise-manage/org-structure'
+    },
+    '/admin-setting/person-group': {
+      //人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group.js')
+      ),
+      name: 'person-group',
+    },
+    '/admin-setting/person-group/new-person-group': {
+      //新建人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/edit-person-group/:id': {
+      //编辑人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/person-group-detail/:id': {
+      //人员组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group-detail.js')
+      ),
+      name: 'person-group-detail',
+      parent: '/admin-setting/person-group',
+    },
+    //安全设置
+    '/admin-setting/security-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/security-setting/security-setting.js')
+      ),
+      name: 'security-setting'
     },
     '/approval-management/approve-payment-requisition': {
       component: dynamicWrapper(app, [], () =>

@@ -6,8 +6,8 @@ import config from 'config';
 
 import { Form, Button, Select, Popover, Input, Switch, Icon, Popconfirm, Tabs, Table, message, } from 'antd';
 
-import ListSelector from 'widget/list-selector';
-import BasicInfo from 'widget/basic-info';
+import ListSelector from 'components/Widget/list-selector';
+import BasicInfo from 'components/Widget/basic-info';
 import 'styles/setting/company-group/company-group-detail.scss';
 
 import { routerRedux } from 'dva/router';

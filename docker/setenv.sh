@@ -50,6 +50,10 @@ server {
     location /budget/ {
         proxy_pass http://115.159.108.80:25297/budget/;
     }
+
+    location /location/ {
+        proxy_pass http://115.159.108.80:25297/location/;
+    }
 }
 
 EOF

@@ -312,6 +312,9 @@ class ExpenseAdjust extends React.Component {
   search = values => {
     values.dateTimeFrom && (values.dateTimeFrom = moment(values.dateTimeFrom).format('YYYY-MM-DD'));
     values.dateTimeTo && (values.dateTimeTo = moment(values.dateTimeTo).format('YYYY-MM-DD'));
+    if (values.employeeId && values.employeeId[0]){
+      values.employeeId = values.employeeId[0]
+    }
     this.setState({ ...this.state.searchParams, ...values }, () => {
       this.customTable.search({ ...this.state.searchParams, ...values });
     });

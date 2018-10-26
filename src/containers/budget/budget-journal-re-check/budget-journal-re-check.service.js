@@ -79,8 +79,8 @@ export default {
   },
 
   //根据attachmentOID，查询附件
-  getFileByAttachmentOID(params) {
-    return httpFetch.get(`${config.budgetUrl}/api/budget/journals/getAttachmentDTOByOid`, params)
+  getFileByAttachmentOID(attachmentOID) {
+    return httpFetch.get(`${config.baseUrl}/api/attachments/${attachmentOID}`)
   },
 
   //根据维度Id,获取维度

@@ -1,10 +1,10 @@
-import { messages } from 'share/common';
+
 /**
  * Created by zhouli on 18/2/3
  * Email li.zhou@huilianyi.com
  */
 import React from 'react';
-
+import PropTypes from 'prop-types'
 import { Icon } from 'antd';
 import 'styles/enterprise-manage/org-structure/org-component/org-search-list.scss';
 
@@ -17,6 +17,10 @@ class OrgSearchList extends React.Component {
   }
 
   componentWillMount() {
+    this.setState({ data: this.props.searchList });
+  }
+
+  componentDidMount(){
     this.setState({ data: this.props.searchList });
   }
 
@@ -47,7 +51,7 @@ class OrgSearchList extends React.Component {
           <div className="no-dep">
             <Icon type="frown" />
             {/*没有搜索到部门*/}
-            {messages('org.search.no-dep')}
+            {this.$t('org.search.no-dep')}
           </div>
         );
       } else {
@@ -55,7 +59,7 @@ class OrgSearchList extends React.Component {
           <div className="no-person">
             <Icon type="frown" />
             {/*正在搜索*/
-            messages('sdp.is-searching')}
+            this.$t('sdp.is-searching')}
           </div>
         );
       }
@@ -87,7 +91,7 @@ class OrgSearchList extends React.Component {
           <div className="no-person">
             <Icon type="frown" />
             {/*没有搜索到员工*/}
-            {messages('org.search.no-person')}
+            {this.$t('org.search.no-person')}
           </div>
         );
       } else {
@@ -95,7 +99,7 @@ class OrgSearchList extends React.Component {
           <div className="no-person">
             <Icon type="frown" />
             {/*正在搜索*/
-            messages('sdp.is-searching')}
+            this.$t('sdp.is-searching')}
           </div>
         );
       }
@@ -125,7 +129,7 @@ class OrgSearchList extends React.Component {
         <div className="list-person">
           <div className="list-person-title">
             {/*成员*/}
-            {messages('org.search.person')}
+            {this.$t('org.search.person')}
           </div>
           <div className="list-person-wrap">
             {this.renderSearchListPerson(this.state.data.personList)}
@@ -134,7 +138,7 @@ class OrgSearchList extends React.Component {
         <div className="list-dep">
           <div className="list-dep-title">
             {/*部门*/}
-            {messages('org.search.dep')}
+            {this.$t('org.search.dep')}
           </div>
           <div className="list-dep-wrap">{this.renderSearchListDep(this.state.data.depList)}</div>
         </div>
@@ -144,9 +148,9 @@ class OrgSearchList extends React.Component {
 }
 
 OrgSearchList.propTypes = {
-  isSearchOver: React.PropTypes.bool, //是否搜索完毕
-  searchList: React.PropTypes.object.isRequired,
-  selectItemHandle: React.PropTypes.func.isRequired, //当前被选择的人或部门
+  isSearchOver: PropTypes.bool, //是否搜索完毕
+  searchList: PropTypes.object.isRequired,
+  selectItemHandle: PropTypes.func.isRequired, //当前被选择的人或部门
 };
 OrgSearchList.defaultProps = {
   isSearchOver: false,

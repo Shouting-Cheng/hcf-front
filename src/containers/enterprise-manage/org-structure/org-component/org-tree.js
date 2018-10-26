@@ -1,4 +1,4 @@
-import { messages } from 'share/common';
+
 /**
  * Created by zhouli on 18/1/30
  * Email li.zhou@huilianyi.com
@@ -7,7 +7,7 @@ import { messages } from 'share/common';
 import React from 'react';
 
 import { Tree, Icon, Menu, Dropdown, Input } from 'antd';
-
+import PropTypes from 'prop-types'
 const Search = Input.Search;
 const TreeNode = Tree.TreeNode;
 import 'styles/enterprise-manage/org-structure/org-component/org-tree.scss';
@@ -45,7 +45,7 @@ class OrgStructureTree extends React.Component {
               }}
             >
               {/*创建子部门*/}
-              {messages('org.tree.create-child-dep')}
+              {this.$t('org.tree.create-child-dep')}
             </div>
           </Menu.Item>
           <Menu.Item key="4">
@@ -55,7 +55,7 @@ class OrgStructureTree extends React.Component {
               }}
             >
               {/*创建平级部门*/}
-              {messages('org.tree.create-dep')}
+              {this.$t('org.tree.create-dep')}
             </div>
           </Menu.Item>
           <Menu.Divider />
@@ -64,7 +64,7 @@ class OrgStructureTree extends React.Component {
           {/*this.props.clickMeunDeleteDep(item.originData)*/}
           {/*}}>*/}
           {/*/!*删除部门*!/*/}
-          {/*{messages('org.tree.delete-dep')}*/}
+          {/*{this.$t('org.tree.delete-dep')}*/}
           {/*</div>*/}
           {/*</Menu.Item>*/}
           <Menu.Item key="5">
@@ -74,7 +74,7 @@ class OrgStructureTree extends React.Component {
               }}
             >
               {/*停用部门*/}
-              {messages('org.tree.disabled')}
+              {this.$t('org.tree.disabled')}
             </div>
           </Menu.Item>
         </Menu>
@@ -89,7 +89,7 @@ class OrgStructureTree extends React.Component {
               }}
             >
               {/*启用部门*/}
-              {messages('org.tree.enabled')}
+              {this.$t('org.tree.enabled')}
             </span>
           </Menu.Item>
         </Menu>
@@ -121,7 +121,7 @@ class OrgStructureTree extends React.Component {
         <span className="org-dep-node-title">
           {item.title} &nbsp;
           {/*已停用*/}
-          {messages('org.tree.has-disabled')}
+          {this.$t('org.tree.has-disabled')}
         </span>
       );
     }
@@ -204,7 +204,7 @@ class OrgStructureTree extends React.Component {
           {/*//只搜部门*/}
           <Search
             style={{ marginBottom: 8 }}
-            placeholder={messages('org.tree.search-dep')}
+            placeholder={this.$t('org.tree.search-dep')}
             onChange={this.props.onlySearchDep}
           />
         </div>
@@ -224,21 +224,21 @@ class OrgStructureTree extends React.Component {
 }
 
 OrgStructureTree.propTypes = {
-  ROLE_TENANT_ADMIN: React.PropTypes.bool,
-  CREATE_DATA_TYPE: React.PropTypes.bool,
-  onlySearchDep: React.PropTypes.func, //只是前端部门树搜索
-  disabledDep: React.PropTypes.func, //点击禁用的回调
-  enabledDep: React.PropTypes.func, //点击启用的回调
-  treeData: React.PropTypes.array.isRequired, //组织架构数据
-  selectedKeys: React.PropTypes.array.isRequired, //被选择了的部门
-  expandedKeys: React.PropTypes.array.isRequired, //被展开了的部门
-  autoExpandParent: React.PropTypes.bool.isRequired,
-  onSelect: React.PropTypes.func.isRequired, // 点击选择某一个部门
-  onExpand: React.PropTypes.func.isRequired, // 点击展开某一个部门
-  treeNodeSettingClick: React.PropTypes.func.isRequired, // 点击设置
-  clickMeunDeleteDep: React.PropTypes.func.isRequired, // 删除部门
-  clickMeunNewDep: React.PropTypes.func.isRequired, // 新增平级部门
-  clickMeunNewChildDep: React.PropTypes.func.isRequired, // 新增子部门
+  ROLE_TENANT_ADMIN: PropTypes.bool,
+  CREATE_DATA_TYPE: PropTypes.bool,
+  onlySearchDep: PropTypes.func, //只是前端部门树搜索
+  disabledDep: PropTypes.func, //点击禁用的回调
+  enabledDep: PropTypes.func, //点击启用的回调
+  treeData: PropTypes.array.isRequired, //组织架构数据
+  selectedKeys: PropTypes.array.isRequired, //被选择了的部门
+  expandedKeys: PropTypes.array.isRequired, //被展开了的部门
+  autoExpandParent: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired, // 点击选择某一个部门
+  onExpand: PropTypes.func.isRequired, // 点击展开某一个部门
+  treeNodeSettingClick: PropTypes.func.isRequired, // 点击设置
+  clickMeunDeleteDep: PropTypes.func.isRequired, // 删除部门
+  clickMeunNewDep: PropTypes.func.isRequired, // 新增平级部门
+  clickMeunNewChildDep: PropTypes.func.isRequired, // 新增子部门
 };
 
 export default OrgStructureTree;

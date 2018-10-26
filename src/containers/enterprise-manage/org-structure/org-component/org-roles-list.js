@@ -1,4 +1,3 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/02/03
  * Email li.zhou@huilianyi.com
@@ -8,11 +7,12 @@ import React from 'react';
 
 import 'styles/enterprise-manage/org-structure/org-component/org-roles-list.scss';
 import { Button, Table, Badge, Switch, Modal, Icon, Input, Form } from 'antd';
-import menuRoute from 'routes/menuRoute';
+import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 const FormItem = Form.Item;
 //需要在这个里面去配置弹窗类型
 import OrgService from 'containers/enterprise-manage/org-structure/org-structure.service';
-import { LanguageInput } from 'components/index';
+import { LanguageInput } from 'components/Widget/index';
 
 class OrgStructureRolesList extends React.Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class OrgStructureRolesList extends React.Component {
         page: 0,
         total: 0,
         pageSize: 10,
+
         showSizeChanger: true,
         showQuickJumper: true,
       },
@@ -35,7 +36,7 @@ class OrgStructureRolesList extends React.Component {
       columns: [
         {
           /*角色名称*/
-          title: messages('org.role.no-person'),
+          title: this.$t('org.role.no-person'),
           key: 'positionName',
           dataIndex: 'positionName',
           width: '10%',
@@ -43,33 +44,33 @@ class OrgStructureRolesList extends React.Component {
         {
           /*角色代码*/
           width: '10%',
-          title: messages('org.role.no-dep'),
+          title: this.$t('org.role.no-dep'),
           key: 'positionCode',
           dataIndex: 'positionCode',
         },
         {
           /*状态*/
-          title: messages('common.column.status'),
+          title: this.$t('common.column.status'),
           key: 'status',
           width: '10%',
           dataIndex: 'enabled',
           render: enabled => (
             <Badge
               status={enabled ? 'success' : 'error'}
-              text={enabled ? messages('common.status.enable') : messages('common.status.disable')}
+              text={enabled ? this.$t('common.status.enable') : this.$t('common.status.disable')}
             />
           ),
         },
         {
           /*操作*/
-          title: messages('common.operation'),
+          title: this.$t('common.operation'),
           key: 'operation',
           dataIndex: 'operation',
           width: '20%',
           render: (text, record) => (
             <span>
-              <a href="#" onClick={e => this.editRole(e, record)}>
-                {messages('common.edit')}
+              <a onClick={e => this.editRole(e, record)}>
+                {this.$t('common.edit')}
               </a>
             </span>
           ),
@@ -206,7 +207,12 @@ class OrgStructureRolesList extends React.Component {
     };
   };
   handleBack = () => {
-    this.context.router.push(menuRoute.getRouteItem('org-structure').url);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/enterprise-manage/org-structure`,
+      })
+    );
+    // this.context.router.push(menuRoute.getRouteItem('org-structure').url);
   };
 
   render() {
@@ -221,7 +227,7 @@ class OrgStructureRolesList extends React.Component {
         <div className="table-header">
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.showAddRoleModel}>
-              {messages('common.create')}
+              {this.$t('common.create')}
             </Button>
           </div>
         </div>
@@ -231,7 +237,7 @@ class OrgStructureRolesList extends React.Component {
           closable
           width={600}
           className="create-update-modal"
-          title={messages('org.role.create-or-update-role')} //创建或者更新部门角色
+          title={this.$t('org.role.create-or-update-role')} //创建或者更新部门角色
           visible={this.state.showCreatModel}
           footer={null}
           onCancel={this.cancelRole}
@@ -240,29 +246,29 @@ class OrgStructureRolesList extends React.Component {
           <Form onSubmit={this.addRole} onChange={this.handleFormChange}>
             {/*角色代码*/}
             {
-              <FormItem {...formItemLayout} label={messages('org.role.no-dep')}>
+              <FormItem {...formItemLayout} label={this.$t('org.role.no-dep')}>
                 {getFieldDecorator('positionCode', {
                   initialValue: role.positionCode,
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                     {
                       min: 4,
-                      message: messages('org.role.min4'), //"必须大于4位"
+                      message: this.$t('org.role.min4'), //"必须大于4位"
                     },
                     {
                       max: 9,
-                      message: messages('org.role.max9'), //"不能超过9位"
+                      message: this.$t('org.role.max9'), //"不能超过9位"
                     },
                     {
                       type: 'number',
                       transform: value => parseInt(value),
-                      message: messages('org.role.type-number'), //"必须是数字"
+                      message: this.$t('org.role.type-number'), //"必须是数字"
                     },
                     {
-                      message: messages('org.role.e61'), //'角色代码第一位不能是0、1或者6'
+                      message: this.$t('org.role.e61'), //'角色代码第一位不能是0、1或者6'
                       validator: (rule, value, cb) => {
                         //如果不是新增不用校验代码
                         if (role.id) {
@@ -282,14 +288,14 @@ class OrgStructureRolesList extends React.Component {
                 })(
                   <Input
                     disabled={typeof role.id === 'undefined' ? false : true}
-                    placeholder={messages('org.role.e61')}
+                    placeholder={this.$t('org.role.e61')}
                   />
                 )}
               </FormItem>
             }
 
             {/*角色名称*/}
-            <FormItem {...formItemLayout} label={messages('org.role.no-person')}>
+            <FormItem {...formItemLayout} label={this.$t('org.role.no-person')}>
               <LanguageInput
                 name={role.positionName}
                 i18nName={role.i18n ? role.i18n.positionName : null}
@@ -299,7 +305,7 @@ class OrgStructureRolesList extends React.Component {
             </FormItem>
 
             {/*状态*/}
-            <FormItem {...formItemLayout} label={messages('common.column.status')} colon={true}>
+            <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
               {getFieldDecorator('enabled', {
                 valuePropName: 'checked',
                 initialValue: role.enabled,
@@ -318,15 +324,15 @@ class OrgStructureRolesList extends React.Component {
                       width: 100,
                     }}
                   >
-                    {role.enabled ? messages('common.status.enable') : messages('common.disabled')}
+                    {role.enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                   </span>
                 </div>
               )}
             </FormItem>
             <div className="role-list-from-footer">
-              <Button onClick={this.cancelRole}>{messages('common.cancel')}</Button>
+              <Button onClick={this.cancelRole}>{this.$t('common.cancel')}</Button>
               <Button type="primary" htmlType="submit" loading={loading}>
-                {messages('common.save')}
+                {this.$t('common.save')}
               </Button>
             </div>
           </Form>
@@ -344,16 +350,19 @@ class OrgStructureRolesList extends React.Component {
         <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />
           {/*返回*/}
-          {messages('common.back')}
+          {this.$t('common.back')}
         </a>
       </div>
     );
   }
 }
 
-OrgStructureRolesList.contextTypes = {
-  router: React.PropTypes.object,
-};
+
 OrgStructureRolesList.propTypes = {};
 const WrappedOrgStructureRolesList = Form.create()(OrgStructureRolesList);
-export default WrappedOrgStructureRolesList;
+export default connect(
+  null,
+  null,
+  null,
+  { withRef: true }
+)(WrappedOrgStructureRolesList);

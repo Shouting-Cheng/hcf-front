@@ -275,7 +275,7 @@ class CurrencySettingEdit extends React.Component {
         Modal.confirm({
             content: this.$t("currency.setting.add.edit.confirm")/*是否确认修改*/,
             onOk: () => {
-                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?language=${this.props.language.local}&tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.location.state.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
+                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?language=${this.props.language.local}&tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.match.params.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
                     if (res.data) {
                         record.enableAutoUpdate = e.target.checked;
                         this.setState({
@@ -424,9 +424,11 @@ class CurrencySettingEdit extends React.Component {
     };
     //返回
     back = () => {
+        let{setOfBooksId,functionalCurrencyCode,functionalCurrencyName}=this.props.match.params;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/currency-setting`,
+                pathname: `/admin-setting/currency-setting`
+                // pathname: `/admin-setting/currency-setting?setOfBooksId=${setOfBooksId}&functionalCurrencyCode=${functionalCurrencyCode}&functionalCurrencyName=${functionalCurrencyName}`,
 
             })
         )

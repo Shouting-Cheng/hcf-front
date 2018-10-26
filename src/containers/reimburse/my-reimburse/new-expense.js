@@ -744,7 +744,7 @@ class NewExpense extends React.Component {
                     {getFieldDecorator('costType', {
                       initialValue: expenseType.id ? [{ id: expenseType.id, name: expenseType.name }] : [],
                       rules: [{ required: true, message: "请选择" }],
-                      validateTrigger: "onBlur"
+                      // validateTrigger: "onBlur"
                     })(
                       <Chooser
                         onChange={(value) => this.handleSelectExpenseType(value)}
