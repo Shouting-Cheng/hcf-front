@@ -613,7 +613,10 @@ export default class Login extends React.Component {
       data: formData,
     }).then(res => {
       window.localStorage.setItem('token', res.data.access_token);
-
+      this.props.dispatch({
+        type: 'user/setToken',
+        token: res.data.access_token
+      });
       Promise.all([this.getMenuList(), this.getUser()]).then(() => {
         this.redirect();
       });
@@ -713,6 +716,7 @@ export default class Login extends React.Component {
       await this.getLanguage(result);
       await this.getLanguageType();
       await this.getLanguageList();
+      await this.getProfile();
 
       resolve();
     });
@@ -739,7 +743,20 @@ export default class Login extends React.Component {
 
     });
   };
-
+  getProfile=()=>{
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.get(`/api/function/profiles?roleType=TENANT`).then(result => {
+        dispatch({
+          type: 'user/saveProfile',
+          payload: result,
+        });
+        resolve();
+      }).catch(e => {
+        resolve();
+      })
+    });
+  }
   getOrganizationBySetOfBooksId = (id) => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {

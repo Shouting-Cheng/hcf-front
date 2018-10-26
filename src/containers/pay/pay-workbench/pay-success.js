@@ -22,7 +22,7 @@ class PaySuccess extends React.Component {
         {
           type: 'list',colSpan: 6,  isRequired:true,selectorItem:{
           title: messages('pay.select.pay.company'), //选择付款公司
-          url: `${config.baseUrl}/api/companyBankAuth/get/own/info/${this.props.user.userOID}`,
+          url: `${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${this.props.user.userOID}`,
           searchForm: [
             { type: 'input', id: 'companyCode', label: messages('chooser.data.companyCode'/*公司代码*/) },
             { type: 'input', id: 'companyName', label: messages('chooser.data.companyName'/*公司名称*/) }
@@ -205,7 +205,7 @@ class PaySuccess extends React.Component {
                   partnerId = undefined;
                 } else if (value === 'VENDER') { //供应商
                   item.type = 'select';
-                  item.labelKey = 'venNickname';
+                  item.labelKey = 'name';
                   partnerId = undefined;
                   this.formRef.setValues({ partnerId: '' })
                 }

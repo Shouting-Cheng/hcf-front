@@ -2,12 +2,9 @@
  *  created by jsq on 2017/9/27
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Form, Select,Input, Col, Row, Switch, message, Icon, DatePicker, InputNumber  } from 'antd';
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
-import config from 'config'
-import menuRoute from 'routes/menuRoute'
 import debounce from 'lodash.debounce';
 
 import "styles/budget-setting/budget-organization/budget-control-rules/new-budget-control-rules.scss"
@@ -87,13 +84,13 @@ class NewBudgetControlRules extends React.Component{
         values.strategyGroupId = values.controlStrategy.key;
         budgetService.addRule(values).then((response)=>{
           if(response.status === 200) {
-            message.success(formatMessage({id:"structure.saveSuccess"})); /*保存成功！*/
+            message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
             this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.
             budgetControlRulesDetail.url.replace(':id', this.props.params.id).replace(':ruleId', response.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
           }
         }).catch((e)=>{
           if(e.response){
-            message.error(`${formatMessage({id:"common.save.filed"})}, ${e.response.data.message}`);
+            message.error(`${this.$t({id:"common.save.filed"})}, ${e.response.data.message}`);
           }
           this.setState({loading: false});
         })
@@ -116,7 +113,7 @@ class NewBudgetControlRules extends React.Component{
           }
         })
       }
-      flag >0 ? callback(formatMessage({id:"budget.rule.code.exist"})) : callback();
+      flag >0 ? callback(this.$t({id:"budget.rule.code.exist"})) : callback();
     });
   };
 
@@ -143,46 +140,46 @@ class NewBudgetControlRules extends React.Component{
             <Row gutter={60}>
               <Col span={8}>
                 <FormItem
-                  label={ formatMessage({id:"budget.controlRuleCode"}) /*业务规则代码*/}
+                  label={ this.$t({id:"budget.controlRuleCode"}) /*业务规则代码*/}
                   colon={true}>
                   {getFieldDecorator('controlRuleCode', {
                     rules:[
-                      {required:true,message: formatMessage({id:"common.please.enter"})},
+                      {required:true,message: this.$t({id:"common.please.enter"})},
                       {
                         validator:(item,value,callback)=>this.validateRuleCode(item,value,callback)
                       }
                     ]
                   })(
-                    <Input placeholder={ formatMessage({id:"common.please.enter"})}/>)
+                    <Input placeholder={ this.$t({id:"common.please.enter"})}/>)
                   }
                 </FormItem>
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={ formatMessage({id:"budget.controlRuleName"}) /*控制规则名称*/}
+                  label={ this.$t({id:"budget.controlRuleName"}) /*控制规则名称*/}
                   colon={true}>
                   {getFieldDecorator('controlRuleName', {
                     rules:[
-                      {required:true,message: formatMessage({id:"common.please.enter"})},
+                      {required:true,message: this.$t({id:"common.please.enter"})},
                     ]
                   })(
-                    <Input placeholder={ formatMessage({id:"common.please.enter"})}/>)
+                    <Input placeholder={ this.$t({id:"common.please.enter"})}/>)
                   }
                 </FormItem>
               </Col>
               <Col span={8}>
                 <FormItem
-                  label= {formatMessage({id:"budget.strategy"})}
+                  label= {this.$t({id:"budget.strategy"})}
                   colon={true}>
                   {getFieldDecorator('controlStrategy', {
                     rules:[
-                      {required:true,message: formatMessage({id:"common.please.enter"})},
+                      {required:true,message: this.$t({id:"common.please.enter"})},
                     ]
                   })(
                     <Select
                       labelInValue
                       onBlur={this.handleSelect}
-                      placeholder={ formatMessage({id:"common.please.select"})}>
+                      placeholder={ this.$t({id:"common.please.select"})}>
                       {strategyGroup.map((item)=><Option key={item.id} value={item.id}  title={item.title}>{item.value}</Option>)}
                     </Select>)
                   }
@@ -193,11 +190,11 @@ class NewBudgetControlRules extends React.Component{
               <Col span={8}>
                 <Col span={11}>
                   <FormItem
-                    label={formatMessage({id:"budget.controlRule.effectiveDateFrom"}) /*有效日期*/}
+                    label={this.$t({id:"budget.controlRule.effectiveDateFrom"}) /*有效日期*/}
                     colon={true}>
                     {getFieldDecorator('startDate', {
                       rules:[
-                        {required:true,message:formatMessage({id:"common.please.enter"})},
+                        {required:true,message:this.$t({id:"common.please.enter"})},
                         {
                           validator:(item,value,callback)=>{
                             if(value === "undefined" || value === ""){
@@ -210,7 +207,7 @@ class NewBudgetControlRules extends React.Component{
                       ]
                     })(
                       <DatePicker
-                        placeholder={formatMessage({id:"budget.controlRule.startDate"})}
+                        placeholder={this.$t({id:"budget.controlRule.startDate"})}
                         setFieldsValue={startValue}
                         onChange={this.HandleStartChange}
                         disabledDate={this.handleDisabledStartDate}/>)
@@ -219,7 +216,7 @@ class NewBudgetControlRules extends React.Component{
                 </Col>
                 <Col span={11} offset={2}>
                   <FormItem
-                    label={formatMessage({id:"budget.controlRule.effectiveDateTo"}) /*有效日期*/}
+                    label={this.$t({id:"budget.controlRule.effectiveDateTo"}) /*有效日期*/}
                     colon={false}>
                     {getFieldDecorator('endDate', {
                       rules:[
@@ -235,7 +232,7 @@ class NewBudgetControlRules extends React.Component{
                       ]
                     })(
                       <DatePicker
-                        placeholder={formatMessage({id:"budget.controlRule.endDate"})}
+                        placeholder={this.$t({id:"budget.controlRule.endDate"})}
                         setFieldsValue={endValue}
                         onChange={this.HandleEndChange}
                         disabledDate={this.handleDisabledEndDate}/>)
@@ -245,11 +242,11 @@ class NewBudgetControlRules extends React.Component{
               </Col>
               <Col span={6}>
                 <FormItem
-                  label={formatMessage({id:"budget.controlRules.priority"}) /*优先级*/}
+                  label={this.$t({id:"budget.controlRules.priority"}) /*优先级*/}
                   colon={true}>
                   {getFieldDecorator('priority', {
                     rules:[
-                      {required:true,message:formatMessage({id:"common.please.enter"})},
+                      {required:true,message:this.$t({id:"common.please.enter"})},
                       {
                         validator:(item,value,callback)=>{
                           if(value === "undefined" || value === ""){
@@ -261,13 +258,13 @@ class NewBudgetControlRules extends React.Component{
                       }
                     ]
                   })(
-                    <InputNumber  placeholder={formatMessage({id:"common.please.enter"})}/>)
+                    <InputNumber  placeholder={this.$t({id:"common.please.enter"})}/>)
                   }
                 </FormItem>
               </Col>
             </Row>
-            <Button type="primary" htmlType="submit">{formatMessage({id:"common.save"}) /*保存*/}</Button>
-            <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}> {formatMessage({id:"common.cancel"}) /*取消*/}</Button>
+            <Button type="primary" htmlType="submit">{this.$t({id:"common.save"}) /*保存*/}</Button>
+            <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}> {this.$t({id:"common.cancel"}) /*取消*/}</Button>
           </Form>
         </div>
       </div>
@@ -275,13 +272,10 @@ class NewBudgetControlRules extends React.Component{
   }
 }
 
-NewBudgetControlRules.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

@@ -4,8 +4,8 @@ import { connect } from 'dva'
 import config from 'config'
 
 import { Form, Button, Select, Checkbox, Input, Switch, Icon, Alert, Tabs, Table, message, Popconfirm } from 'antd'
-import ListSelector from 'widget/list-selector'
-import BasicInfo from 'widget/basic-info'
+import ListSelector from 'components/Widget/list-selector'
+import BasicInfo from 'components/Widget/basic-info'
 import 'styles/setting/department-group/department-group-detail.scss';
 import deptGroupService from 'containers/setting/department-group/department-group.service'
 

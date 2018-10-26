@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva';
 import { injectIntl } from 'react-intl'
 import config from 'config'
 import httpFetch from 'share/httpFetch'
@@ -7,7 +7,7 @@ import { Form, Input, Button, Select, Spin, Row, Col, InputNumber, message } fro
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-import ImageUpload from 'components/image-upload'
+import ImageUpload from 'components/Widget/image-upload'
 import 'styles/request/new-repayment-frame.scss'
 
 class NewPaymentFrame extends React.Component{

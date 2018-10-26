@@ -357,6 +357,7 @@ class BasicLayout extends React.Component {
       await this.getLanguage(result);
       await this.getLanguageType();
       await this.getLanguageList();
+      await this.getProfile();
       resolve();
     });
   };
@@ -382,7 +383,20 @@ class BasicLayout extends React.Component {
       }
     });
   };
-
+  getProfile=()=>{
+    const { dispatch } = this.props;
+    return new Promise(async (resolve, reject) => {
+      fetch.get(`/api/function/profiles?roleType=TENANT`).then(result => {
+        dispatch({
+          type: 'user/saveProfile',
+          payload: result,
+        });
+        resolve();
+      }).catch(e => {
+        resolve();
+      })
+    });
+  }
 
   getOrganizationBySetOfBooksId = (id) => {
     const { dispatch } = this.props;

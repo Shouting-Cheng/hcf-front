@@ -2,16 +2,15 @@
  *  created by jsq on 2017/9/21
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table, Select, Popover, Badge, message } from 'antd';
-import SearchArea from 'components/search-area';
+import SearchArea from 'widget/search-area';
 import "styles/budget-setting/budget-organization/budget-item/budget-item.scss"
 import config from 'config'
-import menuRoute from 'routes/menuRoute'
-import ListSelector from 'components/list-selector'
-import Importer from 'components/template/importer'
+import ListSelector from 'widget/list-selector'
+import Importer from 'widget/Template/importer'
 import budgetService from 'containers/budget-setting/budget-organization/budget-item/budget-item.service'
+import { routerRedux } from 'dva/router';
 
 const itemCode = [];
 class BudgetItem extends React.Component {
@@ -39,44 +38,44 @@ class BudgetItem extends React.Component {
         showQuickJumper:true,
       },
       searchForm: [
-        {type: 'input', id: 'itemCode', label: formatMessage({id: 'budget.itemCode'}) }, /*预算项目代码*/
-        {type: 'input', id: 'itemName', label: formatMessage({id:"budget.itemName"}) },
+        {type: 'input', id: 'itemCode', label: this.$t({id: 'budget.itemCode'}) }, /*预算项目代码*/
+        {type: 'input', id: 'itemName', label: this.$t({id:"budget.itemName"}) },
         {type: 'select', id: 'itemTypeName',options:[], labelKey: 'itemTypeName',valueKey: 'id',
-          label: formatMessage({id: 'budget.itemType'}),  /*预算项目类型*/
+          label: this.$t({id: 'budget.itemType'}),  /*预算项目类型*/
           listExtraParams:{organizationId: this.props.id},
           getUrl: `${config.budgetUrl}/api/budget/itemType/query/all`, method: 'get', getParams: {organizationId: this.props.id}
         },
         {type: 'select', id: 'itemCodeFrom',
-          label: formatMessage({id: 'budget.itemCodeFrom'}),  /*预算项目代码从*/
+          label: this.$t({id: 'budget.itemCodeFrom'}),  /*预算项目代码从*/
           options: itemCode
         },
         {type: 'select', id: 'itemCodeTo',
-          label: formatMessage({id: 'budget.itemCodeTo'}), /*预算项目代码至*/
+          label: this.$t({id: 'budget.itemCodeTo'}), /*预算项目代码至*/
           options: itemCode
         },
       ],
 
       columns: [
         {          /*预算项目代码*/
-          title: formatMessage({id:"budget.itemCode"}), key: "itemCode", dataIndex: 'itemCode'
+          title: this.$t({id:"budget.itemCode"}), key: "itemCode", dataIndex: 'itemCode'
         },
         {          /*预算项目名称*/
-          title: formatMessage({id:"budget.itemName"}), key: "itemName", dataIndex: 'itemName',
+          title: this.$t({id:"budget.itemName"}), key: "itemName", dataIndex: 'itemName',
           render: desc => <span>{desc ? <Popover placement="topLeft" content={desc}>{desc}</Popover> : '-'}</span>
         },
         {          /*预算项目类型*/
-          title: formatMessage({id:"budget.itemType"}), key: "itemTypeName", dataIndex: 'itemTypeName'
+          title: this.$t({id:"budget.itemType"}), key: "itemTypeName", dataIndex: 'itemTypeName'
         },
         {          /*备注*/
-          title: formatMessage({id:"budget.itemDescription"}), key: "description", dataIndex: 'description', width: "10%",
+          title: this.$t({id:"budget.itemDescription"}), key: "description", dataIndex: 'description', width: "10%",
           render: description => (
             <span>{description ? <Popover content={description}>{description} </Popover> : '-'} </span>)
         },
         {           /*状态*/
-          title: formatMessage({id:"common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
+          title: this.$t({id:"common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                   text={enabled ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})} />
+                   text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})} />
           )
         }
       ],
@@ -211,7 +210,13 @@ class BudgetItem extends React.Component {
 
   //新建
   handleCreate = () =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetItem.url.replace(':id', this.props.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
 
@@ -232,7 +237,7 @@ class BudgetItem extends React.Component {
       let param = [];
       param.push({"companyIds": companyIds, "resourceIds": this.state.selectedEntityOIDs});
       budgetService.batchAddCompanyToItem(param).then((response)=>{
-        message.success(`${formatMessage({id:"common.operate.success"})}`);
+        message.success(`${this.$t({id:"common.operate.success"})}`);
         if(response.status === 200){
           this.setState({
             loading: true,
@@ -242,7 +247,7 @@ class BudgetItem extends React.Component {
         }
       }).catch((e)=>{
         if(e.response){
-          message.error(`${formatMessage({id:"common.operate.filed"})},${e.response.data.message}`)
+          message.error(`${this.$t({id:"common.operate.filed"})},${e.response.data.message}`)
         }
       });
     }else
@@ -250,9 +255,15 @@ class BudgetItem extends React.Component {
   };
 
   //点击行，进入该行详情页面
-  handleRowClick = (record, index, event) =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.
-    budgetItemDetail.url.replace(':id', this.props.id).replace(':itemId', record.id).replace(":setOfBooksId",this.props.setOfBooksId));
+  handleRowClick = (record) =>{
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.id)
+          .replace(':id', record.id)
+          .replace(":setOfBooksId",this.props.setOfBooksId)
+      })
+    );
   };
 
   showImport = (flag) => {
@@ -277,19 +288,19 @@ class BudgetItem extends React.Component {
       <div className="budget-item">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  {/*新 建*/}
-            <Button type="primary" onClick={() => this.showImport(true)}>{formatMessage({id: 'importer.import'})}</Button>  {/*导入*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button>  {/*新 建*/}
+            <Button type="primary" onClick={() => this.showImport(true)}>{this.$t({id: 'importer.import'})}</Button>  {/*导入*/}
             <Importer visible={showImportFrame}
-                      title={formatMessage({id:"item.itemUpload"})}
+                      title={this.$t({id:"item.itemUpload"})}
                       templateUrl={`${config.budgetUrl}/api/budget/items/export/template`}
                       uploadUrl={`${config.budgetUrl}/api/budget/items/import?orgId=${this.props.id}`}
                       errorUrl={`${config.budgetUrl}/api/budget/items/export/failed/data`}
-                      fileName={formatMessage({id:"item.itemUploadFile"})}
+                      fileName={this.$t({id:"item.itemUploadFile"})}
                       onOk={this.handleImportOk}
                       afterClose={() => this.showImport(false)}/>
-            <Button onClick={()=>this.showListSelector(true)} disabled={batchCompany}>{formatMessage({id:"budget.item.batchCompany"})}</Button>
+            <Button onClick={()=>this.showListSelector(true)} disabled={batchCompany}>{this.$t({id:"budget.item.batchCompany"})}</Button>
           </div>
         </div>
         <Table
@@ -314,14 +325,11 @@ class BudgetItem extends React.Component {
   }
 
 }
-BudgetItem.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization,
-    company: state.login.company,
+    organization: state.user.organization,
+    company: state.user.company,
   }
 }
 

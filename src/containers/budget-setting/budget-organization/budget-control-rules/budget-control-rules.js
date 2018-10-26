@@ -2,13 +2,11 @@
  * created by jsq on 2017/9/26
  */
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage, messages} from 'share/common'
+import { connect } from 'dva'
 import { Button, Table} from 'antd'
-import SearchArea from 'components/search-area';
+import SearchArea from 'widget/search-area';
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
 import config from 'config'
-import menuRoute from 'routes/menuRoute'
 
 class BudgetControlRules extends React.Component {
   constructor(props) {
@@ -31,34 +29,34 @@ class BudgetControlRules extends React.Component {
       },
       searchForm: [
         /*控制规则从*/
-        { type: 'select', id: 'controlRuleCodeFrom', label:formatMessage({id: 'budget.controlRulesFrom'}), options:[],labelKey: 'controlRuleName',valueKey: 'controlRuleCode',
+        { type: 'select', id: 'controlRuleCodeFrom', label:this.$t({id: 'budget.controlRulesFrom'}), options:[],labelKey: 'controlRuleName',valueKey: 'controlRuleCode',
           getUrl:`${config.budgetUrl}/api/budget/control/rules/query/all`, method: 'get', getParams: {organizationId: this.props.id},
         },
         /*控制规则到*/
-        { type: 'select', id: 'controlRuleCodeTo', label: formatMessage({id: 'budget.controlRulesTo'}), options: [],labelKey: 'controlRuleName',valueKey: 'controlRuleCode',
+        { type: 'select', id: 'controlRuleCodeTo', label: this.$t({id: 'budget.controlRulesTo'}), options: [],labelKey: 'controlRuleName',valueKey: 'controlRuleCode',
           getUrl:`${config.budgetUrl}/api/budget/control/rules/query/all`, method: 'get', getParams: {organizationId: this.props.id},
         },
         /*优先级*/
-        { type: 'select', id: 'priority', label: formatMessage({id: 'budget.controlRules.priority'}), options: [],labelKey: 'priority',valueKey: 'priority',
+        { type: 'select', id: 'priority', label: this.$t({id: 'budget.controlRules.priority'}), options: [],labelKey: 'priority',valueKey: 'priority',
           getUrl:`${config.budgetUrl}/api/budget/control/rules/query/all`, method: 'get', getParams: {organizationId: this.props.id},
         }
       ],
       columns: [
         {          /*优先级*/
-          title: formatMessage({id:"budget.controlRules.priority"}), key: "priority", dataIndex: 'priority'
+          title: this.$t({id:"budget.controlRules.priority"}), key: "priority", dataIndex: 'priority'
         },
         {          /*控制规则代码*/
-          title: formatMessage({id:"budget.controlRuleCode"}), key: "controlRuleCode", dataIndex: 'controlRuleCode'
+          title: this.$t({id:"budget.controlRuleCode"}), key: "controlRuleCode", dataIndex: 'controlRuleCode'
         },
         {          /*控制规则名称*/
-          title: formatMessage({id:"budget.controlRuleName"}), key: "controlRuleName", dataIndex: 'controlRuleName'
+          title: this.$t({id:"budget.controlRuleName"}), key: "controlRuleName", dataIndex: 'controlRuleName'
         },
         {          /*控制策略*/
-          title: messages('budget.strategy.control.strategy')/*控制策略*/, key: "strategyGroupName", dataIndex: 'strategyGroupName'
+          title: this.$t('budget.strategy.control.strategy')/*控制策略*/, key: "strategyGroupName", dataIndex: 'strategyGroupName'
         },
         {
           /*有效日期*/
-          title: formatMessage({id: "budget.controlRule.effectiveDate"}),
+          title: this.$t({id: "budget.controlRule.effectiveDate"}),
           key: "effectiveDate",
           dataIndex: 'effectiveDate',
           render: (recode, record) => {
@@ -153,9 +151,9 @@ class BudgetControlRules extends React.Component {
       <div className="budget-control-rule">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
-          <div className="table-header-title">{formatMessage({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
+          <div className="table-header-title">{this.$t({id:'common.total'},{total:`${pagination.total}`})}</div>  {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{formatMessage({id: 'common.create'})}</Button>  {/*新 建*/}
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button>  {/*新 建*/}
           </div>
         </div>
         <Table
@@ -173,9 +171,6 @@ class BudgetControlRules extends React.Component {
     )
   }
 }
-BudgetControlRules.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

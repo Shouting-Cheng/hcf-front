@@ -158,11 +158,13 @@ class PaymentCompanySetting extends React.Component {
     params.size=this.state.pageSize;
     params.page=this.state.page;
     paymentCompanySettingService.getPaymentCompanySetting(params).then((response) => {
-      response.data.map((item) => {
-        item.key = item.id;
-      });
+      if (response.data !== "" && response.data !== null) {
+        response.data.map((item) => {
+          item.key = item.id;
+        });
+      }
       this.setState({
-        data: response.data,
+        data: response.data !== "" && response.data !== null ? response.data : [],
         loading: false,
         pagination: {
           total: Number(response.headers['x-total-count']) ? Number(response.headers['x-total-count']) : 0,

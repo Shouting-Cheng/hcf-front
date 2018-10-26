@@ -568,20 +568,9 @@ class ToRechecked extends React.Component {
                     <ApproveHistory loading={this.state.historyLoading} infoData={this.state.approveHistory}></ApproveHistory>
                   </div>
 
-                  <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve"
-                         style={{
-                           position: 'fixed', bottom: 0, marginLeft: '-10px', width: '100%', height: '50px',
-                         }}
-                  >
-
-                    <Row>
-
-                      <Col span={4}>
-                        <Button onClick={()=>{this.onCancel(false)}} >{this.$t({ id: "common.back" }/*返回*/)}</Button>
-                      </Col>
-                    </Row>
-                  </Affix>
-
+                  <div className="slide-footer">
+                    <Button onClick={this.onCancel}>{this.$t({id:"common.back"}/*返回*/)}</Button>
+                  </div>
                   <Modal visible={showChild}
                          footer={[
                            <Button key="back" size="large" onClick={()=>{this.onClose(false)}}>{this.$t({id: 'pay.backlash.goback'})}</Button>

@@ -2,15 +2,11 @@
  * Created by 13576 on 2017/9/18.
  */
 import React from 'react'
-import {connect} from 'react-redux'
-import {formatMessage} from 'share/common'
-import config from 'config'
-import httpFetch from 'share/httpFetch'
-import menuRoute from 'routes/menuRoute'
+import {connect} from 'dva'
 import {Button, Table, Badge, Popconfirm, Form, message, DatePicker, Col, Row, Switch, notification, Icon} from 'antd'
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 import NewBudgetVersion from 'containers/budget-setting/budget-organization/budget-versions/new-budget-versions'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import budgetVersionsService from 'containers/budget-setting/budget-organization/budget-versions/budget-version.service'
 
 import 'styles/budget-setting/budget-organization/budget-versions/budget-versions.scss'
@@ -21,28 +17,27 @@ class BudgetVersions extends React.Component {
     super(props);
     this.state = {
       data: [],
-      loading: true,
       slideFrame:{
         visible: false
       },
       columns: [
         {
-          title: formatMessage({id: "budgetVersion.versionCode"}),
+          title: this.$t({id: "budgetVersion.versionCode"}),
           dataIndex: 'versionCode',
           key: 'versionCode',
         },
         {
-          title: formatMessage({id: "budgetVersion.versionName"}),
+          title: this.$t({id: "budgetVersion.versionName"}),
           dataIndex: 'versionName',
           key: 'versionName',
         },
         {
-          title: formatMessage({id: "budgetVersion.versionDate"}),
+          title: this.$t({id: "budgetVersion.versionDate"}),
           dataIndex: 'versionDate',
           key: 'versionDate',
         },
         {
-          title: formatMessage({id: "budgetVersion.versionDescription"}),
+          title: this.$t({id: "budgetVersion.versionDescription"}),
           dataIndex: 'description',
           key: 'description',
           render: (recode) => {
@@ -50,7 +45,7 @@ class BudgetVersions extends React.Component {
           }
         },
         {
-          title: formatMessage({id: "budgetVersion.versionStatus"}),
+          title: this.$t({id: "budgetVersion.versionStatus"}),
           dataIndex: 'status',
           key: 'status',
           render: (recode) => {
@@ -58,12 +53,12 @@ class BudgetVersions extends React.Component {
           }
         },
         {
-          title: formatMessage({id: "budgetVersion.enabled"}), dataIndex: 'enabled', key: 'enabled',
+          title: this.$t({id: "common.column.status"}), dataIndex: 'enabled', key: 'enabled',
           render: (recode, text) => {
             return (
               <div >
                 <Badge status={ recode ? "success" : "error"}/>
-                {recode ? formatMessage({id: "common.status.enable"}) : formatMessage({id: "common.status.disable"})}
+                {recode ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}
               </div>
             );
           }
@@ -75,8 +70,8 @@ class BudgetVersions extends React.Component {
         enabled: true
       },
       searchForm: [
-        {type: 'input', id: 'versionCode', label: formatMessage({id: "budgetVersion.versionCode"})},
-        {type: 'input', id: 'versionName', label: formatMessage({id: "budgetVersion.versionName"})},
+        {type: 'input', id: 'versionCode', label: this.$t({id: "budgetVersion.versionCode"})},
+        {type: 'input', id: 'versionName', label: this.$t({id: "budgetVersion.versionName"})},
       ],
       pageSize: 10,
       page: 0,
@@ -90,9 +85,6 @@ class BudgetVersions extends React.Component {
       redirect: true,
       loading: true,
       newData: {versionCode: ''},
-      newBudgetVersionsPage: menuRoute.getRouteItem('new-budget-versions', 'key'),
-      budgetVersionsDetailDetailPage: menuRoute.getRouteItem('budget-versions-detail', 'key'),    //预算版本详情的页面项
-
     };
 
   }
@@ -189,7 +181,7 @@ class BudgetVersions extends React.Component {
 //策划新建页面
   handleCreate = () => {
     let slideFrame = {};
-    slideFrame.title = formatMessage({id:"budgetVersion.newVersion"});
+    slideFrame.title = this.$t({id:"budgetVersion.newVersion"});
     slideFrame.visible = true;
     slideFrame.params = {};
     this.setState({slideFrame})
@@ -198,7 +190,7 @@ class BudgetVersions extends React.Component {
   //策划编辑页面
   handleUpdate = (record) => {
     let slideFrame = {};
-    slideFrame.title = formatMessage({id:"budgetVersion.updateVersion"});
+    slideFrame.title = this.$t({id:"budgetVersion.updateVersion"});
     slideFrame.visible = true;
     slideFrame.params = record;
     this.setState({slideFrame})
@@ -219,10 +211,10 @@ class BudgetVersions extends React.Component {
 
         <div className="table-header">
           <div
-            className="table-header-title"> {formatMessage({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title"> {this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
           <div className="table-header-buttons">
             <Button type="primary"
-                    onClick={this.handleCreate}>{formatMessage({id: "common.create"})}</Button>
+                    onClick={this.handleCreate}>{this.$t({id: "common.create"})}</Button>
           </div>
         </div>
 
@@ -242,23 +234,21 @@ class BudgetVersions extends React.Component {
 
         <SlideFrame title={slideFrame.title}
                     show={slideFrame.visible}
-                    content={NewBudgetVersion}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.showSlide(false)}
-                    params={slideFrame.params}/>
+                    onClose={() => this.showSlide(false)}>
+          <NewBudgetVersion
+            onClose={this.handleCloseSlide}
+
+            params={slideFrame.params}/>
+        </SlideFrame>
       </div>
     )
   }
 
 }
 
-BudgetVersions.contextTypes = {
-  router: React.PropTypes.object
-}
-
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

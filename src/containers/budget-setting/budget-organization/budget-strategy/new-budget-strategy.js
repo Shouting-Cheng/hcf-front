@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
-import menuRoute from 'routes/menuRoute'
+import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 import { Form, Input, Switch, message, Icon, Button } from 'antd'
@@ -29,13 +27,13 @@ class NewBudgetStrategy extends React.Component {
         httpFetch.post(`${config.budgetUrl}/api/budget/control/strategies`, values).then((res)=>{
           if(res.status === 200){
             this.setState({loading: false});
-            message.success(formatMessage({id: "common.create.success"}, {name: ""})/*新建成功*/);
+            message.success(this.$t({id: "common.create.success"}, {name: ""})/*新建成功*/);
             this.context.router.push(this.state.budgetStrategyDetail.url.replace(':id', this.props.params.id).replace(':strategyId', res.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
           }
         }).catch((e)=>{
           this.setState({loading: false});
           if(e.response){
-            message.error(`${formatMessage({id: "common.create.filed"}/*新建失败*/)}, ${e.response.data.message}`);
+            message.error(`${this.$t({id: "common.create.filed"}/*新建失败*/)}, ${e.response.data.message}`);
           }
         })
       }
@@ -62,43 +60,43 @@ class NewBudgetStrategy extends React.Component {
     return (
       <div className="new-budget-strategy">
         <Form onSubmit={this.handleSave} style={{width:'55%',margin:'0 auto'}}>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.code"}/*预算控制策略代码*/)} hasFeedback>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.code"}/*预算控制策略代码*/)} hasFeedback>
             {getFieldDecorator('controlStrategyCode', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"}/*请输入*/),
+                message: this.$t({id: "common.please.enter"}/*请输入*/),
               }],
               initialValue: ''
             })(
-              <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+              <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "budget.strategy.name"}/*预算控制策略名称*/)} hasFeedback>
+          <FormItem {...formItemLayout} label={this.$t({id: "budget.strategy.name"}/*预算控制策略名称*/)} hasFeedback>
             {getFieldDecorator('controlStrategyName', {
               rules: [{
                 required: true,
-                message: formatMessage({id: "common.please.enter"}/*请输入*/),
+                message: this.$t({id: "common.please.enter"}/*请输入*/),
               }],
               initialValue: ''
             })(
-              <Input placeholder={formatMessage({id: "common.please.enter"}/*请输入*/)} />
+              <Input placeholder={this.$t({id: "common.please.enter"}/*请输入*/)} />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={formatMessage({id: "common.column.status"}/*状态*/)}>
+          <FormItem {...formItemLayout} label={this.$t({id: "common.column.status"}/*状态*/)}>
             {getFieldDecorator('enabled', {
               initialValue: enabled
             })(
               <div>
                 <Switch defaultChecked={true} checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} onChange={this.switchChange}/>
                 <span className="enabled-type">
-                  {enabled ? formatMessage({id: "common.status.enable"}/*启用*/) : formatMessage({id: "common.status.disable"}/*禁用*/)}
+                  {enabled ? this.$t({id: "common.status.enable"}/*启用*/) : this.$t({id: "common.status.disable"}/*禁用*/)}
                 </span>
               </div>
             )}
           </FormItem>
           <FormItem wrapperCol={{ offset: 7 }}>
-            <Button type="primary" htmlType="submit" loading={this.state.loading}>{formatMessage({id: "common.save"}/*保存*/)}</Button>
-            <Button onClick={this.handleCancel} className="btn-cancel">{formatMessage({id: "common.cancel"}/*取消*/)}</Button>
+            <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"}/*保存*/)}</Button>
+            <Button onClick={this.handleCancel} className="btn-cancel">{this.$t({id: "common.cancel"}/*取消*/)}</Button>
           </FormItem>
         </Form>
       </div>
@@ -107,9 +105,6 @@ class NewBudgetStrategy extends React.Component {
 
 }
 
-NewBudgetStrategy.contextTypes={
-  router:React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}

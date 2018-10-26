@@ -20,7 +20,7 @@ const Option = Select.Option;
 import PropTypes from 'prop-types';
 
 import LanguageInput from 'widget/Template/language-input/language-input';
-import formService from 'containers/admin-setting/form/form.service';
+import formService from 'containers/setting/form/form.service';
 import baseService from 'share/base.service';
 import 'styles/components/template/widget/widget-setting.scss';
 //import { this.$t, randomString } from 'share/common'
@@ -1368,7 +1368,7 @@ function mapStateToProps(state) {
     tenantMode: true,
     language: state.languages.languages,
     languageList: state.languages.languageList,
-    profile: "01ffe44c-2f0a-453e-b4e2-33ee6664624a",
+    profile:state.user.proFile,
   };
 }
 

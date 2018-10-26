@@ -1,17 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { formatMessage } from 'share/common'
+import { connect } from 'dva'
 
 import { Tabs, Button, message, Icon, Table, Checkbox, Badge } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import httpFetch from 'share/httpFetch'
-import menuRoute from 'routes/menuRoute'
 import config from 'config'
 
 import selectorData from 'share/chooserData'
-import ListSelector from 'components/list-selector'
-import BasicInfo from 'components/basic-info'
+import ListSelector from 'widget/list-selector'
+import BasicInfo from 'widget/basic-info'
 
 class BudgetJournalTypeDetail extends React.Component {
   constructor(props) {
@@ -336,13 +334,9 @@ class BudgetJournalTypeDetail extends React.Component {
 
 }
 
-BudgetJournalTypeDetail.contextTypes = {
-  router: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

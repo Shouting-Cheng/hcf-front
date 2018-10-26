@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message } from "antd"
 import { connect } from 'dva';
 import ListSelector from "widget/list-selector"
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 
 class NewShare extends Component {
     constructor(props) {

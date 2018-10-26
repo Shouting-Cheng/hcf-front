@@ -1,13 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {formatMessage} from 'share/common'
-import {messages} from "share/common";
+import { connect } from 'dva'
 import { Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import httpFetch from 'share/httpFetch'
-import menuRoute from 'routes/menuRoute'
 import config from 'config'
 
 class NewBudgetJournalType extends React.Component {
@@ -37,7 +34,7 @@ class NewBudgetJournalType extends React.Component {
           this.context.router.replace(this.state.budgetJournalTypeDetailPage.url.replace(":typeId", res.data.id));
         }).catch((e)=>{
           console.log(e)
-          message.error(`${formatMessage({id: "common.save.filed"})},同一预算组织下的预算日记账类型代码不能重复!`);
+          message.error(`${this.$t({id: "common.save.filed"})},同一预算组织下的预算日记账类型代码不能重复!`);
           this.setState({loading: false});
         })
       }
@@ -84,7 +81,7 @@ class NewBudgetJournalType extends React.Component {
                   {getFieldDecorator("journalTypeCode", {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.enter'}),  //请输入
+                      message: this.$t({id: 'common.please.enter'}),  //请输入
                     }],
                     initialValue: ''
                   })(
@@ -97,7 +94,7 @@ class NewBudgetJournalType extends React.Component {
                   {getFieldDecorator("journalTypeName", {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.enter'}),  //请输入
+                      message: this.$t({id: 'common.please.enter'}),  //请输入
                     }],
                     initialValue: ''
                   })(
@@ -110,7 +107,7 @@ class NewBudgetJournalType extends React.Component {
                   {getFieldDecorator("businessType", {
                     rules: [{
                       required: true,
-                      message: formatMessage({id: 'common.please.select'}),  //请选择
+                      message: this.$t({id: 'common.please.select'}),  //请选择
                     }],
                     initialValue: ''
                   })(
@@ -127,11 +124,11 @@ class NewBudgetJournalType extends React.Component {
                   {getFieldDecorator("form", {
                     rules: [{
                       required: false,
-                      message: formatMessage({id: 'common.please.select'}),  //请选择
+                      message: this.$t({id: 'common.please.select'}),  //请选择
                     }],
                     initialValue: ''
                   })(
-                    <Select allowClear onFocus={this.onFormFocus} placeholder={ messages("common.please.select")}>
+                    <Select allowClear onFocus={this.onFormFocus} placeholder={ this.$t("common.please.select")}>
                       {this.state.linkForm.map((option)=>{
                         return <Option key={option.formOID+'?'+option.formType+'?'+option.formName}>{option.formName}</Option>
                       })}
@@ -167,13 +164,9 @@ class NewBudgetJournalType extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
-
-NewBudgetJournalType.contextTypes = {
-  router: React.PropTypes.object
-};
 
 const WrappedNewBudgetJournalType = Form.create()(NewBudgetJournalType);
 

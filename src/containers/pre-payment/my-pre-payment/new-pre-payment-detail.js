@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 const { TextArea } = Input;
 import ListSelector from 'widget/list-selector';
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import SelectContract from './select-contract';
 import Chooser from './chooser';
 import moment from 'moment';
