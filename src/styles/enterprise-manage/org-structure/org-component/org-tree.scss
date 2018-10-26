@@ -1,3 +1,4 @@
+:global {
 @mixin orgNodeTitle($level:0) {
   overflow: hidden;
   display: block;
@@ -163,4 +164,5 @@
       }
     }
   }
+}
 }

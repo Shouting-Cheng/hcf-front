@@ -705,13 +705,6 @@ export const getRouterData = app => {
       name: 'reimburse-review',
       parent: '/financial-management/reimburse-review',
     },
-    '/admin-setting/form-list': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/form/form-list.js')
-      ),
-      name: 'form-list',
-    },
-
     //新建表单
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
@@ -1174,13 +1167,6 @@ export const getRouterData = app => {
       name: 'currency-setting-edit',
       parent: '/admin-setting/currency-setting'
     },
-    '/admin-setting/company-level-define': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/company-level-define/company-level-define.js')
-      ),
-      name: 'company-level-define',
-      parent: '/admin-setting/currency-setting'
-    },
     //实体法人
     '/enterprise-manage/legal-person' : {
       component: dynamicWrapper(app, [], () =>
@@ -1285,32 +1271,22 @@ export const getRouterData = app => {
       parent:'/setting/announcement-information',
       name: 'announcement-information-detail',
     },
-
-    //实体法人
-    '/enterprise-manage/legal-person' : {
+    //组织架构
+    '/enterprise-manage/org-structure': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/enterprise-manage/legal-person/legal-person.js')
+        import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
-      name: 'legal-person',
-      parent:'/enterprise-manage'
+      name: 'org-structure',
+      parent: '/enterprise-manage'
     },
-    //实体法人详情
-    '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID' : {
+    //部门角色
+    '/enterprise-manage/org-structure/org-roles-list': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/enterprise-manage/legal-person/legal-person-detail.js')
+        import('containers/enterprise-manage/org-structure/org-component/org-roles-list.js')
       ),
-      name: 'legal-person-detail',
-      parent:'/enterprise-manage/legal-person'
+      name: 'org-roles-list',
+      parent: '/enterprise-manage/org-structure'
     },
-    //编辑实体法人
-    '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID' : {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/enterprise-manage/legal-person/new-legal-person.js')
-      ),
-      name: 'new-legal-person',
-      parent:'/enterprise-manage/legal-person'
-    },
-
     '/admin-setting/person-group': {
       //人员组
       component: dynamicWrapper(app, [], () =>
