@@ -329,9 +329,9 @@ class BudgetJournalDetail extends React.Component {
           dataIndex: 'amount',
           
           width: 180,
-          render: recode => (
-            <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
-          ),
+          // render: recode => (
+          //   <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
+          // ),
         },
         {
           /*本币今额*/
@@ -339,9 +339,9 @@ class BudgetJournalDetail extends React.Component {
           key: 'functionalAmount',
           dataIndex: 'functionalAmount',
           width: 180,
-          render: recode => (
-            <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
-          ),
+          // render: recode => (
+          //   <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
+          // ),
         },
         {
           /*数字*/
