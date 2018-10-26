@@ -93,6 +93,10 @@ export default {
     '/budget': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
+    },
+    '/location': {
+      target: 'http://115.159.108.80:25297',
+      changeOrigin: true,
     }
   },
 };
