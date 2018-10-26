@@ -27,6 +27,8 @@ app.model(require('./models/languages').default);
 app.model(require('./models/menu').default);
 app.model(require('./models/cache').default);
 app.model(require('./models/budget').default);
+app.model(require('./models/billing').default);
+app.model(require('./models/setting').default);
 // 4. Router
 app.router(require('./router').default);
 

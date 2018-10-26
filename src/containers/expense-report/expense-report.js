@@ -11,8 +11,7 @@ import moment from 'moment'
 import 'styles/request/request.scss'
 import Proxies from 'widget/template/proxies/proxies'
 import { dealCache, deepFullCopy, messages } from "share/common";
-import { setExpenseReport } from "actions/cache";
-import configureStore from "stores";
+
 
 let cacheSearchData = {};
 
@@ -126,8 +125,11 @@ class ExpenseReport extends React.Component {
       page = result.page;
       dealCache(searchForm, result);
       this.setState({ searchForm, page }, () => {
-        this.search(result)
-        configureStore.store.dispatch(setExpenseReport(null));
+        this.search(result);
+        this.props.dispatch({
+          type: 'cache/setExpenseReport',
+          expenseReport: null
+        });
       })
     }
   }
@@ -272,7 +274,10 @@ class ExpenseReport extends React.Component {
     })
   };
   handleRowClick = (record) => {
-    // configureStore.store.dispatch(setExpenseReport(cacheSearchData));
+    /*this.props.dispatch({
+      type: 'cache/setExpenseReport',
+      expenseReport: null
+    });*/
     // this.context.router.push(this.state.expenseReportDetail.url.replace(':expenseReportOID', record.expenseReportOID).replace(':pageFrom', 'my'));
   };
 

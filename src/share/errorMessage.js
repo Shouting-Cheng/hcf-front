@@ -18,7 +18,7 @@ export default errorMessage;
 //获取错误信息
 //这个需要在组件里面导入进行使用
 export function getErrorMessage(repspone) {
-  const error = repspone.data;
+  const error = repspone && repspone.data ? repspone.data:'';
   //目前发现后端返回有两种错误对象
   //第一种
   if(error && error.validationErrors && error.validationErrors.length > 0){
