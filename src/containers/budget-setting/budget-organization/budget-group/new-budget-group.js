@@ -5,13 +5,12 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
+import { routerRedux } from 'dva/router';
 
 class NewBudgetGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      budgetGroupDetail: menuRoute.getRouteItem('budget-group-detail','key'),    //项目组详情的页面项
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key'),  //预算组织详情的页面项
       loading: false
     };
   }
@@ -25,7 +24,14 @@ class NewBudgetGroup extends React.Component {
         budgetGroupService.addOrganizationGroup(values).then((res)=>{
           this.setState({loading: false});
           message.success(`${this.$t({id:'budget.setting.item.group'})}${this.$t({id:'common.create.success'}, {name: "res.data.itemGroupName"})}`);/*项目组新建成功*/
-          this.context.router.replace(this.state.budgetGroupDetail.url.replace(":id", this.props.organization.id).replace(":groupId", res.data.id));
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id'
+                .replace(':orgId', this.props.organization.id)
+                .replace(":setOfBooksId",this.props.setOfBooksId)
+                .replace(':id', res.data.id)
+            })
+          );
         }).catch((e)=>{
           if(e.response){
             message.error(`${this.$t({id:"common.create.filed"}/*新建失败*/)}, ${e.response.data.message}`);
@@ -96,7 +102,16 @@ class NewBudgetGroup extends React.Component {
             <Row>
               <Col span={8}>
                 <Button htmlType="submit" type="primary" loading={loading}>{this.$t({id:'common.save'}) /* 保存 */}</Button>
-                <Button style={{ marginLeft: 8 }} onClick={() => {this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id) + '?tab=GROUP');}}>{this.$t({id:'common.cancel'})/*取消*/}</Button>
+                <Button style={{ marginLeft: 8 }} onClick={() => {
+                  this.props.dispatch(
+                    routerRedux.push({
+                      pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                        .replace(':id', this.props.match.params.orgId)
+                        .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                        .replace(':tab','GROUP')
+                    })
+                  );
+                }}>{this.$t({id:'common.cancel'})/*取消*/}</Button>
               </Col>
             </Row>
           </Form>
@@ -109,7 +124,7 @@ class NewBudgetGroup extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

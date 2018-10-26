@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import reimburseService from 'containers/reimburse/reimburse.service';
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import { Form, Affix, Button, message, Popconfirm, Modal } from 'antd';
 const confirm = Modal.confirm;
 
-import ReimburseDetailCommon from 'containers/reimburse/reimburse-detail-common';
+import ReimburseDetailCommon from 'containers/reimburse/my-reimburse/reimburse-detail-common';
 import 'styles/contract/my-contract/contract-detail.scss';
 import { routerRedux } from 'dva/router';
 

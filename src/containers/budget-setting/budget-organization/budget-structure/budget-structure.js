@@ -8,6 +8,7 @@ import SearchArea from 'widget/search-area';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure.scss';
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 import organizationService from 'containers/budget-setting/budget-organization/budget-organnization.service'
+import { routerRedux } from 'dva/router';
 
 class BudgetStructure extends React.Component {
   constructor(props) {
@@ -67,13 +68,7 @@ class BudgetStructure extends React.Component {
       ],
     }
   }
-  componentWillMount(){
-    //查出当前预算组织数据
-    organizationService.getOrganizationsById(this.props.id).then((response)=>{
-      this.setState({
-        organization: response.data
-      })
-    });
+  componentDidMount(){
     this.getList();
   }
 
@@ -83,7 +78,8 @@ class BudgetStructure extends React.Component {
     for(let paramsName in params){
       !params[paramsName] && delete params[paramsName];
     }
-    params.organizationId = this.props.id;
+    this.setState({loading:true});
+    params.organizationId = this.props.organization.id;
     params.page = this.state.pagination.page;
     params.size = this.state.pagination.pageSize;
     budgetService.getStructures(params).then((response)=>{
@@ -112,7 +108,6 @@ class BudgetStructure extends React.Component {
     };
     this.setState({
       searchParams:searchParams,
-      loading: true,
       page: 1
     }, ()=>{
       this.getList();
@@ -134,9 +129,14 @@ class BudgetStructure extends React.Component {
   };
 
   handleCreate = () =>{
-
-    if(this.state.organization.enabled) {
-      this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetStructure.url.replace(':id', this.props.id));
+    if(this.props.organization.enabled) {
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/:setOfBooksId/:orgId'
+            .replace(':orgId', this.props.organization.id)
+            .replace(':setOfBooksId',this.props.setOfBooksId)
+        })
+      );
     }else{
       notification["error"]({
         description: this.$t({id:"structure.validateCreate"})  /*请维护当前账套下的预算组织*/
@@ -146,7 +146,14 @@ class BudgetStructure extends React.Component {
 
   //点击行，进入该行详情页面
   handleRowClick = (record, index, event) =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetStructureDetail.url.replace(':id', this.props.id).replace(":setOfBooksId",this.props.setOfBooksId).replace(':structureId', record.id));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/orgId/:setOfBooksId/:id'
+          .replace(':orgId', this.props.organization.id)
+          .replace(":setOfBooksId",this.props.setOfBooksId)
+          .replace(':id', record.id)
+      })
+    );
   };
 
   render(){
@@ -179,7 +186,7 @@ class BudgetStructure extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.budget.organization
+    organization: state.user.organization
   }
 }
 

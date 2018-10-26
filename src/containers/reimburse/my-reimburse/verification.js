@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Table, Alert, Input, Popover, message } from "antd"
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import moment from "moment"
 
 class Verification extends Component {

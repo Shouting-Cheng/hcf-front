@@ -7,15 +7,15 @@ import moment from 'moment'
 import SlideFrame from 'widget/slide-frame'
 
 import 'styles/contract/my-contract/contract-detail.scss'
-import CostDetail from "containers/reimburse/cost-detail"
-import PayInfo from "containers/reimburse/pay-info"
-import SelectCostType from "containers/reimburse/select-cost-type"
-import NewExpense from "containers/reimburse/new-expense"
-import DetailExpense from "containers/reimburse/expense-detail"
-import NewPayPlan from "containers/reimburse/new-pay-plan"
-import reimburseService from 'containers/reimburse/reimburse.service'
-import ListSelector from 'containers/reimburse/list-selector'
-import ApproveHistory from "widget/Template/approve-history-work-flow"
+import CostDetail from "containers/reimburse/my-reimburse/cost-detail"
+import PayInfo from "containers/reimburse/my-reimburse/pay-info"
+import SelectCostType from "containers/reimburse/my-reimburse/select-cost-type"
+import NewExpense from "containers/reimburse/my-reimburse/new-expense"
+import DetailExpense from "containers/reimburse/my-reimburse/expense-detail"
+import NewPayPlan from "containers/reimburse/my-reimburse/new-pay-plan"
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
+import ListSelector from 'containers/reimburse/my-reimburse/list-selector'
+import ApproveHistory from "containers/reimburse/reimburse-review/approve-history-work-flow"
 import DocumentBasicInfo from 'widget/document-basic-info'
 import PropTypes from 'prop-types'
 class ContractDetailCommon extends React.Component {
@@ -60,7 +60,7 @@ class ContractDetailCommon extends React.Component {
           title: this.$t({ id: "common.remark" }/*备注*/), dataIndex: 'remark',
           render: value => {
             return (value ?
-              <Popover placement="topLeft" content={value} overlayStyle={{ maxWidth: 300 }}>{value}</Popover> : '-'
+                <Popover placement="topLeft" content={value} overlayStyle={{ maxWidth: 300 }}>{value}</Popover> : '-'
             )
           }
         }
@@ -236,7 +236,7 @@ class ContractDetailCommon extends React.Component {
     })
   }
 
-  //跳转到合同详情 
+  //跳转到合同详情
   contractDetail = () => {
     let url = menuRoute.getRouteItem('contract-detail', 'key');
     window.open(url.url.replace(':id', this.props.headerData.contractHeaderId).replace(':from', "reimburse"), "_blank");
@@ -319,13 +319,14 @@ class ContractDetailCommon extends React.Component {
     };
     subContent.DETAIL = (
       <div>
-          <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="费用明细">
-            <Row>
-              <Col>
-                <CostDetail costDetail={this.costDetail} deleteCost={this.deleteCost} costCopy={this.costCopy} costEdit={this.costEdit} flag={isLoadCostData} disabled={true} headerData={this.props.headerData}></CostDetail>
-              </Col>
-            </Row>
-          </Card>
+
+        <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="费用明细">
+          <Row style={{ margin: "20px 0" }}>
+            <Col>
+              <CostDetail costDetail={this.costDetail} deleteCost={this.deleteCost} costCopy={this.costCopy} costEdit={this.costEdit} flag={isLoadCostData} disabled={true} headerData={this.props.headerData}></CostDetail>
+            </Col>
+          </Row>
+        </Card>
 
         <PayInfo
           ref="payInfo"
@@ -351,7 +352,7 @@ class ContractDetailCommon extends React.Component {
           <div className="table-header">
             <div className="table-header-buttons">
               {contractEdit &&
-                <Button type="primary" onClick={this.addItem}>{this.$t({ id: "common.add" }/*添加*/)}</Button>}
+              <Button type="primary" onClick={this.addItem}>{this.$t({ id: "common.add" }/*添加*/)}</Button>}
             </div>
             <div style={{ marginBottom: '10px' }}>
               {this.$t({ id: "common.total" }, { total: pagination.total }/*共搜索到 {total} 条数据*/)}
@@ -360,12 +361,12 @@ class ContractDetailCommon extends React.Component {
             </div>
           </div>
           <Table rowKey={record => record.id}
-            columns={columns}
-            dataSource={data}
-            pagination={pagination}
-            scroll={{ x: true, y: false }}
-            bordered
-            size="middle" />
+                 columns={columns}
+                 dataSource={data}
+                 pagination={pagination}
+                 scroll={{ x: true, y: false }}
+                 bordered
+                 size="middle" />
         </Spin>
       </div>
     );
@@ -384,21 +385,21 @@ class ContractDetailCommon extends React.Component {
             </Tabs>
           </Card>
           {topTapValue === 'contractInfo' &&
-            // <Card>
-            //   <Tabs className="detail-tabs">
-            //     {subTabsList.map((item) => {
-            //       return <TabPane tab={item.label} key={item.key}>{subContent[item.key]}</TabPane>
-            //     })}
-            //   </Tabs>
-            // </Card>
-            <div>
-              {subContent['DETAIL']}
-            </div>
+          // <Card>
+          //   <Tabs className="detail-tabs">
+          //     {subTabsList.map((item) => {
+          //       return <TabPane tab={item.label} key={item.key}>{subContent[item.key]}</TabPane>
+          //     })}
+          //   </Tabs>
+          // </Card>
+          <div>
+            {subContent['DETAIL']}
+          </div>
           }
         </Spin>
         <SlideFrame title={slideFrameTitle}
-          show={showSlideFrame}
-          onClose={() => this.showSlide(false)}>
+                    show={showSlideFrame}
+                    onClose={() => this.showSlide(false)}>
           <NewPayPlan
             close={this.handleCloseSlide}
             params={{
@@ -413,8 +414,8 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={visible}
-          title="新建费用"
-          onClose={() => this.setState({ visible: false })}>
+                    title="新建费用"
+                    onClose={() => this.setState({ visible: false })}>
           <NewExpense
             close={this.getCostList}
             params={{
@@ -429,8 +430,8 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={detailVisible}
-          title="费用详情"
-          onClose={() => this.setState({ detailVisible: false })}>
+                    title="费用详情"
+                    onClose={() => this.setState({ detailVisible: false })}>
           <DetailExpense
             close={this.getCostList}
             params={{
@@ -446,8 +447,8 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={this.state.payPlanVisible}
-          title="新建付款信息"
-          onClose={() => this.setState({ payPlanVisible: false })}>
+                    title="新建付款信息"
+                    onClose={() => this.setState({ payPlanVisible: false })}>
           <NewPayPlan
             params={{ visible: this.state.payPlanVisible, record: this.state.payRecord, headerData: this.props.headerData }}
             close={this.getPayList}

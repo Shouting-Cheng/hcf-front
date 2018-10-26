@@ -9,18 +9,18 @@ import moment from 'moment'
 import SlideFrame from 'widget/slide-frame'
 import 'styles/reimburse/reimburse-common.scss'
 import 'styles/contract/my-contract/contract-detail.scss'
-import CostDetail from "containers/reimburse/cost-detail"
-import PayInfo from "containers/reimburse/pay-info"
-import SelectCostType from "containers/reimburse/select-cost-type"
-import NewExpense from "containers/reimburse/new-expense"
-import DetailExpense from "containers/reimburse/expense-detail"
-import NewPayPlan from "containers/reimburse/new-pay-plan"
-import reimburseService from 'containers/reimburse/reimburse.service'
-import ListSelector from 'containers/reimburse/list-selector'
+import CostDetail from "containers/reimburse/my-reimburse/cost-detail"
+import PayInfo from "containers/reimburse/my-reimburse/pay-info"
+import SelectCostType from "containers/reimburse/my-reimburse/select-cost-type"
+import NewExpense from "containers/reimburse/my-reimburse/new-expense"
+import DetailExpense from "containers/reimburse/my-reimburse/expense-detail"
+import NewPayPlan from "containers/reimburse/my-reimburse/new-pay-plan"
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
+import ListSelector from 'containers/reimburse/my-reimburse/list-selector'
 import ApproveHistory from "widget/Template/approve-history-work-flow"
-import Invoice from "containers/reimburse/invoice"
+import Invoice from "containers/reimburse/my-reimburse/invoice"
 import DocumentBasicInfo from "widget/document-basic-info"
-import VoucherInfo from "containers/reimburse/voucher-info"
+import VoucherInfo from "containers/reimburse/my-reimburse/voucher-info"
 import { routerRedux } from 'dva/router';
 
 class ContractDetailCommon extends React.Component {
@@ -123,7 +123,7 @@ class ContractDetailCommon extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+
     if (nextProps.headerData != this.props.headerData) {
 
       this.setDocumentInfo(nextProps);

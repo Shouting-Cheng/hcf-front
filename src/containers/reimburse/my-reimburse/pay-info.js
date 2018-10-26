@@ -5,10 +5,10 @@ import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radi
 import config from 'config';
 import 'styles/reimburse/reimburse.scss';
 
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import moment from "moment"
 
-import Verification from "containers/reimburse/verification"
+import Verification from "containers/reimburse/my-reimburse/verification"
 
 
 class PayInfo extends React.Component {

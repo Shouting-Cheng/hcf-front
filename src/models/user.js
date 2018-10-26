@@ -6,7 +6,8 @@ export default {
   state: {
     currentUser: {},
     company: {},
-    organization: {}
+    organization: {},
+    proFile:{}
   },
 
   reducers: {
@@ -28,6 +29,12 @@ export default {
         organization: action.payload || {},
       };
     },
+    saveProfile(state,action){
+      return{
+        ...state,
+        proFile:action.payload||{}
+      }
+    },
     changeNotifyCount(state, action) {
       return {
         ...state,
@@ -37,5 +44,9 @@ export default {
         },
       };
     },
+    setToken(state,{token}){
+      return  token
+    }
+
   },
 };
