@@ -613,7 +613,10 @@ export default class Login extends React.Component {
       data: formData,
     }).then(res => {
       window.localStorage.setItem('token', res.data.access_token);
-
+      this.props.dispatch({
+        type: 'user/setToken',
+        token: res.data.access_token
+      });
       Promise.all([this.getMenuList(), this.getUser()]).then(() => {
         this.redirect();
       });
