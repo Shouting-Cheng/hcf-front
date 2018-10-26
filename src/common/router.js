@@ -973,7 +973,70 @@ export const getRouterData = app => {
       name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization'
     },
-
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/new-budget-strategy/:setOfBooksId/:orgId':{
+      //新建预算策略
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy')
+      ),
+      name: 'budget-strategy-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id':{
+      //预算策略详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/new-budget-strategy-detail/:orgId/:setOfBooksId/:id':{
+      //新建策略明细
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/strategy-control-detail/:setOfBooksId/:orgId/:strategyId/:id':{
+      //策略明细
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/strategy-control-detail')
+      ),
+      name: 'budget-strategy-detail-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/new-budget-control-rules/:setOfBooksId/:orgId':{
+      //新建控制规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/new-budget-control-rules')
+      ),
+      name: 'budget-rule-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id':{
+      //控制规则详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail')
+      ),
+      name: 'budget-rule-detail',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId':{
+      //新建策略类型
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/new-budget-journal-type')
+      ),
+      name: 'budget-journal-type-new',
+      parent: '/budget-setting/budget-organization'
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/budget-journal-type-detail/:setOfBooksId/:orgId/:id':{
+      //策略详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type-detail')
+      ),
+      name: 'budget-journal-type-detail',
+      parent: '/budget-setting/budget-organization'
+    },
     //预算日记本
     '/budget/budget-journal': {
       component: dynamicWrapper(app, [], () =>

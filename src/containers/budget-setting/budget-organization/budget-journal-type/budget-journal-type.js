@@ -6,6 +6,7 @@ import { Table, Badge, Button } from 'antd'
 import SearchArea from 'widget/search-area'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
+import { routerRedux } from 'dva/router';
 
 class BudgetJournalType extends React.Component {
   constructor(props) {
@@ -33,8 +34,6 @@ class BudgetJournalType extends React.Component {
         journalTypeCode: '',
         journalTypeName: ''
       },
-      newBudgetJournalTypePage: menuRoute.getRouteItem('new-budget-journal-type', 'key'),
-      budgetJournalTypeDetailPage: menuRoute.getRouteItem('budget-journal-type-detail', 'key')
     };
   }
 
@@ -97,11 +96,24 @@ class BudgetJournalType extends React.Component {
   };
 
   handleNew = () => {
-    this.context.router.push(this.state.newBudgetJournalTypePage.url.replace(':id', this.props.organization.id).replace(":setOfBooksId", this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
   handleRowClick = (record) => {
-    this.context.router.push(this.state.budgetJournalTypeDetailPage.url.replace(':id', this.props.organization.id).replace(':typeId', record.id).replace(":setOfBooksId", this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/budget-journal-type-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+          .replace(':id', record.id)
+      })
+    );
   };
 
   render(){
@@ -132,8 +144,10 @@ class BudgetJournalType extends React.Component {
 }
 
 
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  return {
+    organization: state.user.organization
+  }
 }
 
 export default connect(mapStateToProps, null, null, { withRef: true })(BudgetJournalType);

@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Form, Switch, Icon, Input, Select, Button, Row, Col, message } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
+import { routerRedux } from 'dva/router';
 
 import httpFetch from 'share/httpFetch'
 import config from 'config'
@@ -11,8 +12,6 @@ class NewBudgetJournalType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      budgetJournalTypeDetailPage: menuRoute.getRouteItem('budget-journal-type-detail','key'),    //项目组详情的页面项
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key'),  //预算组织详情的页面项
       loading: false,
       businessTypeOptions: [],
       linkForm:[]
@@ -31,9 +30,15 @@ class NewBudgetJournalType extends React.Component {
         httpFetch.post(`${config.budgetUrl}/api/budget/journal/types`, values).then((res)=>{
           this.setState({loading: false});
           message.success(`预算日记账${res.data.journalTypeName}新建成功`);
-          this.context.router.replace(this.state.budgetJournalTypeDetailPage.url.replace(":typeId", res.data.id));
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/budget-journal-type-detail/:setOfBooksId/:orgId/:id'
+                .replace(':orgId', this.props.match.params.orgId)
+                .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                .replace(':id',res.data.id)
+            })
+          );
         }).catch((e)=>{
-          console.log(e)
           message.error(`${this.$t({id: "common.save.filed"})},同一预算组织下的预算日记账类型代码不能重复!`);
           this.setState({loading: false});
         })
@@ -151,7 +156,17 @@ class NewBudgetJournalType extends React.Component {
             <Row>
               <Col span={8}>
                 <Button htmlType="submit" type="primary">保存</Button>
-                <Button style={{ marginLeft: 8 }} onClick={() => {this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id).replace(":setOfBooksId",this.props.params.setOfBooksId) + '?tab=JOURNAL_TYPE');}}>取消</Button>
+                <Button style={{ marginLeft: 8 }}
+                        onClick={() => {
+                          this.props.dispatch(
+                            routerRedux.push({
+                              pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                                .replace(':id', this.props.match.params.orgId)
+                                .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                                .replace(':tab','JOURNAL_TYPE')
+                            })
+                          );
+                        }}>取消</Button>
               </Col>
             </Row>
           </Form>

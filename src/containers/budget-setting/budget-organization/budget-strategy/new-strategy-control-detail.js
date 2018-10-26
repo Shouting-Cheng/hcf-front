@@ -88,7 +88,7 @@ class NewStrategyControlDetail extends React.Component{
   }
   onCancel = () =>{
     this.setState({ updateParams: {} });
-    this.props.close();
+    this.props.onClose();
   };
   handleSave = (e) =>{
     e.preventDefault();
@@ -102,7 +102,7 @@ class NewStrategyControlDetail extends React.Component{
           this.setState({loading: false});
           if(res.status === 200){
             this.setState({ updateParams: {} });
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           }
         }).catch((e)=>{
@@ -125,7 +125,7 @@ class NewStrategyControlDetail extends React.Component{
         httpFetch.put(`${config.budgetUrl}/api/budget/control/strategy/mp/conds`, values).then((res)=>{
           if(res.status === 200){
             this.setState({loading: false});
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(this.$t({id: "common.save.success"}, {name: ""}/*保存成功*/));
           }
         }).catch((e)=>{

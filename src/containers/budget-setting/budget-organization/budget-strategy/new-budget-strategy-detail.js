@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 import 'styles/budget-setting/budget-organization/budget-strategy/new-budget-strategy-detail.scss'
+import * as routerRedux from "react-router-redux";
 
 class NewBudgetStrategyDetail extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class NewBudgetStrategyDetail extends React.Component {
       controlMethodOptions: [],
       messageCodeOptions: [],
       controlMethodValue: '',
-      budgetStrategyDetail:  menuRoute.getRouteItem('budget-strategy-detail','key'),    //控制策略详情
     }
   }
 
@@ -59,7 +59,15 @@ class NewBudgetStrategyDetail extends React.Component {
   };
 
   handleCancel = () => {
-    this.context.router.push(this.state.budgetStrategyDetail.url.replace(':id', this.props.params.id).replace(':strategyId', this.props.params.strategyId).replace(":setOfBooksId",this.props.setOfBooksId));
+    console.log(this.props)
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.match.params.orgId)
+          .replace(':setOfBooksId',this.props.match.params.setOfBooksId)
+          .replace(':id', this.props.match.params.id)
+      })
+    );
   };
 
   handleMethodChange = (value) => {
@@ -165,7 +173,7 @@ class NewBudgetStrategyDetail extends React.Component {
           </Row>
           <div>
             <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"}/*保存*/)}</Button>
-            <Button className="btn-cancel" onClick={this.handleCancel}>{this.$t({id: "common.cancel"}/*取消*/)}</Button>
+            <Button className="btn-cancel" style={{marginLeft:15}} onClick={this.handleCancel}>{this.$t({id: "common.cancel"}/*取消*/)}</Button>
           </div>
         </Form>
       </div>
