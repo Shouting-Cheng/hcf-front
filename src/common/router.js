@@ -677,7 +677,7 @@ export const getRouterData = app => {
       name: 'coding-rule-value',
       parent: "/admin-setting/coding-rule-object"
     },
-    
+
 
     '/admin-setting/form-list/new-form/:formType/:booksID': {
       component: dynamicWrapper(app, [], () =>
@@ -1112,6 +1112,14 @@ export const getRouterData = app => {
       name: 'new-bank-account',
       parent: '/enterprise-manage/company-maintain/company-maintain-detail',
     },
+    //企业管理-公司维护-公司详情-新建银行账户
+    '/admin-setting/security-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/security-setting/security-setting.js')
+      ),
+      name: 'security-setting'
+    },
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
