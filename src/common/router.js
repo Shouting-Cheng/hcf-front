@@ -655,7 +655,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-review/reimburse-review-detail.js')
       ),
-      name: '报账单审核',
+      name: 'reimburse-review-detail',
       parent: '/financial-management/reimburse-review',
     },
     //编码规则对象定义
@@ -1136,6 +1136,21 @@ export const getRouterData = app => {
       name: 'account-period-detail',
       parent: '/finance-setting/account-period-control',
     },
+    '/admin-setting/subject-sheet': {
+      //科目表定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet.js')
+      ),
+      name: 'subject-sheet',
+    },
+    '/admin-setting/subject-sheet/subject-sheet-detail/:accountSetId': {
+      //科目表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/subject-sheet/subject-sheet-detail.js')
+      ),
+      name: 'subject-sheet-detail',
+      parent: '/admin-setting/subject-sheet',
+    },
     //币种设置
     '/admin-setting/currency-setting': {
       component: dynamicWrapper(app, [], () =>
@@ -1151,12 +1166,13 @@ export const getRouterData = app => {
       name: 'currency-setting-add',
       parent: '/admin-setting/currency-setting',
     },
+    //编辑汇率
     '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: 'currency-setting-edit',
-      parent:'/admin-setting/currency-setting'
+      parent: '/admin-setting/currency-setting'
     },
     '/admin-setting/company-level-define': {
       component: dynamicWrapper(app, [], () =>
@@ -1295,6 +1311,38 @@ export const getRouterData = app => {
       parent:'/enterprise-manage/legal-person'
     },
 
+    '/admin-setting/person-group': {
+      //人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group.js')
+      ),
+      name: 'person-group',
+    },
+    '/admin-setting/person-group/new-person-group': {
+      //新建人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/edit-person-group/:id': {
+      //编辑人员组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/new-person-group.js')
+      ),
+      name: 'new-person-group',
+      parent: '/admin-setting/person-group',
+    },
+    '/admin-setting/person-group/person-group-detail/:id': {
+      //人员组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/person-group/person-group-detail.js')
+      ),
+      name: 'person-group-detail',
+      parent: '/admin-setting/person-group',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
@@ -1331,3 +1379,4 @@ export const getRouterData = app => {
   });
   return routerData;
 };
+
