@@ -727,7 +727,7 @@ function mapStateToProps(state) {
   return {
     profile: state.login.profile,
     user: state.login.user,
-    tenantMode: state.main.tenantMode,
+    tenantMode: true,
     company: state.login.company,
   };
 }
