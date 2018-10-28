@@ -1181,7 +1181,11 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
       name: 'legal-person',
+<<<<<<< HEAD
+      parent: '/enterprise-manage'
+=======
       parent: '/enterprise-manage',
+>>>>>>> develop
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1189,7 +1193,11 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person-detail.js')
       ),
       name: 'legal-person-detail',
+<<<<<<< HEAD
+      parent: '/enterprise-manage/legal-person'
+=======
       parent: '/enterprise-manage/legal-person',
+>>>>>>> develop
     },
     //编辑实体法人
     '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID': {
@@ -1197,7 +1205,11 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/new-legal-person.js')
       ),
       name: 'new-legal-person',
+<<<<<<< HEAD
+      parent: '/enterprise-manage/legal-person'
+=======
       parent: '/enterprise-manage/legal-person',
+>>>>>>> develop
     },
     //预算审核
     '/approval-management/budget-journal-check': {
@@ -1263,6 +1275,13 @@ export const getRouterData = app => {
     '/admin-setting/announcement-information': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information.js')
+<<<<<<< HEAD
+      ), name: 'announcement-information',
+    },
+    //设置-新建公告信息
+    '/admin-setting/announcement-information/new-announcement-information': {
+      component: dynamicWrapper(app, [], () => import('containers/setting/announcement-information/announcement-information-detail.js')
+=======
       ),
       name: 'announcement-information',
     },
@@ -1270,14 +1289,19 @@ export const getRouterData = app => {
     '/admin-setting/announcement-information/new-announcement-information': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
+>>>>>>> develop
       ),
       parent: '/setting/announcement-information',
       name: 'new-announcement-information',
     },
     //设置-公告信息-详情
     '/admin-setting/announcement-information/announcement-information-detail/:OID/:id': {
+<<<<<<< HEAD
+      component: dynamicWrapper(app, [], () => import('containers/setting/announcement-information/announcement-information-detail.js')
+=======
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
+>>>>>>> develop
       ),
       parent: '/setting/announcement-information',
       name: 'announcement-information-detail',
@@ -1334,8 +1358,57 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/security-setting/security-setting.js')
       ),
-      name: 'security-setting',
+      name: 'security-setting'
     },
+
+    '/admin-setting/cost-center': {
+      //成本中心
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center.js')
+      ),
+      name: 'cost-center',
+    },
+    '/admin-setting/cost-center/new-cost-center/:id': {
+      //新增成本中心
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/new-cost-center.js')
+      ),
+      name: 'new-cost-center',
+      parent: '/admin-setting/cost-center',
+    },
+    '/admin-setting/cost-center/cost-center-detail/:id': {
+      //成本中心详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-detail.js')
+      ),
+      name: 'cost-center-detail',
+      parent: '/admin-setting/cost-center',
+    },
+    '/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/:id/:itemId': {
+      //成本中心项详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-item/cost-center-item-detail.js')
+      ),
+      name: 'cost-center-item-detail',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+    },
+    '/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/:id/:itemId': {
+      //新增成本中心项:编辑成本中心项
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-item/new-cost-center-item.js')
+      ),
+      name: 'new-cost-center-item',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+    },
+    '/admin-setting/cost-center/cost-center-extend-filed': {
+      //成本中心扩展字段
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/cost-center/cost-center-extend-filed/cost-center-extend-filed.js')
+      ),
+      name: 'cost-center-extend-filed',
+      parent: '/admin-setting/cost-center',
+    },
+
     '/approval-management/approve-payment-requisition': {
       component: dynamicWrapper(app, [], () =>
         import('containers/approve/payment-requisition/payment-requisition.js')

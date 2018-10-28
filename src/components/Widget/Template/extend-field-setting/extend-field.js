@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 
 import { Button, Icon, Modal } from 'antd';
 import 'styles/components/template/extend-field-setting/extend-field.scss';
-import { deepCopy } from 'share/common';
-import { ListSort } from 'components/index';
-import WidgetSetting from 'components/Template/widget/widget-setting';
+import { deepCopy } from 'utils/extend';
+import { ListSort } from 'widget/index';
+import WidgetSetting from 'widget/Template/widget/widget-setting';
 
 let customFormFieldsSorted = [];
 
@@ -28,7 +28,7 @@ class ExtendFieldComponent extends React.Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -39,7 +39,7 @@ class ExtendFieldComponent extends React.Component {
     });
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   addFieldItem = field => {
     let item = deepCopy(field);
@@ -437,16 +437,16 @@ class ExtendFieldComponent extends React.Component {
 
 // 这个组件可以被导入其他地方可以配置
 ExtendFieldComponent.propTypes = {
-  header: React.PropTypes.node, //
-  footer: React.PropTypes.node, //
-  filedMax: React.PropTypes.number, //可以配置的字段数目
-  customFrom: React.PropTypes.object, //
-  customFromOriginList: React.PropTypes.array, //
-  saveFrom: React.PropTypes.func, //
-  cancel: React.PropTypes.func, //
-  rightIsShow: React.PropTypes.bool, //右边部分是否显示
-  bottomBtnIsShow: React.PropTypes.bool, //下边的按钮是否显示
-  leftDragable: React.PropTypes.bool, //左边部分是否可以拖拽
+  header: PropTypes.node, //
+  footer: PropTypes.node, //
+  filedMax: PropTypes.number, //可以配置的字段数目
+  customFrom: PropTypes.object, //
+  customFromOriginList: PropTypes.array, //
+  saveFrom: PropTypes.func, //
+  cancel: PropTypes.func, //
+  rightIsShow: PropTypes.bool, //右边部分是否显示
+  bottomBtnIsShow: PropTypes.bool, //下边的按钮是否显示
+  leftDragable: PropTypes.bool, //左边部分是否可以拖拽
 };
 ExtendFieldComponent.defaultProps = {
   filedMax: 10,
@@ -461,10 +461,10 @@ ExtendFieldComponent.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
+    profile: state.user.profile,
     user: state.user.currentUser,
-    tenantMode: state.main.tenantMode,
-    company: state.login.company,
+    tenantMode: true,
+    company: state.user.company,
   };
 }
 

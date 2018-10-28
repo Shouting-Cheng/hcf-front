@@ -1,48 +1,50 @@
-.cost-center-item-detail {
-  .ant-tabs-bar{
-    margin-bottom: 0px;
-  }
-  .table-header-buttons .total-title{
-    line-height: 32px;
-  }
-  .cost-center-extend {
-    background: #f7f7f7;
-    border: 1px solid #e8e8e8;
-    margin-top: 10px;
-    .cost-center-extend-title {
-      background: #f7f7f7;
-      border-bottom: 1px solid #e8e8e8;
-      line-height: 50px;
-      font-size: 14px;
-      font-weight: bold;
-      padding-left: 10px;
-      color: #656665;
+:global {
+  .cost-center-item-detail {
+    .ant-tabs-bar{
+      margin-bottom: 0px;
     }
-    .info-item-wrap {
-      padding: 10px;
-      .info-item {
-        margin-bottom: 10px;
-        margin-right: 10px;
-        width: 240px;
-        .info-item-title {
-          color: #999999;
-          line-height: 20px;
-          height: 20px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .info-item-text {
-          color: #333;
-          cursor: pointer;
-          line-height: 32px;
-          height: 32px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          img {
+    .table-header-buttons .total-title{
+      line-height: 32px;
+    }
+    .cost-center-extend {
+      background: #f7f7f7;
+      border: 1px solid #e8e8e8;
+      margin-top: 10px;
+      .cost-center-extend-title {
+        background: #f7f7f7;
+        border-bottom: 1px solid #e8e8e8;
+        line-height: 50px;
+        font-size: 14px;
+        font-weight: bold;
+        padding-left: 10px;
+        color: #656665;
+      }
+      .info-item-wrap {
+        padding: 10px;
+        .info-item {
+          margin-bottom: 10px;
+          margin-right: 10px;
+          width: 240px;
+          .info-item-title {
+            color: #999999;
+            line-height: 20px;
+            height: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .info-item-text {
+            color: #333;
+            cursor: pointer;
+            line-height: 32px;
             height: 32px;
-            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            img {
+              height: 32px;
+              width: auto;
+            }
           }
         }
       }
