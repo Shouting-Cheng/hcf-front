@@ -262,15 +262,17 @@ class GLWorkOrderType extends Component {
   //账套切换事件
   searchEventHandle = (event, value) => {
     if (event == 'SETOFBOOKSID') {
-      this.setState(
-        {
-          loading: true,
-          setOfBooksId: value,
-        },
-        () => {
-          this.getList();
-        }
-      );
+      if(value){
+        this.setState(
+          {
+            loading: true,
+            setOfBooksId: value,
+          },
+          () => {
+            this.getList();
+          }
+        );
+      }
     }
   };
   /**
