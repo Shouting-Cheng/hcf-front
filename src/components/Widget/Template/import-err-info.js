@@ -12,7 +12,6 @@ import { messages } from 'utils/utils';
 import { Modal, Button, Tabs, Progress, Icon, Table, Popover } from 'antd';
 import PropTypes from 'prop-types';
 
-import { messages } from 'utils/utils';
 
 //数据导入组件之后显示错误信息的弹窗
 //只用来显示：错误数据需要外部传入
