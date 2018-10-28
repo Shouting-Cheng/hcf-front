@@ -101,7 +101,12 @@ class CostCenterExtendFiled extends React.Component {
     }
     //取消
     cancel = () => {
-        this.context.router.goBack();
+        // this.context.router.goBack();
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center`,
+            })
+        );
     }
     //获取表单
     getCustomForm = () => {

@@ -12,6 +12,9 @@ import BasicInfo from 'widget/basic-info';
 import 'styles/setting/cost-center/cost-center-item/cost-center-item-detail.scss';
 import { fitText, deepCopy } from 'utils/extend';
 import { SelectDepOrPerson } from 'widget/index';
+
+import { routerRedux } from 'dva/router';
+
 const TabPane = Tabs.TabPane;
 class CostCenterItemDetail extends React.Component {
     constructor(props) {
@@ -142,8 +145,8 @@ class CostCenterItemDetail extends React.Component {
                 },
             ],
             infoData: {},
-            CostCenterDetail: menuRoute.getRouteItem('cost-center-detail', 'key'),//成本中心详情
-            newCostCenterItem: menuRoute.getRouteItem('new-cost-center-item'),
+            // CostCenterDetail: menuRoute.getRouteItem('cost-center-detail', 'key'),//成本中心详情
+            // newCostCenterItem: menuRoute.getRouteItem('new-cost-center-item'),
         };
     }
 
@@ -463,7 +466,12 @@ class CostCenterItemDetail extends React.Component {
 
     //返回成本中心
     backToCostCenterDetail = () => {
-        this.context.router.push(this.state.CostCenterDetail.url.replace(':id', this.props.match.params.id));
+        // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', this.props.match.params.id));
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}`,
+            })
+        );
     }
     //搜索成本中心项的人
     emitEmptyForUser = () => {

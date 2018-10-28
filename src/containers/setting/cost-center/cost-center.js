@@ -177,7 +177,7 @@ class CostCenter extends React.Component {
 
     //成本中心详情
     detailCostCenter(e, record) {
-        this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOID));
+        // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOID));
         this.props.dispatch(
             routerRedux.push({
                 pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOID}`,
@@ -241,6 +241,11 @@ class CostCenter extends React.Component {
     //去组织架构页面
     goStructure = () => {
         this.context.router.push(this.state.OrgStruture.url);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/enterprise-manage/org-structure`,
+            })
+        );
     }
     //禁用部门：成本中心
     disabledDepCostCenter = () => {

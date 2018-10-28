@@ -47,7 +47,7 @@ class NewCostCenter extends React.Component {
     }
 
     getCostCenterDetail() {
-        CCService.getCostCenterDetail(this.props.params.id)
+        CCService.getCostCenterDetail(this.props.match.params.id)
             .then((response) => {
                 this.setState({
                     costCenterDetail: response.data,
@@ -123,7 +123,12 @@ class NewCostCenter extends React.Component {
     //点击取消，返回
     handleCancel = (e) => {
         e.preventDefault();
-        this.context.router.goBack();
+        // this.context.router.goBack();
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center`,
+            })
+        );
     };
     //名称：自定义值列表项多语言
     i18nNameChange = (name, i18nName) => {

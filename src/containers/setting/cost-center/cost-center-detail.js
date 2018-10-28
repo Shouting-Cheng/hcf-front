@@ -21,6 +21,8 @@ import { SelectDepOrPerson } from 'widget/index';
 
 import ExportModal from 'widget/Template/export-modal/export-modal';
 
+import { routerRedux } from 'dva/router';
+
 class CostCenterDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -152,11 +154,11 @@ class CostCenterDetail extends React.Component {
             ],
             infoData: {},
             //成本中心列表
-            //   costCenter: menuRoute.getRouteItem('cost-center'),
+            // costCenter: menuRoute.getRouteItem('cost-center'),
             //成本中心项：编辑与新增
-            //   newCostCenterItem: menuRoute.getRouteItem('new-cost-center-item'),
+            // newCostCenterItem: menuRoute.getRouteItem('new-cost-center-item'),
             //成本中心项：详情
-            //   CostCenterItemDetail: menuRoute.getRouteItem('cost-center-item-detail'),
+            // CostCenterItemDetail: menuRoute.getRouteItem('cost-center-item-detail'),
         };
     }
 
@@ -176,7 +178,7 @@ class CostCenterDetail extends React.Component {
     }
 
     getCostCenterDetail() {
-        CCService.getCostCenterDetail(this.props.params.id)
+        CCService.getCostCenterDetail(this.props.match.params.id)
             .then((response) => {
                 this.setState({
                     infoData: response.data,
@@ -195,7 +197,7 @@ class CostCenterDetail extends React.Component {
             keyword: this.state.costCenterItemName,
             sort: null//是否按照code排序
         }
-        CCService.getCostCenterItemsAll(this.props.params.id, params)
+        CCService.getCostCenterItemsAll(this.props.match.params.id, params)
             .then((response) => {
                 if (isClearRowSelection) {
                     this.clearRowSelection()
@@ -226,23 +228,38 @@ class CostCenterDetail extends React.Component {
     };
     //新增成本中心项
     handleNew = () => {
-        let path = this.state.newCostCenterItem.url.replace(":id", this.props.params.id).replace(":itemId", "NEW");
-        path = path.replace(":itemId", "NEW");
-        this.context.router.push(path);
+        // let path = this.state.newCostCenterItem.url.replace(":id", this.props.params.id).replace(":itemId", "NEW");
+        // path = path.replace(":itemId", "NEW");
+        // this.context.router.push(path);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/NEW`,
+            })
+        );
     };
     //成本中心项编辑
     editCostCenterItem = (e, record) => {
-        this.setBeforePage(this.state.pagination);
-        let path = this.state.newCostCenterItem.url.replace(":id", this.props.params.id);
-        path = path.replace(':itemId', record.costCenterItemOID);
-        this.context.router.push(path);
+        // this.setBeforePage(this.state.pagination);
+        // let path = this.state.newCostCenterItem.url.replace(":id", this.props.params.id);
+        // path = path.replace(':itemId', record.costCenterItemOID);
+        // this.context.router.push(path);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}`,
+            })
+        );
     };
     //成本中心项详情
     detailCostCenterItem = (e, record) => {
-        this.setBeforePage(this.state.pagination);
-        let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.params.id);
-        path = path.replace(":itemId", record.costCenterItemOID);
-        this.context.router.push(path);
+        // this.setBeforePage(this.state.pagination);
+        // let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.match.params.id);
+        // path = path.replace(":itemId", record.costCenterItemOID);
+        // this.context.router.push(path);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}'`,
+            })
+        );
     };
 
     //批量添加人员
@@ -261,7 +278,7 @@ class CostCenterDetail extends React.Component {
             userOIDs: userOIDs,
             costCenterItemOIDs: this.state.selectedRowKeys,
             selectMode: "default",
-            costCenterOID: this.props.params.id
+            costCenterOID: this.props.match.params.id
         }
         CCService.costCenterItemAssociateUsersDTO(params)
             .then((res) => {
@@ -332,8 +349,13 @@ class CostCenterDetail extends React.Component {
 
     //返回成本中心
     backToCostCenter = () => {
-        let path = this.state.costCenter.url;
-        this.context.router.push(path);
+        // let path = this.state.costCenter.url;
+        // this.context.router.push(path);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center`,
+            })
+        );
     }
     //搜索成本中心项
     emitEmptyForDep = () => {
@@ -414,7 +436,7 @@ class CostCenterDetail extends React.Component {
             flieUploading: true,
         });
 
-        CCService.importTemplateCostCenterOID(this.props.params.id, formData)
+        CCService.importTemplateCostCenterOID(this.props.match.params.id, formData)
             .then((res) => {
                 this.setState({
                     fileList: [],

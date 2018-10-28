@@ -346,15 +346,15 @@ class ExportModal extends React.Component {
 }
 
 ExportModal.propTypes = {
-  onConfirm: React.PropTypes.func, // 点击确认之后的回调：返回结果
-  onCancel: React.PropTypes.func, //点击取消的时候
-  exportTitle: React.PropTypes.any, //导出按钮上的文本
-  exportType: React.PropTypes.any, //导出类型
-  exportCommand: React.PropTypes.any, //导出命令，请查看本组件的文档  readme.
-  exportCondition: React.PropTypes.any, //条件
-  type: React.PropTypes.any, //按钮类型，btn,text
-  btnType: React.PropTypes.any, //按钮类型，btn,text
-  disabled: React.PropTypes.bool, //按钮是否禁用
+  onConfirm: PropTypes.func, // 点击确认之后的回调：返回结果
+  onCancel: PropTypes.func, //点击取消的时候
+  exportTitle: PropTypes.any, //导出按钮上的文本
+  exportType: PropTypes.any, //导出类型
+  exportCommand: PropTypes.any, //导出命令，请查看本组件的文档  readme.
+  exportCondition: PropTypes.any, //条件
+  type: PropTypes.any, //按钮类型，btn,text
+  btnType: PropTypes.any, //按钮类型，btn,text
+  disabled: PropTypes.bool, //按钮是否禁用
 };
 
 ExportModal.contextTypes = {
@@ -367,10 +367,10 @@ ExportModal.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
+    profile: state.user.profile,
     user: state.user.currentUser,
-    tenantMode: state.main.tenantMode,
-    company: state.login.company,
+    tenantMode: true,
+    company: state.user.company,
   };
 }
 

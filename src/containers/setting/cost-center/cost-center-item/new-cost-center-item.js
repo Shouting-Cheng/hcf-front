@@ -19,6 +19,8 @@ const FormItem = Form.Item;
 import { SelectDepOrPerson } from 'widget/index';
 import { costCenterItemDefault } from "containers/setting/cost-center/cost-center.model";
 
+import { routerRedux } from 'dva/router';
+
 class NewCostCenterItem extends React.Component {
     constructor(props) {
         super(props);
@@ -40,7 +42,7 @@ class NewCostCenterItem extends React.Component {
                 className: ["f-right select-dep-close-wrap", "f-right select-dep-close-wrap select-dep-close-wrap-show"]
             },
             //成本中心项：详情
-            CostCenterItemDetail: menuRoute.getRouteItem('cost-center-item-detail'),
+            // CostCenterItemDetail: menuRoute.getRouteItem('cost-center-item-detail'),
             manageIsNoRequired: true
 
         };
@@ -50,7 +52,8 @@ class NewCostCenterItem extends React.Component {
         // 经理是否必填，通过fp控制：costcenteritem.manager.nullable===true,代表可以不填，其他代表必须填写
         // 这个字段必须保证公司的fp配置与集团的fp配置一样，不然在公司模式下修改，会有问题：报错经理必填
         this.setState({
-            manageIsNoRequired: this.props.profile['costcenteritem.manager.nullable']
+            //不知道这个错是什么愿意:hx
+            // manageIsNoRequired: this.props.profile['costcenteritem.manager.nullable']
         })
         if (this.props.match.params.itemId === "NEW") {
             //新增
@@ -178,9 +181,14 @@ class NewCostCenterItem extends React.Component {
     }
     //成本中心项详情
     detailCostCenterItem = (record) => {
-        let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.match.params.id);
-        path = path.replace(":itemId", record.costCenterItemOID);
-        this.context.router.push(path);
+        // let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.match.params.id);
+        // path = path.replace(":itemId", record.costCenterItemOID);
+        // this.context.router.push(path);
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}`,
+            })
+        );
     };
     updateCostCenterItem = (costCenterItem) => {
         this.setState({
@@ -200,7 +208,12 @@ class NewCostCenterItem extends React.Component {
     //点击取消，返回
     handleCancel = (e) => {
         e.preventDefault();
-        this.context.router.goBack();
+        // this.context.router.goBack();
+        this.props.dispatch(
+            routerRedux.push({
+                pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}`,
+            })
+        );
     };
     //名称：自定义值列表项多语言
     i18nNameChange = (name, i18nName) => {
