@@ -1324,7 +1324,22 @@ export const getRouterData = app => {
         import('containers/setting/security-setting/security-setting.js')
       ),
       name: 'security-setting'
-    }
+    },
+    '/approval-management/approve-payment-requisition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition.js')
+      ),
+      // 付款申请单审批
+      name: 'approve-payment-requisition',
+    },
+    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition-detail.js')
+      ),
+      // 付款申请单审批详情
+      name: 'approve-payment-requisition-detail',
+      parent: '/approval-management/approve-payment-requisition',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
