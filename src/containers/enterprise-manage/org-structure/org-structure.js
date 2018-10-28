@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { connect } from 'dva';  
-import { routerRedux } from "dva/router";
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Button, Table, Icon, Menu, Dropdown, Input, Modal, Popover } from 'antd';
 
 const confirm = Modal.confirm;
@@ -133,9 +132,7 @@ class OrgStructure extends React.Component {
           width: '10%',
           render: (text, record) => (
             <span>
-            <a onClick={e => this.useDetail(e, record)}>
-                {this.$t('common.detail')}
-              </a>
+              <a onClick={e => this.useDetail(e, record)}>{this.$t('common.detail')}</a>
             </span>
           ),
         },
@@ -853,7 +850,7 @@ class OrgStructure extends React.Component {
               ROLE_TENANT_ADMIN={this.state.ROLE_TENANT_ADMIN}
               CREATE_DATA_TYPE={this.state.CREATE_DATA_TYPE}
               managerIsRequired={!true}
-            // managerIsRequired={!this.props.profile["department.manager.required.disable"]}
+              // managerIsRequired={!this.props.profile["department.manager.required.disable"]}
               disabledDep={this.disabledDep}
               clickMeunNewChildDep={this.clickMeunNewChildDep}
               updateDepSuccess={this.updateDepSuccess}
@@ -1077,20 +1074,20 @@ class OrgStructure extends React.Component {
           show={this.state.slideFrame.visible}
           // content={OrgNewDep}
           onClose={() => this.setState({ slideFrame: { visible: false } })}
-          params={{ ...this.state.slideFrame.params, flag: this.state.slideFrame.visible }}  
+          params={{ ...this.state.slideFrame.params, flag: this.state.slideFrame.visible }}
         >
-        <OrgNewDep
-        onClose={this.handleCloseSlide}
-        params={{
-           ...this.state.slideFrame.params,
-         flag: this.state.slideFrame.visible
-          }}/>
+          <OrgNewDep
+            onClose={this.handleCloseSlide}
+            params={{
+              ...this.state.slideFrame.params,
+              flag: this.state.slideFrame.visible,
+            }}
+          />
         </SlideFrame>
       </div>
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {

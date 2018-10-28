@@ -1,4 +1,3 @@
-
 /**
  * Created by zhouli on 18/1/30
  * Email li.zhou@huilianyi.com
@@ -8,8 +7,8 @@ import React from 'react';
 
 import 'styles/enterprise-manage/org-structure/org-component/org-person-info.scss';
 import { Button, Icon } from 'antd';
-import { routerRedux } from "dva/router";
-import PropTypes from 'prop-types'
+import { routerRedux } from 'dva/router';
+import PropTypes from 'prop-types';
 class OrgStructurePersonInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +22,7 @@ class OrgStructurePersonInfo extends React.Component {
     this.setState({ user: this.props.user });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({ user: this.props.user });
   }
 
@@ -35,7 +34,9 @@ class OrgStructurePersonInfo extends React.Component {
   goToPersonDetail = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${this.state.user.userOID}`,
+        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${
+          this.state.user.userOID
+        }`,
       })
     );
     // let path = menuRoute

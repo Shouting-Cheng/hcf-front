@@ -12,7 +12,7 @@ import { Button, Icon, Menu, Dropdown, message, Popover } from 'antd';
 import ListSelector from 'components/Widget/list-selector.js';
 //需要在这个里面去配置弹窗类型
 import chooserData from 'share/chooserData';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { LanguageInput } from 'components/Widget/index';
 import { fitText } from 'utils/extend';
 //点击取消时用
@@ -38,7 +38,7 @@ class OrgStructureRoles extends React.Component {
     this.setState({ selectedKeysDepDataByApi: this.props.selectedKeysDepDataByApi });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({ selectedKeysDepDataByApi: this.props.selectedKeysDepDataByApi }, () => {
       let codeClass = 'f-left roles-title-text';
       let codeDisabled = false;
@@ -468,5 +468,3 @@ OrgStructureRoles.propTypes = {
   selectedKeys: PropTypes.array.isRequired, //被选择了的部门
 };
 export default OrgStructureRoles;
-
-

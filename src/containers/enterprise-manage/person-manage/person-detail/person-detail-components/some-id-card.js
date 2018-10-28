@@ -1,14 +1,14 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/3/8
  * Email li.zhou@huilianyi.com
  */
 //各种证件信息
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/some-id-card.scss';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
 import moment from 'moment';
+import { messages } from 'utils/utils';
 
 import {
   DatePicker,
@@ -309,11 +309,11 @@ class PersonSomeIdCard extends React.Component {
             </div>
             <div className="f-right status">
               {/*? "启用中" : "已禁用"*/}
-              {card.enable ? messages('pdc.id.card.enable') : messages('pdc.id.card.disable')}
+              {card.enable ? this.$t('pdc.id.card.enable') : this.$t('pdc.id.card.disable')}
             </div>
             <div className="f-right is-default">
               {/*? "默认" : ""*/}
-              {card.isDefault ? messages('pdc.id.card.default') : ''}
+              {card.isDefault ? this.$t('pdc.id.card.default') : ''}
             </div>
 
             <div className="clear" />
@@ -324,7 +324,7 @@ class PersonSomeIdCard extends React.Component {
           <div className="card-middle1">
             <div className="f-left bank-title">
               {/*证件类型：*/}
-              {messages('pdc.id.card.card.type')}：
+              {this.$t('pdc.id.card.card.type')}：
             </div>
             <div className="f-left bank-title-text">{card.cardTypeName}</div>
             <div className="clear" />
@@ -333,7 +333,7 @@ class PersonSomeIdCard extends React.Component {
           <div className="card-middle1">
             <div className="f-left bank-title">
               {/*证件过期时间：*/}
-              {messages('pdc.id.card.card.expire')}：
+              {this.$t('pdc.id.card.card.expire')}：
             </div>
             <div className="f-left bank-title-text">
               {card.cardExpiredTime ? moment(card.cardExpiredTime).format('YYYY-MM-DD') : ''}
@@ -344,7 +344,7 @@ class PersonSomeIdCard extends React.Component {
           <div className="card-middle2">
             <div className="f-left bank-address">
               {/*国籍：*/}
-              {messages('pdc.id.card.contry')}：
+              {this.$t('pdc.id.card.contry')}：
             </div>
             <div className="f-left bank-address-text">{card.nationality}</div>
             <div className="clear" />
@@ -356,7 +356,7 @@ class PersonSomeIdCard extends React.Component {
                 <Icon type="edit" className="info-circle" />
                 <span>
                   {/*编辑*/}
-                  {messages('common.edit')}
+                  {this.$t('common.edit')}
                 </span>
               </div>
             ) : (
@@ -372,12 +372,12 @@ class PersonSomeIdCard extends React.Component {
   render() {
     let nameTips = (
       <div>
-        <p>{messages('pdc.id.card.name.tips0')}</p>
-        <p>{messages('pdc.id.card.name.tips00')}</p>
-        <p>{messages('pdc.id.card.name.tips1')}</p>
-        <p>{messages('pdc.id.card.name.tips11')}</p>
-        <p>{messages('pdc.id.card.name.tips2')}</p>
-        <p>{messages('pdc.id.card.name.tips22')}</p>
+        <p>{this.$t('pdc.id.card.name.tips0')}</p>
+        <p>{this.$t('pdc.id.card.name.tips00')}</p>
+        <p>{this.$t('pdc.id.card.name.tips1')}</p>
+        <p>{this.$t('pdc.id.card.name.tips11')}</p>
+        <p>{this.$t('pdc.id.card.name.tips2')}</p>
+        <p>{this.$t('pdc.id.card.name.tips22')}</p>
       </div>
     );
 
@@ -404,9 +404,7 @@ class PersonSomeIdCard extends React.Component {
           className="create-update-modal"
           //? '编辑证件信息' : '新增证件信息'
           title={
-            card.contactCardOID
-              ? messages('pdc.id.card.edit.card')
-              : messages('pdc.id.card.new.card')
+            card.contactCardOID ? this.$t('pdc.id.card.edit.card') : this.$t('pdc.id.card.new.card')
           }
           visible={this.state.showCreatModel}
           footer={null}
@@ -416,18 +414,18 @@ class PersonSomeIdCard extends React.Component {
           <Form onSubmit={this.addCard} onChange={this.handleFormChange}>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.last.name')} //姓
+              label={this.$t('pdc.id.card.last.name')} //姓
             >
               {getFieldDecorator('lastName', {
                 initialValue: card.lastName,
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
                     max: 30,
-                    message: messages('pdc.id.card.nomore.30'), //"不能超过30个字符"
+                    message: this.$t('pdc.id.card.nomore.30'), //"不能超过30个字符"
                   },
                 ],
               })(
@@ -439,7 +437,7 @@ class PersonSomeIdCard extends React.Component {
                     className="input-target"
                     onChange={this.lastNameChange}
                     defaultValue={card.lastName}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                   &nbsp;&nbsp;&nbsp;
                   <span className="tips-wrap">
@@ -455,7 +453,7 @@ class PersonSomeIdCard extends React.Component {
             {/*如果是英文名这个才必须填写*/}
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.first.name')} //名
+              label={this.$t('pdc.id.card.first.name')} //名
             >
               {getFieldDecorator('firstName', {
                 initialValue: card.firstName,
@@ -469,7 +467,7 @@ class PersonSomeIdCard extends React.Component {
                     className="input-target"
                     defaultValue={card.firstName}
                     onChange={this.firstNameChange}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                   &nbsp;&nbsp;&nbsp;
                   <span className="tips-wrap">
@@ -483,7 +481,7 @@ class PersonSomeIdCard extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.contry')} //国籍
+              label={this.$t('pdc.id.card.contry')} //国籍
             >
               {getFieldDecorator('nationality', {
                 initialValue: card.nationality,
@@ -494,7 +492,7 @@ class PersonSomeIdCard extends React.Component {
                     defaultValue={card.nationality}
                     className="select-nationality"
                     showSearch
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     onChange={this.handleNationalityChange}
                     filterOption={(input, option) =>
                       option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -508,14 +506,14 @@ class PersonSomeIdCard extends React.Component {
 
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.card.type')} //证件类型
+              label={this.$t('pdc.id.card.card.type')} //证件类型
             >
               {getFieldDecorator('cardType', {
                 initialValue: card.cardTypeName,
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                 ],
               })(
@@ -523,7 +521,7 @@ class PersonSomeIdCard extends React.Component {
                   defaultValue={card.cardTypeName}
                   className="select-cardType"
                   showSearch
-                  placeholder={messages('common.please.select')}
+                  placeholder={this.$t('common.please.select')}
                   onChange={this.handleCardTypeChange}
                   filterOption={(input, option) =>
                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -535,14 +533,14 @@ class PersonSomeIdCard extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.card.number')} //证件号
+              label={this.$t('pdc.id.card.card.number')} //证件号
             >
               {getFieldDecorator('cardNo', {
                 initialValue: card.originalCardNo,
                 rules: [
                   {
                     max: 30,
-                    message: messages('pdc.id.card.nomore.30'), //"不能超过30个字符"
+                    message: this.$t('pdc.id.card.nomore.30'), //"不能超过30个字符"
                   },
                 ],
               })(
@@ -551,14 +549,14 @@ class PersonSomeIdCard extends React.Component {
                 <div>
                   <Input
                     defaultValue={card.originalCardNo}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 </div>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.card.expire')} //证件到期时间
+              label={this.$t('pdc.id.card.card.expire')} //证件到期时间
             >
               {getFieldDecorator('cardExpiredTime', {
                 initialValue: card.cardExpiredTime ? moment(card.cardExpiredTime) : '',
@@ -575,7 +573,7 @@ class PersonSomeIdCard extends React.Component {
             </FormItem>
 
             {/*状态*/}
-            <FormItem {...formItemLayout} label={messages('common.column.status')} colon={true}>
+            <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
               {getFieldDecorator('enable', {
                 initialValue: card.enable,
               })(
@@ -594,7 +592,7 @@ class PersonSomeIdCard extends React.Component {
                       width: 100,
                     }}
                   >
-                    {card.enable ? messages('common.status.enable') : messages('common.disabled')}
+                    {card.enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
                   </span>
                 </div>
               )}
@@ -603,7 +601,7 @@ class PersonSomeIdCard extends React.Component {
             {/*是否默认*/}
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.id.card.is.set.default.title')} //设为默认
+              label={this.$t('pdc.id.card.is.set.default.title')} //设为默认
             >
               {getFieldDecorator('isDefault', {
                 initialValue: card.isDefault,
@@ -615,17 +613,17 @@ class PersonSomeIdCard extends React.Component {
                     onChange={this.handleCardDefaultChange}
                   >
                     {/*是（只能有一个默认）*/}
-                    {messages('pdc.id.card.is.set.default')}
+                    {this.$t('pdc.id.card.is.set.default')}
                   </Checkbox>
                 </div>
               )}
             </FormItem>
 
             <div className="role-list-from-footer">
-              <Button onClick={this.cancelCard}>{messages('common.cancel')}</Button>
+              <Button onClick={this.cancelCard}>{this.$t('common.cancel')}</Button>
               &nbsp;&nbsp;&nbsp;
               <Button type="primary" htmlType="submit" loading={loading}>
-                {messages('common.save')}
+                {this.$t('common.save')}
               </Button>
             </div>
           </Form>
@@ -636,11 +634,11 @@ class PersonSomeIdCard extends React.Component {
 }
 
 PersonSomeIdCard.propTypes = {
-  createCardOver: React.PropTypes.func, //创建银行卡后
-  cardInfo: React.PropTypes.object, //证件对象
-  isEmpty: React.PropTypes.bool, // 是否是空的
-  disabled: React.PropTypes.bool, // 是否是启用的
-  isShowEditBtn: React.PropTypes.bool, // 是否显示编辑按钮
+  createCardOver: PropTypes.func, //创建银行卡后
+  cardInfo: PropTypes.object, //证件对象
+  isEmpty: PropTypes.bool, // 是否是空的
+  disabled: PropTypes.bool, // 是否是启用的
+  isShowEditBtn: PropTypes.bool, // 是否显示编辑按钮
 };
 PersonSomeIdCard.defaultProps = {
   isShowEditBtn: true,

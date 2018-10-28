@@ -1,27 +1,29 @@
-.pm-invite-person-modal{
-  .no-actived-footer{
-    text-align: right;
-    .cancel{
-      margin-right: 16px;
+:global{
+  .pm-invite-person-modal{
+    .no-actived-footer{
+      text-align: right;
+      .cancel{
+        margin-right: 16px;
+      }
     }
   }
-}
-.invite-person-modal-wrap{
-  .person-manage-table-icon-tips{
-    background: #e7f3fc;
-    border: solid 1px #c2e4fd;
-    padding: 5px 15px 5px 15px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    .info-circle{
-      color: #1890ff;
-    }
-    .tips-text{
-      padding-left: 10px;
-      .tips-inner-btn{
+  .invite-person-modal-wrap{
+    .person-manage-table-icon-tips{
+      background: #e7f3fc;
+      border: solid 1px #c2e4fd;
+      padding: 5px 15px 5px 15px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      .info-circle{
         color: #1890ff;
-        padding-left: 20px;
-        cursor: pointer;
+      }
+      .tips-text{
+        padding-left: 10px;
+        .tips-inner-btn{
+          color: #1890ff;
+          padding-left: 20px;
+          cursor: pointer;
+        }
       }
     }
   }

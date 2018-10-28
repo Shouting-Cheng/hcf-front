@@ -235,4 +235,9 @@ function mapStateToProps(state) {
 }
 
 const WrappedOrgNewDep = Form.create()(OrgNewDep);
-export default connect(mapStateToProps,null,null,{ withRef: true })(WrappedOrgNewDep);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(WrappedOrgNewDep);

@@ -3,16 +3,16 @@
  * Email li.zhou@huilianyi.com
  */
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import BankCard from 'containers/enterprise-manage/person-manage/person-detail/person-detail-components/bank-card';
 import SomeIdCard from 'containers/enterprise-manage/person-manage/person-detail/person-detail-components/some-id-card';
 import BasicInfo from 'containers/enterprise-manage/person-manage/person-detail/person-detail-components/basic-info';
 import VendorInfo from 'containers/enterprise-manage/person-manage/person-detail/person-detail-components/vendor-info';
 import moment from 'moment';
-import { messages, deepCopy } from 'share/common';
+import { deepCopy } from 'utils/extend';
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail.scss';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
-import menuRoute from 'routes/menuRoute';
 import { Button, Icon, message, Modal, DatePicker } from 'antd';
 import {
   personObjDefault,
@@ -42,7 +42,7 @@ class PersonDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.initPage(this.props.params.userOID);
+    this.initPage(this.props.match.params.userOID);
   }
 
   initPage(oid) {
@@ -56,8 +56,8 @@ class PersonDetail extends React.Component {
         BasicInfoEditing: true,
       });
     } else {
-      bankAccountDefault.userOID = this.props.params.userOID;
-      contactCardDefault.userOID = this.props.params.userOID;
+      bankAccountDefault.userOID = this.props.match.params.userOID;
+      contactCardDefault.userOID = this.props.match.params.userOID;
 
       this.getPersonDetail();
 
@@ -90,7 +90,7 @@ class PersonDetail extends React.Component {
 
   //获取人员信息
   getPersonDetail = userOID => {
-    let _userOID = this.props.params.userOID;
+    let _userOID = this.props.match.params.userOID;
     if (userOID) {
       _userOID = userOID;
     }
@@ -98,11 +98,11 @@ class PersonDetail extends React.Component {
     PDService.getPersonDetail(_userOID).then(res => {
       let data = res.data;
       if (data.gender === 0) {
-        data.genderName = messages('pdc.basic.info.male');
+        data.genderName = this.$t('pdc.basic.info.male');
       } else if (data.gender === 1) {
-        data.genderName = messages('pdc.basic.info.female');
+        data.genderName = this.$t('pdc.basic.info.female');
       } else {
-        data.genderName = messages('pdc.basic.info.unknem');
+        data.genderName = this.$t('pdc.basic.info.unknem');
       }
       if (data.countryCode === undefined) {
         data.mobileCode = '86';
@@ -162,7 +162,7 @@ class PersonDetail extends React.Component {
   //获取银行信息
   getBankCards = () => {
     //编辑更新
-    PDService.getBankCards(this.props.params.userOID).then(res => {
+    PDService.getBankCards(this.props.match.params.userOID).then(res => {
       this.setState({
         bankCards: res.data,
       });
@@ -172,7 +172,7 @@ class PersonDetail extends React.Component {
   //获取证件信息
   getContactCards = () => {
     //编辑更新
-    PDService.getContactCards(this.props.params.userOID).then(res => {
+    PDService.getContactCards(this.props.match.params.userOID).then(res => {
       this.setState({
         contactCards: res.data,
       });
@@ -181,10 +181,10 @@ class PersonDetail extends React.Component {
 
   //获取供应商信息
   getSupplierInfo = () => {
-    PDService.getSupplierInfo(this.props.params.userOID).then(res => {
+    PDService.getSupplierInfo(this.props.match.params.userOID).then(res => {
       //需要用deepCopy，不然有对象引用导致的缓存
       let _vendorInfo = deepCopy(vendorInfoDefaultWithPerson);
-      _vendorInfo.userOID = this.props.params.userOID;
+      _vendorInfo.userOID = this.props.match.params.userOID;
       let vendorInfo = null;
       //如果有供应商信息
       if (!!res.data) {
@@ -203,7 +203,7 @@ class PersonDetail extends React.Component {
 
   //保存基本信息
   savedBasicInfoData = person => {
-    this.props.params.userOID = person.userOID;
+    this.props.match.params.userOID = person.userOID;
     //更新了人员信息，重新初始化页面
     this.initPage(person.userOID);
     this.BasicInfoToNoEditing();
@@ -254,10 +254,10 @@ class PersonDetail extends React.Component {
     let date = this.state.hireTime;
     if (date) {
       date = moment(date).format('YYYY-MM-DD');
-      PDService.setResignDate(this.props.params.userOID, date)
+      PDService.setResignDate(this.props.match.params.userOID, date)
         .then(res => {
           //操作成功
-          message.success(messages('pm.detail.person.operation.ok'));
+          message.success(this.$t('pm.detail.person.operation.ok'));
           this.getPersonDetail();
           this.setState({
             showSelectTime: false,
@@ -267,25 +267,25 @@ class PersonDetail extends React.Component {
         .catch(res => {});
     } else {
       //请选择离职时间
-      message.success(messages('pm.detail.person.select.time'));
+      message.success(this.$t('pm.detail.person.select.time'));
     }
   };
   //撤销离职
   cancelResign = () => {
-    PDService.cancelResign(this.props.params.userOID)
+    PDService.cancelResign(this.props.match.params.userOID)
       .then(res => {
         //操作成功
-        message.success(messages('pm.detail.person.operation.ok'));
+        message.success(this.$t('pm.detail.person.operation.ok'));
         this.getPersonDetail();
       })
       .catch(res => {});
   };
   //重新入职
   rehire = () => {
-    PDService.rehire(this.props.params.userOID)
+    PDService.rehire(this.props.match.params.userOID)
       .then(res => {
         //操作成功
-        message.success(messages('pm.detail.person.operation.ok'));
+        message.success(this.$t('pm.detail.person.operation.ok'));
         this.getPersonDetail();
       })
       .catch(res => {});
@@ -319,12 +319,12 @@ class PersonDetail extends React.Component {
           <div>
             <Button onClick={this.setResignDateModel}>
               {/*修改离职时间*/}
-              {messages('pm.detail.alt.leave.time')}
+              {this.$t('pm.detail.alt.leave.time')}
             </Button>
             &nbsp;&nbsp;&nbsp;
             <Button onClick={this.cancelResign}>
               {/*撤销离职*/}
-              {messages('pm.detail.alt.leave')}
+              {this.$t('pm.detail.alt.leave')}
             </Button>
           </div>
         );
@@ -333,7 +333,7 @@ class PersonDetail extends React.Component {
           <div>
             <Button onClick={this.rehire}>
               {/*重新入职*/}
-              {messages('pm.detail.rehire')}
+              {this.$t('pm.detail.rehire')}
             </Button>
           </div>
         );
@@ -342,7 +342,7 @@ class PersonDetail extends React.Component {
           <div>
             <Button onClick={this.setResignDateModel}>
               {/*离职该员工*/}
-              {messages('pm.detail.left.person')}
+              {this.$t('pm.detail.left.person')}
             </Button>
           </div>
         );
@@ -362,7 +362,7 @@ class PersonDetail extends React.Component {
           <Icon type="edit" />
           <span className="edit-text">
             {/*编辑*/}
-            {messages('common.edit')}
+            {this.$t('common.edit')}
           </span>
         </div>
       );
@@ -493,7 +493,7 @@ class PersonDetail extends React.Component {
           <Icon type="edit" />
           <span className="edit-text">
             {/*编辑*/}
-            {messages('common.edit')}
+            {this.$t('common.edit')}
           </span>
         </div>
       );
@@ -510,7 +510,7 @@ class PersonDetail extends React.Component {
           <div className="card-wrap-title">
             <div className="f-left">
               {/*供应商信息*/}
-              {messages('pm.detail.vendor.info')}
+              {this.$t('pm.detail.vendor.info')}
             </div>
             {this.renderVendorEditBtn(this.state.VendorEditing)}
             <div className="clear" />
@@ -530,7 +530,12 @@ class PersonDetail extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(menuRoute.getRouteItem('person-manage').url);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/setting/employee`,
+      })
+    );
+    // this.context.router.push(menuRoute.getRouteItem('person-manage').url);
   };
 
   renderInfoByUseIsNew = user => {
@@ -540,14 +545,14 @@ class PersonDetail extends React.Component {
           <div className="pd-card-wrap">
             <div className="card-wrap-title">
               {/*银行卡信息*/}
-              {messages('pm.detail.bank.info')}
+              {this.$t('pm.detail.bank.info')}
             </div>
             {this.renderBankCards(this.state.bankCards)}
           </div>
           <div className="pd-id-card-wrap">
             <div className="card-wrap-title">
               {/*证件信息*/}
-              {messages('pm.detail.id.info')}
+              {this.$t('pm.detail.id.info')}
             </div>
             {this.renderContactCards(this.state.contactCards)}
           </div>
@@ -562,7 +567,7 @@ class PersonDetail extends React.Component {
 
   render() {
     return (
-      <div className="person-detail-wrap">
+      <div className="person-detail-wrap" style={{ padding: '12px 14px 50px' }}>
         <div className="person-detail-top-wrap">
           {this.renderTopBtnByStatus(this.state.personObj)}
         </div>
@@ -570,7 +575,7 @@ class PersonDetail extends React.Component {
           <div className="basic-info-title">
             <div className="f-left">
               {/*个人基本信息*/}
-              {messages('pm.detail.basic.info')}
+              {this.$t('pm.detail.basic.info')}
             </div>
             {this.renderEditBtn(this.state.BasicInfoEditing)}
             <div className="clear" />
@@ -589,7 +594,7 @@ class PersonDetail extends React.Component {
         <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />
           {/*返回*/}
-          {messages('common.back')}
+          {this.$t('common.back')}
         </a>
 
         <div className="person-detail-wrap-for-model" />
@@ -600,7 +605,7 @@ class PersonDetail extends React.Component {
           closable
           width={600}
           className="show-select-hire-time-modal"
-          title={messages('pm.detail.person.set.left.time')} //设置离职时间
+          title={this.$t('pm.detail.person.set.left.time')} //设置离职时间
           visible={this.state.showSelectTime}
           footer={null}
           onCancel={this.hideSelectTime}
@@ -617,10 +622,10 @@ class PersonDetail extends React.Component {
           </div>
           <div className="hire-time-footer">
             <Button className="hire-time-cancel" onClick={this.hideSelectTime}>
-              {messages('common.cancel')}
+              {this.$t('common.cancel')}
             </Button>
             <Button type="primary" onClick={this.setResignDate}>
-              {messages('common.ok')}
+              {this.$t('common.ok')}
             </Button>
           </div>
         </Modal>
@@ -629,17 +634,14 @@ class PersonDetail extends React.Component {
   }
 }
 
-PersonDetail.contextTypes = {
-  router: React.PropTypes.object,
-};
 PersonDetail.propTypes = {};
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
-    company: state.login.company,
-    tenantMode: state.main.tenantMode,
+    profile: state.user.proFile,
+    user: state.user.user,
+    company: state.user.company,
+    tenantMode: true,
   };
 }
 
