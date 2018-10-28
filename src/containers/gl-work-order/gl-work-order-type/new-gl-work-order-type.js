@@ -534,7 +534,7 @@ class NewGLWorkOrderType extends Component {
             </RadioGroup>
             <Select
               ref="SelectAccount"
-              onFocus={this.onAccountClick}
+              onDropdownVisibleChange={this.onAccountClick}
               placeholder="请选择"
               disabled={accountScope === '1001' ? true : false}
               value={accountScope === '1001' ? '全部科目' : `已选择了${accountIdList.length}个科目`}
