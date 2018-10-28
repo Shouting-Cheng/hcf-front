@@ -1,10 +1,9 @@
-
 /**
  * Created by zhouli on 18/2/3
  * Email li.zhou@huilianyi.com
  */
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { Icon } from 'antd';
 import 'styles/enterprise-manage/org-structure/org-component/org-search-list.scss';
 
@@ -20,7 +19,7 @@ class OrgSearchList extends React.Component {
     this.setState({ data: this.props.searchList });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({ data: this.props.searchList });
   }
 

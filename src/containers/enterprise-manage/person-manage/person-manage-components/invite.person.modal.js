@@ -1,12 +1,11 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/3/28
  * Email li.zhou@huilianyi.com
  * 未激活的人邀请的弹窗
  */
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { connect } from 'dva';
+import PropTypes from 'prop-types';
 import { Modal, Input, Icon, Button, Table, message, Popover } from 'antd';
 import PMService from 'containers/enterprise-manage/person-manage/person-manage.service';
 import 'styles/enterprise-manage/person-manage/person-manage-components/invite.person.modal.scss';
@@ -35,7 +34,7 @@ class InvitePersonModal extends React.Component {
       selectedUserOIDs: [], //已选择的列表项的OIDs
       columnsNoActived: [
         {
-          title: messages('invite.person.companyName'), //公司
+          title: this.$t('invite.person.companyName'), //公司
           key: 'companyName',
           dataIndex: 'companyName',
           render: text => (
@@ -51,7 +50,7 @@ class InvitePersonModal extends React.Component {
           ),
         },
         {
-          title: messages('invite.person.employeeID'), //工号
+          title: this.$t('invite.person.employeeID'), //工号
           key: 'employeeID',
           dataIndex: 'employeeID',
           render: text => (
@@ -67,7 +66,7 @@ class InvitePersonModal extends React.Component {
           ),
         },
         {
-          title: messages('invite.person.name'), //姓名
+          title: this.$t('invite.person.name'), //姓名
           key: 'fullName',
           dataIndex: 'fullName',
           render: text => (
@@ -83,7 +82,7 @@ class InvitePersonModal extends React.Component {
           ),
         },
         {
-          title: messages('invite.person.dep.'), //部门
+          title: this.$t('invite.person.dep.'), //部门
           key: 'departmentName',
           dataIndex: 'departmentName',
           render: text => (
@@ -99,7 +98,7 @@ class InvitePersonModal extends React.Component {
           ),
         },
         {
-          title: messages('invite.person.contact'), //联系方式
+          title: this.$t('invite.person.contact'), //联系方式
           key: 'mobile',
           dataIndex: 'mobile',
           render: text => (
@@ -212,7 +211,7 @@ class InvitePersonModal extends React.Component {
     if (selectedUserOIDs.length > 0) {
       PMService.inviteUser(selectedUserOIDs).then(res => {
         // 邀请成功
-        message.success(messages('invite.person.invite.success'));
+        message.success(this.$t('invite.person.invite.success'));
         this.clearRowSelection();
         this.setState({
           inviteModel: false,
@@ -221,7 +220,7 @@ class InvitePersonModal extends React.Component {
       });
     } else {
       // 请选择要邀请的员工
-      message.warn(messages('invite.person.please.select'));
+      message.warn(this.$t('invite.person.please.select'));
     }
   };
   //列表选择更改
@@ -295,14 +294,14 @@ class InvitePersonModal extends React.Component {
             <Icon type="info-circle" className="info-circle" />
             <span>
               {/*当前搜索条件下，有*/}
-              {messages('invite.person.tips2')}
+              {this.$t('invite.person.tips2')}
               {this.state.paginationNoActived.total}
               {/*人尚未激活*/}
-              {messages('invite.person.tips1')}
+              {this.$t('invite.person.tips1')}
             </span>
             <span className="tips-inner-btn" onClick={this.showInvite}>
               {/*邀请使用*/}
-              {messages('invite.person.invite.use')}
+              {this.$t('invite.person.invite.use')}
             </span>
           </div>
         </div>
@@ -310,7 +309,7 @@ class InvitePersonModal extends React.Component {
           closable
           width={800}
           className="pm-invite-person-modal"
-          title={messages('invite.person.invite.use.sms')} //短信邀请使用
+          title={this.$t('invite.person.invite.use.sms')} //短信邀请使用
           visible={this.state.inviteModel}
           footer={null}
           onCancel={this.hideInvite}
@@ -329,10 +328,10 @@ class InvitePersonModal extends React.Component {
             />
             <div className="no-actived-footer">
               <Button className="cancel" onClick={this.hideInvite}>
-                {messages('common.cancel')}
+                {this.$t('common.cancel')}
               </Button>
               <Button type="primary" loading={this.state.invating} onClick={this.confirmInvite}>
-                {messages('common.ok')}
+                {this.$t('common.ok')}
               </Button>
             </div>
           </div>
@@ -343,17 +342,17 @@ class InvitePersonModal extends React.Component {
 }
 
 InvitePersonModal.propTypes = {
-  params: React.PropTypes.any.isRequired, //请求没激活的人的条件参数
+  params: PropTypes.any.isRequired, //请求没激活的人的条件参数
 };
 
 InvitePersonModal.defaultProps = {};
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
-    tenantMode: state.main.tenantMode,
-    company: state.login.company,
+    // profile: state.login.profile,
+    user: state.user.currentUser,
+    tenantMode: true,
+    company: state.user.company,
   };
 }
 

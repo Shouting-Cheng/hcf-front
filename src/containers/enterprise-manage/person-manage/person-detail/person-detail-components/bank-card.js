@@ -1,4 +1,3 @@
-import { messages } from 'share/common';
 /**
  * Created by zhouli on 18/3/8
  * Email li.zhou@huilianyi.com
@@ -8,8 +7,8 @@ import React from 'react';
 
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/bank-card.scss';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
-import Chooser from 'components/chooser';
-
+import Chooser from 'components/Widget/chooser';
+import PropTypes from 'prop-types';
 import { Button, Switch, Modal, Row, message, Icon, Input, Form, Checkbox, Tooltip } from 'antd';
 
 const FormItem = Form.Item;
@@ -78,7 +77,7 @@ class PersonBankCard extends React.Component {
       if (!err) {
         if (!this.state.card.bankCode) {
           //请选择银行名称
-          message.warning(messages('common.please.select') + messages('pdc.bank.card.bank.name'));
+          message.warning(this.$t('common.please.select') + this.$t('pdc.bank.card.bank.name'));
           return;
         }
         //let card = Object.assign(this.state.card);
@@ -222,11 +221,11 @@ class PersonBankCard extends React.Component {
             <div className="f-left user-name">{card.bankAccountName}</div>
             <div className="f-right status">
               {/*? "启用中" : "未启用"*/}
-              {card.enable ? messages('pdc.bank.card.enable') : messages('pdc.bank.card.disable')}
+              {card.enable ? this.$t('pdc.bank.card.enable') : this.$t('pdc.bank.card.disable')}
             </div>
             <div className="f-right is-default">
               {/*? "默认" : ""*/}
-              {card.isPrimary ? messages('pdc.id.card.default') : ''}
+              {card.isPrimary ? this.$t('pdc.id.card.default') : ''}
             </div>
 
             <div className="clear" />
@@ -240,7 +239,7 @@ class PersonBankCard extends React.Component {
           <div className="card-middle1">
             <div className="f-left bank-title">
               {/*开户银行：*/}
-              {messages('pdc.bank.card.bank')}：
+              {this.$t('pdc.bank.card.bank')}：
             </div>
             <div className="f-left bank-title-text">{card.branchName}</div>
             <div className="clear" />
@@ -249,7 +248,7 @@ class PersonBankCard extends React.Component {
           <div className="card-middle2">
             <div className="f-left bank-address">
               {/*开户地：*/}
-              {messages('pdc.bank.card.address')}：
+              {this.$t('pdc.bank.card.address')}：
             </div>
             <div className="f-left bank-address-text">{card.accountLocation}</div>
             <div className="clear" />
@@ -261,7 +260,7 @@ class PersonBankCard extends React.Component {
                 <Icon type="edit" className="info-circle" />
                 <span>
                   {/*编辑*/}
-                  {messages('common.edit')}
+                  {this.$t('common.edit')}
                 </span>
               </div>
             ) : (
@@ -292,8 +291,8 @@ class PersonBankCard extends React.Component {
           // ? '编辑银行卡信息' : '新增银行卡信息'
           title={
             card.contactBankAccountOID
-              ? messages('pdc.bank.card.edit.bank.card')
-              : messages('pdc.bank.card.new')
+              ? this.$t('pdc.bank.card.edit.bank.card')
+              : this.$t('pdc.bank.card.new')
           }
           visible={this.state.showCreatModel}
           footer={null}
@@ -303,21 +302,21 @@ class PersonBankCard extends React.Component {
           <Form onSubmit={this.addCard} onChange={this.handleFormChange}>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.bank.card.bank.account.name')} //银行开户名
+              label={this.$t('pdc.bank.card.bank.account.name')} //银行开户名
             >
               {getFieldDecorator('bankAccountName', {
                 initialValue: card.bankAccountName,
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
                     max: 30,
-                    message: messages('pdc.bank.card.reg1'), //"不能超过30个字符"
+                    message: this.$t('pdc.bank.card.reg1'), //"不能超过30个字符"
                   },
                   {
-                    message: messages('pdc.bank.card.reg4'), //"只能输入字母，汉字，斜杠，点",
+                    message: this.$t('pdc.bank.card.reg4'), //"只能输入字母，汉字，斜杠，点",
                     validator: (rule, value, cb) => {
                       if (value === null || value === undefined || value === '') {
                         cb();
@@ -339,24 +338,24 @@ class PersonBankCard extends React.Component {
                   <Input
                     onChange={this.bankAccountNameChange}
                     defaultValue={card.bankAccountName}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 </div>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.bank.card.bank.num')} //银行卡号
+              label={this.$t('pdc.bank.card.bank.num')} //银行卡号
             >
               {getFieldDecorator('bankAccountNo', {
                 initialValue: card.bankAccountNo,
                 rules: [
                   {
                     required: true,
-                    message: messages('common.please.enter'),
+                    message: this.$t('common.please.enter'),
                   },
                   {
-                    message: messages('pdc.bank.card.reg2'), //"只能是数字与-",
+                    message: this.$t('pdc.bank.card.reg2'), //"只能是数字与-",
                     validator: (rule, value, cb) => {
                       if (value === null || value === undefined || value === '') {
                         cb();
@@ -374,7 +373,7 @@ class PersonBankCard extends React.Component {
                   },
                   {
                     max: 30,
-                    message: messages('pdc.bank.card.reg1'), //"不能超过30个字符"
+                    message: this.$t('pdc.bank.card.reg1'), //"不能超过30个字符"
                   },
                 ],
               })(
@@ -382,21 +381,21 @@ class PersonBankCard extends React.Component {
                   <Input
                     onChange={this.bankAccountNoChange}
                     defaultValue={card.bankAccountNo}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 </div>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.bank.card.address')} //开户地
+              label={this.$t('pdc.bank.card.address')} //开户地
             >
               {getFieldDecorator('accountLocation', {
                 initialValue: card.accountLocation,
                 rules: [
                   {
                     max: 100,
-                    message: messages('pdc.bank.card.reg3'), //"不能超过100个字符"
+                    message: this.$t('pdc.bank.card.reg3'), //"不能超过100个字符"
                   },
                 ],
               })(
@@ -404,7 +403,7 @@ class PersonBankCard extends React.Component {
                   <Input
                     onChange={this.accountLocationChange}
                     defaultValue={card.accountLocation}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 </div>
               )}
@@ -414,7 +413,7 @@ class PersonBankCard extends React.Component {
               label={
                 <span>
                   <span className="required-red">*&nbsp;</span>
-                  <span>{messages('pdc.bank.card.bank.name')}</span>
+                  <span>{this.$t('pdc.bank.card.bank.name')}</span>
                 </span>
               } //银行名称
             >
@@ -433,7 +432,7 @@ class PersonBankCard extends React.Component {
                         ]
                       : []
                   }
-                  placeholder={messages('common.please.select')}
+                  placeholder={this.$t('common.please.select')}
                   labelKey="bankBranchName"
                   onChange={this.handleBankCodeChange}
                   valueKey="bankCode"
@@ -442,7 +441,7 @@ class PersonBankCard extends React.Component {
               </div>
             </FormItem>
             {/*<FormItem {...formItemLayout}*/}
-            {/*label={messages("pdc.bank.card.bank.name")}//银行名称*/}
+            {/*label={this.$t("pdc.bank.card.bank.name")}//银行名称*/}
             {/*>*/}
             {/*{getFieldDecorator('branchName', {*/}
             {/*initialValue: card.bankCode ? [*/}
@@ -454,7 +453,7 @@ class PersonBankCard extends React.Component {
             {/*rules: [*/}
             {/*{*/}
             {/*required: true,*/}
-            {/*message: messages("common.please.select")*/}
+            {/*message: this.$t("common.please.select")*/}
             {/*},*/}
             {/*],*/}
             {/*})(*/}
@@ -467,7 +466,7 @@ class PersonBankCard extends React.Component {
             {/*bankCode: card.bankCode,*/}
             {/*}*/}
             {/*] : []}*/}
-            {/*placeholder={messages("common.please.select")}*/}
+            {/*placeholder={this.$t("common.please.select")}*/}
             {/*labelKey="bankBranchName"*/}
             {/*onChange={this.handleBankCodeChange}*/}
             {/*valueKey="bankCode"*/}
@@ -477,7 +476,7 @@ class PersonBankCard extends React.Component {
             {/*</FormItem>*/}
 
             {/*状态*/}
-            <FormItem {...formItemLayout} label={messages('common.column.status')} colon={true}>
+            <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
               {getFieldDecorator('enable', {
                 initialValue: card.enable,
               })(
@@ -496,7 +495,7 @@ class PersonBankCard extends React.Component {
                       width: 100,
                     }}
                   >
-                    {card.enable ? messages('common.status.enable') : messages('common.disabled')}
+                    {card.enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
                   </span>
                 </div>
               )}
@@ -504,7 +503,7 @@ class PersonBankCard extends React.Component {
 
             <FormItem
               {...formItemLayout}
-              label={messages('pdc.bank.card.set.default')} //设为默认
+              label={this.$t('pdc.bank.card.set.default')} //设为默认
             >
               {getFieldDecorator('isPrimary', {
                 initialValue: card.isPrimary,
@@ -516,17 +515,17 @@ class PersonBankCard extends React.Component {
                     onChange={this.handleCardDefaultChange}
                   >
                     {/*是（只能有一个默认）*/}
-                    {messages('pdc.bank.card.is.set.default')}
+                    {this.$t('pdc.bank.card.is.set.default')}
                   </Checkbox>
                 </div>
               )}
             </FormItem>
 
             <div className="role-list-from-footer">
-              <Button onClick={this.cancelCard}>{messages('common.cancel')}</Button>
+              <Button onClick={this.cancelCard}>{this.$t('common.cancel')}</Button>
               &nbsp;&nbsp;&nbsp;
               <Button type="primary" htmlType="submit" loading={loading}>
-                {messages('common.save')}
+                {this.$t('common.save')}
               </Button>
             </div>
           </Form>
@@ -536,15 +535,12 @@ class PersonBankCard extends React.Component {
   }
 }
 
-PersonBankCard.contextTypes = {
-  router: React.PropTypes.object,
-};
 PersonBankCard.propTypes = {
-  createCardOver: React.PropTypes.func, //创建银行卡后
-  cardInfo: React.PropTypes.object, //银行卡对象
-  isEmpty: React.PropTypes.bool, // 是否是空的
-  disabled: React.PropTypes.bool, // 是否是启用的
-  isShowEditBtn: React.PropTypes.bool, // 是否显示编辑按钮
+  createCardOver: PropTypes.func, //创建银行卡后
+  cardInfo: PropTypes.object, //银行卡对象
+  isEmpty: PropTypes.bool, // 是否是空的
+  disabled: PropTypes.bool, // 是否是启用的
+  isShowEditBtn: PropTypes.bool, // 是否显示编辑按钮
 };
 PersonBankCard.defaultProps = {
   isShowEditBtn: true,

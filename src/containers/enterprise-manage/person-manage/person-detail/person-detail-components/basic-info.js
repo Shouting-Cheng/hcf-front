@@ -26,14 +26,14 @@ import {
 } from 'antd';
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import Chooser from 'components/chooser';
-import menuRoute from 'routes/menuRoute';
-import { messages, deepCopy, fitText } from 'share/common';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
+import Chooser from 'components/Widget/chooser';
+import { deepCopy, fitText } from 'utils/extend';
 import { personObjDefaultWithoutExtend } from 'containers/enterprise-manage/person-manage/person-detail/person-detail.model';
 import 'styles/enterprise-manage/person-manage/person-detail/person-detail-components/basic-info.scss';
-import { ImageUpload } from 'components/index';
-
+import { ImageUpload } from 'components/Widget/index';
+import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -196,7 +196,7 @@ class PersonBasicInfo extends React.Component {
           //性别字段传的不对：gender，报错说传的不是json
           PDService.updatePersonDetail(personObj).then(res => {
             //操作成功
-            message.success(messages('common.operate.success'));
+            message.success(this.$t('common.operate.success'));
             this.setState({
               loading: false,
             });
@@ -256,16 +256,17 @@ class PersonBasicInfo extends React.Component {
           personObj.customFormValues = originPersonObj.customFormValues;
           PDService.createPersonDetail(personObj).then(res => {
             // 操作成功
-            message.success(messages('common.operate.success'));
+            message.success(this.$t('common.operate.success'));
             this.setState({
               loading: false,
             });
             this.props.savedData(res.data);
             let record = res.data;
-            let path = menuRoute
-              .getRouteItem('person-detail', 'key')
-              .url.replace(':userOID', record.userOID);
-            this.context.router.push(path);
+            this.props.dispatch(
+              routerRedux.push({
+                pathname: `/setting/employee/person-detail/person-detail/${record.userOID}`,
+              })
+            );
           });
         }
       }
@@ -343,7 +344,7 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*工号：*/}
-            {messages('pdc.basic.info.employeeId')}：
+            {this.$t('pdc.basic.info.employeeId')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.employeeID)}</div>
         </div>
@@ -351,7 +352,7 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*姓名：*/}
-            {messages('pdc.basic.info.name')}：
+            {this.$t('pdc.basic.info.name')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.fullName)}</div>
         </div>
@@ -361,7 +362,7 @@ class PersonBasicInfo extends React.Component {
             {/*公司：*/}
             {/*这地方原本老公司是线上法人实体*/}
             {/*今天与产品共同商量，达成一致，无论新老公司，都显示为  公司*/}
-            {messages('pdc.basic.info.company')}：
+            {this.$t('pdc.basic.info.company')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.companyName)}</div>
         </div>
@@ -369,7 +370,7 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*部门：*/}
-            {messages('pdc.basic.info.dep')}：
+            {this.$t('pdc.basic.info.dep')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.departmentName)}</div>
         </div>
@@ -377,7 +378,7 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*邮箱：*/}
-            {messages('pdc.basic.info.email')}：
+            {this.$t('pdc.basic.info.email')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.email)}</div>
         </div>
@@ -385,7 +386,7 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*手机：*/}
-            {messages('pdc.basic.info.mobile')}：
+            {this.$t('pdc.basic.info.mobile')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.mobile)}</div>
         </div>
@@ -393,21 +394,21 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*直属领导：*/}
-            {messages('pdc.basic.info.direct.manager')}：
+            {this.$t('pdc.basic.info.direct.manager')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.directManagerName)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*职务：*/}
-            {messages('pdc.basic.info.duty')}：
+            {this.$t('pdc.basic.info.duty')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.duty)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*职位：*/}
-            {messages('pdc.basic.info.title')}：
+            {this.$t('pdc.basic.info.title')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.title)}</div>
         </div>
@@ -415,14 +416,14 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*人员类型：*/}
-            {messages('pdc.basic.info.person.type')}：
+            {this.$t('pdc.basic.info.person.type')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.employeeType)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*级别：*/}
-            {messages('pdc.basic.info.level')}：
+            {this.$t('pdc.basic.info.level')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingText(person.rank)}</div>
         </div>
@@ -430,21 +431,21 @@ class PersonBasicInfo extends React.Component {
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*性别：*/}
-            {messages('pdc.basic.info.sex')}：
+            {this.$t('pdc.basic.info.sex')}：
           </div>
           <div className="info-item-text">{person.gender}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*生日：*/}
-            {messages('pdc.basic.info.bird')}：
+            {this.$t('pdc.basic.info.bird')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingTextTime(person.birthday)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
             {/*入职时间：*/}
-            {messages('pdc.basic.info.enter.time')}：
+            {this.$t('pdc.basic.info.enter.time')}：
           </div>
           <div className="info-item-text">{this.renderNoEditingTextTime(person.entryTime)}</div>
         </div>
@@ -666,14 +667,14 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               max: 50,
-              message: messages('pdc.basic.e.info.max.inp.50'), //"最多50个"
+              message: this.$t('pdc.basic.e.info.max.inp.50'), //"最多50个"
             },
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
           ],
-        })(<Input placeholder={messages('common.please.enter')} />)}
+        })(<Input placeholder={this.$t('common.please.enter')} />)}
       </FormItem>
     );
   };
@@ -687,14 +688,14 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               max: 200,
-              message: messages('pdc.basic.e.info.max.inp.200'), //"最多输入200个字符"
+              message: this.$t('pdc.basic.e.info.max.inp.200'), //"最多输入200个字符"
             },
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
           ],
-        })(<TextArea placeholder={messages('common.please.enter')} />)}
+        })(<TextArea placeholder={this.$t('common.please.enter')} />)}
       </FormItem>
     );
   };
@@ -710,7 +711,7 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
           ],
         })(<Select>{_renderCustomEnumerationList(field.customEnumerationList.values)}</Select>)}
@@ -749,7 +750,7 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
           ],
         })(<DatePicker format={'YYYY-MM-DD'} />)}
@@ -788,16 +789,16 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
             {
               // 整数位数最多
               // 小数位最多
               message:
-                messages('pdc.basic.e.info.max.int') +
+                this.$t('pdc.basic.e.info.max.int') +
                 fieldConstraint.integerMaxLength +
                 ',' +
-                messages('pdc.basic.e.info.max.deci') +
+                this.$t('pdc.basic.e.info.max.deci') +
                 fieldConstraint.decimalMaxLength,
               validator: (fieldConstraint, value, cb) => {
                 //必须是必填的才有校验
@@ -819,7 +820,7 @@ class PersonBasicInfo extends React.Component {
               },
             },
           ],
-        })(<Input type="number" placeholder={messages('common.please.enter')} />)}
+        })(<Input type="number" placeholder={this.$t('common.please.enter')} />)}
       </FormItem>
     );
   };
@@ -845,7 +846,7 @@ class PersonBasicInfo extends React.Component {
           rules: [
             {
               required: field.required,
-              message: messages('common.please.enter'),
+              message: this.$t('common.please.enter'),
             },
           ],
         })(<TimePicker onChange={this.onChangeTime} format={'HH:mm'} />)}
@@ -863,7 +864,7 @@ class PersonBasicInfo extends React.Component {
       <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
         {getFieldDecorator(field.fieldOID, {
           initialValue: fileList,
-          rules: [{ required: field.required, message: messages('common.please.enter') }],
+          rules: [{ required: field.required, message: this.$t('common.please.enter') }],
         })(
           <ImageUpload
             attachmentType="INVOICE_IMAGES"
@@ -892,7 +893,7 @@ class PersonBasicInfo extends React.Component {
     } else {
       return (
         <Option value={1} key={1}>
-          {messages('pdc.basic.info.female')
+          {this.$t('pdc.basic.info.female')
           // "女"
           }
         </Option>
@@ -913,7 +914,7 @@ class PersonBasicInfo extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.employeeId')} //工号
+                label={this.$t('pdc.basic.info.employeeId')} //工号
                 colon={true}
               >
                 {getFieldDecorator('employeeID', {
@@ -921,19 +922,19 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       max: 40,
-                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
+                      message: this.$t('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
                     },
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.name')} //姓名
+                label={this.$t('pdc.basic.info.name')} //姓名
                 colon={true}
               >
                 {getFieldDecorator('fullName', {
@@ -941,19 +942,19 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       max: 40,
-                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
+                      message: this.$t('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
                     },
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.company')} //公司
+                label={this.$t('pdc.basic.info.company')} //公司
                 colon={true}
               >
                 {getFieldDecorator('companyOID', {
@@ -968,7 +969,7 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.select'),
+                      message: this.$t('common.please.select'),
                     },
                   ],
                 })(
@@ -987,7 +988,7 @@ class PersonBasicInfo extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.dep')} //部门
+                label={this.$t('pdc.basic.info.dep')} //部门
                 colon={true}
               >
                 {getFieldDecorator('departmentName', {
@@ -1002,7 +1003,7 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: messages('common.please.select'),
+                      message: this.$t('common.please.select'),
                     },
                   ],
                 })(
@@ -1019,7 +1020,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.email')} //邮箱
+                label={this.$t('pdc.basic.info.email')} //邮箱
                 colon={true}
               >
                 {getFieldDecorator('email', {
@@ -1027,19 +1028,19 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       type: 'email',
-                      message: messages('pdc.basic.info.email.error'), //"邮箱格式不对"
+                      message: this.$t('pdc.basic.info.email.error'), //"邮箱格式不对"
                     },
                     {
                       required: true,
-                      message: messages('common.please.enter'),
+                      message: this.$t('common.please.enter'),
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.mobile')} //手机
+                label={this.$t('pdc.basic.info.mobile')} //手机
                 colon={true}
               >
                 {getFieldDecorator('mobile', {
@@ -1047,10 +1048,10 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       max: 30,
-                      message: messages('pdc.basic.info.max.inp.30'), //"最多输入30个字符"
+                      message: this.$t('pdc.basic.info.max.inp.30'), //"最多输入30个字符"
                     },
                     {
-                      message: messages('org.role.type-number'), //"必须是数字
+                      message: this.$t('org.role.type-number'), //"必须是数字
                       validator: (personObj, value, cb) => {
                         if (value === '' || value === undefined || value === null) {
                           cb();
@@ -1070,7 +1071,7 @@ class PersonBasicInfo extends React.Component {
                     addonBefore={this.props.form.getFieldDecorator('mobilePrefix', {
                       initialValue: personObj.mobileCode,
                     })(this.renderMobilePrefix(this.state.preFixList))}
-                    placeholder={messages('common.please.enter')}
+                    placeholder={this.$t('common.please.enter')}
                   />
                 )}
               </FormItem>
@@ -1079,7 +1080,7 @@ class PersonBasicInfo extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.direct.manager')} //直属领导
+                label={this.$t('pdc.basic.info.direct.manager')} //直属领导
                 colon={true}
               >
                 {getFieldDecorator('directManager', {
@@ -1095,7 +1096,7 @@ class PersonBasicInfo extends React.Component {
                 })(
                   <Chooser
                     single={true}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     labelKey="fullName"
                     valueKey="userOID"
                     onChange={this.handleChange}
@@ -1106,7 +1107,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.duty')} //职务
+                label={this.$t('pdc.basic.info.duty')} //职务
                 colon={true}
               >
                 {getFieldDecorator('duty', {
@@ -1126,7 +1127,7 @@ class PersonBasicInfo extends React.Component {
                     labelKey="messageKey"
                     valueKey="value"
                     onChange={this.handleChange}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     listExtraParams={{ systemCustomEnumerationType: '1002' }}
                   />
                 )}
@@ -1134,7 +1135,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.title')} //职位
+                label={this.$t('pdc.basic.info.title')} //职位
                 colon={true}
               >
                 {getFieldDecorator('title', {
@@ -1142,17 +1143,17 @@ class PersonBasicInfo extends React.Component {
                   rules: [
                     {
                       max: 40,
-                      message: messages('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
+                      message: this.$t('pdc.basic.info.max.inp.40'), //"最多输入40个字符"
                     },
                   ],
-                })(<Input placeholder={messages('common.please.enter')} />)}
+                })(<Input placeholder={this.$t('common.please.enter')} />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.person.type')} //人员类型
+                label={this.$t('pdc.basic.info.person.type')} //人员类型
                 colon={true}
               >
                 {getFieldDecorator('employeeType', {
@@ -1171,7 +1172,7 @@ class PersonBasicInfo extends React.Component {
                     type="personTypeModel"
                     labelKey="messageKey"
                     valueKey="value"
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
                     listExtraParams={{ systemCustomEnumerationType: '1001' }}
                   />
@@ -1180,7 +1181,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.level')} //级别
+                label={this.$t('pdc.basic.info.level')} //级别
                 colon={true}
               >
                 {getFieldDecorator('rank', {
@@ -1200,7 +1201,7 @@ class PersonBasicInfo extends React.Component {
                     labelKey="messageKey"
                     valueKey="value"
                     onChange={this.handleChange}
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     listExtraParams={{ systemCustomEnumerationType: '1008' }}
                   />
                 )}
@@ -1208,7 +1209,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.sex')} //性别
+                label={this.$t('pdc.basic.info.sex')} //性别
                 colon={true}
               >
                 {getFieldDecorator('gender', {
@@ -1218,7 +1219,7 @@ class PersonBasicInfo extends React.Component {
                   <Select
                     className="select-country"
                     showSearch
-                    placeholder={messages('common.please.select')}
+                    placeholder={this.$t('common.please.select')}
                     optionFilterProp="children"
                     onChange={this.handleGenderChange}
                     filterOption={(input, option) =>
@@ -1234,7 +1235,7 @@ class PersonBasicInfo extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.bird')} //生日
+                label={this.$t('pdc.basic.info.bird')} //生日
                 colon={true}
               >
                 {getFieldDecorator('birthday', {
@@ -1246,7 +1247,7 @@ class PersonBasicInfo extends React.Component {
 
             <Col span={8}>
               <FormItem
-                label={messages('pdc.basic.info.enter.time')} //入职时间
+                label={this.$t('pdc.basic.info.enter.time')} //入职时间
                 colon={true}
               >
                 {getFieldDecorator('entryTime', {
@@ -1260,10 +1261,10 @@ class PersonBasicInfo extends React.Component {
           <div>{this.renderExtendTitle()}</div>
           <div style={{ width: 500 }}>{this.renderEditingField(fields)}</div>
           <Button type="primary" loading={loading} htmlType="submit">
-            {messages('common.save') /*保存*/}
+            {this.$t('common.save') /*保存*/}
           </Button>
           <Button onClick={this.handleCancel} style={{ marginLeft: 8 }}>
-            {messages('common.cancel') /*取消*/}
+            {this.$t('common.cancel') /*取消*/}
           </Button>
         </Form>
       </div>
@@ -1274,8 +1275,8 @@ class PersonBasicInfo extends React.Component {
     return (
       <p>
         {/*个人信息扩展字段*/}
-        {messages('pm.detail.person.info.field')}
-        &nbsp;&nbsp;<Tooltip title={messages('pm.detail.tips')}>
+        {this.$t('pm.detail.person.info.field')}
+        &nbsp;&nbsp;<Tooltip title={this.$t('pm.detail.tips')}>
           {/*可以在企业管理-扩展字段进行编辑扩展字段*/}
           <Icon type="question-circle-o" />
         </Tooltip>
@@ -1298,11 +1299,11 @@ class PersonBasicInfo extends React.Component {
 }
 
 PersonBasicInfo.propTypes = {
-  savedData: React.PropTypes.func.isRequired, //点击保存
-  toEditing: React.PropTypes.func.isRequired, //设置编辑
-  toNoEditing: React.PropTypes.func.isRequired, //设置显示
-  basicInfoData: React.PropTypes.object.isRequired, //基础信息数据对象
-  originEditingStatus: React.PropTypes.bool, //初始化是否是编辑:默认非编辑
+  savedData: PropTypes.func.isRequired, //点击保存
+  toEditing: PropTypes.func.isRequired, //设置编辑
+  toNoEditing: PropTypes.func.isRequired, //设置显示
+  basicInfoData: PropTypes.object.isRequired, //基础信息数据对象
+  originEditingStatus: PropTypes.bool, //初始化是否是编辑:默认非编辑
 };
 PersonBasicInfo.defaultProps = {
   originEditingStatus: false,
@@ -1310,12 +1311,9 @@ PersonBasicInfo.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    isOldCompany: state.login.isOldCompany,
+    isOldCompany: state.user.isOldCompany,
   };
 }
-PersonBasicInfo.contextTypes = {
-  router: React.PropTypes.object,
-};
 const WrappedPersonBasicInfo = Form.create()(PersonBasicInfo);
 export default connect(
   mapStateToProps,

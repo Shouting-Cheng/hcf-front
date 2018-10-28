@@ -1340,6 +1340,16 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
+      name: 'security-setting',
+    },
+    //员工管理
+    '/setting/employee/person-detail/person-detail/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
+      ),
+      name: 'person-detail',
+      parent: '/setting/employee',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
