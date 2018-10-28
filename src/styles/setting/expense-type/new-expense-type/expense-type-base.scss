@@ -1,7 +1,10 @@
-.expense-type-base {
-  .expense-type-icon{
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
+:global {
+  .expense-type-base {
+    .expense-type-icon{
+      height: 50px;
+      width: 50px;
+      cursor: pointer;
+    }
   }
+  
 }

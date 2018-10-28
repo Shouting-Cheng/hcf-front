@@ -1,4 +1,3 @@
-
 /**
  * Created by zhouli on 18/1/30
  * Email li.zhou@huilianyi.com
@@ -7,7 +6,7 @@
 import React from 'react';
 
 import { Tree, Icon, Menu, Dropdown, Input } from 'antd';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 const Search = Input.Search;
 const TreeNode = Tree.TreeNode;
 import 'styles/enterprise-manage/org-structure/org-component/org-tree.scss';

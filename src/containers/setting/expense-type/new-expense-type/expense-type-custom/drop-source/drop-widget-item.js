@@ -3,6 +3,7 @@ import 'styles/components/template/drag-widget-page/widget-item.scss'
 import { DropTarget } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
 import Widget from 'containers/setting/expense-type/new-expense-type/expense-type-custom/widget'
+import PropTypes from 'prop-types';
 
 /**
  * phone-content内的组件，把该组件包装成dropTarget时就能得到拖入新控件时hover的index
@@ -25,12 +26,12 @@ class DropWidgetItem extends React.Component{
 }
 
 DropWidgetItem.propTypes = {
-  connectDropTarget: React.PropTypes.func.isRequired,
-  widget: React.PropTypes.object,
-  width: React.PropTypes.any,  //组件宽度，默认100%
-  onClick: React.PropTypes.func,
-  className: React.PropTypes.string,  //内部组件的className
-  index: React.PropTypes.number  //包装后的标记列表顺序，当有新控件hover时返回顺序
+  connectDropTarget: PropTypes.func.isRequired,
+  widget: PropTypes.object,
+  width: PropTypes.any,  //组件宽度，默认100%
+  onClick: PropTypes.func,
+  className: PropTypes.string,  //内部组件的className
+  index: PropTypes.number  //包装后的标记列表顺序，当有新控件hover时返回顺序
 };
 
 export default DropTarget(

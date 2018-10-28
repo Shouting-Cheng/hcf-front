@@ -2,7 +2,7 @@
  * Created by zhouli on 18/3/19
  * Email li.zhou@huilianyi.com
  */
-import { deepCopy } from 'share/common';
+import { deepCopy } from 'utils/extend';
 
 //默认的人员信息
 const personObjDefaultWithoutExtend = {

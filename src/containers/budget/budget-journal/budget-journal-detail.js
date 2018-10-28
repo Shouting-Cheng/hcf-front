@@ -327,7 +327,7 @@ class BudgetJournalDetail extends React.Component {
           title: this.$t({ id: 'budgetJournal.amount' }),
           key: 'amount',
           dataIndex: 'amount',
-          
+
           width: 180,
           // render: recode => (
           //   <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
@@ -761,7 +761,6 @@ class BudgetJournalDetail extends React.Component {
       showSlideFrameNew: false,
     });
     if (value) {
-      
       let data = value;
       data.journalHeaderId = this.state.headerAndListData.dto.id;
       data.functionalAmount = data.functionalAmount
@@ -1046,7 +1045,10 @@ class BudgetJournalDetail extends React.Component {
             show={showSlideFrameNew}
             onClose={() => this.showSlideFrameNew(false)}
           >
-            <NewBudgetJournalDetail onClose={this.handleAfterCloseNewSlide} params={this.state.params} />
+            <NewBudgetJournalDetail
+              onClose={this.handleAfterCloseNewSlide}
+              params={this.state.params}
+            />
           </SlideFrame>
           <div className="divider"> </div>
           <Affix

@@ -8,7 +8,7 @@ import React from 'react';
 import 'styles/enterprise-manage/org-structure/org-component/org-roles-list.scss';
 import { Button, Table, Badge, Switch, Modal, Icon, Input, Form } from 'antd';
 import { connect } from 'dva';
-import { routerRedux } from "dva/router";
+import { routerRedux } from 'dva/router';
 const FormItem = Form.Item;
 //需要在这个里面去配置弹窗类型
 import OrgService from 'containers/enterprise-manage/org-structure/org-structure.service';
@@ -69,9 +69,7 @@ class OrgStructureRolesList extends React.Component {
           width: '20%',
           render: (text, record) => (
             <span>
-              <a onClick={e => this.editRole(e, record)}>
-                {this.$t('common.edit')}
-              </a>
+              <a onClick={e => this.editRole(e, record)}>{this.$t('common.edit')}</a>
             </span>
           ),
         },
@@ -356,7 +354,6 @@ class OrgStructureRolesList extends React.Component {
     );
   }
 }
-
 
 OrgStructureRolesList.propTypes = {};
 const WrappedOrgStructureRolesList = Form.create()(OrgStructureRolesList);

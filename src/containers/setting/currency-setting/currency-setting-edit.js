@@ -150,7 +150,10 @@ class CurrencySettingEdit extends React.Component {
                                 message.success(this.$t("common.operate.success")/*操作成功*/)
                             }
                         }
-                    )
+                    ) .catch(e => {
+                      this.setState({ loading: false });
+                      message.error(`{e.response.data.message}`);
+                    });
                 },
                 onCancel: () => {
                 },
@@ -173,7 +176,10 @@ class CurrencySettingEdit extends React.Component {
                                 message.success(this.$t("common.operate.success")/*操作成功*/)
                             }
                         }
-                    )
+                    ) .catch(e => {
+                      this.setState({ loading: false });
+                      message.error(`{e.response.data.message}`);
+                    });
                 },
                 onCancel: () => {
                 },
@@ -285,7 +291,10 @@ class CurrencySettingEdit extends React.Component {
                             this.getRateHistory();
                         })
                     }
-                });
+                }) .catch(e => {
+                  this.setState({ loading: false });
+                  message.error(`${e.response.data.message}`);
+                });;
             },
             onCancel: () => {
             },

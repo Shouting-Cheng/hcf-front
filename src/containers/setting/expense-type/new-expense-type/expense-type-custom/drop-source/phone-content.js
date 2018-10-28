@@ -1,10 +1,11 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
 import { Icon } from 'antd'
-import ListSort from 'components/list-sort'
+import ListSort from 'widget/list-sort'
 import 'styles/components/template/drag-widget-page/widget-item.scss'
 import DropWidgetItem from 'containers/setting/expense-type/new-expense-type/expense-type-custom/drop-source/drop-widget-item'
-import { messages } from 'share/common'
+import { messages } from 'utils/utils'
+import PropTypes from 'prop-types';
 
 /**
  * 手机内部dropTarget
@@ -132,15 +133,15 @@ class PhoneContent extends React.Component{
 }
 
 PhoneContent.propTypes = {
-  connectDropTarget: React.PropTypes.func.isRequired,
-  widgetList: React.PropTypes.array,  //组件列表，key值为上层定义的counterFlag
-  onDrop: React.PropTypes.func,
-  nowSelectedIndex: React.PropTypes.number,
-  onSelect: React.PropTypes.func,
-  onSort: React.PropTypes.func,
-  onDelete: React.PropTypes.func,
-  isOver: React.PropTypes.bool.isRequired,
-  disabled: React.PropTypes.bool
+  connectDropTarget: PropTypes.func.isRequired,
+  widgetList: PropTypes.array,  //组件列表，key值为上层定义的counterFlag
+  onDrop: PropTypes.func,
+  nowSelectedIndex: PropTypes.number,
+  onSelect: PropTypes.func,
+  onSort: PropTypes.func,
+  onDelete: PropTypes.func,
+  isOver: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default DropTarget(

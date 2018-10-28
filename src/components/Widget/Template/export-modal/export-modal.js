@@ -357,9 +357,6 @@ ExportModal.propTypes = {
   disabled: PropTypes.bool, //按钮是否禁用
 };
 
-ExportModal.contextTypes = {
-  router: PropTypes.object,
-};
 ExportModal.defaultProps = {
   type: 'text',
   disabled: false,

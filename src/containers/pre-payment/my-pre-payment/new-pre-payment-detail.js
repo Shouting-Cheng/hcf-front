@@ -247,7 +247,7 @@ class NewPrePaymentDetail extends React.Component {
       partnerCategory: this.props.form.getFieldValue('partnerCategory'),
       partnerId: partner.key,
       documentType: 'PREPAYMENT_REQUISITION',
-      currency: this.props.form.getFieldValue('currency'),
+      currency: this.props.form.getFieldValue('currency').key,
     };
     this.setState({
       showListSelector: true,

@@ -43,14 +43,15 @@ class MyGLWorkOrder extends Component {
           method: 'get',
           valueKey: 'id',
           labelKey: 'workOrderTypeName',
+          event: 'workOrderTypeId',
         },
         {
           type: 'items',
           id: 'requisitionDate',
           colSpan: '6',
           items: [
-            { type: 'date', id: 'requisitionDateFrom', label: '申请日期从' },
-            { type: 'date', id: 'requisitionDateTo', label: '申请日期至' },
+            { type: 'date', id: 'requisitionDateFrom',event: 'requisitionDateFrom', label: '申请日期从' },
+            { type: 'date', id: 'requisitionDateTo', event: 'requisitionDateTo',label: '申请日期至' },
           ],
         },
         {
@@ -79,6 +80,7 @@ class MyGLWorkOrder extends Component {
           ],
           valueKey: 'value',
           labelKey: 'label',
+          event: 'status',
         },
         {
           type: 'select',
@@ -96,6 +98,7 @@ class MyGLWorkOrder extends Component {
           },
           valueKey: 'currencyCode',
           labelKey: 'currencyCode',
+          event: 'currency',
         },
       ],
       //表格
@@ -159,10 +162,36 @@ class MyGLWorkOrder extends Component {
   }
 
   handleEvent = (key, value) => {
+    let {searchParams} = this.state;
     switch (key) {
-      case 'APPLIER':
-        value.length === 0 &&
-          this.setState({ searchParams: { ...this.state.searchParams, employeeId: '' } });
+      case 'APPLIER': {
+        if (value && value[0]) {
+          searchParams.employeeId = value[0].id;
+        } else {
+          searchParams.employeeId = '';
+        }
+        break;
+      }
+      case 'requisitionDateFrom':{
+        if(value){
+          searchParams.requisitionDateFrom = moment(value).format('YYYY-MM-DD');
+        }else{
+          searchParams.requisitionDateFrom ='';
+        }
+        break;
+      }
+      case 'requisitionDateTo':{
+        if(value){
+          searchParams.requisitionDateTo = moment(value).format('YYYY-MM-DD');
+        }else{
+          searchParams.requisitionDateTo ='';
+        }
+        break;
+      }
+      default:
+        if(value){
+          searchParams[key] = value;
+        }
     }
   };
 
@@ -299,7 +328,7 @@ class MyGLWorkOrder extends Component {
       {
         loading: true,
         page: 0,
-        searchParams: { workOrderNumber: value },
+        searchParams: { ...this.state.searchParams,workOrderNumber: value },
       },
       () => {
         this.getList();
@@ -310,6 +339,9 @@ class MyGLWorkOrder extends Component {
    * 搜索
    */
   search = params => {
+    if(params.employeeId && params.employeeId[0]){
+      params.employeeId = params.employeeId[0];
+    }
     this.setState(
       {
         loading: true,
