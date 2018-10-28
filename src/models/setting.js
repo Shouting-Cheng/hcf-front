@@ -9,12 +9,10 @@ export default {
   },
 
   reducers: {
-    selectLanguage(state, action) {
-      let { local, languages } = action.payload;
+    setExpenseTypeSetOfBooks(state, action) {
       return {
         ...state,
-        languages,
-        local,
+        expenseTypeSetOfBooks: action.payload
       };
     },
     setLanguageList(state, action) {

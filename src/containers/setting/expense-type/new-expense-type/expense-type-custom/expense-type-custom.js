@@ -1,6 +1,6 @@
-import {messages} from "share/common";
+import { messages } from "utils/utils";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Row, Col, Modal, Button, Checkbox, message, Select, Spin } from 'antd'
 const Option = Select.Option;
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -11,10 +11,11 @@ import expenseTypeService from 'containers/setting/expense-type/expense-type.ser
 import DragWidgetItem from 'containers/setting/expense-type/new-expense-type/expense-type-custom/drag-source/drag-widget-item'
 import FakeDropLayout from 'containers/setting/expense-type/new-expense-type/expense-type-custom/drop-source/fake-drop-layout'
 import PhoneContent from 'containers/setting/expense-type/new-expense-type/expense-type-custom/drop-source/phone-content'
-import { LanguageInput } from 'components/index'
+import { LanguageInput } from 'widget/index'
 import formService from 'containers/setting/form/form.service'
+import PropTypes from 'prop-types';
 
-class ExpenseTypeCustom extends React.Component{
+class ExpenseTypeCustom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +31,7 @@ class ExpenseTypeCustom extends React.Component{
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     Promise.all([
       expenseTypeService.getWidgetList(),
       formService.getCustomEnumeration(0, 100, true),
@@ -45,13 +46,13 @@ class ExpenseTypeCustom extends React.Component{
     });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     let { counter } = this.state;
     let { languageList } = this.props;
     let nowWidgets = JSON.parse(JSON.stringify(this.props.expenseType.fields));
     nowWidgets.map(widget => {
       widget.counterFlag = counter++;
-      if(!widget.i18n || JSON.stringify(widget) === '{}'){
+      if (!widget.i18n || JSON.stringify(widget) === '{}') {
         languageList.map(language => {
           widget.i18n.name.push({
             language: language.code.toLowerCase(),
@@ -62,10 +63,10 @@ class ExpenseTypeCustom extends React.Component{
     });
     let nowSelectedIndex = this.props.index;
     let enabledReportKey = false;
-    if(nowWidgets.length > 0 && nowSelectedIndex === -1){
+    if (nowWidgets.length > 0 && nowSelectedIndex === -1) {
       nowSelectedIndex = 0;
       enabledReportKey = Boolean(nowWidgets[0].reportKey);
-    } else if(nowSelectedIndex > -1){
+    } else if (nowSelectedIndex > -1) {
       enabledReportKey = Boolean(nowWidgets[nowSelectedIndex].reportKey);
     }
     this.setState({ nowWidgets, counter, nowSelectedIndex, enabledReportKey })
@@ -77,49 +78,49 @@ class ExpenseTypeCustom extends React.Component{
    * @param index 放下的顺序
    */
   handleDrop = (widget, index) => {
-    if(!this.props.tenantMode){
-      return ;
+    if (!this.props.tenantMode) {
+      return;
     }
     let { nowWidgets, counter } = this.state;
     const { languageList } = this.props;
     let rules = [{
       type: ['DATE', 'MONTH', 'DATETIME'],
       max: 10
-    },{
+    }, {
       type: ['TEXT', 'GPS', 'CUSTOM_ENUMERATION'],
       max: 10
-    },{
+    }, {
       type: ['START_DATE_AND_END_DATE'],
       max: 1
-    },{
+    }, {
       type: ['LONG', 'POSITIVE_INTEGER'],
       max: 5
-    },{
+    }, {
       type: ['DOUBLE'],
       max: 5
-    },{
+    }, {
       type: ['LOCATION'],
       max: 2
-    },{
+    }, {
       type: ['PARTICIPANT'],
       max: 1
-    },{
+    }, {
       type: ['PARTICIPANTS'],
       max: 1
     }];
     let targetRule = {};
     rules.map(rule => {
-      if(rule.type.indexOf(widget.fieldType) > -1)
+      if (rule.type.indexOf(widget.fieldType) > -1)
         targetRule = rule;
     });
     let limit = 0;
     nowWidgets.map(nowWidget => {
-      if(targetRule.type.indexOf(nowWidget.fieldType) > -1)
+      if (targetRule.type.indexOf(nowWidget.fieldType) > -1)
         limit++;
     });
-    if(limit === targetRule.max){
-      message.error(messages('expense.type.components.max', {number: targetRule.max}));
-      return ;
+    if (limit === targetRule.max) {
+      message.error(messages('expense.type.components.max', { number: targetRule.max }));
+      return;
     }
     let tempWidget = JSON.parse(JSON.stringify(widget));
     //因为ListSort根据key值排序，key值不能改变和重复，所以此处给每一个拖拽进入的组件一个counter计数为counterFlag
@@ -166,7 +167,7 @@ class ExpenseTypeCustom extends React.Component{
     });
     //寻找之前选择的index
     tempWidget.map((item, index) => {
-      if(item.counterFlag === nowSelectWidgetCounter)
+      if (item.counterFlag === nowSelectWidgetCounter)
         targetIndex = index
     });
     this.setState({ nowWidgets: tempWidget, nowSelectedIndex: targetIndex })
@@ -177,8 +178,8 @@ class ExpenseTypeCustom extends React.Component{
    * @param index 待删除的索引
    */
   handleDelete = (index) => {
-    if(!this.props.tenantMode){
-      return ;
+    if (!this.props.tenantMode) {
+      return;
     }
     let { nowWidgets, nowSelectedIndex } = this.state;
     confirm({
@@ -190,7 +191,7 @@ class ExpenseTypeCustom extends React.Component{
       onOk: () => {
         nowWidgets.splice(index, 1);
         nowSelectedIndex = -1;
-        if(nowWidgets.length > 0){
+        if (nowWidgets.length > 0) {
           nowSelectedIndex = 0
         }
         this.setState({ nowWidgets, nowSelectedIndex })
@@ -201,16 +202,16 @@ class ExpenseTypeCustom extends React.Component{
   getWidgetType = () => {
     const { nowWidgets, nowSelectedIndex, customWidget } = this.state;
     let widgetType = nowWidgets[nowSelectedIndex].fieldType;
-    let result = <Spin/>;
-    if(nowWidgets[nowSelectedIndex].customEnumerationOID)
+    let result = <Spin />;
+    if (nowWidgets[nowSelectedIndex].customEnumerationOID)
       widgetType = 'CUSTOM_ENUMERATION';
-    if(nowWidgets[nowSelectedIndex].messageKey === 'dateCombined')
+    if (nowWidgets[nowSelectedIndex].messageKey === 'dateCombined')
       widgetType = 'START_DATE_AND_END_DATE';
     console.log(widgetType)
     console.log(customWidget)
     customWidget.map(item => {
       console.log(item)
-      if(widgetType === item.fieldType)
+      if (widgetType === item.fieldType)
         result = item.name;
     });
     return result;
@@ -237,28 +238,28 @@ class ExpenseTypeCustom extends React.Component{
     let hasError = false;
     nowWidgets.map((widget, index) => {
       widget.sequence = index;
-      if(!widget.name){
+      if (!widget.name) {
         hasError = true;
-        message.error(messages('expense.type.title.required', {index: index + 1}));
+        message.error(messages('expense.type.title.required', { index: index + 1 }));
       }
-      if(widget.fieldType === 'CUSTOM_ENUMERATION' && !widget.customEnumerationOID){
+      if (widget.fieldType === 'CUSTOM_ENUMERATION' && !widget.customEnumerationOID) {
         hasError = true;
-        message.error(messages('expense.type.list.required', {index: index + 1}));
+        message.error(messages('expense.type.list.required', { index: index + 1 }));
       }
       //城市控件增加location messageKey，差标会用到
-      if(widget.fieldType === 'LOCATION')
+      if (widget.fieldType === 'LOCATION')
         widget.messageKey = 'location';
       //同行人控件增加participant messageKey，app用到
-      if(widget.fieldType === 'PARTICIPANT')
+      if (widget.fieldType === 'PARTICIPANT')
         widget.messageKey = 'participant';
       //参与人控件增加participants messageKey，app用到
-      if(widget.fieldType === 'PARTICIPANTS')
+      if (widget.fieldType === 'PARTICIPANTS')
         widget.messageKey = 'participants';
       //开始结束日期增加dateCombined messageKey, app用到
-      if(widget.fieldType === 'START_DATE_AND_END_DATE')
+      if (widget.fieldType === 'START_DATE_AND_END_DATE')
         widget.messageKey = 'dateCombined';
     });
-    if(!hasError){
+    if (!hasError) {
       this.setState({ saving: true });
       expenseTypeService.saveExpenseTypeFields(expenseType.id, nowWidgets).then(res => {
         this.setState({ saving: false });
@@ -286,7 +287,7 @@ class ExpenseTypeCustom extends React.Component{
   handleChangeReportKeyEnabled = (e) => {
     let { nowWidgets, nowSelectedIndex } = this.state;
     let enabledReportKey = e.target.checked;
-    if(!enabledReportKey){
+    if (!enabledReportKey) {
       nowWidgets[nowSelectedIndex].reportKey = null;
     }
     this.setState({ enabledReportKey: e.target.checked, nowWidgets })
@@ -301,18 +302,18 @@ class ExpenseTypeCustom extends React.Component{
         <FakeDropLayout />
         <Row gutter={40}>
           <Col span={8}>
-            {loading ? <Spin/> : (
+            {loading ? <Spin /> : (
               <div className="widget-area">
                 <div className="widget-list">
                   <div className="widget-category">{messages('expense.type.system.widget')}</div>
                   <div className="widget-list">
                     {customWidget.filter(widget => widget.type === 'SYSTEM').map(widget => <DragWidgetItem widget={widget}
-                                                                                                           key={widget.id}/>)}
+                      key={widget.id} />)}
                   </div>
                   <div className="widget-category">{messages('expense.type.custom.widget')}</div>
                   <div className="widget-list">
                     {customWidget.filter(widget => widget.type === 'CUSTOM').map(widget => <DragWidgetItem widget={widget}
-                                                                                                           key={widget.id}/>)}
+                      key={widget.id} />)}
                   </div>
                 </div>
               </div>
@@ -321,19 +322,19 @@ class ExpenseTypeCustom extends React.Component{
           <Col span={8}>
             <div className="fake-phone">
               <div className="phone-buttons">
-                <div className="phone-camera"/>
-                <div className="phone-button phone-button-power"/>
-                <div className="phone-button phone-button-volume-up"/>
-                <div className="phone-button phone-button-volume-down"/>
-                <div className="phone-flash"/>
+                <div className="phone-camera" />
+                <div className="phone-button phone-button-power" />
+                <div className="phone-button phone-button-volume-up" />
+                <div className="phone-button phone-button-volume-down" />
+                <div className="phone-flash" />
               </div>
               <PhoneContent widgetList={nowWidgets}
-                            onSort={this.handleSort}
-                            nowSelectedIndex={nowSelectedIndex}
-                            onSelect={this.handleSelectWidget}
-                            onDrop={this.handleDrop}
-                            onDelete={this.handleDelete}
-                            disabled={!tenantMode}/>
+                onSort={this.handleSort}
+                nowSelectedIndex={nowSelectedIndex}
+                onSelect={this.handleSelectWidget}
+                onDrop={this.handleDrop}
+                onDelete={this.handleDelete}
+                disabled={!tenantMode} />
             </div>
           </Col>
           <Col span={8} className="widget-setting">
@@ -342,70 +343,70 @@ class ExpenseTypeCustom extends React.Component{
                 {messages('expense.type.type')}: {this.getWidgetType()}
                 <div className="widget-setting-title">{messages('expense.type.title')}</div>
                 <LanguageInput isEdit
-                               name={nowWidget.name}
-                               i18nName={JSON.parse(JSON.stringify(nowWidget.i18n.name))}
-                               nameChange={this.handleChangeWightI18n}
-                               disabled={!tenantMode}
-                               inpRule={[{
-                                 length: 30,
-                                 language: "zh_cn"
-                               }, {
-                                 length: 30,
-                                 language: "en"
-                               }]}/>
+                  name={nowWidget.name}
+                  i18nName={JSON.parse(JSON.stringify(nowWidget.i18n.name))}
+                  nameChange={this.handleChangeWightI18n}
+                  disabled={!tenantMode}
+                  inpRule={[{
+                    length: 30,
+                    language: "zh_cn"
+                  }, {
+                    length: 30,
+                    language: "en"
+                  }]} />
                 {(nowWidget.fieldType === 'CUSTOM_ENUMERATION' ||
                   (nowWidget.fieldType === 'TEXT' && nowWidget.customEnumerationOID)) && (
-                  <div>
-                    <div className="widget-setting-title">{messages('expense.type.custom.value.list')}</div>
-                    {loading ? <Spin/> :  <Select showSearch
-                                                  style={{ width: '100%' }}
-                                                  value={nowWidget.customEnumerationOID}
-                                                  onChange={this.handleChangeCustomEnumeration}
-                                                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                                                  disabled={!tenantMode}>
-                      {customEnumeration.map(enumeration =>
-                        <Option value={enumeration.customEnumerationOID}
-                                key={enumeration.customEnumerationOID}>{enumeration.name}</Option>)}
-                    </Select>}
-                  </div>
-                )}
+                    <div>
+                      <div className="widget-setting-title">{messages('expense.type.custom.value.list')}</div>
+                      {loading ? <Spin /> : <Select showSearch
+                        style={{ width: '100%' }}
+                        value={nowWidget.customEnumerationOID}
+                        onChange={this.handleChangeCustomEnumeration}
+                        filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                        disabled={!tenantMode}>
+                        {customEnumeration.map(enumeration =>
+                          <Option value={enumeration.customEnumerationOID}
+                            key={enumeration.customEnumerationOID}>{enumeration.name}</Option>)}
+                      </Select>}
+                    </div>
+                  )}
                 <div className="widget-setting-title">
                   <Checkbox onChange={e => this.handleChangeCheckBox(e, 'required')}
-                            checked={nowWidget.required}
-                            disabled={!tenantMode}>{messages('expense.type.required')}</Checkbox>
+                    checked={nowWidget.required}
+                    disabled={!tenantMode}>{messages('expense.type.required')}</Checkbox>
                 </div>
                 <div className="widget-setting-title">
                   <Checkbox onChange={e => this.handleChangeCheckBox(e, 'showOnList')}
-                            checked={nowWidget.showOnList}
-                            disabled={!tenantMode}>{messages('expense.type.show')}</Checkbox>
+                    checked={nowWidget.showOnList}
+                    disabled={!tenantMode}>{messages('expense.type.show')}</Checkbox>
                 </div>
                 <div className="widget-setting-title">
                   <Checkbox onChange={e => this.handleChangeCheckBox(e, 'printHide')}
-                            checked={nowWidget.printHide}
-                            disabled={!tenantMode}>{messages('expense.type.hide.when.print')}</Checkbox>
+                    checked={nowWidget.printHide}
+                    disabled={!tenantMode}>{messages('expense.type.hide.when.print')}</Checkbox>
                 </div>
                 <div className="widget-setting-title">
                   <Checkbox onChange={e => this.handleChangeCheckBox(e, 'editable')}
-                            checked={nowWidget.editable}
-                            disabled={!tenantMode}>{messages('expense.type.edit')}</Checkbox>
+                    checked={nowWidget.editable}
+                    disabled={!tenantMode}>{messages('expense.type.edit')}</Checkbox>
                 </div>
                 <div className="widget-setting-title">
                   <Checkbox onChange={this.handleChangeReportKeyEnabled}
-                            checked={enabledReportKey}
-                            disabled={!tenantMode}>
+                    checked={enabledReportKey}
+                    disabled={!tenantMode}>
                     {messages('expense.type.report')}<span className="widget-setting-checkbox-info">{messages('expense.type.report.content')}</span>
                   </Checkbox>
                   {!loading && enabledReportKey && (
                     <Select showSearch
-                            value={nowWidget.reportKey}
-                            onChange={this.handleChangeReportKey}
-                            filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                            style={{ marginTop: 5, width: '100%' }}
-                            placeholder={messages('common.please.select')}
-                            disabled={!tenantMode}>
+                      value={nowWidget.reportKey}
+                      onChange={this.handleChangeReportKey}
+                      filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                      style={{ marginTop: 5, width: '100%' }}
+                      placeholder={messages('common.please.select')}
+                      disabled={!tenantMode}>
                       {reportValueList.filter(enumeration => enumeration.enabled).map(enumeration =>
                         <Option value={enumeration.value}
-                                key={enumeration.value}>{enumeration.messageKey}</Option>)}
+                          key={enumeration.value}>{enumeration.messageKey}</Option>)}
                     </Select>)}
                 </div>
               </div>
@@ -423,16 +424,16 @@ class ExpenseTypeCustom extends React.Component{
 }
 
 ExpenseTypeCustom.propTypes = {
-  expenseType: React.PropTypes.object,
-  onSave: React.PropTypes.func,
-  saveIndex: React.PropTypes.func,
-  index: React.PropTypes.number
+  expenseType: PropTypes.object,
+  onSave: PropTypes.func,
+  saveIndex: PropTypes.func,
+  index: PropTypes.number
 };
 
 function mapStateToProps(state) {
   return {
-    languageList: state.login.languageList,
-    tenantMode: state.main.tenantMode
+    languageList: state.languages.languageList,
+    tenantMode: true
   }
 }
 

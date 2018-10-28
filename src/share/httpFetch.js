@@ -22,13 +22,15 @@ axios.interceptors.response.use(function (response) {
 const baseUrl = '';
 export default {
   get(url, params) {
+
+    console.log(params);
     let option = {
       url: baseUrl + url,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      params: { ...params, roleType: 'TENANT' },
+      params: { ...params, roleType: 'TENANT' }
     };
     return axios(option);
   },

@@ -249,8 +249,8 @@ export default {
   getExpenseTypesBySetOfBooks(setOfBooksId, createdManually = true, enabled = true, name){
     return httpFetch.get(`${config.baseUrl}/invoice/api/expense/types/groupby/category`, {
       setOfBooksId,
-      createdManually,
-      enabled,
+      createdManually: createdManually || "",
+      enabled: enabled || "",
       name  //小类名称，模糊搜索
     })
   },

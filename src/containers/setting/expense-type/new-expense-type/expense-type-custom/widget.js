@@ -1,7 +1,8 @@
 import React from 'react'
 import { Icon, Switch, Row, Col } from 'antd'
 import 'styles/components/template/drag-widget-page/widget-item.scss'
-import { messages } from 'share/common'
+import { messages } from 'utils/utils'
+import PropTypes from 'prop-types';
 
 /**
  * 费用组件类型
@@ -112,9 +113,9 @@ class Widget extends React.Component{
 }
 
 Widget.propTypes = {
-  widget: React.PropTypes.object,
-  width: React.PropTypes.any,
-  className: React.PropTypes.string
+  widget: PropTypes.object,
+  width: PropTypes.any,
+  className: PropTypes.string
 };
 
 export default Widget
