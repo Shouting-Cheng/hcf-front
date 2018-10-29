@@ -22,8 +22,6 @@ axios.interceptors.response.use(function (response) {
 const baseUrl = '';
 export default {
   get(url, params) {
-
-    console.log(params);
     let option = {
       url: baseUrl + url,
       method: 'GET',

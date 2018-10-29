@@ -1065,6 +1065,21 @@ export const getRouterData = app => {
         name: 'budget-balance',
         parent:'/budget/budget-balance'
       },
+      '/budget/budget-balance-query':{
+          //预算余额方案查询
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance-query/budget-balance-query')
+          ),
+          name: 'budget-balance',
+      },
+      '/budget/budget-balance-query/budget-balance-query-result/:id':{
+          //预算余额查询方案结果
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance-query/budget-balance-query')
+          ),
+          name: 'budget-balance',
+          parent: '/budget/budget-balance-query'
+      },
 
         //预算日记本
         '/budget/budget-journal': {
@@ -1479,6 +1494,14 @@ export const getRouterData = app => {
             name: 'person-detail',
             parent: '/setting/employee',
         },
+
+      '/admin-setting/workflow':{
+          //审批流
+        component: dynamicWrapper(app, [], ()=>
+          import('containers/setting/workflow/workflow')
+        ),
+        name:'workflow'
+      },
 
         // '/user/:id': {
         //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
