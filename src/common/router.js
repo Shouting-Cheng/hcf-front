@@ -1450,6 +1450,30 @@ export const getRouterData = app => {
             name: 'person-detail',
             parent: '/setting/employee',
         },
+      '/financial-management/expense-reverse': {
+        //财务管理-费用反冲
+        component: dynamicWrapper(app, [], () =>
+          import('containers/financial-management/expense-reverse/expense-reverse.js')
+        ),
+        name: 'expense-reverse',
+        parent: "/financial-management",
+      },
+      '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
+        //新建反冲
+        component: dynamicWrapper(app, [], () =>
+          import('containers/financial-management/expense-reverse/new-reverse.js')
+        ),
+        name: '新建反冲',
+        parent: "/financial-management/expense-reverse",
+      },
+      '/financial-management/expense-reverse/expense-reverse-detail/:id': {
+        //费用反冲详情
+        component: dynamicWrapper(app, [], () =>
+          import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
+        ),
+        name: '费用反冲详情',
+        parent: "/financial-management/expense-reverse",
+      },
 
         // '/user/:id': {
         //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
