@@ -1503,6 +1503,14 @@ export const getRouterData = app => {
         name:'workflow'
       },
 
+      '/financial-management/check-cost-application':{
+          //费用申请查看
+        component: dynamicWrapper(app, [], ()=>
+          import('containers/financial-management/check-cost-application/check-cost-application')
+        ),
+        name:'check-cost-application'
+      },
+
         // '/user/:id': {
         //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
         // },
