@@ -71,6 +71,7 @@
   "budgetJournal.lastStep":"下一步",
   "budgetJournal.item":"预算项目",
   "budgetJournal.createdDate":"创建时间",
+  "budgetJournal.submitDate":"提交日期",
   "budgetJournal.attachment":"附件",
   "budgetJournal.commit":"提交",
   "budgetJournal.getDimensionFail":"获得维度失败",
