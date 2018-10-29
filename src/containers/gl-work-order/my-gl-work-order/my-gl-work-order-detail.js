@@ -233,8 +233,8 @@ class MyGLWorkOrderDetail extends Component {
               return (
                 <InputNumber
                   onChange={value => this.onECAmountChange(value, record, index)}
+                  onBlur={value => this.blurCr(value,index)}
                   value={enteredAmountDr}
-                  precision={2}
                   size={140}
                   placeholder={'请输入'}
                 />
@@ -260,7 +260,7 @@ class MyGLWorkOrderDetail extends Component {
                 <InputNumber
                   onChange={value => this.onDCAmountChange(value, record, index)}
                   value={enteredAmountCr}
-                  precision={2}
+                  onBlur={value => this.blurDr(value,index)}
                   //disabled={record.enteredAmountDr ? true : false}
                   size={140}
                   placeholder={'请输入'}
@@ -439,6 +439,54 @@ class MyGLWorkOrderDetail extends Component {
     data[index].enteredAmountCr = 0;
     this.setState({ data });
   };
+
+  //四舍五入 保留两位小数
+  blurCr =(value,index) => {
+    let x = value.target.defaultValue;
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return false;
+    }
+    var f = Math.round(x * 100) / 100;
+    var s = f.toString();
+    var rs = s.indexOf('.');
+    if (rs < 0) {
+      rs = s.length;
+      s += '.';
+    }
+    while (s.length <= rs + 2) {
+      s += '0';
+    }
+    let { data } = this.state;
+    data[index].enteredAmountDr = 0;
+    data[index].enteredAmountCr = s;
+    this.setState({ data });
+  };
+
+  //四舍五入 保留两位小数
+  blurDr =(value,index) => {
+    let x = value.target.defaultValue;
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+      return false;
+    }
+    var f = Math.round(x * 100) / 100;
+    var s = f.toString();
+    var rs = s.indexOf('.');
+    if (rs < 0) {
+      rs = s.length;
+      s += '.';
+    }
+    while (s.length <= rs + 2) {
+      s += '0';
+    }
+    let { data } = this.state;
+    data[index].enteredAmountCr = 0;
+    data[index].enteredAmountDr = s;
+    this.setState({ data });
+  };
+
+
   /**
    * 维值变化事件
    */
@@ -1074,7 +1122,7 @@ class MyGLWorkOrderDetail extends Component {
     return (
       <div>
         <Spin spinning={false}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
               <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
                 <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
@@ -1133,7 +1181,7 @@ class MyGLWorkOrderDetail extends Component {
           docHeadData.status === 1005 ? (
             <div>
               <Button
-                style={{ marginLeft: '20px' }}
+                style={{ marginLeft: '60px' }}
                 type="primary"
                 loading={operationLoading}
                 onClick={this.onSubmit}
