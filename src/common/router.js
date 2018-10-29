@@ -1050,6 +1050,21 @@ export const getRouterData = app => {
           ),
           name: 'budget-balance-solution-newOrEdit',
       },
+      '/budget/budget-balance':{
+          //预算余额
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance/budget-balance')
+          ),
+          name: 'budget-balance',
+      },
+      '/budget/budget-balance/budget-balance-result/:id':{
+          //预算余额查询结果
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/budget/budget-balance/budget-balance-result')
+        ),
+        name: 'budget-balance',
+        parent:'/budget/budget-balance'
+      },
 
         //预算日记本
         '/budget/budget-journal': {

@@ -1,6 +1,5 @@
-import {messages} from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 
 import Exporter from 'containers/budget/budget-balance/exporter'
 
@@ -10,16 +9,15 @@ const FormItem = Form.Item;
 
 import httpFetch from 'share/httpFetch'
 import config from 'config'
-import SlideFrame from 'components/slide-frame'
+import SlideFrame from 'widget/slide-frame'
 import BudgetBalanceAmountDetail from 'containers/budget/budget-balance/budget-balance-amount-detail'
-import menuRoute from 'routes/menuRoute'
+import { routerRedux } from 'dva/router';
 
 class BudgetBalanceResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      budgetBalancePage: menuRoute.getRouteItem('budget-balance', 'key'),
       data: [],
       pagination: {
         total: 0
@@ -27,24 +25,24 @@ class BudgetBalanceResult extends React.Component {
       hasInitial: false,
       dimensionColumns: [],
       columns: [
-        {title: messages('budget.balance.company'), dataIndex: 'companyName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.company.group'), dataIndex: 'companyGroupName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.department'), dataIndex: 'unitName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.department.group'), dataIndex: 'unitGroupName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.user'), dataIndex: 'employeeName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.user.group'), dataIndex: 'employeeGroupName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.item.type'), dataIndex: 'itemTypeName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.item'), dataIndex: 'itemName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.item.group'), dataIndex: 'itemGroupName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('budget.balance.year'), dataIndex: 'periodYear'},
-        {title: messages('budget.balance.season'), dataIndex: 'periodQuarter'},
-        {title: messages('budget.balance.period'), dataIndex: 'periodName', render: record => <Popover content={record}>{record}</Popover>},
-        {title: messages('common.currency'), dataIndex: 'currency'},
-        {title: messages('budget.balance.budget.amt'), dataIndex: 'bgtAmount', render: (bgtAmount, record) => <a onClick={() => this.showSlideFrame(record, 'J')}>{this.filterMoney(bgtAmount)}</a>},
-        {title: messages('budget.balance.budget.rsv'), dataIndex: 'expReserveAmount', render: (expReserveAmount, record) =>  <a onClick={() => this.showSlideFrame(record, 'R')}>{this.filterMoney(expReserveAmount)}</a>},
-        {title: messages('budget.balance.budget.usd'), dataIndex: 'expUsedAmount', render: (expUsedAmount, record) => <a onClick={() => this.showSlideFrame(record, 'U')}>{this.filterMoney(expUsedAmount)}</a>},
-        {title: messages('budget.balance.budget.avb'), dataIndex: 'expAvailableAmount', render: expAvailableAmount => this.filterMoney(expAvailableAmount)},
-        {title: messages('budget.balance.schedule'), dataIndex: 'schedule', render: schedule => (schedule * 100).toFixed(3) + '%'}
+        {title: this.$t('budget.balance.company'), dataIndex: 'companyName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.company.group'), dataIndex: 'companyGroupName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.department'), dataIndex: 'unitName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.department.group'), dataIndex: 'unitGroupName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.user'), dataIndex: 'employeeName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.user.group'), dataIndex: 'employeeGroupName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.item.type'), dataIndex: 'itemTypeName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.item'), dataIndex: 'itemName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.item.group'), dataIndex: 'itemGroupName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('budget.balance.year'), dataIndex: 'periodYear'},
+        {title: this.$t('budget.balance.season'), dataIndex: 'periodQuarter'},
+        {title: this.$t('budget.balance.period'), dataIndex: 'periodName', render: record => <Popover content={record}>{record}</Popover>},
+        {title: this.$t('common.currency'), dataIndex: 'currency'},
+        {title: this.$t('budget.balance.budget.amt'), dataIndex: 'bgtAmount', render: (bgtAmount, record) => <a onClick={() => this.showSlideFrame(record, 'J')}>{this.filterMoney(bgtAmount)}</a>},
+        {title: this.$t('budget.balance.budget.rsv'), dataIndex: 'expReserveAmount', render: (expReserveAmount, record) =>  <a onClick={() => this.showSlideFrame(record, 'R')}>{this.filterMoney(expReserveAmount)}</a>},
+        {title: this.$t('budget.balance.budget.usd'), dataIndex: 'expUsedAmount', render: (expUsedAmount, record) => <a onClick={() => this.showSlideFrame(record, 'U')}>{this.filterMoney(expUsedAmount)}</a>},
+        {title: this.$t('budget.balance.budget.avb'), dataIndex: 'expAvailableAmount', render: expAvailableAmount => this.filterMoney(expAvailableAmount)},
+        {title: this.$t('budget.balance.schedule'), dataIndex: 'schedule', render: schedule => (schedule * 100).toFixed(3) + '%'}
       ],
       scrollx: 150,
       condition: {
@@ -56,20 +54,20 @@ class BudgetBalanceResult extends React.Component {
       },
       total: [],
       menuText: {
-        totalNumber: messages('budget.balance.data.amount'),
-        bgtAmount: `${messages('budget.balance.total')}${messages('budget.balance.budget.amt')}`,
-        expReserveAmount: `${messages('budget.balance.total')}${messages('budget.balance.budget.rsv')}`,
-        expUsedAmount: `${messages('budget.balance.total')}${messages('budget.balance.budget.usd')}`,
-        expAvailableAmount: `${messages('budget.balance.total')}${messages('budget.balance.budget.avb')}`
+        totalNumber: this.$t('budget.balance.data.amount'),
+        bgtAmount: `${this.$t('budget.balance.total')}${this.$t('budget.balance.budget.amt')}`,
+        expReserveAmount: `${this.$t('budget.balance.total')}${this.$t('budget.balance.budget.rsv')}`,
+        expUsedAmount: `${this.$t('budget.balance.total')}${this.$t('budget.balance.budget.usd')}`,
+        expAvailableAmount: `${this.$t('budget.balance.total')}${this.$t('budget.balance.budget.avb')}`
       },
       page: 0,
       pageSize: 10,
       showSlideFrameFlag: false,
       slideFrameParam: {},
       titleMap: {
-        J: `${messages('budget.balance.budget.amt')}${messages('budget.balance.detail')}`,
-        R: `${messages('budget.balance.budget.rsv')}${messages('budget.balance.detail')}`,
-        U: `${messages('budget.balance.budget.usd')}${messages('budget.balance.detail')}`
+        J: `${this.$t('budget.balance.budget.amt')}${this.$t('budget.balance.detail')}`,
+        R: `${this.$t('budget.balance.budget.rsv')}${this.$t('budget.balance.detail')}`,
+        U: `${this.$t('budget.balance.budget.usd')}${this.$t('budget.balance.detail')}`
       },
       showExporterFlag: false
     };
@@ -80,7 +78,7 @@ class BudgetBalanceResult extends React.Component {
       let companyNumber = 0;
       res.data.queryLineList.map(item => {
         if(item.parameterCode === 'COMPANY')
-          companyNumber = item.allFlag ? messages('common.all') : messages('common.total1', {total: item.queryParameterList.length});
+          companyNumber = item.allFlag ? this.$t('common.all') : this.$t('common.total1', {total: item.queryParameterList.length});
       });
       this.setState({
         condition: {
@@ -191,29 +189,29 @@ class BudgetBalanceResult extends React.Component {
 
     return (
       <div className="budget-balance-result">
-        <h3 className="header-title">{messages('budget.balance.search.result')}</h3>
+        <h3 className="header-title">{this.$t('budget.balance.search.result')}</h3>
         <div className="header-info">
-          <div className="header-info-title">{messages('budget.balance.search.condition')}</div>
+          <div className="header-info-title">{this.$t('budget.balance.search.condition')}</div>
           <div className="header-info-content">
             <Row gutter={40}>
               <Col span={8} className="info-block">
-                <div className="info-title">{messages('budget.balance.company')}:</div>
+                <div className="info-title">{this.$t('budget.balance.company')}:</div>
                 <div className="info-content">{condition.companyNumber}</div>
               </Col>
               <Col span={8} className="info-block">
-                <div className="info-title">{messages('budget.balance.budget.version')}:</div>
+                <div className="info-title">{this.$t('budget.balance.budget.version')}:</div>
                 <div className="info-content">{condition.version}</div>
               </Col>
               <Col span={8} className="info-block">
-                <div className="info-title">{messages('budget.balance.money.or.number')}:</div>
+                <div className="info-title">{this.$t('budget.balance.money.or.number')}:</div>
                 <div className="info-content">{condition.type}</div>
               </Col>
               <Col span={8} className="info-block">
-                <div className="info-title">{messages('budget.balance.budget.structure')}:</div>
+                <div className="info-title">{this.$t('budget.balance.budget.structure')}:</div>
                 <div className="info-content">{condition.budgetStructure}</div>
               </Col>
               <Col span={8} className="info-block">
-                <div className="info-title">{messages('budget.balance.budget.scenarios')}:</div>
+                <div className="info-title">{this.$t('budget.balance.budget.scenarios')}:</div>
                 <div className="info-content">{condition.budgetScenarios}</div>
               </Col>
             </Row>
@@ -222,7 +220,7 @@ class BudgetBalanceResult extends React.Component {
 
 
         <div className="table-header">
-          <div className="table-header-title">{messages('common.total', {total: pagination.total ? pagination.total : '0'})}</div> {/* 共total条数据 */}
+          <div className="table-header-title">{this.$t('common.total', {total: pagination.total ? pagination.total : '0'})}</div> {/* 共total条数据 */}
         </div>
         {this.renderTotal()}
         <Table columns={columns.concat(dimensionColumns)}
@@ -240,9 +238,15 @@ class BudgetBalanceResult extends React.Component {
                     title={slideFrameParam.title} width="70%"/>
 
         <div className="footer-operate">
-          <Button type="primary" onClick={() => {this.context.router.push(budgetBalancePage.url)}}>{messages('budget.balance.modify.params')}</Button>
-          <Button onClick={this.getList} style={{ marginLeft: 10}}>{messages('budget.balance.search.again')}</Button>
-          <Button style={{ marginLeft: 10}} onClick={() => this.setState({ showExporterFlag: true })}>{messages('budget.balance.export.CVS')}</Button>
+          <Button type="primary" onClick={() => {
+            this.props.dispatch(
+              routerRedux.replace({
+                pathname: '/budget/budget-balance'
+              })
+            );
+          }}>{this.$t('budget.balance.modify.params')}</Button>
+          <Button onClick={this.getList} style={{ marginLeft: 10}}>{this.$t('budget.balance.search.again')}</Button>
+          <Button style={{ marginLeft: 10}} onClick={() => this.setState({ showExporterFlag: true })}>{this.$t('budget.balance.export.CVS')}</Button>
         </div>
 
         <Exporter visible={showExporterFlag}
