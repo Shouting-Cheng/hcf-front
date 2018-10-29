@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { DragLayer } from 'react-dnd'
 import Widget from 'containers/setting/expense-type/new-expense-type/expense-type-custom/widget'
+import PropTypes from 'prop-types';
 
 /**
  * 覆盖整个页面的drop源，当拖拽进入时显示对应的widget样式
@@ -54,17 +55,17 @@ class FakeDropLayout extends Component {
 }
 
 FakeDropLayout.propTypes = {
-  item: React.PropTypes.object,
-  itemType: React.PropTypes.string,
-  initialOffset: React.PropTypes.shape({
-    x: React.PropTypes.number.isRequired,
-    y: React.PropTypes.number.isRequired,
+  item: PropTypes.object,
+  itemType: PropTypes.string,
+  initialOffset: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
   }),
-  currentOffset: React.PropTypes.shape({
-    x: React.PropTypes.number.isRequired,
-    y: React.PropTypes.number.isRequired,
+  currentOffset: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
   }),
-  isDragging: React.PropTypes.bool.isRequired,
+  isDragging: PropTypes.bool.isRequired,
 };
 
 export default DragLayer(monitor => ({

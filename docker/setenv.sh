@@ -54,6 +54,12 @@ server {
     location /location/ {
         proxy_pass http://115.159.108.80:25297/location/;
     }
+
+    location /invoice/ {
+        proxy_pass http://115.159.108.80:25297/invoice/;
+    }
+
+    
 }
 
 EOF

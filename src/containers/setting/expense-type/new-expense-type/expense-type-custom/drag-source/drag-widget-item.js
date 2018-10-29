@@ -1,6 +1,7 @@
 import React from 'react'
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend'
+import PropTypes from 'prop-types';
 
 /**
  * 页面左侧列表内可拖拽组件块
@@ -27,10 +28,10 @@ class DragWidgetItem extends React.Component{
 }
 
 DragWidgetItem.propTypes = {
-  widget: React.PropTypes.object,
-  connectDragSource: React.PropTypes.func.isRequired,  //自动注入
-  connectDragPreview: React.PropTypes.func.isRequired,  //自动注入
-  isDragging: React.PropTypes.bool.isRequired
+  widget: PropTypes.object,
+  connectDragSource: PropTypes.func.isRequired,  //自动注入
+  connectDragPreview: PropTypes.func.isRequired,  //自动注入
+  isDragging: PropTypes.bool.isRequired
 };
 
 export default DragSource(

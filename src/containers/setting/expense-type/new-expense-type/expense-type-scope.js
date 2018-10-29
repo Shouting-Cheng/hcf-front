@@ -1,13 +1,14 @@
-import {messages} from "share/common";
+import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Modal, Button, Checkbox, message, Select, Spin } from 'antd'
 const Option = Select.Option;
 const confirm = Modal.confirm;
 import expenseTypeService from 'containers/setting/expense-type/expense-type.service'
-import PermissionsAllocation from 'components/template/permissions-allocation'
+import PermissionsAllocation from 'widget/Template/permissions-allocation'
+import PropTypes from 'prop-types';
 
-class ExpenseTypeScope extends React.Component{
+class ExpenseTypeScope extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,10 +20,10 @@ class ExpenseTypeScope extends React.Component{
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { expenseType } = this.props;
     expenseTypeService.getExpenseTypeScope(expenseType.id).then(res => {
-      if(expenseType.accessibleRights === 1){
+      if (expenseType.accessibleRights === 1) {
         let values = [];
         res.data.rows.map(item => {
           values.push({
@@ -31,15 +32,17 @@ class ExpenseTypeScope extends React.Component{
             value: item.id
           })
         });
-        this.setState({userValue: {
-          type: 'group',
-          values
-        }})
+        this.setState({
+          userValue: {
+            type: 'group',
+            values
+          }
+        })
       }
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
   }
 
   handleChangePermissions = (userValue) => {
@@ -49,9 +52,9 @@ class ExpenseTypeScope extends React.Component{
   handleSave = () => {
     const { userValue } = this.state;
     const { expenseType } = this.props;
-    if(userValue.type === 'group' && userValue.values.length === 0){
+    if (userValue.type === 'group' && userValue.values.length === 0) {
       message.error(messages('expense.type.please.add.user.group'));
-      return ;
+      return;
     }
     let userGroups = [];
     userValue.values.map(item => {
@@ -84,15 +87,15 @@ class ExpenseTypeScope extends React.Component{
           </Col>
           <Col span={8}>
             <PermissionsAllocation onChange={this.handleChangePermissions}
-                                   needEntity
-                                   hiddenComponents={["department"]}
-                                   value={userValue}
-                                   disabled={!tenantMode}/>
+              needEntity
+              hiddenComponents={["department"]}
+              value={userValue}
+              disabled={!tenantMode} />
           </Col>
         </Row>
         {tenantMode && (
           <Row gutter={20} style={{ marginTop: 20 }}>
-            <Col span={4}/>
+            <Col span={4} />
             <Col span={8}>
               <Button type="primary" onClick={this.handleSave} loading={saving}>{messages('common.save')}</Button>
             </Col>
@@ -104,13 +107,13 @@ class ExpenseTypeScope extends React.Component{
 }
 
 ExpenseTypeScope.propTypes = {
-  expenseType: React.PropTypes.object,
-  onSave: React.PropTypes.func
+  expenseType: PropTypes.object,
+  onSave: PropTypes.func
 };
 
 function mapStateToProps(state) {
   return {
-    tenantMode: state.main.tenantMode
+    tenantMode: true
   }
 }
 

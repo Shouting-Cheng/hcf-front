@@ -1,4 +1,4 @@
-import {messages} from "utils/utils";
+import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'react-redux'
 import baseService from 'share/base.service'
@@ -12,8 +12,9 @@ import expenseTypeService from 'containers/setting/expense-type/expense-type.ser
 import { LanguageInput } from 'widget/Template'
 import PropTypes from 'prop-types';
 // import { setExpenseTypeSetOfBooks } from 'actions/setting'
+import { routerRedux } from 'dva/router';
 
-class CustomExpenseType extends React.Component{
+class CustomExpenseType extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,13 +40,20 @@ class CustomExpenseType extends React.Component{
     }
   }
 
-  componentWillMount(){
-    if(!this.props.expenseTypeSetOfBooks.id){
-      this.props.dispatch(setExpenseTypeSetOfBooks({
-        id: this.props.company.setOfBooksId,
-        setOfBooksName: this.props.company.setOfBooksName
-      }));
+  componentWillMount() {
+    if (!this.props.expenseTypeSetOfBooks.id) {
+
+      this.props.dispatch(
+        {
+          type: "setting/setExpenseTypeSetOfBooks",
+          payload: {
+            id: this.props.company.setOfBooksId,
+            setOfBooksName: this.props.company.setOfBooksName
+          }
+        }
+      );
     }
+
     this.getSetOfBooks();
   }
 
@@ -56,17 +64,25 @@ class CustomExpenseType extends React.Component{
       let hasSetOfBooks = false;
       let id = this.props.company.setOfBooksId;
       res.data.map(item => {
-        if(item.id === (this.props.expenseTypeSetOfBooks.id || this.props.company.setOfBooksId)){
+        if (item.id === (this.props.expenseTypeSetOfBooks.id || this.props.company.setOfBooksId)) {
           hasSetOfBooks = true;
           id = this.props.expenseTypeSetOfBooks.id;
-          this.props.dispatch(setExpenseTypeSetOfBooks(item));
+          this.props.dispatch(
+            {
+              type: "setting/setExpenseTypeSetOfBooks",
+              payload: item
+            }
+          );
         }
       });
-      if(!hasSetOfBooks){
-        this.props.dispatch(setExpenseTypeSetOfBooks({
-          id: this.props.company.setOfBooksId,
-          setOfBooksName: this.props.company.setOfBooksName
-        }));
+      if (!hasSetOfBooks) {
+        this.props.dispatch({
+          type: "setting/setExpenseTypeSetOfBooks",
+          payload: {
+            id: this.props.company.setOfBooksId,
+            setOfBooksName: this.props.company.setOfBooksName
+          }
+        })
       }
       this.getSourceCategory(id);
     })
@@ -74,8 +90,7 @@ class CustomExpenseType extends React.Component{
 
   getSourceCategory = (setOfBooksId = this.props.expenseTypeSetOfBooks.id) => {
     this.setState({ loading: true });
-    console.log(setOfBooksId);
-    baseService.getExpenseTypesBySetOfBooks(setOfBooksId, null, null).then(res => {
+    baseService.getExpenseTypesBySetOfBooks(setOfBooksId || this.props.company.setOfBooksId, null, null).then(res => {
       res.data.rows.map(expenseCategory => {
         //如果是第三方费用类型，则不参与排序，放到最下方
         if (!expenseCategory.id) {
@@ -85,24 +100,24 @@ class CustomExpenseType extends React.Component{
       let target = res.data.rows;
       let categoryCount = 0;
       target.map(expenseCategory => {
-        if(expenseCategory.enabled){
+        if (expenseCategory.enabled) {
           expenseCategory.sequence = categoryCount++;
           expenseCategory.expenseTypes = expenseCategory.expenseTypes.sort((a, b) => a.sequence > b.sequence || -1);
           let expenseTypeCount = 0;
           expenseCategory.expenseTypes.map(expenseType => {
-            if(expenseType.enabled){
+            if (expenseType.enabled) {
               expenseType.sequence = expenseTypeCount++;
             }
           })
         }
       });
-      this.setState({sourceCategory: target, loading: false});
+      this.setState({ sourceCategory: target, loading: false });
     });
   };
 
   handleChangeSetOfBooks = (setOfBooksId) => {
     this.state.setOfBooks.map(item => {
-      if(item.id === setOfBooksId)
+      if (item.id === setOfBooksId)
         this.props.dispatch(setExpenseTypeSetOfBooks(item));
     });
     this.getSourceCategory(setOfBooksId);
@@ -132,7 +147,7 @@ class CustomExpenseType extends React.Component{
 
   finishCategorySort = (saveFlag) => {
     const { sortCategory } = this.state;
-    if(saveFlag && sortCategory.length > 0){
+    if (saveFlag && sortCategory.length > 0) {
       this.setState({ sortingCategory: true });
       expenseTypeService.sortCategory(sortCategory).then(res => {
         this.setState({ categorySorting: false, sortCategory: [], sortingCategory: false });
@@ -146,7 +161,7 @@ class CustomExpenseType extends React.Component{
 
   finishExpenseTypeSort = (saveFlag) => {
     const { sortExpenseType } = this.state;
-    if(saveFlag && sortExpenseType.length > 0){
+    if (saveFlag && sortExpenseType.length > 0) {
       this.setState({ sortingExpenseType: true });
       expenseTypeService.sortExpenseType(sortExpenseType).then(res => {
         this.setState({ typeSorting: false, sortExpenseType: [], sortingExpenseType: false });
@@ -159,17 +174,22 @@ class CustomExpenseType extends React.Component{
   };
 
   handleNewExpenseType = () => {
-    this.context.router.push(this.state.newExpenseTypePage.url)
+    // this.context.router.push(this.state.newExpenseTypePage.url)
+    this.props.dispatch(routerRedux.push({
+      pathname: "/admin-setting/new-expense-type/0"
+    }))
   };
 
   handleEditExpenseType = (id) => {
-    this.context.router.push(this.state.expenseTypeDetailPage.url.replace(':expenseTypeId', id))
+    this.props.dispatch(routerRedux.push({
+      pathname: "/admin-setting/expense-type-detail/" + id
+    }))
   };
 
   renderExpenseType = (expenseType, noClick) => {
     return (
       <div className="expense-type-item" key={expenseType.id} onClick={noClick ? null : () => this.handleEditExpenseType(expenseType.id)}>
-        <img src={expenseType.iconURL}/>
+        <img src={expenseType.iconURL} />
         <Row gutter={10}>
           <Col span={12} className="expense-type-name">{expenseType.name}</Col>
           <Col span={6}>
@@ -185,9 +205,9 @@ class CustomExpenseType extends React.Component{
   };
 
   handleClickEditMenu = (e, expenseTypeCategory) => {
-    switch(e.key) {
+    switch (e.key) {
       case 'rename':
-        this.setState({nowEditCategory: expenseTypeCategory, categoryEditVisible: true});
+        this.setState({ nowEditCategory: expenseTypeCategory, categoryEditVisible: true });
         break;
       case 'delete':
         if (expenseTypeCategory.expenseTypes.length > 0)
@@ -196,7 +216,7 @@ class CustomExpenseType extends React.Component{
           });
         else
           expenseTypeService.deleteCategory(expenseTypeCategory.expenseTypeCategoryOID).then(res => {
-            message.success(messages('common.delete.success',{name:''}));
+            message.success(messages('common.delete.success', { name: '' }));
             this.getSourceCategory();
           })
     }
@@ -222,12 +242,12 @@ class CustomExpenseType extends React.Component{
 
   handleEditCategory = () => {
     const { nowEditCategory } = this.state;
-    let service =  expenseTypeService.editCategory;
-    if(!nowEditCategory.name){
+    let service = expenseTypeService.editCategory;
+    if (!nowEditCategory.name) {
       message.error(messages('common.please.enter'));
-      return ;
+      return;
     }
-    if(!nowEditCategory.id){
+    if (!nowEditCategory.id) {
       nowEditCategory.enabled = true;
       nowEditCategory.setOfBooksId = this.props.expenseTypeSetOfBooks.id;
       nowEditCategory.sequence = 0;
@@ -263,10 +283,10 @@ class CustomExpenseType extends React.Component{
     const { tenantMode } = this.props;
     return (
       <div className="custom-expense-type">
-        {typeSorting ? <div className="sort-backdrop" onClick={() => this.finishExpenseTypeSort(false)}/> : null}
+        {typeSorting ? <div className="sort-backdrop" onClick={() => this.finishExpenseTypeSort(false)} /> : null}
         <Row gutter={20}>
           <Col span={6} className="left-container">
-            {setOfBooksLoading ? <Spin/> : (
+            {setOfBooksLoading ? <Spin /> : (
               <Select className="set-of-books" value={this.props.expenseTypeSetOfBooks.id} onChange={this.handleChangeSetOfBooks} disabled={!tenantMode}>
                 {setOfBooks.map(item => <Option key={item.id} value={item.id}>{item.setOfBooksName}</Option>)}
               </Select>
@@ -278,14 +298,14 @@ class CustomExpenseType extends React.Component{
               </div>
             )}
             <Anchor affix={false}
-                    className="anchor"
-                    getContainer={() => document.getElementsByClassName('right-container')[0]}>
+              className="anchor"
+            >
               {sourceCategory.map(expenseTypeCategory => <Link href={`#${expenseTypeCategory.expenseTypeCategoryOID}`}
-                                                               title={expenseTypeCategory.name}
-                                                               key={expenseTypeCategory.expenseTypeCategoryOID}/>)}
+                title={expenseTypeCategory.name}
+                key={expenseTypeCategory.expenseTypeCategoryOID} />)}
             </Anchor>
           </Col>
-          { loading ? <Spin/> : (
+          {loading ? <Spin /> : (
             categorySorting ? (
               <Col span={16} style={{ padding: 0 }}>
                 <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishCategorySort(true)} loading={sortingCategory}>{messages('common.ok')}</Button>
@@ -298,9 +318,9 @@ class CustomExpenseType extends React.Component{
                     {sourceCategory.filter(item => item.enabled && item.id !== null).map(expenseTypeCategory => {
                       return (
                         <div className="expense-type-category"
-                             id={'' + expenseTypeCategory.expenseTypeCategoryOID}
-                             key={expenseTypeCategory.id}>
-                          <div className="expense-type-category-title" style={{ cursor:'move' }}>
+                          id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+                          key={expenseTypeCategory.id}>
+                          <div className="expense-type-category-title" style={{ cursor: 'move' }}>
                             {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
                           </div>
                         </div>
@@ -310,74 +330,74 @@ class CustomExpenseType extends React.Component{
                 </div>
               </Col>
             ) : (
-              <Col span={18} className="right-container">
-                {tenantMode && <Button type="primary" onClick={this.handleNewExpenseType}>{messages('expense.type.new.expense.type')/*新增费用类型*/}</Button>}
-                {sourceCategory.map((expenseTypeCategory, index) => {
-                  return (
-                    <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
-                         id={'' + expenseTypeCategory.expenseTypeCategoryOID}
-                         key={expenseTypeCategory.id}>
-                      <div className="expense-type-category-title">
-                        {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
+                <Col span={18} className="right-container">
+                  {tenantMode && <Button type="primary" onClick={this.handleNewExpenseType}>{messages('expense.type.new.expense.type')/*新增费用类型*/}</Button>}
+                  {sourceCategory.map((expenseTypeCategory, index) => {
+                    return (
+                      <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
+                        id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+                        key={expenseTypeCategory.id}>
+                        <div className="expense-type-category-title">
+                          {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
                         {typeSorting && typeSortingIndex === index ? (
-                          <div className="expense-type-category-operate">
-                            <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishExpenseTypeSort(true)} loading={sortingExpenseType}>{messages('common.ok')}</Button>
-                            <Button onClick={() => this.finishExpenseTypeSort(false)} disabled={sortingExpenseType}>{messages('common.cancel')}</Button>
+                            <div className="expense-type-category-operate">
+                              <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishExpenseTypeSort(true)} loading={sortingExpenseType}>{messages('common.ok')}</Button>
+                              <Button onClick={() => this.finishExpenseTypeSort(false)} disabled={sortingExpenseType}>{messages('common.cancel')}</Button>
+                            </div>
+                          ) : (expenseTypeCategory.id && tenantMode && (
+                            <div className="expense-type-category-operate">
+                              <Dropdown overlay={this.renderButtonMenu(expenseTypeCategory)}>
+                                <Button style={{ marginRight: 10 }}>
+                                  {messages('common.edit')} <Icon type="down" />
+                                </Button>
+                              </Dropdown>
+                              <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
+                            </div>
+                          ))}
+                        </div>
+                        {typeSorting && typeSortingIndex === index ? (
+                          <div className="expense-type-list">
+                            <ListSort
+                              onChange={this.handleSortExpense}
+                              dragClassName="list-drag-selected"
+                            >
+                              {expenseTypeCategory.expenseTypes.map(expenseType => this.renderExpenseType(expenseType, true))}
+                            </ListSort>
                           </div>
-                        ) : (expenseTypeCategory.id && tenantMode && (
-                          <div className="expense-type-category-operate">
-                            <Dropdown overlay={this.renderButtonMenu(expenseTypeCategory)}>
-                              <Button style={{ marginRight: 10 }}>
-                                {messages('common.edit')} <Icon type="down" />
-                              </Button>
-                            </Dropdown>
-                            <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
-                          </div>
-                        ))}
+                        ) : (
+                            <div className="expense-type-list">
+                              {expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.map(expenseType =>
+                                this.renderExpenseType(expenseType)
+                              ) : null}
+                            </div>
+                          )}
                       </div>
-                      {typeSorting && typeSortingIndex === index ? (
-                        <div className="expense-type-list">
-                          <ListSort
-                            onChange={this.handleSortExpense}
-                            dragClassName="list-drag-selected"
-                          >
-                            {expenseTypeCategory.expenseTypes.map(expenseType => this.renderExpenseType(expenseType, true))}
-                          </ListSort>
-                        </div>
-                      ) : (
-                        <div className="expense-type-list">
-                          {expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.map(expenseType =>
-                            this.renderExpenseType(expenseType)
-                          ) : null}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-              </Col>
-            )
-          ) }
+                    )
+                  })}
+                </Col>
+              )
+          )}
         </Row>
         <Modal visible={categoryEditVisible}
-               onCancel={() => this.setState({ categoryEditVisible: false })}
-               onOk={this.handleEditCategory}
-               confirmLoading={savingCategory}>
+          onCancel={() => this.setState({ categoryEditVisible: false })}
+          onOk={this.handleEditCategory}
+          confirmLoading={savingCategory}>
           <div style={{
             lineHeight: '50px',
             fontWeight: 500,
             fontSize: 16
           }}>{messages('expense.type.expense.group.name')/*费用大类名称*/}</div>
           <LanguageInput isEdit={!!nowEditCategory.id}
-                         name={nowEditCategory.name}
-                         i18nName={nowEditCategory.i18n ? nowEditCategory.i18n.name : null}
-                         nameChange={this.handleChangeI18n}
-                         inpRule={[{
-                           length: 30,
-                           language: "zh_cn"
-                         }, {
-                           length: 30,
-                           language: "en"
-                         }]}/>
+            name={nowEditCategory.name}
+            i18nName={nowEditCategory.i18n ? nowEditCategory.i18n.name : null}
+            nameChange={this.handleChangeI18n}
+            inpRule={[{
+              length: 30,
+              language: "zh_cn"
+            }, {
+              length: 30,
+              language: "en"
+            }]} />
         </Modal>
       </div>
     )
@@ -389,12 +409,11 @@ CustomExpenseType.contextTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
-    company: state.login.company,
+    company: state.user.company,
     expenseTypeSetOfBooks: state.setting.expenseTypeSetOfBooks,
-    languageList: state.login.languageList,
-    tenantMode: state.main.tenantMode
+    languageList: state.languages.languageList,
+    tenantMode: true
   }
 }
 

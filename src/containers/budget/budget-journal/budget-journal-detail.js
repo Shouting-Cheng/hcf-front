@@ -327,10 +327,11 @@ class BudgetJournalDetail extends React.Component {
           title: this.$t({ id: 'budgetJournal.amount' }),
           key: 'amount',
           dataIndex: 'amount',
+
           width: 180,
-          render: recode => (
-            <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
-          ),
+          // render: recode => (
+          //   <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
+          // ),
         },
         {
           /*本币今额*/
@@ -338,9 +339,9 @@ class BudgetJournalDetail extends React.Component {
           key: 'functionalAmount',
           dataIndex: 'functionalAmount',
           width: 180,
-          render: recode => (
-            <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
-          ),
+          // render: recode => (
+          //   <Popover content={this.filterMoney(recode)}>{this.filterMoney(recode)}</Popover>
+          // ),
         },
         {
           /*数字*/
@@ -444,10 +445,8 @@ class BudgetJournalDetail extends React.Component {
 
   //根据attachmentOID，查询附件
   getFile = value => {
-    let valueData = {};
-    valueData.oid = value;
     budgetJournalService
-      .getFileByAttachmentOID(valueData)
+      .getFileByAttachmentOID(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);
@@ -762,7 +761,6 @@ class BudgetJournalDetail extends React.Component {
       showSlideFrameNew: false,
     });
     if (value) {
-      
       let data = value;
       data.journalHeaderId = this.state.headerAndListData.dto.id;
       data.functionalAmount = data.functionalAmount
@@ -1047,7 +1045,10 @@ class BudgetJournalDetail extends React.Component {
             show={showSlideFrameNew}
             onClose={() => this.showSlideFrameNew(false)}
           >
-            <NewBudgetJournalDetail onClose={this.handleAfterCloseNewSlide} params={this.state.params} />
+            <NewBudgetJournalDetail
+              onClose={this.handleAfterCloseNewSlide}
+              params={this.state.params}
+            />
           </SlideFrame>
           <div className="divider"> </div>
           <Affix
