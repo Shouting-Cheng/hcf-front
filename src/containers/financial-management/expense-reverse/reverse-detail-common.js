@@ -17,7 +17,7 @@ import UnpaidReverseInfo from 'containers/financial-management/expense-reverse/u
 import NewPayInfo from 'containers/financial-management/expense-reverse/new-pay-info'
 import EditUnpaidInfo from 'containers/financial-management/expense-reverse/edit-unpaid-info'
 import ApproveHistory from "containers/financial-management/reimburse-review/approve-history-work-flow"
-import reimburseService from '../../reimburse/reimburse.service'
+import reimburseService from '../../reimburse/my-reimburse/reimburse.service'
 import reverseService from 'containers/financial-management/expense-reverse/expense-reverse.service'
 import Invoice from "containers/reimburse/invoice"
 import 'styles/financial-management/expense-reverse/reverse-detail.scss'
