@@ -639,10 +639,7 @@ export function fitText(string, length) {
  * @return {XML}
  */
 export function messages(id, values = {}) {
-  if (!configureStore.store.getState)
-    //如果没有store，初始化
-    configureStore.reduxStore();
-  let result = configureStore.store.getState().main.language.messages[id];
+  let result = app.getState().languages.languages[id];
   //#代表没找到
   if (result === undefined) {
     return '#';

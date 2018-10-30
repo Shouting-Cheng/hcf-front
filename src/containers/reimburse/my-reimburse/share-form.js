@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Modal, Form, Input, Select, InputNumber } from "antd"
-import { connect } from 'react-redux'
+import { connect } from 'dva';
 const FormItem = Form.Item;
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import SelectApplication from 'containers/reimburse/my-reimburse/select-application'
@@ -281,8 +281,8 @@ class ShareForm extends Component {
 }
 function mapStateToProps(state) {
     return {
-        user: state.login.user,
-        company: state.login.company,
+        user: state.user.currentUser,
+        company: state.user.company,
     }
 }
 

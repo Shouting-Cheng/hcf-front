@@ -532,9 +532,9 @@ class NewGLWorkOrderType extends Component {
               <Radio value="1001">全部科目</Radio>
               <Radio value="1002">部分科目</Radio>
             </RadioGroup>
-            <Select
+            <Input
               ref="SelectAccount"
-              onDropdownVisibleChange={this.onAccountClick}
+              onFocus={this.onAccountClick}
               placeholder="请选择"
               disabled={accountScope === '1001' ? true : false}
               value={accountScope === '1001' ? '全部科目' : `已选择了${accountIdList.length}个科目`}

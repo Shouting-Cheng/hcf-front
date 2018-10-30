@@ -17,7 +17,6 @@ class BudgetJournalCheck extends React.Component {
     this.state = {
       tabValue: 'unapproved',
       searchForm: [
-          { type: 'input', id: 'businessCode', label: this.$t('budgetJournal.journalCode') },/*日记账编号*/
           {
             type: 'list', listType: "bgtUserOID", options: [],
             id: 'userOID', label: this.$t({id:'pay.refund.employeeName'}), labelKey: "fullName", valueKey: "userOID",colSpan: 6,single:true,
@@ -30,8 +29,8 @@ class BudgetJournalCheck extends React.Component {
           },
           {
             type: 'items', id: 'createdDate', items: [
-              { type: 'date', id: 'beginDate', label: this.$t('role.set.finance.create.date.from') },/*提交日期从*/
-              { type: 'date', id: 'endDate', label: this.$t('role.set.finance.create.date.to') }/*提交日期至*/
+              { type: 'date', id: 'beginDate', label: this.$t('role.set.finance.submit.date.from') },/*提交日期从*/
+              { type: 'date', id: 'endDate', label: this.$t('role.set.finance.submit.date.to') }/*提交日期至*/
             ]
           }
         ],
@@ -59,7 +58,7 @@ class BudgetJournalCheck extends React.Component {
               {record.budgetJournalApprovalView.applicantName}
             </Popover>)
         },
-        { title: this.$t({ id: "role.set.finance.create.date" }/*创建时间*/), align: 'center',width: '9%', dataIndex: 'submittedDate',
+        { title: this.$t({ id: "role.set.finance.submit.date" }/*创建时间*/), align: 'center',width: '9%', dataIndex: 'submittedDate',
           render: (desc,record) => moment(record.budgetJournalApprovalView.submittedDate).format('YYYY-MM-DD')
         },
         {

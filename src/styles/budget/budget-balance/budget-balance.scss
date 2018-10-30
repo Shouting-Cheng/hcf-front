@@ -1,40 +1,42 @@
-.budget-balance{
-  min-height: 100%;
-  position: relative;
-  padding-bottom: 74px;
-  .base-condition{
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid #EBEBEB;
-    .base-condition-title{
-      padding-left: 16px;
-      background: #F7F7F7;
-      height: 40px;
+:global{
+  .budget-balance{
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 74px;
+    .base-condition{
       width: 100%;
-      line-height: 40px;
-      border-bottom: 1px solid #EEEEEE;
-      color: rgba(0, 0, 0, 0.65);
-      font-size: 14px;
-      font-weight: bold;
+      border-radius: 6px;
+      border: 1px solid #EBEBEB;
+      .base-condition-title{
+        padding-left: 16px;
+        background: #F7F7F7;
+        height: 40px;
+        width: 100%;
+        line-height: 40px;
+        border-bottom: 1px solid #EEEEEE;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .base-condition-content{
+        padding: 16px;
+      }
     }
-    .base-condition-content{
-      padding: 16px;
+    .footer-operate{
+      .condition-name{
+        display: inline-block;
+        height: 64px;
+        line-height: 64px;
+        color: #BCBCBC;
+        font-size: 12px;
+        margin-left: 20px;
+      }
     }
   }
-  .footer-operate{
-    .condition-name{
-      display: inline-block;
-      height: 64px;
-      line-height: 64px;
-      color: #BCBCBC;
-      font-size: 12px;
-      margin-left: 20px;
+  .save-modal-content{
+    padding: 0 10%;
+    input{
+      margin-bottom: 20px;
     }
-  }
-}
-.save-modal-content{
-  padding: 0 10%;
-  input{
-    margin-bottom: 20px;
   }
 }

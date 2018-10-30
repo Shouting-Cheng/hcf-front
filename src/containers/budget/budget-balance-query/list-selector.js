@@ -2,11 +2,12 @@
  * Created By ZaraNengap on 2017/09/21
  */
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Modal, Table, message, Button, Input, Row, Col } from 'antd'
 
 import httpFetch from 'share/httpFetch'
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
+import PropTypes from 'prop-types';
 
 /**
  * 联动static/selectorData.js文件
@@ -20,7 +21,6 @@ import SearchArea from 'components/search-area'
  * @params listKey  列表在接口返回值内的变量名，如果接口直接返回数组则置空
  */
 import selectorData from 'share/chooserData.js'
-import { formatMessage } from "share/common"
 
 /**
  * 通用表格选择器组件
@@ -316,9 +316,9 @@ class BudgetListSelector extends React.Component {
           clearHandle={this.clear} /> : null}
         <div className="table-header">
           <div className="table-header-title">
-            {formatMessage({ id: "common.total" }, { total: data.length ? data.length : "0" })}{/* 共 total 条数据 */}
+            {this.$t({ id: "common.total" }, { total: data.length ? data.length : "0" })}{/* 共 total 条数据 */}
             &nbsp;<span>/</span>&nbsp;
-            {formatMessage({ id: "common.total.selected" }, { total: selectedData.length === 0 ? '0' : selectedData.length })}{/* 已选 total 条 */}
+            {this.$t({ id: "common.total.selected" }, { total: selectedData.length === 0 ? '0' : selectedData.length })}{/* 已选 total 条 */}
           </div>
         </div>
         <Table columns={columns}
@@ -335,15 +335,15 @@ class BudgetListSelector extends React.Component {
 }
 
 BudgetListSelector.propTypes = {
-  visible: React.PropTypes.bool,  //对话框是否可见
-  onOk: React.PropTypes.func,  //点击OK后的回调，当有选择的值时会返回一个数组
-  onCancel: React.PropTypes.func,  //点击取消后的回调
-  afterClose: React.PropTypes.func,  //关闭后的回调
-  type: React.PropTypes.string,  //选择类型
-  selectedData: React.PropTypes.array,  //默认选择的值id数组
-  extraParams: React.PropTypes.object,  //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
-  selectorItem: React.PropTypes.object,  //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
-  single: React.PropTypes.bool,  //是否单选
+  visible: PropTypes.bool,  //对话框是否可见
+  onOk: PropTypes.func,  //点击OK后的回调，当有选择的值时会返回一个数组
+  onCancel: PropTypes.func,  //点击取消后的回调
+  afterClose: PropTypes.func,  //关闭后的回调
+  type: PropTypes.string,  //选择类型
+  selectedData: PropTypes.array,  //默认选择的值id数组
+  extraParams: PropTypes.object,  //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
+  selectorItem: PropTypes.object,  //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
+  single: PropTypes.bool,  //是否单选
 };
 
 BudgetListSelector.defaultProps = {
