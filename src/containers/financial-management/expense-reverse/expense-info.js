@@ -15,7 +15,7 @@ import Chooser from "components/Widget/chooser";
 import InvoiceInfo from 'containers/reimburse/invoice-detail'
 import ShareDetail from 'containers/financial-management/expense-reverse/share-detail'
 import ShareForm from 'containers/reimburse/share-form'
-import reimburseService from 'containers/reimburse/reimburse.service'
+import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 
 class ExpenseInfo extends React.Component {
   constructor(props) {
