@@ -1316,7 +1316,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
       ),
-      parent: '/setting/announcement-information',
+      parent: '/admin-setting/announcement-information',
       name: 'new-announcement-information',
     },
     //设置-公告信息-详情
@@ -1324,7 +1324,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
       ),
-      parent: '/setting/announcement-information',
+      parent: '/admin-setting/announcement-information',
       name: 'announcement-information-detail',
     },
     //组织架构
