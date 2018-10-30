@@ -194,7 +194,6 @@ class ExpenseTypeModal extends React.Component {
       this.service
         .getCurrencyList(this.props.formDetail.applicantOID || this.props.user.userOID)
         .then(res => {
-          console.log(res)
           let currencyOptions = [];
           //过滤掉禁用的企业币种
           res.data.map(item => {
