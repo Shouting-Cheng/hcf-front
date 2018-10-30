@@ -400,7 +400,6 @@ class BudgetJournalCheckDetail extends React.Component {
 
   //返回列表页
   HandleReturn = () => {
-    let path = this.state.budgetJournalCheckPage.url;
     this.props.dispatch(
       routerRedux.push({
         pathname: `/approval-management/budget-journal-check`,
@@ -497,7 +496,7 @@ class BudgetJournalCheckDetail extends React.Component {
             <Row className="base-info-cent">
               <Col span={8}>
                 <div className="base-info-title">{this.$t('budgetJournal.status')}:</div>
-                <div className="beep-info-text">{/* {this.getStatus()}*/}</div>
+                <div className="beep-info-text">{this.getStatus()}</div>
               </Col>
               <Col span={8}>
                 <div className="base-info-title">{this.$t('budgetJournal.journalCode')}:</div>

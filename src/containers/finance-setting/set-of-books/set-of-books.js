@@ -169,7 +169,7 @@ class SetOfBooks extends React.Component {
             nowSetOfBooks.setOfBooksId ? this.$t('set-of-books.edit') : this.$t('set-of-books.new')
           }
           show={showSlideFrame}
-          afterClose={() => this.setState({ showSlideFrame: false })}
+          onClose={() => this.setState({ showSlideFrame: false })}
         >
           <NewSetOfBooks onClose={this.handleCloseSlide} params={nowSetOfBooks} />
         </SlideFrame>

@@ -1,14 +1,16 @@
-.workflow-widget {
-  .widget-list-item {
-    width: 140px;
-    text-align: center;
-    img {
-      width: 55px;
-      height: 55px;
-      cursor: move;
-    }
-    .delete-icon {
-      display: none;
+:global{
+  .workflow-widget {
+    .widget-list-item {
+      width: 140px;
+      text-align: center;
+      img {
+        width: 55px;
+        height: 55px;
+        cursor: move;
+      }
+      .delete-icon {
+        display: none;
+      }
     }
   }
 }

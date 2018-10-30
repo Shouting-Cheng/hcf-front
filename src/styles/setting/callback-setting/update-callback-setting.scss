@@ -1,20 +1,22 @@
-.update-callback-setting{
-  padding-top: 30px;
-  .form-item-1{
-    border: 1px solid #0092DA;
-    border-radius: 3px;
-    width: 68px;
-    color: #0092DA;
-    text-align:center;
-    vertical-align:middle;
-    display: table-cell;
-  }
-  .call-back-setting-input{
+:global{
+  .update-callback-setting{
+    padding-top: 30px;
+    .form-item-1{
+      border: 1px solid #0092DA;
+      border-radius: 3px;
+      width: 68px;
+      color: #0092DA;
+      text-align:center;
+      vertical-align:middle;
+      display: table-cell;
+    }
+    .call-back-setting-input{
 
-  }
-  .call-back-setting-btn{
-    margin-left:-110px;
-    margin-top: 4px;
+    }
+    .call-back-setting-btn{
+      margin-left:-110px;
+      margin-top: 4px;
+    }
   }
 }
 

@@ -21,63 +21,74 @@ axios.interceptors.response.use(function (response) {
 
 const baseUrl = '';
 export default {
-  get(url, params) {
+
+  get(url, params, header = {}, options = {}) {
+
+    if (url.indexOf("TENANT") < 0) {
+      params = { ...params, roleType: 'TENANT' }
+    }
+
     let option = {
+      ...options,
       url: baseUrl + url,
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      params: { ...params, roleType: 'TENANT' }
+      params,
     };
     return axios(option);
   },
-  post(url, params) {
+  post(url, data) {
+
+    let params = {};
+    if (url.indexOf("TENANT") < 0) {
+      params = { ...params, roleType: 'TENANT' }
+    }
+
     let option = {
       url: baseUrl + url,
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params
     };
 
     return axios(option);
-    // return new Promise((resolve, reject) => {
-
-    //     .then(res => {
-    //       resolve(res);
-    //     })
-    //     .catch(e => {
-    //       notification.error({
-    //         message: `请求错误 ${e.response.status}: ${e.response.config.url}`,
-    //         description: e.response.data && e.response.data.message,
-    //       });
-    //       reject && reject(e.response);
-    //     });
-    // });
   },
-  put(url, params) {
+  put(url, data) {
+    let params = {};
+    if (url.indexOf("TENANT") < 0) {
+      params = { ...params, roleType: 'TENANT' }
+    }
+
     let option = {
       url: baseUrl + url,
       method: 'PUT',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params
     };
     return axios(baseUrl + url, option);
   },
-  delete(url, params) {
+  delete(url, data) {
+
+    let params = {};
+    if (url.indexOf("TENANT") < 0) {
+      params = { ...params, roleType: 'TENANT' }
+    }
+
     let option = {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params,
     };
     return axios(baseUrl + url, option);
   },

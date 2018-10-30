@@ -1,20 +1,22 @@
-.user-agreement-wrap{
-  width: 700px;
-  margin-left: 50px;
-  margin-bottom: 100px;
-  .title-row-wrap{
-    margin-bottom: 30px;
-    .new-lp-row{
-      line-height: 32px;
-      font-size: 14px;
-      color: #333;
-      .new-lp-row-re{
-        color: red;
+:global{
+  .user-agreement-wrap{
+    width: 700px;
+    margin-left: 50px;
+    margin-bottom: 100px;
+    .title-row-wrap{
+      margin-bottom: 30px;
+      .new-lp-row{
+        line-height: 32px;
+        font-size: 14px;
+        color: #333;
+        .new-lp-row-re{
+          color: red;
+        }
       }
     }
-  }
 
-  .BraftEditor-container{
-    border: solid 1px gainsboro;
+    .BraftEditor-container{
+      border: solid 1px gainsboro;
+    }
   }
 }

@@ -266,7 +266,7 @@ class ExpenseReverseInfo extends React.Component {
       this.setState({ columns });
     }
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if (this.state.flag != nextProps.flag) {
       let columns = this.state.columns;

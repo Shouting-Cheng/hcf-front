@@ -1,19 +1,21 @@
-.legal-person-detail-wrap{
-  .f-left{
-    float: left;
-  }
-  .f-right{
-    float: right;
-  }
-  .clear{
-    clear: both;
-  }
-  .table-header-wrap{
-    padding: 16px 0px 16px 0px;
-    line-height: 36px;
-    height: 64px
-  }
-  .search-company-name{
-    width: 370px;
+:global{
+  .legal-person-detail-wrap{
+    .f-left{
+      float: left;
+    }
+    .f-right{
+      float: right;
+    }
+    .clear{
+      clear: both;
+    }
+    .table-header-wrap{
+      padding: 16px 0px 16px 0px;
+      line-height: 36px;
+      height: 64px
+    }
+    .search-company-name{
+      width: 370px;
+    }
   }
 }

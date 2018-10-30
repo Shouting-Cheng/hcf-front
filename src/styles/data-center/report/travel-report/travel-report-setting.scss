@@ -1,13 +1,15 @@
-.travel-report-setting-wrap{
-  .title-wrap-name{
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: 500;
-  }
-  .anticon-exclamation-circle{
-    display: none!important;
-  }
-  .ant-popover-message-title{
-    padding: 0!important;
+:global{
+  .travel-report-setting-wrap{
+    .title-wrap-name{
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .anticon-exclamation-circle{
+      display: none!important;
+    }
+    .ant-popover-message-title{
+      padding: 0!important;
+    }
   }
 }

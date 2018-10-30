@@ -1,19 +1,21 @@
-.invoice-info-row {
+:global{
+  .invoice-info-row {
     margin-top: -16px;
     margin-bottom: 20px;
     .invoice-info-box {
-        border: 1px solid #ccc;
-        padding: 10px 20px;
-        .invoice-info-title {
-            text-align: right;
-            margin-bottom: 10px;
+      border: 1px solid #ccc;
+      padding: 10px 20px;
+      .invoice-info-title {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+      .form-item {
+        width: 90%;
+        margin-bottom: 10px;
+        .text {
+          color: #a0a0a0;
         }
-        .form-item {
-            width: 90%;
-            margin-bottom: 10px;
-            .text {
-                color: #a0a0a0;
-            }
-        }
+      }
     }
+  }
 }
