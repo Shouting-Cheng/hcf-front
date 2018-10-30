@@ -33,7 +33,7 @@ const { MonthPicker, RangePicker } = DatePicker;
 import Chooser from 'widget/chooser'
 // import Selput from 'components/selput'
 import moment from 'moment'
-// import TagSelect from 'ant-design-pro/lib/TagSelect';
+import TagSelect from 'components/TagSelect';
 
 import debounce from 'lodash.debounce';
 import httpFetch from 'utils/httpFetch'
@@ -664,7 +664,8 @@ class SearchArea extends React.Component {
       }
       //输入金额组件组件
       case 'inputNumber': {
-        return <InputNumber style={{ width: '100%' }} precision={2} min={0} step={0.01}
+        let min = item.min? {}:{min: 0};
+        return <InputNumber style={{ width: '100%' }} precision={2} {...min} step={0.01}
           placeholder={item.placeholder || messages('common.please.enter')}
           onChange={handle} disabled={item.disabled} />
       }
@@ -964,89 +965,89 @@ class SearchArea extends React.Component {
   }
 
   getCheckboxList() {
-    // const {getFieldDecorator} = this.props.form;
-    // return (
-    //   <div className="checkbox-list-form">
-    //     {this.state.checkboxListForm.map(list => {
-    //       let checked;
-    //       if (list.single) {
-    //         list.items.map(item => {
-    //           item.checked && item.checked.map(value => {
-    //             checked = value;
-    //           });
-    //         });
-    //       } else {
-    //         checked = [];
-    //         list.items.map(item => {
-    //           item.checked && item.checked.map(value => {
-    //             checked.push(value)
-    //           });
-    //         });
-    //       }
-    //       return (
-    //         <FormItem key={list.id}>
-    //           {getFieldDecorator(list.id, {
-    //             initialValue: checked
-    //           })(
-    //             list.single ?
-    //               <RadioGroup onChange={e => {
-    //                 this.props.checkboxChange({[list.id]: e.target.value})
-    //               }}>
-    //                 {list.items.map(item => {
-    //                   return (
-    //                     <Row className="list-row" key={item.key}>
-    //                       <Col span={3} className="list-col-header">{item.label} :</Col>
-    //                       <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
-    //                         {/*折叠:展开*/}
-    //                         <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
-    //                           <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
-    //                         </a>
-    //                       </Col>
-    //                       <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
-    //                         {item.options.map(option => {
-    //                           return (
-    //                             <Radio value={option.value}
-    //                                    key={option.value}>{option.label}</Radio>)
-    //                         })}
-    //                       </Col>
-    //                     </Row>)
-    //                 })}
-    //               </RadioGroup>
-    //               :
-    //               <div>
-    //                 {list.items.map(item => {
-    //                   item.expand = list[`${list.id}Expand`] ? true : item.expand;
-    //                   list[`${list.id}Expand`] = false;
-    //                   return (
-    //                     <Row className="list-row" key={item.key}>
-    //                       <Col span={3} className="list-col-header"><span>{item.label} :</span></Col>
-    //                       {/*TODO: 由于 ant design pro 没有做国际化，所以暂时将【展开／折叠】及【全部】单独处理。*/}
-    //                       <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
-    //                         {/*折叠:展开*/}
-    //                         <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
-    //                           <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
-    //                         </a>
-    //                       </Col>
-    //                       <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
-    //                         <TagSelect key={item.key}
-    //                                    value={item.checked}
-    //                                    onChange={(checked) => this.onCheckChange(list.id, item.key, checked)}>
-    //                           {item.options.map(option => {
-    //                             return <TagSelect.Option key={option.value}
-    //                                                      value={option.value}>{option.label}</TagSelect.Option>
-    //                           })}
-    //                         </TagSelect>
-    //                       </Col>
-    //                     </Row>)
-    //                 })}
-    //               </div>
-    //           )}
-    //         </FormItem>)
-    //     })}
-    //   </div>
-    // )
+    const {getFieldDecorator} = this.props.form;
+    return (
+      <div className="checkbox-list-form">
+        {this.state.checkboxListForm.map(list => {
+          let checked;
+          if (list.single) {
+            list.items.map(item => {
+              item.checked && item.checked.map(value => {
+                checked = value;
+              });
+            });
+          } else {
+            checked = [];
+            list.items.map(item => {
+              item.checked && item.checked.map(value => {
+                checked.push(value)
+              });
+            });
+          }
+          return (
+            <FormItem key={list.id}>
+              {getFieldDecorator(list.id, {
+                initialValue: checked
+              })(
+                list.single ?
+                  <RadioGroup onChange={e => {
+                    this.props.checkboxChange({[list.id]: e.target.value})
+                  }}>
+                    {list.items.map(item => {
+                      return (
+                        <Row className="list-row" key={item.key}>
+                          <Col span={3} className="list-col-header">{item.label} :</Col>
+                          <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
+                            {/*折叠:展开*/}
+                            <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
+                              <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
+                            </a>
+                          </Col>
+                          <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
+                            {item.options.map(option => {
+                              return (
+                                <Radio value={option.value}
+                                       key={option.value}>{option.label}</Radio>)
+                            })}
+                          </Col>
+                        </Row>)
+                    })}
+                  </RadioGroup>
+                  :
+                  <div>
+                    {list.items.map(item => {
+                      item.expand = list[`${list.id}Expand`] ? true : item.expand;
+                      list[`${list.id}Expand`] = false;
+                      return (
+                        <Row className="list-row" key={item.key}>
+                          <Col span={3} className="list-col-header"><span>{item.label} :</span></Col>
+                          {/*TODO: 由于 ant design pro 没有做国际化，所以暂时将【展开／折叠】及【全部】单独处理。*/}
+                          <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
+                            {/*折叠:展开*/}
+                            <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
+                              <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
+                            </a>
+                          </Col>
+                          <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
+                            <TagSelect key={item.key}
+                                       value={item.checked}
+                                       onChange={(checked) => this.onCheckChange(list.id, item.key, checked)}>
+                              {item.options.map(option => {
+                                return <TagSelect.Option key={option.value}
+                                                         value={option.value}>{option.label}</TagSelect.Option>
+                              })}
+                            </TagSelect>
+                          </Col>
+                        </Row>)
+                    })}
+                  </div>
+              )}
+            </FormItem>)
+        })}
+      </div>
+    )
 
-    return null;
+    // return null;
   }
 
   render() {

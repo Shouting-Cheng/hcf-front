@@ -285,7 +285,6 @@ class PaymentCompanySetting extends React.Component {
   //删除
   deleteShowSlide=()=>{
     let data = this.state.selectedRowKeys;
-    console.log(data)
     paymentCompanySettingService.deletePaymentCompanySetting(data).then((req)=>{
       message.success(`${messages('common.operate.success')}`);
       this.setState({

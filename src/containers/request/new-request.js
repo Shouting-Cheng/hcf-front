@@ -11,7 +11,6 @@ class NewRequest extends React.Component {
     super(props);
     this.state = {
       formInfo: {},
-      applicationList: menuRoute.getRouteItem('request', 'key'), //申请单列表页
     };
   }
 

@@ -75,14 +75,9 @@ class ApplicationList extends React.Component{
             text = this.$t('constants.documentStatus.yet.disable'/*已停用*/);
             status = 'default'
           } else {
-            console.log(value)
-            console.log(constants.getTextByValue(String(value + '' + applicationType), 'documentStatus'))
-            console.log(constants.getTextByValue(String(value), 'documentStatus'))
-            console.log(constants.getTextByValue(String(value + '' + record.rejectType), 'documentStatus'))
             text = constants.getTextByValue(String(value + '' + applicationType), 'documentStatus') ||
               constants.getTextByValue(String(value + '' + record.rejectType), 'documentStatus') ||
               constants.getTextByValue(String(value), 'documentStatus');
-            console.log(text)
             status = constants.getTextByValue(String(value + '' + applicationType), 'documentStatus', 'state') ||
               constants.getTextByValue(String(value + '' + record.rejectType), 'documentStatus', 'state') ||
               constants.getTextByValue(String(value), 'documentStatus', 'state')
@@ -402,7 +397,6 @@ class ApplicationList extends React.Component{
   //获取申请人可代理的单据列表
   getProxyFormList = (userOID) => {
     requestService.getMyDocumentType(101, userOID).then(res => {
-      console.log(res);
       if (res.data && res.data.length) {
         this.setState({
           proxyFormList: res.data

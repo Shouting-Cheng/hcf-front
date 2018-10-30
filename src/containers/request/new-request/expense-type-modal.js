@@ -189,9 +189,9 @@ class ExpenseTypeModal extends React.Component {
   };
 
   //获取币种
-  getCurrencyOptions = () => {
-    this.setState({ currencyFetching: true });
-    (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
+  getCurrencyOptions = (open) => {
+    if(open){
+      (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
       this.service
         .getCurrencyList(this.props.formDetail.applicantOID || this.props.user.userOID)
         .then(res => {
@@ -206,7 +206,8 @@ class ExpenseTypeModal extends React.Component {
             applicationOID: this.props.user.userOID,
           });
         });
-    this.getRateDeviation();
+      this.getRateDeviation();
+    }
   };
 
   //获取汇率
