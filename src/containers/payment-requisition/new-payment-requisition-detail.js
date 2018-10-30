@@ -28,8 +28,8 @@ import SlideFrame from 'widget/slide-frame';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
 import httpFetch from 'share/httpFetch';
 import config from 'config';
-import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
-import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
+import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
+import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
 import ApproveHistory from './approve-history-work-flow';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import { routerRedux } from 'dva/router';

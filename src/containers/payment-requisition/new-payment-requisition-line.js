@@ -21,8 +21,8 @@ const { TextArea } = Input;
 import SelectExpense from './select-expense';
 import moment from 'moment';
 import paymentRequisitionService from './paymentRequisitionService.service';
-import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
-import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
+import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
+import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 

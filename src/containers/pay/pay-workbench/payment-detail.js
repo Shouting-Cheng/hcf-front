@@ -142,7 +142,7 @@ class PaymentDetail extends React.Component {
       padding: '10px 8px'
     };
     return (
-      <div className="payment-detail">
+      <div className="payment-detail" style={{paddingBottom: 20}}>
         <Spin spinning={loading}>
           {payStatusValue && <Alert message={<Badge text={payStatusValue ? payStatus[payStatusValue].label : ''}
                                                     status={payStatusValue ? payStatus[payStatusValue].state : 'default'}/>}

@@ -20,8 +20,8 @@ import {
 } from 'antd';
 import moment from 'moment';
 import httpFetch from 'share/httpFetch';
-import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
-import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail1'; // todo
+import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail'; // todo
+import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail'; // todo
 import paymentRequisitionService from './paymentRequisitionService.service';
 import 'styles/payment-requisition/payment-requisition-detail.scss'
 const FormItem = Form.Item;

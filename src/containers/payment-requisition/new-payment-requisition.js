@@ -47,7 +47,6 @@ class NewPaymentRequisition extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.user.departmentOID)
     if (this.props.match.params.id === '0') {
       this.setState({ pageLoading: true });
       httpFetch
