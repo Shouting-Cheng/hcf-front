@@ -17,7 +17,7 @@ class ReimburseDetail extends React.Component {
       submitAble: false,
       headerData: {},
       submitLoading: false,
-      paramsId: null, // 弹出框查看详情时传过来的ID
+      paramsId: 0, // 弹出框查看详情时传过来的ID
       // myReimburse: menuRoute.getRouteItem('my-reimburse', 'key'),    //我的报账单
     };
   }

@@ -29,7 +29,7 @@ import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
 import httpFetch from 'share/httpFetch';
 import config from 'config';
 import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
-import ContractDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
+import ContractDetail from 'containers/contract/my-contract/contract-detail';
 import ApproveHistory from './approve-history-work-flow';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import { routerRedux } from 'dva/router';
@@ -248,9 +248,15 @@ class NewPaymentRequisitionDetail extends React.Component {
       });
   };
   getList = () => {
+    let paramsId;
+    if (this.props.params && this.props.params.refund) {
+      paramsId = this.props.params.id;
+    } else {
+      paramsId = this.props.match.params.id;
+    }
     this.setState({ pageLoading: true });
     paymentRequisitionService
-      .queryDetailById(this.props.match.params.id)
+      .queryDetailById(paramsId)
       .then(res => {
         if (res.status == 200) {
           let columns = this.state.columns;
@@ -811,7 +817,7 @@ class NewPaymentRequisitionDetail extends React.Component {
             </Tabs>
           </Card>
           <div>{subContent}</div>
-          {this.props.match.params.refund ? (
+          {this.props.params && this.props.params.refund  ? (
             ''
           ) : (
             <Affix offsetBottom={0} style={{
