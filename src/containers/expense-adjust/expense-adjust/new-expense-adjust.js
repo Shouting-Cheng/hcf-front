@@ -142,7 +142,7 @@ class NewExpenseAdjust extends React.Component {
             this.setState({ loading: false, fileList: [] });
             this.props.dispatch(
               routerRedux.push({
-                pathname: '/expense-adjust/my-expense-adjust/:id/:expenseAdjustTypeId/:type/expense-adjust-detail'
+                pathname: '/expense-adjust/my-expense-adjust/expense-adjust-detail/:id/:expenseAdjustTypeId/:type'
                   .replace(':expenseAdjustTypeId', res.data.expAdjustTypeId)
                   .replace(':id', res.data.id)
                   .replace(':type', res.data.adjustTypeCategory),
