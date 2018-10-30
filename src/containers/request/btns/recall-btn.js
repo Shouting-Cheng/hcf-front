@@ -8,6 +8,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Button, message } from 'antd';
 import PropTypes from 'prop-types';
+import { routerRedux } from 'dva/router';
 
 import requestService from 'containers/request/request.service';
 
@@ -42,7 +43,8 @@ class RecallBtn extends React.Component {
           message.error(`${this.$t('common.operate.filed')}，${reason}`);
         } else {
           message.success(this.$t('common.operate.success'));
-          this.context.router.push(this.state.applicationList.url);
+          this.props.dispatch(
+            routerRedux.replace({pathname: '/request'}));
         }
       })
       .catch(e => {

@@ -389,7 +389,126 @@ class NewExpenseAdjustDetail extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount(){
+    const { formItems, columns, column, opt, defaultValue, validator } = this.state;
+    console.log(this.props)
+      if (
+        !this.props.params.flag &&
+        this.props.match.costCenterData.length &&
+        columns.length === 5 &&
+        this.props.params.flag
+      ) {
+        this.props.params.costCenterData.reverse().map(item => {
+          if (item) {
+            let options = [];
+            item.itemDTOList.map(item =>
+              options.push({ label: item.itemName, value: item.itemId })
+            );
+            formItems.splice(4, 0, {
+              type: 'select',
+              label: item.name,
+              required: true,
+              key: 'dimension' + item.sequenceNumber + 'Id',
+              span: this.props.params.adjustLineCategory === '1001' ? 12 : 30,
+              options: options,
+            });
+            columns.splice(3, 0, {
+              title: item.name,
+              dataIndex: 'dimension' + item.sequenceNumber + 'Id',
+              key: 'dimension' + item.sequenceNumber + 'Id',
+              align: 'center',
+              render: (desc, record, index) =>
+                this.renderCol(desc, record, index, 'dimension' + item.sequenceNumber + 'Id'),
+            });
+            opt['dimension' + item.sequenceNumber + 'Id'] = options;
+            validator['dimension' + item.sequenceNumber + 'Id'] = item.name;
+          }
+        });
+      }
+      //公司和部门设置默认值
+      if (!this.props.params.record) {
+        //新建
+        let defaultValue = [];
+        defaultValue['companyId'] = [
+          { id: this.props.params.expenseHeader.companyId, name: this.props.params.expenseHeader.companyName },
+        ];
+        defaultValue['unitId'] = [
+          { departmentId: this.props.params.expenseHeader.unitId, name: this.props.params.expenseHeader.unitName },
+        ];
+        this.setState({ defaultValue });
+      } else {
+        //编辑 ,复制
+        let value = {
+          ...this.props.params.record,
+          companyId: [
+            { id: this.props.params.record.companyId, name: this.props.params.record.companyName },
+          ],
+          unitId: [
+            {
+              departmentId: this.props.params.record.unitId,
+              name: this.props.params.record.unitName,
+            },
+          ],
+          expenseTypeId: [
+            {
+              id: this.props.params.record.expenseTypeId,
+              name: this.props.params.record.expenseTypeName,
+            },
+          ],
+        };
+        value.copy && delete value.id;
+        let data = [];
+        let fileList = [];
+        this.props.params.record.attachments &&
+        this.props.params.record.attachments.map(o =>
+          fileList.push({
+            ...o,
+            uid: o.attachmentOID,
+            name: o.fileName,
+          })
+        );
+        this.props.params.record.linesDTOList.length &&
+        this.props.params.record.linesDTOList.map(item => {
+          item['companyId' + '_table'] = [{ id: item.companyId, name: item.companyName }];
+          item['unitId' + '_table'] = [{ departmentId: item.unitId, name: item.unitName }];
+          item['expenseTypeId_table'] = [{ id: item.expenseTypeId, name: item.expenseTypeName }];
+          for (let name in item) {
+            !item[name] && delete item[name];
+          }
+          data.push(item);
+        });
+        this.state.formItems[this.state.formItems.length - 1].key === 'desc'
+          ? (value['desc'] = this.props.params.record.description)
+          : (value['description'] = this.props.params.record.description);
+        this.setState({
+          attachmentOid: this.props.params.record.attachmentOids,
+          defaultValue: value,
+          type: this.props.params.type,
+          data,
+          fileList,
+          record: this.props.params.record,
+        });
+      }
+      if (this.props.params.costCenterData.length > 0) {
+        columns[columns.length - 1].fixed = 'right';
+      }
+      this.setState({
+        formItems,
+        costCenterData: this.props.params.costCenterData,
+        headerData: this.props.params.expenseHeader,
+        columns,
+        addData: false,
+        opt,
+        scrollX:
+          this.props.params.costCenterData.length > 0
+            ? 620 + this.props.params.costCenterData.length * 120
+            : false,
+      });
+
+  }
+
+  /*componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     const { formItems, columns, column, opt, defaultValue, validator } = this.state;
     if (!this.props.params.flag && nextProps.params.flag) {
       if (
@@ -511,7 +630,7 @@ class NewExpenseAdjustDetail extends React.Component {
       this.setState({ fileList: [], data: [] });
     }
   }
-
+*/
   //上传附件
   handleUpload = values => {
     this.setState({ attachmentOid: values });
@@ -691,7 +810,7 @@ class NewExpenseAdjustDetail extends React.Component {
                 () => {
                   if (key !== 'copy') {
                     this.props.form.resetFields();
-                    this.props.close();
+                    this.props.onClose();
                     this.props.params.query();
                   }
                 }
@@ -720,7 +839,7 @@ class NewExpenseAdjustDetail extends React.Component {
       () => {
         this.upload.reset();
         this.props.form.resetFields();
-        this.props.close(this.state.addData || false);
+        this.props.onClose(this.state.addData || false);
       }
     );
   };
@@ -1013,7 +1132,7 @@ class NewExpenseAdjustDetail extends React.Component {
                 <Button onClick={this.handleImport}>{this.$t('exp.import.detail.info')}</Button>
               </div>
               <Table
-                rowKey={record => record['rowKey']}
+                rowKey={(record,index) => record.id||record['rowKey']||index}
                 dataSource={data}
                 columns={columns}
                 loading={tableLoading}
@@ -1068,7 +1187,6 @@ class NewExpenseAdjustDetail extends React.Component {
 
 const WrappedNewExpenseAdjustDetail = Form.create()(NewExpenseAdjustDetail);
 function mapStateToProps(state) {
-  console.log(state)
   return {
     user: state.user.currentUser,
     company: state.user.company,

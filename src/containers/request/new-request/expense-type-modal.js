@@ -188,9 +188,9 @@ class ExpenseTypeModal extends React.Component {
   };
 
   //获取币种
-  getCurrencyOptions = () => {
-    this.setState({ currencyFetching: true });
-    (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
+  getCurrencyOptions = (open) => {
+    if(open){
+      (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
       this.service
         .getCurrencyList(this.props.formDetail.applicantOID || this.props.user.userOID)
         .then(res => {
@@ -205,7 +205,8 @@ class ExpenseTypeModal extends React.Component {
             applicationOID: this.props.user.userOID,
           });
         });
-    this.getRateDeviation();
+      this.getRateDeviation();
+    }
   };
 
   //获取汇率
@@ -350,6 +351,7 @@ class ExpenseTypeModal extends React.Component {
 
   //删除
   deleteExpenseType = (e, index) => {
+    e.stopPropagation();
     let expenseBudgetList = this.state.expenseBudgetList;
     expenseBudgetList.splice(index, 1);
     let value = this.state.value;
@@ -496,7 +498,7 @@ class ExpenseTypeModal extends React.Component {
                               this.props.company.baseCurrency
                             }
                             showSearch={true}
-                            onFocus={this.getCurrencyOptions}
+                            onDropdownVisibleChange={this.getCurrencyOptions}
                             onChange={this.handleCurrencyChange}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -511,7 +513,7 @@ class ExpenseTypeModal extends React.Component {
                               return (
                                 <Option key={item.currency}>
                                   {item.currency}
-                                  {this.props.language.code === 'zh_cn'
+                                  {this.props.language.local === 'zh_CN'
                                     ? ` ${item.currencyName}`
                                     : ''}
                                 </Option>
@@ -617,6 +619,7 @@ function mapStateToProps(state) {
     company: state.user.company,
     user: state.user.currentUser,
     tenantId: state.user.company.tenantId,
+    language: state.languages
   };
 }
 
