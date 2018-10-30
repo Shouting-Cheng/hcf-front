@@ -13,6 +13,7 @@ import NewBudgetRulesDetail from 'containers/budget-setting/budget-organization/
 import UpdateBudgetRulesDetail from 'containers/budget-setting/budget-organization/budget-control-rules/update-budget-rules-detail'
 
 import BasicInfo from 'widget/basic-info'
+import { routerRedux } from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -98,7 +99,7 @@ class BudgetControlRulesDetail extends React.Component{
   componentWillMount(){
     this.getList();
     //根据路径上的预算规则id查出完整数据
-    budgetService.getRuleById(this.props.params.ruleId).then((response)=>{
+    budgetService.getRuleById(this.props.match.params.id).then((response)=>{
       if(response.status === 200){
         let endDate = response.data.endDate === null ? "" : response.data.endDate.substring(0,10);
         response.data.effectiveDate = response.data.startDate.substring(0,10) + " ~ " +endDate;
@@ -111,7 +112,7 @@ class BudgetControlRulesDetail extends React.Component{
       }
     });
     //加载页面时，获取启用的控制策略
-    budgetService.getStrategy({organizationId:this.props.params.id,enabled:true}).then((response)=>{
+    budgetService.getStrategy({organizationId:this.props.match.params.orgId,enabled:true}).then((response)=>{
       if(response.status === 200){
         let strategyGroup = [];
         response.data.map((item)=>{
@@ -170,21 +171,16 @@ class BudgetControlRulesDetail extends React.Component{
   };
 
   handleCloseSlideCreate = (params) => {
-    if(params) {
       this.setState({
-        loading: true,
         showSlideFrameCreate: false
-      });
-      this.getList();
-    }
+      },()=>params&&this.getList());
+
   };
 
   handleCloseSlideUpdate = (changed)=>{
-    if(changed)
       this.setState({
         showSlideFrameUpdate: false,
-        loading: true
-      },this.getList())
+      },()=>changed&&this.getList())
   };
 
   //保存编辑后的预算规则
@@ -198,8 +194,8 @@ class BudgetControlRulesDetail extends React.Component{
       values.endDate = endTime;
     }
 
-    values.organizationId = this.props.params.id;
-    values.id = this.props.params.ruleId;
+    values.organizationId = this.props.match.params.orgId;
+    values.id = this.props.match.params.id;
     values.versionNumber = this.state.controlRule.versionNumber;
     values.strategyGroupId = this.state.controlRule.strategyGroupId;
     values.enabled = this.state.controlRule.enabled;
@@ -237,7 +233,8 @@ class BudgetControlRulesDetail extends React.Component{
   //获取规则明细
   getList(){
     const {pagination} = this.state;
-    budgetService.getRuleDetail({controlRuleId: this.props.params.ruleId,page:pagination.page,size:pagination.pageSize}).then((response)=>{
+    this.setState({loading: true});
+    budgetService.getRuleDetail({controlRuleId: this.props.match.params.id,page:pagination.page,size:pagination.pageSize}).then((response)=>{
       if(response.status === 200){
         response.data.map((item)=>{
           item.key = item.id
@@ -256,7 +253,14 @@ class BudgetControlRulesDetail extends React.Component{
 
   //返回预算规则页面
   handleBack = () => {
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId)+ '?tab=RULE');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','RULE')
+      })
+    );
   };
 
   //分页点击
@@ -305,17 +309,19 @@ class BudgetControlRulesDetail extends React.Component{
 
         <SlideFrame title= {this.$t({id: 'budget.createRulesDetail'})}
                     show={showSlideFrameCreate}
-                    content={NewBudgetRulesDetail}
-                    afterClose={this.handleCloseSlideCreate}
-                    onClose={() => this.showSlideCreate(false)}
-                    params={{ruleId:this.props.params.ruleId,visible: showSlideFrameCreate}}/>
+                    onClose={() => this.showSlideCreate(false)}>
+              <NewBudgetRulesDetail
+                onClose={this.handleCloseSlideCreate}
+                params={{ruleId:this.props.match.params.id,visible: showSlideFrameCreate}}/>
+        </SlideFrame>
 
         <SlideFrame title= {this.$t({id: 'budget.editRulesDetail'})}
                     show={showSlideFrameUpdate}
-                    content={UpdateBudgetRulesDetail}
-                    afterClose={this.handleCloseSlideUpdate}
-                    onClose={()=>this.showSlideUpdate(false)}
-                    params={{...ruleDetail,visible: showSlideFrameUpdate}}/>
+                    onClose={()=>this.showSlideUpdate(false)}>
+          <UpdateBudgetRulesDetail
+            onClose={this.handleCloseSlideUpdate}
+            params={{...ruleDetail,visible: showSlideFrameUpdate}}/>
+        </SlideFrame>
       </div>
     )
   }

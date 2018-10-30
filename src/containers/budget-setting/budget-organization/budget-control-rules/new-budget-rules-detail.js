@@ -262,7 +262,7 @@ class NewBudgetRulesDetail extends React.Component {
             summaryOrDetailHelp: ''
           });
           if (res.status == 200) {
-            this.props.close(true);
+            this.props.onClose(true);
             message.success(`${this.$t({ id: "common.save.success" }, { name: "" })}`);
             let { validateStatusMap, helpMap } = this.state;
             validateStatusMap = {};
@@ -297,7 +297,7 @@ class NewBudgetRulesDetail extends React.Component {
       }
     });
     this.detail = {};
-    this.props.close();
+    this.props.onClose();
   };
 
   //选择规则参数
