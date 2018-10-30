@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 import config from 'config';
 import {
   Button,
@@ -7,6 +8,7 @@ import {
   message,
   Row,
   Col,
+  Card,
   Icon,
   Input,
   Tabs,
@@ -148,7 +150,7 @@ class GLWorkOrderCheckDetail extends Component {
    * 获取审批历史
    */
   getHistory = () => {
-    let documentOid = this.props.params.oid;
+    let documentOid = this.props.match.params.oid;
     myGlWorkOrderService
       .getHistory(documentOid)
       .then(res => {
@@ -171,7 +173,7 @@ class GLWorkOrderCheckDetail extends Component {
    * 根据头id获取单据数据-初始化的时候
    */
   getDocInfoById = () => {
-    let headId = this.props.params.id;
+    let headId = this.props.match.params.id;
     let page = this.state.page;
     let size = this.state.pageSize;
     myGlWorkOrderService
@@ -301,7 +303,12 @@ class GLWorkOrderCheckDetail extends Component {
    * 返回
    */
   onBack = () => {
-    // this.context.router.push(menuRoute.getRouteItem('gl-work-order-check', 'key').url);
+    //this.context.router.push(menuRoute.getRouteItem('gl-work-order-check', 'key').url);
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/approval-management/gl-work-order-approval`,
+      })
+    );
   };
   /**
    * 修改审批意见
@@ -392,18 +399,18 @@ class GLWorkOrderCheckDetail extends Component {
     //审批
     let { opinion, operateLoading } = this.state;
     //单据状态
-    let docStatus = this.props.params.status;
+    let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
       <div className="gl-work-order-detail background-transparent">
-        <div className="top-info" style={{ padding: '40px 20px 20px 20px' }}>
+        <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-            <TabPane tab="单据信息" key="1">
+            <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
               <DocumentBasicInfo params={headerInfo} />
             </TabPane>
             {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
           </Tabs>
-        </div>
+        </Card>
         <div className="tab-container">
           <h3 className="sub-header-title">付款信息</h3>
           <Table
@@ -418,7 +425,7 @@ class GLWorkOrderCheckDetail extends Component {
             scroll={{ x: tableWidth }}
           />
         </div>
-        <div style={{ paddingBottom: 10 }}>
+        <div style={{ paddingBottom: 10,marginBottom:60 }}>
           <ApproveHistory loading={historyLoading} infoData={approveHistory} />
         </div>
         {(docStatus &&
@@ -450,7 +457,7 @@ class GLWorkOrderCheckDetail extends Component {
                     驳回
                   </Button>
                 </Col>
-                <Col span={3} offset={1}>
+                <Col span={3}>
                   <Button loading={operateLoading} onClick={this.onBack}>
                     返回
                   </Button>

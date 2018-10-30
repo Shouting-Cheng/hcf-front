@@ -1,24 +1,23 @@
-import { messages } from "share/common";
 /**
  * Created By zaranengap on 2017/09/25
  */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 
 import { Button, Form, Row, Col, Input, Select, Spin, Icon, Table, Popconfirm, Modal, message, Checkbox } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 import debounce from 'lodash.debounce';
-import Chooser from 'components/chooser'
-import SlideFrame from 'components/slide-frame'
+import Chooser from 'widget/chooser'
+import SlideFrame from 'widget/slide-frame'
 import BudgetBalanceCondition from 'containers/budget/budget-balance/budget-balance-condition'
-import menuRoute from 'routes/menuRoute'
 import chooserData from 'share/chooserData'
 
 import 'styles/budget/budget-balance/budget-balance.scss'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
+import { routerRedux } from 'dva/router';
 
 class BudgetBalance extends React.Component {
   constructor(props) {
@@ -28,24 +27,23 @@ class BudgetBalance extends React.Component {
     this.state = {
       structureId: null,
       tableLoading: false,
-      budgetBalanceResult: menuRoute.getRouteItem('budget-balance-result', 'key'),
       showSlideFrame: false,
       params: [],
       queryLineListTypeOptions: [],
       queryLineListParamOptions: {},
       columns: [
         //参数类型
-        { title: messages('budget.balance.params.type'), dataIndex: 'type', width: '20%', render: (text, record, index) => this.renderColumns(index, 'type') },
+        { title: this.$t('budget.balance.params.type'), dataIndex: 'type', width: '20%', render: (text, record, index) => this.renderColumns(index, 'type') },
         //参数
-        { title: messages('budget.balance.params'), dataIndex: 'params', width: '35%', render: (text, record, index) => this.renderColumns(index, 'params') },
+        { title: this.$t('budget.balance.params'), dataIndex: 'params', width: '35%', render: (text, record, index) => this.renderColumns(index, 'params') },
         //参数值
-        { title: messages('budget.balance.params.value'), dataIndex: 'value', width: '35%', render: (text, record, index) => this.renderColumns(index, 'value') },
+        { title: this.$t('budget.balance.params.value'), dataIndex: 'value', width: '35%', render: (text, record, index) => this.renderColumns(index, 'value') },
         //操作
         {
-          title: messages('budget.balance.operate'), dataIndex: 'operation', width: '10%', render: (text, record, index) => (
+          title: this.$t('budget.balance.operate'), dataIndex: 'operation', width: '10%', render: (text, record, index) => (
             <span>
-              <Popconfirm onConfirm={(e) => this.deleteItem(e, index)} title={messages('budget.balance.are.you.sure.to.delete.this.data')/* 你确定要删除吗？*/}>
-                <a onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{messages('common.delete')/* 删除 */}</a>
+              <Popconfirm onConfirm={(e) => this.deleteItem(e, index)} title={this.$t('budget.balance.are.you.sure.to.delete.this.data')/* 你确定要删除吗？*/}>
+                <a onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t('common.delete')/* 删除 */}</a>
               </Popconfirm>
             </span>)
         }
@@ -105,35 +103,35 @@ class BudgetBalance extends React.Component {
     let searchForm = [
       //预算版本
       {
-        type: 'select', id: 'versionId', label: messages('budget.balance.budget.version'), isRequired: true, options: [], method: 'get',
+        type: 'select', id: 'versionId', label: this.$t('budget.balance.budget.version'), isRequired: true, options: [], method: 'get',
         getUrl: `${config.budgetUrl}/api/budget/versions/queryAll`, getParams: organizationIdParams,
         labelKey: 'versionName', valueKey: 'id'
       },
       //表
       {
-        type: 'select', id: 'structureId', label: messages('budget.balance.budget.structure'), isRequired: true, options: [], method: 'get',
+        type: 'select', id: 'structureId', label: this.$t('budget.balance.budget.structure'), isRequired: true, options: [], method: 'get',
         getUrl: `${config.budgetUrl}/api/budget/structures/queryAll`, getParams: organizationIdParams, event: 'STRUCTURE_CHANGE',
         labelKey: 'structureName', valueKey: 'id'
       },
       //预算场景
       {
-        type: 'select', id: 'scenarioId', label: messages('budget.balance.budget.scenarios'), isRequired: true, options: [], method: 'get',
+        type: 'select', id: 'scenarioId', label: this.$t('budget.balance.budget.scenarios'), isRequired: true, options: [], method: 'get',
         getUrl: `${config.budgetUrl}/api/budget/scenarios/queryAll`, getParams: organizationIdParams,
         labelKey: 'scenarioName', valueKey: 'id'
       },
       //年度
-      { type: 'select', id: 'yearLimit', label: messages('budget.balance.year'), options: yearOptions, event: 'YEAR_CHANGE', isRequired: true },
+      { type: 'select', id: 'yearLimit', label: this.$t('budget.balance.year'), options: yearOptions, event: 'YEAR_CHANGE', isRequired: true },
       {
         type: 'items', id: 'dateRange', items: [
           //期间从
           {
-            type: 'select', id: 'periodLowerLimit', label: messages('budget.balance.period.from'), options: [], method: 'get', disabled: true,
+            type: 'select', id: 'periodLowerLimit', label: this.$t('budget.balance.period.from'), options: [], method: 'get', disabled: true,
             getUrl: `${config.baseUrl}/api/company/group/assign/query/budget/periods`, getParams: { setOfBooksId: this.props.company.setOfBooksId },
             labelKey: 'periodName', valueKey: 'periodName'
           },
           //期间到
           {
-            type: 'select', id: 'periodUpperLimit', label: messages('budget.balance.period.to'), options: [], method: 'get', disabled: true,
+            type: 'select', id: 'periodUpperLimit', label: this.$t('budget.balance.period.to'), options: [], method: 'get', disabled: true,
             getUrl: `${config.baseUrl}/api/company/group/assign/query/budget/periods`, getParams: { setOfBooksId: this.props.company.setOfBooksId },
             labelKey: 'periodName', valueKey: 'periodName'
           }
@@ -142,15 +140,15 @@ class BudgetBalance extends React.Component {
       {
         type: 'items', id: 'seasonRange', items: [
           //季度从
-          { type: 'value_list', id: 'quarterLowerLimit', label: messages('budget.balance.season.from'), options: [], valueListCode: 2021, disabled: true },
+          { type: 'value_list', id: 'quarterLowerLimit', label: this.$t('budget.balance.season.from'), options: [], valueListCode: 2021, disabled: true },
           //季度到
-          { type: 'value_list', id: 'quarterUpperLimit', label: messages('budget.balance.season.to'), options: [], valueListCode: 2021, disabled: true }
+          { type: 'value_list', id: 'quarterUpperLimit', label: this.$t('budget.balance.season.to'), options: [], valueListCode: 2021, disabled: true }
         ]
       },
       //期段汇总
-      { type: 'value_list', id: 'periodSummaryFlag', label: messages('budget.balance.period.summary'), options: [], valueListCode: 2020, disabled: true },
+      { type: 'value_list', id: 'periodSummaryFlag', label: this.$t('budget.balance.period.summary'), options: [], valueListCode: 2020, disabled: true },
       //金额 / 数量
-      { type: 'value_list', id: 'amountQuarterFlag', label: messages('budget.balance.money.or.number'), isRequired: true, options: [], valueListCode: 2019 }
+      { type: 'value_list', id: 'amountQuarterFlag', label: this.$t('budget.balance.money.or.number'), isRequired: true, options: [], valueListCode: 2019 }
     ];
 
     let itemSelectorItem = chooserData['budget_item'];
@@ -252,7 +250,7 @@ class BudgetBalance extends React.Component {
     switch (dataIndex) {
       case 'type': {
         return (
-          <Select placeholder={messages('common.please.select')}
+          <Select placeholder={this.$t('common.please.select')}
             onChange={(value) => this.handleChangeType(value, index)}
             value={params[index].type}
             notFoundContent={<Spin size="small" />}>
@@ -265,7 +263,7 @@ class BudgetBalance extends React.Component {
       case 'params': {
         let paramOptions = queryLineListParamOptions[params[index].type];
         return (
-          <Select placeholder={messages('common.please.select')}
+          <Select placeholder={this.$t('common.please.select')}
             onChange={(value) => this.handleChangeParams(value, index)}
             value={params[index].params}
             onFocus={() => this.handleFocusParamSelect(index)}>
@@ -282,8 +280,8 @@ class BudgetBalance extends React.Component {
           <Row gutter={20}>
             <Col span={12}>
               <Select value={params[index].allFlag ? "1" : "2"} onChange={(allFlag) => {this.handleChangeIsAll(allFlag, index)}} disabled={param === null}>
-                <Option value="1">{messages('common.all')}</Option>
-                <Option value="2">{messages('budget.balance.select')}</Option>
+                <Option value="1">{this.$t('common.all')}</Option>
+                <Option value="2">{this.$t('budget.balance.select')}</Option>
               </Select>
             </Col>
             <Col span={12}>
@@ -420,7 +418,12 @@ class BudgetBalance extends React.Component {
     this.validate((values) => {
       httpFetch.post(`${config.budgetUrl}/api/budget/balance/query/header/user`, values).then(res => {
         this.setState({ searching: false });
-        this.context.router.push(this.state.budgetBalanceResult.url.replace(':id', res.data));
+        this.props.dispatch(
+          routerRedux.replace({
+            pathname: '/budget/budget-balance/budget-balance-result/:id'
+              .replace(':id', res.data)
+          })
+        );
       }).catch(e => {
         if (e.response.data) {
           message.error(e.response.data.validationErrors ? e.response.data.validationErrors[0].message : e.response.data.message);
@@ -457,7 +460,7 @@ class BudgetBalance extends React.Component {
         values.versionNumber = this.state.condition.versionNumber;
       }
       httpFetch[method](`${config.budgetUrl}/api/budget/balance/query/header`, values).then(() => {
-        message.success(messages('common.operate.success'));
+        message.success(this.$t('common.operate.success'));
         this.setState({ showSaveModal: false, saving: false});
       }).catch(e => {
         if (e.response.data) {
@@ -480,23 +483,23 @@ class BudgetBalance extends React.Component {
         let nowParams = [];
         this.state.params.map(param => {
           if(param.type === null){
-            message.error(messages('budget.balance.please.select.params.type'));
+            message.error(this.$t('budget.balance.please.select.params.type'));
             this.setState({ searching: false });
             error = true;
           }
           if(param.params === null){
-            message.error(messages('budget.balance.please.select.params'));
+            message.error(this.$t('budget.balance.please.select.params'));
             this.setState({ searching: false });
             error = true;
           }
           if(param.value.length === 0 && !param.allFlag){
-            message.error(messages('budget.balance.please.select.at.least.one.value'));
+            message.error(this.$t('budget.balance.please.select.at.least.one.value'));
             this.setState({ searching: false });
             error = true;
           }
 
           if(nowParams.indexOf(param.params) > -1){
-            message.error(messages('budget.balance.same.params.cannot.add.twice'));
+            message.error(this.$t('budget.balance.same.params.cannot.add.twice'));
             this.setState({ searching: false });
             error = true;
           } else {
@@ -731,12 +734,12 @@ class BudgetBalance extends React.Component {
         periodStrategy === 'MONTH' &&  this.setValues({
           quarterLowerLimit: null,
           quarterUpperLimit: null,
-          periodSummaryFlag: {value: 'FALSE', label: messages('budget.balance.sum') }
+          periodSummaryFlag: {value: 'FALSE', label: this.$t('budget.balance.sum') }
         });
         periodStrategy === 'QUARTER' &&  this.setValues({
           periodLowerLimit: null,
           periodUpperLimit: null,
-          periodSummaryFlag: {value: 'FALSE', label: messages('budget.balance.no.sum') }
+          periodSummaryFlag: {value: 'FALSE', label: this.$t('budget.balance.no.sum') }
         });
       }
       this.setState({ searchForm });
@@ -831,7 +834,7 @@ class BudgetBalance extends React.Component {
       //选择组件
       case 'select': {
         return (
-          <Select placeholder={messages('common.please.select')}
+          <Select placeholder={this.$t('common.please.select')}
             onChange={handle}
             disabled={item.disabled}
             allowClear
@@ -845,7 +848,7 @@ class BudgetBalance extends React.Component {
       //值列表选择组件
       case 'value_list': {
         return (
-          <Select placeholder={messages('common.please.select')}
+          <Select placeholder={this.$t('common.please.select')}
             onChange={handle}
             disabled={item.disabled}
             allowClear
@@ -868,7 +871,7 @@ class BudgetBalance extends React.Component {
                       initialValue: searchItem.defaultValue,
                       rules: [{
                         required: searchItem.isRequired,
-                        message: messages('common.can.not.be.empty', { name: searchItem.label }),  //name 不可为空
+                        message: this.$t('common.can.not.be.empty', { name: searchItem.label }),  //name 不可为空
                       }]
                     })(
                       this.renderFormItem(searchItem)
@@ -897,7 +900,7 @@ class BudgetBalance extends React.Component {
                 initialValue: item.defaultValue,
                 rules: [{
                   required: item.isRequired,
-                  message: messages('common.can.not.be.empty', { name: item.label }),  //name 不可为空
+                  message: this.$t('common.can.not.be.empty', { name: item.label }),  //name 不可为空
                 }]
               })(
                 this.renderFormItem(item)
@@ -925,20 +928,20 @@ class BudgetBalance extends React.Component {
           onSubmit={this.search}
         >
           <div className="base-condition">
-            <div className="base-condition-title">{messages('budget.balance.base.info')}</div>
+            <div className="base-condition-title">{this.$t('budget.balance.base.info')}</div>
             <Row gutter={40} className="base-condition-content" type="flex" align="top">{this.getFields()}</Row>
           </div>
           <div className="footer-operate">
-            <Button type="primary" htmlType="submit" loading={searching}>{messages('budget.balance.search')/* 查询 */}</Button>
-            <Button style={{ marginLeft: 10, marginRight: 20 }} onClick={this.clear}>{messages('budget.balance.reset')/* 重置 */}</Button>
-            <Button style={{ marginRight: 10 }} onClick={this.showSaveModal}>{messages('budget.balance.save.condition')/* 保存方案 */}</Button>
-            <Button onClick={() => { this.setState({ showSlideFrame: true }) }}>{messages('budget.balance.use.condition')/* 使用现有方案 */}</Button>
-            {condition ? <div className="condition-name">{messages('budget.balance.using')}{condition.conditionName}</div> : null}
+            <Button type="primary" htmlType="submit" loading={searching}>{this.$t('budget.balance.search')/* 查询 */}</Button>
+            <Button style={{ marginLeft: 10, marginRight: 20 }} onClick={this.clear}>{this.$t('budget.balance.reset')/* 重置 */}</Button>
+            <Button style={{ marginRight: 10 }} onClick={this.showSaveModal}>{this.$t('budget.balance.save.condition')/* 保存方案 */}</Button>
+            <Button onClick={() => { this.setState({ showSlideFrame: true }) }}>{this.$t('budget.balance.use.condition')/* 使用现有方案 */}</Button>
+            {condition ? <div className="condition-name">{this.$t('budget.balance.using')}{condition.conditionName}</div> : null}
           </div>
           <div className="table-header">
-            <div className="table-header-title">{messages('budget.balance.search.dimension')/* 查询维度 */}</div>
+            <div className="table-header-title">{this.$t('budget.balance.search.dimension')/* 查询维度 */}</div>
             <div className="table-header-buttons">
-              <Button onClick={this.handleNew} disabled={params.length === 20}>{messages('budget.balance.add')/* 添加 */}</Button>
+              <Button onClick={this.handleNew} disabled={params.length === 20}>{this.$t('budget.balance.add')/* 添加 */}</Button>
             </div>
           </div>
           <Table columns={columns}
@@ -949,22 +952,22 @@ class BudgetBalance extends React.Component {
             size="middle" />
         </Form>
         <SlideFrame content={BudgetBalanceCondition}
-          title={messages('budget.balance.my.condition')/* 我的方案 */}
+          title={this.$t('budget.balance.my.condition')/* 我的方案 */}
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
           afterClose={this.useCondition} />
-        <Modal title={messages('budget.balance.save.condition')/* 保存方案 */}
+        <Modal title={this.$t('budget.balance.save.condition')/* 保存方案 */}
           visible={showSaveModal}
           onCancel={() => { this.setState({ showSaveModal: false }) }}
           onOk={this.handleSaveCondition}
           confirmLoading={saving}>
           <div className="save-modal-content">
-            <div>{messages('budget.balance.condition.code')/* 方案代码 */}</div>
+            <div>{this.$t('budget.balance.condition.code')/* 方案代码 */}</div>
             <Input onChange={this.handleChangeConditionCode} value={conditionCode} />
-            <div>{messages('budget.balance.condition.name')/* 方案名称 */}</div>
+            <div>{this.$t('budget.balance.condition.name')/* 方案名称 */}</div>
             <Input onChange={(e) => this.setState({ conditionName: e.target.value })} value={conditionName} />
             <br />
-            {condition ? <Checkbox checked={saveNewCondition} defaultValu={saveNewCondition} onChange={(e) => { this.setState({ saveNewCondition: e.target.checked }) }}>{messages('budget.balance.save.as.new.condition')/* 保存为新方案 */}</Checkbox> : null}
+            {condition ? <Checkbox checked={saveNewCondition} defaultValu={saveNewCondition} onChange={(e) => { this.setState({ saveNewCondition: e.target.checked }) }}>{this.$t('budget.balance.save.as.new.condition')/* 保存为新方案 */}</Checkbox> : null}
           </div>
         </Modal>
       </div>
@@ -975,15 +978,10 @@ class BudgetBalance extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    organization: state.login.organization
+    company: state.user.company,
+    organization: state.user.organization
   }
 }
-
-BudgetBalance.contextTypes = {
-  router: React.PropTypes.object
-};
-
 
 const WrappedBudgetBalance = Form.create()(BudgetBalance);
 
