@@ -24,6 +24,10 @@ class AnnouncementInformation extends React.Component {
         },
         {title: this.$t("common.operation"/*操作*/), dataIndex: 'operation', width: '10%', render: (text, record) => (
           <span>
+              <a  onClick={e => this.handleRowClick(record)}>
+                {this.$t('common.edit')}
+              </a>
+            <span className="ant-divider" />
             <Popconfirm onConfirm={e => this.deleteItem(e, record)} title={this.$t("common.confirm.delete")/*确定要删除吗？*/}>
               <a onClick={e => {e.stopPropagation()}}>{this.$t("common.delete"/*删除*/)}</a>
             </Popconfirm>
@@ -203,9 +207,7 @@ class AnnouncementInformation extends React.Component {
                dataSource={data}
                pagination={pagination}
                rowSelection={this.props.tenantMode ? rowSelection : null}
-               onRow={record => ({
-                 onClick: () => this.handleRowClick(record)
-               })}
+               onRow={record => ({})}
                bordered
                size="middle"/>
         <ListSelector type='deploy_company_by_carousel'
