@@ -12,9 +12,9 @@ import 'styles/my-account/new-expense.scss'
 // import ExpenseTypeSelector from 'components/template/expense-type-selector'
 import Chooser from "components/Widget/chooser";
 
-import InvoiceInfo from 'containers/reimburse/invoice-detail'
+import InvoiceInfo from 'containers/reimburse/my-reimburse/invoice-detail'
 import ShareDetail from 'containers/financial-management/expense-reverse/share-detail'
-import ShareForm from 'containers/reimburse/share-form'
+import ShareForm from 'containers/reimburse/my-reimburse/share-form'
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 
 class ExpenseInfo extends React.Component {
@@ -98,7 +98,7 @@ class ExpenseInfo extends React.Component {
     //   });
     // }
     //显示并且是编辑
-    //params.visible && !this.props.params.visible && 
+    //params.visible && !this.props.params.visible &&
     if (params.headerData.documentHeader.documentId) {
       let shareParams = { defaultApportion: params.defaultApportion };
       this.setState({ oldInfo: this.props.params.record, nowPage: 'form',  defaultApportion: params.defaultApportion, headerData: params.headerData, isShowInvoice: params.isShowInvoice, loading: true, shareParams }, () => {

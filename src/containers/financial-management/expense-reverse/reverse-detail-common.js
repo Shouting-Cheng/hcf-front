@@ -19,7 +19,7 @@ import EditUnpaidInfo from 'containers/financial-management/expense-reverse/edit
 import ApproveHistory from "containers/financial-management/reimburse-review/approve-history-work-flow"
 import reimburseService from '../../reimburse/my-reimburse/reimburse.service'
 import reverseService from 'containers/financial-management/expense-reverse/expense-reverse.service'
-import Invoice from "containers/reimburse/invoice"
+import Invoice from "containers/reimburse/my-reimburse/invoice"
 import 'styles/financial-management/expense-reverse/reverse-detail.scss'
 import DocumentBasicInfo from "components/Widget/document-basic-info";
 import CostDetail from 'containers/financial-management/expense-reverse/cost-detail'
@@ -692,10 +692,10 @@ class ReverseDetailCommon extends React.Component {
         <SlideFrame title={slideFrameTitle}
                     show={editReverseVisible}
                     // content={EditReverseInfo}
-                    
+
                     onClose={() => this.setState({editReverseVisible: false})}
                     >
-                    <EditReverseInfo 
+                    <EditReverseInfo
                     onClose={this.handleCloseReverse}
                     params={{
                       id: this.state.reverseRecord.id,
@@ -711,10 +711,10 @@ class ReverseDetailCommon extends React.Component {
                     show={detailVisible}
                     width="900px"
                     // content={ExpenseInfo}
-                    
+
                     onClose={() => this.setState({ detailVisible: false })}
                     >
-                    <ExpenseInfo 
+                    <ExpenseInfo
                     onClose = {this.handleCloseReverse}
                     params={{
                       visible: this.state.detailVisible,
@@ -729,10 +729,10 @@ class ReverseDetailCommon extends React.Component {
         <SlideFrame title={slideFrameTitle}
                     show={payInfoVisible}
                     // content={NewPayInfo}
-                   
+
                     onClose={() => this.setState({payInfoVisible: false})}
                     >
-                    <NewPayInfo 
+                    <NewPayInfo
                     onClose={this.handleClosePayInfo}
                     params={{
                       id: headerData.documentHeader.documentId,
@@ -744,10 +744,10 @@ class ReverseDetailCommon extends React.Component {
         <SlideFrame title={slideFrameTitle}
                     show={editUnpaidVisible}
                     // content={EditUnpaidInfo}
-                    
+
                     onClose={() => this.setState({editUnpaidVisible: false})}
                     >
-                    <EditUnpaidInfo 
+                    <EditUnpaidInfo
                     onClose={this.handleClosePayInfo}
                     params={{
                       lineFlag: editUnpaidVisible,
