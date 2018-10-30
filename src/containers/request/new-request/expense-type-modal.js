@@ -500,7 +500,7 @@ class ExpenseTypeModal extends React.Component {
                               this.props.company.baseCurrency
                             }
                             showSearch={true}
-                            onFocus={this.getCurrencyOptions}
+                            onDropdownVisibleChange={this.getCurrencyOptions}
                             onChange={this.handleCurrencyChange}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
