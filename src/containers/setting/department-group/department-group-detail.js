@@ -74,6 +74,7 @@ class DepartmentGroupDetail extends React.Component {
         this.setState({ loading: true });
         let param = [];
         typeof record === 'undefined' ? param = this.state.selectedEntityOIDs : param.push(record.departmentDetailId);
+        console.log(param);
         deptGroupService.deleteDeptGroupById(param).then(response => {
 
             if (typeof record !== 'undefined') {
@@ -81,7 +82,8 @@ class DepartmentGroupDetail extends React.Component {
             }
             this.setState({
                 selectedRowKeys: [],
-                selectedEntityOIDs: []
+                selectedEntityOIDs: [],
+                batchDelete: true
             }, this.getList());
 
         }).catch((e) => {
@@ -263,7 +265,7 @@ class DepartmentGroupDetail extends React.Component {
         };
 
         return (
-            <div className="budget-item-detail">
+            <div style={{ paddingBottom: 20 }} className="budget-item-detail">
                 <BasicInfo
                     infoList={infoList}
                     infoData={deptGroup}
