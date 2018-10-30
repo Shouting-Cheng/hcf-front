@@ -126,6 +126,7 @@ class ExpenseTypeModal extends React.Component {
   }
 
   componentDidMount() {
+    this.getCurrencyOptions();
     this.setState({
       value: this.props.value || {},
       expenseBudgetList: (this.props.value || {}).budgetDetail || [],
@@ -491,12 +492,10 @@ class ExpenseTypeModal extends React.Component {
                             dropdownMatchSelectWidth={false}
                             style={{ width: '100%' }}
                             defaultValue={
-                              currencyCode ||
-                              formDetail.currencyCode ||
-                              this.props.company.baseCurrency
+                              currencyCode || formDetail.currencyCode
                             }
                             showSearch={true}
-                            onFocus={this.getCurrencyOptions}
+                            //onDropdownVisibleChange={this.getCurrencyOptions}
                             onChange={this.handleCurrencyChange}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -506,14 +505,11 @@ class ExpenseTypeModal extends React.Component {
                                 .indexOf(input.toLowerCase()) >= 0
                             }
                             placeholder={this.$t('common.please.select') /* 请选择 */}
-                          >
+                            >
                             {currencyOptions.map(item => {
                               return (
-                                <Option key={item.currency}>
-                                  {item.currency}
-                                  {this.props.language.code === 'zh_cn'
-                                    ? ` ${item.currencyName}`
-                                    : ''}
+                                <Option key={item.currency} value={item.currency}>
+                                  {item.currency}-{item.currencyName}
                                 </Option>
                               );
                             })}
