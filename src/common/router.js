@@ -250,7 +250,7 @@ export const getRouterData = app => {
             ),
             name: 'my-expense-adjust1',
         },
-        '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
+        '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
             component: dynamicWrapper(app, [], () =>
                 import ('containers/expense-adjust/expense-adjust/new-expense-adjust')
             ),

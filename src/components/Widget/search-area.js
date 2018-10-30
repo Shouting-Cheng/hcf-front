@@ -664,7 +664,8 @@ class SearchArea extends React.Component {
       }
       //输入金额组件组件
       case 'inputNumber': {
-        return <InputNumber style={{ width: '100%' }} precision={2} min={0} step={0.01}
+        let min = item.min? {}:{min: 0};
+        return <InputNumber style={{ width: '100%' }} precision={2} {...min} step={0.01}
           placeholder={item.placeholder || messages('common.please.enter')}
           onChange={handle} disabled={item.disabled} />
       }

@@ -67,11 +67,12 @@ class NewExpenseAdjust extends React.Component {
     });
   }
 
-  componentWillMount() {
-    this.getExpenseAdjustTypeById();
-    this.getDept();
-    if (this.props.match.params.id && this.props.match.params.id != 0) {
-      expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
+  componentDidMount() {
+    console.log(this.props)
+    Promise.all([
+      this.getExpenseAdjustTypeById(),
+      this.getDept(),
+      this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
         let fileList = [];
         if (res.data.attachments) {
           res.data.attachments.map(item => {
@@ -88,8 +89,10 @@ class NewExpenseAdjust extends React.Component {
         model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
         this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
         this.setState({ model, fileList });
-      });
-    }
+      })
+    ]).then(()=>{
+
+    });
   }
 
   //获取币种

@@ -100,7 +100,7 @@ class DistributionCompanyExpAdjustType extends Component {
         expAdjustService.getExpenseAdjustTypeById(this.props.match.params.id).then(res => {
             let selectorItem = {
                 title: this.$t("budget.item.batchCompany"),
-                url: `${config.expAdjustUrl}/api/expense/adjust/type/assign/companies/filter`,
+                url: `/auth/api/expense/adjust/type/assign/companies/filter`,
                 searchForm: [
                     { type: 'input', colSpan: 8, id: 'companyCode', label: this.$t('supplier.company.code') },
                     { type: 'input', colSpan: 8, id: 'companyName', label: this.$t('supplier.company.name') },

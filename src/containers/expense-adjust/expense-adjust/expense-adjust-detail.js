@@ -729,7 +729,7 @@ class ExpenseAdjustDetail extends React.Component {
   handleHeadEdit = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId'
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
           .replace(':id', this.state.headerData.id)
           .replace(':expenseAdjustTypeId', this.state.headerData.expAdjustTypeId),
       })

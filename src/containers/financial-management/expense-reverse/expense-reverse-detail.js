@@ -50,7 +50,6 @@ class ExpenseReverseDetail extends React.Component {
         // this.context.router.push(this.state.expenseReverse.url);
       }
     }).catch(e => {
-      debugger;
       this.setState({submitLoading: false});
       message.error(e.response.data ? e.response.data.message : this.$t({id:'exp.summit.failed'}))
     })
