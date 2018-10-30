@@ -1,94 +1,96 @@
-.batch-print-invoice{
-  .title-blue{
-    color: #0092DA;
-  }
-  .fail-tip{
-    padding: 7px 10px;
-    width: 100%;
-    background: #FAFAFA;
-    border-radius: 6px;
-    margin-bottom: 15px;
-  }
-  .text-right{
-    text-align: right;
-  }
-  .anticon-info-circle{
-    margin-right: 7px;
-  }
-  .print-message{
-    padding: 10px 0;
-    font-size: 12px;
-    .total-title{
-      font-size: 16px;
-      line-height: 30px;
-      .green-text{
-        color: #0092da;
+:global{
+  .batch-print-invoice{
+    .title-blue{
+      color: #0092DA;
+    }
+    .fail-tip{
+      padding: 7px 10px;
+      width: 100%;
+      background: #FAFAFA;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    .text-right{
+      text-align: right;
+    }
+    .anticon-info-circle{
+      margin-right: 7px;
+    }
+    .print-message{
+      padding: 10px 0;
+      font-size: 12px;
+      .total-title{
+        font-size: 16px;
+        line-height: 30px;
+        .green-text{
+          color: #0092da;
+        }
+      }
+      .table-header-title{
+        line-height: 30px;
+      }
+      .import-invoice{
+        padding: 5px 0;
+        .unit{
+          padding: 0 20px 0 7px;
+        }
+      }
+      .list-title{
+        font-size: 16px;
+        color: black;
+        padding-top: 5px;
       }
     }
-    .table-header-title{
-      line-height: 30px;
+    .select-dep-search-area-title{
+      line-height: 28px;
     }
-    .import-invoice{
-      padding: 5px 0;
-      .unit{
-        padding: 0 20px 0 7px;
-      }
-    }
-    .list-title{
-      font-size: 16px;
-      color: black;
-      padding-top: 5px;
-    }
-  }
-  .select-dep-search-area-title{
-    line-height: 28px;
-  }
-  .select-dep-search-area{
-    border-radius: 4px;
-    border: solid 1px gainsboro;
-    display: block;
-    line-height: 32px;
-    padding-left: 10px;
-    background: white;
-    cursor: pointer;
-    height: 32px;
-    .placeholder-class{
-      color: #c2bebe;
-    }
-    .select-dep-wrap{
-      width: 88%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .select-dep-close-wrap{
-      width: 10%;
-      text-align: center;
-      color: #cec9c9;
-      font-size: 12px;
-      height: 30px;
-    }
-    .closeCircle{
-      display: none;
-      text-align: center;
-      color: #cec9c9;
-      font-size: 12px;
-      line-height: 30px;
-    }
-    .select-dep-close-wrap-show:hover .closeCircle{
+    .select-dep-search-area{
+      border-radius: 4px;
+      border: solid 1px gainsboro;
       display: block;
+      line-height: 32px;
+      padding-left: 10px;
+      background: white;
+      cursor: pointer;
+      height: 32px;
+      .placeholder-class{
+        color: #c2bebe;
+      }
+      .select-dep-wrap{
+        width: 88%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .select-dep-close-wrap{
+        width: 10%;
+        text-align: center;
+        color: #cec9c9;
+        font-size: 12px;
+        height: 30px;
+      }
+      .closeCircle{
+        display: none;
+        text-align: center;
+        color: #cec9c9;
+        font-size: 12px;
+        line-height: 30px;
+      }
+      .select-dep-close-wrap-show:hover .closeCircle{
+        display: block;
+      }
     }
-  }
-  .select-dep-search-area:hover{
-    border: solid 1px #1890ff;
-  }
-  .f-left{
-    float: left;
-  }
-  .f-right{
-    float: right;
-  }
-  .clear{
-    clear: both;
+    .select-dep-search-area:hover{
+      border: solid 1px #1890ff;
+    }
+    .f-left{
+      float: left;
+    }
+    .f-right{
+      float: right;
+    }
+    .clear{
+      clear: both;
+    }
   }
 }

@@ -1,66 +1,68 @@
-.select-dep-or-person-modal{
-  .select-person-modal-left{
-    float: left;
-    width: 420px;
-  }
-  .select-person-modal-right{
-    float: right;
-    width: 420px;
-    padding-left: 10px;
-    .selected-person-title{
-      line-height: 32px;
-      font-size: 16px;
+:global{
+  .select-dep-or-person-modal{
+    .select-person-modal-left{
+      float: left;
+      width: 420px;
     }
-    .selected-person-wrap{
-      height: 460px;
-      overflow-x: auto;
-      overflow-y: auto;
-      margin-top: 10px;
-      border: solid 1px #eee;
-      border-radius: 4px;
+    .select-person-modal-right{
+      float: right;
+      width: 420px;
       padding-left: 10px;
-      .no-person{
-        padding-top: 200px;
-        text-align: center;
+      .selected-person-title{
+        line-height: 32px;
         font-size: 16px;
-        color: #999999;
       }
-      .selected-person-item{
-        line-height: 24px;
-        font-size: 14px;
-        margin-top: 4px;
-        .type-icon{
-          float: left;
-          width: 20px;
-          overflow: hidden;
+      .selected-person-wrap{
+        height: 460px;
+        overflow-x: auto;
+        overflow-y: auto;
+        margin-top: 10px;
+        border: solid 1px #eee;
+        border-radius: 4px;
+        padding-left: 10px;
+        .no-person{
+          padding-top: 200px;
+          text-align: center;
+          font-size: 16px;
+          color: #999999;
         }
-        .name{
-          float: left;
-          width: 300px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          margin-left: 6px;
-        }
-        .remove-icon{
-          float: right;
-          width: 30px;
-          overflow: hidden;
-          margin-right: 6px;
-          cursor: pointer;
-        }
-        .remove-icon:hover{
-          color: #048ca7;
+        .selected-person-item{
+          line-height: 24px;
+          font-size: 14px;
+          margin-top: 4px;
+          .type-icon{
+            float: left;
+            width: 20px;
+            overflow: hidden;
+          }
+          .name{
+            float: left;
+            width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 6px;
+          }
+          .remove-icon{
+            float: right;
+            width: 30px;
+            overflow: hidden;
+            margin-right: 6px;
+            cursor: pointer;
+          }
+          .remove-icon:hover{
+            color: #048ca7;
+          }
         }
       }
     }
+    .clear{
+      clear: both;
+    }
   }
-  .clear{
-    clear: both;
-  }
-}
-.select-dep-or-person{
-  .placeholder-class{
-    color: #c2bebe;
+  .select-dep-or-person{
+    .placeholder-class{
+      color: #c2bebe;
+    }
   }
 }

@@ -1,7 +1,9 @@
-.finance-audit{
-  .finance-audit-reject{
-    .ant-table-row-expand-icon {
-      display: none;
+:global{
+  .finance-audit{
+    .finance-audit-reject{
+      .ant-table-row-expand-icon {
+        display: none;
+      }
     }
   }
 }

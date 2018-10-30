@@ -1,29 +1,31 @@
-.cost-center-group-detail{
-  .ant-divider{
-    margin: 15px 0!important;
-  }
-  .cost-center-group-detail-info{
-    .ant-tooltip-inner{
-      white-space: pre-wrap;
-      max-width: 1000px;
+:global{
+  .cost-center-group-detail{
+    .ant-divider{
+      margin: 15px 0!important;
     }
-  }
-  .cost-center-group-detail-table{
-    .ant-tooltip-arrow{
-      display: none;
+    .cost-center-group-detail-info{
+      .ant-tooltip-inner{
+        white-space: pre-wrap;
+        max-width: 1000px;
+      }
     }
-    .ant-tooltip-inner{
-      max-width: 400px;
-      white-space: pre-wrap;
+    .cost-center-group-detail-table{
+      .ant-tooltip-arrow{
+        display: none;
+      }
+      .ant-tooltip-inner{
+        max-width: 400px;
+        white-space: pre-wrap;
+      }
     }
-  }
-  .list-selector{
-    .ant-tooltip-arrow{
-      display: none;
-    }
-    .ant-tooltip-inner{
-      max-width: 220px;
-      white-space: pre-wrap;
+    .list-selector{
+      .ant-tooltip-arrow{
+        display: none;
+      }
+      .ant-tooltip-inner{
+        max-width: 220px;
+        white-space: pre-wrap;
+      }
     }
   }
 }

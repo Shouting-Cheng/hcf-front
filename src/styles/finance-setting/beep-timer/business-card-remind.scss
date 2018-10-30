@@ -1,12 +1,14 @@
-.business-card-remind{
-  .header {
-    color: #999;
-  }
-  .btn-add {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .apply-traver-button {
-    margin-top: 16px;
+:global{
+  .business-card-remind{
+    .header {
+      color: #999;
+    }
+    .btn-add {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .apply-traver-button {
+      margin-top: 16px;
+    }
   }
 }

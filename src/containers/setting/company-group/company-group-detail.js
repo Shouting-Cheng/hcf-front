@@ -66,7 +66,7 @@ class CompanyGroupDetail extends React.Component {
           method: 'get',
           labelKey: 'setOfBooksName',
           valueKey: 'id',
-          getParams: { roleType: 'TENANT' },
+          // getParams: { roleType: 'TENANT' },
         },
         {
           type: 'switch',
@@ -182,6 +182,8 @@ class CompanyGroupDetail extends React.Component {
           {
             selectedRowKeys: [],
             selectedEntityOIDs: [],
+            batchCompany: true
+
           },
           this.getList
         );
@@ -390,10 +392,15 @@ class CompanyGroupDetail extends React.Component {
           updateHandle={this.handleUpdate}
           updateState={edit}
           handleEdit={() =>
-            this.context.router.push(
-              menuRoute
-                .getRouteItem('new-company-group')
-                .url.replace(':companyGroupId', this.props.match.params.id)
+            // this.context.router.push(
+            //   menuRoute
+            //     .getRouteItem('new-company-group')
+            //     .url.replace(':companyGroupId', this.props.match.params.id)
+            // )
+            this.props.dispatch(
+              routerRedux.push({
+                pathname: `/admin-setting/company-group/new-company-group/${this.props.match.params.id}`,
+              })
             )
           }
         />

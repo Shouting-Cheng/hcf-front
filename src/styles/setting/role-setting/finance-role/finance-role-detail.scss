@@ -1,64 +1,66 @@
-.finance-role-detail {
-  .basic-info {
-    margin-bottom: 30px;
-  }
-  .detail-page-auth {
-    .table-header {
-      margin-top: 0;
+:global{
+  .finance-role-detail {
+    .basic-info {
+      margin-bottom: 30px;
     }
-    .ant-pagination {
-      display: none;
-    }
-    .ant-table-bordered .ant-table-tbody > tr > td {
-      background: #fff;
-    }
-    .col-container {
-      .auth, .auth-select, .auth-select-en {
-        float: right;
-        margin-right: 20px;
+    .detail-page-auth {
+      .table-header {
+        margin-top: 0;
       }
-      .auth-select {
-        width: 80px;
+      .ant-pagination {
+        display: none;
       }
-      .auth-select-en {
-        width: 120px;
+      .ant-table-bordered .ant-table-tbody > tr > td {
+        background: #fff;
+      }
+      .col-container {
+        .auth, .auth-select, .auth-select-en {
+          float: right;
+          margin-right: 20px;
+        }
+        .auth-select {
+          width: 80px;
+        }
+        .auth-select-en {
+          width: 120px;
+        }
       }
     }
-  }
-  .detail-legal-entity {
-    .btn-edit {
-      margin-bottom: 20px;
+    .detail-legal-entity {
+      .btn-edit {
+        margin-bottom: 20px;
+      }
+      .tags-chosen {
+        .ant-tag {
+          margin-bottom: 10px;
+        }
+      }
     }
-    .tags-chosen {
-      .ant-tag {
+    .detail-department-auth {
+      .select-dep-or-person {
+        margin-bottom: 20px;
+      }
+      .tags-chosen {
+        .ant-tag {
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .detail-cost-center {
+      .btns {
         margin-bottom: 10px;
+        .ant-btn {
+          margin-right: 10px;
+        }
+      }
+      .ant-pagination {
+        display: none;
       }
     }
-  }
-  .detail-department-auth {
-     .select-dep-or-person {
-       margin-bottom: 20px;
-     }
-     .tags-chosen {
-       .ant-tag {
-         margin-bottom: 10px;
-       }
-     }
-   }
-  .detail-cost-center {
-    .btns {
-      margin-bottom: 10px;
-      .ant-btn {
-        margin-right: 10px;
+    .detail-assign-user {
+      .table-header {
+        margin-top: 0;
       }
-    }
-    .ant-pagination {
-      display: none;
-    }
-  }
-  .detail-assign-user {
-    .table-header {
-      margin-top: 0;
     }
   }
 }
