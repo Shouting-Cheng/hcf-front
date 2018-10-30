@@ -64,7 +64,6 @@ class NewSupplierType extends React.Component {
           SupplierTypeService.updateSupplierType(toValue)
             .then(res => {
               console.log(res.data.code);
-              debugger;
               if (res.data.code === 'respCode.0000') {
                 this.setState({ loading: false });
                 this.props.form.resetFields();

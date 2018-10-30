@@ -238,7 +238,7 @@ class NewExpAdjustType extends Component {
                 expAdjustService.saveExpAdjustTypeLineData(this.state.nowType.id ? 'put' : 'post', params).then(res => {
                     this.setState({ loading: false });
                     message.success(this.$t({ id: 'common.save.success' }, { name: values.expAdjustTypeName }));
-                    this.props.close(true);
+                    this.props.onClose(true);
                 }).catch((e) => {
                     if (e.response) {
                         message.error(this.$t({ id: 'adjust.save.fail' }/*保存失败*/) + `${e.response.data.message}`);
