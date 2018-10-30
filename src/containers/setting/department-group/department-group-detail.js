@@ -39,7 +39,7 @@ class DepartmentGroupDetail extends React.Component {
             },
             infoList: [
                 { type: 'input', id: 'deptGroupCode', isRequired: true, disabled: true, label: this.$t({ id: 'setting.deptGroup.code' }) + " :" },
-                { type: 'input', id: 'description', isRequired: true, disabled: true, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
+                { type: 'input', id: 'description', isRequired: true, disabled: false, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
                 { type: 'switch', id: 'enabled', label: this.$t({ id: 'common.column.status' }) + " :"/*状态*/ },
             ],
             deptSelectorItem: {

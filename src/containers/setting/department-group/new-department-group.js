@@ -160,9 +160,9 @@ class NewDepartmentGroup extends React.Component {
                                     <LanguageInput nameChange={this.handleDescriptionChange} name={name} i18nName={description} />
                                     )}
                             </FormItem>
-                            <div className="department-group-tips">
+                            {/* <div className="department-group-tips">
                                 {this.$t({ id: 'setting.dept.name.tips' })}
-                            </div>
+                            </div> */}
                         </Col>
                         <Col span={6} offset={1}>
                             <FormItem
