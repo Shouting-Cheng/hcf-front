@@ -95,49 +95,49 @@ class CompanyGroup extends React.Component {
             />
           ),
         },
-        {
-          title: this.$t({ id: 'common.operation' }),
-          key: 'operation',
-          width: '15%',
-          render: (text, record) => (
-            <span>
-              <Popconfirm
-                onConfirm={e => this.deleteItem(e, record)}
-                title={this.$t(
-                  { id: 'budget.are.you.sure.to.delete.rule' },
-                  { controlRule: record.controlRuleName }
-                )}
-              >
-                {/* 你确定要删除organizationName吗 */}
-                <a
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  {this.$t({ id: 'common.delete' })}
-                </a>
-              </Popconfirm>
-            </span>
-          ),
-        }, //操作
+        // {
+        //   title: this.$t({ id: 'common.operation' }),
+        //   key: 'operation',
+        //   width: '15%',
+        //   render: (text, record) => (
+        //     <span>
+        //       <Popconfirm
+        //         onConfirm={e => this.deleteItem(e, record)}
+        //         title={this.$t(
+        //           { id: 'budget.are.you.sure.to.delete.rule' },
+        //           { controlRule: record.controlRuleName }
+        //         )}
+        //       >
+        //         {/* 你确定要删除organizationName吗 */}
+        //         <a
+        //           href="#"
+        //           onClick={e => {
+        //             e.preventDefault();
+        //             e.stopPropagation();
+        //           }}
+        //         >
+        //           {this.$t({ id: 'common.delete' })}
+        //         </a>
+        //       </Popconfirm>
+        //     </span>
+        //   ),
+        // }, //操作
       ],
     };
   }
 
-  deleteItem = (e, record) => {
-    this.setState({ loading: true });
-    companyGroupService.deleteCompanyGroupById(record.id).then(response => {
-      message.success(this.$t({ id: 'common.delete.success' }, { name: record.companyGroupName })); // name删除成功
-      this.setState(
-        {
-          loading: false,
-        },
-        this.getList
-      );
-    });
-  };
+  // deleteItem = (e, record) => {
+  //   this.setState({ loading: true });
+  //   companyGroupService.deleteCompanyGroupById(record.id).then(response => {
+  //     message.success(this.$t({ id: 'common.delete.success' }, { name: record.companyGroupName })); // name删除成功
+  //     this.setState(
+  //       {
+  //         loading: false,
+  //       },
+  //       this.getList
+  //     );
+  //   });
+  // };
 
   componentWillMount() {
     this.getList();
