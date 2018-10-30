@@ -1,17 +1,20 @@
-.new-budget-structure{
-  .budget-structure-title{
-    font-family:PingFangSC-Regular;
-    font-size:25px;
-    color:#999999;
-    letter-spacing:0;
-    text-align:left;
-  }
-  .budget-structure-header{
-    background:#f7f7f7;
-    padding: 15px;
-    .budget-structure-form{
-      margin-top: -5px;
+:global {
+  .new-budget-structure{
+    .budget-structure-title{
+      font-family:PingFangSC-Regular;
+      font-size:25px;
+      color:#999999;
+      letter-spacing:0;
+      text-align:left;
+    }
+    .budget-structure-header{
+      background:#f7f7f7;
+      padding: 15px;
+      .budget-structure-form{
+        margin-top: -5px;
+      }
     }
   }
-}
 
+
+}

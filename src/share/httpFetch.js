@@ -39,12 +39,12 @@ export default {
     };
     return axios(option);
   },
-  post(url, params) {
+  post(url, data) {
 
+    let params = {};
     if (url.indexOf("TENANT") < 0) {
       params = { ...params, roleType: 'TENANT' }
     }
-
 
     let option = {
       url: baseUrl + url,
@@ -52,13 +52,14 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params
     };
 
     return axios(option);
   },
-  put(url, params) {
+  put(url, data) {
+    let params = {};
     if (url.indexOf("TENANT") < 0) {
       params = { ...params, roleType: 'TENANT' }
     }
@@ -69,12 +70,14 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params
     };
     return axios(baseUrl + url, option);
   },
-  delete(url, params) {
+  delete(url, data) {
+
+    let params = {};
     if (url.indexOf("TENANT") < 0) {
       params = { ...params, roleType: 'TENANT' }
     }
@@ -84,8 +87,8 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      data: params,
-      params: { roleType: "TENANT" }
+      data,
+      params,
     };
     return axios(baseUrl + url, option);
   },

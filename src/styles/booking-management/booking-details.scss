@@ -1,93 +1,96 @@
-.booking-details{
-  .ant-card>.ant-card-head{
-    background-color: #ffffff;
-    border-bottom: none;
-    line-height: 40px;
-    height: 40px;
-  }
-  .ant-card>.ant-card-body{
-    padding: 34px 32px 24px;
-  }
-  .ant-card>.ant-card-head .ant-card-head-title{
-    font-size: 16px;
-    color: #666;
-    border-bottom: 1px solid #ececec;
-  }
-  .ant-collapse-content{
-    padding: 20px;
-  }
-  a.disabled{
-    color: #cccccc;
-    cursor: not-allowed;
-  }
-  .bottom-bar {
-    width: 100%;
-    height: 64px;
-    line-height: 64px;
-    position: fixed;
-    bottom: 0;
-    z-index: 5;
-    margin-left: -35px;
-    background: #fff;
-    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
-    padding-left: 20px;
-    button{
-      margin-right: 10px;
+:global{
+  .booking-details{
+    .ant-card>.ant-card-head{
+      background-color: #ffffff;
+      border-bottom: none;
+      line-height: 40px;
+      height: 40px;
     }
-    .back-btn{
+    .ant-card>.ant-card-body{
+      padding: 34px 32px 24px;
+    }
+    .ant-card>.ant-card-head .ant-card-head-title{
+      font-size: 16px;
+      color: #666;
+      border-bottom: 1px solid #ececec;
+    }
+    .ant-collapse-content{
+      padding: 20px;
+    }
+    a.disabled{
+      color: #cccccc;
+      cursor: not-allowed;
+    }
+    .bottom-bar {
+      width: 100%;
+      height: 64px;
+      line-height: 64px;
       position: fixed;
-      right: 20px;
-      margin-top: 15px;
-      span, icon{
-        color: #1890ff;
+      bottom: 0;
+      z-index: 5;
+      margin-left: -35px;
+      background: #fff;
+      box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
+      padding-left: 20px;
+      button{
+        margin-right: 10px;
+      }
+      .back-btn{
+        position: fixed;
+        right: 20px;
+        margin-top: 15px;
+        span, icon{
+          color: #1890ff;
+        }
+      }
+
+      &.bottom-bar-approve {
+        height: auto;
+        line-height: 80px;
       }
     }
+    .booking-content{
+      margin: 0 -20px;
+      overflow-x: hidden;
+      .amount{
+        font-size: 20px;
+        color: #666;
+        margin-top: 10px;
+        font-weight: bolder;
+        margin-right: 10px;
+      }
+      .headerType{
+        color: #1890ff;
+      }
+      button{
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+    }
+    .text-ellipsis{
+      //overflow: hidden;
+      //white-space: nowrap;
+      //text-overflow: ellipsis;
+      //display: inline-block;
+      //width: 100%;
+    }
+  }
 
-    &.bottom-bar-approve {
-      height: auto;
-      line-height: 80px;
-    }
-  }
-  .booking-content{
-    margin: 0 -20px;
-    overflow-x: hidden;
-    .amount{
-      font-size: 20px;
-      color: #666;
-      margin-top: 10px;
-      font-weight: bolder;
-      margin-right: 10px;
-    }
-    .headerType{
-      color: #1890ff;
-    }
-    button{
-      margin-right: 10px;
-      margin-bottom: 10px;
-    }
-  }
-  .text-ellipsis{
-    //overflow: hidden;
-    //white-space: nowrap;
-    //text-overflow: ellipsis;
-    //display: inline-block;
-    //width: 100%;
-  }
-}
+  .booking-details-maintain{
+    .slide-footer{
+      .ant-btn-danger{
+        background-color: #f5222d;
+        color: #ffffff;
+      }
+      .ant-btn-danger:hover{
+        background-color: #ff4d4f;
+        color: #ffffff;
 
-.booking-details-maintain{
-  .slide-footer{
-    .ant-btn-danger{
-      background-color: #f5222d;
-      color: #ffffff;
+      }
     }
-    .ant-btn-danger:hover{
-      background-color: #ff4d4f;
-      color: #ffffff;
+    .hide{
+      display: none;
+    }
+  }
 
-    }
-  }
-  .hide{
-    display: none;
-  }
 }

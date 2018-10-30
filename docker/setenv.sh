@@ -59,7 +59,10 @@ server {
         proxy_pass http://115.159.108.80:25297/invoice/;
     }
 
-    
+    location /brms/ {
+        proxy_pass http://115.159.108.80:25297/brms/;
+    }
+
 }
 
 EOF

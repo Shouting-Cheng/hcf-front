@@ -111,7 +111,7 @@ class InvoiceInfo extends Component {
                     span={10}>{(invoice.fee / 100).toFixed(2)}</Col>
                 </Row>
               </Col>
-              <Col span={18} className="invoice-brief-content-area">
+              <Col span={18} className="invoice-brief-content-area" stlye={{float:"right"}}>
                 <div className="invoice-type">
                   {invoice.type}
                   {

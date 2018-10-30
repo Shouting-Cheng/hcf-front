@@ -147,6 +147,7 @@ class ReimburseDetail extends React.Component {
           id={paramsId}
           getContractStatus={this.getStatus}
         />
+        <div style={{paddingLeft:20}}>
         {isEdit && (
           <Affix offsetBottom={0} style={{
             position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
@@ -183,6 +184,7 @@ class ReimburseDetail extends React.Component {
                 </Button>
               </Affix>
             )}
+        </div>
       </div>
     );
   }
