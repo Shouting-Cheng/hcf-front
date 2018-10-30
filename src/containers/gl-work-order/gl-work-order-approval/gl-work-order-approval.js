@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import { routerRedux } from "dva/router";
 import config from 'config';
 import { Table, Button, message, Badge, Popover, Tabs, Input, Row, Col } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -31,6 +32,7 @@ class GLWorkOrderCheck extends Component {
           method: 'get',
           valueKey: 'id',
           labelKey: 'workOrderTypeName',
+          event:"typeId1"
         },
         {
           type: 'list',
@@ -43,14 +45,15 @@ class GLWorkOrderCheck extends Component {
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+          event:"userOID1"
         },
         {
           type: 'items',
           id: 'date',
           colSpan: '6',
           items: [
-            { type: 'date', id: 'beginDate', label: '提交日期从' },
-            { type: 'date', id: 'endDate', label: '提交日期至' },
+            { type: 'date', id: 'beginDate', label: '提交日期从',event:"beginDate1" },
+            { type: 'date', id: 'endDate', label: '提交日期至',event:"endDate1" },
           ],
         },
         {
@@ -58,8 +61,8 @@ class GLWorkOrderCheck extends Component {
           id: 'amount',
           colSpan: '6',
           items: [
-            { type: 'input', id: 'amountFrom', label: '金额从' },
-            { type: 'input', id: 'amountTo', label: '金额至' },
+            { type: 'input', id: 'amountFrom', label: '金额从',event:"amountFrom1"  },
+            { type: 'input', id: 'amountTo', label: '金额至',event:"amountTo1"  },
           ],
         },
         {
@@ -78,12 +81,14 @@ class GLWorkOrderCheck extends Component {
           },
           valueKey: 'currencyCode',
           labelKey: 'currencyCode',
-        },
+          event:"currency1"
+  },
         {
           type: 'input',
           label: '备注',
           id: 'description',
           colSpan: '6',
+          event:"description1"
         },
       ],
       searchParams1: {},
@@ -103,6 +108,7 @@ class GLWorkOrderCheck extends Component {
           method: 'get',
           valueKey: 'id',
           labelKey: 'workOrderTypeName',
+          event:"typeId2"
         },
         {
           type: 'list',
@@ -115,14 +121,15 @@ class GLWorkOrderCheck extends Component {
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+          event:"userOID2"
         },
         {
           type: 'items',
           id: 'date',
           colSpan: '6',
           items: [
-            { type: 'date', id: 'beginDate', label: '提交日期从' },
-            { type: 'date', id: 'endDate', label: '提交日期至' },
+            { type: 'date', id: 'beginDate', label: '提交日期从',event:"beginDate2" },
+            { type: 'date', id: 'endDate', label: '提交日期至',event:"endDate2"},
           ],
         },
         {
@@ -130,8 +137,8 @@ class GLWorkOrderCheck extends Component {
           id: 'amount',
           colSpan: '6',
           items: [
-            { type: 'input', id: 'amountFrom', label: '金额从' },
-            { type: 'input', id: 'amountTo', label: '金额至' },
+            { type: 'input', id: 'amountFrom', label: '金额从',event:"amountFrom2" },
+            { type: 'input', id: 'amountTo', label: '金额至' ,event:"amountTo2"},
           ],
         },
         {
@@ -150,12 +157,14 @@ class GLWorkOrderCheck extends Component {
           },
           valueKey: 'currencyCode',
           labelKey: 'currencyCode',
+          event:"currency2"
         },
         {
           type: 'input',
           label: '备注',
           id: 'description',
           colSpan: '6',
+          event:"description2"
         },
       ],
       searchParams2: {},
@@ -423,7 +432,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading1: true,
         page1: 0,
-        searchParams1: params,
+        searchParams1: {...this.state.searchParams1,params},
       },
       () => {
         this.getList1();
@@ -442,6 +451,7 @@ class GLWorkOrderCheck extends Component {
       },
       () => {
         this.getList1();
+
       }
     );
   };
@@ -453,7 +463,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading1: true,
         page1: 0,
-        searchParams1: { businessCode: value },
+        searchParams1: { ...this.state.searchParams1,businessCode: value },
       },
       () => {
         this.getList1();
@@ -561,7 +571,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading2: true,
         page2: 0,
-        searchParams2: params,
+        searchParams2: {...this.state.searchParams2,params},
       },
       () => {
         this.getList2();
@@ -591,7 +601,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading2: true,
         page2: 0,
-        searchParams2: { businessCode: value },
+        searchParams2: {  ...this.state.searchParams2,businessCode: value },
       },
       () => {
         this.getList2();
@@ -603,7 +613,112 @@ class GLWorkOrderCheck extends Component {
    */
   onTableRowClick = record => {
     // this.context.router.push(menuRoute.getRouteItem('gl-work-order-check-detail', 'key').url.replace(':id', record.id).replace(':oid', record.entityOID).replace(':status', record.status));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/approval-management/gl-work-order-approval/gl-work-order-approval-detail/${record.id}/${record.entityOID}/${record.status}`,
+      })
+    );
   };
+  eventHandle1 = (type, value) => {
+    let {searchParams1} = this.state;
+    switch (type) {
+      case 'typeId1': {
+        searchParams1.typeId = value;
+        break;
+      }
+      case 'userOID1': {
+        if(value && value[0]){
+          searchParams1.userOID = value[0].userOID;
+        }else{
+          searchParams1.userOID = '';
+        }
+        break;
+      }
+      case 'beginDate1': {
+        if (value) {
+          searchParams1.beginDate = moment(value).format('YYYY-MM-DD');
+        } else {
+          searchParams1.beginDate = '';
+        }
+        break;
+      }
+      case 'endDate1': {
+        if (value) {
+          searchParams1.endDate = moment(value).format('YYYY-MM-DD');
+        } else {
+          searchParams1.endDate = '';
+        }
+        break;
+      }
+      case 'currency1': {
+        searchParams1.currency = value;
+        break;
+      }
+      case 'amountFrom1': {
+        searchParams1.amountFrom = value;
+        break;
+      }
+      case 'amountTo1': {
+        searchParams1.amountTo = value;
+        break;
+      }
+      case 'description1': {
+        searchParams1.description = value;
+        break;
+      }
+        this.setState({searchParams1});
+    }
+  }
+  eventHandle2 = (type, value) => {
+    let {searchParams2} = this.state;
+    switch (type) {
+      case 'typeId2': {
+        searchParams2.typeId = value;
+        break;
+      }
+      case 'userOID2': {
+        if(value && value[0]){
+          searchParams2.userOID = value[0].userOID;
+        }else{
+          searchParams2.userOID = '';
+        }
+        break;
+      }
+      case 'beginDate2': {
+        if (value) {
+          searchParams2.beginDate = moment(value).format('YYYY-MM-DD');
+        } else {
+          searchParams2.beginDate = '';
+        }
+        break;
+      }
+      case 'endDate2': {
+        if (value) {
+          searchParams2.endDate = moment(value).format('YYYY-MM-DD');
+        } else {
+          searchParams2.endDate = '';
+        }
+        break;
+      }
+      case 'currency2': {
+        searchParams2.currency = value;
+        break;
+      }
+      case 'amountFrom2': {
+        searchParams2.amountFrom = value;
+        break;
+      }
+      case 'amountTo2': {
+        searchParams2.amountTo = value;
+        break;
+      }
+      case 'description2': {
+        searchParams2.description = value;
+        break;
+      }
+      this.setState({searchParams1});
+    }
+  }
   /**
    * 面板切换事件
    */
@@ -617,6 +732,25 @@ class GLWorkOrderCheck extends Component {
       // this.context.router.replace(`${menuRoute.getRouteItem('gl-work-order-check', 'key').url}?tab=${this.state.nowStatus}`);
     });
   };
+
+  change1 = (e) =>{
+    let {searchParams1} = this.state;
+    if(e && e.target && e.target.value){
+      searchParams1.businessCode = e.target.value;
+    }else{
+      searchParams1.businessCode = '';
+    }
+    this.setState({searchParams1});
+  }
+  change2 = (e) =>{
+    let {searchParams2} = this.state;
+    if(e && e.target && e.target.value){
+      searchParams2.businessCode = e.target.value;
+    }else{
+      searchParams2.businessCode = '';
+    }
+    this.setState({searchParams2});
+  }
   renderContent = () => {
     //搜索
     const { searchForm1, searchForm2 } = this.state;
@@ -634,6 +768,7 @@ class GLWorkOrderCheck extends Component {
               searchForm={searchForm1}
               maxLength={4}
               submitHandle={this.search1}
+              eventHandle={this.eventHandle1}
               clearHandle={this.clear1}
               wrappedComponentRef={inst => (this.formRef1 = inst)}
             />
@@ -646,6 +781,7 @@ class GLWorkOrderCheck extends Component {
                     <Search
                       placeholder="请输入核算工单单号"
                       onSearch={this.onDocumentSearch1}
+                      onChange={this.change1}
                       enterButton
                     />
                   </Col>
@@ -671,6 +807,7 @@ class GLWorkOrderCheck extends Component {
             <SearchArea
               key="2"
               searchForm={searchForm2}
+              eventHandle={this.eventHandle2()}
               maxLength={4}
               submitHandle={this.search2}
               clearHandle={this.clear2}
@@ -685,6 +822,7 @@ class GLWorkOrderCheck extends Component {
                     <Search
                       placeholder="请输入核算工单单号"
                       onSearch={this.onDocumentSearch2}
+                      onChange={this.change2}
                       enterButton
                     />
                   </Col>

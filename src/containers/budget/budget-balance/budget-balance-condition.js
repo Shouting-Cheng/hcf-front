@@ -1,6 +1,5 @@
-import { messages } from "share/common";
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 
 
 import { Table, Popconfirm, Button } from 'antd'
@@ -21,17 +20,17 @@ class BudgetBalanceCondition extends React.Component {
       },
       columns: [
         // 方案代码
-        { title: messages('budget.balance.condition.code'), dataIndex: 'conditionCode', width: '35%' },
+        { title: this.$t('budget.balance.condition.code'), dataIndex: 'conditionCode', width: '35%' },
         //方案名称
-        { title: messages('budget.balance.condition.name'), dataIndex: 'conditionName', width: '35%' },
+        { title: this.$t('budget.balance.condition.name'), dataIndex: 'conditionName', width: '35%' },
         //操作
         {
-          title: messages('budget.balance.operate'), dataIndex: 'operation', width: '30%', render: (text, record) => (
+          title: this.$t('budget.balance.operate'), dataIndex: 'operation', width: '30%', render: (text, record) => (
             <span>
-              <a href="#" onClick={(e) => this.useCondition(e, record)}>{messages('budget.balance.use.condition')/*使用方案*/}</a>
+              <a href="#" onClick={(e) => this.useCondition(e, record)}>{this.$t('budget.balance.use.condition')/*使用方案*/}</a>
               <span className="ant-divider" />
-              <Popconfirm onConfirm={(e) => this.deleteCondition(e, record)} title={messages('budget.balance.are.you.sure.to.delete.this.data')/*你确定要删除吗？*/}>
-                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{messages('common.delete')}</a>
+              <Popconfirm onConfirm={(e) => this.deleteCondition(e, record)} title={this.$t('budget.balance.are.you.sure.to.delete.this.data')/*你确定要删除吗？*/}>
+                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t('common.delete')}</a>
               </Popconfirm>
             </span>)
         }
@@ -94,7 +93,7 @@ class BudgetBalanceCondition extends React.Component {
           pagination={pagination}
           bordered rowKey="id" />
         <div className="slide-footer">
-          <Button type="primary" onClick={this.getList} loading={loading}>{messages('budget.balance.refresh.list')}</Button>
+          <Button type="primary" onClick={this.getList} loading={loading}>{this.$t('budget.balance.refresh.list')}</Button>
         </div>
       </div>
     )

@@ -4,9 +4,10 @@ import httpFetch from 'share/httpFetch'
 import config from 'config'
 import { Form, Button, Table, Input, message, Icon } from 'antd'
 const Search = Input.Search;
+import { routerRedux } from 'dva/router';
 
-import BasicInfo from 'components/basic-info'
-import SlideFrame from 'components/slide-frame'
+import BasicInfo from 'widget/basic-info'
+import SlideFrame from 'widget/slide-frame'
 import NewStrategyControlDetail from 'containers/budget-setting/budget-organization/budget-strategy/new-strategy-control-detail'
 import 'styles/budget-setting/budget-organization/budget-strategy/strategy-control-detail.scss'
 
@@ -52,15 +53,14 @@ class StrategyControlDetail extends React.Component {
       newParams: {},
       keyWords: '',
       isNew: false, //判断侧滑是新建或编辑
-      budgetStrategyDetail:  menuRoute.getRouteItem('budget-strategy-detail','key'),    //预算控制策略详情
     };
   }
 
   componentWillMount() {
     this.setState({
-      strategyControlId: this.props.params.strategyControlId,
+      strategyControlId: this.props.match.params.id,
       newParams: {
-        strategyControlId: this.props.params.strategyControlId,
+        strategyControlId: this.props.match.params.id,
       }
     },() => {
       this.getBasicInfo();
@@ -121,7 +121,7 @@ class StrategyControlDetail extends React.Component {
       showSlideFrame: flag,
       isNew: true,
       newParams: {
-        strategyControlId: this.props.params.strategyControlId,
+        strategyControlId: this.props.match.params.id,
       }
     })
   };
@@ -171,7 +171,7 @@ class StrategyControlDetail extends React.Component {
   };
 
   handleRowClick = (record) => {
-    record.strategyControlId = this.props.params.strategyControlId;
+    record.strategyControlId = this.props.match.params.id;
     this.setState({
       newParams: record
     }, () => {
@@ -180,7 +180,14 @@ class StrategyControlDetail extends React.Component {
   };
 
   handleBack = () => {
-    this.context.router.push(this.state.budgetStrategyDetail.url.replace(':id', this.props.params.id).replace(':strategyId', this.props.params.strategyId).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.match.params.orgId)
+          .replace(':setOfBooksId',this.props.match.params.setOfBooksId)
+          .replace(':id', this.props.match.params.strategyId)
+      })
+    );
   };
 
   //处理修改基本信息
@@ -234,10 +241,11 @@ class StrategyControlDetail extends React.Component {
                size="middle"/>
         <SlideFrame title={(isNew ? this.$t({id: "common.create"}/*新建*/) : this.$t({id: "common.edit"}/*编辑*/)) + ' ' + this.$t({id: "budget.strategy.detail.condition"}/*触发条件*/)}
                     show={showSlideFrame}
-                    content={NewStrategyControlDetail}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.showUpdateSlide(false)}
-                    params={{newParams, isNew}}/>
+                    onClose={() => this.showUpdateSlide(false)}>
+          <NewStrategyControlDetail
+            onClose={this.handleCloseSlide}
+            params={{newParams, isNew}}/>
+        </SlideFrame>
         <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}>
           <Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"}/*返回*/)}
         </a>

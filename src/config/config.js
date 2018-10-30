@@ -21,6 +21,7 @@ const config = {
   //baseUrl:'http://116.228.77.183:25297',
   jobUrl: '/job',
   vendorUrl: '/supplier',
+  brmsUrl:'/brms',
 };
 
 export default config;

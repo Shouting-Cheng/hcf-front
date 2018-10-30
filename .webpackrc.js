@@ -94,6 +94,10 @@ export default {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
+    '/brms': {
+      target: 'http://115.159.108.80:25297/brms',
+      changeOrigin: true,
+    },
     '/location': {
       target: 'http://115.159.108.80:25297',
       changeOrigin: true,
@@ -101,6 +105,6 @@ export default {
     '/invoice': {
       target: 'http://115.159.108.80:25297/artemis-sit',
       changeOrigin: true,
-    }
+    },
   },
 };

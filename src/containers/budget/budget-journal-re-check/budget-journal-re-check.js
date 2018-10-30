@@ -111,7 +111,7 @@ class BudgetJournalReCheck extends React.Component {
           labelKey: 'empName',
           valueKey: 'empOid',
         },
-        { type: 'date', id: 'createDate', label: this.$t({ id: 'budgetJournal.createdDate' }) },
+        { type: 'date', id: 'createDate', label: this.$t({ id: 'budgetJournal.submitDate' }) },
       ],
 
       columns: [
@@ -177,7 +177,7 @@ class BudgetJournalReCheck extends React.Component {
         },
         {
           /*创建时间*/
-          title: this.$t({ id: 'budgetJournal.createdDate' }), key: 'createdDate', dataIndex: 'createdDate',
+          title: this.$t({ id: 'budgetJournal.submitDate' }), key: 'createdDate', dataIndex: 'createdDate',
           render: recode => (
             <Popover content={recode}>
               {String(recode).substring(0, 10)}

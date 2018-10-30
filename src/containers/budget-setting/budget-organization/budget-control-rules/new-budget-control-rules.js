@@ -8,6 +8,7 @@ import budgetService from 'containers/budget-setting/budget-organization/budget-
 import debounce from 'lodash.debounce';
 
 import "styles/budget-setting/budget-organization/budget-control-rules/new-budget-control-rules.scss"
+import { routerRedux } from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -100,7 +101,14 @@ class NewBudgetControlRules extends React.Component{
 
   handleCancel = (e) =>{
     e.preventDefault();
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId)+ '?tab=RULE');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','RULE')
+      })
+    );
   };
 
   validateRuleCode = (item,value,callback)=>{
