@@ -103,18 +103,19 @@ class MyGLWorkOrder extends Component {
       ],
       //表格
       columns: [
-        { title: '单据编号', dataIndex: 'workOrderNumber', align: 'center' },
-        { title: '单据类型', dataIndex: 'typeName', align: 'center' },
-        { title: '申请人', dataIndex: 'employeeName', align: 'center' },
+        { title: '单据编号', dataIndex: 'workOrderNumber',width:180, align: 'center' },
+        { title: '单据类型', dataIndex: 'typeName', align: 'left' },
+        { title: '申请人', dataIndex: 'employeeName', align: 'center',width:110 },
         {
           title: '申请日期',
           dataIndex: 'requisitionDate',
+          width:100,
           align: 'center',
           render: requisitionDate => {
             return <span>{moment(requisitionDate).format('YYYY-MM-DD')}</span>;
           },
         },
-        { title: '币种', dataIndex: 'currency', align: 'center' },
+        { title: '币种', dataIndex: 'currency', align: 'center',width:90 },
         {
           title: '金额',
           dataIndex: 'amount',
@@ -126,7 +127,7 @@ class MyGLWorkOrder extends Component {
         {
           title: '备注',
           dataIndex: 'remark',
-          align: 'center',
+          align: 'left',
           render: remark => {
             return (
               <Popover content={remark}>
@@ -138,6 +139,7 @@ class MyGLWorkOrder extends Component {
         {
           title: '状态',
           dataIndex: 'status',
+          width:100,
           render: status => {
             return (
               <Badge
