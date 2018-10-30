@@ -1,123 +1,125 @@
-.enable-service{
-  width: 100%;
-  margin: 0 auto;
-  // wjk add
-  .flexCenter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-  }
-  .contentBox{
-    display: flex;
-    margin: 20px 12px;
-    padding-top: 12px;
-    background-color: #ccc;
-    font-size: 12px;
-    width: 90%;
-    justify-content: center;
-  }
-  .textCenter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color:#1E78C8
-  }
-  .stepPointOn {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background-color: #1890ff;
-  }
-  .stepPointOff {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    color: #ccc;
-    background-color: white;
-  }
-  .lineStep {
-    width: 12%;
-    background-color: #ccc;
-    height: 1px;
-    position: absolute;
-    left: 21%;
-    top: 50%;
-  }
-  .jd-triangle{
-    width: 0px;
-    height: 0px;
-    border-width: 18px;
-    border-style: solid;
-    border-color: transparent transparent #ccc transparent;
-    position: absolute;
-    top: -15px;
-  }
-  .bg-img{
-    height: 200px;
-    img{
-      height:176px;
-      width:176px;
+:global{
+  .enable-service{
+    width: 100%;
+    margin: 0 auto;
+    // wjk add
+    .flexCenter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
-  }
-  .black-tips{
-    margin-bottom: 24px;
-    text-align: center;
-  }
-  .open-button{
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  .hand-to-bind{
-    text-align: center;
-    text-decoration: underline;
-    margin-bottom: 72px;
-  }
-  .didi-open-step{
-    width: 90%;
-    margin: 0 auto 100px;
-    .step-line{
-      margin-bottom: 16px;
-    }
-    .card-style{
-      box-shadow: rgba(0, 0, 0, 0.15) 0 0 4px;
-      border: 1px solid rgba(217,217,217,1);
-      height: 200px;
+    .contentBox{
+      display: flex;
+      margin: 20px 12px;
+      padding-top: 12px;
+      background-color: #ccc;
       font-size: 12px;
-      color: #999;
-      line-height: 18px;
-      position: relative;
-      &:before {
-        content: "";
-        display: block;
-        clear: both;
-        height: 10px;
-        width: 10px;
-        border:1px solid rgba(217,217,217,1);
-        border-bottom-color: transparent;
-        border-right-color: transparent;
-        position: absolute;
-        left:70%;
-        top: -6px;
-        transform:rotate(45deg);
+      width: 90%;
+      justify-content: center;
+    }
+    .textCenter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color:#1E78C8
+    }
+    .stepPointOn {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #1890ff;
+    }
+    .stepPointOff {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      color: #ccc;
+      background-color: white;
+    }
+    .lineStep {
+      width: 12%;
+      background-color: #ccc;
+      height: 1px;
+      position: absolute;
+      left: 21%;
+      top: 50%;
+    }
+    .jd-triangle{
+      width: 0px;
+      height: 0px;
+      border-width: 18px;
+      border-style: solid;
+      border-color: transparent transparent #ccc transparent;
+      position: absolute;
+      top: -15px;
+    }
+    .bg-img{
+      height: 200px;
+      img{
+        height:176px;
+        width:176px;
       }
     }
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"]{
-    -moz-appearance: textfield;
+    .black-tips{
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .open-button{
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .hand-to-bind{
+      text-align: center;
+      text-decoration: underline;
+      margin-bottom: 72px;
+    }
+    .didi-open-step{
+      width: 90%;
+      margin: 0 auto 100px;
+      .step-line{
+        margin-bottom: 16px;
+      }
+      .card-style{
+        box-shadow: rgba(0, 0, 0, 0.15) 0 0 4px;
+        border: 1px solid rgba(217,217,217,1);
+        height: 200px;
+        font-size: 12px;
+        color: #999;
+        line-height: 18px;
+        position: relative;
+        &:before {
+          content: "";
+          display: block;
+          clear: both;
+          height: 10px;
+          width: 10px;
+          border:1px solid rgba(217,217,217,1);
+          border-bottom-color: transparent;
+          border-right-color: transparent;
+          position: absolute;
+          left:70%;
+          top: -6px;
+          transform:rotate(45deg);
+        }
+      }
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+    input[type="number"]{
+      -moz-appearance: textfield;
+    }
   }
 }

@@ -1,9 +1,11 @@
 // 文字显示行数 能在webkit和移动端中实现
-@mixin text-line($value) {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: $value;
-  -webkit-box-orient: vertical;
-  word-break: break-all;
+:global{
+  @mixin text-line($value) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $value;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+  }
 }

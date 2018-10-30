@@ -1,20 +1,22 @@
-.beep-timer{
-  .header {
-    color: #999;
-  }
-  .btn-add {
-    width: 100%;
-    margin-top: 10px;
-  }
-  .business-card-remind-center {
-    text-align: center;
-    margin-top: 75px;
-    .business-card-remind-title {
+:global{
+  .beep-timer{
+    .header {
       color: #999;
-      margin-bottom: 10px;
-      .anticon {
-        font-size: 20px;
-        margin-right: 5px;
+    }
+    .btn-add {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .business-card-remind-center {
+      text-align: center;
+      margin-top: 75px;
+      .business-card-remind-title {
+        color: #999;
+        margin-bottom: 10px;
+        .anticon {
+          font-size: 20px;
+          margin-right: 5px;
+        }
       }
     }
   }

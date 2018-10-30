@@ -1,16 +1,18 @@
-.new-value{
-  .form-index-tips{
-    line-height: 16px;
-    margin-top: 4px;
-    font-size: 12px;
-    color: #bfbfbf;
-  }
-  .table-header {
-    .table-header-buttons {
-      .tip {
-        font-size: 13px;
-        margin-top: 5px;
-        color: #999;
+:global{
+  .new-value{
+    .form-index-tips{
+      line-height: 16px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #bfbfbf;
+    }
+    .table-header {
+      .table-header-buttons {
+        .tip {
+          font-size: 13px;
+          margin-top: 5px;
+          color: #999;
+        }
       }
     }
   }

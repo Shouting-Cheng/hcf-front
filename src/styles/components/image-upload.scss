@@ -1,9 +1,11 @@
-.image-upload{
-  .ant-upload-list-picture-card .ant-upload-list-item, .ant-upload.ant-upload-select-picture-card{
-    width: 90px;
-    height: 90px;
-  }
-  .image-container {
-    overflow: hidden;
+:global{
+  .image-upload{
+    .ant-upload-list-picture-card .ant-upload-list-item, .ant-upload.ant-upload-select-picture-card{
+      width: 90px;
+      height: 90px;
+    }
+    .image-container {
+      overflow: hidden;
+    }
   }
 }

@@ -1,24 +1,26 @@
-.auto-audit{
-  color: #666666;
-  font-size: 14px;
-  .auto-audit-title{
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .auto-audit-desc{
-    color: #989898;
-  }
-  .auto-audit-operate{
-    margin: 10px 0px;
-  }
-  .auto-audit-total{
-    font-size: 12px;
-    margin-bottom: 10px;
-    span{
-      color: #108EE9;
-      font-size: 14px;
-      margin: 0px 3px;
+:global{
+  .auto-audit{
+    color: #666666;
+    font-size: 14px;
+    .auto-audit-title{
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .auto-audit-desc{
+      color: #989898;
+    }
+    .auto-audit-operate{
+      margin: 10px 0px;
+    }
+    .auto-audit-total{
+      font-size: 12px;
+      margin-bottom: 10px;
+      span{
+        color: #108EE9;
+        font-size: 14px;
+        margin: 0px 3px;
+      }
     }
   }
 }

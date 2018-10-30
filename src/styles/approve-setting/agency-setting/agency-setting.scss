@@ -1,45 +1,48 @@
-.agency-setting {
-  .limits-setting {
-    margin-bottom: 20px;
-    overflow: hidden;
-    line-height: 25px;
-    .title {
-      float: left;
-      font-size: 18px;
-      color: #656565;
-      font-weight: bolder;
-    }
-    .setting {
-      float: left;
+:global{
+  .agency-setting {
+    .limits-setting {
+      margin-bottom: 20px;
+      overflow: hidden;
+      line-height: 25px;
+      .title {
+        float: left;
+        font-size: 18px;
+        color: #656565;
+        font-weight: bolder;
+      }
+      .setting {
+        float: left;
+        .show {
+          .ant-checkbox-wrapper + span, .ant-checkbox + span {
+            padding: 0;
+          }
+        }
+        .edit-btn {
+          .save-btn {
+            margin: 10px 10px 0 0;
+          }
+        }
+      }
       .show {
-        .ant-checkbox-wrapper + span, .ant-checkbox + span {
-          padding: 0;
+        float: left;
+        .edit {
+          margin-left: 10px;
         }
       }
-      .edit-btn {
-        .save-btn {
-          margin: 10px 10px 0 0;
-        }
+
+    }
+    .table-header {
+      margin-top: 0;
+      .search-input {
+        width: 200px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
       }
     }
-    .show {
-      float: left;
-      .edit {
-        margin-left: 10px;
-      }
-    }
-    
-  }
-  .table-header {
-    margin-top: 0;
-    .search-input {
-      width: 200px;
-      position: absolute;
-      bottom: 0;
-      right: 0;
+    .leave-name {
+      color: #108EE9;
     }
   }
-  .leave-name {
-    color: #108EE9;
-  }
+
 }

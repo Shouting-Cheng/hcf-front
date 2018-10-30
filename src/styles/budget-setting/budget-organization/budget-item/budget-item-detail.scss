@@ -1,13 +1,16 @@
-.budget-item-detail{
-  .common-top-area{
-    .common-top-area-title{
-      .title-edit{
-        text-align: left;
-        font-family:PingFangSC-Regular;
-        font-size:12px;
-        color:#049dbc;
-        margin-left: 15px;
+:global {
+  .budget-item-detail{
+    .common-top-area{
+      .common-top-area-title{
+        .title-edit{
+          text-align: left;
+          font-family:PingFangSC-Regular;
+          font-size:12px;
+          color:#049dbc;
+          margin-left: 15px;
+        }
       }
     }
   }
+
 }

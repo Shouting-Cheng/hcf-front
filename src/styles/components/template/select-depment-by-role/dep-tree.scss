@@ -1,21 +1,23 @@
-.org-structure-role-tree {
+:global{
+  .org-structure-role-tree {
 
-  height: 460px;
-  overflow-x: auto;
-  overflow-y: auto;
-  border: solid 1px #eee;
-  padding-top: 2px;
+    height: 460px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: solid 1px #eee;
+    padding-top: 2px;
 
-  .org-dep-node-set {
-    overflow: hidden;
-    display: block;
-    width: 30px;
-    float: right;
-    font-size: 20px;
-    text-align: center;
-  }
-  .org-dep-node {
-    overflow: hidden;
-    display: block;
+    .org-dep-node-set {
+      overflow: hidden;
+      display: block;
+      width: 30px;
+      float: right;
+      font-size: 20px;
+      text-align: center;
+    }
+    .org-dep-node {
+      overflow: hidden;
+      display: block;
+    }
   }
 }
