@@ -1557,7 +1557,7 @@ export const getRouterData = app => {
         import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
       ),
       name: 'approve-expense-report-detail',
-    }
+    },
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>
