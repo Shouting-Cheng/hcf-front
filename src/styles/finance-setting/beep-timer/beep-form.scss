@@ -1,25 +1,27 @@
-.beep-form{
-  border-radius:5px;
-  background-color:#F7F7F7;
-  padding:16px;
-  margin: 10px 0;
-  .common-form-style {
-    border-bottom: 1px solid #e8e8e8;
-    margin-bottom: 20px;
-  }
-  .form-width-35 {
-    width: 35%;
-  }
-  .traver-borrow-form {
-    .ant-checkbox-wrapper {
-      margin-left: 8px;
-      line-height: 25px;
+:global{
+  .beep-form{
+    border-radius:5px;
+    background-color:#F7F7F7;
+    padding:16px;
+    margin: 10px 0;
+    .common-form-style {
+      border-bottom: 1px solid #e8e8e8;
+      margin-bottom: 20px;
     }
-  }
-  .business-card-form {
-    .col-text {
-      line-height: 32px;
-      text-align: center;
+    .form-width-35 {
+      width: 35%;
+    }
+    .traver-borrow-form {
+      .ant-checkbox-wrapper {
+        margin-left: 8px;
+        line-height: 25px;
+      }
+    }
+    .business-card-form {
+      .col-text {
+        line-height: 32px;
+        text-align: center;
+      }
     }
   }
 }

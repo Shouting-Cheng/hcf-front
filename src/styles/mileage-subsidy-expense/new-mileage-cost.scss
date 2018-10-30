@@ -1,25 +1,27 @@
-.new-mileage-cost{
-  .bottom-bar{
-    width: 95%;
-    height: 50px;
-    line-height: 50px;
-    position: fixed;
-    bottom: 0;
-    z-index: 5;
-    margin-left: -35px;
-    background: #fff;
-    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
-    text-align: center;
-    //padding-left: 20px;
-    .ant-btn {
-      margin-right: 20px;
+:global{
+  .new-mileage-cost{
+    .bottom-bar{
+      width: 95%;
+      height: 50px;
+      line-height: 50px;
+      position: fixed;
+      bottom: 0;
+      z-index: 5;
+      margin-left: -35px;
+      background: #fff;
+      box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
+      text-align: center;
+      //padding-left: 20px;
+      .ant-btn {
+        margin-right: 20px;
+      }
     }
-  }
-  .valuation-detail{
-    color:#1890ff;
-  }
-  .bottom-line{
-    padding-bottom: 5px;
-    border-bottom: 1px solid #EEE;
+    .valuation-detail{
+      color:#1890ff;
+    }
+    .bottom-line{
+      padding-bottom: 5px;
+      border-bottom: 1px solid #EEE;
+    }
   }
 }

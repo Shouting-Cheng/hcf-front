@@ -1,28 +1,30 @@
-.new-budget-control-rules-detail{
-  .form-item-1{
-    margin-left: 63px;
-  }
-  .enabled-type{
-    margin-left: -260px;
-    margin-top: 8px;
-    display:block;
-  }
-  .form-item-callbackDatatype{
-    margin-top: 2px;
-    border: 1px solid #0092DA;
-    border-radius: 4px;
-    width: 68px;
-    color: #0092DA;
-    height: 28px;
-    .callbackDatatype-context{
-      text-align: center;
-      vertical-align: middle;
-      margin-top: -2px;
+:global{
+  .new-budget-control-rules-detail{
+    .form-item-1{
+      margin-left: 63px;
     }
-  }
+    .enabled-type{
+      margin-left: -260px;
+      margin-top: 8px;
+      display:block;
+    }
+    .form-item-callbackDatatype{
+      margin-top: 2px;
+      border: 1px solid #0092DA;
+      border-radius: 4px;
+      width: 68px;
+      color: #0092DA;
+      height: 28px;
+      .callbackDatatype-context{
+        text-align: center;
+        vertical-align: middle;
+        margin-top: -2px;
+      }
+    }
 
-  .call-back-setting-btn{
-    margin-left:-110px;
-    margin-top: 4px;
+    .call-back-setting-btn{
+      margin-left:-110px;
+      margin-top: 4px;
+    }
   }
 }

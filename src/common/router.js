@@ -42,8 +42,7 @@ const dynamicWrapper = (app, models, component) => {
   return dynamic({
     app,
     models: () =>
-      models.filter(model => modelNotExisted(app, model)).map(m =>
-        import(`../models/${m}.js`)),
+      models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)),
     // add routerData prop
     component: () => {
       if (!routerDataCache) {
@@ -81,62 +80,50 @@ function getFlatMenuData(menus) {
 export const getRouterData = app => {
   const routerConfig = {
     '/': {
-      component: dynamicWrapper(app, ['user', 'login'], () =>
-        import('../layouts/BasicLayout')),
+      component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/dashboard': {
-      component: dynamicWrapper(app, [], () =>
-        import('../containers/dashboard')),
+      component: dynamicWrapper(app, [], () => import('../containers/dashboard')),
       name: '仪表盘',
     },
     '/setting/menu': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Menu/index')),
+      component: dynamicWrapper(app, [], () => import('../routes/Menu/index')),
     },
     '/setting/role': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Role/index')),
+      component: dynamicWrapper(app, [], () => import('../routes/Role/index')),
     },
     '/setting/employee': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Employee/index')),
+      component: dynamicWrapper(app, [], () => import('../routes/Employee/index')),
     },
     '/setting/language/language-modules/:langType': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Language/module-list')),
+      component: dynamicWrapper(app, [], () => import('../routes/Language/module-list')),
       name: '模块列表',
       parent: '/setting/language',
     },
     '/setting/language/language-setting/:moduleId': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Language/setting')),
+      component: dynamicWrapper(app, [], () => import('../routes/Language/setting')),
       name: '语言列表',
       parent: '/setting/language/language-modules/:langType',
     },
     '/setting/language/other-language-setting/:langType/:moduleId': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Language/other-language-setting')),
+      component: dynamicWrapper(app, [], () => import('../routes/Language/other-language-setting')),
       name: '语言列表',
       parent: '/setting/language/language-modules/:langType',
     },
     '/setting/language': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Language/index')),
+      component: dynamicWrapper(app, [], () => import('../routes/Language/index')),
     },
     // "/view/:id": {
     //   component: dynamicWrapper(app, [], () => import('../routes/View/index')),
     // },
     '/setting/component-manager': {
-      component: dynamicWrapper(app, ['chart'], () =>
-        import('../routes/component-manager/index')),
+      component: dynamicWrapper(app, ['chart'], () => import('../routes/component-manager/index')),
     },
     '/setting/interface': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Interface/index')),
+      component: dynamicWrapper(app, [], () => import('../routes/Interface/index')),
     },
     '/setting/modules': {
-      component: dynamicWrapper(app, ['chart'], () =>
-        import('../routes/Modules/index')),
+      component: dynamicWrapper(app, ['chart'], () => import('../routes/Modules/index')),
     },
     '/setting/priview': {
       component: dynamicWrapper(app, ['chart'], () =>
@@ -145,24 +132,19 @@ export const getRouterData = app => {
       name: '预览',
     },
     '/result/success': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Result/Success')),
+      component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
     },
     '/result/fail': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Result/Error')),
+      component: dynamicWrapper(app, [], () => import('../routes/Result/Error')),
     },
     '/exception/403': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Exception/403')),
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
     },
     '/exception/404': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Exception/404')),
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/404')),
     },
     '/exception/500': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/Exception/500')),
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
     },
     '/exception/trigger': {
       component: dynamicWrapper(app, ['error'], () =>
@@ -170,20 +152,16 @@ export const getRouterData = app => {
       ),
     },
     '/user': {
-      component: dynamicWrapper(app, [], () =>
-        import('../layouts/UserLayout')),
+      component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
     },
     '/user/login': {
-      component: dynamicWrapper(app, ['login'], () =>
-        import('../routes/User/Login')),
+      component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
     },
     '/user/register': {
-      component: dynamicWrapper(app, ['register'], () =>
-        import('../routes/User/Register')),
+      component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
     },
     '/user/register-result': {
-      component: dynamicWrapper(app, [], () =>
-        import('../routes/User/RegisterResult')),
+      component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
     },
     //我的预付款
     '/pre-payment/my-pre-payment': {
@@ -416,47 +394,40 @@ export const getRouterData = app => {
     },
     '/request': {
       //申请单
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/request.js')),
+      component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
     '/request/jd-request-edit/:formOID/:applicationOID': {
       //京东申请单编辑页
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/jd-request-edit')),
+      component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
       name: 'jd-request-edit',
     },
     '/request/new-request/:formOID/:applicantOID': {
       //新建申请单
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/new-edit-request')),
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'new-request',
       parent: '/request',
     },
     '/request/request-edit/:formOID/:applicationOID': {
       //编辑申请单
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/new-edit-request')),
+      component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'request-edit',
       parent: '/request',
     },
     '/request/request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/base-request-detail')),
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
       parent: '/request',
     },
     '/approval-management/approve-request': {
       //申请单审批
-      component: dynamicWrapper(app, [], () =>
-        import('containers/approve/request/request')),
+      component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
     '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
       //申请单审批详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/base-request-detail')),
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-approve',
       parent: '/approval-management/approve-request',
     },
@@ -488,18 +459,15 @@ export const getRouterData = app => {
       parent: '/payment-requisition/my-payment-requisition',
     },
     '/job/job-actuator': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/job/job-actuator.js')),
+      component: dynamicWrapper(app, [], () => import('containers/job/job-actuator.js')),
       name: 'job-actuator', // 执行器
     },
     '/job/job-info': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/job/job-info.js')),
+      component: dynamicWrapper(app, [], () => import('containers/job/job-info.js')),
       name: 'job-info', // 任务详情
     },
     '/job/job-log': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/job/job-log.js')),
+      component: dynamicWrapper(app, [], () => import('containers/job/job-log.js')),
       name: 'job-log', // 任务日志
     },
 
@@ -663,8 +631,7 @@ export const getRouterData = app => {
     },
     //表单管理
     '/admin-setting/form-list': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/form/form-list.js')),
+      component: dynamicWrapper(app, [], () => import('containers/setting/form/form-list.js')),
       name: 'form-list',
     },
     //值列表
@@ -1041,6 +1008,50 @@ export const getRouterData = app => {
       name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization',
     },
+    '/budget-setting/budget-balance-solution/:setOfBooksId': {
+      //预算余额方案
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-balance-solution/budget-balance-solution')
+      ),
+      name: 'budget-balance-solution',
+    },
+    '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id': {
+      //新建预算余额方案
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
+      ),
+      name: 'budget-balance-solution-newOrEdit',
+    },
+    '/budget/budget-balance': {
+      //预算余额
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance/budget-balance')
+      ),
+      name: 'budget-balance',
+    },
+    '/budget/budget-balance/budget-balance-result/:id': {
+      //预算余额查询结果
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance/budget-balance-result')
+      ),
+      name: 'budget-balance',
+      parent: '/budget/budget-balance'
+    },
+    '/budget/budget-balance-query': {
+      //预算余额方案查询
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance-query/budget-balance-query')
+      ),
+      name: 'budget-balance',
+    },
+    '/budget/budget-balance-query/budget-balance-query-result/:id': {
+      //预算余额查询方案结果
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance-query/budget-balance-query')
+      ),
+      name: 'budget-balance',
+      parent: '/budget/budget-balance-query'
+    },
 
     //预算日记本
     '/budget/budget-journal': {
@@ -1220,7 +1231,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
       name: 'legal-person',
-      parent: '/enterprise-manage'
+      parent: '/enterprise-manage',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1228,7 +1239,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person-detail.js')
       ),
       name: 'legal-person-detail',
-      parent: '/enterprise-manage/legal-person'
+      parent: '/enterprise-manage/legal-person',
     },
     //编辑实体法人
     '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID': {
@@ -1236,7 +1247,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/new-legal-person.js')
       ),
       name: 'new-legal-person',
-      parent: '/enterprise-manage/legal-person'
+      parent: '/enterprise-manage/legal-person',
     },
     //预算审核
     '/approval-management/budget-journal-check': {
@@ -1373,7 +1384,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/security-setting/security-setting.js')
       ),
-      name: 'security-setting'
+      name: 'security-setting',
     },
 
     '/admin-setting/cost-center': {
@@ -1455,43 +1466,98 @@ export const getRouterData = app => {
       name: 'person-detail',
       parent: '/setting/employee',
     },
+    '/financial-management/expense-reverse': {
+      //财务管理-费用反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/expense-reverse.js')
+      ),
+      name: 'expense-reverse',
+      parent: "/financial-management",
+    },
+    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
+      //新建反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/new-reverse.js')
+      ),
+      name: '新建反冲',
+      parent: "/financial-management/expense-reverse",
+    },
+    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
+      //费用反冲详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
+      ),
+      name: '费用反冲详情',
+      parent: "/financial-management/expense-reverse",
+    },
+
+    '/admin-setting/workflow': {
+      //审批流
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/workflow/workflow')
+      ),
+      name: 'workflow'
+    },
+
+    '/financial-management/check-cost-application': {
+      //费用申请查看
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/check-cost-application/check-cost-application')
+      ),
+      name: 'check-cost-application'
+    },
+    //财务查询-预付款单财务查询
+    '/financial-view/pre-payment-view': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-view/pre-payment-view/pre-payment-view.js')
+      ),
+      name: 'pre-payment-view',
+      // parent: '/financial-view',
+    },
+    //财务查询-预付款详情
+    '/pre-payment/my-pre-payment/pre-payment-detail/:id/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/pre-payment-detail.js')
+      ),
+      name: 'pre-payment-detail',
+      parent: '/financial-view/pre-payment-view',
+    },
     //报销单
     '/expense-report': {
-        component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
-        name: 'expense-report',
-      },
-      //新建报销单
-      '/expense-report/new-expense-report/:formId/:userOID': {
-        component: dynamicWrapper(app, [], () =>
-          import('containers/expense-report/new-expense-report.js')
-        ),
-        name: 'new-expense-report',
-        parent: '/expense-report',
-      },
-      //报销单详情
-      '/expense-report/expense-report-detail/:expenseReportOID/:pageFrom': {
-        component: dynamicWrapper(app, [], () =>
-          import('containers/expense-report/base-expense-report-detail.js')
-        ),
-        name: 'base-expense-report-detail',
-        parent: '/expense-report',
-      },
-      //报销单审批
-      '/approval-management/approve-expense-report': {
-        //费用调整单审批
-        component: dynamicWrapper(app, [], () =>
-          import('containers/expense-report/expense-report-approve/approve-expense-report')
-        ),
-        name: 'approve-expense-report',
-      },
-      //报销单审批详情
-      '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID':{
-        component: dynamicWrapper(app, [], () =>
+      component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
+      name: 'expense-report',
+    },
+    //新建报销单
+    '/expense-report/new-expense-report/:formId/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/new-expense-report.js')
+      ),
+      name: 'new-expense-report',
+      parent: '/expense-report',
+    },
+    //报销单详情
+    '/expense-report/expense-report-detail/:expenseReportOID/:pageFrom': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/base-expense-report-detail.js')
+      ),
+      name: 'base-expense-report-detail',
+      parent: '/expense-report',
+    },
+    //报销单审批
+    '/approval-management/approve-expense-report': {
+      //费用调整单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/expense-report-approve/approve-expense-report')
+      ),
+      name: 'approve-expense-report',
+    },
+    //报销单审批详情
+    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID': {
+      component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
       ),
       name: 'approve-expense-report-detail',
-      }
-
+    }
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

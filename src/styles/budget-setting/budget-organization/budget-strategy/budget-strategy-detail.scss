@@ -1,13 +1,16 @@
-.budget-strategy-detail {
-  .table-header-title h5 {
-    display: inline-block;
-    color: #666;
-    margin-right: 15px;
+:global {
+  .budget-strategy-detail {
+    .table-header-title h5 {
+      display: inline-block;
+      color: #666;
+      margin-right: 15px;
+    }
+    .input-search {
+      width: 300px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
   }
-  .input-search {
-    width: 300px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
+
 }

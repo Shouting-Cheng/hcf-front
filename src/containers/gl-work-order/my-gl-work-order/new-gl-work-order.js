@@ -76,7 +76,7 @@ class NewGLWorkOrder extends Component {
                 {
                   departmentOid: orderData.unitOid,
                   departmentId: orderData.unitId,
-                  name: orderData.unitName,
+                  path: orderData.unitName,
                 },
               ],
             });
@@ -101,7 +101,7 @@ class NewGLWorkOrder extends Component {
               {
                 departmentOid: this.props.user.departmentOID,
                 departmentId: departmentId,
-                name: this.props.user.departmentName,
+                path: this.props.user.departmentName,
               },
             ],
           });
@@ -294,14 +294,14 @@ class NewGLWorkOrder extends Component {
                         {
                           departmentOid: orderData.unitOid,
                           departmentId: orderData.unitId,
-                          name: orderData.unitName,
+                          path: orderData.unitName,
                         },
                       ]
                     : [],
                 })(
                   <Chooser
-                    type="department"
-                    labelKey="name"
+                    type="department_document"
+                    labelKey="path"
                     valueKey="departmentOid"
                     single={true}
                     listExtraParams={{ tenantId: this.props.user.tenantId }}

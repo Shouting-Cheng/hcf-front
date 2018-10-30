@@ -147,7 +147,7 @@ class ApproveBar extends React.Component {
       param = { id: item.id };
     }
     httpFetch
-      .delete(`${config.baseUrl}${url}`, param)
+      .delete(`${config.baseUrl}${url}?quickReplyOIDs=${item.quickReplyOID}`)
       .then(res => {
         let isSuccess = this.props.audit ? res.data.rows : true;
         if (res.status === 200 && isSuccess) {

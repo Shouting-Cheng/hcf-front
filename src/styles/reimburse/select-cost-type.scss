@@ -1,12 +1,14 @@
-.select-cost-type {
+:global{
+  .select-cost-type {
     .ant-modal-body {
-        max-height: 480px;
-        overflow: scroll;
+      max-height: 480px;
+      overflow: scroll;
     }
     .selectedColor {
-        background-color: rgba(16, 141, 233, 0.0666666666666667);
+      background-color: rgba(16, 141, 233, 0.0666666666666667);
     }
     .disSelectedColor {
-        background-color:#fff;
+      background-color:#fff;
     }
+  }
 }

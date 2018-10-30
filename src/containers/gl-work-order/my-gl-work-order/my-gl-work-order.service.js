@@ -18,7 +18,7 @@ export default {
     return httpFetch.get(
       `${
         config.accountingUrl
-      }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${userId}&isEnabled=true`
+      }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${userId}&enabled=true`
     );
   },
   /**
