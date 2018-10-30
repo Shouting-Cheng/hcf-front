@@ -1,86 +1,88 @@
-.call-back-setting{
-  .a{
-    display:inline;
-    background: #05afd1;
-  }
-  .b{
-    display:inline;
-    background: #FF0000;
-  }
-  .call-back-setting-head{
-    .head-context{
-      height: 75px;
-      width: 100%;
-      position: relative;
-      display: inline-block;
-      .head-form-title{
-        font-size: 18px;
-        font-weight: bold;
-      }
-      .head-form-tips{
-        font-size: 12px;
-        border-radius: 2px;
-        background: #ffaa00;
-        margin-left: 15px;
-        padding-left: 8px;
-        padding-right: 8px;
-        color: white;
-      }
-      .head-status{
-        position: absolute;
-        top: 0;
-        right: 0;
-        .status-options{
-          background: #FF0000;
+:global{
+  .call-back-setting{
+    .a{
+      display:inline;
+      background: #05afd1;
+    }
+    .b{
+      display:inline;
+      background: #FF0000;
+    }
+    .call-back-setting-head{
+      .head-context{
+        height: 75px;
+        width: 100%;
+        position: relative;
+        display: inline-block;
+        .head-form-title{
+          font-size: 18px;
+          font-weight: bold;
         }
-        .status-options-icon{
-          border: 1px solid #108ee9;
-          height: 2px;
-          width: 20px;
-          display: block;
+        .head-form-tips{
+          font-size: 12px;
+          border-radius: 2px;
+          background: #ffaa00;
+          margin-left: 15px;
+          padding-left: 8px;
+          padding-right: 8px;
+          color: white;
+        }
+        .head-status{
+          position: absolute;
+          top: 0;
+          right: 0;
+          .status-options{
+            background: #FF0000;
+          }
+          .status-options-icon{
+            border: 1px solid #108ee9;
+            height: 2px;
+            width: 20px;
+            display: block;
+          }
+        }
+        .head-form{
+          padding-top: 50px;
+          .formItem-title{
+            margin-top: -40px;
+          }
+          .formItem-update{
+            margin-top: -25px;
+          }
         }
       }
-      .head-form{
-        padding-top: 50px;
-        .formItem-title{
-          margin-top: -40px;
+    }
+    .call-back-setting-tabs{
+      margin-top: 20px;
+    }
+    .call-back-setting-table-header{
+      .table-header-api{
+        .table-header-api-tips{
+          font-size: 16px;
+          font-weight: bold;
         }
-        .formItem-update{
-          margin-top: -25px;
+        .table-header-api-title{
+          margin-top: 15px;
+          margin-bottom: 12px;
+        }
+      }
+      .table-header-apiSetting{
+        .table-header-apiSetting-tips{
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .table-header-apiSetting-title{
+          margin-top: 12px;
+        }
+        .table-header-button{
+          margin-top: 8px;
+          margin-bottom: 10px;
         }
       }
     }
   }
-  .call-back-setting-tabs{
-    margin-top: 20px;
+  .call-back-setting-status{
+    color: #05afd1;
   }
-  .call-back-setting-table-header{
-    .table-header-api{
-      .table-header-api-tips{
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .table-header-api-title{
-        margin-top: 15px;
-        margin-bottom: 12px;
-      }
-    }
-    .table-header-apiSetting{
-      .table-header-apiSetting-tips{
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .table-header-apiSetting-title{
-        margin-top: 12px;
-      }
-      .table-header-button{
-        margin-top: 8px;
-        margin-bottom: 10px;
-      }
-    }
-  }
-}
-.call-back-setting-status{
-  color: #05afd1;
 }
 

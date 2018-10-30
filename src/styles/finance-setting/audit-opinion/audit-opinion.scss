@@ -1,25 +1,27 @@
-.audit-opinion{
-  .audit-opinion-title{
-    font-size: 14px;
-    color: #666666;
-    .ant-select-selection{
-      width: auto;
-      border: 0px;
-      box-shadow: none;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      .ant-select-selection-selected-value{
-        color: #108EE9;
-      }
-      .ant-select-arrow{
-        color: #108EE9;
+:global{
+  .audit-opinion{
+    .audit-opinion-title{
+      font-size: 14px;
+      color: #666666;
+      .ant-select-selection{
+        width: auto;
+        border: 0px;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        .ant-select-selection-selected-value{
+          color: #108EE9;
+        }
+        .ant-select-arrow{
+          color: #108EE9;
+        }
       }
     }
-  }
-  .audit-opinion-operate{
-    margin-top: 20px;
-    height: 40px;
-    overflow: hidden;
-    margin-bottom: 10px;
+    .audit-opinion-operate{
+      margin-top: 20px;
+      height: 40px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
   }
 }

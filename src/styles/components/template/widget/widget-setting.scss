@@ -1,88 +1,90 @@
-.widget-setting{
-  font-size: 12px;
-  font-weight: 400;
-  color: #666666;
-  .form-title{
-    min-height: 30px;
-    line-height: 30px;
-    .ant-switch{
-      vertical-align: unset;
-    }
-    .form-title-description{
-      margin-top: 5px;
-      font-size: 10px;
-      color: #959595;
-      white-space: pre-wrap;
-      line-height: 15px;
-      word-wrap: break-word;
-    }
-  }
-  .ant-select{
-    width: 100%;
-  }
-  .check-box-area{
-    margin-top: 10px;
-    line-height: 30px;
-    .ant-checkbox-wrapper{
-      display: block;
-      margin-left: 0;
-    }
-    .default-span{
-      font-size: 12px;
-      margin-left: 10px;
-      color: #9BA2BB;
-    }
-  }
-  .widget-custom-area{
-    margin-top: 10px;
-  }
-  .radio-area{
-    height: 30px;
-    line-height: 30px;
-  }
-  .checkbox-radio-area{
-    line-height: 30px;
-    .ant-checkbox-wrapper{
-      display: block;
-    }
-    .ant-radio-wrapper{
-      display: block;
-      margin-left: 10px;
-      height: 25px;
-    }
-  }
-  .linkage-switch-area{
-    .linkage-switch-item{
-      position: relative;
-      padding-bottom: 15px;
-      border-top: 1px dashed #666666;
-      .delete-item{
-        position: absolute;
-        top: 21px;
-        right: 0;
-        font-size: 20px;
-        cursor: pointer;
-        color: red;
+:global{
+  .widget-setting{
+    font-size: 12px;
+    font-weight: 400;
+    color: #666666;
+    .form-title{
+      min-height: 30px;
+      line-height: 30px;
+      .ant-switch{
+        vertical-align: unset;
+      }
+      .form-title-description{
+        margin-top: 5px;
+        font-size: 10px;
+        color: #959595;
+        white-space: pre-wrap;
+        line-height: 15px;
+        word-wrap: break-word;
       }
     }
-    .new-linkage-switch-area{
-      height: 60px;
-      line-height: 60px;
-      text-align: center;
-      box-sizing: content-box;
-      border: 1px dashed #959595;
-      color: #959595;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-      -webkit-transition: all .5s;
-      -moz-transition: all .5s;
-      -ms-transition: all .5s;
-      -o-transition: all .5s;
-      transition: all .5s;
+    .ant-select{
+      width: 100%;
     }
-    .new-linkage-switch-area:hover{
-      font-size: 16px;
+    .check-box-area{
+      margin-top: 10px;
+      line-height: 30px;
+      .ant-checkbox-wrapper{
+        display: block;
+        margin-left: 0;
+      }
+      .default-span{
+        font-size: 12px;
+        margin-left: 10px;
+        color: #9BA2BB;
+      }
+    }
+    .widget-custom-area{
+      margin-top: 10px;
+    }
+    .radio-area{
+      height: 30px;
+      line-height: 30px;
+    }
+    .checkbox-radio-area{
+      line-height: 30px;
+      .ant-checkbox-wrapper{
+        display: block;
+      }
+      .ant-radio-wrapper{
+        display: block;
+        margin-left: 10px;
+        height: 25px;
+      }
+    }
+    .linkage-switch-area{
+      .linkage-switch-item{
+        position: relative;
+        padding-bottom: 15px;
+        border-top: 1px dashed #666666;
+        .delete-item{
+          position: absolute;
+          top: 21px;
+          right: 0;
+          font-size: 20px;
+          cursor: pointer;
+          color: red;
+        }
+      }
+      .new-linkage-switch-area{
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        box-sizing: content-box;
+        border: 1px dashed #959595;
+        color: #959595;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 10px;
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        -ms-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+      }
+      .new-linkage-switch-area:hover{
+        font-size: 16px;
+      }
     }
   }
 }

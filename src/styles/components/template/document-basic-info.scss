@@ -1,97 +1,99 @@
-.document-basic-info{
-  background: #FFFFFF;
-  .info-header{
-    display: inline-block;
-    margin-left: 14px;
-    margin-top: 14px;
-    width: 80vw;
-    height: 42px;
-    margin-bottom: -23px;
-    border-bottom: 1px solid #ececec;
-    word-break:keep-all; /* 不换行 */
-    white-space:nowrap; /* 不换行 */
-    overflow:hidden; /* 内容超出宽度时隐藏超出部分的内容 */
-    text-overflow:ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
-    .header-title{
+:global{
+  .document-basic-info{
+    background: #FFFFFF;
+    .info-header{
       display: inline-block;
-      width: 220px;
-      font-size: 24px;
-      color: #000;
-      font-weight: 500
-    }
-    .header-item{
-      display: inline-block;
-      width: 220px;
-      height: 46px;
-      line-height: 40px;
-      .header-item-label{
-        display: inline-block;
-        text-align: right;
-        width: 58px
-      }
-      .header-item-value{
-        word-break:keep-all; /* 不换行 */
-        white-space:nowrap; /* 不换行 */
-        overflow:hidden; /* 内容超出宽度时隐藏超出部分的内容 */
-        text-overflow:ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
-        display: inline-table;
-      }
-    }
-
-  }
-  .document-info-children{
-    position: relative;
-    top: -80px;
-  }
-  .info-content{
-    margin-left: 15px;
-    margin-top: -5px;
-    .content-left{
-      width: 65vw;
-      display: inline-block;
-      .content-item{
+      margin-left: 14px;
+      margin-top: 14px;
+      width: 80vw;
+      height: 42px;
+      margin-bottom: -23px;
+      border-bottom: 1px solid #ececec;
+      word-break:keep-all; /* 不换行 */
+      white-space:nowrap; /* 不换行 */
+      overflow:hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+      text-overflow:ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+      .header-title{
         display: inline-block;
         width: 220px;
-        margin-bottom: 10px;
-        .content-item-label{
+        font-size: 24px;
+        color: #000;
+        font-weight: 500
+      }
+      .header-item{
+        display: inline-block;
+        width: 220px;
+        height: 46px;
+        line-height: 40px;
+        .header-item-label{
           display: inline-block;
           text-align: right;
           width: 58px
         }
-        .content-item-value{
-          display: inline-block;
-          text-align: left;
+        .header-item-value{
+          word-break:keep-all; /* 不换行 */
+          white-space:nowrap; /* 不换行 */
+          overflow:hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+          text-overflow:ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+          display: inline-table;
         }
       }
-      .content-item-inline{
-        .item-value{
-          margin-left: 5px;
-        }
-      }
-    }
-    .content-right{
-      display: inline-block;
-      float: right;
-      margin-right: 48px;
-      .right-status{
-        display: inline-grid;
-        position: absolute;
-        right: 150px;
-        .status-label{
-         margin-left: 14px;
-        }
-      }
-      .right-amount{
-        display: inline-grid;
-        float: right;
-        .amount-label{
-          margin-left: 30px;
-        }
-        .amount-value{
-          color: green;
-        }
-      }
-    }
-  }
 
+    }
+    .document-info-children{
+      position: relative;
+      top: -80px;
+    }
+    .info-content{
+      margin-left: 15px;
+      margin-top: -5px;
+      .content-left{
+        width: 65vw;
+        display: inline-block;
+        .content-item{
+          display: inline-block;
+          width: 220px;
+          margin-bottom: 10px;
+          .content-item-label{
+            display: inline-block;
+            text-align: right;
+            width: 58px
+          }
+          .content-item-value{
+            display: inline-block;
+            text-align: left;
+          }
+        }
+        .content-item-inline{
+          .item-value{
+            margin-left: 5px;
+          }
+        }
+      }
+      .content-right{
+        display: inline-block;
+        float: right;
+        margin-right: 48px;
+        .right-status{
+          display: inline-grid;
+          position: absolute;
+          right: 150px;
+          .status-label{
+            margin-left: 14px;
+          }
+        }
+        .right-amount{
+          display: inline-grid;
+          float: right;
+          .amount-label{
+            margin-left: 30px;
+          }
+          .amount-value{
+            color: green;
+          }
+        }
+      }
+    }
+
+  }
 }

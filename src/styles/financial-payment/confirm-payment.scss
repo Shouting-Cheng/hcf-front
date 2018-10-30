@@ -1,31 +1,33 @@
-.confirm-payment{
-  .table-header{
-    width: 100%;
-    position: relative;
-    margin-top: 16px;
-    .table-header-title{
+:global{
+  .confirm-payment{
+    .table-header{
       width: 100%;
-      font-size: 12px;
-      padding: 8px 0;
-      span{
-        color: #ccc;
-      }
-      button span{
-        color: inherit;
-      }
-      .show-money{
-        color:rgba(0,0,0,0.65);
-        font-size: 14px;
-        .money-style{
-          color: rgba(16, 142, 233, 1);
+      position: relative;
+      margin-top: 16px;
+      .table-header-title{
+        width: 100%;
+        font-size: 12px;
+        padding: 8px 0;
+        span{
+          color: #ccc;
+        }
+        button span{
+          color: inherit;
+        }
+        .show-money{
+          color:rgba(0,0,0,0.65);
           font-size: 14px;
+          .money-style{
+            color: rgba(16, 142, 233, 1);
+            font-size: 14px;
+          }
         }
       }
     }
-  }
-  .finance-payment-reject{
-    .ant-table-row-expand-icon {
-      display: none;
+    .finance-payment-reject{
+      .ant-table-row-expand-icon {
+        display: none;
+      }
     }
   }
 }
