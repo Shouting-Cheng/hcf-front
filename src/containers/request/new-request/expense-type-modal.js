@@ -190,10 +190,14 @@ class ExpenseTypeModal extends React.Component {
   //获取币种
   getCurrencyOptions = () => {
     this.setState({ currencyFetching: true });
+    console.log(this.state.currencyOptions.length);
+    console.log(this.state.applicationOID);
+    console.log(this.props.user.userOID);
     (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
       this.service
         .getCurrencyList(this.props.formDetail.applicantOID || this.props.user.userOID)
         .then(res => {
+          console.log(res)
           let currencyOptions = [];
           //过滤掉禁用的企业币种
           res.data.map(item => {
@@ -562,6 +566,7 @@ class ExpenseTypeModal extends React.Component {
                                   true
                                 )}
                                 style={{ width: '100%' }}
+                                onFocus={()=>{console.log(123)}}
                                 onChange={this.handleRateChange}
                               />
                             </Col>
