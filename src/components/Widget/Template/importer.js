@@ -4,7 +4,7 @@ import config from 'config';
 import { Modal, Button, Tabs, Upload, Icon, message, Table } from 'antd';
 const TabPane = Tabs.TabPane;
 import httpFetch from 'share/httpFetch';
-//import FileSaver from 'file-saver';
+import FileSaver from 'file-saver';
 import PropTypes from 'prop-types';
 
 //数据导入组件
@@ -45,8 +45,9 @@ class Importer extends React.Component {
         return;
       }
       const formData = new FormData();
+      // console.log(fileList);
       fileList.forEach(file => {
-        formData.append('file', file);
+        formData.append('file', file.originFileObj);
       });
       this.setState({
         uploading: true,
@@ -75,9 +76,9 @@ class Importer extends React.Component {
             });
             this.props.onOk(
               res.data.transactionID ||
-                res.data.transactionOID ||
-                res.data.transactionUUID ||
-                res.data
+              res.data.transactionOID ||
+              res.data.transactionUUID ||
+              res.data
             );
             message.success(this.$t('importer.import.success', { total: 1 }) /*导入成功*/);
           } else {
@@ -319,8 +320,8 @@ class Importer extends React.Component {
                   （{this.$t('importer.again.import') /*请修改相应数据后，重新导入*/}）
                 </span>
               ) : (
-                ''
-              )}
+                  ''
+                )}
             </div>
             {result.failureEntities > 10 ? (
               <div style={{ marginTop: 10 }}>
@@ -328,8 +329,8 @@ class Importer extends React.Component {
                 {this.$t('importer.fail.over.ten') /*导入失败超过10条，请下载错误信息查看详情*/}
               </div>
             ) : (
-              ''
-            )}
+                ''
+              )}
             {result.failureEntities ? (
               <div>
                 <a
@@ -349,8 +350,8 @@ class Importer extends React.Component {
                 />
               </div>
             ) : (
-              ''
-            )}
+                ''
+              )}
           </TabPane>
         </Tabs>
       </Modal>
@@ -380,8 +381,8 @@ Importer.defaultProps = {
   listenUrl: `${config.budgetUrl}/api/budget/batch/transaction/logs`,
   createTableShow: true, //创建表格示例是否显示
   listentSwitch: false, //上传文件后直接回调
-  onOk: () => {},
-  afterClose: () => {},
+  onOk: () => { },
+  afterClose: () => { },
 };
 
 function mapStateToProps() {
