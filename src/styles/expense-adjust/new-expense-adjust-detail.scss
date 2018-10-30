@@ -1,83 +1,85 @@
-.new-expense-adjust-detail{
-  .bottom-bar-jsq {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    position: fixed;
-    bottom: 0;
-    z-index: 5;
-    margin-left: -35px;
-    background: #fff;
-    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
-    &.bottom-bar-approve {
-      height: 80px;
-      line-height: 80px;
-      .approve-form {
-        position: relative;
-        top: 24px;
-      }
-      .approve-btn {
+:global{
+  .new-expense-adjust-detail{
+    .bottom-bar-jsq {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      position: fixed;
+      bottom: 0;
+      z-index: 5;
+      margin-left: -35px;
+      background: #fff;
+      box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
+      &.bottom-bar-approve {
+        height: 80px;
         line-height: 80px;
-        .pass-btn {
-          margin: 0 10px;
+        .approve-form {
+          position: relative;
+          top: 24px;
         }
-        .reject-btn {
-          color: #fff;
-          background: #f04134;
-          border-color: #f04134;
+        .approve-btn {
+          line-height: 80px;
+          .pass-btn {
+            margin: 0 10px;
+          }
+          .reject-btn {
+            color: #fff;
+            background: #f04134;
+            border-color: #f04134;
+          }
+        }
+      }
+      .back-btn {
+        margin-left: 10px;
+      }
+    }
+
+    .new-adjust-description-1{
+      margin-left: -5;
+      width: 101.5%;
+    }
+
+    .expenseType{
+      .expenseType-label{
+        .ant-form-item-control{
+          height: 39px;
+          line-height: 39.9999px;
+          position: relative;
+          zoom: 1;
         }
       }
     }
-    .back-btn {
-      margin-left: 10px;
+
+    .apportion-1-label{
+      margin-left: -5px;
+
     }
-  }
+    .apportion-2-label{
+    }
+    .new-adjust-description-2-label{
 
-  .new-adjust-description-1{
-    margin-left: -5;
-    width: 101.5%;
-  }
+      /* margin-left: 56px;
+       #desc{
+         width: 295px;
+       }*/
+    }
 
-  .expenseType{
-    .expenseType-label{
-      .ant-form-item-control{
-        height: 39px;
-        line-height: 39.9999px;
-        position: relative;
-        zoom: 1;
+    .new-adjust-table-header{
+      margin-left: 15px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      .adjust-detail-title{
+        font-size: 19px;
+        color: black;
       }
-    }
-  }
+      .adjust-detail{
+        margin-left: 21px;
+        margin-right: 25px;
+      }
 
-  .apportion-1-label{
-    margin-left: -5px;
-
-  }
-  .apportion-2-label{
-  }
-  .new-adjust-description-2-label{
-
-   /* margin-left: 56px;
-    #desc{
-      width: 295px;
-    }*/
-  }
-
-  .new-adjust-table-header{
-    margin-left: 15px;
-    margin-bottom: 10px;
-    margin-top: 5px;
-    .adjust-detail-title{
-      font-size: 19px;
-      color: black;
-    }
-    .adjust-detail{
-      margin-left: 21px;
-      margin-right: 25px;
     }
 
   }
-
 }
 
 

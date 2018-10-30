@@ -1,27 +1,29 @@
-.search-city-wrap{
-  .country-province-city{
-    padding: 16px;
-    width: 100%;
-    background: #FAFAFA;
-    border-radius: 6px;
-    .filed-title{
-      margin-bottom: 8px;
-      margin-top: 8px;
-      padding-left: 8px;
-    }
-    .filed-name{
-      margin-bottom: 20px;
-      margin-top: 8px;
-      padding-left: 8px;
-      .filed-name-select{
-        width: 100%;
+:global{
+  .search-city-wrap{
+    .country-province-city{
+      padding: 16px;
+      width: 100%;
+      background: #FAFAFA;
+      border-radius: 6px;
+      .filed-title{
+        margin-bottom: 8px;
+        margin-top: 8px;
+        padding-left: 8px;
+      }
+      .filed-name{
+        margin-bottom: 20px;
+        margin-top: 8px;
+        padding-left: 8px;
+        .filed-name-select{
+          width: 100%;
+        }
       }
     }
-  }
-  .btn-wrap{
-    text-align: right;
-  }
-  .ant-select{
-    width: 321px!important;
+    .btn-wrap{
+      text-align: right;
+    }
+    .ant-select{
+      width: 321px!important;
+    }
   }
 }

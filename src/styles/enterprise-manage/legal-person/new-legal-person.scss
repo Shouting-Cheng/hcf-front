@@ -1,13 +1,15 @@
-.new-legal-person-wrap{
+:global{
+  .new-legal-person-wrap{
 
-  .new-lp-row-wrap{
-    margin-bottom: 10px;
-    .new-lp-row{
-      line-height: 32px;
-      font-size: 14px;
-      color: #333;
-      .new-lp-row-re{
-        color: red;
+    .new-lp-row-wrap{
+      margin-bottom: 10px;
+      .new-lp-row{
+        line-height: 32px;
+        font-size: 14px;
+        color: #333;
+        .new-lp-row-re{
+          color: red;
+        }
       }
     }
   }

@@ -1,7 +1,9 @@
-.finance-view {
-  .finance-view-reject{
-    .ant-table-row-expand-icon {
-      display: none;
+:global{
+  .finance-view {
+    .finance-view-reject{
+      .ant-table-row-expand-icon {
+        display: none;
+      }
     }
   }
 }
