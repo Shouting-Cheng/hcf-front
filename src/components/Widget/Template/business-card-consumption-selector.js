@@ -5,6 +5,7 @@ const Search = Input.Search;
 import 'styles/components/template/business-card-consumption-selector.scss';
 
 import baseService from 'share/base.service';
+import PropTypes from 'prop-types'
 
 class BusinessCardConsumptionSelector extends React.Component {
   constructor(props) {

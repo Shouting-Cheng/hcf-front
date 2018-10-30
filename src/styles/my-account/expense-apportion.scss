@@ -1,69 +1,72 @@
-.expense-apportion{
-  margin-bottom: 24px;
-  .expense-apportion-table-header {
-    .ant-table-placeholder {
-      display: none;
-    }
-  }
-  .application-department{
-    display: block;
-    width: 82px;
-    text-overflow:ellipsis;
-    overflow: hidden;
-    white-space:nowrap;
-  }
-  .expense-proportion-symbol{
-    width: calc(100% - 15px);
-    position: relative;
-    &:after{
-      position: absolute;
-      height: 30px;
-      line-height: 30px;
-      top: 0;
-      right: -15px;
-      font-size: 10px;
-      content: '%';
-    }
-  }
-  .new-expense-apportion{
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    box-sizing: content-box;
-    border: 1px dashed #959595;
-    color: #959595;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 10px;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -ms-transition: all .5s;
-    -o-transition: all .5s;
-    transition: all .5s;
-    &:hover{
-      border: 1px dashed #1890ff;
-      color: #1890ff;
-    }
-  }
-  .chooser{
-    .ant-select-selection__clear{
-      margin-top: -6px;
-    }
-  }
-  .department{
-    .chooser{
-      width: 70%;
-      .ant-select{
-        width: 100%;
-        .ant-select-selection{
-          border-left: 0px;
-          border-radius: 0px 4px 4px 0px;
-        }
+:global{
+  .expense-apportion{
+    margin-bottom: 24px;
+    .expense-apportion-table-header {
+      .ant-table-placeholder {
+        display: none;
       }
     }
-    .ant-input-disabled{
-      background-color: #fff;
-      color:rgba(0, 0, 0, 0.65);
+    .application-department{
+      display: block;
+      width: 82px;
+      text-overflow:ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+    }
+    .expense-proportion-symbol{
+      width: calc(100% - 15px);
+      position: relative;
+      &:after{
+        position: absolute;
+        height: 30px;
+        line-height: 30px;
+        top: 0;
+        right: -15px;
+        font-size: 10px;
+        content: '%';
+      }
+    }
+    .new-expense-apportion{
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      box-sizing: content-box;
+      border: 1px dashed #959595;
+      color: #959595;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      -webkit-transition: all .5s;
+      -moz-transition: all .5s;
+      -ms-transition: all .5s;
+      -o-transition: all .5s;
+      transition: all .5s;
+      &:hover{
+        border: 1px dashed #1890ff;
+        color: #1890ff;
+      }
+    }
+    .chooser{
+      .ant-select-selection__clear{
+        margin-top: -6px;
+      }
+    }
+    .department{
+      .chooser{
+        width: 70%;
+        .ant-select{
+          width: 100%;
+          .ant-select-selection{
+            border-left: 0px;
+            border-radius: 0px 4px 4px 0px;
+          }
+        }
+      }
+      .ant-input-disabled{
+        background-color: #fff;
+        color:rgba(0, 0, 0, 0.65);
+      }
     }
   }
+  
 }

@@ -9,9 +9,9 @@ import expenseReportService from 'containers/expense-report/expense-report.servi
 import debounce from 'lodash.debounce'
 import moment from 'moment'
 import 'styles/request/request.scss'
-import Proxies from 'widget/template/proxies/proxies'
-import { dealCache, deepFullCopy, messages } from "share/common";
-
+import Proxies from 'widget/Template/proxies/proxies'
+import { dealCache, deepFullCopy } from "utils/extend";
+import { routerRedux } from 'dva/router';
 
 let cacheSearchData = {};
 
@@ -26,9 +26,9 @@ class ExpenseReport extends React.Component {
         id: 'status',
         single: true,
         items: [{
-          label: messages('common.column.status'), key: 'statusWithReject', checked: ['10011002100310041005100610071008'],
+          label: this.$t('common.column.status'), key: 'statusWithReject', checked: ['10011002100310041005100610071008'],
           options: [
-            { label: messages('constants.documentStatus.all'), value: '10011002100310041005100610071008', operate: '' },      //全部
+            { label: this.$t('constants.documentStatus.all'), value: '10011002100310041005100610071008', operate: '' },      //全部
             ...constants.expenseStatus
           ]
         }]
@@ -36,29 +36,29 @@ class ExpenseReport extends React.Component {
       searchForm: [
         {
           type: 'items', id: 'dateRange', items: [
-            { type: 'date', id: 'startDate', label: messages('common.start.date'), event: 'DATE' },
-            { type: 'date', id: 'endDate', label: messages('common.end.date'), event: 'DATE' }
+            { type: 'date', id: 'startDate', label: this.$t('common.start.date'), event: 'DATE' },
+            { type: 'date', id: 'endDate', label: this.$t('common.end.date'), event: 'DATE' }
           ]
         },
         {
-          type: 'radio', label: messages('common.date.range'), id: 'dateOption', event: 'DATE_RANGE', defaultValue: 0,
-          options: [{ label: messages('common.all'), value: 0 },
-          { label: messages('common.this.month'), value: 1 },
-          { label: messages('common.last.three.month'), value: 3 }]
+          type: 'radio', label: this.$t('common.date.range'), id: 'dateOption', event: 'DATE_RANGE', defaultValue: 0,
+          options: [{ label: this.$t('common.all'), value: 0 },
+          { label: this.$t('common.this.month'), value: 1 },
+          { label: this.$t('common.last.three.month'), value: 3 }]
         }
       ],
       searchParams: { status: '10011002100310041005100610071008' },
       columns: [
-        { title: messages('common.sequence'), dataIndex: 'index', render: (value, record, index) => index + 1 + this.state.pageSize * this.state.page, width: '6%' },
-        { title: messages('common.submit.date'), dataIndex: 'submittedDate', render: (value, record) => moment(record.lastSubmittedDate || record.createdDate).format('YYYY-MM-DD') },
-        { title: messages('common.applicant'), dataIndex: 'applicantName' },
-        { title: messages('common.document.name'), dataIndex: 'formName', render: value => value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-' },
-        { title: messages('common.matter'), dataIndex: 'title', render: value => value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-' },
-        { title: messages('common.document.code'), dataIndex: 'businessCode' },
-        { title: messages('common.currency'), dataIndex: 'currencyCode', width: '6%' },
-        { title: messages('common.amount'), dataIndex: 'totalAmount', render: this.filterMoney },
+        { title: this.$t('common.sequence'), dataIndex: 'index', render: (value, record, index) => index + 1 + this.state.pageSize * this.state.page, width: '6%' },
+        { title: this.$t('common.submit.date'), dataIndex: 'submittedDate', render: (value, record) => moment(record.lastSubmittedDate || record.createdDate).format('YYYY-MM-DD') },
+        { title: this.$t('common.applicant'), dataIndex: 'applicantName' },
+        { title: this.$t('common.document.name'), dataIndex: 'formName', render: value => value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-' },
+        { title: this.$t('common.matter'), dataIndex: 'title', render: value => value ? <Popover placement="topLeft" content={value}>{value}</Popover> : '-' },
+        { title: this.$t('common.document.code'), dataIndex: 'businessCode' },
+        { title: this.$t('common.currency'), dataIndex: 'currencyCode', width: '6%' },
+        { title: this.$t('common.amount'), dataIndex: 'totalAmount', render: this.filterMoney },
         {
-          title: messages('common.column.status'), dataIndex: 'status', width: '8%', render: (value, record) => {
+          title: this.$t('common.column.status'), dataIndex: 'status', width: '8%', render: (value, record) => {
             return this.state.checkboxListForm.map(form => {
               if (form.id === 'status') {
                 return constants.documentStatus.map(item => {
@@ -166,13 +166,13 @@ class ExpenseReport extends React.Component {
     expenseReportService.getDocumentType(102).then(res => {
       // this.setState({expenseReportTypes: res.data});
       let formCheckBoxItem = {};
-      let options = [{ label: messages('common.all'), value: 'all' }];
+      let options = [{ label: this.$t('common.all'), value: 'all' }];
       res.data.map(item => {
         options.push({ label: item.formName, value: item.formOID })
       });
       formCheckBoxItem.id = 'formOID';
       formCheckBoxItem.single = true;
-      formCheckBoxItem.items = [{ label: messages('common.document.name'), key: 'formOID', options, checked: ['all'] }];
+      formCheckBoxItem.items = [{ label: this.$t('common.document.name'), key: 'formOID', options, checked: ['all'] }];
       checkboxListForm.push(formCheckBoxItem);
       this.setState({ checkboxListForm, expenseReportTypes: res.data })
     });
@@ -197,10 +197,10 @@ class ExpenseReport extends React.Component {
           content += item.title + '/'
         }
       });
-      content && result.push(this.renderExpandedRow(messages('common.label'), content.substr(0, content.length - 1), result.length));
+      content && result.push(this.renderExpandedRow(this.$t('common.label'), content.substr(0, content.length - 1), result.length));
     }
     if (record.printFree) {
-      result.push(this.renderExpandedRow(messages('common.print.free'), messages('common.print.require'), result.length));
+      result.push(this.renderExpandedRow(this.$t('common.print.free'), this.$t('common.print.require'), result.length));
     }
     if (result.length > 0) {
       return result;
@@ -279,11 +279,20 @@ class ExpenseReport extends React.Component {
       expenseReport: null
     });*/
     // this.context.router.push(this.state.expenseReportDetail.url.replace(':expenseReportOID', record.expenseReportOID).replace(':pageFrom', 'my'));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/expense-report/expense-report-detail/${record.expenseReportOID}/my`
+      })
+    )  
   };
 
   //新建报销单
   handleNewExpenseReport = (e) => {
-    // this.context.router.push(this.state.newExpenseReport.url.replace(':formId', e.key));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/expense-report/new-expense-report/${e.key}/:userOID`
+      })
+    )  
   };
 
   render() {
@@ -304,15 +313,15 @@ class ExpenseReport extends React.Component {
           clearHandle={this.clear}
           wrappedComponentRef={(inst) => this.formRef = inst} />
         <div className="table-header">
-          <div className="table-header-title">{messages('common.total', { total: pagination.total })/*共搜索到 {pagination.total} 条数据*/}</div>
+          <div className="table-header-title">{this.$t('common.total', { total: pagination.total })/*共搜索到 {pagination.total} 条数据*/}</div>
           <div className="table-header-buttons">
             <Dropdown overlay={menu}>
-              <Button type="primary">{messages('expense-report.new')/*新建报销单*/} <Icon type="down" /></Button>
+              <Button type="primary">{this.$t('expense-report.new')/*新建报销单*/} <Icon type="down" /></Button>
             </Dropdown>
             {/*代理制单*/}
             <Proxies />
             <Search className="input-search"
-              placeholder={messages('expense-report.please.enter.code')}
+              placeholder={this.$t('expense-report.please.enter.code')}
               onChange={(e) => this.handleSearch(e.target.value)} />
           </div>
         </div>
@@ -333,9 +342,9 @@ class ExpenseReport extends React.Component {
   }
 }
 
-ExpenseReport.contextTypes = {
-  router: React.PropTypes.object
-};
+// ExpenseReport.contextTypes = {
+//   router: React.PropTypes.object
+// };
 
 function mapStateToProps(state) {
   return {
