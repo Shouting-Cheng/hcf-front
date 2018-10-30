@@ -1712,7 +1712,7 @@ class NewRequest extends React.Component {
   };
 
   //提交差旅申请单
-  doExecuteTravelSubmit = () => {
+  executeTravelSubmit = () => {
     //增加旧差旅行程
     if (this.state.travelItinerarys.length > 0) {
       this.travelParams.travelApplication.travelItinerarys = [];
