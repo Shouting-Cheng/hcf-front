@@ -1,13 +1,19 @@
-import { createElement } from 'react';
+import {
+  createElement
+} from 'react';
 import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
-import { getMenuData } from './menu';
+import {
+  getMenuData
+} from './menu';
 
 let routerDataCache;
 
 const modelNotExisted = (app, model) =>
   // eslint-disable-next-line
-  !app._models.some(({ namespace }) => {
+  !app._models.some(({
+    namespace
+  }) => {
     return namespace === model.substring(model.lastIndexOf('/') + 1);
   });
 
@@ -58,10 +64,14 @@ function getFlatMenuData(menus) {
   let keys = {};
   menus.forEach(item => {
     if (item.children) {
-      keys[item.path] = { ...item };
-      keys = { ...keys, ...getFlatMenuData(item.children) };
+      keys[item.path] = { ...item
+      };
+      keys = { ...keys,
+        ...getFlatMenuData(item.children)
+      };
     } else {
-      keys[item.path] = { ...item };
+      keys[item.path] = { ...item
+      };
     }
   });
   return keys;
@@ -474,11 +484,6 @@ export const getRouterData = app => {
       name: 'payment-distribution-company',
       parent: '/document-type-manage/payment-requisition-type',
     },
-    // //报销单
-    // '/expense-report': {
-    //   component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
-    //   name: 'expense-report',
-    // },
     '/document-type-manage/gl-work-order-type': {
       //核算工单类型定义
       component: dynamicWrapper(app, [], () =>
@@ -706,347 +711,347 @@ export const getRouterData = app => {
       parent: '/admin-setting/coding-rule-object',
     },
 
-        '/financial-management/reimburse-review/loan-request-detail-review/:id': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/request/loan-request-detail.js')),
-            name: 'reimburse-review',
-            parent: '/financial-management/reimburse-review',
-        },
-        //新建表单
-        '/admin-setting/form-list/new-form/:formType/:booksID': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/form/form-detail/form-detail.js')
-            ),
-            name: 'new-form',
-            parent: '/admin-setting/form-list',
-        },
-        //表单详情
-        '/admin-setting/form-list/form-detail/:formOID/:booksID': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/form/form-detail/form-detail.js')
-            ),
-            name: 'form-detail',
-            parent: '/admin-setting/form-list',
-        },
-        //供应商类型
-        '/admin-setting/supplier-type': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/supplier-type/supplier-type')
-            ),
-            name: 'supplier-type',
-        },
-        '/financial-management/finance-audit': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-management/finance-audit/finance-audit')
-            ),
-            name: 'finance-audit',
-        },
-        '/financial-accounting-setting/section-structure': {
-            //科目段结构，
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/section-structure/section-structure')
-            ),
-            name: 'section-structure',
-        },
-        '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId': {
-            //科目段设置
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/section-structure/section-setting')
-            ),
-            name: 'section-setting',
-            parent: '/financial-accounting-setting/section-structure',
-        },
-        '/financial-accounting-setting/accounting-source-system': {
-            //来源事务定义
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source-system/accounting-source-system')
-            ),
-            name: 'source-affair-define',
-        },
-        '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType': {
-            //凭证模版
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source-system/voucher-template')
-            ),
-            name: 'voucher-template',
-            parent: '/financial-accounting-setting/accounting-source-system',
-        },
-        '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id': {
-            //取值规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
-            ),
-            name: 'get-value-rule',
-            parent: '/financial-accounting-setting/accounting-source-system',
-        },
-        '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id': {
-            //判断规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source-system/line-mode-judge-rules')
-            ),
-            name: 'judge-rules',
-            parent: '/financial-accounting-setting/accounting-source-system',
-        },
-        '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id': {
-            //核算规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source-system/line-mode-rules')
-            ),
-            name: 'account-rules',
-            parent: '/financial-accounting-setting/accounting-source-system',
-        },
-        '/financial-accounting-setting/accounting-scenarios-system': {
-            //核算场景定义
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system')
-            ),
-            name: 'accounting-scenarios-define',
-        },
-        '/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id': {
-            //核算要素
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-scenarios-system/accounting-elements')
-            ),
-            name: 'account-element',
-            parent: '/financial-accounting-setting/accounting-scenarios-system',
-        },
-        '/financial-accounting-setting/accounting-scenarios/:setOfBooksId': {
-            //科目映射规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios')
-            ),
-            name: 'section-map-rule',
-        },
-        '/financial-accounting-setting/accounting-scenarios/matching-group-elements/:setOfBooksId/:id': {
-            //匹配组
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-scenarios/matching-group-elements')
-            ),
-            name: 'match-group-element',
-            parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
-        },
-        '/financial-accounting-setting/accounting-scenarios/matching-group-elements/subject-matching-setting/:id/:groupId': {
-            //科目匹配设置
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-scenarios/subject-matching-setting')
-            ),
-            name: 'subj-match-setting',
-            parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
-        },
-        '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId': {
-            //来源事务凭证模板
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source/accounting-source')
-            ),
-            name: 'voucher-model',
-        },
-        '/financial-accounting-setting/accounting-source/voucher-template-sob/:id': {
-            //帐套级凭证模板
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source/voucher-template')
-            ),
-            name: 'sob-voucher-model',
-            parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
-        },
-        '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-data-rules/:id/:lineModelId': {
-            //取值规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source/line-mode-data-rules')
-            ),
-            name: 'get-value-rule',
-            parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
-        },
-        '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-judge-rules/:id/:lineModelId': {
-            //判断规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source/line-mode-judge-rules')
-            ),
-            name: 'judge-rules',
-            parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
-        },
-        '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-rules/:id/:lineModelId': {
-            //核算规则
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/financial-accounting-setting/accounting-source/line-mode-rules')
-            ),
-            name: 'account-rules',
-            parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
-        },
-        //费用类别
-        '/admin-setting/expense-type': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/expense-type/expense-type.js')
-            ),
-            name: 'expense-type',
-        },
-        '/admin-setting/company-group': {
-            //公司组
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/company-group/company-group.js')
-            ),
-            name: 'company-group',
-        },
-        '/admin-setting/company-group/new-company-group/:companyGroupId': {
-            //新建公司组
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/company-group/new-company-group.js')
-            ),
-            name: 'new-company-group',
-            parent: '/admin-setting/company-group',
-        },
-        '/admin-setting/company-group/company-group-detail/:id': {
-            //公司组详情
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/company-group/company-group-detail.js')
-            ),
-            name: 'company-group-detail',
-            parent: '/admin-setting/company-group',
-        },
-        '/pay/pay-workbench/:tab': {
-            //付款工作台
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/pay/pay-workbench/pay-workbench.js')
-            ),
-            name: 'pay-workbench',
-        },
-        '/pay/pay-workbench/payment-detail/:tab/:subTab/:id': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/pay/pay-workbench/payment-detail.js')
-            ),
-            name: 'payment-detail',
-            parent: '/pay/pay-workbench/:tab',
-        },
-        //基础数据/银行定义
-        '/basic-data/bank-definition': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/basic-data/bank-definition/bank-definition.js')
-            ),
-            name: 'bank-definition',
-        },
-        //预算设置
-        '/budget-setting/budget-organization': {
-            //预算组织定义
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-organization')
-            ),
-            name: 'budget-org-define',
-        },
-        '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id': {
-            //参数设置
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
-            ),
-            name: 'params-setting',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/new-budget-organization': {
-            //新建预算组织
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/new-budget-organization')
-            ),
-            name: 'budget-org-new',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab': {
-            //预算设置详情
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-organization-detail')
-            ),
-            name: 'budget-org-detail',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/:orgId/:setOfBooksId/:id': {
-            //预算表详情
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-structure/budget-structure-detail')
-            ),
-            name: 'budget-structure-detail',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/:setOfBooksId/:orgId': {
-            //新建预算表
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-structure/new-budget-structure')
-            ),
-            name: 'budget-structure-new',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId': {
-            //新建预算项目
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-item/new-budget-item')
-            ),
-            name: 'budget-item-new',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id': {
-            //预算项目详情
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-item/budget-item-detail')
-            ),
-            name: 'budget-item-detail',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId': {
-            //新建项目组
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-group/new-budget-group')
-            ),
-            name: 'budget-group-new',
-            parent: '/budget-setting/budget-organization',
-        },
-        '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id': {
-            //项目组详情
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/budget-setting/budget-organization/budget-group/budget-group-detail')
-            ),
-            name: 'budget-group-detail',
-            parent: '/budget-setting/budget-organization',
-        },
-      '/budget-setting/budget-balance-solution/:setOfBooksId':{
-          //预算余额方案
-          component: dynamicWrapper(app, [], () =>
-            import ('containers/budget-setting/budget-balance-solution/budget-balance-solution')
-          ),
-          name: 'budget-balance-solution',
-      },
-      '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id':{
-          //新建预算余额方案
-          component: dynamicWrapper(app, [], () =>
-            import ('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
-          ),
-          name: 'budget-balance-solution-newOrEdit',
-      },
-      '/budget/budget-balance':{
-          //预算余额
-          component: dynamicWrapper(app, [], () =>
-            import ('containers/budget/budget-balance/budget-balance')
-          ),
-          name: 'budget-balance',
-      },
-      '/budget/budget-balance/budget-balance-result/:id':{
-          //预算余额查询结果
-        component: dynamicWrapper(app, [], () =>
-          import ('containers/budget/budget-balance/budget-balance-result')
-        ),
-        name: 'budget-balance',
-        parent:'/budget/budget-balance'
-      },
-      '/budget/budget-balance-query':{
-          //预算余额方案查询
-          component: dynamicWrapper(app, [], () =>
-            import ('containers/budget/budget-balance-query/budget-balance-query')
-          ),
-          name: 'budget-balance',
-      },
-      '/budget/budget-balance-query/budget-balance-query-result/:id':{
-          //预算余额查询方案结果
-          component: dynamicWrapper(app, [], () =>
-            import ('containers/budget/budget-balance-query/budget-balance-query')
-          ),
-          name: 'budget-balance',
-          parent: '/budget/budget-balance-query'
-      },
+    '/financial-management/reimburse-review/loan-request-detail-review/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/loan-request-detail.js')),
+      name: 'reimburse-review',
+      parent: '/financial-management/reimburse-review',
+    },
+    //新建表单
+    '/admin-setting/form-list/new-form/:formType/:booksID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/form/form-detail/form-detail.js')
+      ),
+      name: 'new-form',
+      parent: '/admin-setting/form-list',
+    },
+    //表单详情
+    '/admin-setting/form-list/form-detail/:formOID/:booksID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/form/form-detail/form-detail.js')
+      ),
+      name: 'form-detail',
+      parent: '/admin-setting/form-list',
+    },
+    //供应商类型
+    '/admin-setting/supplier-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/supplier-type/supplier-type')
+      ),
+      name: 'supplier-type',
+    },
+    '/financial-management/finance-audit': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/finance-audit/finance-audit')
+      ),
+      name: 'finance-audit',
+    },
+    '/financial-accounting-setting/section-structure': {
+      //科目段结构，
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/section-structure/section-structure')
+      ),
+      name: 'section-structure',
+    },
+    '/financial-accounting-setting/section-structure/section-setting/:id/:setOfBooksId': {
+      //科目段设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/section-structure/section-setting')
+      ),
+      name: 'section-setting',
+      parent: '/financial-accounting-setting/section-structure',
+    },
+    '/financial-accounting-setting/accounting-source-system': {
+      //来源事务定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source-system/accounting-source-system')
+      ),
+      name: 'source-affair-define',
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/:id/:sourceTransactionType': {
+      //凭证模版
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source-system/voucher-template')
+      ),
+      name: 'voucher-template',
+      parent: '/financial-accounting-setting/accounting-source-system',
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-data-rules-system/:lineModelId/:id': {
+      //取值规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-data-rules')
+      ),
+      name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source-system',
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-judge-rules-system/:lineModelId/:id': {
+      //判断规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-judge-rules')
+      ),
+      name: 'judge-rules',
+      parent: '/financial-accounting-setting/accounting-source-system',
+    },
+    '/financial-accounting-setting/accounting-source-system/voucher-template/line-mode-rules-system/:lineModelId/:id': {
+      //核算规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source-system/line-mode-rules')
+      ),
+      name: 'account-rules',
+      parent: '/financial-accounting-setting/accounting-source-system',
+    },
+    '/financial-accounting-setting/accounting-scenarios-system': {
+      //核算场景定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-scenarios-system/accounting-scenarios-system')
+      ),
+      name: 'accounting-scenarios-define',
+    },
+    '/financial-accounting-setting/accounting-scenarios-system/accounting-elements/:id': {
+      //核算要素
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-scenarios-system/accounting-elements')
+      ),
+      name: 'account-element',
+      parent: '/financial-accounting-setting/accounting-scenarios-system',
+    },
+    '/financial-accounting-setting/accounting-scenarios/:setOfBooksId': {
+      //科目映射规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios')
+      ),
+      name: 'section-map-rule',
+    },
+    '/financial-accounting-setting/accounting-scenarios/matching-group-elements/:setOfBooksId/:id': {
+      //匹配组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-scenarios/matching-group-elements')
+      ),
+      name: 'match-group-element',
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-scenarios/matching-group-elements/subject-matching-setting/:id/:groupId': {
+      //科目匹配设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-scenarios/subject-matching-setting')
+      ),
+      name: 'subj-match-setting',
+      parent: '/financial-accounting-setting/accounting-scenarios/:setOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId': {
+      //来源事务凭证模板
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/accounting-source')
+      ),
+      name: 'voucher-model',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/:id': {
+      //帐套级凭证模板
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/voucher-template')
+      ),
+      name: 'sob-voucher-model',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-data-rules/:id/:lineModelId': {
+      //取值规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-data-rules')
+      ),
+      name: 'get-value-rule',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-judge-rules/:id/:lineModelId': {
+      //判断规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-judge-rules')
+      ),
+      name: 'judge-rules',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    '/financial-accounting-setting/accounting-source/voucher-template-sob/line-mode-rules/:id/:lineModelId': {
+      //核算规则
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-accounting-setting/accounting-source/line-mode-rules')
+      ),
+      name: 'account-rules',
+      parent: '/financial-accounting-setting/accounting-source/:sourceSetOfBooksId',
+    },
+    //费用类别
+    '/admin-setting/expense-type': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/expense-type.js')
+      ),
+      name: 'expense-type',
+    },
+    '/admin-setting/company-group': {
+      //公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group.js')
+      ),
+      name: 'company-group',
+    },
+    '/admin-setting/company-group/new-company-group/:companyGroupId': {
+      //新建公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/new-company-group.js')
+      ),
+      name: 'new-company-group',
+      parent: '/admin-setting/company-group',
+    },
+    '/admin-setting/company-group/company-group-detail/:id': {
+      //公司组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/company-group-detail.js')
+      ),
+      name: 'company-group-detail',
+      parent: '/admin-setting/company-group',
+    },
+    '/pay/pay-workbench/:tab': {
+      //付款工作台
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-workbench/pay-workbench.js')
+      ),
+      name: 'pay-workbench',
+    },
+    '/pay/pay-workbench/payment-detail/:tab/:subTab/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pay/pay-workbench/payment-detail.js')
+      ),
+      name: 'payment-detail',
+      parent: '/pay/pay-workbench/:tab',
+    },
+    //基础数据/银行定义
+    '/basic-data/bank-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/basic-data/bank-definition/bank-definition.js')
+      ),
+      name: 'bank-definition',
+    },
+    //预算设置
+    '/budget-setting/budget-organization': {
+      //预算组织定义
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization')
+      ),
+      name: 'budget-org-define',
+    },
+    '/budget-setting/budget-organization/budget-parameter/budget-parameter-setting/:id': {
+      //参数设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-parameter/budget-parameter-setting')
+      ),
+      name: 'params-setting',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/new-budget-organization': {
+      //新建预算组织
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/new-budget-organization')
+      ),
+      name: 'budget-org-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab': {
+      //预算设置详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-organization-detail')
+      ),
+      name: 'budget-org-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/:orgId/:setOfBooksId/:id': {
+      //预算表详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/budget-structure-detail')
+      ),
+      name: 'budget-structure-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/:setOfBooksId/:orgId': {
+      //新建预算表
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-structure/new-budget-structure')
+      ),
+      name: 'budget-structure-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/new-budget-item/:setOfBooksId/:orgId': {
+      //新建预算项目
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/new-budget-item')
+      ),
+      name: 'budget-item-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id': {
+      //预算项目详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-item/budget-item-detail')
+      ),
+      name: 'budget-item-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId': {
+      //新建项目组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/new-budget-group')
+      ),
+      name: 'budget-group-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id': {
+      //项目组详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-group/budget-group-detail')
+      ),
+      name: 'budget-group-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-balance-solution/:setOfBooksId': {
+      //预算余额方案
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-balance-solution/budget-balance-solution')
+      ),
+      name: 'budget-balance-solution',
+    },
+    '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id': {
+      //新建预算余额方案
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
+      ),
+      name: 'budget-balance-solution-newOrEdit',
+    },
+    '/budget/budget-balance': {
+      //预算余额
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance/budget-balance')
+      ),
+      name: 'budget-balance',
+    },
+    '/budget/budget-balance/budget-balance-result/:id': {
+      //预算余额查询结果
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance/budget-balance-result')
+      ),
+      name: 'budget-balance',
+      parent: '/budget/budget-balance'
+    },
+    '/budget/budget-balance-query': {
+      //预算余额方案查询
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance-query/budget-balance-query')
+      ),
+      name: 'budget-balance',
+    },
+    '/budget/budget-balance-query/budget-balance-query-result/:id': {
+      //预算余额查询方案结果
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget/budget-balance-query/budget-balance-query')
+      ),
+      name: 'budget-balance',
+      parent: '/budget/budget-balance-query'
+    },
 
     //预算日记本
     '/budget/budget-journal': {
@@ -1430,78 +1435,78 @@ export const getRouterData = app => {
       parent: '/admin-setting/cost-center',
     },
 
-        '/approval-management/approve-payment-requisition': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/approve/payment-requisition/payment-requisition.js')
-            ),
-            // 付款申请单审批
-            name: 'approve-payment-requisition',
-        },
-        '/admin-setting/new-expense-type/:expenseTypeId': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/expense-type/new-expense-type/new-expense-type.js')
-            ),
-            // 付款申请单审批详情
-            name: 'new-expense-type',
-            parent: '/admin-setting/expense-type',
-        },
-        '/admin-setting/expense-type-detail/:expenseTypeId': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/setting/expense-type/new-expense-type/new-expense-type.js')
-            ),
-            // 付款申请单审批详情
-            name: 'expense-type-detail',
-            parent: '/admin-setting/expense-type',
-        },
-        //员工管理
-        '/setting/employee/person-detail/person-detail/:userOID': {
-            component: dynamicWrapper(app, [], () =>
-                import ('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
-            ),
-            name: 'person-detail',
-            parent: '/setting/employee',
-        },
-      '/financial-management/expense-reverse': {
-        //财务管理-费用反冲
-        component: dynamicWrapper(app, [], () =>
-          import('containers/financial-management/expense-reverse/expense-reverse.js')
-        ),
-        name: 'expense-reverse',
-        parent: "/financial-management",
-      },
-      '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
-        //新建反冲
-        component: dynamicWrapper(app, [], () =>
-          import('containers/financial-management/expense-reverse/new-reverse.js')
-        ),
-        name: 'new-reverse',
-        parent: "/financial-management/expense-reverse",
-      },
-      '/financial-management/expense-reverse/expense-reverse-detail/:id': {
-        //费用反冲详情
-        component: dynamicWrapper(app, [], () =>
-          import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
-        ),
-        name: 'expense-reverse-detail',
-        parent: "/financial-management/expense-reverse",
-      },
+    '/approval-management/approve-payment-requisition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition.js')
+      ),
+      // 付款申请单审批
+      name: 'approve-payment-requisition',
+    },
+    '/admin-setting/new-expense-type/:expenseTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
+      ),
+      // 付款申请单审批详情
+      name: 'new-expense-type',
+      parent: '/admin-setting/expense-type',
+    },
+    '/admin-setting/expense-type-detail/:expenseTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
+      ),
+      // 付款申请单审批详情
+      name: 'expense-type-detail',
+      parent: '/admin-setting/expense-type',
+    },
+    //员工管理
+    '/setting/employee/person-detail/person-detail/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
+      ),
+      name: 'person-detail',
+      parent: '/setting/employee',
+    },
+    '/financial-management/expense-reverse': {
+      //财务管理-费用反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/expense-reverse.js')
+      ),
+      name: 'expense-reverse',
+      parent: "/financial-management",
+    },
+    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
+      //新建反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/new-reverse.js')
+      ),
+      name: 'new-reverse',
+      parent: "/financial-management/expense-reverse",
+    },
+    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
+      //费用反冲详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
+      ),
+      name: 'expense-reverse-detail',
+      parent: "/financial-management/expense-reverse",
+    },
 
-      '/admin-setting/workflow':{
-          //审批流
-        component: dynamicWrapper(app, [], ()=>
-          import('containers/setting/workflow/workflow')
-        ),
-        name:'workflow'
-      },
+    '/admin-setting/workflow': {
+      //审批流
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/workflow/workflow')
+      ),
+      name: 'workflow'
+    },
 
-      '/financial-management/check-cost-application':{
-          //费用申请查看
-        component: dynamicWrapper(app, [], ()=>
-          import('containers/financial-management/check-cost-application/check-cost-application')
-        ),
-        name:'check-cost-application'
-      },
-      //财务查询-预付款单财务查询
+    '/financial-management/check-cost-application': {
+      //费用申请查看
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/check-cost-application/check-cost-application')
+      ),
+      name: 'check-cost-application'
+    },
+    //财务查询-预付款单财务查询
     '/financial-view/pre-payment-view': {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-view/pre-payment-view/pre-payment-view.js')
@@ -1517,6 +1522,42 @@ export const getRouterData = app => {
       name: 'pre-payment-detail',
       parent: '/financial-view/pre-payment-view',
     },
+    //报销单
+    '/expense-report': {
+      component: dynamicWrapper(app, [], () => import('containers/expense-report/expense-report.js')),
+      name: 'expense-report',
+    },
+    //新建报销单
+    '/expense-report/new-expense-report/:formId/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/new-expense-report.js')
+      ),
+      name: 'new-expense-report',
+      parent: '/expense-report',
+    },
+    //报销单详情
+    '/expense-report/expense-report-detail/:expenseReportOID/:pageFrom': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/base-expense-report-detail.js')
+      ),
+      name: 'base-expense-report-detail',
+      parent: '/expense-report',
+    },
+    //报销单审批
+    '/approval-management/approve-expense-report': {
+      //费用调整单审批
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/expense-report-approve/approve-expense-report')
+      ),
+      name: 'approve-expense-report',
+    },
+    //报销单审批详情
+    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
+      ),
+      name: 'approve-expense-report-detail',
+    }
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>
@@ -1552,13 +1593,13 @@ export const getRouterData = app => {
     // https://github.com/ant-design/ant-design-pro-site/blob/master/docs/router-and-nav.md#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95
     // eg . /list/:type/user/info/:id
 
-        router = {
-            ...router,
-            name: router.name || menuItem.name,
-            authority: router.authority || menuItem.authority,
-            hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
-        };
-        routerData[path] = router;
-    });
-    return routerData;
+    router = {
+      ...router,
+      name: router.name || menuItem.name,
+      authority: router.authority || menuItem.authority,
+      hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
+    };
+    routerData[path] = router;
+  });
+  return routerData;
 };
