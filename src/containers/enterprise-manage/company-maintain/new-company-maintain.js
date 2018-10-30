@@ -234,6 +234,9 @@ class WrappedNewCompanyMaintain extends React.Component {
   };
 
   legalEntityIdChange = legalEntityId => {
+    this.props.form.setFieldsValue({
+      parentCompanyId: null,
+    });
     this.getSelectListParentCompany(legalEntityId);
   };
 
