@@ -351,6 +351,7 @@ class ExpenseTypeModal extends React.Component {
 
   //删除
   deleteExpenseType = (e, index) => {
+    e.stopPropagation();
     let expenseBudgetList = this.state.expenseBudgetList;
     expenseBudgetList.splice(index, 1);
     let value = this.state.value;
@@ -563,7 +564,6 @@ class ExpenseTypeModal extends React.Component {
                                   true
                                 )}
                                 style={{ width: '100%' }}
-                                onFocus={()=>{console.log(123)}}
                                 onChange={this.handleRateChange}
                               />
                             </Col>

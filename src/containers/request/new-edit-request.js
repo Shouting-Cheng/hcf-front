@@ -2059,6 +2059,7 @@ class NewRequest extends React.Component {
     if (signCompanyOIDs.length > 0) {
       chooserItem.url = `${config.baseUrl}/api/users/v3/search?corporationOID=${signCompanyOIDs}`;
     }
+
     let requestInfo = (
       <div>
         <h3 className="header-title">{formInfo.formName}</h3>
@@ -2136,7 +2137,6 @@ class NewRequest extends React.Component {
                       callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
                     },
                   });
-
                 return (
                   <div key={index}>
                     {index === 0 &&
