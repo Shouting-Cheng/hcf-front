@@ -5,6 +5,7 @@ import { Button, Table, Badge, Popover } from 'antd'
 import SearchArea from 'widget/search-area'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
+import { routerRedux } from 'dva/router';
 
 class BudgetStrategy extends React.Component {
   constructor(props) {
@@ -33,12 +34,10 @@ class BudgetStrategy extends React.Component {
       },
       page: 0,
       pageSize: 10,
-      newBudgetStrategy:  menuRoute.getRouteItem('new-budget-strategy','key'),    //新建控制策略
-      budgetStrategyDetail:  menuRoute.getRouteItem('budget-strategy-detail','key'),    //预算控制策略详情
     };
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.getList();
   }
 
@@ -105,11 +104,24 @@ class BudgetStrategy extends React.Component {
   };
 
   handleNew = () => {
-    this.context.router.push(this.state.newBudgetStrategy.url.replace(':id', this.props.organization.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/new-budget-strategy/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
   handleRowClick = (record) => {
-    this.context.router.push(this.state.budgetStrategyDetail.url.replace(':id', this.props.organization.id).replace(':strategyId', record.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+          .replace(':id', record.id)
+      })
+    );
   };
 
   render(){

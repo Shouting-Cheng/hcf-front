@@ -1,11 +1,11 @@
-import {messages} from "share/common";
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'dva'
 import { Modal, Button, Tabs, Upload, Icon, message, Table, Radio } from 'antd'
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
 import budgetBalanceService from 'containers/budget/budget-balance/budget-balance.service'
 import FileSaver from 'file-saver'
+import PropTypes from 'prop-types';
 
 //数据导入组件
 class Exporter extends React.Component {
@@ -33,7 +33,7 @@ class Exporter extends React.Component {
       if(selectedRowKeys.indexOf(column.dataIndex) > -1)
         columnFiledMap[(20 + Number(column.index)) + ''] = column.title;
     });
-    let hide = message.loading(messages('importer.spanned.file')/*正在生成文件..*/);
+    let hide = message.loading(this.$t('importer.spanned.file')/*正在生成文件..*/);
     this.setState({ exporting: true });
     budgetBalanceService.exportBalance({
       conditionId: this.props.conditionId,
@@ -47,7 +47,7 @@ class Exporter extends React.Component {
       this.props.afterClose();
     }).catch(() => {
       this.setState({ exporting: false });
-      message.error(messages('importer.download.error.info')/*下载失败，请重试*/);
+      message.error(this.$t('importer.download.error.info')/*下载失败，请重试*/);
       hide();
     })
   };
@@ -101,7 +101,7 @@ class Exporter extends React.Component {
              bodyStyle={{ height: '70vh', overflowY: 'scroll' }}
              confirmLoading={exporting}
              okText='导出'
-             cancelText={messages('common.cancel')}>
+             cancelText={this.$t('common.cancel')}>
         导出为：
         <RadioGroup onChange={(e) => this.setState({excelVersion: e.target.value})} value={excelVersion}>
           <Radio value="2003">Excel 2003</Radio>
@@ -125,13 +125,13 @@ class Exporter extends React.Component {
 }
 
 Exporter.propTypes = {
-  visible: React.PropTypes.bool,    //导入弹框是否可见
-  onCancel: React.PropTypes.func,    //点击取消回调
-  onOk: React.PropTypes.func,    //导入成功回调
-  afterClose: React.PropTypes.func,    //关闭后的回调
-  conditionId: React.PropTypes.string,    //预算查询sessionId
-  columns: React.PropTypes.array,    //需要导出的列
-  dimensionColumns: React.PropTypes.array    //需要导出的维度列
+  visible: PropTypes.bool,    //导入弹框是否可见
+  onCancel: PropTypes.func,    //点击取消回调
+  onOk: PropTypes.func,    //导入成功回调
+  afterClose: PropTypes.func,    //关闭后的回调
+  conditionId: PropTypes.string,    //预算查询sessionId
+  columns: PropTypes.array,    //需要导出的列
+  dimensionColumns: PropTypes.array    //需要导出的维度列
 };
 
 Exporter.defaultProps = {

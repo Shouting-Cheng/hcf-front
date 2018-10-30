@@ -10,6 +10,7 @@ import config from 'config'
 import selectorData from 'share/chooserData'
 import ListSelector from 'widget/list-selector'
 import BasicInfo from 'widget/basic-info'
+import { routerRedux } from 'dva/router';
 
 class BudgetJournalTypeDetail extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class BudgetJournalTypeDetail extends React.Component {
           saveUrl: `${config.budgetUrl}/api/budget/journal/type/assign/structures/batch`,
           url: `${config.budgetUrl}/api/budget/journal/type/assign/structures/query`,
           selectorItem: selectorData['budget_journal_structure'],
-          extraParams: { organizationId: this.props.organization.id, journalTypeId: this.props.params.typeId },
+          extraParams: { organizationId: this.props.organization.id, journalTypeId: this.props.match.params.id },
           columns: [
             { title: "预算表代码", dataIndex: "structureCode", width: '40%' },
             { title: "预算表", dataIndex: "structureName", width: '30%' },
@@ -50,7 +51,7 @@ class BudgetJournalTypeDetail extends React.Component {
           saveUrl: `${config.budgetUrl}/api/budget/journal/type/assign/items/batch`,
           url: `${config.budgetUrl}/api/budget/journal/type/assign/items/query`,
           selectorItem: selectorData['budget_journal_item'],
-          extraParams: { organizationId: this.props.organization.id, journalTypeId: this.props.params.typeId },
+          extraParams: { organizationId: this.props.organization.id, journalTypeId: this.props.match.params.id },
           columns:
             [
               { title: "预算项目代码", dataIndex: "itemCode", width: '30%' },
@@ -62,7 +63,7 @@ class BudgetJournalTypeDetail extends React.Component {
           url: `${config.budgetUrl}/api/budget/journal/type/assign/companies/query`,
           saveUrl: `${config.budgetUrl}/api/budget/journal/type/assign/companies/batch`,
           selectorItem: selectorData['budget_journal_company'],
-          extraParams: { journalTypeId: this.props.params.typeId },
+          extraParams: { journalTypeId: this.props.match.params.id },
           columns: [
             { title: "公司代码", dataIndex: "companyCode", width: '25%' },
             { title: "公司名称", dataIndex: "companyName", width: '30%' },
@@ -82,7 +83,6 @@ class BudgetJournalTypeDetail extends React.Component {
       nowStatus: 'STRUCTURE',
       showListSelector: false,
       newData: [],
-      budgetOrganization: menuRoute.getRouteItem('budget-organization-detail', 'key'),  //预算组织详情的页面项
     };
   }
 
@@ -148,7 +148,7 @@ class BudgetJournalTypeDetail extends React.Component {
       this.setState({ infoList })
     })
 
-    httpFetch.get(`${config.budgetUrl}/api/budget/journal/types/${this.props.params.typeId}`).then(response => {
+    httpFetch.get(`${config.budgetUrl}/api/budget/journal/types/${this.props.match.params.id}`).then(response => {
       let data = response.data;
       data.businessType = { label: data.businessTypeName, value: data.businessType };
       data.form0id = data.form0id ? { label: data.formName, value: data.form0id } : "";
@@ -193,7 +193,7 @@ class BudgetJournalTypeDetail extends React.Component {
     const { tabsData, page, pageSize } = this.state;
     let url = tabsData[key].url;
     if (url) {
-      return httpFetch.get(`${url}?journalTypeId=${this.props.params.typeId}&page=${page}&size=${pageSize}`).then(response => {
+      return httpFetch.get(`${url}?journalTypeId=${this.props.match.params.id}&page=${page}&size=${pageSize}`).then(response => {
         response.data.map((item, index) => {
           item.key = item.id ? item.id : index;
         });
@@ -256,7 +256,7 @@ class BudgetJournalTypeDetail extends React.Component {
           enabled: true
         };
       }
-      item.journalTypeId = this.props.params.typeId;
+      item.journalTypeId = this.props.match.params.id;
       paramList.push(item);
     });
     this.setState({ saving: true }, () => {
@@ -319,7 +319,16 @@ class BudgetJournalTypeDetail extends React.Component {
           bordered
           size="middle" />
 
-        <a className="back" onClick={() => { this.context.router.push(this.state.budgetOrganization.url.replace(":id", this.props.organization.id).replace(":setOfBooksId",this.props.params.setOfBooksId) + '?tab=JOURNAL_TYPE'); }}><
+        <a className="back" onClick={() => {
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                .replace(':id', this.props.match.params.orgId)
+                .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+                .replace(':tab','JOURNAL_TYPE')
+            })
+          );
+        }}><
           Icon type="rollback" style={{ marginRight: '5px' }} />返回
         </a>
 

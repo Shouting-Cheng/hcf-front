@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Modal, Table, Select, Checkbox, Alert } from 'antd';
-import CostCenterSearchFormService from 'components/Template/cost-center-search-form/cost-center-search-form.service';
+import CostCenterSearchFormService from 'widget/Template/cost-center-search-form/cost-center-search-form.service';
 import debounce from 'lodash.debounce';
 import 'styles/components/search-area.scss';
+import {messages} from "utils/extend";
 
 class CostCenterSearchForm extends React.Component {
   constructor(props) {
@@ -322,7 +323,7 @@ CostCenterSearchForm.propTypes = {
 };
 
 CostCenterSearchForm.defaultProps = {
-  placeholder: this.$t('common.please.select'),
+  placeholder: messages('common.please.select'),
   title: '',
   length: 5,
 };

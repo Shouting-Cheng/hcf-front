@@ -350,7 +350,7 @@ class UpdateBudgetRulesDetail extends React.Component {
       helpMap: {},
     });
     this.props.form.resetFields();
-    this.props.close(flag);
+    this.props.onClose(flag);
   };
 
   handleSelectType = (value) => {

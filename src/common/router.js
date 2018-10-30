@@ -1036,6 +1036,50 @@ export const getRouterData = app => {
             name: 'budget-group-detail',
             parent: '/budget-setting/budget-organization',
         },
+      '/budget-setting/budget-balance-solution/:setOfBooksId':{
+          //预算余额方案
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget-setting/budget-balance-solution/budget-balance-solution')
+          ),
+          name: 'budget-balance-solution',
+      },
+      '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id':{
+          //新建预算余额方案
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
+          ),
+          name: 'budget-balance-solution-newOrEdit',
+      },
+      '/budget/budget-balance':{
+          //预算余额
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance/budget-balance')
+          ),
+          name: 'budget-balance',
+      },
+      '/budget/budget-balance/budget-balance-result/:id':{
+          //预算余额查询结果
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/budget/budget-balance/budget-balance-result')
+        ),
+        name: 'budget-balance',
+        parent:'/budget/budget-balance'
+      },
+      '/budget/budget-balance-query':{
+          //预算余额方案查询
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance-query/budget-balance-query')
+          ),
+          name: 'budget-balance',
+      },
+      '/budget/budget-balance-query/budget-balance-query-result/:id':{
+          //预算余额查询方案结果
+          component: dynamicWrapper(app, [], () =>
+            import ('containers/budget/budget-balance-query/budget-balance-query')
+          ),
+          name: 'budget-balance',
+          parent: '/budget/budget-balance-query'
+      },
 
         //预算日记本
         '/budget/budget-journal': {
@@ -1450,6 +1494,22 @@ export const getRouterData = app => {
             name: 'person-detail',
             parent: '/setting/employee',
         },
+
+      '/admin-setting/workflow':{
+          //审批流
+        component: dynamicWrapper(app, [], ()=>
+          import('containers/setting/workflow/workflow')
+        ),
+        name:'workflow'
+      },
+
+      '/financial-management/check-cost-application':{
+          //费用申请查看
+        component: dynamicWrapper(app, [], ()=>
+          import('containers/financial-management/check-cost-application/check-cost-application')
+        ),
+        name:'check-cost-application'
+      },
 
         // '/user/:id': {
         //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
