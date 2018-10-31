@@ -1545,7 +1545,7 @@ const chooserData = {
     key: 'id',
   },
   accounting_scene_elements: {
-    title: messages('accounting_scene_elements'),
+    title: messages('chooser.data.accounting_scene_elements'),
     url: `${config.accountingUrl}/api/account/general/ledger/scene/elements/queryAll/page`,
     searchForm: [
       { type: 'input', id: 'code', label: messages('chooser.data.code') },

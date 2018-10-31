@@ -49,7 +49,17 @@ class NewUpdateScenariosSystem extends React.Component{
     }
   }
 
-  componentWillReceiveProps(nextprops){
+  componentDidMount(){
+
+    this.setState({
+      transactionSceneId: this.props.params.transactionSceneId,
+      elements: this.props.params,
+      accountElementCode: this.props.params.id ? [{code: this.props.params.accountElementCode}] :[]
+    },()=>
+      this.props.form.setFieldsValue({accountElementName: this.props.params.accountElementName}))
+  }
+
+  /*componentWillReceiveProps(nextprops){
     let params = {...{},...nextprops.params};
     if(JSON.stringify(params)==='{}'){
         this.props.form.resetFields();
@@ -83,7 +93,7 @@ class NewUpdateScenariosSystem extends React.Component{
         enabled: true
       })
     }
-  }
+  }*/
 
   handleSubmit = (e)=> {
     e.preventDefault();
