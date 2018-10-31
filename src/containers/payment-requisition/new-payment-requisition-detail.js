@@ -374,28 +374,30 @@ class NewPaymentRequisitionDetail extends React.Component {
   };
 
   // 侧滑
-  showSlide = flag => {
+  showSlide = (flag) => {
     this.setState({ showSlideFrame: flag, flag: false });
   };
   //新增侧滑框
-  addShowSlide = flag => {
+  addShowSlide = (flag) => {
     this.setState({ addShowSlideFrame: flag, flag: false });
   };
   //新增侧滑框关闭
-  addCloseFunc = e => {
+  addCloseFunc = (e) => {
     this.addShowSlide(false);
+    e && this.getList();
   };
   // 侧滑关闭
-  closeFunc = e => {
+  closeFunc = (e) => {
     this.showSlide(false);
+    e && this.getList();
   };
   //新增侧滑框完全关闭
-  addHandleCloseSlide = flag => {
+  addHandleCloseSlide = (flag) => {
     this.addShowSlide(false);
     flag && this.getList();
   };
   // 侧滑完全关闭后回调
-  handleCloseSlide = flag => {
+  handleCloseSlide = (flag) => {
     this.showSlide(false);
     flag && this.getList();
   };
@@ -846,25 +848,24 @@ class NewPaymentRequisitionDetail extends React.Component {
               record,
               typeDeatilParams,
               flag: addShowSlideFrame,
-            }} onClose={this.addCloseFunc}></AddPaymentRequsition>
+            }} onClose={(e) => {this.addCloseFunc(e)}}></AddPaymentRequsition>
           </SlideFrame>
           <SlideFrame
             title={slideFrameTitle}
             show={showSlideFrame}
-            content={NewPaymentRequisitionLine}
-            //content={NewPaymentRequisitionLine}
-            params={{
+            afterClose={this.handleCloseSlide}
+            width="800px"
+            hasFooter={false}
+          >
+            <NewPaymentRequisitionLine params={{
               id: this.props.id,
               headerData: headerData,
               record,
               typeDeatilParams,
               flag: showSlideFrame,
             }}
-            onClose={this.closeFunc}
-            afterClose={this.handleCloseSlide}
-            width="800px"
-            hasFooter={false}
-          />
+            onClose={(e) => {this.closeFunc(e)}}/>
+          </SlideFrame>
           <Modal
             visible={this.state.showExpreportDetail}
             footer={[

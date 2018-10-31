@@ -1446,7 +1446,6 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
-      // 付款申请单审批详情
       name: 'new-expense-type',
       parent: '/admin-setting/expense-type',
     },
@@ -1454,7 +1453,6 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
-      // 付款申请单审批详情
       name: 'expense-type-detail',
       parent: '/admin-setting/expense-type',
     },
@@ -1565,6 +1563,14 @@ export const getRouterData = app => {
       ),
       name: 'public-reimburse-report',
       parent: '/financial-view',
+    },
+    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition-detail.js')
+      ),
+      // 付款申请单审批详情
+      name: 'approve-payment-requisition-detail',
+      parent: '/approval-management/approve-payment-requisition',
     },
 
     // '/user/:id': {
