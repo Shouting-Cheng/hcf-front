@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Button, Input, Select } from 'antd'
 const Option = Select.Option;
 import baseService from 'share/base.service'
 import debounce from 'lodash.debounce';
 import 'styles/components/location.scss'
-import PropTypes from 'prop-types'
+
 class Location extends React.Component {
   constructor(props){
     super(props);

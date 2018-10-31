@@ -45,20 +45,32 @@ class NewExpenseReport extends React.Component{
   componentWillMount(){
     isClearStatus=false;
     console.log(this.props)
-    this.isCounterSignEnable(this.props.match.params.formId?this.props.match.params.formId:this.props.match.params.formDetail.formOID);
-    if(this.props.match.params.formId && this.props.match.params.userOID && this.props.match.params.userOID!=':userOID'){
-      this.dealProxies(this.props.match.params.userOID);
+    this.isCounterSignEnable(this.props.params?this.props.params.formDetail.formOID:this.props.match.params.formId);
+    // if(this.props.match.params.formId && this.props.match.params.userOID && this.props.match.params.userOID!=':userOID'){
+    //   this.dealProxies(this.props.match.params.userOID);
+    // }
+    if(this.props.params){
+      rejectPiwik(`报销单/创建报销单/${this.props.params.formDetail.formName}`);
+      this.setState({formDetail: this.props.params.formDetail, loading: false})
     }
-    if(this.props.match.params.formDetail){
-      rejectPiwik(`报销单/创建报销单/${this.props.match.params.formDetail.formName}`);
-      this.setState({formDetail: this.props.match.params.formDetail, loading: false})
-    } else {
+    if(this.props.match){
+     // this.dealProxies(this.props.match.params.userOID);
       this.setState({ loading: true });
       baseService.getFormDetail(this.props.match.params.formId).then(res => {
         rejectPiwik(`报销单/创建报销单/${res.data.formName}`);
         this.setState({ formDetail: res.data }, this.getFormDefaultValue)
       })
     }
+    // if(this.props.match.params.formDetail){
+    //   rejectPiwik(`报销单/创建报销单/${this.props.match.params.formDetail.formName}`);
+    //   this.setState({formDetail: this.props.match.params.formDetail, loading: false})
+    // } else {
+    //   this.setState({ loading: true });
+    //   baseService.getFormDetail(this.props.match.params.formId).then(res => {
+    //     rejectPiwik(`报销单/创建报销单/${res.data.formName}`);
+    //     this.setState({ formDetail: res.data }, this.getFormDefaultValue)
+    //   })
+    // }
   }
 
   //获取表单默认值
@@ -151,7 +163,7 @@ class NewExpenseReport extends React.Component{
       wrapperCol: { span: 10, offset: 1 },
     };
     let customFormFields = formDetail.customFormFields || [];
-    let expenseReport = this.props.match.params.expenseReport;
+    let expenseReport = this.props.params?this.props.params.expenseReport:null;
     if(expenseReport){
       customFormFields = expenseReport.custFormValues || customFormFields;
       formDetail.customFormFields=customFormFields;
@@ -330,7 +342,7 @@ class NewExpenseReport extends React.Component{
       if(!this.combinationFormValidateResult()){
         return;
       }
-      let expenseReport = this.props.match.params.expenseReport;
+      let expenseReport = this.props.params?this.props.params.expenseReport:null;
       const { formDetail } = this.state;
       let target = JSON.parse(JSON.stringify(expenseReport || formDetail));
       if(this.checkFunctionProfiles('web.invoice.keep.consistent.with.expense', [true])){
@@ -366,8 +378,11 @@ class NewExpenseReport extends React.Component{
           if(expenseReport){
             this.props.close(true);
           } else {
-            // let url = menuRoute.getRouteItem('expense-report-detail').url.replace(':expenseReportOID', res.data.expenseReportOID);
-            // this.context.router.push(url);
+            this.props.dispatch(
+              routerRedux.push({
+                pathname: `/expense-report/expense-report-detail/${res.data.expenseReportOID}/my`
+              })
+            )  
           }
         })
           .catch(error => {
@@ -430,7 +445,7 @@ class NewExpenseReport extends React.Component{
   };
   //返回
   goBack = () => {
-    let expenseReport = this.props.match.params.expenseReport;
+    let expenseReport = this.props.params?this.props.params.expenseReport:null;
     if(expenseReport) {
       this.props.close();
     } else{
@@ -448,7 +463,7 @@ class NewExpenseReport extends React.Component{
       labelCol: { span: 6 },
       wrapperCol: { span: 10, offset: 1 },
     };
-    let expenseReport = this.props.match.params.expenseReport;
+    let expenseReport = this.props.params?this.props.params.expenseReport:null;
     let signPerson = [];
     expenseReport && expenseReport.countersignApproverNames && expenseReport.countersignApproverNames.map(item => {
       signPerson.push({userOID: item.userOID, fullName: item.fullName})
@@ -468,7 +483,7 @@ class NewExpenseReport extends React.Component{
                 }]
               })(
                 <Chooser type="my_request"
-                         listExtraParams={{ formOID: this.props.match.params.formId, userOID:this.props.user.userOID }}
+                         listExtraParams={{ formOID: this.props.match?this.props.match.params.formId:null, userOID:this.props.user.userOID }}
                          labelKey="title"
                          valueKey="applicationOID"
                          single

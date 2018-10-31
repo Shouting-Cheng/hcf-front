@@ -1,4 +1,4 @@
-//import configureStore from 'stores';
+import app from '../index'
 
 function isProduct () {
   let urls = ['localhost', 'uat.huilianyi.com', 'stage.huilianyi.com', 'http://106.15.26.10:10080'];
@@ -33,10 +33,10 @@ export function rejectPiwik(action) {
   }
   let name = '测试';
   try {
-    _paq.push(['setCustomDimension', 1, configureStore.store.getState().login.user.fullName]);
+    _paq.push(['setCustomDimension', 1, app.getState().login.user.fullName]);
   } catch (err) {}
    try {
-      name = configureStore.store.getState().login.company.name;
+      name = app.getState().login.company.name;
    } catch (err) {}
   _paq.push(['setDocumentTitle', name + '/' + action]);
   _paq.push(['setCustomUrl', '']);

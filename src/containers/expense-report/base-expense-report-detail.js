@@ -32,7 +32,7 @@ const confirm = Modal.confirm;
 const TabPane = Tabs.TabPane;
 import ListSelector from 'widget/list-selector'
 import RelativeExpenseReportDetail from 'containers/expense-report/relative-expense-report-detail'
-// import ApproveExpenseReportDetail from 'containers/approve/expense-report/approve-expense-report-detail'
+import ApproveExpenseReportDetail from 'containers/expense-report/expense-report-approve/approve-expense-report-detail'
 import AuditApplicationDetail from 'containers/financial-management/finance-audit/audit-application-detail'
 import expenseReportService from 'containers/expense-report/expense-report.service'
 import expenseService from 'containers/my-account/expense.service'
@@ -53,7 +53,6 @@ import ApproveHistory from 'widget/Template/approve-history'
 import FileSaver from "file-saver";
 import errorMessage from 'share/errorMessage';
 import { routerRedux } from 'dva/router';
-
 
 class ExpenseReportDetail extends React.Component {
   constructor(props) {
@@ -88,9 +87,9 @@ class ExpenseReportDetail extends React.Component {
       haveAutoAudit: false,//是否有自动审核费用
       repaymentInfo: {}, //待还款金额信息
       approvalHistory: [],
-    //   applicationList: menuRoute.getRouteItem('expense-report'), //报销单列表页
+      // applicationList: menuRoute.getRouteItem('expense-report'), //报销单列表页
       invoiceColumns: [
-        {title: this.$t("common.sequence")/*序号*/, dataIndex: 'index', width: 48},
+        {title: this.$t("common.sequence")/*序号*/, dataIndex: 'index', width: '5%'},
         {
           title: this.$t("common.expense.type")/*费用类型*/, dataIndex: 'expenseTypeName', render: expenseTypeName => (
             <Popover content={expenseTypeName}>{expenseTypeName}</Popover>
@@ -99,14 +98,12 @@ class ExpenseReportDetail extends React.Component {
         {
           title: this.$t("common.date")/*日期*/,
           dataIndex: 'createdDate',
-          width: 120,
           render: createdDate => new Date(createdDate).format('yyyy-MM-dd')
         },
-        {title: this.$t("common.currency")/*币种*/, dataIndex: 'invoiceCurrencyCode', width: 48},
+        {title: this.$t("common.currency")/*币种*/, dataIndex: 'invoiceCurrencyCode'},
         {
           title: this.$t("common.amount")/*金额*/,
           dataIndex: 'amount',
-          align: 'right',
           render: (amount, record) => {
             let showText = invoiceAmountChange(record.amount !== record.originalAmount || record.actualCurrencyRate !== record.originalActualCurrencyRate, amount || record.amount)
             return (<Popover content={showText}>
@@ -122,7 +119,6 @@ class ExpenseReportDetail extends React.Component {
         {
           title: this.$t("common.base.currency.amount")/*本位币金额*/,
           dataIndex: 'baseAmount',
-          align: 'right',
           render: (value, record) => this.filterMoney(value || record.baseAmount, 2, false)
         },
         {
@@ -138,7 +134,7 @@ class ExpenseReportDetail extends React.Component {
         },
         {
           title: this.$t("common.operation")/*操作*/, dataIndex: 'operate',
-          render: this.renderExpenseOperate, width: '10%'
+          render: this.renderExpenseOperate, width: '14%'
         },
       ],
       showExpenseReportInvoices: [],
@@ -184,13 +180,10 @@ class ExpenseReportDetail extends React.Component {
       costCenterItemsApportion: [],  //参与分摊的成本中心
       children: false,
       auditCapability: false,
-      confirmLoading: false,
-      adminApprove: window.location.href.indexOf('admin-approve-expense-detail') > -1,//是否是管理员审批
+      confirmLoading: false
     }
   }
-  componentWillMount(){
-    console.log(this.props)
-  }
+
   componentDidMount() {
     if (window.location.href.indexOf('approve-expense-report-detail') > -1) {
       this.setState({approve: true})
@@ -210,15 +203,29 @@ class ExpenseReportDetail extends React.Component {
     this.getInfo();
   }
 
-  handlePrintInvoice = (e,invoice) => {
-    e.stopPropagation();
-    expenseService.printInvoice(invoice.id).then((res) => {
-      window.open(res.data.rows.fileURL, "_blank");
-    }).catch((e) => {
-      message.error(this.$t('common.operate.filed'));//操作失败
+  handlePrintInvoice = (invoice) => {
+    // 支付宝打印
+    if (invoice.cardsignType === 'ALICARDSIGN') {
+      this.downAlipayInvoice(invoice);
+      return !1;
+    }
+    // 微信打印
+    const {company} = this.props;
+    expenseService.printInvoice(invoice, company.companyOID)
+  };
+  // 支付宝打印
+  downAlipayInvoice = (invoice) => {
+    let hide = message.loading(this.$t('importer.spanned.file'));
+    expenseService.printAlipayInvoice(invoice).then(res => {
+      let b = new Blob([res.data], {type: "application/pdf"});
+      FileSaver.saveAs(b, `${this.$t('expense.invoice.type.alipay')}-${invoice.type}.pdf`);
+      hide();
+    }).catch(() => {
+      /*下载失败，请重试*/
+      message.error(this.$t('importer.download.error.info'));
+      hide();
     });
   };
-
   renderExpenseOperate = (text, record, index) => {
     let print = true;
     const weatherPrint = record.invoiceLabels;
@@ -234,20 +241,25 @@ class ExpenseReportDetail extends React.Component {
         <a onClick={() => this.setState({
           showNewExpense: true,
           nowEditExpense: record
-        })}>{record.status === 1002 && `(${this.$t('constants.documentStatus.has.been.rejected')})`/*(已驳回)*/}</a>
+        })}>{this.$t('common.view')/*查看*/}{record.status === 1002 && `(${this.$t('constants.documentStatus.has.been.rejected')})`/*(已驳回)*/}</a>
         {record.digitalInvoice && (print || isFinancial) &&
         ((record.digitalInvoice.cardsignType === 'ALICARDSIGN' && record.digitalInvoice.pdfUrl) || record.digitalInvoice.cardsignType === 'APPCARDSIGN' || record.digitalInvoice.cardsignType === 'JSCARDSIGN') ?
           (<span>
             <span className="ant-divider"/>
-            <a onClick={(e) => this.handlePrintInvoice(e,record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
+            <a onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
         </span>) : ''}
       </span>
     ) : (
       <span>
+        <a onClick={() => this.setState({
+          showNewExpense: true,
+          nowEditExpense: record
+        })}>{this.$t('common.edit')/*编辑*/}</a>
+        <span className="ant-divider"/>
         {record.digitalInvoice && print &&
         ((record.digitalInvoice.cardsignType === 'ALICARDSIGN' && record.digitalInvoice.pdfUrl) || record.digitalInvoice.cardsignType === 'APPCARDSIGN' || record.digitalInvoice.cardsignType === 'JSCARDSIGN') &&
         <span>
-          <a onClick={(e) => this.handlePrintInvoice(e,record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
+          <a onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
           <span className="ant-divider"/>
         </span>}
         {this.deletingRecord(record) ? (<span>
@@ -518,7 +530,7 @@ class ExpenseReportDetail extends React.Component {
 
   //提交
   handleSubmit = () => {
-    let { info } = this.state;
+    let {info, isMultiCurrency} = this.state;
     //初始化流程状态
     this.setState({isRunYingFuApproveFlow:false},() =>{
       if (info.expenseReportInvoices.length === 0) {
@@ -550,9 +562,8 @@ class ExpenseReportDetail extends React.Component {
       }
     });
   };
-
-  //如果个人支付金额 > 0 而且配置了核销才能进行还款
-  repaymentValid = () => {
+   //如果个人支付金额 > 0 而且配置了核销才能进行还款
+   repaymentValid = () => {
     let { isMultiCurrency, info } = this.state;
     if (!this.props.profile['app.borrow.disabled'] &&
       (!isMultiCurrency || (isMultiCurrency && !this.props.profile['er.refund.foreign.disabled'])) &&
@@ -562,7 +573,6 @@ class ExpenseReportDetail extends React.Component {
       this.handleCheckTravelStandard();
     }
   };
-
   //选择还款单
   selectLoanRequest = () => {
     let {applicant, info} = this.state;
@@ -589,13 +599,7 @@ class ExpenseReportDetail extends React.Component {
               if (item.applicationOID === defaultLoanApplicationOID)
                 loanRequestList.push(item);
             } else {
-              if (this.props.profile['ALL.ER.DefaultLoan.Forcible']) {
-                if (!item.referenceApplicationOID) {
-                  loanRequestList.push(item);
-                }
-              } else {
                 loanRequestList.push(item);
-              }
             }
           }
         });
@@ -856,7 +860,6 @@ class ExpenseReportDetail extends React.Component {
   };
 
   handleSelectExpense = (data) => {
-    this.setState({confirmLoading:true});
     const {expenseReportInvoices} = this.state;
     const {expenseReportOID} = this.props.match.params;
     let invoiceOIDs = [];
@@ -871,10 +874,8 @@ class ExpenseReportDetail extends React.Component {
       expenseReportService.importExpense(expenseReportOID, invoiceOIDs).then(res => {
         this.setState({showImportExpense: false});
         message.success(this.$t('expense-report.expense.import.success'));  //费用导入成功
-        this.setState({confirmLoading:false});
         this.getInfo(true);
       }).catch(err => {
-        this.setState({confirmLoading:false});
         message.error(err.response.data.message);
       });
     }
@@ -1238,8 +1239,11 @@ class ExpenseReportDetail extends React.Component {
     });
     if (!proxyUserInfo) proxyUserInfo = `${info.approvalChain.approverName} ${info.approvalChain.approverEmployeeID}`;
     return proxyUserInfo;
-  };
+  }
+  //提交费用处理英孚选人审批（定制化逻辑）
+  handleYingFuSelectApprove(){
 
+  };
   //处理拆单逻辑
   dealInvoiceColumnsRender = () => {
     let {invoiceColumns, info} = this.state;
@@ -1255,6 +1259,13 @@ class ExpenseReportDetail extends React.Component {
             children: row.splitName,
             props: {},
           };
+          //影响额外扩展行
+        /*if (row.splitTypeColSpan) {
+            obj.props.rowSpan = row.splitTypeColSpan;
+          }
+          else {
+            obj.props.rowSpan = 0;
+          }*/
           return obj;
         }
       };
@@ -1264,6 +1275,12 @@ class ExpenseReportDetail extends React.Component {
             children: row.statusViewShow,
             props: {},
           };
+       /*   if (row.splitTypeColSpan>0) {
+            obj.props.rowSpan = row.splitTypeColSpan;
+          }
+          else {
+            obj.props.rowSpan = 0;
+          }*/
           return obj;
         }
       };
@@ -1300,8 +1317,7 @@ class ExpenseReportDetail extends React.Component {
       readOnly, approve, audit, view, printLoading, businessCardEnabled, invoiceEnabled,
       expenseRowSelection, directSubmitting, noPrint, selectAllLoading, currentCategoryName,
       travelSubsidy, travelSubsidyType, travelSubsidyUser, buttonRoleSwitch, pay, loanRefund,
-      costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading,
-      adminApprove
+      costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading
     } = this.state;
     const {profile} = this.props;
     let custFormValues = info.custFormValues || []; //自定义表单
@@ -1344,7 +1360,7 @@ class ExpenseReportDetail extends React.Component {
               {this.$t('common.submit.date')/*提交日期*/}：{info.lastSubmittedDate ? moment(info.lastSubmittedDate).format('YYYY-MM-DD') : moment(info.createdDate).format('YYYY-MM-DD')}
               {info.submittedBy && info.submittedBy !== applicant.userOID && `，${this.$t('expense-report.submitted.by', {name: info.submittedName})}`/*由 name 代提*/}
             </span>
-            <span className="detail-info">{this.$t('common.column.status')/*状态*/}：{expenseReportStatus.text}</span>
+            <span className="detail-info">{this.$t('common.column.status')/*状态*/}：{this.$t(expenseReportStatus.text)}</span>
           </Row>
           <RelativeExpenseReportDetail info={info}/>
           <Row className="row-container">
@@ -1429,7 +1445,7 @@ class ExpenseReportDetail extends React.Component {
           <Col span={21} style={{paddingLeft: '0px'}}>
             <div className="expense-percent-group">
               {invoiceGroups.map((category, index) => (
-                <div className="expense-percent" style={{width:'60px'}} key={index} onClick={() => this.handleSelectCategory(category)}>
+                <div className="expense-percent"  style={{width:'60px'}} key={index} onClick={() => this.handleSelectCategory(category)}>
                   <Pie
                     color={currentCategoryName === category.categoryName? '' : '#bfd8ef'}
                     height={60}
@@ -1484,7 +1500,7 @@ class ExpenseReportDetail extends React.Component {
                  })
                })}
                expandedRowRender={this.renderAllExpandedRow}
-               rowSelection={(approve && typeof this.props.profile['app.approval.reject.batch.disabled'] === 'boolean' && !this.props.profile['app.approval.reject.batch.disabled']) ? expenseRowSelection : undefined}
+               rowSelection={(approve && this.checkFunctionProfiles('app.approval.reject.batch.disabled', [undefined, false])) ? expenseRowSelection : undefined}
                rowClassName={this.renderClass}
                pagination={false}/>
         {/*</TabPane>*/}
@@ -1505,7 +1521,6 @@ class ExpenseReportDetail extends React.Component {
     let leftAmount = info.personalPaymentAmount - reimbursementAmount;
     leftAmount = leftAmount < 0 ? 0 : leftAmount;
     const {pageFrom} = this.props.match.params;
-    info.admin = adminApprove;
     return (
       <div className="base-expense-report-detail background-transparent">
         <div className="tabs-info">
@@ -1523,13 +1538,12 @@ class ExpenseReportDetail extends React.Component {
           <div>{expenseReportInvoicesContent}</div>
         </div>}
         <div style={{ marginTop: 60 }}/>
-        {/* { (!loading && (approve || adminApprove) )&&
+        { (!loading && approve  )&&
         <ApproveExpenseReportDetail info={info} selectedExpense={expenseRowSelection.selectedRowKeys}
                                     customFormPropertyMap={form.customFormPropertyMap}
                                     auditCapability={auditCapability}
-                                    emitRefresh={() => this.getInfo(true)}/>
-                                    } */}
-        {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOID={info.expenseReportOID} status={info.status} entityType={1002} expenseOid={this.props.params.expenseReportOID} afterClose={this.handleAfterClose}/> :
+                                    emitRefresh={() => this.getInfo(true)}/>}
+        {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOID={info.expenseReportOID} status={info.status} entityType={1002} expenseOid={this.props.match.params.expenseReportOID} afterClose={this.handleAfterClose}/> :
           <Affix offsetBottom={0} className="bottom-bar">
             <Button onClick={this.handlePrint} type="primary" className="back-btn"
                     loading={printLoading}>{this.$t('common.print')/*打印*/}</Button>
@@ -1549,7 +1563,7 @@ class ExpenseReportDetail extends React.Component {
             <Button className="back-btn" onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
           </Affix>
         )}
-        {!audit && !approve && !view && !pay && !loanRefund &&!adminApprove && (
+        {!audit && !approve && !view && !pay && !loanRefund && (
           <Affix offsetBottom={0} className="bottom-bar">
             {expenseReportStatus.operate === 'edit' &&
             <Button type="primary" className="back-btn" onClick={this.handleSubmit}
@@ -1580,45 +1594,49 @@ class ExpenseReportDetail extends React.Component {
                         currencyCode: this.checkFunctionProfiles('web.invoice.keep.consistent.with.expense', [true]) ? info.currencyCode : null,
                         expenseTypeOIDStr
                       }}
-                      confirmLoading={confirmLoading}
                       selectAll
                       onSelectAll={this.handleSelectAllExpense}
                       selectAllLoading={selectAllLoading}
         />
         {!loading && <SlideFrame show={showNewExpense}
-                                 content={NewExpense}
                                  title={readOnly ? this.$t('expense.view')/*查看费用*/ : (nowEditExpense ? this.$t('expense.edit')/*编辑费用*/ : this.$t('expense.new')/*新建费用*/)}
-                                 params={
-                                   {
-                                     nowExpense: nowEditExpense,
-                                     expenseReport: info,
-                                     expenseSource,
-                                     showExpenseReportInvoices,
-                                     readOnly,
-                                     approve,
-                                     isWaitForAudit,
-                                     audit,
-                                     view,
-                                     pay,
-                                     auditCapability,
-                                     slideFrameShowFlag: showNewExpense,
-                                     businessCardEnabled,
-                                     costCenterItemsApportion,
-                                     user: applicant,
-                                     switchingInvoice:this.switchingInvoice,
-                                   }
-                                 }
                                  onClose={() => this.setState({showNewExpense: false, nowEditExpense: null})}
-                                 afterClose={this.handleCloseNewCreate}
                                  hasFooter={false}
-                                 width="800px"/>}
+                                 width="800px">
+                                 <NewExpense
+                                 close={this.handleCloseNewCreate}
+                                 params={
+                                  {
+                                    nowExpense: nowEditExpense,
+                                    expenseReport: info,
+                                    expenseSource,
+                                    showExpenseReportInvoices,
+                                    readOnly,
+                                    approve,
+                                    isWaitForAudit,
+                                    audit,
+                                    view,
+                                    pay,
+                                    auditCapability,
+                                    slideFrameShowFlag: showNewExpense,
+                                    businessCardEnabled,
+                                    costCenterItemsApportion,
+                                    user: applicant,
+                                    switchingInvoice:this.switchingInvoice,
+                                  }
+                                }
+                                 />
+                                 </SlideFrame>}
 
         {!loading && expenseReportStatus.operate === 'edit' && <SlideFrame show={showNewExpenseReport}
-                                                                           content={NewExpenseReport}
                                                                            title={this.$t('expense-report.edit')/*编辑报销单*/}
                                                                            params={{expenseReport: info, formDetail: form}}
-                                                                           onClose={() => this.setState({showNewExpenseReport: false})}
-                                                                           afterClose={this.handleCloseNewReport}/>
+                                                                           onClose={() => this.setState({showNewExpenseReport: false})}>
+                                                                           <NewExpenseReport
+                                                                           close={this.handleCloseNewReport}
+                                                                           params={{expenseReport: info, formDetail: form}}
+                                                                           />
+                                                                           </SlideFrame>
         }
         <Modal title={this.$t('common.repayment')/*还款*/} okText={this.$t('common.submit')/*提交*/}
                visible={showLoanModal} wrapClassName="loan-list-modal"
@@ -1722,6 +1740,7 @@ class ExpenseReportDetail extends React.Component {
                                                                                                   onOk={this.submitYingfuApprove}
                                                                                                   afterClose={() => this.openYingfuSelectApprove(false)}
         />}
+
       </div>
     )
   }
@@ -1739,4 +1758,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ExpenseReportDetail);
+export default connect(mapStateToProps, null, null, { withRef: true })(ExpenseReportDetail);

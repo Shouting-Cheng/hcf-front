@@ -1446,6 +1446,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
+      // 付款申请单审批详情
       name: 'new-expense-type',
       parent: '/admin-setting/expense-type',
     },
@@ -1453,6 +1454,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
+      // 付款申请单审批详情
       name: 'expense-type-detail',
       parent: '/admin-setting/expense-type',
     },
@@ -1556,6 +1558,20 @@ export const getRouterData = app => {
       ),
       name: 'approve-expense-report-detail',
     },
+    //单据查看
+    '/financial-management/finance-view':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/financial-management/finance-view/finance-view')
+    ),
+    name: 'finance-view',
+    },
+    // //借款单详情
+    // '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
+    //   component: dynamicWrapper(app, [], () =>
+    //   import('containers/financial-management/finance-view/finance-view')
+    // ),
+    // name: 'finance-view',
+    // }
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>
@@ -1563,6 +1579,13 @@ export const getRouterData = app => {
       ),
       name: 'public-reimburse-report',
       parent: '/financial-view',
+    },
+    //我的账本
+    '/my-account': {
+      component: dynamicWrapper(app, [], () =>
+        import ('containers/my-account/my-account.js')
+      ),
+      name: 'my-account',
     },
     '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
       component: dynamicWrapper(app, [], () =>

@@ -1,21 +1,21 @@
 
 import React from 'react'
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { Table, Input, InputNumber, Form, Select, Spin, Icon, Row, Col} from 'antd'
-const Option = Select.Option;
+const Option = Select.Option; 
 const FormItem = Form.Item;
+import PropTypes from 'prop-types';
 const InputGroup = Input.Group;
-import Chooser from 'widget/chooser'
+import Chooser from 'components/Widget/chooser'
 import 'styles/my-account/expense-apportion.scss'
 import expenseReportService from 'containers/expense-report/expense-report.service'
-import chooserData from 'chooserData'
+import chooserData from 'share/chooserData'
 import {removeArryItem} from "utils/extend";
-import config from 'config'
-import Importer from 'widget/Template/importer';
+import config from 'config';
+import Importer from 'components/Widget/Template/importer';
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer'
 import { List as VList } from 'react-virtualized/dist/commonjs/List'
 import ReactHeight from 'react-height'
-import PropTypes from 'prop-types'
 
 class ExpenseApportion extends React.Component{
   constructor(props) {
@@ -25,22 +25,22 @@ class ExpenseApportion extends React.Component{
       heights : [],
       costCenterOID: '00000000-0000-0000-0000-000000000000',
       columns: [{
-        title: messages('expense.apportion.amount')/*分摊金额*/,
+        title: this.$t('expense.apportion.amount')/*分摊金额*/,
         dataIndex: 'amount',
         width: 100,
         render: (text, record, index) => this.renderColumns(record, 'amount', index)
       }, {
-        title: messages('expense.apportion.proportion')/*分摊比例*/,
+        title: this.$t('expense.apportion.proportion')/*分摊比例*/,
         dataIndex: 'proportion',
         width: 100,
         render: (text, record, index) => this.renderColumns(record, 'proportion', index)
       }, {
-        title:  messages('expense.apportion.payee')/*收款人*/,
+        title:  this.$t('expense.apportion.payee')/*收款人*/,
         dataIndex: 'personName',
         width: 100,
         render: (text, record, index) => this.renderColumns(record, 'personName', index)
       }, {
-        title: messages('common.operation')/*操作*/,
+        title: this.$t('common.operation')/*操作*/,
         dataIndex: 'operate',
         width: 100,
         render: (text, record, index) => this.renderColumns(record, 'operate', index)
@@ -98,7 +98,7 @@ class ExpenseApportion extends React.Component{
     });
     if(!readOnly && !hasOperate){
       columns.push({
-        title: messages('common.operation')/*操作*/,
+        title: this.$t('common.operation')/*操作*/,
         dataIndex: 'operate',
         width: 100,
         render: (text, record, index) => this.renderColumns(record, 'operate', index)
@@ -263,11 +263,11 @@ class ExpenseApportion extends React.Component{
         let { expenseApportion } = this.state;
         return isEditable ? (
           <div>
-            <a onClick={() => this.handleCopyExpenseApportion(record)}>{messages('common.copy')/*复制*/}</a>
-            {expenseApportion.length > 1 && <a onClick={() => this.handleRemoveExpenseApportion(index)} style={{ marginLeft: 5 }}>{messages('common.delete')/*删除*/}</a>}
+            <a onClick={() => this.handleCopyExpenseApportion(record)}>{this.$t('common.copy')/*复制*/}</a>
+            {expenseApportion.length > 1 && <a onClick={() => this.handleRemoveExpenseApportion(index)} style={{ marginLeft: 5 }}>{this.$t('common.delete')/*删除*/}</a>}
           </div>
         ) : (<div>
-          {expenseApportion.length > 1 && <a onClick={() => this.handleRemoveExpenseApportion(index)}>{messages('common.delete')/*删除*/}</a>}
+          {expenseApportion.length > 1 && <a onClick={() => this.handleRemoveExpenseApportion(index)}>{this.$t('common.delete')/*删除*/}</a>}
         </div>);
       default:
         return null;
@@ -388,20 +388,20 @@ class ExpenseApportion extends React.Component{
         })
         this.props.onChange(expenseApportion);
       }
-      let resultDom = (<div>{messages('importer.import.success', {total: result.result.length})/*导入成功：{total}条*/}</div>)
+      let resultDom = (<div>{this.$t('importer.import.success', {total: result.result.length})/*导入成功：{total}条*/}</div>)
       resultData.resultDom = resultDom;
       resultData.result = true;
     }
     else {
       let errorColumns = [{
-        title: messages('importer.line.number')/*行号*/,
+        title: this.$t('importer.line.number')/*行号*/,
         dataIndex: 'rowNum',
         width: '13%'
-      }, {title: messages('importer.error.message')/*错误信息*/, dataIndex: 'errorMessage'}];
+      }, {title: this.$t('importer.error.message')/*错误信息*/, dataIndex: 'errorMessage'}];
       let errorDom = (<div>
-        <div>{messages('importer.import.allFail', {total: result.result.length})/*导入失败：{total}条*/}
+        <div>{this.$t('importer.import.allFail', {total: result.result.length})/*导入失败：{total}条*/}
           {(
-            <a style={{fontSize: 14, marginLeft: 10}} onClick={()=>this.switchUpload(true)}>（{messages('importer.again.import')/*请修改相应数据后，重新导入*/}）</a>
+            <a style={{fontSize: 14, marginLeft: 10}} onClick={()=>this.switchUpload(true)}>（{this.$t('importer.again.import')/*请修改相应数据后，重新导入*/}）</a>
           )}
         </div>
         <div>
@@ -469,7 +469,7 @@ class ExpenseApportion extends React.Component{
     }
     return (
       <div className="expense-apportion">
-        <FormItem {...formItemLayout} label={messages('expense.apportion')/*费用分摊*/} style={{ marginBottom: 12 }}/>
+        <FormItem {...formItemLayout} label={this.$t('expense.apportion')/*费用分摊*/} style={{ marginBottom: 12 }}/>
         { loading ? <Spin/> : (
           <div>
             <div>
@@ -510,9 +510,9 @@ class ExpenseApportion extends React.Component{
                    pagination={false}/>*/}
             {!readOnly && (defaultExpenseApportion && defaultExpenseApportion.isEditable) && <div style={{display:'flex'}}>
               <div className="new-expense-apportion" onClick={this.handleNewExpenseApportion}><Icon
-                type="plus"/>{messages('expense.apportion.new')/*新建分摊*/}</div>
+                type="plus"/>{this.$t('expense.apportion.new')/*新建分摊*/}</div>
               <div className="new-expense-apportion" onClick={()=>this.showImport(true)}><Icon
-                type="plus"/>{messages('expense.apportion.import')/*导入分摊*/}</div>
+                type="plus"/>{this.$t('expense.apportion.import')/*导入分摊*/}</div>
             </div>}
           </div>
         )}
@@ -523,9 +523,9 @@ class ExpenseApportion extends React.Component{
                   downFileExtension={'.csv'}
                   isImporterResultDom={true}
                   tabKey={tabKey}
-                  downFileName={messages('expense.apportion.templateFileName')/*分摊模板文件*/}
+                  downFileName={this.$t('expense.apportion.templateFileName')/*分摊模板文件*/}
                   callBackResult={(result)=>this.handelImportCallBack(result)}
-                  fileName={messages('expense.apportion.csvSheet')/*CSV电子表格*/}
+                  fileName={this.$t('expense.apportion.csvSheet')/*CSV电子表格*/}
                   onOk={this.handleImportOk}
                   afterClose={() => this.showImport(false)}/>
       </div>
@@ -541,7 +541,7 @@ ExpenseApportion.propTypes = {
   expenseTypeId: PropTypes.any,
   onChange: PropTypes.func,
   readOnly: PropTypes.bool,
-  amountIsNegativeNumber:PropTypes.bool,//分摊金额是否为负数模式
+  amountIsNegativeNumber: PropTypes.bool,//分摊金额是否为负数模式
   costCenterItemsApportion: PropTypes.array,
   userOID: PropTypes.string
 };
@@ -554,7 +554,7 @@ function mapStateToProps(state) {
   return {
     company: state.user.company,
     profile: state.user.profile,
-    user: state.user.currentUser
+    user: state.user.currentUser,
   }
 }
 
