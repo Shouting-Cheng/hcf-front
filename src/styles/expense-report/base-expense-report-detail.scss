@@ -132,6 +132,10 @@
         .expense-percent {
           display: inline-block;
           cursor: pointer;
+          .index__pie___r_Mgc .index__total___VvRLq {
+            left: 100%;
+            transform: translate(-20%, -50%);
+           }
         }
         .antd-pro-charts--pie-total{
           height: 62px;
@@ -230,7 +234,6 @@
       }
     }
   }
-
   .expense-report-checking{
     .ant-modal-body{
       text-align: center;
@@ -290,7 +293,6 @@
       }
     }
   }
-
   .expense-report-check{
     .check-result-item{
       div{
@@ -318,7 +320,6 @@
       }
     }
   }
-
   .loan-list-modal{
     .personal-payment-amount{
       margin-top: 10px;

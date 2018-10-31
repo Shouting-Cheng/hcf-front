@@ -37,7 +37,6 @@ const confirm = Modal.confirm;
 class ExpenseAdjustDetail extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     const type = this.props.match.params.type === '1001';
     this.state = {
       voucherLoading: true,
@@ -479,7 +478,6 @@ class ExpenseAdjustDetail extends React.Component {
   }*/
 
   componentWillMount() {
-    console.log(this.props);
     const { columns } = this.state;
     if (this.props.match.params.type === '1001') {
       columns.splice(columns.length - 1, 0, {
@@ -731,7 +729,7 @@ class ExpenseAdjustDetail extends React.Component {
   handleHeadEdit = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId'
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
           .replace(':id', this.state.headerData.id)
           .replace(':expenseAdjustTypeId', this.state.headerData.expAdjustTypeId),
       })
@@ -1043,9 +1041,9 @@ ExpenseAdjustDetail.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
-    organization: state.login.organization,
+    user: state.user.currentUser,
+    company: state.user.company,
+    organization: state.user.organization,
   };
 }
 

@@ -30,7 +30,7 @@ class ExpenseAdjustApprove extends React.Component {
               },
               {                                                                                   //申请人
                 type: 'list', listType: "select_authorization_user", options: [], id: 'fullName', label: this.$t('exp.adjust.applier'), labelKey: "userName",
-                valueKey: "userName", single: true, colSpan: 6
+                valueKey: "userId", single: true, colSpan: 6
               },
                 {
                     type: 'items', id: 'dateRange', colSpan: 6,items: [
@@ -157,6 +157,7 @@ class ExpenseAdjustApprove extends React.Component {
     }
 
   handleSearch = (values) => {
+      console.log(values)
       values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
       values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
       this.setState({ searchParams: values }, () => {

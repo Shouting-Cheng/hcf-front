@@ -359,9 +359,9 @@ const chooserData = {
       { type: 'input', id: 'companyCodeTo', label: '公司代码至' },
     ],
     columns: [
-      { title: '公司代码', dataIndex: 'code' },
+      { title: '公司代码', dataIndex: 'companyCode' },
       { title: '公司名称', dataIndex: 'name' },
-      { title: '公司类型', dataIndex: 'attribute4' },
+      { title: '公司类型', dataIndex: 'companyTypeName' },
     ],
     key: 'id',
   },
@@ -448,9 +448,9 @@ const chooserData = {
       { type: 'input', id: 'companyCodeTo', label: '公司代码至' },
     ],
     columns: [
-      { title: '公司代码', dataIndex: 'code' },
+      { title: '公司代码', dataIndex: 'companyCode' },
       { title: '公司名称', dataIndex: 'name' },
-      { title: '公司类型', dataIndex: 'attribute4' },
+      { title: '公司类型', dataIndex: 'companyTypeName' },
     ],
     key: 'id',
   },
