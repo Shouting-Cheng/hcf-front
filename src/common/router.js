@@ -1587,6 +1587,14 @@ export const getRouterData = app => {
       ),
       name: 'my-account',
     },
+      //核销反冲复核
+      '/financial-management/csh-write-off-backlash-check': {
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/financial-management/csh-write-off-backlash-check/csh-write-off-backlash-check.js')
+        ),
+        name: 'csh-write-off-backlash-check',
+      },
+
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
