@@ -1587,6 +1587,14 @@ export const getRouterData = app => {
       ),
       name: 'my-account',
     },
+    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition-detail.js')
+      ),
+      // 付款申请单审批详情
+      name: 'approve-payment-requisition-detail',
+      parent: '/approval-management/approve-payment-requisition',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
