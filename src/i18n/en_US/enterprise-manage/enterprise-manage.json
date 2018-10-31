@@ -16,6 +16,7 @@
   "org.movein-person": "Move in employee",
   "org.moveout-person": "Move out employee",
   "org.employeeID-name": "ID/name",
+  "org.employeeId-name-email-phone": "ID/name/Email/phone",
   "org.no-select": "has not select",
   "org.selected": "selected",
   "org.org-title": "Org. structure",
