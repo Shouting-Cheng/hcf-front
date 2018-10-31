@@ -3,8 +3,10 @@ import React from 'react'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 import paymentService  from './pay-workbench.service'
-import { Alert, Badge, Table, Card, Icon, Spin } from 'antd'
-
+import { Alert, Badge, Table, Card, Icon, Spin, Button, Modal } from 'antd';
+import PaymentRequisitionDetail from 'containers/payment-requisition/new-payment-requisition-detail' //付款申请单
+import PublicReport from 'containers/reimburse/my-reimburse/reimburse-detail' // 对公报账单
+import PrepaymentDetail from 'containers/pre-payment/my-pre-payment/pre-payment-detail'
 import moment from 'moment'
 import 'styles/pay/pay-workbench/payment-detail.scss'
 import PropTypes from 'prop-types';
@@ -17,6 +19,9 @@ class PaymentDetail extends React.Component {
 
     this.state = {
       loading: false,
+      showDetail:false,
+      detailFlag:'',
+      detailId:undefined,
       billsColumns: [  //单据编号
         {title: messages('pay.workbench.receiptNumber'), dataIndex: 'documentCode', render: (number,record) => (<a onClick={()=>this.handleNum(record)}>{number}</a>)},
         {title: messages('pay.workbench.receiptType'), dataIndex: 'documentTypeName'},//单据类型
@@ -64,24 +69,16 @@ class PaymentDetail extends React.Component {
       offHistoryDate: [],
       logData: [],
       payWorkbench:  "/pay/pay-workbench",    //付款工作台
-      PayRequisitionDetail: "/pre-payment/me-pre-payment/pre-payment-detail/:id/prePayment", //预付款详情,
       id:null
     };
   }
 
   handleNum = (params)=>{
-    let url = {
-      pathname: this.state.PayRequisitionDetail.replace(':id', params.documentId).replace(':flag',this.props.match.params.id),
-      state: {
-        tab: this.props.match.params.tab,
-        subTab: this.props.match.params.subTab
-      }
-    };
-    this.props.dispatch(
-      routerRedux.push({
-        pathname: this.state.PayRequisitionDetail.replace(':id', params.documentId)
-      })
-    );
+    this.setState({
+      showDetail:true,
+      detailId: params.documentId,
+      detailFlag: params.documentCategory
+    })
   };
 
   componentWillMount() {
@@ -127,10 +124,24 @@ class PaymentDetail extends React.Component {
       )
     );
   };
+  //弹出框关闭
+  onClose =() =>{
+    this.setState({
+      showDetail:false
+    })
+  };
+
+  wrapClose = (content) =>{
+    let id = this.state.detailId;
+    const newProps = {
+      params: {id : id, refund : true}
+    };
+    return React.createElement(content, Object.assign({}, newProps.params, newProps));
+  };
 
   render(){
 
-    const { loading, billsColumns, detailColumns, financeColumns, offHistoryColumns, logColumns, billsData, detailData, financeData, offHistoryDate, logData, payStatusValue, payStatus, id } = this.state;
+    const { detailFlag,showDetail,loading, billsColumns, detailColumns, financeColumns, offHistoryColumns, logColumns, billsData, detailData, financeData, offHistoryDate, logData, payStatusValue, payStatus, id } = this.state;
     const gridLeftStyle = {
       width: '20%',
       textAlign: 'left',
@@ -142,7 +153,7 @@ class PaymentDetail extends React.Component {
       padding: '10px 8px'
     };
     return (
-      <div className="payment-detail">
+      <div className="payment-detail" style={{paddingBottom: 20}}>
         <Spin spinning={loading}>
           {payStatusValue && <Alert message={<Badge text={payStatusValue ? payStatus[payStatusValue].label : ''}
                                                     status={payStatusValue ? payStatus[payStatusValue].state : 'default'}/>}
@@ -212,6 +223,21 @@ class PaymentDetail extends React.Component {
             <Icon type="rollback" style={{marginRight:'5px'}}/>{messages('common.back')/*返回*/}
           </a>}
         </Spin>
+
+        <Modal visible={showDetail}
+               footer={[
+                 <Button key="back"  onClick={this.onClose}>{this.$t({id:"common.back"}/*返回*/)}</Button>
+               ]}
+               width={1200}
+               destroyOnClose={true}
+               closable={false}
+               onCancel={this.onClose}>
+          <div >
+            { detailFlag === 'PAYDETAIL'? this.wrapClose(PayDetail) :
+              detailFlag === 'ACP_REQUISITION'? this.wrapClose(PaymentRequisitionDetail) :
+                detailFlag === 'PUBLIC_REPORT' ? this.wrapClose(PublicReport) : this.wrapClose(PrepaymentDetail) }
+          </div>
+        </Modal>
       </div>
     )
   }

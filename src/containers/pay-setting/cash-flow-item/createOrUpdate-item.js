@@ -155,7 +155,6 @@ class CreateOrUpdateItem extends React.Component {
       wrapperCol: { span: 14, offset: 1 },
     };
 
-    console.log(this.state.defaultStatus);
 
     return (
       <div className="new-cash-flow-item">

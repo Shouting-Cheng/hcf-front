@@ -126,6 +126,7 @@ class ExpenseTypeModal extends React.Component {
   }
 
   componentDidMount() {
+    this.getCurrencyOptions();
     this.setState({
       value: this.props.value || {},
       expenseBudgetList: (this.props.value || {}).budgetDetail || [],
@@ -351,7 +352,6 @@ class ExpenseTypeModal extends React.Component {
 
   //删除
   deleteExpenseType = (e, index) => {
-    e.stopPropagation();
     let expenseBudgetList = this.state.expenseBudgetList;
     expenseBudgetList.splice(index, 1);
     let value = this.state.value;
@@ -493,12 +493,10 @@ class ExpenseTypeModal extends React.Component {
                             dropdownMatchSelectWidth={false}
                             style={{ width: '100%' }}
                             defaultValue={
-                              currencyCode ||
-                              formDetail.currencyCode ||
-                              this.props.company.baseCurrency
+                              currencyCode || formDetail.currencyCode
                             }
                             showSearch={true}
-                            onDropdownVisibleChange={this.getCurrencyOptions}
+                            //onDropdownVisibleChange={this.getCurrencyOptions}
                             onChange={this.handleCurrencyChange}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
@@ -508,14 +506,11 @@ class ExpenseTypeModal extends React.Component {
                                 .indexOf(input.toLowerCase()) >= 0
                             }
                             placeholder={this.$t('common.please.select') /* 请选择 */}
-                          >
+                            >
                             {currencyOptions.map(item => {
                               return (
-                                <Option key={item.currency}>
-                                  {item.currency}
-                                  {this.props.language.local === 'zh_CN'
-                                    ? ` ${item.currencyName}`
-                                    : ''}
+                                <Option key={item.currency} value={item.currency}>
+                                  {item.currency}-{item.currencyName}
                                 </Option>
                               );
                             })}
@@ -619,7 +614,6 @@ function mapStateToProps(state) {
     company: state.user.company,
     user: state.user.currentUser,
     tenantId: state.user.company.tenantId,
-    language: state.languages
   };
 }
 

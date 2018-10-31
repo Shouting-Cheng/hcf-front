@@ -1321,7 +1321,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
       ),
-      parent: '/setting/announcement-information',
+      parent: '/admin-setting/announcement-information',
       name: 'new-announcement-information',
     },
     //设置-公告信息-详情
@@ -1329,7 +1329,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
       ),
-      parent: '/setting/announcement-information',
+      parent: '/admin-setting/announcement-information',
       name: 'announcement-information-detail',
     },
     //组织架构
@@ -1479,7 +1479,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/expense-reverse/new-reverse.js')
       ),
-      name: '新建反冲',
+      name: 'new-reverse',
       parent: "/financial-management/expense-reverse",
     },
     '/financial-management/expense-reverse/expense-reverse-detail/:id': {
@@ -1487,7 +1487,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
       ),
-      name: '费用反冲详情',
+      name: 'expense-reverse-detail',
       parent: "/financial-management/expense-reverse",
     },
 
@@ -1557,7 +1557,16 @@ export const getRouterData = app => {
         import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
       ),
       name: 'approve-expense-report-detail',
-    }
+    },
+    //财务查询-对公报账单
+    '/financial-view/public-reimburse-report': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-view/public-reimburse-report/public-reimburse-report.js')
+      ),
+      name: 'public-reimburse-report',
+      parent: '/financial-view',
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

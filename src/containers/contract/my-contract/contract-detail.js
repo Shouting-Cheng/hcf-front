@@ -14,6 +14,7 @@ class ContractDetail extends React.Component {
       dLoading: false,
       submitAble: false,
       headerData: {},
+      paramsId: 0
       //myContract: menuRoute.getRouteItem('my-contract', 'key'),    //我的合同
     };
   }
@@ -81,7 +82,18 @@ class ContractDetail extends React.Component {
       this.setState({ loading: false });
     }
   };
-
+  componentWillMount () {
+    // 该判断是支付模块查看合同详情时判断，因为支付模块使用的是弹出框
+    let paramsId = 0;
+    if (this.props.params && this.props.params.refund) {
+      paramsId = this.props.params.id;
+    } else {
+      paramsId = this.props.match.params.id;
+    }
+    this.setState({
+      paramsId : paramsId
+    })
+  }
   //删除
   onDelete = () => {
     this.setState({ dLoading: true });
@@ -113,11 +125,11 @@ class ContractDetail extends React.Component {
   };
 
   render() {
-    const { loading, dLoading, submitAble } = this.state;
+    const { loading, dLoading, submitAble,paramsId} = this.state;
     return (
       <div className="contract-detail" style={{ margin: '-12px -14px' }}>
         <ContractDetailCommon
-          id={this.props.match.params.id}
+          id={paramsId}
           wrappedComponentRef={ref => (this.detail = ref)}
           getContractStatus={this.getStatus}
           isApprovePage={this.props.match.params.from !== 'contract'}
@@ -140,7 +152,7 @@ class ContractDetail extends React.Component {
             </Button>
           </Affix>
         )}
-        {this.props.match.params.refund
+        {this.props.params && this.props.params.refund
           ? ''
           : !submitAble && (
               <Affix offsetBottom={0} className="bottom-bar-jsq">

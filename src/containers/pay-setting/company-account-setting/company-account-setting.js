@@ -183,7 +183,6 @@ class WrappedCompanyAccountSetting extends React.Component {
   //根据companyCode获取公司
   getCompanyByCode = (companyCode) => {
     companyAccountSettingService.getCompanyByCode(companyCode).then((response) => {
-      console.log(response.data);
       this.setState({
         infoData: response.data
       })
