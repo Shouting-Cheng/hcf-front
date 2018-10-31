@@ -69,8 +69,16 @@ class NewUpdateMatchingGroup extends React.Component {
     }
   }
 
+  componentDidMount(){
 
-  componentWillReceiveProps(nextprops){
+    this.setState({
+      firstRender: false,
+      matchGroup: this.props.params,
+      enabled: true,
+    },this.getList);
+  }
+
+/*  componentWillReceiveProps(nextprops){
     if(nextprops.params.visible&&!this.props.params.visible){
       this.setState({
         firstRender: false,
@@ -89,7 +97,7 @@ class NewUpdateMatchingGroup extends React.Component {
       });
       this.props.form.resetFields();
     }
-  }
+  }*/
 
   //获取核算要素   可选核算要素为在核算场景定义中已启用且配置了【匹配组字段】的所有核算要素。
   getList(){
@@ -146,7 +154,7 @@ class NewUpdateMatchingGroup extends React.Component {
         let flag = !!this.state.matchGroup.id;
         values.sceneMappingId = flag ? this.state.matchGroup.scenarios.id : this.props.params.sceneMappingId;
         values.transactionSceneId = flag ?  this.state.matchGroup.scenarios.transactionSceneId : this.props.params.scenarios.transactionSceneId;
-        values.transactionSceneCode = flag ? this.state.matchGroup.scenarios.transactionSceneCode :this.props.scenarios.transactionSceneCode;
+        values.transactionSceneCode = flag ? this.state.matchGroup.scenarios.transactionSceneCode :this.props.params.scenarios.transactionSceneCode;
         if(typeof this.state.matchGroup.id !== 'undefined'){
           values.id = this.state.matchGroup.id;
           values.versionNumber = this.state.matchGroup.versionNumber
