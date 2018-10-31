@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import PropTypes from 'prop-types'
 import { Spin, Input, Card, Row, Col, Icon, message, Checkbox, Button } from 'antd';
 const Search = Input.Search;
 import 'styles/components/template/business-card-consumption-selector.scss';

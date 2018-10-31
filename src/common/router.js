@@ -1450,6 +1450,13 @@ export const getRouterData = app => {
             name: 'person-detail',
             parent: '/setting/employee',
         },
+        //我的账本
+        '/my-account': {
+            component: dynamicWrapper(app, [], () =>
+                import ('containers/my-account/my-account.js')
+            ),
+            name: 'my-account',
+        },
 
         // '/user/:id': {
         //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
