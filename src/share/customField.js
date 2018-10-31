@@ -1002,8 +1002,8 @@ export default {
     if (customFormPropertyMap && customFormPropertyMap['form.description'] && JSON.parse(customFormPropertyMap['form.description'])) {
       let instructions = JSON.parse(customFormPropertyMap['form.description']);
       if (instructions.enable) {
-        let title = instructions[configureStore.store.getState().main.language.code].title;
-        let content = instructions[configureStore.store.getState().main.language.code].content;
+        let title = instructions[app.getState().languages.code].title;
+        let content = instructions[app.getState().languages.code].content;
         return (
           <a style={{color:'#1890ff'}} onClick={() => {
             Modal.info({
