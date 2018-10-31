@@ -125,6 +125,7 @@ class NewExpense extends React.Component {
   getFpByUserOID(userOID) {
     let {invoiceFp,invoiceCompany} = this.state;
     baseService.getFpByUserOID(userOID).then(res => {
+      console.log(res.data)
       invoiceFp = res.data;
       this.setState({invoiceFp})
     });
