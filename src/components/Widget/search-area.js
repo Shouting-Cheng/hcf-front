@@ -1007,7 +1007,7 @@ class SearchArea extends React.Component {
                             {item.options.map(option => {
                               return (
                                 <Radio value={option.value}
-                                       key={option.value}>{option.label}</Radio>)
+                                       key={option.value}>{messages(option.label)}</Radio>)
                             })}
                           </Col>
                         </Row>)
