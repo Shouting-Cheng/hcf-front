@@ -318,7 +318,7 @@ class NewLegalPerson extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { legalPerson, loading } = this.state;
     return (
-      <div className="new-legal-person-wrap">
+      <div className="new-legal-person-wrap" style={{marginBottom: 20}}>
         <Form onSubmit={this.handleSave} onChange={this.handleChange}>
           <Row gutter={24} className="new-lp-row-wrap">
             <Col span={8}>

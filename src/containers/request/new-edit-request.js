@@ -1712,7 +1712,7 @@ class NewRequest extends React.Component {
   };
 
   //提交差旅申请单
-  doExecuteTravelSubmit = () => {
+  executeTravelSubmit = () => {
     //增加旧差旅行程
     if (this.state.travelItinerarys.length > 0) {
       this.travelParams.travelApplication.travelItinerarys = [];
@@ -2059,6 +2059,7 @@ class NewRequest extends React.Component {
     if (signCompanyOIDs.length > 0) {
       chooserItem.url = `${config.baseUrl}/api/users/v3/search?corporationOID=${signCompanyOIDs}`;
     }
+
     let requestInfo = (
       <div>
         <h3 className="header-title">{formInfo.formName}</h3>
@@ -2136,7 +2137,6 @@ class NewRequest extends React.Component {
                       callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
                     },
                   });
-
                 return (
                   <div key={index}>
                     {index === 0 &&

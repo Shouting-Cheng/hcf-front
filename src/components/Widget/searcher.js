@@ -1,12 +1,10 @@
-
 import React from 'react';
 import { Select, Icon } from 'antd'
-
-import ListSearcher from 'widget/list-searcher'
-import 'styles/components/chooser.scss'
-
-import searcherData from 'share/searcherData'
 import PropTypes from 'prop-types'
+import ListSearcher from 'components/Widget/list-searcher'
+import 'styles/components/chooser.scss'
+import { messages } from 'utils/utils'
+import searcherData from 'share/searcherData'
 
 /**
  * 列表选择表单组件，由antd的select组件改造而来,select + listSearcher的自定义表单组件
@@ -188,18 +186,18 @@ Searcher.propTypes = {
   placeholder: PropTypes.string,  //输入框空白时的显示文字
   disabled: PropTypes.bool,  //是否可用
   type: PropTypes.string,  //list选择的type，参见chooserData内
-  searcherItem:PropTypes.object,  //listSearcher的searcherItem
+  searcherItem: PropTypes.object,  //listSearcher的searcherItem
   labelKey: PropTypes.string,  //表单项的显示变量名
   listExtraParams: PropTypes.object,  //listSearcher的额外参数
-  single:PropTypes.bool,  //是否单选
+  single: PropTypes.bool,  //是否单选
   onChange: PropTypes.func,  //进行选择后的回调
-  value: PropTypes.oneOfType([PropTypes.array,PropTypes.string]),  //已选择的值，需要传入完整目标数组
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),  //已选择的值，需要传入完整目标数组
   showNumber: PropTypes.bool,  //是否只显示'已选XX条'
   onlyNeed: PropTypes.string,  //只需要对象内的某一值的对应变量名
   newline: PropTypes.bool,  //内容是否可换行
   maxNum: PropTypes.number,  //最多选择多少条数据
   method: PropTypes.string,  //调用方法get/post
-  showClear:PropTypes.bool, //是否显示clear
+  showClear: PropTypes.bool, //是否显示clear
   descriptionKey: PropTypes.any,  //listSearcher的descriptionKey
   showDetail: PropTypes.bool,  //是否在界面显示已选项
   searchPlaceHolder: PropTypes.string, //listSearcher的searchPlaceHolder
@@ -207,7 +205,7 @@ Searcher.propTypes = {
 };
 
 Searcher.defaultProps = {
-  placeholder: '请选择',
+  placeholder: messages("common.please.select"),
   disabled: false,
   listExtraParams: {},
   single: false,

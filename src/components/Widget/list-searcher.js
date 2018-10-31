@@ -1,13 +1,10 @@
-
-/**
- * Created By ZaraNengap on 2017/09/21
- */
 import React from 'react';
-import { connect } from 'dva'
-import SearcherContent from 'widget/searcher-content'
-import { Modal, message, Input, Tag } from 'antd'
+import { connect } from 'dva';
 import PropTypes from 'prop-types'
+import SearcherContent from 'components/Widget/searcher-content'
+import { Modal, message, Input, Tag } from 'antd'
 const Search = Input.Search;
+import { messages } from 'utils/utils'
 
 import httpFetch from 'share/httpFetch'
 
@@ -302,7 +299,7 @@ class ListSearcher extends React.Component {
 }
 
 ListSearcher.propTypes = {
-  visible: PropTypes.bool,  //对话框是否可见
+  visible:PropTypes.bool,  //对话框是否可见
   onOk: PropTypes.func,  //点击OK后的回调，当有选择的值时会返回一个数组
   onCancel: PropTypes.func,  //点击取消后的回调
   afterClose: PropTypes.func,  //关闭后的回调
@@ -329,7 +326,7 @@ ListSearcher.defaultProps = {
   method: 'get',
   showDetail: false,
   descriptionKey: null,
-  searchPlaceHolder: '请输入',
+  searchPlaceHolder: messages('common.please.enter'),
   isNeedToPage: false
 };
 

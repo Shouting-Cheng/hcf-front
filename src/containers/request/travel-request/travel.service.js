@@ -3,6 +3,7 @@
  */
 import config from 'config';
 import httpFetch from 'share/httpFetch';
+import app from '../../../index';
 //import configureStore from 'stores';
 
 export default {
@@ -385,7 +386,7 @@ export default {
       }
     });
     if (!isHaveApplicant) {
-      let user = configureStore.store.getState().login.user;
+      let user = app.getState().user.currentUser;
       proposerOID = `&proposerOID=${user.userOID}`;
     }
     if (!editEnable) {

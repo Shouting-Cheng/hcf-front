@@ -122,8 +122,8 @@ class ExpenseAdjust extends React.Component {
           colSpan: 6,
           items: [
             //金额从
-            { type: 'inputNumber', id: 'amountMin', label: this.$t('exp.money.from') },
-            { type: 'inputNumber', id: 'amountMax', label: this.$t('exp.money.from') },
+            { type: 'inputNumber', min: true, id: 'amountMin', label: this.$t('exp.money.from') },
+            { type: 'inputNumber', min: true, id: 'amountMax', label: this.$t('exp.money.to') },
           ], //金额至
         },
         {
@@ -324,10 +324,9 @@ class ExpenseAdjust extends React.Component {
   handleCreate = e => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId'.replace(
-          ':expenseAdjustTypeId',
-          e.key
-        ),
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
+          .replace(':expenseAdjustTypeId', e.key)
+          .replace(':id','new')
       })
     );
   };

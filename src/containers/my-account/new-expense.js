@@ -1,31 +1,31 @@
 import React from 'react'
-import { connect } from 'dva'
+import { connect } from 'dva';
 import baseService from 'share/base.service'
-import moment from 'moment'
+import moment from 'moment' 
 import {getApprovelHistory, mulCalculate, deepFullCopy} from 'utils/extend'
 import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message, Card, Popover, InputNumber, DatePicker, Spin, Popconfirm, Tag, Table, Modal ,Timeline } from 'antd'
 const { MonthPicker } = DatePicker;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
-import Chooser from 'widget/chooser'
-import Location from 'widget/location'
+import Chooser from 'components/Widget/chooser'
+import Location from 'components/Widget/location'
 import Invoice from 'containers/my-account/invoice'
 import ExpenseApportion from 'containers/my-account/expense-apportion'
 import 'styles/my-account/new-expense.scss'
-import ExpenseTypeSelector from 'widget/Template/expense-type-selector'
+import ExpenseTypeSelector from 'components/Widget/Template/expense-type-selector'
 import CreateInvoice from 'containers/my-account/create-invoice'
-import BusinessCardConsumption from 'widget/Template/business-card-consumption-selector'
-import FileUpload from 'widget/file-upload'
+import BusinessCardConsumption from 'components/Widget/Template/business-card-consumption-selector'
+import FileUpload from 'components/Widget/file-upload'
 import expenseService from 'containers/my-account/expense.service'
 import invoiceImg from 'images/expense/invoice-info.png'
 import invoiceImgEn from 'images/expense/invoice-info-en.png'
 import ImageAudit from 'containers/financial-management/finance-audit/image-audit'
-import Selector from 'widget/selector'
+import Selector from 'components/Widget/selector'
 import DateCombined from 'containers/my-account/date-combined'
 import Animate from 'rc-animate';
 import config from 'config'
-import Searcher from 'widget/searcher'
+import Searcher from 'components/Widget/searcher'
 import {rejectPiwik} from "share/piwik";
 const DivExpense = (props) => {
   const childrenProps = {...props};
@@ -118,7 +118,7 @@ class NewExpense extends React.Component {
   onCancel = (refresh = false) => {
     this.props.form.resetFields();
     refresh = this.state.attachmentChange ? true : refresh;
-    this.props.close(refresh);
+    this.props.onClose(refresh);
   };
 
   //根据用户OID获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
@@ -178,10 +178,148 @@ class NewExpense extends React.Component {
     expenseService.getRateByInvoiceType('').then(res => {
       this.setState({ taxRates: res.data.sort((a, b) => a.taxRateValue > b.taxRateValue || -1) })
     });
+    
+  }
+
+  componentDidMount(){
+    if (this.props.params.slideFrameShowFlag === false){
+      this.setState({
+        nowPage: 'type',
+        typeSource: '',
+        nowExpense: {},
+        recordTaxRateConfig: false,
+        recordTaxAmountConfig: false,
+        recordNonVATinclusiveAmountConfig: false,
+        attachments: [],
+        businessCardConsumptions: [],
+        nowBusinessCardConsumptionIndex: 0,
+        expenseType: {},
+        digitalInvoice: null,
+        auditAmountEditing: false,
+        editingInvoice: false,
+        readOnly: false
+      });
+      this.props.form.resetFields();
+    }
+    //更换费用录入类型时，重置界面到type
+    if(this.props.params.expenseSource !== this.state.typeSource && !this.props.params.nowExpense){
+      this.setState({
+        typeSource: this.props.params.expenseSource,
+        nowPage: 'type',
+        digitalInvoice: null,
+        businessCardConsumptions: [],
+        nowBusinessCardConsumptionIndex: 0
+      });
+    }
+    
+    //费用改变时
+    if(this.props.params.nowExpense && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))){
+      let expenseDetail = this.props.params.nowExpense;
+      expenseDetail.data && expenseDetail.data.sort((a, b) => a.sequence > b.sequence || -1);
+      expenseDetail.preCreatedDate = expenseDetail.createdDate;
+      let businessCardConsumptions = [], nowBusinessCardConsumptionIndex = 0;
+      if(expenseDetail.bankTransactionID){
+        businessCardConsumptions = [expenseDetail.bankTransactionDetail];
+        nowBusinessCardConsumptionIndex = 0
+      }
+      let isNonVat = false;
+      if(expenseDetail.digitalInvoice){
+        expenseDetail.digitalInvoice.invoiceLabels = expenseDetail.invoiceLabels;
+        let invoice = ['01','03','004','005','007','008','009','010'];
+        invoice.map(item => {
+          expenseDetail.digitalInvoice.invoiceTypeNo === item && (isNonVat = true);
+        });
+      }
+      this.setState({
+        readOnly: this.props.params.readOnly,
+        nowPage: 'form',
+        typeSource: '',
+        nowExpense: expenseDetail,
+        approvalHistory: expenseDetail.approvalOperates,
+        attachments: expenseDetail.attachments,
+        businessCardConsumptions,
+        nowBusinessCardConsumptionIndex,
+        expenseApportion: expenseDetail.expenseApportion,
+        digitalInvoice: expenseDetail.digitalInvoice,
+        isNonVat:isNonVat
+      });
+      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOID).then(res => {
+        this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
+          this.setState({
+            nowCurrency: this.getCurrencyFromList(expenseDetail.currencyCode),
+          });
+        })
+      });
+      
+      baseService.getExpenseTypeById(this.props.params.nowExpense.expenseTypeId).then(res => {
+        //里程补贴的readonly是true，但是他是可以编辑的
+        let readOnly = this.props.params.readOnly || (res.data.readonly && res.data.messageKey !== 'private.car.for.public');
+        this.setState({
+          expenseType: res.data,
+          readOnly
+        }, () => {
+          this.getFieldEnumerationList();
+          let value = {
+            createdDate: moment(expenseDetail.createdDate),
+            invoiceCurrencyCode: expenseDetail.invoiceCurrencyCode,
+            amount: expenseDetail.amount,
+            actualCurrencyRate: expenseDetail.actualCurrencyRate,
+            payByCompany: expenseDetail.paymentType === 1002,
+            comment: expenseDetail.comment || ''
+          };
+          if(res.data.pasteInvoiceNeeded && expenseDetail.vatInvoice &&
+            expenseDetail.digitalInvoice && expenseDetail.digitalInvoice.cardsignType === 'HAND'){
+            value.vatInvoice = expenseDetail.vatInvoice;
+          }
+          if(expenseDetail.bankTransactionID){
+            value.businessCardRemark = expenseDetail.bankTransactionDetail.remark;
+          }
+          if(!this.props.profile['invoice.instead.disabled'])
+            value.invoiceInstead = expenseDetail.invoiceInstead;
+          //替票理由，如果不提票则不set对应值
+          if(expenseDetail.invoiceInstead)
+            value.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
+          //遍历费用表单，将OID设置为表单id
+          expenseDetail.data.map((field, index) => {
+            if(field.showOnList && !(expenseDetail.paymentType === 1001 && field.messageKey == 'company.payment.type')){
+              value[field.fieldOID] = this.getFieldValue(field.fieldType, field.value, field.showValue,field);
+            }
+          });
+          !readOnly && this.props.form.setFieldsValue(value);
+          //第三方费用只set发票相关
+          if(!this.props.params.readOnly && (res.data.readonly && res.data.messageKey !== 'private.car.for.public')){
+            let valueWillSet = {};
+            if(res.data.pasteInvoiceNeeded && expenseDetail.vatInvoice &&
+              expenseDetail.digitalInvoice && expenseDetail.digitalInvoice.cardsignType === 'HAND'){
+              valueWillSet.vatInvoice = expenseDetail.vatInvoice;
+            }
+            if(!this.props.profile['invoice.instead.disabled'])
+              valueWillSet.invoiceInstead = expenseDetail.invoiceInstead;
+            if(expenseDetail.invoiceInstead)
+              valueWillSet.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
+            this.props.form.setFieldsValue(valueWillSet);
+          }
+        });
+      });
+    } else if(!this.props.params.nowExpense) {
+      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOID).then(res => {
+        this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
+          this.setState({
+            nowCurrency: this.getCurrencyFromList('CNY'),
+          });
+        })
+      });
+      rejectPiwik(`我的账本/新建账本`);
+      //如果为新建，重置数据
+      this.setState({nowPage: 'type', nowExpense: {}, attachments: [], expenseApportion: []});
+      let currencyCode = this.props.params.expenseReport ? this.props.params.expenseReport.currencyCode : this.props.company.baseCurrency
+      this.props.form.setFieldsValue({ invoiceCurrencyCode: currencyCode });
+      this.handleChangeCurrency(currencyCode);
+    }
   }
 
   componentWillReceiveProps(nextProps){
-    let switchingInvoiceConfig = nextProps.nowExpense && this.props.nowExpense && nextProps.nowExpense.invoiceOID != this.props.nowExpense.invoiceOID;
+    let switchingInvoiceConfig = nextProps.nowExpense && this.props.params.nowExpense && nextProps.nowExpense.invoiceOID != this.props.params.nowExpense.invoiceOID;
     if(nextProps.slideFrameShowFlag === this.props.slideFrameShowFlag && !switchingInvoiceConfig){
       return;
     }
@@ -214,6 +352,7 @@ class NewExpense extends React.Component {
         nowBusinessCardConsumptionIndex: 0
       });
     }
+    
     //费用改变时
     if(nextProps.nowExpense && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== nextProps.nowExpense.invoiceOID))){
       let expenseDetail = nextProps.nowExpense;
@@ -1696,7 +1835,7 @@ class NewExpense extends React.Component {
     return (
       <div className="vat-invoice-area">
         <Popover content={<img style={{width: '70vw'}}
-                               src={this.props.language.code === 'zh_cn' ? invoiceImg : invoiceImgEn}/>}
+                               src={this.props.language.local === 'zh_CN' ? invoiceImg : invoiceImgEn}/>}
                  placement="bottomRight">
           <div className="invoice-info">{this.$t('expense.invoice.enter.info')/*发票填写说明*/}</div>
         </Popover>
@@ -1722,7 +1861,7 @@ class NewExpense extends React.Component {
                         getPopupContainer={this.getPopupContainer}
                         placeholder={this.$t('common.please.select')/* 请选择 */}>
                   {invoiceTypes.map(item => {
-                    return <Option key={item.value}>{item.messageKey}</Option>
+                    return <Option key={item.value} value={item.value}>{item.messageKey}</Option>
                   })}
                 </Select>
               )}
@@ -1815,7 +1954,7 @@ class NewExpense extends React.Component {
                           disabled={currencyEditable}>
                     {currencyList.map(item => {
                       return <Option
-                        key={item.currency}>{item.currency}{this.props.language.code === 'zh_cn' ? ` ${item.currencyName}` : ''}</Option>
+                        key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                     })}
                   </Select>
                 )}
@@ -2441,7 +2580,7 @@ class NewExpense extends React.Component {
                                             placeholder={this.$t('common.please.select')/* 请选择 */}>
                                       {currencyList.map(item => {
                                         return <Option
-                                          key={item.currency}>{item.currency}{this.props.language.code === 'zh_cn' ? ` ${item.currencyName}` : ''}</Option>
+                                          key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                                       })}
                                     </Select>
                                   ) : nowExpense.invoiceCurrencyCode}
@@ -2700,7 +2839,7 @@ class NewExpense extends React.Component {
                                               placeholder={this.$t('common.please.select')/* 请选择 */}>
                                         {currencyList.map(item => {
                                           return <Option
-                                            key={item.currency}>{item.currency}{this.props.language.code === 'zh_cn' ? ` ${item.currencyName}` : ''}</Option>
+                                            key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                                         })}
                                       </Select>
                                     )}
@@ -2987,6 +3126,7 @@ class NewExpense extends React.Component {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
+    //companyConfiguration: state.user.companyConfiguration,
     profile: state.user.proFile,
     user: state.user.currentUser,
     language: state.languages

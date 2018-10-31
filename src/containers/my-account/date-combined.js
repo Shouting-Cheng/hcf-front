@@ -1,10 +1,9 @@
-
 import React from 'react';
+import PropTypes from 'prop-types'
 import { DatePicker, Select, Row, Col } from 'antd';
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 import moment from 'moment'
-import PropTypes from 'prop-types'
 class DateCombined extends React.Component {
   constructor(props){
     super(props);

@@ -1,6 +1,6 @@
-
 import React from 'react'
-import { connect } from 'dva'
+import { connect } from 'dva';
+import PropTypes from 'prop-types'
 import { Spin, Input, DatePicker, Row, Col, Icon, Popover, Steps, Form, Select, InputNumber, Button, message } from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -13,7 +13,6 @@ import expenseService from 'containers/my-account/expense.service';
 import invoiceImg from 'images/expense/invoice-info.png';
 import invoiceImgEn from 'images/expense/invoice-info-en.png';
 import {rejectPiwik} from "share/piwik";
-import PropTypes from 'prop-types'
 
 class CreateInvoice extends React.Component{
   constructor(props) {
@@ -122,7 +121,7 @@ class CreateInvoice extends React.Component{
                             placeholder={this.$t('common.please.select')/* 请选择 */}
                             notFoundContent={ invoiceTypes.fetched ? null : <Spin/> }>
                       {invoiceTypes.data.map(item => {
-                        return <Option key={item.invoiceTypeNo}>{item.invoiceTypeName}</Option>
+                        return <Option key={item.invoiceTypeNo} value={item.invoiceTypeNo}>{item.invoiceTypeName}</Option>
                       })}
                     </Select>
                   )}
@@ -204,7 +203,7 @@ class CreateInvoice extends React.Component{
                   </Col>
                   <Col span={5}>
                     <Popover content={<img style={{width: '70vw'}}
-                                           src={this.props.language.local === 'zh_cn' ? invoiceImg : invoiceImgEn}/>}
+                                           src={this.props.language.local === 'zh_CN' ? invoiceImg : invoiceImgEn}/>}
                              placement="bottomRight">
                       <div className="invoice-info">{this.$t('expense.invoice.enter.info')/*发票填写说明*/}</div>
                     </Popover>
@@ -230,11 +229,11 @@ class CreateInvoice extends React.Component{
 }
 
 CreateInvoice.propTypes = {
-  onCreate:PropTypes.func,
-  fromExpense:PropTypes.bool,
+  onCreate: PropTypes.func,
+  fromExpense: PropTypes.bool,
   onBack: PropTypes.func,
   createType: PropTypes.number,
-  digitalInvoice:PropTypes.any
+  digitalInvoice: PropTypes.any
 };
 
 CreateInvoice.defaultProps ={

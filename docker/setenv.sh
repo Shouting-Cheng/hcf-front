@@ -1,7 +1,6 @@
 #! /bin/sh -e
 
 echo "setting environment config"
-echo "$ARTEMIS_WS_URL"
 echo "$ARTEMIS_URL"
 
 cat >> /etc/nginx/conf.d/hly-admin.conf <<EOF
@@ -14,53 +13,45 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://115.159.108.80:25297/artemis-sit/api/;
-    }
-
-    location /oauth/ {
-        proxy_pass http://115.159.108.80:25297/oauth/;
+        proxy_pass $ARTEMIS_URL;
     }
 
     location /auth/ {
-        proxy_pass http://115.159.108.80:25297/auth/;
+        proxy_pass $AUTH_URL;
     }
 
     location /prepayment/ {
-        proxy_pass http://115.159.108.80:25297/prepayment/;
+        proxy_pass $PREPAYMENT_URL;
     }
 
     location /contract/ {
-        proxy_pass http://115.159.108.80:25297/contract/;
+        proxy_pass $CONTRACT_URL;
     }
 
     location /supplier/ {
-        proxy_pass http://115.159.108.80:25297/supplier/;
+        proxy_pass $SUPPLIER_URL;
     }
     location /job/ {
-        proxy_pass http://115.159.108.80:25297/job/;
+        proxy_pass $JOB_URL;
     }
     location /payment/ {
-        proxy_pass http://115.159.108.80:25297/payment/;
+        proxy_pass $PAYMENT_URL;
     }
-    
+
     location /accounting/ {
-        proxy_pass http://115.159.108.80:25297/accounting/;
+        proxy_pass $ACCOUNTING_URL;
     }
 
     location /budget/ {
-        proxy_pass http://115.159.108.80:25297/budget/;
+        proxy_pass $BUDGRT_URL;
     }
 
     location /location/ {
-        proxy_pass http://115.159.108.80:25297/location/;
-    }
-
-    location /invoice/ {
-        proxy_pass http://115.159.108.80:25297/invoice/;
+        proxy_pass $LOCATION_URL;
     }
 
     location /brms/ {
-        proxy_pass http://115.159.108.80:25297/brms/;
+        proxy_pass $BRMS_URL;
     }
 
 }

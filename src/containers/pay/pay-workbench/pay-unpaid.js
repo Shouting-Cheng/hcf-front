@@ -703,14 +703,8 @@ class PayUnpaid extends React.Component {
               })
             }
           }).catch(e => {
-            let blob = new Blob([e.response.data], { type: 'text/plain' });
-            var reader = new FileReader();
-            reader.readAsText(blob, 'utf-8');
-            reader.onload = obj => {
-              let jsonRes = JSON.parse(reader.result)
-              message.error(`${messages('common.operate.field')}，${jsonRes.message}`);
-              this.setState({ modalLoading: false })
-            };
+            message.error(`${messages('common.operate.filed')}，${e.response.data.message}`);
+            this.setState({ modalLoading: false })
           })
         }
       }

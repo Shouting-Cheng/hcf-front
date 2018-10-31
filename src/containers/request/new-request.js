@@ -11,7 +11,6 @@ class NewRequest extends React.Component {
     super(props);
     this.state = {
       formInfo: {},
-      applicationList: menuRoute.getRouteItem('request', 'key'), //申请单列表页
     };
   }
 
@@ -51,11 +50,13 @@ class NewRequest extends React.Component {
             );
           })}
         </Form>
+        <div style={{paddingLeft:30}}>
         <Affix offsetBottom={0} className="bottom-bar">
           <Button type="primary">提交</Button>
           <Button>保存</Button>
           <Button onClick={this.goBack}>返回</Button>
         </Affix>
+        </div>
       </div>
     );
   }

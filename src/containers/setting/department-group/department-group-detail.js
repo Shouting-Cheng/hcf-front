@@ -39,7 +39,7 @@ class DepartmentGroupDetail extends React.Component {
             },
             infoList: [
                 { type: 'input', id: 'deptGroupCode', isRequired: true, disabled: true, label: this.$t({ id: 'setting.deptGroup.code' }) + " :" },
-                { type: 'input', id: 'description', isRequired: true, disabled: true, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
+                { type: 'input', id: 'description', isRequired: true, disabled: false, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
                 { type: 'switch', id: 'enabled', label: this.$t({ id: 'common.column.status' }) + " :"/*状态*/ },
             ],
             deptSelectorItem: {
@@ -74,6 +74,7 @@ class DepartmentGroupDetail extends React.Component {
         this.setState({ loading: true });
         let param = [];
         typeof record === 'undefined' ? param = this.state.selectedEntityOIDs : param.push(record.departmentDetailId);
+        console.log(param);
         deptGroupService.deleteDeptGroupById(param).then(response => {
 
             if (typeof record !== 'undefined') {
@@ -81,7 +82,8 @@ class DepartmentGroupDetail extends React.Component {
             }
             this.setState({
                 selectedRowKeys: [],
-                selectedEntityOIDs: []
+                selectedEntityOIDs: [],
+                batchDelete: true
             }, this.getList());
 
         }).catch((e) => {
@@ -263,7 +265,7 @@ class DepartmentGroupDetail extends React.Component {
         };
 
         return (
-            <div className="budget-item-detail">
+            <div style={{ paddingBottom: 20 }} className="budget-item-detail">
                 <BasicInfo
                     infoList={infoList}
                     infoData={deptGroup}
