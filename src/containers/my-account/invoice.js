@@ -1,12 +1,11 @@
-
 import React from 'react'
-import {connect} from 'dva'
+import { connect } from 'dva';
+import PropTypes from 'prop-types'
 import {Row, Col, Table, Tag, Button, Popover, Icon, Alert} from 'antd'
 import 'styles/my-account/invoice.scss'
 import expenseService from 'containers/my-account/expense.service'
 import FileSaver from "file-saver";
 import {message} from "antd/lib/index";
-import PropTypes from 'prop-types'
 
 class Invoice extends React.Component {
   constructor(props) {
@@ -338,8 +337,8 @@ Invoice.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    company: state.user.company,
-    profile: state.user.profile
+    company: state.login.company,
+    profile: state.login.profile
   }
 }
 
