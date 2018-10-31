@@ -1557,7 +1557,21 @@ export const getRouterData = app => {
         import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
       ),
       name: 'approve-expense-report-detail',
-    }
+    },
+    //单据查看
+    '/financial-management/finance-view':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/financial-management/finance-view/finance-view')
+    ),
+    name: 'finance-view',
+    },
+    // //借款单详情
+    // '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
+    //   component: dynamicWrapper(app, [], () =>
+    //   import('containers/financial-management/finance-view/finance-view')
+    // ),
+    // name: 'finance-view',
+    // }
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

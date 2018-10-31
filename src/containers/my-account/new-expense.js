@@ -125,6 +125,7 @@ class NewExpense extends React.Component {
   getFpByUserOID(userOID) {
     let {invoiceFp,invoiceCompany} = this.state;
     baseService.getFpByUserOID(userOID).then(res => {
+      console.log(res.data)
       invoiceFp = res.data;
       this.setState({invoiceFp})
     });
@@ -2986,7 +2987,7 @@ class NewExpense extends React.Component {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
-    profile: state.user.profile,
+    profile: state.user.proFile,
     user: state.user.currentUser,
     language: state.languages
   }

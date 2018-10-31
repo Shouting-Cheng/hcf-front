@@ -18,7 +18,7 @@ let cacheSearchData = {};
 class ExpenseReport extends React.Component {
   constructor(props) {
     super(props);
-    constants.documentStatus.map(status => status.label = status.text);
+    constants.documentStatus.map(status => status.label =status.text);
     this.state = {
       loading: false,
       expenseReportTypes: [], //报销单类型
@@ -63,7 +63,7 @@ class ExpenseReport extends React.Component {
               if (form.id === 'status') {
                 return constants.documentStatus.map(item => {
                   if ((item.value === String(value) && record.rejectType === 1000) || item.value === String(value * 10000 + record.rejectType)) {
-                    return <Badge text={item.label} status={item.state} />
+                    return <Badge text={this.$t(item.label)} status={item.state} />
                   }
                 })
               }
