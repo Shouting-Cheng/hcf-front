@@ -238,7 +238,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -1042,7 +1042,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-balance-query/budget-balance-query')
       ),
-      name: 'budget-balance',
+      name: 'budget-balance-query',
     },
     '/budget/budget-balance-query/budget-balance-query-result/:id': {
       //预算余额查询方案结果

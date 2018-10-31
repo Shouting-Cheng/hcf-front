@@ -68,10 +68,11 @@ class SupplierCompanyDelivery extends React.Component {
     })
   };
 
-  componentWillMount() {
+  componentDidMount() {
     let id = this.props.match.params.id;
     //根据id查完整供应商信息
     vendorService.getVendorInfoById(id).then(response => {
+      response.data.venType = response.data.venType === '1001';
       this.setState({
         vendorInfo: response.data,
       }, this.getList)

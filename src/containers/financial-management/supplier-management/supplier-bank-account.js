@@ -198,6 +198,7 @@ class SupplierBankAccount extends React.Component {
     let params = this.props.match.params;
     //根据id查完整供应商信息
     vendorService.getVendorInfoById(params.id).then(response => {
+      response.data.venType = response.data.venType === '1001';
       this.setState(
         {
           vendorInfo: response.data,
