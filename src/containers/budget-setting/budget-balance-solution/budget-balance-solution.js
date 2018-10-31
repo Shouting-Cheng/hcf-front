@@ -1,13 +1,10 @@
-import {messages} from "share/common";
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import menuRoute from 'routes/menuRoute'
-import config from 'config'
-import SearchArea from 'components/search-area'
+import SearchArea from 'widget/search-area'
 import baseService from 'share/base.service'
 import { Button, Table, Badge, Divider, message } from 'antd'
-import { format } from 'util'
 import budgetBalanceSolutionService from 'containers/budget-setting/budget-balance-solution/budget-balance-solution.service'
+import { routerRedux } from 'dva/router';
 
 class BudgetBalanceSolution extends Component {
     /**
@@ -19,34 +16,34 @@ class BudgetBalanceSolution extends Component {
             {
                 searchForm: [
                     {
-                        type: 'select', id: 'setOfBooksId', label: messages('budget.balance.set.of.books'), options: [], isRequired: 'true',
-                        labelKey: 'name', valueKey: 'id', defaultValue: Number(this.props.params.setOfBooksId) ? this.props.params.setOfBooksId : this.props.company.setOfBooksId,
+                        type: 'select', id: 'setOfBooksId', label: this.$t('budget.balance.set.of.books'), options: [], isRequired: 'true',
+                        labelKey: 'name', valueKey: 'id', defaultValue: Number(this.props.match.params.setOfBooksId) ? this.props.match.params.setOfBooksId : this.props.company.setOfBooksId,
                         event: 'SETOFBOOKSID'
                     },
-                    { type: 'input', id: 'conditionCode', label: messages('budget.balance.condition.code') },
-                    { type: 'input', id: 'conditionName', label: messages('budget.balance.condition.name') }
+                    { type: 'input', id: 'conditionCode', label: this.$t('budget.balance.condition.code') },
+                    { type: 'input', id: 'conditionName', label: this.$t('budget.balance.condition.name') }
                 ],
-                setOfBooksId: Number(this.props.params.setOfBooksId) ? this.props.params.setOfBooksId : this.props.company.setOfBooksId,
+                setOfBooksId: Number(this.props.match.params.setOfBooksId) ? this.props.match.params.setOfBooksId : this.props.company.setOfBooksId,
                 pagination: {
                     total: 0
                 },
                 columns: [
-                    { title: messages('budget.balance.condition.code'), dataIndex: 'conditionCode', width: '25%' },
-                    { title: messages('budget.balance.condition.name'), dataIndex: 'conditionName', width: '25%' },
+                    { title: this.$t('budget.balance.condition.code'), dataIndex: 'conditionCode', width: '25%' },
+                    { title: this.$t('budget.balance.condition.name'), dataIndex: 'conditionName', width: '25%' },
                     {
-                        title: messages('common.column.status'), dataIndex: 'enabled', width: '25%', render: (text) => {
+                        title: this.$t('common.column.status'), dataIndex: 'enabled', width: '25%', render: (text) => {
                             return (
-                                <Badge status={text ? 'success' : 'error'} text={text ? messages('common.status.enable') : messages('common.status.disable')}/>
+                                <Badge status={text ? 'success' : 'error'} text={text ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
                             )
                         }
                     },
                     {
-                        title: messages('common.operation'), dataIndex: 'operation', width: '25%', render: (text, record, index) => {
+                        title: this.$t('common.operation'), dataIndex: 'operation', width: '25%', render: (text, record, index) => {
                             return (
                                 <div>
-                                    <a onClick={e => this.onEditClick(e, record)}>{messages('common.edit')}</a>
+                                    <a onClick={e => this.onEditClick(e, record)}>{this.$t('common.edit')}</a>
                                     <Divider type='vertical' />
-                                    <a onClick={e => this.onDeleteClick(e, record)}>{messages('common.delete')}</a>
+                                    <a onClick={e => this.onDeleteClick(e, record)}>{this.$t('common.delete')}</a>
                                 </div>
                             )
                         }
@@ -54,8 +51,6 @@ class BudgetBalanceSolution extends Component {
                 ],
                 data: [],
                 loading: true,
-                //新建预算余额查询方案
-                newBudgetBalanceSolution: menuRoute.getRouteItem('new-budget-balance-solution', 'key'),
                 page: 0,
                 pageSize: 10,
                 searchParam: {
@@ -70,7 +65,13 @@ class BudgetBalanceSolution extends Component {
     onEditClick = (e, record) => {
         e.preventDefault();
         e.stopPropagation();
-        this.context.router.push(this.state.newBudgetBalanceSolution.url.replace(':setOfBooksId', this.state.setOfBooksId).replace(':id', record.id));
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id'
+            .replace(':setOfBooksId', this.state.setOfBooksId)
+            .replace(':id', record.id)
+        })
+      );
     }
     /**
      * 删除某一行数据
@@ -80,12 +81,12 @@ class BudgetBalanceSolution extends Component {
         e.stopPropagation();
         budgetBalanceSolutionService.deleteBudgetBalanceSolution(record.id).then(res => {
             if (res.status === 200) {
-                message.success(messages('common.delete.success',{name:''}));
+                message.success(this.$t('common.delete.success',{name:''}));
                 this.getList();
             }
         }).catch(e => {
             if (e.response) {
-                message.error(`${messages('common.operate.filed')}:${e.response.data.message}`);
+                message.error(`${this.$t('common.operate.filed')}:${e.response.data.message}`);
             }
         });
     }
@@ -151,7 +152,12 @@ class BudgetBalanceSolution extends Component {
      * 新建按钮
      */
     handleCreate = () => {
-        this.context.router.push(this.state.newBudgetBalanceSolution.url.replace(':setOfBooksId', this.state.setOfBooksId));
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: '/budget-setting/budget-balance-solution/new-budget-balance-solution/:setOfBooksId/:id'
+            .replace(':setOfBooksId', this.state.setOfBooksId)
+        })
+      );
     }
     /**
      * searchArea组件的事件
@@ -205,10 +211,10 @@ class BudgetBalanceSolution extends Component {
                     clearHandle={this.clear} />
                 <div className='table-header'>
                     <div className='table-header-title'>
-                        {messages('common.total', { total: Number(pagination.total) == 0 ? '0' : Number(pagination.total) })}
+                        {this.$t('common.total', { total: Number(pagination.total) == 0 ? '0' : Number(pagination.total) })}
                     </div>
                     <div className='table-header-buttons'>
-                        <Button type='primary' onClick={this.handleCreate}>{messages('common.create')}</Button>
+                        <Button type='primary' onClick={this.handleCreate}>{this.$t('common.create')}</Button>
                     </div>
                 </div>
                 <Table columns={columns}
@@ -223,18 +229,13 @@ class BudgetBalanceSolution extends Component {
     }
 
 }
-/**
- * router
- */
-BudgetBalanceSolution.contextTypes = {
-    router: React.PropTypes.object
-};
+
 /**
  * redux
  */
 function mapStateToProps(state) {
     return {
-        company: state.login.company
+        company: state.user.company
     }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(BudgetBalanceSolution);

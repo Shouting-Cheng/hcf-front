@@ -141,7 +141,6 @@ class PayResverCheckDetail extends React.Component {
         this.setState({ loading: true });
         let remark = values['backlashRemarks']
         let  params = values['passDesc'];
-        console.log(params);
         if(params === null){
           params = "";
         }

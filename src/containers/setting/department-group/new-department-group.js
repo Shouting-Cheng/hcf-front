@@ -146,9 +146,11 @@ class NewDepartmentGroup extends React.Component {
                                         { required: true, message: this.$t({ id: 'common.please.enter' }) },
                                         {
                                             validator: (item, value, callback) => {
-                                                let str = /^[\u4E00-\u9FA5a-zA-Z0-9_]*$/;
-                                                if (!str.test(value) || (value && value.length > 100)) {
-                                                    callback(this.$t({ id: 'setting.companyGroupName.tips' }))
+                                                if (value) {
+                                                    let str = /^[\u4E00-\u9FA5a-zA-Z0-9_]*$/;
+                                                    if (!str.test(value) || (value.length > 100)) {
+                                                        callback(this.$t({ id: 'setting.companyGroupName.tips' }))
+                                                    }
                                                 }
                                                 callback();
                                             }
@@ -158,9 +160,9 @@ class NewDepartmentGroup extends React.Component {
                                     <LanguageInput nameChange={this.handleDescriptionChange} name={name} i18nName={description} />
                                     )}
                             </FormItem>
-                            <div className="department-group-tips">
+                            {/* <div className="department-group-tips">
                                 {this.$t({ id: 'setting.dept.name.tips' })}
-                            </div>
+                            </div> */}
                         </Col>
                         <Col span={6} offset={1}>
                             <FormItem

@@ -39,6 +39,8 @@ import requestService from 'containers/request/request.service';
 import baseService from 'share/base.service';
 import approveRequestService from 'containers/approve/request/request.service';
 import 'styles/request/base-request-detail.scss';
+import 'styles/components/template/approve-bar.scss';
+import 'styles/reimburse/reimburse-common.scss';
 
 class BaseRequestDetail extends React.Component {
   constructor(props) {

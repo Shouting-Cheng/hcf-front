@@ -1,61 +1,63 @@
-.budget-balance-result{
-  position: relative;
-  min-height: 100%;
-  padding-bottom: 74px;
-  .header-info{
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid #EBEBEB;
-    background: #F7F7F7;
-    margin-bottom: 40px;
-    .header-info-title{
-      padding-left: 16px;
-      height: 40px;
+:global{
+  .budget-balance-result{
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 74px;
+    .header-info{
       width: 100%;
-      line-height: 40px;
-      border-bottom: 1px solid #EEEEEE;
-      color: rgba(0, 0, 0, 0.65);
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .header-info-content{
-      padding: 10px 24px;
-      .info-block{
-        margin: 10px 0;
-        .info-title{
-          color: #989898;
-          line-height: 20px;
-          height: 20px;
-        }
-        .info-content{
-          line-height: 20px;
-          height: 20px;
+      border-radius: 6px;
+      border: 1px solid #EBEBEB;
+      background: #F7F7F7;
+      margin-bottom: 40px;
+      .header-info-title{
+        padding-left: 16px;
+        height: 40px;
+        width: 100%;
+        line-height: 40px;
+        border-bottom: 1px solid #EEEEEE;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .header-info-content{
+        padding: 10px 24px;
+        .info-block{
+          margin: 10px 0;
+          .info-title{
+            color: #989898;
+            line-height: 20px;
+            height: 20px;
+          }
+          .info-content{
+            line-height: 20px;
+            height: 20px;
+          }
         }
       }
     }
-  }
-  .currency-item{
-    padding: 0 16px;
-    width: 100%;
-    border: 1px solid #EEEEEE;
-    height: 40px;
-    line-height: 40px;
-    .currency-item-child{
-      display: inline-block;
+    .currency-item{
+      padding: 0 16px;
+      width: 100%;
+      border: 1px solid #EEEEEE;
       height: 40px;
       line-height: 40px;
-    }
-    .ant-divider{
-      margin: 0 11px;
-    }
-    .money-cell{
-      font-weight: bold;
-    }
-    .green{
-      color: #87D068;
-    }
-    .red{
-      color: red;
+      .currency-item-child{
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+      }
+      .ant-divider{
+        margin: 0 11px;
+      }
+      .money-cell{
+        font-weight: bold;
+      }
+      .green{
+        color: #87D068;
+      }
+      .red{
+        color: red;
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ import { Form, Input, Switch, message, Icon, Button } from 'antd'
 const FormItem = Form.Item;
 
 import 'styles/budget-setting/budget-organization/budget-strategy/new-budget-strategy.scss'
+import * as routerRedux from "react-router-redux";
 
 class NewBudgetStrategy extends React.Component {
   constructor(props) {
@@ -13,8 +14,6 @@ class NewBudgetStrategy extends React.Component {
     this.state = {
       loading: false,
       enabled: true,
-      budgetOrganizationDetail:  menuRoute.getRouteItem('budget-organization-detail','key'),    //预算组织详情
-      budgetStrategyDetail:  menuRoute.getRouteItem('budget-strategy-detail','key'),    //预算控制策略详情
     };
   }
 
@@ -28,7 +27,14 @@ class NewBudgetStrategy extends React.Component {
           if(res.status === 200){
             this.setState({loading: false});
             message.success(this.$t({id: "common.create.success"}, {name: ""})/*新建成功*/);
-            this.context.router.push(this.state.budgetStrategyDetail.url.replace(':id', this.props.params.id).replace(':strategyId', res.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
+            this.props.dispatch(
+              routerRedux.replace({
+                pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
+                  .replace(':orgId', this.props.organization.id)
+                  .replace(':setOfBooksId',this.props.setOfBooksId)
+                  .replace(':id', res.data.id)
+              })
+            );
           }
         }).catch((e)=>{
           this.setState({loading: false});
@@ -41,7 +47,14 @@ class NewBudgetStrategy extends React.Component {
   };
 
   handleCancel = () => {
-    this.context.router.push(this.state.budgetOrganizationDetail.url.replace(':id', this.props.params.id).replace(":setOfBooksId",this.props.params.setOfBooksId) + '?tab=STRATEGY');
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+          .replace(':id', this.props.match.params.orgId)
+          .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
+          .replace(':tab','STRATEGY')
+      })
+    );
   };
 
   switchChange = () => {
@@ -96,7 +109,7 @@ class NewBudgetStrategy extends React.Component {
           </FormItem>
           <FormItem wrapperCol={{ offset: 7 }}>
             <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"}/*保存*/)}</Button>
-            <Button onClick={this.handleCancel} className="btn-cancel">{this.$t({id: "common.cancel"}/*取消*/)}</Button>
+            <Button onClick={this.handleCancel} style={{marginLeft: 20}} className="btn-cancel">{this.$t({id: "common.cancel"}/*取消*/)}</Button>
           </FormItem>
         </Form>
       </div>

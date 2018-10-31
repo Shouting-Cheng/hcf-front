@@ -1,8 +1,10 @@
-.report-list{
-  .report-list-iframe{
-    width: 100%;
-    height: 600px;
-    border-width: 0;
-    overflow: hidden;
+:global{
+  .report-list{
+    .report-list-iframe{
+      width: 100%;
+      height: 600px;
+      border-width: 0;
+      overflow: hidden;
+    }
   }
 }

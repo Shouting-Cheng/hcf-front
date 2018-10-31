@@ -7,6 +7,7 @@ import { Button, Table} from 'antd'
 import SearchArea from 'widget/search-area';
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
 import config from 'config'
+import { routerRedux } from 'dva/router';
 
 class BudgetControlRules extends React.Component {
   constructor(props) {
@@ -137,12 +138,25 @@ class BudgetControlRules extends React.Component {
 
   //新建
   handleCreate = () =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.newBudgetControlRules.url.replace(':id', this.props.id).replace(":setOfBooksId",this.props.setOfBooksId));
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/new-budget-control-rules/:setOfBooksId/:orgId'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+      })
+    );
   };
 
 //点击行，进入该行详情页面
-  handleRowClick = (record, index, event) =>{
-    this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetControlRulesDetail.url.replace(':id', this.props.id).replace(':ruleId', record.id).replace(":setOfBooksId",this.props.setOfBooksId));
+  handleRowClick = (record) =>{
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id'
+          .replace(':orgId', this.props.organization.id)
+          .replace(':setOfBooksId',this.props.setOfBooksId)
+          .replace(':id', record.id)
+      })
+    );
   };
 
   render(){

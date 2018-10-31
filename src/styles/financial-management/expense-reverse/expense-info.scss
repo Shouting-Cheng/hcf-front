@@ -1,7 +1,9 @@
-.expense-info{
-  .expense-info-card{
-    margin: 20px;
-    background: #fff;
-    box-shadow: 0 0 5px #ececec;
+:global{
+  .expense-info{
+    .expense-info-card{
+      margin: 20px;
+      background: #fff;
+      box-shadow: 0 0 5px #ececec;
+    }
   }
 }

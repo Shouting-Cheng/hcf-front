@@ -17,6 +17,7 @@ class ReimburseDetail extends React.Component {
       submitAble: false,
       headerData: {},
       submitLoading: false,
+      paramsId: 0, // 弹出框查看详情时传过来的ID
       // myReimburse: menuRoute.getRouteItem('my-reimburse', 'key'),    //我的报账单
     };
   }
@@ -33,9 +34,16 @@ class ReimburseDetail extends React.Component {
 
   //获取报账单信息
   getInfo = id => {
-    reimburseService.getReimburseDetailById(id || this.props.match.params.id).then(res => {
+    let paramsId;
+    if (this.props.params && this.props.params.refund) {
+      paramsId = this.props.params.id;
+    } else {
+      paramsId = this.props.match.params.id;
+    }
+    reimburseService.getReimburseDetailById(id || paramsId).then(res => {
       this.setState({
         headerData: res.data,
+        paramsId: paramsId
       });
     });
   };
@@ -126,7 +134,7 @@ class ReimburseDetail extends React.Component {
   };
 
   render() {
-    const { loading, dLoading, submitAble, headerData, submitLoading } = this.state;
+    const { loading, dLoading, submitAble, headerData, submitLoading,paramsId} = this.state;
     const isEdit =
       headerData.reportStatus == 1001 ||
       headerData.reportStatus == 1003 ||
@@ -136,9 +144,10 @@ class ReimburseDetail extends React.Component {
         <ReimburseDetailCommon
           getInfo={this.getInfo}
           headerData={headerData}
-          id={this.props.match.params.id}
+          id={paramsId}
           getContractStatus={this.getStatus}
         />
+        <div style={{paddingLeft:20}}>
         {isEdit && (
           <Affix offsetBottom={0} style={{
             position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
@@ -166,7 +175,7 @@ class ReimburseDetail extends React.Component {
             </Button>
           </Affix>
         )}
-        {this.props.match.params.refund
+        {this.props.params && this.props.params.refund
           ? ''
           : !isEdit && (
               <Affix offsetBottom={0} className="bottom-bar">
@@ -175,6 +184,7 @@ class ReimburseDetail extends React.Component {
                 </Button>
               </Affix>
             )}
+        </div>
       </div>
     );
   }

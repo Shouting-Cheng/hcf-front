@@ -1,10 +1,12 @@
-.cost-center-group-define-table{
-  .ant-tooltip-arrow{
-    display: none!important;
-  }
-  .ant-tooltip-inner{
-    max-width: 350px;
-    white-space: pre-wrap;
+:global{
+  .cost-center-group-define-table{
+    .ant-tooltip-arrow{
+      display: none!important;
+    }
+    .ant-tooltip-inner{
+      max-width: 350px;
+      white-space: pre-wrap;
+    }
   }
 }
 
