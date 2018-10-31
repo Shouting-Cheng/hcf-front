@@ -181,17 +181,10 @@ class NewUpdateSupplier extends React.Component {
     };
   }
 
-  componentWillMount() {
-    let params = this.props.params;
-    if (typeof params.id !== 'undefined') {
-      this.setState({
-        enabled: params.venType === 1001 ? true : false,
-      });
-    }
-  }
 
   componentDidMount() {
-    let param = Object.assign({}, this.props.params);
+    let params = {...this.props.params};
+    if (typeof params.id !== 'undefined') {
       //编辑
       let basicInfo = this.state.basicInfo;
       basicInfo[0].disabled = true;
@@ -199,18 +192,20 @@ class NewUpdateSupplier extends React.Component {
       this.props.form.setFieldsValue({
         venTypes: [
           {
-            id: param.venderTypeId,
-            name: param.venderTypeName,
-            vendorTypeCode: param.vendorTypeCode,
+            id: params.venderTypeId,
+            name: params.venderTypeName,
+            vendorTypeCode: params.vendorTypeCode,
           },
         ],
       });
       this.setState({
-        vendorInfo: param,
+        vendorInfo: params,
         basicInfo,
         isEdit: true,
-        enabled: param.venType === 1001 ? true : false,
+        enabled: params.venType === 1001 ? true : false,
       });
+    }
+
 
     // //获取国家
     // let params = { language: this.props.language.code === 'zh_cn' ? "zh_cn" : "en_us", page: 0, size: 9999 };

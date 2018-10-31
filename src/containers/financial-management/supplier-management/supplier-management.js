@@ -249,7 +249,7 @@ class SupplierManagement extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let _pagination = this.getBeforePage();
     let pagination = this.state.pagination;
     pagination.page = _pagination.page;
@@ -471,7 +471,7 @@ class SupplierManagement extends React.Component {
     });
   };
 
-  handleOnClose = () => {
+  handleOnClose = (params) => {
     let slideFrame = {
       title: '',
       visible: false,
@@ -480,7 +480,7 @@ class SupplierManagement extends React.Component {
     this.setState({
       slideFrame,
     },()=>{
-      this.getList();
+      params&&this.getList();
     });
   };
 
