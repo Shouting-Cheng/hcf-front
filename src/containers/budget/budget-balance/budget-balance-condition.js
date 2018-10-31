@@ -27,10 +27,10 @@ class BudgetBalanceCondition extends React.Component {
         {
           title: this.$t('budget.balance.operate'), dataIndex: 'operation', width: '30%', render: (text, record) => (
             <span>
-              <a href="#" onClick={(e) => this.useCondition(e, record)}>{this.$t('budget.balance.use.condition')/*使用方案*/}</a>
+              <a onClick={(e) => this.useCondition(e, record)}>{this.$t('budget.balance.use.condition')/*使用方案*/}</a>
               <span className="ant-divider" />
               <Popconfirm onConfirm={(e) => this.deleteCondition(e, record)} title={this.$t('budget.balance.are.you.sure.to.delete.this.data')/*你确定要删除吗？*/}>
-                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t('common.delete')}</a>
+                <a onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t('common.delete')}</a>
               </Popconfirm>
             </span>)
         }
