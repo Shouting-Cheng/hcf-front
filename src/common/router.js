@@ -1047,9 +1047,9 @@ export const getRouterData = app => {
     '/budget/budget-balance-query/budget-balance-query-result/:id': {
       //预算余额查询方案结果
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget/budget-balance-query/budget-balance-query')
+        import('containers/budget/budget-balance-query/budget-balance-query-result')
       ),
-      name: 'budget-balance',
+      name: 'budget-balance-query-result',
       parent: '/budget/budget-balance-query'
     },
 
