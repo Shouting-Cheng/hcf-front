@@ -22,12 +22,12 @@ class NewSubjectSheet extends React.Component {
     componentWillMount() {
         let params = this.props.params;
         if (params && JSON.stringify(params) != "{}") {
-          this.setState({
-            newSheet: params,
-          })
+            this.setState({
+                newSheet: params,
+            })
         }
-      }
-    
+    }
+
     //   componentWillReceiveProps(nextProps) {
     //     if (!nextProps.params.visible && this.props.params.visible) {
     //       this.setState({ newSheet: { i18n: {accountSetDesc:[]}, accountSetDesc: '' } });
@@ -43,13 +43,13 @@ class NewSubjectSheet extends React.Component {
     //       }
     //     }
     //   }
-    
-      componentDidMount(){
-        if(this.props.params.visible){
-          this.setState({newSheet: this.props.params})
+
+    componentDidMount() {
+        if (this.props.params.visible) {
+            this.setState({ newSheet: this.props.params })
         }
-      }
-    
+    }
+
 
     //校验多语言
     validateI18n = (accout) => {

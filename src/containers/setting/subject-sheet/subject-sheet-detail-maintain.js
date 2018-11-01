@@ -72,78 +72,78 @@ class SubjectSheetDetailMaintain extends React.Component {
   };
 
   //只要有props的值发生变化，就会调用该方法
-//   componentWillReceiveProps(nextProps) {
-//     // console.log(this.props.params);
-//     //console.log("=====componentWillReceiveProps begin");
-//     if(nextProps.params.record&&nextProps.params.record.id&&nextProps.params.visible&&!this.props.params.visible){
-//       //编辑时，获取下啦接口数据
-//       this.clickBalanceDirectionSelect();
-//       this.clickAccountTypeSelect();
-//       this.clickReportTypeSelect()
-//     }
-//     if (!nextProps.params || nextProps.params == this.props.params) {
-//       //console.log("=====componentWillReceiveProps return");
-//       return;
-//     }
+  //   componentWillReceiveProps(nextProps) {
+  //     // console.log(this.props.params);
+  //     //console.log("=====componentWillReceiveProps begin");
+  //     if(nextProps.params.record&&nextProps.params.record.id&&nextProps.params.visible&&!this.props.params.visible){
+  //       //编辑时，获取下啦接口数据
+  //       this.clickBalanceDirectionSelect();
+  //       this.clickAccountTypeSelect();
+  //       this.clickReportTypeSelect()
+  //     }
+  //     if (!nextProps.params || nextProps.params == this.props.params) {
+  //       //console.log("=====componentWillReceiveProps return");
+  //       return;
+  //     }
 
-//     if(!nextProps.params.visible&&this.props.params.visible){
-//       //this.setState({newSheet:{i18n:{},accountSetDesc:''}});
-//       this.props.form.resetFields();
-//     }
-//     //console.log("=====componentWillReceiveProps continue");
+  //     if(!nextProps.params.visible&&this.props.params.visible){
+  //       //this.setState({newSheet:{i18n:{},accountSetDesc:''}});
+  //       this.props.form.resetFields();
+  //     }
+  //     //console.log("=====componentWillReceiveProps continue");
 
-//     //余额方向 值列表
-//     let balanceDirectionOptionsTemp = [];
-//     //科目类型 值列表
-//     let accountTypeOptionsTemp = [];
-//     //报表类型 值列表
-//     let reportTypeOptionsTemp = [];
+  //     //余额方向 值列表
+  //     let balanceDirectionOptionsTemp = [];
+  //     //科目类型 值列表
+  //     let accountTypeOptionsTemp = [];
+  //     //报表类型 值列表
+  //     let reportTypeOptionsTemp = [];
 
-//     if (nextProps.params.isNew == undefined || nextProps.params.isNew) {
-//       if (nextProps.params.accountTypeOptions == undefined || nextProps.params.accountTypeOptions.length == 0) {
-//         accountTypeOptionsTemp = [];
-//       }else{
-//         accountTypeOptionsTemp = nextProps.params.accountTypeOptions;
-//       }
+  //     if (nextProps.params.isNew == undefined || nextProps.params.isNew) {
+  //       if (nextProps.params.accountTypeOptions == undefined || nextProps.params.accountTypeOptions.length == 0) {
+  //         accountTypeOptionsTemp = [];
+  //       }else{
+  //         accountTypeOptionsTemp = nextProps.params.accountTypeOptions;
+  //       }
 
-//     } else {
-//       balanceDirectionOptionsTemp.push({
-//         value: nextProps.params.record.balanceDirection,
-//         messageKey: nextProps.params.record.balanceDirectionName,
-//       });
+  //     } else {
+  //       balanceDirectionOptionsTemp.push({
+  //         value: nextProps.params.record.balanceDirection,
+  //         messageKey: nextProps.params.record.balanceDirectionName,
+  //       });
 
-//       if (nextProps.params.accountTypeOptions.length == 0) {
-//         accountTypeOptionsTemp.push({
-//           value: nextProps.params.record.accountType,
-//           messageKey: nextProps.params.record.accountTypeName,
-//         })
-//       } else {
-//         accountTypeOptionsTemp = nextProps.params.accountTypeOptions;
-//       }
+  //       if (nextProps.params.accountTypeOptions.length == 0) {
+  //         accountTypeOptionsTemp.push({
+  //           value: nextProps.params.record.accountType,
+  //           messageKey: nextProps.params.record.accountTypeName,
+  //         })
+  //       } else {
+  //         accountTypeOptionsTemp = nextProps.params.accountTypeOptions;
+  //       }
 
-//       reportTypeOptionsTemp.push({
-//         value: nextProps.params.record.reportType,
-//         messageKey: nextProps.params.record.reportTypeName,
-//       })
+  //       reportTypeOptionsTemp.push({
+  //         value: nextProps.params.record.reportType,
+  //         messageKey: nextProps.params.record.reportTypeName,
+  //       })
 
-//     }
-//     this.setState(
-//       {
-//         accountTypeOptions: accountTypeOptionsTemp, //? nextProps.params.accountTypeOptions :[],
-//         loading: false,
-//         balanceDirectionOptions: balanceDirectionOptionsTemp,
-//         reportTypeOptions: reportTypeOptionsTemp,
-//         isNew: nextProps.params.isNew
-//       }, () => {
-//         this.setState({
-//           params: { ...nextProps.params.record } //? nextProps.params.record : {},
-//         })
-//       }
-//     );
-//   }
+  //     }
+  //     this.setState(
+  //       {
+  //         accountTypeOptions: accountTypeOptionsTemp, //? nextProps.params.accountTypeOptions :[],
+  //         loading: false,
+  //         balanceDirectionOptions: balanceDirectionOptionsTemp,
+  //         reportTypeOptions: reportTypeOptionsTemp,
+  //         isNew: nextProps.params.isNew
+  //       }, () => {
+  //         this.setState({
+  //           params: { ...nextProps.params.record } //? nextProps.params.record : {},
+  //         })
+  //       }
+  //     );
+  //   }
 
-componentDidMount() {
-    if(!this.props.params.visible){
+  componentDidMount() {
+    if (!this.props.params.visible) {
       //编辑时，获取下啦接口数据
       this.clickBalanceDirectionSelect();
       this.clickAccountTypeSelect();
@@ -160,7 +160,7 @@ componentDidMount() {
     if (this.props.params.isNew == undefined || this.props.params.isNew) {
       if (this.props.params.accountTypeOptions == undefined || this.props.params.accountTypeOptions.length == 0) {
         accountTypeOptionsTemp = [];
-      }else{
+      } else {
         accountTypeOptionsTemp = this.props.params.accountTypeOptions;
       }
 
@@ -221,13 +221,13 @@ componentDidMount() {
         httpFetch[method](`${config.baseUrl}/api/accounts`, values).then((res) => {
           this.setState({ loading: false });
           if (res.status === 200) {
-            message.success(this.$t({id:'common.save.success'}, { name: this.$t({id:'subject.sheet.detail'})}));  //保存成功
+            message.success(this.$t({ id: 'common.save.success' }, { name: this.$t({ id: 'subject.sheet.detail' }) }));  //保存成功
             this.props.form.resetFields();
             this.props.close(true);//会调用
           }
         }).catch((e) => {
           this.setState({ loading: false });
-          message.error(this.$t({id:'common.save.filed'}) + `${e.response.data.message}`);
+          message.error(this.$t({ id: 'common.save.filed' }) + `${e.response.data.message}`);
         })
       }
     })
@@ -250,121 +250,121 @@ componentDidMount() {
     return (
       <div className="new-payment-method">
         <Form onSubmit={this.handleSave}>
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.code'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.code' })}>
             {getFieldDecorator('accountCode', {
               rules: [{
                 required: true,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               },
-                {
-                  validator: (item,value,callback)=>{
-                    let str = /^[0-9a-zA-z-_]*$/;
-                    if(!str.test(value)||value.length >35){
-                      callback(this.$t({id:'setting.companyGroupCode.tips'}))
-                    }
-                    callback();
+              {
+                validator: (item, value, callback) => {
+                  let str = /^[0-9a-zA-z-_]*$/;
+                  if (!str.test(value) || value.length > 35) {
+                    callback(this.$t({ id: 'setting.companyGroupCode.tips' }))
                   }
+                  callback();
                 }
+              }
               ],
               initialValue: isNew ? '' : params.accountCode
             })(
-              <Input disabled={isNew ? false : true} placeholder={this.$t({id:'common.please.enter'})/*请输入代码*/} />
+              <Input disabled={isNew ? false : true} placeholder={this.$t({ id: 'common.please.enter' })/*请输入代码*/} />
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.name'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.name' })}>
             {getFieldDecorator('accountDesc', {
               rules: [{
                 required: true,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               },
-                {
-                  validator: (item, value, callback) => {
-                    let str = /^[\u4E00-\u9FA5\w\d-]*$/u;
-                    if (!str.test(value) || value.length > 100) {
-                      callback(this.$t({id:'setting.companyGroupName.tips'}))
-                    }
-                    callback();
+              {
+                validator: (item, value, callback) => {
+                  let str = /^[\u4E00-\u9FA5\w\d-]*$/u;
+                  if (!str.test(value) || value.length > 100) {
+                    callback(this.$t({ id: 'setting.companyGroupName.tips' }))
                   }
+                  callback();
                 }
+              }
               ],
               initialValue: isNew ? "" : params.accountDesc
             })(
-              <Input  placeholder={this.$t({id:'common.please.enter'})/*请输入名称*/}/>
+              <Input placeholder={this.$t({ id: 'common.please.enter' })/*请输入名称*/} />
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.balance.direction'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.balance.direction' })}>
             {getFieldDecorator('balanceDirection', {
               rules: [{
                 required: true,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               }],
-              initialValue: isNew ? undefined: params.balanceDirection
+              initialValue: isNew ? undefined : params.balanceDirection
             })(
-              <Select placeholder={this.$t({id:'common.please.select'})/*请选择*/} onFocus={params.id ? ()=>{} : this.clickBalanceDirectionSelect }>
+              <Select placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={params.id ? () => { } : this.clickBalanceDirectionSelect}>
                 {balanceDirectionOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.type'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.type' })}>
             {getFieldDecorator('accountType', {
               rules: [{
                 required: true,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               }],
               initialValue: isNew ? undefined : params.accountType
             })(
-              <Select allowClear placeholder={this.$t({id:'common.please.select'})/*请选择*/}  onFocus={params.id ? ()=>{} :this.clickAccountTypeSelect}>
+              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={params.id ? () => { } : this.clickAccountTypeSelect}>
                 {accountTypeOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.report.type'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.report.type' })}>
             {getFieldDecorator('reportType', {
               rules: [{
                 required: false,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               }],
               initialValue: isNew ? undefined : params.reportType
             })(
-              <Select placeholder={this.$t({id:'common.please.select'})/*请选择*/}  onFocus={this.clickReportTypeSelect}>
+              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={this.clickReportTypeSelect}>
                 {reportTypeOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
               )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id:'common.column.status'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'common.column.status' })}>
             {getFieldDecorator('enabled', {
               initialValue: isNew ? true : params.enabled
             })(
               <Switch checked={this.props.form.getFieldValue('enabled')}
                 checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
-              )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({id:'common.status.enable'}) : this.$t({id:'common.status.disable'})}
+              )}&nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? this.$t({ id: 'common.status.enable' }) : this.$t({ id: 'common.status.disable' })}
           </FormItem>
 
-          <FormItem {...formItemLayout} label={this.$t({id:'subject.summary.flag'})}>
+          <FormItem {...formItemLayout} label={this.$t({ id: 'subject.summary.flag' })}>
             {getFieldDecorator('summaryFlag', {
               rules: [{
                 required: false,
-                message: this.$t({id:'common.please.enter'})
+                message: this.$t({ id: 'common.please.enter' })
               }],
               initialValue: isNew ? false : params.summaryFlag
             })(
               <RadioGroup onChange={this.onChange}>
-                <Radio key="true" value={true}>{this.$t({id:'common.yes'})}</Radio>
-                <Radio key="false" value={false}>{this.$t({id:'common.no'})}</Radio>
+                <Radio key="true" value={true}>{this.$t({ id: 'common.yes' })}</Radio>
+                <Radio key="false" value={false}>{this.$t({ id: 'common.no' })}</Radio>
               </RadioGroup>
               )}
           </FormItem>
 
           <div className="slide-footer">
             <Button type="primary" htmlType="submit"
-              loading={this.state.loading}>{this.$t({id:'common.save'})}</Button>
-            <Button onClick={this.onCancel}>{this.$t({id:'common.cancel'})}</Button>
+              loading={this.state.loading}>{this.$t({ id: 'common.save' })}</Button>
+            <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' })}</Button>
           </div>
         </Form>
       </div>
