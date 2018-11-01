@@ -312,33 +312,18 @@ class Contract extends React.Component {
           ),
         },
         {
-          title: this.$t({ id: 'my.contract.signDate' } /*签署日期*/),
-          dataIndex: 'signDate',
-          width: 100,
+          title: this.$t({ id: 'contract.createdBy' } /*申请人*/),
+          dataIndex: 'created',
+          width: 130,
           align: 'center',
-          render: desc => (
-            <span>
-              <Popover content={moment(desc).format('YYYY-MM-DD')}>
-                {desc ? moment(desc).format('YYYY-MM-DD') : '-'}
-              </Popover>
-            </span>
-          ),
+          render: value => value && value.fullName + ' - ' + value.employeeId,
         },
         {
-          title: this.$t({ id: 'my.contract.part' }),
-          dataIndex: 'partnerCategoryName',
+          title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
+          dataIndex: 'submittedDate',
+          width: 100,
           align: 'center',
-          render: (value, record) => {
-            return value ? (
-              <div>
-                {value}
-                <span className="ant-divider" />
-                {record.partnerName}
-              </div>
-            ) : (
-              '-'
-            );
-          },
+          render: value => (value ? moment(value).format('YYYY-MM-DD') : '-'),
         },
         {
           title: this.$t({ id: 'my.contract.currency' } /*币种*/),
