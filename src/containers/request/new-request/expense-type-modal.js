@@ -496,7 +496,7 @@ class ExpenseTypeModal extends React.Component {
                               currencyCode || formDetail.currencyCode
                             }
                             showSearch={true}
-                            //onDropdownVisibleChange={this.getCurrencyOptions}
+                            onDropdownVisibleChange={this.getCurrencyOptions}
                             onChange={this.handleCurrencyChange}
                             optionFilterProp="children"
                             filterOption={(input, option) =>
