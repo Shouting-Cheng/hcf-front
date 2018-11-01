@@ -24,5 +24,6 @@
   "importer.import.fail": "导入失败：{total}条",
   "importer.again.import": "请修改相应数据后，重新导入",
   "importer.fail.over.ten": "导入失败超过10条，请下载错误信息查看详情",
-  "importer.download.error": "下载错误信息"
+  "importer.download.error": "下载错误信息",
+  "importer.import.please.selectInfo":"请选择文件后，再导入"
 }
