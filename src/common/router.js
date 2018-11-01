@@ -1553,13 +1553,22 @@ export const getRouterData = app => {
     ),
     name: 'finance-view',
     },
-    // //借款单详情
-    // '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
-    //   component: dynamicWrapper(app, [], () =>
-    //   import('containers/financial-management/finance-view/finance-view')
-    // ),
-    // name: 'finance-view',
-    // }
+    //借款单详情
+    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/request/base-request-detail')
+    ),
+      name: 'loan-request-detail-audit',
+      parent: '/financial-management/finance-view',
+    },
+    //查看单据-报销单详情
+    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/expense-report/base-expense-report-detail.js')
+    ),
+       name: 'base-expense-report-detail',
+      parent: '/financial-management/finance-view',
+    },
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>
