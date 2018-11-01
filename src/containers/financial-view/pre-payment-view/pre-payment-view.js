@@ -689,6 +689,15 @@ class PerPaymentView extends Component {
    * 搜索
    */
   searh = params => {
+    if(params.companyId && params.companyId[0]){
+      params.companyId = params.companyId[0];
+    }
+    if(params.unitId && params.unitId[0]){
+      params.unitId = params.unitId[0];
+    }
+    if(params.applyId && params.applyId[0]){
+      params.applyId = params.applyId[0];
+    }
     this.setState(
       {
         loading: true,
