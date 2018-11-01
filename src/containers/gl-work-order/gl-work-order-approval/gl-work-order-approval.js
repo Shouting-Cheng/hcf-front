@@ -195,7 +195,7 @@ class GLWorkOrderCheck extends Component {
           align: 'center',
           width: 90,
           render: (submittedDate, record, index) => {
-            return <span>{moment(submittedDate).format('YYYY-MM-DD')}</span>;
+            return <span>{submittedDate?moment(submittedDate).format('YYYY-MM-DD'):null}</span>;
           },
         },
         {
@@ -268,7 +268,7 @@ class GLWorkOrderCheck extends Component {
           align: 'center',
           width: 90,
           render: (submittedDate, record, index) => {
-            return <span>{moment(submittedDate).format('YYYY-MM-DD')}</span>;
+            return <span>{submittedDate?moment(submittedDate).format('YYYY-MM-DD'):null}</span>;
           },
         },
         {
@@ -432,7 +432,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading1: true,
         page1: 0,
-        searchParams1: {...this.state.searchParams1,params},
+        searchParams1: params,
       },
       () => {
         this.getList1();
@@ -566,12 +566,12 @@ class GLWorkOrderCheck extends Component {
   /**
    * 搜索
    */
-  search2 = params => {
+  search2 = (params) => {
     this.setState(
       {
         loading2: true,
         page2: 0,
-        searchParams2: {...this.state.searchParams2,params},
+        searchParams2: params,
       },
       () => {
         this.getList2();
