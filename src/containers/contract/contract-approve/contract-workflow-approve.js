@@ -142,7 +142,7 @@ class ContractWorkflowApprove extends React.Component {
           ),
         },
         {
-          title: this.$t({ id: 'contract.sign.date' } /*提交时间*/),
+          title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
           align: 'center',
           width: 90,
           dataIndex: 'submittedDate',
