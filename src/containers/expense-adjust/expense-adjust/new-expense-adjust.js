@@ -68,10 +68,10 @@ class NewExpenseAdjust extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     Promise.all([
       this.getExpenseAdjustTypeById(),
       this.getDept(),
+      this.getCurrencyOptions(),
       this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
         let fileList = [];
         if (res.data.attachments) {
@@ -118,7 +118,7 @@ class NewExpenseAdjust extends React.Component {
           unitId: values.unitId[0].departmentId,
         };
         let method = null;
-        if (this.props.match.params.id) {
+        if (this.props.match.params.id && this.props.match.params.id != 0) {
           method = expenseAdjustService.upExpenseAdjustHead;
           dataValue.expAdjustTypeId = this.props.match.params.expenseAdjustTypeId;
           dataValue.id = this.props.match.params.id;
@@ -308,7 +308,7 @@ class NewExpenseAdjust extends React.Component {
                   })(
                     <Select
                       placeholder={this.$t('common.please.select' /*请选择*/)}
-                      onFocus={this.getCurrencyOptions}
+                      //onFocus={this.getCurrencyOptions}
                       disabled={!!model.id}
                       notFoundContent={
                         currencyLoading ? (
@@ -319,7 +319,7 @@ class NewExpenseAdjust extends React.Component {
                       }
                     >
                       {currencyOptions.map(option => {
-                        return <Option key={option.currency}>{option.currency}</Option>;
+                        return <Option key={option.currency} value={option.currency}>{option.currency}-{option.currencyName}</Option>;
                       })}
                     </Select>
                   )}

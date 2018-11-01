@@ -161,6 +161,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('exp.adjust.type'),
           dataIndex: 'adjustTypeCategory',
           align: 'center',
+          width: 100,
           render: desc => (
             <span>
               <Popover
@@ -188,7 +189,7 @@ class ExpenseAdjust extends React.Component {
           //申请日期
           title: this.$t('exp.adjust.apply.date'),
           dataIndex: 'adjustDate',
-          width: 130,
+          width: 100,
           align: 'center',
           render: desc => (
             <span>
@@ -203,6 +204,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('common.currency'),
           dataIndex: 'currencyCode',
           align: 'center',
+          width: 80,
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -234,7 +236,7 @@ class ExpenseAdjust extends React.Component {
         {
           title: this.$t('common.comment'),
           dataIndex: 'description',
-          align: 'center',
+          align: 'left',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -245,6 +247,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('common.column.status'),
           dataIndex: 'status',
           align: 'center',
+          width: 100,
           render: (value, record) => {
             return <Badge status={status[value].state} text={status[value].label} />;
           },

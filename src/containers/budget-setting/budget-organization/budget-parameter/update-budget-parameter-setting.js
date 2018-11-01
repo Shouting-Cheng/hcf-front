@@ -62,7 +62,7 @@ class UpdateBudgetParameterSetting extends React.Component {
         budgetOrganizationService.updateParameterSetting(params).then((res)=>{
           this.setState({loading: false});
           message.success(this.$t('common.save.success', {name: ''}));  //保存成功
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch((e) => {
           if (e.response) {
             message.error(`${this.$t('common.save.filed')}, ${e.response.data.message}`);

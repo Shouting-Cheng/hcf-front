@@ -39,7 +39,7 @@ class UpdateBudgetOrganization extends React.Component {
         budgetService.updateOrganization(params).then((res)=>{
           this.setState({loading: false});
           message.success(this.$t({id: 'common.save.success'}, {name: values.organizationName}));  //保存成功
-          this.props.close(true);
+          this.props.onClose(true);
         }).catch((e)=>{
           if(e.response){
             message.error(`保存失败, ${e.response.data.message}`);

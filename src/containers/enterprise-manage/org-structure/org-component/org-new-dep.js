@@ -81,7 +81,7 @@ class OrgNewDep extends React.Component {
       fKey,
     });
     this.props.form.resetFields();
-    this.props.close(false);
+    this.props.onClose(false);
   };
   handleSubmit = e => {
     let dep = this.state.dep;

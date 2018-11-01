@@ -320,10 +320,10 @@ class ExpenseReportDetail extends React.Component {
           })
           item.expenseReportInvoices && item.expenseReportInvoices.map((i, index) => {
             i.invoiceView.statusViewShow = (constants.invoiceChildrenStatus.filter
-            (t => (t.id === 1001 && t.id === item.statusView && t.type === item.rejectType) || (t.id != 1001 && t.id === item.statusView))[0] || {name: this.$t('constants.invoiceChildrenStatus.default')/*'未知状态'*/}).name;
+            (t => (t.id === 1001 && t.id === item.statusView && t.type === item.rejectType) || (t.id != 1001 && t.id === item.statusView))[0] || {name: messages('constants.invoiceChildrenStatus.default')/*'未知状态'*/}).name;
             i.invoiceView.statusView = item.statusView;
             i.invoiceView.splitType = item.splitName;
-            i.invoiceView.splitName = (constants.expenseReportChildrenType.filter(t => t.id === item.splitName)[0] || {name: this.$t('constants.expenseReportChildrenType.default')/*'未知类型'*/}).name;
+            i.invoiceView.splitName = (constants.expenseReportChildrenType.filter(t => t.id === item.splitName)[0] || {name: messages('constants.expenseReportChildrenType.default')/*'未知类型'*/}).name;
             if (index === 0) {
               i.invoiceView.splitTypeColSpan = item.expenseReportInvoices.length;
             }
@@ -1493,12 +1493,12 @@ class ExpenseReportDetail extends React.Component {
                rowKey="invoiceOID"
                dataSource={showExpenseReportInvoices}
                size="middle"
-               onRow={(record) => ({
-                 onClick: () => this.setState({
-                   showNewExpense: true,
-                   nowEditExpense: record
-                 })
-               })}
+              //  onRow={(record) => ({
+              //    onClick: () => this.setState({
+              //      showNewExpense: true,
+              //      nowEditExpense: record
+              //    })
+              //  })}
                expandedRowRender={this.renderAllExpandedRow}
                rowSelection={(approve && this.checkFunctionProfiles('app.approval.reject.batch.disabled', [undefined, false])) ? expenseRowSelection : undefined}
                rowClassName={this.renderClass}

@@ -119,7 +119,7 @@ class NewUpDataLineModeDataRulesSystem extends React.Component {
 
 
   onCancel = () => {
-    this.props.onClose(false)
+    this.props.close(false)
   };
 
 
@@ -193,7 +193,7 @@ class NewUpDataLineModeDataRulesSystem extends React.Component {
       });
       this.props.setParams({value:value, saveCount:this.state.saveCount});
     } else {
-      this.props.onClose({value:value,saveCount:this.state.saveCount});
+      this.props.close({value:value,saveCount:this.state.saveCount});
     }
   }
 

@@ -236,7 +236,7 @@ class NewBudgetItem extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization
+    organization: state.budget.organization
   }
 }
 const WrappedNewBudgetItem = Form.create()(NewBudgetItem);

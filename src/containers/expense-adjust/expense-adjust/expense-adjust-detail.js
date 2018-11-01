@@ -729,9 +729,7 @@ class ExpenseAdjustDetail extends React.Component {
   handleHeadEdit = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
-          .replace(':id', this.state.headerData.id)
-          .replace(':expenseAdjustTypeId', this.state.headerData.expAdjustTypeId),
+        pathname: `/expense-adjust/my-expense-adjust/new-expense-adjust/${ this.state.headerData.expAdjustTypeId}/${this.state.headerData.id}`
       })
     );
   };
@@ -807,7 +805,7 @@ class ExpenseAdjustDetail extends React.Component {
     let flag = headerData.status === 1004;
 
     return (
-      <div className="adjust-content" style={{ marginBottom: 50 }}>
+      <div className="adjust-content" style={{ marginBottom: 50,paddingBottom:20 }}>
         <Card style={{boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)"}}>
           <DocumentBasicInfo params={documentParams}>
             {headerData.status &&

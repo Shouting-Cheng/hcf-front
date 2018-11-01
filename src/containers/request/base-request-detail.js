@@ -260,7 +260,6 @@ class BaseRequestDetail extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { approving, isPreVersion, latestApplicationOID, from } = this.props;
     const {
       payProcess,
@@ -520,7 +519,7 @@ class BaseRequestDetail extends React.Component {
             />
           ) : (
             <Affix offsetBottom={0} className="bottom-bar">
-              <GoBackBtn backType={this.props.match.params.backType} />
+              <GoBackBtn backType={this.props.match.params.pageFrom} />
             </Affix>
           ))}
         {(!readOnly ||
@@ -558,7 +557,7 @@ class BaseRequestDetail extends React.Component {
             {!readOnly &&
             !payProcess &&
             (from !== 'expense' && from !== 'request') && ( //从报销单／申请单进来的关联申请单，因为是新开tab，不需要返回按钮
-                <GoBackBtn backType={this.props.match.params.backType} />
+                <GoBackBtn backType={this.props.match.params.pageFrom} />
               )}
 
             {confirmPay && (
@@ -601,7 +600,7 @@ class BaseRequestDetail extends React.Component {
           !view &&
           !audit && (
             <Affix offsetBottom={0} className="bottom-bar">
-              <GoBackBtn />
+              <GoBackBtn backType={this.props.match.params.pageFrom}/>
             </Affix>
           )}
       </div>

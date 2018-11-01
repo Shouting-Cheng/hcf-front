@@ -1,19 +1,13 @@
-import {
-  createElement
-} from 'react';
+import { createElement } from 'react';
 import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
-import {
-  getMenuData
-} from './menu';
+import { getMenuData } from './menu';
 
 let routerDataCache;
 
 const modelNotExisted = (app, model) =>
   // eslint-disable-next-line
-  !app._models.some(({
-    namespace
-  }) => {
+  !app._models.some(({ namespace }) => {
     return namespace === model.substring(model.lastIndexOf('/') + 1);
   });
 
@@ -64,13 +58,16 @@ function getFlatMenuData(menus) {
   let keys = {};
   menus.forEach(item => {
     if (item.children) {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
-      keys = { ...keys,
-        ...getFlatMenuData(item.children)
+      keys = {
+        ...keys,
+        ...getFlatMenuData(item.children),
       };
     } else {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
     }
   });
@@ -238,7 +235,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -1469,35 +1466,26 @@ export const getRouterData = app => {
     '/financial-management/expense-reverse': {
       //财务管理-费用反冲
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
-      name: 'expense-reverse',
-      parent: "/financial-management",
+      name: 'exp-report-reverse-check',
+      parent: '/financial-management',
     },
-    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
-      //新建反冲
+    //财务管理 - 费用反冲单审核详情
+    '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/new-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail.js')
       ),
-      name: 'new-reverse',
-      parent: "/financial-management/expense-reverse",
+      name: 'exp-report-reverse-check-detail',
+      parent: '/financial-management/exp-report-reverse-check/:tab',
     },
-    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
-      //费用反冲详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
-      ),
-      name: 'expense-reverse-detail',
-      parent: "/financial-management/expense-reverse",
-    },
-
-    '/admin-setting/workflow': {
-      //审批流
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/workflow/workflow')
-      ),
-      name: 'workflow'
-    },
+      //核销反冲复核
+      '/financial-management/csh-write-off-backlash-check': {
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/financial-management/csh-write-off-backlash-check/csh-write-off-backlash-check.js')
+        ),
+        name: 'csh-write-off-backlash-check',
+      },
 
     '/financial-management/check-cost-application': {
       //费用申请查看
@@ -1565,13 +1553,22 @@ export const getRouterData = app => {
     ),
     name: 'finance-view',
     },
-    // //借款单详情
-    // '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
-    //   component: dynamicWrapper(app, [], () =>
-    //   import('containers/financial-management/finance-view/finance-view')
-    // ),
-    // name: 'finance-view',
-    // }
+    //借款单详情
+    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/request/base-request-detail')
+    ),
+      name: 'loan-request-detail-audit',
+      parent: '/financial-management/finance-view',
+    },
+    //查看单据-报销单详情
+    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/expense-report/base-expense-report-detail.js')
+    ),
+       name: 'base-expense-report-detail',
+      parent: '/financial-management/finance-view',
+    },
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>

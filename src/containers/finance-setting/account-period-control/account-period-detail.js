@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva';
-
-import { Form, Table, Badge, Row, Col, message, Pagination } from 'antd'
+import { routerRedux } from "dva/router";
+import {Affix, Spin, Button, Form, Table, Badge, Row, Col, message, Pagination } from 'antd'
 
 import moment from 'moment';
 import periodControlService from 'containers/finance-setting/account-period-control/account-period-control.service'
@@ -79,6 +79,15 @@ class AccountPeriodDetail extends React.Component {
     }).catch(e => {
 
     })
+  };
+
+   //返回
+   HandleReturn = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/finance-setting/account-period-control`,
+      })
+    );
   };
 
   getClosedList = () => {
@@ -242,6 +251,31 @@ class AccountPeriodDetail extends React.Component {
                     style={{float:'right',margin:'10px 0 50px'}}
                     onChange={this.onChangeOpenPage}
                     total={paginationOpen.total} />
+        <Spin spinning={false}>
+          <Affix
+            offsetBottom={0}
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              marginLeft: '-35px',
+              width: '100%',
+              height: '50px',
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+              background: '#fff',
+              lineHeight: '50px',
+            }}
+          >
+            <div>
+              <Button
+                className="button-return"
+                style={{ marginLeft: '40px', marginRight: '8px' }}
+                onClick={this.HandleReturn}
+              >
+                {this.$t({ id: 'budgetJournal.return' })}
+              </Button>
+            </div>
+          </Affix>
+        </Spin>
       </div>
     )
   }

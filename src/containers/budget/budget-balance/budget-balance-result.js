@@ -74,7 +74,7 @@ class BudgetBalanceResult extends React.Component {
   }
 
   componentWillMount(){
-    httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/header/${this.props.params.id}`).then(res => {
+    httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/header/${this.props.match.params.id}`).then(res => {
       let companyNumber = 0;
       res.data.queryLineList.map(item => {
         if(item.parameterCode === 'COMPANY')
@@ -104,7 +104,7 @@ class BudgetBalanceResult extends React.Component {
 
   getList = () => {
     this.setState({loading: true});
-    return httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/results/${this.props.params.id}?page=${this.state.page}&size=${this.state.pageSize}`).then(res => {
+    return httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/results/${this.props.match.params.id}?page=${this.state.page}&size=${this.state.pageSize}`).then(res => {
       let data = [], total = [];
       if(res.data){
         data = res.data.queryResultList.map((item, index) => {
@@ -252,7 +252,7 @@ class BudgetBalanceResult extends React.Component {
         <Exporter visible={showExporterFlag}
                   columns={columns}
                   dimensionColumns={dimensionColumns}
-                  conditionId={this.props.params.id}
+                  conditionId={this.props.match.params.id}
                   onCancel={() => this.setState({ showExporterFlag: false })}
                   afterClose={() => {this.setState({ showExporterFlag: false })}}/>
 
@@ -261,10 +261,6 @@ class BudgetBalanceResult extends React.Component {
   }
 
 }
-
-BudgetBalanceResult.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps() {
   return {}
