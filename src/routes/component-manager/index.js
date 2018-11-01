@@ -64,7 +64,7 @@ class ComponentManager extends React.Component {
     };
   }
 
-  callback = () => {};
+  callback = () => { };
 
   //复制
   copy = record => {
@@ -102,7 +102,7 @@ class ComponentManager extends React.Component {
     let container = document.querySelector('.container');
     let scale = Number(value) / 100;
     let lastScale = 0;
-    String(container.style.transform).replace(/scale\((.+)\)/g, function(value, key) {
+    String(container.style.transform).replace(/scale\((.+)\)/g, function (value, key) {
       lastScale = Number(key);
     });
     container.style.transform = `scale(${scale})`;
@@ -354,7 +354,7 @@ class ComponentManager extends React.Component {
             </Card>
           </Col>
         </Row>
-        <div className="bottom-bar">
+        <div className="component-bottom-bar">
           <Button style={{ marginLeft: 40 }} onClick={this.priview} type="primary">
             预览
           </Button>
