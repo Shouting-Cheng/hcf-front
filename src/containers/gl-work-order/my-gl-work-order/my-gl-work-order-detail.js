@@ -1179,53 +1179,51 @@ class MyGLWorkOrderDetail extends Component {
         <div style={{marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
           <ApproveHistory loading={historyLoading} infoData={approveHistory}/>
         </div>
-        <Affix offsetBottom={0} className="bottom-bar">
-          {docHeadData.status === 1001 ||
-          docHeadData.status === 1003 ||
-          docHeadData.status === 1005 ? (
-            <div>
-              <Button
-                style={{marginLeft: '60px'}}
-                type="primary"
-                loading={operationLoading}
-                onClick={this.onSubmit}
-              >
-                提交
-              </Button>
-              <Button
-                style={{marginLeft: '20px'}}
-                loading={operationLoading}
-                onClick={this.onSave}
-              >
-                保存
-              </Button>
-              <Button
-                style={{marginLeft: '20px'}}
-                loading={operationLoading}
-                onClick={this.onDelete}
-              >
-                删除
-              </Button>
-              <Button
-                style={{marginLeft: '20px'}}
-                loading={operationLoading}
-                onClick={this.onBack}
-              >
-                返回
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Button
-                style={{marginLeft: '20px'}}
-                loading={operationLoading}
-                onClick={this.onBack}
-              >
-                返 回
-              </Button>
-            </div>
-          )}
-        </Affix>
+          <Affix offsetBottom={0} className="bottom-bar">
+            {docHeadData.status === 1001 ||
+            docHeadData.status === 1003 ||
+            docHeadData.status === 1005 ? (
+              <div  style={{marginLeft: '30px'}}>
+                <Button
+                  type="primary"
+                  loading={operationLoading}
+                  onClick={this.onSubmit}
+                >
+                  提交
+                </Button>
+                <Button
+                  style={{marginLeft: '20px'}}
+                  loading={operationLoading}
+                  onClick={this.onSave}
+                >
+                  保存
+                </Button>
+                <Button
+                  style={{marginLeft: '20px'}}
+                  loading={operationLoading}
+                  onClick={this.onDelete}
+                >
+                  删除
+                </Button>
+                <Button
+                  style={{marginLeft: '20px'}}
+                  loading={operationLoading}
+                  onClick={this.onBack}
+                >
+                  返回
+                </Button>
+              </div>
+            ) : (
+              <div style={{marginLeft: '30px'}}>
+                <Button
+                  loading={operationLoading}
+                  onClick={this.onBack}
+                >
+                  返 回
+                </Button>
+              </div>
+            )}
+          </Affix>
         {/* 导入 */}
         <Importer
           visible={showImportFrame}
