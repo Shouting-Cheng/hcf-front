@@ -117,7 +117,7 @@ class BudgetOrganizationDetail extends React.Component {
 function mapStateToProps(state) {
   console.log(state);
   return {
-    //organization: state.user.organization
+    //organization: state.budget.organization
     organization: state.budget.organization
   }
 }

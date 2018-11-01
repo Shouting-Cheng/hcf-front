@@ -296,7 +296,7 @@ class NewDimension extends React.Component{
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization,
+    organization: state.budget.organization,
     company: state.user.company,
   }
 }

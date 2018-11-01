@@ -220,7 +220,7 @@ class BudgetStrategyDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization,
+    organization: state.budget.organization,
     strategyId: state.budget.strategyId
   }
 }
