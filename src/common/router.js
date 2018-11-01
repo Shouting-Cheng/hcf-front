@@ -1,19 +1,13 @@
-import {
-  createElement
-} from 'react';
+import { createElement } from 'react';
 import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
-import {
-  getMenuData
-} from './menu';
+import { getMenuData } from './menu';
 
 let routerDataCache;
 
 const modelNotExisted = (app, model) =>
   // eslint-disable-next-line
-  !app._models.some(({
-    namespace
-  }) => {
+  !app._models.some(({ namespace }) => {
     return namespace === model.substring(model.lastIndexOf('/') + 1);
   });
 
@@ -64,13 +58,16 @@ function getFlatMenuData(menus) {
   let keys = {};
   menus.forEach(item => {
     if (item.children) {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
-      keys = { ...keys,
-        ...getFlatMenuData(item.children)
+      keys = {
+        ...keys,
+        ...getFlatMenuData(item.children),
       };
     } else {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
     }
   });
@@ -238,7 +235,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -1231,7 +1228,6 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
       name: 'legal-person',
-      parent: '/enterprise-manage',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1277,7 +1273,6 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
       name: 'company-maintain',
-      parent: '/enterprise-manage',
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1338,7 +1333,6 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
       name: 'org-structure',
-      parent: '/enterprise-manage',
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1469,35 +1463,25 @@ export const getRouterData = app => {
     '/financial-management/expense-reverse': {
       //财务管理-费用反冲
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
-      name: 'expense-reverse',
-      parent: "/financial-management",
+      name: 'exp-report-reverse-check',
     },
-    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
-      //新建反冲
+    //财务管理 - 费用反冲单审核详情
+    '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/new-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail.js')
       ),
-      name: 'new-reverse',
-      parent: "/financial-management/expense-reverse",
+      name: 'exp-report-reverse-check-detail',
+      parent: '/financial-management/exp-report-reverse-check/:tab',
     },
-    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
-      //费用反冲详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
-      ),
-      name: 'expense-reverse-detail',
-      parent: "/financial-management/expense-reverse",
-    },
-
-    '/admin-setting/workflow': {
-      //审批流
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/workflow/workflow')
-      ),
-      name: 'workflow'
-    },
+      //核销反冲复核
+      '/financial-management/csh-write-off-backlash-check': {
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/financial-management/csh-write-off-backlash-check/csh-write-off-backlash-check.js')
+        ),
+        name: 'csh-write-off-backlash-check',
+      },
 
     '/financial-management/check-cost-application': {
       //费用申请查看
@@ -1586,6 +1570,14 @@ export const getRouterData = app => {
         import ('containers/my-account/my-account.js')
       ),
       name: 'my-account',
+    },
+    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/approve/payment-requisition/payment-requisition-detail.js')
+      ),
+      // 付款申请单审批详情
+      name: 'approve-payment-requisition-detail',
+      parent: '/approval-management/approve-payment-requisition',
     },
 
     // '/user/:id': {

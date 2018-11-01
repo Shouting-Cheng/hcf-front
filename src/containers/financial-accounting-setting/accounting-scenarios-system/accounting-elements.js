@@ -186,7 +186,7 @@ class AccountingScenariosSystem extends React.Component {
   render(){
     const { loading, data, columns, pagination, lov, dataVisible , scenarios} = this.state;
     return(
-      <div className="accounting-elements">
+      <div className="accounting-elements" style={{paddingBottom:20}}>
         <div className="accounting-elements-header">
           <h2>{this.$t({id:"accounting.scenarios"},{name: scenarios.glSceneCode+ "-"+scenarios.glSceneName})}</h2>
         </div>

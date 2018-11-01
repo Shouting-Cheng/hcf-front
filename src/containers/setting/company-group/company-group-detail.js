@@ -385,7 +385,7 @@ class CompanyGroupDetail extends React.Component {
     };
 
     return (
-      <div className="budget-item-detail">
+      <div style={{ paddingBottom: 20 }} className="budget-item-detail">
         <BasicInfo
           infoList={infoList}
           infoData={companyGroup}

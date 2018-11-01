@@ -724,7 +724,7 @@ class BudgetBalance extends React.Component {
       searchForm[5].items[0].disabled = searchForm[5].items[1].disabled = periodStrategy !== 'QUARTER';
       searchForm[6].isRequired = periodStrategy !== 'YEAR';
       searchForm[6].disabled = periodStrategy === 'YEAR';
-      if(!fromCondition){
+      if(structureId){
         periodStrategy === 'YEAR' && this.setValues({
           periodLowerLimit: null,
           periodUpperLimit: null,
@@ -951,11 +951,13 @@ class BudgetBalance extends React.Component {
             pagination={false}
             size="middle" />
         </Form>
-        <SlideFrame content={BudgetBalanceCondition}
+        <SlideFrame
           title={this.$t('budget.balance.my.condition')/* 我的方案 */}
           show={showSlideFrame}
-          onClose={() => this.setState({ showSlideFrame: false })}
-          afterClose={this.useCondition} />
+          onClose={() => this.setState({ showSlideFrame: false })}>
+          <BudgetBalanceCondition
+          onClose={this.useCondition} />
+        </SlideFrame>
         <Modal title={this.$t('budget.balance.save.condition')/* 保存方案 */}
           visible={showSaveModal}
           onCancel={() => { this.setState({ showSaveModal: false }) }}

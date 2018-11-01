@@ -147,7 +147,7 @@ class NewPersonGroup extends React.Component {
             <div className="new-person-group">
                 <Form onSubmit={this.handleSave} onChange={this.handleChange}>
                     <Row gutter={24}>
-                        <Col span={8}>
+                        <Col span={6}>
                             <FormItem
                                 label={this.$t('person.group.code')}  /*人员组代码*/
                                 colon={true}>
@@ -166,7 +166,7 @@ class NewPersonGroup extends React.Component {
                                 </div>
                             )}
                         </Col>
-                        <Col span={8}>
+                        <Col span={6}>
                             <FormItem
                                 label={this.$t('person.group.name')} /* 人员组名称*/
                                 colon={true}>
@@ -186,7 +186,7 @@ class NewPersonGroup extends React.Component {
                                     )}
                             </FormItem>
                         </Col>
-                        <Col span={8}>
+                        <Col span={6}>
                             <FormItem
                                 label={this.$t('person.group.desc')} /* 人员组描述*/
                                 colon={true}>
@@ -206,11 +206,11 @@ class NewPersonGroup extends React.Component {
                                     )}
                             </FormItem>
                         </Col>
-                    </Row>
-                    <Row gutter={24}>
-                        <Col span={8}>
+                        {/* </Row>
+                    <Row gutter={24}> */}
+                        <Col span={6}>
                             <FormItem
-                                label={this.$t('common.status', { status: statusCode })} /* {/!*状态*!/}*/
+                                label={this.$t('common.column.status')} /* {/!*状态*!/}*/
                                 colon={false}>
                                 {getFieldDecorator("enabled", {
                                     initialValue: true,

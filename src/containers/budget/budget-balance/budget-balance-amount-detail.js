@@ -224,9 +224,6 @@ class BudgetBalanceAmountDetail extends React.Component {
 
 }
 
-BudgetBalanceAmountDetail.contextTypes = {
-  router: React.PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {

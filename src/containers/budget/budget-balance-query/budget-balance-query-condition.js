@@ -23,10 +23,10 @@ class BudgetBalanceCondition extends React.Component {
         {title: this.$t('budget.balance.condition.name'), dataIndex: 'conditionName', width: '35%'},
         {title: this.$t('budget.balance.operate'), dataIndex: 'operation', width: '30%', render: (text, record) => (
           <span>
-            <a href="#" onClick={(e) => this.useCondition(e, record)}>{this.$t('budget.balance.use.condition')/*使用方案*/}</a>
+            <a onClick={(e) => this.useCondition(e, record)}>{this.$t('budget.balance.use.condition')/*使用方案*/}</a>
             <span className="ant-divider" />
             <Popconfirm onConfirm={(e) => this.deleteCondition(e, record)} title={this.$t('budget.balance.are.you.sure.to.delete.this.data')/*你确定要删除吗？*/}>
-              <a href="#" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t('common.delete')}</a>
+              <a onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t('common.delete')}</a>
             </Popconfirm>
           </span>)}
       ]
@@ -58,7 +58,7 @@ class BudgetBalanceCondition extends React.Component {
     this.setState({ loading: true });
     httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/header/${record.id}`).then(res => {
       this.setState({ loading: false });
-      this.props.close(res.data);
+      this.props.onclose(res.data);
     })
   };
 
@@ -71,7 +71,7 @@ class BudgetBalanceCondition extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close();
+    this.props.onClose();
   };
 
   render(){

@@ -10,8 +10,8 @@ import "styles/budget-setting/budget-organization/budget-item-map/budget-item-ma
 import budgetService from 'containers/budget-setting/budget-organization/budget-item-map/budget-item-map.service'
 import config from 'config'
 import selectorData from 'share/chooserData'
-import Importer from 'widget/Template/importer'
-
+import ImporterNew from 'widget/Template/importer-new'
+import httpFetch from 'share/httpFetch';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -434,9 +434,15 @@ class BudgetItemMap extends React.Component {
   };
 
   //导入成功回调
-  handleImportOk = () => {
+  handleImportOk = (transactionID) => {
+    httpFetch.post(`${config.budgetUrl}/api/budget/itemsMapping/import/new/confirm/${transactionID}`).then(res => {
+      if (res.status === 200){
+        this.getList()
+      }
+    }).catch(() => {
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
+    })
     this.showImport(false);
-    this.getList()
   };
 
   handleSave = () => {
@@ -492,14 +498,16 @@ class BudgetItemMap extends React.Component {
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleAdd}>{this.$t({ id: 'common.add' })}</Button>  {/*添加*/}
             <Button type="primary" onClick={() => this.showImport(true)}>{this.$t({ id: 'importer.import' })}</Button>  {/*导入*/}
-            <Importer visible={showImportFrame}
-                      title={this.$t({ id: "itemMap.itemUpload" })}
-                      templateUrl={`${config.budgetUrl}/api/budget/itemsMapping/export/template`}
-                      uploadUrl={`${config.budgetUrl}/api/budget/itemsMapping/import?orgId=${this.props.id}`}
-                      errorUrl={`${config.budgetUrl}/api/budget/itemsMapping/export/failed/data`}
-                      fileName={this.$t({ id: "itemMap.itemUploadFile" })}
-                      onOk={this.handleImportOk}
-                      afterClose={() => this.showImport(false)} />
+            <ImporterNew visible={showImportFrame}
+                         title={this.$t({ id: "itemMap.itemUpload" })}
+                         templateUrl={`${config.budgetUrl}/api/budget/itemsMapping/export/template`}
+                         uploadUrl={`${config.budgetUrl}/api/budget/itemsMapping/import/new?orgId=${this.props.id}`}
+                         errorUrl={`${config.budgetUrl}/api/budget/itemsMapping/import/new/error/export`}
+                         errorDataQueryUrl={`${config.budgetUrl}/api/budget/itemsMapping/import/new/query/result`}
+                         deleteDataUrl ={`${config.budgetUrl}/api/budget/itemsMapping/import/new/delete`}
+                         fileName={this.$t({ id: "itemMap.itemUploadFile" })}
+                         onOk={this.handleImportOk}
+                         afterClose={() => this.showImport(false)} />
             <Button type="primary" loading={btnLoading} disabled={isSave} onClick={this.handleSave}>{this.$t({ id: 'common.save' })}</Button>  {/*保存*/}
           </div>
         </div>

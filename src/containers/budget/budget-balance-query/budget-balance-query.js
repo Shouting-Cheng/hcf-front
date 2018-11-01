@@ -1172,11 +1172,14 @@ class BudgetBalance extends React.Component {
             pagination={false}
             size="middle" />
         </Form>
-        <SlideFrame content={BudgetBalanceCondition}
+        <SlideFrame
           title={this.$t('budget.balance.my.condition')/* 我的方案 */}
           show={showSlideFrame}
-          onClose={() => this.setState({ showSlideFrame: false })}
-          afterClose={this.useCondition} />
+          onClose={() => this.setState({ showSlideFrame: false })}>
+          <BudgetBalanceCondition
+            onClose={this.useCondition}
+          />
+        </SlideFrame>
         <Modal title={this.$t('budget.balance.save.condition')/* 保存方案 */}
           visible={showSaveModal}
           onCancel={() => { this.setState({ showSaveModal: false }) }}
