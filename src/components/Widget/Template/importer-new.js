@@ -125,9 +125,10 @@ class ImporterNew extends React.Component {
   };
 
   onCancel = () => {
-    this.setState({visible: false, uploading: false});
+    this.setState({visible: false, uploading: false,fileList:[]});
     if (this.state.transactionID && this.props.deleteDataUrl) {
-      httpFetch.delete(`${this.props.deleteDataUrl}/${this.state.transactionID}`)
+      httpFetch.delete(`${this.props.deleteDataUrl}/${this.state.transactionID}`);
+      this.setState({transactionID: null});
     }
   };
 
@@ -277,7 +278,7 @@ class ImporterNew extends React.Component {
             <div>
               {this.$t('importer.import.success', {
                 total: result.successEntities || 0,
-              }) /*导入成功：{total}条*/}
+              }) /*导入成功：{total}条*/}，点击确定将导入成功的数据进行保存
             </div>
             <div>
               {this.$t('importer.import.fail', {

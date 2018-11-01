@@ -186,7 +186,7 @@ class BudgetStructure extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization
+    organization: state.budget.organization
   }
 }
 

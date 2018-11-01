@@ -37,8 +37,9 @@ import ApproveHistory from 'widget/Template/approve-history';
 import Chooser from 'widget/chooser';
 import 'styles/request/new-request.scss';
 import config from 'config';
-
 import approveRequestService from 'containers/approve/request/request.service';
+import 'styles/components/template/approve-bar.scss';
+import 'styles/reimburse/reimburse-common.scss';
 let newRequestThis;
 let firstInitLoad;
 class NewRequest extends React.Component {

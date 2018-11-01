@@ -13,7 +13,7 @@ import financeViewService from 'containers/financial-management/finance-view/fin
 import requestService from 'containers/request/request.service'
 import 'styles/financial-management/finance-view.scss'
 import CostCenterSearchForm from 'widget/Template/cost-center-search-form/cost-center-search-form'
-
+import { routerRedux } from "dva/router";
 class FinanceView extends React.Component{
   constructor(props) {
     super(props);
@@ -327,9 +327,19 @@ class FinanceView extends React.Component{
   handleRowClick = (record) => {
     // entityType：1001（申请单）、1002（报销单）
     if (record.entityType === 1002) {
-    //   window.open(this.state.expenseDetailView.url.replace(':expenseReportOID', record.entityOID))
+      //  window.open('/financial-management/finance-view/expense-report-detail-view/:expenseReportOID'.replace(':expenseReportOID', record.entityOID))
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/financial-management/finance-view/expense-report-detail-view/${record.entityOID}`,
+        })
+      );
     } else {
-    //   window.open(this.state.loanDetailView.url.replace(':formOID', record.formOID).replace(':applicationOID', record.entityOID))
+      //  window.open('/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID'.replace(':formOID', record.formOID).replace(':applicationOID', record.entityOID))
+      this.props.dispatch(
+        routerRedux.replace({
+          pathname: `/financial-management/finance-view/loan-request-detail-view/${record.formOID}/${record.entityOID}`,
+        })
+      )
     }
   };
 

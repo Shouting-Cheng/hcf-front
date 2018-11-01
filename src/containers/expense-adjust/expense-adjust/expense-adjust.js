@@ -138,7 +138,7 @@ class ExpenseAdjust extends React.Component {
           //单据编号
           title: this.$t('common.document.code'),
           dataIndex: 'expAdjustHeaderNumber',
-          width: 180,
+          width: 150,
           align: 'center',
           render: desc => (
             <span>
@@ -150,8 +150,7 @@ class ExpenseAdjust extends React.Component {
           //单据类型
           title: this.$t('exp.receipt.type'),
           dataIndex: 'expAdjustTypeName',
-          align: 'left',
-          width: 150,
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -328,8 +327,9 @@ class ExpenseAdjust extends React.Component {
   handleCreate = e => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId/0'
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
           .replace(':expenseAdjustTypeId', e.key)
+          .replace(':id','new')
       })
     );
   };

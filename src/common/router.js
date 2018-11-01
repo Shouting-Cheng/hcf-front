@@ -235,7 +235,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId/:id': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -1228,6 +1228,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
       name: 'legal-person',
+      parent: '/enterprise-manage',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1273,6 +1274,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
       name: 'company-maintain',
+      parent: '/enterprise-manage',
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1333,6 +1335,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
       name: 'org-structure',
+      parent: '/enterprise-manage',
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1466,6 +1469,7 @@ export const getRouterData = app => {
         import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
       name: 'exp-report-reverse-check',
+      parent: '/financial-management',
     },
     //财务管理 - 费用反冲单审核详情
     '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {
@@ -1549,13 +1553,22 @@ export const getRouterData = app => {
     ),
     name: 'finance-view',
     },
-    // //借款单详情
-    // '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
-    //   component: dynamicWrapper(app, [], () =>
-    //   import('containers/financial-management/finance-view/finance-view')
-    // ),
-    // name: 'finance-view',
-    // }
+    //借款单详情
+    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/request/base-request-detail')
+    ),
+      name: 'loan-request-detail-audit',
+      parent: '/financial-management/finance-view',
+    },
+    //查看单据-报销单详情
+    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/expense-report/base-expense-report-detail.js')
+    ),
+       name: 'base-expense-report-detail',
+      parent: '/financial-management/finance-view',
+    },
     //财务查询-对公报账单
     '/financial-view/public-reimburse-report': {
       component: dynamicWrapper(app, [], () =>

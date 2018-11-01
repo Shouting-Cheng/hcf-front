@@ -26,10 +26,16 @@ class NewBudgetOrganization extends React.Component {
         budgetOrganizationService.addOrganization(values).then((res)=>{
           this.setState({loading: false});
           message.success(this.$t({id: 'common.create.success'}, {name: values.organizationName}));  //新建成功
-          this.context.router.replace(this.state.budgetOrganization.url);
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
+                .replace(':id', res.data.id)
+                .replace(":setOfBooksId",res.data.setOfBooksId)
+            })
+          );
         }).catch((e)=>{
           if(e.response){
-            message.error(`${messages("common.create.filed")/*新建失败*/}, ${e.response.data.message}`);
+            message.error(`${this.$t("common.create.filed")/*新建失败*/}, ${e.response.data.message}`);
           } else {
             console.log(e)
           }
@@ -107,7 +113,8 @@ class NewBudgetOrganization extends React.Component {
           <FormItem wrapperCol={{ offset: 7 }}>
             <Row gutter={1}>
               <Col span={3}><Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: 'common.save'})/* 保存 */}</Button></Col>
-              <Col span={3}><Button onClick={() => {this.props.dispatch(
+              <Col span={3}><Button onClick={() => {
+                this.props.dispatch(
                 routerRedux.push({
                   pathname: '/budget-setting/budget-organization'
                 })

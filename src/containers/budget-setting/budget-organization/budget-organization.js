@@ -8,6 +8,7 @@ import UpdateBudgetOrganization from 'containers/budget-setting/budget-organizat
 import SearchArea from 'widget/search-area'
 import SlideFrame from 'widget/slide-frame'
 import { routerRedux } from 'dva/router';
+import zh_CN from "../../../i18n/zh_CN";
 
 class BudgetOrganization extends React.Component {
   constructor(props) {
@@ -122,6 +123,11 @@ class BudgetOrganization extends React.Component {
   };
 
   handleRowClick = (record) => {
+    //将预算组织设置到redux
+    this.props.dispatch({
+      type: 'budget/setOrganization',
+      organization: record,
+    });
     this.props.dispatch(
       routerRedux.push({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
