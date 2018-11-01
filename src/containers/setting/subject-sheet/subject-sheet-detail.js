@@ -6,7 +6,7 @@ import config from 'config'
 import SearchArea from 'components/Widget/search-area.js';
 import SlideFrame from 'components/Widget/slide-frame'
 import BasicInfo from 'components/Widget/basic-info'
-import {Form, Button, Select, Row, Col, Input, Switch, Popover, Icon, Badge, Tabs, Table, message} from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Popover, Icon, Badge, Tabs, Table, message } from 'antd'
 import classNames from 'classnames';
 import SubjectSheetDetailMaintain from 'containers/setting/subject-sheet/subject-sheet-detail-maintain'
 import SubSubjectMaintain from 'containers/setting/subject-sheet/sub-subject-maintain'
@@ -23,17 +23,17 @@ const Option = Select.Option;
 class SubjectSheetDetail extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       loading: true,
       updateState: false,
       pagination: {
         total: 0,
         page: 0,
-        pageSize:10,
+        pageSize: 10,
         current: 1,
-        showSizeChanger:true,
-        showQuickJumper:true,
+        showSizeChanger: true,
+        showQuickJumper: true,
       },
       value: '',
       focus: false,
@@ -48,31 +48,31 @@ class SubjectSheetDetail extends React.Component {
       showSlideFrameTitle: '',
       accountSetId: '',
       accountTypeOptions: [], //科目类型
-    //   subjectDefine: menuRoute.getRouteItem('subject-sheet', 'key'),//返回到科目表定义
+      //   subjectDefine: menuRoute.getRouteItem('subject-sheet', 'key'),//返回到科目表定义
       searchParams: {
-        info: '', 
+        info: '',
         accountType: ''
       },
       searchForm: [
-        { type: 'input', id: 'accountSetCode', disabled: true, label: this.$t({id:'subject.sheet.code'}) },
-        { type: 'input', id: 'accountSetDesc', disabled: true, label: this.$t({id:'subject.sheet.describe'}) },
+        { type: 'input', id: 'accountSetCode', disabled: true, label: this.$t({ id: 'subject.sheet.code' }) },
+        { type: 'input', id: 'accountSetDesc', disabled: false, label: this.$t({ id: 'subject.sheet.describe' }) },
         {
-          type: 'switch', id: 'enabled', label: this.$t({id:'common.column.status'}),
+          type: 'switch', id: 'enabled', label: this.$t({ id: 'common.column.status' }),
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-              text={enabled ? this.$t({id:'common.enabled'}) : this.$t({id:'common.disabled'})} />)
+              text={enabled ? this.$t({ id: 'common.enabled' }) : this.$t({ id: 'common.disabled' })} />)
         },
       ],
       columns: [
         {
-          title: this.$t({id:'subject.code'}),
+          title: this.$t({ id: 'subject.code' }),
           key: 'accountCode',
           dataIndex: 'accountCode',
           width: '10%',
           "align": "center",
         },
         {
-          title: this.$t({id:'subject.name'}),
+          title: this.$t({ id: 'subject.name' }),
           key: 'accountDesc',
           dataIndex: 'accountDesc',
           width: '10%',
@@ -83,62 +83,62 @@ class SubjectSheetDetail extends React.Component {
             </Popover>)
         },
         {
-          title: this.$t({id:'subject.balance.direction'}),
+          title: this.$t({ id: 'subject.balance.direction' }),
           key: 'balanceDirectionName',
           dataIndex: 'balanceDirectionName',
           width: '10%',
           "align": "center",
         },
         {
-          title: this.$t({id:'subject.type'}),
+          title: this.$t({ id: 'subject.type' }),
           key: 'accountTypeName',
           dataIndex: 'accountTypeName',
           width: '10%',
           "align": "center",
         },
         {
-          title: this.$t({id:'subject.report.type'}),
+          title: this.$t({ id: 'subject.report.type' }),
           key: 'reportTypeName',
           dataIndex: 'reportTypeName',
           width: '10%',
           "align": "center",
         },
         {
-          title: this.$t({id:'subject.summary.flag'}),
+          title: this.$t({ id: 'subject.summary.flag' }),
           key: 'summaryFlag',
           dataIndex: 'summaryFlag',
           width: '10%',
           "align": "center",
           render: summaryFlag => (
             <Badge status={summaryFlag ? 'success' : 'error'}
-              text={summaryFlag ? this.$t({id:'common.yes'}) : this.$t({id:'common.no'})} />
+              text={summaryFlag ? this.$t({ id: 'common.yes' }) : this.$t({ id: 'common.no' })} />
           )
         },
         {
-          title: this.$t({id:'common.column.status'}),
+          title: this.$t({ id: 'common.column.status' }),
           key: 'enabled',
           dataIndex: 'enabled',
           width: '6%',
           "align": "center",
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-              text={enabled ? this.$t({id:'common.status.enable'}) : this.$t({id:'common.status.disable'})} />
+              text={enabled ? this.$t({ id: 'common.status.enable' }) : this.$t({ id: 'common.status.disable' })} />
           )
         },
         {
-          title: this.$t({id:'common.operation'})/*操作*/, dataIndex: 'operation', width: '10%', key: 'id', "align": "center",
+          title: this.$t({ id: 'common.operation' })/*操作*/, dataIndex: 'operation', width: '10%', key: 'id', "align": "center",
           render: (text, record) => {
             if (record.summaryFlag) {
               return (<div>
                 <span>
-                  <a onClick={(e) => this.editItem(record)}>{this.$t({id:'common.edit'})/*编辑*/}</a>
+                  <a onClick={(e) => this.editItem(record)}>{this.$t({ id: 'common.edit' })/*编辑*/}</a>
                   <span className="ant-divider" />
-                  <a style={{ marginRight: 10 }} onClick={(e) => this.subSubjectItem(record.id, this.props.match.params.accountSetId)}>{this.$t({id:'subject.sub.subject'})/*子科目*/}</a>
+                  <a style={{ marginRight: 10 }} onClick={(e) => this.subSubjectItem(record.id, this.props.match.params.accountSetId)}>{this.$t({ id: 'subject.sub.subject' })/*子科目*/}</a>
                 </span>
               </div>)
             } else {
               return (<div>
-                <a onClick={(e) => this.editItem(record)}>{this.$t({id:'common.edit'})/*编辑*/}</a>
+                <a onClick={(e) => this.editItem(record)}>{this.$t({ id: 'common.edit' })/*编辑*/}</a>
               </div>)
             }
           }
@@ -175,7 +175,7 @@ class SubjectSheetDetail extends React.Component {
     this.setState({ loading: true });
     let url = `${config.baseUrl}/api/accounts/query?accountSetId=${this.props.match.params.accountSetId}&info=${this.state.searchParams.info}&accountType=${this.state.searchParams.accountType}&size=${this.state.pagination.pageSize}&page=${this.state.pagination.page}`;
     return httpFetch.get(url).then((response) => {
-      response.data.map((item,index) => {
+      response.data.map((item, index) => {
         item.index = this.state.pagination.page * this.state.pagination.pageSize + index + 1;
         item.key = item.id;
       });
@@ -192,15 +192,15 @@ class SubjectSheetDetail extends React.Component {
     });
   }
 
-   //分页点击
-   onChangePager = (pagination,filters, sorter) =>{
+  //分页点击
+  onChangePager = (pagination, filters, sorter) => {
     let temp = this.state.pagination;
-    temp.page = pagination.current-1;
+    temp.page = pagination.current - 1;
     temp.current = pagination.current;
     temp.pageSize = pagination.pageSize;
     this.setState({
       pagination: temp
-    }, ()=>{
+    }, () => {
       this.getList();
     })
   };
@@ -244,7 +244,7 @@ class SubjectSheetDetail extends React.Component {
     this.setState({
       showSlideFrameNew: flag,
       updateParams: { record: record, accountTypeOptions, isNew },
-      showSlideFrameTitle: isNew ? this.$t({id:"subject.sheet.new.subject"})/*新建科目*/ : this.$t({id:"subject.sheet.edit.subject"})/*编辑科目*/
+      showSlideFrameTitle: isNew ? this.$t({ id: "subject.sheet.new.subject" })/*新建科目*/ : this.$t({ id: "subject.sheet.edit.subject" })/*编辑科目*/
     })
   };
 
@@ -276,11 +276,11 @@ class SubjectSheetDetail extends React.Component {
         loading: false,
         updateState: true
       }, () => {
-        message.success(this.$t({id:"wait.for.save.modifySuccess"})/*编辑成功*/);
+        message.success(this.$t({ id: "wait.for.save.modifySuccess" })/*编辑成功*/);
       });
     }).catch((e) => {
       this.setState({ loading: false });
-      message.error(this.$t({id:'common.save.filed'}) + `${e.response.data.message}`);
+      message.error(this.$t({ id: 'common.save.filed' }) + `${e.response.data.message}`);
     })
   };
 
@@ -316,20 +316,20 @@ class SubjectSheetDetail extends React.Component {
 
         <div className="table-header">
           <div className="table-header-title">
-            <h2>{this.$t({id:"subject.sheet.detail"})/*科目明细*/}</h2>
+            <h2>{this.$t({ id: "subject.sheet.detail" })/*科目明细*/}</h2>
           </div>
           <div className="table-header-buttons">
             <Row>
               <Col span="2">
                 <Button type="primary"
-                onClick={this.handleCreate}>{this.$t({id:'common.create'})}
+                  onClick={this.handleCreate}>{this.$t({ id: 'common.create' })}
                 </Button>
               </Col>
               <Col span='15'>
               </Col>
               <Col span="3">
                 <Select defaultValue="all" style={{ width: 136 }} onChange={this.accountTypeChange} onFocus={this.clickAccountTypeSelect}>
-                  <Option key='all'>{this.$t({id:'common.all'})}</Option>
+                  <Option key='all'>{this.$t({ id: 'common.all' })}</Option>
                   {accountTypeOptions.map(option => {
                     return <Option key={option.value}>{option.messageKey}</Option>
                   })}
@@ -337,9 +337,9 @@ class SubjectSheetDetail extends React.Component {
               </Col>
               <Col span="4">
                 <Search
-                  placeholder={this.$t({id:'subject.search.code.name'})}
+                  placeholder={this.$t({ id: 'subject.search.code.name' })}
                   onSearch={this.searchAccountDetailList}
-                  enterButton={this.$t({id:'common.search'})}
+                  enterButton={this.$t({ id: 'common.search' })}
                 />
               </Col>
             </Row>
@@ -353,16 +353,16 @@ class SubjectSheetDetail extends React.Component {
             bordered
             /*onRowClick={this.editItem}*/
             size="middle" />
-          <div style={{fontSize: 14,margin: '20px 0',}}>
+          <div style={{ fontSize: 14, margin: '20px 0', }}>
             <a onClick={() => {
-                // this.context.router.push(subjectDefine.url)
-                this.props.dispatch(
-                    routerRedux.push({
-                      pathname: `/admin-setting/subject-sheet`,
-                    })
-                  )
+              // this.context.router.push(subjectDefine.url)
+              this.props.dispatch(
+                routerRedux.push({
+                  pathname: `/admin-setting/subject-sheet`,
+                })
+              )
             }}
-            ><Icon type="rollback" />{this.$t({id:"common.back"})/*返回*/}</a>
+            ><Icon type="rollback" />{this.$t({ id: "common.back" })/*返回*/}</a>
           </div>
 
           {/* 科目明细 */}
@@ -373,18 +373,18 @@ class SubjectSheetDetail extends React.Component {
             onClose={() => { this.setState({ showSlideFrameNew: false }) }}// 点击 侧拉之外的地方时触发
             params={{...updateParams, visible: showSlideFrameNew}} /> */}
 
-            <SlideFrame
-                title = {this.state.showSlideFrameTitle}
-                show = {showSlideFrameNew}
-                onClose = {()=>this.setState({showSlideFrameNew:false})} >
-                <SubjectSheetDetailMaintain
-                    close={this.afterClose}// 取消和确定的时候执行
-                    params = {{
-                        ...updateParams,
-                        visible:showSlideFrameNew
-                    }
-                }/>
-            </SlideFrame>
+          <SlideFrame
+            title={this.state.showSlideFrameTitle}
+            show={showSlideFrameNew}
+            onClose={() => this.setState({ showSlideFrameNew: false })} >
+            <SubjectSheetDetailMaintain
+              close={this.afterClose}// 取消和确定的时候执行
+              params={{
+                ...updateParams,
+                visible: showSlideFrameNew
+              }
+              } />
+          </SlideFrame>
 
           {/* 子科目 */}
           {/* <SlideFrame title={this.$t({id:'subject.sub.subject'})}
@@ -394,17 +394,17 @@ class SubjectSheetDetail extends React.Component {
             onClose={() => { this.setState({ showSlideFrameSub: false, showSlideFrameFromTo: false }) }}// 点击 侧拉之外的地方时触发
             params={subParams} /> */}
 
-            <SlideFrame
-                title = {this.$t({id:'subject.sub.subject'})}
-                show = {showSlideFrameSub}
-                onClose = {()=>this.setState({showSlideFrameSub:false,showSlideFrameFromTo: false})} >
-                <SubSubjectMaintain
-                    close={this.afterClose}// 取消和确定的时候执行
-                    params = {{
-                        subParams
-                    }
-                }/>
-            </SlideFrame>
+          <SlideFrame
+            title={this.$t({ id: 'subject.sub.subject' })}
+            show={showSlideFrameSub}
+            onClose={() => this.setState({ showSlideFrameSub: false, showSlideFrameFromTo: false })} >
+            <SubSubjectMaintain
+              close={this.afterClose}// 取消和确定的时候执行
+              params={{
+                subParams
+              }
+              } />
+          </SlideFrame>
         </div>
       </div>
     );

@@ -3,18 +3,15 @@
   "new.cost.center.item.tip1": "新增之后，可以进入编辑扩展字段",
   "new.cost.center.item.code": "成本中心项代码",
   "new.cost.center.item.max36": "最多36个字符，只支持字母与数字和一些限定特殊字符",
-
   "new.cost.center.item.tip2": "成本中心项代码保存后将不可修改",
   "new.cost.center.item.name": "成本中心项名称",
   "new.cost.center.item.index": "序号",
   "new.cost.center.item.index_tip1": "请输入正整数",
   "new.cost.center.item.index_tip": "序号之间尽量保持一定的步长，便于后续调整，如首位10，间隔10",
   "new.cost.center.item.manager": "经理",
-
   "new.cost.center.item.main": "主要部门:(单选)",
   "new.cost.center.item.sec": "从属部门:(可多选)",
   "new.cost.center.item.showall": "全员可见",
-
   "new.cost.center.item.extend": "成本中心项扩展字段",
   "new.cost.center.item.tips3": "可以在成本中心--成本中心项扩展字段进行编辑成本中心项扩展字段"
 }
