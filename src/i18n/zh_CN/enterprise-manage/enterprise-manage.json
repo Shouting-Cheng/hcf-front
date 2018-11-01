@@ -16,6 +16,7 @@
   "org.movein-person": "移入员工",
   "org.moveout-person": "移出员工",
   "org.employeeID-name": "员工名称/工号",
+  "org.employeeId-name-email-phone": "员工名称/工号/手机/邮箱",
   "org.no-select": "还未选择",
   "org.selected": "已选",
   "org.org-title": "组织架构",

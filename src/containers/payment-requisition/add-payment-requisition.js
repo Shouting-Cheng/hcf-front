@@ -550,14 +550,14 @@ class AddPaymentRequsition extends React.Component {
             .saveFunc(AcpRequisitionHeaderDTO)
             .then(res => {
               if (res.status === 200) {
-                this.props.close(true);
+                this.props.onClose(true);
                 message.success(this.$t( 'common.operate.success' /*操作成功*/));
                 this.setState({ loading: false, isReload: false });
               }
             })
             .catch(e => {
               this.setState({ loading: false, isReload: false });
-              this.props.close(true);
+              this.props.onClose(true);
               message.error(
                 this.$t( 'common.operate.filed'  /*操作失败*/) + '!' + e.response.data.message
               );
@@ -568,7 +568,7 @@ class AddPaymentRequsition extends React.Component {
   };
   //侧滑框关闭
   onCancel = () => {
-    this.props.close(true);
+    this.props.onClose(false);
   };
   render() {
     const {
@@ -658,7 +658,7 @@ class AddPaymentRequsition extends React.Component {
                               this.detail(lineData.refDocumentId);
                             }}
                           >
-                            {formatMessage( 'acp.view.detail'  /* 查看详情*/)}
+                            {this.$t( 'acp.view.detail'  /* 查看详情*/)}
                           </a>
                         )}
                       </Col>

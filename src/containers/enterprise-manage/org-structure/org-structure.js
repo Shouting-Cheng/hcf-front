@@ -891,10 +891,10 @@ class OrgStructure extends React.Component {
                 <div className="clear" />
               </div>
               <div className="table-header-inp">
-                {/*员工名称/工号*/}
+                {/*员工名称/工号/邮箱/手机*/}
                 <Input
                   key={'depsearch'}
-                  placeholder={this.$t('org.employeeID-name')}
+                  placeholder={this.$t('org.employeeId-name-email-phone')}
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   suffix={suffix}
                   value={userName}
