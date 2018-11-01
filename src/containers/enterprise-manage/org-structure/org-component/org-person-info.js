@@ -7,6 +7,7 @@ import React from 'react';
 
 import 'styles/enterprise-manage/org-structure/org-component/org-person-info.scss';
 import { Button, Icon } from 'antd';
+import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 import PropTypes from 'prop-types';
 class OrgStructurePersonInfo extends React.Component {
@@ -34,9 +35,7 @@ class OrgStructurePersonInfo extends React.Component {
   goToPersonDetail = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${
-          this.state.user.userOID
-        }`,
+        pathname: `/setting/employee/person-detail/person-detail/${this.state.user.userOID}`,
       })
     );
     // let path = menuRoute
@@ -249,4 +248,9 @@ OrgStructurePersonInfo.propTypes = {
 // OrgStructurePersonInfo.contextTypes = {
 //   router: React.PropTypes.object,
 // };
-export default OrgStructurePersonInfo;
+export default connect(
+  null,
+  null,
+  null,
+  { withRef: true }
+)(OrgStructurePersonInfo);

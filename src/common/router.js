@@ -1,19 +1,13 @@
-import {
-  createElement
-} from 'react';
+import { createElement } from 'react';
 import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
-import {
-  getMenuData
-} from './menu';
+import { getMenuData } from './menu';
 
 let routerDataCache;
 
 const modelNotExisted = (app, model) =>
   // eslint-disable-next-line
-  !app._models.some(({
-    namespace
-  }) => {
+  !app._models.some(({ namespace }) => {
     return namespace === model.substring(model.lastIndexOf('/') + 1);
   });
 
@@ -64,13 +58,16 @@ function getFlatMenuData(menus) {
   let keys = {};
   menus.forEach(item => {
     if (item.children) {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
-      keys = { ...keys,
-        ...getFlatMenuData(item.children)
+      keys = {
+        ...keys,
+        ...getFlatMenuData(item.children),
       };
     } else {
-      keys[item.path] = { ...item
+      keys[item.path] = {
+        ...item,
       };
     }
   });
@@ -238,7 +235,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -425,7 +422,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
-    '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
+    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-approve',
@@ -1042,14 +1039,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-balance-query/budget-balance-query')
       ),
-      name: 'budget-balance-query',
+      name: 'budget-balance',
     },
     '/budget/budget-balance-query/budget-balance-query-result/:id': {
       //预算余额查询方案结果
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget/budget-balance-query/budget-balance-query-result')
+        import('containers/budget/budget-balance-query/budget-balance-query')
       ),
-      name: 'budget-balance-query-result',
+      name: 'budget-balance',
       parent: '/budget/budget-balance-query'
     },
 
@@ -1469,35 +1466,26 @@ export const getRouterData = app => {
     '/financial-management/expense-reverse': {
       //财务管理-费用反冲
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
-      name: 'expense-reverse',
-      parent: "/financial-management",
+      name: 'exp-report-reverse-check',
+      parent: '/financial-management',
     },
-    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
-      //新建反冲
+    //财务管理 - 费用反冲单审核详情
+    '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/new-reverse.js')
+        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail.js')
       ),
-      name: 'new-reverse',
-      parent: "/financial-management/expense-reverse",
+      name: 'exp-report-reverse-check-detail',
+      parent: '/financial-management/exp-report-reverse-check/:tab',
     },
-    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
-      //费用反冲详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
-      ),
-      name: 'expense-reverse-detail',
-      parent: "/financial-management/expense-reverse",
-    },
-
-    '/admin-setting/workflow': {
-      //审批流
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/workflow/workflow')
-      ),
-      name: 'workflow'
-    },
+      //核销反冲复核
+      '/financial-management/csh-write-off-backlash-check': {
+        component: dynamicWrapper(app, [], () =>
+          import ('containers/financial-management/csh-write-off-backlash-check/csh-write-off-backlash-check.js')
+        ),
+        name: 'csh-write-off-backlash-check',
+      },
 
     '/financial-management/check-cost-application': {
       //费用申请查看
