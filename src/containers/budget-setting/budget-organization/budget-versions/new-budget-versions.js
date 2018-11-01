@@ -210,7 +210,7 @@ const WrappedNewBudgetVersions = Form.create()(NewBudgetVersions);
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization
+    organization: state.budget.organization
   }
 }
 

@@ -235,7 +235,7 @@ export const getRouterData = app => {
       ),
       name: 'my-expense-adjust1',
     },
-    '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId/:id': {
+    '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/expense-adjust/new-expense-adjust')
       ),
@@ -1228,6 +1228,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
       name: 'legal-person',
+      parent: '/enterprise-manage',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1273,6 +1274,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
       name: 'company-maintain',
+      parent: '/enterprise-manage',
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1333,6 +1335,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
       name: 'org-structure',
+      parent: '/enterprise-manage',
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1466,6 +1469,7 @@ export const getRouterData = app => {
         import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
       name: 'exp-report-reverse-check',
+      parent: '/financial-management',
     },
     //财务管理 - 费用反冲单审核详情
     '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {

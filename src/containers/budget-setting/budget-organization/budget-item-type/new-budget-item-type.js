@@ -142,7 +142,7 @@ class NewBudgetItemType extends React.Component {
 const WrappedNewBudgetItemType = Form.create()(NewBudgetItemType);
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization
+    organization: state.budget.organization
   }
 }
 export default connect(mapStateToProps, null, null, { withRef: true })(WrappedNewBudgetItemType);
