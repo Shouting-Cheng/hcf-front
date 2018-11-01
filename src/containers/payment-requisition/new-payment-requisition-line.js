@@ -87,11 +87,13 @@ class NewPaymentRequisitionLine extends React.Component {
     this.getPayWayTypeList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const record = nextProps.match.params.record;
+
+
+  componentDidMount () {
+    const record = this.props.params.record;
     this.setState({
-      typeDeatilParams: nextProps.match.params.typeDeatilParams,
-      headerData: nextProps.match.params.headerData,
+      typeDeatilParams: this.props.params.typeDeatilParams,
+      headerData: this.props.params.headerData,
     });
     this.setState(
       {
@@ -112,44 +114,44 @@ class NewPaymentRequisitionLine extends React.Component {
         //this.props.form.resetFields();
       }
     );
-    if (record.id && nextProps.match.params.flag && !this.props.match.params.flag) {
+    if (record.id) {
       //编辑
       paymentRequisitionService
-        .queryLineByLineId(record.id)
-        .then(res => {
-          if (res.status === 200) {
-            let data = res.data;
-            let values = this.props.form.getFieldsValue();
-            this.setState(
-              {
-                lineData: data,
-                // queryFlag: false,
-                expenseData: [
-                  {
-                    reportLineId: data.refDocumentLineId,
-                  },
-                ], //选择的报账单行ID
-                expenseValue:
-                  data.refDocumentNumber +
-                  this.$t({ id: 'acp.payment.lienNumber' } /* 付款行：*/) +
-                  data.scheduleLineNumber, ///报账单LOV展示的值
-              },
-              () => {
-                for (let name in values) {
-                  let result = {};
-                  if (name !== 'schedulePaymentDate') {
-                    result[name] = record[name];
-                  } else {
-                    name === 'schedulePaymentDate' && (result[name] = moment(record[name]));
-                  }
-                  this.props.form.setFieldsValue(result);
+      .queryLineByLineId(record.id)
+      .then(res => {
+        if (res.status === 200) {
+          let data = res.data;
+          let values = this.props.form.getFieldsValue();
+          this.setState(
+            {
+              lineData: data,
+              // queryFlag: false,
+              expenseData: [
+                {
+                  reportLineId: data.refDocumentLineId,
+                },
+              ], //选择的报账单行ID
+              expenseValue:
+                data.refDocumentNumber +
+                this.$t({ id: 'acp.payment.lienNumber' } /* 付款行：*/) +
+                data.scheduleLineNumber, ///报账单LOV展示的值
+            },
+            () => {
+              for (let name in values) {
+                let result = {};
+                if (name !== 'schedulePaymentDate') {
+                  result[name] = record[name];
+                } else {
+                  name === 'schedulePaymentDate' && (result[name] = moment(record[name]));
                 }
+                this.props.form.setFieldsValue(result);
               }
-            );
-            this.getBankList(data.partnerId, data.partnerCategory);
-          }
-        })
-        .catch(e => {});
+            }
+          );
+          this.getBankList(data.partnerId, data.partnerCategory);
+        }
+      })
+      .catch(e => {});
     }
   }
   //获取银行账号列表
@@ -181,8 +183,7 @@ class NewPaymentRequisitionLine extends React.Component {
   };
 
   onCancel = () => {
-    this.props.close();
-    this.props.form.resetFields();
+    this.props.onClose(false);
   };
 
   handleListCancel = () => {
@@ -211,14 +212,14 @@ class NewPaymentRequisitionLine extends React.Component {
             .saveFunc(AcpRequisitionHeaderDTO)
             .then(res => {
               if (res.status === 200) {
-                this.props.close(true);
+                this.props.onClose(true);
                 message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
                 this.setState({ loading: false });
               }
             })
             .catch(e => {
               this.setState({ loading: false });
-              this.props.close(true);
+              this.props.onClose(false);
               message.error(
                 this.$t({ id: 'common.operate.filed' } /*操作失败*/) + '!' + e.response.data.message
               );

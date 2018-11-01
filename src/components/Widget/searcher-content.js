@@ -1,8 +1,9 @@
 import React from 'react'
-import { connect } from 'dva'
+import { connect } from 'dva';
 import { Icon, Spin } from 'antd'
-import {message} from "antd/lib/index";
 import PropTypes from 'prop-types'
+import {message} from "antd/lib/index";
+
 class SearcherContent extends React.Component{
   constructor(props){
     super(props);

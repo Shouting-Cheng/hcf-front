@@ -50,8 +50,15 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.setState({
+      isNew: false,
+      record: this.props.params.record,
+      enabled: this.props.params.record.enabled
+    })
+  }
 
-  componentWillReceiveProps(nextProps) {
+  /*componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.params) !== "{}" && nextProps.params.time != this.props.params.time) {
       this.props.form.resetFields();
       if (nextProps.params.isNew === true) {
@@ -68,7 +75,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
         }, () => {})
       }
     }
-  }
+  }*/
 
 
   //获取，和判断条件（judgeRule）

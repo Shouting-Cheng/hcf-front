@@ -138,7 +138,7 @@ class ExpenseAdjust extends React.Component {
           //单据编号
           title: this.$t('common.document.code'),
           dataIndex: 'expAdjustHeaderNumber',
-          width: 150,
+          width: 180,
           align: 'center',
           render: desc => (
             <span>
@@ -150,7 +150,8 @@ class ExpenseAdjust extends React.Component {
           //单据类型
           title: this.$t('exp.receipt.type'),
           dataIndex: 'expAdjustTypeName',
-          align: 'center',
+          align: 'left',
+          width: 150,
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -161,6 +162,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('exp.adjust.type'),
           dataIndex: 'adjustTypeCategory',
           align: 'center',
+          width: 100,
           render: desc => (
             <span>
               <Popover
@@ -188,7 +190,7 @@ class ExpenseAdjust extends React.Component {
           //申请日期
           title: this.$t('exp.adjust.apply.date'),
           dataIndex: 'adjustDate',
-          width: 130,
+          width: 100,
           align: 'center',
           render: desc => (
             <span>
@@ -203,6 +205,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('common.currency'),
           dataIndex: 'currencyCode',
           align: 'center',
+          width: 80,
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -234,7 +237,7 @@ class ExpenseAdjust extends React.Component {
         {
           title: this.$t('common.comment'),
           dataIndex: 'description',
-          align: 'center',
+          align: 'left',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -245,6 +248,7 @@ class ExpenseAdjust extends React.Component {
           title: this.$t('common.column.status'),
           dataIndex: 'status',
           align: 'center',
+          width: 100,
           render: (value, record) => {
             return <Badge status={status[value].state} text={status[value].label} />;
           },
@@ -324,9 +328,8 @@ class ExpenseAdjust extends React.Component {
   handleCreate = e => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:id/:expenseAdjustTypeId'
+        pathname: '/expense-adjust/my-expense-adjust/new-expense-adjust/:expenseAdjustTypeId/0'
           .replace(':expenseAdjustTypeId', e.key)
-          .replace(':id','new')
       })
     );
   };

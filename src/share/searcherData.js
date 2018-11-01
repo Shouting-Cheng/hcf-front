@@ -1,6 +1,6 @@
 import React from 'react'
 import config from 'config'
-import { messages } from "utils/utils";
+import { messages } from 'utils/utils'
 
 const searcherData = {
   'proxy_form': { //参数customFormType：1001 申请单 1002 报销单

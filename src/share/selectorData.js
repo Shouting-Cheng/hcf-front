@@ -1,13 +1,14 @@
 import React from 'react';
 import config from 'config';
+import app from '../index';
 //import configureStore from 'stores'
 
 const selectorData = {
   currency: {
     url: `${config.baseUrl}/api/company/standard/currency/getAll`,
     label: record =>
-      `${record.currency} ${
-        configureStore.store.getState().main.language.code === 'zh_CN'
+      `${record.currency}${
+        app.getState().languages.local === 'zh_CN'
           ? `-${record.currencyName}`
           : ''
       }`,

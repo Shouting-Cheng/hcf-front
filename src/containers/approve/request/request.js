@@ -302,7 +302,7 @@ class ApproveRequest extends React.Component {
       selectedRowKeys: [],
       selectedRows: [], //选中的单据OID
       cacheSearchData: {}, //缓存筛选的数据
-      approveRequestDetail: '/request/request-detail/:formOID/:applicationOID/:pageFrom', //申请单审批详情页
+      approveRequestDetail: '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom', //申请单审批详情页
     };
   }
 
