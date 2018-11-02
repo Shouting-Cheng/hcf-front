@@ -2,6 +2,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 import store from '../index';
 import { routerRedux } from 'dva/router';
+import qs from 'qs'
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
@@ -36,6 +37,9 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       params,
+      paramsSerializer: function (params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
     };
     return axios(option);
   },
@@ -53,7 +57,10 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       data,
-      params
+      params,
+      paramsSerializer: function (params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
     };
 
     return axios(option);
@@ -71,7 +78,10 @@ export default {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       data,
-      params
+      params,
+      paramsSerializer: function (params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
     };
     return axios(baseUrl + url, option);
   },
@@ -89,6 +99,9 @@ export default {
       },
       data,
       params,
+      paramsSerializer: function (params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
     };
     return axios(baseUrl + url, option);
   },

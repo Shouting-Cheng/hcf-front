@@ -2,12 +2,12 @@
  * created by jsq on 2017/12/22
  */
 import React from 'react'
-import {connect} from 'dva'
-import {Button, Table, Badge, Icon, Popconfirm, message,Input} from 'antd'
+import { connect } from 'dva'
+import { Button, Table, Badge, Icon, Popconfirm, message, Input } from 'antd'
 import SlideFrame from 'widget/slide-frame'
 import NewUpdateVoucherTemplate from 'containers/financial-accounting-setting/accounting-source-system/new-update-voucher-template'
 import debounce from 'lodash.debounce'
-import  accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
+import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/accounting-source-system/accounting-source-system.scss'
 const Search = Input.Search;
 import { routerRedux } from 'dva/router';
@@ -26,63 +26,63 @@ class AccountingSource extends React.Component {
       pageSize: 10,
       searchParams: [],
       sourceName: "",
-      keyWords:null,
+      keyWords: null,
       pagination: {
         total: 0
       },
       searchForm: [
         {                                                                        //来源事物代码
-          type: 'input', id: 'journalLineModelCode', label: this.$t({id: 'accounting.source.code'})
+          type: 'input', id: 'journalLineModelCode', label: this.$t({ id: 'accounting.source.code' })
         },
         {                                                                        //来源事物名称
-          type: 'input', id: 'description', label: this.$t({id: 'section.structure.name'})
+          type: 'input', id: 'description', label: this.$t({ id: 'section.structure.name' })
         },
       ],
       columns: [
         {
           /*凭证行模板代码*/
-          title: this.$t({id: "voucher.template.code"}),
+          title: this.$t({ id: "voucher.template.code" }),
           key: "journalLineModelCode",
           dataIndex: 'journalLineModelCode'
         },
         {
           /*凭证行模板名称*/
-          title: this.$t({id: "voucher.template.name"}), key: "description", dataIndex: 'description'
+          title: this.$t({ id: "voucher.template.name" }), key: "description", dataIndex: 'description'
         },
         {
           /*核算场景代码*/
-          title: this.$t({id: "accounting.scene.code"}), key: "glSceneCode", dataIndex: 'glSceneCode'
+          title: this.$t({ id: "accounting.scene.code" }), key: "glSceneCode", dataIndex: 'glSceneCode'
         },
         {
           /*核算场景名称*/
-          title: this.$t({id: "accounting.scene.name"}), key: "glSceneName", dataIndex: 'glSceneName'
+          title: this.$t({ id: "accounting.scene.name" }), key: "glSceneName", dataIndex: 'glSceneName'
         },
         {
           /*基础数据表*/
-          title: this.$t({id: "basic.data.sheet"}), key: "basicSourceDateDes", dataIndex: 'basicSourceDateDes'
+          title: this.$t({ id: "basic.data.sheet" }), key: "basicSourceDateDes", dataIndex: 'basicSourceDateDes'
         },
         {
           /*状态*/
-          title: this.$t({id: "common.column.status"}), key: 'status', width: '10%', dataIndex: 'enabled',
+          title: this.$t({ id: "common.column.status" }), key: 'status', width: '10%', dataIndex: 'enabled',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                   text={enabled ? this.$t({id: "common.status.enable"}) : this.$t({id: "common.status.disable"})}/>
+              text={enabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
           )
         },
         {
-          title: this.$t({id: "common.operation"}),
+          title: this.$t({ id: "common.operation" }),
           key: 'operation',
-          width: 300, align:'center',
+          width: 300, align: 'center',
           render: (text, record, index) => (
             <span>
-            <a onClick={(e) => this.handleUpdate(e, record, index)}>{this.$t({id: "common.edit"})}</a>
-              <span className="ant-divider"/>
-            <a onClick={(e) => this.handleDataRules(e, record, index)}>{this.$t({id: "accounting.source.dataRules"})}</a> {/*取值规则*/}
-              <span className="ant-divider"/>
-            <a onClick={(e) => this.handleJudgeRules(e, record, index)}>{this.$t({id: "accounting.source.judgeRuleName"})}</a> {/*判断规则*/}
-              <span className="ant-divider"/>
-            <a onClick={(e) => this.handleRules(e, record, index)}>{this.$t({id: "accounting.source.rule"})}</a> {/*核算规则*/}
-           </span>
+              <a onClick={(e) => this.handleUpdate(e, record, index)}>{this.$t({ id: "common.edit" })}</a>
+              <span className="ant-divider" />
+              <a onClick={(e) => this.handleDataRules(e, record, index)}>{this.$t({ id: "accounting.source.dataRules" })}</a> {/*取值规则*/}
+              <span className="ant-divider" />
+              <a onClick={(e) => this.handleJudgeRules(e, record, index)}>{this.$t({ id: "accounting.source.judgeRuleName" })}</a> {/*判断规则*/}
+              <span className="ant-divider" />
+              <a onClick={(e) => this.handleRules(e, record, index)}>{this.$t({ id: "accounting.source.rule" })}</a> {/*核算规则*/}
+            </span>
           )
         },
 
@@ -139,7 +139,7 @@ class AccountingSource extends React.Component {
 
 
   getList() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let params = Object.assign({}, this.state.searchParams);
     for (let paramsName in params) {
       !params[paramsName] && delete params[paramsName];
@@ -164,7 +164,7 @@ class AccountingSource extends React.Component {
       })
     }).catch(e => {
       message.error(`${e.response.data.message}`);
-      this.setState({loading: true})
+      this.setState({ loading: true })
     });
 
   }
@@ -173,7 +173,7 @@ class AccountingSource extends React.Component {
   handleCreate = () => {
     let time = (new Date()).valueOf();
     let lov = {
-      title: this.$t({id: "voucher.template.new"}),
+      title: this.$t({ id: "voucher.template.new" }),
       visible: true,
       params: {
         isNew: true,
@@ -188,7 +188,7 @@ class AccountingSource extends React.Component {
   };
 
   //搜索 名称／代码
-  handleSearch= (value) => {
+  handleSearch = (value) => {
     this.setState({
       page: 0,
       keyWords: value,
@@ -215,7 +215,7 @@ class AccountingSource extends React.Component {
       time: time
     }
     let lov = {
-      title: this.$t({id: "voucher.template.update"}),
+      title: this.$t({ id: "voucher.template.update" }),
       visible: true,
       params: params
     };
@@ -265,27 +265,27 @@ class AccountingSource extends React.Component {
 
   //取消添加凭证模板
   handleCancel = () => {
-    this.setState({showListSelector: false})
+    this.setState({ showListSelector: false })
   };
 
 
   render() {
-    const {loading, data, columns, searchForm, pagination, lov, dataVisible, sourceName} = this.state;
+    const { loading, data, columns, searchForm, pagination, lov, dataVisible, sourceName } = this.state;
     return (
-      <div className="voucher-template">
+      <div className="voucher-template" style={{ paddingBottom: 20 }}>
         <div className="voucher-template-header">
-          <h3>{ `${this.$t({id:"voucher.template.header1"})} `+sourceName+` ${this.$t({id:"voucher.template.header2"})}`}</h3>
+          <h3>{`${this.$t({ id: "voucher.template.header1" })} ` + sourceName + ` ${this.$t({ id: "voucher.template.header2" })}`}</h3>
         </div>
 
         <div className="table-header">
           <div
-            className="table-header-title">{this.$t({id: 'common.total'}, {total: `${pagination.total}`})}</div>
+            className="table-header-title">{this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}</div>
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>{this.$t({id: 'common.create'})}</Button> {/*新 建*/}
-            <Search placeholder={this.$t({id: 'voucher.template.input'})/* 请输入名称/代码 */}
-                    style={{ width:200,position:'absolute',right:0,bottom:0 }}
-                    onChange={(e) => this.handleSearch(e.target.value)}/>
+            <Button type="primary" onClick={this.handleCreate}>{this.$t({ id: 'common.create' })}</Button> {/*新 建*/}
+            <Search placeholder={this.$t({ id: 'voucher.template.input' })/* 请输入名称/代码 */}
+              style={{ width: 200, position: 'absolute', right: 0, bottom: 0 }}
+              onChange={(e) => this.handleSearch(e.target.value)} />
           </div>
         </div>
         <Table
@@ -295,17 +295,17 @@ class AccountingSource extends React.Component {
           pagination={pagination}
           onChange={this.onChangePager}
           bordered
-          size="middle"/>
-        <a style={{fontSize: '14px', paddingBottom: '20px'}} onClick={this.handleBack}><Icon type="rollback"
-                                                                                             style={{marginRight: '5px'}}/>{this.$t({id: "common.back"})}
+          size="middle" />
+        <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}><Icon type="rollback"
+          style={{ marginRight: '5px' }} />{this.$t({ id: "common.back" })}
         </a>
         <SlideFrame title={lov.title}
-                    show={lov.visible}
-                    afterClose={this.handleAfterClose}
-                    onClose={() => this.handleShowSlide(false)}>
+          show={lov.visible}
+          afterClose={this.handleAfterClose}
+          onClose={() => this.handleShowSlide(false)}>
           <NewUpdateVoucherTemplate
             onClose={this.handleAfterClose}
-            params={lov.params}/>
+            params={lov.params} />
         </SlideFrame>
       </div>
     )
