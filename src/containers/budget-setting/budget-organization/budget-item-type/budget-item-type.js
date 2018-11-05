@@ -26,7 +26,7 @@ class BudgetItemType extends React.Component {
           key: 'itemTypeName',
         },
         {
-          title: this.$t({id: "budgetItemType.enabled"}),
+          title: this.$t({id: "common.column.status"}),
           dataIndex: 'enabled',
           key: 'enabled',
           render: (recode, text) => {
@@ -73,7 +73,7 @@ class BudgetItemType extends React.Component {
     for(let paramsName in params){
       !params[paramsName] && delete params[paramsName];
     }
-    params.organizationId = this.props.organization.id;
+    params.organizationId = this.props.organization.id || this.props.id;
     params.page = this.state.page;
     params.size = this.state.pageSize;
     budgetItemTypeService.getItemType(params).then((response)=>{
@@ -134,7 +134,7 @@ class BudgetItemType extends React.Component {
   };
 
   handleCloseNewSlide = (params) => {
-    this.getList();
+    params&&this.getList();
     this.setState({
       showSlideFrameNew: false
     })

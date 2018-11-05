@@ -95,7 +95,7 @@ export default {
       changeOrigin: true,
     },
     '/brms': {
-      target: 'http://115.159.108.80:25297/brms',
+      target: 'http://115.159.108.80:25297',
       changeOrigin: true,
     },
     '/location': {

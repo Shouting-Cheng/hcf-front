@@ -39,13 +39,13 @@ class NewBudgetStructure extends React.Component{
         periodStrategy: periodStrategy
       })
     });
-    typeof this.props.organization.organizationName === "undefined" ?
-      budgetService.getOrganizationById(this.props.params.id).then((response) =>{
+  /*  typeof this.props.organization.organizationName === "undefined" ?
+      budgetService.getOrganizationById(this.props.match.params.id).then((response) =>{
         this.setState({
           organization: response.data,
         })
       })
-      :
+      :*/
       this.setState({
         organization: this.props.organization,
       })
@@ -67,7 +67,7 @@ class NewBudgetStructure extends React.Component{
             response.data.organizationName = values.organizationName;
             this.props.dispatch(
               routerRedux.push({
-                pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/new-budget-structure/orgId/:setOfBooksId/:id'
+                pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/:orgId/:setOfBooksId/:id'
                   .replace(':orgId', this.props.organization.id)
                   .replace(":setOfBooksId",this.props.setOfBooksId)
                   .replace(':id', response.data.id)
@@ -100,7 +100,7 @@ class NewBudgetStructure extends React.Component{
 
   validateStructureCode = (item,value,callback)=>{
     let params = {
-      organizationId: this.props.params.id,
+      organizationId: this.props.match.params.orgId,
       structureCode: value
     };
     budgetService.getAllStructures(params).then((response)=>{
@@ -112,6 +112,7 @@ class NewBudgetStructure extends React.Component{
           }
         })
       }
+      //this.setState({loading: false});
       flag >0 ? callback(this.$t({id:"budget.structureCode.exist"})) : callback();
 
     });
@@ -128,7 +129,6 @@ class NewBudgetStructure extends React.Component{
   render(){
     const { getFieldDecorator } = this.props.form;
     const { statusCode, organization, loading, periodStrategy } = this.state;
-
     const options = periodStrategy.map((item)=><Option key={item.id}>{item.value}</Option>)
     return(
       <div className="new-budget-structure">

@@ -154,7 +154,7 @@ class ApproveHistory extends React.Component {
                     )}
                     {item.operation !== 2001 && (
                       <Col span={3} className="operation-type">
-                        {getApprovelHistory(item.operation).text}
+                        {this.$t(getApprovelHistory(item.operation).text)}
                       </Col>
                     )}
                     <Col span={17} className="operation-name">

@@ -85,7 +85,7 @@ class NewDimension extends React.Component{
         budgetService.structureAssignDimension(values).then((res)=>{
           this.setState({loading: false});
           if(res.status == 200){
-            this.props.close(true);
+            this.props.onClose(true);
             this.onCancel();
             message.success(`${this.$t({id:"common.save.success"},{name: ''})}`);
           }
@@ -106,7 +106,7 @@ class NewDimension extends React.Component{
       defaultDimension: [],
       dimensionCode: []
     });
-    this.props.close();
+    this.props.onClose();
   };
 
   switchChange = () => {

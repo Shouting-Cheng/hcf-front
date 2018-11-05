@@ -33,28 +33,14 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
 
   componentWillMount() {
     this.getSystemList();
-    if (JSON.stringify(this.props.params) !== "{}" && this.props.params) {
-      if (this.props.params.isNew === false) {
-        this.setState({
-          isNew: false,
-          enabled: this.props.params.record.enabled
-        }, () => {
-        })
-      } else if (this.props.params.isNew === true) {
-        this.setState({
-          isNew: true,
-          enabled: true
-        }, () => {
-        })
-      }
-    }
   }
 
   componentDidMount(){
+    if(this.props.params.record)
     this.setState({
       isNew: false,
       record: this.props.params.record,
-      enabled: this.props.params.record.enabled
+      enabled: this.props.params.record.enabled,
     })
   }
 
@@ -110,7 +96,7 @@ class NewUpDataLineModeJudgeRulesSystem extends React.Component {
             message.success(this.$t({id: "common.operate.success"}));
             this.setState({loading: false});
             this.props.onClose(true);
-            this.props.form.resetFields;
+            this.props.form.resetFields();
           }).catch((e) => {
             this.setState({loading: false})
             message.error(e.response.data.message);
