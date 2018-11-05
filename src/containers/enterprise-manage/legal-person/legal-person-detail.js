@@ -672,7 +672,7 @@ class LegalPersonDetail extends React.Component {
 
   render() {
     return (
-      <div className="legal-person-detail-wrap">
+      <div className="legal-person-detail-wrap"  style={{marginBottom:20}}>
         <BasicInfo
           infoList={this.state.infoList}
           infoData={this.state.legalPerson}

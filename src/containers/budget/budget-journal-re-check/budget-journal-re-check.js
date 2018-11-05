@@ -177,7 +177,7 @@ class BudgetJournalReCheck extends React.Component {
         },
         {
           /*创建时间*/
-          title: this.$t({ id: 'budgetJournal.submitDate' }), key: 'createdDate', dataIndex: 'createdDate',
+          title: this.$t({ id: 'budgetJournal.submitDate' }), key: 'submitDate', dataIndex: 'submitDate',
           render: recode => (
             <Popover content={recode}>
               {String(recode).substring(0, 10)}

@@ -257,7 +257,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}'`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}`,
             })
         );
     };

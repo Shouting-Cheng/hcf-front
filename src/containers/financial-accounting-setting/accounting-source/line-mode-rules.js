@@ -112,7 +112,7 @@ class LineModeRules extends React.Component {
       });
   }
 
-  handleSearch = params => {};
+  handleSearch = params => { };
 
   //新建
   handleCreate = () => {
@@ -327,7 +327,7 @@ class LineModeRules extends React.Component {
     ];
 
     return (
-      <div className="voucher-template">
+      <div className="voucher-template" style={{ paddingBottom: 20 }}>
         <div className="voucher-template-header">
           <h3>
             <span style={{ marginLeft: '16px', size: '16px' }}>

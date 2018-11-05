@@ -118,7 +118,7 @@ class LineModeJudgeRules extends React.Component {
       });
   }
 
-  handleSearch = params => {};
+  handleSearch = params => { };
 
   handleCreate = () => {
     let time = new Date().valueOf();
@@ -339,7 +339,7 @@ class LineModeJudgeRules extends React.Component {
       },
     ];
     return (
-      <div className="voucher-template">
+      <div className="voucher-template" style={{ paddingBottom: 20 }}>
         <h3>
           <span style={{ marginLeft: '16px', size: '16px' }}>
             {this.$t({ id: 'accounting.source.source' })}:{journalLineModel.sourceTransactionName}
