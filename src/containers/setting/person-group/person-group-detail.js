@@ -21,7 +21,7 @@ const confirm = Modal.confirm;
 import PGService from 'containers/setting/person-group/person-group.service';
 
 import { routerRedux } from 'dva/router';
-import { deepCopy } from 'utils/extend';
+import { deepCopy, uniquelizeArray } from 'utils/extend';
 
 class PersonGroupDetail extends React.Component {
     constructor(props) {
