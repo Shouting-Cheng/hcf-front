@@ -216,7 +216,7 @@ class CompanyLevelDefine extends React.Component {
     return (
       <div>
         <SearchArea searchForm={searchForm}
-                    clearText={this.$t('common.reset')/*重置*/}
+                    clearText={this.$t('common.clear')/*清空*/}
                     submitHandle={this.onSearch}
                     clearHandle={this.onSearchClear}/>
         <div style={{marginTop: 30}}>
@@ -234,8 +234,8 @@ class CompanyLevelDefine extends React.Component {
                      description={this.$t("company.level.define.save.not.edit")/*【公司级别代码】 保存后将不可修改*/}
                      showIcon/>
               <div style={{marginTop: 20}}>
-                <Form hideRequiredMark={true}>
-                  <FormItem label = {this.$t("company.level.define.company.code")/*公司级别代码*/}>
+                <Form hideRequiredMark={false}>
+                  <FormItem  label = {this.$t("company.level.define.company.code")/*公司级别代码*/}>
                     {getFieldDecorator('companyLevelCode', {
                       rules: [{
                         required: true,
@@ -246,10 +246,22 @@ class CompanyLevelDefine extends React.Component {
                     )}
                   </FormItem>
                 </Form>
-                  <LanguageInput  name={record.description ? record.description : ''}
-                                  isEdit={false}
-                                  i18nName={record.i18n && record.i18n.description}
-                                  nameChange={this.handlePeriodSetNameChange}/>
+                <Form hideRequiredMark={false} style={{marginTop:'-20px'}}>
+                  <FormItem  label = "描述">
+                    {getFieldDecorator('des', {
+                      rules: [{
+                        required: true,
+                        message: '描述字段不能为空'
+                      }],
+                    })(
+                      <LanguageInput  name={record.description ? record.description : ''}
+                      isEdit={false}
+                      i18nName={record.i18n && record.i18n.description}
+                      nameChange={this.handlePeriodSetNameChange}/>
+                    )}
+                  </FormItem>
+                </Form>
+                  
                   <div className='company-level-status'>
                     <Form>
                     <FormItem label = {this.$t("common.column.status")/*状态*/}>
