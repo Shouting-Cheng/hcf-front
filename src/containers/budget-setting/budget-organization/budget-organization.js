@@ -44,7 +44,9 @@ class BudgetOrganization extends React.Component {
       },
       searchForm: [
         {type: 'select', id: 'setOfBooksId', label: this.$t({id:"budget.organization.set.of.books"}), options: [],
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`, method: 'get', labelKey: 'setOfBooksCode', valueKey: 'id', getParams: {roleType: 'TENANT'}}, //账套
+          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`, method: 'get', labelKey: 'setOfBooksCode', valueKey: 'id',
+          renderOption: option => option.setOfBooksCode + '-' + option.setOfBooksName,
+          getParams: {roleType: 'TENANT'}}, //账套
         {type: 'input', id: 'organizationCode', label: this.$t({id:"budget.organization.code"})},  //预算组织代码
         {type: 'input', id: 'organizationName', label: this.$t({id:"budget.organization.name"})}  //预算组织名称
       ],

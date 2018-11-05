@@ -49,9 +49,22 @@ class NewDimension extends React.Component{
     };
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    console.log(this.props)
     let dimension = this.props.params;
     let extraParams = this.state.extraParams;
+    let value = {
+      dimensionName: dimension.dimensionName,
+      defaultDimensionCode:  dimension.defaultDimensionValue.length ?
+        [{
+          key: dimension.defaultDimensionValue[0].key,
+          id: dimension.defaultDimensionValue[0].defaultDimValueId,
+          code: dimension.defaultDimensionValue[0].defaultDimValueCode,
+          name: dimension.defaultDimValueName
+        }]: []
+    };
+    this.props.form.setFieldsValue(value);
+    extraParams = {costCenterId: dimension.dimensionId};
     if(typeof dimension.id !== 'undefined'){
       extraParams = {costCenterId: dimension.dimensionId}
     }
@@ -78,6 +91,7 @@ class NewDimension extends React.Component{
      });
      */
   }
+/*
   componentWillReceiveProps(nextprops){
     if(nextprops.params.flag&&!this.props.params.flag){
       let value = {
@@ -102,6 +116,7 @@ class NewDimension extends React.Component{
 
     }
   }
+*/
 
   handleSave = (e) =>{
     e.preventDefault();
@@ -114,11 +129,13 @@ class NewDimension extends React.Component{
           values.defaultDimValueId =values.defaultDimensionCode[0].id;
         }
         values.versionNumber = this.state.dimension.versionNumber;
-        budgetService.structureUpdateDimension(values).then((res)=>{
+        budgetService.structureUpdateDimension(values).then(res=>{
           this.setState({loading: false});
-          if(res.status == 200){
-            this.props.close(true);
-            message.success(`${this.$t({id:"common.operate.success"})}`);
+          console.log(res.status === 200)
+          if(res.status === 200){
+            this.props.onClose(true);
+            console.log(res.status)
+            message.success(this.$t({id:"common.operate.success"}));
           }
         }).catch((e)=>{
           if(e.response){
@@ -136,7 +153,7 @@ class NewDimension extends React.Component{
       enabled: this.state.dimension.enabled,
       dimension:{}
     });
-    this.props.close();
+    this.props.onClose();
   };
 
   switchChange = () => {

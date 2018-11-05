@@ -425,6 +425,9 @@ class BaseRequestDetail extends React.Component {
               {requestInfo}
             </TabPane>
             <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals">
+              <div style={{paddingTop: 20}}>
+                123
+              </div>
               <ApproveHistory
                 approvalChains={info.approvalChains}
                 isShowReply={this.props.match.params.pageFrom === 'my' && info.status === 1003}

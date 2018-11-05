@@ -354,7 +354,7 @@ class FormList extends React.Component {
             </Dropdown>
           </div>
         )}
-        <Dropdown overlay={menu}>
+        <Dropdown overlay={menu} trigger={['click']}>
           <Button type="primary">
             {this.$t('form.setting.new.form')/*新建表单*/} <Icon type="down"/>
           </Button>

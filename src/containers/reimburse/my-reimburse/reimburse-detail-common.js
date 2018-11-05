@@ -428,7 +428,7 @@ class ContractDetailCommon extends React.Component {
       </div>
     );
     return (
-      <div>
+      <div style={{paddingBottom:'20px'}}>
         <Spin spinning={false}>
           <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <Tabs forceRender defaultActiveKey="1" onChange={this.tabChange}>

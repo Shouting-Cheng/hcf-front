@@ -178,7 +178,10 @@ class ReimburseDetail extends React.Component {
         {this.props.params && this.props.params.refund
           ? ''
           : !isEdit && (
-              <Affix offsetBottom={0} className="bottom-bar">
+              <Affix offsetBottom={0} style={{
+                position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+              }}>
                 <Button style={{ marginLeft: '30px' }} onClick={this.onCancel}>
                   {this.$t('common.back' /*返回*/)}
                 </Button>

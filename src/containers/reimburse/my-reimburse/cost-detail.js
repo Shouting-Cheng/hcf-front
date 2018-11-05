@@ -240,7 +240,7 @@ class CostDetail extends React.Component {
   getList = (typeId = '') => {
     this.setState({ loading: true });
     reimburseService
-      .getCostLineInfo(this.state.headerData.id, this.state.page, typeId)
+      .getCostLineInfo(this.state.headerData.id, this.state.page,this.state.pageSize,typeId)
       .then(res => {
         this.setState({
           data: res.data,
