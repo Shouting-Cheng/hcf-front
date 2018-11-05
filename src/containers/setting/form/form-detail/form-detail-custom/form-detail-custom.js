@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'dva'
-import {Row, Col, Spin, Modal, Button, message} from 'antd'
+import {Row, Col, Spin, Modal, Button, message,Affix} from 'antd'
 
 const confirm = Modal.confirm;
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -12,6 +12,7 @@ import FakeDropLayout from 'containers/setting/form/form-detail/form-detail-cust
 import PhoneContent from 'containers/setting/form/form-detail/form-detail-custom/drop-source/phone-content'
 import WidgetSetting from 'widget/Template/widget/widget-setting'
 import PropTypes from 'prop-types'
+import { routerRedux } from 'dva/router';
 
 class FormDetailCustom extends React.Component {
   constructor(props) {
@@ -645,12 +646,19 @@ class FormDetailCustom extends React.Component {
     }
 
   }
+  goBack=()=>{
+    this.props.dispatch(
+        routerRedux.push({
+          pathname: `/admin-setting/form-list`,
+        })
+      );
+  }
 
   render() {
     const {normalWidget, combineWidget, nowWidget, nowSelectedIndex, loading, formDescriptionWidget, saving} = this.state;
     const selectedWidget = nowSelectedIndex === -1 ? formDescriptionWidget : nowWidget[nowSelectedIndex];
     return (
-      <div className="drag-widget-page form-detail-custom">
+      <div className="drag-widget-page form-detail-custom" style={{paddingBottom:'40px'}}>
         {loading ? <Spin/> : (
           <div>
             <FakeDropLayout/>
@@ -699,6 +707,21 @@ class FormDetailCustom extends React.Component {
             </Row>
           </div>
         )}
+        <div style={{paddingLeft:'20px'}}>
+                <Affix offsetBottom={0} style={{
+                 position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+                 }}>
+                    <Button
+                    type="primary"
+                    onClick={this.goBack}
+                    style={{ margin: '0 20px' }}
+                    >
+                {this.$t('common.back' /*提 交*/)}
+                </Button>
+                </Affix>
+
+                </div>
       </div>
     )
   }

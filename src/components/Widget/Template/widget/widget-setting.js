@@ -23,7 +23,7 @@ import LanguageInput from 'widget/Template/language-input/language-input';
 import formService from 'containers/setting/form/form.service';
 import baseService from 'share/base.service';
 import 'styles/components/template/widget/widget-setting.scss';
-//import { this.$t, randomString } from 'share/common'
+import { randomString } from 'utils/extend'
 import LinkageSwitchItem from 'widget/Template/widget/linkage-switch-item';
 import moment from 'moment';
 
@@ -374,7 +374,7 @@ class WidgetSetting extends React.Component {
               ? widget.fieldConstraint
               : JSON.stringify({ type: '0' });
           widget.optionList =
-            widget.fieldContent && JSON.parse(widget.fieldContent)[0].id === ''
+            widget.fieldContent && JSON.parse(widget.fieldContent.replace(/\\/g,""))[0].id === ''
               ? optionList
               : JSON.parse(widget.fieldContent);
         }
@@ -847,7 +847,7 @@ class WidgetSetting extends React.Component {
       case 'select_box': {
         let selectNum =
           widget.fieldConstraint && widget.fieldConstraint !== ''
-            ? JSON.parse(widget.fieldConstraint).type
+            ? JSON.parse(widget.fieldConstraint.replace(/\\/g,"")).type
             : '0';
         return (
           <div>
@@ -1163,7 +1163,7 @@ class WidgetSetting extends React.Component {
 
   getInitialValue = (jsonName, attrName) => {
     const { widget } = this.state;
-    return widget[jsonName] ? JSON.parse(widget[jsonName])[attrName] : null;
+    return widget[jsonName] ? JSON.parse(widget[jsonName].replace(/\\/g,""))[attrName] : null;
   };
 
   render() {

@@ -42,8 +42,8 @@ export default {
    * @param {*} id
    * @param {*} page
    */
-  getCostLineInfo(id, page, expenseTypeId) {
-    return httpFetch.get(`${config.baseUrl}/api/expReportLine/query?expReportHeaderId=${id}&size=5&page=${page}&expenseTypeId=${expenseTypeId}`)
+  getCostLineInfo(id, page,pageSize, expenseTypeId) {
+    return httpFetch.get(`${config.baseUrl}/api/expReportLine/query?expReportHeaderId=${id}&size=${pageSize}&page=${page}&expenseTypeId=${expenseTypeId}`)
   },
 
   /**
@@ -139,8 +139,8 @@ export default {
      * 获取计划付款行列表
      * @param {*} id
      */
-  getPayLineList(id, page) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/payment/schedules/query?expReportHeaderId=${id}&size=5&page=${page}`);
+  getPayLineList(id, page,pageSize) {
+    return httpFetch.get(`${config.baseUrl}/api/expense/payment/schedules/query?expReportHeaderId=${id}&size=${pageSize}&page=${page}`);
   },
 
   /**
