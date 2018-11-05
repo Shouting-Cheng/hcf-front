@@ -76,7 +76,7 @@ class NewBudgetOrganization extends React.Component {
             })(
               <Select placeholder={this.$t({id: 'common.please.select'})/* 请选择 */}  notFoundContent={<Spin size="small" />}>
                 {setOfBooks.map((option)=>{
-                  return <Option key={option.id}>{option.setOfBooksCode}</Option>
+                  return <Option key={option.id}>{option.setOfBooksCode+'-'+option.setOfBooksName}</Option>
                 })}
               </Select>
             )}
