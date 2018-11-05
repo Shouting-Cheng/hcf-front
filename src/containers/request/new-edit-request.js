@@ -42,6 +42,7 @@ import 'styles/components/template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
 let newRequestThis;
 let firstInitLoad;
+
 class NewRequest extends React.Component {
   travelParams = {}; //差旅申请单提交或保存的参数
   percentNum = 0; //进度条变化基数

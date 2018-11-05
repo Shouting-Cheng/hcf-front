@@ -881,6 +881,13 @@ export const getRouterData = app => {
       ),
       name: 'expense-type',
     },
+    //审批流 ***被人删了一次了***
+    '/admin-setting/workflow':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/workflow/workflow')
+      ),
+      name: 'workflow',
+    },
     '/admin-setting/company-group': {
       //公司组
       component: dynamicWrapper(app, [], () =>
@@ -1018,6 +1025,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
       ),
       name: 'budget-balance-solution-newOrEdit',
+      parent:'/budget-setting/budget-balance-solution/:setOfBooksId'
     },
     '/budget/budget-balance': {
       //预算余额
@@ -1031,7 +1039,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-balance/budget-balance-result')
       ),
-      name: 'budget-balance',
+      name: 'budget-balance-query-result',
       parent: '/budget/budget-balance'
     },
     '/budget/budget-balance-query': {
@@ -1039,14 +1047,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/budget/budget-balance-query/budget-balance-query')
       ),
-      name: 'budget-balance',
+      name: 'budget-balance-query',
     },
     '/budget/budget-balance-query/budget-balance-query-result/:id': {
       //预算余额查询方案结果
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget/budget-balance-query/budget-balance-query')
+        import('containers/budget/budget-balance-query/budget-balance-query-result')
       ),
-      name: 'budget-balance',
+      name: 'budget-balance-query-result',
       parent: '/budget/budget-balance-query'
     },
 
