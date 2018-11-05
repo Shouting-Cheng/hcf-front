@@ -1297,7 +1297,7 @@ export const getRouterData = app => {
         import('containers/enterprise-manage/company-maintain/new-bank-account.js')
       ),
       name: 'new-bank-account',
-      parent: '/enterprise-manage/company-maintain/company-maintain-detail',
+      parent: '/enterprise-manage/company-maintain',
     },
     '/admin-setting/company-level-define': {
       component: dynamicWrapper(app, [], () =>
