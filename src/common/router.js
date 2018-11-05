@@ -1600,6 +1600,12 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
+    '/financial-view/accounting-view':{//会计分录查询
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-view/accounting-view/accounting-view')
+      ),
+      name: 'accounting-view.',
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
