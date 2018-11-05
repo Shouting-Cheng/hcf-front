@@ -9,6 +9,7 @@ import SearchArea from 'components/Widget/search-area';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';
 import config from 'config';
 import moment from 'moment';
+import CustomTable from 'widget/custom-table'
 
 class CompanyMaintain extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class CompanyMaintain extends React.Component {
         pageSize: 10,
         showSizeChanger: true,
         showQuickJumper: true,
+        showTotal: (total, range) => this.$t("common.show.total", { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
       },
       searchForm: [
         {
@@ -241,12 +243,15 @@ class CompanyMaintain extends React.Component {
     for (let paramsName in params) {
       !params[paramsName] && delete params[paramsName];
     }
+    let searchParams= {
+      ...params
+    };
     this.setState(
       {
         searchParams: params,
       },
       () => {
-        this.getList();
+        this.customTable.search(searchParams);
       }
     );
   };
@@ -259,9 +264,9 @@ class CompanyMaintain extends React.Component {
       {
         searchParams,
       },
-      () => {
-        this.getList();
-      }
+      // () => {
+      //   this.getList();
+      // }
     );
   };
   //新建
@@ -312,9 +317,9 @@ class CompanyMaintain extends React.Component {
           submitHandle={this.handleSearch}
         />
         <div className="table-header">
-          <div className="table-header-title">
+          {/* <div className="table-header-title">
             {this.$t('common.total', { total: `${pagination.total}` })}
-          </div>
+          </div> */}
           {/*共搜索到*条数据*/}
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleCreate}>
@@ -323,7 +328,13 @@ class CompanyMaintain extends React.Component {
             </Button>
           </div>
         </div>
-        <Table
+        <CustomTable
+                ref={ref => this.customTable = ref}
+                columns={columns}
+                params={{params: this.state.params}}
+                url={`${config.baseUrl}/api/company/by/term`}
+              />
+        {/* <Table
           loading={loading}
           dataSource={data}
           columns={columns}
@@ -331,7 +342,7 @@ class CompanyMaintain extends React.Component {
           size="middle"
           bordered
           onChange={this.onChangePager}
-        />
+        /> */}
       </div>
     );
   }
