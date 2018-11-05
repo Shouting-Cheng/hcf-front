@@ -1122,6 +1122,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
+      parent:'/approval-management/approval-my-reimburse'
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1539,12 +1540,13 @@ export const getRouterData = app => {
       ),
       name: 'approve-expense-report',
     },
-    //报销单审批详情
-    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID': {
+    //审批报销单审批详情
+    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID/:approverOID': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/expense-report/expense-report-approve/approve-expense-report-detail')
+        import('containers/expense-report/base-expense-report-detail.js')
       ),
       name: 'approve-expense-report-detail',
+      parent: '/approval-management/approve-expense-report',
     },
     //单据查看
     '/financial-management/finance-view':{

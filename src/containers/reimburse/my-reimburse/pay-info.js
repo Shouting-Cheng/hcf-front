@@ -133,7 +133,7 @@ class PayInfo extends React.Component {
     //获取数据列表
     getList = () => {
         this.setState({ loading: true });
-        reimburseService.getPayLineList(this.state.headerData.id, this.state.page).then(res => {
+        reimburseService.getPayLineList(this.state.headerData.id, this.state.page,this.state.pageSize).then(res => {
             this.setState({
                 data: res.data,
                 pagination: {

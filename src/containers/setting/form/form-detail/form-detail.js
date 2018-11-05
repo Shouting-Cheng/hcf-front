@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { connect } from 'dva'
-import { Tabs, Spin } from 'antd'
+import { Tabs, Spin,Affix,Button } from 'antd'
 const TabPane = Tabs.TabPane;
 import FormDetailBase from 'containers/setting/form/form-detail/form-detail-base'
 import FormDetailCustom from 'containers/setting/form/form-detail/form-detail-custom/form-detail-custom'
@@ -11,6 +11,7 @@ import FormMatch from "containers/setting/form/form-detail/form-match/form-match
 import 'styles/setting/form/form-detail.scss'
 import formService from 'containers/setting/form/form.service'
 import PropTypes from 'prop-types'
+import { routerRedux } from 'dva/router';
 
 class FormDetail extends React.Component {
     constructor(props) {
@@ -175,7 +176,7 @@ class FormDetail extends React.Component {
             this.setState({ nowTab: 'custom' })
         }
     };
-
+  
     render() {
         const { nowTab, loading, matchFormData } = this.state;
         const { formOID } = this.props.match.params;
@@ -193,6 +194,7 @@ class FormDetail extends React.Component {
                         {nowTab === 'match' && <FormMatch refreshMacthData={this.refreshMacthData} />}
                     </div>
                 )}
+                
             </div>
         )
     }

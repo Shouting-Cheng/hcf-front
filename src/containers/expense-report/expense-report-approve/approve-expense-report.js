@@ -72,7 +72,7 @@ class ExpenseReportApprove extends React.Component {
           let result = null;
           this.state.status.map(item => {
             if(item.value === String(value) || item.value === String(value * 10000 + record.rejectType)) {
-              result = <Badge text={item.label} status={item.state} />
+              result = <Badge text={this.$t(item.label)} status={item.state} />
             }
           })
           return result;
@@ -271,11 +271,19 @@ class ExpenseReportApprove extends React.Component {
     //     pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/?`
     //   })
     // )  
-    this.state.tab === 'approvePending' && ( this.props.dispatch(
-      routerRedux.push({
-        pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/?approvePending=true&approverOID=${record.approverOID}`
-      })
-    ) );
+    if(this.state.tab === 'approvePending'){
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/${record.approverOID}`
+        })
+      )
+    }else{
+      this.props.dispatch(
+        routerRedux.push({
+          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/${null}`
+        })
+      )
+    }
   };
 
   //列表选择更改
