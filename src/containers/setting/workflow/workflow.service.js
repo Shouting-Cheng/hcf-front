@@ -8,7 +8,7 @@ export default {
   getWorkflowList(booksID) {
     let params = {};
     booksID && (params.booksID = booksID);
-    return httpFetch.get(`${config.accountingUrl}/brms/api/rule/custom/forms`, params)
+    return httpFetch.get(`${config.brmsUrl}/api/rule/custom/forms`, params)
   },
 
   //复制审批链
