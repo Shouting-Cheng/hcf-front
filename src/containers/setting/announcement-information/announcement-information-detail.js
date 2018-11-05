@@ -28,7 +28,7 @@ class AnnouncementInformationDetail extends React.Component {
       isEnabled: true,
       defaultImageList: [],
       imageList: [],
-      content: "",
+      content: null,
       info: {},
       columns: [
         { title: this.$t('announcement.info.company.code'/*公司代码*/), dataIndex: 'companyCode' },
@@ -110,6 +110,9 @@ class AnnouncementInformationDetail extends React.Component {
   //保存
   handleSave = (values) => {
     let content = this.state.content;
+    if(content == null){
+      content = '<p></p>'
+    }
     //以下是为了在移动端防止图片过大而无法完全显示的问题
       let img_arr = content.match(/<img.*?>/g);
       img_arr && img_arr.map((img, index) => {
@@ -200,7 +203,7 @@ class AnnouncementInformationDetail extends React.Component {
   };
 
   handleContentChange = (content) => {
-    this.setState({ content:content });
+    this.setState({ content })
   };
 
   //富文本中上传图片
