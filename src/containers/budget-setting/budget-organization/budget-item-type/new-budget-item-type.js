@@ -21,13 +21,6 @@ class NewBudgetItemType extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.params.flag&&!this.props.params.flag){
-      this.setState({
-        enabled: true
-      })
-    }
-  }
 
   //新建
   handleSave = (e) => {
@@ -44,7 +37,7 @@ class NewBudgetItemType extends React.Component {
         budgetItemTypeService.addItemType(toValue).then((res) => {
           this.setState({loading: false});
           this.props.form.resetFields();
-          this.props.close(true);
+          this.props.onClose(true);
           message.success(this.$t({id: "common.create.success"}, {name: `${this.$t({id: "budgetItemType.itemType"})}`}));
         }).catch((e) => {
           this.setState({loading: false});
@@ -57,7 +50,7 @@ class NewBudgetItemType extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
   };
 
   switchChange = () => {

@@ -2389,6 +2389,7 @@ class NewRequest extends React.Component {
                 <TabPane
                   tab={this.$t('request.detail.approve.history' /*审批历史*/)}
                   key="approvals"
+                  style={{paddingTop: 20}}
                 >
                   <ApproveHistory
                     approvalChains={info.approvalChains}
