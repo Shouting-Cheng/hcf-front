@@ -23,5 +23,6 @@
   "importer.import.fail": "Error: {total} items",
   "importer.again.import": "Please modify the corresponding data and re-import it",
   "importer.fail.over.ten": "The import failed more than 10, please download the error information to see the details",
-  "importer.download.error": "Download error message"
+  "importer.download.error": "Download error message",
+  "importer.import.please.selectInfo":"Please select files before importing them"
 }

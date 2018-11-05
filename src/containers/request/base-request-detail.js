@@ -156,7 +156,7 @@ class BaseRequestDetail extends React.Component {
               : res.data.approvalHistorys,
           },
           () => {
-            this.getRepaymentAmount(this.state.formType);
+            //this.getRepaymentAmount(this.state.formType);
             if (this.state.approve) {
               let info = this.state.info;
               this.setState({

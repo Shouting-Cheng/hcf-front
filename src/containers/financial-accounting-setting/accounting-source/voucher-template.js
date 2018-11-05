@@ -362,7 +362,7 @@ class VoucherTemplateSob extends React.Component {
       sourceName,
     } = this.state;
     return (
-      <div className="voucher-template">
+      <div className="voucher-template" style={{ paddingBottom: 20 }}>
         <div className="voucher-template-header">
           <h3>
             {`${this.$t({ id: 'voucher.template.header1' })} ` +

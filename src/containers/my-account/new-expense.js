@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva';
 import baseService from 'share/base.service'
-import moment from 'moment' 
+import moment from 'moment'
 import {getApprovelHistory, mulCalculate, deepFullCopy} from 'utils/extend'
 import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message, Card, Popover, InputNumber, DatePicker, Spin, Popconfirm, Tag, Table, Modal ,Timeline } from 'antd'
 const { MonthPicker } = DatePicker;
@@ -178,7 +178,7 @@ class NewExpense extends React.Component {
     expenseService.getRateByInvoiceType('').then(res => {
       this.setState({ taxRates: res.data.sort((a, b) => a.taxRateValue > b.taxRateValue || -1) })
     });
-    
+
   }
 
   componentDidMount(){
@@ -211,7 +211,7 @@ class NewExpense extends React.Component {
         nowBusinessCardConsumptionIndex: 0
       });
     }
-    
+
     //费用改变时
     if(this.props.params.nowExpense && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))){
       let expenseDetail = this.props.params.nowExpense;
@@ -250,7 +250,7 @@ class NewExpense extends React.Component {
           });
         })
       });
-      
+
       baseService.getExpenseTypeById(this.props.params.nowExpense.expenseTypeId).then(res => {
         //里程补贴的readonly是true，但是他是可以编辑的
         let readOnly = this.props.params.readOnly || (res.data.readonly && res.data.messageKey !== 'private.car.for.public');
@@ -315,7 +315,7 @@ class NewExpense extends React.Component {
       let currencyCode = this.props.params.expenseReport ? this.props.params.expenseReport.currencyCode : this.props.company.baseCurrency
       this.props.form.setFieldsValue({ invoiceCurrencyCode: currencyCode });
       this.handleChangeCurrency(currencyCode);
-      
+
     }
   }
   /**
@@ -675,7 +675,7 @@ class NewExpense extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.validate(values).then(expense => {
-          let expenseReport = this.props.expenseReport;
+          let expenseReport = this.props.params.expenseReport;
           if (expenseReport) {
             expense.expenseReportOID = expenseReport.expenseReportOID;
           }

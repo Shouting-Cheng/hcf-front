@@ -825,7 +825,7 @@ class ExpenseReportDetail extends React.Component {
         routerRedux.push({
           pathname: `/expense-report`
         })
-      ) 
+      )
     }
 
   };
@@ -1569,7 +1569,7 @@ class ExpenseReportDetail extends React.Component {
             <Button type="primary" className="back-btn" onClick={this.handleSubmit}
                     loading={submitting}>{this.$t('common.submit')/*提交*/}</Button>}
             {expenseReportStatus.operate === 'edit' &&
-            <Button className="back-btn delete-btn" style={{marginLeft: 20}} loading={deleting}
+            <Button className="back-btn delete-btn" loading={deleting}
                     onClick={this.handleDelete}>{this.$t('common.delete')/*删除*/}</Button>}
             {expenseReportStatus.operate === 'processing' && this.checkFunctionProfiles('er.opt.withdraw.disabled', [undefined, false]) &&  !(this.checkFunctionProfiles('bill.approved.withdraw', [true]) && info.withdrawFlag === 'N') &&
             <Button className="back-btn" onClick={this.handleWithdraw}

@@ -143,12 +143,10 @@ class SubjectSheetDetailMaintain extends React.Component {
   //   }
 
   componentDidMount() {
-    if (!this.props.params.visible) {
-      //编辑时，获取下啦接口数据
-      this.clickBalanceDirectionSelect();
-      this.clickAccountTypeSelect();
-      this.clickReportTypeSelect()
-    }
+    //编辑时，获取下啦接口数据
+    this.clickBalanceDirectionSelect();
+    this.clickAccountTypeSelect();
+    this.clickReportTypeSelect()
 
     //余额方向 值列表
     let balanceDirectionOptionsTemp = [];
@@ -300,7 +298,7 @@ class SubjectSheetDetailMaintain extends React.Component {
               }],
               initialValue: isNew ? undefined : params.balanceDirection
             })(
-              <Select placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={params.id ? () => { } : this.clickBalanceDirectionSelect}>
+              <Select placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} >
                 {balanceDirectionOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
@@ -315,7 +313,7 @@ class SubjectSheetDetailMaintain extends React.Component {
               }],
               initialValue: isNew ? undefined : params.accountType
             })(
-              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={params.id ? () => { } : this.clickAccountTypeSelect}>
+              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} >
                 {accountTypeOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
@@ -330,7 +328,7 @@ class SubjectSheetDetailMaintain extends React.Component {
               }],
               initialValue: isNew ? undefined : params.reportType
             })(
-              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} onFocus={this.clickReportTypeSelect}>
+              <Select allowClear placeholder={this.$t({ id: 'common.please.select' })/*请选择*/} >
                 {reportTypeOptions.map(option => {
                   return <Option key={option.value} value={option.value}>{option.messageKey}</Option>
                 })}
