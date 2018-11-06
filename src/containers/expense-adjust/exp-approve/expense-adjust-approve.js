@@ -180,7 +180,8 @@ class ExpenseAdjustApprove extends React.Component {
           .replace(':id', record.expenseAdjustApprovalView.expenseReportId)
           .replace(':expenseAdjustTypeId', record.expenseAdjustApprovalView.expAdjustTypeId)
           .replace(":entityOID", record.expenseAdjustApprovalView.expenseReportOID)
-          .replace(":flag", this.state.tabValue),
+          .replace(":flag", this.state.tabValue)
+          .replace(":entityType",record.entityType),
         state: {
           entityOID: record.entityOID,
           entityType: record.entityType
@@ -188,7 +189,7 @@ class ExpenseAdjustApprove extends React.Component {
       };
       this.props.dispatch(
         routerRedux.replace({
-          pathname: place
+          pathname: place.pathname
         })
       )
     };
@@ -198,7 +199,7 @@ class ExpenseAdjustApprove extends React.Component {
 
       </div>)
     }
-
+    
     render() {
         
         const { tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
