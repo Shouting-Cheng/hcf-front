@@ -530,6 +530,7 @@ class ExpenseAdjustDetail extends React.Component {
       .then(res => {
         if (res.data.passFlag) {
           //this.submit(true);
+          message.success(this.$t('common.operate.success' /*操作成功*/));
           this.setState({ loading: false });
           this.onCancel();
           return;
@@ -555,7 +556,7 @@ class ExpenseAdjustDetail extends React.Component {
       })
       .catch(err => {
         this.setState({ loading: false });
-        message.error(this.$t('exp.summit.failed：') + err.response.data.message);
+        message.error(this.$t('exp.summit.failed') + err.response.data.message);
       });
   };
 
@@ -576,7 +577,7 @@ class ExpenseAdjustDetail extends React.Component {
       })
       .catch(e => {
         this.setState({ loading: false });
-        message.error(`${this.$t('exp.summit.failed：')}，${e.response.data.message}`);
+        message.error(`${this.$t('exp.summit.failed')}，${e.response.data.message}`);
       });
   };
 
@@ -639,7 +640,7 @@ class ExpenseAdjustDetail extends React.Component {
         }
       })
       .catch(e => {
-        message.error(`${this.$t('exp.summit.failed：')}，${e.response.data.message}`);
+        message.error(`${this.$t('exp.summit.failed')}，${e.response.data.message}`);
       });
   };
 
@@ -951,7 +952,7 @@ class ExpenseAdjustDetail extends React.Component {
         </Modal>
         <Affix
           offsetBottom={0}
-          style={flag ? { marginLeft: -25 } : { marginLeft: -15 }}
+          style={flag ? { marginLeft: -25 } : { marginLeft: -25 }}
           className="bottom-bar-jsq"
         >
           {isModal
