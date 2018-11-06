@@ -258,7 +258,7 @@ class CostDetail extends React.Component {
                 range1: `${range[1]}`,
                 total: total,
               }),
-            pageSizeOptions: ['5', '10', '20', '30', '40'],
+            pageSizeOptions: ['5', '10'],
           },
           loading: false,
         });
