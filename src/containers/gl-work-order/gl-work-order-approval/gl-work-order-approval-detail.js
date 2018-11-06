@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
 import config from 'config';
+import ApproveBar from 'widget/Template/approve-bar'
+
 import {
   Button,
   Affix,
@@ -50,6 +52,8 @@ class GLWorkOrderCheckDetail extends Component {
       //审批
       opinion: '',
       operateLoading: false,
+      passLoading: false,
+      rejectLoading: false,
       /**
        * 单据行
        * lineStatus有三种状态：
@@ -332,11 +336,13 @@ class GLWorkOrderCheckDetail extends Component {
       ],
       countersignApproverOIDs: [],
     };
-    glWorkOrderCheckService
-      .pass(params)
-      .then(res => {
+    this.setState({passLoading:true,rejectLoading:true});
+
+    glWorkOrderCheckService.pass(params).then(res => {
         if (res.status === 200) {
           message.success('操作成功');
+          this.setState({passLoading: false, rejectLoading: false });
+
           this.setState({ operateLoading: false });
           this.onBack();
         }
@@ -346,6 +352,7 @@ class GLWorkOrderCheckDetail extends Component {
         if (e.response) {
           message.error(`操作失败：${e.response.data.message}`);
         }
+        this.setState({passLoading: false, rejectLoading: false });
         this.setState({ operateLoading: false });
       });
   };
@@ -394,7 +401,7 @@ class GLWorkOrderCheckDetail extends Component {
     //头行数据
     const { docHeadData } = this.state;
     //审批历史
-    const { approveHistory, historyLoading } = this.state;
+    const { approveHistory, historyLoading , passLoading, rejectLoading} = this.state;
     //表格
     let { columns, loading, pagination, data, tableWidth } = this.state;
     //审批
@@ -403,7 +410,7 @@ class GLWorkOrderCheckDetail extends Component {
     let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
-      <div className="gl-work-order-detail background-transparent">
+      <div className="gl-work-order-detail background-transparent" style={{marginBottom: 15}}>
         <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
             <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
@@ -431,7 +438,7 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         {(docStatus &&
           docStatus === '1002' && (
-            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{marginLeft: 4}}>
+            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 20px -24px'}}>
               <Row>
                 <Col span={17} >
                   <ApproveBar
@@ -450,7 +457,7 @@ class GLWorkOrderCheckDetail extends Component {
               <Affix className="bottom-bar" offsetBottom="0">
                 <Row gutter={12} type="flex" justify="start">
                   <Col span={3} offset={1}>
-                    <Button onClick={this.onBack}>返回</Button>
+                    <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
                   </Col>
                 </Row>
               </Affix>
