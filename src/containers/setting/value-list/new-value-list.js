@@ -363,6 +363,7 @@ class ValueList extends React.Component {
     // 验证一下name的长度
     // let validateStatus = length > 15 ? "error" : null;
     // let help = length > 15 ? messages('value.list.name.max.15'/*最多输入15个字符*/) : null;
+
     if (this.validataNameLengthErr(this.state._form.name)) {
       return;
     }
@@ -424,10 +425,9 @@ class ValueList extends React.Component {
   //名称：自定义值列表多语言
   i18nNameChange = (name, i18nName) => {
     const form = this.state.form;
-    console.log(form)
-    console.log(i18nName)
     form.name = name;
     form.i18n.name = i18nName;
+    this.setState({ form, _form: { ...form } });
   }
 
   renderForm() {
@@ -437,7 +437,7 @@ class ValueList extends React.Component {
         <div>
           <Row gutter={12}>
             <Col span={8}>
-              <div className="new-lp-row">
+              <div className="ant-form-item-label">
                 <span className="new-lp-row-re">*</span>
                 <span>
                   {/*值列表名称*/}
@@ -671,9 +671,9 @@ class ValueList extends React.Component {
                   // 编辑值内容:新建值内容
                   title={slideFrameParams.record ? messages('value.list.edit.value') : messages('value.list.new.value')}
                   show={showSlideFrame}
-                  onClose={this.handleCloseSlide}
+                  onClose={() => this.showSlide(false)}
                 >
-                  <NewValue onClose={() => this.showSlide(false)} params={slideFrameParams}></NewValue>
+                  <NewValue close={this.handleCloseSlide} params={slideFrameParams}></NewValue>
                 </SlideFrame>
               </div>
             )}

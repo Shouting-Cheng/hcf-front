@@ -3,7 +3,7 @@ import config from 'config'
 import httpFetch from 'share/httpFetch'
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import { Form, Affix, Button, message, Row,Card, Col } from 'antd'
+import { Form, Affix, Button, message, Row, Card, Col } from 'antd'
 
 import PrePaymentCommon from 'containers/pre-payment/my-pre-payment/pre-payment-common'
 // import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
@@ -129,25 +129,23 @@ class PrePaymentDetail extends React.Component {
       </div>);
 
     return (
-      <div className="contract-detail" style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',paddingBottom:60,margin: '6px -14px'}}>
+      <div className="contract-detail" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', paddingBottom: 100 }}>
         <PrePaymentCommon flag={false} params={this.state.headerData} contractEdit={true} id={this.props.match.params.id} />
         {
-          (this.props.match.params.status === 'unapproved') ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-            <Row>
-              <Col span={21}>
-                <ApproveBar
-                  style={{paddingLeft: 45}}
-                  passLoading={loading}
-                  backUrl={"/approval-management/pre-payment-approve"}
-                  rejectLoading={dLoading}
-                  handleApprovePass={this.handleApprovePass}
-                  handleApproveReject={this.handleApproveReject} />
-              </Col>
-            </Row>
-          </Affix> :
-            <Affix offsetBottom={0} className="bottom-bar">
-              <Button style={{marginLeft: 45}} loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
-            </Affix>
+          (this.props.match.params.status === 'unapproved') ? <div className="bottom-bar bottom-bar-approve">
+            <ApproveBar
+              passLoading={loading}
+              style={{ paddingLeft: 20 }}
+              backUrl={"/approval-management/pre-payment-approve"}
+              rejectLoading={dLoading}
+              handleApprovePass={this.handleApprovePass}
+              handleApproveReject={this.handleApproveReject} />
+          </div> :
+            <div className="bottom-bar bottom-bar-approve">
+              <div style={{ lineHeight: "50px" }}>
+                <Button loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+              </div>
+            </div>
         }
 
       </div >

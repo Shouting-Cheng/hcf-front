@@ -2,7 +2,7 @@ import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'dva'
 
-import { Table, Button, Badge, message, Popconfirm, Icon, Alert, Col, Row } from 'antd';
+import { Table, Button, Badge, message, Popconfirm, Icon, Alert, Col, Row, Divider } from 'antd';
 
 import codingRuleService from './coding-rule.service'
 import BasicInfo from 'widget/basic-info'
@@ -31,8 +31,10 @@ class CodingRuleValue extends React.Component {
         {
           title: messages('common.operation'), key: 'operation', width: '10%', render: (text, record) => (
             <span>
+              <a onClick={() => this.handleRowClick(record)}>{messages("common.edit")}</a>
+              <Divider type="vertical" />
               <Popconfirm onConfirm={(e) => this.deleteItem(e, record)} title={messages('common.confirm.delete')/*确定要删除吗*/}>
-                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{messages('common.delete')}</a>
+                <a onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{messages('common.delete')}</a>
               </Popconfirm>
             </span>)
         },  //操作
@@ -153,8 +155,9 @@ class CodingRuleValue extends React.Component {
   };
 
   afterClose = (params) => {
-    params && this.getList();
-    this.setState({ showSlideFrameFlag: false, nowCodingRuleValue: null });
+    this.setState({ showSlideFrameFlag: false, nowCodingRuleValue: null }, () => {
+      params && this.getList();
+    });
   };
 
   cancel = () => {
@@ -186,7 +189,6 @@ class CodingRuleValue extends React.Component {
           dataSource={data}
           pagination={pagination}
           loading={loading}
-          onRow={record => ({ onClick: () => this.handleRowClick(record) })}
           rowKey="id"
           bordered
           size="middle" />
@@ -197,9 +199,9 @@ class CodingRuleValue extends React.Component {
 
         <SlideFrame
           show={showSlideFrameFlag}
-          onClose={this.afterClose}
+          onClose={() => { this.setState({ showSlideFrameFlag: false }) }}
           title={messages('code.rule.value.add.segment.value')/*添加段值*/} >
-          <NewCodingRuleValue close={() => { this.setState({ showSlideFrameFlag: false }) }} params={{ codingRuleId: this.props.match.params.ruleId, nowCodingRuleValue, nowSequence }} />
+          <NewCodingRuleValue close={this.afterClose} params={{ codingRuleId: this.props.match.params.ruleId, nowCodingRuleValue, nowSequence }} />
         </SlideFrame>
 
       </div >

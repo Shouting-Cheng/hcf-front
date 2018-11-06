@@ -7,6 +7,7 @@ import config from 'config';
 import SearchArea from 'components/Widget/search-area.js';
 import budgetJournalService from 'containers/budget/budget-journal/budget-journal.service';
 import 'styles/budget/budget-journal/budget-journal.scss';
+import Error from "widget/error"
 
 class BudgetJournal extends React.Component {
   constructor(props) {
@@ -159,9 +160,12 @@ class BudgetJournal extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.getList();
+  componentDidMount() {
+    if (JSON.stringify(this.props.organization) != "{}") {
+      this.getList();
+    }
   }
+
 
   //获取预算日记账数据
   getList() {
@@ -257,37 +261,54 @@ class BudgetJournal extends React.Component {
       selectedRowKeys,
       pagination,
       columns,
-      batchCompany,
+      batchCompany
     } = this.state;
     const organization = this.props.organization;
+
+
+
+    //text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
+    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
+    //       skip: "/budget-setting/budget-organization",
+    //       buttonText: this.$t("main.error.set"),  //去设置
+    //       hasButton: true
+
     return (
-      <div className="budget-journal">
-        <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
-        <div className="table-header">
-          <div className="table-header-title">
-            {this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}
-          </div>{' '}
-          {/*共搜索到*条数据*/}
-          <div className="table-header-buttons">
-            <Button type="primary" onClick={this.handleCreate}>
-              {this.$t({ id: 'common.create' })}
-            </Button>{' '}
-            {/*新 建*/}
+      (organization && JSON.stringify(organization) != "{}") ? (
+        <div className="budget-journal">
+          <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
+          <div className="table-header">
+            <div className="table-header-title">
+              {this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}
+            </div>{' '}
+            {/*共搜索到*条数据*/}
+            <div className="table-header-buttons">
+              <Button type="primary" onClick={this.handleCreate}>
+                {this.$t({ id: 'common.create' })}
+              </Button>{' '}
+              {/*新 建*/}
+            </div>
           </div>
+          <Table
+            loading={loading}
+            dataSource={data}
+            columns={columns}
+            pagination={pagination}
+            size="middle"
+            bordered
+            rowKey={record => record.id}
+            onRow={record => ({
+              onClick: () => this.HandleRowClick(record),
+            })}
+          />
         </div>
-        <Table
-          loading={loading}
-          dataSource={data}
-          columns={columns}
-          pagination={pagination}
-          size="middle"
-          bordered
-          rowKey={record => record.id}
-          onRow={record => ({
-            onClick: () => this.HandleRowClick(record),
-          })}
+      ) : <Error
+          text={this.$t("main.error.budget.organization")}
+          title={this.$t("main.error.budget.organization.description")}
+          skip="/budget-setting/budget-organization"
+          buttonText={this.$t("main.error.set")}
+          hasButton
         />
-      </div>
     );
   }
 }

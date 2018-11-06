@@ -28,7 +28,7 @@ class AnnouncementInformationDetail extends React.Component {
       isEnabled: true,
       defaultImageList: [],
       imageList: [],
-      content: null,
+      content: "",
       info: {},
       columns: [
         { title: this.$t('announcement.info.company.code'/*公司代码*/), dataIndex: 'companyCode' },
@@ -53,6 +53,7 @@ class AnnouncementInformationDetail extends React.Component {
   getInfo = () => {
     this.setState({ pageLoading: true });
     announcementService.getAnnouncementDetail(this.props.match.params.OID).then(res => {
+
       this.setState({
         pageLoading: false,
         info: res.data,
@@ -110,19 +111,19 @@ class AnnouncementInformationDetail extends React.Component {
   //保存
   handleSave = (values) => {
     let content = this.state.content;
-    if(content == null){
+    if (content == null) {
       content = '<p></p>'
     }
     //以下是为了在移动端防止图片过大而无法完全显示的问题
-      let img_arr = content.match(/<img.*?>/g);
-      img_arr && img_arr.map((img, index) => {
-        if (img.match(/width="auto"/) && img.match(/height="auto"/)) {
-          img = img.replace(/width="auto"/, '');
-          img = img.replace(/height="auto"/, '');
-          img = img.replace(/width:auto;height:auto;/, '');
-        }
-        content = content.replace(content.match(/<img.*?>/g)[index], img);
-      });
+    let img_arr = content.match(/<img.*?>/g);
+    img_arr && img_arr.map((img, index) => {
+      if (img.match(/width="auto"/) && img.match(/height="auto"/)) {
+        img = img.replace(/width="auto"/, '');
+        img = img.replace(/height="auto"/, '');
+        img = img.replace(/width:auto;height:auto;/, '');
+      }
+      content = content.replace(content.match(/<img.*?>/g)[index], img);
+    });
     //以下是因为移动端无法正确显示<em>和<i>，因此加上css属性实现斜体
     content = content.replace(/<em>/g, '<em style="font-style: italic">');
     content = content.replace(/<i>/g, '<i style="font-style: italic">');
@@ -291,10 +292,10 @@ class AnnouncementInformationDetail extends React.Component {
             this.selectTempImg(item);
           }}>
             <div className="img-target">
-              <img src={item.templateUrl}/>
+              <img src={item.templateUrl} />
             </div>
             <div className="img-radio">
-              {item.selected ? <Icon type="check-circle" className="checked"/> : <Icon type="check-circle"/>}
+              {item.selected ? <Icon type="check-circle" className="checked" /> : <Icon type="check-circle" />}
               &nbsp;&nbsp;
               {item.templateName}
             </div>
@@ -324,7 +325,7 @@ class AnnouncementInformationDetail extends React.Component {
     ];
     const extendControls = [{
       type: 'button',
-      text: <Icon type="file-add"/>,
+      text: <Icon type="file-add" />,
       hoverTitle: this.$t('announcement.info.upload.file'/*上传文件*/),
       className: 'file-add',
       onClick: () => this.setState({ fileUploadVisible: true }),
@@ -347,7 +348,7 @@ class AnnouncementInformationDetail extends React.Component {
                     }],
                     initialValue: info.title,
                   })(
-                    <Input placeholder={this.$t('common.please.enter'/*请输入*/)}/>,
+                    <Input placeholder={this.$t('common.please.enter'/*请输入*/)} />,
                   )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t('announcement.info.to.outer.link'/*跳转外部链接*/)}>
@@ -362,24 +363,24 @@ class AnnouncementInformationDetail extends React.Component {
                 </FormItem>
 
                 <FormItem {...formItemLayout}
-                          label={<span className="ant-form-item-required">
-                  {this.$t('announcement.info.outer.image'/*封面图片*/)}</span>}
+                  label={<span className="ant-form-item-required">
+                    {this.$t('announcement.info.outer.image'/*封面图片*/)}</span>}
                 >
                   <Button type="primary" onClick={this.showTempModal}>
                     {/*从模板中选择*/}
                     {this.$t('announcement.info.s.fromtemp')}
                   </Button>
-                  <br/>
+                  <br />
                   &nbsp;
-                  <br/>
+                  <br />
                   <ImageUpload attachmentType="CARROUSEL_IMAGES"
-                               uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
-                               maxNum={1}
-                               fileType={['jpg', 'jpeg', 'bmp', 'gif', 'png']}
-                               fileSize={5}
-                               defaultFileList={defaultImageList}
-                               isShowDefault={true}
-                               onChange={this.handleUploadImage}/>
+                    uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
+                    maxNum={1}
+                    fileType={['jpg', 'jpeg', 'bmp', 'gif', 'png']}
+                    fileSize={5}
+                    defaultFileList={defaultImageList}
+                    isShowDefault={true}
+                    onChange={this.handleUploadImage} />
                   <div className="image-attention">
                     {this.$t('announcement.info.upload.image.notice'/*推荐尺寸750*320;支持jpg, jpeg, bmp, gif, png类型文件, 5M以内*/)}
                   </div>
@@ -388,9 +389,9 @@ class AnnouncementInformationDetail extends React.Component {
                   {getFieldDecorator('enable')(
                     <div>
                       <Switch checked={isEnabled}
-                              checkedChildren={<Icon type="check"/>}
-                              unCheckedChildren={<Icon type="cross"/>}
-                              onChange={this.handleStatusChange}/>
+                        checkedChildren={<Icon type="check" />}
+                        unCheckedChildren={<Icon type="cross" />}
+                        onChange={this.handleStatusChange} />
                       <span
                         className="enabled-type">{isEnabled ? this.$t('common.status.enable') : this.$t('common.status.disable')}</span>
                     </div>,
@@ -398,29 +399,29 @@ class AnnouncementInformationDetail extends React.Component {
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t('announcement.info.text'/*正文*/)}>
                   <BraftEditor height={200}
-                               controls={controls}
-                               language={this.props.language.locale}
-                               contentFormat="html"
-                               initialContent={content}
-                               extendControls={extendControls}
-                               media={{
-                                 image: true,
-                                 video: false,
-                                 audio: false,
-                                 externalMedias: {
-                                   image: false,
-                                   video: false,
-                                   audio: false,
-                                 },
-                                 uploadFn: this.handleImageUpload,
-                               }}
-                               ref={instance => this.editorInstance = instance}
-                               onChange={this.handleContentChange}/>
+                    controls={controls}
+                    language={this.props.language.locale}
+                    contentFormat="html"
+                    initialContent={content}
+                    extendControls={extendControls}
+                    media={{
+                      image: true,
+                      video: false,
+                      audio: false,
+                      externalMedias: {
+                        image: false,
+                        video: false,
+                        audio: false,
+                      },
+                      uploadFn: this.handleImageUpload,
+                    }}
+                    ref={instance => this.editorInstance = instance}
+                    onChange={this.handleContentChange} />
                 </FormItem>
                 <div className="btn">
                   <Button type="primary"
-                          loading={loading}
-                          onClick={this.handleSubmit}>
+                    loading={loading}
+                    onClick={this.handleSubmit}>
                     {this.$t('common.save')}
                   </Button>
                   <Button onClick={this.handleCancel} className="cancel-btn">{this.$t('common.back')}</Button>
@@ -438,18 +439,18 @@ class AnnouncementInformationDetail extends React.Component {
                 </div>
               </div>
               <Table rowKey="id"
-                     loading={tableLoading}
-                     columns={columns}
-                     dataSource={data}
-                     pagination={pagination}
-                     bordered
-                     size="middle"/>
+                loading={tableLoading}
+                columns={columns}
+                dataSource={data}
+                pagination={pagination}
+                bordered
+                size="middle" />
               <ListSelector type='deploy_company_by_carousel'
-                            visible={companySelectorShow}
-                            onOk={this.handleListOk}
-                            extraParams={{ source: this.props.match.params.id }}
-                            onCancel={() => this.showCompanySelector(false)}/>
-              <a className="back-icon" onClick={this.handleCancel}><Icon type="rollback"/>
+                visible={companySelectorShow}
+                onOk={this.handleListOk}
+                extraParams={{ source: this.props.match.params.id }}
+                onCancel={() => this.showCompanySelector(false)} />
+              <a className="back-icon" onClick={this.handleCancel}><Icon type="rollback" />
                 {this.$t('common.back')}
               </a>
             </TabPane>
@@ -457,15 +458,15 @@ class AnnouncementInformationDetail extends React.Component {
         </Tabs>
         {fileUploadVisible && (
           <Modal title={this.$t('announcement.info.upload.file'/*上传文件*/)}
-                 visible={fileUploadVisible}
-                 footer={<Button onClick={() => this.setState({ fileUploadVisible: false })}>
-                   {this.$t('common.cancel')}
-                 </Button>}>
+            visible={fileUploadVisible}
+            footer={<Button onClick={() => this.setState({ fileUploadVisible: false })}>
+              {this.$t('common.cancel')}
+            </Button>}>
             <UploadFile uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
-                        attachmentType="OTHER"
-                        fileNum={1}
-                        needAllResponse={true}
-                        uploadHandle={this.handleFileUpload}/>
+              attachmentType="OTHER"
+              fileNum={1}
+              needAllResponse={true}
+              uploadHandle={this.handleFileUpload} />
           </Modal>
         )}
 

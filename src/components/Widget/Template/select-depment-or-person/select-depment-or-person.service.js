@@ -12,7 +12,7 @@ let TREEDATA = [];
 let isLoadingPerson = false;
 
 export default {
-  setIsLoadingPerson: function(val) {
+  setIsLoadingPerson: function (val) {
     isLoadingPerson = val;
   },
   //初始化部门树
@@ -113,7 +113,7 @@ export default {
   },
   //检查节点是否已经加载
   checkChildHasLoad(node) {
-    return node.children.length > 0;
+    return node.children && node.children.length > 0;
   },
   //获取部门树
   getTreeData() {

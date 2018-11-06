@@ -18,7 +18,8 @@ const defaultVauleItem = {
   code: "",
   value: "",
   messageKey: "",
-  i18n: {}
+  i18n: {},
+  common: true
 }
 
 class ValueList extends React.Component {
@@ -89,8 +90,6 @@ class ValueList extends React.Component {
         customEnumerationItemOID: "",
         data: [],
         deleteUserOIDs: []
-      }, () => {
-        this.props.form.resetFields()
       })
     }
   }
@@ -345,8 +344,6 @@ class ValueList extends React.Component {
   };
   //名称：自定义值列表项多语言
   i18nNameChange = (name, i18nName) => {
-    console.log(name)
-    console.log(i18nName)
     this.state.record.messageKey = name;
     this.state.record.i18n.messageKey = i18nName;
   }

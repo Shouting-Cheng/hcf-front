@@ -34,7 +34,7 @@ class NewLegalPerson extends React.Component {
       parentLegalEntity: {
         url:
           `${config.baseUrl}/api/find/parent/legalentitys?setOfBookID=${
-            props.company.setOfBooksId
+          props.company.setOfBooksId
           }&legalEntityId=` +
           (this.props.match.params.legalPersonID === ':legalPersonID'
             ? ''
@@ -103,7 +103,7 @@ class NewLegalPerson extends React.Component {
           legalPerson: data,
           uploadedImages,
         },
-        () => {}
+        () => { }
       );
     });
   };
@@ -119,8 +119,8 @@ class NewLegalPerson extends React.Component {
     if (data.thumbnailUrl) {
       uploadedImage.thumbnailUrl = data.thumbnailUrl;
     }
-    if (data.attachmentId) {
-      uploadedImage.attachmentOID = data.attachmentId;
+    if (data.attachmentOID) {
+      uploadedImage.attachmentOID = data.attachmentOID;
       uploadedImage.fileName = data.fileName;
     }
 
@@ -213,14 +213,14 @@ class NewLegalPerson extends React.Component {
       .then(res => {
         this.props.dispatch(
           routerRedux.replace({
-             pathname: '/enterprise-manage/legal-person',
-             })
-          );
+            pathname: '/enterprise-manage/legal-person',
+          })
+        );
         this.setState({
           legalPerson: res.data,
         });
       })
-      .catch(res => {});
+      .catch(res => { });
   };
   //创建法人实体
   createLegalPerson = (legalPerson) => {
@@ -235,9 +235,9 @@ class NewLegalPerson extends React.Component {
         });
         this.props.dispatch(
           routerRedux.replace({
-             pathname: '/enterprise-manage/legal-person',
-             })
-          );
+            pathname: '/enterprise-manage/legal-person',
+          })
+        );
       })
       .catch(res => {
         this.setState({
@@ -250,9 +250,9 @@ class NewLegalPerson extends React.Component {
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-         pathname: '/enterprise-manage/legal-person',
-         })
-      );
+        pathname: '/enterprise-manage/legal-person',
+      })
+    );
   };
 
   handleChange = (e) => {
@@ -264,7 +264,7 @@ class NewLegalPerson extends React.Component {
   };
 
   //上传图片后的回调函数
-  handleUploadImageChange = (fileList) => {};
+  handleUploadImageChange = (fileList) => { };
 
   //地址：多语言
   i18nAddressChange = (name, i18nName) => {
@@ -292,7 +292,7 @@ class NewLegalPerson extends React.Component {
       return list.map((item) => {
         return (
           <Option value={item.code}
-                  key={item.code}>{item.comments}</Option>
+            key={item.code}>{item.comments}</Option>
         )
       })
     } else {
@@ -318,7 +318,7 @@ class NewLegalPerson extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { legalPerson, loading } = this.state;
     return (
-      <div className="new-legal-person-wrap" style={{marginBottom: 20}}>
+      <div className="new-legal-person-wrap" style={{ marginBottom: 20 }}>
         <Form onSubmit={this.handleSave} onChange={this.handleChange}>
           <Row gutter={24} className="new-lp-row-wrap">
             <Col span={8}>

@@ -360,7 +360,7 @@ class NewCostCenterItem extends React.Component {
                         <Select disabled={!this.props.tenantMode}>
                             {_renderCustomEnumerationList(field.selectList.values)}
                         </Select>
-                        )
+                    )
                     }
                 </FormItem>
             </Col>
@@ -477,7 +477,7 @@ class NewCostCenterItem extends React.Component {
                                             nameChange={this.i18nNameChange}
                                         />
                                     </div>
-                                    )}
+                                )}
                             </FormItem>
                         </Col>
 
@@ -522,7 +522,7 @@ class NewCostCenterItem extends React.Component {
                     <Row gutter={24} className="cost-center-form-row">
                         <Col span={8}>
                             <div className="main-select-dep-wrap">
-                                <div className="select-dep-search-area-title">
+                                <div className="ant-form-item-label">
                                     {/*主要部门:(单选)*/}
                                     {
                                         this.$t("new.cost.center.item.main")
@@ -549,7 +549,7 @@ class NewCostCenterItem extends React.Component {
                         </Col>
                         <Col span={8}>
                             <div className="sec-select-dep-wrap">
-                                <div className="select-dep-search-area-title">
+                                <div className="ant-form-item-label">
                                     {/*从属部门:(可多选)*/}
                                     {
                                         this.$t("new.cost.center.item.sec")
@@ -599,7 +599,7 @@ class NewCostCenterItem extends React.Component {
                                         valueKey="userOID"
                                         onChange={this.handleChange}
                                         type="user" />
-                                    )
+                                )
                                 }
                             </FormItem>
                         </Col>

@@ -27,6 +27,8 @@ import { isUrl } from '../utils/utils';
 
 import 'styles/common.scss'
 
+import Error from "widget/error"
+
 const TabPane = Tabs.TabPane;
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
@@ -125,7 +127,9 @@ class BasicLayout extends React.Component {
     path: '',
     panes: [],
     activeKey: '',
-    selectKey: ''
+    selectKey: '',
+    error: false,
+    errorContent: {}
   };
 
   getChildContext() {
@@ -189,6 +193,21 @@ class BasicLayout extends React.Component {
       )
       return;
     }
+
+    // console.log(this.props.organization);
+    // if (path.indexOf("budget") >= 0 && path.indexOf('budget-journal-check') == -1 && path.indexOf('budget-setting') == -1 && JSON.stringify(this.props.organization) == "{}") {
+    //   this.setState({
+    //     error: true,
+    //     errorContent: {
+    //       text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
+    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
+    //       skip: "/budget-setting/budget-organization",
+    //       buttonText: this.$t("main.error.set"),  //去设置
+    //       hasButton: true
+    //     }
+    //   })
+    //   return;
+    // }
 
     if (panes.findIndex(o => o.routeKey == "/dashboard") < 0) {
       let dashboard = this.getContent("/dashboard");
@@ -368,7 +387,7 @@ class BasicLayout extends React.Component {
     return new Promise(async (resolve, reject) => {
 
       let result = await fetch.get('/api/my/companies');
-      
+
       dispatch({
         type: 'user/saveCompany',
         payload: result,
@@ -383,7 +402,7 @@ class BasicLayout extends React.Component {
       }
     });
   };
-  getProfile=()=>{
+  getProfile = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
       fetch.get(`/api/function/profiles?roleType=TENANT`).then(result => {
@@ -774,4 +793,5 @@ export default connect(({ user, global = {}, loading, languages, menu }) => ({
   notices: global.notices,
   languages: languages,
   menu: menu,
+  organization: user.organization
 }))(BasicLayout);

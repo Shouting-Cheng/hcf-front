@@ -21,13 +21,12 @@ class ReimburseDetail extends React.Component {
       submitAble: false,
       headerData: {},
       submitLoading: false,
-    //   myReimburse: menuRoute.getRouteItem('approve-my-reimburse', 'key'),
+      //   myReimburse: menuRoute.getRouteItem('approve-my-reimburse', 'key'),
     }
   }
 
   componentWillMount() {
     this.getInfo();
-    console.log(this.props)
   }
 
   //获取报账单信息
@@ -48,19 +47,6 @@ class ReimburseDetail extends React.Component {
 
   //提交
   onSubmit = () => {
-
-    // let data = {
-    //   id: this.props.params.id,
-    //   ignoreBudgetWarningFlag: false
-    // };
-
-    // reimburseService.submit(data).then(res => {
-    //   message.success("提交成功！");
-    //   this.setState({ submitLoading: false });
-    // }).catch(err => {
-    //   message.error("提交失败：" + err.response.data.message);
-    //   this.setState({ submitLoading: false });
-    // });
 
     this.setState({ submitLoading: true });
     reimburseService.checkBudget(this.props.params.id).then(res => {
@@ -170,28 +156,23 @@ class ReimburseDetail extends React.Component {
   render() {
     const { loading, dLoading, submitAble, headerData, submitLoading } = this.state;
     return (
-      <div >
+      <div style={{ paddingBottom: 100 }} >
         <ReimburseDetailCommon getInfo={this.getInfo} headerData={headerData} id={this.props.match.params.id}
           getContractStatus={this.getStatus} />
         {
-          this.props.match.params.flag === 'unapproved' ? <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-            <Row>
-              <Col span={18}>
-                <ApproveBar passLoading={loading}
-                  style={{paddingLeft: 20}}
-                  backUrl={`/approval-management/approval-my-reimburse`}
-                  rejectLoading={dLoading}
-                  handleApprovePass={this.handleApprovePass}
-                  handleApproveReject={this.handleApproveReject} />
-              </Col>
-            </Row>
-          </Affix> :
-          <Affix offsetBottom={0} style={{
-            position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
-            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
-          }}>
-            <Button style={{marginLeft: 33}} loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
-          </Affix>
+          this.props.match.params.flag === 'unapproved' ? <div className="bottom-bar bottom-bar-approve">
+            <ApproveBar passLoading={loading}
+              style={{ paddingLeft: 20 }}
+              backUrl={`/approval-management/approval-my-reimburse`}
+              rejectLoading={dLoading}
+              handleApprovePass={this.handleApprovePass}
+              handleApproveReject={this.handleApproveReject} />
+          </div> :
+            <div className="bottom-bar bottom-bar-approve">
+              <div style={{ lineHeight: "50px" }}>
+                <Button style={{ marginLeft: 33 }} loading={loading} onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+              </div>
+            </div>
         }
       </div>
     )

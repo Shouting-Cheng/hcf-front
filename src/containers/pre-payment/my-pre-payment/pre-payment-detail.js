@@ -178,31 +178,31 @@ class PrePaymentDetail extends React.Component {
       </div>
     );
     return (
-      <div style={{ paddingBottom: 50 }} className="pre-payment-detail">
+      <div style={{ paddingBottom: 100 }} className="pre-payment-detail">
         <PrePaymentCommon params={headerData} contractEdit={true} id={id} />
         {this.props.params && this.props.params.refund ? (
           ''
         ) : (
-          <Affix
-            offsetBottom={0}
-            style={{
-              position: 'fixed',
-              bottom: 0,
-              marginLeft: '-35px',
-              width: '100%',
-              height: '50px',
-              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-              background: '#fff',
-              lineHeight: '50px',
-              zIndex: 1,
-            }}
-          >
-            {headerData.status &&
-            (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005)
-              ? newState
-              : otherState}
-          </Affix>
-        )}
+            <Affix
+              offsetBottom={0}
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                marginLeft: '-35px',
+                width: '100%',
+                height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                background: '#fff',
+                lineHeight: '50px',
+                zIndex: 1,
+              }}
+            >
+              {headerData.status &&
+                (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005)
+                ? newState
+                : otherState}
+            </Affix>
+          )}
       </div>
     );
   }

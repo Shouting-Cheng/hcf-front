@@ -175,8 +175,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -191,8 +191,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -207,8 +207,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -223,8 +223,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -239,8 +239,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -255,8 +255,8 @@ class PersonManage extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -464,7 +464,7 @@ class PersonManage extends React.Component {
         let name = this.$t('person.manage.person.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
   //下载携程供应商模板
   downloadCtripSupplierTemplate = () => {
@@ -477,7 +477,7 @@ class PersonManage extends React.Component {
         let name = this.$t('person.manage.vendor.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
   //下载银行信息模板
   downloadBankAccountTemplate = () => {
@@ -490,7 +490,7 @@ class PersonManage extends React.Component {
         let name = this.$t('person.manage.bank.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
   //下载证件信息模板
   downloadCardAccountTemplate = () => {
@@ -503,7 +503,7 @@ class PersonManage extends React.Component {
         let name = this.$t('person.manage.card.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
 
   //点击搜搜索
@@ -992,7 +992,7 @@ class PersonManage extends React.Component {
         let name = this.$t('person.manage.im.err');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(res => {});
+      .catch(res => { });
   };
   //人员导入的错误信息-start
   showImportErrInfo = () => {
@@ -1040,7 +1040,7 @@ class PersonManage extends React.Component {
           isExtraFields={true}
           extraFields={[
             <div>
-              <div className="select-dep-search-area-title">
+              <div className="ant-form-item-label">
                 {/*部门:*/}
                 {this.$t('person.manage.dep') + ':'}
               </div>
@@ -1086,16 +1086,16 @@ class PersonManage extends React.Component {
                   {this.$t('person.manage.new.person')}
                 </Button>
               ) : (
-                <span />
-              )}
+                  <span />
+                )}
               {this.state.CREATE_DATA_TYPE ? (
                 <Button onClick={this.personImport} disabled={!this.props.tenantMode}>
                   {/*导入人员数据*/}
                   {this.$t('person.manage.im.person.data')}
                 </Button>
               ) : (
-                <span />
-              )}
+                  <span />
+                )}
               <Dropdown.Button overlay={menu} disabled={this.state.loading}>
                 <ExportModal
                   exportTitle={this.$t('person.manage.ex.person.data')}

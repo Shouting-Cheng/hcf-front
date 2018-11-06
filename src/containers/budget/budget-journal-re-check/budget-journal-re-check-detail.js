@@ -302,7 +302,7 @@ class BudgetJournalReCheckDetail extends React.Component {
     httpFetch
       .get(
         `${
-          config.budgetUrl
+        config.budgetUrl
         }/api/budget/journals/getLayoutsByStructureId?enabled=true&structureId=${value}`
       )
       .then(resp => {
@@ -461,7 +461,7 @@ class BudgetJournalReCheckDetail extends React.Component {
   render() {
     const { data, columns, infoData, spinLoading, rejectLoading } = this.state;
     return (
-      <div className="budget-journal-re-check-detail">
+      <div style={{ paddingBottom: 100 }} className="budget-journal-re-check-detail">
         <div className="base-info">
           <div className="base-info-header">
             {this.$t({ id: 'budgetJournal.basicInformation' })}
@@ -540,7 +540,7 @@ class BudgetJournalReCheckDetail extends React.Component {
             pagination={this.state.pagination}
           />
         </Spin>
-        <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+        <div className="bottom-bar bottom-bar-approve">
           <ApproveBar
             backUrl={`/budget/budget-journal-re-check`}
             passLoading={spinLoading}
@@ -549,7 +549,7 @@ class BudgetJournalReCheckDetail extends React.Component {
             handleApprovePass={this.handlePass}
             handleApproveReject={this.handleReject}
           />
-        </Affix>
+        </div>
       </div>
     );
   }
