@@ -147,7 +147,7 @@ class ApproveHistory extends React.Component {
                           <span>
                             {(item.countersignType === 1 || item.countersignType === 2) &&
                               ` ${this.$t('constants.approvelHistory.sign') /*加签*/} `}
-                            {getApprovelHistory(item.operation).text}
+                            {this.$t(getApprovelHistory(item.operation).text)}
                           </span>
                         )}
                       </Col>
