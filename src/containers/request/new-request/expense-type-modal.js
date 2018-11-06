@@ -352,6 +352,8 @@ class ExpenseTypeModal extends React.Component {
 
   //删除
   deleteExpenseType = (e, index) => {
+    //跪求别再改了
+    e.stopPropagation();
     let expenseBudgetList = this.state.expenseBudgetList;
     expenseBudgetList.splice(index, 1);
     let value = this.state.value;

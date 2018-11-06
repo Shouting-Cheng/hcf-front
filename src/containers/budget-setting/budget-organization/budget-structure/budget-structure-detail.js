@@ -358,7 +358,7 @@ class BudgetStructureDetail extends React.Component{
     const { infoList, dimension, updateState, structure, loading, showSlideFrameUpdate, data, columns, pagination, label, showSlideFrame, lov} = this.state;
 
     return(
-      <div className="budget-structure-detail">
+      <div className="budget-structure-detail" style={{paddingBottom: 20}}>
         <BasicInfo
           infoList={infoList}
           infoData={structure}
@@ -391,16 +391,18 @@ class BudgetStructureDetail extends React.Component{
 
         <SlideFrame title={this.$t({id:"structure.newDimension"})}
                     show={showSlideFrame}
-                    content={NewDimension}
-                    afterClose={this.handleCloseSlide}
-                    onClose={() => this.showSlide(false)}
-                    params={structure}/>
+                    onClose={() => this.showSlide(false)}>
+          <NewDimension
+            onClose={this.handleCloseSlide}
+            params={structure}/>
+        </SlideFrame>
         <SlideFrame title={this.$t({id:"structure.updateDimension"})}
                     show={showSlideFrameUpdate}
-                    content={UpdateDimension}
-                    afterClose={this.handleCloseSlideUpdate}
-                    onClose={() => this.showSlideUpdate(false)}
-                    params={{...dimension,flag: showSlideFrameUpdate}}/>
+                    onClose={() => this.showSlideUpdate(false)}>
+          <UpdateDimension
+            onClose={this.handleCloseSlideUpdate}
+            params={{...dimension,flag: showSlideFrameUpdate}}/>
+        </SlideFrame>
 
         <ListSelector type={lov.type}
                       visible={lov.visible}

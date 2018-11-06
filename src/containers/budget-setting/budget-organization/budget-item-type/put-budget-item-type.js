@@ -24,19 +24,11 @@ class PutBudgetItemType extends React.Component {
 
   //获取数据
   componentWillMount() {
-    this.setState({
-      params: this.props.params,
-      enabled: this.props.params.enabled,
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.flag && !this.props.params.flag) {
+    if(this.props.params.id)
       this.setState({
         params: this.props.params,
         enabled: this.props.params.enabled,
       })
-    }
   }
 
 
@@ -53,7 +45,7 @@ class PutBudgetItemType extends React.Component {
         }
         budgetItemTypeService.updateItemType(data).then((res) => {
           this.setState({loading: false});
-          this.props.close(true);
+          this.props.onClose(true);
           message.success(  this.$t({id: "common.operate.success"}));
         }).catch((e) => {
           this.setState({loading: false});
@@ -66,10 +58,10 @@ class PutBudgetItemType extends React.Component {
 
   onCancel = () => {
     this.props.form.resetFields();
-    this.props.close();
+    this.props.onClose();
   };
 
-  switchChange = () => {
+  switchChange = (value) => {
     this.setState((prevState) => ({
       enabled: !prevState.enabled
     }))
@@ -86,24 +78,23 @@ class PutBudgetItemType extends React.Component {
       <div className="new-value">
         <Form onSubmit={this.handlePut}>
           {this.props.params.flag&&
-          <FormItem {...formItemLayout}
-                    label={this.$t({id: "common.column.status"})}>
-            {getFieldDecorator('enabled', {})(
-              <div>
-                <Switch defaultChecked={params.enabled} checkedChildren={<Icon type="check"/>}
-                        unCheckedChildren={<Icon type="cross"/>} onChange={this.switchChange}/>
-                <span className="enabled-type" style={{
-                  marginLeft: 20,
-                  width: 100
-                }}>{ enabled ? this.$t({id: "common.enabled"}) : this.$t({id: "common.disabled"}) }</span>
-              </div>
-            )}
-          </FormItem>
+            <FormItem {...formItemLayout}
+                      label={this.$t({id: "common.column.status"})}>
+              {getFieldDecorator('enabled', {})(
+                <div>
+                  <Switch defaultChecked={enabled} checkedChildren={<Icon type="check"/>}
+                          unCheckedChildren={<Icon type="cross"/>} onChange={this.switchChange}/>
+                  <span className="enabled-type" style={{
+                    marginLeft: 20,
+                    width: 100
+                  }}>{enabled ? this.$t({id: "common.enabled"}) : this.$t({id: "common.disabled"})}</span>
+                </div>
+              )}
+            </FormItem>
           }
           <FormItem {...formItemLayout} label={this.$t({id: "budget.organization"})}>
             {getFieldDecorator('organizationName', {
-              initialValue: this.props.organization.organizationName
-
+              initialValue: this.props.organization.organizationName || this.props.params.organizationName
             })(
               <Input disabled/>
             )}

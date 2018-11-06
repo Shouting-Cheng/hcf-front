@@ -155,15 +155,15 @@ class BudgetParameterSetting extends React.Component {
     }
   };
 
-  //点击行，进入该行详情页面
+/*  //点击行，进入该行详情页面
   handleRowClick = (record, index, event) =>{
     this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.budgetStructureDetail.url.replace(':id', this.props.id).replace(':structureId', record.id));
-  };
+  };*/
 
   render(){
     const { searchForm, loading, data, columns, pagination, nowOrganization, showSlideFrame} = this.state;
     return (
-      <div className="budget-structure">
+      <div className="budget-structure" style={{paddingBottom: 20}}>
         <h3 className="header-title">{this.state.organization.organizationName}</h3>
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
         <div className="table-header">
