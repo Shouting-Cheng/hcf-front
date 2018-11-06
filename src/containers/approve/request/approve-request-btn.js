@@ -8,7 +8,7 @@ import ApproveBar from 'widget/Template/approve-bar';
 import PropTypes from 'prop-types';
 
 import 'styles/approve/request/approve-request-btn.scss';
-import * as routerRedux from "react-router-redux";
+import { routerRedux } from 'dva/router';
 
 class ApproveRequestBtn extends React.Component {
   constructor(props) {
@@ -80,9 +80,6 @@ class ApproveRequestBtn extends React.Component {
 
   //提示 当前被加签的人是否在已审批的人中
   hasRepeatApproveTip = (value, additionalItems, priceAuditor) => {
-    console.log(value)
-    console.log(additionalItems)
-    console.log(priceAuditor)
     let additionalOIDs = [];
     let additionalHaveApprovedNames = []; //加签人中已审批的用户名
     additionalItems.map(item => {
@@ -111,7 +108,7 @@ class ApproveRequestBtn extends React.Component {
       approvalTxt: value,
       entities: [
         {
-          approverOID: getQueryUrlParam('approverOID'),
+          approverOID: this.props.user.userOID,//getQueryUrlParam('approverOID'),
           entityOID: this.state.info.applicationOID,
           entityType: 1001, //申请单
           countersignApproverOIDs: additionalOIDs,
