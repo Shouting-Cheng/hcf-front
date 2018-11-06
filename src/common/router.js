@@ -422,10 +422,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
-    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
+    '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
-      name: 'request-approve',
+      name: 'request-detail',
       parent: '/approval-management/approve-request',
     },
     '/payment-requisition/my-payment-requisition': {
@@ -1011,6 +1011,54 @@ export const getRouterData = app => {
       name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization',
     },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/new-budget-strategy/:setOfBooksId/:orgId': {
+      //新建控制策略  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy')
+      ),
+      name: 'budget-strategy-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id': {
+      //控制策略详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId': {
+      //新建日志记账类型  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/new-budget-journal-type')
+      ),
+      name: 'budget-journal-type-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/budget-journal-type-detail/:setOfBooksId/:orgId/:id': {
+      //日志记账类型详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type-detail')
+      ),
+      name: 'budget-journal-type-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/new-budget-control-rules/:setOfBooksId/:orgId': {
+      //新控制规则  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/new-budget-control-rules')
+      ),
+      name: 'budget-rule-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id': {
+      //控制规则详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail')
+      ),
+      name: 'budget-rule-detail',
+      parent: '/budget-setting/budget-organization',
+    },
     '/budget-setting/budget-balance-solution/:setOfBooksId': {
       //预算余额方案
       component: dynamicWrapper(app, [], () =>
@@ -1235,8 +1283,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
-      name: 'legal-person',
-      parent: '/enterprise-manage',
+      name: 'legal-person'
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1281,8 +1328,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
-      name: 'company-maintain',
-      parent: '/enterprise-manage',
+      name: 'company-maintain'
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1342,8 +1388,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
-      name: 'org-structure',
-      parent: '/enterprise-manage',
+      name: 'org-structure'
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1612,7 +1657,7 @@ export const getRouterData = app => {
       ),
       name: 'exp-report-reverse-check',
       parent: '/financial-management',
-    },
+    }
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

@@ -27,7 +27,7 @@ class NewBudgetControlRules extends React.Component{
 
   componentWillMount(){
     //加载页面时，获取启用的控制策略
-    budgetService.getStrategy({organizationId: this.props.organization.id, enabled: true }).then((response)=>{
+    budgetService.getStrategy({organizationId: this.props.match.params.orgId||this.props.organization.id, enabled: true }).then((response)=>{
       if(response.status === 200){
         let strategyGroup = [];
         response.data.map((item)=>{
@@ -76,6 +76,7 @@ class NewBudgetControlRules extends React.Component{
     return endValue.valueOf() <= this.state.startValue.valueOf();
   };
 
+
   //新建预算规则
   handleSave = (e) =>{
     e.preventDefault();
@@ -86,8 +87,14 @@ class NewBudgetControlRules extends React.Component{
         budgetService.addRule(values).then((response)=>{
           if(response.status === 200) {
             message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
-            this.context.router.push(menuRoute.getMenuItemByAttr('budget-organization', 'key').children.
-            budgetControlRulesDetail.url.replace(':id', this.props.params.id).replace(':ruleId', response.data.id).replace(":setOfBooksId",this.props.params.setOfBooksId));
+            this.props.dispatch(
+              routerRedux.replace({
+                pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id'
+                  .replace(':orgId', this.props.match.params.orgId)
+                  .replace(':setOfBooksId',this.props.match.params.setOfBooksId)
+                  .replace(':id', response.data.id)
+              })
+            );
           }
         }).catch((e)=>{
           if(e.response){
@@ -112,7 +119,7 @@ class NewBudgetControlRules extends React.Component{
   };
 
   validateRuleCode = (item,value,callback)=>{
-    budgetService.getRuleByOptions({organizationId: this.props.params.id,controlRuleCode: value}).then((response)=>{
+    budgetService.getRuleByOptions({organizationId: this.props.match.params.orgId,controlRuleCode: value}).then((response)=>{
       let flag = false;
       if(response.data.length > 0 ){
         response.data.map((item)=>{
@@ -195,8 +202,8 @@ class NewBudgetControlRules extends React.Component{
               </Col>
             </Row>
             <Row gutter={60}>
-              <Col span={8}>
-                <Col span={11}>
+              <Col span={8} style={{paddingLeft: 0, paddingRight: 0}}>
+                <Col span={11} >
                   <FormItem
                     label={this.$t({id:"budget.controlRule.effectiveDateFrom"}) /*有效日期*/}
                     colon={true}>

@@ -22,7 +22,7 @@ class NewBudgetStrategy extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({loading: true});
-        values.organizationId = this.props.params.id;
+        values.organizationId = this.props.match.params.orgId || this.props.organization.id;
         httpFetch.post(`${config.budgetUrl}/api/budget/control/strategies`, values).then((res)=>{
           if(res.status === 200){
             this.setState({loading: false});
@@ -30,8 +30,8 @@ class NewBudgetStrategy extends React.Component {
             this.props.dispatch(
               routerRedux.replace({
                 pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
-                  .replace(':orgId', this.props.organization.id)
-                  .replace(':setOfBooksId',this.props.setOfBooksId)
+                  .replace(':orgId', this.props.match.params.orgId)
+                  .replace(':setOfBooksId',this.props.match.params.setOfBooksId)
                   .replace(':id', res.data.id)
               })
             );
@@ -119,8 +119,10 @@ class NewBudgetStrategy extends React.Component {
 }
 
 
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  return {
+    organization: state.budget.organization
+  }
 }
 
 const WrappedNewBudgetStrategy = Form.create()(NewBudgetStrategy);
