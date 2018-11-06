@@ -190,7 +190,7 @@ class BudgetItemDetail extends React.Component{
   render(){
     const { loading,edit, pagination, columns, data, visible, infoList, budgetItem, companyListSelector} = this.state;
     return(
-      <div className="budget-item-detail">
+      <div className="budget-item-detail" style={{paddingBottom: 20}}>
         <BasicInfo
           infoList={infoList}
           infoData={budgetItem}
