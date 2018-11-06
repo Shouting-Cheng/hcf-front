@@ -315,7 +315,7 @@ class CompanyLevelDefine extends React.Component {
                 </div>
                 <div className='company-level-modal'>
                   <div className='company-level-text-switch'>{this.$t("common.column.status")/*状态*/}</div>
-                  <div className='company-level-switch'><Switch checked={record.enabled} onChange={this.onSwitchChange}/></div>
+                  <div className='company-level-switch' style={{marginLeft:'10px'}}><Switch checked={record.enabled} onChange={this.onSwitchChange}/></div>
                 </div>
               </div>
             </Modal>

@@ -208,7 +208,7 @@ class FormMatch extends React.Component {
         // this.context.router.push(this.state.formMenu.url)
         this.props.dispatch(
             routerRedux.push({
-              pathname: `/setting/form-list`,
+              pathname: `/admin-setting/form-list`,
             })
           );
     }

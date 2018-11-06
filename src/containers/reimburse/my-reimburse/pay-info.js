@@ -145,7 +145,7 @@ class PayInfo extends React.Component {
                     showQuickJumper: true,
                     onShowSizeChange: this.onShowSizeChange,
                     showTotal: (total, range) => this.$t({ id: "common.show.total" }, { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
-                    pageSizeOptions: ['5', '10', '20', '30', '40'],
+                    pageSizeOptions: ['5', '10'],
                 },
                 loading: false
             });
