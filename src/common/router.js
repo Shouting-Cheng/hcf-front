@@ -881,7 +881,7 @@ export const getRouterData = app => {
       name: 'expense-type',
     },
     //审批流 ***被人删了一次了，跪求别再删***
-    '/admin-setting/workflow':{
+    '/admin-setting/workflow': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/workflow/workflow')
       ),
@@ -1072,7 +1072,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
       ),
       name: 'budget-balance-solution-newOrEdit',
-      parent:'/budget-setting/budget-balance-solution/:setOfBooksId'
+      parent: '/budget-setting/budget-balance-solution/:setOfBooksId'
     },
     '/budget/budget-balance': {
       //预算余额
@@ -1177,7 +1177,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-      parent:'/approval-management/approval-my-reimburse'
+      parent: '/approval-management/approval-my-reimburse'
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1647,7 +1647,7 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
-    '/financial-view/accounting-view':{//会计分录查询
+    '/financial-view/accounting-view': {//会计分录查询
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-view/accounting-view/accounting-view')
       ),

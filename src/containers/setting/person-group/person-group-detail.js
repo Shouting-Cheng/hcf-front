@@ -21,7 +21,7 @@ const confirm = Modal.confirm;
 import PGService from 'containers/setting/person-group/person-group.service';
 
 import { routerRedux } from 'dva/router';
-import { deepCopy } from 'utils/extend';
+import { deepCopy, uniquelizeArray } from 'utils/extend';
 
 class PersonGroupDetail extends React.Component {
     constructor(props) {
@@ -173,6 +173,7 @@ class PersonGroupDetail extends React.Component {
             selectorItem: chooserData['personTypeModel'], //弹窗显示配置
             showListSelector: false, //弹窗是否显示
             userGroupOID: '', //人员组oid
+            userGroupId: ''
         };
         // 正在编辑条件
         this.editingRule = {
@@ -211,6 +212,7 @@ class PersonGroupDetail extends React.Component {
                 infoData,
                 infoList,
                 conditionViewDTOS: response.data.conditionViewDTOS,
+                userGroupId: response.data.id
             });
         });
     };
@@ -733,6 +735,7 @@ class PersonGroupDetail extends React.Component {
 
     //添加人员
     handleNew = () => {
+        console.log(this.state.userGroupId);
         this.editingRule.name = 'user';
         let selectorItem = chooserData['user'];
         this.setState({
@@ -742,6 +745,7 @@ class PersonGroupDetail extends React.Component {
                 excludeList: [],
                 systemCustomEnumerationType: '', // systemCustomEnumerationType 代表类型，1001 type,1002 duty , 1008 级别
                 status: '1001',
+                userGroupId: this.state.userGroupId
             },
         });
         this.setState({ showListSelector: true });
