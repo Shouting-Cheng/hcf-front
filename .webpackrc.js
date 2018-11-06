@@ -46,16 +46,9 @@ export default {
   publicPath: '/',
   hash: true,
   proxy: {
-    '/artemis': {
-      target: 'http://115.159.108.80:25297',
-      changeOrigin: true,
-    },
-    '/oauth': {
-      target: 'http://115.159.108.80:25297',
-      changeOrigin: true,
-    },
+
    '/api': {
-      target: 'http://115.159.108.80:25297/artemis-sit',
+      target: 'http://115.159.108.80:9081/artemis-sit',
       changeOrigin: true,
     },
     // '/api': {
@@ -63,48 +56,53 @@ export default {
     //   changeOrigin: true,
     // },
     '/auth': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/prepayment': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/contract': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/payment': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/job': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/supplier': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/accounting': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/budget': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/brms': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/location': {
-      target: 'http://115.159.108.80:25297',
+      target: 'http://115.159.108.80:9081',
       changeOrigin: true,
     },
     '/invoice': {
-      target: 'http://115.159.108.80:25297/artemis-sit',
+      target: 'http://115.159.108.80:9081/artemis-sit',
       changeOrigin: true,
     },
+    "/expense":{
+      target: 'http://127.0.0.1:9095',
+      changeOrigin: true,
+      pathRewrite:{"^/expense":""}
+    }
   },
 };
