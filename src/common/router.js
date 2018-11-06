@@ -422,7 +422,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
-    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
+    '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-approve',
