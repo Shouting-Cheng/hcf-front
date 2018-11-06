@@ -190,7 +190,7 @@ class NewExpenseAdjustDetail extends React.Component {
           key: 'amount',
           dataIndex: 'amount',
           align: 'center',
-          width: '100px',
+          //width: '100px',
           render: (desc, record, index) => this.renderCol(desc, record, index, 'amount'),
         },
         {
@@ -203,7 +203,6 @@ class NewExpenseAdjustDetail extends React.Component {
           render: (text, record, index) => (
             <span>
               <a
-                href="#"
                 onClick={
                   record.isEdit
                     ? e => this.saveItem(e, record, index)
@@ -214,7 +213,6 @@ class NewExpenseAdjustDetail extends React.Component {
               </a>
               {record.isEdit ? (
                 <a
-                  href="#"
                   style={{ marginLeft: 12 }}
                   onClick={e => this.operateItem(e, record, index, false)}
                 >
@@ -228,7 +226,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   })}
                 >
                   {/* 你确定要删除organizationName吗 */}
-                  <a href="#" style={{ marginLeft: 12 }}>
+                  <a style={{ marginLeft: 12 }}>
                     {this.$t('common.delete')}
                   </a>
                 </Popconfirm>

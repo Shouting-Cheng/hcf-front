@@ -422,10 +422,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
-    '/approve/approve-request/approve-request-detail/:formOID/:applicationOID': {
+    '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
-      name: 'request-approve',
+      name: 'request-detail',
       parent: '/approval-management/approve-request',
     },
     '/payment-requisition/my-payment-requisition': {
@@ -881,7 +881,7 @@ export const getRouterData = app => {
       name: 'expense-type',
     },
     //审批流 ***被人删了一次了，跪求别再删***
-    '/admin-setting/workflow':{
+    '/admin-setting/workflow': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/workflow/workflow')
       ),
@@ -1011,6 +1011,54 @@ export const getRouterData = app => {
       name: 'budget-group-detail',
       parent: '/budget-setting/budget-organization',
     },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/new-budget-strategy/:setOfBooksId/:orgId':{
+      //新建控制策略  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy')
+      ),
+      name: 'budget-strategy-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id':{
+      //控制策略详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId':{
+      //新建日志记账类型  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/new-budget-journal-type')
+      ),
+      name: 'budget-journal-type-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/budget-journal-type-detail/:setOfBooksId/:orgId/:id':{
+      //日志记账类型详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type-detail')
+      ),
+      name: 'budget-journal-type-detail',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/new-budget-control-rules/:setOfBooksId/:orgId':{
+      //新控制规则  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/new-budget-control-rules')
+      ),
+      name: 'budget-rule-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id':{
+      //控制规则详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail')
+      ),
+      name: 'budget-rule-detail',
+      parent: '/budget-setting/budget-organization',
+    },
     '/budget-setting/budget-balance-solution/:setOfBooksId': {
       //预算余额方案
       component: dynamicWrapper(app, [], () =>
@@ -1024,7 +1072,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
       ),
       name: 'budget-balance-solution-newOrEdit',
-      parent:'/budget-setting/budget-balance-solution/:setOfBooksId'
+      parent: '/budget-setting/budget-balance-solution/:setOfBooksId'
     },
     '/budget/budget-balance': {
       //预算余额
@@ -1129,7 +1177,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-      parent:'/approval-management/approval-my-reimburse'
+      parent: '/approval-management/approval-my-reimburse'
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1599,7 +1647,7 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
-    '/financial-view/accounting-view':{//会计分录查询
+    '/financial-view/accounting-view': {//会计分录查询
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-view/accounting-view/accounting-view')
       ),

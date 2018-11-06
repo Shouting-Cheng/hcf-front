@@ -534,8 +534,6 @@ class ApproveRequest extends React.Component {
       .replace(':formOID', record.formOID)
       .replace(':pageFrom', 'approve')
       .replace(':applicationOID', record.applicationOID);
-    url +=
-      this.state.tab === 'approving' ? `?approving=true&approverOID=${record.approverOID}` : '';
     this.props.dispatch(
       routerRedux.push({
         pathname: url,

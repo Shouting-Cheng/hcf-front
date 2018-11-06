@@ -23,7 +23,7 @@ class NewBudgetGroup extends React.Component {
         this.setState({loading: true});
         budgetGroupService.addOrganizationGroup(values).then((res)=>{
           this.setState({loading: false});
-          message.success(`${this.$t({id:'budget.setting.item.group'})}${this.$t({id:'common.create.success'}, {name: "res.data.itemGroupName"})}`);/*项目组新建成功*/
+          message.success(`${this.$t({id:'budget.setting.item.group'})}${this.$t({id:'common.create.success'}, {name: res.data.itemGroupName})}`);/*项目组新建成功*/
           this.props.dispatch(
             routerRedux.push({
               pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/budget-group-detail/:setOfBooksId/:orgId/:id'
