@@ -370,7 +370,9 @@ class NewUpdateBankAccount extends React.Component {
               <FormItem
                 {...formItemLayout}
                 validateStatus={validateAccount ? 'error' : null}
-                help={validateAccount ? this.$t('supplier.account.tips') : ''}
+                help={validateAccount ?
+                  (this.props.form.getFieldValue('bankAccount')==null || this.props.form.getFieldValue('bankAccount') == "") ? this.$t('common.please.enter'):this.$t('supplier.bank.account.error')
+                  : ''}
                 label={this.$t('supplier.bank.account')}
                 colon={true}
               >
