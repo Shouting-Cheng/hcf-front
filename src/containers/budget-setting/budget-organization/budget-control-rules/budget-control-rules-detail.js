@@ -280,7 +280,7 @@ class BudgetControlRulesDetail extends React.Component{
   render(){
     const { loading, buttonLoading,slideFrameTitle, data, infoList, pagination, columns, showSlideFrameCreate,showSlideFrameUpdate, ruleDetail, controlRule, updateState } = this.state;
     return(
-      <div className="budget-control-rules-detail">
+      <div className="budget-control-rules-detail" style={{paddingBottom: 20}}>
         <BasicInfo
           infoList={infoList}
           loading={buttonLoading}

@@ -31,6 +31,7 @@ class BudgetItemMap extends React.Component {
         itemId: "",
         orgId: this.props.id
       },
+      itemSelectorItem:{},
       pagination: {
         current: 0,
         page: 0,
@@ -205,7 +206,6 @@ class BudgetItemMap extends React.Component {
       itemSelectorItem.searchForm[1].getUrl += `?organizationId=${this.props.id}&enabled=${true}`;
       itemSelectorItem.searchForm[2].getUrl += `?organizationId=${this.props.id}&enabled=${true}`;
     }
-
     let paramValueMap = {
       EXPENSE_TYPE: {
         title: this.$t({ id: "itemMap.expenseType" }),
@@ -247,7 +247,8 @@ class BudgetItemMap extends React.Component {
       searchForm[0].options = sourceType;
       this.setState({
         searchForm,
-        sourceType
+        sourceType,
+        itemSelectorItem
       })
     });
   }
@@ -344,7 +345,7 @@ class BudgetItemMap extends React.Component {
   };
 
   renderColumns = (decode, record, index, dataIndex) => {
-    const { paramValueMap, sourceType } = this.state;
+    const { paramValueMap, sourceType,itemSelectorItem } = this.state;
     if (record.edit) {
       switch (dataIndex) {
         case 'sourceType': {
@@ -380,7 +381,7 @@ class BudgetItemMap extends React.Component {
                   type='cost_type'
                   labelKey='itemName'
                   valueKey='id'
-                  listExtraParams={{ organizationId: this.props.organization.id }}
+                  listExtraParams={{ organizationId:  this.props.id||this.props.organization.id }}
                   value={record.item}
                   single={true} />
               );
@@ -394,6 +395,7 @@ class BudgetItemMap extends React.Component {
               onChange={(value) => this.handleChangeItem(value, index)}
               type='budget_item'
               labelKey='itemName'
+              selectorItem={itemSelectorItem}
               valueKey='id'
               itemMap={true}
               listExtraParams={{ organizationId: this.props.id, enabled: true }}
@@ -480,7 +482,7 @@ class BudgetItemMap extends React.Component {
           current: 0,
           page: 0
         }
-      }, this.getList())
+      }, ()=>this.getList())
     }).catch((e) => {
       if (e.response) {
         message.error(`${this.$t({ id: "common.save.filed" })}, ${e.response.data.message}`)

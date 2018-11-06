@@ -1054,7 +1054,7 @@ export const getRouterData = app => {
     '/budget-setting/budget-organization/budget-organization-detail/budget-control-rules/budget-control-rules-detail/:setOfBooksId/:orgId/:id':{
       //控制规则详情  **合并时别再删了，第三次了***
       component: dynamicWrapper(app, [], () =>
-        import('containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type-detail')
+        import('containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail')
       ),
       name: 'budget-rule-detail',
       parent: '/budget-setting/budget-organization',
