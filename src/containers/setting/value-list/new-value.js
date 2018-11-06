@@ -98,27 +98,27 @@ class ValueList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.params.record && !nextProps.params.hasInit) {
-      //编辑
-      //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
+    // if (nextProps.params.record && !nextProps.params.hasInit) {
+    //   //编辑
+    //   //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
 
-      this.getValue(nextProps.params.record.customEnumerationItemOID);
-      nextProps.params.hasInit = true;
-      this.setState({
-        systemInit: nextProps.params.systemInit
-      })
-    } else if (!nextProps.params.record && !nextProps.params.hasInit) { //新建
-      nextProps.params.hasInit = true;
-      this.setState({
-        record: deepCopy(defaultVauleItem),
-        common: true,
-        customEnumerationItemOID: "",
-        data: [],
-        deleteUserOIDs: []
-      }, () => {
-        this.props.form.resetFields()
-      })
-    }
+    //   this.getValue(nextProps.params.record.customEnumerationItemOID);
+    //   nextProps.params.hasInit = true;
+    //   this.setState({
+    //     systemInit: nextProps.params.systemInit
+    //   })
+    // } else if (!nextProps.params.record && !nextProps.params.hasInit) { //新建
+    //   nextProps.params.hasInit = true;
+    //   this.setState({
+    //     record: deepCopy(defaultVauleItem),
+    //     common: true,
+    //     customEnumerationItemOID: "",
+    //     data: [],
+    //     deleteUserOIDs: []
+    //   }, () => {
+    //     this.props.form.resetFields()
+    //   })
+    // }
   }
 
   getValue(customEnumerationItemOID) {
@@ -394,7 +394,7 @@ class ValueList extends React.Component {
                   nameChange={this.i18nNameChange}
                 />
               </div>
-              )}
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={messages('value.list.value.code'/*编码*/)}>
@@ -416,7 +416,7 @@ class ValueList extends React.Component {
             })(
               <Input placeholder={messages('common.please.enter')}
                 disabled={systemInit} />
-              )}
+            )}
           </FormItem>
 
           <FormItem {...formItemLayout} label={"序号"}>
@@ -442,7 +442,7 @@ class ValueList extends React.Component {
               ]
             })(
               <Input placeholder={messages('common.please.enter')} />
-              )}
+            )}
             <div className="form-index-tips">
               {/*序号之间尽量保持一定的步长，便于后续调整，如首位10，间隔10*/}
               {messages("new.cost.center.item.index_tip")}
@@ -457,7 +457,7 @@ class ValueList extends React.Component {
               initialValue: record ? record.remark : ''
             })(
               <Input placeholder={messages('value.list.input.max.200'/*最多输入200个字符*/)} />
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('common.column.status')}>
             {getFieldDecorator('enabled', {
@@ -466,7 +466,7 @@ class ValueList extends React.Component {
             })(
               <Switch checkedChildren={<Icon type="check" />}
                 unCheckedChildren={<Icon type="cross" />} />
-              )}
+            )}
           </FormItem>
           {this.props.params.isCustom === 'CUSTOM' && (
             <div>
@@ -480,7 +480,7 @@ class ValueList extends React.Component {
                   <Switch checkedChildren={<Icon type="check" />}
                     unCheckedChildren={<Icon type="cross" />}
                     onChange={this.handleRightChange} />
-                  )}
+                )}
               </FormItem>
               {!common && (
                 <div>
