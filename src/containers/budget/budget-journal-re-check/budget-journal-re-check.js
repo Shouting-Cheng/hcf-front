@@ -107,7 +107,7 @@ class BudgetJournalReCheck extends React.Component {
           options: [],
           method: 'get',
           getUrl: `${config.budgetUrl}/api/budget/journals/selectCheckedEmp`,
-          getParams: {},
+          getParams: {organizationId: this.props.organization.id},
           labelKey: 'empName',
           valueKey: 'empOid',
         },
