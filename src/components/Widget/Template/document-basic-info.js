@@ -96,14 +96,14 @@ class DocumentBasicInfo extends React.Component {
             <Col span={4}>
               {!this.props.noHeader
                 ? this.renderList(
-                    this.$('common.apply.data'),
+                    this.$t('common.apply.data'),
                     moment(data.createdDate).format('YYYY-MM-DD')
                   )
                 : null}
             </Col>
             <Col span={4}>
               {!this.props.noHeader
-                ? this.renderList(this.$('common.create.person'), data.createByName)
+                ? this.renderList(this.$t('common.create.person'), data.createByName)
                 : null}
             </Col>
             <Col span={4}>{this.props.children}</Col>
@@ -150,7 +150,7 @@ class DocumentBasicInfo extends React.Component {
                         }}
                         span={20}
                       >
-                        <span>{this.$('common.comment')}</span>
+                        <span>{this.$t('common.comment')}</span>
                       </Col>
                       <Col span={4} style={{ textAlign: 'center' }}>
                         :
@@ -186,7 +186,7 @@ class DocumentBasicInfo extends React.Component {
                           }}
                           span={20}
                         >
-                          <span>{this.$('common.attachments')}</span>
+                          <span>{this.$t('common.attachments')}</span>
                         </Col>
                         <Col span={4} style={{ textAlign: 'center' }}>
                           :
@@ -238,7 +238,7 @@ class DocumentBasicInfo extends React.Component {
           <Col span={8}>
             <div style={{ float: 'right' }}>
               <div style={{ textAlign: 'right', fontSize: 14 }} className="amount-title">
-                {this.$('common.amount')}
+                {this.$t('common.amount')}
               </div>
               <div style={{ fontSize: '20px' }} className="amount-content">
                 {data.currencyCode} {this.filterMoney(data.totalAmount)}
@@ -246,7 +246,7 @@ class DocumentBasicInfo extends React.Component {
             </div>
             <div style={{ float: 'right', marginRight: '50px' }}>
               <div style={{ textAlign: 'right', fontSize: 14 }} className="status-title">
-                {this.$('common.column.status')}
+                {this.$t('common.column.status')}
               </div>
               <div style={{ fontSize: '20px' }} className="status-content">
                 {this.$statusList[data.statusCode]

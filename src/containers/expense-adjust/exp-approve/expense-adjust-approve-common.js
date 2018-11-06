@@ -181,9 +181,10 @@ class ExpenseAdjustApproveCommon extends React.Component {
       id: '',
       companyId: '',
       flag: false,
-      EditExpenseAdjust: menuRoute.getRouteItem('edit-expense-adjust', 'key'), //新建费用调整
-      ExpenseAdjustDetail: menuRoute.getRouteItem('expense-adjust-detail', 'key'), //费用调整详情,
-      expenseAdjust: menuRoute.getRouteItem('my-expense-adjust', 'key'),    //费用调整
+      EditExpenseAdjust: '/expense-adjust/my-expense-adjust/new-expense-adjust/', //新建费用调整
+      // ExpenseAdjustDetail: menuRoute.getRouteItem('expense-adjust-detail', 'key'), //费用调整详情,
+      ExpenseAdjustDetail:'/approval-management/approve-expense-adjust/expense-adjust-approve-detail/',
+      expenseAdjust: '/expense-adjust/my-expense-adjust',    //费用调整
     }
   }
 
