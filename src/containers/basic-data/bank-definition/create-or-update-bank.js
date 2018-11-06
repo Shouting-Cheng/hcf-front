@@ -161,46 +161,7 @@ class CreateOrUpdateBank extends React.Component {
 
   //国家省市
   onStateChange = (value, selectedOptions) => {
-    if(value && value[0]){
-      value = value[0];
-    }
-    //this.getCityByCode(value);
-  };
-
-   //获取市
-   getCityByCode = code => {
-    let params = {
-      language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
-      code: code,
-      vendorType: 'standard',
-    };
-    BSService.getCities(params).then(response => {
-      let children = response.data.map(item => {
-        item.label = item.city;
-        item.value = item.code;
-        return item;
-      });
-      this.setChinaCity(children, code);
-    });
-  };
-
-  setChinaCity = (children, code) => {
-    let countrys = this.state.countryData;
-    let china = '';
-    //选出中国
-    for (let i = 0; i < countrys.length; i++) {
-      if (countrys[i].code === 'CHN000000000') {
-        china = countrys[i].children;
-        break;
-      }
-    }
-    //挨个省设置城市
-    for (let i = 0; i < china.length; i++) {
-      if (china[i].code === code) {
-        china[i].children = children;
-        break;
-      }
-    }
+    
   };
 
   handleSubmit = e => {
