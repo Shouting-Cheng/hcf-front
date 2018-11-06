@@ -161,6 +161,7 @@ class BudgetStructureDetail extends React.Component{
         structure.organizationName = this.state.structure.organizationName;
         message.success(this.$t({id: "structure.saveSuccess"})); /*保存成功！*/
         structure.periodStrategy = {label:response.data.periodStrategyName, value:response.data.periodStrategy}
+        structure.usedFlag = this.state.structure.usedFlag;
         this.setState({
             structure: structure,
             updateState: true
