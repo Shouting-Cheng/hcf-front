@@ -166,11 +166,16 @@ class FormDetailBase extends React.Component {
       }
       message.success(this.$t("common.save.success", {name: res.data.formName}));
       this.setState({saving: false});
-    //   let redirect_url = menuRoute.getRouteItem('form-detail').url.replace(':formOID', res.data.formOID);
       if (booksID && booksID !== ':booksID') {
         this.props.dispatch(
           routerRedux.push({
             pathname: `/setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+          })
+        );
+      }else{
+        this.props.dispatch(
+          routerRedux.push({
+            pathname: `/setting/form-list/form-detail/${res.data.formOID}/:booksID`,
           })
         );
       }

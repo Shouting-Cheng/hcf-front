@@ -161,8 +161,7 @@ class CreateOrUpdateBank extends React.Component {
 
   //国家省市
   onStateChange = (value, selectedOptions) => {
-    // console.log(value);
-    // console.log(selectedOptions);
+    
   };
 
   handleSubmit = e => {
@@ -343,6 +342,7 @@ class CreateOrUpdateBank extends React.Component {
               initialValue: this.state.country,
             })(
               <Select
+                allowClear='true'
                 className="select-country"
                 showSearch
                 placeholder={this.$t('common.please.select')}
@@ -382,7 +382,7 @@ function mapStateToProps(state) {
   return {
     organization: state.user.organization,
     company: state.user.company,
-    language: state.languages.languages,
+    language: state.languages,
   };
 }
 

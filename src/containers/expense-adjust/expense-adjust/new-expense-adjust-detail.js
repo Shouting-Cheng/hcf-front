@@ -188,6 +188,7 @@ class NewExpenseAdjustDetail extends React.Component {
           //分摊金额
           title: this.$t('exp.detail.amount'),
           key: 'amount',
+          width: '100px',
           dataIndex: 'amount',
           align: 'center',
           //width: '100px',
@@ -244,7 +245,7 @@ class NewExpenseAdjustDetail extends React.Component {
     const { data, lineData, isEdit } = this.state;
     if (!flag) {
       //取消
-      if (data[index].id) {
+      if (data[index].id || data[index].saved) {
         data[index].isEdit = false;
       } else {
         data.splice(index, 1);
@@ -288,6 +289,7 @@ class NewExpenseAdjustDetail extends React.Component {
     }
     if (flag) {
       data[index].isEdit = false;
+      data[index].saved = true;
       this.setState(
         {
           lineData,
@@ -389,7 +391,6 @@ class NewExpenseAdjustDetail extends React.Component {
 
   componentDidMount(){
     const { formItems, columns, column, opt, defaultValue, validator } = this.state;
-    console.log(this.props)
       if (
         !this.props.params.flag &&
         this.props.match.costCenterData.length &&
@@ -490,6 +491,7 @@ class NewExpenseAdjustDetail extends React.Component {
       if (this.props.params.costCenterData.length > 0) {
         columns[columns.length - 1].fixed = 'right';
       }
+
       this.setState({
         formItems,
         costCenterData: this.props.params.costCenterData,

@@ -1,5 +1,6 @@
 :global{
   .base-request-detail {
+    padding-bottom: 45px;
     .tabs-info {
       background: white;
       padding: 36px 20px 0 20px;
@@ -145,7 +146,7 @@
       }
     }
     .bottom-bar {
-      width: 100%;
+      width: 87%;
       height: 50px;
       line-height: 50px;
       position: fixed;

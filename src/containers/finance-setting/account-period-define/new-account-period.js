@@ -15,10 +15,14 @@ class NewAccountPeriod extends React.Component {
       periodAdditionalFlags: [],
       loading: false,
       periodSetName: [], //会计期名称国际化
+      period: {},
     };
   }
 
   componentWillMount(){
+    this.setState({ 
+      period: JSON.parse(JSON.stringify(this.props.params.period)),
+    })
     this.getSystemValueList(1010).then(res => {
       this.setState({ periodAdditionalFlags: res.data.values || [] })
     })
@@ -69,8 +73,7 @@ class NewAccountPeriod extends React.Component {
 
   render(){
     const { getFieldDecorator } = this.props.form;
-    const { loading, periodAdditionalFlags } = this.state;
-    const { period } = this.props.params;
+    const {period, loading, periodAdditionalFlags } = this.state;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14, offset: 1 },
