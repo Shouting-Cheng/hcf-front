@@ -575,7 +575,6 @@ class BaseRequestDetail extends React.Component {
               />
             )}
             {loanRefund && <LoanAndRefundBack tab={this.props.location.query.tab} info={info} />}
-            {console.log(approve)}
             {approve && (
               <ApproveRequestBtn
                 formType={Number(formType)}

@@ -80,6 +80,9 @@ class ApproveRequestBtn extends React.Component {
 
   //提示 当前被加签的人是否在已审批的人中
   hasRepeatApproveTip = (value, additionalItems, priceAuditor) => {
+    console.log(value)
+    console.log(additionalItems)
+    console.log(priceAuditor)
     let additionalOIDs = [];
     let additionalHaveApprovedNames = []; //加签人中已审批的用户名
     additionalItems.map(item => {
