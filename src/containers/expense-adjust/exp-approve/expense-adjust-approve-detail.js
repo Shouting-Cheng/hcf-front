@@ -20,6 +20,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
       passLoading: false,
       rejectLoading: false,
       headerData: {},
+      expenseAdjust:'/approval-management/approve-expense-adjust'
     }
   }
 
@@ -29,7 +30,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
 
   //获取费用调整头信息
   getInfo = () => {
-    expenseAdjustService.getExpenseAdjustHeadById(this.props.params.id).then(res => {
+    expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
       this.setState({
         headerData: res.data,
       })
@@ -50,8 +51,8 @@ class ExpenseAdjustApproveDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.props.location.state.entityOID,
-          entityType: this.props.location.state.entityType,
+          entityOID: this.props.match.params.entityOID,
+          entityType: this.props.match.params.entityType,
         }]
     };
     this.setState({passLoading:true,rejectLoading:true});
@@ -61,7 +62,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
         this.onCancel()
       }else {
         this.setState({passLoading: false, rejectLoading: false });
-        message.error(`${this.$t({ id: "common.operate.filed" }/*操作失败*/)}，${res.data.failReason[this.props.params.entityOID]}`)
+        message.error(`${this.$t({ id: "common.operate.filed" }/*操作失败*/)}，${res.data.failReason[this.props.match.params.entityOID]}`)
       }
     }).catch(err => {
       this.setState({passLoading:false,rejectLoading:false});
@@ -75,8 +76,8 @@ class ExpenseAdjustApproveDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.props.location.state.entityOID,
-          entityType: this.props.location.state.entityType,
+          entityOID: this.props.match.params.entityOID,
+          entityType: this.props.match.params.entityType,
         }]
     };
     this.setState({passLoading:true,rejectLoading:true});
@@ -92,10 +93,10 @@ class ExpenseAdjustApproveDetail extends React.Component {
 
   render() {
     const { passLoading, rejectLoading, headerData } = this.state;
-    let isConfirm = this.props.params.flag === 'approved';
+    let isConfirm = this.props.match.params.flag === 'approved';
     return (
       <div className="expense-adjust-detail" style={{height: '100%'}}>
-        <ExpenseAdjustApproveCommon wrappedComponentRef={ref=>this.detail=ref} id={this.props.params.id} expenseAdjustTypeId={this.props.params.expenseAdjustTypeId} />
+        <ExpenseAdjustApproveCommon wrappedComponentRef={ref=>this.detail=ref} id={this.props.match.params.id} expenseAdjustTypeId={this.props.match.params.expenseAdjustTypeId} />
         {!isConfirm && (
           <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{marginLeft: 4}}>
             <Row>
@@ -103,7 +104,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
                 <ApproveBar
                   style={{paddingLeft: 20}}
                   passLoading={passLoading}
-                  backUrl={this.state.expenseAdjust.url}
+                  backUrl={this.state.expenseAdjust}
                   rejectLoading={rejectLoading}
                   handleApprovePass={this.handleApprovePass}
                   handleApproveReject={this.handleApproveReject} />
