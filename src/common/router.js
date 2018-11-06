@@ -425,7 +425,7 @@ export const getRouterData = app => {
     '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
-      name: 'request-approve',
+      name: 'request-detail',
       parent: '/approval-management/approve-request',
     },
     '/payment-requisition/my-payment-requisition': {
