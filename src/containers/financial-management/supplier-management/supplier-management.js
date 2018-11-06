@@ -530,6 +530,7 @@ class SupplierManagement extends React.Component {
               companyListSelector: false,
               selectedRowKeys: [],
               selectedEntityOIDs: [],
+              batchCompany:true,
             },
             this.getList
           );

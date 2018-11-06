@@ -47,7 +47,7 @@ export default {
   hash: true,
   proxy: {
 
-   '/api': {
+    '/api': {
       target: 'http://115.159.108.80:9081/artemis-sit',
       changeOrigin: true,
     },
@@ -99,10 +99,10 @@ export default {
       target: 'http://115.159.108.80:9081/artemis-sit',
       changeOrigin: true,
     },
-    "/expense":{
+    "/expense": {
       target: 'http://127.0.0.1:9095',
       changeOrigin: true,
-      pathRewrite:{"^/expense":""}
+      pathRewrite: { "^/expense": "" }
     }
   },
 };
