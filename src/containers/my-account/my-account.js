@@ -232,7 +232,6 @@ class MyAccount extends React.Component{
                     hasFooter={false}
                     onClose={() => this.setState({showExpenseFlag: false, nowExpense: null, expenseSource: ''})}
                     width="800px">
-                    {console.log("nowExpense")}{console.log(nowExpense)}
               <NewExpense  params={{ nowExpense, expenseSource, slideFrameShowFlag: showExpenseFlag, businessCardEnabled, user }}
                           onClose={this.handleCloseExpense}/>
         </SlideFrame>

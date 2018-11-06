@@ -475,7 +475,7 @@ class NewAccountPeriod extends React.Component {
       monthTo,
       dateFrom,
       dateTo,
-      quarterNum,
+      quarterNum: {},
     });
   };
 
