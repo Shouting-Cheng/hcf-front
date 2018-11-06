@@ -80,7 +80,7 @@ class BaseRequestDetail extends React.Component {
     this.setState(
       {
         formOID: this.props.match.params.formOID,
-        approve: this.props.match.params.pageFrom === 'approve',
+        approve: this.props.match.params.pageFrom === 'approved' || this.props.match.params.pageFrom === 'approving',
         /*approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
       audit: this.props.location.pathname.indexOf('loan-request-detail-audit') > -1,
       view: this.props.location.pathname.indexOf('finance-view') > -1,
@@ -262,7 +262,8 @@ class BaseRequestDetail extends React.Component {
   };
 
   render() {
-    const { approving, isPreVersion, latestApplicationOID, from } = this.props;
+    const { isPreVersion, latestApplicationOID, from } = this.props;
+    let approving = this.props.match.params.pageFrom === 'approving';
     const {
       payProcess,
       loading,
@@ -420,7 +421,7 @@ class BaseRequestDetail extends React.Component {
       </Spin>
     );
     return (
-      <div className="base-request-detail background-transparent">
+      <div className="base-request-detail background-transparent" >
         <div className="tabs-info">
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info') /*申请单信息*/} key="requestInfo">

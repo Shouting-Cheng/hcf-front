@@ -202,7 +202,7 @@ class ApproveRequestBtn extends React.Component {
       <div className="approve-request-btn">
         {this.props.approving ? (
           <ApproveBar
-            backUrl={approveRequestList.url + '?tab=approving'}
+            backUrl={'/approval-management/approve-request'}
             signCompanyOIDs={signCompanyOIDs}
             moreButtons={moreButtons}
             passLoading={passLoading}
