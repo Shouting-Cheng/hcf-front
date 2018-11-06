@@ -703,7 +703,7 @@ class ExpenseAdjustDetail extends React.Component {
                           href={`${config.baseUrl}/api/attachments/download/${
                             item.attachmentOID
                           }?access_token=${
-                            JSON.parse(localStorage.getItem('hly.token')).access_token
+                            localStorage.getItem('token')
                           }`}
                         >
                           {item.fileName}
@@ -730,7 +730,7 @@ class ExpenseAdjustDetail extends React.Component {
   handleHeadEdit = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/expense-adjust/my-expense-adjust/new-expense-adjust/${ this.state.headerData.expAdjustTypeId}/${this.state.headerData.id}`
+        pathname: `/expense-adjust/my-expense-adjust/new-expense-adjust/${this.state.headerData.id}/${this.state.headerData.expAdjustTypeId}`
       })
     );
   };
