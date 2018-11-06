@@ -89,7 +89,7 @@ class Widget extends React.Component {
               {widget.constraintRule && (
                 <div className="widget-attachment-count">
                   {this.$t('widget.field.max.picture', {
-                    num: JSON.parse(widget.constraintRule).maxNumber,
+                    num: JSON.parse(widget.constraintRule.replace(/\\/g,"")).maxNumber,
                   }) /*最多可上传张图片*/}
                 </div>
               )}
