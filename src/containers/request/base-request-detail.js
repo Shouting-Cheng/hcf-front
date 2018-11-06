@@ -76,9 +76,11 @@ class BaseRequestDetail extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     this.setState(
       {
         formOID: this.props.match.params.formOID,
+        approve: this.props.match.params.pageFrom === 'approve',
         /*approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
       audit: this.props.location.pathname.indexOf('loan-request-detail-audit') > -1,
       view: this.props.location.pathname.indexOf('finance-view') > -1,
@@ -545,6 +547,7 @@ class BaseRequestDetail extends React.Component {
             {(!readOnly || view) && <PrintBtn info={info} printFlag={view} />}
             {!readOnly && (
               <TravelUpdateBtn
+                backType={this.props.match.params.pageFrom}
                 formType={Number(formType)}
                 info={info}
                 updateEnable={
@@ -571,6 +574,7 @@ class BaseRequestDetail extends React.Component {
               />
             )}
             {loanRefund && <LoanAndRefundBack tab={this.props.location.query.tab} info={info} />}
+            {console.log(approve)}
             {approve && (
               <ApproveRequestBtn
                 formType={Number(formType)}
@@ -623,7 +627,7 @@ class BaseRequestDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user.user,
+    user: state.user.currentUser,
   };
 }
 

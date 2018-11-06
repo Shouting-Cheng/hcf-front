@@ -43,8 +43,11 @@ class RecallBtn extends React.Component {
           message.error(`${this.$t('common.operate.filed')}，${reason}`);
         } else {
           message.success(this.$t('common.operate.success'));
+          let url = '/request';
+          if(this.props.backType==='approve')
+            url = '/approval-management/approve-request';
           this.props.dispatch(
-            routerRedux.replace({pathname: '/request'}));
+            routerRedux.replace({pathname: url}));
         }
       })
       .catch(e => {
