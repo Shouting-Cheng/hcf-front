@@ -118,7 +118,7 @@ class NewExpenseAdjust extends React.Component {
           unitId: values.unitId[0].departmentId,
         };
         let method = null;
-        if (this.props.match.params.id && this.props.match.params.id != 0) {
+        if (this.props.match.params.id!=='new') {
           method = expenseAdjustService.upExpenseAdjustHead;
           dataValue.expAdjustTypeId = this.props.match.params.expenseAdjustTypeId;
           dataValue.id = this.props.match.params.id;

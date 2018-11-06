@@ -1124,7 +1124,7 @@ class MyGLWorkOrderDetail extends Component {
     }
     //真正渲染出来的东东
     return (
-      <div>
+      <div style={{paddingBottom: 90}}>
         <Spin spinning={false}>
           <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>

@@ -76,9 +76,11 @@ class BaseRequestDetail extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     this.setState(
       {
         formOID: this.props.match.params.formOID,
+        approve: this.props.match.params.pageFrom === 'approved' || this.props.match.params.pageFrom === 'approving',
         /*approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
       audit: this.props.location.pathname.indexOf('loan-request-detail-audit') > -1,
       view: this.props.location.pathname.indexOf('finance-view') > -1,
@@ -260,7 +262,8 @@ class BaseRequestDetail extends React.Component {
   };
 
   render() {
-    const { approving, isPreVersion, latestApplicationOID, from } = this.props;
+    const { isPreVersion, latestApplicationOID, from } = this.props;
+    let approving = this.props.match.params.pageFrom === 'approving';
     const {
       payProcess,
       loading,
@@ -418,7 +421,7 @@ class BaseRequestDetail extends React.Component {
       </Spin>
     );
     return (
-      <div className="base-request-detail background-transparent">
+      <div className="base-request-detail background-transparent" >
         <div className="tabs-info">
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info') /*申请单信息*/} key="requestInfo">
@@ -545,6 +548,7 @@ class BaseRequestDetail extends React.Component {
             {(!readOnly || view) && <PrintBtn info={info} printFlag={view} />}
             {!readOnly && (
               <TravelUpdateBtn
+                backType={this.props.match.params.pageFrom}
                 formType={Number(formType)}
                 info={info}
                 updateEnable={
@@ -623,7 +627,7 @@ class BaseRequestDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user.user,
+    user: state.user.currentUser,
   };
 }
 

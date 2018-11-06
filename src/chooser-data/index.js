@@ -1549,7 +1549,7 @@ const chooserData = {
     url: `${config.accountingUrl}/api/account/general/ledger/scene/elements/queryAll/page`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: messages('chooser.data.code') },
-      { type: 'input', id: 'description', label: messages('chooser.data.name') },
+      { type: 'input', id: 'elementNature', label: messages('chooser.data.name') },
     ],
     columns: [
       { title: messages('chooser.data.code'), dataIndex: 'code' },
