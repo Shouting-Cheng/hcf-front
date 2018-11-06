@@ -54,6 +54,10 @@ class NewSubjectSheet extends React.Component {
     //校验多语言
     validateI18n = (accout) => {
         let str = /^[\u4E00-\u9FA5\w\d]*$/u;
+        if (!accout.accountSetDesc) {
+            message.warning(this.$t({ id: 'setting.accountSetDesc.null' }))
+            return false;
+        }
         if (!str.test(accout.accountSetDesc) || accout.accountSetDesc.length > 100) {
             message.warning(this.$t({ id: 'setting.companyGroupName.tips' }))
             return false;

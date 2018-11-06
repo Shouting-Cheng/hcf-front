@@ -210,6 +210,7 @@ class SubjectSheetDetailMaintain extends React.Component {
           //修改
           method = 'put';
           values = { ...this.state.params, ...values } // 如果params和values里值有重复，会以后面的值为准
+          values.reportType = values.reportType || "";
         }
         else {
           //新增
