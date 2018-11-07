@@ -438,7 +438,7 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         {(docStatus &&
           docStatus === '1002' && (
-            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 20px 0px'}}>
+            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 0px 0px'}}>
               <Row>
                 <Col span={17} >
                   <ApproveBar
