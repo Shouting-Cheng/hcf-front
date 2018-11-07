@@ -54,6 +54,7 @@ class AnnouncementInformationDetail extends React.Component {
       fileUploadVisible: false,
       tempTarget: {},
       tempImgList: [],
+      contentId: 1
     };
   }
 
@@ -73,6 +74,7 @@ class AnnouncementInformationDetail extends React.Component {
         defaultImageList: [res.data.attachmentDTO],
         imageList: [res.data.attachmentDTO],
         content: res.data.content,
+        contentId: 2
       });
     });
   };
@@ -238,7 +240,7 @@ class AnnouncementInformationDetail extends React.Component {
         param.error();
         message.error(
           `${this.$t('announcement.info.upload.image.fail' /*图片上传失败*/)}，${
-            e.response.data.message
+          e.response.data.message
           }`
         );
       });
@@ -329,8 +331,8 @@ class AnnouncementInformationDetail extends React.Component {
                   {item.selected ? (
                     <Icon type="check-circle" className="checked" />
                   ) : (
-                    <Icon type="check-circle" />
-                  )}
+                      <Icon type="check-circle" />
+                    )}
                   &nbsp;&nbsp;
                   {item.templateName}
                 </div>
@@ -357,6 +359,7 @@ class AnnouncementInformationDetail extends React.Component {
       companySelectorShow,
       content,
       fileUploadVisible,
+      contentId
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -491,6 +494,7 @@ class AnnouncementInformationDetail extends React.Component {
                     language={this.props.language.locale}
                     contentFormat="html"
                     initialContent={content}
+                    contentId={contentId}
                     extendControls={extendControls}
                     media={{
                       image: true,
