@@ -9,7 +9,19 @@ import 'styles/enterprise-manage/person-manage/person-detail/person-detail-compo
 import PDService from 'containers/enterprise-manage/person-manage/person-detail/person-detail.service';
 import Chooser from 'components/Widget/chooser';
 import PropTypes from 'prop-types';
-import { Button, Switch, Modal, Row, message, Icon, Input, Form, Checkbox, Tooltip } from 'antd';
+import {
+  Button,
+  Switch,
+  Modal,
+  Row,
+  message,
+  Icon,
+  Input,
+  Form,
+  Checkbox,
+  Tooltip,
+  Popconfirm,
+} from 'antd';
 
 const FormItem = Form.Item;
 
@@ -22,15 +34,28 @@ class PersonBankCard extends React.Component {
       data: [],
       showCreatModel: false, //弹窗是否显示
       card: {}, //当前编辑或新增的银行卡
+      primaryStatus: false, //初始时默认状态
+      isChangePrimary: false, //复选框选择的默认值
     };
   }
 
   componentDidMount() {
-    this.setState({ card: this.props.cardInfo });
+    // this.setState({ card: this.props.cardInfo });
+    this.setState({ card: this.props.cardInfo }, () => {
+      this.setState({
+        primaryStatus: this.state.card.isPrimary,
+        isChangePrimary: this.state.card.isPrimary,
+      });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ card: nextProps.cardInfo });
+    // this.setState({ card: nextProps.cardInfo });
+    this.setState({ card: nextProps.cardInfo }, () => {
+      this.setState({
+        isChangePrimary: this.state.card.isPrimary,
+      });
+    });
   }
 
   //显示添加银行卡模态框
@@ -196,6 +221,7 @@ class PersonBankCard extends React.Component {
     let card = this.state.card;
     card.isPrimary = e.target.checked;
     this.setState({
+      isChangePrimary: e.target.checked,
       loading: false,
       card,
     });
@@ -524,9 +550,26 @@ class PersonBankCard extends React.Component {
             <div className="role-list-from-footer">
               <Button onClick={this.cancelCard}>{this.$t('common.cancel')}</Button>
               &nbsp;&nbsp;&nbsp;
-              <Button type="primary" htmlType="submit" loading={loading}>
-                {this.$t('common.save')}
-              </Button>
+              {//当初始时为默认时, 则不提示替换
+              this.state.primaryStatus ? (
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  {this.$t('common.save')}
+                </Button>
+              ) : //当复选框选择为默认时, 则提示替换
+              this.state.isChangePrimary ? (
+                <Popconfirm
+                  onConfirm={this.addCard}
+                  title={this.$t('pdc.bank.card.confirmReplace')}
+                >
+                  <Button type="primary" htmlType="submit" loading={loading}>
+                    {this.$t('common.save')}
+                  </Button>
+                </Popconfirm>
+              ) : (
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  {this.$t('common.save')}
+                </Button>
+              )}
             </div>
           </Form>
         </Modal>

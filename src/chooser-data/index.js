@@ -1261,7 +1261,7 @@ const chooserData = {
   add_employee: {
     title: '按条件添加员工',
     url: `${config.baseUrl}/api/users/search/company/term`,
-    searchForm: [{ type: 'input', id: 'keyword', label: '姓名／工号' }],
+    searchForm: [{ type: 'input', id: 'keyword', label: '姓名/工号/手机号/邮箱 ' }],
     columns: [
       { title: '工号', dataIndex: 'employeeID' },
       { title: '姓名', dataIndex: 'fullName' },

@@ -882,10 +882,16 @@ export const getRouterData = app => {
     },
     //审批流 ***被人删了一次了，跪求别再删***
     '/admin-setting/workflow': {
+      component: dynamicWrapper(app, [], () => import('containers/setting/workflow/workflow')),
+      name: 'workflow',
+    },
+    '/admin-setting/workflow/workflow-setting/': {
+      //审批流设置
       component: dynamicWrapper(app, [], () =>
-        import('containers/setting/workflow/workflow')
+        import('containers/setting/workflow/workflow-detail')
       ),
       name: 'workflow',
+      parent: '/admin-setting/workflow',
     },
     '/admin-setting/company-group': {
       //公司组
@@ -1072,7 +1078,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
       ),
       name: 'budget-balance-solution-newOrEdit',
-      parent: '/budget-setting/budget-balance-solution/:setOfBooksId'
+      parent: '/budget-setting/budget-balance-solution/:setOfBooksId',
     },
     '/budget/budget-balance': {
       //预算余额
@@ -1087,7 +1093,7 @@ export const getRouterData = app => {
         import('containers/budget/budget-balance/budget-balance-result')
       ),
       name: 'budget-balance-query-result',
-      parent: '/budget/budget-balance'
+      parent: '/budget/budget-balance',
     },
     '/budget/budget-balance-query': {
       //预算余额方案查询
@@ -1102,7 +1108,7 @@ export const getRouterData = app => {
         import('containers/budget/budget-balance-query/budget-balance-query-result')
       ),
       name: 'budget-balance-query-result',
-      parent: '/budget/budget-balance-query'
+      parent: '/budget/budget-balance-query',
     },
 
     //预算日记本
@@ -1177,7 +1183,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-      parent: '/approval-management/approval-my-reimburse'
+      parent: '/approval-management/approval-my-reimburse',
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1283,7 +1289,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
-      name: 'legal-person'
+      name: 'legal-person',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1328,7 +1334,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
-      name: 'company-maintain'
+      name: 'company-maintain',
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1388,7 +1394,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
-      name: 'org-structure'
+      name: 'org-structure',
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1644,7 +1650,8 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
-    '/financial-view/accounting-view': {//会计分录查询
+    '/financial-view/accounting-view': {
+      //会计分录查询
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-view/accounting-view/accounting-view')
       ),
@@ -1657,7 +1664,7 @@ export const getRouterData = app => {
       ),
       name: 'exp-report-reverse-check',
       parent: '/financial-management',
-    }
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

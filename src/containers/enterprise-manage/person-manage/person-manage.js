@@ -1040,7 +1040,7 @@ class PersonManage extends React.Component {
           isExtraFields={true}
           extraFields={[
             <div>
-              <div className="select-dep-search-area-title">
+              <div className="ant-form-item-label">
                 {/*部门:*/}
                 {this.$t('person.manage.dep') + ':'}
               </div>

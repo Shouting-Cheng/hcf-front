@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Layout, Icon, message, Spin, Tabs } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
-import config from "config"
+import config from 'config';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
@@ -20,12 +20,14 @@ import logo from '../assets/logo.png';
 import fetch from '../utils/fetch';
 import View from '../routes/View/index';
 
-import zh_CN from "../i18n/zh_CN/index"
-import en_US from "../i18n/en_US/index"
+import zh_CN from '../i18n/zh_CN/index';
+import en_US from '../i18n/en_US/index';
 
 import { isUrl } from '../utils/utils';
 
-import 'styles/common.scss'
+import 'styles/common.scss';
+
+import Error from 'widget/error';
 
 const TabPane = Tabs.TabPane;
 const { Content, Header, Footer } = Layout;
@@ -125,7 +127,9 @@ class BasicLayout extends React.Component {
     path: '',
     panes: [],
     activeKey: '',
-    selectKey: ''
+    selectKey: '',
+    error: false,
+    errorContent: {},
   };
 
   getChildContext() {
@@ -152,8 +156,8 @@ class BasicLayout extends React.Component {
 
     let panes = this.state.panes;
 
-    if (path != "/dashboard") {
-      let dashboard = this.getContent("/dashboard");
+    if (path != '/dashboard') {
+      let dashboard = this.getContent('/dashboard');
       if (dashboard) {
         panes.push(dashboard);
       }
@@ -168,33 +172,54 @@ class BasicLayout extends React.Component {
         this.setState({ activeKey: path, selectKey: path });
       } else {
         panes.push(component);
-        this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
+        this.setState({
+          panes,
+          activeKey: component.routeKey,
+          selectKey: component.parent || component.pathname,
+        });
       }
     } else {
       this.setState({ panes });
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
-
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
 
-    if (path == "/") {
+    if (path == '/') {
       this.props.dispatch(
         routerRedux.push({
-          pathname: "/dashboard"
+          pathname: '/dashboard',
         })
-      )
+      );
       return;
     }
 
-    if (panes.findIndex(o => o.routeKey == "/dashboard") < 0) {
-      let dashboard = this.getContent("/dashboard");
+    // console.log(this.props.organization);
+    // if (path.indexOf("budget") >= 0 && path.indexOf('budget-journal-check') == -1 && path.indexOf('budget-setting') == -1 && JSON.stringify(this.props.organization) == "{}") {
+    //   this.setState({
+    //     error: true,
+    //     errorContent: {
+    //       text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
+    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
+    //       skip: "/budget-setting/budget-organization",
+    //       buttonText: this.$t("main.error.set"),  //去设置
+    //       hasButton: true
+    //     }
+    //   })
+    //   return;
+    // }
+
+    if (panes.findIndex(o => o.routeKey == '/dashboard') < 0) {
+      let dashboard = this.getContent('/dashboard');
       if (dashboard) {
         panes.push(dashboard);
-        this.setState({ panes, activeKey: dashboard.routeKey, selectKey: dashboard.parent || dashboard.pathname });
+        this.setState({
+          panes,
+          activeKey: dashboard.routeKey,
+          selectKey: dashboard.parent || dashboard.pathname,
+        });
       }
     }
 
@@ -205,15 +230,21 @@ class BasicLayout extends React.Component {
     let index = panes.findIndex(o => o.routeKey == component.routeKey);
 
     if (index >= 0) {
-
-      this.setState({ activeKey: component.routeKey, selectKey: component.parent || component.pathname })
+      this.setState({
+        activeKey: component.routeKey,
+        selectKey: component.parent || component.pathname,
+      });
 
       return;
     }
 
     if (!this.state.activeKey || !panes.length) {
       panes.push(component);
-      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
+      this.setState({
+        panes,
+        activeKey: component.routeKey,
+        selectKey: component.parent || component.pathname,
+      });
       return;
     }
 
@@ -222,7 +253,11 @@ class BasicLayout extends React.Component {
 
     if (index >= 0) {
       panes[index] = component;
-      this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
+      this.setState({
+        panes,
+        activeKey: component.routeKey,
+        selectKey: component.parent || component.pathname,
+      });
       return;
     }
 
@@ -232,13 +267,21 @@ class BasicLayout extends React.Component {
     //1.即将跳转的页面是功能页，并且它的父页面是当前页面
     //2.即将跳转的页面是功能页, 并且当前页面也是功能页面，并且当前页面和即将跳转的页面同属于一个菜单
     //3.即将跳转的页面是当前页面的父页面，一般页面的返回按钮
-    if ((component.parent && (component.parent == panes[index].parent || component.parent == panes[index].routeKey)) || panes[index].parent == component.routeKey) {
+    if (
+      (component.parent &&
+        (component.parent == panes[index].parent || component.parent == panes[index].routeKey)) ||
+      panes[index].parent == component.routeKey
+    ) {
       panes[index] = component;
     } else {
       panes.push(component);
     }
 
-    this.setState({ panes, activeKey: component.routeKey, selectKey: component.parent || component.pathname });
+    this.setState({
+      panes,
+      activeKey: component.routeKey,
+      selectKey: component.parent || component.pathname,
+    });
   }
 
   getALlInfo = () => {
@@ -274,7 +317,6 @@ class BasicLayout extends React.Component {
         result = this.formatter(result);
 
         let menus = getMenuData();
-
 
         dispatch({
           type: 'menu/setMenu',
@@ -315,7 +357,6 @@ class BasicLayout extends React.Component {
       this.getChildren(group, item.children || [], level + 1, routerData, item);
     });
   };
-
 
   redirect = () => {
     const { dispatch } = this.props;
@@ -366,9 +407,8 @@ class BasicLayout extends React.Component {
     const { dispatch } = this.props;
 
     return new Promise(async (resolve, reject) => {
-
       let result = await fetch.get('/api/my/companies');
-      
+
       dispatch({
         type: 'user/saveCompany',
         payload: result,
@@ -377,74 +417,81 @@ class BasicLayout extends React.Component {
       try {
         await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
         resolve();
-
       } catch (e) {
         resolve();
       }
     });
   };
-  getProfile=()=>{
+  getProfile = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.get(`/api/function/profiles?roleType=TENANT`).then(result => {
-        dispatch({
-          type: 'user/saveProfile',
-          payload: result,
+      fetch
+        .get(`/api/function/profiles?roleType=TENANT`)
+        .then(result => {
+          dispatch({
+            type: 'user/saveProfile',
+            payload: result,
+          });
+          resolve();
+        })
+        .catch(e => {
+          resolve();
         });
-        resolve();
-      }).catch(e => {
-        resolve();
-      })
     });
-  }
+  };
 
-  getOrganizationBySetOfBooksId = (id) => {
+  getOrganizationBySetOfBooksId = id => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.get(`${config.budgetUrl}/api/budget/organizations/default/${id}`).then(result => {
-        dispatch({
-          type: 'user/saveOrganization',
-          payload: result,
+      fetch
+        .get(`${config.budgetUrl}/api/budget/organizations/default/${id}`)
+        .then(result => {
+          dispatch({
+            type: 'user/saveOrganization',
+            payload: result,
+          });
+          resolve();
+        })
+        .catch(e => {
+          resolve();
         });
-        resolve();
-      }).catch(e => {
-        resolve();
-      })
     });
-  }
+  };
 
   getLanguage = user => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
       let local = user.language;
 
-      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 }).then(res => {
-        let languages = {};
+      fetch
+        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 })
+        .then(res => {
+          let languages = {};
 
-        res.map(item => {
-          languages[item.keyCode] = item.descriptions;
+          res.map(item => {
+            languages[item.keyCode] = item.descriptions;
+          });
+
+          if (!local) {
+            window.localStorage.setItem('local', 'zh_CN');
+            local = 'zh_CN';
+          } else {
+            window.localStorage.setItem('local', local);
+          }
+
+          if (local == 'zh_CN') {
+            languages = { ...languages, ...zh_CN };
+          } else {
+            languages = { ...languages, ...en_US };
+          }
+
+          dispatch({
+            type: 'languages/selectLanguage',
+            payload: { languages: languages, local: local },
+          });
+
+          resolve();
         });
-
-        if (!local) {
-          window.localStorage.setItem('local', 'zh_CN');
-          local = 'zh_CN';
-        } else {
-          window.localStorage.setItem('local', local);
-        }
-
-        if (local == "zh_CN") {
-          languages = { ...languages, ...zh_CN };
-        } else {
-          languages = { ...languages, ...en_US };
-        }
-
-        dispatch({
-          type: 'languages/selectLanguage',
-          payload: { languages: languages, local: local },
-        });
-
-        resolve();
-      });
     });
   };
 
@@ -472,7 +519,7 @@ class BasicLayout extends React.Component {
         resolve();
       });
     });
-  }
+  };
 
   formatter = (data, parentPath = '/', parentAuthority) => {
     return data.map(item => {
@@ -486,11 +533,15 @@ class BasicLayout extends React.Component {
         authority: item.authority || parentAuthority,
       };
       if (item.children) {
-        result.children = this.formatter(item.children, `${parentPath}${item.path}/`, item.authority);
+        result.children = this.formatter(
+          item.children,
+          `${parentPath}${item.path}/`,
+          item.authority
+        );
       }
       return result;
     });
-  }
+  };
 
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
@@ -587,10 +638,10 @@ class BasicLayout extends React.Component {
       let params = [];
       let routePath = routers[i];
 
-      if (routePath === "/") continue;
+      if (routePath === '/') continue;
 
-      if (routePath.indexOf("/:") >= 0) {
-        params = routePath.split("/:");
+      if (routePath.indexOf('/:') >= 0) {
+        params = routePath.split('/:');
         routePath = params.shift();
       }
 
@@ -638,7 +689,6 @@ class BasicLayout extends React.Component {
   };
 
   remove = targetKey => {
-
     // if (targetKey == "/dashboard") return;
 
     let activeKey = this.state.activeKey;
@@ -709,16 +759,24 @@ class BasicLayout extends React.Component {
                 type="editable-card"
                 onEdit={this.onEdit}
                 tabBarGutter={2}
-              // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
+                // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
-                  <TabPane closable={pane.routeKey != "/dashboard"} forceRender={false} tab={this.$t(pane.name)} key={pane.routeKey}>
-                    <div style={{ padding: '12px 14px', paddingBottom: 0, backgroundColor: "#fff" }}>
+                  <TabPane
+                    closable={pane.routeKey != '/dashboard'}
+                    forceRender={false}
+                    tab={this.$t(pane.name)}
+                    key={pane.routeKey}
+                  >
+                    <div
+                      style={{ padding: '12px 14px', paddingBottom: 0, backgroundColor: '#fff' }}
+                    >
                       {React.createElement(pane.component, pane.params)}
                     </div>
                   </TabPane>
                 ))}
-              </Tabs>)}
+              </Tabs>
+            )}
 
             {/* {menu.routerData[path] && React.createElement(menu.routerData[path].component, {})} */}
           </Content>
@@ -774,4 +832,5 @@ export default connect(({ user, global = {}, loading, languages, menu }) => ({
   notices: global.notices,
   languages: languages,
   menu: menu,
+  organization: user.organization,
 }))(BasicLayout);

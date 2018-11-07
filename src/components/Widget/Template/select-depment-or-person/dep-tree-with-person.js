@@ -39,7 +39,6 @@ class DepTreeWithPerson extends React.Component {
   };
   //渲染部门节点
   renderTreeNodes = data => {
-    console.log(data)
     return data.map(item => {
       if (item.children) {
         return (
@@ -48,6 +47,7 @@ class DepTreeWithPerson extends React.Component {
             key={item.key}
             dataRef={item}
             className="org-dep-node"
+            isLeaf={item.isLeaf}
           >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
@@ -72,6 +72,7 @@ class DepTreeWithPerson extends React.Component {
             title={this.renderTreeNodesTitle(item)}
             key={item.key}
             dataRef={item}
+            isLeaf={item.isLeaf}
           />
         );
       }
@@ -79,7 +80,6 @@ class DepTreeWithPerson extends React.Component {
   };
 
   render() {
-    console.log(this.props)
     return (
       <div className="org-structure-tree-with-person">
         <Tree
@@ -88,7 +88,8 @@ class DepTreeWithPerson extends React.Component {
           expandedKeys={this.props.expandedKeys}
           autoExpandParent={this.props.autoExpandParent}
           onSelect={this.props.onSelect}
-          onExpand={()=>{console.log(132);this.props.onExpand}}
+          onExpand={this.props.onExpand}
+          loadData={this.props.loadData}
         >
           {this.renderTreeNodes(this.props.treeData)}
         </Tree>

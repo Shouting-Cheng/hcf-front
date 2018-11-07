@@ -188,16 +188,17 @@ class SelectDepOrPerson extends React.Component {
   }
 
   // 通过部门oid查询子部门
-  getChildDepByDepOID(Dep, parentNode) {
+  getChildDepByDepOID(Dep, parentNode, resolve) {
     SelectPersonService.getChildDepByDepOID(Dep, parentNode, this.props.flagDep).then(response => {
       this.setState({
         treeData: response,
       });
+      resolve && resolve();
     });
   }
 
   // 通过部门oid查询部门下面的员工:挂载到树
-  getDepTreeUserByDepOID(Dep, parentNode) {
+  getDepTreeUserByDepOID(Dep, parentNode, resolve) {
     this.setState({ loading: true });
     let params = { page: 0, size: 10000 };
     //查人需要根据是否是公司模式或者严格模式
@@ -220,6 +221,7 @@ class SelectDepOrPerson extends React.Component {
         treeData: response,
       });
       this.setState({ loading: false });
+      resolve && resolve();
     });
   }
 
@@ -319,22 +321,31 @@ class SelectDepOrPerson extends React.Component {
       () => {}
     );
   };
+
+  loadData = node => {
+    return new Promise(resolve => {
+      if (!SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
+        if (this.props.onlyDep) {
+          this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
+        } else {
+          this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
+        }
+      }
+    });
+  };
+
   // 点击展开的时候
   onExpand = (expandedKeys, { expanded, node }) => {
-    console.log(expandedKeys)
-    console.log(expanded)
-    console.log(node)
-    console.log(this.props.onlyDep)
-    if (expanded && !SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
-      // 目前写成同步写法，先请求人，再拿子部门
-      // this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
-      //如果只展示到部门
-      if (this.props.onlyDep) {
-        this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
-      } else {
-        this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef);
-      }
-    }
+    // if (expanded && !SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
+    //   // 目前写成同步写法，先请求人，再拿子部门
+    //   // this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //   //如果只展示到部门
+    //   if (this.props.onlyDep) {
+    //     this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //   } else {
+    //     this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //   }
+    // }
     this.setState({
       expandedKeys,
       autoExpandParent: false,
@@ -541,6 +552,7 @@ class SelectDepOrPerson extends React.Component {
             autoExpandParent={this.state.autoExpandParent}
             onSelect={this.onSelect}
             onExpand={this.onExpand}
+            loadData={this.loadData}
           />
         </div>
       );
@@ -729,10 +741,10 @@ SelectDepOrPerson.defaultProps = {
 //严格模式，集团模式只加载所有公司的人
 function mapStateToProps(state) {
   return {
-    profile: state.user.proFile,
-    user: state.user.currentUser,
+    profile: state.login.profile,
+    user: state.login.user,
     tenantMode: true,
-    company: state.user.company,
+    company: state.login.company,
   };
 }
 
