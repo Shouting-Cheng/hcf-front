@@ -86,7 +86,7 @@ class FormMatch extends React.Component {
     }
     componentWillMount() {
         const { form } = this.context;
-        this.setState({isCommon: form.sameContract});
+        this.setState({isCommon: form.sameContract,contractPosition: form.contractPosition});
         if (form.needApply) {
             this.setState({
                 isApply: true
