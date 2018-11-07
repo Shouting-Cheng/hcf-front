@@ -64,7 +64,7 @@ class AcpRequestType extends React.Component {
           ),
         },
         {
-          title: '启用状态',
+          title: '状态',
           dataIndex: 'enabled',
           width: '15%',
           render: isEnabled => (
@@ -232,7 +232,9 @@ class AcpRequestType extends React.Component {
       this.setState(
         { searchParams: { setOfBooksId: value }, slideParams: { setOfBooksId: value } },
         () => {
-          this.refs.table.search(this.state.searchParams);
+          if (value) {
+            this.refs.table.search(this.state.searchParams);
+          }
         }
       );
     }

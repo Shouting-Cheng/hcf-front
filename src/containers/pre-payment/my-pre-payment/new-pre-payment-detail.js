@@ -678,6 +678,12 @@ class NewPrePaymentDetail extends React.Component {
               <Col span={16}>
                 <Select allowClear
                   ref="contractSelect"
+                  onChange={(e)=>{
+                    console.log(e)
+                    this.setState({
+                      contractValue:[]
+                    })
+                  }}
                   value={contractValue}
                   labelInValue
                   dropdownStyle={{ display: 'none' }}
@@ -700,9 +706,9 @@ class NewPrePaymentDetail extends React.Component {
           </div>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              保存
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.onCancel}>取消</Button>
+            <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
         <SelectContract
