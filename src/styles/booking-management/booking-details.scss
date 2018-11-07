@@ -21,33 +21,6 @@
       color: #cccccc;
       cursor: not-allowed;
     }
-    .bottom-bar {
-      width: 100%;
-      height: 64px;
-      line-height: 64px;
-      position: fixed;
-      bottom: 0;
-      z-index: 5;
-      margin-left: -35px;
-      background: #fff;
-      box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.067);
-      padding-left: 20px;
-      button{
-        margin-right: 10px;
-      }
-      .back-btn{
-        position: fixed;
-        right: 20px;
-        margin-top: 15px;
-        span, icon{
-          color: #1890ff;
-        }
-      }
-
-      &.bottom-bar-approve {
-        height: auto;
-        line-height: 80px;
-      }
     }
     .booking-content{
       margin: 0 -20px;
