@@ -20,7 +20,6 @@ import { routerRedux } from 'dva/router';
 class Workflow extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
     this.state = {
       loading: false,
       pasteLoading: false, //粘贴后页面loading
@@ -102,12 +101,14 @@ class Workflow extends React.Component {
 
   //进入详情页
   goDetail = (record) => {
-    let url = '/setting/workflow/workflow-setting/:formOID'.replace(':formOID', record.formOID);
+    /*let url = '/setting/workflow/workflow-setting/:formOID'.replace(':formOID', record.formOID);
     url += this.props.tenantMode ? `?setOfBooksId=${this.state.setOfBooksId}&setOfBooksName=${this.state.setOfBooksName}` : '';
-
+*/
     this.props.dispatch(
       routerRedux.replace({
-        pathname: url
+        pathname: '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID'
+          .replace(':formOID', record.formOID)
+          .replace(':setOfBooksId',this.state.setOfBooksId )
       })
     );
   };
@@ -202,7 +203,6 @@ class Workflow extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     tenantMode: true, //state.main.tenantMode,
     company: state.user.company,

@@ -12,7 +12,7 @@
 import React from 'react';
 import { Button, Form, Input, Col, Row, Switch, message, Icon, Select } from 'antd';
 import { connect } from 'dva';
-import { routerRedux } from "dva/router";
+import { routerRedux } from 'dva/router';
 
 import config from 'config';
 import 'styles/enterprise-manage/legal-person/new-legal-person.scss';
@@ -34,7 +34,7 @@ class NewLegalPerson extends React.Component {
       parentLegalEntity: {
         url:
           `${config.baseUrl}/api/find/parent/legalentitys?setOfBookID=${
-          props.company.setOfBooksId
+            props.company.setOfBooksId
           }&legalEntityId=` +
           (this.props.match.params.legalPersonID === ':legalPersonID'
             ? ''
@@ -103,12 +103,12 @@ class NewLegalPerson extends React.Component {
           legalPerson: data,
           uploadedImages,
         },
-        () => { }
+        () => {}
       );
     });
   };
 
-  getUploadedImage = (data) => {
+  getUploadedImage = data => {
     let uploadedImage = {};
     if (data.iconURL) {
       uploadedImage.iconURL = data.iconURL;
@@ -128,7 +128,7 @@ class NewLegalPerson extends React.Component {
   };
 
   //校验多语言
-  validateI18n = (legalPerson) => {
+  validateI18n = legalPerson => {
     if (
       legalPerson.companyName === '' ||
       legalPerson.companyName === undefined ||
@@ -159,7 +159,7 @@ class NewLegalPerson extends React.Component {
     return true;
   };
 
-  handleSave = (e) => {
+  handleSave = e => {
     e.preventDefault();
     let _legalPerson = this.state.legalPerson;
     if (this.validateI18n(_legalPerson)) {
@@ -208,7 +208,7 @@ class NewLegalPerson extends React.Component {
     }
   };
   //保存所做的详情修改
-  handleUpdate = (legalPerson) => {
+  handleUpdate = legalPerson => {
     LPService.updateLegalPerson(legalPerson)
       .then(res => {
         this.props.dispatch(
@@ -220,10 +220,10 @@ class NewLegalPerson extends React.Component {
           legalPerson: res.data,
         });
       })
-      .catch(res => { });
+      .catch(res => {});
   };
   //创建法人实体
-  createLegalPerson = (legalPerson) => {
+  createLegalPerson = legalPerson => {
     this.setState({
       loading: true,
     });
@@ -246,7 +246,7 @@ class NewLegalPerson extends React.Component {
       });
   };
   //点击取消，返回
-  handleCancel = (e) => {
+  handleCancel = e => {
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
@@ -255,7 +255,7 @@ class NewLegalPerson extends React.Component {
     );
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     if (this.state.loading) {
       this.setState({
         loading: false,
@@ -264,7 +264,7 @@ class NewLegalPerson extends React.Component {
   };
 
   //上传图片后的回调函数
-  handleUploadImageChange = (fileList) => { };
+  handleUploadImageChange = fileList => {};
 
   //地址：多语言
   i18nAddressChange = (name, i18nName) => {
@@ -286,25 +286,25 @@ class NewLegalPerson extends React.Component {
     legalPerson.i18n.entityName = i18nName;
   };
   //渲染语言
-  renderLanguageList = (list) => {
-
+  renderLanguageList = list => {
     if (list.length > 1) {
-      return list.map((item) => {
+      return list.map(item => {
         return (
-          <Option value={item.code}
-            key={item.code}>{item.comments}</Option>
-        )
-      })
+          <Option value={item.code} key={item.code}>
+            {item.comments}
+          </Option>
+        );
+      });
     } else {
       return (
         <Option value="zh_cn" key={1}>
           {/*简体中文*/}
-          {messages("legal.person.new.chinese")}
+          {messages('legal.person.new.chinese')}
         </Option>
-      )
+      );
     }
-  }
-  handleLanguage = (value) => {
+  };
+  handleLanguage = value => {
     const { legalPerson } = this.state;
     legalPerson.mainLanguage = value;
     legalPerson.mainLanguageName = getLanguageName(value, this.props.languageList);
@@ -490,10 +490,7 @@ class NewLegalPerson extends React.Component {
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem
-                label={this.$t('legal.person.new.parent.legal')} /* 上级法人*/
-                colon={true}
-              >
+              <FormItem label={this.$t('legal.person.new.parent.legal')} /* 上级法人*/ colon={true}>
                 {getFieldDecorator('parentLegalEntityId', {
                   initialValue: legalPerson.parentLegalEntityName,
                 })(
@@ -579,8 +576,6 @@ class NewLegalPerson extends React.Component {
     );
   }
 }
-
-
 
 function mapStateToProps(state) {
   return {

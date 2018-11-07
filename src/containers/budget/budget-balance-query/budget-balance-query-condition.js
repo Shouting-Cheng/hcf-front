@@ -58,7 +58,7 @@ class BudgetBalanceCondition extends React.Component {
     this.setState({ loading: true });
     httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/header/${record.id}`).then(res => {
       this.setState({ loading: false });
-      this.props.onclose(res.data);
+      this.props.onClose(res.data);
     })
   };
 
