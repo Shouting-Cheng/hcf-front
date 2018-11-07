@@ -31,10 +31,10 @@ class SubSubjectMaintain extends React.Component {
       pagination: {
         current: 1,
         page: 0,
-        total:0,
-        pageSize:10,
-        showSizeChanger:true,
-        showQuickJumper:true,
+        total: 0,
+        pageSize: 10,
+        showSizeChanger: true,
+        showQuickJumper: true,
       },
       searchParams: {
         parentAccountId: '',//父科目ID
@@ -47,14 +47,14 @@ class SubSubjectMaintain extends React.Component {
       tableData: [],
       columns: [
         {
-          title: this.$t({id:'subject.code'}),
+          title: this.$t({ id: 'subject.code' }),
           key: 'accountCode',
           dataIndex: 'accountCode',
           width: '20%',
           align: "center",
         },
         {
-          title: this.$t({id:'subject.name'}),
+          title: this.$t({ id: 'subject.name' }),
           key: 'accountName',
           dataIndex: 'accountName',
           width: '40%',
@@ -65,18 +65,18 @@ class SubSubjectMaintain extends React.Component {
             </Popover>)
         },
         {
-          title: this.$t({id:'subject.type'}),
+          title: this.$t({ id: 'subject.type' }),
           key: 'accountTypeName',
           dataIndex: 'accountTypeName',
           width: '30%',
           align: "center",
         },
         {
-          title: this.$t({id:'common.operation'}), dataIndex: 'operation', width: '10%', key: 'id', dataIndex: "id", key: "id", align: "center",
+          title: this.$t({ id: 'common.operation' }), dataIndex: 'operation', width: '10%', key: 'id', dataIndex: "id", key: "id", align: "center",
           render: (text, record) => {
             return (<div>
-              <Popconfirm onConfirm={(e) => this.deleteItem(e, record.id)} title={this.$t({id:'common.confirm.delete'})}>{/* 你确定要删除吗 */}
-                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t({id:'common.delete'})}</a>
+              <Popconfirm onConfirm={(e) => this.deleteItem(e, record.id)} title={this.$t({ id: 'common.confirm.delete' })}>{/* 你确定要删除吗 */}
+                <a href="#" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t({ id: 'common.delete' })}</a>
               </Popconfirm>
             </div>)
           }
@@ -89,29 +89,29 @@ class SubSubjectMaintain extends React.Component {
   deleteItem = (e, id) => {
     httpFetch.delete(`${config.baseUrl}/api/accounts/hierarchy/${id}`).then((res) => {
       if (res.status === 200) {
-        message.success(this.$t({id:'common.operate.success'}))
+        message.success(this.$t({ id: 'common.operate.success' }))
         this.getAddedSubList();
       }
     }).catch((e) => {
-      message.error(this.$t({id:'common.operate.filed'}) + `${e.response.data.message}`);
+      message.error(this.$t({ id: 'common.operate.filed' }) + `${e.response.data.message}`);
     })
   }
 
   //批量删除
-  deleteItemBatch = (e,record) => {
-    this.setState({buttonLoading: true});
-    httpFetch.delete(`${config.baseUrl}/api/accounts/hierarchy/batch/delete`,this.state.selectedRowKeys).then((res) => {
+  deleteItemBatch = (e, record) => {
+    this.setState({ buttonLoading: true });
+    httpFetch.delete(`${config.baseUrl}/api/accounts/hierarchy/batch/delete`, this.state.selectedRowKeys).then((res) => {
       if (res.status === 200) {
-        message.success(this.$t({id:'common.operate.success'}))
+        message.success(this.$t({ id: 'common.operate.success' }))
         this.setState({
-          selectedRowKeys:[],
-        },this.getAddedSubList());
+          selectedRowKeys: [],
+        }, this.getAddedSubList);
 
       }
     }).catch((e) => {
-      message.error(this.$t({id:'common.operate.filed'}) + `${e.response.data.message}`);
+      message.error(this.$t({ id: 'common.operate.filed' }) + `${e.response.data.message}`);
     })
-    this.setState({buttonLoading: false,batchDelete:true});
+    this.setState({ buttonLoading: false, batchDelete: true });
   }
 
   //初始化加载
@@ -129,7 +129,7 @@ class SubSubjectMaintain extends React.Component {
       this.setState({
         tableData: response.data,
         loading: false,
-        selectedRowKeys:[],
+        selectedRowKeys: [],
         pagination: {
           total: Number(response.headers['x-total-count']),
           onChange: this.onChangePager,
@@ -141,44 +141,44 @@ class SubSubjectMaintain extends React.Component {
   }
 
   //分页点击
-  onChangePager = (pagination,filters, sorter) =>{
+  onChangePager = (pagination, filters, sorter) => {
     let temp = this.state.pagination;
-    temp.page = pagination.current-1;
+    temp.page = pagination.current - 1;
     temp.current = pagination.current;
     temp.pageSize = pagination.pageSize;
     this.setState({
       pagination: temp
-    }, ()=>{
+    }, () => {
       this.getAddedSubList();
     })
   };
 
   //只要有props的值发生变化，就会调用该方法
-//   componentWillReceiveProps(nextProps) {
-//     //console.log(nextProps.params.record);
-//     if (!nextProps.params || nextProps.params == this.props.params) {
-//       //console.log("=====componentWillReceiveProps return");
-//       return;
-//     }
-//     let searchParamsTmp = {
-//       parentAccountId: nextProps.params.record.accountId,
-//       info: ''
-//     }
-//     //定义临时对象
-//     let updateParamsTmp = {
-//       accountId: nextProps.params.record.accountId,
-//       accountSetId: nextProps.params.record.accountSetId
-//     };
-//     this.setState({
-//       updateParams: updateParamsTmp,
-//       searchParams: searchParamsTmp,
-//       batchDelete:true
-//     }, () => {
-//       this.getAddedSubList();
-//     });
-//   }
+  //   componentWillReceiveProps(nextProps) {
+  //     //console.log(nextProps.params.record);
+  //     if (!nextProps.params || nextProps.params == this.props.params) {
+  //       //console.log("=====componentWillReceiveProps return");
+  //       return;
+  //     }
+  //     let searchParamsTmp = {
+  //       parentAccountId: nextProps.params.record.accountId,
+  //       info: ''
+  //     }
+  //     //定义临时对象
+  //     let updateParamsTmp = {
+  //       accountId: nextProps.params.record.accountId,
+  //       accountSetId: nextProps.params.record.accountSetId
+  //     };
+  //     this.setState({
+  //       updateParams: updateParamsTmp,
+  //       searchParams: searchParamsTmp,
+  //       batchDelete:true
+  //     }, () => {
+  //       this.getAddedSubList();
+  //     });
+  //   }
 
-componentDidMount() {
+  componentDidMount() {
     let searchParamsTmp = {
       parentAccountId: this.props.params.subParams.record.accountId,
       info: ''
@@ -191,7 +191,7 @@ componentDidMount() {
     this.setState({
       updateParams: updateParamsTmp,
       searchParams: searchParamsTmp,
-      batchDelete:true
+      batchDelete: true
     }, () => {
       this.getAddedSubList();
     });
@@ -213,18 +213,18 @@ componentDidMount() {
     });
     httpFetch.post(`${config.baseUrl}/api/accounts/hierarchy/batch/insert`, param).then((response) => {
       if (response.status === 200) {
-        message.success(this.$t({id:'common.operate.success'}))
+        message.success(this.$t({ id: 'common.operate.success' }))
         this.setState({
           loading: true,
           subjectListSelector: false,
-          batchDelete:true
-        }, this.getAddedSubList())
+          batchDelete: true
+        }, this.getAddedSubList)
       }
     });
   };
 
   onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys,batchDelete: selectedRowKeys.length >0 ? false : true  });
+    this.setState({ selectedRowKeys, batchDelete: selectedRowKeys.length > 0 ? false : true });
   }
 
   //返回
@@ -234,7 +234,7 @@ componentDidMount() {
 
   render() {
 
-    const { columns, updateParams, tableData, loading,batchDelete,selectedRowKeys,subjectSelectorItem, subjectListSelector, pagination } = this.state;
+    const { columns, updateParams, tableData, loading, batchDelete, selectedRowKeys, subjectSelectorItem, subjectListSelector, pagination } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -244,25 +244,25 @@ componentDidMount() {
       <div className="subject-sheet">
         <div className="table-header">
           <div
-            className="table-header-title">{this.$t({id:'common.total'}, { total: pagination.total ? pagination.total : '0' })}</div>
+            className="table-header-title">{this.$t({ id: 'common.total' }, { total: pagination.total ? pagination.total : '0' })}</div>
           <div className="table-header-buttons">
             <Button type="primary"
-                    onClick={() => this.showListSelector(true)}>{this.$t({id:'subject.add.sub.subject'})}</Button> {/* 新建 */}
-            <Popconfirm onConfirm={(e) => this.deleteItemBatch(e)} title={this.$t({id:'common.confirm.delete'})}>
-              <Button disabled={batchDelete} onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>{this.$t({id:'common.delete'})}</Button>
+              onClick={() => this.showListSelector(true)}>{this.$t({ id: 'subject.add.sub.subject' })}</Button> {/* 新建 */}
+            <Popconfirm onConfirm={(e) => this.deleteItemBatch(e)} title={this.$t({ id: 'common.confirm.delete' })}>
+              <Button disabled={batchDelete} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>{this.$t({ id: 'common.delete' })}</Button>
             </Popconfirm>
           </div>
         </div>
         <Table rowKey={record => record.id}
-               columns={columns}
-               dataSource={tableData}
-               pagination={pagination}
-               onChange={this.onChangePager}
-               rowSelection={rowSelection}
-               loading={loading}
-               bordered
-               size="middle"
-               style={{margin:'16px 0', textAlign:'right'}}/>
+          columns={columns}
+          dataSource={tableData}
+          pagination={pagination}
+          onChange={this.onChangePager}
+          rowSelection={rowSelection}
+          loading={loading}
+          bordered
+          size="middle"
+          style={{ margin: '16px 0', textAlign: 'right' }} />
 
         {/* 子科目弹出框 */}
         <ListSelector
@@ -272,7 +272,7 @@ componentDidMount() {
           extraParams={{ parentAccountId: this.state.updateParams.accountId, accountSetId: this.state.updateParams.accountSetId }}
           onCancel={() => this.showListSelector(false)} />
         <div className="slide-footer">
-          <Button onClick={this.onBack}>{this.$t({id:'common.back'})}</Button>
+          <Button onClick={this.onBack}>{this.$t({ id: 'common.back' })}</Button>
         </div>
       </div>
     )
