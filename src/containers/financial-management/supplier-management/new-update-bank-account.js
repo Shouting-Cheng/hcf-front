@@ -191,7 +191,6 @@ class NewUpdateBankAccount extends React.Component {
                 ),
               });
             } else {
-              console.log(response)
               if (response.data.code === '0000') {
                 if (typeof this.state.bankInfo.id === 'undefined') {
                   message.success(this.$t('structure.saveSuccess')); /*保存成功！*/
