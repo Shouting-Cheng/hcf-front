@@ -379,22 +379,6 @@ class FormList extends React.Component {
           break;
         // case "title":
         // case "text_area":
-        case 'remark':
-          form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
-                rules: [{ required: i.required, message: i.promptInfo }],
-                initialValue: i.value || '',
-              })(
-                <TextArea
-                  disabled={i.readonly}
-                  placeholder={i.promptInfo ? i.promptInfo : '请输入'}
-                  rows="4"
-                />
-              )}
-            </FormItem>
-          );
-          break;
         case 'select_cost_center':
           form.push(
             <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
@@ -546,6 +530,22 @@ class FormList extends React.Component {
                   uploadHandle={this.handleUpload}
                   defaultFileList={[]}
                   defaultOIDs={[]}
+                />
+              )}
+            </FormItem>
+          );
+          break;
+          case 'remark':
+          form.push(
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
+              {getFieldDecorator(i.fieldOID, {
+                rules: [{ required: i.required, message: i.promptInfo }],
+                initialValue: i.value || '',
+              })(
+                <TextArea
+                  disabled={i.readonly}
+                  placeholder={i.promptInfo ? i.promptInfo : '请输入'}
+                  rows="4"
                 />
               )}
             </FormItem>
