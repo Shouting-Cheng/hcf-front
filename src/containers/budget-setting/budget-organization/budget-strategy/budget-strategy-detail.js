@@ -177,7 +177,7 @@ class BudgetStrategyDetail extends React.Component {
   render(){
     const { infoList, infoData, columns, data, loading, pagination, updateState, baseInfoLoading } = this.state;
     return (
-      <div className="budget-strategy-detail">
+      <div className="budget-strategy-detail" style={{paddingBottom: 20}}>
         <BasicInfo infoList={infoList}
                    infoData={infoData}
                    updateHandle={this.handleUpdate}

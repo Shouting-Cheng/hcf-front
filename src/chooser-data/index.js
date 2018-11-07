@@ -2637,6 +2637,19 @@ const chooserData = {
     ],
     key: 'departmentOid',
   },
+  select_setOfBooks_accounts: {
+    title: '选择科目',
+    url: `${config.baseUrl}/api/accounts/query/accounts/setOfBooksId`,
+    searchForm: [
+      { type: 'input', id: 'accountCode', label: "科目代码" },
+      { type: 'input', id: 'accountName', label: "科目名称" },
+    ],
+    columns: [
+      { title: "科目代码", dataIndex: 'accountCode' },
+      { title: "科目名称", dataIndex: 'accountName' },
+    ],
+    key: 'id'
+  },
 };
 
 export default chooserData;
