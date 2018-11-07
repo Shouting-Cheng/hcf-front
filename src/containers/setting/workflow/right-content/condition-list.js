@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { deepCopy } from "utils/extend"
 import constants from "share/constants"
-import Ellipsis from 'ant-design-pro/lib/Ellipsis'
+import Ellipsis from 'components/Ellipsis'
 import { Form, Select, message, List, Popconfirm, Tag, Spin, Card } from 'antd'
 const Option = Select.Option;
 const ListItem = List.Item;
@@ -20,16 +20,16 @@ class NodeConditionList extends React.Component {
       loading: false,
       ruleApprovalNodeOID: '',
       approvalAndDepLevel: [  //审批级别 部门层级
-        {id: 1, name: this.$t('workflow.detail.level1st'), depLevel: this.$t('workflow.detail.level1')},
-        {id: 2, name: this.$t('workflow.detail.level2nd'), depLevel: this.$t('workflow.detail.level2')},
-        {id: 3, name: this.$t('workflow.detail.level3rd'), depLevel: this.$t('workflow.detail.level3')},
-        {id: 4, name: this.$t('workflow.detail.level4th'), depLevel: this.$t('workflow.detail.level4')},
-        {id: 5, name: this.$t('workflow.detail.level5th'), depLevel: this.$t('workflow.detail.level5')},
-        {id: 6, name: this.$t('workflow.detail.level6th'), depLevel: this.$t('workflow.detail.level6')},
-        {id: 7, name: this.$t('workflow.detail.level7th'), depLevel: this.$t('workflow.detail.level7')},
-        {id: 8, name: this.$t('workflow.detail.level8th'), depLevel: this.$t('workflow.detail.level8')},
-        {id: 9, name: this.$t('workflow.detail.level9th'), depLevel: this.$t('workflow.detail.level9')},
-        {id: 10, name: this.$t('workflow.detail.level10th'), depLevel: this.$t('workflow.detail.level10')}
+        { id: 1, name: this.$t('workflow.detail.level1st'), depLevel: this.$t('workflow.detail.level1') },
+        { id: 2, name: this.$t('workflow.detail.level2nd'), depLevel: this.$t('workflow.detail.level2') },
+        { id: 3, name: this.$t('workflow.detail.level3rd'), depLevel: this.$t('workflow.detail.level3') },
+        { id: 4, name: this.$t('workflow.detail.level4th'), depLevel: this.$t('workflow.detail.level4') },
+        { id: 5, name: this.$t('workflow.detail.level5th'), depLevel: this.$t('workflow.detail.level5') },
+        { id: 6, name: this.$t('workflow.detail.level6th'), depLevel: this.$t('workflow.detail.level6') },
+        { id: 7, name: this.$t('workflow.detail.level7th'), depLevel: this.$t('workflow.detail.level7') },
+        { id: 8, name: this.$t('workflow.detail.level8th'), depLevel: this.$t('workflow.detail.level8') },
+        { id: 9, name: this.$t('workflow.detail.level9th'), depLevel: this.$t('workflow.detail.level9') },
+        { id: 10, name: this.$t('workflow.detail.level10th'), depLevel: this.$t('workflow.detail.level10') }
       ],
       expenseTypeList: [], //费用类型
       departmentList: [], //部门
@@ -73,7 +73,7 @@ class NodeConditionList extends React.Component {
       this.setState({
         ruleApprovalNodeOID: nextProps.basicInfo.ruleApprovalNodeOID,
         ruleApprovers: deepCopy(nextProps.basicInfo.ruleApprovers) || []
-      },() => {
+      }, () => {
         this.props.form.resetFields();
         this.setState({ loading: true });
         Promise.all([
@@ -301,7 +301,7 @@ class NodeConditionList extends React.Component {
     } else if (item.departmentType === 2) {
       return this.$t('workflow.detail.document.organization'/*单据上组织架构*/)
     } else {
-      switch(item.approverType) {
+      switch (item.approverType) {
         case 6001:
           return this.$t('workflow.detail.personnel.approval'/*人员审批*/);
         case 6002:
@@ -325,7 +325,7 @@ class NodeConditionList extends React.Component {
     workflowService.deleteApprovers(item.ruleApproverOID).then(() => {
       this.props.onApproverChange(false);
       this.setState({ loading: false, ruleApprovers });
-      message.success(this.$t('common.delete.success', {name: ''}))
+      message.success(this.$t('common.delete.success', { name: '' }))
     })
   };
 
@@ -393,7 +393,7 @@ class NodeConditionList extends React.Component {
       this.setState({ loading: false, ruleApprovers }, () => {
         this.props.basicInfo.ruleApprovers = deepCopy(this.state.ruleApprovers)
       });
-      message.success(this.$t('common.delete.success', {name: ''}))
+      message.success(this.$t('common.delete.success', { name: '' }))
     }).catch(() => {
       this.setState({ loading: false })
     })
@@ -480,13 +480,13 @@ class NodeConditionList extends React.Component {
   handleDeleteValueItem = (e, remark, value) => {
     e.preventDefault();
     this.setState({
-      deleteTagValue: {remark, value}
+      deleteTagValue: { remark, value }
     })
   };
 
   //渲染审批条件的值
   renderConditionItem = (item, isEdit) => {
-    switch(item.remark) {
+    switch (item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
           this.state.approvalAndDepLevel.map(level => {
@@ -517,7 +517,7 @@ class NodeConditionList extends React.Component {
               return isEdit ? this.renderConditionCustListTag(index, 'default_expense_type', expense.name, oid) : (
                 <span>
                   {expense.name}
-                  <span style={{color:'#aaa'}}>
+                  <span style={{ color: '#aaa' }}>
                     {(expense.enable || expense.enabled) ? '' : `（${this.$t('workflow.detail.word.disabled')/*禁*/}）`}
                   </span>
                   {index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}
@@ -608,22 +608,22 @@ class NodeConditionList extends React.Component {
   render() {
     const { basicInfo } = this.props;
     const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOID,
-            approverOIDForAddRule } = this.state;
+      approverOIDForAddRule } = this.state;
     return (
       <div className='node-condition-list'>
         <Spin spinning={loading}>
           {ruleApprovers.map((item, approverIndex) => {
             let ruleConditions = []; //条件列表
-            Object.keys(item.ruleConditions || {}).map(key => {ruleConditions.push(item.ruleConditions[key])});
+            Object.keys(item.ruleConditions || {}).map(key => { ruleConditions.push(item.ruleConditions[key]) });
             let title = (
               <div className="collapse-header">
                 {basicInfo.type !== 1003 ? item.name : this.$t('workflow.detail.node.robot1'/*机器人*/)}
                 {this.getApplicantType(item) && <span>【{this.getApplicantType(item)}】</span>}
                 {basicInfo.type !== 1003 && item.level && (
-                  <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
+                  <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
                     <Select size="small" className={this.props.language.local === 'zh_CN' ? 'approve-level' : 'approve-level-en'}
-                            value={item.level}
-                            onChange={level => this.handleApproverLevelChange(item, level)}>
+                      value={item.level}
+                      onChange={level => this.handleApproverLevelChange(item, level)}>
                       {approvalAndDepLevel.map(level => <Option value={level.id} key={level.id}>{level.name}</Option>)}
                     </Select>
                   </div>
@@ -634,17 +634,17 @@ class NodeConditionList extends React.Component {
             );
             let extra = (
               <div className="header-right">
-                <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
-                  <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOID)}}>
+                <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
+                  <a onClick={() => { this.handleAdditionModalShow([], item.ruleApproverOID) }}>
                     {this.$t('workflow.add.approve.condition')/*添加审批条件*/}
                   </a>
                 </div>
-                {basicInfo.type !== 1003 && <span className="ant-divider"/>}
+                {basicInfo.type !== 1003 && <span className="ant-divider" />}
                 {basicInfo.type !== 1003 && (
-                  <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
+                  <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
                     <Popconfirm title={this.$t('common.confirm.delete')}
-                                overlayStyle={{minWidth: 160}}
-                                onConfirm={() => this.handleDeleteApprover(item)}>
+                      overlayStyle={{ minWidth: 160 }}
+                      onConfirm={() => this.handleDeleteApprover(item)}>
                       <a>{this.$t('common.delete')}</a>
                     </Popconfirm>
                   </div>
@@ -652,50 +652,50 @@ class NodeConditionList extends React.Component {
               </div>
             );
             return (
-              <Card key={approverIndex} title={title} extra={extra} className="condition-list-card" bodyStyle={{padding: '0 20px'}}>
+              <Card key={approverIndex} title={title} extra={extra} className="condition-list-card" bodyStyle={{ padding: '0 20px' }}>
                 {!ruleConditions.length ? (
                   <div className="no-rule-content">
                     {this.$t('workflow.detail.please.first')/*请先*/}
-                    <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOID)}}>
+                    <a onClick={() => { this.handleAdditionModalShow([], item.ruleApproverOID) }}>
                       【{this.$t('workflow.add.approve.condition')/*添加审批条件*/}】
                     </a>
                   </div>
                 ) : (
-                  <List itemLayout="horizontal"
-                        dataSource={ruleConditions}
-                        renderItem={(condition, conditionIndex) => {
-                          let isEdit = condition && condition.length && condition[0].isEdit;
-                          return (
-                            <ListItem key={conditionIndex}>
-                              <div className="condition-title">
-                                <h4>{this.$t('workflow.detail.condition')/*条件*/}{conditionIndex + 1}</h4>
-                                {!isEdit && (
-                                  <div className="edit-and-delete">
-                                    <a className="edit" onClick={() => this.handleEditCondition(condition, approverIndex, conditionIndex)}>
-                                      {this.$t('common.edit')}
-                                    </a>
-                                    <Popconfirm title={this.$t('common.confirm.delete')}
-                                                onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOID)}>
-                                      <a>{this.$t('common.delete')}</a>
-                                    </Popconfirm>
-                                  </div>
-                                )}
-                              </div>
-                              {!!isEdit ? (
-                                <ConditionForm condition={condition}
-                                               symbolsType={symbolsType}
-                                               batchCode={batchCode}
-                                               formOID={this.props.formOID}
-                                               approverIndex={approverIndex}
-                                               deleteTagValue={deleteTagValue}
-                                               afterDeleteTagValue={() => {this.setState({deleteTagValue: {}})}}
-                                               addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOID)}
-                                               saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'new')}
-                                               saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'update')}
-                                               cancelHandle={this.handleCancelEditCondition}
-                                               itemValueRender={this.renderConditionItem}
-                                />
-                              ) : (
+                    <List itemLayout="horizontal"
+                      dataSource={ruleConditions}
+                      renderItem={(condition, conditionIndex) => {
+                        let isEdit = condition && condition.length && condition[0].isEdit;
+                        return (
+                          <ListItem key={conditionIndex}>
+                            <div className="condition-title">
+                              <h4>{this.$t('workflow.detail.condition')/*条件*/}{conditionIndex + 1}</h4>
+                              {!isEdit && (
+                                <div className="edit-and-delete">
+                                  <a className="edit" onClick={() => this.handleEditCondition(condition, approverIndex, conditionIndex)}>
+                                    {this.$t('common.edit')}
+                                  </a>
+                                  <Popconfirm title={this.$t('common.confirm.delete')}
+                                    onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOID)}>
+                                    <a>{this.$t('common.delete')}</a>
+                                  </Popconfirm>
+                                </div>
+                              )}
+                            </div>
+                            {!!isEdit ? (
+                              <ConditionForm condition={condition}
+                                symbolsType={symbolsType}
+                                batchCode={batchCode}
+                                formOID={this.props.formOID}
+                                approverIndex={approverIndex}
+                                deleteTagValue={deleteTagValue}
+                                afterDeleteTagValue={() => { this.setState({ deleteTagValue: {} }) }}
+                                addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOID)}
+                                saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'new')}
+                                saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'update')}
+                                cancelHandle={this.handleCancelEditCondition}
+                                itemValueRender={this.renderConditionItem}
+                              />
+                            ) : (
                                 condition.map((item, i) => {
                                   if (item.symbol === 9011) {
                                     let leftCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list[0] || {}) : {};
@@ -754,23 +754,23 @@ class NodeConditionList extends React.Component {
                                   }
                                 })
                               )}
-                            </ListItem>
-                          )
-                        }}
-                  />
-                )}
+                          </ListItem>
+                        )
+                      }}
+                    />
+                  )}
               </Card>
             )
           })}
         </Spin>
 
         <AddApproveRuleModal visible={modalVisible}
-                             formOID={this.props.formOID}
-                             ruleApproverOID={approverOIDForAddRule}
-                             batchCode={batchCode}
-                             defaultValue={defaultAdditionOID}
-                             onOk={this.handleAddCondition}
-                             onCancel={() => {this.setState({modalVisible: false})}}
+          formOID={this.props.formOID}
+          ruleApproverOID={approverOIDForAddRule}
+          batchCode={batchCode}
+          defaultValue={defaultAdditionOID}
+          onOk={this.handleAddCondition}
+          onCancel={() => { this.setState({ modalVisible: false }) }}
         />
       </div>
     )

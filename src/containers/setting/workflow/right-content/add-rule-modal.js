@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import TagSelect from 'ant-design-pro/lib/TagSelect'
+import TagSelect from 'components/TagSelect'
 import { Form, Modal, Spin, List, message } from 'antd'
 const ListItem = List.Item;
 import PropTypes from 'prop-types';

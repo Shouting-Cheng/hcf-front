@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { deepCopy } from 'utils/extend';
 import constants from 'share/constants';
-import TagSelect from 'ant-design-pro/lib/TagSelect';
+import TagSelect from 'components/TagSelect';
 import config from 'config';
 import moment from 'moment';
 import chooserData from 'share/chooserData';
@@ -365,7 +365,7 @@ class ConditionForm extends React.Component {
         let costCenterSelectorItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
         costCenterSelectorItem.url = `${config.baseUrl}/api/cost/center/items/${
           item.customEnumerationOID
-        }/all`;
+          }/all`;
         this.setState(
           {
             costCenterSelectorItem,
@@ -1113,16 +1113,16 @@ class ConditionForm extends React.Component {
                         />
                       </Col>
                     ) : (
-                      <Col span={4}>
-                        <InputNumber
-                          precision={type === 'long' ? 0 : 2}
-                          min={0}
-                          size="small"
-                          defaultValue={leftCondition.value}
-                          onChange={value => this.handleRangeChange(value, item, true)}
-                        />
-                      </Col>
-                    )}
+                        <Col span={4}>
+                          <InputNumber
+                            precision={type === 'long' ? 0 : 2}
+                            min={0}
+                            size="small"
+                            defaultValue={leftCondition.value}
+                            onChange={value => this.handleRangeChange(value, item, true)}
+                          />
+                        </Col>
+                      )}
                     <Col span={language.local === 'zh_CN' ? 3 : 4}>
                       <Select
                         size="small"
@@ -1164,16 +1164,16 @@ class ConditionForm extends React.Component {
                         />
                       </Col>
                     ) : (
-                      <Col span={4}>
-                        <InputNumber
-                          precision={type === 'long' ? 0 : 2}
-                          min={0}
-                          size="small"
-                          defaultValue={rightCondition.value}
-                          onChange={value => this.handleRangeChange(value, item, false)}
-                        />
-                      </Col>
-                    )}
+                        <Col span={4}>
+                          <InputNumber
+                            precision={type === 'long' ? 0 : 2}
+                            min={0}
+                            size="small"
+                            defaultValue={rightCondition.value}
+                            onChange={value => this.handleRangeChange(value, item, false)}
+                          />
+                        </Col>
+                      )}
                   </Row>
                 );
               }
@@ -1214,8 +1214,8 @@ class ConditionForm extends React.Component {
                           {this.$t('workflow.detail.manager') /*经理*/}
                         </span>
                       ) : (
-                        <span>{item.name}</span>
-                      )}
+                          <span>{item.name}</span>
+                        )}
                     </Col>
                     <Col span={language.local === 'zh_CN' ? 3 : 4}>
                       <Select
@@ -1269,46 +1269,46 @@ class ConditionForm extends React.Component {
                       {String(item.symbol) === '9015' || String(item.symbol) === '9016' ? (
                         ''
                       ) : item.remark === 'default_department_path' ||
-                      item.remark === 'select_department' ? (
-                        <a style={{ whiteSpace: 'nowrap' }}>
-                          {'+ '}
-                          <SelectDepOrPerson
-                            renderButton={false}
-                            title={this.$t('common.add')}
-                            onlyDep={true}
-                            onConfirm={values => this.handleAddDepPath(values, item.remark)}
-                          />
-                        </a>
-                      ) : item.remark === 'cust_list' ? (
-                        <div className="selector-container">
-                          <Selector
-                            selectorItem={custListSelectorItem}
-                            allowClear={false}
-                            value={
-                              item.value ||
-                              item.showValue ||
-                              (this.props.itemValueRender(item, true) &&
-                                this.props.itemValueRender(item, true)[0])
-                            }
-                            placeholder={this.$t('common.please.select')}
-                            entity
-                            onChange={value =>
-                              this.handleCustListValueChange(
-                                value,
-                                item.customEnumerationOID,
-                                item.refCostCenterOID
-                              )
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <a
-                          style={{ whiteSpace: 'nowrap' }}
-                          onClick={() => this.handleSelectValueDetail(item)}
-                        >
-                          + {this.$t('common.add')}
-                        </a>
-                      )}
+                        item.remark === 'select_department' ? (
+                            <a style={{ whiteSpace: 'nowrap' }}>
+                              {'+ '}
+                              <SelectDepOrPerson
+                                renderButton={false}
+                                title={this.$t('common.add')}
+                                onlyDep={true}
+                                onConfirm={values => this.handleAddDepPath(values, item.remark)}
+                              />
+                            </a>
+                          ) : item.remark === 'cust_list' ? (
+                            <div className="selector-container">
+                              <Selector
+                                selectorItem={custListSelectorItem}
+                                allowClear={false}
+                                value={
+                                  item.value ||
+                                  item.showValue ||
+                                  (this.props.itemValueRender(item, true) &&
+                                    this.props.itemValueRender(item, true)[0])
+                                }
+                                placeholder={this.$t('common.please.select')}
+                                entity
+                                onChange={value =>
+                                  this.handleCustListValueChange(
+                                    value,
+                                    item.customEnumerationOID,
+                                    item.refCostCenterOID
+                                  )
+                                }
+                              />
+                            </div>
+                          ) : (
+                              <a
+                                style={{ whiteSpace: 'nowrap' }}
+                                onClick={() => this.handleSelectValueDetail(item)}
+                              >
+                                + {this.$t('common.add')}
+                              </a>
+                            )}
                     </Col>
                   </Row>
                 );
