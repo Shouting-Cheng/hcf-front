@@ -221,7 +221,7 @@ class OrgStructureRolesList extends React.Component {
     const { role, loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="org-roles-list" style={{marginBottom:20}}>
+      <div className="org-roles-list" style={{ marginBottom: 20 }}>
         <div className="table-header">
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.showAddRoleModel}>

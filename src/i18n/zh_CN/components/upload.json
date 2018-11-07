@@ -4,5 +4,6 @@
   "upload.isLt3M": "文件大小不能超过3MB",
   "upload.success": "上传成功",
   "upload.fail": "上传失败",
-  "upload.size":"支持任意格式，单个小于{total}M"
+  "upload.size":"支持任意格式，单个小于{total}M",
+  "upload.not.allowed.delete":"该状态不允许删除附件"
 }

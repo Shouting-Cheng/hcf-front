@@ -47,7 +47,7 @@ class WorkflowDetail extends React.Component {
   //获取表单信息
   getForm = () => {
     return new Promise((resolve, reject) => {
-      workflowService.getCustomForm(this.props.params.formOID).then(res => {
+      workflowService.getCustomForm(this.props.match.params.formOID).then(res => {
         this.setState({formInfo: res.data});
         resolve(res)
       }).catch(e => {
@@ -59,7 +59,7 @@ class WorkflowDetail extends React.Component {
   //获取审批链详情
   getApprovalChain = () => {
     return new Promise((resolve, reject) => {
-      workflowService.getApprovalChainDetail(this.props.params.formOID).then(res => {
+      workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
         this.setState({
           chainInfo: res.data,
           chosenNodeType: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[0].type,
@@ -111,7 +111,7 @@ class WorkflowDetail extends React.Component {
 
   //保存基本信息
   handleBasicInfoSave = () => {
-    workflowService.getApprovalChainDetail(this.props.params.formOID).then(res => {
+    workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
       this.setState({ saving: true, chainInfo: res.data }, () => {
         this.setState({ saving: false })
       })
@@ -123,7 +123,7 @@ class WorkflowDetail extends React.Component {
     this.setState({ addPersonModalVisible: false }, () => {
       if (!approverNotChange) {
         this.setState({ loading : true });
-        workflowService.getApprovalChainDetail(this.props.params.formOID).then(res => {
+        workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
           this.setState({
             loading: false,
             chainInfo: res.data,
@@ -175,7 +175,7 @@ class WorkflowDetail extends React.Component {
     const { loading, formInfo, chainInfo, showFormSetting, chosenNodeType, chosenNodeWidget, addPersonModalVisible, isRuleInEdit, saving } = this.state;
     let approvalMode = chainInfo.approvalMode;
     return (
-      <div className='workflow-detail'>
+      <div className='workflow-detail' style={{paddingBottom: 20}}>
         <Spin spinning={loading}>
           <Row>
             <Col span={6} className="node-container">
@@ -224,7 +224,7 @@ class WorkflowDetail extends React.Component {
                 <CustomApproveNode ruleApprovalNodes={chainInfo.ruleApprovalNodes}
                                    ruleApprovalChainOID={chainInfo.ruleApprovalChainOID}
                                    formInfo={formInfo}
-                                   formOID={this.props.params.formOID}
+                                   formOID={this.props.match.params.formOID}
                                    isRuleInEdit={isRuleInEdit}
                                    onSelect={this.handleNodeSelect}
                                    onChange={this.handleNodeChange}
@@ -232,7 +232,7 @@ class WorkflowDetail extends React.Component {
                 />
               )}
             </Col>
-            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOID={this.props.params.formOID}/></Col>}
+            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOID={this.props.match.params.formOID}/></Col>}
             {!showFormSetting && (
               <Col span={18} className="right-content">
                 {approvalMode === 1002 && (
@@ -292,7 +292,7 @@ class WorkflowDetail extends React.Component {
                                      basicInfoSaveHandle={this.handleBasicInfoSave}
                       />
                     )}
-                    <NodeConditionList formOID={this.props.params.formOID}
+                    <NodeConditionList formOID={this.props.match.params.formOID}
                                        basicInfo={chosenNodeWidget}
                                        formInfo={formInfo}
                                        onApproverChange={this.handleApproverChange}

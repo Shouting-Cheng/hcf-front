@@ -22,6 +22,7 @@
         "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
     },
     "dependencies": {
+        "ant-design-pro": "^1.1.0",
         "@antv/data-set": "^0.8.0",
         "@babel/polyfill": "^7.0.0-beta.36",
         "antd": "^3.10.1",

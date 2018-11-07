@@ -1664,11 +1664,11 @@ const chooserData = {
           return record.enable ? (
             value
           ) : (
-              <span>
-                {value}
-                <span style={{ color: '#959595' }}>({messages('common.disabling')})</span>
-              </span>
-            );
+            <span>
+              {value}
+              <span style={{ color: '#959595' }}>({messages('common.disabling')})</span>
+            </span>
+          );
         },
       },
       { title: messages('chooser.data.bank'), dataIndex: 'accountBank' },
@@ -2478,7 +2478,7 @@ const chooserData = {
     title: '核算要素',
     url: `${
       config.accountingUrl
-      }/api/general/ledger/journal/line/model/data/rules/query/fitler/element`,
+    }/api/general/ledger/journal/line/model/data/rules/query/fitler/element`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: '核算要素代码' },
       { type: 'input', id: 'elementNature', label: '核算要素名称' },
@@ -2506,7 +2506,7 @@ const chooserData = {
     title: '核算要素',
     url: `${
       config.accountingUrl
-      }/api/general/ledger/journal/line/model/system/data/rules/query/fitler/element`,
+    }/api/general/ledger/journal/line/model/system/data/rules/query/fitler/element`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: '核算要素代码' },
       { type: 'input', id: 'elementNature', label: '核算要素名称' },
@@ -2636,6 +2636,19 @@ const chooserData = {
       },
     ],
     key: 'departmentOid',
+  },
+  select_setOfBooks_accounts: {
+    title: '选择科目',
+    url: `${config.baseUrl}/api/accounts/query/accounts/setOfBooksId`,
+    searchForm: [
+      { type: 'input', id: 'accountCode', label: "科目代码" },
+      { type: 'input', id: 'accountName', label: "科目名称" },
+    ],
+    columns: [
+      { title: "科目代码", dataIndex: 'accountCode' },
+      { title: "科目名称", dataIndex: 'accountName' },
+    ],
+    key: 'id'
   },
 };
 

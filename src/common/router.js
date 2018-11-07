@@ -882,10 +882,16 @@ export const getRouterData = app => {
     },
     //审批流 ***被人删了一次了，跪求别再删***
     '/admin-setting/workflow': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/workflow/workflow')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/setting/workflow/workflow')),
       name: 'workflow',
+    },
+    '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID': {
+      //审批流设置
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/workflow/workflow-detail')
+      ),
+      name: 'workflow-setting-detail',
+      parent: '/admin-setting/workflow',
     },
     '/admin-setting/company-group': {
       //公司组
@@ -1027,6 +1033,22 @@ export const getRouterData = app => {
       name: 'budget-strategy-detail',
       parent: '/budget-setting/budget-organization',
     },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/new-budget-strategy-detail/:orgId/:setOfBooksId/:id': {
+      //新建控制策略详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/strategy-control-detail/:setOfBooksId/:orgId/:strategyId/:id': {
+      //策略详情明细  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/strategy-control-detail')
+      ),
+      name: 'budget-strategy-detail-detail',
+      parent: '/budget-setting/budget-organization',
+    },
     '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId': {
       //新建日志记账类型  **合并时别再删了，第三次了***
       component: dynamicWrapper(app, [], () =>
@@ -1072,7 +1094,7 @@ export const getRouterData = app => {
         import('containers/budget-setting/budget-balance-solution/new-budget-balance-solution')
       ),
       name: 'budget-balance-solution-newOrEdit',
-      parent: '/budget-setting/budget-balance-solution/:setOfBooksId'
+      parent: '/budget-setting/budget-balance-solution/:setOfBooksId',
     },
     '/budget/budget-balance': {
       //预算余额
@@ -1087,7 +1109,7 @@ export const getRouterData = app => {
         import('containers/budget/budget-balance/budget-balance-result')
       ),
       name: 'budget-balance-query-result',
-      parent: '/budget/budget-balance'
+      parent: '/budget/budget-balance',
     },
     '/budget/budget-balance-query': {
       //预算余额方案查询
@@ -1102,7 +1124,7 @@ export const getRouterData = app => {
         import('containers/budget/budget-balance-query/budget-balance-query-result')
       ),
       name: 'budget-balance-query-result',
-      parent: '/budget/budget-balance-query'
+      parent: '/budget/budget-balance-query',
     },
 
     //预算日记本
@@ -1177,7 +1199,7 @@ export const getRouterData = app => {
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
       ),
       name: 'approve-reimburse-detail',
-      parent: '/approval-management/approval-my-reimburse'
+      parent: '/approval-management/approval-my-reimburse',
     },
     //预算日记账复核
     '/budget/budget-journal-re-check': {
@@ -1256,7 +1278,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/subject-sheet',
     },
     //币种设置
-    '/admin-setting/currency-setting': {
+    '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting.js')
       ),
@@ -1268,7 +1290,7 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-add.js')
       ),
       name: 'currency-setting-add',
-      parent: '/admin-setting/currency-setting',
+      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //编辑汇率
     '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
@@ -1276,14 +1298,14 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: 'currency-setting-edit',
-      parent: '/admin-setting/currency-setting',
+      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //实体法人
     '/enterprise-manage/legal-person': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/legal-person/legal-person.js')
       ),
-      name: 'legal-person'
+      name: 'legal-person',
     },
     //实体法人详情
     '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
@@ -1328,7 +1350,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/company-maintain/company-maintain.js')
       ),
-      name: 'company-maintain'
+      name: 'company-maintain',
     },
     //企业管理-公司维护-新建编辑公司
     '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
@@ -1388,7 +1410,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/org-structure/org-structure.js')
       ),
-      name: 'org-structure'
+      name: 'org-structure',
     },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
@@ -1437,28 +1459,28 @@ export const getRouterData = app => {
       name: 'security-setting',
     },
 
-    '/admin-setting/cost-center': {
+    '/admin-setting/cost-center/:setOfBooksId': {
       //成本中心
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center.js')
       ),
       name: 'cost-center',
     },
-    '/admin-setting/cost-center/new-cost-center/:id': {
+    '/admin-setting/cost-center/new-cost-center/:id/:setOfBooksId': {
       //新增成本中心
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/new-cost-center.js')
       ),
       name: 'new-cost-center',
-      parent: '/admin-setting/cost-center',
+      parent: '/admin-setting/cost-center/:setOfBooksId',
     },
-    '/admin-setting/cost-center/cost-center-detail/:id': {
+    '/admin-setting/cost-center/cost-center-detail/:id/:setOfBooksId': {
       //成本中心详情
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center-detail.js')
       ),
       name: 'cost-center-detail',
-      parent: '/admin-setting/cost-center',
+      parent: '/admin-setting/cost-center/:setOfBooksId',
     },
     '/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/:id/:itemId': {
       //成本中心项详情
@@ -1644,7 +1666,8 @@ export const getRouterData = app => {
       name: 'approve-payment-requisition-detail',
       parent: '/approval-management/approve-payment-requisition',
     },
-    '/financial-view/accounting-view': {//会计分录查询
+    '/financial-view/accounting-view': {
+      //会计分录查询
       component: dynamicWrapper(app, [], () =>
         import('containers/financial-view/accounting-view/accounting-view')
       ),
@@ -1657,7 +1680,7 @@ export const getRouterData = app => {
       ),
       name: 'exp-report-reverse-check',
       parent: '/financial-management',
-    }
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

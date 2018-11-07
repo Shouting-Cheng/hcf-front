@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { deepCopy} from "utils/extend"
-import TagSelect from 'ant-design-pro/lib/TagSelect'
+import { deepCopy } from "utils/extend"
+import TagSelect from 'components/TagSelect'
 import { Form, Modal, Icon, Checkbox, List, message, Tag, Button, Spin } from 'antd'
 const ListItem = List.Item;
 
@@ -325,15 +325,15 @@ class AddPersonModal extends React.Component {
       directManager, apiReturnApprover, allApproverType, costCenterApprover, costCenterDeptApprover } = this.state;
     return (
       <div className='add-person-modal'>
-        <div className="select-person-modal-container"/>
+        <div className="select-person-modal-container" />
         <Modal title={personType === 1 ? this.$t('workflow.detail.select.approver'/*请选择审批人员*/) : this.$t('workflow.detail.select.informer'/*请选择知会人员*/)}
-               visible={visible}
-               width={550}
-               closable={false}
-               getContainer={() => {
-                 return document.getElementsByClassName("select-person-modal-container")[0];
-               }}
-               footer={<Button type="primary" onClick={this.handleOK}>{this.$t('common.ok')}</Button>}
+          visible={visible}
+          width={550}
+          closable={false}
+          getContainer={() => {
+            return document.getElementsByClassName("select-person-modal-container")[0];
+          }}
+          footer={<Button type="primary" onClick={this.handleOK}>{this.$t('common.ok')}</Button>}
         >
           <Spin spinning={loading}>
             <List itemLayout="horizontal">
@@ -342,7 +342,7 @@ class AddPersonModal extends React.Component {
                   {personType === 1 ? this.$t('workflow.detail.approve.by.leader'/*按申请人所在的组织架构审批*/) :
                     this.$t('workflow.detail.notify.by.leader'/*按申请人所在的组织架构知会*/)}
                 </h4>
-                <TagSelect value={depByApplicantKeys} onChange={value => this.setState({depByApplicantKeys: value})}>
+                <TagSelect value={depByApplicantKeys} onChange={value => this.setState({ depByApplicantKeys: value })}>
                   {(allApproverType && allApproverType['RuleEnumDTO(key=0, value=按申请人所在的组织架构审批, remark=)'] || []).map(item => (
                     <TagSelect.Option value={item.key} key={item.key}>{item.value}</TagSelect.Option>
                   ))}
@@ -355,12 +355,12 @@ class AddPersonModal extends React.Component {
                       this.$t('workflow.detail.notify.by.organization'/*按单据上的组织架构知会*/)}
                   </h4>
                   <Checkbox checked={containsApportionmentDepartmentManager}
-                            onChange={e => this.setState({containsApportionmentDepartmentManager: e.target.checked})}>
+                    onChange={e => this.setState({ containsApportionmentDepartmentManager: e.target.checked })}>
                     {personType === 1 ? this.$t('workflow.detail.approve.dept'/*分摊组织领导会签*/) :
                       this.$t('workflow.detail.notify.dept'/*知会分摊组织领导*/)}
                   </Checkbox>
                 </div>
-                <TagSelect value={depByDeptKeys} onChange={value => this.setState({depByDeptKeys: value})}>
+                <TagSelect value={depByDeptKeys} onChange={value => this.setState({ depByDeptKeys: value })}>
                   {(allApproverType && allApproverType['RuleEnumDTO(key=0, value=按单据上的组织架构审批, remark=)'] || []).map(item => (
                     <TagSelect.Option value={item.key} key={item.key}>{item.value}</TagSelect.Option>
                   ))}
@@ -374,12 +374,12 @@ class AddPersonModal extends React.Component {
                         this.$t('workflow.detail.notify.by.costCenter.manager'/*按单据上的成本中心经理知会*/)}
                     </h4>
                     <Checkbox checked={containsApportionmentCostCenterManager}
-                              onChange={e => this.setState({containsApportionmentCostCenterManager: e.target.checked})}>
+                      onChange={e => this.setState({ containsApportionmentCostCenterManager: e.target.checked })}>
                       {personType === 1 ? this.$t('workflow.detail.approve.costCenter'/*分摊成本中心经理会签*/) :
                         this.$t('workflow.detail.notify.costCenter'/*知会分摊成本中心经理*/)}
                     </Checkbox>
                   </div>
-                  <TagSelect value={costCenterKeys} onChange={values => this.setState({costCenterKeys: values})}>
+                  <TagSelect value={costCenterKeys} onChange={values => this.setState({ costCenterKeys: values })}>
                     {costCenterApprover.map(item => (
                       <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
                     ))}
@@ -394,12 +394,12 @@ class AddPersonModal extends React.Component {
                         this.$t('workflow.detail.notify.by.costCenter.dept.manager'/*按单据上的成本中心的主要部门经理知会*/)}
                     </h4>
                     <Checkbox checked={containsApportionmentCostCenterPrimaryDepartmentManager}
-                              onChange={e => this.setState({containsApportionmentCostCenterPrimaryDepartmentManager: e.target.checked})}>
+                      onChange={e => this.setState({ containsApportionmentCostCenterPrimaryDepartmentManager: e.target.checked })}>
                       {personType === 1 ? this.$t('workflow.detail.approve.dept.manager'/*分摊后，对应的部门经理会签*/) :
                         this.$t('workflow.detail.notify.dept.manager'/*分摊后，知会对应的部门经理*/)}
                     </Checkbox>
                   </div>
-                  <TagSelect value={costCenterDeptKeys} onChange={values => this.setState({costCenterDeptKeys: values})}>
+                  <TagSelect value={costCenterDeptKeys} onChange={values => this.setState({ costCenterDeptKeys: values })}>
                     {costCenterDeptApprover.map(item => (
                       <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
                     ))}
@@ -411,7 +411,7 @@ class AddPersonModal extends React.Component {
                   <h4>{this.$t('workflow.detail.leader')/*直属领导*/}</h4>
                   <span>{this.$t('workflow.detail.leader.info')/*指申请人的人员信息中【直属领导】*/}</span>
                 </div>
-                <Checkbox checked={directManager} onChange={e => this.setState({directManager: e.target.checked})}>
+                <Checkbox checked={directManager} onChange={e => this.setState({ directManager: e.target.checked })}>
                   {personType === 1 ? this.$t('workflow.detail.join.approve'/*参与审批*/) : this.$t('workflow.detail.notify'/*知会*/)}
                 </Checkbox>
               </ListItem>
@@ -421,8 +421,8 @@ class AddPersonModal extends React.Component {
                     {personType === 1 ? this.$t('workflow.detail.approve.person'/*指定人员审批*/) :
                       this.$t('workflow.detail.notify.person'/*知会指定人员*/)}
                   </h4>
-                  <a onClick={() => {this.setState({userVisible: true})}}>
-                    <Icon type="plus-circle"/> {this.$t('workflow.detail.select.person')/*选择人员*/}
+                  <a onClick={() => { this.setState({ userVisible: true }) }}>
+                    <Icon type="plus-circle" /> {this.$t('workflow.detail.select.person')/*选择人员*/}
                   </a>
                 </div>
                 {approveUser && approveUser.map(item =>
@@ -435,11 +435,11 @@ class AddPersonModal extends React.Component {
                     {personType === 1 ? this.$t('workflow.detail.approve.person.group'/*指定人员组审批*/) :
                       this.$t('workflow.detail.notify.person.group'/*知会指定人员组*/)}
                   </h4>
-                  <a onClick={() => {this.setState({userGroupVisible: true})}}>
+                  <a onClick={() => { this.setState({ userGroupVisible: true }) }}>
                     <Icon type="plus-circle" /> {this.$t('workflow.detail.select.person.group')/*选择人员组*/}
                   </a>
                 </div>
-                <div style={{marginBottom: 5}}>{this.$t('workflow.detail.user.group.tip')/*只能引用到人员组中"按人员添加"的人，无法获取到"按照条件添加"的人。*/}</div>
+                <div style={{ marginBottom: 5 }}>{this.$t('workflow.detail.user.group.tip')/*只能引用到人员组中"按人员添加"的人，无法获取到"按照条件添加"的人。*/}</div>
                 {approveUserGroup && approveUserGroup.map(item =>
                   <Tag key={item.userGroupOID} closable onClose={() => this.handleDeleteUserGroup(item.userGroupOID)}>{item.name}</Tag>
                 )}
@@ -449,7 +449,7 @@ class AddPersonModal extends React.Component {
                   {personType === 1 ? this.$t('workflow.detail.api.back.approve'/*接口返回审批人*/) :
                     this.$t('workflow.detail.api.back.notify'/*接口返回知会人*/)}
                 </h4>
-                <Checkbox checked={apiReturnApprover} onChange={e => this.setState({apiReturnApprover: e.target.checked})}>
+                <Checkbox checked={apiReturnApprover} onChange={e => this.setState({ apiReturnApprover: e.target.checked })}>
                   {personType === 1 ? this.$t('workflow.detail.return.approve.result'/*当满足审批条件时，节点调用对应地址的接口，返回审批结果*/) :
                     this.$t('workflow.detail.return.notify.result'/*当满足知会条件时，节点调用对应地址的接口，返回知会结果*/)}
                 </Checkbox>
@@ -459,23 +459,23 @@ class AddPersonModal extends React.Component {
         </Modal>
 
         <ListSelector visible={userVisible}
-                      type="user"
-                      valueKey="userOID"
-                      labelKey="fullName"
-                      onlyNeed="userOID"
-                      showDetail
-                      extraParams={{roleType: 'TENANT'}}
-                      selectedData={approveUser}
-                      onOk={this.handleAddUser}
-                      onCancel={() => {this.setState({userVisible: false})}}
+          type="user"
+          valueKey="userOID"
+          labelKey="fullName"
+          onlyNeed="userOID"
+          showDetail
+          extraParams={{ roleType: 'TENANT' }}
+          selectedData={approveUser}
+          onOk={this.handleAddUser}
+          onCancel={() => { this.setState({ userVisible: false }) }}
         />
         <ListSelector visible={userGroupVisible}
-                      type="user_group"
-                      valueKey="userGroupOID"
-                      labelKey="name"
-                      selectedData={approveUserGroup}
-                      onOk={this.handleAddUserGroup}
-                      onCancel={() => {this.setState({userGroupVisible: false})}}
+          type="user_group"
+          valueKey="userGroupOID"
+          labelKey="name"
+          selectedData={approveUserGroup}
+          onOk={this.handleAddUserGroup}
+          onCancel={() => { this.setState({ userGroupVisible: false }) }}
         />
       </div>
     )

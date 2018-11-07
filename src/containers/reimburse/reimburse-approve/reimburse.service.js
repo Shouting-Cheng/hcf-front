@@ -9,11 +9,10 @@ export default {
      */
     getReimburseList(params) {
 
-        let url = `${config.baseUrl}/api/approvals/public/exp/report/filters?`;
+        let url = `${config.baseUrl}/api/approvals/public/exp/report/filters/api/approvals/public/exp/report/filters?`;
         //let url = `http://192.168.1.71:9083/api/approvals/prepayment/filters?`;
-
         for (let key in params) {
-            if (params[key] || params[key] == 0) {
+            if(params[key] || params[key] == 0) {
                 url += `&${key}=${params[key]}`;
             }
         }

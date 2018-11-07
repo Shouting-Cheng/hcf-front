@@ -565,7 +565,7 @@ class BudgetJournalCheckDetail extends React.Component {
           )}
           {this.props.match.params.flag === 'approved' ? (
             <div className="bottom-bar bottom-bar-approve">
-              <div style={{ lineHeight: "50px" }}>
+              <div style={{ lineHeight: '50px' }}>
                 <Button
                   className="button-return"
                   style={{ marginLeft: '20px', marginRight: '8px' }}
@@ -576,35 +576,29 @@ class BudgetJournalCheckDetail extends React.Component {
               </div>
             </div>
           ) : (
-              <div
-                className="bottom-bar bottom-bar-approve"
-              >
-                <Row>
-                  <Col span={17}>
-                    <ApproveBar
-                      style={{ paddingLeft: 20 }}
-                      passLoading={passLoading}
-                      backUrl={'/approval-management/budget-journal-check'}
-                      rejectLoading={rejectLoading}
-                      handleApprovePass={this.handlePass}
-                      handleApproveReject={this.handleReject}
-                    />
-                  </Col>
-                </Row>
+              <div className="bottom-bar bottom-bar-approve">
+                <ApproveBar
+                  style={{ paddingLeft: 20 }}
+                  passLoading={passLoading}
+                  backUrl={'/approval-management/budget-journal-check'}
+                  rejectLoading={rejectLoading}
+                  handleApprovePass={this.handlePass}
+                  handleApproveReject={this.handleReject}
+                />
               </div>
               /*   <Affix offsetBottom={0} className="bottom-bar">
-                  <div>
-                    <Row gutter={12} type='flex' justify='start'>
-                      <Col offset={1}><span>{this.$t('budgetJournal.budgetOpinion')}：&nbsp;</span></Col>
-                      <Col span={11} >
-                        <Input required='true' value={approvalTxt} onChange={this.onApprovalTxtChange} placeholder={this.$t('common.please.enter')} />
-                      </Col>
-                      <Col span={1.5} ><Button type="primary" onClick={this.handlePass} loading={this.state.passLoading}>{this.$t('budgetJournal.pass')}</Button></Col>
-                      <Col span={1.5} ><Button type="danger" style={{ background: 'red', color: 'white' }} loading={this.state.rejectLoading} onClick={this.handleReject}>{this.$t('budgetJournal.reject')}</Button></Col>
-                      <Col span={2} offset={2} ><Button onClick={this.HandleReturn}>{this.$t('budgetJournal.return')}</Button></Col>
-                    </Row>
-                  </div>
-                </Affix>*/
+                    <div>
+                      <Row gutter={12} type='flex' justify='start'>
+                        <Col offset={1}><span>{this.$t('budgetJournal.budgetOpinion')}：&nbsp;</span></Col>
+                        <Col span={11} >
+                          <Input required='true' value={approvalTxt} onChange={this.onApprovalTxtChange} placeholder={this.$t('common.please.enter')} />
+                        </Col>
+                        <Col span={1.5} ><Button type="primary" onClick={this.handlePass} loading={this.state.passLoading}>{this.$t('budgetJournal.pass')}</Button></Col>
+                        <Col span={1.5} ><Button type="danger" style={{ background: 'red', color: 'white' }} loading={this.state.rejectLoading} onClick={this.handleReject}>{this.$t('budgetJournal.reject')}</Button></Col>
+                        <Col span={2} offset={2} ><Button onClick={this.HandleReturn}>{this.$t('budgetJournal.return')}</Button></Col>
+                      </Row>
+                    </div>
+                  </Affix>*/
             )}
         </Spin>
       </div>
