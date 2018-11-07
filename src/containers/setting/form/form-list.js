@@ -151,6 +151,7 @@ class FormList extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.company)
     if (this.props.tenantMode) {
       BaseService.getSetOfBooksByTenant().then(resp => {
         if (resp.status === 200 && resp.data) {
@@ -340,8 +341,9 @@ class FormList extends React.Component {
       </Menu>
     );
     const menuSetOfBooks = (
-      <Menu onClick={this.handleSearchList}>
-        {this.state.setOfBooks.map(item => <Menu.Item key={item.id}>{item.setOfBooksName}</Menu.Item>)}
+      <Menu onClick={this.handleSearchList} trigger={['click']}>
+        {/* {this.state.setOfBooks.map(item => <Menu.Item key={item.id}>{item.setOfBooksName}</Menu.Item>)} */}
+        <Menu.Item key={this.props.company.setOfBooksId}>{this.props.company.setOfBooksName}</Menu.Item>
       </Menu>
     );
     return (
@@ -439,7 +441,7 @@ class FormList extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
+    company: state.user.company,
     tenantMode:true
   }
 }

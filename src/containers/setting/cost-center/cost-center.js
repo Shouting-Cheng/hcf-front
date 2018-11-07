@@ -84,24 +84,26 @@ class CostCenter extends React.Component {
                 },
             ],
             searchParams: {
-                setOfBook: ''
+                setOfBook: this.props.match.params.setOfBooksId==="0"?this.props.company.setOfBooksId:this.props.match.params.setOfBooksId
             },
             //   CostCenterExtendFiled: menuRoute.getRouteItem('cost-center-extend-filed', 'key'),//成本中心扩展字段
             //   newCostCenter: menuRoute.getRouteItem('new-cost-center', 'key'),//新增成本中心
             //   CostCenterDetail: menuRoute.getRouteItem('cost-center-detail', 'key'),//成本中心详情
             //   OrgStruture: menuRoute.getRouteItem('org-structure', 'key'),//企业组织架构
-            depIsCostCenter: false//部门是否是成本中心
+            depIsCostCenter: false,//部门是否是成本中心
+            // setOfBooksId: this.props.match.params.setOfBooksId==="0"?this.props.company.setOfBooksId:this.props.match.params.setOfBooksId,//初始化页面时从接口获取的2个字段，掉接口要用
         };
     }
 
-    componentDidMount() {
+    // componentDidMount() {
+    //     this.getTenantAllSob();
+    //     this.setState({
+    //         // depIsCostCenter: this.props.companyConfiguration.configuration.ui.showDepartmentSelector.applications
+    //     })
+    // }
+    componentWillMount(){
         this.getTenantAllSob();
-        this.setState({
-            // depIsCostCenter: this.props.companyConfiguration.configuration.ui.showDepartmentSelector.applications
-        })
-    }
-
-    componentWillReceiveProps(nextProps) {
+        console.log(this.props)
     }
 
     getTenantAllSob() {
@@ -158,9 +160,10 @@ class CostCenter extends React.Component {
     //新增成本中心
     handleNew = () => {
         // this.context.router.push(this.state.newCostCenter.url.replace(':id', "NEW"));
+        let {searchParams}=this.state;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/new-cost-center/NEW`,
+                pathname: `/admin-setting/cost-center/new-cost-center/NEW/${searchParams.setOfBook}`,
             })
         );
     };
@@ -168,9 +171,10 @@ class CostCenter extends React.Component {
     //编辑成本中心
     editCostCenter(e, record) {
         // this.context.router.push(this.state.newCostCenter.url.replace(':id', record.costCenterOID));
+        let {searchParams}=this.state;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/new-cost-center/${record.costCenterOID}`,
+                pathname: `/admin-setting/cost-center/new-cost-center/${record.costCenterOID}/${searchParams.setOfBook}`,
             })
         );
     }
@@ -178,9 +182,10 @@ class CostCenter extends React.Component {
     //成本中心详情
     detailCostCenter(e, record) {
         // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOID));
+        let {searchParams}=this.state;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOID}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOID}/${searchParams.setOfBook}`,
             })
         );
     }
