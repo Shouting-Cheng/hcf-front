@@ -781,7 +781,7 @@ class PerPaymentView extends Component {
       {
         loading: true,
         page: 0,
-        searchParam: { requisitionNumber: value },
+        searchParam: {...this.state.searchParam, requisitionNumber: value },
       },
       () => {
         this.getList();
@@ -837,7 +837,7 @@ class PerPaymentView extends Component {
           </div>
         </div>
         <Table
-          scroll={{ x: 1600 }}
+          scroll={{ x: 1850 }}
           rowKey={record => record['id']}
           columns={columns}
           size="middle"
