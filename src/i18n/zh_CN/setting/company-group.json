@@ -3,6 +3,7 @@
   "setting.companyGroupCode": "公司组代码",
   "setting.companyGroupName": "公司组名称",
   "setting.companyGroup.tips": "注：公司组代码保存后将不可修改",
-  "setting.companyGroupName.tips":  "不超过100个字符，只能有中文，数字，字母，下划线。",
-  "setting.companyGroupCode.tips": "不超过35个字符，只能有字母，数字，下划线,'-'"
+  "setting.companyGroupName.tips": "不超过100个字符，只能有中文，数字，字母，下划线。",
+  "setting.companyGroupCode.tips": "不超过35个字符，只能有字母，数字，下划线,'-'",
+  "setting.accountSetDesc.null": "科目表名称不能为空。"
 }

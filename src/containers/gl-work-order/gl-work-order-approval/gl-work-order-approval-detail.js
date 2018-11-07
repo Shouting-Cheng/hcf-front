@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
 import config from 'config';
+import ApproveBar from 'widget/Template/approve-bar'
+
 import {
   Button,
   Affix,
@@ -46,10 +48,12 @@ class GLWorkOrderCheckDetail extends Component {
       historyLoading: true,
       approveHistory: [],
       //表格宽度
-      tableWidth: 850,
+      tableWidth: false,
       //审批
       opinion: '',
       operateLoading: false,
+      passLoading: false,
+      rejectLoading: false,
       /**
        * 单据行
        * lineStatus有三种状态：
@@ -62,7 +66,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '序号',
           dataIndex: 'seq',
           align: 'center',
-          width: '60',
+          width: '60px',
           render: (seq, record, index) => {
             return <span>{index + 1}</span>;
           },
@@ -71,7 +75,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '备注',
           dataIndex: 'description',
           align: 'center',
-          width: '130',
+          //width: '130',
           render: (description, record, index) => {
             return (
               <Popover content={description}>
@@ -84,7 +88,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '公司',
           dataIndex: 'companyName',
           align: 'center',
-          width: '140',
+          width: '140px',
           render: (companyName, record, index) => {
             return <span>{companyName}</span>;
           },
@@ -93,7 +97,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '部门',
           dataIndex: 'unitName',
           align: 'center',
-          width: '140',
+          width: '140px',
           render: (unitName, record, index) => {
             return <span>{unitName}</span>;
           },
@@ -102,7 +106,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '科目',
           dataIndex: 'accountName',
           align: 'center',
-          width: '130',
+          width: '130px',
           render: (accountName, record, index) => {
             return <span>{accountName}</span>;
           },
@@ -111,7 +115,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '借方金额',
           dataIndex: 'enteredAmountCr',
           align: 'center',
-          width: '130',
+          width: '130px',
           fixed: 'right',
           render: (enteredAmountCr, record, index) => {
             return <span>{this.filterMoney(enteredAmountCr, 2)}</span>;
@@ -121,7 +125,7 @@ class GLWorkOrderCheckDetail extends Component {
           title: '贷方金额',
           dataIndex: 'enteredAmountDr',
           align: 'center',
-          width: '130',
+          width: '130px',
           fixed: 'right',
           render: (enteredAmountDr, record, index) => {
             return <span>{this.filterMoney(enteredAmountDr, 2)}</span>;
@@ -287,15 +291,16 @@ class GLWorkOrderCheckDetail extends Component {
           title: dimensionTitle,
           dataIndex: dimensionKey,
           align: 'center',
+          width: '130',
           render: (text, record, index) => {
             return <span>{record[dimensionName]}</span>;
           },
         };
         columns.splice(5, 0, dimensionColumn);
-        this.setState({
-          columns,
-          tableWidth,
-        });
+      });
+      this.setState({
+        columns,
+        tableWidth: dimensionData.length*130+1000
       });
     }
   };
@@ -331,11 +336,13 @@ class GLWorkOrderCheckDetail extends Component {
       ],
       countersignApproverOIDs: [],
     };
-    glWorkOrderCheckService
-      .pass(params)
-      .then(res => {
+    this.setState({passLoading:true,rejectLoading:true});
+
+    glWorkOrderCheckService.pass(params).then(res => {
         if (res.status === 200) {
           message.success('操作成功');
+          this.setState({passLoading: false, rejectLoading: false });
+
           this.setState({ operateLoading: false });
           this.onBack();
         }
@@ -345,6 +352,7 @@ class GLWorkOrderCheckDetail extends Component {
         if (e.response) {
           message.error(`操作失败：${e.response.data.message}`);
         }
+        this.setState({passLoading: false, rejectLoading: false });
         this.setState({ operateLoading: false });
       });
   };
@@ -393,7 +401,7 @@ class GLWorkOrderCheckDetail extends Component {
     //头行数据
     const { docHeadData } = this.state;
     //审批历史
-    const { approveHistory, historyLoading } = this.state;
+    const { approveHistory, historyLoading , passLoading, rejectLoading} = this.state;
     //表格
     let { columns, loading, pagination, data, tableWidth } = this.state;
     //审批
@@ -402,7 +410,7 @@ class GLWorkOrderCheckDetail extends Component {
     let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
-      <div className="gl-work-order-detail background-transparent">
+      <div className="gl-work-order-detail" style={{marginBottom: 15, paddingBottom: 20}}>
         <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
             <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
@@ -430,37 +438,16 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         {(docStatus &&
           docStatus === '1002' && (
-            <Affix className="bottom-bar" offsetBottom="0">
-              <Row gutter={12} type="flex" justify="start">
-                <Col offset={1}>
-                  <label>审批意见：</label>
-                </Col>
-                <Col span={11}>
-                  <Input
-                    placeholder="请输入，最多200个字符"
-                    value={opinion}
-                    onChange={this.onOpinionChange}
-                  />
-                </Col>
-                <Col span={1.5}>
-                  <Button loading={operateLoading} type="primary" onClick={this.onPassClick}>
-                    通过
-                  </Button>
-                </Col>
-                <Col span={1.5}>
-                  <Button
-                    loading={operateLoading}
-                    onClick={this.onRejectClick}
-                    style={{ background: '#F00000', color: 'white' }}
-                    type="danger"
-                  >
-                    驳回
-                  </Button>
-                </Col>
-                <Col span={3}>
-                  <Button loading={operateLoading} onClick={this.onBack}>
-                    返回
-                  </Button>
+            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 20px 0px'}}>
+              <Row>
+                <Col span={17} >
+                  <ApproveBar
+                    style={{paddingLeft: 20}}
+                    passLoading={passLoading}
+                    backUrl={'/approval-management/gl-work-order-approval'}
+                    rejectLoading={rejectLoading}
+                    handleApprovePass={this.onPassClick}
+                    handleApproveReject={this.onRejectClick} />
                 </Col>
               </Row>
             </Affix>
@@ -470,7 +457,7 @@ class GLWorkOrderCheckDetail extends Component {
               <Affix className="bottom-bar" offsetBottom="0">
                 <Row gutter={12} type="flex" justify="start">
                   <Col span={3} offset={1}>
-                    <Button onClick={this.onBack}>返回</Button>
+                    <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
                   </Col>
                 </Row>
               </Affix>

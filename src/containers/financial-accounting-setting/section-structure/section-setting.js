@@ -234,7 +234,7 @@ class SectionSetting extends React.Component {
   render() {
     const { loading, data, columns, searchForm, pagination, lov, mapVisible, record } = this.state;
     return (
-      <div className="section-setting">
+      <div className="section-setting" style={{paddingBottom: 20}}>
         <SearchArea
           searchForm={searchForm}
           submitHandle={this.handleSearch}

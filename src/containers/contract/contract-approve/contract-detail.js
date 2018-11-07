@@ -85,31 +85,25 @@ class ContractDetail extends React.Component {
           getContractStatus={this.getStatus}
         />
         {!isConfirm && (
-          <Affix
-            offsetBottom={0}
-            className="bottom-bar bottom-bar-approve"
-            style={{ paddingLeft: 15 }}
-          >
-            <Row>
-              <Col span={21}>
-                <ApproveBar
-                  passLoading={passLoading}
-                  style={{ paddingLeft: 40 }}
-                  backUrl={'/contract-manage/contract-recheck'}
-                  rejectLoading={rejectLoading}
-                  handleApprovePass={this.handleApprovePass}
-                  handleApproveReject={this.handleApproveReject}
-                />
-              </Col>
-            </Row>
-          </Affix>
+          <div className="bottom-bar bottom-bar-approve">
+            <ApproveBar
+              passLoading={passLoading}
+              style={{ paddingLeft: 20 }}
+              backUrl={'/contract-manage/contract-recheck'}
+              rejectLoading={rejectLoading}
+              handleApprovePass={this.handleApprovePass}
+              handleApproveReject={this.handleApproveReject}
+            />
+          </div>
         )}
         {isConfirm && (
-          <Affix offsetBottom={0} className="bottom-bar">
-            <Button style={{ marginLeft: 80 }} onClick={this.goBack} className="back-btn">
-              {this.$t({ id: 'common.back' } /*返回*/)}
-            </Button>
-          </Affix>
+          <div className="bottom-bar bottom-bar-approve">
+            <div style={{ lineHeight: '50px' }}>
+              <Button style={{ marginLeft: 20 }} onClick={this.goBack} className="back-btn">
+                {this.$t({ id: 'common.back' } /*返回*/)}
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     );

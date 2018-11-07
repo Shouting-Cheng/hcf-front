@@ -21,7 +21,6 @@ class DocumentBasicInfo extends React.Component {
     this.setState({
       data: nextProps.params
     });
-    console.log(this.state.data)
   }
   renderList = (title, value, linkId) => {
     return (

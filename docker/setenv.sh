@@ -54,6 +54,11 @@ server {
         proxy_pass $BRMS_URL;
     }
 
+    location /invoice/ {
+        proxy_pass $INVOICE_URL;
+    }
+
+
 }
 
 EOF

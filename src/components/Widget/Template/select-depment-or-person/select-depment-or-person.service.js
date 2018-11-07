@@ -113,7 +113,7 @@ export default {
   },
   //检查节点是否已经加载
   checkChildHasLoad(node) {
-    return node.children.length > 0;
+    return node.children && node.children.length > 0;
   },
   //获取部门树
   getTreeData() {

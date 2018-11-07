@@ -1,7 +1,7 @@
 import app from '../index'
 
-function isProduct () {
-  let urls = ['localhost', 'uat.huilianyi.com', 'stage.huilianyi.com', 'http://106.15.26.10:10080'];
+function isProduct() {
+  let urls = ['localhost', 'uat.huilianyi.com', 'stage.huilianyi.com', 'http://115.159.108.80:25284'];
   let href = location.href;
   if (urls.some(item => href.indexOf(item) > -1)) {
     return false;
@@ -34,10 +34,10 @@ export function rejectPiwik(action) {
   let name = '测试';
   try {
     _paq.push(['setCustomDimension', 1, app.getState().login.user.fullName]);
-  } catch (err) {}
-   try {
-      name = app.getState().login.company.name;
-   } catch (err) {}
+  } catch (err) { }
+  try {
+    name = app.getState().login.company.name;
+  } catch (err) { }
   _paq.push(['setDocumentTitle', name + '/' + action]);
   _paq.push(['setCustomUrl', '']);
   _paq.push(['trackPageView']);

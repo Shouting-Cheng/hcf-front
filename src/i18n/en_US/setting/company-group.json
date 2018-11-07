@@ -3,5 +3,6 @@
   "setting.companyGroupCode": "company group code",
   "setting.companyGroupName": "company group name",
   "setting.companyGroup.tips": "tips：company code can't be modified when saved!",
-  "setting.companyGroupName.tips":  "the length of characters should be 0&100"
+  "setting.companyGroupName.tips": "the length of characters should be 0&100",
+  "setting.accountSetDesc.null": "the account set description can't be empty"
 }

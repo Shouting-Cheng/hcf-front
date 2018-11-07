@@ -79,7 +79,7 @@ class BudgetStructure extends React.Component {
       !params[paramsName] && delete params[paramsName];
     }
     this.setState({loading:true});
-    params.organizationId = this.props.organization.id;
+    params.organizationId = this.props.organization.id||this.props.id;
     params.page = this.state.pagination.page;
     params.size = this.state.pagination.pageSize;
     budgetService.getStructures(params).then((response)=>{
@@ -146,6 +146,7 @@ class BudgetStructure extends React.Component {
 
   //点击行，进入该行详情页面
   handleRowClick = (record, index, event) =>{
+    console.log(this.props)
     this.props.dispatch(
       routerRedux.push({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/orgId/:setOfBooksId/:id'

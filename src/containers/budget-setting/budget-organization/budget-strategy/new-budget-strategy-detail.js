@@ -34,9 +34,10 @@ class NewBudgetStrategyDetail extends React.Component {
 
   handleSave = (e) =>{
     e.preventDefault();
+    console.log(this.props)
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.controlStrategyId = this.props.params.strategyId;
+        values.controlStrategyId = this.props.match.params.id;
         if (values.controlMethod !== 'NO_MESSAGE' && !values.messageCode) {
           message.error(this.$t({id: "budget.strategy.select.message"}/*请选择消息*/));
           return;

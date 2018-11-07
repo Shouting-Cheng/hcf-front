@@ -8,6 +8,7 @@ import ApproveBar from 'widget/Template/approve-bar';
 import PropTypes from 'prop-types';
 
 import 'styles/approve/request/approve-request-btn.scss';
+import { routerRedux } from 'dva/router';
 
 class ApproveRequestBtn extends React.Component {
   constructor(props) {
@@ -20,7 +21,6 @@ class ApproveRequestBtn extends React.Component {
       showAdditionalBtn: false, //是否显示加签按钮
       showPriceViewBtn: false, //是否显示价格审核复选框
       preApproveOIDs: [], //当前审批链中已审批用户的OID
-      approveRequestList: menuRoute.getRouteItem('approve-request', 'key'), //申请单审批列表页
       signCompanyOIDs: [],
     };
   }
@@ -108,7 +108,7 @@ class ApproveRequestBtn extends React.Component {
       approvalTxt: value,
       entities: [
         {
-          approverOID: getQueryUrlParam('approverOID'),
+          approverOID: this.props.user.userOID,//getQueryUrlParam('approverOID'),
           entityOID: this.state.info.applicationOID,
           entityType: 1001, //申请单
           countersignApproverOIDs: additionalOIDs,
@@ -180,8 +180,10 @@ class ApproveRequestBtn extends React.Component {
 
   //返回
   goBack = () => {
-    this.context.router.push(
-      this.state.approveRequestList.url + `?tab=${this.props.approving ? 'approving' : 'approved'}`
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/approval-management/approve-request',
+      })
     );
   };
 
@@ -200,7 +202,7 @@ class ApproveRequestBtn extends React.Component {
       <div className="approve-request-btn">
         {this.props.approving ? (
           <ApproveBar
-            backUrl={approveRequestList.url + '?tab=approving'}
+            backUrl={'/approval-management/approve-request'}
             signCompanyOIDs={signCompanyOIDs}
             moreButtons={moreButtons}
             passLoading={passLoading}

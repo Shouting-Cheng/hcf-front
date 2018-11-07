@@ -107,7 +107,7 @@ class BudgetStrategy extends React.Component {
     this.props.dispatch(
       routerRedux.replace({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/new-budget-strategy/:setOfBooksId/:orgId'
-          .replace(':orgId', this.props.organization.id)
+          .replace(':orgId', this.props.id)
           .replace(':setOfBooksId',this.props.setOfBooksId)
       })
     );
@@ -117,7 +117,7 @@ class BudgetStrategy extends React.Component {
     this.props.dispatch(
       routerRedux.replace({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'
-          .replace(':orgId', this.props.organization.id)
+          .replace(':orgId', this.props.id)
           .replace(':setOfBooksId',this.props.setOfBooksId)
           .replace(':id', record.id)
       })

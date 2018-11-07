@@ -50,7 +50,32 @@ class NewStrategyControlDetail extends React.Component{
     });
   }
 
-  componentWillReceiveProps(nextProps){
+  componentDidMount(){
+    let params = {...this.props.params}
+    if(!this.props.params.isNew){
+      this.setState({
+        updateParams: params.newParams,
+        objectValue: params.newParams.object && params.newParams.object.value,
+        rangeValue: params.newParams.range && params.newParams.range.value,
+        mannerValue: params.newParams.manner && params.newParams.manner.value,
+        operatorValue: params.newParams.operator && params.newParams.operator.value,
+        valueValue: params.newParams.value,
+        periodStrategyValue: this.handlePeriodStrategy(params.newParams.periodStrategy && params.newParams.periodStrategy.value)
+      }, () => {
+        let values = this.props.form.getFieldsValue();
+        for(let name in values){
+          let result = {};
+          result[name] = params.newParams[name] ?
+            params.newParams[name].value ? params.newParams[name].value : params.newParams[name] :
+            params.newParams[name];
+          result.organizationName = '10';
+          this.props.form.setFieldsValue(result)
+        }
+      });
+    }
+  }
+
+  /*componentWillReceiveProps(nextProps){
     const params = nextProps.params;
     if (params.isNew && !params.newParams.controlStrategyDetailId) {  //新建
       params.newParams.controlStrategyDetailId = params.newParams.strategyControlId;
@@ -85,7 +110,7 @@ class NewStrategyControlDetail extends React.Component{
         }
       });
     }
-  }
+  }*/
   onCancel = () =>{
     this.setState({ updateParams: {} });
     this.props.onClose();

@@ -19,7 +19,7 @@ class GoBackBtn extends React.Component {
       window.history.go(-1);
     } else {
       let url = '/request';
-      if(this.props.backType==='approve')
+      if(this.props.backType==='approved'||this.props.backType==='approving')
         url = '/approval-management/approve-request';
       this.props.dispatch(
         routerRedux.push({
