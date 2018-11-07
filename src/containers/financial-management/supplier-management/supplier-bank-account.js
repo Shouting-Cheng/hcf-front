@@ -256,7 +256,6 @@ class SupplierBankAccount extends React.Component {
         status: 'editor',
         ...record },
     };
-    console.log(slideFrame)
     this.setState({
       slideFrame,
     });
@@ -372,8 +371,6 @@ class SupplierBankAccount extends React.Component {
         </a>
         <SlideFrame title={slideFrame.title} show={slideFrame.visible} onClose={this.handleOnClose}>
           <NewUpdateBankAccount onClose={this.handleAfterClose} params={slideFrame.params} />
-          {console.log("------")}
-          {console.log(slideFrame.params)}
         </SlideFrame>
       </div>
     );
