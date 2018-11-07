@@ -501,7 +501,7 @@ class CurrencySettingEdit extends React.Component {
                 {
                                     <Checkbox checked={record.enableAutoUpdate}
                                         onChange={this.onEnableAutoUpdate}
-                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate }
+                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate||!this.props.tenantMode }
                                     />
                                 }
                             </Col>

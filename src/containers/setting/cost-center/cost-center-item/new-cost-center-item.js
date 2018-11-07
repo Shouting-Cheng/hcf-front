@@ -177,6 +177,11 @@ class NewCostCenterItem extends React.Component {
           this.detailCostCenterItem(res.data);
           //直接跳入详情页
           // this.context.router.goBack();
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}/${this.props.match.params.setOfBooksId}`,
+            })
+          );
         }
       })
       .catch(() => {
@@ -192,7 +197,7 @@ class NewCostCenterItem extends React.Component {
       routerRedux.push({
         pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${
           this.props.match.params.id
-        }/${record.costCenterItemOID}`,
+        }/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
       })
     );
   };
@@ -204,7 +209,11 @@ class NewCostCenterItem extends React.Component {
       .then(response => {
         if (response) {
           this.setState({ loading: false });
-          this.context.router.goBack();
+          this.props.dispatch(
+            routerRedux.push({
+              pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}/${this.props.match.params.setOfBooksId}`,
+            })
+          );
         }
       })
       .catch(() => {
@@ -217,7 +226,7 @@ class NewCostCenterItem extends React.Component {
     // this.context.router.goBack();
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}`,
+        pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}/${this.props.match.params.setOfBooksId}`,
       })
     );
   };

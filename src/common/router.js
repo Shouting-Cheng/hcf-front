@@ -1482,29 +1482,29 @@ export const getRouterData = app => {
       name: 'cost-center-detail',
       parent: '/admin-setting/cost-center/:setOfBooksId',
     },
-    '/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/:id/:itemId': {
+    '/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/:id/:itemId/:setOfBooksId': {
       //成本中心项详情
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center-item/cost-center-item-detail.js')
       ),
       name: 'cost-center-item-detail',
-      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id/:setOfBooksId',
     },
-    '/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/:id/:itemId': {
+    '/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/:id/:itemId/:setOfBooksId': {
       //新增成本中心项:编辑成本中心项
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center-item/new-cost-center-item.js')
       ),
       name: 'new-cost-center-item',
-      parent: '/admin-setting/cost-center/cost-center-detail/:id',
+      parent: '/admin-setting/cost-center/cost-center-detail/:id/:setOfBooksId',
     },
-    '/admin-setting/cost-center/cost-center-extend-filed': {
+    '/admin-setting/cost-center/cost-center-extend-filed/:setOfBooksId': {
       //成本中心扩展字段
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center-extend-filed/cost-center-extend-filed.js')
       ),
       name: 'cost-center-extend-filed',
-      parent: '/admin-setting/cost-center',
+      parent: '/admin-setting/cost-center/:setOfBooksId',
     },
 
     '/approval-management/approve-payment-requisition': {
