@@ -1033,6 +1033,22 @@ export const getRouterData = app => {
       name: 'budget-strategy-detail',
       parent: '/budget-setting/budget-organization',
     },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/new-budget-strategy-detail/:orgId/:setOfBooksId/:id': {
+      //新建控制策略详情  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/new-budget-strategy-detail')
+      ),
+      name: 'budget-strategy-detail-new',
+      parent: '/budget-setting/budget-organization',
+    },
+    '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/strategy-control-detail/:setOfBooksId/:orgId/:strategyId/:id': {
+      //策略详情明细  **合并时别再删了，第三次了***
+      component: dynamicWrapper(app, [], () =>
+        import('containers/budget-setting/budget-organization/budget-strategy/strategy-control-detail')
+      ),
+      name: 'budget-strategy-detail-detail',
+      parent: '/budget-setting/budget-organization',
+    },
     '/budget-setting/budget-organization/budget-organization-detail/budget-journal-type/new-budget-journal-type/:setOfBooksId/:orgId': {
       //新建日志记账类型  **合并时别再删了，第三次了***
       component: dynamicWrapper(app, [], () =>

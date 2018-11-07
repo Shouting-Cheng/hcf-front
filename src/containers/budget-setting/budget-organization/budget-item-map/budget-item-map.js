@@ -202,11 +202,9 @@ class BudgetItemMap extends React.Component {
     this.getList();
 
     let itemSelectorItem = selectorData['budget_item'];
-    let key = itemSelectorItem.searchForm[1].getUrl.split("?").length;
-    if (key < 2) {
-      itemSelectorItem.searchForm[1].getUrl += `?organizationId=${this.props.id}&enabled=${true}`;
-      itemSelectorItem.searchForm[2].getUrl += `?organizationId=${this.props.id}&enabled=${true}`;
-    }
+    itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.id);
+    itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.id);
+
     let paramValueMap = {
       EXPENSE_TYPE: {
         title: this.$t({ id: "itemMap.expenseType" }),

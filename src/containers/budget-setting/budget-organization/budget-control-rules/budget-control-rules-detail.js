@@ -82,7 +82,7 @@ class BudgetControlRulesDetail extends React.Component{
         {title: this.$t({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record) => (
           <span>
             <Popconfirm onConfirm={(e) => this.deleteItem(e, record)} title={this.$t({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
-              <a href="#" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t({id: "common.delete"})}</a>
+              <a onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t({id: "common.delete"})}</a>
             </Popconfirm>
           </span>)},  //操作
       ]
@@ -312,7 +312,7 @@ class BudgetControlRulesDetail extends React.Component{
                     onClose={() => this.showSlideCreate(false)}>
               <NewBudgetRulesDetail
                 onClose={this.handleCloseSlideCreate}
-                params={{ruleId:this.props.match.params.id,visible: showSlideFrameCreate}}/>
+                params={{ruleId:this.props.match.params.id,orgId: this.props.match.params.orgId, visible: showSlideFrameCreate}}/>
         </SlideFrame>
 
         <SlideFrame title= {this.$t({id: 'budget.editRulesDetail'})}
@@ -320,7 +320,7 @@ class BudgetControlRulesDetail extends React.Component{
                     onClose={()=>this.showSlideUpdate(false)}>
           <UpdateBudgetRulesDetail
             onClose={this.handleCloseSlideUpdate}
-            params={{...ruleDetail,visible: showSlideFrameUpdate}}/>
+            params={{...ruleDetail,orgId: this.props.match.params.orgId,visible: showSlideFrameUpdate}}/>
         </SlideFrame>
       </div>
     )
