@@ -198,7 +198,7 @@ class SupplierBankAccount extends React.Component {
     let params = this.props.match.params;
     //根据id查完整供应商信息
     vendorService.getVendorInfoById(params.id).then(response => {
-      response.data.venType = response.data.venType === '1001';
+      response.data.venType = (response.data.venType === 1001);
       this.setState(
         {
           vendorInfo: response.data,
@@ -218,7 +218,6 @@ class SupplierBankAccount extends React.Component {
     params.vendorInfoId = this.state.vendorInfo.id;
     params.page = pagination.page;
     params.size = pagination.pageSize;
-    console.log(params);
     vendorService.getBanks(params).then(response => {
       let i = 0;
       response.data.body.map(item => {
@@ -241,7 +240,8 @@ class SupplierBankAccount extends React.Component {
     let slideFrame = {
       title: this.$t('supplier.add.bank.account'),
       visible: true,
-      params: {},
+      params: { vendorId: this.props.match.params.id,
+        status: 'new',},
     };
     this.setState({
       slideFrame,
@@ -252,8 +252,11 @@ class SupplierBankAccount extends React.Component {
     let slideFrame = {
       title: this.$t('supplier.update.bank.account'),
       visible: true,
-      params: { vendorId: this.props.match.params.id, ...record },
+      params: { vendorId: this.props.match.params.id,
+        status: 'editor',
+        ...record },
     };
+    console.log(slideFrame)
     this.setState({
       slideFrame,
     });
@@ -369,6 +372,8 @@ class SupplierBankAccount extends React.Component {
         </a>
         <SlideFrame title={slideFrame.title} show={slideFrame.visible} onClose={this.handleOnClose}>
           <NewUpdateBankAccount onClose={this.handleAfterClose} params={slideFrame.params} />
+          {console.log("------")}
+          {console.log(slideFrame.params)}
         </SlideFrame>
       </div>
     );
