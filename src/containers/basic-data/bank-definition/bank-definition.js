@@ -785,7 +785,6 @@ class BankDefinition extends React.Component {
           title={slideFrame.title}
           show={slideFrame.visible}
           onClose={() => this.setState({ slideFrame: { visible: false } })}>
-          {console.log(slideFrame.params)}
           <CreateOrUpdateBank
               params={slideFrame.params}
               onClose={this.handleCloseSlide}/>
