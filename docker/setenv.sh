@@ -58,7 +58,12 @@ server {
         proxy_pass $INVOICE_URL;
     }
 
-
+    location /expense/ {
+        proxy_pass $EXPENSE_URL;
+    }
+    location /config/ {
+        proxy_pass $CONFIG_URL;
+    }
 }
 
 EOF

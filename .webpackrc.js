@@ -99,7 +99,7 @@ export default {
       changeOrigin: true,
     },
     '/expense': {
-      target: 'http://127.0.0.1:9095',
+      target: 'http://115.159.108.80:9081/expense',
       changeOrigin: true,
       pathRewrite: { '^/expense': '' },
     },
