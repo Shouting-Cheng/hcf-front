@@ -140,7 +140,7 @@ class ReimburseDetail extends React.Component {
       headerData.reportStatus == 1003 ||
       headerData.reportStatus == 1005;
     return (
-      <div>
+      <div style={{paddingBottom: 60}}>
         <ReimburseDetailCommon
           getInfo={this.getInfo}
           headerData={headerData}

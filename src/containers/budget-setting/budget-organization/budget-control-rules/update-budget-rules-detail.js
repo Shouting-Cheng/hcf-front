@@ -227,7 +227,10 @@ class UpdateBudgetRulesDetail extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextprops) {
+  componentDidMount(){
+    //ƒconsole.log(this.props)
+  }
+  /*componentWillReceiveProps(nextprops) {
     let { lov, ruleParamDetail, ruleParameterTypeArray, ruleParamsArray, summaryOrDetailArray, filtrateMethodArray, valueListMap, paramValueMap } = this.state;
     let param = nextprops;
     if(!nextprops.params.visible&&this.props.params.visible){
@@ -256,7 +259,7 @@ class UpdateBudgetRulesDetail extends React.Component {
         lov
       });
     }
-  }
+  }*/
 
 
   /**
