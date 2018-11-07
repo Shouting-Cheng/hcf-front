@@ -127,7 +127,7 @@ class PrePaymentDetail extends React.Component {
     );
 
     return (
-      <div style={{ paddingBottom: 0 }} className="contract-detail pre-payment-detail">
+      <div style={{ paddingBottom: 100 }} className="contract-detail pre-payment-detail">
         <PrePaymentCommon
           flag={false}
           params={this.state.headerData}
@@ -135,7 +135,7 @@ class PrePaymentDetail extends React.Component {
           id={this.props.match.params.id}
         />
         {headerData.status && headerData.status != 1004 && headerData ? (
-          <Affix offsetBottom={0} className="bottom-bar-approve">
+          <div className="bottom-bar-approve">
             <ApproveBar
               passLoading={passLoading}
               style={{ paddingLeft: 20 }}
@@ -144,16 +144,16 @@ class PrePaymentDetail extends React.Component {
               handleApprovePass={this.handleApprovePass}
               handleApproveReject={this.handleApproveReject}
             />
-          </Affix>
+          </div>
         ) : (
-          <Affix offsetBottom={0} className="bottom-bar-approve">
-            <div style={{ backgroundColor: '#fff', lineHeight: '60px', paddingLeft: 20 }}>
-              <Button onClick={this.onCancel} className="back-btn">
-                {this.$t({ id: 'common.back' } /*返回*/)}
-              </Button>
+            <div className="bottom-bar-approve">
+              <div style={{ backgroundColor: '#fff', lineHeight: '50px', paddingLeft: 20 }}>
+                <Button onClick={this.onCancel} className="back-btn">
+                  {this.$t({ id: 'common.back' } /*返回*/)}
+                </Button>
+              </div>
             </div>
-          </Affix>
-        )}
+          )}
       </div>
     );
   }
