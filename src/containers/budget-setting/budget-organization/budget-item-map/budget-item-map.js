@@ -184,6 +184,7 @@ class BudgetItemMap extends React.Component {
         isSave,
         pagination: {
           ...this.state.pagination,
+          page: (this.state.pagination.total - 1)/10,
           pageSize: this.state.pagination.pageSize - 1 >= 10 ? this.state.pagination.pageSize - 1 : 10,
           total: this.state.pagination.total - 1,
         }
