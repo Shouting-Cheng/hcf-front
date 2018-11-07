@@ -248,9 +248,10 @@ class AccountPeriodDetail extends React.Component {
                     onShowSizeChange={this.onShowOpenSizeChange}
                     defaultPageSize={pageSizeOpen}
                     pageSizeOptions={['5','10','20','30','50']}
-                    style={{float:'right',margin:'10px 0 50px'}}
+                    style={{float:'right',margin:'10px 0 70px'}}
                     onChange={this.onChangeOpenPage}
                     total={paginationOpen.total} />
+                    
         <Spin spinning={false}>
           <Affix
             offsetBottom={0}
