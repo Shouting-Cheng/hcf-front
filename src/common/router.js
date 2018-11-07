@@ -1278,7 +1278,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/subject-sheet',
     },
     //币种设置
-    '/admin-setting/currency-setting': {
+    '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/currency-setting/currency-setting.js')
       ),
@@ -1290,7 +1290,7 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-add.js')
       ),
       name: 'currency-setting-add',
-      parent: '/admin-setting/currency-setting',
+      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //编辑汇率
     '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
@@ -1298,7 +1298,7 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: 'currency-setting-edit',
-      parent: '/admin-setting/currency-setting',
+      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //实体法人
     '/enterprise-manage/legal-person': {
@@ -1459,28 +1459,28 @@ export const getRouterData = app => {
       name: 'security-setting',
     },
 
-    '/admin-setting/cost-center': {
+    '/admin-setting/cost-center/:setOfBooksId': {
       //成本中心
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center.js')
       ),
       name: 'cost-center',
     },
-    '/admin-setting/cost-center/new-cost-center/:id': {
+    '/admin-setting/cost-center/new-cost-center/:id/:setOfBooksId': {
       //新增成本中心
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/new-cost-center.js')
       ),
       name: 'new-cost-center',
-      parent: '/admin-setting/cost-center',
+      parent: '/admin-setting/cost-center/:setOfBooksId',
     },
-    '/admin-setting/cost-center/cost-center-detail/:id': {
+    '/admin-setting/cost-center/cost-center-detail/:id/:setOfBooksId': {
       //成本中心详情
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/cost-center/cost-center-detail.js')
       ),
       name: 'cost-center-detail',
-      parent: '/admin-setting/cost-center',
+      parent: '/admin-setting/cost-center/:setOfBooksId',
     },
     '/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/:id/:itemId': {
       //成本中心项详情

@@ -22,10 +22,10 @@ class CurrencySetting extends React.Component {
       visible: false,
       defaultSetOfBook: '',//账套的默认值
       setOfBooksOption: [],//选择账套的option
-      setOfBooksId: '',//初始化页面时从接口获取的2个字段，掉接口要用
+      setOfBooksId: this.props.match.params.setOfBooksId==="0"?this.props.company.setOfBooksId:this.props.match.params.setOfBooksId,//初始化页面时从接口获取的2个字段，掉接口要用
       tenantId: this.props.company.tenantId,//初始化页面时从接口获取的2个字段，掉接口要用
-      functionalCurrencyCode: '',//选择账套后，后面的本位币的code
-      functionalCurrencyName: '',//选择账套后，后面的本位币的name
+      functionalCurrencyCode: this.props.match.params.functionalCurrencyCode==="0"?'':this.props.match.params.functionalCurrencyCode,//选择账套后，后面的本位币的code
+      functionalCurrencyName: this.props.match.params.functionalCurrencyName==="0"?'':this.props.match.params.functionalCurrencyName,//选择账套后，后面的本位币的name
       warnExchangeRateTol: 10,//偏离汇率
       prohibitExchangeRateTol: 20,//禁止汇率
       isBatchEditing: false,//点击批量更改汇率
@@ -81,7 +81,7 @@ class CurrencySetting extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //记住页码
     let _pagination = this.getBeforePage();
     let pagination = this.state.pagination;

@@ -28,12 +28,13 @@ class NewCostCenter extends React.Component {
         this.state = {
             loading: false,
             setOfBooks: [],
-            costCenterDetail: deepCopy(costCenterDefault)
+            costCenterDetail: deepCopy(costCenterDefault),
+            setOfBooksId:0
         }
             ;
     }
 
-    componentDidMount() {
+    componentWillMount() {
         CCService.getTenantAllSob()
             .then(res => {
                 this.setState({ setOfBooks: res.data })
@@ -98,7 +99,13 @@ class NewCostCenter extends React.Component {
             .then((response) => {
                 if (response) {
                     this.setState({ loading: false });
-                    this.context.router.goBack();
+                    this.props.form.resetFields();
+                    this.setState({costCenterDetail:{}})
+                    this.props.dispatch(
+                        routerRedux.push({
+                            pathname: `/admin-setting/cost-center/${this.state.setOfBooksId}`,
+                        })
+                    );
                 }
             })
             .catch(() => {
@@ -124,9 +131,11 @@ class NewCostCenter extends React.Component {
     handleCancel = (e) => {
         e.preventDefault();
         // this.context.router.goBack();
+        this.props.form.resetFields();
+        this.setState({costCenterDetail:{}})
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center`,
+                pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -141,7 +150,11 @@ class NewCostCenter extends React.Component {
             };
         }
     }
-
+    onSelectSetOfBook=(value)=>{
+        this.setState({
+            setOfBooksId:value
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { loading, costCenterDetail } = this.state;
@@ -239,7 +252,9 @@ class NewCostCenter extends React.Component {
                                     ]
                                 })(
                                     <Select disabled={!this.props.tenantMode || costCenterDetail.setOfBooksName}
-                                        placeholder={this.$t('common.please.select')}>
+                                        placeholder={this.$t('common.please.select')}
+                                        onSelect={this.onSelectSetOfBook}
+                                    >
                                         {this.state.setOfBooks.map((option) => {
                                             return <Option key={option.id}>{option.setOfBooksName}</Option>
                                         })}
