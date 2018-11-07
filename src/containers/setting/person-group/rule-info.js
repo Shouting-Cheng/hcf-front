@@ -98,7 +98,7 @@ class RuleInfo extends React.Component {
                         </Checkbox>
                     </div>
                     {
-                        _renderConditionTitle(name)
+                        this._renderConditionTitle(name)
                     }
                     <div className="rule-condition-sub-title">
                         {
@@ -108,7 +108,7 @@ class RuleInfo extends React.Component {
                     </div>
                     <div className="rule-condition-content">
                         {
-                            _renderConditionItem(condition.conditionDetails[i].conditionValues)
+                            this._renderConditionItem(condition.conditionDetails[i].conditionValues)
                         }
                     </div>
                     <div className="clear"></div>
@@ -118,46 +118,46 @@ class RuleInfo extends React.Component {
         return domRender;
 
         //渲染条件详情标题
-        function _renderConditionTitle(name) {
-            if (name === "Department") {
-                return (<div className="rule-condition-title">
-                    {/*部门:*/}
-                    {this.$t({ id: 'person.group.rule.dep' })}
-                </div>);
-            } else if (name === "EmployeeRank") {
-                return (<div className="rule-condition-title">
-                    {/*人员级别:*/}
-                    {this.$t({ id: 'person.group.rule.rank' })}
-                </div>);
-            } else if (name === "EmployeeDuty") {
-                return (<div className="rule-condition-title">
-                    {/*人员职务:*/}
-                    {this.$t({ id: 'person.group.rule.duty' })}
-                </div>);
-            } else if (name === "EmployeeType") {
-                return (<div className="rule-condition-title">
-                    {/*人员类型:*/}
-                    {this.$t({ id: 'person.group.rule.type' })}
-                </div>);
-            }
-        }
+        // function _renderConditionTitle(name) {
+        //     if (name === "Department") {
+        //         return (<div className="rule-condition-title">
+        //             {/*部门:*/}
+        //             {this.$t({ id: 'person.group.rule.dep' })}
+        //         </div>);
+        //     } else if (name === "EmployeeRank") {
+        //         return (<div className="rule-condition-title">
+        //             {/*人员级别:*/}
+        //             {this.$t({ id: 'person.group.rule.rank' })}
+        //         </div>);
+        //     } else if (name === "EmployeeDuty") {
+        //         return (<div className="rule-condition-title">
+        //             {/*人员职务:*/}
+        //             {this.$t({ id: 'person.group.rule.duty' })}
+        //         </div>);
+        //     } else if (name === "EmployeeType") {
+        //         return (<div className="rule-condition-title">
+        //             {/*人员类型:*/}
+        //             {this.$t({ id: 'person.group.rule.type' })}
+        //         </div>);
+        //     }
+        // }
 
         //渲染条件详情内容
-        function _renderConditionItem(values) {
-            let domConditon = [];
-            if (values.length > 0) {
-                for (let i = 0; i < values.length - 1; i++) {
-                    domConditon.push(
-                        <div className="item" key={i}>{values[i].description} ,</div>
-                    )
-                }
-                //最后一个不要添加逗号
-                domConditon.push(
-                    <div className="item" key={values.length - 1}>{values[values.length - 1].description}</div>
-                )
-            }
-            return domConditon;
-        }
+        // function _renderConditionItem(values) {
+        //     let domConditon = [];
+        //     if (values.length > 0) {
+        //         for (let i = 0; i < values.length - 1; i++) {
+        //             domConditon.push(
+        //                 <div className="item" key={i}>{values[i].description} ,</div>
+        //             )
+        //         }
+        //         //最后一个不要添加逗号
+        //         domConditon.push(
+        //             <div className="item" key={values.length - 1}>{values[values.length - 1].description}</div>
+        //         )
+        //     }
+        //     return domConditon;
+        // }
 
     }
 
