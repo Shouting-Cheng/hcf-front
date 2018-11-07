@@ -18,7 +18,7 @@ class DepTreeWithPerson extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() { }
+  componentWillMount() {}
 
   //渲染部门节点标题
   // 添加title属性并修改显示样式为标题超长省略号 修改人：陈行健 lavi.chen@huilianyi.com

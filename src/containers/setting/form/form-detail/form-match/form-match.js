@@ -26,6 +26,7 @@ class FormMatch extends React.Component {
             applyTypeDisabled: true,
             applyListVisible: false,
             selectorItem: {},
+            contractPosition:'',
             paymentSelectorItem: {
                 title: "付款用途",
                 url: `${config.baseUrl}/api/expense/form/assign/cash/transaction/classes/query`,
@@ -85,7 +86,7 @@ class FormMatch extends React.Component {
     }
     componentWillMount() {
         const { form } = this.context;
-        this.setState({isCommon: form.sameContract});
+        this.setState({isCommon: form.sameContract,contractPosition: form.contractPosition});
         if (form.needApply) {
             this.setState({
                 isApply: true
@@ -147,16 +148,19 @@ class FormMatch extends React.Component {
             relatedChecked:e.target.value,
         },()=>{
             if (e.target.checked) {
+              this.props.form.setFieldsValue({ contractPosition: 'DOCUMENTS_LINE' });
                 this.setState({
-                    isRelation: true
+                    isRelation: true,
+                    contractPosition:'DOCUMENTS_LINE'
                 })
             } else {
                 this.setState({
-                    isRelation: false
+                    isRelation: false,
+                    contractPosition:' '
                 })
             }
         })
-        
+
     }
     //是否关联相同的合同
     commonContract = (e) => {
@@ -186,6 +190,17 @@ class FormMatch extends React.Component {
         }
 
     }
+  changeContractPostion = (value) => {
+      if(value){
+        this.setState({
+          contractPosition: value
+        });
+      }else{
+        this.setState({
+          contractPosition: " "
+        });
+      }
+  }
     //获取付款用途弹框列表
     getCashIds = () => {
         this.select.blur();
@@ -259,7 +274,7 @@ class FormMatch extends React.Component {
     }
     /**
      * 选择可关联申请类型的值
-     * 
+     *
      */
     getApplyIds = () => {
         this.applyTypeSelect.blur();
@@ -285,7 +300,7 @@ class FormMatch extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const { applyIds, cashTransactionIds, isRelation, isCommon } = this.state;
+                const { applyIds, cashTransactionIds, isRelation, isCommon,contractPosition } = this.state;
                 const { form } = this.context;
                 const formVal = {
                     ...form,
@@ -294,7 +309,7 @@ class FormMatch extends React.Component {
                     applyIds: applyIds,
                     budgetManagement: values.budgetManagement,
                     cashTransactionIds: cashTransactionIds,
-                    contractPosition: values.contractPosition,
+                    'contractPosition': contractPosition,
                     multipleReceivables: values.multipleReceivables,
                     needApply: values.needApply,
                     payeeType: values.payeeType,
@@ -451,9 +466,9 @@ class FormMatch extends React.Component {
                             <Row>
                                 <Col span={8} offset={2}>
                                     {getFieldDecorator('contractPosition', { initialValue: form.contractPosition ? form.contractPosition : 'DOCUMENTS_LINE' })(
-                                        <Select>
-                                            <option value="DOCUMENTS_HEAD">付款行</option>
-                                            <option value="DOCUMENTS_LINE">单据头</option>
+                                        <Select onChange={this.changeContractPostion}>
+                                            <option value="DOCUMENTS_HEAD">单据头</option>
+                                            <option value="DOCUMENTS_LINE">付款行</option>
                                         </Select>
                                     )}
                                 </Col>

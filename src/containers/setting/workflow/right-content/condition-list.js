@@ -621,7 +621,7 @@ class NodeConditionList extends React.Component {
                 {this.getApplicantType(item) && <span>【{this.getApplicantType(item)}】</span>}
                 {basicInfo.type !== 1003 && item.level && (
                   <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
-                    <Select size="small" className={this.props.language.code === 'zh_cn' ? 'approve-level' : 'approve-level-en'}
+                    <Select size="small" className={this.props.language.local === 'zh_CN' ? 'approve-level' : 'approve-level-en'}
                             value={item.level}
                             onChange={level => this.handleApproverLevelChange(item, level)}>
                       {approvalAndDepLevel.map(level => <Option value={level.id} key={level.id}>{level.name}</Option>)}
@@ -792,7 +792,7 @@ NodeConditionList.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    language: state.main.language,
+    language: state.languages,
   }
 }
 

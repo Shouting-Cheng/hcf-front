@@ -12,7 +12,7 @@ let TREEDATA = [];
 let isLoadingPerson = false;
 
 export default {
-  setIsLoadingPerson: function (val) {
+  setIsLoadingPerson: function(val) {
     isLoadingPerson = val;
   },
   //初始化部门树

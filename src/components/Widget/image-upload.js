@@ -45,7 +45,7 @@ class ImageUpload extends React.Component {
         uid: attachment.attachmentOID,
         name: attachment.fileName,
         status: 'done',
-        url: `${config.baseUrl}/api/attachments/download/${attachment.attachmentOID}?access_token=${localStorage.getItem('token')}`
+        url: attachment.thumbnailUrl
       });
     });
     this.setState({ fileList, result: defaultFileList });
@@ -198,8 +198,7 @@ ImageUpload.defaultProps = {
   showMaxNum: false,
 };
 function mapStateToProps(state) {
-  return {
-  };
+  return {};
 }
 // 注意
 // defaultFileList里面的对象属性要有

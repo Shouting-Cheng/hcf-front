@@ -298,7 +298,7 @@ class BudgetJournalCheckDetail extends React.Component {
     httpFetch
       .get(
         `${
-        config.budgetUrl
+          config.budgetUrl
         }/api/budget/journals/getLayoutsByStructureId?isEnabled=true&structureId=${value}`
       )
       .then(resp => {
@@ -565,7 +565,7 @@ class BudgetJournalCheckDetail extends React.Component {
           )}
           {this.props.match.params.flag === 'approved' ? (
             <div className="bottom-bar bottom-bar-approve">
-              <div style={{ lineHeight: "50px" }}>
+              <div style={{ lineHeight: '50px' }}>
                 <Button
                   className="button-return"
                   style={{ marginLeft: '20px', marginRight: '8px' }}
@@ -576,23 +576,21 @@ class BudgetJournalCheckDetail extends React.Component {
               </div>
             </div>
           ) : (
-              <div
-                className="bottom-bar bottom-bar-approve"
-              >
-                <Row>
-                  <Col span={17}>
-                    <ApproveBar
-                      style={{ paddingLeft: 20 }}
-                      passLoading={passLoading}
-                      backUrl={'/approval-management/budget-journal-check'}
-                      rejectLoading={rejectLoading}
-                      handleApprovePass={this.handlePass}
-                      handleApproveReject={this.handleReject}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              /*   <Affix offsetBottom={0} className="bottom-bar">
+            <div className="bottom-bar bottom-bar-approve">
+              <Row>
+                <Col span={17}>
+                  <ApproveBar
+                    style={{ paddingLeft: 20 }}
+                    passLoading={passLoading}
+                    backUrl={'/approval-management/budget-journal-check'}
+                    rejectLoading={rejectLoading}
+                    handleApprovePass={this.handlePass}
+                    handleApproveReject={this.handleReject}
+                  />
+                </Col>
+              </Row>
+            </div>
+            /*   <Affix offsetBottom={0} className="bottom-bar">
                   <div>
                     <Row gutter={12} type='flex' justify='start'>
                       <Col offset={1}><span>{this.$t('budgetJournal.budgetOpinion')}：&nbsp;</span></Col>
@@ -605,7 +603,7 @@ class BudgetJournalCheckDetail extends React.Component {
                     </Row>
                   </div>
                 </Affix>*/
-            )}
+          )}
         </Spin>
       </div>
     );

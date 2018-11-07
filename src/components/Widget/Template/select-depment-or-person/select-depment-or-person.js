@@ -46,7 +46,7 @@ class SelectDepOrPerson extends React.Component {
     // this.getTenantAllDep();
   }
 
-  componentWillReceiveProps(nextProps) { }
+  componentWillReceiveProps(nextProps) {}
 
   showModal = () => {
     SelectPersonService.setIsLoadingPerson(!this.props.onlyDep);
@@ -255,7 +255,7 @@ class SelectDepOrPerson extends React.Component {
       {
         selectedKeysDepDataFromSearch: newList,
       },
-      () => { }
+      () => {}
     );
   }
 
@@ -288,7 +288,7 @@ class SelectDepOrPerson extends React.Component {
           selectedKeys: personSelected.keys,
           selectedKeysDepData: personSelected.nodes,
         },
-        () => { }
+        () => {}
       );
     } else {
       //部门与人都可以选择
@@ -318,13 +318,12 @@ class SelectDepOrPerson extends React.Component {
         selectedKeys: removedSelectedKeys,
         selectedKeysDepData: removedSelectedKeysDepData,
       },
-      () => { }
+      () => {}
     );
   };
 
-  loadData = (node) => {
-
-    return new Promise((resolve) => {
+  loadData = node => {
+    return new Promise(resolve => {
       if (!SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
         if (this.props.onlyDep) {
           this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
@@ -332,9 +331,8 @@ class SelectDepOrPerson extends React.Component {
           this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
         }
       }
-    })
-
-  }
+    });
+  };
 
   // 点击展开的时候
   onExpand = (expandedKeys, { expanded, node }) => {
@@ -568,7 +566,7 @@ class SelectDepOrPerson extends React.Component {
         <div className="no-person">
           <Icon type="left" />
           {/*请在左边选择*/
-            this.$t('sdp.please-chose-left')}
+          this.$t('sdp.please-chose-left')}
         </div>
       );
     }
@@ -638,7 +636,7 @@ class SelectDepOrPerson extends React.Component {
       return (
         <div className="selected-person-title">
           {/*已经选择的部门*/
-            this.$t('sdp.chosed-dep')}
+          this.$t('sdp.chosed-dep')}
         </div>
       );
     }
@@ -646,14 +644,14 @@ class SelectDepOrPerson extends React.Component {
       return (
         <div className="selected-person-title">
           {/*已经选择的人*/
-            this.$t('sdp.chosed-person')}
+          this.$t('sdp.chosed-person')}
         </div>
       );
     }
     return (
       <div className="selected-person-title">
         {/*已经选择的人或部门*/
-          this.$t('sdp.chosed-dep-person')}
+        this.$t('sdp.chosed-dep-person')}
       </div>
     );
   };
