@@ -321,6 +321,10 @@ class SelectDepOrPerson extends React.Component {
   };
   // 点击展开的时候
   onExpand = (expandedKeys, { expanded, node }) => {
+    console.log(expandedKeys)
+    console.log(expanded)
+    console.log(node)
+    console.log(this.props.onlyDep)
     if (expanded && !SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
       // 目前写成同步写法，先请求人，再拿子部门
       // this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
@@ -725,10 +729,10 @@ SelectDepOrPerson.defaultProps = {
 //严格模式，集团模式只加载所有公司的人
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
-    user: state.login.user,
+    profile: state.user.proFile,
+    user: state.user.currentUser,
     tenantMode: true,
-    company: state.login.company,
+    company: state.user.company,
   };
 }
 
