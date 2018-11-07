@@ -410,7 +410,7 @@ class GLWorkOrderCheckDetail extends Component {
     let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
-      <div className="gl-work-order-detail background-transparent" style={{marginBottom: 15}}>
+      <div className="gl-work-order-detail" style={{marginBottom: 15}}>
         <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
             <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
@@ -438,7 +438,7 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         {(docStatus &&
           docStatus === '1002' && (
-            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 20px -24px'}}>
+            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 20px 0px'}}>
               <Row>
                 <Col span={17} >
                   <ApproveBar
