@@ -119,11 +119,10 @@ class NewLegalPerson extends React.Component {
     if (data.thumbnailUrl) {
       uploadedImage.thumbnailUrl = data.thumbnailUrl;
     }
-    if (data.attachmentOID) {
-      uploadedImage.attachmentOID = data.attachmentOID;
+    if (data.attachmentId) {
+      uploadedImage.attachmentOID = data.attachmentId;
       uploadedImage.fileName = data.fileName;
     }
-
     return uploadedImage;
   };
 
@@ -483,7 +482,7 @@ class NewLegalPerson extends React.Component {
                 })(
                   <Selector
                     placeholder={this.$t('common.please.select')}
-                    disabled={legalPerson.setOfBooksId}
+                    disabled={!!legalPerson.setOfBooksId}
                     selectorItem={this.state.sob}
                   />
                 )}

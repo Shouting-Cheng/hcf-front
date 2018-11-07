@@ -102,7 +102,7 @@ class FormList extends React.Component {
           }
         );
       } else {
-        this.setState({ show: true, formSetings: nextProps.formSetings });
+        this.setState({ show: true, formSetings: nextProps.formSetings,currencyCode: this.props.company.baseCurrency });
       }
     }
   }
@@ -703,8 +703,8 @@ class FormList extends React.Component {
 // };
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 
