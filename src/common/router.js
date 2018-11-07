@@ -885,12 +885,12 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/setting/workflow/workflow')),
       name: 'workflow',
     },
-    '/admin-setting/workflow/workflow-setting/': {
+    '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID': {
       //审批流设置
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/workflow/workflow-detail')
       ),
-      name: 'workflow',
+      name: 'workflow-setting-detail',
       parent: '/admin-setting/workflow',
     },
     '/admin-setting/company-group': {
