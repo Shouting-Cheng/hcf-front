@@ -420,7 +420,7 @@ class GLWorkOrderCheckDetail extends Component {
           </Tabs>
         </Card>
         <div className="tab-container">
-          <h3 className="sub-header-title">付款信息</h3>
+          <h3 className="sub-header-title">核算信息</h3>
           <Table
             style={{ clear: 'both' }}
             bordered
