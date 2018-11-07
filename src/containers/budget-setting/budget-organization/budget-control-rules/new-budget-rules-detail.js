@@ -221,7 +221,8 @@ class NewBudgetRulesDetail extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextprops) {
+  /*componentWillReceiveProps(nextprops) {
+
     if(nextprops.params.visible&&!this.props.params.visible){
       this.setState({
         ruleId: nextprops.params,
@@ -240,14 +241,14 @@ class NewBudgetRulesDetail extends React.Component {
         this.props.form.resetFields()
       })
     }
-  }
+  }*/
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({loading: true,});
-        values.controlRuleId = this.props.ruleId;
+        values.controlRuleId = this.props.params.ruleId;
         let str = values.ruleParameter.split("+");
         values.ruleParameter = str[0];
         values.ruleParameterOID = str[1];
