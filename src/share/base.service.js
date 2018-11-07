@@ -5,7 +5,7 @@ import httpFetch from 'share/httpFetch'
 // import configureStore from 'stores'
 // import { setUser, setLoginUser, setCompany, setLoginCompany, setTenant,
 //   setProfile, setTenantProfile, setCompanyConfiguration, setIsOldCompany, setLanguageList} from 'actions/login'
-import {message} from 'antd';
+import { message } from 'antd';
 // import { setLanguage, setTenantMode } from 'actions/main'
 // import errorMessage from 'share/errorMessage';
 // import {getLanguageObjByCode} from 'share/utils';
@@ -14,11 +14,11 @@ import {message} from 'antd';
 export default {
 
   //切换语言并设置
-  changeLanguage(value){
+  changeLanguage(value) {
     let language = getLanguageObjByCode(value);
 
     let code = value;
-    if(value === "zh_cn"){
+    if (value === "zh_cn") {
       code = "zh_CN"
     }
     return httpFetch.post(`${config.baseUrl}/api/users/language/${code}`).then(response => {
@@ -26,7 +26,7 @@ export default {
       window.location.reload();
     })
   },
-  pageRolesToObj(pageRoles){
+  pageRolesToObj(pageRoles) {
     let temp = {};
     pageRoles.forEach(function (item) {
       temp[item.pageName] = {
@@ -37,22 +37,22 @@ export default {
     return temp;
   },
   //得到用户信息并存储信息
-  getUser(){
-    return new Promise((resolve, reject) =>{
+  getUser() {
+    return new Promise((resolve, reject) => {
       //header加参数
       let accountHeader = {
         "x-helios-client": "web",
         "x-helios-clientVersion": getBrowserInfo().name + ":" + getBrowserInfo().version,
         "x-helios-appVersion": config.heliosVersion,
       };
-      httpFetch.get(`${config.baseUrl}/api/account`,{},accountHeader)
-        .then((response)=>{
+      httpFetch.get(`${config.baseUrl}/api/account`, {}, accountHeader)
+        .then((response) => {
           let user = response.data;
           //根据老中控设置
           let pageRoles = this.pageRolesToObj(response.data.pageRoles);
           sessionStorage.setItem('HLY-PageRoles', JSON.stringify(pageRoles));
           this.getTenant(user.tenantId);
-          if(user.language === null){
+          if (user.language === null) {
             //请初始化集团语言
             message.warn(messages("login.user.please.init.lang"));
             return;
@@ -61,7 +61,7 @@ export default {
           configureStore.store.dispatch(setLanguage(language));
           configureStore.store.dispatch(setUser(response.data));
           configureStore.store.dispatch(setLoginUser(response.data));
-          if(sessionStorage.getItem('HLY-RoleType')){
+          if (sessionStorage.getItem('HLY-RoleType')) {
             let roleType = JSON.parse(sessionStorage.getItem('HLY-RoleType'));
             configureStore.store.dispatch(setTenantMode(roleType === 'tenant'))
           } else {
@@ -69,7 +69,7 @@ export default {
           }
           resolve(response)
         })
-        .catch((err)=>{
+        .catch((err) => {
           errorMessage(err.response);
           reject(err.response);
         })
@@ -77,8 +77,8 @@ export default {
   },
 
   //获取个人待还款总金额
-  getRepaymentAmount(userOID,companyOID,statusList){
-    return httpFetch.get(`${config.baseUrl}/api/loan/application/user/debt/amount`,{
+  getRepaymentAmount(userOID, companyOID, statusList) {
+    return httpFetch.get(`${config.baseUrl}/api/loan/application/user/debt/amount`, {
       userOID: userOID,
       companyOID: companyOID,
       statusList: statusList
@@ -91,8 +91,8 @@ export default {
    * 得到用户信息
    * @return {*|Promise.<TResult>}
    */
-  getInfo(){
-    return this.getUser().then(()=>{
+  getInfo() {
+    return this.getUser().then(() => {
       return Promise.all([
         this.getCompany(),
         this.getProfile(),
@@ -104,57 +104,61 @@ export default {
     })
   },
 
-  getLanguageList(){
-    return httpFetch.post(`${config.baseUrl}/api/lov/language/zh_CN`,{}).then((response) => {
+  getLanguageList() {
+    return httpFetch.post(`${config.baseUrl}/api/lov/language/zh_CN`, {}).then((response) => {
       configureStore.store.dispatch(setLanguageList(response.data));
       return response;
     })
   },
 
   //得到公司信息并存储在redux内
-  getCompany(){
-    return httpFetch.get(`${config.baseUrl}/api/my/companies`,{}).then((response) => {
-      configureStore.store.dispatch(setCompany(response.data));
-      configureStore.store.dispatch(setLoginCompany(response.data));
+  getCompany() {
+    return httpFetch.get(`${config.baseUrl}/api/my/companies`, {}).then((response) => {
+      app.dispatch({
+        type: 'user/saveCompany',
+        payload: response.data,
+      });
+      // configureStore.store.dispatch(setCompany(response.data));
+      // configureStore.store.dispatch(setLoginCompany(response.data));
       return response;
     })
   },
   //临时更换登录信息
-  changeLoginInfo(userOID){
+  changeLoginInfo(userOID) {
     return Promise.all([
       this.getTmpUser(userOID),
       this.getTmpFp(userOID),
       this.getTmpCompany(userOID)
     ])
   },
-  getTmpUser(userOID){
-    return httpFetch.get(`${config.baseUrl}/api/users/proxy/${userOID}`,{}).then((response) => {
+  getTmpUser(userOID) {
+    return httpFetch.get(`${config.baseUrl}/api/users/proxy/${userOID}`, {}).then((response) => {
       return configureStore.store.dispatch(setUser(response.data));
     })
   },
-  getTmpCompany(userOID){
-    return httpFetch.get(`${config.baseUrl}/api/company/user`,{useroid:userOID}).then((response) => {
+  getTmpCompany(userOID) {
+    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOID }).then((response) => {
       return configureStore.store.dispatch(setCompany(response.data));
     })
   },
-  getTmpFp (userOID){
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`,{}).then((response) => {
+  getTmpFp(userOID) {
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`, {}).then((response) => {
       return configureStore.store.dispatch(setProfile(response.data));
     })
   },
-  getFpByUserOID (userOID){
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`,{}).then((response) => {
+  getFpByUserOID(userOID) {
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`, {}).then((response) => {
       return response;
     })
   },
-  getCompanyByUserOID(userOID){
-    return httpFetch.get(`${config.baseUrl}/api/company/user`,{useroid:userOID}).then((response) => {
+  getCompanyByUserOID(userOID) {
+    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOID }).then((response) => {
       return response;
     })
   },
- //得到集团信息并存储在redux内
-  getTenant(tenantId){
-    return httpFetch.get(config.baseUrl + '/api/tenant/getById?tenantId=' + tenantId,{}).then((response) => {
+  //得到集团信息并存储在redux内
+  getTenant(tenantId) {
+    return httpFetch.get(config.baseUrl + '/api/tenant/getById?tenantId=' + tenantId, {}).then((response) => {
       //给老中控用，新中控替换完毕，这个可以去掉--start
       sessionStorage.setItem('HLY-tenantInfo', JSON.stringify(response.data));
       //给老中控用，新中控替换完毕，这个可以去掉--end
@@ -164,7 +168,7 @@ export default {
   },
 
   //得到公司配置并存储在redux内
-  getCompanyConfiguration(){
+  getCompanyConfiguration() {
     return httpFetch.get(`${config.baseUrl}/api/company/configurations/user`).then(response => {
       configureStore.store.dispatch(setCompanyConfiguration(response.data));
       return response;
@@ -172,24 +176,24 @@ export default {
   },
 
   //得到公司的functionProfile并存储在redux内
-  getProfile(){
+  getProfile() {
     console.log(app)
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles`).then((response)=>{
-      app.dispatch({type:'user',profile:response.data});
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles`).then((response) => {
+      app.dispatch({ type: 'user', profile: response.data });
       return response;
     })
   },
   //得到租户functionProfile并存储在redux内
-  getTenantProfile(){
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles?roleType=TENANT`).then((response)=>{
+  getTenantProfile() {
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles?roleType=TENANT`).then((response) => {
       configureStore.store.dispatch(setTenantProfile(response.data));
       return response;
     })
   },
 
   //得到是否为老公司并存储在redux内
-  getIsOldCompany(){
-    return httpFetch.get(`${config.baseUrl}/api/tenant/check/exsit/company/his`).then((response)=>{
+  getIsOldCompany() {
+    return httpFetch.get(`${config.baseUrl}/api/tenant/check/exsit/company/his`).then((response) => {
       sessionStorage.setItem('HLY-isOldCompanyFlag', response.data);
       configureStore.store.dispatch(setIsOldCompany(response.data));
       return response;
@@ -197,56 +201,56 @@ export default {
   },
 
   //根据租户查询账套信息
-  getSetOfBooksByTenant(){
+  getSetOfBooksByTenant() {
     return httpFetch.get(`${config.baseUrl}/api/setOfBooks/by/tenant`)
   },
 
   //调用腾讯地图搜索区域
-  searchLocation(keyword){
+  searchLocation(keyword) {
     return httpFetch.get(`${config.mapUrl}/ws/place/v1/suggestion/?region=&keyword=${keyword}&key=${config.mapKey}`)
   },
 
   //获取国家
-  getCountries(params){
-    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/country`,params)
+  getCountries(params) {
+    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/country`, params)
   },
 
   //根据国家code获取城市信息
-  getCities(params){
-    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/all/address`,params)
+  getCities(params) {
+    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/all/address`, params)
   },
 
   //根据表单OID和用户OID获取费用类型
-  getExpenseTypesByFormOID(param){
+  getExpenseTypesByFormOID(param) {
     let formOID = param.formOID;
     delete param.formOID;
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}/selected/expense/types`, param)
   },
 
   //根据表单OID获取费用类型
-  getExpenseTypesByFormOIDV2(param){
+  getExpenseTypesByFormOIDV2(param) {
     let formOID = param.formOID;
     delete param.formOID;
     return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOID}/selected/expense/types`, param)
   },
 
   //根据表单OID获取费用类型的选择历史
-  getExpenseTypesHistoryByFormOID(param){
+  getExpenseTypesHistoryByFormOID(param) {
     return httpFetch.get(`${config.baseUrl}/api/application/budget/type/history`, param)
   },
 
   //根据公司OID获取费用类型
-  getExpenseTypeByCompanyOID(companyOID){
+  getExpenseTypeByCompanyOID(companyOID) {
     return httpFetch.get(`${config.baseUrl}/api/expense/types?companyOID=${companyOID}`)
   },
 
   //获取费用大类型
-  getExpenseTypeCategory(setOfBooksId){
-    return httpFetch.get(`${config.baseUrl}/api/expense/types/category`, {setOfBooksId: setOfBooksId})
+  getExpenseTypeCategory(setOfBooksId) {
+    return httpFetch.get(`${config.baseUrl}/api/expense/types/category`, { setOfBooksId: setOfBooksId })
   },
 
   //根据账套获得费用类型
-  getExpenseTypesBySetOfBooks(setOfBooksId, createdManually = true, enabled = true, name){
+  getExpenseTypesBySetOfBooks(setOfBooksId, createdManually = true, enabled = true, name) {
     return httpFetch.get(`${config.baseUrl}/invoice/api/expense/types/groupby/category`, {
       setOfBooksId,
       createdManually: createdManually || "",
@@ -256,37 +260,37 @@ export default {
   },
 
   //根据费用OID获取费用类型
-  getExpenseTypeByOID(expenseTypeOID){
+  getExpenseTypeByOID(expenseTypeOID) {
     return httpFetch.get(`${config.baseUrl}/api/expense/types/${expenseTypeOID}`)
   },
 
   //根据费用id获取费用类型
-  getExpenseTypeById(id){
+  getExpenseTypeById(id) {
     return httpFetch.get(`${config.baseUrl}/api/expense/types/select/${id}`)
   },
 
   //根据语言和本位币获取货币列表
-  getCurrencyList(currencyCode, language = 'chineseName'){
+  getCurrencyList(currencyCode, language = 'chineseName') {
     return httpFetch.get(`${config.baseUrl}/api/currencyI18n?currencyCode=${currencyCode}&language=${language}`)
   },
 
   //根据语言获得货币列表
-  getAllCurrencyByLanguage(language = 'chineseName', userOID = configureStore.store.getState().login.user.userOID){
+  getAllCurrencyByLanguage(language = 'chineseName', userOID = configureStore.store.getState().login.user.userOID) {
     return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll?language=${language}&userOID=${userOID}`)
   },
 
   //根据本位币获取汇率
-  getExchangeRate(baseCurrency, currency){
+  getExchangeRate(baseCurrency, currency) {
     return httpFetch.get(`${config.baseUrl}/api/standardCurrency/selectStandardCurrency?base=${baseCurrency}&otherCurrency=${currency}`)
   },
 
   //根据用户OID获得用户
-  getUserByOID(userOID){
+  getUserByOID(userOID) {
     return httpFetch.get(`${config.baseUrl}/api/users/oid/${userOID}`)
   },
 
   //得到商务卡消费记录，分页
-  getBusinessCardConsumptionList(bankCard, used, ownerOID, page, size, currMaxID){
+  getBusinessCardConsumptionList(bankCard, used, ownerOID, page, size, currMaxID) {
     let params = {
       ownerOID,
       page,
@@ -297,7 +301,7 @@ export default {
   },
 
   //得到表单内容
-  getFormDetail(formId){
+  getFormDetail(formId) {
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formId}`)
   },
 
@@ -307,12 +311,12 @@ export default {
   },
 
   //得到成本中心
-  getCostCenter(booksID){
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/company`, {setOfBooksId: booksID})
+  getCostCenter(booksID) {
+    return httpFetch.get(`${config.baseUrl}/api/cost/center/company`, { setOfBooksId: booksID })
   },
 
   //得到公司银行账户
-  getCompanyBank(setOfBooksId, page, size){
+  getCompanyBank(setOfBooksId, page, size) {
     return httpFetch.get(`${config.baseUrl}/api/CompanyBank/get/by/setOfBooksId?setOfBooksId=${setOfBooksId}&page=${page}&size=${size}`)
   },
 
@@ -322,50 +326,50 @@ export default {
   },
 
   //根据OID获得值列表
-  getCustomEnumerationsByOID(enumOID){
+  getCustomEnumerationsByOID(enumOID) {
     return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/${enumOID}/items/v2`)
   },
 
 
   //根据部门OID得到部门
-  getDepartmentByOID(departmentOID){
+  getDepartmentByOID(departmentOID) {
     return httpFetch.get(`${config.baseUrl}/api/departments/${departmentOID}`)
   },
 
   //搜索人员
-  searchUser(keyword, isCompany = true){
+  searchUser(keyword, isCompany = true) {
     return httpFetch.get(`${config.baseUrl}/api/search/users/by/${keyword}?isCompany=${isCompany}`)
   },
 
   //打印单据
-  printApplication(applicationOID){
+  printApplication(applicationOID) {
     return httpFetch.get(`${config.baseUrl}/api/loan/application/generate/pdf/${applicationOID}`)
   },
 
   //打印单据
-  printExpense(applicationOID){
+  printExpense(applicationOID) {
     return httpFetch.get(`${config.baseUrl}/api/expense/reports/generate/pdf/${applicationOID}`)
   },
 
 
   //得到快速回复
-  getQuickReply(){
+  getQuickReply() {
     return httpFetch.get(`${config.baseUrl}/api/quick/reply`)
   },
 
   //直接删除附件
-  attachmentDelete(invoiceOid,attachmentId){
+  attachmentDelete(invoiceOid, attachmentId) {
     return httpFetch.delete(`${config.baseUrl}/api/finance/delete/attachment?invoiceOid=${invoiceOid}&attachmentId=${attachmentId}`);
   },
 
   //获取银行卡账户
   getUserBanks(param) {
-    return httpFetch.get(`${config.baseUrl}/api/contact/bank/account/enable`,param)
+    return httpFetch.get(`${config.baseUrl}/api/contact/bank/account/enable`, param)
   },
 
   //获取系统值列表（模板级）
-  getSystemValueList(params){
-    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/template/by/type`,params)
+  getSystemValueList(params) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/template/by/type`, params)
   },
 
   /**
