@@ -191,8 +191,10 @@ class CompanyLevelDefine extends React.Component {
   //点击模态框的取消
   onModalCancel = (e, key) => {
     if(key === 'edit'){
+      this.props.form.resetFields();
       this.setState({
         editVisible: false,
+        record:''
       })
     }else{
       this.props.form.resetFields();
