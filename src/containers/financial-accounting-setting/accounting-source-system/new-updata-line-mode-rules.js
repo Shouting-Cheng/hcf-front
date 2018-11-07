@@ -226,7 +226,9 @@ class NewUpdateLineModeRulesSystem extends React.Component {
 
     return (
       <div className="new-update-voucher-template">
+{/*
         <Alert message={this.$t({id: "accounting.source.voucher.headTips"})} type="warning"/>
+*/}
         {accountElementData.key}
         <Form onSubmit={this.handleSubmit} className="voucher-template-form">
           <FormItem {...formItemLayout} label={this.$t({id:"accounting.source.journalFieldCode"})}>{/*核算分录段*/}

@@ -85,9 +85,7 @@ class ContractDetail extends React.Component {
           getContractStatus={this.getStatus}
         />
         {!isConfirm && (
-          <div
-            className="bottom-bar bottom-bar-approve"
-          >
+          <div className="bottom-bar bottom-bar-approve">
             <ApproveBar
               passLoading={passLoading}
               style={{ paddingLeft: 20 }}
@@ -100,7 +98,7 @@ class ContractDetail extends React.Component {
         )}
         {isConfirm && (
           <div className="bottom-bar bottom-bar-approve">
-            <div style={{ lineHeight: "50px" }}>
+            <div style={{ lineHeight: '50px' }}>
               <Button style={{ marginLeft: 20 }} onClick={this.goBack} className="back-btn">
                 {this.$t({ id: 'common.back' } /*返回*/)}
               </Button>

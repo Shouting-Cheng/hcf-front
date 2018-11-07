@@ -198,8 +198,7 @@ ImageUpload.defaultProps = {
   showMaxNum: false,
 };
 function mapStateToProps(state) {
-  return {
-  };
+  return {};
 }
 // 注意
 // defaultFileList里面的对象属性要有

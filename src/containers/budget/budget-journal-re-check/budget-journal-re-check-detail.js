@@ -302,7 +302,7 @@ class BudgetJournalReCheckDetail extends React.Component {
     httpFetch
       .get(
         `${
-        config.budgetUrl
+          config.budgetUrl
         }/api/budget/journals/getLayoutsByStructureId?enabled=true&structureId=${value}`
       )
       .then(resp => {
