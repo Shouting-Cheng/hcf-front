@@ -31,9 +31,9 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
           title: '启用',
           dataIndex: 'enabled',
           width: '8%',
-          render: (isEnabled, record) => (
+          render: (enabled, record) => (
             <Checkbox
-              defaultChecked={isEnabled}
+              defaultChecked={enabled}
               onChange={e => this.handleStatusChange(e, record)}
             />
           ),
@@ -86,7 +86,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
   handleStatusChange = (e, record) => {
     let params = {
       id: record.id,
-      isEnabled: e.target.checked,
+      enabled: e.target.checked,
       versionNumber: record.versionNumber,
     };
     httpFetch
@@ -194,7 +194,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
     });
 
     return (
-      <div className="company-distribution">
+      <div className="company-distribution" style={{paddingBottom:'20px'}}>
         <Row
           gutter={24}
           style={{
@@ -229,7 +229,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
           extraParams={{ acpReqTypesId: this.props.match.params.id }}
           onOk={this.handleListOk}
         />
-        <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
+        <a style={{ fontSize: '14px', paddingBottom:'20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />返回
         </a>
       </div>

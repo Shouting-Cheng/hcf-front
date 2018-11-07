@@ -807,7 +807,7 @@ class NewPaymentRequisitionDetail extends React.Component {
     //添加付款信息侧滑
 
     return (
-      <div style={{ paddingBottom: 50 }} className="pre-payment-common">
+      <div style={{ paddingBottom: 100 }} className="pre-payment-common">
         <Spin spinning={false}>
           <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
