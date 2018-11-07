@@ -781,7 +781,7 @@ class PerPaymentView extends Component {
       {
         loading: true,
         page: 0,
-        searchParam: { requisitionNumber: value },
+        searchParam: {...this.state.searchParam, requisitionNumber: value },
       },
       () => {
         this.getList();
