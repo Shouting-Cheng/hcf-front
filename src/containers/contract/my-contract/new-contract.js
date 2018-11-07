@@ -192,6 +192,7 @@ class NewContract extends React.Component {
         values.contractTypeId = this.props.match.params.contractTypeId;
         values.contractCategory = this.state.contractType.contractCategory;
         values.unitId = this.state.departmentId;
+        values.employeeId = this.props.user.employeeId;
         values.applicantOid = this.props.user.userOID;
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
@@ -386,7 +387,7 @@ class NewContract extends React.Component {
                       },
                     ],
                     initialValue: this.props.user.fullName,
-                  })(<Select disabled placeholder={this.$t({ id: 'common.please.select' })} />)}
+                  })(<Select  disabled placeholder={this.$t({ id: 'common.please.select' })} />)}
                 </FormItem>
               </Col>
             </Row>
