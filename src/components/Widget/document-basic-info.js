@@ -95,12 +95,9 @@ class DocumentBasicInfo extends React.Component {
               this.state.data.customList && !!this.state.data.customList.length ?
                 this.state.data.customList.map((item, index) => {
                   return (
-                    <Row>
                       <Col key={index} span={6}>
                         {this.renderList(item.label, item.value)}
                       </Col>
-                    </Row>
-
                   )
 
                 }) : null
