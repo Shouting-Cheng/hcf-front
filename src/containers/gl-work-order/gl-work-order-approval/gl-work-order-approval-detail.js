@@ -410,7 +410,7 @@ class GLWorkOrderCheckDetail extends Component {
     let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
-      <div className="gl-work-order-detail" style={{marginBottom: 15, paddingBottom: 20}}>
+      <div className="gl-work-order-detail" style={{marginBottom: 15, padding: '0px 15px 20px 15px'}}>
         <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
             <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
@@ -438,25 +438,36 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         {(docStatus &&
           docStatus === '1002' && (
-            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{width:'124%', margin: '-20px 0px 0px 0px'}}>
-              <Row>
-                <Col span={17} >
-                  <ApproveBar
-                    style={{paddingLeft: 20}}
-                    passLoading={passLoading}
-                    backUrl={'/approval-management/gl-work-order-approval'}
-                    rejectLoading={rejectLoading}
-                    handleApprovePass={this.onPassClick}
-                    handleApproveReject={this.onRejectClick} />
-                </Col>
-              </Row>
+            <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
+              height: '50px',
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+              background: '#fff',
+              lineHeight: '50px',
+              zIndex: 1,
+              margin: '-20px 0px 20px 0px'
+          }}>
+              <ApproveBar
+                style={{paddingLeft: 20}}
+                passLoading={passLoading}
+                backUrl={'/approval-management/gl-work-order-approval'}
+                rejectLoading={rejectLoading}
+                handleApprovePass={this.onPassClick}
+              handleApproveReject={this.onRejectClick} />
             </Affix>
           )) ||
           (docStatus &&
             docStatus === '1004' && (
-              <Affix className="bottom-bar" offsetBottom="0">
+              <Affix className="bottom-bar bottom-bar-approve" offsetBottom="0" style={{
+                width:'124%',
+                height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                background: '#fff',
+                lineHeight: '50px',
+                zIndex: 1,
+
+              }}>
                 <Row gutter={12} type="flex" justify="start">
-                  <Col span={3} offset={1}>
+                  <Col span={3} style={{marginLeft: 38}}>
                     <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
                   </Col>
                 </Row>
