@@ -463,7 +463,7 @@ export default {
       case 'select_box':
         return (
           <Select allowClear labelInValue
-                  mode={JSON.parse(field.fieldConstraint || '{}').type === '1' ? 'multiple' : '-'}>
+                  mode={JSON.parse(field.fieldConstraint.replace(/\\/g,"") || '{}').type === '1' ? 'multiple' : '-'}>
             {JSON.parse(field.fieldContent || '[]').map(item => {
               return <Option key={item.id}>{item.name}</Option>
             })}
