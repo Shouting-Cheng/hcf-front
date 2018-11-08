@@ -4,5 +4,6 @@
   "upload.isLt3M": "File size should not exceed 3MB",
   "upload.success": "Uploaded successfully",
   "upload.fail": "Upload failed",
-  "upload.size":"Support any file format with single file size smaller than {total}M."
+  "upload.size":"Support any file format with single file size smaller than {total}M.",
+  "upload.not.allowed.delete":"The state does not allow attachments to be deleted."
 }

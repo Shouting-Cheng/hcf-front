@@ -55,10 +55,8 @@ class NewBudgetJournalType extends React.Component {
       this.fetchFormList();
   }
   fetchFormList = () => {
-    let setOfBooksId = this.props.params.setOfBooksId;
-    if(!setOfBooksId){
-      setOfBooksId = 0;
-    }
+    let setOfBooksId = this.props.match.params.setOfBooksId;
+
     httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801002&setOfBooksId=${setOfBooksId}`).then(res => {
       this.setState({linkForm:res.data})
     })

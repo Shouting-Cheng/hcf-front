@@ -1261,7 +1261,7 @@ const chooserData = {
   add_employee: {
     title: '按条件添加员工',
     url: `${config.baseUrl}/api/users/search/company/term`,
-    searchForm: [{ type: 'input', id: 'keyword', label: '姓名／工号' }],
+    searchForm: [{ type: 'input', id: 'keyword', label: '姓名/工号/手机号/邮箱 ' }],
     columns: [
       { title: '工号', dataIndex: 'employeeID' },
       { title: '姓名', dataIndex: 'fullName' },
@@ -2636,6 +2636,19 @@ const chooserData = {
       },
     ],
     key: 'departmentOid',
+  },
+  select_setOfBooks_accounts: {
+    title: '选择科目',
+    url: `${config.baseUrl}/api/accounts/query/accounts/setOfBooksId`,
+    searchForm: [
+      { type: 'input', id: 'accountCode', label: "科目代码" },
+      { type: 'input', id: 'accountName', label: "科目名称" },
+    ],
+    columns: [
+      { title: "科目代码", dataIndex: 'accountCode' },
+      { title: "科目名称", dataIndex: 'accountName' },
+    ],
+    key: 'id'
   },
 };
 

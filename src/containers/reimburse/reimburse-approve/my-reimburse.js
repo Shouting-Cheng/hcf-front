@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Tabs, Table, message, Badge, Popover,Row,Col,Input } from 'antd'
+import { Form, Tabs, Table, message, Badge, Popover, Row, Col, Input } from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import config from 'config'
@@ -34,8 +34,18 @@ class Payment extends React.Component {
             },
             SearchForm1: [
                 { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
-                // { type: 'input', id: 'businessCode', label: "单据编号" /*预付款编号*/,colSpan:'6' },
-                { type: 'input', id: 'fullName', label: "申请人", colSpan: '6' },
+                {
+                    type: 'list',
+                    listType: 'bgtUserOID',
+                    options: [],
+                    id: 'fullName',
+                    label: this.$t({ id: 'pay.refund.employeeName' }),
+                    labelKey: 'fullName',
+                    valueKey: 'userOID',
+                    colSpan: 6,
+                    single: true,
+                    listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+                },
                 {
                     type: 'items', id: 'dateRange', items: [
                         { type: 'date', id: 'beginDate', label: '提交日期从' },
@@ -57,7 +67,19 @@ class Payment extends React.Component {
             SearchForm2: [
                 { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
                 // { type: 'input', id: 'businessCode', label: "单据编号" /*预付款编号*/,colSpan:'6' },
-                { type: 'input', id: 'fullName', label: "申请人", colSpan: '6' },
+                //  { type: 'input', id: 'fullName', label: "申请人", colSpan: '6' },
+                {
+                    type: 'list',
+                    listType: 'bgtUserOID',
+                    options: [],
+                    id: 'fullName',
+                    label: this.$t({ id: 'pay.refund.employeeName' }),
+                    labelKey: 'fullName',
+                    valueKey: 'userOID',
+                    colSpan: 6,
+                    single: true,
+                    listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+                },
                 {
                     type: 'items', id: 'dateRange', items: [
                         { type: 'date', id: 'beginDate', label: '提交日期从' },
@@ -79,19 +101,20 @@ class Payment extends React.Component {
             unApproveSearchParams: {},
             approveSearchParams: {},
             columns: [
-                { title: '单据编号', dataIndex: 'businessCode', width: 180,align:"center" },
-                { title: '单据类型', dataIndex: 'formName',align:"left" },
-                { title: '申请人', dataIndex: 'applicantName', width: 100,align:"center" },
-                { title: '提交日期', dataIndex: 'lastSubmittedDate',width: 90,align:"center", render: (value, record) => moment(value).format('YYYY-MM-DD') },
-                { title: '币种', dataIndex: 'currencyCode',width: 80,align:"center"},
+                { title: '单据编号', dataIndex: 'businessCode', width: 180, align: "center" },
+                { title: '单据类型', dataIndex: 'formName', align: "left" },
+                { title: '申请人', dataIndex: 'applicantName', width: 100, align: "center" },
+                { title: '提交日期', dataIndex: 'lastSubmittedDate', width: 90, align: "center", render: (value, record) => moment(value).format('YYYY-MM-DD') },
+                { title: '币种', dataIndex: 'currencyCode', width: 80, align: "center" },
                 { title: '金额', dataIndex: 'totalAmount', render: this.filterMoney },
                 { title: '本币金额', dataIndex: 'functionalAmount', render: this.filterMoney },
-                { title: '备注', dataIndex: 'remark',
-                  render: (desc,record)=> <Popover content={desc}>{desc|| '-'}</Popover>
+                {
+                    title: '备注', dataIndex: 'remark',
+                    render: (desc, record) => <Popover content={desc}>{desc || '-'}</Popover>
                 },
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
                 {
-                    title: '状态', dataIndex: 'status',width: 90,align:"center",render: (value, record) => {
+                    title: '状态', dataIndex: 'status', width: 90, align: "center", render: (value, record) => {
                         return (
                             <Badge status={this.$statusList[value].state} text={this.$statusList[value].label} />
 
@@ -130,16 +153,19 @@ class Payment extends React.Component {
 
     componentWillMount() {
         // this.setState({ tabValue: this.props.location.query.approved ? 'approved' : 'unapproved' });
-        this.setState({tabValue:'unapproved'})
+        this.setState({ tabValue: 'unapproved' })
     }
 
     //未审批搜索
     unapprovedSearch = (values) => {
         values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
         values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
+        if (values.fullName && values.fullName[0]) {
+            values.fullName = values.fullName[0];
+        }
         this.setState({ unApproveSearchParams: values }, () => {
             //this.getUnapprovedList();
-            this.unApprovedtable.search({ ...values,...this.state.unApproveSearchParams,finished: 'false' })
+            this.unApprovedtable.search({ ...this.state.unApproveSearchParams, finished: 'false' })
         })
     };
 
@@ -147,8 +173,11 @@ class Payment extends React.Component {
     approvedSearch = (values) => {
         values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
         values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
+        if (values.fullName && values.fullName[0]) {
+            values.fullName = values.fullName[0];
+        }
         this.setState({ approveSearchParams: values }, () => {
-            this.approvedTable.search({ ...values,...this.state.approveSearchParams, finished: 'true' })
+            this.approvedTable.search({ ...this.state.approveSearchParams, finished: 'true' })
         })
     };
 
@@ -156,9 +185,9 @@ class Payment extends React.Component {
     handleRowClick = (record) => {
         this.props.dispatch(
             routerRedux.push({
-              pathname: `/approval-management/approve-my-reimburse/approve-reimburse-detail/${record.expenseReportId}/${record.entityOID}/${this.state.tabValue}`,
+                pathname: `/approval-management/approve-my-reimburse/approve-reimburse-detail/${record.expenseReportId}/${record.entityOID}/${this.state.tabValue}`,
             })
-          );
+        );
     };
 
     filterData = (data) => {
@@ -167,27 +196,27 @@ class Payment extends React.Component {
         });
     }
     /**未审批根据单据编号查询 */
-    onDocumentSearch=(value)=>{
+    onDocumentSearch = (value) => {
         this.setState({
-            unApproveSearchParams:{businessCode:value}
-        },()=>{
+            unApproveSearchParams: {...this.state.unApproveSearchParams, businessCode: value }
+        }, () => {
             this.unApprovedtable.search({ ...this.state.unApproveSearchParams, finished: 'false' })
         })
     }
-     /**已审批根据单据编号查询 */
-     onApprovedSearch=(value)=>{
+    /**已审批根据单据编号查询 */
+    onApprovedSearch = (value) => {
         this.setState({
-            approveSearchParams:{businessCode:value}
-        },()=>{
-            this.approvedTable.search({...this.state.approveSearchParams,finished:'true'})
+            approveSearchParams: {...this.state.approveSearchParams, businessCode: value }
+        }, () => {
+            this.approvedTable.search({ ...this.state.approveSearchParams, finished: 'true' })
         })
-        
+
     };
-  handleTabsChange = (key)=>{
-    this.setState({
-      tabValue: key
-    })
-  };
+    handleTabsChange = (key) => {
+        this.setState({
+            tabValue: key
+        })
+    };
 
     render() {
         const { tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
@@ -195,72 +224,72 @@ class Payment extends React.Component {
             <div className="approve-contract">
                 <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
                     <TabPane tab={this.$t({ id: "contract.unapproved" }/*未审批*/)} key="unapproved">
-                      {
-                        tabValue === 'unapproved' &&
-                          <div>
-                            <SearchArea searchForm={SearchForm1}
-                                        submitHandle={this.unapprovedSearch}
-                                        maxLength={4} />
-                            <div className='divider'></div>
-                            <div className="table-header">
-                              <Row>
-                                <Col span={18}></Col>
-                                <Col span={6}>
-                                  <Search
-                                    placeholder="请输入单据编号"
-                                    onSearch={this.onDocumentSearch}
-                                    enterButton
-                                  />
-                                </Col>
-                              </Row>
+                        {
+                            tabValue === 'unapproved' &&
+                            <div>
+                                <SearchArea searchForm={SearchForm1}
+                                    submitHandle={this.unapprovedSearch}
+                                    maxLength={4} />
+                                <div className='divider'></div>
+                                <div className="table-header">
+                                    <Row>
+                                        <Col span={18}></Col>
+                                        <Col span={6}>
+                                            <Search
+                                                placeholder="请输入单据编号"
+                                                onSearch={this.onDocumentSearch}
+                                                enterButton
+                                            />
+                                        </Col>
+                                    </Row>
+                                </div>
+                                <div className="table-header"></div>
+                                <CustomTable
+                                    url={`${config.baseUrl}/api/approvals/public/exp/report/filters`}
+                                    ref={ref => this.unApprovedtable = ref}
+                                    params={{ finished: 'false' }}
+                                    columns={columns}
+                                    filterData={this.filterData}
+                                    tableKey='entityOID'
+                                    onClick={this.handleRowClick}
+                                />
                             </div>
-                            <div className="table-header"></div>
-                            <CustomTable
-                              url={`${config.baseUrl}/api/approvals/public/exp/report/filters`}
-                              ref={ref => this.unApprovedtable = ref}
-                              params={{ finished: 'false' }}
-                              columns={columns}
-                              filterData={this.filterData}
-                              tableKey='entityOID'
-                              onClick={this.handleRowClick}
-                            />
-                          </div>
-                      }
+                        }
 
                     </TabPane>
                     <TabPane tab={this.$t({ id: "contract.approved" }/*已审批*/)} key="approved">
-                      {
-                        tabValue === 'approved'&&
-                          <div>
-                            <SearchArea searchForm={SearchForm2}
-                                        submitHandle={this.approvedSearch}
-                                        maxLength={4}
-                            />
-                            <div className='divider'></div>
-                            <div className="table-header">
-                              <Row>
-                                <Col span={18}></Col>
-                                <Col span={6}>
-                                  <Search
-                                    placeholder="请输入单据编号"
-                                    onSearch={this.onApprovedSearch}
-                                    enterButton
-                                  />
-                                </Col>
-                              </Row>
+                        {
+                            tabValue === 'approved' &&
+                            <div>
+                                <SearchArea searchForm={SearchForm2}
+                                    submitHandle={this.approvedSearch}
+                                    maxLength={4}
+                                />
+                                <div className='divider'></div>
+                                <div className="table-header">
+                                    <Row>
+                                        <Col span={18}></Col>
+                                        <Col span={6}>
+                                            <Search
+                                                placeholder="请输入单据编号"
+                                                onSearch={this.onApprovedSearch}
+                                                enterButton
+                                            />
+                                        </Col>
+                                    </Row>
+                                </div>
+                                <div className="table-header"></div>
+                                <CustomTable
+                                    url={`${config.baseUrl}/api/approvals/public/exp/report/filters`}
+                                    ref={ref => this.approvedTable = ref}
+                                    params={{ finished: 'true' }}
+                                    columns={columns}
+                                    filterData={this.filterData}
+                                    tableKey='entityOID'
+                                    onClick={this.handleRowClick}
+                                />
                             </div>
-                            <div className="table-header"></div>
-                            <CustomTable
-                              url={`${config.baseUrl}/api/approvals/public/exp/report/filters`}
-                              ref={ref => this.approvedTable = ref}
-                              params={{ finished: 'true' }}
-                              columns={columns}
-                              filterData={this.filterData}
-                              tableKey='entityOID'
-                              onClick={this.handleRowClick}
-                            />
-                          </div>
-                      }
+                        }
                     </TabPane>
                 </Tabs>
             </div>

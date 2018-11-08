@@ -63,7 +63,7 @@
   }
   .org-structure-right{
     height: calc(100vh - 130px);
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: auto;
     border: solid 1px #eeeeee;
     padding: 10px;

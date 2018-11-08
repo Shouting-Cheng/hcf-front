@@ -19,6 +19,8 @@
   "pdc.bank.card.reg1": "No more 30 characters",
   "pdc.bank.card.reg2": "Only numbers and -",
   "pdc.bank.card.reg3": "No more 100 character",
-  "pdc.bank.card.reg4": "Only letter, Chinese character,slash,point"
+  "pdc.bank.card.reg4": "Only letter, Chinese character,slash,point",
+
+  "pdc.bank.card.confirmReplace": "Default values exist. Do you want to replace them?"
 }
 

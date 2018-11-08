@@ -52,18 +52,16 @@ class UpdateBudgetRulesDetail extends React.Component {
     }
   }
   componentWillMount() {
-    let organizationIdParams = { organizationId: this.props.organization.id, enabled: true };
+    console.log(this.props)
+    let organizationIdParams = { organizationId: this.props.params.orgId, enabled: true };
     let { lov, ruleParameterTypeArray, ruleParamsArray, summaryOrDetailArray, filtrateMethodArray, valueListMap } = this.state;
 
     let userSelectorItem = {...selectorData['user']};
     userSelectorItem.key = 'employeeID';
 
-    let itemSelectorItem = selectorData['budget_item'];
-    let key = itemSelectorItem.searchForm[1].getUrl.split("?").length;
-    if (key < 2) {
-      itemSelectorItem.searchForm[1].getUrl += `?organizationId=${this.props.organization.id}&enabled=${true}`;
-      itemSelectorItem.searchForm[2].getUrl += `?organizationId=${this.props.organization.id}&enabled=${true}`;
-    }
+    let itemSelectorItem = {...selectorData['budget_item']};
+    itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.params.orgId);
+    itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.params.orgId);
 
     let paramValueMap = {
       'BUDGET_ITEM_TYPE': {
@@ -229,7 +227,10 @@ class UpdateBudgetRulesDetail extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextprops) {
+  componentDidMount(){
+    //ƒconsole.log(this.props)
+  }
+  /*componentWillReceiveProps(nextprops) {
     let { lov, ruleParamDetail, ruleParameterTypeArray, ruleParamsArray, summaryOrDetailArray, filtrateMethodArray, valueListMap, paramValueMap } = this.state;
     let param = nextprops;
     if(!nextprops.params.visible&&this.props.params.visible){
@@ -258,7 +259,7 @@ class UpdateBudgetRulesDetail extends React.Component {
         lov
       });
     }
-  }
+  }*/
 
 
   /**
@@ -547,6 +548,7 @@ class UpdateBudgetRulesDetail extends React.Component {
 
                   <Selput type={lov.listType}
                           valueKey={lov.codeKey}
+                          selectorItem={lov.selectorItem}
                           listExtraParams={lov.listExtraParams}
                           disabled={lov.disabled}
                           onChange={() => { }} />
@@ -574,6 +576,7 @@ class UpdateBudgetRulesDetail extends React.Component {
                 })(
                   <Selput type={lov.listType}
                           valueKey={lov.codeKey}
+                          selectorItem={lov.selectorItem}
                           listExtraParams={lov.listExtraParams}
                           disabled={lov.disabled}
                           onChange={() => { }} />

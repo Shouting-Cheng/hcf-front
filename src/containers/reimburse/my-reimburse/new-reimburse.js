@@ -462,7 +462,7 @@ class NewReimburse extends React.Component {
     } = this.state;
 
     return (
-      <div className="new-contract " style={{marginBottom: '10px'}}>
+      <div className="new-contract " style={{marginBottom: '70px'}}>
         <Spin spinning={false}>
           <Form onSubmit={this.handleSubmit}>
             <FormItem {...formItemLayout} label="申请人">

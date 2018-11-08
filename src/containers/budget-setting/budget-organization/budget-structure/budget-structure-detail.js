@@ -125,7 +125,7 @@ class BudgetStructureDetail extends React.Component{
   componentWillMount(){
 
     //获取编制期段
-    this.getSystemValueList(2002).then((response)=>{
+    !periodStrategy.length&&this.getSystemValueList(2002).then((response)=>{
       response.data.values.map((item)=>{
         let options = {
           label:item.messageKey, value:item.code
@@ -161,11 +161,12 @@ class BudgetStructureDetail extends React.Component{
         structure.organizationName = this.state.structure.organizationName;
         message.success(this.$t({id: "structure.saveSuccess"})); /*保存成功！*/
         structure.periodStrategy = {label:response.data.periodStrategyName, value:response.data.periodStrategy}
+        structure.usedFlag = this.state.structure.usedFlag;
         this.setState({
             structure: structure,
             updateState: true
           },
-          this.getList()
+          ()=> this.getList()
         );
       }
     }).catch((e)=>{
@@ -186,7 +187,7 @@ class BudgetStructureDetail extends React.Component{
   //Tabs点击
   onChangeTabs = (key) => {
     let columnGroup = this.state.columnGroup;
-    let pagination = this.state.pagination
+    let pagination = this.state.pagination;
     pagination.page = 0;
     pagination.pageSize = 10;
     this.setState({
@@ -316,7 +317,7 @@ class BudgetStructureDetail extends React.Component{
         this.setState({
             data: response.data,
           },
-          this.getList()
+          ()=>this.getList()
         );
       }
     }).catch((e)=>{
@@ -332,7 +333,7 @@ class BudgetStructureDetail extends React.Component{
     this.props.dispatch(
       routerRedux.push({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
-          .replace(':id', this.props.match.params.orgId)
+          .replace(':id', this.props.organization.id||this.props.id)
           .replace(":setOfBooksId",this.props.match.params.setOfBooksId)
           .replace(':tab','STRUCTURE')
       })

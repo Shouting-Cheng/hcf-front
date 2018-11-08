@@ -426,7 +426,7 @@ class ExpenseReportApprove extends React.Component {
                  onClick: () => this.handleRowClick(record)
                })}
                rowSelection={tab === 'approvePending' && batchEnabled ? rowSelection : null}
-               expandedRowRender = { dealListTag }
+              //  expandedRowRender = { dealListTag }
                rowClassName = {record => record.warningList  ? '' :'approve-expense-report-tag' }
                size="middle"/>
         <Affix offsetBottom={0} className={`bottom-bar-approve ${selectedDataNum && tab === 'approvePending' ? 'show' : 'hide'}`}>

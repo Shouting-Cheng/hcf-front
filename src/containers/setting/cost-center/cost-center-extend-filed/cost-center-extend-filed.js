@@ -84,6 +84,11 @@ class CostCenterExtendFiled extends React.Component {
                 this.setState({
                     loading: false,
                 })
+                this.props.dispatch(
+                    routerRedux.push({
+                        pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
+                    })
+                );
             })
     }
     //更新表单
@@ -97,6 +102,11 @@ class CostCenterExtendFiled extends React.Component {
                 this.setState({
                     loading: false,
                 })
+                this.props.dispatch(
+                    routerRedux.push({
+                        pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
+                    })
+                );
             })
     }
     //取消
@@ -104,7 +114,7 @@ class CostCenterExtendFiled extends React.Component {
         // this.context.router.goBack();
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center`,
+                pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
             })
         );
     }
@@ -118,6 +128,7 @@ class CostCenterExtendFiled extends React.Component {
             .then((res) => {
                 if (res.data) {
                     let customFrom = res.data;
+                    console.log(customFrom)
                     if (customFrom.customFormFields.length > 0) {
                         customFrom.customFormFields[0]._active = true;
                     }

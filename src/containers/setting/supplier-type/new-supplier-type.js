@@ -42,7 +42,7 @@ class NewSupplierType extends React.Component {
           SupplierTypeService.addSupplierType(toValue)
             .then(res => {
               console.log(res.data.code);
-              if (res.data.code === 'respCode.0000') {
+              if (res.data.code === '0000') {
                 this.setState({ loading: false });
                 this.props.form.resetFields();
                 this.props.onClose(true);
@@ -64,7 +64,7 @@ class NewSupplierType extends React.Component {
           SupplierTypeService.updateSupplierType(toValue)
             .then(res => {
               console.log(res.data.code);
-              if (res.data.code === 'respCode.0000') {
+              if (res.data.code === '0000') {
                 this.setState({ loading: false });
                 this.props.form.resetFields();
                 this.props.onClose(true);

@@ -27,41 +27,28 @@ class NewUpDataLineModeDataRules extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log(this.props);
-    if (JSON.stringify(this.props.params) != '{}' && this.props.params.timestamp) {
-      if (this.props.params.isNew) {
-        this.setState(
-          {
-            params,
-            isNew: true,
-            buttonRender: false,
-            newChangeRulesRender: false,
-            changeRulesRender: true,
-          },
-          () => {}
-        );
-      } else if (this.props.params.isNew === false) {
-        let buttonRender = this.props.params.record.dataRule === 'VALUE_OF_RULE' ? true : false;
-        this.setState(
-          {
-            params: this.props.params,
-            isNew: false,
-            newChangeRulesRender: false,
-            buttonRender,
-            changeRulesRender: true,
-          },
-          () => {
-            if (this.props.params.record.dataRule === 'VALUE_OF_RULE') {
-              this.getChangeRules();
-            }
-          }
-        );
+    let buttonRender;
+    if(this.props.params.record)
+      buttonRender = this.props.params.record.dataRule === 'VALUE_OF_RULE' ? true : false;
+    this.setState(
+      {
+        params: this.props.params,
+        newChangeRulesRender: false,
+        buttonRender,
+        changeRulesRender: true,
+      },
+      () => {
+        if (this.props.params.record&&this.props.params.record.dataRule === 'VALUE_OF_RULE') {
+          this.getChangeRules();
+        }
       }
-    }
+    );
+
   }
 
-  componentWillReceiveProps(nextProps) {
+ /* componentWillReceiveProps(nextProps) {
     if (!nextProps.params.visible && this.props.params.visible) {
       this.setState({ saveCount: 0 });
     }
@@ -114,7 +101,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       }
     }
   }
-
+*/
   //获取转换规则
   getChangeRules = modelDataRuleId => {
     this.setState({
@@ -143,7 +130,7 @@ class NewUpDataLineModeDataRules extends React.Component {
   renderChangeRules = () => {
     const { changeRulesData, isNew, params } = this.state;
     let renderChangeRules = [];
-    if (!isNew && params.record.dataRule === 'VALUE_OF_RULE') {
+    if (params.record&&params.record.dataRule === 'VALUE_OF_RULE') {
       changeRulesData.map(item => {
         let changeDataParams = {
           changeData: item,
@@ -243,18 +230,14 @@ class NewUpDataLineModeDataRules extends React.Component {
       changeDataParams,
       renderNewChangeRules,
     } = this.state;
-
+console.log(params)
     return (
       <div className="new-updata-line-mode-data-rules">
-        {this.state.params.timestamp ? (
           <DataRulesForm
             params={params}
             upDataHandle={this.upDataHandle}
             changeDataRule={this.changeDataRule}
           />
-        ) : (
-          ''
-        )}
         <Spin spinning={this.state.spinningLoading}>
           <div style={{ marginTop: '24px' }}>
             {buttonRender ? (

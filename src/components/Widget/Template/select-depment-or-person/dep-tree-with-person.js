@@ -47,6 +47,7 @@ class DepTreeWithPerson extends React.Component {
             key={item.key}
             dataRef={item}
             className="org-dep-node"
+            isLeaf={item.isLeaf}
           >
             {this.renderTreeNodes(item.children)}
           </TreeNode>
@@ -71,6 +72,7 @@ class DepTreeWithPerson extends React.Component {
             title={this.renderTreeNodesTitle(item)}
             key={item.key}
             dataRef={item}
+            isLeaf={item.isLeaf}
           />
         );
       }
@@ -87,6 +89,7 @@ class DepTreeWithPerson extends React.Component {
           autoExpandParent={this.props.autoExpandParent}
           onSelect={this.props.onSelect}
           onExpand={this.props.onExpand}
+          loadData={this.props.loadData}
         >
           {this.renderTreeNodes(this.props.treeData)}
         </Tree>

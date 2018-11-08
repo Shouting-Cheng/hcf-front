@@ -188,8 +188,8 @@ class DistributionCompanyExpAdjustType extends Component {
         }
       });
         return (
-            <div className='company-distribution'>
-              <div className="jsq" style={{background: '#f5f5f5', width: '100%', height: '80', borderRadius:'4'}}>
+            <div className='company-distribution' style={{paddingBottom: 20}}>
+              <div className="jsq" style={{background: '#f5f5f5', width: '100%', height: '90px', borderRadius:'4'}}>
                 {periodRow}
               </div>
 

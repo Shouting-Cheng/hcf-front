@@ -58,7 +58,7 @@ class PublicReimburseReport extends React.Component {
                 },
                 { type: 'select', id: 'documentTypeId', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all/?formType=105`, options: [], method: 'get', valueKey: "formId", labelKey: "formName", colSpan: 6 },
                 {
-                    type: 'list', listType: 'user', options: [], id: 'applyId', label: '申请人', labelKey: 'employeeID', valueKey: "employeeID", single: true, colSpan: 6,
+                    type: 'list', listType: 'user', options: [], id: 'applyId', label: '申请人', labelKey: 'fullName', valueKey: "employeeID", single: true, colSpan: 6,
                     listExtraParams: { "setOfBooksId": this.props.company.setOfBooksId }
                 },
                 {
@@ -73,7 +73,7 @@ class PublicReimburseReport extends React.Component {
                     ], colSpan: 6
                 },
                 {
-                    type: 'list', listType: 'department', id: 'unitId', label: '部门', options: [], labelKey: 'name', valueKey: 'departmentId', single: true, colSpan: 6,
+                    type: 'list', listType: 'department', id: 'unitId', label: '单据部门', options: [], labelKey: 'name', valueKey: 'departmentId', single: true, colSpan: 6,
                     listExtraParams: { "tenantId": this.props.user.tenantId }
                 },
                 {
@@ -235,9 +235,12 @@ class PublicReimburseReport extends React.Component {
         values.applyDateTo = values.applyDateTo ? moment(values.applyDateTo).format('YYYY-MM-DD') : undefined;
         values.checkDateFrom = values.checkDateFrom ? moment(values.checkDateFrom).format('YYYY-MM-DD') : undefined;
         values.checkDateTo = values.checkDateTo ? moment(values.checkDateTo).format('YYYY-MM-DD') : undefined
-        this.setState({ searchParams: { ...values, ...this.state.searchParams } }, () => {
+        this.setState({ searchParams: {...values} }, () => {
             this.getList()
         });
+        // this.setState({ searchParams: {...values,...this.state.searchParams}}, () => {
+        //     this.getList()
+        // });
 
     }
     //清除查询条件

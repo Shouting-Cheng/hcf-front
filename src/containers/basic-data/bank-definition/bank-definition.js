@@ -436,12 +436,16 @@ class BankDefinition extends React.Component {
       page: 0,
       size: 1000,
     };
-    BSService.getStates(params).then(response => {
+    BSService.getStatesAndCitys(params).then(response => {
       let children = response.data.map(item => {
         item.label = item.state;
         item.value = item.code;
-        item.children = [];
-        this.getCityByCode(item.code);
+        item.children.map(city => {
+          city.label = city.city;
+          city.value = city.code;
+        })
+        //item.children = [];
+        //this.getCityByCode(item.code);
         return item;
       });
       this.setChinaState(children);

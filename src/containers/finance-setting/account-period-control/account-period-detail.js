@@ -217,41 +217,42 @@ class AccountPeriodDetail extends React.Component {
     });
     return (
       <div className="account-period-detail">
-        <h3 className="header-title">{this.$t('account.period.control.detail.title')/* 账套期间信息 */}</h3>
-        {periodRow}
-        <h3 className="header-title" style={{margin:'24px 0 10px'}}>{this.$t('account.period.control.detail.title.close')/* 会计期间-未打开 */}</h3>
-        <Table rowKey={record => record.id}
-               columns={columns}
-               dataSource={dataClose}
-               pagination={false}
-               loading={loadingClose}
-               bordered
-               size="middle" />
-        <Pagination size="small"
-                    showSizeChanger
-                    onShowSizeChange={this.onShowCloseSizeChange}
-                    defaultPageSize={pageSizeClose}
-                    pageSizeOptions={['5','10','20','30','50']}
-                    style={{float:'right',margin:'10px 0'}}
-                    onChange={this.onChangeClosePage}
-                    total={paginationClose.total} />
-        <h3 className="header-title" style={{margin:'40px 0 10px'}}>{this.$t('account.period.control.detail.title.open')/* 会计期间-已打开 */}</h3>
-        <Table rowKey={record => record.id}
-               columns={columns}
-               dataSource={dataOpen}
-               pagination={false}
-               loading={loadingOpen}
-               bordered
-               size="middle" />
-        <Pagination size="small"
-                    showSizeChanger
-                    onShowSizeChange={this.onShowOpenSizeChange}
-                    defaultPageSize={pageSizeOpen}
-                    pageSizeOptions={['5','10','20','30','50']}
-                    style={{float:'right',margin:'10px 0 50px'}}
-                    onChange={this.onChangeOpenPage}
-                    total={paginationOpen.total} />
         <Spin spinning={false}>
+          <h3 className="header-title">{this.$t('account.period.control.detail.title')/* 账套期间信息 */}</h3>
+          {periodRow}
+          <h3 className="header-title" style={{margin:'24px 0 10px'}}>{this.$t('account.period.control.detail.title.close')/* 会计期间-未打开 */}</h3>
+          <Table rowKey={record => record.id}
+                columns={columns}
+                dataSource={dataClose}
+                pagination={false}
+                loading={loadingClose}
+                bordered
+                size="middle" />
+          <Pagination size="small"
+                      showSizeChanger
+                      onShowSizeChange={this.onShowCloseSizeChange}
+                      defaultPageSize={pageSizeClose}
+                      pageSizeOptions={['5','10','20','30','50']}
+                      style={{float:'right',margin:'10px 0'}}
+                      onChange={this.onChangeClosePage}
+                      total={paginationClose.total} />
+          <h3 className="header-title" style={{margin:'40px 0 10px'}}>{this.$t('account.period.control.detail.title.open')/* 会计期间-已打开 */}</h3>
+          <Table rowKey={record => record.id}
+                columns={columns}
+                dataSource={dataOpen}
+                pagination={false}
+                loading={loadingOpen}
+                bordered
+                size="middle" />
+          <Pagination size="small"
+                      showSizeChanger
+                      onShowSizeChange={this.onShowOpenSizeChange}
+                      defaultPageSize={pageSizeOpen}
+                      pageSizeOptions={['5','10','20','30','50']}
+                      style={{float:'right',margin:'10px 0 70px'}}
+                      onChange={this.onChangeOpenPage}
+                      total={paginationOpen.total} />
+
           <Affix
             offsetBottom={0}
             style={{

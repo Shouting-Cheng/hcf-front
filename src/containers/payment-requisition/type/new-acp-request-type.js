@@ -478,7 +478,7 @@ class AcpRequestTypeDetail extends React.Component {
                 <Radio value="BASIS_01">全部类型</Radio>
                 <Radio value="BASIS_02">部分类型</Radio>
               </RadioGroup>
-              <Select
+              <Input
                 ref="SelectCheckSheetType"
                 onFocus={this.showSelectCheckSheetType}
                 disabled={relatedType === 'BASIS_01'}

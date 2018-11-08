@@ -10,8 +10,6 @@ import config from 'config';
 import SearchArea from 'widget/search-area.js';
 import budgetJournalService from 'containers/budget/budget-journal-re-check/budget-journal-re-check.service';
 
-
-
 class BudgetJournalReCheck extends React.Component {
   constructor(props) {
     super(props);
@@ -46,8 +44,9 @@ class BudgetJournalReCheck extends React.Component {
 
       searchForm: [
         {
-          type: 'input', id: 'journalCode',
-          label: this.$t({ id: 'budgetJournal.journalCode' }), /*预算日记账编号*/
+          type: 'input',
+          id: 'journalCode',
+          label: this.$t({ id: 'budgetJournal.journalCode' }) /*预算日记账编号*/,
         },
         {
           type: 'select',
@@ -107,7 +106,7 @@ class BudgetJournalReCheck extends React.Component {
           options: [],
           method: 'get',
           getUrl: `${config.budgetUrl}/api/budget/journals/selectCheckedEmp`,
-          getParams: {},
+          getParams: { organizationId: this.props.organization.id },
           labelKey: 'empName',
           valueKey: 'empOid',
         },
@@ -121,10 +120,7 @@ class BudgetJournalReCheck extends React.Component {
           key: 'journalCode',
           dataIndex: 'journalCode',
           width: '18%',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*预算日记账类型*/
@@ -132,10 +128,7 @@ class BudgetJournalReCheck extends React.Component {
           key: 'journalTypeName',
           dataIndex: 'journalTypeName',
           width: '12%',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*编制期段*/
@@ -145,47 +138,44 @@ class BudgetJournalReCheck extends React.Component {
         },
         {
           /*预算表*/
-          title: this.$t({ id: 'budgetJournal.structureId' }), key: 'structureName', dataIndex: 'structureName',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          title: this.$t({ id: 'budgetJournal.structureId' }),
+          key: 'structureName',
+          dataIndex: 'structureName',
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*预算场景*/
-          title: this.$t({ id: 'budgetJournal.scenarioId' }), key: 'scenario', dataIndex: 'scenario',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          title: this.$t({ id: 'budgetJournal.scenarioId' }),
+          key: 'scenario',
+          dataIndex: 'scenario',
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*预算版本*/
-          title: this.$t({ id: 'budgetJournal.versionId' }), key: 'versionName', dataIndex: 'versionName',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          title: this.$t({ id: 'budgetJournal.versionId' }),
+          key: 'versionName',
+          dataIndex: 'versionName',
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*申请人*/
-          title: this.$t({ id: 'budgetJournal.employeeId' }), key: 'employeeName', dataIndex: 'employeeName',
-          render: recode => (
-            <Popover content={recode}>
-              {recode}
-            </Popover>),
+          title: this.$t({ id: 'budgetJournal.employeeId' }),
+          key: 'employeeName',
+          dataIndex: 'employeeName',
+          render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
           /*创建时间*/
-          title: this.$t({ id: 'budgetJournal.submitDate' }), key: 'submitDate', dataIndex: 'submitDate',
-          render: recode => (
-            <Popover content={recode}>
-              {String(recode).substring(0, 10)}
-            </Popover>),
+          title: this.$t({ id: 'budgetJournal.submitDate' }),
+          key: 'submitDate',
+          dataIndex: 'submitDate',
+          render: recode => <Popover content={recode}>{String(recode).substring(0, 10)}</Popover>,
         },
         {
           /*状态*/
-          title: this.$t({ id: 'budgetJournal.status' }), key: 'status', dataIndex: 'status',
+          title: this.$t({ id: 'budgetJournal.status' }),
+          key: 'status',
+          dataIndex: 'status',
           render(recode, text) {
             return text.statusName;
             /*  console.log(recode)
@@ -203,14 +193,13 @@ class BudgetJournalReCheck extends React.Component {
           },
         },
       ],
-      selectedEntityOIDs: [],    //已选择的列表项的OIDs
+      selectedEntityOIDs: [], //已选择的列表项的OIDs
     };
   }
 
   componentWillMount() {
     this.getList();
   }
-
 
   //获取复核
   getList() {
@@ -219,71 +208,93 @@ class BudgetJournalReCheck extends React.Component {
     params.organizationId = this.props.organization.id;
     params.page = this.state.pagination.page;
     params.size = this.state.pagination.pageSize;
-    budgetJournalService.getBudgetJournalReCheckHeader(params).then((response) => {
-      this.setState({
-        loading: false,
-        data: response.data,
-        pagination: {
-          total: Number(response.headers['x-total-count']) ? Number(response.headers['x-total-count']) : 0,
-          onChange: this.onChangePager,
-          current: this.state.page + 1,
+    budgetJournalService.getBudgetJournalReCheckHeader(params).then(response => {
+      this.setState(
+        {
+          loading: false,
+          data: response.data,
+          pagination: {
+            total: Number(response.headers['x-total-count'])
+              ? Number(response.headers['x-total-count'])
+              : 0,
+            onChange: this.onChangePager,
+            current: this.state.page + 1,
+          },
         },
-      }, () => {
-
-      });
+        () => {}
+      );
     });
   }
 
   //分页点击
-  onChangePager = (page) => {
+  onChangePager = page => {
     if (page - 1 !== this.state.page)
-      this.setState({
-        page: page - 1,
-        loading: true,
-      }, () => {
-        this.getList();
-      });
+      this.setState(
+        {
+          page: page - 1,
+          loading: true,
+        },
+        () => {
+          this.getList();
+        }
+      );
   };
 
   //点击搜搜索
-  handleSearch = (values) => {
+  handleSearch = values => {
     const valuesData = {
       ...this.state.params,
       ...values,
       //empId: va
-      'createDate': values['createDate'] ? values['createDate'].format('YYYY-MM-DD') : '',
+      createDate: values['createDate'] ? values['createDate'].format('YYYY-MM-DD') : '',
     };
-    this.setState({
-      searchParams: valuesData,
-    }, () => {
-      this.getList();
-    });
+    this.setState(
+      {
+        searchParams: valuesData,
+      },
+      () => {
+        this.getList();
+      }
+    );
   };
 
   //新建
   handleCreate = () => {
-    this.props.dispatch(routerRedux.push({ pathname: `/budget/budget-journal/new-budget-journal` }));
+    this.props.dispatch(
+      routerRedux.push({ pathname: `/budget/budget-journal/new-budget-journal` })
+    );
   };
 
   //跳转到详情
-  HandleRowClick = (value) => {
-
+  HandleRowClick = value => {
     const journalCode = value.id;
 
-    this.props.dispatch(routerRedux.push({ pathname: `/budget/budget-journal-re-check/budget-journal-re-check-detail/${journalCode}`}));
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/budget/budget-journal-re-check/budget-journal-re-check-detail/${journalCode}`,
+      })
+    );
     //budgetJournalDetailSubmit
-
   };
 
   render() {
-    const { loading, searchForm, data, selectedRowKeys, pagination, columns, batchCompany } = this.state;
+    const {
+      loading,
+      searchForm,
+      data,
+      selectedRowKeys,
+      pagination,
+      columns,
+      batchCompany,
+    } = this.state;
     const { organization } = this.props.organization;
     return (
       <div className="budget-journal">
-        <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
+        <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
         <div className="table-header">
-          <div
-            className="table-header-title">{this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}</div>
+          <div className="table-header-title">
+            {this.$t({ id: 'common.total' }, { total: `${pagination.total}` })}
+          </div>
           {/*共搜索到*条数据*/}
         </div>
         <Table
@@ -305,8 +316,13 @@ class BudgetJournalReCheck extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization
+    organization: state.user.organization,
   };
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })((BudgetJournalReCheck));
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(BudgetJournalReCheck);
