@@ -144,6 +144,7 @@ class Employee extends React.Component {
           listType: 'all_company_with_legal_entity',
           labelKey: 'companyName',
           valueKey: 'companyOID',
+          single:true,
           placeholder: this.$t('person.manage.select'), //"请选择",
           event: 'companyOIDChange',
         },
@@ -175,8 +176,10 @@ class Employee extends React.Component {
       ],
       columns: [
         {
-          title: '账号',
-          dataIndex: 'login',
+          title: this.$t('person.manage.company'), //公司
+          dataIndex: 'companyName',
+          showTooltip: true,
+          width: 160,
           render: text => (
             <span>
               {text ? (
@@ -208,10 +211,26 @@ class Employee extends React.Component {
         {
           title: this.$t('person.manage.name'), //姓名
           dataIndex: 'fullName',
-          render: (value, record) => (
-            <Tooltip>
+          render: (value, record) => ( 
+           <Tooltip title={record.roleList.map(o => o.roleName).join(' ')}>
               <Tag color="green">{value}</Tag>
             </Tooltip>
+          ),
+        },
+        {
+          title: this.$t('person.manage.dep'), //部门
+          dataIndex: 'departmentName',
+          showTooltip: true,
+          render: text => (
+            <span>
+              {text ? (
+                <Popover placement="topLeft" content={text}>
+                  {text}
+                </Popover>
+              ) : (
+                '-'
+              )}
+            </span>
           ),
         },
         {
@@ -277,39 +296,6 @@ class Employee extends React.Component {
           },
         },
         {
-          title: this.$t('person.manage.company'), //公司
-          dataIndex: 'companyName',
-          showTooltip: true,
-          width: 160,
-          render: text => (
-            <span>
-              {text ? (
-                <Popover placement="topLeft" content={text}>
-                  {text}
-                </Popover>
-              ) : (
-                '-'
-              )}
-            </span>
-          ),
-        },
-        {
-          title: this.$t('person.manage.dep'), //部门
-          dataIndex: 'departmentName',
-          showTooltip: true,
-          render: text => (
-            <span>
-              {text ? (
-                <Popover placement="topLeft" content={text}>
-                  {text}
-                </Popover>
-              ) : (
-                '-'
-              )}
-            </span>
-          ),
-        },
-        {
           title: this.$t('person.manage.operation'), //操作
           dataIndex: 'option',
           align: 'center',
@@ -318,23 +304,14 @@ class Employee extends React.Component {
             return (
               <span>
                 <a onClick={() => this.alloc(record)}>分配角色</a>
+                <span className="ant-divider" />
+                <a  onClick={e => this.editItemPerson(e, record)}>
+                 {/*详情*/}
+                 {this.$t('common.detail')}
+                 </a>
               </span>
             );
           },
-        },
-        {
-          title: this.$t('person.manage.operation'), //"操作",
-          dataIndex: 'id',
-          key: 'id',
-          align: 'center',
-          render: (text, record) => (
-            <span>
-              <a onClick={e => this.editItemPerson(e, record)}>
-                {/*详情*/}
-                {this.$t('common.detail')}
-              </a>
-            </span>
-          ),
         },
       ],
     };
@@ -436,7 +413,8 @@ class Employee extends React.Component {
       corporationOID: this.state.params.corporationOIDs,
       status: this.state.params.status,
     };
-    PMService.searchPersonInDep(params).then(response => {
+   // searchUserListByCond  searchPersonInDep
+    PMService.searchUserListByCond(params).then(response => {
       pagination.total = Number(response.headers['x-total-count']);
       this.setState({
         loading: false,
@@ -462,7 +440,6 @@ class Employee extends React.Component {
   };
   //新增员工
   handleCreatePerson = () => {
-    console.log('新增员工');
     this.setBeforePage(this.state.pagination);
     let cacheObj = this.state.cacheObj;
     let cacheObjStr = JSON.stringify(cacheObj);
@@ -595,7 +572,6 @@ class Employee extends React.Component {
 
   //编辑员工
   editItemPerson = (e, record) => {
-    console.log(record);
     this.setBeforePage(this.state.pagination);
     let cacheObj = this.state.cacheObj;
     let cacheObjStr = JSON.stringify(cacheObj);
@@ -884,7 +860,7 @@ class Employee extends React.Component {
         <Alert
           style={{ marginBottom: 10 }}
           closable
-          message="操作后，刷新当前页面，或则重新登录才能生效！"
+          message="操作成功后，刷新当前页面或重新登录才能生效！"
           type="info"
         />
         <SearchArea isExtraFields={true} submitHandle={this.handleSearch} searchForm={searchForm} />

@@ -33,6 +33,19 @@ export default {
         })
     })
   },
+  //员工管理查询员工接口
+  searchUserListByCond(params){
+    return new Promise((resolve, reject) => {
+      httpFetch.get(config.baseUrl + '/auth/api/userRole/query/usersList?tenantId=1050629004792754178', params)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          errorMessage(err.response);
+          reject(err);
+        })
+    })
+  },
 
   //邀请没有激活的用户使用
   inviteUser(userOIDS){
