@@ -195,7 +195,8 @@ class AccountingInfo extends React.Component {
                     this.getUnApprovedList();
                     this.getApprovedList();
                 }).catch(err => {
-                    message.error("创建凭证失败：" + err.res.data.message);
+                    this.setState({ createLoading: false });
+                    message.error("创建凭证失败：" + err.response.data.errorCode);
                 })
             } else {
                 this.setState({ createLoading: false });
