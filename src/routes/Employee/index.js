@@ -120,6 +120,7 @@ class Employee extends React.Component {
         departmentOIDs: [],
         corporationOIDs: [],
         status: 'all',
+        tenantId: '',
       },
       extraDep: {
         res: [],
@@ -144,7 +145,7 @@ class Employee extends React.Component {
           listType: 'all_company_with_legal_entity',
           labelKey: 'companyName',
           valueKey: 'companyOID',
-          single:true,
+          single: true,
           placeholder: this.$t('person.manage.select'), //"请选择",
           event: 'companyOIDChange',
         },
@@ -211,8 +212,8 @@ class Employee extends React.Component {
         {
           title: this.$t('person.manage.name'), //姓名
           dataIndex: 'fullName',
-          render: (value, record) => ( 
-           <Tooltip title={record.roleList.map(o => o.roleName).join(' ')}>
+          render: (value, record) => (
+            <Tooltip title={record.roleList.map(o => o.roleName).join(' ')}>
               <Tag color="green">{value}</Tag>
             </Tooltip>
           ),
@@ -305,10 +306,10 @@ class Employee extends React.Component {
               <span>
                 <a onClick={() => this.alloc(record)}>分配角色</a>
                 <span className="ant-divider" />
-                <a  onClick={e => this.editItemPerson(e, record)}>
-                 {/*详情*/}
-                 {this.$t('common.detail')}
-                 </a>
+                <a onClick={e => this.editItemPerson(e, record)}>
+                  {/*详情*/}
+                  {this.$t('common.detail')}
+                </a>
               </span>
             );
           },
@@ -361,7 +362,6 @@ class Employee extends React.Component {
     searchForm[0].defaultValue = defaultVal.keyword;
     searchForm[1].defaultValue = defaultVal.corporationOIDs;
     searchForm[2].defaultValue = defaultVal.status || 'all';
-
     //部门的稍微麻烦一点
     let deps = [];
     extraDep.res = defaultVal.departmentOIDs || [];
@@ -408,12 +408,13 @@ class Employee extends React.Component {
       sort: 'status',
       page: pagination.page,
       size: pagination.pageSize,
+      tenantId: this.props.user.tenantId,
       keyword: this.state.params.keyword,
       departmentOID: this.state.params.departmentOIDs,
       corporationOID: this.state.params.corporationOIDs,
       status: this.state.params.status,
     };
-   // searchUserListByCond  searchPersonInDep
+    // searchUserListByCond  searchPersonInDep
     PMService.searchUserListByCond(params).then(response => {
       pagination.total = Number(response.headers['x-total-count']);
       this.setState({
