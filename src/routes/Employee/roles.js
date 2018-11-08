@@ -86,7 +86,7 @@ class SelectRoles extends React.Component {
 
       service.getRoles(params).then(res => {
         let ids = res.map(item => item.id);
-        this.setState({ selectedRowKeys: ids, defaultIds: ids });
+        this.setState({ dataSource: res, selectedRowKeys: ids, defaultIds: ids });
       });
     }
   }
