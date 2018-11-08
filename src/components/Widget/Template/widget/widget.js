@@ -133,7 +133,7 @@ class Widget extends React.Component {
           </div>
         );
       case 'linkage_switch':
-        let childField = widget.fieldContent ? JSON.parse(widget.fieldContent) : [];
+        let childField = widget.fieldContent ? JSON.parse(widget.fieldContent.replace(/\\/g,"")) : [];
         return (
           <div className="widget-switch">
             <div className="widget-title">

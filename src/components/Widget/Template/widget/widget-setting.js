@@ -329,16 +329,16 @@ class WidgetSetting extends React.Component {
 
         if (widget.messageKey === 'linkage_switch') {
           widget.maxChildNum = widget.fieldConstraint
-            ? JSON.parse(widget.fieldConstraint).maxChildNum
+            ? JSON.parse(widget.fieldConstraint.replace(/\\/g,"")).maxChildNum
             : -1;
-          widget.linkageSwitchItems = widget.fieldContent ? JSON.parse(widget.fieldContent) : [];
+          widget.linkageSwitchItems = widget.fieldContent ? JSON.parse(widget.fieldContent.replace(/\\/g,"")) : [];
           widget.linkageSwitchItems.map(linkageSwitchItem => {
             linkageSwitchItem.fieldNameI18n = [];
             linkageSwitchItem.promptInfoI18n = [];
           });
           widget.customFormFieldI18nDTOS.map(i18nDTO => {
             if (i18nDTO.fieldContent) {
-              let i18ns = JSON.parse(i18nDTO.fieldContent);
+              let i18ns = JSON.parse(i18nDTO.fieldContent.replace(/\\/g,""));
               i18ns &&
                 i18ns.map((i18n, index) => {
                   widget.linkageSwitchItems[index].fieldNameI18n.push({
