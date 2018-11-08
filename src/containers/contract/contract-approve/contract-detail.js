@@ -98,8 +98,8 @@ class ContractDetail extends React.Component {
         )}
         {isConfirm && (
           <div className="bottom-bar bottom-bar-approve">
-            <div style={{ lineHeight: '50px' }}>
-              <Button style={{ marginLeft: 20 }} onClick={this.goBack} className="back-btn">
+            <div style={{ lineHeight: '50px',marginLeft: 30  }}>
+              <Button onClick={this.goBack} className="back-btn">
                 {this.$t({ id: 'common.back' } /*返回*/)}
               </Button>
             </div>
