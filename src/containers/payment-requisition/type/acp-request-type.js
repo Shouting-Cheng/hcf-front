@@ -202,7 +202,6 @@ class AcpRequestType extends React.Component {
           setOfBooksId: result.setOfBooksId ? result.setOfBooksId : this.props.company.setOfBooksId,
           acpReqTypeCode: result.acpReqTypeCode ? result.acpReqTypeCode : '',
           description: result.description ? result.description : '',
-          page: 0,
         },
       },
       () => {
