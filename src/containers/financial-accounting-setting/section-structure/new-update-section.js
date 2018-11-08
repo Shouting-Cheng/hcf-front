@@ -198,7 +198,7 @@ class NewUpdateSection extends React.Component {
                     single={true}
                     labelKey="code"
                     valueKey="code"
-                    listExtraParams={{ segmentSetId: this.state.section.segmentSetId }}
+                    listExtraParams={{ segmentSetId: this.props.params.segmentSetId || this.state.section.segmentSetId }}
                     onChange={this.handleSelect}
                   />
                 )}
