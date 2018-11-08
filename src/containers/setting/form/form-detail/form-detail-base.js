@@ -169,13 +169,13 @@ class FormDetailBase extends React.Component {
       if (booksID && booksID !== ':booksID') {
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
           })
         );
       }else{
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/setting/form-list/form-detail/${res.data.formOID}/:booksID`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/:booksID`,
           })
         );
       }

@@ -233,7 +233,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/NEW`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/NEW/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -245,7 +245,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -257,7 +257,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -351,9 +351,10 @@ class CostCenterDetail extends React.Component {
     backToCostCenter = () => {
         // let path = this.state.costCenter.url;
         // this.context.router.push(path);
+        console.log(this.state.infoData)
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center`,
+                pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
             })
         );
     }

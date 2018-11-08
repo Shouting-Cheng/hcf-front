@@ -11,13 +11,11 @@ class SelectCheckSheetType extends Component {
     super(props);
     this.state = {
       searchForm: [
-        { type: 'input', id: 'companyName', label: '公司名称' },
         { type: 'input', id: 'formCode', label: '报账单类型代码' },
         { type: 'input', id: 'formName', label: '报账单类型名称' },
       ],
       selectedData: [],
       columns: [
-        { title: '公司名称', dataIndex: 'companyName' },
         { title: '报账单类型代码', dataIndex: 'formCode' },
         { title: '报账单类型名称', dataIndex: 'formName' },
       ],
@@ -79,7 +77,6 @@ class SelectCheckSheetType extends Component {
       page: this.state.page,
       size: this.state.pageSize,
       setOfBooksId: this.props.params.setOfBooksId,
-      companyName: this.state.searchParams.companyName,
       formName: this.state.searchParams.formName,
       formCode: this.state.searchParams.formCode,
     };

@@ -469,7 +469,7 @@ class CostCenterItemDetail extends React.Component {
         // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', this.props.match.params.id));
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/${this.props.match.params.id}/${this.props.match.params.setOfBooksId}`,
             })
         );
     }
