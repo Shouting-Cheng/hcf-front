@@ -1368,12 +1368,12 @@ export const getRouterData = app => {
       name: 'company-maintain-detail',
       parent: '/enterprise-manage/company-maintain',
     },
-    //企业管理-公司维护-公司详情-新建银行账户
-    '/enterprise-manage/company-maintain/new-bank-account/:companyOId/:companyId/:flag': {
+    //企业管理-公司维护-公司详情-编辑银行账户
+    '/enterprise-manage/company-maintain/edit-bank-account/:companyOId/:companyId/:flag': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/company-maintain/new-bank-account.js')
       ),
-      name: 'new-bank-account',
+      name: 'edit-bank-account',
       parent: '/enterprise-manage/company-maintain',
     },
     '/admin-setting/company-level-define': {
@@ -1680,6 +1680,14 @@ export const getRouterData = app => {
       ),
       name: 'exp-report-reverse-check',
       parent: '/financial-management',
+    },
+    //企业管理-公司维护-公司详情-新建银行账户
+    '/enterprise-manage/company-maintain/new-bank-account/:companyOId/:companyId/:flag': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/company-maintain/new-bank-account.js')
+      ),
+      name: 'new-bank-account',
+      parent: '/enterprise-manage/company-maintain',
     },
 
     // '/user/:id': {

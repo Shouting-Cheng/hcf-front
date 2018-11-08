@@ -58,7 +58,7 @@ class NewUpdateSection extends React.Component {
     this.setState({loading: true,});
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.segmentSetId = this.state.section.segmentSetId;
+        values.segmentSetId = this.props.params.segmentSetId||this.state.section.segmentSetId;
         values.segmentField = values.segmentField[0].code;
         let method = null;
         if (typeof this.state.section.id === 'undefined') {

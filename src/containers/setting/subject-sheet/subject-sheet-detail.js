@@ -55,7 +55,7 @@ class SubjectSheetDetail extends React.Component {
       },
       searchForm: [
         { type: 'input', id: 'accountSetCode', disabled: true, label: this.$t({ id: 'subject.sheet.code' }) },
-        { type: 'input', id: 'accountSetDesc', disabled: false, label: this.$t({ id: 'subject.sheet.describe' }) },
+        { type: 'input', id: 'accountSetDesc', disabled: false, isRequired: true, label: this.$t({ id: 'subject.sheet.describe' }) },
         {
           type: 'switch', id: 'enabled', label: this.$t({ id: 'common.column.status' }),
           render: enabled => (
@@ -312,7 +312,7 @@ class SubjectSheetDetail extends React.Component {
       <div className="budget-journal">
         <BasicInfo infoList={searchForm} ref="subject_ref" infoData={infoData} loading={loading}
           updateState={updateState}
-          updateHandle={this.headerUpdateHandle} />
+          updateHandle={this.headerUpdateHandle} isHideEditBtn={true} />
 
         <div className="table-header">
           <div className="table-header-title">
