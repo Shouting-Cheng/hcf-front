@@ -1541,10 +1541,9 @@ export const getRouterData = app => {
     '/financial-management/expense-reverse': {
       //财务管理-费用反冲
       component: dynamicWrapper(app, [], () =>
-        import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
+        import('containers/financial-management/expense-reverse/expense-reverse.js')
       ),
-      name: 'exp-report-reverse-check',
-      parent: '/financial-management',
+      name: 'expense-reverse',
     },
     //财务管理 - 费用反冲单审核详情
     '/financial-management/exp-report-reverse-check/exp-report-reverse-check-detail/:id/:tab': {
@@ -1679,7 +1678,6 @@ export const getRouterData = app => {
         import('containers/financial-management/exp-report-reverse-check/exp-report-reverse-check.js')
       ),
       name: 'exp-report-reverse-check',
-      parent: '/financial-management',
     },
     //企业管理-公司维护-公司详情-新建银行账户
     '/enterprise-manage/company-maintain/new-bank-account/:companyOId/:companyId/:flag': {
