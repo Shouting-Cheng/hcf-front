@@ -32,7 +32,9 @@ class FormMatch extends React.Component {
                 url: `${config.baseUrl}/api/expense/form/assign/cash/transaction/classes/query`,
                 searchForm: [
                     {
-                        type: 'input', label: '账套', id: 'setOfBookId', defaultValue: this.props.company.setOfBooksId, disabled: true
+                        type: 'select', label: '账套', id: 'setOfBookId', defaultValue: this.props.company.setOfBooksId, disabled: true,
+                        options:[
+                        { label: this.props.company.setOfBooksName , value:this.props.company.setOfBooksId}]
                     },
                     {
                         type: 'input', label: '现金事务分类', id: 'classCode'
