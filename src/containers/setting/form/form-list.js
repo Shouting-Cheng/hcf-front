@@ -352,7 +352,7 @@ class FormList extends React.Component {
           <div style={{marginBottom: 20}}>
             <span>{this.$t('form.setting.set.of.books')/*帐套*/}：</span>
             <Dropdown overlay={menuSetOfBooks}>
-              <span style={{color: '#0092da'}}>{currentSetOfBooksName} <Icon type="down"/></span>
+              <span style={{color: '#0092da'}}>{this.props.company.setOfBooksName} <Icon type="down"/></span>
             </Dropdown>
           </div>
         )}
