@@ -352,11 +352,7 @@ export default {
     })
   },
   //批量启用／禁用成本中心项
-  batchUpdate(costCenterItemOIDs, enable) {
-    let params = {
-      costCenterItemOIDs,
-      enable
-    }
+  batchUpdate(params) {
     return new Promise(function (resolve, reject) {
       httpFetch.post(config.baseUrl + `/api/cost/center/items/batch/enable/or/disable`,params)
         .then(function (res) {
