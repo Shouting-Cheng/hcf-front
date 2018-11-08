@@ -62,7 +62,7 @@ class FormList extends React.Component {
         /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
           <span>
             <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{messages("common.delete")}</a>
+              <a>{this.$t("common.delete")}</a>
             </Popconfirm>
           </span>
         )}*/
@@ -103,7 +103,7 @@ class FormList extends React.Component {
         /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
           <span>
             <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{messages("common.delete")}</a>
+              <a>{this.$t("common.delete")}</a>
             </Popconfirm>
           </span>
         )}*/
@@ -142,7 +142,7 @@ class FormList extends React.Component {
         /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
           <span>
             <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{messages("common.delete")}</a>
+              <a>{this.$t("common.delete")}</a>
             </Popconfirm>
           </span>
         )}*/
@@ -151,7 +151,6 @@ class FormList extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.company)
     if (this.props.tenantMode) {
       BaseService.getSetOfBooksByTenant().then(resp => {
         if (resp.status === 200 && resp.data) {
@@ -178,17 +177,11 @@ class FormList extends React.Component {
   }
 
   handleMenuClick = (e) => {
-    // let redirect_url = menuRoute.getRouteItem('new-form').url.replace(':formType', e.key);
-    // if (this.state.currentSetOfBooksID) {
-    //   redirect_url = redirect_url.replace(':booksID', this.state.currentSetOfBooksID);
-    // }
-    // this.context.router.push(redirect_url);
     this.props.dispatch(
-        routerRedux.push({
-          pathname: `/admin-setting/form-list/new-form/${e.key}/${this.state.currentSetOfBooksID?this.state.currentSetOfBooksID:0}`,
-        })
-      );
-
+      routerRedux.push({
+        pathname: `/admin-setting/form-list/new-form/${e.key}/${this.state.currentSetOfBooksID?this.state.currentSetOfBooksID:0}`,
+      })
+    );
   };
 
   handleSearchList = (e) => {
@@ -336,14 +329,13 @@ class FormList extends React.Component {
       currentSetOfBooksName
     } = this.state;
     const menu = (
-      <Menu onClick={this.handleMenuClick}>
+      <Menu onClick={this.handleMenuClick} >
         {constants.documentType.map(item => <Menu.Item key={item.value}>{item.text}</Menu.Item>)}
       </Menu>
     );
     const menuSetOfBooks = (
-      <Menu onClick={this.handleSearchList} trigger={['click']}>
-        {/* {this.state.setOfBooks.map(item => <Menu.Item key={item.id}>{item.setOfBooksName}</Menu.Item>)} */}
-        <Menu.Item key={this.props.company.setOfBooksId}>{this.props.company.setOfBooksName}</Menu.Item>
+      <Menu onClick={this.handleSearchList} >
+        {this.state.setOfBooks.map(item => <Menu.Item key={item.id}>{item.setOfBooksName}</Menu.Item>)}
       </Menu>
     );
     return (
@@ -351,7 +343,7 @@ class FormList extends React.Component {
         {this.props.tenantMode && (
           <div style={{marginBottom: 20}}>
             <span>{this.$t('form.setting.set.of.books')/*帐套*/}：</span>
-            <Dropdown overlay={menuSetOfBooks}>
+            <Dropdown overlay={menuSetOfBooks} trigger={['click']}>
               <span style={{color: '#0092da'}}>{currentSetOfBooksName} <Icon type="down"/></span>
             </Dropdown>
           </div>

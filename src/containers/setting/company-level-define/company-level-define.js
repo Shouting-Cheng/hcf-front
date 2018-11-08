@@ -176,14 +176,14 @@ class CompanyLevelDefine extends React.Component {
           this.getList();
         }).catch(res => {
           switch (res.response.data.message) {
-            case '验证失败': message.error(this.$t('extend.field.name.no.empty'))
-                  break;
+            // case '验证失败': message.error(this.$t('extend.field.name.no.empty'))
+            //       break;
             case '公司级别已被引用不可修改': message.error(this.$t('company.level.define.can.not.edit'))
                   break;
             case '公司级别code重复': message.error(this.$t('company.level.define.code.repeat'))
                   break;
-            default: message.error(res.response.data.message);
-                  break;
+            // default: message.error(res.response.data.message);
+            //       break;
           }
         })
     })

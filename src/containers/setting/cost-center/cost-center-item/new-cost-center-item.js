@@ -494,7 +494,8 @@ class NewCostCenterItem extends React.Component {
                     <LanguageInput
                       disabled={!this.props.tenantMode}
                       key={1}
-                      name={costCenterItemDetail.name}
+                      name=''
+                      value={costCenterItemDetail.name}
                       i18nName={costCenterItemDetail.i18n ? costCenterItemDetail.i18n.name : []}
                       isEdit={costCenterItemDetail.id}
                       nameChange={this.i18nNameChange}
