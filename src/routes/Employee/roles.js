@@ -12,11 +12,14 @@ class SelectRoles extends React.Component {
         {
           title: '代码',
           dataIndex: 'roleCode',
-          width: 200,
+          align: 'center',
+          width: 140,
         },
         {
           title: '名称',
           dataIndex: 'roleName',
+          width: 140,
+          align: 'center',
         },
       ],
       selectedRowKeys: [],
@@ -136,7 +139,6 @@ class SelectRoles extends React.Component {
           rowKey="id"
           bordered
           size="middle"
-          scroll={{ y: 300 }}
           rowSelection={rowSelection}
           loading={loading}
         />
