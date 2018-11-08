@@ -167,21 +167,26 @@ class BudgetJournalCheckDetail extends React.Component {
   }
 
   componentDidMount = () => {
-    this.getHeadLine();
+    this.getToleAmount();
+    this.getBudgetJournalHead();
+    this.getBudgetJournalLine();
   };
 
   //获取日记账总金额
-  getToleAmount(id) {
-    budgetJournalService.getTotalCurrencyAmount(id).then(response => {
-      let totalAmount = response.data;
-      this.setState({ totalAmount });
-    });
+  getToleAmount() {
+    let infoDate = this.state.infoDate;
+    budgetJournalService
+      .getTotalCurrencyAmount(this.props.match.params.id)
+      .then(response => {
+        let totalAmount = response.data;
+        this.setState({ infoDate, totalAmount });
+      });
   }
 
   //获取日志记账头行
   getHeadLine() {
     budgetJournalService
-      .getBudgetJournalHeaderLine(this.props.match.params.journalCode)
+      .getBudgetJournalHeaderLine(this.props.match.params.id)
       .then(resp => {
         this.setState(
           {
@@ -192,7 +197,7 @@ class BudgetJournalCheckDetail extends React.Component {
             data: resp.data.list,
           },
           () => {
-            this.getToleAmount(resp.data.dto.id);
+            this.getToleAmount();
           }
         );
       });
@@ -200,7 +205,7 @@ class BudgetJournalCheckDetail extends React.Component {
 
   //获取日记账头
   getBudgetJournalHead() {
-    const budgetCode = this.props.match.params.journalCode;
+    const budgetCode = this.props.match.params.id;
     budgetJournalService.getBudgetJournalHeaderDetil(budgetCode).then(request => {
       this.getDimensionByStructureId(request.data.structureId);
       let headerData = request.data;
@@ -235,7 +240,7 @@ class BudgetJournalCheckDetail extends React.Component {
       spinLoading: true,
     });
 
-    const budgetCode = this.props.match.params.journalCode;
+    const budgetCode = this.props.match.params.id;
     budgetJournalService
       .getBudgetJournalLineDetil(budgetCode, params)
       .then(response => {
@@ -299,7 +304,7 @@ class BudgetJournalCheckDetail extends React.Component {
       .get(
         `${
         config.budgetUrl
-        }/api/budget/journals/getLayoutsByStructureId?isEnabled=true&structureId=${value}`
+        }/api/budget/journals/getLayoutsByStructureId?enabled=true&structureId=${value}`
       )
       .then(resp => {
         this.getColumnsAndDimensionhandleData(resp.data);

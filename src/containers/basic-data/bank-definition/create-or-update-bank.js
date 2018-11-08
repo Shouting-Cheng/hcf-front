@@ -188,6 +188,10 @@ class CreateOrUpdateBank extends React.Component {
 
   //选择国家值
   handleCountryChange = value => {
+    //选择国家时把开户地置空
+    this.props.form.setFieldsValue({
+      openAccount: ''
+    });
     if (value === 'CHN000000000') {
       this.setState({
         isChina: true,

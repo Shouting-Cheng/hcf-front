@@ -294,7 +294,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
   editItem = (e, record) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/company-maintain/new-bank-account/${
+        pathname: `/enterprise-manage/company-maintain/edit-bank-account/${
           this.props.match.params.companyOId
         }/${this.props.match.params.companyId}/${record.id}`,
       })
