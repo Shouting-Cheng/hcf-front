@@ -50,6 +50,7 @@ class CostCenterDetail extends React.Component {
             },
             //被选择了的成本中心项
             selectedRowKeys: [],
+            selectMode: "",//选择多个或者选择全部的标识，与后端对应
             depNeedMoveOut: [],//被选择了的成本中心项
             costCenterItemName: "",//输入搜索成本中心项名称与code
             columns: [
@@ -233,7 +234,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/NEW`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/NEW/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -245,7 +246,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -257,7 +258,7 @@ class CostCenterDetail extends React.Component {
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -298,7 +299,14 @@ class CostCenterDetail extends React.Component {
         if (type === 'enabled') {
             enable = true;
         }
-        CCService.batchUpdate(this.state.selectedRowKeys, enable).then(res => {
+        
+        let params = {
+            costCenterOID : this.props.match.params.id,
+            costCenterItemOIDs : this.state.selectedRowKeys,
+            enable,
+            selectMode : this.state.selectMode
+        }
+        CCService.batchUpdate(params).then(res => {
             if (res.status === 200) {
                 message.success(this.$t('common.operate.success'));
                 this.getList(true);
@@ -310,6 +318,9 @@ class CostCenterDetail extends React.Component {
         let depNeedMoveOut = this.state.depNeedMoveOut;
         if (selected) {
             depNeedMoveOut.push(record.costCenterItemOID)
+            this.setState({
+                selectMode : "current_page"
+            })
         } else {
             depNeedMoveOut.delete(record.costCenterItemOID)
         }
@@ -321,6 +332,9 @@ class CostCenterDetail extends React.Component {
         if (selected) {
             changeRows.map(item => {
                 depNeedMoveOut.push(item.costCenterItemOID)
+            })
+            this.setState({
+                selectMode : "all_page"
             })
         } else {
             changeRows.map(item => {
@@ -351,9 +365,10 @@ class CostCenterDetail extends React.Component {
     backToCostCenter = () => {
         // let path = this.state.costCenter.url;
         // this.context.router.push(path);
+        console.log(this.state.infoData)
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center`,
+                pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
             })
         );
     }

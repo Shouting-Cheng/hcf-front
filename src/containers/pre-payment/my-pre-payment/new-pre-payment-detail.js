@@ -33,7 +33,7 @@ import Header from 'antd/lib/calendar/Header';
 import mePrePaymentService from './me-pre-payment.service';
 
 import SelectReceivables from 'widget/select-receivables';
-import {connect} from "dva/index";
+import { connect } from "dva/index";
 class NewPrePaymentDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -134,9 +134,9 @@ class NewPrePaymentDetail extends React.Component {
     }
     httpFetch
       .get(
-      `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
-      this.state.paymentReqTypeId
-      }`
+        `${config.prePaymentUrl}/api/cash/pay/requisition/types/queryTransactionClassByTypeId/${
+        this.state.paymentReqTypeId
+        }`
       )
       .then(res => {
         this.setState({ partnerCategoryOptions: res.data });
@@ -206,6 +206,9 @@ class NewPrePaymentDetail extends React.Component {
         values.paymentMethodCategory = this.state.params.paymentMethodCode;
         values.isEnabled = true;
         values.currency = values.currency && values.currency.key;
+        values.requisitionPaymentDate = new Date(values.requisitionPaymentDate.format("YYYY-MM-DD"));
+
+        console.log(values);
         delete values.application;
         delete values.partnerd;
         let url = `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/insertOrUpdateLine`;
@@ -495,7 +498,7 @@ class NewPrePaymentDetail extends React.Component {
                   return <Option key={option.id}>{option.description}</Option>;
                 })}
               </Select>
-              )}
+            )}
           </FormItem>
           <Row gutter={8}>
             <Col span={8} className="ant-form-item-label label-style">
@@ -510,14 +513,14 @@ class NewPrePaymentDetail extends React.Component {
                       message: '请选择币种',
                     },
                   ],
-                  initialValue:{key: params.id ? params.currency : this.props.company.baseCurrency,label:params.id ? params.currency+"-"+params.currencyName : this.props.company.baseCurrency+"-"+this.props.company.baseCurrencyName},
+                  initialValue: { key: params.id ? params.currency : this.props.company.baseCurrency, label: params.id ? params.currency + "-" + params.currencyName : this.props.company.baseCurrency + "-" + this.props.company.baseCurrencyName },
                 })(
                   <Select onChange={this.currencyChange} labelInValue>
                     {currencyList.map(item => {
                       return <Option key={item.currency}>{item.currency}-{item.currencyName}</Option>;
                     })}
                   </Select>
-                  )}
+                )}
               </FormItem>
             </Col>
             <Col span={5}>
@@ -533,7 +536,7 @@ class NewPrePaymentDetail extends React.Component {
                     style={{ width: '100%' }}
                     onBlur={this.onAmountMouseMove}
                   />
-                  )}
+                )}
               </FormItem>
             </Col>
           </Row>
@@ -551,7 +554,7 @@ class NewPrePaymentDetail extends React.Component {
                 <Option value="EMPLOYEE">员工</Option>
                 <Option value="VENDER">供应商</Option>
               </Select>
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方">
             {getFieldDecorator('partnerd', {
@@ -570,7 +573,7 @@ class NewPrePaymentDetail extends React.Component {
                 type={this.props.form.getFieldValue('partnerCategory')}
                 disabled={!this.props.form.getFieldValue('partnerCategory')}
               />
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方银行账户">
             {getFieldDecorator('accountNumber', {
@@ -591,7 +594,7 @@ class NewPrePaymentDetail extends React.Component {
                   );
                 })}
               </Select>
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="收款方户名">
             {getFieldDecorator('accountName', {
@@ -633,7 +636,7 @@ class NewPrePaymentDetail extends React.Component {
                   currencyCode: this.props.form.getFieldValue('currency').key,
                 }}
               />
-              )}
+            )}
             {/* <a style={{ position: 'absolute', marginLeft: '21vw', marginTop: -40, left: '102%', top: '1%', whiteSpace: 'nowrap' }}>查看详情</a> */}
           </FormItem>
           <FormItem {...formItemLayout} label="付款方式类型">
@@ -678,6 +681,12 @@ class NewPrePaymentDetail extends React.Component {
               <Col span={16}>
                 <Select allowClear
                   ref="contractSelect"
+                  onChange={(e) => {
+                    console.log(e)
+                    this.setState({
+                      contractValue: []
+                    })
+                  }}
                   value={contractValue}
                   labelInValue
                   dropdownStyle={{ display: 'none' }}
@@ -691,7 +700,7 @@ class NewPrePaymentDetail extends React.Component {
                     )}`}
                 </div>
               </Col>
-             {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+              {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
                 {contractValue.length > 0 && (
                   <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                 )}
@@ -700,9 +709,9 @@ class NewPrePaymentDetail extends React.Component {
           </div>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
-              保存
+              {this.$t('common.save')}
             </Button>
-            <Button onClick={this.onCancel}>取消</Button>
+            <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
         </Form>
         <SelectContract

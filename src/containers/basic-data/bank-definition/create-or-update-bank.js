@@ -161,8 +161,7 @@ class CreateOrUpdateBank extends React.Component {
 
   //国家省市
   onStateChange = (value, selectedOptions) => {
-    // console.log(value);
-    // console.log(selectedOptions);
+    
   };
 
   handleSubmit = e => {
@@ -189,6 +188,10 @@ class CreateOrUpdateBank extends React.Component {
 
   //选择国家值
   handleCountryChange = value => {
+    //选择国家时把开户地置空
+    this.props.form.setFieldsValue({
+      openAccount: ''
+    });
     if (value === 'CHN000000000') {
       this.setState({
         isChina: true,
@@ -343,6 +346,7 @@ class CreateOrUpdateBank extends React.Component {
               initialValue: this.state.country,
             })(
               <Select
+                allowClear='true'
                 className="select-country"
                 showSearch
                 placeholder={this.$t('common.please.select')}
@@ -382,7 +386,7 @@ function mapStateToProps(state) {
   return {
     organization: state.user.organization,
     company: state.user.company,
-    language: state.languages.languages,
+    language: state.languages,
   };
 }
 

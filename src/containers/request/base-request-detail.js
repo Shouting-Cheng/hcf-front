@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import constants from 'share/constants';
 import { getApprovelHistory } from 'utils/extend';
-import { Form, Tabs, Affix, Spin, Row, message } from 'antd';
+import { Form, Tabs, Affix, Spin, Row, message,Col } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import JDOrderInfo from 'containers/request/jd-request/jd-order-info';
@@ -76,9 +76,11 @@ class BaseRequestDetail extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     this.setState(
       {
         formOID: this.props.match.params.formOID,
+        approve: this.props.match.params.pageFrom === 'approved' || this.props.match.params.pageFrom === 'approving',
         /*approve: this.props.location.pathname.indexOf('approve-request-detail') > -1,
       audit: this.props.location.pathname.indexOf('loan-request-detail-audit') > -1,
       view: this.props.location.pathname.indexOf('finance-view') > -1,
@@ -118,6 +120,9 @@ class BaseRequestDetail extends React.Component {
     requestService
       .getFormType(formOID)
       .then(res => {
+        console.log(
+          res
+        )
         this.setState(
           {
             formType: res.data.formType,
@@ -260,7 +265,8 @@ class BaseRequestDetail extends React.Component {
   };
 
   render() {
-    const { approving, isPreVersion, latestApplicationOID, from } = this.props;
+    const { isPreVersion, latestApplicationOID, from } = this.props;
+    let approving = this.props.match.params.pageFrom === 'approving';
     const {
       payProcess,
       loading,
@@ -417,17 +423,36 @@ class BaseRequestDetail extends React.Component {
         {formType === 2004 && <JDOrderInfo info={info} />}
       </Spin>
     );
+
+
+    //撤回是否显示
+    let recallVisible = true;
+    if (
+      this.checkFunctionProfiles('ca.opt.withdraw.disabled', [true]) ||
+      (this.checkFunctionProfiles('ca.opt.withdraw.disabled', [false]) &&
+        this.checkFunctionProfiles('bill.approved.withdraw', [true]) &&
+        info.withdrawFlag === 'N')
+    ) {
+      recallVisible = false;
+    }
+
+    //
+    let backMargin;
+
+    //撤回
+    info.status === 1002 && info.rejectType === 1000 && recallVisible && (backMargin = -210);
+    //打印
+    info.printButtonDisplay && (backMargin = -40);
+    console.log(backMargin)
+    console.log(info.printButtonDisplay)
     return (
-      <div className="base-request-detail background-transparent">
+      <div className="base-request-detail" >
         <div className="tabs-info">
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info') /*申请单信息*/} key="requestInfo">
               {requestInfo}
             </TabPane>
-            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals">
-              <div style={{paddingTop: 20}}>
-                123
-              </div>
+            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals" style={{marginTop: 20}}>
               <ApproveHistory
                 approvalChains={info.approvalChains}
                 isShowReply={this.props.match.params.pageFrom === 'my' && info.status === 1003}
@@ -522,7 +547,11 @@ class BaseRequestDetail extends React.Component {
             />
           ) : (
             <Affix offsetBottom={0} className="bottom-bar">
+              <Col span={2} style={{
+                marginLeft: backMargin
+              }}>
               <GoBackBtn backType={this.props.match.params.pageFrom} />
+              </Col>
             </Affix>
           ))}
         {(!readOnly ||
@@ -535,16 +564,26 @@ class BaseRequestDetail extends React.Component {
           view) && (
           <Affix
             offsetBottom={0}
-            className={`bottom-bar ${
-              (approve && approving && showApproveBottom) || (!approve && approving)
-                ? 'bottom-bar-approve'
-                : ''
-            }`}
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              marginLeft: '-25px',
+              width: '100%',
+              height: '50px',
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+              background: '#fff',
+              lineHeight: '50px',
+              zIndex: 1,
+            }}
           >
-            {!readOnly && <RecallBtn info={info} />}
-            {(!readOnly || view) && <PrintBtn info={info} printFlag={view} />}
+            <Row gutter={24}>
+              {info.status === 1002 &&
+              info.rejectType === 1000 &&
+              recallVisible &&<Col span={2} style={{marginLeft: 20}}> <RecallBtn info={info} /></Col>}
+              {(!readOnly || view) && <Col span={2} style={{marginLeft: 20}}><PrintBtn info={info} printFlag={view} /></Col>}
             {!readOnly && (
               <TravelUpdateBtn
+                backType={this.props.match.params.pageFrom}
                 formType={Number(formType)}
                 info={info}
                 updateEnable={
@@ -560,7 +599,11 @@ class BaseRequestDetail extends React.Component {
             {!readOnly &&
             !payProcess &&
             (from !== 'expense' && from !== 'request') && ( //从报销单／申请单进来的关联申请单，因为是新开tab，不需要返回按钮
+              <Col span={2} style={{
+                marginLeft: backMargin
+              }}>
                 <GoBackBtn backType={this.props.match.params.pageFrom} />
+              </Col>
               )}
 
             {confirmPay && (
@@ -591,6 +634,7 @@ class BaseRequestDetail extends React.Component {
                 applicationOID={this.props.match.params.applicationOID}
               />
             )}
+            </Row>
           </Affix>
         )}
         {readOnly &&
@@ -603,7 +647,11 @@ class BaseRequestDetail extends React.Component {
           !view &&
           !audit && (
             <Affix offsetBottom={0} className="bottom-bar">
+              <Col span={2} style={{
+                marginLeft: backMargin
+              }}>
               <GoBackBtn backType={this.props.match.params.pageFrom}/>
+              </Col>
             </Affix>
           )}
       </div>
@@ -623,7 +671,7 @@ class BaseRequestDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user.user,
+    user: state.user.currentUser,
   };
 }
 

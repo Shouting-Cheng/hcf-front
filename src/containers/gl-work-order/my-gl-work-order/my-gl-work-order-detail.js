@@ -1124,7 +1124,7 @@ class MyGLWorkOrderDetail extends Component {
     }
     //真正渲染出来的东东
     return (
-      <div>
+      <div style={{padding: '0px 15px 85px 15px'}}>
         <Spin spinning={false}>
           <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
@@ -1179,11 +1179,20 @@ class MyGLWorkOrderDetail extends Component {
         <div style={{marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
           <ApproveHistory loading={historyLoading} infoData={approveHistory}/>
         </div>
-          <Affix offsetBottom={0} className="bottom-bar">
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
+            position: 'fixed',
+            bottom: 0,
+            width: '100%',
+            height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+            background: '#fff',
+            lineHeight: '50px',
+            zIndex: 1,
+          }}>
             {docHeadData.status === 1001 ||
             docHeadData.status === 1003 ||
             docHeadData.status === 1005 ? (
-              <div  style={{marginLeft: '30px'}}>
+              <Row  style={{marginLeft: '30px'}}>
                 <Button
                   type="primary"
                   loading={operationLoading}
@@ -1212,16 +1221,16 @@ class MyGLWorkOrderDetail extends Component {
                 >
                   返回
                 </Button>
-              </div>
+              </Row>
             ) : (
-              <div style={{marginLeft: '30px'}}>
+              <Row style={{marginLeft: '30px'}}>
                 <Button
                   loading={operationLoading}
                   onClick={this.onBack}
                 >
                   返 回
                 </Button>
-              </div>
+              </Row>
             )}
           </Affix>
         {/* 导入 */}

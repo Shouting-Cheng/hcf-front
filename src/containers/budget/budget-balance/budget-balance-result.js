@@ -231,11 +231,12 @@ class BudgetBalanceResult extends React.Component {
                bordered
                rowKey="key"
                scroll={{ x: `${scrollx + dimensionColumns.length * 10}%` }}/>
-        <SlideFrame content={BudgetBalanceAmountDetail}
+        <SlideFrame title={slideFrameParam.title} width="70%"
                     show={showSlideFrameFlag}
-                    onClose={() => this.setState({ showSlideFrameFlag: false })}
-                    params={slideFrameParam}
-                    title={slideFrameParam.title} width="70%"/>
+                    onClose={() => this.setState({ showSlideFrameFlag: false })}>
+          <BudgetBalanceAmountDetail
+                    params={slideFrameParam}/>
+        </SlideFrame>
 
         <div className="footer-operate">
           <Button type="primary" onClick={() => {

@@ -35,16 +35,12 @@ class NewBudgetRulesDetail extends React.Component {
   }
 
   componentWillMount() {
-    let organizationIdParams = { organizationId: this.props.organization.id, enabled: true };
+    let organizationIdParams = { organizationId: this.props.params.orgId, enabled: true };
     let userSelectorItem = {...selectorData['user']};
-
-    let itemSelectorItem = selectorData['budget_item'];
-    let key = itemSelectorItem.searchForm[1].getUrl.split("?").length;
-    if (key < 2) {
-      itemSelectorItem.searchForm[1].getUrl += `?organizationId=${this.props.organization.id}&enabled=${true}`;
-      itemSelectorItem.searchForm[2].getUrl += `?organizationId=${this.props.organization.id}&enabled=${true}`;
-    }
     userSelectorItem.key = 'employeeID';
+    let itemSelectorItem = {...selectorData['budget_item']};
+    itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.params.orgId);
+    itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.params.orgId);
     let paramValueMap = {
       'BUDGET_ITEM_TYPE': {
         listType: 'budget_item_type',
@@ -225,7 +221,8 @@ class NewBudgetRulesDetail extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextprops) {
+  /*componentWillReceiveProps(nextprops) {
+
     if(nextprops.params.visible&&!this.props.params.visible){
       this.setState({
         ruleId: nextprops.params,
@@ -244,14 +241,14 @@ class NewBudgetRulesDetail extends React.Component {
         this.props.form.resetFields()
       })
     }
-  }
+  }*/
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({loading: true,});
-        values.controlRuleId = this.props.ruleId;
+        values.controlRuleId = this.props.params.ruleId;
         let str = values.ruleParameter.split("+");
         values.ruleParameter = str[0];
         values.ruleParameterOID = str[1];
@@ -541,6 +538,7 @@ class NewBudgetRulesDetail extends React.Component {
                   })(
                   <Selput type={lov&&lov.listType}
                           valueKey={lov&&lov.codeKey}
+                          selectorItem={lov.selectorItem}
                           listExtraParams={lov&&lov.listExtraParams}
                           disabled={lov&&lov.disabled}
                           onChange={() => { }}
@@ -578,6 +576,7 @@ class NewBudgetRulesDetail extends React.Component {
                           valueKey={lov.codeKey}
                           listExtraParams={lov.listExtraParams}
                           disabled={lov.disabled}
+                          selectorItem={lov.selectorItem}
                           onChange={() => { }} />
                 )}
               </FormItem>

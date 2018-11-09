@@ -478,9 +478,9 @@ const wrappedExpenseAdjustApproveCommon = Form.create()((ExpenseAdjustApproveCom
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
-    organization: state.login.organization
+    user: state.user.currentUser,
+    company: state.user.company,
+    organization: state.user.organization
   }
 }
 

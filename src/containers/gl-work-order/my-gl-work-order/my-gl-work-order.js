@@ -234,7 +234,7 @@ class MyGLWorkOrder extends Component {
       size: pageSize,
       workOrderNumber: searchParams.workOrderNumber ? searchParams.workOrderNumber : null,
       workOrderTypeId: searchParams.workOrderTypeId ? searchParams.workOrderTypeId : null,
-      employeeId: searchParams.employeeId || this.props.user.id,
+      employeeId: searchParams.employeeId && searchParams.employeeId.toString()!=='' ? searchParams.employeeId: this.props.user.id,
       requisitionDateFrom: searchParams.requisitionDateFrom
         ? moment(searchParams.requisitionDateFrom).format('YYYY-MM-DD')
         : null,

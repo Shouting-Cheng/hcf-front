@@ -45,7 +45,7 @@ class ImageUpload extends React.Component {
         uid: attachment.attachmentOID,
         name: attachment.fileName,
         status: 'done',
-        url: attachment.fileURL,
+        url: attachment.thumbnailUrl
       });
     });
     this.setState({ fileList, result: defaultFileList });
@@ -99,7 +99,7 @@ class ImageUpload extends React.Component {
         result.map((item, index) => {
           if (
             item.attachmentOID ===
-              (info.file.response ? info.file.response.attachmentOID : info.file.attachmentOID) ||
+            (info.file.response ? info.file.response.attachmentOID : info.file.attachmentOID) ||
             item.attachmentOID === info.file.uid
           )
             result.splice(index, 1);
@@ -191,15 +191,14 @@ ImageUpload.propTypes = {
 ImageUpload.defaultProps = {
   uploadUrl: `${config.baseUrl}/api/upload/attachment`,
   defaultFileList: [],
-  onChange: () => {},
+  onChange: () => { },
   maxNum: 9,
   isShowDefault: false,
   disabled: false,
   showMaxNum: false,
 };
 function mapStateToProps(state) {
-  return {
-  };
+  return {};
 }
 // 注意
 // defaultFileList里面的对象属性要有

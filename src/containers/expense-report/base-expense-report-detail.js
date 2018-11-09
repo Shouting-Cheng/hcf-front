@@ -1568,19 +1568,19 @@ class ExpenseReportDetail extends React.Component {
           <Affix offsetBottom={0} className="bottom-bar">
             {expenseReportStatus.operate === 'edit' &&
             <Button type="primary" className="back-btn" onClick={this.handleSubmit}
-                    loading={submitting}>{this.$t('common.submit')/*提交*/}</Button>}
+                    loading={submitting} >{this.$t('common.submit')/*提交*/}</Button>}
             {expenseReportStatus.operate === 'edit' &&
             <Button className="back-btn delete-btn" loading={deleting}
-                    onClick={this.handleDelete}>{this.$t('common.delete')/*删除*/}</Button>}
+                    onClick={this.handleDelete} style={{ marginLeft: '10px' }} >{this.$t('common.delete')/*删除*/}</Button>}
             {expenseReportStatus.operate === 'processing' && this.checkFunctionProfiles('er.opt.withdraw.disabled', [undefined, false]) &&  !(this.checkFunctionProfiles('bill.approved.withdraw', [true]) && info.withdrawFlag === 'N') &&
             <Button className="back-btn" onClick={this.handleWithdraw}
-                    loading={withdrawing}>{this.$t('common.withdraw')/*撤回*/}</Button>}
+                    loading={withdrawing} style={{ marginLeft: '10px' }} >{this.$t('common.withdraw')/*撤回*/}</Button>}
             {info.printView === 1 &&
-            <Button type="primary" className="back-btn" onClick={this.handlePrint}
+            <Button type="primary" className="back-btn" style={{ marginLeft: '10px' }}  onClick={this.handlePrint}
                     loading={printLoading}>{this.$t('common.print')/*打印*/}</Button>}
-            {expenseReportStatus.operate === 'edit' && <Button className="back-btn" onClick={this.handleSave}
+            {expenseReportStatus.operate === 'edit' && <Button className="back-btn" style={{ marginLeft: '10px' }}  onClick={this.handleSave}
                                                                loading={saving}>{this.$t('common.save')/*保存*/}</Button>}
-            <Button className="back-btn" onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
+            <Button className="back-btn" style={{ marginLeft: '10px' }} onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
           </Affix>
         )}
         <ListSelector type="expense_report_invoice"

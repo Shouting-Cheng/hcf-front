@@ -35,40 +35,19 @@ class NewUpdateSection extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    let params = Object.assign({}, nextProps.params);
-    if (JSON.stringify(params) == '{}') {
-      this.props.form.resetFields();
-      this.setState({
-        firstRender: true,
+  componentDidMount(){
+    let params = {...this.props.params};
+    if(params.record){
+      this.props.form.setFieldsValue({
+        segmentField: [{ code: params.record.segmentField }],
       });
-    } //编辑
-    else if (typeof params.segmentSetId === 'undefined') {
-      if (this.state.firstRender) {
-        this.props.form.setFieldsValue({
-          segmentField: [{ code: nextProps.params.record.segmentField }],
-        });
-        this.setState({
-          section: params.record,
-          enabled: params.record.enabled,
-          firstRender: false,
-        });
-      }
-    } else {
-      //新建
-      if (this.state.firstRender) {
-        let section = {
-          segmentSetId: nextProps.params.segmentSetId,
-        };
-        this.setState({
-          section,
-          enabled: true,
-          firstRender: false,
-        });
-      }
+      this.setState({
+        section: params.record,
+        enabled: params.record.enabled,
+      });
     }
   }
+
 
   handleNotification = () => {
     notification.close('section');
@@ -76,12 +55,10 @@ class NewUpdateSection extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({
-      loading: true,
-    });
+    this.setState({loading: true,});
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.segmentSetId = this.state.section.segmentSetId;
+        values.segmentSetId = this.props.params.segmentSetId||this.state.section.segmentSetId;
         values.segmentField = values.segmentField[0].code;
         let method = null;
         if (typeof this.state.section.id === 'undefined') {
@@ -121,6 +98,8 @@ class NewUpdateSection extends React.Component {
               }
             }
           });
+      }else {
+        this.setState({loading: false,});
       }
     });
   };
@@ -219,7 +198,7 @@ class NewUpdateSection extends React.Component {
                     single={true}
                     labelKey="code"
                     valueKey="code"
-                    listExtraParams={{ segmentSetId: this.state.section.segmentSetId }}
+                    listExtraParams={{ segmentSetId: this.props.params.segmentSetId || this.state.section.segmentSetId }}
                     onChange={this.handleSelect}
                   />
                 )}

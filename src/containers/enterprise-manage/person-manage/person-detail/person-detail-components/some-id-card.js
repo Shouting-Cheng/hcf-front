@@ -244,7 +244,7 @@ class PersonSomeIdCard extends React.Component {
   //过期时间
   handleCardTimeChange = e => {
     let card = this.state.card;
-    card.cardExpiredTime = e.format();
+    card.cardExpiredTime = e !== null ? e.format() : null;
     if (this.state.loading) {
       this.setState({
         loading: false,

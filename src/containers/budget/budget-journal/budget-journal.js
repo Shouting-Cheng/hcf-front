@@ -7,6 +7,7 @@ import config from 'config';
 import SearchArea from 'components/Widget/search-area.js';
 import budgetJournalService from 'containers/budget/budget-journal/budget-journal.service';
 import 'styles/budget/budget-journal/budget-journal.scss';
+import Error from 'widget/error';
 
 class BudgetJournal extends React.Component {
   constructor(props) {
@@ -159,8 +160,10 @@ class BudgetJournal extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.getList();
+  componentDidMount() {
+    if (JSON.stringify(this.props.organization) != '{}') {
+      this.getList();
+    }
   }
 
   //获取预算日记账数据
@@ -260,7 +263,14 @@ class BudgetJournal extends React.Component {
       batchCompany,
     } = this.state;
     const organization = this.props.organization;
-    return (
+
+    //text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
+    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
+    //       skip: "/budget-setting/budget-organization",
+    //       buttonText: this.$t("main.error.set"),  //去设置
+    //       hasButton: true
+
+    return organization && JSON.stringify(organization) != '{}' ? (
       <div className="budget-journal">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />
         <div className="table-header">
@@ -288,6 +298,14 @@ class BudgetJournal extends React.Component {
           })}
         />
       </div>
+    ) : (
+      <Error
+        text={this.$t('main.error.budget.organization')}
+        title={this.$t('main.error.budget.organization.description')}
+        skip="/budget-setting/budget-organization"
+        buttonText={this.$t('main.error.set')}
+        hasButton
+      />
     );
   }
 }

@@ -60,6 +60,7 @@ class CurrencySettingEdit extends React.Component {
 
     componentWillMount() {
         this.getCurrencyDetail();
+        console.log(this.props.match.params.enableAutoUpdate)
     };
 
     //获取当条数据的详情
@@ -293,7 +294,7 @@ class CurrencySettingEdit extends React.Component {
                     }
                 }) .catch(e => {
                   this.setState({ loading: false });
-                  message.error(`${e.response.data.message}`);
+                  message.error(`${e.response.data.message.replace('(tenantId=1,050,629,004,792,754,178,setOfBooksId=1,050,629,005,174,435,842)','')}`);
                 });;
             },
             onCancel: () => {
@@ -436,8 +437,8 @@ class CurrencySettingEdit extends React.Component {
         let{setOfBooksId,functionalCurrencyCode,functionalCurrencyName}=this.props.match.params;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/currency-setting`
-                // pathname: `/admin-setting/currency-setting?setOfBooksId=${setOfBooksId}&functionalCurrencyCode=${functionalCurrencyCode}&functionalCurrencyName=${functionalCurrencyName}`,
+                // pathname: `/admin-setting/currency-setting`
+                pathname: `/admin-setting/currency-setting/${setOfBooksId}/${functionalCurrencyCode}/${functionalCurrencyName}`,
 
             })
         )
@@ -448,6 +449,7 @@ class CurrencySettingEdit extends React.Component {
         const { record, isBaseCurrency, columns, data, pagination, visible, operatedRecord, outEditRate,
             startDate, endDate, originalRate, loading } = this.state;
         const { enableAutoUpdate } = this.props.match.params;
+       
         return (
             isBaseCurrency ?
                 <div className='currency-edit-base'>
@@ -499,7 +501,8 @@ class CurrencySettingEdit extends React.Component {
                 {
                                     <Checkbox checked={record.enableAutoUpdate}
                                         onChange={this.onEnableAutoUpdate}
-                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate || !this.props.tenantMode} />
+                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate||!this.props.tenantMode }
+                                    />
                                 }
                             </Col>
                         </Row>

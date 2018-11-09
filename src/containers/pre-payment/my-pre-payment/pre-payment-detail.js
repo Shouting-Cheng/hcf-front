@@ -178,7 +178,7 @@ class PrePaymentDetail extends React.Component {
       </div>
     );
     return (
-      <div style={{ paddingBottom: 50 }} className="pre-payment-detail">
+      <div style={{ paddingBottom: 100 }} className="pre-payment-detail">
         <PrePaymentCommon params={headerData} contractEdit={true} id={id} />
         {this.props.params && this.props.params.refund ? (
           ''

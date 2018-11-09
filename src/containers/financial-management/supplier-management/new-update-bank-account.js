@@ -42,7 +42,7 @@ class NewUpdateBankAccount extends React.Component {
 
   componentWillMount() {
     let params = this.props.params;
-    if (JSON.stringify(params) != '{}') {
+    if (params.status == "editor") {
       //编辑
       this.props.form.setFieldsValue({venBankAccountBeans: params.bankName});
       params.bankDefaultName = [{bankCode: params.bankCode, bankBranchName: params.bankName}];

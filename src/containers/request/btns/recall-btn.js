@@ -43,8 +43,11 @@ class RecallBtn extends React.Component {
           message.error(`${this.$t('common.operate.filed')}，${reason}`);
         } else {
           message.success(this.$t('common.operate.success'));
+          let url = '/request';
+          if(this.props.backType==='approve')
+            url = '/approval-management/approve-request';
           this.props.dispatch(
-            routerRedux.replace({pathname: '/request'}));
+            routerRedux.replace({pathname: url}));
         }
       })
       .catch(e => {
@@ -57,23 +60,19 @@ class RecallBtn extends React.Component {
     const { loading } = this.state;
     const { info } = this.props;
     let recallVisible = true;
-    if (
+   /* if (
       this.checkFunctionProfiles('ca.opt.withdraw.disabled', [true]) ||
       (this.checkFunctionProfiles('ca.opt.withdraw.disabled', [false]) &&
         this.checkFunctionProfiles('bill.approved.withdraw', [true]) &&
         info.withdrawFlag === 'N')
     ) {
       recallVisible = false;
-    }
+    }*/
     return (
       <div className="recall-btn request-btn">
-        {info.status === 1002 &&
-          info.rejectType === 1000 &&
-          recallVisible && (
-            <Button type="primary" loading={loading} onClick={this.handleRecall}>
-              {this.$t('request.detail.btn.recall') /*撤 回*/}
-            </Button>
-          )}
+        <Button type="primary" loading={loading} onClick={this.handleRecall}>
+          {this.$t('request.detail.btn.recall') /*撤 回*/}
+        </Button>
       </div>
     );
   }

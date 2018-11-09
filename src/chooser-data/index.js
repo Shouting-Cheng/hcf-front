@@ -1261,7 +1261,7 @@ const chooserData = {
   add_employee: {
     title: '按条件添加员工',
     url: `${config.baseUrl}/api/users/search/company/term`,
-    searchForm: [{ type: 'input', id: 'keyword', label: '姓名／工号' }],
+    searchForm: [{ type: 'input', id: 'keyword', label: '姓名/工号/手机号/邮箱 ' }],
     columns: [
       { title: '工号', dataIndex: 'employeeID' },
       { title: '姓名', dataIndex: 'fullName' },
@@ -1549,7 +1549,7 @@ const chooserData = {
     url: `${config.accountingUrl}/api/account/general/ledger/scene/elements/queryAll/page`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: messages('chooser.data.code') },
-      { type: 'input', id: 'description', label: messages('chooser.data.name') },
+      { type: 'input', id: 'elementNature', label: messages('chooser.data.name') },
     ],
     columns: [
       { title: messages('chooser.data.code'), dataIndex: 'code' },
@@ -2636,6 +2636,19 @@ const chooserData = {
       },
     ],
     key: 'departmentOid',
+  },
+  select_setOfBooks_accounts: {
+    title: '选择科目',
+    url: `${config.baseUrl}/api/accounts/query/accounts/setOfBooksId`,
+    searchForm: [
+      { type: 'input', id: 'accountCode', label: "科目代码" },
+      { type: 'input', id: 'accountName', label: "科目名称" },
+    ],
+    columns: [
+      { title: "科目代码", dataIndex: 'accountCode' },
+      { title: "科目名称", dataIndex: 'accountName' },
+    ],
+    key: 'id'
   },
 };
 

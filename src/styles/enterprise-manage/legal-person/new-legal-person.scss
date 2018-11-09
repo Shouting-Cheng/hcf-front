@@ -1,6 +1,5 @@
 :global{
   .new-legal-person-wrap{
-
     .new-lp-row-wrap{
       margin-bottom: 10px;
       .new-lp-row{
@@ -12,5 +11,8 @@
         }
       }
     }
+  }
+  .new-lp-row-re {
+        color: red;
   }
 }

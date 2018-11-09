@@ -87,6 +87,25 @@ export default {
   },
   //产品需求是，只是选择了中国，才出现省市的地址
 
+  //获取省和市
+  getStatesAndCitys(params) {
+    // let params = {
+    //   language: "zh_cn",
+    //   code: "",
+    //   vendorType: "standard"
+    // }
+    return new Promise(function (resolve, reject) {
+      httpFetch.get(config.locationUrl + '/api/localization/query/stateAndCity', params)
+        .then(function (res) {
+          resolve(res)
+        })
+        .catch(function (err) {
+          errorMessage(err.response);
+          reject(err.response);
+        })
+    })
+  },
+
   //获取省
   getStates(params) {
     // let params = {

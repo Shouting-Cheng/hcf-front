@@ -2,7 +2,7 @@
 import React from 'react'
 import {connect} from 'dva'
 import constants from 'share/constants'
-import {Button, Form, Switch, Input, Checkbox, Radio, InputNumber, Row, Col, message, Spin} from 'antd'
+import {Button, Form, Switch, Input, Checkbox, Radio, InputNumber,Affix, Row, Col, message, Spin} from 'antd'
 
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -169,13 +169,13 @@ class FormDetailBase extends React.Component {
       if (booksID && booksID !== ':booksID') {
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
           })
         );
       }else{
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/setting/form-list/form-detail/${res.data.formOID}/:booksID`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/:booksID`,
           })
         );
       }
@@ -376,6 +376,13 @@ class FormDetailBase extends React.Component {
       [key]: value
     });
   };
+  goBack=()=>{
+    this.props.dispatch(
+        routerRedux.push({
+          pathname: `/admin-setting/form-list`,
+        })
+      );
+  }
 
   render() {
     const {formType, formOID} = this.context;
@@ -501,6 +508,21 @@ class FormDetailBase extends React.Component {
           </Row>
 
         </Form>
+        <div style={{paddingLeft:'20px'}}>
+                <Affix offsetBottom={0} style={{
+                 position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+                 }}>
+                    <Button
+                    type="primary"
+                    onClick={this.goBack}
+                    style={{ margin: '0 20px' }}
+                    >
+                {this.$t('common.back' /*提 交*/)}
+                </Button>
+                </Affix>
+
+                </div>
       </div>
     )
   }

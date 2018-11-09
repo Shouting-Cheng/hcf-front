@@ -23,7 +23,7 @@ class NewUpdateSectionStructure extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getSetOfBook();
     this.setState({
       enabled: this.props.params.id ? this.props.params.enabled : true,
@@ -31,7 +31,7 @@ class NewUpdateSectionStructure extends React.Component {
       setOfBooksId: this.props.params.setOfBooksId,
     });
   }
-  componentWillReceiveProps(nextprops) {
+  /*componentWillReceiveProps(nextprops) {
     let params = nextprops.params;
     if (!this.props.params.visible && nextprops.params.visible) {
       this.setState({
@@ -56,7 +56,7 @@ class NewUpdateSectionStructure extends React.Component {
     if (!nextprops.params.visible && this.props.params.visible) {
       this.props.form.resetFields();
     }
-  }
+  }*/
 
   getSetOfBook() {
     baseService.getSetOfBooksByTenant().then(response => {
@@ -122,6 +122,8 @@ class NewUpdateSectionStructure extends React.Component {
               }
             });
         }
+      }else {
+        this.setState({loading: false,});
       }
     });
   };
