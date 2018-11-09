@@ -180,12 +180,12 @@ class Chooser extends React.Component {
           dropdownStyle={{ display: 'none' }}
           disabled={disabled}
         />
-        <Icon
+        {/* <Icon
           className="ant-select-selection__clear"
           type="close-circle"
           onClick={this.clear}
           style={value.length === 0 ? { opacity: 0 } : {}}
-        />
+        /> */}
         <div
           className="chooser-number"
           onClick={() => {
