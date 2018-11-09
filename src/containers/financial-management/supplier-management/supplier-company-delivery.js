@@ -72,7 +72,7 @@ class SupplierCompanyDelivery extends React.Component {
     let id = this.props.match.params.id;
     //根据id查完整供应商信息
     vendorService.getVendorInfoById(id).then(response => {
-      response.data.venType = response.data.venType === '1001';
+      response.data.venType = (response.data.venType === 1001);
       this.setState({
         vendorInfo: response.data,
       }, this.getList)
@@ -166,7 +166,7 @@ class SupplierCompanyDelivery extends React.Component {
 
 
     return (
-      <div className="supplier-company-delivery">
+      <div className="supplier-company-delivery" style={{paddingBottom:20}}>
         <BasicInfo
           infoList={infoList}
           infoData={vendorInfo}
