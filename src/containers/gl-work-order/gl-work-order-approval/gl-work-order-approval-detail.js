@@ -324,10 +324,10 @@ class GLWorkOrderCheckDetail extends Component {
   /**
    * 审批通过
    */
-  onPassClick = () => {
+  onPassClick = (text,value) => {
     this.setState({ operateLoading: true });
     let params = {
-      approvalTxt: this.state.opinion,
+      approvalTxt: text,
       entities: [
         {
           entityOID: this.state.docHeadData.documentOid,
@@ -359,15 +359,10 @@ class GLWorkOrderCheckDetail extends Component {
   /**
    * 审批驳回
    */
-  onRejectClick = () => {
+  onRejectClick = (text,value) => {
     this.setState({ operateLoading: true });
-    if (!this.state.opinion) {
-      message.error('请输入审批意见');
-      this.setState({ operateLoading: false });
-      return;
-    }
     let params = {
-      approvalTxt: this.state.opinion,
+      approvalTxt: text,
       entities: [
         {
           entityOID: this.state.docHeadData.documentOid,

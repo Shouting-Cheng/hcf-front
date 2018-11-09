@@ -984,7 +984,18 @@ class NewExpense extends React.Component {
                   />
                 )}
               </div>
-              <Affix style={{ textAlign: 'center' }} offsetBottom={0} className="bottom-bar">
+              <Affix style={{
+                textAlign: 'center',
+                position: 'fixed',
+                bottom: 0,
+                marginLeft: '-25px',
+                width: '100%',
+                height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                background: '#fff',
+                lineHeight: '50px',
+                zIndex: 5,
+              }}>
                 <Button type="primary" htmlType="submit" loading={saveLoading}>
                   保存
                 </Button>
