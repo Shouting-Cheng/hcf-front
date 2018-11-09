@@ -83,10 +83,10 @@ class SelectRoles extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible && !this.props.visible) {
       let params = { userId: nextProps.userId, queryFlag: 'ASSIGNED' };
-
+      this.getList();
       service.getRoles(params).then(res => {
         let ids = res.map(item => item.id);
-        this.setState({ dataSource: res, selectedRowKeys: ids, defaultIds: ids });
+        this.setState({ selectedRowKeys: ids, defaultIds: ids });
       });
     }
   }

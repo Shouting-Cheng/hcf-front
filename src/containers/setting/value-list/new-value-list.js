@@ -460,7 +460,7 @@ class ValueList extends React.Component {
       //新增
       this.props.dispatch(
         routerRedux.push({
-          pathname: '/admin-setting/value-list',
+          pathname: '/admin-setting/value-list/:tab'.replace(':tab',this.props.match.params.tab),
         })
       );
 
@@ -668,7 +668,7 @@ class ValueList extends React.Component {
   handleBack = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/admin-setting/value-list',
+        pathname: '/admin-setting/value-list/:tab'.replace(':tab',this.props.match.params.tab),
       })
     );
   };

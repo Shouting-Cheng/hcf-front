@@ -58,7 +58,7 @@ class PublicReimburseReport extends React.Component {
                 },
                 { type: 'select', id: 'documentTypeId', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all/?formType=105`, options: [], method: 'get', valueKey: "formId", labelKey: "formName", colSpan: 6 },
                 {
-                    type: 'list', listType: 'user', options: [], id: 'applyId', label: '申请人', labelKey: 'fullName', valueKey: "employeeID", single: true, colSpan: 6,
+                    type: 'list', listType: 'user', options: [], id: 'applyId', label: '申请人', labelKey: 'fullName', valueKey: "id", single: true, colSpan: 6,
                     listExtraParams: { "setOfBooksId": this.props.company.setOfBooksId }
                 },
                 {
