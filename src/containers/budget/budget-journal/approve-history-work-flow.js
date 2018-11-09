@@ -108,10 +108,10 @@ class ApproveHistoryWorkFlow extends React.Component {
       case 1002:
         if (value.operation === 2001) {
           model.color = 'green';
-          model.text = this.$t('batch.print.approved'); //审核通过
+          model.text = this.$t('common.approve.pass'); //审核通过
         } else if (value.operation === 2002) {
           model.color = 'red';
-          model.text = this.$t('constants.documentStatus.audit.rejected'); //审核驳回
+          model.text = this.$t('common.approve.rejected'); //审核驳回
         } else if (value.operation === 5009) {
           model.color = 'grey';
           model.text = this.$t('my.add.hui.qian'); //添加会签

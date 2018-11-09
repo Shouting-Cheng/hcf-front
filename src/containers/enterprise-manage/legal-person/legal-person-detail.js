@@ -130,7 +130,7 @@ class LegalPersonDetail extends React.Component {
           type: 'IMG',
           id: 'attachmentId',
           label: this.$t('legal.entity.detail.qcode'), //"开票二维码",
-          src: 'fileURL',
+          src: 'thumbnailUrl',
         },
       ],
       pagination: {
@@ -198,8 +198,8 @@ class LegalPersonDetail extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         } /*公司名称*/,
@@ -219,8 +219,8 @@ class LegalPersonDetail extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         } /*账套*/,
@@ -235,8 +235,8 @@ class LegalPersonDetail extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         } /*法人*/,
@@ -256,8 +256,8 @@ class LegalPersonDetail extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         } /*上级公司*/,
@@ -444,7 +444,7 @@ class LegalPersonDetail extends React.Component {
       {
         selectedEntityOIDs: temp,
       },
-      () => {}
+      () => { }
     );
   };
 
@@ -464,7 +464,7 @@ class LegalPersonDetail extends React.Component {
       {
         selectedEntityOIDs: temp,
       },
-      () => {}
+      () => { }
     );
   };
 
@@ -548,9 +548,9 @@ class LegalPersonDetail extends React.Component {
   handleBack = () => {
     this.props.dispatch(
       routerRedux.replace({
-         pathname: '/enterprise-manage/legal-person',
-         })
-      );
+        pathname: '/enterprise-manage/legal-person',
+      })
+    );
   };
   //渲染老集团
   renderOldTenant = () => {
@@ -672,7 +672,7 @@ class LegalPersonDetail extends React.Component {
 
   render() {
     return (
-      <div className="legal-person-detail-wrap"  style={{marginBottom:20}}>
+      <div className="legal-person-detail-wrap" style={{ marginBottom: 20 }}>
         <BasicInfo
           infoList={this.state.infoList}
           infoData={this.state.legalPerson}

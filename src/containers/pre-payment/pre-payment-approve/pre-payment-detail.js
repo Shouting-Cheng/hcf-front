@@ -171,14 +171,14 @@ class PrePaymentDetail extends React.Component {
             />
           </div>
         ) : (
-          <div className="bottom-bar bottom-bar-approve">
-            <div style={{ lineHeight: '50px' }}>
-              <Button loading={loading} onClick={this.onCancel} className="back-btn">
-                {this.$t({ id: 'common.back' } /*返回*/)}
-              </Button>
+            <div className="bottom-bar bottom-bar-approve">
+              <div style={{ lineHeight: '50px', paddingLeft: 20 }}>
+                <Button loading={loading} onClick={this.onCancel} className="back-btn">
+                  {this.$t({ id: 'common.back' } /*返回*/)}
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }
