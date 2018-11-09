@@ -90,8 +90,10 @@ class BudgetControlRulesDetail extends React.Component{
   }
 
   deleteItem = (e, record) => {
+    e.preventDefault();
+    e.stopPropagation();
     budgetService.deleteRuleDetail(record.id).then(response => {
-      message.success(this.$t({id:"common.delete.success"}, {name: record.organizationName})); // name删除成功
+      message.success(this.$t({id:"common.delete.success"}, {name: ''})); // name删除成功
       this.getList();
     })
   };

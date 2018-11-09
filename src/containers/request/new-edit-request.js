@@ -2404,14 +2404,24 @@ class NewRequest extends React.Component {
           {!approvalHistory.length && requestInfo}
         </Spin>
 
-        <Affix offsetBottom={0} className="bottom-bar">
-          <Button type="primary" onClick={this.handleSubmit} loading={submitLoading}>
+        <Affix offsetBottom={0} style={{
+          position: 'fixed',
+          bottom: 0,
+          marginLeft: '-35px',
+          width: '100%',
+          height: '50px',
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+          zIndex: 1,
+        }}>
+          <Button type="primary" style={{marginLeft: 35}} onClick={this.handleSubmit} loading={submitLoading}>
             {this.$t('common.submit')}
           </Button>
-          <Button onClick={this.handleSave} loading={saveLoading}>
+          <Button onClick={this.handleSave} style={{marginLeft: 15}} loading={saveLoading}>
             {this.$t('common.save')}
           </Button>
-          <Button onClick={this.goBack}>{this.$t('common.back')}</Button>
+          <Button style={{marginLeft: 15}} onClick={this.goBack}>{this.$t('common.back')}</Button>
           {formType === 2001 && (
             <Row className="total-budget">
               <span className="total">
@@ -2435,7 +2445,7 @@ class NewRequest extends React.Component {
               placement="topRight"
               onConfirm={this.handleDelete}
             >
-              <Button className="delete-btn" loading={deleteLoading}>
+              <Button style={{marginLeft: 15}} className="delete-btn" loading={deleteLoading}>
                 {this.$t('common.delete')}
               </Button>
             </Popconfirm>

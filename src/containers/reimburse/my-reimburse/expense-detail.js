@@ -164,7 +164,7 @@ class NewExpense extends React.Component {
       );
     }
     //显示并且是编辑
-    else if (pparams.record.id) {
+    else if (params.record.id) {
       let shareParams = {
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,

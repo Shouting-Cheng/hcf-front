@@ -31,16 +31,22 @@ class ExtendFieldComponent extends React.Component {
   componentWillMount() { }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     this.setState({
       loading: nextProps.loading,
       filedMax: nextProps.filedMax,
       customFrom: nextProps.customFrom,
       customFromOriginList: nextProps.customFromOriginList,
+    },()=>{
+      const {customFrom, customFromOriginList} = this.state;
+      customFrom.customFormFields&&!customFrom.customFormFields.length&&customFromOriginList.length&&
+      this.state.customFromOriginList.map(item=>customFrom.customFormFields.push({...item,_active: true}));
+      this.setState({customFrom, customFromOriginList})
     });
   }
 
-  componentDidMount() {s }
+  componentDidMount() {
+
+  }
 
   addFieldItem = field => {
     let item = deepCopy(field);
@@ -158,7 +164,6 @@ class ExtendFieldComponent extends React.Component {
   //之前后端留的坑，多语言对象，没有统一处理
   //在最后新增或者更新的时候，要对多语言单独处理
   _forUpdateI18n = customFrom => {
-    console.log(customFrom);
     for (let i = 0; i < customFrom.customFormFields.length; i++) {
       let widget = customFrom.customFormFields[i];
       widget.i18n = {};

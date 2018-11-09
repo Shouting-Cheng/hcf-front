@@ -538,6 +538,8 @@ class BaseRequestDetail extends React.Component {
               )}
           </Tabs>
         )}
+        {console.log("123"+audit)}
+        {console.log(buttonRoleSwitch)}
         {audit &&
           (buttonRoleSwitch ? (
             <AuditApplicationDetail
@@ -547,13 +549,21 @@ class BaseRequestDetail extends React.Component {
             />
           ) : (
             <Affix offsetBottom={0} className="bottom-bar">
-              <Col span={2} style={{
+              <Col style={{
                 marginLeft: backMargin
               }}>
               <GoBackBtn backType={this.props.match.params.pageFrom} />
               </Col>
             </Affix>
           ))}
+        {console.log(!readOnly ||
+          approve ||
+          rescheduleRefund ||
+          price ||
+          loanRefund ||
+          payProcess ||
+          confirmPay ||
+          view)}
         {(!readOnly ||
           approve ||
           rescheduleRefund ||
@@ -647,7 +657,7 @@ class BaseRequestDetail extends React.Component {
           !view &&
           !audit && (
             <Affix offsetBottom={0} className="bottom-bar">
-              <Col span={2} style={{
+              <Col style={{
                 marginLeft: backMargin
               }}>
               <GoBackBtn backType={this.props.match.params.pageFrom}/>
