@@ -632,27 +632,27 @@ export const getRouterData = app => {
       name: 'form-list',
     },
     //值列表
-    '/admin-setting/value-list': {
+    '/admin-setting/value-list/:tab': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/value-list/value-list.js')
       ),
       name: 'value-list',
     },
     //新建值列表
-    '/admin-setting/new-value-list': {
+    '/admin-setting/new-value-list/:tab': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/value-list/new-value-list.js')
       ),
       name: 'new-value-list',
-      parent: '/admin-setting/value-list',
+      parent: '/admin-setting/value-list/:tab',
     },
     //值列表详情
-    '/admin-setting/value-list-detail/:customEnumerationOID/:id': {
+    '/admin-setting/value-list-detail/:customEnumerationOID/:id/:tab': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/value-list/new-value-list.js')
       ),
       name: 'value-list',
-      parent: '/admin-setting/value-list',
+      parent: '/admin-setting/value-list/:tab',
     },
     '/financial-management/reimburse-review': {
       //财务管理-供应商维护
