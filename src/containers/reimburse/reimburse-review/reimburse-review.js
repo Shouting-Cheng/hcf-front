@@ -189,7 +189,7 @@ class ReimburseReview extends React.Component {
       searchForm: [
         { type: 'select', id: 'formId',event:"formId",colSpan: 6, label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all/?formType=105`, options: [], method: "get", valueKey: "formId", labelKey: "formName" },
         {
-          type: 'list', colSpan: 6,event:"applicationId",listType: "select_authorization_user", options: [], id: 'applicationId', label: "申请人", labelKey: "userCode",
+          type: 'list', colSpan: 6,event:"applicationId",listType: "select_authorization_user", options: [], id: 'applicationId', label: "申请人", labelKey: "userName",
           valueKey: "userId", single: true
         },
         { type: 'date', id: 'dateFrom',event:"dateFrom",colSpan: 6, label: '申请日期从' },
