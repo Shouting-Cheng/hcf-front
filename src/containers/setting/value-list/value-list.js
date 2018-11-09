@@ -62,8 +62,9 @@ class ValueList extends React.Component {
     pagination.page = _pagination.page;
     pagination.current = _pagination.page + 1;
     this.setState({
+
       pagination,
-      status: "" || 'SYSTEM'
+      status: this.props.match.params.tab || 'SYSTEM'
     }, () => {
       this.clearBeforePage();
       this.getList();
@@ -189,7 +190,7 @@ class ValueList extends React.Component {
     // this.context.router.push(path);
 
     this.props.dispatch(routerRedux.push({
-      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOID}/${record.id}`
+      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOID}/${record.id}/:tab`.replace(':tab',this.state.status)
     }))
 
   };
@@ -197,7 +198,7 @@ class ValueList extends React.Component {
   goValueListPage = () => {
     const { valueListPage } = this.state;
     this.props.dispatch(routerRedux.push({
-      pathname: "/admin-setting/new-value-list"
+      pathname: "/admin-setting/new-value-list/:tab".replace(':tab',this.state.status)
     }))
   };
 
