@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   Form,
   Input,
@@ -23,15 +23,13 @@ import ListSelector from 'widget/list-selector';
 
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 
-
 import FormList from './form-list';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckableTag = Tag.CheckableTag;
-const {TextArea} = Input;
-import {routerRedux} from 'dva/router';
-
+const { TextArea } = Input;
+import { routerRedux } from 'dva/router';
 
 class NewReimburse extends React.Component {
   constructor(props) {
@@ -96,7 +94,7 @@ class NewReimburse extends React.Component {
         });
       });
     } else {
-      this.setState({isNew: true});
+      this.setState({ isNew: true });
       this.getCustomFormFields();
       this.listInit();
     }
@@ -107,7 +105,7 @@ class NewReimburse extends React.Component {
 
   //加载公司和部门的默认值设置
   listInit = () => {
-    const {user, company} = this.props;
+    const { user, company } = this.props;
     this.setState({
       companySelectedData: [
         {
@@ -203,15 +201,15 @@ class NewReimburse extends React.Component {
     this.refs.chooserBlur.focus(); //取消焦点
     switch (category) {
       case 'company':
-        this.setState({showCompanySelector: true});
+        this.setState({ showCompanySelector: true });
         break;
       case 'department':
-        this.setState({showDepartmentSelector: true});
+        this.setState({ showDepartmentSelector: true });
         break;
       // case 'costCenter':
       //   this.setState({showCostCenterSelector:true});
       case 'receiver':
-        this.setState({showReceiverSelector: true});
+        this.setState({ showReceiverSelector: true });
         break;
     }
   };
@@ -230,7 +228,7 @@ class NewReimburse extends React.Component {
               fullName: i.userName,
             });
           }
-          this.setState({principals: false, applyer: data});
+          this.setState({ principals: false, applyer: data });
         }
       })
       .catch(err => {
@@ -245,7 +243,7 @@ class NewReimburse extends React.Component {
       .getSetOfBooks(value)
       .then(res => {
         //设置新的账套
-        this.setState({setOfBooksId: res.data.id});
+        this.setState({ setOfBooksId: res.data.id });
       })
       .catch(err => {
         message.error(`网络错误，请稍后再重试！`);
@@ -317,8 +315,7 @@ class NewReimburse extends React.Component {
   getCustomList = customEnumerationOID => {
     reimburseService
       .getCustomEnumeration(customEnumerationOID)
-      .then(res => {
-      })
+      .then(res => {})
       .catch(err => {
         message.error('网络错误！请稍后重试');
       });
@@ -326,7 +323,7 @@ class NewReimburse extends React.Component {
 
   //获得控件的设置及表单设置
   getCustomFormFields() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     reimburseService
       .getFormSet(this.props.match.params.formOID)
       .then(res => {
@@ -338,15 +335,15 @@ class NewReimburse extends React.Component {
         // //EMPLOYEE_VENDER EMPLOYEE VENDER
         if (res.data.payeeType === 'EMPLOYEE') {
           this.setState({
-            receiverExtraParams: {empFlag: 1001},
+            receiverExtraParams: { empFlag: 1001 },
           });
         } else if (res.data.payeeType === 'VENDER') {
           this.setState({
-            receiverExtraParams: {empFlag: 1002},
+            receiverExtraParams: { empFlag: 1002 },
           });
         } else {
           this.setState({
-            receiverExtraParams: {empFlag: 1003},
+            receiverExtraParams: { empFlag: 1003 },
           });
         }
       })
@@ -412,13 +409,13 @@ class NewReimburse extends React.Component {
           data.formOid = this.state.formSetings.formOid;
         }
 
-        this.setState({saveLoading: true});
+        this.setState({ saveLoading: true });
 
         reimburseService
           .newReimburse(data)
           .then(res => {
             if (200 === res.status) {
-              this.setState({saveLoading: false});
+              this.setState({ saveLoading: false });
               message.success('操作成功');
               this.props.dispatch(
                 routerRedux.push({
@@ -427,12 +424,12 @@ class NewReimburse extends React.Component {
               );
             } else {
               message.error('操作失败');
-              this.setState({saveLoading: false});
+              this.setState({ saveLoading: false });
             }
           })
           .catch(err => {
             message.error('操作失败：' + err.response.data.message);
-            this.setState({saveLoading: false});
+            this.setState({ saveLoading: false });
           });
       }
     });
@@ -447,8 +444,8 @@ class NewReimburse extends React.Component {
   };
 
   render() {
-    const {getFieldDecorator} = this.props.form;
-    const {user} = this.props;
+    const { getFieldDecorator } = this.props.form;
+    const { user } = this.props;
     const {
       showCompanySelector,
       companySelectedData,
@@ -462,13 +459,17 @@ class NewReimburse extends React.Component {
     } = this.state;
 
     return (
-      <div className="new-contract " style={{marginBottom: '70px'}}>
+      <div
+        className="new-contract "
+        style={{ marginBottom: '70px' }}
+        style={{ paddingBottom: '60px' }}
+      >
         <Spin spinning={false}>
           <Form onSubmit={this.handleSubmit}>
             <FormItem {...formItemLayout} label="申请人">
               {getFieldDecorator('applicationId', {
-                rules: [{required: true, message: '请选择申请人'}],
-                initialValue: {key: user.id, label: user.fullName},
+                rules: [{ required: true, message: '请选择申请人' }],
+                initialValue: { key: user.id, label: user.fullName },
               })(
                 <Select disabled labelInValue placeholder="请选择">
                   {applyer.map(value => {
@@ -492,13 +493,22 @@ class NewReimburse extends React.Component {
                 ref="formList"
               />
             </Spin>
-            <input ref="chooserBlur" style={{position: 'absolute', top: '-100vh', zIndex: -1}}/>
-            <Affix offsetBottom={0} style={{
-              position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
-              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px'
-            }}>
+            <input ref="chooserBlur" style={{ position: 'absolute', top: '-100vh', zIndex: -1 }} />
+            <Affix
+              offsetBottom={0}
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                marginLeft: '-35px',
+                width: '100%',
+                height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                background: '#fff',
+                lineHeight: '50px',
+              }}
+            >
               <Button
-                style={{marginLeft: 20, marginRight: 20}}
+                style={{ marginLeft: 20, marginRight: 20 }}
                 disabled={this.state.loading}
                 loading={this.state.saveLoading}
                 type="primary"
@@ -517,7 +527,7 @@ class NewReimburse extends React.Component {
           onCancel={this.handleListCancel}
           onOk={this.handleCompanyListOk}
           selectedData={companySelectedData}
-          extraParams={{setOfBooksId: this.state.setOfBooksId}}
+          extraParams={{ setOfBooksId: this.state.setOfBooksId }}
           single={true}
         />
         <ListSelector
@@ -543,8 +553,6 @@ class NewReimburse extends React.Component {
                       onOk={this.handleCostCenterListOk}
                       selectedData={costCenterSelectedData}
                       single={true}/> */}
-
-
       </div>
     );
   }
@@ -567,5 +575,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  {withRef: true}
+  { withRef: true }
 )(NewReimburse);

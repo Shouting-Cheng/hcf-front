@@ -153,8 +153,7 @@ class BudgetBalance extends React.Component {
 
     let itemSelectorItem = chooserData['budget_item'];
     itemSelectorItem.listExtraParams = organizationIdParams;
-    itemSelectorItem.searchForm[1].getParams = itemSelectorItem.searchForm[2].getParams = organizationIdParams;
-
+    itemSelectorItem.searchForm[1].getUrl = itemSelectorItem.searchForm[2].getUrl = itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.state.organizationId);
     let userSelectorItem = chooserData['user'];
     userSelectorItem.key = 'employeeID';
 

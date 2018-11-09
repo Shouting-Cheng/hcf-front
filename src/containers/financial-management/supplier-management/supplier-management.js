@@ -313,6 +313,7 @@ class SupplierManagement extends React.Component {
   handleSearch = params => {
     let { pagination } = this.state;
     pagination.page = 0;
+    pagination.current = 1;
     for (let paramsName in params) {
       !params[paramsName] && delete params[paramsName];
     }
