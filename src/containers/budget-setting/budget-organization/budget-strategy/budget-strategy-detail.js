@@ -33,7 +33,7 @@ class BudgetStrategyDetail extends React.Component {
           render: desc => <Popover placement="topLeft" content={desc}>{desc}</Popover>},
         {title: this.$t({id: "budget.strategy.message"}/*消息*/), dataIndex: "messageCode", key: "messageCode",
           render: (message, record) => (record.controlMethod.value === 'NO_MESSAGE' ? <span>-</span> :
-            <Popover placement="topLeft" content={message ? message.label : '-'}>{message ? message.label : '-'}</Popover> )},
+            <Popover placement="topLeft" content={record.messageCode ? record.messageCode.label : '-'}>{record.messageCode ? record.messageCode.label : '-'}</Popover> )},
         {title: this.$t({id: "budget.strategy.event"}/*事件*/), dataIndex: "expWfEvent", key: "expWfEvent",
           render: event => <span>{event ? event : '-'}</span>}
       ],

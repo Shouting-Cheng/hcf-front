@@ -160,9 +160,8 @@ class WorkflowDetail extends React.Component {
 
   //返回
   goBack = () => {
-    let setOfBooksId = this.props.location.query.setOfBooksId;
+    console.log(this.props)
     let url = '/admin-setting/workflow';
-    url += setOfBooksId ? `?setOfBooksId=${setOfBooksId}&setOfBooksName=${this.props.location.query.setOfBooksName}` : '';
     this.props.dispatch(
       routerRedux.replace({
         pathname: url

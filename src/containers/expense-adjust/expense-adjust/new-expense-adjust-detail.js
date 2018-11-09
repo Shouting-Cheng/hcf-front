@@ -45,6 +45,7 @@ class NewExpenseAdjustDetail extends React.Component {
       fileList: [],
       timestampLine: new Date().valueOf(),
       data: [],
+      _data:[],
       scrollX: false,
       opt: {},
       defaultValue: [],
@@ -242,10 +243,11 @@ class NewExpenseAdjustDetail extends React.Component {
   operateItem = (e, record, index, flag) => {
     e.preventDefault();
     e.stopPropagation();
-    const { data, lineData, isEdit } = this.state;
+    const { data, lineData, isEdit,_data } = this.state;
     if (!flag) {
       //取消
       if (data[index].id || data[index].saved) {
+        data[index] = {..._data[index]};
         data[index].isEdit = false;
       } else {
         data.splice(index, 1);
@@ -290,10 +292,13 @@ class NewExpenseAdjustDetail extends React.Component {
     if (flag) {
       data[index].isEdit = false;
       data[index].saved = true;
+      let _data=[];
+      data.map(item=>_data.push(...item));
       this.setState(
         {
           lineData,
           data,
+          _data,
         },
         () => {}
       );
@@ -476,6 +481,8 @@ class NewExpenseAdjustDetail extends React.Component {
           }
           data.push(item);
         });
+        let _data=[];
+        data.map(item=>_data.push({...item}));
         this.state.formItems[this.state.formItems.length - 1].key === 'desc'
           ? (value['desc'] = this.props.params.record.description)
           : (value['description'] = this.props.params.record.description);
@@ -484,6 +491,7 @@ class NewExpenseAdjustDetail extends React.Component {
           defaultValue: value,
           type: this.props.params.type,
           data,
+          _data,
           fileList,
           record: this.props.params.record,
         });
