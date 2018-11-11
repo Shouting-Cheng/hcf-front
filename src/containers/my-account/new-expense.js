@@ -767,6 +767,9 @@ class NewExpense extends React.Component {
     rejectPiwik(`我的账本/切换费用类型`);
     const { businessCardConsumptions, nowExpense } = this.state;
     this.setState({ loading: true, nowPage: 'form' });
+    if(expenseType.id === undefined){
+      expenseType.id = this.state.expenseType.id;
+    }
     baseService.getExpenseTypeById(expenseType.id).then(res => {
       res.data.fields.sort((a, b) => a.sequence > b.sequence || -1);
       let willSet = {
