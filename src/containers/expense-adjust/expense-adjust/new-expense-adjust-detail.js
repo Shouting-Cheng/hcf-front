@@ -293,7 +293,7 @@ class NewExpenseAdjustDetail extends React.Component {
       data[index].isEdit = false;
       data[index].saved = true;
       let _data=[];
-      data.map(item=>_data.push(...item));
+      _data[index] = {...data[index]};
       this.setState(
         {
           lineData,

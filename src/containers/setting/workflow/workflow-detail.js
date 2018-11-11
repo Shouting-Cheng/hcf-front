@@ -137,6 +137,7 @@ class WorkflowDetail extends React.Component {
 
   //保存审批条件
   handleConditionSave = (widget) => {
+    console.log(widget)
     let chainInfo = this.state.chainInfo;
     chainInfo.ruleApprovalNodes.map((item, index) => {
       if (item.ruleApprovalNodeOID === widget.ruleApprovalNodeOID)
