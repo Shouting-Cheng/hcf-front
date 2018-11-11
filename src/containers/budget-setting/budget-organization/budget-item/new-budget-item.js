@@ -51,7 +51,7 @@ class NewBudgetItem extends React.Component{
             this.props.dispatch(
               routerRedux.replace({
                 pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-item/budget-item-detail/:setOfBooksId/:orgId/:id'
-                  .replace(':orgId', this.props.id)
+                  .replace(':orgId', response.data.organizationId)
                   .replace(':id', response.data.id)
                   .replace(":setOfBooksId",this.props.setOfBooksId)
               })
