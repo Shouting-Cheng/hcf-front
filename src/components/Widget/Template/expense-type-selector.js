@@ -169,7 +169,7 @@ class ExpenseTypeSelector extends React.Component {
         {
           selectedExpenseType:
             expenseType.expenseTypeOID === this.state.selectedExpenseType.expenseTypeOID
-              ? {}
+              ? this.state.selectedExpenseType
               : expenseType,
         },
         () => {

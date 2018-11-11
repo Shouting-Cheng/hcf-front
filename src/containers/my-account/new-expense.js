@@ -118,14 +118,13 @@ class NewExpense extends React.Component {
   onCancel = (refresh = false) => {
     this.props.form.resetFields();
     refresh = this.state.attachmentChange ? true : refresh;
-    this.props.close(refresh);
+    this.props.onClose(refresh);
   };
 
   //根据用户OID获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
   getFpByUserOID(userOID) {
     let {invoiceFp,invoiceCompany} = this.state;
     baseService.getFpByUserOID(userOID).then(res => {
-      console.log(res.data)
       invoiceFp = res.data;
       this.setState({invoiceFp})
     });
@@ -768,6 +767,9 @@ class NewExpense extends React.Component {
     rejectPiwik(`我的账本/切换费用类型`);
     const { businessCardConsumptions, nowExpense } = this.state;
     this.setState({ loading: true, nowPage: 'form' });
+    if(expenseType.id === undefined){
+      expenseType.id = this.state.expenseType.id;
+    }
     baseService.getExpenseTypeById(expenseType.id).then(res => {
       res.data.fields.sort((a, b) => a.sequence > b.sequence || -1);
       let willSet = {
