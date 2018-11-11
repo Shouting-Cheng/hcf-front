@@ -264,6 +264,61 @@ class BaseRequestDetail extends React.Component {
     return numberString;
   };
 
+  renderFooter(){
+    const {info,view, formInfo, showApproveBottom,formType} = this.state;
+    console.log(this.props.match.params.pageFrom)
+    console.log(info)
+    switch (this.props.match.params.pageFrom) {
+      case 'my':
+        if(info.status === 1003){
+          //已通过
+          return <Row gutter={24}>
+            <Col span={1} style={{marginLeft: 20}}>
+              <PrintBtn info={info} printFlag={view} />
+            </Col>
+            <Col span={1} style={{marginLeft: 15}}>
+              <GoBackBtn backType={this.props.match.params.pageFrom} />
+            </Col>
+          </Row>
+        }
+        if(info.status === 1002){
+          //审批中
+          return <Row gutter={24}>
+            <Col span={1} style={{marginLeft: 20}}>
+              <RecallBtn info={info} />
+            </Col>
+            <Col span={1} style={{marginLeft: 15}}>
+              <GoBackBtn backType={this.props.match.params.pageFrom} />
+            </Col>
+          </Row>
+        }
+        break;
+      case 'approving':
+        return <Row style={{
+          width: '88%',
+          height: '50px',
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+          zIndex: 1,
+          margin: '-20px 0px 20px 0px',
+          paddingLeft: 20
+        }}>
+          <ApproveRequestBtn
+            formType={Number(formType)}
+            info={info}
+            approving={showApproveBottom}
+            formInfo={formInfo}/>
+        </Row>
+      case 'approved':
+        return<Row gutter={24}>
+          <Col span={1} style={{marginLeft: 20}}>
+            <GoBackBtn backType={this.props.match.params.pageFrom} />
+          </Col>
+        </Row>
+    }
+  }
+
   render() {
     const { isPreVersion, latestApplicationOID, from } = this.props;
     let approving = this.props.match.params.pageFrom === 'approving';
@@ -445,6 +500,8 @@ class BaseRequestDetail extends React.Component {
     info.printButtonDisplay && (backMargin = -40);
     console.log(backMargin)
     console.log(info.printButtonDisplay)
+
+
     return (
       <div className="base-request-detail" >
         <div className="tabs-info">
@@ -540,7 +597,23 @@ class BaseRequestDetail extends React.Component {
         )}
         {console.log("123"+audit)}
         {console.log(buttonRoleSwitch)}
-        {audit &&
+        <Affix
+          offsetBottom={0}
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            marginLeft: '-25px',
+            width: '100%',
+            height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+            background: '#fff',
+            lineHeight: '50px',
+            zIndex: 1,
+          }}
+        >
+          {this.renderFooter()}
+        </Affix>
+       {/* {audit &&
           (buttonRoleSwitch ? (
             <AuditApplicationDetail
               status={info.status}
@@ -663,7 +736,7 @@ class BaseRequestDetail extends React.Component {
               <GoBackBtn backType={this.props.match.params.pageFrom}/>
               </Col>
             </Affix>
-          )}
+          )}*/}
       </div>
     );
   }

@@ -998,7 +998,6 @@ class NewExpenseAdjustDetail extends React.Component {
             sourceAdjustLineId: null,
             jeCreationStatus: null,
             jeCreationDate: null,
-            //"attachmentOid":"e21f8b08-a67e-4f23-a89e-df66081e99e7,17253c02-1af6-46b4-93b7-0e641373e0b9",
             linesList: lineData,
           };
 
@@ -1021,6 +1020,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   fileList: [],
                   addData: true,
                   loading: false,
+                  attachmentOid: []
                 },
                 () => {
                   this.props.form.resetFields();
