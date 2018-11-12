@@ -27,8 +27,8 @@ class SelectRoles extends React.Component {
       defaultIds: [],
       loading: false,
       formItems: [
-        { label: '代码', dataIndex: 'roleCode' },
-        { label: '名称', dataIndex: 'roleName' },
+        { label: '代码', dataIndex: 'roleCode' ,colSpan: 8},
+        { label: '名称', dataIndex: 'roleName' ,colSpan: 8},
       ],
     };
   }

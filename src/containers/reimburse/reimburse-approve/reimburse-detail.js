@@ -169,6 +169,7 @@ class ReimburseDetail extends React.Component {
 
   render() {
     const { loading, dLoading, submitAble, headerData, submitLoading } = this.state;
+    console.log(this.props)
     return (
       <div style={{ paddingBottom: 100 }}>
         <ReimburseDetailCommon

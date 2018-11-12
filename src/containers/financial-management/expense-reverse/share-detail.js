@@ -13,11 +13,15 @@ class NewShare extends Component {
             columns: [
                 {
                   title: this.$t('exp.company'), dataIndex: "companyName", width: 200,
-                  render: desc=> <Popover content={desc}><span>{desc ? desc : ""}</span></Popover>
+                  render: (desc,record)=> {
+                    return <Popover content={props.expDetail ? record.company.name : desc}><span>{props.expDetail ? record.company.name : desc ? desc : ""}</span></Popover>
+                  }
                 },
                 {
                   title: this.$t('common.department'), dataIndex: "departmentName", width: 200,
-                  render: desc=> <Popover content={desc}><span>{desc ? desc : ""}</span></Popover>
+                  render: (desc,record)=> {
+                    return <Popover content={props.expDetail? record.department.name :desc}><span>{props.expDetail? record.department.name :desc ? desc : ""}</span></Popover>
+                  }
                 },
                 {   //分摊金额
                     title: this.$t('expense.apportion.amount'), dataIndex: "cost", width: 160, key: "cost", render: (value, record, index) => {

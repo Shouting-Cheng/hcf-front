@@ -103,7 +103,6 @@ class ContractDetailCommon extends React.Component {
       });
     }
     if (nextProps.headerData.expenseReportOID && !this.props.headerData.expenseReportOID) {
-      console.log(nextProps.headerData)
       reimburseService.getReportsHistory(nextProps.headerData.expenseReportOID).then(res => {
         this.setState({ approveHistory: res.data, historyLoading: false });
       }).catch(err => {
@@ -123,7 +122,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取资金计划
   getCostList = (flag) => {
-    this.setState({ visible: false }, () => {
+    this.setState({ visible: false,detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -300,13 +299,18 @@ class ContractDetailCommon extends React.Component {
     const { detailLoading, showInvoices, isLoadCostData, isLoadPayData, writeoffShow, visible, planLoading, historyLoading, contractEdit, topTapValue, subTabsList, pagination, columns, data, showSlideFrame, contractStatus, record, slideFrameTitle, historyData, detailVisible } = this.state;
     const isEdit = headerData.reportStatus == 1001 || headerData.reportStatus == 1003 || headerData.reportStatus == 1005;
     let subContent = {};
+    let list = [];
+    headerData.customFormValues && headerData.customFormValues.map(o => {
+      if (o.messageKey != "select_company" && o.messageKey != "select_department" && o.messageKey != "remark" && o.messageKey != "currency_code") {
+        list.push({ label: o.fieldName, value: o.showValue });
+      }
+    });
     let headerInfo = {
       businessCode: headerData.businessCode,
       createdDate: headerData.createdDate,
       createByName: `${headerData.createByName}-${headerData.createByCode}`,
       formName: headerData.formName,
       statusCode: headerData.reportStatus,
-      currencyCode: headerData.currencyCode,
       totalAmount: headerData.totalAmount,
       currencyCode: headerData.currencyCode,
       remark: this.getRemark(headerData),
@@ -315,7 +319,8 @@ class ContractDetailCommon extends React.Component {
         { label: "公司", value: headerData.companyName },
         { label: "部门", value: headerData.unitName },
         headerData.contractHeaderId ? { label: "合同", value: headerData.contractHeaderLineDTO.contractNumber, linkId: headerData.contractHeaderId } : null
-      ]
+      ],
+      customList: list
     };
     subContent.DETAIL = (
       <div>
@@ -428,12 +433,13 @@ class ContractDetailCommon extends React.Component {
             }}
           />
         </SlideFrame>
-
         <SlideFrame show={detailVisible}
           title="费用详情"
+          afterClose={() => this.setState({ detailVisible: false })}
           onClose={() => this.setState({ detailVisible: false })}>
           <DetailExpense
             close={this.getCostList}
+            approve={true}
             params={{
               visible: this.state.detailVisible,
               record: this.state.costRecord,
