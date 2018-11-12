@@ -156,7 +156,6 @@ class BudgetJournalTypeDetail extends React.Component {
       // data.form0id = { label: data.formName, value: data.form0id };
       let infoList = this.state.infoList;
       infoList[2].disabled = data.usedFlag;
-      console.log(response)
       this.setState({ typeData: data, infoList });
     });
     this.getList(this.state.nowStatus);
@@ -277,10 +276,10 @@ class BudgetJournalTypeDetail extends React.Component {
     params.form0id = params.form0id || '';
     this.setState({ editing: true });
     httpFetch.put(`${config.budgetUrl}/api/budget/journal/types`, Object.assign({}, this.state.typeData, params)).then(response => {
-      message.success('修改成功');
+      message.success(this.$t('common.update.success'));
       let data = response.data;
       data.businessType = { label: data.businessTypeName, value: data.businessType };
-      data.form0id = data.form0id ? { label: data.formName, value: data.form0id } : "";
+      //data.form0id = data.form0id ? { label: data.formName, value: data.form0id } : "";
       let infoList = this.state.infoList;
       infoList[2].disabled = data.usedFlag;
       this.setState({

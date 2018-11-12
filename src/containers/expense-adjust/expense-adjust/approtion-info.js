@@ -75,6 +75,7 @@ class Verification extends Component {
   componentWillReceiveProps(nextProps) {
     const { columns } = this.state;
     if (nextProps.visible && !this.props.visible) {
+      const pagination = this.state.pagination;
       if (nextProps.params.costCenterData.length) {
         if (columns.length === 4) {
           nextProps.params.costCenterData.reverse().map(
@@ -89,14 +90,13 @@ class Verification extends Component {
               })
           );
         }
-        const pagination = this.state.pagination;
         pagination.tota = nextProps.params.data;
-        this.setState({
-          columns,
-          pagination,
-          data: nextProps.params.data,
-        });
       }
+      this.setState({
+        columns,
+        pagination,
+        data: nextProps.params.data,
+      });
     }
   }
   //分页

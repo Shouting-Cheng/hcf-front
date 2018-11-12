@@ -22,6 +22,7 @@ import { isEmptyObj, deepCopy } from 'utils/extend';
 import SearchArea from 'components/Widget/search-area.js';
 import { routerRedux } from 'dva/router';
 import PMService from 'containers/enterprise-manage/person-manage/person-manage.service';
+import {SelectDepOrPerson} from 'components/Widget/index';
 import ImportErrInfo from 'components/Widget/Template/import-err-info';
 import 'styles/enterprise-manage/person-manage/person-manage.scss';
 
@@ -209,6 +210,7 @@ class Employee extends React.Component {
             </span>
           ),
         },
+        
         {
           title: this.$t('person.manage.name'), //姓名
           dataIndex: 'fullName',
@@ -480,7 +482,69 @@ class Employee extends React.Component {
       );
     });
   };
+  //选择了部门的回调
+  selectDepSearchArea = (res) => {
+    //翻页的时候，缓存数据
+    let cacheObj = this.state.cacheObj;
+    cacheObj.departmentOIDs = deepCopy(res);
+    let extraDep = this.state.extraDep;
+    let params = this.state.params;
+    let deps = [];
+    extraDep.res = res;
+    if (extraDep.res.length > 0) {
+      extraDep.depClassName = extraDep.className[1];
+    } else {
+      extraDep.depClassName = extraDep.className[0];
+    }
+    for (let i = 0; i < extraDep.res.length; i++) {
+      deps.push(extraDep.res[i].departmentOID);
+    }
+    params.departmentOIDs = deps;
+    extraDep.title = this.renderButtonTitle(extraDep.res);
+    this.setState({
+      extraDep,
+      params
+    })
+  };
+  clearSearchHandle = () => {
+    localStorage.setItem("person-manage-cache", null);
+    const {searchForm,params,pagination,cacheObj} = this.state;
+    searchForm[0].defaultValue = "";
+    searchForm[1].defaultValue = [];
+    searchForm[2].defaultValue = "all";
+    //部门重置有下面的this.selectDepSearchArea([]);
 
+    pagination.page = 0;
+    pagination.current = 1;
+    pagination.total = 0;
+    pagination.pageSize = 10;
+
+    params.keyword = "";
+    params.departmentOIDs = "";
+    params.corporationOIDs = "";
+    params.status = "all";
+
+    cacheObj.keyword = "";
+    cacheObj.departmentOIDs = "";
+    cacheObj.corporationOIDs = "";
+    cacheObj.status = "all";
+
+    this.setState({
+      params,
+      pagination,
+      cacheObj,
+      searchForm
+    },()=>{
+      this.handleSearch(this.state.params);
+    })
+    this.selectDepSearchArea([]);
+  }
+  //清除已经选择的部门
+  onCloseDepTag = (e) => {
+    e.stopPropagation();
+    this.selectDepSearchArea([]);
+  };
+  
   //下载模板
   downloadTemplateByType = type => {
     switch (type) {
@@ -726,7 +790,6 @@ class Employee extends React.Component {
   };
   //点击搜搜索
   handleSearch = values => {
-    console.log(values.corporationOIDs);
     const { params } = this.state;
     if (values.corporationOIDs && values.corporationOIDs[0]) {
       values.corporationOIDs = values.corporationOIDs[0];
@@ -827,7 +890,14 @@ class Employee extends React.Component {
       showImportErrInfo: false,
     });
   };
+  onMouseLeaveDepTag = (e) => {
+    e.stopPropagation();
 
+  };
+  onMouseEnterDepTag = (e) => {
+    e.stopPropagation();
+
+  };
   //人员导入的错误信息-end
   render() {
     const menu = <Menu>{this.renderExportList(this.state.exportList)}</Menu>;
@@ -864,7 +934,42 @@ class Employee extends React.Component {
           message="操作成功后，刷新当前页面或重新登录才能生效！"
           type="info"
         />
-        <SearchArea isExtraFields={true} submitHandle={this.handleSearch} searchForm={searchForm} />
+        {/* <SearchArea isExtraFields={true} submitHandle={this.handleSearch} searchForm={searchForm} /> */}
+        <SearchArea
+          isExtraFields={true}
+          extraFields={
+            [
+              <div>
+                <div className="select-dep-search-area-title">
+                  {/*部门:*/}
+                  {this.$t("person.manage.dep") + ":"}
+                </div>
+                <div className="select-dep-search-area">
+                  <div className="f-left select-dep-wrap">
+                    <SelectDepOrPerson
+                      renderButton={false}
+                      title={this.state.extraDep.title}
+                      onlyDep={true}
+                      onConfirm={this.selectDepSearchArea}/>
+                  </div>
+                  <div className={this.state.extraDep.depClassName}
+                       onMouseLeave={this.onMouseLeaveDepTag}
+                       onMouseEnter={this.onMouseEnterDepTag}
+                       onClick={this.onCloseDepTag}>
+                    <Icon type="close-circle" className="closeCircle"/>
+                  </div>
+                </div>
+              </div>
+            ]
+          }
+          eventHandle={this.eventSearchAreaHandle}
+          searchForm={this.state.searchForm}
+          clearHandle={this.clearSearchHandle}
+          submitHandle={this.handleSearch}/>
+        <div className="table-header">
+            <div className="table-header-title">
+              {this.$t('common.total', { total: `${this.state.pagination.total}` })}
+        </div>
         {/*共搜索到*条数据*/}
         <div className="table-header-buttons">
           <div className="f-left">
@@ -909,6 +1014,7 @@ class Employee extends React.Component {
           </div>
 
           <div className="clear" />
+        </div>
         </div>
         <div style={{ padding: '24px 0' }}>
           {/* <CustomTable
