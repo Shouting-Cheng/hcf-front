@@ -153,6 +153,7 @@ class BudgetBalanceResult extends React.Component {
         dimensionColumns: this.state.dimensionColumns,
         type: type,
         data: record,
+        orgId: record.organizationId,
         title: this.state.titleMap[type]
       }
     })
@@ -235,7 +236,7 @@ class BudgetBalanceResult extends React.Component {
                     show={showSlideFrameFlag}
                     onClose={() => this.setState({ showSlideFrameFlag: false })}>
           <BudgetBalanceAmountDetail
-                    params={slideFrameParam}/>
+                    params={{...slideFrameParam,visible:showSlideFrameFlag}}/>
         </SlideFrame>
 
         <div className="footer-operate">
