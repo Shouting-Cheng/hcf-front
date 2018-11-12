@@ -409,16 +409,28 @@ class GLWorkOrderCheckDetail extends Component {
         background: 'white',
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
         marginBottom: 15, padding: '0px 15px 20px 15px'}}>
-        <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+        <div style={{
+          padding: '24px 32px',
+          borderRadius: 4,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+        }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-            <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
+            <TabPane tab="单据信息" key="1" style={{
+              marginTop: 20,
+              borderTop: '1px solid #e8e8e8'
+            }}>
               <DocumentBasicInfo params={headerInfo} />
             </TabPane>
             {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
           </Tabs>
-        </Card>
+        </div>
         <div className="tab-container">
-          <h3 className="sub-header-title">核算信息</h3>
+          <h3 className="sub-header-title" style={{
+            height:40,
+            paddingLeft: 20,
+            marginLeft: -20,
+            marginRight: -20
+          }}>核算信息</h3>
           <Table
             style={{ clear: 'both' }}
             bordered
