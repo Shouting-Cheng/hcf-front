@@ -221,7 +221,7 @@ class BudgetJournalReCheck extends React.Component {
             current: this.state.page + 1,
           },
         },
-        () => {}
+        () => { }
       );
     });
   }
@@ -316,7 +316,7 @@ class BudgetJournalReCheck extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.user.organization,
+    organization: state.user.organization || {},
   };
 }
 
