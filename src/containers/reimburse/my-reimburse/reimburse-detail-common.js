@@ -379,7 +379,6 @@ class ContractDetailCommon extends React.Component {
     } else if (headerData.reportStatus == 1002 || headerData.reportStatus == 1004 || headerData.reportStatus == 2002 || headerData.reportStatus == 2004) {
       isEdit = false;
     }
-
     let subContent = {};
     subContent.DETAIL = (
       <div>

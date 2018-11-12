@@ -103,7 +103,6 @@ class ContractDetailCommon extends React.Component {
       });
     }
     if (nextProps.headerData.expenseReportOID && !this.props.headerData.expenseReportOID) {
-      console.log(nextProps.headerData)
       reimburseService.getReportsHistory(nextProps.headerData.expenseReportOID).then(res => {
         this.setState({ approveHistory: res.data, historyLoading: false });
       }).catch(err => {
@@ -123,7 +122,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取资金计划
   getCostList = (flag) => {
-    this.setState({ visible: false }, () => {
+    this.setState({ visible: false,detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -312,7 +311,6 @@ class ContractDetailCommon extends React.Component {
       createByName: `${headerData.createByName}-${headerData.createByCode}`,
       formName: headerData.formName,
       statusCode: headerData.reportStatus,
-      currencyCode: headerData.currencyCode,
       totalAmount: headerData.totalAmount,
       currencyCode: headerData.currencyCode,
       remark: this.getRemark(headerData),
@@ -435,12 +433,13 @@ class ContractDetailCommon extends React.Component {
             }}
           />
         </SlideFrame>
-
         <SlideFrame show={detailVisible}
           title="费用详情"
+          afterClose={() => this.setState({ detailVisible: false })}
           onClose={() => this.setState({ detailVisible: false })}>
           <DetailExpense
             close={this.getCostList}
+            approve={true}
             params={{
               visible: this.state.detailVisible,
               record: this.state.costRecord,

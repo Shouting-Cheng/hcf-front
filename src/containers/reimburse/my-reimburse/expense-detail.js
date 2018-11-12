@@ -833,7 +833,7 @@ class NewExpense extends React.Component {
                         <Col span={12}>
                           <FormItem {...formItemLayout} label="费用类型">
                             {getFieldDecorator('costType', {
-                              initialValue: expenseType.id
+                              initialValue: expenseType&&expenseType.id
                                 ? [{ id: expenseType.id, name: expenseType.name }]
                                 : [],
                               rules: [{ required: true, message: '请选择' }],
@@ -943,13 +943,14 @@ class NewExpense extends React.Component {
                           initialValue: editModel.id ? editModel.comment : '',
                         })(<TextArea disabled rows={4} style={{ width: '100%' }} />)}
                       </FormItem>
-
+                        <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} style={{marginBottom: -10}} label="分摊费用"/>
                       <ShareDetail
                         isRefresh={this.state.isRefreshShareTabel}
                         edit={this.editShare}
                         deleteShare={this.deleteShare}
                         params={this.state.shareParams}
                         data={applicationData}
+                        expDetail={true}
                       />
                     </div>
                   </Spin>
@@ -961,7 +962,7 @@ class NewExpense extends React.Component {
               style={{
                 position: 'fixed',
                 bottom: 0,
-                marginLeft: '-15px',
+                marginLeft: '-10px',
                 width: '100%',
                 height: '50px',
                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
@@ -970,29 +971,37 @@ class NewExpense extends React.Component {
                 textAlign: 'center',
               }}
             >
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={saveLoading}
-                style={{ margin: '0 10px' }}
-              >
-                保存
-              </Button>
-              <Button
-                onClick={this.againSave}
-                loading={this.state.againLoading}
-                style={{ margin: '0 10px' }}
-              >
-                再记一笔
-              </Button>
-              <Button
-                onClick={this.copy}
-                loading={this.state.copyLoading}
-                style={{ margin: '0 40px', marginLeft: 0 }}
-              >
-                复制
-              </Button>
-              <Button onClick={this.onCancel}>取消</Button>
+                {
+                  this.props.approve ?
+                    <Button onClick={()=>this.props.close(false)}>返回</Button>
+                    :
+                    <div>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={saveLoading}
+                        style={{ margin: '0 10px' }}
+                      >
+                        保存
+                      </Button>
+                      <Button
+                        onClick={this.againSave}
+                        loading={this.state.againLoading}
+                        style={{ margin: '0 10px' }}
+                      >
+                        再记一笔
+                      </Button>
+                      <Button
+                        onClick={this.copy}
+                        loading={this.state.copyLoading}
+                        style={{ margin: '0 40px', marginLeft: 0 }}
+                      >
+                        复制
+                      </Button>
+                      <Button onClick={this.onCancel}>取消</Button>
+                    </div>
+                }
+
             </Affix>
           </Form>
         )}
@@ -1019,7 +1028,7 @@ class NewExpense extends React.Component {
           params={{
             applincationParams: this.state.applincationParams,
             show: showSelectApplication,
-            type: this.state.expenseType.id,
+            type: this.state.expenseType&&this.state.expenseType.id,
           }}
           selectedData={selectedData}
         />
@@ -1030,9 +1039,9 @@ class NewExpense extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    company: state.login.company,
-    companyConfiguration: state.login.companyConfiguration,
-    profile: state.login.profile,
+    company: state.user.company,
+    companyConfiguration: state.user.companyConfiguration,
+    profile: state.user.proFile,
   };
 }
 

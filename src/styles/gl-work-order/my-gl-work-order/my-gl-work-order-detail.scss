@@ -1,4 +1,11 @@
 :global{
+  #root .gl-work-order-detail .ant-tabs-tabpane{
+    border: none;
+  }
+  #root .gl-work-order-detail .ant-tabs-bar{
+    border: none;
+    margin-left: 10px;
+  }
   .gl-work-order-detail {
     .top-info {
       background: white;

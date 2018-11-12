@@ -61,7 +61,6 @@ class MyContract extends React.Component {
           valueKey: 'id',
           labelKey: 'name',
           options: [],
-          event: 'id',
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
           single: true,
           event:"COMPANY_ID"
@@ -181,7 +180,7 @@ class MyContract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.name' } /*合同名称*/),
           dataIndex: 'contractName',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>

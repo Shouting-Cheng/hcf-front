@@ -140,13 +140,24 @@ class BudgetBalanceAmountDetail extends React.Component {
       hide();
     })
   };
+  componentDidMount(){
+    console.log(this.props)
+    this.getList(this.props);
+  }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    console.log(this.props)
+    if(nextProps.params.visible && !this.props.params.visible){
+      this.getList(nextProps);
+    }
+    /*console.log(nextProps)
+    console.log(this.props)
     if ((!this.props.params.data && nextProps.params.data) ||
       (this.props.params.data &&
         (nextProps.params.type !== this.props.params.type || nextProps.params.data.key !== this.props.params.data.key))) {
       this.getList(nextProps);
-    }
+    }*/
   }
 
   goBudgetJournal = (code) => {
@@ -172,7 +183,7 @@ class BudgetBalanceAmountDetail extends React.Component {
     let { page, size } = this.state;
     let params = nextProps.params.data;
     params.reserveFlag = nextProps.params.type;
-    params.organizationId = this.props.organization.id;
+    params.organizationId = nextProps.params.orgId;
     params.year = params.periodYear;
     httpFetch.post(`${config.budgetUrl}/api/budget/balance/query/results/detail?page=${page}&size=${size}`, params).then(res => {
       let data = res.data.map((item, index) => {
@@ -227,7 +238,7 @@ class BudgetBalanceAmountDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    organization: state.login.organization
+    organization: state.budget.organization
   }
 }
 
