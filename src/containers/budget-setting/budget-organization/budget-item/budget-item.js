@@ -12,7 +12,6 @@ import Importer from 'widget/Template/importer'
 import budgetService from 'containers/budget-setting/budget-organization/budget-item/budget-item.service'
 import { routerRedux } from 'dva/router';
 
-const itemCode = [];
 class BudgetItem extends React.Component {
   constructor(props) {
     super(props);
@@ -47,11 +46,11 @@ class BudgetItem extends React.Component {
         },
         {type: 'select', id: 'itemCodeFrom',
           label: this.$t({id: 'budget.itemCodeFrom'}),  /*预算项目代码从*/
-          options: itemCode
+          options: []
         },
         {type: 'select', id: 'itemCodeTo',
           label: this.$t({id: 'budget.itemCodeTo'}), /*预算项目代码至*/
-          options: itemCode
+          options: []
         },
       ],
 
@@ -85,7 +84,9 @@ class BudgetItem extends React.Component {
   }
 
   componentWillMount(){
+    const {searchForm} = this.state;
     this.getList();
+    let itemCode = [];
     //查出所有预算项目，以方便预算项目的查询中可以选择
     budgetService.getItems({organizationId: this.props.id,enabled: true}).then((response)=>{
       response.data.map((item,index)=>{
@@ -96,7 +97,10 @@ class BudgetItem extends React.Component {
         };
         itemCode.push(budgetItem);
       });
-    })
+    });
+    searchForm[3].options = searchForm[4].options = itemCode;
+    this.setState({searchForm})
+
   }
 
   //获取预算项目数据

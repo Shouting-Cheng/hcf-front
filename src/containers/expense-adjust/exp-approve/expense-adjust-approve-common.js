@@ -386,11 +386,20 @@ class ExpenseAdjustApproveCommon extends React.Component {
     const { nowStatus, type, previewVisible, previewImage, widthDrawLoading, documentParams, apportionParams,showApportion, voucherColumns, voucherData,pagination,voucherPagination, voucherLoading,loading, dLoading, data, columns, showSlideFrame, showImportFrame, slideFrameTitle, tabs, isModal, costCenterData, infoList, headerData, approveHistory } = this.state;
     let flag = headerData.status === 1004;
     return (
-      <div className="adjust-content" style={{marginBottom: 50}}>
-        <div className="document-basic-info" style={flag ? {margin: '-16px -10px 0 10px'}:{paddingLeft: 38}}>
+      <div className="adjust-content" style={{marginBottom: 50, paddingBottom: 30}}>
+        <div className="document-basic-info" style={flag ? {margin: '-16px -10px 0 10px'}
+        :{
+          boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+          padding: 15,
+          margin: '0px 15px 0px 15px'}}>
           <DocumentBasicInfo params={documentParams}/>
         </div>
-        <div className="expense-adjust-detail-center" style={{ marginTop:20, marginLeft: 30, background:'white', padding: '20px 20px 40px 20px'}}>
+        <div className="expense-adjust-detail-center" style={{
+          boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+          margin: '20px 15px 0px 15px',
+          background:'white',
+          padding: '20px 20px 40px 20px'
+        }}>
           <div className="center-title" style={{color:'black', fontSize: 17, borderBottom: '1px solid #ececec'}}>
             {this.$t('exp.adjust.info')}
           </div>
@@ -413,7 +422,8 @@ class ExpenseAdjustApproveCommon extends React.Component {
             bordered/>
         </div>
 
-        <div className="approve-history" style={ flag? {margin:'20px 20px 35px 30px'}:{margin: '10px 0 0 10px',padding: 20}}>
+        <div className="approve-history" style={ flag? {margin:'20px 20px 35px 30px'}:
+          {margin: '20px 15px 20px 15px'}}>
           <ApproveHistory loading={false} infoData={approveHistory}/>
         </div>
         <ApprotionInfo
@@ -433,7 +443,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
     let renderStatus = headerData.expAdjustTypeName;
     let adjustTypeCategory = this.state.expenseAdjustType.adjustTypeCategory;
     return (
-      <div className="background-transparent">
+      <div >
         {
           headerData.status === 1004 ?
             <Tabs defaultActiveKey='detail' onChange={this.handleTab} forceRender className="adjust-tabs">

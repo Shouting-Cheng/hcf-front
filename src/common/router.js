@@ -1687,6 +1687,22 @@ export const getRouterData = app => {
       name: 'new-bank-account',
       parent: '/enterprise-manage/company-maintain',
     },
+    '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
+      //财务管理-费用反冲-新建反冲
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/new-reverse.js')
+      ),
+      name: 'new-reverse',
+      parent: '/financial-management/expense-reverse'
+    },
+    '/financial-management/expense-reverse/expense-reverse-detail/:id': {
+      //财务管理-费用反冲-详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
+      ),
+      name: 'expense-reverse-detail',
+      parent: '/financial-management/expense-reverse'
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
