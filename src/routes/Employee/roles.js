@@ -88,6 +88,8 @@ class SelectRoles extends React.Component {
         let ids = res.map(item => item.id);
         this.setState({ selectedRowKeys: ids, defaultIds: ids });
       });
+    } else if (!nextProps.visible && this.props.visible) {
+      this.searchForm && this.searchForm.resetFields();
     }
   }
 
@@ -130,7 +132,7 @@ class SelectRoles extends React.Component {
         width={800}
         onCancel={this.handleCancel}
       >
-        <SearchForm search={this.search} formItems={formItems} />
+        <SearchForm ref={ref => this.searchForm = ref} search={this.search} formItems={formItems} />
         <div style={{ margin: '16px 0' }} />
         <Table
           pagination={false}

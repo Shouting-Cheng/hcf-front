@@ -24,6 +24,11 @@ class AdvancedSearchForm extends React.Component {
     this.setState({ expand: !expand });
   };
 
+  clear = () => {
+    this.props.onClear && this.props.onClear();
+    this.props.form.resetFields();
+  }
+
   // To generate mock Form.Item
   getFields() {
     const { getFieldDecorator } = this.props.form;
