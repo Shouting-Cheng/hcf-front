@@ -300,6 +300,12 @@ class ContractDetailCommon extends React.Component {
     const { detailLoading, showInvoices, isLoadCostData, isLoadPayData, writeoffShow, visible, planLoading, historyLoading, contractEdit, topTapValue, subTabsList, pagination, columns, data, showSlideFrame, contractStatus, record, slideFrameTitle, historyData, detailVisible } = this.state;
     const isEdit = headerData.reportStatus == 1001 || headerData.reportStatus == 1003 || headerData.reportStatus == 1005;
     let subContent = {};
+    let list = [];
+    headerData.customFormValues && headerData.customFormValues.map(o => {
+      if (o.messageKey != "select_company" && o.messageKey != "select_department" && o.messageKey != "remark" && o.messageKey != "currency_code") {
+        list.push({ label: o.fieldName, value: o.showValue });
+      }
+    });
     let headerInfo = {
       businessCode: headerData.businessCode,
       createdDate: headerData.createdDate,
@@ -315,7 +321,8 @@ class ContractDetailCommon extends React.Component {
         { label: "公司", value: headerData.companyName },
         { label: "部门", value: headerData.unitName },
         headerData.contractHeaderId ? { label: "合同", value: headerData.contractHeaderLineDTO.contractNumber, linkId: headerData.contractHeaderId } : null
-      ]
+      ],
+      customList: list
     };
     subContent.DETAIL = (
       <div>
