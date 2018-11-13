@@ -615,7 +615,8 @@ class NewCostCenterItem extends React.Component {
                     : [],
                   rules: [
                     {
-                      required: !this.state.manageIsNoRequired,
+                      //required: !this.state.manageIsNoRequired,
+                      required: true,
                       message: this.$t('common.please.enter'),
                     },
                   ],

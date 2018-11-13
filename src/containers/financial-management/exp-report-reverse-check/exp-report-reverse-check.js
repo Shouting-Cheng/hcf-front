@@ -339,6 +339,9 @@ class ExpReportReverseCheck extends Component {
     param.reverseDateFrom = param.reverseDateFrom
       ? param.reverseDateFrom.format('YYYY-MM-DD')
       : undefined;
+    if(param.applyId && param.applyId[0]){
+      param.applyId = param.applyId[0]
+    }
     param.reverseDateTo = param.reverseDateTo
       ? param.reverseDateTo.format('YYYY-MM-DD')
       : undefined;
@@ -434,7 +437,9 @@ class ExpReportReverseCheck extends Component {
     param.reverseDateTo = param.reverseDateTo
       ? param.reverseDateTo.format('YYYY-MM-DD')
       : undefined;
-    param.applyId = param.applyId && param.applyId.length && param.applyId[0];
+    if(param.applyId && param.applyId[0]){
+      param.applyId = param.applyId[0]
+    }
     let checkedParam = {
       ...this.state.checkedParam,
       ...param,
