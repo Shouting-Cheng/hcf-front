@@ -216,6 +216,7 @@ class CanBacklash extends React.Component {
                     onClose={this.cancelWindow}
                     afterClose={this.restFormFunc} >
                   <ToBacklash  params={{ record: goBacklash, flag: openWindowFlag}}
+                               type={true}
                                onClose={(e)=>{this.cancelWindow(e)}}/>
                 </SlideFrame>
 

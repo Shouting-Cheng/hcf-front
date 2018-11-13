@@ -10,6 +10,11 @@ class NewShare extends Component {
     super(props);
     this.state = {
       data: [],
+      pagination:{
+        total: 0,
+        page: 0,
+        pageSize: 10
+      },
       defaultApportion: {},
       columns: [
         {
@@ -64,12 +69,12 @@ class NewShare extends Component {
           width: 160,
           key: 'cost',
           render: (value, record, index) => {
+            console.log(record)
             return record.status == 'edit' || record.status == 'new' ? (
               <div style={{ textAlign: 'right' }}>
                 <InputNumber
                   precision={2}
-                  // value={value}
-                  step={0.01}
+                  value={value}
                   onChange={val => this.costChange(index, val)}
                   disabled={(!this.props.params.relatedApplication&&record.rowKey===1)?true:false}
                 />
@@ -204,7 +209,12 @@ class NewShare extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isRefresh !== this.state.isRefresh) {
-      this.setState({ data: nextProps.data, isRefresh: nextProps.isRefresh });
+      this.setState({ data: nextProps.data,
+        pagination:{
+          ...this.state.pagination,
+          total: nextProps.data.length,
+        },
+        isRefresh: nextProps.isRefresh });
     }
   }
 
@@ -298,6 +308,12 @@ class NewShare extends Component {
 
   //删除一行
   delete = index => {
+    this.setState({
+      pagination: {
+        ...this.state.pagination,
+        total: this.state.pagination.total-1
+      }
+    });
     this.props.deleteShare && this.props.deleteShare(index);
   };
 
@@ -312,7 +328,9 @@ class NewShare extends Component {
 
   //取消
   cancel = index => {
-    let data = this.state.data;
+    let {data,pagination }= this.state;
+    index = (index+pagination.page)*pagination.pageSize;
+    if(index)
     if (data[index].status == 'edit') {
       data[index] = { ...this.state.dataCache, status: 'normal' };
       this.props.handleOk && this.props.handleOk(data, true);
@@ -320,7 +338,10 @@ class NewShare extends Component {
     } else if (data[index].status == 'new') {
       data.splice(index, 1);
       this.props.handleOk && this.props.handleOk(data, true);
-      this.setState({ data, dataCache: null });
+      this.setState({ data, dataCache: null,pagination:{
+          ...pagination,
+          total: pagination.total-1
+        } });
     }
   };
 
@@ -343,8 +364,14 @@ class NewShare extends Component {
     return s;
   };
 
+  handleChange=(value)=> {
+    value.page = value.current-1;
+    this.setState({
+      pagination: {...value}
+    });
+  };
   render() {
-    const { data, columns, loading, x, showSelector } = this.state;
+    const { data, columns, loading, x, showSelector, pagination } = this.state;
     return (
       <div>
         <Row style={{ marginTop: 10 }} className="invoice-info-row">
@@ -354,6 +381,8 @@ class NewShare extends Component {
               loading={loading}
               columns={columns}
               dataSource={data}
+              pagination={pagination}
+              onChange={this.handleChange}
               scroll={{ x: x }}
               bordered
             />
