@@ -16,7 +16,7 @@ export default {
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
-      body: { ...values, ...params },
+      data: { ...values, ...params },
       params:
         info['requestMethod'] === 'get' || info['requestMethod'] === 'delete' ? { ...values, ...params } : undefined,
     };
