@@ -182,7 +182,7 @@ class FormDetail extends React.Component {
     const { nowTab, loading ,matchFormData} = this.state;
     const { formOID } = this.props.match.params;
     return (
-      <div className="form-detail">
+      <div className="form-detail" style={{paddingBottom: 40}}>
         {loading ? <Spin /> : (
           <div>
             <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
