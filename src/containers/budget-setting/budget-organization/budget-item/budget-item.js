@@ -93,7 +93,7 @@ class BudgetItem extends React.Component {
         item.key = item.id;
         let budgetItem = {
           value: item.itemCode,
-          label: item.itemCode+" ( "+item.itemName+" ) "
+          label: item.itemCode+" - "+item.itemName
         };
         itemCode.push(budgetItem);
       });
