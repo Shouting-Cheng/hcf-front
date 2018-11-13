@@ -9,6 +9,7 @@ const config = {
   accountingUrl: '/accounting',
   // payUrl: 'http://116.228.77.183:25297/payment',
   payUrl: '/payment',
+  authUrl:'/auth',
   contractUrl: '/contract',
   prePaymentUrl: '/prepayment',
   // vendorUrl:`http://116.228.77.183:25297/vendor`, //供应商url    +  /vendor-info-service
