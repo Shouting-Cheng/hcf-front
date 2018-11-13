@@ -41,11 +41,6 @@ class AddPaymentRequsition extends React.Component {
           type: 'select',
           id: 'documentTypeId',
           label: this.$t( 'acp.reimburse.type'  /*报账单类型*/),
-          getUrl: `${
-            config.baseUrl
-          }/api/expReportHeader/custom/forms/setOfBooksId?roleType=TENANT&setOfBooksId=${
-            this.props.company.setOfBooksId
-          }`,
           options: [],
           method: 'get',
           valueKey: 'formId',
@@ -176,6 +171,19 @@ class AddPaymentRequsition extends React.Component {
       },
       () => {
         this.getList();
+        let url = `${config.baseUrl}/api/expReportHeader/custom/forms/setOfBooksId?roleType=TENANT&setOfBooksId=${this.props.company.setOfBooksId}`
+        httpFetch.post(url,this.props.params.typeDeatilParams.formTypes)
+        .then(res => {
+          let list = [];
+          res.data.map(item => {
+            list.push({ value: item.formId, label: item.formName});
+          });
+          let form = this.state.searchForm;
+
+          form[1].options = list;
+
+          this.setState({ searchForm: form });
+        });
       }
     );
   }
@@ -197,14 +205,14 @@ class AddPaymentRequsition extends React.Component {
       config.payUrl
     }/api/cash/transactionData/relation/query?page=${page}&size=${pageSize}&applicationId=${
       typeParams.applicationId
-    }&allType=${typeParams.allType}&formTypes=${typeParams.formTypes}`;
+    }&allType=${typeParams.allType}`;
     for (let key in searchParams) {
       if (searchParams[key]) {
         url += `&${key}=${searchParams[key]}`;
       }
     }
     httpFetch
-      .get(url)
+      .post(url,typeParams.formTypes)
       .then(res => {
         this.setState({
           data: res.data,

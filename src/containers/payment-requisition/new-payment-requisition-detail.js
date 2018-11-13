@@ -30,7 +30,8 @@ import httpFetch from 'share/httpFetch';
 import config from 'config';
 import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
 import ContractDetail from 'containers/contract/my-contract/contract-detail';
-import ApproveHistory from './approve-history-work-flow';
+//import ApproveHistory from './approve-history-work-flow';
+import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
@@ -58,7 +59,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: '7%',
-          render: (value, record, index) => index + 1,
+          render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1)  * this.state.pagination.pageSize),
         },
         {
           title: this.$t( 'acp.requisition.amount'  /*本次申请金额*/),
@@ -195,8 +196,10 @@ class NewPaymentRequisitionDetail extends React.Component {
       ],
       pagination: {
         total: 0,
+        current: 1,
+        pageSize: 5,
       },
-      pageSize: 10,
+      pageSize: 5,
       page: 0,
       typeDeatilParams: {
         applicationId: null,
@@ -292,6 +295,18 @@ class NewPaymentRequisitionDetail extends React.Component {
             pageLoading: false,
             pagination: {
               total: res.data.paymentRequisitionLineDTO.length,
+              current: 1,
+              pageSize: 5,
+              onChange: this.onChangePaper,
+              onShowSizeChange: this.onShowSizeChange,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total, range) => this.$t({ id: 'common.show.total' }, {
+                range0: `${range[0]}`,
+                range1: `${range[1]}`,
+                total: total,
+              }),
+              pageSizeOptions: ['5', '10', '20', '30', '40'],
             },
             columns: columns,
             headerInfo,
@@ -338,7 +353,30 @@ class NewPaymentRequisitionDetail extends React.Component {
         );
       });
   };
+  //翻页
+  onChangePaper = (page) => {
+    const pagination =  this.state.pagination;
+    if (page !== this.state.pagination.current) {
+      this.setState({
+        pagination: {
+          ...pagination,
+          current: page
+        }
+      });
+    }
+  };
 
+  //改变每页显示条数
+  onShowSizeChange = (current, pageSize) => {
+    const pagination =  this.state.pagination
+    this.setState({
+      pagination: {
+        ...pagination,
+        current: current,
+        pageSize: pageSize
+      }
+    });
+  };
   renderList = (title, value) => {
     return (
       <Row className="list-info">
@@ -763,6 +801,7 @@ class NewPaymentRequisitionDetail extends React.Component {
               expandedRowRender={this.expandedRowRender}
               dataSource={headerData.paymentRequisitionLineDTO}
               bordered
+              pagination={pagination}
               loading={pageLoading}
               size="middle"
             />
@@ -855,6 +894,7 @@ class NewPaymentRequisitionDetail extends React.Component {
             show={showSlideFrame}
             afterClose={this.handleCloseSlide}
             width="800px"
+            onClose={(e) => {this.closeFunc(false)}}
             hasFooter={false}
           >
             <NewPaymentRequisitionLine params={{
