@@ -119,11 +119,17 @@ class NewCostCenter extends React.Component {
         CCService.updateCostCenter(costCenter)
             .then((response) => {
                 if (response) {
+                    message.success(this.$t('common.save.success',{name : ''}))
                     this.setState({ loading: false });
-                    this.context.router.goBack();
+                    this.props.dispatch(
+                    routerRedux.push({
+                      pathname: `/admin-setting/cost-center/${this.props.match.params.setOfBooksId}`,
+                    })
+                  );
                 }
             })
-            .catch(() => {
+            .catch((e) => {
+                message.error(e.response.data.message);
                 this.setState({ loading: false });
             })
     }
