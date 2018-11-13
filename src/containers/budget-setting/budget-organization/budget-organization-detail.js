@@ -108,7 +108,7 @@ class BudgetOrganizationDetail extends React.Component {
   };
   render(){
     return (
-      <div>
+      <div style={{paddingBottom: 60}}>
         <h3 className="header-title">{this.props.organization.organizationName}</h3>
         <Tabs onChange={this.onChangeTabs} defaultActiveKey={this.state.nowStatus}>
           {this.renderTabs()}
