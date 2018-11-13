@@ -118,7 +118,10 @@ class CustomExpenseType extends React.Component {
   handleChangeSetOfBooks = (setOfBooksId) => {
     this.state.setOfBooks.map(item => {
       if (item.id === setOfBooksId)
-        this.props.dispatch(setExpenseTypeSetOfBooks(item));
+        this.props.dispatch({
+          type: 'setting/setExpenseTypeSetOfBooks',
+          payload: {...item},
+        });
     });
     this.getSourceCategory(setOfBooksId);
   };

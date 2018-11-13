@@ -172,6 +172,7 @@ class NewExpense extends React.Component {
     //显示并且是编辑
     else if (params.record.id) {
       let shareParams = {
+        applincationParams: {},
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
       };
@@ -601,7 +602,6 @@ class NewExpense extends React.Component {
       message.warning('请先选择费用类型！');
       return;
     }
-
     this.setState({
       showSelectApplication: true,
       applincationParams: this.props.headerData,
