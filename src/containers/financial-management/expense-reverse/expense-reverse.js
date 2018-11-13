@@ -286,7 +286,6 @@ class ExpenseReverse extends React.Component{
     }
     result.applyDateFrom = result.applyDateFrom ? result.applyDateFrom.format('YYYY-MM-DD') : undefined;
     result.applyDateTo = result.applyDateTo ? result.applyDateTo.format('YYYY-MM-DD') : undefined;
-    debugger
     let searchParams = {
       businessClass: result.businessClass,
       documentTypeId: result.billType,
