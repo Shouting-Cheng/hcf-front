@@ -7,6 +7,7 @@ const Option = Select.Option;
 import budgetBalanceSolutionService from 'containers/budget-setting/budget-balance-solution/budget-balance-solution.service'
 import ListSelector from 'widget/list-selector'
 import { routerRedux } from 'dva/router';
+import chooserData from 'share/chooserData'
 
 class NewBudgetBalanceSolution extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class NewBudgetBalanceSolution extends Component {
         this.state = {
             //账套id
             setOfBooksId: this.props.match.params.setOfBooksId,
+            itemSelectorItem:{},
             //参数类型值列表
             parameterTypeList: [],
             //预算相关，参数值列表
@@ -176,7 +178,7 @@ class NewBudgetBalanceSolution extends Component {
         e.preventDefault();
         e.stopPropagation();
         //参数的值的变化，引发弹窗类型和弹窗参数的变化
-        let { listSelectorExtraParams, listSelectorType, listSelectorSelectedData } = this.state;
+        let { listSelectorExtraParams, listSelectorType,itemSelectorItem, listSelectorSelectedData } = this.state;
 
         switch (record.parameterCode) {
             /**公司 */
@@ -220,9 +222,12 @@ class NewBudgetBalanceSolution extends Component {
                 listSelectorExtraParams = { organizationId: this.state.organizationId };
                 break;
             /**"预算项目" */
-            case "BUDGET_ITEM":
-                listSelectorType = 'budget_item';
-                listSelectorExtraParams = { organizationId: this.state.organizationId };
+          case "BUDGET_ITEM":
+              listSelectorType = 'budget_item';
+              itemSelectorItem = {...chooserData['budget_item']};
+              itemSelectorItem.listExtraParams = this.state.organizationId;
+              itemSelectorItem.searchForm[1].getUrl = itemSelectorItem.searchForm[2].getUrl = itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.state.organizationId);
+              listSelectorExtraParams = { organizationId: this.state.organizationId };
                 break;
             /**"币种" */
             case "CURRENCY":
@@ -245,6 +250,7 @@ class NewBudgetBalanceSolution extends Component {
         this.setState({
             listSelectorExtraParams,
             listSelectorType,
+            itemSelectorItem,
             listSelectorVisible: true,
             listSelectorSelectedData: record.solutionParameterList,
             recordKey: record.key
@@ -725,6 +731,7 @@ class NewBudgetBalanceSolution extends Component {
         const { getFieldDecorator } = this.props.form;
         const { visibleUserScope,
             columns,
+            itemSelectorItem,
             data,
             loading,
             listSelectorVisible,
@@ -840,6 +847,7 @@ class NewBudgetBalanceSolution extends Component {
                 <ListSelector visible={listSelectorVisible}
                     onCancel={this.onListSelectCancel}
                     type={listSelectorType}
+                    selectorItem={itemSelectorItem}
                     extraParams={listSelectorExtraParams}
                     selectedData={[...listSelectorSelectedData]}
                     onOk={this.handleListSelectorOk}

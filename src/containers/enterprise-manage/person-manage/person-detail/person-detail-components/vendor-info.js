@@ -89,12 +89,34 @@ class PersonVendorInfo extends React.Component {
       });
     }
   };
+  //取消按钮
   handleCancel = e => {
+    //查询供应商状态
+    this.getSupplierInfo()
     e.preventDefault();
     this.props.toNoEditing();
   };
 
+  //获取供应商信息
+  getSupplierInfo = () => {
+    let vendorObj = this.state.vendorObj
+    let userOID = vendorObj.userOID;
+    PDService.getSupplierInfo(userOID).then(res => {
+      //如果有供应商信息
+      if (!!res.data) {
+        //后期如果供应商信息状态错误时，查看后端接口进行赋值
+        vendorObj.enable = true;
+      } else {
+        vendorObj.enable = false;
+      }
+      this.setState({
+        vendorObj,
+      });
+    });
+  };
+  //切换状态
   switchCardStatusChange = e => {
+    console.log(e)
     let vendorObj = this.state.vendorObj;
     vendorObj.enable = e;
     this.setState({

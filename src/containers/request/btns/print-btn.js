@@ -19,6 +19,7 @@ class PrintBtn extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     if (!this.state.info.applicationOID) {
       this.setState({ info: nextProps.info }, () => {
         this.showPrint();
@@ -52,13 +53,15 @@ class PrintBtn extends React.Component {
 
   render() {
     const { loading, showPrintBtn } = this.state;
+    console.log(showPrintBtn)
+    console.log(this.props.printFlag)
     return (
       <div className="print-btn request-btn">
-        {(showPrintBtn || this.props.printFlag) && (
+       {/* {(showPrintBtn || this.props.printFlag) && (*/}
           <Button type="primary" loading={loading} onClick={this.handlePrint}>
             {this.$t('common.print') /*打印*/}
           </Button>
-        )}
+       {/* )}*/}
       </div>
     );
   }

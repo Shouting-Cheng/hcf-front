@@ -352,7 +352,6 @@ class NewAccountPeriod extends React.Component {
       dateTo: count + 1,
       quarterNum: count + 1
     };
-
     this.setState({
       data: [...data, newData],
       count: count + 1,
@@ -446,15 +445,16 @@ class NewAccountPeriod extends React.Component {
         quarterNum: i
       })
     }
+    if (count === 1) {
+      additionalName = {};
+      monthFrom = {};
+      dateFrom = {};
+      monthTo = {};
+      dateTo = {};
+      quarterNum = {};
+    }
     Object.keys(monthFrom).map(key => {
-      if (count === 1) {
-        additionalName = {};
-        monthFrom = {};
-        dateFrom = {};
-        monthTo = {};
-        dateTo = {};
-        quarterNum = {};
-      } else {
+      if (count !== 1) {
         if (key > count) {
           additionalName[key] = undefined;
           monthFrom[key] = undefined;
@@ -470,12 +470,12 @@ class NewAccountPeriod extends React.Component {
     this.props.form.resetFields();
     this.setState({
       data,
-      additionalName: {},
+      additionalName,
       monthFrom,
       monthTo,
       dateFrom,
       dateTo,
-      quarterNum: {},
+      quarterNum,
     });
   };
 

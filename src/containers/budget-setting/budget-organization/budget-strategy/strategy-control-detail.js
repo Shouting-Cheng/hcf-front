@@ -212,7 +212,7 @@ class StrategyControlDetail extends React.Component {
   render() {
     const { infoList, infoData, columns, data, loading, pagination, showSlideFrame, updateState, baseInfoLoading, newParams, isNew } = this.state;
     return (
-      <div className="strategy-control-detail">
+      <div className="strategy-control-detail" style={{paddingBottom:20}}>
         <BasicInfo infoList={infoList}
                    infoData={infoData}
                    updateHandle={this.handleUpdate}

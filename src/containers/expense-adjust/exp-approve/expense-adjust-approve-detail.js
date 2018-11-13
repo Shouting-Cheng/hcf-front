@@ -95,12 +95,16 @@ class ExpenseAdjustApproveDetail extends React.Component {
     const { passLoading, rejectLoading, headerData } = this.state;
     let isConfirm = this.props.match.params.flag === 'approved';
     return (
-      <div className="expense-adjust-detail" style={{height: '100%'}}>
+      <div className="expense-adjust-detail" style={{
+        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+        paddingCottom: 100}}>
         <ExpenseAdjustApproveCommon wrappedComponentRef={ref=>this.detail=ref} id={this.props.match.params.id} expenseAdjustTypeId={this.props.match.params.expenseAdjustTypeId} />
         {!isConfirm && (
-          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{marginLeft: 4}}>
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
+            boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+            marginLeft: 4}}>
             <Row>
-              <Col span={17} >
+              <Col span={24} >
                 <ApproveBar
                   style={{paddingLeft: 20}}
                   passLoading={passLoading}

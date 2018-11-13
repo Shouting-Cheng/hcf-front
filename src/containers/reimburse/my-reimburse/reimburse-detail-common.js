@@ -163,13 +163,13 @@ class ContractDetailCommon extends React.Component {
         businessCode: nextProps.headerData.businessCode,
         createdDate: nextProps.headerData.reportDate,
         formName: nextProps.headerData.formName,
-        createByName: nextProps.headerData.createByName,
+        createByName: `${nextProps.headerData.createByName}-${nextProps.headerData.createByCode}`,
         totalAmount: nextProps.headerData.totalAmount,
         statusCode: nextProps.headerData.reportStatus,
         currencyCode: nextProps.headerData.currencyCode,
         remark: this.getRemark(nextProps.headerData),
         infoList: [
-          { label: "申请人", value: nextProps.headerData.applicationName },
+          { label: "申请人", value: `${nextProps.headerData.applicationName}-${nextProps.headerData.applicationCode}` },
           { label: "公司", value: nextProps.headerData.createByCompanyName },
           { label: "部门", value: nextProps.headerData.unitName },
           nextProps.headerData.contractHeaderId ? { label: "合同", value: nextProps.headerData.contractHeaderLineDTO.contractNumber, linkId: nextProps.headerData.contractHeaderId } : null
@@ -326,12 +326,12 @@ class ContractDetailCommon extends React.Component {
   //撤回
   withdraw = () => {
     let params =
-    {
-      entities: [{
-        entityOID: this.props.headerData.expenseReportOID,
-        entityType: 801001
-      }]
-    };
+      {
+        entities: [{
+          entityOID: this.props.headerData.expenseReportOID,
+          entityType: 801001
+        }]
+      };
     reimburseService.withdraw(params).then(res => {
       message.success("撤回成功！");
       this.onCancel();
@@ -379,12 +379,11 @@ class ContractDetailCommon extends React.Component {
     } else if (headerData.reportStatus == 1002 || headerData.reportStatus == 1004 || headerData.reportStatus == 2002 || headerData.reportStatus == 2004) {
       isEdit = false;
     }
-
     let subContent = {};
     subContent.DETAIL = (
       <div>
-         <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="费用信息">
-         <div className="table-header" style={{marginTop:'0px'}}>
+        <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="费用信息">
+          <div className="table-header" style={{ marginTop: '0px' }}>
             {
               isEdit && <div style={{ float: "left" }} className="buttonGroup">
                 <Button onClick={this.createCost} type="primary">新建费用</Button>
@@ -409,7 +408,7 @@ class ContractDetailCommon extends React.Component {
             flag={isLoadCostData}
             headerData={this.props.headerData}>
           </CostDetail>
-         </Card>
+        </Card>
         <PayInfo
           ref="payInfo"
           flag={isLoadPayData}
@@ -428,20 +427,20 @@ class ContractDetailCommon extends React.Component {
       </div>
     );
     return (
-      <div style={{paddingBottom:'20px'}}>
+      <div style={{ paddingBottom: '20px' }}>
         <Spin spinning={false}>
           <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <Tabs forceRender defaultActiveKey="1" onChange={this.tabChange}>
-              <TabPane tab="单据信息" key="1" style={{border:'none'}}>
+              <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
                 <DocumentBasicInfo params={this.state.remburseInfo} values={{}}>
                   {isEdit &&
-                    <Button type="primary" style={{marginBottom:'14px'}} onClick={this.edit}>编辑</Button>}
+                    <Button type="primary" style={{ marginBottom: '14px' }} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
-                    <Button type="primary" style={{marginBottom:'14px'}}
+                    <Button type="primary" style={{ marginBottom: '14px' }}
                       onClick={this.withdraw}>撤回</Button>}
                 </DocumentBasicInfo>
               </TabPane>
-              {this.props.headerData.reportStatus === 1006 && <TabPane tab="凭证信息" key="2" style={{border:'none'}}>
+              {this.props.headerData.reportStatus === 1006 && <TabPane tab="凭证信息" key="2" style={{ border: 'none' }}>
                 <VoucherInfo voucherParams={this.props.headerData}></VoucherInfo>
               </TabPane>}
             </Tabs>

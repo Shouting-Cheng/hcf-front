@@ -24,6 +24,11 @@ class AdvancedSearchForm extends React.Component {
     this.setState({ expand: !expand });
   };
 
+  clear = () => {
+    this.props.onClear && this.props.onClear();
+    this.props.form.resetFields();
+  }
+
   // To generate mock Form.Item
   getFields() {
     const { getFieldDecorator } = this.props.form;
@@ -34,7 +39,7 @@ class AdvancedSearchForm extends React.Component {
     formItems.map((item, i) => {
       if (item.dataIndex) {
         children.push(
-          <Col span={6} key={item.dataIndex} style={{ display: i < count ? 'block' : 'none' }}>
+          <Col span={item.colSpan || 6} key={item.dataIndex} style={{ display: i < count ? 'block' : 'none' }}>
             <FormItem label={item.label}>
               {getFieldDecorator(item.dataIndex)(this.renderItem(item))}
             </FormItem>

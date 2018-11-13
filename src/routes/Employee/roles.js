@@ -27,8 +27,8 @@ class SelectRoles extends React.Component {
       defaultIds: [],
       loading: false,
       formItems: [
-        { label: '代码', dataIndex: 'roleCode' },
-        { label: '名称', dataIndex: 'roleName' },
+        { label: '代码', dataIndex: 'roleCode' ,colSpan: 8},
+        { label: '名称', dataIndex: 'roleName' ,colSpan: 8},
       ],
     };
   }
@@ -83,11 +83,13 @@ class SelectRoles extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible && !this.props.visible) {
       let params = { userId: nextProps.userId, queryFlag: 'ASSIGNED' };
-
+      this.getList();
       service.getRoles(params).then(res => {
         let ids = res.map(item => item.id);
-        this.setState({ dataSource: res, selectedRowKeys: ids, defaultIds: ids });
+        this.setState({ selectedRowKeys: ids, defaultIds: ids });
       });
+    } else if (!nextProps.visible && this.props.visible) {
+      this.searchForm && this.searchForm.resetFields();
     }
   }
 
@@ -130,7 +132,7 @@ class SelectRoles extends React.Component {
         width={800}
         onCancel={this.handleCancel}
       >
-        <SearchForm search={this.search} formItems={formItems} />
+        <SearchForm ref={ref => this.searchForm = ref} search={this.search} formItems={formItems} />
         <div style={{ margin: '16px 0' }} />
         <Table
           pagination={false}

@@ -79,8 +79,12 @@ class BudgetControlRulesDetail extends React.Component{
           title: this.$t({id:"budget.invalidDate"}), key: "invalidDate", dataIndex: 'invalidDate',
           render: description => (<span>{description === null ? "-" : description.substring(0,10)}</span>)
         },
-        {title: this.$t({id:"common.operation"}), key: 'operation', width: '8%', render: (text, record) => (
+        {title: this.$t({id:"common.operation"}), key: 'operation', width: '12%', render: (text, record) => (
           <span>
+            <a  onClick={e => this.handleEdit(record)}>
+                {this.$t('common.edit')}
+              </a>
+            <span className="ant-divider" />
             <Popconfirm onConfirm={(e) => this.deleteItem(e, record)} title={this.$t({id:"budget.are.you.sure.to.delete.rule"}, {controlRule: record.controlRuleName})}>{/* 你确定要删除organizationName吗 */}
               <a onClick={(e) => {e.preventDefault();e.stopPropagation();}}>{this.$t({id: "common.delete"})}</a>
             </Popconfirm>
@@ -90,8 +94,10 @@ class BudgetControlRulesDetail extends React.Component{
   }
 
   deleteItem = (e, record) => {
+    e.preventDefault();
+    e.stopPropagation();
     budgetService.deleteRuleDetail(record.id).then(response => {
-      message.success(this.$t({id:"common.delete.success"}, {name: record.organizationName})); // name删除成功
+      message.success(this.$t({id:"common.delete.success"}, {name: ''})); // name删除成功
       this.getList();
     })
   };
@@ -299,7 +305,7 @@ class BudgetControlRulesDetail extends React.Component{
           dataSource={data}
           columns={columns}
           onRow={record => ({
-            onClick: () => this.handleEdit(record)
+            // onClick: () => this.handleEdit(record)
           })}
           pagination={pagination}
           onChange={this.onChangePager}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 
-import { Tabs } from 'antd';
+import {Tabs, Affix, Icon} from 'antd';
 const TabPane = Tabs.TabPane;
 import BudgetScenarios from 'containers/budget-setting/budget-organization/budget-scenarios/budget-scenarios'
 import BudgetStructure from 'containers/budget-setting/budget-organization/budget-structure/budget-structure'
@@ -99,15 +99,31 @@ class BudgetOrganizationDetail extends React.Component {
     }
     return this.props.match.params.id ? React.createElement(content, Object.assign({}, this.props.match.params, {organization: this.props.organization})) : null;
   };
-
+  handleBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: '/budget-setting/budget-organization'
+      })
+    );
+  };
   render(){
     return (
-      <div>
+      <div style={{paddingBottom: 60}}>
         <h3 className="header-title">{this.props.organization.organizationName}</h3>
         <Tabs onChange={this.onChangeTabs} defaultActiveKey={this.state.nowStatus}>
           {this.renderTabs()}
         </Tabs>
         {this.renderContent()}
+        <Affix className="bottom-bar-approve" style={{
+          height: '50px',
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+          zIndex: 1,
+          paddingLeft: 20
+        }}>
+          <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
+        </Affix>
       </div>
     )
   }

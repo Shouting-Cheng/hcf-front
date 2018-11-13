@@ -324,10 +324,10 @@ class GLWorkOrderCheckDetail extends Component {
   /**
    * 审批通过
    */
-  onPassClick = () => {
+  onPassClick = (text,value) => {
     this.setState({ operateLoading: true });
     let params = {
-      approvalTxt: this.state.opinion,
+      approvalTxt: text,
       entities: [
         {
           entityOID: this.state.docHeadData.documentOid,
@@ -359,15 +359,10 @@ class GLWorkOrderCheckDetail extends Component {
   /**
    * 审批驳回
    */
-  onRejectClick = () => {
+  onRejectClick = (text,value) => {
     this.setState({ operateLoading: true });
-    if (!this.state.opinion) {
-      message.error('请输入审批意见');
-      this.setState({ operateLoading: false });
-      return;
-    }
     let params = {
-      approvalTxt: this.state.opinion,
+      approvalTxt: text,
       entities: [
         {
           entityOID: this.state.docHeadData.documentOid,
@@ -410,17 +405,32 @@ class GLWorkOrderCheckDetail extends Component {
     let docStatus = this.props.match.params.status;
     //真正渲染出来的东东
     return (
-      <div className="gl-work-order-detail" style={{marginBottom: 15, padding: '0px 15px 20px 15px'}}>
-        <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+      <div className="gl-work-order-detail" style={{
+        background: 'white',
+        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+        marginBottom: 15, padding: '0px 15px 20px 15px'}}>
+        <div style={{
+          padding: '24px 32px',
+          borderRadius: 4,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+        }}>
           <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-            <TabPane tab="单据信息" key="1" style={{paddingRight:10,paddingLeft:10}}>
+            <TabPane tab="单据信息" key="1" style={{
+              marginTop: 20,
+              borderTop: '1px solid #e8e8e8'
+            }}>
               <DocumentBasicInfo params={headerInfo} />
             </TabPane>
             {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
           </Tabs>
-        </Card>
+        </div>
         <div className="tab-container">
-          <h3 className="sub-header-title">核算信息</h3>
+          <h3 className="sub-header-title" style={{
+            height:40,
+            paddingLeft: 20,
+            marginLeft: -20,
+            marginRight: -20
+          }}>核算信息</h3>
           <Table
             style={{ clear: 'both' }}
             bordered

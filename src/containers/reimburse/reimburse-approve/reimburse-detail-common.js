@@ -60,7 +60,7 @@ class ContractDetailCommon extends React.Component {
           title: this.$t({ id: "common.remark" }/*备注*/), dataIndex: 'remark',
           render: value => {
             return (value ?
-                <Popover placement="topLeft" content={value} overlayStyle={{ maxWidth: 300 }}>{value}</Popover> : '-'
+              <Popover placement="topLeft" content={value} overlayStyle={{ maxWidth: 300 }}>{value}</Popover> : '-'
             )
           }
         }
@@ -103,7 +103,6 @@ class ContractDetailCommon extends React.Component {
       });
     }
     if (nextProps.headerData.expenseReportOID && !this.props.headerData.expenseReportOID) {
-      console.log(nextProps.headerData)
       reimburseService.getReportsHistory(nextProps.headerData.expenseReportOID).then(res => {
         this.setState({ approveHistory: res.data, historyLoading: false });
       }).catch(err => {
@@ -123,7 +122,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取资金计划
   getCostList = (flag) => {
-    this.setState({ visible: false }, () => {
+    this.setState({ visible: false,detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -300,22 +299,28 @@ class ContractDetailCommon extends React.Component {
     const { detailLoading, showInvoices, isLoadCostData, isLoadPayData, writeoffShow, visible, planLoading, historyLoading, contractEdit, topTapValue, subTabsList, pagination, columns, data, showSlideFrame, contractStatus, record, slideFrameTitle, historyData, detailVisible } = this.state;
     const isEdit = headerData.reportStatus == 1001 || headerData.reportStatus == 1003 || headerData.reportStatus == 1005;
     let subContent = {};
+    let list = [];
+    headerData.customFormValues && headerData.customFormValues.map(o => {
+      if (o.messageKey != "select_company" && o.messageKey != "select_department" && o.messageKey != "remark" && o.messageKey != "currency_code") {
+        list.push({ label: o.fieldName, value: o.showValue });
+      }
+    });
     let headerInfo = {
       businessCode: headerData.businessCode,
       createdDate: headerData.createdDate,
-      createByName: `${headerData.applicationName}-${headerData.applicationId}`,
+      createByName: `${headerData.createByName}-${headerData.createByCode}`,
       formName: headerData.formName,
       statusCode: headerData.reportStatus,
-      currencyCode: headerData.currencyCode,
       totalAmount: headerData.totalAmount,
       currencyCode: headerData.currencyCode,
       remark: this.getRemark(headerData),
       infoList: [
-        { label: "申请人", value: `${headerData.applicationName}-${headerData.applicationId}` },
+        { label: "申请人", value: `${headerData.applicationName}-${headerData.applicationCode}` },
         { label: "公司", value: headerData.companyName },
         { label: "部门", value: headerData.unitName },
         headerData.contractHeaderId ? { label: "合同", value: headerData.contractHeaderLineDTO.contractNumber, linkId: headerData.contractHeaderId } : null
-      ]
+      ],
+      customList: list
     };
     subContent.DETAIL = (
       <div>
@@ -352,7 +357,7 @@ class ContractDetailCommon extends React.Component {
           <div className="table-header">
             <div className="table-header-buttons">
               {contractEdit &&
-              <Button type="primary" onClick={this.addItem}>{this.$t({ id: "common.add" }/*添加*/)}</Button>}
+                <Button type="primary" onClick={this.addItem}>{this.$t({ id: "common.add" }/*添加*/)}</Button>}
             </div>
             <div style={{ marginBottom: '10px' }}>
               {this.$t({ id: "common.total" }, { total: pagination.total }/*共搜索到 {total} 条数据*/)}
@@ -361,12 +366,12 @@ class ContractDetailCommon extends React.Component {
             </div>
           </div>
           <Table rowKey={record => record.id}
-                 columns={columns}
-                 dataSource={data}
-                 pagination={pagination}
-                 scroll={{ x: true, y: false }}
-                 bordered
-                 size="middle" />
+            columns={columns}
+            dataSource={data}
+            pagination={pagination}
+            scroll={{ x: true, y: false }}
+            bordered
+            size="middle" />
         </Spin>
       </div>
     );
@@ -376,7 +381,7 @@ class ContractDetailCommon extends React.Component {
         <Spin spinning={false}>
           <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
             <Tabs onChange={this.handleTabsChange}>
-              <TabPane tab="报账单信息" key="contractInfo" style={{border:'none'}} >
+              <TabPane tab="报账单信息" key="contractInfo" style={{ border: 'none' }} >
                 {/* {contractInfo} */}
                 <DocumentBasicInfo params={headerInfo}>
 
@@ -385,21 +390,21 @@ class ContractDetailCommon extends React.Component {
             </Tabs>
           </Card>
           {topTapValue === 'contractInfo' &&
-          // <Card>
-          //   <Tabs className="detail-tabs">
-          //     {subTabsList.map((item) => {
-          //       return <TabPane tab={item.label} key={item.key}>{subContent[item.key]}</TabPane>
-          //     })}
-          //   </Tabs>
-          // </Card>
-          <div>
-            {subContent['DETAIL']}
-          </div>
+            // <Card>
+            //   <Tabs className="detail-tabs">
+            //     {subTabsList.map((item) => {
+            //       return <TabPane tab={item.label} key={item.key}>{subContent[item.key]}</TabPane>
+            //     })}
+            //   </Tabs>
+            // </Card>
+            <div>
+              {subContent['DETAIL']}
+            </div>
           }
         </Spin>
         <SlideFrame title={slideFrameTitle}
-                    show={showSlideFrame}
-                    onClose={() => this.showSlide(false)}>
+          show={showSlideFrame}
+          onClose={() => this.showSlide(false)}>
           <NewPayPlan
             close={this.handleCloseSlide}
             params={{
@@ -414,8 +419,8 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={visible}
-                    title="新建费用"
-                    onClose={() => this.setState({ visible: false })}>
+          title="新建费用"
+          onClose={() => this.setState({ visible: false })}>
           <NewExpense
             close={this.getCostList}
             params={{
@@ -428,12 +433,13 @@ class ContractDetailCommon extends React.Component {
             }}
           />
         </SlideFrame>
-
         <SlideFrame show={detailVisible}
-                    title="费用详情"
-                    onClose={() => this.setState({ detailVisible: false })}>
+          title="费用详情"
+          afterClose={() => this.setState({ detailVisible: false })}
+          onClose={() => this.setState({ detailVisible: false })}>
           <DetailExpense
             close={this.getCostList}
+            approve={true}
             params={{
               visible: this.state.detailVisible,
               record: this.state.costRecord,
@@ -447,8 +453,8 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={this.state.payPlanVisible}
-                    title="新建付款信息"
-                    onClose={() => this.setState({ payPlanVisible: false })}>
+          title="新建付款信息"
+          onClose={() => this.setState({ payPlanVisible: false })}>
           <NewPayPlan
             params={{ visible: this.state.payPlanVisible, record: this.state.payRecord, headerData: this.props.headerData }}
             close={this.getPayList}

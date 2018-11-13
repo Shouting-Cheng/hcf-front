@@ -126,6 +126,11 @@ class NewUpdateBankAccount extends React.Component {
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        //判断银行卡号是否正确
+        if(this.state.validateAccount ){
+          message.error(`${this.$t(`supplier.bank.account.error`)}`);
+          return
+        }
         this.setState({ loading: true });
         values.venInfoId = this.props.params.vendorId;
         values.bankCode = values.venBankAccountBeans[0].bankCode;

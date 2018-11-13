@@ -645,6 +645,7 @@ class ToBacklash extends React.Component {
                               <Col span={12} offset={0}>
                                 { this.state.fileShow &&<Upload attachmentType="PAYMENT"
                                                                 fileNum={99}
+                                                                noDelete={this.props.type}
                                                                 multiple={true}
                                                                 disabled={!backlashDetailRemark}
                                                                 defaultOIDs={this.state.uploadOIDs}

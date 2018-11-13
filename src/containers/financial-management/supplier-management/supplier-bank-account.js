@@ -332,7 +332,7 @@ class SupplierBankAccount extends React.Component {
     } = this.state;
 
     return (
-      <div className="supplier-bank-account">
+      <div className="supplier-bank-account" style={{paddingBottom:20}}>
         <BasicInfo
           infoList={infoList}
           infoData={vendorInfo}

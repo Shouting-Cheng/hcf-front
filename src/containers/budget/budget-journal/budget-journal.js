@@ -264,11 +264,6 @@ class BudgetJournal extends React.Component {
     } = this.state;
     const organization = this.props.organization;
 
-    //text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
-    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
-    //       skip: "/budget-setting/budget-organization",
-    //       buttonText: this.$t("main.error.set"),  //去设置
-    //       hasButton: true
 
     return organization && JSON.stringify(organization) != '{}' ? (
       <div className="budget-journal">
@@ -299,14 +294,14 @@ class BudgetJournal extends React.Component {
         />
       </div>
     ) : (
-      <Error
-        text={this.$t('main.error.budget.organization')}
-        title={this.$t('main.error.budget.organization.description')}
-        skip="/budget-setting/budget-organization"
-        buttonText={this.$t('main.error.set')}
-        hasButton
-      />
-    );
+        <Error
+          text={this.$t('main.error.budget.organization')}
+          title={this.$t('main.error.budget.organization.description')}
+          skip="/budget-setting/budget-organization"
+          buttonText={this.$t('main.error.set')}
+          hasButton
+        />
+      );
   }
 }
 
@@ -314,7 +309,7 @@ function mapStateToProps(state) {
   return {
     user: state.user.currentUser,
     company: state.user.company,
-    organization: state.user.organization,
+    organization: state.user.organization || {},
   };
 }
 

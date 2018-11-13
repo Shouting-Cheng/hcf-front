@@ -137,13 +137,11 @@ class NewExpense extends React.Component {
   }
   componentDidMount() {
     let params = this.props.params;
-    console.log(this.props);
     if (!params.record.id) {
       let shareParams = {
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
       };
-      console.log(shareParams);
       // this.refs.invoice.resetForm();
       let expenseTypeItem = this.state.expenseTypeItem;
       expenseTypeItem.url = `${config.baseUrl}/api/v2/custom/forms/${
@@ -172,6 +170,7 @@ class NewExpense extends React.Component {
     //显示并且是编辑
     else if (params.record.id) {
       let shareParams = {
+        applincationParams: {},
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
       };
@@ -516,7 +515,6 @@ class NewExpense extends React.Component {
           callback();
         })
         .catch(err => {
-          console.log(err);
           message.error('保存失败：' + err.response.data.message);
           this.setState({ saveLoading: false, copyLoading: false, againLoading: false });
         });
@@ -601,7 +599,6 @@ class NewExpense extends React.Component {
       message.warning('请先选择费用类型！');
       return;
     }
-
     this.setState({
       showSelectApplication: true,
       applincationParams: this.props.headerData,
@@ -984,7 +981,18 @@ class NewExpense extends React.Component {
                   />
                 )}
               </div>
-              <Affix style={{ textAlign: 'center' }} offsetBottom={0} className="bottom-bar">
+              <Affix style={{
+                textAlign: 'center',
+                position: 'fixed',
+                bottom: 0,
+                marginLeft: '-25px',
+                width: '100%',
+                height: '50px',
+                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                background: '#fff',
+                lineHeight: '50px',
+                zIndex: 5,
+              }}>
                 <Button type="primary" htmlType="submit" loading={saveLoading}>
                   保存
                 </Button>

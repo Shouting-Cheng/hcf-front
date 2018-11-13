@@ -405,7 +405,7 @@ class ValueList extends React.Component {
             })(
               <div>
                 <LanguageInput
-                  disabled={systemInit}
+                  disabled={!!record.id}
                   name={record ? record.messageKey : ''}
                   i18nName={
                     record && record.i18n && record.i18n.messageKey ? record.i18n.messageKey : null
@@ -435,7 +435,7 @@ class ValueList extends React.Component {
                 // }
               ],
               initialValue: record ? record.value : '',
-            })(<Input placeholder={messages('common.please.enter')} disabled={systemInit} />)}
+            })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id} />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label={'序号'}>

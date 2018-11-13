@@ -45,6 +45,7 @@ class NewExpenseAdjustDetail extends React.Component {
       fileList: [],
       timestampLine: new Date().valueOf(),
       data: [],
+      _data: [],
       scrollX: false,
       opt: {},
       defaultValue: [],
@@ -220,18 +221,18 @@ class NewExpenseAdjustDetail extends React.Component {
                   {this.$t('common.cancel')}
                 </a>
               ) : (
-                <Popconfirm
-                  onConfirm={e => this.deleteItem(e, record, index)}
-                  title={this.$t('budget.are.you.sure.to.delete.rule', {
-                    controlRule: record.controlRuleName,
-                  })}
-                >
-                  {/* 你确定要删除organizationName吗 */}
-                  <a style={{ marginLeft: 12 }}>
-                    {this.$t('common.delete')}
-                  </a>
-                </Popconfirm>
-              )}
+                  <Popconfirm
+                    onConfirm={e => this.deleteItem(e, record, index)}
+                    title={this.$t('budget.are.you.sure.to.delete.rule', {
+                      controlRule: record.controlRuleName,
+                    })}
+                  >
+                    {/* 你确定要删除organizationName吗 */}
+                    <a style={{ marginLeft: 12 }}>
+                      {this.$t('common.delete')}
+                    </a>
+                  </Popconfirm>
+                )}
             </span>
           ),
         },
@@ -242,10 +243,11 @@ class NewExpenseAdjustDetail extends React.Component {
   operateItem = (e, record, index, flag) => {
     e.preventDefault();
     e.stopPropagation();
-    const { data, lineData, isEdit } = this.state;
+    const { data, lineData, isEdit, _data } = this.state;
     if (!flag) {
       //取消
       if (data[index].id || data[index].saved) {
+        data[index] = { ..._data[index] };
         data[index].isEdit = false;
       } else {
         data.splice(index, 1);
@@ -290,12 +292,15 @@ class NewExpenseAdjustDetail extends React.Component {
     if (flag) {
       data[index].isEdit = false;
       data[index].saved = true;
+      let _data = [];
+      _data[index] = { ...data[index] };
       this.setState(
         {
           lineData,
           data,
+          _data,
         },
-        () => {}
+        () => { }
       );
     }
   };
@@ -324,7 +329,7 @@ class NewExpenseAdjustDetail extends React.Component {
         defaultValue,
         data,
       },
-      () => {}
+      () => { }
     );
   };
 
@@ -389,76 +394,76 @@ class NewExpenseAdjustDetail extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { formItems, columns, column, opt, defaultValue, validator } = this.state;
-      if (
-        !this.props.params.flag &&
-        this.props.match.costCenterData.length &&
-        columns.length === 5 &&
-        this.props.params.flag
-      ) {
-        this.props.params.costCenterData.reverse().map(item => {
-          if (item) {
-            let options = [];
-            item.itemDTOList.map(item =>
-              options.push({ label: item.itemName, value: item.itemId })
-            );
-            formItems.splice(4, 0, {
-              type: 'select',
-              label: item.name,
-              required: true,
-              key: 'dimension' + item.sequenceNumber + 'Id',
-              span: this.props.params.adjustLineCategory === '1001' ? 12 : 30,
-              options: options,
-            });
-            columns.splice(3, 0, {
-              title: item.name,
-              dataIndex: 'dimension' + item.sequenceNumber + 'Id',
-              key: 'dimension' + item.sequenceNumber + 'Id',
-              align: 'center',
-              render: (desc, record, index) =>
-                this.renderCol(desc, record, index, 'dimension' + item.sequenceNumber + 'Id'),
-            });
-            opt['dimension' + item.sequenceNumber + 'Id'] = options;
-            validator['dimension' + item.sequenceNumber + 'Id'] = item.name;
-          }
-        });
-      }
-      //公司和部门设置默认值
-      if (!this.props.params.record) {
-        //新建
-        let defaultValue = [];
-        defaultValue['companyId'] = [
-          { id: this.props.params.expenseHeader.companyId, name: this.props.params.expenseHeader.companyName },
-        ];
-        defaultValue['unitId'] = [
-          { departmentId: this.props.params.expenseHeader.unitId, name: this.props.params.expenseHeader.unitName },
-        ];
-        this.setState({ defaultValue });
-      } else {
-        //编辑 ,复制
-        let value = {
-          ...this.props.params.record,
-          companyId: [
-            { id: this.props.params.record.companyId, name: this.props.params.record.companyName },
-          ],
-          unitId: [
-            {
-              departmentId: this.props.params.record.unitId,
-              name: this.props.params.record.unitName,
-            },
-          ],
-          expenseTypeId: [
-            {
-              id: this.props.params.record.expenseTypeId,
-              name: this.props.params.record.expenseTypeName,
-            },
-          ],
-        };
-        value.copy && delete value.id;
-        let data = [];
-        let fileList = [];
-        this.props.params.record.attachments &&
+    if (
+      !this.props.params.flag &&
+      this.props.match.costCenterData.length &&
+      columns.length === 5 &&
+      this.props.params.flag
+    ) {
+      this.props.params.costCenterData.reverse().map(item => {
+        if (item) {
+          let options = [];
+          item.itemDTOList.map(item =>
+            options.push({ label: item.itemName, value: item.itemId })
+          );
+          formItems.splice(4, 0, {
+            type: 'select',
+            label: item.name,
+            required: true,
+            key: 'dimension' + item.sequenceNumber + 'Id',
+            span: this.props.params.adjustLineCategory === '1001' ? 12 : 30,
+            options: options,
+          });
+          columns.splice(3, 0, {
+            title: item.name,
+            dataIndex: 'dimension' + item.sequenceNumber + 'Id',
+            key: 'dimension' + item.sequenceNumber + 'Id',
+            align: 'center',
+            render: (desc, record, index) =>
+              this.renderCol(desc, record, index, 'dimension' + item.sequenceNumber + 'Id'),
+          });
+          opt['dimension' + item.sequenceNumber + 'Id'] = options;
+          validator['dimension' + item.sequenceNumber + 'Id'] = item.name;
+        }
+      });
+    }
+    //公司和部门设置默认值
+    if (!this.props.params.record) {
+      //新建
+      let defaultValue = [];
+      defaultValue['companyId'] = [
+        { id: this.props.params.expenseHeader.companyId, name: this.props.params.expenseHeader.companyName },
+      ];
+      defaultValue['unitId'] = [
+        { departmentId: this.props.params.expenseHeader.unitId, name: this.props.params.expenseHeader.unitName },
+      ];
+      this.setState({ defaultValue });
+    } else {
+      //编辑 ,复制
+      let value = {
+        ...this.props.params.record,
+        companyId: [
+          { id: this.props.params.record.companyId, name: this.props.params.record.companyName },
+        ],
+        unitId: [
+          {
+            departmentId: this.props.params.record.unitId,
+            name: this.props.params.record.unitName,
+          },
+        ],
+        expenseTypeId: [
+          {
+            id: this.props.params.record.expenseTypeId,
+            name: this.props.params.record.expenseTypeName,
+          },
+        ],
+      };
+      value.copy && delete value.id;
+      let data = [];
+      let fileList = [];
+      this.props.params.record.attachments &&
         this.props.params.record.attachments.map(o =>
           fileList.push({
             ...o,
@@ -466,7 +471,7 @@ class NewExpenseAdjustDetail extends React.Component {
             name: o.fileName,
           })
         );
-        this.props.params.record.linesDTOList.length &&
+      this.props.params.record.linesDTOList.length &&
         this.props.params.record.linesDTOList.map(item => {
           item['companyId' + '_table'] = [{ id: item.companyId, name: item.companyName }];
           item['unitId' + '_table'] = [{ departmentId: item.unitId, name: item.unitName }];
@@ -476,34 +481,37 @@ class NewExpenseAdjustDetail extends React.Component {
           }
           data.push(item);
         });
-        this.state.formItems[this.state.formItems.length - 1].key === 'desc'
-          ? (value['desc'] = this.props.params.record.description)
-          : (value['description'] = this.props.params.record.description);
-        this.setState({
-          attachmentOid: this.props.params.record.attachmentOids,
-          defaultValue: value,
-          type: this.props.params.type,
-          data,
-          fileList,
-          record: this.props.params.record,
-        });
-      }
-      if (this.props.params.costCenterData.length > 0) {
-        columns[columns.length - 1].fixed = 'right';
-      }
-
+      let _data = [];
+      data.map(item => _data.push({ ...item }));
+      this.state.formItems[this.state.formItems.length - 1].key === 'desc'
+        ? (value['desc'] = this.props.params.record.description)
+        : (value['description'] = this.props.params.record.description);
       this.setState({
-        formItems,
-        costCenterData: this.props.params.costCenterData,
-        headerData: this.props.params.expenseHeader,
-        columns,
-        addData: false,
-        opt,
-        scrollX:
-          this.props.params.costCenterData.length > 0
-            ? 620 + this.props.params.costCenterData.length * 120
-            : false,
+        attachmentOid: this.props.params.record.attachmentOids,
+        defaultValue: value,
+        type: this.props.params.type,
+        data,
+        _data,
+        fileList,
+        record: this.props.params.record,
       });
+    }
+    if (this.props.params.costCenterData.length > 0) {
+      columns[columns.length - 1].fixed = 'right';
+    }
+
+    this.setState({
+      formItems,
+      costCenterData: this.props.params.costCenterData,
+      headerData: this.props.params.expenseHeader,
+      columns,
+      addData: false,
+      opt,
+      scrollX:
+        this.props.params.costCenterData.length > 0
+          ? 620 + this.props.params.costCenterData.length * 120
+          : false,
+    });
 
   }
 
@@ -655,7 +663,7 @@ class NewExpenseAdjustDetail extends React.Component {
           <Select
             placeholder={this.$t('common.please.select')}
             onFocus={
-              item.options.length === 0 && item.method ? this.handleFocus(item, index) : () => {}
+              item.options.length === 0 && item.method ? this.handleFocus(item, index) : () => { }
             }
           >
             {item.options.map(item => <Option key={item.value}>{item.label}</Option>)}
@@ -850,13 +858,13 @@ class NewExpenseAdjustDetail extends React.Component {
     let formItemLayout =
       this.props.params.adjustLineCategory === '1001'
         ? {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 17 },
-          }
+          labelCol: { span: 6 },
+          wrapperCol: { span: 17 },
+        }
         : {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 12 },
-          };
+          labelCol: { span: 6 },
+          wrapperCol: { span: 12 },
+        };
     let arr = [];
     let style = {};
     this.state.formItems.map((item, index) => {
@@ -869,20 +877,19 @@ class NewExpenseAdjustDetail extends React.Component {
               <FormItem
                 {...formItemLayout}
                 key={item.key + 'item'}
-                className={item.className + '-label'}
                 label={
                   item.label ? (
                     item.label
                   ) : this.props.params.adjustLineCategory === '1002' ? (
                     this.$t('common.amount')
                   ) : (
-                    <span>
-                      {this.$t('common.amount')}&nbsp;
+                        <span>
+                          {this.$t('common.amount')}&nbsp;
                       <Tooltip title={this.$t('exp.detail.amount.tips')}>
-                        <Icon type="info-circle-o" />
-                      </Tooltip>
-                    </span>
-                  )
+                            <Icon type="info-circle-o" />
+                          </Tooltip>
+                        </span>
+                      )
                 }
               >
                 {getFieldDecorator(item.key, {
@@ -899,38 +906,37 @@ class NewExpenseAdjustDetail extends React.Component {
               </FormItem>
             )
           ) : (
-            <FormItem
-              {...formItemLayout}
-              key={item.key + 'item'}
-              className={item.className + '-label'}
-              label={
-                item.label ? (
-                  item.label
-                ) : this.props.params.adjustLineCategory === '1002' ? (
-                  this.$t('common.amount')
-                ) : (
-                  <span>
-                    {this.$t('common.amount')}&nbsp;
+              <FormItem
+                {...formItemLayout}
+                key={item.key + 'item'}
+                label={
+                  item.label ? (
+                    item.label
+                  ) : this.props.params.adjustLineCategory === '1002' ? (
+                    this.$t('common.amount')
+                  ) : (
+                        <span>
+                          {this.$t('common.amount')}&nbsp;
                     <Tooltip title={this.$t('exp.detail.amount.tips')}>
-                      <Icon type="info-circle-o" />
-                    </Tooltip>
-                  </span>
-                )
-              }
-            >
-              {getFieldDecorator(item.key, {
-                initialValue: this.state.defaultValue[item.key],
-                rules: [
-                  {
-                    required: item.required,
-                    message: this.$t('common.can.not.be.empty', {
-                      name: item.label ? item.label : this.$t('common.amount'),
-                    }), //name 不可为空
-                  },
-                ],
-              })(this.renderItem(item, index))}
-            </FormItem>
-          )}
+                            <Icon type="info-circle-o" />
+                          </Tooltip>
+                        </span>
+                      )
+                }
+              >
+                {getFieldDecorator(item.key, {
+                  initialValue: this.state.defaultValue[item.key],
+                  rules: [
+                    {
+                      required: item.required,
+                      message: this.$t('common.can.not.be.empty', {
+                        name: item.label ? item.label : this.$t('common.amount'),
+                      }), //name 不可为空
+                    },
+                  ],
+                })(this.renderItem(item, index))}
+              </FormItem>
+            )}
         </Col>
       );
     });
@@ -990,7 +996,6 @@ class NewExpenseAdjustDetail extends React.Component {
             sourceAdjustLineId: null,
             jeCreationStatus: null,
             jeCreationDate: null,
-            //"attachmentOid":"e21f8b08-a67e-4f23-a89e-df66081e99e7,17253c02-1af6-46b4-93b7-0e641373e0b9",
             linesList: lineData,
           };
 
@@ -1013,6 +1018,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   fileList: [],
                   addData: true,
                   loading: false,
+                  attachmentOid: []
                 },
                 () => {
                   this.props.form.resetFields();
@@ -1132,7 +1138,7 @@ class NewExpenseAdjustDetail extends React.Component {
                 <Button onClick={this.handleImport}>{this.$t('exp.import.detail.info')}</Button>
               </div>
               <Table
-                rowKey={(record,index) => record.id||record['rowKey']||index}
+                rowKey={(record, index) => record.id || record['rowKey'] || index}
                 dataSource={data}
                 columns={columns}
                 loading={tableLoading}
@@ -1167,12 +1173,12 @@ class NewExpenseAdjustDetail extends React.Component {
           ref={ref => (this.import = ref)}
           templateUrl={`${
             config.baseUrl
-          }/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
+            }/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
             this.props.params.expenseAdjustHeadId
-          }&external=${false}`}
+            }&external=${false}`}
           uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
             this.props.params.expenseAdjustHeadId
-          }&sourceAdjustLineId=1`}
+            }&sourceAdjustLineId=1`}
           listenUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
           errorUrl={`${config.baseUrl}/api/expense/adjust/lines/failed/export`}
           title={this.$t('exp.import.detail.line')}

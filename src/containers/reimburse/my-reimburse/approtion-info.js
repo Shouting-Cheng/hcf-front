@@ -23,7 +23,7 @@ class Verification extends Component {
             return <span>{value}</span>
           }
         },
-        { title: "分摊金额", dataIndex: "amount", key: "amount", render: (desc) => this.formatMoney(this.props.mode === "negative" ? -desc : desc) }
+        { title: "分摊金额", dataIndex: "amount", key: "amount", width: 100, render: (desc) => this.formatMoney(this.props.mode === "negative" ? -desc : desc) }
       ],
       data: [
 
@@ -44,7 +44,7 @@ class Verification extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    console.log(nextProps)
     if (!nextProps.visible && this.props.visible) {
       this.setState({
         data: [], changeList: [], page: 0, pagination: {
@@ -64,7 +64,6 @@ class Verification extends Component {
   }
 
   getColumns = () => {
-
     let cols = this.state.columns;
 
     if (!this.state.headerData.relatedApplication) {
@@ -107,7 +106,7 @@ class Verification extends Component {
         },
       ]
     }
-
+    console.log(columns)
     this.state.headerData.defaultApportionInfo.costCenterItems.map(o => {
       columns.push({ title: o.fieldName, dataIndex: o.sequenceNumber, key: o.sequenceNumber })
     })
@@ -115,6 +114,7 @@ class Verification extends Component {
     columns.push({ title: "分摊金额", dataIndex: "amount", fixed: "right", width: 100, key: "amount", render: desc => this.filterMoney(this.props.mode === "negative" ? -desc : desc) });
 
     let width = this.state.headerData.relatedApplication ? 400 : 300;
+    console.log(columns)
     this.setState({ columns, flag: true, x: this.state.headerData.defaultApportionInfo.costCenterItems.length ? width + (this.state.headerData.defaultApportionInfo.costCenterItems.length) * 150 : false });
   };
 
