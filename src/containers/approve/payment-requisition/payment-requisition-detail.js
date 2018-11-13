@@ -28,7 +28,8 @@ import paymentRequisitionService from 'containers/payment-requisition/paymentReq
 import ApproveBar from 'widget/Template/approve-bar';
 import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
 import ContractDetail from 'containers/contract/my-contract/contract-detail';
-import ApproveHistory from 'containers/payment-requisition/approve-history-work-flow';
+//import ApproveHistory from 'containers/payment-requisition/approve-history-work-flow';
+import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import DocumentBasicInfo from 'widget/document-basic-info';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import 'styles/payment-requisition/payment-requisition-detail.scss';
@@ -54,7 +55,7 @@ class PaymentRequisitionDetail extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: '7%',
-          render: (value, record, index) => (index + 1),
+          render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1)  * this.state.pagination.pageSize),
         },
         {
           title: '申请金额', dataIndex: 'amount', width: 120,
@@ -141,6 +142,8 @@ class PaymentRequisitionDetail extends React.Component {
       ],
       pagination: {
         total: 0,
+        current: 1,
+        pageSize: 5,
       },
       pageSize: 5,
       page: 0,
@@ -186,8 +189,8 @@ class PaymentRequisitionDetail extends React.Component {
           pageLoading: false,
           pagination: {
             total: res.data.paymentRequisitionLineDTO.length,
-            current: page + 1,
-            pageSize: pageSize,
+            current: 1,
+            pageSize: 5,
             onChange: this.onChangePaper,
             onShowSizeChange: this.onShowSizeChange,
             showSizeChanger: true,
@@ -210,19 +213,26 @@ class PaymentRequisitionDetail extends React.Component {
   };
   //翻页
   onChangePaper = (page) => {
-    if (page - 1 !== this.state.page) {
-      this.setState({ page: page - 1 }, () => {
-        this.getList();
+    const pagination =  this.state.pagination;
+    if (page !== this.state.pagination.current) {
+      this.setState({
+        pagination: {
+          ...pagination,
+          current: page
+        }
       });
     }
   };
+
   //改变每页显示条数
   onShowSizeChange = (current, pageSize) => {
+    const pagination =  this.state.pagination
     this.setState({
-      page: current - 1,
-      pageSize: pageSize,
-    }, () => {
-      this.getList();
+      pagination: {
+        ...pagination,
+        current: current,
+        pageSize: pageSize
+      }
     });
   };
   getLogs = () => {
@@ -481,6 +491,7 @@ class PaymentRequisitionDetail extends React.Component {
             expandedRowRender={this.expandedRowRender}
             dataSource={headerData.paymentRequisitionLineDTO}
             bordered
+            pagination={pagination}
             loading={pageLoading}
             size="middle"
           />
