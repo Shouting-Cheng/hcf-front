@@ -24,7 +24,7 @@ const InputGroup = Input.Group;
 
 import ListSelector from 'widget/list-selector';
 import moment from 'moment';
-
+import CustomAmount from 'widget/customAmount';
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import SelectContract from 'containers/pre-payment/my-pre-payment/select-contract';
 import SelectReceivables from 'widget/select-receivables';
@@ -527,13 +527,16 @@ class NewPayPlan extends React.Component {
                     initialValue: isNew ? '' : model.amount,
                     rules: [{ validator: this.checkPrice }],
                   })(
-                    <InputNumber
-                      step="0.01"
-                      precision={2}
-                      onBlur={this.checkCost}
-                      placeholder={this.$t({ id: 'common.please.enter' } /*请输入*/)}
+                    <CustomAmount
                       style={{ width: '100%' }}
                     />
+                    // <InputNumber
+                    //   step={0.01}
+                    //   precision={2}
+                    //   onBlur={this.checkCost}
+                    //   placeholder={this.$t({ id: 'common.please.enter' } /*请输入*/)}
+                    //   style={{ width: '100%' }}
+                    // />
                   )}
                 </FormItem>
               </Col>

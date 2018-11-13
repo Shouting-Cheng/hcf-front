@@ -64,12 +64,12 @@ class NewShare extends Component {
           width: 160,
           key: 'cost',
           render: (value, record, index) => {
-            console.log(record)
             return record.status == 'edit' || record.status == 'new' ? (
               <div style={{ textAlign: 'right' }}>
                 <InputNumber
                   precision={2}
-                  value={value}
+                  // value={value}
+                  step={0.01}
                   onChange={val => this.costChange(index, val)}
                   disabled={(!this.props.params.relatedApplication&&record.rowKey===1)?true:false}
                 />
@@ -134,7 +134,6 @@ class NewShare extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.params.relatedApplication)
     this.setState(
       {
         defaultApportion: this.props.params.defaultApportion,
@@ -206,7 +205,6 @@ class NewShare extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isRefresh !== this.state.isRefresh) {
       this.setState({ data: nextProps.data, isRefresh: nextProps.isRefresh });
-      console.log(nextProps.data)
     }
   }
 
@@ -229,7 +227,6 @@ class NewShare extends Component {
 
   //费用改变时触发
   costChange = (index, value) => {
-    console.log(index)
     let data = this.state.data;
     let record = data[index];
     record.cost = value;
