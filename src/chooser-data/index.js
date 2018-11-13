@@ -2650,6 +2650,24 @@ const chooserData = {
     ],
     key: 'id'
   },
+  select_companies: {
+    title: '选择公司', // 选择当前租户下的所有公司，展示账套
+    url: `${config.baseUrl}/api/company/name/setOfBooksId`,
+    searchForm: [
+      { type: 'input', id: 'keyword', label: "公司名称" },
+      {
+        type: 'select', id: 'setOfBooksId', label: "所属账套", options: [],
+        getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+        method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
+      },/*账套*/
+    ],
+    columns: [
+      { title: "公司代码", dataIndex: 'companyCode' },
+      { title: "公司名称", dataIndex: 'name' },
+      { title: "所属账套", dataIndex: 'setOfBooksName' }
+    ],
+    key: 'id'
+  },
 };
 
 export default chooserData;
