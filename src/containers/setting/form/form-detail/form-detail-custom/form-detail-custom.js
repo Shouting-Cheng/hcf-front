@@ -554,7 +554,7 @@ class FormDetailCustom extends React.Component {
         isOk = false;
       }
       if (customFormField.messageKey === 'select_box') {
-        JSON.parse(customFormField.fieldContent).map(item => {
+        JSON.parse(customFormField.fieldContent.replace(/\\/g,'')).map(item => {
           if (!item.name || item.name === '') {
             errorMsg = this.$t('form.setting.error05', {fieldName: customFormField.fieldName});//${customFormField.fieldName}选项名称不能为空
             errorMessageKey = customFormField.messageKey;

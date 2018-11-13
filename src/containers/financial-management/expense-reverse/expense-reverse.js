@@ -302,6 +302,24 @@ class ExpenseReverse extends React.Component{
       departmentId: result.departmentId,
       unitId: result.unitId&&result.unitId[0]
     };
+    if(result.employeeId && result.employeeId[0]){
+      searchParams = {
+        ...searchParams,
+        applyId:result.employeeId[0]
+      }
+    }
+    if(result.companyId && result.companyId[0]){
+      searchParams = {
+        ...searchParams,
+        companyId: result.companyId[0]
+      }
+    }
+    if(result.departmentId && result.departmentId[0]){
+      searchParams = {
+        ...searchParams,
+        departmentId: result.departmentId[0]
+      }
+    }
     this.setState({canSearchParams: searchParams}, ()=> this.customTable1.search(searchParams))
   };
 

@@ -251,7 +251,7 @@ const chooserData = {
   available_company: {
     title: '选择公司',
     url: `${config.baseUrl}/api/company/available`,
-    searchForm: [{ type: 'input', id: 'keyword', label: '公司名称' }],
+    searchForm: [{ type: 'input', id: 'keyword', label: '公司名称、代码' }],
     columns: [
       { title: '公司代码', dataIndex: 'companyCode' },
       { title: '公司名称', dataIndex: 'name' },
