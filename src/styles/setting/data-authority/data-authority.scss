@@ -1,0 +1,17 @@
+:global{
+    .add-rule-form{
+        .rule-form-item .ant-form-item{
+         margin-bottom: 0px!important
+        }
+        .rule-form-name .ant-form-item{
+          margin-bottom: 10px!important
+        }
+        .rule-form-name .ant-divider-horizontal{
+            margin-bottom: 10px!important
+        }
+    }
+    .rule-ant-card .ant-card-head .ant-tabs{
+        margin-bottom: 0px!important;
+        background: #f7f7f7!important   
+    }
+}

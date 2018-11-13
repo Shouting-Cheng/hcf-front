@@ -8,6 +8,7 @@
   "accounting.source.stateData":"请输入固定值",
   "accounting.source.segment":"科目段值",
   "accounting.source.dataRule":"取值方式",
+  "accounting.source.getData":"取值",
   "accounting.source.journalFieldCode":"核算分录段",
   "accounting.source.data":"值",
   "accounting.source.ACCOUNT_ELEMENT": "数据范围为该交易对应的场景下的已启用的核算要素。则该核算分录段，取该核算要素对应的值",

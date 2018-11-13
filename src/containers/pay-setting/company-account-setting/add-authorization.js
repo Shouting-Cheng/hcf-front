@@ -236,7 +236,8 @@ class AddAuthorization extends React.Component {
               initialValue: params.company || new Array()
             })(
               <Chooser placeholder={messages('common.please.select')}
-                type="available_company"
+                type="select_companies"
+                listExtraParams={{enabled:true}}
                 labelKey="companyCode"
                 valueKey="id"
                 single={true}

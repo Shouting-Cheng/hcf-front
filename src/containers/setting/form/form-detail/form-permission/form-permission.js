@@ -462,7 +462,7 @@ class FormPermission extends React.Component {
         const { loading1, isEdit1, loading2, isEdit2, loading3, isEdit3, companySelectedList, visibleCompanyScope,
             expenseSelectedList, visibleExpenseScope, userValue, canEditExpense } = this.state;
         return (
-            <div className="form-permission">
+            <div className="form-permission" style={{paddingBottom:50}}>
                 {this.props.tenantMode &&
                     <div>
                         <div className="info-title">{this.$t('form.setting.form.divide.company')/*分配公司*/}&nbsp;&nbsp;&nbsp;<span style={{ color: '#989898', fontSize: 14 }}>{this.$t('form.setting.form.tip04')/*当前账套下启用的公司*/}</span></div>

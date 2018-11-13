@@ -72,8 +72,8 @@ class NewSetOfBooks extends React.Component {
       });
   };
 
-  getCurrencyList = () => {
-    this.state.currencyOptions.length === 0 &&
+  getCurrencyList = (open) => {
+    open&&this.state.currencyOptions.length === 0 &&
       baseService.getCurrencyList('', this.props.language.local).then(res => {
         this.setState({ currencyOptions: res.data.rows, currencyFetched: true });
       });
@@ -193,7 +193,7 @@ class NewSetOfBooks extends React.Component {
               initialValue: params.functionalCurrencyCode,
             })(
               <Select
-                onFocus={this.getCurrencyList}
+                onDropdownVisibleChange={this.getCurrencyList}
                 disabled={!!params.setOfBooksId}
                 notFoundContent={
                   currencyFetched ? this.$t('my.contract.no.result') : <Spin size="small" />
@@ -210,8 +210,10 @@ class NewSetOfBooks extends React.Component {
                 {currencyOptions.map(item => {
                   return (
                     <Option value={item.currencyCode} key={item.currencyCode}>
-                      {item.currencyCode}
-                      {this.props.language.local === 'zh_Cn' ? ` ${item.currencyName}` : ''}
+                      {item.currencyCode+' - '+ item.currencyName}
+{/*
+                      {this.props.language.local === 'zh_Cn' ? ` ${item.currencyCode+' - '+item.currencyName}` : ''}
+*/}
                     </Option>
                   );
                 })}

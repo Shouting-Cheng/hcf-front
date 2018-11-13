@@ -296,6 +296,8 @@ class PaymentRequisitionDetail extends React.Component {
             <span>{this.$t({ id: 'acp.enabled.amount' }/*可申请金额*/)}{record.currencyCode} {this.filterMoney(record.availableAmount, 2, true)}</span>
           </Col>
         </Row>
+        {record.contractHeaderId &&
+        <div>
         <Divider/>
         <Row>
           <Col span={2}>
@@ -320,18 +322,24 @@ class PaymentRequisitionDetail extends React.Component {
             <span>{record.contractDueDate ? record.contractDueDate : '-'}</span>
           </Col>
         </Row>
-        <Divider/>
-        <Row>
-          <Col span={2}>
-            <span style={{ float: 'right' }}>{this.$t({ id: 'acp.payment.log' }/*付款日志*/)}</span>
-          </Col>
-          <Col span={6} offset={1}>
-            <span>{this.$t({ id: 'acp.payment.amount' }/*已付款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(record.payAmount, 2, true)}</span>
-          </Col>
-          <Col span={6}>
-            <span>{this.$t({ id: 'acp.return.amount' }/*退款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(record.returnAmount, 2, true)}</span>
-          </Col>
-        </Row>
+      </div>
+        }
+        {(record.payAmount !== 0 && record.payAmount !== null) &&
+          <div>
+            <Divider/>
+            <Row>
+              <Col span={2}>
+                <span style={{ float: 'right' }}>{this.$t({ id: 'acp.payment.log' }/*付款日志*/)}</span>
+              </Col>
+              <Col span={6} offset={1}>
+                <span>{this.$t({ id: 'acp.payment.amount' }/*已付款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(record.payAmount, 2, true)}</span>
+              </Col>
+              <Col span={6}>
+                <span>{this.$t({ id: 'acp.return.amount' }/*退款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(record.returnAmount, 2, true)}</span>
+              </Col>
+            </Row>
+          </div>
+        }
       </div>
     );
   };
