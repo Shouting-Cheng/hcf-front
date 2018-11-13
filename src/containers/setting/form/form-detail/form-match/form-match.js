@@ -278,22 +278,24 @@ class FormMatch extends React.Component {
      * 选择可关联申请类型的值
      *
      */
-    getApplyIds = () => {
-        this.applyTypeSelect.blur();
+    getApplyIds = (open) => {
+      if(open){
+        //this.applyTypeSelect.blur();
         const { applyTypeSelectorItem } = this.state;
         this.setState({
-            isApplyType: true,
-            extraParams: {
-                companyId: this.props.company.id,
-                formCode: '',
-                idList: this.state.applyIds
-            },
+          isApplyType: true,
+          extraParams: {
+            companyId: this.props.company.id,
+            formCode: '',
+            idList: this.state.applyIds
+          },
         }, () => {
-            this.setState({
-                listVisible: true,
-                selectorItem: applyTypeSelectorItem
-            })
+          this.setState({
+            listVisible: true,
+            selectorItem: applyTypeSelectorItem
+          })
         })
+      }
     }
     /**
      * 保存表单设置的值
@@ -414,7 +416,7 @@ class FormMatch extends React.Component {
                                         initialValue: "val1",
 
                                     })(
-                                        <Select ref={ref => this.applyTypeSelect = ref} disabled={applyTypeDisabled} onFocus={this.getApplyIds}>
+                                        <Select ref={ref => this.applyTypeSelect = ref} disabled={applyTypeDisabled} onDropdownVisibleChange={this.getApplyIds}>
                                             <Option value="val1">{applyTypeVal}</Option>
                                         </Select>
                                     )}

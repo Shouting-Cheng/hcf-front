@@ -191,7 +191,7 @@ class NewBudgetStructure extends React.Component{
                       {required:true,message:this.$t({id:"common.please.enter"})},/* {/!*请输入*!/}*/
                     ],
                   })(
-                    <Select placeholder={this.$t({id:"common.please.select"})}  /* {/!*请选择*!/}*/>
+                    <Select onChange={()=>{this.setState({loading: false})}} placeholder={this.$t({id:"common.please.select"})}  /* {/!*请选择*!/}*/>
                       {options}
                     </Select>)
                   }

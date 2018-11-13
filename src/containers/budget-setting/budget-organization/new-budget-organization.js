@@ -26,6 +26,10 @@ class NewBudgetOrganization extends React.Component {
         budgetOrganizationService.addOrganization(values).then((res)=>{
           this.setState({loading: false});
           message.success(this.$t({id: 'common.create.success'}, {name: values.organizationName}));  //新建成功
+          this.props.dispatch({
+            type: 'budget/setOrganization',
+            organization: res.data,
+          });
           this.props.dispatch(
             routerRedux.push({
               pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'
