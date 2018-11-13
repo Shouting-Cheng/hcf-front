@@ -137,13 +137,11 @@ class NewExpense extends React.Component {
   }
   componentDidMount() {
     let params = this.props.params;
-    console.log(this.props);
     if (!params.record.id) {
       let shareParams = {
         relatedApplication: params.headerData.relatedApplication,
         defaultApportion: params.defaultApportion,
       };
-      console.log(shareParams);
       // this.refs.invoice.resetForm();
       let expenseTypeItem = this.state.expenseTypeItem;
       expenseTypeItem.url = `${config.baseUrl}/api/v2/custom/forms/${
@@ -516,7 +514,6 @@ class NewExpense extends React.Component {
           callback();
         })
         .catch(err => {
-          console.log(err);
           message.error('保存失败：' + err.response.data.message);
           this.setState({ saveLoading: false, copyLoading: false, againLoading: false });
         });
