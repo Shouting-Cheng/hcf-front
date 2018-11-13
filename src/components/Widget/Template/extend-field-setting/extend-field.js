@@ -40,7 +40,7 @@ class ExtendFieldComponent extends React.Component {
     });
   }
 
-  componentDidMount() {s }
+  componentDidMount() {}
 
   addFieldItem = field => {
     let item = deepCopy(field);

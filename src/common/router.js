@@ -1687,6 +1687,13 @@ export const getRouterData = app => {
       name: 'new-bank-account',
       parent: '/enterprise-manage/company-maintain',
     },
+    //数据权限
+    '/admin-setting/data-authority':{
+      component: dynamicWrapper(app, [], () =>
+      import('containers/setting/data-authority/data-authority.js')
+    ),
+    name: 'data-authority',
+    }
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
