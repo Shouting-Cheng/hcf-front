@@ -387,7 +387,12 @@ class ExpenseAdjustApproveCommon extends React.Component {
     let flag = headerData.status === 1004;
     return (
       <div className="adjust-content" style={{marginBottom: 50, paddingBottom: 30}}>
-        <div className="document-basic-info" style={flag ? {margin: '-16px -10px 0 10px'}
+        <div className="document-basic-info" style={flag ? 
+        {
+          boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+          padding: 15,
+          background:'white',
+          margin: '0px 15px 0px 15px'}
         :{
           boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
           padding: 15,
@@ -398,31 +403,35 @@ class ExpenseAdjustApproveCommon extends React.Component {
           boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
           margin: '20px 15px 0px 15px',
           background:'white',
-          padding: '20px 20px 40px 20px'
+          padding: '0px 0px 40px 0px'
         }}>
-          <div className="center-title" style={{color:'black', fontSize: 17, borderBottom: '1px solid #ececec'}}>
-            {this.$t('exp.adjust.info')}
+          <Divider/>
+          <div style={{
+            padding: '0px 20px 0px 20px'
+          }}>
+            <div className="center-title" style={{color:'black', fontSize: 17, borderBottom: '1px solid #ececec'}}>
+              {this.$t('exp.adjust.info')}
+            </div>
+            <Row gutter={24} style={{marginTop: 15}}>
+              <Col span={18} style={{marginBottom: 5}}/>
+              <Col span={6} className="table-header-tips" style={{textAlign: 'right', marginTop: 10}}>
+                {this.$t('exp.amount.total')}：<span style={{color: 'green'}}>{headerData.currencyCode&&headerData.currencyCode +" "}&nbsp;{headerData.totalAmount? this.filterMoney(headerData.totalAmount) : this.filterMoney(0)}</span>
+              </Col>
+            </Row>
+            <Table
+              rowKey={record=> record.id}
+              dataSource={data}
+              loading={loading}
+              columns={columns}
+              pagination={pagination}
+              scroll={{x: 1300 ,y:0}}
+              onChange={this.onChangePager}
+              size="middle"
+              expandedRowRender={this.expandedRowRender}
+              bordered/>
           </div>
-          <Row gutter={24} style={{marginTop: 15}}>
-            <Col span={18} style={{marginBottom: 5}}/>
-            <Col span={6} className="table-header-tips" style={{textAlign: 'right', marginTop: 10}}>
-              {this.$t('exp.amount.total')}：<span style={{color: 'green'}}>{headerData.currencyCode&&headerData.currencyCode +" "}&nbsp;{headerData.totalAmount? this.filterMoney(headerData.totalAmount) : this.filterMoney(0)}</span>
-            </Col>
-          </Row>
-          <Table
-            rowKey={record=> record.id}
-            dataSource={data}
-            loading={loading}
-            columns={columns}
-            pagination={pagination}
-            scroll={{x: 1300 ,y:0}}
-            onChange={this.onChangePager}
-            size="middle"
-            expandedRowRender={this.expandedRowRender}
-            bordered/>
         </div>
-
-        <div className="approve-history" style={ flag? {margin:'20px 20px 35px 30px'}:
+        <div className="approve-history" style={ flag? {margin:'20px 15px 35px 15px'}:
           {margin: '20px 15px 20px 15px'}}>
           <ApproveHistory loading={false} infoData={approveHistory}/>
         </div>
