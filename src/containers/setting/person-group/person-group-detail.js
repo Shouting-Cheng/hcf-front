@@ -294,8 +294,9 @@ class PersonGroupDetail extends React.Component {
     removeTagByNameHandle = (index, name, valueIndex, i) => {
         const { conditionViewDTOS } = this.state;
         const list = conditionViewDTOS[index].conditionDetails[i].conditionValues;
-        list[valueIndex].deleted = true;
-        // list.splice(valueIndex, 1);
+        // list[valueIndex].deleted = true;
+        list.splice(valueIndex, 1);
+        this.setState({ conditionViewDTOS });
     };
     //分为新增条件与修改条件
     confirmRuleHandle = i => {
