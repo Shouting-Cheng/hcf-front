@@ -77,6 +77,7 @@ class AccountPeriodControl extends React.Component {
       loading: true,
       page: 0,
       pagination: {
+        current: 1,
         total: 0
       }
     }, ()=>{
