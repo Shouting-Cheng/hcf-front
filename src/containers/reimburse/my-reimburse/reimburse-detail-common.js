@@ -191,7 +191,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取费用列表
   getCostList = (flag) => {
-    this.setState({ visible: false }, () => {
+    this.setState({ visible: false,detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -491,6 +491,7 @@ class ContractDetailCommon extends React.Component {
           show={detailVisible}
           title="费用详情"
           width="800px"
+          afterClose={() => this.setState({ detailVisible: false })}
           onClose={() => this.setState({ detailVisible: false })}
         >
           <DetailExpense

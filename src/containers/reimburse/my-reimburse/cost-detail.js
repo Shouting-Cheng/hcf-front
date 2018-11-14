@@ -62,7 +62,7 @@ class CostDetail extends React.Component {
           title: '发生日期',
           width: 120,
           align: 'center',
-          dataIndex: 'createTime',
+          dataIndex: 'createdDate',
           key: 'createdDate',
           render: value => moment(value).format('YYYY-MM-DD'),
         },

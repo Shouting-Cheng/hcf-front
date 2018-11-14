@@ -222,7 +222,9 @@ class BudgetGroupDetail extends React.Component {
     this.setState({loading: true}, () => {
       budgetGroupService.batchDeleteItemFromGroup(this.props.match.params.id, paramList).then(response => {
         message.success(this.$t('common.delete.success', {name: ""})/*删除成功*/);
-        this.getList();
+        this.setState({
+          selectedData: []
+        },()=>this.getList())
       })
     })
   };

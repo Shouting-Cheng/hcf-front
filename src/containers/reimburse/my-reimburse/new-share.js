@@ -69,12 +69,11 @@ class NewShare extends Component {
           width: 160,
           key: 'cost',
           render: (value, record, index) => {
-            console.log(record)
             return record.status == 'edit' || record.status == 'new' ? (
               <div style={{ textAlign: 'right' }}>
                 <InputNumber
                   precision={2}
-                  value={value}
+                  // value={value}
                   onChange={val => this.costChange(index, val)}
                   disabled={(!this.props.params.relatedApplication&&record.rowKey===1)?true:false}
                 />

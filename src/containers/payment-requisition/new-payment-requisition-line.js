@@ -310,6 +310,41 @@ class NewPaymentRequisitionLine extends React.Component {
     }
     this.props.form.setFieldsValue({ amount: this.toDecimal2(value) });
   };
+
+  handleChangeAccountNumber = (value) => {
+    let {lineData ,employeeBankList, vendorBankList}= this.state;
+    if (lineData.partnerCategory === 'EMPLOYEE'){
+
+      employeeBankList.map(item => {
+        if (item.bankAccountNo === value){
+          this.props.form.setFieldsValue({ accountName: item.bankAccountName });
+          this.setState({
+            lineData:{
+              ...lineData,
+              bankLocationCode: item.bankCode,
+              bankLocationName: item.branchName
+          }
+          })
+          return;
+        }
+      })
+    }else{
+      vendorBankList.map(item => {
+        if (item.bankAccount === value){
+          this.props.form.setFieldsValue({ accountName: item.venBankNumberName });
+          this.setState({
+            lineData:{
+              ...lineData,
+              bankLocationCode: item.bankCode,
+              bankLocationName: item.bankName
+            }
+          })
+          return;
+        }
+      })
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -399,13 +434,13 @@ class NewPaymentRequisitionLine extends React.Component {
               ],
               initialValue: lineData.accountNumber,
             })(
-              <Select>
+              <Select onChange={this.handleChangeAccountNumber}>
                 {lineData.partnerCategory === 'EMPLOYEE'
                   ? employeeBankList.map(item => {
-                      return <Option key={item.bankCode}>{item.bankAccountNo}</Option>;
+                      return <Option key={item.bankAccountNo}>{item.bankAccountNo}</Option>;
                     })
                   : vendorBankList.map(item => {
-                      return <Option key={item.bankCode}>{item.bankAccount}</Option>;
+                      return <Option key={item.bankAccount}>{item.bankAccount}</Option>;
                     })}
               </Select>
             )}
@@ -414,7 +449,17 @@ class NewPaymentRequisitionLine extends React.Component {
             {...formItemLayout}
             label={this.$t({ id: 'acp.accountName.detail' } /* 收款方户名*/)}
           >
-            <Input disabled value={lineData.accountName === '' ? '-' : lineData.accountName} />
+            {getFieldDecorator('accountName', {
+              rules: [
+                {
+                  required: true,
+                  message: this.$t({ id: 'common.please.enter' } /*请输入*/),
+                },
+              ],
+              initialValue: lineData.accountName === '' ? '-' : lineData.accountName,
+            })(
+            <Input disabled />
+            )}
           </FormItem>
           <FormItem
             {...formItemLayout}

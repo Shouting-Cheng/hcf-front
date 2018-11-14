@@ -49,6 +49,7 @@ class NewExpenseAdjustDetail extends React.Component {
       scrollX: false,
       opt: {},
       defaultValue: [],
+      deleteIds:[],
       headerData: {},
       record: {},
       lastData: {},
@@ -266,8 +267,9 @@ class NewExpenseAdjustDetail extends React.Component {
   deleteItem = (e, record, index) => {
     e.preventDefault();
     e.stopPropagation();
-    const { data, lineData } = this.state;
+    const { data, lineData,deleteIds } = this.state;
     data.splice(index, 1);
+    deleteIds.push(record.id)
     lineData && lineData.infoList && lineData.infoList.splice(index, 1);
     this.setState({ data });
   };
@@ -506,6 +508,7 @@ class NewExpenseAdjustDetail extends React.Component {
       headerData: this.props.params.expenseHeader,
       columns,
       addData: false,
+      deleteIds:[],
       opt,
       scrollX:
         this.props.params.costCenterData.length > 0
@@ -775,6 +778,7 @@ class NewExpenseAdjustDetail extends React.Component {
               lineData.map(item => delete item.id);
             }
           }
+          
           let param = {
             ...values,
             employeeId: this.props.user.id,
@@ -794,8 +798,9 @@ class NewExpenseAdjustDetail extends React.Component {
             jeCreationStatus: null,
             jeCreationDate: null,
             linesList: lineData,
+            deleteIds: this.state.deleteIds
           };
-
+          console.log( this.state.deleteIds)
           let method = null;
           let flag = true;
           if (typeof this.state.defaultValue.id !== 'undefined') {
@@ -814,6 +819,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   addData: true,
                   fileList: key === 'copy' ? fileList : [],
                   loading: false,
+                  deleteIds:[],
                 },
                 () => {
                   if (key !== 'copy') {
