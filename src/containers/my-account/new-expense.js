@@ -211,8 +211,8 @@ class NewExpense extends React.Component {
       });
     }
 
-    //费用改变时
-    if(this.props.params.nowExpense && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))){
+    //费用改变时  && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))
+    if(this.props.params.nowExpense ){
       let expenseDetail = this.props.params.nowExpense;
       expenseDetail.data && expenseDetail.data.sort((a, b) => a.sequence > b.sequence || -1);
       expenseDetail.preCreatedDate = expenseDetail.createdDate;
@@ -296,6 +296,7 @@ class NewExpense extends React.Component {
               valueWillSet.invoiceInstead = expenseDetail.invoiceInstead;
             if(expenseDetail.invoiceInstead)
               valueWillSet.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
+            debugger
             this.props.form.setFieldsValue(valueWillSet);
           }
         });
@@ -316,6 +317,9 @@ class NewExpense extends React.Component {
       this.handleChangeCurrency(currencyCode);
 
     }
+    this.setState({
+      nowExpense:this.props.params.nowExpense
+    });
   }
   /**
    * @description 是否有票
@@ -2046,7 +2050,9 @@ class NewExpense extends React.Component {
 
         {hasInvoiceInstead && invoiceInstead && (
           <FormItem {...formItemLayout} label={invoiceInsteadReasonText}>
-            {getFieldDecorator('invoiceInsteadReason')(
+            {getFieldDecorator('invoiceInsteadReason',{
+              initialValue: this.state.nowExpense.invoiceInsteadReason
+            })(
               <Input maxLength="100" disabled={!invoiceInstead}/>
             )}
           </FormItem>

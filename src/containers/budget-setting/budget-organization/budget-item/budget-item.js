@@ -322,7 +322,7 @@ class BudgetItem extends React.Component {
         <ListSelector type="company"
                       visible={companyListSelector}
                       onOk={this.handleListOk}
-                      extraParams={{setOfBooksId: this.props.company.setOfBooksId,enabled: true}}
+                      extraParams={{setOfBooksId: this.props.setOfBooksId,enabled: true}}
                       onCancel={()=>this.showListSelector(false)}/>
       </div>
     )
