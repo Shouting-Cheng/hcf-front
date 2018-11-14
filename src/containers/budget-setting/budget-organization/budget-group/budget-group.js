@@ -44,7 +44,7 @@ class BudgetGroup extends React.Component {
     }
     params.page = this.state.page;
     params.pageSize = this.state.pageSize;
-    params.organizationId = this.props.organization.id;
+    params.organizationId = this.props.id;
     return budgetGroupService.getOrganizationGroups(params).then(response => {
       response.data.map(item => {
         item.key = item.id
@@ -86,7 +86,7 @@ class BudgetGroup extends React.Component {
     this.props.dispatch(
       routerRedux.replace({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-group/new-budget-group/:setOfBooksId/:orgId'
-          .replace(':orgId', this.props.organization.id)
+          .replace(':orgId', this.props.id)
           .replace(':setOfBooksId',this.props.setOfBooksId)
       })
     );
