@@ -42,4 +42,9 @@ export default {
   updateItemAssignedCompany(params){
     return httpFetch.put(`${config.budgetUrl}/api/budget/item/companies`,params)
   },
+  //根据预算组织id得到预算组织信息
+  getOrganizationById(id){
+    return httpFetch.get(`${config.budgetUrl}/api/budget/organizations/${id}`)
+  },
+
 }

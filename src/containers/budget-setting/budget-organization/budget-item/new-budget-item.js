@@ -10,6 +10,7 @@ import "styles/budget-setting/budget-organization/budget-item/new-budget-item.sc
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { routerRedux } from 'dva/router';
+import Chooser from "../../../../components/Widget/chooser";
 
 class NewBudgetItem extends React.Component{
   constructor(props){
@@ -24,7 +25,7 @@ class NewBudgetItem extends React.Component{
     };
   }
   componentWillMount(){
-    typeof this.props.organization.organizationName === "undefined" ?
+    !this.props.organization.id ?
       budgetService.getOrganizationById(this.props.match.params.orgId).then((response) =>{
         this.setState({
           organization: response.data,
@@ -85,19 +86,8 @@ class NewBudgetItem extends React.Component{
     })
   };
 
-  handleListOk = (result) => {
-    let values = [];
-    result.result.map(item => {
-      values.push({
-        key: item.id,
-        label: item.itemTypeName,
-        value: item,
-      })
-    });
-    let value = {};
-    value["itemTypeName"] = values;
-    this.props.form.setFieldsValue(value);
-    this.showList(false)
+  handleListOk = (values) => {
+    //console.log(values)
   };
 
   handleCancel = (e) =>{
@@ -115,8 +105,7 @@ class NewBudgetItem extends React.Component{
   render(){
     const { getFieldDecorator } = this.props.form;
     const { loading, organization, statusCode, showItemType, variationAttribute, listSelectedData} = this.state;
-
-    const options = variationAttribute.map((item)=><Option key={item.id}>{item.value}</Option>)
+    const options = variationAttribute.map((item)=><Option key={item.id}>{item.value}</Option>);
     return (
       <div className="new-budget-item">
         <div className="budget-item-form">
@@ -172,9 +161,15 @@ class NewBudgetItem extends React.Component{
                       {required:true,message:this.$t({id:"common.please.select"})},/* {/!*请输入*!/}*/
                     ],
                   })(
-                    <Select
-                      labelInValue
-                      onFocus={this.handleFocus}
+                    <Chooser
+                      single={true}
+                      visible={showItemType}
+                      type="budget_item_type"
+                      labelKey='itemTypeName'
+                      valueKey='id'
+                      onChange={this.handleListOk}
+                      listExtraParams={{organizationId: this.props.match.params.orgId,enabled: true}}
+                      //onFocus={this.handleFocus}
                       placeholder={this.$t({id:"common.please.select"})} />) /*请输入*/
                   }
                 </FormItem>
@@ -205,7 +200,7 @@ class NewBudgetItem extends React.Component{
                           this.setState({
                             statusCode: value ? this.$t({id:"common.status.enable"}) /*启用*/
                               : this.$t({id:"common.disabled"}) /*禁用*/
-                          })
+                          });
                           callback();
                         }
                       }
@@ -218,17 +213,8 @@ class NewBudgetItem extends React.Component{
             </Row>
             <Button type="primary" loading={loading} htmlType="submit">{this.$t({id:"common.save"}) /*保存*/}</Button>
             <Button  onClick={this.handleCancel} style={{ marginLeft: 8 }}> {this.$t({id:"common.cancel"}) /*取消*/}</Button>
-            <input ref="blur" style={{ position: 'absolute', top: '-100vh' }}/> {/* 隐藏的input标签，用来取消list控件的focus事件  */}
           </Form>
         </div>
-        <ListSelector
-          single={true}
-          visible={showItemType}
-          type="budget_item_type"
-          onCancel={()=>this.showList(false)}
-          onOk={this.handleListOk}
-          selectedData={listSelectedData}
-          extraParams={{organizationId: this.props.match.params.orgId,enabled: true}}/>
       </div>
     )
   }
