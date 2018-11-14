@@ -316,7 +316,10 @@ class SubjectSheetDetail extends React.Component {
 
         <div className="table-header">
           <div className="table-header-title">
-            <h2>{this.$t({ id: "subject.sheet.detail" })/*科目明细*/}</h2>
+            <h2 style={{marginBottom: -10}}>{this.$t({ id: "subject.sheet.detail" })/*科目明细*/}</h2>
+          </div>
+          <div className="table-header-title">
+            {this.$t({ id: 'common.total' }, { total: pagination.total ? pagination.total : '0' })}
           </div>
           <div className="table-header-buttons">
             <Row>
