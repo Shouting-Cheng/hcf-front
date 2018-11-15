@@ -444,6 +444,7 @@ class LanguageInput extends React.Component {
 
   renderInp() {
     let classNameInput = this.props.disabled ? 'language-input disabled-class' : 'language-input';
+    this.props.value===''&&this.state.nameForShow===''&& (classNameInput = 'language-input-no');
     if (this.props.textArea) {
       return (
         <textarea

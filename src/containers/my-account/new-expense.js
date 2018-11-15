@@ -913,8 +913,8 @@ class NewExpense extends React.Component {
    * 图片上传成功
    * @param response
    */
-  uploadSuccess = (response) => {
-    this.setState({ attachments: response }, { attachmentChange : true });
+  uploadSuccess = (value) => {
+    this.setState({ attachments: value,attachmentChange : true },);
   };
 
   /**
@@ -2615,12 +2615,14 @@ class NewExpense extends React.Component {
                                                 attachmentType: "INVOICE_IMAGES",
                                                 invoiceOid: nowExpense.invoiceOID
                                               }}
-                                              attachmentType="INVOICE_IMAGES" onChange={this.uploadSuccess}
+                                              attachmentType="INVOICE_IMAGES"
+                                              onChange={this.uploadSuccess}
                                               fileSize={10}
                                               isPreViewCallBack={true}
                                               handlePreViewCallBack={(file) => this.handleImageAudit(file)}
                                               isShowDefault showMaxNum
-                                              handleDelete={this.deleteAttachment} setResult={this.setResults}
+                                              handleDelete={this.deleteAttachment}
+                                              setResult={this.setResult}
                                               disabled={!((audit && isWaitForAudit) || auditCapability)}
                                               uploadUrl={`${config.baseUrl}/api/finance/upload/attachment`}/>
                                 </FormItem>

@@ -159,7 +159,7 @@ class FormList extends React.Component {
             currentSetOfBooksID: this.props.company.setOfBooksId,
             currentSetOfBooksName: this.props.company.setOfBooksName
           });
-          this.getFormList(resp.data[0].id);
+          this.getFormList(this.props.company.setOfBooksId);
         }
       }).catch(error => {
         message.error(this.$t('common.error'));
