@@ -2216,7 +2216,7 @@ class NewExpense extends React.Component {
     //是否为差补费用类型
     let isSubsidyType = nowExpense.expenseTypeSubsidyType === 1 ? true : false;
     let amount = readOnly && !auditAmountEditing ? nowExpense.amount : Number(getFieldValue('amount'));
-    let actualCurrencyRate = readOnly && !auditAmountEditing ? nowExpense.actualCurrencyRate : getFieldValue('actualCurrencyRate');
+    let actualCurrencyRate = !auditAmountEditing ? nowExpense.actualCurrencyRate : getFieldValue('actualCurrencyRate');
     let isBaseCurrency = baseCurrency.currencyCode === nowCurrency.currencyCode;
     let showRateDescription = !isNaN(amount) && (amount >0 || amount >0)&& !isBaseCurrency;
     let rateDescription = `${this.$t('expense.company.rate')/*企业汇率*/}：`;
@@ -2796,7 +2796,7 @@ class NewExpense extends React.Component {
                                 <Col span={10}>
                                   <FormItem>
                                     {getFieldDecorator('actualCurrencyRate', {
-                                      initialValue: 1.0000
+                                      initialValue: this.props.params.nowExpense !==null ? this.props.params.nowExpense.actualCurrencyRate : 1.0000
                                     })(
                                       <InputNumber style={{width: '100%'}} step={0.0001} precision={4}
                                                    disabled={isBaseCurrency || this.checkFunctionProfiles('web.expense.rate.edit.disabled', [true, 'true'])}/>
