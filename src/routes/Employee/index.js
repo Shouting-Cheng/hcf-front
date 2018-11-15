@@ -175,6 +175,18 @@ class Employee extends React.Component {
             },
           ],
         },
+        {
+          type: 'list', 
+          listType: 'department', 
+          id: 'departmentOIDs',
+          label: '部门', 
+          options: [],
+          labelKey: 'name', 
+          valueKey: 'departmentOid', 
+          single: true, 
+          listExtraParams: { "tenantId": this.props.user.tenantId },
+        //   event:'departmentOIDChange'
+      },
       ],
       columns: [
         {
@@ -387,7 +399,8 @@ class Employee extends React.Component {
     }
     params.corporationOIDs = corporationOIDs;
     params.status = defaultVal.status || 'all';
-    params.departmentOIDs = deps;
+    // params.departmentOIDs = dev;
+    params.departmentOIDs = defaultVal.departmentOIDs;
     this.setState(
       {
         extraDep,
@@ -405,7 +418,6 @@ class Employee extends React.Component {
     this.setState({
       loading: true,
     });
-
     let params = {
       sort: 'status',
       page: pagination.page,
@@ -791,12 +803,17 @@ class Employee extends React.Component {
   //点击搜搜索
   handleSearch = values => {
     const { params } = this.state;
+    console.log(values)
     if (values.corporationOIDs && values.corporationOIDs[0]) {
       values.corporationOIDs = values.corporationOIDs[0];
+    }
+    if(values.departmentOIDs && values.departmentOIDs[0]){
+      values.departmentOIDs = values.departmentOIDs[0];
     }
     params.keyword = values.keyword;
     params.corporationOIDs = values.corporationOIDs;
     params.status = values.status;
+    params.departmentOIDs = values.departmentOIDs;
     let pagination = this.state.pagination;
     pagination.page = 0;
     pagination.current = 1;
@@ -934,14 +951,14 @@ class Employee extends React.Component {
           message="操作成功后，刷新当前页面或重新登录才能生效！"
           type="info"
         />
-        {/* <SearchArea isExtraFields={true} submitHandle={this.handleSearch} searchForm={searchForm} /> */}
-        <SearchArea
+        <SearchArea isExtraFields={true} submitHandle={this.handleSearch} searchForm={searchForm} />
+        {/* <SearchArea
           isExtraFields={true}
           extraFields={
             [
               <div>
                 <div className="select-dep-search-area-title">
-                  {/*部门:*/}
+                  {/*部门:*
                   {this.$t("person.manage.dep") + ":"}
                 </div>
                 <div className="select-dep-search-area">
@@ -965,7 +982,7 @@ class Employee extends React.Component {
           eventHandle={this.eventSearchAreaHandle}
           searchForm={this.state.searchForm}
           clearHandle={this.clearSearchHandle}
-          submitHandle={this.handleSearch}/>
+          submitHandle={this.handleSearch}/> */}
         <div className="table-header">
             <div className="table-header-title">
               {this.$t('common.total', { total: `${this.state.pagination.total}` })}

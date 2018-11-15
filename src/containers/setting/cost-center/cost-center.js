@@ -66,7 +66,7 @@ class CostCenter extends React.Component {
             pagination: {
                 total: 0,
                 page: 0,
-                pageSize: 25,//成本中心最多20个，我这边一次性加载
+                pageSize: 10,//成本中心最多20个，我这边一次性加载
             },
             searchForm: [
                 {
@@ -74,7 +74,7 @@ class CostCenter extends React.Component {
                     id: 'setOfBook',
                     label: this.$t("setting.set.of.book"),
                     options: [],
-                    defaultValue: this.props.match.params.setOfBooksId==="0"?this.props.company.setOfBooksId:this.props.match.params.setOfBooksId,
+                    defaultValue: this.props.match.params.setOfBooksId === "0" ? this.props.company.setOfBooksId : this.props.match.params.setOfBooksId,
                     //这个选项是外面传入，就不许下面参数
                     // getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
                     // method: 'get',
@@ -85,13 +85,13 @@ class CostCenter extends React.Component {
             ],
             searchParams: {
                 setOfBook: ''
-            },  
+            },
             //   CostCenterExtendFiled: menuRoute.getRouteItem('cost-center-extend-filed', 'key'),//成本中心扩展字段
             //   newCostCenter: menuRoute.getRouteItem('new-cost-center', 'key'),//新增成本中心
             //   CostCenterDetail: menuRoute.getRouteItem('cost-center-detail', 'key'),//成本中心详情
             //   OrgStruture: menuRoute.getRouteItem('org-structure', 'key'),//企业组织架构
             depIsCostCenter: false,//部门是否是成本中心
-            setOfBooksId: this.props.match.params.setOfBooksId==="0"?this.props.company.setOfBooksId:this.props.match.params.setOfBooksId,//初始化页面时从接口获取的2个字段，掉接口要用
+            setOfBooksId: this.props.match.params.setOfBooksId === "0" ? this.props.company.setOfBooksId : this.props.match.params.setOfBooksId,//初始化页面时从接口获取的2个字段，掉接口要用
         };
     }
 
@@ -101,14 +101,14 @@ class CostCenter extends React.Component {
     //         // depIsCostCenter: this.props.companyConfiguration.configuration.ui.showDepartmentSelector.applications
     //     })
     // }
-    componentWillMount(){
+    componentWillMount() {
         this.getTenantAllSob();
         console.log(this.props)
     }
 
     getTenantAllSob() {
         //给一个初始值
-        const { searchForm, searchParams,setOfBooksId } = this.state;
+        const { searchForm, searchParams, setOfBooksId } = this.state;
         //下面针对账套下拉单进行处理
         let setOfBookSelecter = searchForm[0];
         CCService.getTenantAllSob()
@@ -119,7 +119,7 @@ class CostCenter extends React.Component {
                     // if (index === 0) {
                     //     defaultValue = item.id;
                     // }
-                    defaultValue = setOfBooksId ||item.id;
+                    defaultValue = setOfBooksId || item.id;
                     item.label = item.setOfBooksName;
                     item.value = item.id;
                 })
@@ -161,7 +161,7 @@ class CostCenter extends React.Component {
     //新增成本中心
     handleNew = () => {
         // this.context.router.push(this.state.newCostCenter.url.replace(':id', "NEW"));
-        let {searchParams}=this.state;
+        let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
                 pathname: `/admin-setting/cost-center/new-cost-center/NEW/${searchParams.setOfBook}`,
@@ -172,7 +172,7 @@ class CostCenter extends React.Component {
     //编辑成本中心
     editCostCenter(e, record) {
         // this.context.router.push(this.state.newCostCenter.url.replace(':id', record.costCenterOID));
-        let {searchParams}=this.state;
+        let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
                 pathname: `/admin-setting/cost-center/new-cost-center/${record.costCenterOID}/${searchParams.setOfBook}`,
@@ -183,7 +183,7 @@ class CostCenter extends React.Component {
     //成本中心详情
     detailCostCenter(e, record) {
         // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOID));
-        let {searchParams}=this.state;
+        let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
                 pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOID}/${searchParams.setOfBook}`,
@@ -238,7 +238,7 @@ class CostCenter extends React.Component {
     // CostCenterExtendFiled
     handleCostCenterExtendFiled = () => {
         // this.context.router.push(this.state.CostCenterExtendFiled.url);
-        let {searchParams}=this.state;
+        let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
                 pathname: `/admin-setting/cost-center/cost-center-extend-filed/${searchParams.setOfBook}`,
