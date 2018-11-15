@@ -49,7 +49,7 @@ class NewExpenseAdjustDetail extends React.Component {
       scrollX: false,
       opt: {},
       defaultValue: [],
-      deleteIds:[],
+      deleteIds: [],
       headerData: {},
       record: {},
       lastData: {},
@@ -267,7 +267,7 @@ class NewExpenseAdjustDetail extends React.Component {
   deleteItem = (e, record, index) => {
     e.preventDefault();
     e.stopPropagation();
-    const { data, lineData,deleteIds } = this.state;
+    const { data, lineData, deleteIds } = this.state;
     data.splice(index, 1);
     deleteIds.push(record.id)
     lineData && lineData.infoList && lineData.infoList.splice(index, 1);
@@ -508,7 +508,7 @@ class NewExpenseAdjustDetail extends React.Component {
       headerData: this.props.params.expenseHeader,
       columns,
       addData: false,
-      deleteIds:[],
+      deleteIds: [],
       opt,
       scrollX:
         this.props.params.costCenterData.length > 0
@@ -778,7 +778,7 @@ class NewExpenseAdjustDetail extends React.Component {
               lineData.map(item => delete item.id);
             }
           }
-          
+
           let param = {
             ...values,
             employeeId: this.props.user.id,
@@ -800,7 +800,7 @@ class NewExpenseAdjustDetail extends React.Component {
             linesList: lineData,
             deleteIds: this.state.deleteIds
           };
-          console.log( this.state.deleteIds)
+          console.log(this.state.deleteIds)
           let method = null;
           let flag = true;
           if (typeof this.state.defaultValue.id !== 'undefined') {
@@ -819,7 +819,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   addData: true,
                   fileList: key === 'copy' ? fileList : [],
                   loading: false,
-                  deleteIds:[],
+                  deleteIds: [],
                 },
                 () => {
                   if (key !== 'copy') {
@@ -1121,6 +1121,9 @@ class NewExpenseAdjustDetail extends React.Component {
       defaultData,
       adjustTypeCategory,
     } = this.state;
+
+
+    const items = this.getFormItems();
     return (
       <div className="new-expense-adjust-detail">
         <Form
@@ -1132,7 +1135,10 @@ class NewExpenseAdjustDetail extends React.Component {
               ? this.$t('exp.old.expense.detail')
               : this.$t('exp.add.info')}
           </div>
-          <Row gutter={24}>{this.getFormItems()}</Row>
+
+          {items.map((item, index) =>
+            (index % 2 == 0 && <Row gutter={24}>{item}{items[index + 1]}</Row>)
+          )}
 
           {this.props.params.adjustLineCategory === '1001' ? (
             <div>

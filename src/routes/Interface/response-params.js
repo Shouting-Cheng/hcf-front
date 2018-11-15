@@ -27,8 +27,8 @@ class ResponseParams extends React.Component {
                 value={value}
               />
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -52,8 +52,8 @@ class ResponseParams extends React.Component {
                 <Select.Option value="decimal">decimal</Select.Option>
               </Select>
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -67,8 +67,8 @@ class ResponseParams extends React.Component {
                 value={value}
               />
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -82,8 +82,8 @@ class ResponseParams extends React.Component {
                 checked={value}
               />
             ) : (
-              <span>{value ? '是' : '否'}</span>
-            );
+                <span>{value ? '是' : '否'}</span>
+              );
           },
         },
         {
@@ -100,16 +100,16 @@ class ResponseParams extends React.Component {
                 <a onClick={() => this.cancel(record)}>取消</a>
               </span>
             ) : (
-              <span>
-                {record.type == 'object' && (
-                  <a onClick={() => this.addChildren(record, index)}>添加</a>
-                )}
-                {record.type == 'object' && <Divider type="vertical" />}
-                <a onClick={() => this.edit(record)}>编辑</a>
-                <Divider type="vertical" />
-                <a onClick={() => this.delete(record, index)}>删除</a>
-              </span>
-            );
+                <span>
+                  {record.type == 'object' && (
+                    <a onClick={() => this.addChildren(record, index)}>添加</a>
+                  )}
+                  {record.type == 'object' && <Divider type="vertical" />}
+                  <a onClick={() => this.edit(record)}>编辑</a>
+                  <Divider type="vertical" />
+                  <a onClick={() => this.delete(record, index)}>删除</a>
+                </span>
+              );
           },
         },
       ],
@@ -317,6 +317,7 @@ class ResponseParams extends React.Component {
         } else if (Object.prototype.toString.call(res.data) === '[object Object]') {
           this.batchSave(res.data);
         } else {
+          this.setState({ loading: false });
         }
       })
       .catch(err => {

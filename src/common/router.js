@@ -1518,7 +1518,6 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
-      // 付款申请单审批详情
       name: 'new-expense-type',
       parent: '/admin-setting/expense-type',
     },
@@ -1688,11 +1687,11 @@ export const getRouterData = app => {
       parent: '/enterprise-manage/company-maintain',
     },
     //数据权限
-    '/admin-setting/data-authority':{
+    '/admin-setting/data-authority': {
       component: dynamicWrapper(app, [], () =>
-      import('containers/setting/data-authority/data-authority.js')
-    ),
-    name: 'data-authority',
+        import('containers/setting/data-authority/data-authority.js')
+      ),
+      name: 'data-authority',
     },
     '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
       //财务管理-费用反冲-新建反冲
@@ -1709,6 +1708,13 @@ export const getRouterData = app => {
       ),
       name: 'expense-reverse-detail',
       parent: '/financial-management/expense-reverse'
+    },
+    '/admin-setting/new-application-type/:applicationTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/new-application-type/new-application-type.js')
+      ),
+      name: 'new-application-type',
+      parent: '/admin-setting/expense-type'
     },
 
     // '/user/:id': {

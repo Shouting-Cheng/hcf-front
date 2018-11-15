@@ -5,7 +5,7 @@ import { Tabs, Spin } from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import expenseTypeService from 'containers/setting/expense-type/expense-type.service'
-import ExpenseTypeBase from 'containers/setting/expense-type/new-expense-type/expense-type-base'
+import ApplicationTypeBase from 'containers/setting/expense-type/new-application-type/application-type-base'
 import ExpenseTypeCustom from 'containers/setting/expense-type/new-expense-type/expense-type-custom/expense-type-custom'
 import ExpenseTypeScope from 'containers/setting/expense-type/new-expense-type/expense-type-scope'
 
@@ -98,9 +98,10 @@ class NewExpenseType extends React.Component {
 
   getExpenseTypeComponents = () => {
     const { nowTab, expenseType, index } = this.state;
+    console.log(nowTab)
     switch (nowTab) {
       case 'base':
-        return <ExpenseTypeBase expenseType={expenseType} onSave={this.getExpenseType} />;
+        return <ApplicationTypeBase expenseType={expenseType} onSave={this.getExpenseType} />;
       case 'custom':
         return <ExpenseTypeCustom expenseType={expenseType}
           onSave={this.getExpenseType}
@@ -118,9 +119,11 @@ class NewExpenseType extends React.Component {
         <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
           {this.renderTabs()}
         </Tabs>
-        {loading ? <Spin /> : (<div style={{ padding: 20 }}>
-          {this.getExpenseTypeComponents()}
-        </div>)}
+        {loading ? <Spin /> : (
+          <div style={{ padding: 20 }}>
+            {this.getExpenseTypeComponents()}
+          </div>)}
+
       </div>
     )
   }
