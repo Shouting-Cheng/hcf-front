@@ -218,7 +218,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/my-reimburse/new-reimburse.js')
       ),
-      name: 'new-reimburse',
+      name: 'edit-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
@@ -1688,11 +1688,11 @@ export const getRouterData = app => {
       parent: '/enterprise-manage/company-maintain',
     },
     //数据权限
-    '/admin-setting/data-authority':{
+    '/admin-setting/data-authority': {
       component: dynamicWrapper(app, [], () =>
-      import('containers/setting/data-authority/data-authority.js')
-    ),
-    name: 'data-authority',
+        import('containers/setting/data-authority/data-authority.js')
+      ),
+      name: 'data-authority',
     },
     '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
       //财务管理-费用反冲-新建反冲
