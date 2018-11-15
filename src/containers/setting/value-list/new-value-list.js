@@ -440,7 +440,10 @@ class ValueList extends React.Component {
               this.getList();
             }
           );
-          message.success(messages('common.operate.success'));
+          !res.data.values[0].enabled
+            ? message.warning(messages('common.operate.value.disabled'))
+            : message.success(messages('common.operate.success'));
+          // message.success(messages('common.operate.success'));
         }
       })
       .catch(e => {
@@ -460,7 +463,7 @@ class ValueList extends React.Component {
       //新增
       this.props.dispatch(
         routerRedux.push({
-          pathname: '/admin-setting/value-list/:tab'.replace(':tab',this.props.match.params.tab),
+          pathname: '/admin-setting/value-list/:tab'.replace(':tab', this.props.match.params.tab),
         })
       );
 
@@ -668,7 +671,7 @@ class ValueList extends React.Component {
   handleBack = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/admin-setting/value-list/:tab'.replace(':tab',this.props.match.params.tab),
+        pathname: '/admin-setting/value-list/:tab'.replace(':tab', this.props.match.params.tab),
       })
     );
   };
