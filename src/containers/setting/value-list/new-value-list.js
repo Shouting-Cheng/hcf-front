@@ -270,7 +270,7 @@ class ValueList extends React.Component {
         isCustom: res.data.isCustom,
         defaultCustomEnumerationItemOID: res.data.defaultCustomEnumerationItemOID,
         form,
-        _form: { ...form },
+        _form: { ...form,i18n: {...form.i18n} },
       });
     });
   };
@@ -347,7 +347,7 @@ class ValueList extends React.Component {
         form.defaultCustomEnumerationItemValue = null;
       }
     });
-    this.setState({ data, form, _form: form, tableLoading: true }, () => {
+    this.setState({ data, form, _form: {...form, i18n: {...form.i18n}}, tableLoading: true }, () => {
       this.handleSave();
     });
   };
@@ -455,7 +455,7 @@ class ValueList extends React.Component {
   handleCancel = () => {
     if (this.state.customEnumerationOID) {
       //编辑
-      this.setState({ edit: false, form: { ...this.state._form } });
+      this.setState({ edit: false, form: { ...this.state._form, i18n: {...this.state._form.i18n} } });
     } else {
       //新增
       this.props.dispatch(
@@ -490,7 +490,7 @@ class ValueList extends React.Component {
     const form = this.state.form;
     form.name = name;
     form.i18n.name = i18nName;
-    this.setState({ form, _form: { ...form } });
+    this.setState({ form, });
   };
 
   renderForm() {

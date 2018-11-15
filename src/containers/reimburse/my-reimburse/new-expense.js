@@ -985,7 +985,7 @@ class NewExpense extends React.Component {
                 textAlign: 'center',
                 position: 'fixed',
                 bottom: 0,
-                marginLeft: '-25px',
+                marginLeft: '-35px',
                 width: '100%',
                 height: '50px',
                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',

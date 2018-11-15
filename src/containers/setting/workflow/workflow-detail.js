@@ -300,6 +300,7 @@ class WorkflowDetail extends React.Component {
                                        conditionSaveHandle={this.handleConditionSave}
                     />
                     <AddPersonModal visible={addPersonModalVisible}
+                                    handleCancel={()=>this.setState({addPersonModalVisible: false})}
                                     personType={chosenNodeType === 1001 ? 1 : 2}
                                     ruleApprovers={chosenNodeWidget.ruleApprovers || []}
                                     ruleApprovalNodeOID={chosenNodeWidget.ruleApprovalNodeOID}
