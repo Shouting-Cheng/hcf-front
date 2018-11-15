@@ -26,8 +26,8 @@ class RequestParams extends React.Component {
                 value={value}
               />
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -49,8 +49,8 @@ class RequestParams extends React.Component {
                 <Select.Option value="query">query</Select.Option>
               </Select>
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -68,14 +68,15 @@ class RequestParams extends React.Component {
                 <Select.Option value="array">array</Select.Option>
                 <Select.Option value="object">object</Select.Option>
                 <Select.Option value="int">int</Select.Option>
+                <Select.Option value="bool">bool</Select.Option>
                 <Select.Option value="long">long</Select.Option>
                 <Select.Option value="float">float</Select.Option>
                 <Select.Option value="double">double</Select.Option>
                 <Select.Option value="decimal">decimal</Select.Option>
               </Select>
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -90,8 +91,8 @@ class RequestParams extends React.Component {
                 value={value}
               />
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -106,8 +107,8 @@ class RequestParams extends React.Component {
                 value={value}
               />
             ) : (
-              <span>{value}</span>
-            );
+                <span>{value}</span>
+              );
           },
         },
         {
@@ -121,8 +122,8 @@ class RequestParams extends React.Component {
                 checked={value}
               />
             ) : (
-              <span>{value ? '是' : '否'}</span>
-            );
+                <span>{value ? '是' : '否'}</span>
+              );
           },
         },
         {
@@ -133,8 +134,8 @@ class RequestParams extends React.Component {
             return record.status == 'edit' || record.status == 'new' ? (
               <Switch onChange={value => this.change('unionFlag', value, record)} checked={value} />
             ) : (
-              <span>{value ? '是' : '否'}</span>
-            );
+                <span>{value ? '是' : '否'}</span>
+              );
           },
         },
         {
@@ -151,16 +152,16 @@ class RequestParams extends React.Component {
                 <a onClick={() => this.cancel(record)}>取消</a>
               </span>
             ) : (
-              <span>
-                {record.type == 'object' && (
-                  <a onClick={() => this.addChildren(record, index)}>添加</a>
-                )}
-                {record.type == 'object' && <Divider type="vertical" />}
-                <a onClick={() => this.edit(record)}>编辑</a>
-                <Divider type="vertical" />
-                <a onClick={() => this.delete(record, index)}>删除</a>
-              </span>
-            );
+                <span>
+                  {(record.reqType == 'object' || record.reqType == 'array') && (
+                    <a onClick={() => this.addChildren(record, index)}>添加</a>
+                  )}
+                  {(record.reqType == 'object' || record.reqType == 'array') && <Divider type="vertical" />}
+                  <a onClick={() => this.edit(record)}>编辑</a>
+                  <Divider type="vertical" />
+                  <a onClick={() => this.delete(record, index)}>删除</a>
+                </span>
+              );
           },
         },
       ],
@@ -171,23 +172,30 @@ class RequestParams extends React.Component {
     if (this.props.id != nextProps.id) {
       this.setState({ loading: true });
       service.getRequestList(nextProps.id).then(res => {
-        res.map(item => {
-          item.status = 'normal';
-          item.level = 1;
-        });
-        this.setState({ dataSource: res, loading: false });
+        let data = res.filter(o => o.parentId == 0);
+        this.formatTree(data, res, 2);
+        this.setState({ dataSource: data, loading: false });
       });
     }
   }
 
   componentDidMount() {
     service.getRequestList(this.props.id).then(res => {
-      res.map(item => {
-        item.status = 'normal';
-        item.level = 1;
-      });
-      this.setState({ dataSource: res });
+      let data = res.filter(o => o.parentId == 0);
+      this.formatTree(data, res, 2);
+      this.setState({ dataSource: data, loading: false });
     });
+  }
+
+
+  formatTree = (data = [], dataSource = [], lev) => {
+    data.map(item => {
+      let result = dataSource.filter(o => o.parentId == item.id);
+      item.children = result.length ? result : null;
+      item.level = lev;
+      item.status = 'normal';
+      this.formatTree(result, dataSource, lev + 1);
+    })
   }
 
   change = (key, value, { id }) => {
