@@ -124,6 +124,9 @@ class WrappedNewBankAccount extends React.Component {
           }/${this.props.match.params.companyId}`,
         })
       );
+    })
+    .catch(err => {
+      this.setState({ loading: false });
     });
   };
 

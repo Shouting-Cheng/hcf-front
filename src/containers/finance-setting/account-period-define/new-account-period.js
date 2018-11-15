@@ -106,7 +106,7 @@ class NewAccountPeriod extends React.Component {
               }],
               initialValue: period ? period.totalPeriodNum : 12
             })(
-              <InputNumber disabled={!!period} min={12} max={20} onChange={() => {}} placeholder={this.$t('common.please.enter')}/>
+              <InputNumber precision={0} disabled={!!period} min={12} max={20} onChange={() => {}} placeholder={this.$t('common.please.enter')}/>
             )}
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t('account.period.define.name')/*会计期名称*/}>

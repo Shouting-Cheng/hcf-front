@@ -23,7 +23,7 @@ class PrePaymentType extends React.Component {
       columns: [
         {
           title: this.$t({ id: 'pre.payment.setOfBookName' }/*账套*/),
-          dataIndex: 'setOfBookName', width: 180, align: 'left',
+          dataIndex: 'setOfBookName', width: 180,  align: 'center',
           render: (value, record) => {
             return (
               <Popover content={record.setOfBookName}><span>{record.setOfBookCode}-{record.setOfBookName}</span></Popover>
@@ -36,7 +36,7 @@ class PrePaymentType extends React.Component {
         },
         {
           title: this.$t({ id: 'pre.payment.typeName' }/*预付款单类型名称*/),
-          dataIndex: 'typeName', width: 180, align: 'left',
+          dataIndex: 'typeName', width: 180,  align: 'center',
           render: typeName => (
             <Popover content={typeName}>
               {typeName}

@@ -417,7 +417,7 @@ class FormList extends React.Component {
           break;
         case 'select_box':
           var options = JSON.parse(i.fieldContent);
-          var multiple = JSON.parse(i.fieldConstraint);
+          var multiple = JSON.stringify(JSON.parse(i.fieldConstraint.replace(/\\/g,"")));
           form.push(
             <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
               {getFieldDecorator(i.fieldOID, {

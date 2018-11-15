@@ -161,5 +161,6 @@
   "common.add.by.user": "Add by user",
   "common.all.type": "All type",
   "common.selected.number.department": "{number} departments have been selected",
-  "common.selected.number.user.group": "{number} user groups have been selected"
+  "common.selected.number.user.group": "{number} user groups have been selected",
+  "common.operate.value.disabled": "The value is disabled."
 }

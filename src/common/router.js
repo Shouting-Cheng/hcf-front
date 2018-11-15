@@ -218,7 +218,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/my-reimburse/new-reimburse.js')
       ),
-      name: 'new-reimburse',
+      name: 'edit-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
