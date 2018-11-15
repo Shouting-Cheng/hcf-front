@@ -705,20 +705,27 @@ export default class Login extends React.Component {
   getUser = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      let result = await fetch.get('/api/account');
 
-      dispatch({
-        type: 'user/saveCurrentUser',
-        payload: result,
-      });
+      try {
+        let result = await fetch.get('/api/account');
+        dispatch({
+          type: 'user/saveCurrentUser',
+          payload: result,
+        });
 
-      await this.getCompany();
-      await this.getLanguage(result);
-      await this.getLanguageType();
-      await this.getLanguageList();
-      await this.getProfile();
+        await this.getCompany();
+        await this.getLanguage(result);
+        await this.getLanguageType();
+        await this.getLanguageList();
+        await this.getProfile();
 
-      resolve();
+        resolve();
+      } catch (error) {
+        message.error(error.response.data.message);
+        this.setState({ loading: false });
+        reject();
+      }
+
     });
   };
 
@@ -743,7 +750,7 @@ export default class Login extends React.Component {
 
     });
   };
-  getProfile=()=>{
+  getProfile = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
       fetch.get(`/api/function/profiles?roleType=TENANT`).then(result => {

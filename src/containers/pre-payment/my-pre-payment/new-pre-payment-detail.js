@@ -713,7 +713,7 @@ class NewPrePaymentDetail extends React.Component {
             </Button>
             <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
-        </Form>
+        </Form>name
         <SelectContract
           visible={showListSelector}
           onCancel={this.handleListCancel}
