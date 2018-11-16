@@ -681,13 +681,8 @@ class NewPrePaymentDetail extends React.Component {
             })(<Input.TextArea placeholder="请输入" />)}
           </FormItem>
           <div className="common-item-title">合同信息</div>
-          <div style={{ marginBottom: '16px', marginLeft: '60px' }}>
-            <Row gutter={8}>
-              <Col span={4} className="ant-form-item-label">
-                关联合同:
-              </Col>
-              <Col span={16}>
-                <Select allowClear  
+          <FormItem {...formItemLayout} label="关联合同">
+                <Select allowClear
                   ref="contractSelect"
                   onChange={(e) => {
                     console.log(e)
@@ -700,21 +695,14 @@ class NewPrePaymentDetail extends React.Component {
                   dropdownStyle={{ display: 'none' }}
                   onDropdownVisibleChange={this.clickContractSelect}
                 />
-                <div style={{ marginTop: '8px' }}>
+                <div style={{ marginTop: '4px' }}>
                   {contractValue.length == 0
                     ? '注：根据收款方选择合同'
-                    : `付款计划序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
+                    : `序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
                       'YYYY-MM-DD'
                     )}`}
                 </div>
-              </Col>
-              {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
-                {contractValue.length > 0 && (
-                  <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
-                )}
-              </Col>*/}
-            </Row>
-          </div>
+            </FormItem>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
               {this.$t('common.save')}
