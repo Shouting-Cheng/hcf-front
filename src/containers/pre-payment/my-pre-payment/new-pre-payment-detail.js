@@ -195,12 +195,20 @@ class NewPrePaymentDetail extends React.Component {
         }
         values.partnerId = values.partnerd.key;
         values.partnerName = values.partnerd.label;
-        values.contractLineNumber = this.state.contract.lineNumber
+        //根据contractValue是否为空判断是否把关联合同相关字段置空
+        if (this.state.contractValue.length !== 0) {
+          values.contractLineNumber = this.state.contract.lineNumber
           ? this.state.contract.lineNumber
           : '';
-        values.contractLineId = this.state.contract.contractLineId;
-        values.contractNumber = this.state.contract.contractNumber;
-        values.contractId = this.state.contract.contractId;
+          values.contractLineId = this.state.contract.contractLineId;
+          values.contractNumber = this.state.contract.contractNumber;
+          values.contractId = this.state.contract.contractId;
+        } else {
+          values.contractLineNumber = '';
+          values.contractLineId = '';
+          values.contractNumber = '';
+          values.contractId = '';
+        }
         values.bankBranchCode = this.state.bankBranchCode;
         values.bankBranchName = this.state.bankBranchName;
         values.paymentMethodCategory = this.state.params.paymentMethodCode;
@@ -679,7 +687,7 @@ class NewPrePaymentDetail extends React.Component {
                 关联合同:
               </Col>
               <Col span={16}>
-                <Select allowClear
+                <Select allowClear  
                   ref="contractSelect"
                   onChange={(e) => {
                     console.log(e)
@@ -713,7 +721,7 @@ class NewPrePaymentDetail extends React.Component {
             </Button>
             <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
-        </Form>name
+        </Form>
         <SelectContract
           visible={showListSelector}
           onCancel={this.handleListCancel}
