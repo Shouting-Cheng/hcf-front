@@ -417,7 +417,7 @@ class PrePaymentCommon extends React.Component {
   edit = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/pre-payment/my-pre-payment/new-pre-payment/${this.props.id}/${0}/${0}`,
+        pathname: `/pre-payment/my-pre-payment/edit-pre-payment/${this.props.id}/${0}/${0}`,
       })
     );
   };
