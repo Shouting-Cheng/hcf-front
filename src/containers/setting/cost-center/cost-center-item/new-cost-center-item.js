@@ -197,7 +197,7 @@ class NewCostCenterItem extends React.Component {
       routerRedux.push({
         pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${
           this.props.match.params.id
-        }/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
+          }/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
       })
     );
   };
@@ -232,14 +232,14 @@ class NewCostCenterItem extends React.Component {
   };
   //名称：自定义值列表项多语言
   i18nNameChange = (name, i18nName) => {
-    this.state.costCenterItemDetail.name = name;
-    if (this.state.costCenterItemDetail.i18n) {
-      this.state.costCenterItemDetail.i18n.name = i18nName;
-    } else {
-      this.state.costCenterItemDetail.i18n = {
-        name: i18nName,
-      };
+    let costCenterItemDetail = this.state.costCenterItemDetail;
+    costCenterItemDetail.name = name;
+    if (!costCenterItemDetail.i18n) {
+      costCenterItemDetail.i18n = {};
     }
+    costCenterItemDetail.i18n.name = i18nName;
+
+    this.setState({ costCenterItemDetail });
   };
 
   handleChange = val => {
@@ -362,8 +362,8 @@ class NewCostCenterItem extends React.Component {
             field.fieldName && field.fieldName.length && field.fieldName.length > 0 ? (
               field.fieldName
             ) : (
-              <span>&nbsp;</span>
-            )
+                <span>&nbsp;</span>
+              )
           }
           colon={true}
         >
@@ -388,7 +388,7 @@ class NewCostCenterItem extends React.Component {
     function _renderCustomEnumerationList(list) {
       let dom = [];
       if (list.length > 0) {
-        list.map(function(item, index) {
+        list.map(function (item, index) {
           dom.push(
             <Option key={index} value={item.value}>
               {item.messageKey}
@@ -422,7 +422,6 @@ class NewCostCenterItem extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { loading, costCenterItemDetail } = this.state;
     let depClass = 'select-dep-search-area';
-    console.log(costCenterItemDetail);
     if (!this.props.tenantMode) {
       depClass = 'select-dep-search-area select-dep-search-area-disabled';
     }
@@ -494,9 +493,8 @@ class NewCostCenterItem extends React.Component {
                     <LanguageInput
                       disabled={!this.props.tenantMode}
                       key={1}
-                      name=''
-                      value={costCenterItemDetail.name}
-                      i18nName={costCenterItemDetail.i18n ? costCenterItemDetail.i18n.name : []}
+                      name={costCenterItemDetail.name}
+                      i18nName={costCenterItemDetail.i18n && costCenterItemDetail.i18n.name ? costCenterItemDetail.i18n.name : null}
                       isEdit={costCenterItemDetail.id}
                       nameChange={this.i18nNameChange}
                     />
@@ -607,11 +605,11 @@ class NewCostCenterItem extends React.Component {
                 {getFieldDecorator('managerOID', {
                   initialValue: costCenterItemDetail.managerFullName
                     ? [
-                        {
-                          fullName: costCenterItemDetail.managerFullName,
-                          userOID: costCenterItemDetail.managerOID,
-                        },
-                      ]
+                      {
+                        fullName: costCenterItemDetail.managerFullName,
+                        userOID: costCenterItemDetail.managerOID,
+                      },
+                    ]
                     : [],
                   rules: [
                     {

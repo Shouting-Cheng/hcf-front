@@ -164,5 +164,6 @@
   "common.add.by.user": "按人员添加",
   "common.all.type": "全部类型",
   "common.selected.number.department": "已选择{number}个部门",
-  "common.selected.number.user.group": "已选择{number}个人员组"
+  "common.selected.number.user.group": "已选择{number}个人员组",
+  "common.operate.value.disabled":"该值已禁用"
 }

@@ -307,7 +307,7 @@ class NewPaymentRequisition extends React.Component {
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={headerData.attachmentOids}
+                      defaultOIDs={headerData.listAttachmentOid}
                     />
                   )}
                 </FormItem>
