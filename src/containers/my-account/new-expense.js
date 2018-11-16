@@ -118,7 +118,7 @@ class NewExpense extends React.Component {
   onCancel = (refresh = false) => {
     this.props.form.resetFields();
     refresh = this.state.attachmentChange ? true : refresh;
-    this.props.onClose(refresh);
+    this.props.close(refresh);
   };
 
   //根据用户OID获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
