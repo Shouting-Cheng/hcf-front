@@ -4,6 +4,7 @@ import { Modal, Button, Row, Col, Divider, Card, Form, Select,Input } from 'antd
 const FormItem = Form.Item;
 const Option = Select.Option;
 import BasicInfo from 'widget/basic-info';
+import ListSelector from 'components/Widget/list-selector'
 
 class ViewRuleModal extends React.Component {
     constructor(props) {
@@ -65,7 +66,8 @@ class ViewRuleModal extends React.Component {
                 },
                 
             ],
-            noTitleKey:'tenantPermission'
+            noTitleKey:'tenantPermission',
+            tenantVisile:false
 
         }
     }
@@ -145,7 +147,7 @@ class ViewRuleModal extends React.Component {
     
     render() {
         const { visibel } = this.props;
-        const { infoList, infoData, renderSelectList, renderCompanyList,noTitleKey, renderDepartmentList, renderEmplyeeList,show,tabListNoTitle } = this.state;
+        const { infoList, infoData, renderSelectList, renderCompanyList,noTitleKey, renderDepartmentList, renderEmplyeeList,show,tabListNoTitle,tenantVisile } = this.state;
         const { getFieldDecorator } = this.props.form;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
@@ -365,6 +367,9 @@ class ViewRuleModal extends React.Component {
                     >
 
                     </Card>
+                    <ListSelector
+                     visibel={tenantVisile}
+                    />
 
                 </div>
             </Modal>
