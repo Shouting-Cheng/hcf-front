@@ -26,7 +26,7 @@ class BudgetOrganization extends React.Component {
               {organizationName}
             </Popover>)
         },
-        {title: this.$t({id:"budget.organization.set.of.books"}), dataIndex: 'setOfBooksCode', width: '20%'},  //账套
+        {title: this.$t({id:"budget.organization.set.of.books"}), dataIndex: 'setOfBooksName', width: '20%'},  //账套
         {title: this.$t({id:"common.column.status"}), dataIndex: 'enabled', width: '15%',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}

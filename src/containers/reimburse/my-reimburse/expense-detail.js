@@ -33,7 +33,7 @@ import reimburseService from 'containers/reimburse/my-reimburse/reimburse.servic
 import config from 'config';
 import SelectApplication from 'containers/reimburse/my-reimburse/select-application';
 import Chooser from 'widget/chooser';
-import ShareDetail from 'containers/financial-management/expense-reverse/share-detail.js';
+import ShareDetail from 'containers/reimburse/my-reimburse/share-detail';
 
 class NewExpense extends React.Component {
   constructor(props) {
@@ -950,7 +950,7 @@ class NewExpense extends React.Component {
                         deleteShare={this.deleteShare}
                         params={this.state.shareParams}
                         data={applicationData}
-                        expDetail={true}
+                        //expDetail={true}
                       />
                     </div>
                   </Spin>
@@ -972,7 +972,7 @@ class NewExpense extends React.Component {
               }}
             >
                 {
-                  this.props.approve ?
+                  this.props.approve || this.props.params.headerData.status ===1002 ?
                     <Button onClick={()=>this.props.close(false)}>返回</Button>
                     :
                     <div>

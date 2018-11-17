@@ -189,7 +189,7 @@ class CompanyDistribution extends React.Component {
         {periodCol}
       </Row>);
     return (
-      <div className="company-distribution">
+      <div className="company-distribution" style={{paddingBottom:20}}>
         {periodRow}
         <div className="table-header">
           <div className="table-header-buttons">

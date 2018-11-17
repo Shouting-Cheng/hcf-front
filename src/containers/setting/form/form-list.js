@@ -156,10 +156,10 @@ class FormList extends React.Component {
         if (resp.status === 200 && resp.data) {
           this.setState({
             setOfBooks: resp.data,
-            currentSetOfBooksID: resp.data[0].id,
-            currentSetOfBooksName: resp.data[0].setOfBooksName
+            currentSetOfBooksID: this.props.company.setOfBooksId,
+            currentSetOfBooksName: this.props.company.setOfBooksName
           });
-          this.getFormList(resp.data[0].id);
+          this.getFormList(this.props.company.setOfBooksId);
         }
       }).catch(error => {
         message.error(this.$t('common.error'));

@@ -1,6 +1,7 @@
 import React from "react";
 import { InputNumber} from 'antd'
 import debounce from 'lodash.debounce';
+import PropTypes from 'prop-types';
 
 
 class customAmount extends React.Component{
@@ -21,27 +22,46 @@ class customAmount extends React.Component{
   }
 
   onBlur =(e)=>{
+    const {len} = this.props;
     this.setState({
-      value: parseFloat(e.target.value).toFixed(2)
+      value: parseFloat(e.target.value).toFixed(len)
     })
   };
 
   onChange =(value)=>{
-    this.setState({value});
-    this.props.onChange&&this.props.onChange(value)
+    if(value){
+      const {len} = this.props;
+      value = parseFloat(value).toFixed(len);
+      this.setState({value});
+      this.props.onChange&&this.props.onChange(value)
+    }
   };
 
 
   render(){
-    const {disabled,style } = this.props;
-
+    const {disabled, len, step,style,  } = this.props;
     return  <InputNumber
-                style={style||'100%'}
-                value={this.state.value}
-                onChange={this.onChange}
-                onBlur={this.onBlur}
-                disabled={disabled} />
+      style={style}
+      precision={len}
+      step={step}
+      value={this.state.value}
+      onChange={this.onChange}
+      onBlur={this.onBlur}
+      disabled={disabled} />
   }
 }
+
+customAmount.propTypes = {
+  disabled: PropTypes.bool,  //是否可用
+  onChange: PropTypes.func,  //输入后的回调
+  len: PropTypes.number,     //小数位数
+};
+
+customAmount.defaultProps ={
+  disabled: false,
+  len: 2,
+  step: 0.01,
+  style: {width:'100%'}
+};
 
 export default customAmount

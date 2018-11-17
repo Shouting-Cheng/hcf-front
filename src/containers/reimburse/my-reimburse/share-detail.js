@@ -220,7 +220,7 @@ class NewShare extends Component {
         // })
         let optionCol = this.state.optionCol;
 
-        if (!this.state.relatedApplication && !this.state.defaultApportion.costCenterItems.length) {
+        if (!this.state.relatedApplication &&this.state.defaultApportion&&this.state.defaultApportion.costCenterItems&& !this.state.defaultApportion.costCenterItems.length) {
           optionCol.fixed = '';
         }
 
@@ -230,7 +230,7 @@ class NewShare extends Component {
         this.setState({
           columns: cols,
           flag: true,
-          x: this.state.defaultApportion.costCenterItems.length
+          x: this.state.defaultApportion&&this.state.defaultApportion.costCenterItems&&this.state.defaultApportion.costCenterItems.length
             ? width + this.state.defaultApportion.costCenterItems.length * 180
             : width,
         });
@@ -413,8 +413,8 @@ class NewShare extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 

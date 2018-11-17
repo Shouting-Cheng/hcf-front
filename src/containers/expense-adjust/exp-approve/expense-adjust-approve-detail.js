@@ -96,12 +96,12 @@ class ExpenseAdjustApproveDetail extends React.Component {
     let isConfirm = this.props.match.params.flag === 'approved';
     return (
       <div className="expense-adjust-detail" style={{
-        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
         paddingCottom: 100}}>
         <ExpenseAdjustApproveCommon wrappedComponentRef={ref=>this.detail=ref} id={this.props.match.params.id} expenseAdjustTypeId={this.props.match.params.expenseAdjustTypeId} />
         {!isConfirm && (
           <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
-            boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+             boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
             marginLeft: 4}}>
             <Row>
               <Col span={24} >
@@ -117,8 +117,8 @@ class ExpenseAdjustApproveDetail extends React.Component {
           </Affix>
         )}
         {isConfirm &&
-        <Affix offsetBottom={0} className="bottom-bar-jsq" style={{marginLeft: 4}}>
-          <Button onClick={this.onCancel} className="back-btn">{this.$t({ id: "common.back" }/*返回*/)}</Button>
+        <Affix offsetBottom={0} className="bottom-bar-jsq">
+          <Button onClick={this.onCancel} className="back-btn" style={{marginLeft: 15}}>{this.$t({ id: "common.back" }/*返回*/)}</Button>
         </Affix>}
       </div >
     )

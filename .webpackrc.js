@@ -99,9 +99,8 @@ export default {
       changeOrigin: true,
     },
     '/expense': {
-      target: 'http://115.159.108.80:9081/expense',
-      changeOrigin: true,
-      pathRewrite: { '^/expense': '' },
+      target: 'http://115.159.108.80:9081',
+      changeOrigin: true
     },
     '/config': {
       target: 'http://115.159.108.80:9081/artemis-sit',

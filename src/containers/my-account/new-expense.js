@@ -211,8 +211,8 @@ class NewExpense extends React.Component {
       });
     }
 
-    //费用改变时
-    if(this.props.params.nowExpense && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))){
+    //费用改变时  && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))
+    if(this.props.params.nowExpense ){
       let expenseDetail = this.props.params.nowExpense;
       expenseDetail.data && expenseDetail.data.sort((a, b) => a.sequence > b.sequence || -1);
       expenseDetail.preCreatedDate = expenseDetail.createdDate;
@@ -296,6 +296,7 @@ class NewExpense extends React.Component {
               valueWillSet.invoiceInstead = expenseDetail.invoiceInstead;
             if(expenseDetail.invoiceInstead)
               valueWillSet.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
+            debugger
             this.props.form.setFieldsValue(valueWillSet);
           }
         });
@@ -316,6 +317,9 @@ class NewExpense extends React.Component {
       this.handleChangeCurrency(currencyCode);
 
     }
+    this.setState({
+      nowExpense:this.props.params.nowExpense
+    });
   }
   /**
    * @description 是否有票
@@ -909,8 +913,8 @@ class NewExpense extends React.Component {
    * 图片上传成功
    * @param response
    */
-  uploadSuccess = (response) => {
-    this.setState({ attachments: response }, { attachmentChange : true });
+  uploadSuccess = (value) => {
+    this.setState({ attachments: value,attachmentChange : true },);
   };
 
   /**
@@ -2046,7 +2050,9 @@ class NewExpense extends React.Component {
 
         {hasInvoiceInstead && invoiceInstead && (
           <FormItem {...formItemLayout} label={invoiceInsteadReasonText}>
-            {getFieldDecorator('invoiceInsteadReason')(
+            {getFieldDecorator('invoiceInsteadReason',{
+              initialValue: this.state.nowExpense.invoiceInsteadReason
+            })(
               <Input maxLength="100" disabled={!invoiceInstead}/>
             )}
           </FormItem>
@@ -2210,7 +2216,7 @@ class NewExpense extends React.Component {
     //是否为差补费用类型
     let isSubsidyType = nowExpense.expenseTypeSubsidyType === 1 ? true : false;
     let amount = readOnly && !auditAmountEditing ? nowExpense.amount : Number(getFieldValue('amount'));
-    let actualCurrencyRate = readOnly && !auditAmountEditing ? nowExpense.actualCurrencyRate : getFieldValue('actualCurrencyRate');
+    let actualCurrencyRate = !auditAmountEditing ? nowExpense.actualCurrencyRate : getFieldValue('actualCurrencyRate');
     let isBaseCurrency = baseCurrency.currencyCode === nowCurrency.currencyCode;
     let showRateDescription = !isNaN(amount) && (amount >0 || amount >0)&& !isBaseCurrency;
     let rateDescription = `${this.$t('expense.company.rate')/*企业汇率*/}：`;
@@ -2609,12 +2615,14 @@ class NewExpense extends React.Component {
                                                 attachmentType: "INVOICE_IMAGES",
                                                 invoiceOid: nowExpense.invoiceOID
                                               }}
-                                              attachmentType="INVOICE_IMAGES" onChange={this.uploadSuccess}
+                                              attachmentType="INVOICE_IMAGES"
+                                              onChange={this.uploadSuccess}
                                               fileSize={10}
                                               isPreViewCallBack={true}
                                               handlePreViewCallBack={(file) => this.handleImageAudit(file)}
                                               isShowDefault showMaxNum
-                                              handleDelete={this.deleteAttachment} setResult={this.setResults}
+                                              handleDelete={this.deleteAttachment}
+                                              setResult={this.setResult}
                                               disabled={!((audit && isWaitForAudit) || auditCapability)}
                                               uploadUrl={`${config.baseUrl}/api/finance/upload/attachment`}/>
                                 </FormItem>
@@ -2790,7 +2798,7 @@ class NewExpense extends React.Component {
                                 <Col span={10}>
                                   <FormItem>
                                     {getFieldDecorator('actualCurrencyRate', {
-                                      initialValue: 1.0000
+                                      initialValue: this.props.params.nowExpense !==null ? this.props.params.nowExpense.actualCurrencyRate : 1.0000
                                     })(
                                       <InputNumber style={{width: '100%'}} step={0.0001} precision={4}
                                                    disabled={isBaseCurrency || this.checkFunctionProfiles('web.expense.rate.edit.disabled', [true, 'true'])}/>

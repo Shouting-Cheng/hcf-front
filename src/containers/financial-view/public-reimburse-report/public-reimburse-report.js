@@ -482,7 +482,7 @@ class PublicReimburseReport extends React.Component {
     }
     //根据单据编号进行查询
     onDocumentSearch = (value) => {
-        this.setState({ searchParams: { documentCode: value } },
+        this.setState({ searchParams: {...this.state.searchParams, documentCode: value } },
             () => {
                 this.getList();
             });

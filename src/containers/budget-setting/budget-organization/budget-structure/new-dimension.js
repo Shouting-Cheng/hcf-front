@@ -182,7 +182,7 @@ class NewDimension extends React.Component{
                   ],
                 })(
                   <Chooser
-                    placeholder={ this.$t({id:"common.please.enter"}) }
+                    placeholder={ this.$t({id:"common.please.select"}) }
                     type={"select_dimension"}
                     single={true}
                     labelKey="dimensionCode"

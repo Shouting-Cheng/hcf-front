@@ -556,20 +556,20 @@ class NewPayPlan extends React.Component {
                     : headerData.payeeCategory,
               })(
                 headerData.payeeCategory == 'EMPLOYEE' ? (
-                  <Select disabled>
+                  <Select>
                     <Select.Option key={'EMPLOYEE'} value={'EMPLOYEE'}>
                       员工
                     </Select.Option>
                   </Select>
                 ) : headerData.payeeCategory == 'VENDER' ? (
-                  <Select disabled>
+                  <Select>
                     <Select.Option key={'VENDER'} value={'VENDER'}>
                       供应商
                     </Select.Option>
                   </Select>
                 ) : (
                   <Select
-                    disabled={headerData.multipleReceivables === false}
+                    //disabled={headerData.multipleReceivables === false}
                     onChange={this.payeeCategoryChange}
                   >
                     <Select.Option key={'EMPLOYEE'} value={'EMPLOYEE'}>
