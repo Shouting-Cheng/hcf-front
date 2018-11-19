@@ -45,7 +45,7 @@ class ApproveExpenseReportDetail extends React.Component{
     // this.context.router.push(this.state.approveExpenseReportList.url + `?tab=${location.search.indexOf('approvePending') > -1 ? 'approvePending' : 'approved'}`)
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/approval-management/approve-expense-report/?tab=${location.search.indexOf('approvePending') > -1 ? 'approvePending' : 'approved'}`
+        pathname: `/approval-management/approve-expense-report`
       })
     ) 
   };
@@ -82,7 +82,7 @@ class ApproveExpenseReportDetail extends React.Component{
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: getQueryUrlParam('approverOID'),
+        approverOID: info.approvalChain.approverOID,
         entityOID: info.expenseReportOID,
         entityType: 1002,
         countersignApproverOIDs: additionalOIDs
@@ -114,7 +114,7 @@ class ApproveExpenseReportDetail extends React.Component{
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: location.search.split('=')[2],
+        approverOID: info.approvalChain.approverOID,
         entityOID: info.expenseReportOID,
         entityType: 1002,
       }]
@@ -228,9 +228,9 @@ class ApproveExpenseReportDetail extends React.Component{
         approvalChains.push(item.approverOID)
       })
     }
-    return ~approvalChains.indexOf(getQueryUrlParam('approverOID')) && info.status === 1002 && location.search.indexOf('approvePending') > -1 && !profile['er.opt.approval.disabled'] && !profile['er.disabled'] ? (
-      <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-        <ApproveBar backUrl={approveExpenseReportList.url + '?tab=approvePending'}
+    return  info.status === 1002 && ~approvalChains.indexOf(info.approvalChain.approverOID)  ? (
+      <Affix style={{paddingLeft : 20}} offsetBottom={0} className="bottom-bar bottom-bar-approve">
+        <ApproveBar backUrl={'/approval-management/approve-expense-report'}
                     passLoading={passLoading}
                     moreButtons={moreButtons}
                     rejectLoading={rejectLoading}

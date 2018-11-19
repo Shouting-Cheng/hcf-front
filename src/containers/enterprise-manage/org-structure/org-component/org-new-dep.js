@@ -179,25 +179,23 @@ class OrgNewDep extends React.Component {
           </FormItem>
 
           {/*部门名称*/}
-          <FormItem {...formItemLayout}>
-            <div className="new-lp-row-wrap">
-              <div className="new-lp-row">
-                <span className="new-lp-row-re">*</span>
-                <span>
-                  {/*部门名称：*/}
-                  {this.$t('org-new-dep.dep-name')}:
-                </span>
-              </div>
-              <div>
+          <FormItem {...formItemLayout} label={this.$t('org-new-dep.dep-name')}>
+              {getFieldDecorator('name', {
+                initialValue : dep.name,
+                rules: [
+                  {
+                    required: true,
+                    message: this.$t('common.please.enter'),
+                  },
+                ],
+              })(
                 <LanguageInput
                   key={this.state.fKey}
                   name={dep.name}
-                  i18nName={dep.i18n.name}
+                  i18nName={dep.i18n ? dep.i18n.name : null}
                   isEdit={false}
                   nameChange={this.i18nChange}
-                />
-              </div>
-            </div>
+                />)}
           </FormItem>
 
           {/*部门编码*/}
