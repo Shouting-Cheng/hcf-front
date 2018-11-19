@@ -45,7 +45,7 @@ class ApproveExpenseReportDetail extends React.Component{
     // this.context.router.push(this.state.approveExpenseReportList.url + `?tab=${location.search.indexOf('approvePending') > -1 ? 'approvePending' : 'approved'}`)
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/approval-management/approve-expense-report/?tab=${location.search.indexOf('approvePending') > -1 ? 'approvePending' : 'approved'}`
+        pathname: `/approval-management/approve-expense-report`
       })
     ) 
   };
@@ -79,10 +79,11 @@ class ApproveExpenseReportDetail extends React.Component{
   //审批通过
   handleApprovePass = (value, additionalOIDs) => {
     const { info } = this.props;
+    console.log(this.props)
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: getQueryUrlParam('approverOID'),
+        approverOID: info.approvalChain.approverOID,
         entityOID: info.expenseReportOID,
         entityType: 1002,
         countersignApproverOIDs: additionalOIDs
@@ -228,9 +229,9 @@ class ApproveExpenseReportDetail extends React.Component{
         approvalChains.push(item.approverOID)
       })
     }
-    return ~approvalChains.indexOf(getQueryUrlParam('approverOID')) && info.status === 1002 && location.search.indexOf('approvePending') > -1 && !profile['er.opt.approval.disabled'] && !profile['er.disabled'] ? (
+    return ~approvalChains.indexOf(this.props.info.expenseReportOID) && info.status === 1002 ? (
       <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-        <ApproveBar backUrl={approveExpenseReportList.url + '?tab=approvePending'}
+        <ApproveBar backUrl={'/approval-management/approve-expense-report'}
                     passLoading={passLoading}
                     moreButtons={moreButtons}
                     rejectLoading={rejectLoading}

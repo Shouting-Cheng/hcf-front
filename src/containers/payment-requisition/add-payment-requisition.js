@@ -323,6 +323,7 @@ class AddPaymentRequsition extends React.Component {
     );
   };
 
+
   //获取银行账号列表
   getBankList = (parterId, partnerCategory) => {
     if (partnerCategory === 'EMPLOYEE') {
@@ -601,6 +602,7 @@ class AddPaymentRequsition extends React.Component {
       labelCol: { span: 5 },
       wrapperCol: { span: 13, offset: 1 },
     };
+
     return (
       <div className="header-title add-payment-content">
         <div className={`payment-container page-${nowPage}`}>
@@ -654,10 +656,13 @@ class AddPaymentRequsition extends React.Component {
                               },
                             ],
                             //initialValue: addLineData.reportNumber
-                          })(<Input />)}
+                          })(<Select
+                            onDropdownVisibleChange={()=>{this.setState({isReload: false,nowPage: 'type'})}}
+                            dropdownStyle={{ display: 'none' }}
+                          />)}
                         </FormItem>
                       </Col>
-                      <Col span={2} className="ant-col-offset-1">
+                      <Col span={2} style={{marginLeft: 15, marginTop: 10}} className="ant-col-offset-1">
                         {lineData.refDocumentId === '' ? (
                           ''
                         ) : (
