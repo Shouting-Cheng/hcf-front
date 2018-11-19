@@ -79,7 +79,6 @@ class ApproveExpenseReportDetail extends React.Component{
   //审批通过
   handleApprovePass = (value, additionalOIDs) => {
     const { info } = this.props;
-    console.log(this.props)
     let params = {
       approvalTxt: value,
       entities: [{
@@ -115,7 +114,6 @@ class ApproveExpenseReportDetail extends React.Component{
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: location.search.split('=')[2],
         entityOID: info.expenseReportOID,
         entityType: 1002,
       }]
@@ -229,8 +227,8 @@ class ApproveExpenseReportDetail extends React.Component{
         approvalChains.push(item.approverOID)
       })
     }
-    return ~approvalChains.indexOf(this.props.info.expenseReportOID) && info.status === 1002 ? (
-      <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+    return  info.status === 1002 && ~approvalChains.indexOf(info.approvalChain.approverOID)  ? (
+      <Affix style={{paddingLeft : 20}} offsetBottom={0} className="bottom-bar bottom-bar-approve">
         <ApproveBar backUrl={'/approval-management/approve-expense-report'}
                     passLoading={passLoading}
                     moreButtons={moreButtons}
