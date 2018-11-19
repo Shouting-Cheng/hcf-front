@@ -5,6 +5,39 @@ import moment from 'moment';
 import { messages } from 'utils/utils';
 import { Badge, Popover, Avatar, Tooltip } from 'antd';
 
+const formatMoney = (number, decimals = 2, isString = false) => {
+  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+    dec = typeof dec_point === 'undefined' ? '.' : dec_point,
+    s = '',
+    toFixedFix = function(n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.ceil(n * k) / k;
+    };
+
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  var re = /(-?\d+)(\d{3})/;
+  while (re.test(s[0])) {
+    s[0] = s[0].replace(re, '$1' + sep + '$2');
+  }
+
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+
+  //console.log(s.join(dec));
+
+  if (isString === true) {
+    return s.join(dec);
+  } else {
+    return <span className="money-cell">{s.join(dec)}</span>;
+  }
+};
+
+
 const chooserData = {
   user: {
     title: messages('chooser.data.selectPerson'), //选择人员
@@ -1154,20 +1187,134 @@ const chooserData = {
       { label: '申请单类型', id: 'applicationType', type: 'input' },
     ],
     columns: [
-      { title: '申请单号', dataIndex: 'businessCode' },
-      { title: '申请单类型', dataIndex: 'applicationType' },
+      { 
+        title: '申请单号', 
+        dataIndex: 'businessCode',
+        align:'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+              '-'
+            )}
+          </span>
+        ),
+      },
+      { 
+        title: '申请单类型', 
+        dataIndex: 'applicationType',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+              '-'
+            )}
+          </span>
+        ),
+      },
       {
         title: '提交时间',
+        align: 'center',
         dataIndex: 'submittedDate',
-        render: value => {
-          return <span>{moment(value).format('YYYY-MM-DD')}</span>;
-        },
+        render: value => (
+          <span>
+            {value ? (
+              <Popover placement="topLeft" content={moment(value).format('YYYY-MM-DD')}>
+                {moment(value).format('YYYY-MM-DD')}
+              </Popover>
+            ) : (
+              '-'
+            )}
+          </span>
+        ),
       },
-      { title: '币种', dataIndex: 'currencyCode' },
-      { title: '总金额', dataIndex: 'amount' },
-      { title: '已关联金额', dataIndex: 'relatedAmount' },
-      { title: '可关联金额', dataIndex: 'notAssociatedAmount' },
-      { title: '备注', dataIndex: 'title' },
+      { 
+        title: '币种', 
+        dataIndex: 'currencyCode',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+              '-'
+            )}
+          </span>
+        ), 
+      },
+      { 
+        title: '总金额', 
+        align: 'center',
+        dataIndex: 'amount',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+              formatMoney(0)
+            )}
+          </span>
+      ), 
+    },
+    { 
+      title: '已关联金额',
+      dataIndex: 'relatedAmount',
+      align:'center',
+      render: text => (
+        <span>
+          {text ? (
+            <Popover placement="topLeft" content={formatMoney(text)}>
+              {formatMoney(text)}
+            </Popover>
+          ) : (
+            formatMoney(0)
+          )}
+        </span>
+      ), 
+    },
+    { 
+      title: '可关联金额',
+      dataIndex: 'notAssociatedAmount',
+      align: 'right',
+      render: text => (
+        <span>
+          {text ? (
+            <Popover placement="topLeft" content={formatMoney(text)}>
+              {formatMoney(text)}
+            </Popover>
+          ) : (
+            formatMoney(0)
+          )}
+        </span>
+      ), 
+    },
+    { 
+      title: '备注',
+      dataIndex: 'title',
+      align:'center',
+      render: text => (
+        <span>
+          {text ? (
+            <Popover placement="topLeft" content={text}>
+                {text}
+            </Popover>
+          ) : (
+            '-'
+          )}
+        </span>
+      ), 
+    },
     ],
     key: 'id',
   },

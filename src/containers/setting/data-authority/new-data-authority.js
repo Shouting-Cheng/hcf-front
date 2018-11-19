@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { Button, Form, Divider, Input, Switch, Icon, Alert, Row, Col, Spin } from 'antd';
 import LanguageInput from 'components/Widget/Template/language-input/language-input';
-import LineModelChangeRules from 'containers/setting/data-authority/line-model-change-rule'
+import LineModelChangeRules from 'containers/setting/data-authority/line-model-change-rule';
+import DataAuthorityService from 'containers/setting/data-authority/data-authority.service';
 import 'styles/setting/data-authority/data-authority.scss';
 const FormItem = Form.Item;
 
@@ -11,13 +12,34 @@ class NewDataAuthority extends React.Component {
     constructor(props) {
         super(props);
         this.cardIndex = 0;
-        this.targetKey=0;
+        this.targetKey = 0;
         this.state = {
             newChangeRulesRender: false,
-            renderNewChangeRules: []
+            renderNewChangeRules: [],
+            newDataPrams: {}
         }
 
     }
+    componentWillMount(){
+        let params = this.props.params;
+        console.log(params);
+        if(params && JSON.stringify(params) === '{}'){
+            this.setState({
+                newDataPrams:params
+            })
+        }else{
+            DataAuthorityService.getDataAuthorityDetail(params.id).then(res=>{
+                console.log(res)
+            })
+        }
+    }
+    // componentDidMount() {
+    //     let params = this.props.params;
+    //     console.log(params);
+    //     this.setState({
+    //         newDataPrams: params
+    //     })
+    // }
 
     onCancel = () => {
         this.props.close()
@@ -45,15 +67,36 @@ class NewDataAuthority extends React.Component {
         })
     }
     cancelHandle = (targetKey) => {
-          const cards = this.state.renderNewChangeRules.filter(card => card.key !== targetKey);
-          this.setState({
-              renderNewChangeRules:cards
-          })
-        
+        const card = this.state.renderNewChangeRules.filter(card => card.key !== targetKey);
+        this.setState({
+            renderNewChangeRules: card
+        })
+
+    }
+    //名称：自定义值列表项多语言
+    i18nNameChange = (name, i18nName) => {
+        this.state.newDataPrams.dataAuthorityName = name;
+        if (this.state.newDataPrams.i18n) {
+            this.state.newDataPrams.i18n.dataAuthorityName = i18nName;
+        } else {
+            this.state.newDataPrams.i18n = {
+                name: i18nName
+            };
+        }
+    }
+    i18nNameDes=(name, i18nName)=>{
+        this.state.newDataPrams.description = name;
+        if (this.state.newDataPrams.i18n) {
+            this.state.newDataPrams.i18n.description = i18nName;
+        } else {
+            this.state.newDataPrams.i18n = {
+                name: i18nName
+            };
+        }
     }
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;
-        const { keys, cardShow, isNew, newChangeRulesRender, renderNewChangeRules } = this.state;
+        const { keys, cardShow, isNew, newChangeRulesRender, renderNewChangeRules, newDataPrams } = this.state;
         const formItemLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 14, offset: 1 },
@@ -75,8 +118,12 @@ class NewDataAuthority extends React.Component {
                                     required: true,
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
-                            ]
-                        })(<Input placeholder={this.$t("common.please.enter")} />)
+                            ],
+                            initialValue: newDataPrams.dataAuthorityCode || '',
+                        })(<Input
+                            placeholder={this.$t("common.please.enter")}
+                            disabled={newDataPrams.id ? true : false}
+                        />)
                         }
 
                     </FormItem>
@@ -96,12 +143,12 @@ class NewDataAuthority extends React.Component {
                         })(
                             <div>
                                 <LanguageInput
-                                // disabled={!this.props.tenantMode}
-                                // key={1}
-                                // name={costCenterDetail.name}
-                                // i18nName={costCenterDetail.i18n ? costCenterDetail.i18n.name : ""}
-                                // isEdit={costCenterDetail.id}
-                                // nameChange={this.i18nNameChange}
+                                    // disabled={!this.props.tenantMode}
+                                    // key={1}
+                                    name={newDataPrams.dataAuthorityName}
+                                    i18nName={newDataPrams.i18n ? newDataPrams.i18n.name : ""}
+                                    isEdit={newDataPrams.id ? true : false}
+                                    nameChange={this.i18nNameChange}
                                 />
                             </div>
                         )}
@@ -115,10 +162,10 @@ class NewDataAuthority extends React.Component {
                                 <LanguageInput
                                 // disabled={!this.props.tenantMode}
                                 // key={1}
-                                // name={costCenterDetail.name}
-                                // i18nName={costCenterDetail.i18n ? costCenterDetail.i18n.name : ""}
-                                // isEdit={costCenterDetail.id}
-                                // nameChange={this.i18nNameChange}
+                                name={newDataPrams.description}
+                                i18nName={newDataPrams.i18n ? newDataPrams.i18n.name : ""}
+                                isEdit={newDataPrams.id}
+                                nameChange={this.i18nNameDes}
                                 />
                             </div>
                         )}
@@ -129,7 +176,7 @@ class NewDataAuthority extends React.Component {
                         colon={true}
                     >
                         {getFieldDecorator('enabled', {
-                            initialValue: true,
+                            initialValue: newDataPrams.enabled?true:false,
                             valuePropName: 'checked'
                         })(
                             <Switch checkedChildren={<Icon type="check" />}

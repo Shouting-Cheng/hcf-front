@@ -294,12 +294,20 @@ class OrgStructureRolesList extends React.Component {
 
             {/*角色名称*/}
             <FormItem {...formItemLayout} label={this.$t('org.role.no-person')}>
-              <LanguageInput
-                name={role.positionName}
-                i18nName={role.i18n ? role.i18n.positionName : null}
-                isEdit={role.id}
-                nameChange={this.i18nChange}
-              />
+              {getFieldDecorator('positionName', {
+                initialValue:role.positionName,
+                rules: [
+                  {
+                    required: true,
+                    message: this.$t('common.please.enter'),
+                  },
+                ],
+              })(<LanguageInput
+                  name={role.positionName}
+                  i18nName={role.i18n ? role.i18n.positionName : null}
+                  isEdit={role.id}
+                  nameChange={this.i18nChange}
+                />)}
             </FormItem>
 
             {/*状态*/}
