@@ -114,6 +114,7 @@ class ApproveExpenseReportDetail extends React.Component{
     let params = {
       approvalTxt: value,
       entities: [{
+        approverOID: info.approvalChain.approverOID,
         entityOID: info.expenseReportOID,
         entityType: 1002,
       }]
