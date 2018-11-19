@@ -6,7 +6,7 @@ import financeAuditService from 'containers/financial-management/finance-audit/f
 import baseService from 'share/base.service';
 import PropTypes from 'prop-types';
 import expenseReportService from 'containers/expense-report/expense-report.service';
-
+import { routerRedux } from "dva/router";
 class AuditApplicationDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +20,6 @@ class AuditApplicationDetail extends React.Component {
       approvalTxtString: '',
       invoiceNumber: 0,
       invoice: [],
-      financeAuditList: menuRoute.getRouteItem('finance-audit'),
     };
   }
 
@@ -35,10 +34,16 @@ class AuditApplicationDetail extends React.Component {
 
   //返回
   goBack = () => {
-    this.context.router.push(
-      this.state.financeAuditList.url +
-        `?tab=${location.search.indexOf('prending_audit') > -1 ? 'prending_audit' : 'audit_pass'}`
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: '/financial-management/finance-audit' 
+        // +`?tab=${location.search.indexOf('prending_audit') > -1 ? 'prending_audit' : 'audit_pass'}`,
+      })
     );
+    // this.context.router.push(
+    //   '/financial-management/finance-audit' +
+    //     `?tab=${location.search.indexOf('prending_audit') > -1 ? 'prending_audit' : 'audit_pass'}`
+    // );
   };
 
   handleApprovePass = value => {
