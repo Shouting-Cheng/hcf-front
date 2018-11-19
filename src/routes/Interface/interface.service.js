@@ -19,6 +19,9 @@ export default {
   update(parmas) {
     return httpFetch.put('/auth/api/interface/update', parmas);
   },
+  delete(id) {
+     return httpFetch.delete('/auth/api/interface/delete/' + id);
+  },
   addRequest(parmas) {
     return httpFetch.post('/auth/api/interfaceRequest/create', parmas);
   },

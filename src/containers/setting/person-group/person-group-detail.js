@@ -434,7 +434,7 @@ class PersonGroupDetail extends React.Component {
                 extraParams: extraParams,
             });
         } else if (name === 'Department') {
-            let selectorItem = chooserData['deptCode'];
+            let selectorItem = chooserData['department'];
             extraParams.systemCustomEnumerationType = '';
             extraParams.status = null;
             this.setState({
