@@ -22,6 +22,7 @@ class SelectDepartment extends React.Component {
       loading: false,
       toSearchText: '',
       useSearchText: '',
+      modalVisible: false,
       toSelectList: [], //待选区选中的列表
       useSelectList: [], //使用区选中的列表
     };
@@ -143,10 +144,9 @@ class SelectDepartment extends React.Component {
       .then(res => {
         if (res.data && res.data.length) {
           this.setState({ useDepartment: this.state.useData });
-
           let temp = [];
           let selected = [];
-
+          let use = [];
           res.data.map(item => {
             let obj = {
               id: item.id,
@@ -167,19 +167,19 @@ class SelectDepartment extends React.Component {
             let jsonStr = JSON.stringify(obj);
 
             if (this.state.useData.findIndex(o => o.value == item.id) >= 0) {
+              use.push(item.id);
               selected.push(jsonStr);
             }
 
             temp.push({ title: item.name, key: jsonStr, isLeaf: !item.hasChildrenDepartments });
           });
-
-          this.setState({ toData: temp, loading: false, toSelectList: selected });
+          this.setState({ toData: temp,modalVisible: true, loading: false, toSelectList: selected, useSelectList: use});
         } else {
-          this.setState({ toData: [], loading: false, toSelectList: [] });
+          this.setState({ toData: [],modalVisible: true, loading: false, toSelectList: [] });
         }
       })
       .catch(() => {
-        this.setState({ loading: false });
+        this.setState({ modalVisible: true,loading: false });
       });
   };
 
@@ -330,7 +330,7 @@ class SelectDepartment extends React.Component {
   };
 
   render() {
-    const { visible, onCancel, afterClose } = this.props;
+    const { visible, onCancel, afterClose, } = this.props;
     const {
       toData,
       useSelectList,
@@ -338,88 +338,92 @@ class SelectDepartment extends React.Component {
       useDepartment,
       toSearchText,
       useSearchText,
+      modalVisible
     } = this.state;
+
     return (
       <Modal
         title={'选择部门'}
         visible={visible}
-        onCancel={onCancel}
+        onCancel={()=>{this.setState({toSelectList:[]});onCancel();}}
         afterClose={afterClose}
         width={'70%'}
         onOk={this.handleOk}
         className="list-selector select-department select-employee-group "
       >
-        <Row gutter={10} style={{ height: '100%' }}>
-          <Col span={10} style={{ height: '100%' }}>
-            <Card title="待选区">
-              <Search
-                style={{ marginBottom: 8 }}
-                value={toSearchText}
-                placeholder="请输入"
-                onChange={e => this.onChange(e.target.value)}
-              />
-              <Tree
-                checkable
-                loadData={this.onLoadData}
-                onCheck={this.onCheck}
-                checkStrictly={this.props.checkStrictly}
-                defaultCheckedKeys={toSelectList}
-              >
-                {this.renderTreeNodes(toData)}
-              </Tree>
-            </Card>
-          </Col>
+        {modalVisible&&
+          <Row gutter={10} style={{ height: '100%' }}>
+            <Col span={10} style={{ height: '100%' }}>
+              <Card title="待选区">
+                <Search
+                  style={{ marginBottom: 8 }}
+                  value={toSearchText}
+                  placeholder="请输入"
+                  onChange={e => this.onChange(e.target.value)}
+                />
+                <Tree
+                  checkable
+                  loadData={this.onLoadData}
+                  onCheck={this.onCheck}
+                  checkStrictly={this.props.checkStrictly}
+                  defaultCheckedKeys={toSelectList}
+                >
+                  {this.renderTreeNodes(toData)}
+                </Tree>
+              </Card>
+            </Col>
 
-          <Col span={4} style={{ height: '100%' }}>
-            <div
-              style={{
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div>
-                <Button
-                  disabled={!toSelectList.length}
-                  onClick={this.addToUse}
-                  size="small"
-                  type="primary"
-                >
-                  {this.$t('select.employee.group.join.use' /*加入使用*/)}&gt;
-                </Button>
-                <br />
-                <Button
-                  disabled={!useSelectList.length}
-                  onClick={this.removeFromUse}
-                  style={{ marginTop: 15 }}
-                  size="small"
-                  type="primary"
-                >
-                  &lt;{this.$t('select.employee.group.back.to.wait') /*回到待选*/}
-                </Button>
-              </div>
-            </div>
-          </Col>
-          <Col style={{ height: '100%' }} span={10}>
-            <Card title={this.$t('select.employee.group.use.list') /*使用列表*/}>
-              <Search
-                value={useSearchText}
-                placeholder={this.$t('common.please.enter') /*请输入*/}
-                onChange={e => this.useSearch(e.target.value)}
-              />
-              {
-                <div style={{ margin: '10px 15px' }}>
-                  <CheckboxGroup
-                    value={useSelectList}
-                    onChange={this.useCheckboxChange}
-                    options={useDepartment}
-                  />
+            <Col span={4} style={{ height: '100%' }}>
+              <div
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <div>
+                  <Button
+                    disabled={!toSelectList.length}
+                    onClick={this.addToUse}
+                    size="small"
+                    type="primary"
+                  >
+                    {this.$t('select.employee.group.join.use' /*加入使用*/)}&gt;
+                  </Button>
+                  <br />
+                  <Button
+                    disabled={!useSelectList.length}
+                    onClick={this.removeFromUse}
+                    style={{ marginTop: 15 }}
+                    size="small"
+                    type="primary"
+                  >
+                    &lt;{this.$t('select.employee.group.back.to.wait') /*回到待选*/}
+                  </Button>
                 </div>
-              }
-            </Card>
-          </Col>
-        </Row>
+              </div>
+            </Col>
+            <Col style={{ height: '100%' }} span={10}>
+              <Card title={this.$t('select.employee.group.use.list') /*使用列表*/}>
+                <Search
+                  value={useSearchText}
+                  placeholder={this.$t('common.please.enter') /*请输入*/}
+                  onChange={e => this.useSearch(e.target.value)}
+                />
+                {
+                  <div style={{ margin: '10px 15px' }}>
+                    <CheckboxGroup
+                      value={useSelectList}
+                      onChange={this.useCheckboxChange}
+                      options={useDepartment}
+                    />
+                  </div>
+                }
+              </Card>
+            </Col>
+          </Row>
+        }
       </Modal>
     );
   }

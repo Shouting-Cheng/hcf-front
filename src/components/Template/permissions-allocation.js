@@ -75,7 +75,7 @@ class PermissionsAllocation extends React.Component {
   };
 
   handleListCancel = () => {
-    this.setState({ showSelectEmployeeGroup: false, showSelectDepartment: false });
+    this.setState({ selectedList:[],showSelectEmployeeGroup: false, showSelectDepartment: false });
   };
 
   handleListOk = values => {
