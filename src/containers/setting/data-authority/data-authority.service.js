@@ -4,9 +4,16 @@ import httpFetch from 'share/httpFetch';
 export default{
     /**
      * 
-     * 查询数据权限
+     * 删除数据权限
+     *  
+     * */
+    deleteDataAuthority(id){
+        return httpFetch.delete(`${config.authUrl}/api/system/data/authority/${id}`);
+    },
+    /**
+     * 定位数据权限详情
      */
-    getDataAuthority(params){
-        return httpFetch.get( `${config.baseUrl}/api/system/data/authority/query`,params);
+    getDataAuthorityDetail(id){
+        return httpFetch.get(`${config.authUrl}/api/system/data/authority/detail/${id}`);
     }
 }
