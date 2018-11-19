@@ -153,6 +153,14 @@ class MyNewPrePayment extends React.Component {
     );
   };
 
+  onBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/pre-payment/me-pre-payment/pre-payment-detail/${this.props.match.params.id}/prePayment`,
+      })
+    );
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -323,7 +331,7 @@ class MyNewPrePayment extends React.Component {
               >
                 {isNew ? '下一步' : '确定'}
               </Button>
-              <Button onClick={this.onCancel}>取消</Button>
+              {isNew ? <Button onClick={this.onCancel}>取消</Button>:<Button onClick={this.onBack}>返回</Button>}
             </Affix>
           </Form>
         </Spin>
