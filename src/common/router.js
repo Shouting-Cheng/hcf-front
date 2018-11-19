@@ -190,6 +190,14 @@ export const getRouterData = app => {
       name: 'new-prepayment',
       parent: '/pre-payment/my-pre-payment',
     },
+    //编辑预付款
+    '/pre-payment/my-pre-payment/edit-pre-payment/:id/:prePaymentTypeId/:formOid': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/new-pre-payment.js')
+      ),
+      name: 'edit-prepayment',
+      parent: '/pre-payment/my-pre-payment',
+    },
     //预付款详情
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
       component: dynamicWrapper(app, [], () =>
