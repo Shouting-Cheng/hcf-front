@@ -186,7 +186,7 @@ class LanguageInput extends React.Component {
         nameForShow: value,
       },
       () => {
-        this.inputChangeAfter(this.state.nameForShow);
+        this.inputChangeAfter(value);
       }
     );
   };
