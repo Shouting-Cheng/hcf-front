@@ -444,16 +444,6 @@ class AddPersonModal extends React.Component {
                   <Tag key={item.userGroupOID} closable onClose={() => this.handleDeleteUserGroup(item.userGroupOID)}>{item.name}</Tag>
                 )}
               </ListItem>
-              <ListItem className="api-return-approver">
-                <h4>
-                  {personType === 1 ? this.$t('workflow.detail.api.back.approve'/*接口返回审批人*/) :
-                    this.$t('workflow.detail.api.back.notify'/*接口返回知会人*/)}
-                </h4>
-                <Checkbox checked={apiReturnApprover} onChange={e => this.setState({ apiReturnApprover: e.target.checked })}>
-                  {personType === 1 ? this.$t('workflow.detail.return.approve.result'/*当满足审批条件时，节点调用对应地址的接口，返回审批结果*/) :
-                    this.$t('workflow.detail.return.notify.result'/*当满足知会条件时，节点调用对应地址的接口，返回知会结果*/)}
-                </Checkbox>
-              </ListItem>
             </List>
           </Spin>
         </Modal>

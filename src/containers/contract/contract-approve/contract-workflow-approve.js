@@ -20,6 +20,7 @@ class ContractWorkflowApprove extends React.Component {
           colSpan: '6',
           id: 'name',
           label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
+          event:"name"
         },
         {
           type: 'select',
@@ -34,6 +35,7 @@ class ContractWorkflowApprove extends React.Component {
           labelKey: 'contractTypeName',
           valueKey: 'id',
           placeholder: this.$t({ id: 'common.please.enter' } /*请输入*/),
+          event:"contractTypeId"
         },
         {
           type: 'list',
@@ -46,6 +48,7 @@ class ContractWorkflowApprove extends React.Component {
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+          event:"userOID"
         },
         {
           type: 'items',
@@ -56,11 +59,13 @@ class ContractWorkflowApprove extends React.Component {
               type: 'date',
               id: 'beginDate',
               label: this.$t({ id: 'contract.search.submit.date.from' } /*提交时间从*/),
+              event:"beginDate"
             },
             {
               type: 'date',
               id: 'endDate',
               label: this.$t({ id: 'contract.search.submit.date.to' } /*提交时间至*/),
+              event:"endDate"
             },
           ],
         },
@@ -73,6 +78,7 @@ class ContractWorkflowApprove extends React.Component {
           method: 'get',
           labelKey: 'currency',
           valueKey: 'currency',
+          event:"currency",
           colSpan: 6,
         },
         {
@@ -85,12 +91,14 @@ class ContractWorkflowApprove extends React.Component {
               id: 'amountFrom',
               label: this.$t('my.contract.amount.from'),
               placeholder: this.$t('exp.money.from'),
+              event:"amountFrom",
             },
             {
               type: 'inputNumber',
               id: 'amountTo',
               label: this.$t('my.contract.amount.to'),
               placeholder: this.$t('exp.money.to'),
+              event:"amountTo",
             },
           ],
         },
@@ -99,6 +107,7 @@ class ContractWorkflowApprove extends React.Component {
           colSpan: 6,
           id: 'description',
           label: this.$t({ id: 'common.comment' } /*备注*/),
+          event:"description",
         },
       ],
       searchParams: {},
@@ -305,6 +314,65 @@ class ContractWorkflowApprove extends React.Component {
     }
   }
 
+  eventHandle = (type, value) => {
+    let searchForm = this.state.searchForm;
+    const { searchParams } = this.state;
+    switch (type) {
+      case 'name': {
+        searchParams.name = value;
+        break;
+      }
+      case 'contractTypeId': {
+        if(value[0].id){
+          searchParams.contractTypeId = value[0].id;
+        }else{
+          searchParams.contractTypeId = '';
+        }
+        break;
+      }
+      case 'userOID': {
+        if(value[0].userOID){
+          searchParams.userOID =  value[0].userOID;
+        }else{
+          searchParams.userOID =  '';
+        }
+        break;
+      }
+      case 'beginDate': {
+        if(value){
+          searchParams.beginDate = moment(value).format('YYYY-MM-DD')
+        }else{
+          searchParams.beginDate = '';
+        }
+        break;
+      }
+      case 'endDate': {
+        if(value){
+          searchParams.endDate = moment(value).format('YYYY-MM-DD')
+        }else{
+          searchParams.endDate = '';
+        }
+        break;
+      }
+      case 'currency': {
+        searchParams.currency = value;
+        break;
+      }
+      case 'amountFrom': {
+        searchParams.amountFrom = value;
+        break;
+      }
+      case 'amountTo': {
+        searchParams.amountTo = value;
+        break;
+      }
+      case 'description': {
+        searchParams.description = value;
+        break;
+      }
+    }
+    this.setState({ searchParams });
+  };
   renderContent = () => {
     const { searchForm, tabValue, columns } = this.state;
 
@@ -314,6 +382,7 @@ class ContractWorkflowApprove extends React.Component {
           searchForm={searchForm}
           clearHandle={() => {}}
           maxLength={4}
+          eventHandle={this.eventHandle}
           submitHandle={this.handleSearch}
         />
         <div className="table-header" style={{ marginBottom: 12, marginTop: 12 }}>
