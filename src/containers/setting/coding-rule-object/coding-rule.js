@@ -19,27 +19,32 @@ class CodingRuleDetail extends React.Component {
         {
           title: messages('code.rule.code')/*编码规则代码*/,
           dataIndex: "codingRuleCode",
-          width: '15%'
+          width: '15%',
+          align: 'center'
         },
         {
           title: messages('code.rule.name')/*编码规则名称*/,
           dataIndex: "codingRuleName",
           width: '25%',
+          align: 'center',
           render: desc => <Popover content={desc}>{desc || '-'}</Popover>
         },
         {
           title: messages('code.rule.reset.frequency')/*重置频率*/,
           dataIndex: "resetFrequenceName",
+          align: 'center',
           width: '15%'
         },
         {
           title: messages('code.rule.remark')/*备注*/,
           dataIndex: "remark",
+          align: 'center',
           width: '30%',
           render: desc => <Popover content={desc}>{desc || '-'}</Popover>
         },
         {
           title: messages('code.rule.status')/*状态*/,
+          align: 'center',
           dataIndex: 'enabled',
           width: '15%',
           render: isEnabled => (

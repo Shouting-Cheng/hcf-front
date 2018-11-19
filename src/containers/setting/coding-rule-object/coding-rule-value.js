@@ -24,21 +24,25 @@ class CodingRuleValue extends React.Component {
         {
           title: messages('code.rule.value.sequence.number') /*顺序号*/,
           dataIndex: 'sequence',
+          align: 'center',
           width: '15%',
         },
         {
           title: messages('code.rule.value.parameter.name') /*参数名称*/,
           dataIndex: 'segmentName',
+          align: 'center',
           width: '15%',
         },
         {
           title: messages('code.rule.value.parameter.values') /*参数值*/,
           dataIndex: 'value',
+          align: 'center',
           width: '50%',
         },
         {
           title: messages('code.rule.status') /*状态*/,
           dataIndex: 'enabled',
+          align: 'center',
           width: '10%',
           render: enabled => (
             <Badge
@@ -50,6 +54,7 @@ class CodingRuleValue extends React.Component {
         {
           title: messages('common.operation'),
           key: 'operation',
+          align: 'center',
           width: '10%',
           render: (text, record) => (
             <span>
@@ -95,6 +100,7 @@ class CodingRuleValue extends React.Component {
           id: 'resetFrequence',
           options: [],
           valueListCode: 2024,
+          clear: true
         },
         { type: 'input', label: messages('code.rule.remark') /*备注*/, id: 'remark' },
         { type: 'switch', label: messages('code.rule.status') /*状态*/, id: 'enabled' },
