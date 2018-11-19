@@ -41,13 +41,12 @@ class PrePaymentCommon extends React.Component {
           title: '预付款金额',
           dataIndex: 'amount',
           width: 120,
+          align: 'center',
           render: (value, record) => {
             return (
-              <div>
-                <div style={{ textAlign: 'left', width: '20%' }}>
-                  {record.currency}&nbsp;&nbsp;{this.filterMoney(record.amount, 2)}
-                </div>
-              </div>
+                <span className="money-cell">
+                  {record.currency+'  '+record.amount.toFixed(2)}
+                </span>
             );
           },
         },
@@ -77,6 +76,7 @@ class PrePaymentCommon extends React.Component {
         {
           title: '收款账户',
           width: 210,
+          align: 'center',
           dataIndex: 'partnerId',
           render: (value, record) => {
             return (
@@ -89,6 +89,7 @@ class PrePaymentCommon extends React.Component {
         },
         {
           title: '付款属性',
+          align: 'center',
           dataIndex: 'refDocumentCode',
           width: 200,
           render: (value, record) => {

@@ -113,27 +113,28 @@ class Payment extends React.Component {
       unApproveSearchParams: {},
       approveSearchParams: {},
       columns: [
-        {title: '单据编号', dataIndex: 'prepaymentCode', width: 180},
-        {title: '单据类型', dataIndex: 'typeName'},
-        {title: '申请人', dataIndex: 'applicantName', width: 100},
+        {title: '单据编号', dataIndex: 'prepaymentCode', align: 'center', width: 180},
+        {title: '单据类型', dataIndex: 'typeName',align: 'center'},
+        {title: '申请人', dataIndex: 'applicantName',align: 'center', width: 100},
         {
           title: '提交日期',
           dataIndex: 'stringSubmitDate',
           width: 90,
+          align: 'center',
           render: (value) => moment(value).format('YYYY-MM-DD')
         },
         // {title: '币种', dataIndex: 'currency'},
-        {title: '本币金额', dataIndex: 'totalAmount', render: this.filterMoney},
+        {title: '本币金额', dataIndex: 'totalAmount', align: 'center', render: this.filterMoney},
         // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
         {
-          title: '备注', dataIndex: 'description', render: (value) => {
+          title: '备注',align: 'center', dataIndex: 'description', render: (value) => {
             return (
               <Popover content={value}>{value}</Popover>
             )
           }
         },
         {
-          title: '状态', dataIndex: 'status', width: 100, render: (value, record) => {
+          title: '状态', dataIndex: 'status',align: 'center', width: 100, render: (value, record) => {
             return (
               <Badge status={this.state.status[value].state} text={this.state.status[value].label}/>
             )
