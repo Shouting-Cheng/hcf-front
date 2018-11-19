@@ -161,7 +161,6 @@ class WorkflowDetail extends React.Component {
 
   //返回
   goBack = () => {
-    console.log(this.props)
     let url = '/admin-setting/workflow';
     this.props.dispatch(
       routerRedux.replace({

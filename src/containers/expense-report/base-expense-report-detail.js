@@ -1320,6 +1320,7 @@ class ExpenseReportDetail extends React.Component {
       travelSubsidy, travelSubsidyType, travelSubsidyUser, buttonRoleSwitch, pay, loanRefund,
       costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading
     } = this.state;
+    console.log(nowEditExpense)
     const { profile } = this.props;
     let custFormValues = info.custFormValues || []; //自定义表单
     let expenseReportStatus = info ? this.getStatus() : {};
@@ -1605,7 +1606,7 @@ class ExpenseReportDetail extends React.Component {
           hasFooter={false}
           width="800px">
           <NewExpense
-            close={this.handleCloseNewCreate}
+            onClose={this.handleCloseNewCreate}
             params={
               {
                 nowExpense: nowEditExpense,
