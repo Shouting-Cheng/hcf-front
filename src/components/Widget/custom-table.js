@@ -91,7 +91,7 @@ class CustomTable extends Component {
       if (this.props.filterData) {
         data = this.props.filterData(data);
       }
-
+      console.log()
       this.setState({ dataSource: data, loading: false, pagination }, () => {
         this.props.onLoadData && this.props.onLoadData(res.data, pagination)
       });

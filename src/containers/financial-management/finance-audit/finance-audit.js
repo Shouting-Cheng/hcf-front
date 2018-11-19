@@ -587,7 +587,6 @@ class FinanceAudit extends React.Component {
   handleRowClick = (record) => {
     const { nowType, status, expenseDetailAudit, loanDetailAudit } = this.state;
     let url = '';
-    console.log(expenseDetailAudit)
 
     if(nowType === 'INVOICE')
       url = expenseDetailAudit.replace(':expenseReportOID', record.expenseReportOID).replace(':backType','history');

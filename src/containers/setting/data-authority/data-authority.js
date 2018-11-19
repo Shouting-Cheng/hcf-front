@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import SearchArea from 'widget/search-area';
-import { Button, Table, Badge, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch } from 'antd';
+import { Button, Table, Badge, Divider, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch, Popconfirm } from 'antd';
 const FormItem = Form.Item;
 import CustomTable from 'components/Widget/custom-table';
 import SlideFrame from 'widget/slide-frame'
 import NewDataAuthority from 'containers/setting/data-authority/new-data-authority'
 import config from 'config';
+import DataAuthorityService from 'containers/setting/data-authority/data-authority.service'
 
 
 class DataAuthority extends React.Component {
@@ -20,23 +21,22 @@ class DataAuthority extends React.Component {
             columns: [
                 {
                     title: '数据权限代码',
-                    dateIndex: 'dataAuthorityCode',
+                    dataIndex: 'dataAuthorityCode',
                 },
                 {
                     title: '数据权限名称',
-                    dateIndex: 'dataAuthorityName',
+                    dataIndex: 'dataAuthorityName',
                 },
                 {
                     title: '数据权限说明',
-                    dateIndex: 'description',
-                },
-                {
-                    title: '数据权限说明',
-                    dateIndex: 'description',
+                    dataIndex: 'description',
                 },
                 {
                     title: '状态',
-                    dateIndex: 'enabled',
+                    dataIndex: 'enabled',
+                    render: enabled => (
+                        <Badge status={enabled ? 'success' : 'error'}
+                            text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")} />)
                 },
                 {
                     title: this.$t("common.operation"),//"操作"
@@ -44,23 +44,37 @@ class DataAuthority extends React.Component {
                     render: (text, record) => (
                         <span>
                             {/*编辑*/}
-                            <a>{this.$t("common.edit")}</a> &nbsp;&nbsp;&nbsp;
-                             {/*详情*/}
-                            <a>{this.$t("common.detail")}</a>
+                            <a onClick={(e) => this.editItem(record)}>{this.$t("common.edit")}</a>
+                            <Divider type="vertical" />
+                            {/*删除*/}
+                            <Popconfirm
+                                placement="top"
+                                title={'确认删除？'}
+                                onConfirm={e => {
+                                    e.preventDefault();
+                                    this.deleteCost(record);
+                                }}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                                <a onClick={e => { e.preventDefault(); e.stopPropagation(); }}>删除</a>
+                            </Popconfirm>
                         </span>
                     )
                 }
 
             ],
+
             searchParams: {},
-            isNew: false,
-            showSlideFrame: false
+
+            showSlideFrame: false,
+            updateParams: {}
 
         }
     }
-    componentDidMount(){
-        this.table.search(this.state.searchParams)
-    }
+    // componentWillMount(){
+    //     this.table.search(this.state.searchParams)
+    // }
     /**搜索条件 */
     onSearch = (values) => {
         values.dataAuthorityCode = values.dataAuthorityCode ? values.dataAuthorityCode : undefined,
@@ -77,19 +91,41 @@ class DataAuthority extends React.Component {
     /**新建数据权限 */
     newAuthority = () => {
         this.setState({
-            isNew: true,
+            updateParams:{},
             showSlideFrame: true
+        },()=>{
+            this.setState({ showSlideFrame: true })
         })
     }
+    /**编辑数据权限 */
+    editItem = (record) => {
+        console.log(record);
+        this.setState({
+            updateParams: JSON.parse(JSON.stringify(record)),
+
+        }, () => {
+            this.setState({ showSlideFrame: true })
+        })
+    }
+    /**删除数据权限 */
+    deleteCost = (record) => {
+        console.log(record);
+        // DataAuthorityService.deleteDataAuthority(record.id).then(res => {
+        //     message.success("删除成功！");
+        // }).catch(err => {
+        //     message.error("删除失败！");
+        // })
+    }
+
     handleCloseSlide = () => {
         this.setState({
             showSlideFrame: false
-        },()=>{
+        }, () => {
             this.table.search(this.state.searchParams)
         })
     }
     render() {
-        const { searchForm, columns, isNew, showSlideFrame } = this.state;
+        const { searchForm, columns, showSlideFrame, updateParams } = this.state;
         return (
             <div>
                 <SearchArea
@@ -111,12 +147,13 @@ class DataAuthority extends React.Component {
                     />
                 </div>
                 <SlideFrame
-                    title={isNew ? '新建数据权限' : '编辑数据权限'}
+                    title={JSON.stringify(updateParams) === "{}" ? '新建数据权限' : '编辑数据权限'}
                     show={showSlideFrame}
                     onClose={() => this.setState({ showSlideFrame: false })}
                 >
                     <NewDataAuthority
                         close={this.handleCloseSlide}
+                        params={{ ...updateParams }}
                     />
 
                 </SlideFrame>

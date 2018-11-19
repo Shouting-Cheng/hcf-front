@@ -818,8 +818,7 @@ class ExpenseReportDetail extends React.Component {
   };
 
   goBack = () => {
-    if (this.props.match.params.backType === 'history') {
-      console.log(this.props)
+    if (this.props.match.params.backType.indexOf('history') !== -1) {
       window.history.go(-1);
     } else {
       this.props.dispatch(

@@ -396,7 +396,6 @@ class MyContract extends React.Component {
     switch (type) {
       case 'CON_PARTNER_TYPE': {
         searchParams.partnerCategory = value;
-        this.setState({searchParams});
         if (value) {
           searchForm[6].disabled = false;
           searchForm[6].listExtraParams = {
@@ -414,8 +413,20 @@ class MyContract extends React.Component {
         searchParams.contractName = value;
         break;
       }
+      case 'COMPANY_ID': {
+        if(value[0].id){
+          searchParams.companyId = value[0].id;
+        }else{
+          searchParams.companyId = '';
+        }
+        break;
+      }
       case 'CONTRACT_TYPE_ID': {
-        searchParams.contractTypeId = value;
+        if(value[0].id){
+          searchParams.contractTypeId =  value[0].id;
+        }else{
+          searchParams.contractTypeId =  '';
+        }
         break;
       }
       case 'STATUS': {
@@ -439,7 +450,11 @@ class MyContract extends React.Component {
         break;
       }
       case 'PARTNER_ID': {
-        searchParams.partnerId = value;
+        if(value[0].id){
+          searchParams.partnerId =value[0].id ;
+        }else{
+          searchParams.partnerId ='' ;
+        }
         break;
       }
       case 'CURRENCY': {
@@ -457,7 +472,7 @@ class MyContract extends React.Component {
       case 'REMARK': {
         searchParams.remark = value;
       break;
-    }
+      }
       this.setState({searchParams});
     }
 
@@ -515,7 +530,7 @@ class MyContract extends React.Component {
         }
       });
     }*/
-    this.setState({ searchForm });
+    this.setState({ searchParams });
   };
 
   //新建
