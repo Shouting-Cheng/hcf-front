@@ -1716,6 +1716,22 @@ export const getRouterData = app => {
       name: 'new-application-type',
       parent: '/admin-setting/expense-type'
     },
+    //报销单详情
+    '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOID/:backType': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/base-expense-report-detail.js')
+      ),
+      name: 'expense-report-detail-audit',
+      parent: '/financial-management/finance-audit'
+    },
+    //借款单详情
+    '/financial-management/finance-audit/loan-request-detail-audit/:formOID/:applicationOID/:backType': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/base-request-detail.js')
+      ),
+      name: 'loan-request-detail-audit',
+      parent: '/financial-management/finance-audit'
+    },
 
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
