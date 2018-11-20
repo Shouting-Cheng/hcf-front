@@ -851,6 +851,7 @@ class OrgStructure extends React.Component {
               CREATE_DATA_TYPE={this.state.CREATE_DATA_TYPE}
               managerIsRequired={!true}
               // managerIsRequired={!this.props.profile["department.manager.required.disable"]}
+              enabledDep={this.enabledDep}
               disabledDep={this.disabledDep}
               clickMeunNewChildDep={this.clickMeunNewChildDep}
               updateDepSuccess={this.updateDepSuccess}
