@@ -118,7 +118,7 @@ class NewExpense extends React.Component {
   onCancel = (refresh = false) => {
     this.props.form.resetFields();
     refresh = this.state.attachmentChange ? true : refresh;
-    this.props.close(refresh);
+    this.props.onClose(refresh);
   };
 
   //根据用户OID获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
@@ -246,7 +246,7 @@ class NewExpense extends React.Component {
         this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
           this.setState({
             nowCurrency: this.getCurrencyFromList(expenseDetail.currencyCode),
-          },()=>console.log(this.state.nowCurrency));
+          });
         })
       });
 
@@ -306,7 +306,7 @@ class NewExpense extends React.Component {
         this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
           this.setState({
             nowCurrency: this.getCurrencyFromList('CNY'),
-          },()=>console.log(this.state.nowCurrency));
+          });
         })
       });
       rejectPiwik(`我的账本/新建账本`);
@@ -2222,7 +2222,6 @@ class NewExpense extends React.Component {
     let showRateDescription = !isNaN(amount) && (amount >0 || amount >0)&& !isBaseCurrency;
     let rateDescription = `${this.$t('expense.company.rate')/*企业汇率*/}：`;
     let rateDeviation=0;
-    console.log(nowCurrency)
     if(showRateDescription){
       rateDeviation=(Math.abs(actualCurrencyRate - nowCurrency.rate) / nowCurrency.rate * 100).toFixed(1);
       rateDescription += nowCurrency.rate.toFixed(4);
