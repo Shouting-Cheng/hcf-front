@@ -1601,6 +1601,28 @@ const chooserData = {
     ],
     key: 'companyOID',
   },
+  batch_deploy_company: {
+    title: messages('chooser.data.distribute.company' /*分配公司*/),
+    url: `${config.baseUrl}/api/company/batch/deploy/enumeration`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'companyCode',
+        label: messages('chooser.data.companyCode' /*公司代码*/),
+      },
+      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode' /*公司代码*/), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName' /*公司名称*/), dataIndex: 'name' },
+      {
+        title: messages('chooser.data.companyType' /*公司类型*/),
+        dataIndex: 'companyTypeName',
+        render: value => value || '-',
+      },
+    ],
+    key: 'companyOID',
+  },
   allotSetOfBookCompany: {
     title: messages('chooser.data.distribute.company' /*分配公司*/),
     url: `${config.baseUrl}/api/company/by/condition`,
