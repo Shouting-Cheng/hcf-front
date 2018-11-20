@@ -403,7 +403,7 @@ class AnnouncementInformationDetail extends React.Component {
     ];
 
     return (
-      <div className="announcement-information-detail">
+      <div style={{ paddingBottom: 20 }} className="announcement-information-detail">
         <Tabs onChange={this.onTabChange}>
           <TabPane tab={this.$t('announcement.info.detail' /*公告详情*/)} key="detail">
             <Spin spinning={pageLoading}>
@@ -436,7 +436,7 @@ class AnnouncementInformationDetail extends React.Component {
                         'announcement.info.to.outer.link.notice' /*勾选该选项，则直接按正文中第一个链接跳转到链接页面*/
                       )}
                     </Checkbox>
-                  )}
+                    )}
                 </FormItem>
 
                 <FormItem
