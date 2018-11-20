@@ -8,5 +8,6 @@
   "company.level.define.edit.description.empty": "The description can not be empty",
   "company.level.define.can.not.edit": "Company level has been used cannot be edited.",
   "company.level.define.validation.error": "Validation Error.",
-  "company.level.define.code.repeat": "Company level code can not repeat."
+  "company.level.define.code.repeat": "Company level code can not repeat.",
+  "company.level.define.empty.description": "Empty company level description."
 }
