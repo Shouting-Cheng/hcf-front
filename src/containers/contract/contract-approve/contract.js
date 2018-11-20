@@ -59,7 +59,7 @@ class Contract extends React.Component {
           colSpan: 6,
           id: 'contractName',
           label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
-          event:"contractName"
+          event: "contractName"
         },
         {
           type: 'select',
@@ -74,7 +74,7 @@ class Contract extends React.Component {
           labelKey: 'contractTypeName',
           valueKey: 'id',
           placeholder: this.$t({ id: 'common.please.enter' } /*请输入*/),
-          event:"contractTypeId"
+          event: "contractTypeId"
         },
         {
           type: 'list',
@@ -87,7 +87,7 @@ class Contract extends React.Component {
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
-          event:"createdBy"
+          event: "createdBy"
         },
         {
           type: 'items',
@@ -98,13 +98,13 @@ class Contract extends React.Component {
               type: 'date',
               id: 'submittedDateFrom',
               label: this.$t({ id: 'contract.search.submit.date.from' } /*提交日期从*/),
-              event:"submittedDateFrom"
+              event: "submittedDateFrom"
             },
             {
               type: 'date',
               id: 'submittedDateTo',
               label: this.$t({ id: 'contract.search.submit.date.to' } /*提交日期至*/),
-              event:"submittedDateTo"
+              event: "submittedDateTo"
             },
           ],
         },
@@ -118,7 +118,7 @@ class Contract extends React.Component {
           labelKey: 'currency',
           valueKey: 'currency',
           colSpan: 6,
-          event:"currency"
+          event: "currency"
         },
         {
           type: 'items',
@@ -129,13 +129,13 @@ class Contract extends React.Component {
               type: 'inputNumber',
               id: 'amountFrom',
               label: this.$t({ id: 'my.contract.amount.from' } /*合同金额从*/),
-              event:"amountFrom"
+              event: "amountFrom"
             },
             {
               type: 'inputNumber',
               id: 'amountTo',
               label: this.$t({ id: 'my.contract.amount.to' } /*合同金额至*/),
-              event:"amountTo"
+              event: "amountTo"
             },
           ],
         },
@@ -144,7 +144,7 @@ class Contract extends React.Component {
           colSpan: 6,
           id: 'remark',
           label: this.$t({ id: 'common.comment' } /*备注*/),
-          event:"remark"
+          event: "remark"
         },
       ],
       columns: [
@@ -184,7 +184,7 @@ class Contract extends React.Component {
           dataIndex: 'created',
           width: 130,
           align: 'center',
-          render: value => value && value.fullName + ' - ' + value.employeeId,
+          render: value => value && value.fullName,
         },
         {
           title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
@@ -418,7 +418,7 @@ class Contract extends React.Component {
     values.submittedDateTo &&
       (values.submittedDateTo = moment(values.submittedDateTo).format('YYYY-MM-DD'));
     //处理查询条件为弹出框时返回的数组问题
-    if(values.createdBy && values.createdBy[0]){
+    if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
     this.setState({ unApproveSearchParams: values, approveSearchParams: values }, () => {
@@ -433,7 +433,7 @@ class Contract extends React.Component {
     values.submittedDateTo &&
       (values.submittedDateTo = moment(values.submittedDateTo).format('YYYY-MM-DD'));
     //处理查询条件为弹出框时返回的数组问题
-    if(values.createdBy && values.createdBy[0]){
+    if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
     this.setState({ approveSearchParams: values, unApproveSearchParams: values }, () => {
@@ -448,7 +448,7 @@ class Contract extends React.Component {
       routerRedux.replace({
         pathname: `/contract-manage/contract-recheck/contract-detail/${record.id}/${
           this.state.tabValue
-        }`,
+          }`,
       })
     );
   };
@@ -459,7 +459,7 @@ class Contract extends React.Component {
     });
   };
   eventHandle = (type, value) => {
-    let {unApproveSearchParams,approveSearchParams} = this.state;
+    let { unApproveSearchParams, approveSearchParams } = this.state;
     switch (type) {
       case 'contractName': {
         unApproveSearchParams.contractName = value;
@@ -472,10 +472,10 @@ class Contract extends React.Component {
         break;
       }
       case 'createdBy': {
-        if(value && value[0]){
+        if (value && value[0]) {
           unApproveSearchParams.createdBy = value[0].id;
           approveSearchParams.createdBy = value[0].id;
-        }else{
+        } else {
           unApproveSearchParams.createdBy = '';
           approveSearchParams.createdBy = '';
         }
@@ -521,44 +521,44 @@ class Contract extends React.Component {
         approveSearchParams.remark = value;
         break;
       }
-      this.setState({unApproveSearchParams,approveSearchParams});
+        this.setState({ unApproveSearchParams, approveSearchParams });
     }
   }
 
   searchNumber = e => {
-    let {unApproveSearchParams,approveSearchParams} = this.state;
+    let { unApproveSearchParams, approveSearchParams } = this.state;
     unApproveSearchParams.contractNumber = e;
     approveSearchParams.contractNumber = e;
-    this.setState({unApproveSearchParams,approveSearchParams},() => {
-        if(this.state.tabValue === 'unapproved'){
-          this.customTable.search({ ...this.state.unApproveSearchParams});
-        }else{
-          this.customTable.search({ ...this.state.approveSearchParams});
-        }
+    this.setState({ unApproveSearchParams, approveSearchParams }, () => {
+      if (this.state.tabValue === 'unapproved') {
+        this.customTable.search({ ...this.state.unApproveSearchParams });
+      } else {
+        this.customTable.search({ ...this.state.approveSearchParams });
       }
+    }
     );
   };
 
-  change = (e) =>{
-    let {unApproveSearchParams,approveSearchParams} = this.state;
-    if(e && e.target && e.target.value){
+  change = (e) => {
+    let { unApproveSearchParams, approveSearchParams } = this.state;
+    if (e && e.target && e.target.value) {
       unApproveSearchParams.contractNumber = e.target.value;
       approveSearchParams.contractNumber = e.target.value;
-    }else{
+    } else {
       unApproveSearchParams.contractNumber = '';
       approveSearchParams.contractNumber = '';
     }
-    this.setState({unApproveSearchParams,approveSearchParams});
+    this.setState({ unApproveSearchParams, approveSearchParams });
   }
   //点击重置的事件，清空值为初始值
   handleReset = () => {
     this.clearSearchAreaSelectData();
     this.props.clearHandle && this.props.clearHandle();
-    this.setState({unApproveSearchParams:{},approveSearchParams:{}})
+    this.setState({ unApproveSearchParams: {}, approveSearchParams: {} })
 
   };
 
-//清除searchArea选择数据
+  //清除searchArea选择数据
   clearSearchAreaSelectData = () => {
     this.props.form.resetFields();
     this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
@@ -621,7 +621,7 @@ class Contract extends React.Component {
         <div>
           <SearchArea
             searchForm={SearchForm1}
-            clearHandle={() => {}}
+            clearHandle={() => { }}
             eventHandle={this.eventHandle}
             maxLength={4}
             submitHandle={this.approvedSearch}
