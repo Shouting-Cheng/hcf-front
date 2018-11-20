@@ -306,7 +306,6 @@ class PublicReimburseReport extends React.Component {
     //申请单
     applyReport = (e, record, index) => {
         e.preventDefault();
-        debugger;
         console.log(this.state.applicationType);
         const applySelectorItem = {
             title: '关联的申请单',
