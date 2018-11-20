@@ -178,6 +178,8 @@ class CompanyLevelDefine extends React.Component {
           switch (res.response.data.message) {
             // case '验证失败': message.error(this.$t('extend.field.name.no.empty'))
             //       break;
+            case '公司级别描述为空': message.error(this.$t('company.level.define.empty.description'))
+                  break;
             case '公司级别已被引用不可修改': message.error(this.$t('company.level.define.can.not.edit'))
                   break;
             case '公司级别code重复': message.error(this.$t('company.level.define.code.repeat'))

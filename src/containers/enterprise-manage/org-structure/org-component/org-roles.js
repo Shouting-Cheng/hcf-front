@@ -197,12 +197,17 @@ class OrgStructureRoles extends React.Component {
   disabledDep = () => {
     this.props.disabledDep(this.state.selectedKeysDepDataByApi);
   };
+  //启用该部门
+  enabledDep = (item) => {
+    this.props.enabledDep(item, item);
+  }
   //创建子部门
   createChildDep = e => {
     this.props.clickMeunNewChildDep(e, this.props.selectedKeysDepData);
   };
   //组织架构部门详情菜单
-  renderRoleMoreMeun = () => {
+  renderRoleMoreMeun = (item) => {
+    debugger;
     return (
       <Menu>
         <Menu.Item key="0">
@@ -215,7 +220,7 @@ class OrgStructureRoles extends React.Component {
             {this.$t('org.roles.edit')}
           </div>
         </Menu.Item>
-        <Menu.Item key="1">
+        {item.status + "" === "101" ? <Menu.Item key="1">
           <div
             onClick={event => {
               this.disabledDep();
@@ -225,6 +230,18 @@ class OrgStructureRoles extends React.Component {
             {this.$t('org.roles.disabled')}
           </div>
         </Menu.Item>
+        : 
+        <Menu.Item key="1">
+        <div
+         onClick={event => {
+          this.enabledDep(item)
+        }}
+        >
+          {/*启用该部门*/}
+          {this.$t('org.roles.enabled')}
+        </div>
+      </Menu.Item>}
+        
 
         <Menu.Item key="2">
           <div
@@ -327,11 +344,11 @@ class OrgStructureRoles extends React.Component {
       selectedKeysDepDataByApi: dep,
     });
   };
-  renderRoleMoreMeunByRole = () => {
+  renderRoleMoreMeunByRole = (item) => {
     if (this.props.ROLE_TENANT_ADMIN && this.props.CREATE_DATA_TYPE) {
       return (
         <div>
-          <Dropdown overlay={this.renderRoleMoreMeun()} trigger={['click']}>
+          <Dropdown overlay={this.renderRoleMoreMeun(item)} trigger={['click']}>
             <a className="ant-dropdown-link" href="#">
               <Icon type="setting" />
             </a>
@@ -438,7 +455,7 @@ class OrgStructureRoles extends React.Component {
       <div className="org-structure-roles">
         <div className="roles-title-wrap">
           {rolesTitleWrap}
-          <div className="f-right">{this.renderRoleMoreMeunByRole()}</div>
+          <div className="f-right">{this.renderRoleMoreMeunByRole(this.props.selectedKeysDepData)}</div>
           <div className="clear" />
         </div>
         {rolesWrap}

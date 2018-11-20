@@ -257,8 +257,8 @@ class ValueList extends React.Component {
 
         <ListSelector visible={showListSelector}
           onCancel={() => this.handleListShow(false)}
-          type="deploy_company"
-          extraParams={selectedRowIds.length === 1 ? { source: selectedRowIds[0] } : {}}
+          type="batch_deploy_company"
+          extraParams={{sources: selectedRowIds} }
           onOk={this.handleListOk} />
       </div>
     )

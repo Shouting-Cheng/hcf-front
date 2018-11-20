@@ -4152,6 +4152,7 @@
   "company.level.define.can.not.edit": 	"カンパニーランクが使われているので、変更できません",
   "company.level.define.validation.error": 	"検証失敗",
   "company.level.define.code.repeat": 	"カンパニーランク番号が重複しています",
+  "company.level.define.empty.description": "会社のレベルは空",
   "supplier.type.new": 	"仕入先タイプ新規作成",
   "supplier.type.edit":	"仕入先タイプ編集"
 }
