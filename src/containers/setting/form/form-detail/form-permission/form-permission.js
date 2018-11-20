@@ -144,6 +144,7 @@ class FormPermission extends React.Component {
     };
 
     handleSelectCompany = (value) => {
+        console.log(value)
         this.setState({
             companySelectedList: value
         });
