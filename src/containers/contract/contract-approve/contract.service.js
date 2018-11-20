@@ -200,7 +200,7 @@ export default {
   //获取合同类型//公司
   getContractTypeByCompany(params) {
     return httpFetch.get(
-      `${config.contractUrl}/api/contract/type/contract/type/by/company`,
+      `${config.contractUrl}/api/contract/type/contract/type/by/user`,
       params
     );
   },
