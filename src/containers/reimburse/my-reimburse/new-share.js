@@ -22,6 +22,7 @@ class NewShare extends Component {
           dataIndex: 'company',
           width: 200,
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <Input
                 disabled={record.isCreateByApplication}
@@ -45,6 +46,7 @@ class NewShare extends Component {
           dataIndex: 'department',
           width: 200,
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <Input
                 disabled={record.isCreateByApplication}
@@ -69,6 +71,7 @@ class NewShare extends Component {
           width: 160,
           key: 'cost',
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <div style={{ textAlign: 'right' }}>
                 <InputNumber
@@ -109,7 +112,6 @@ class NewShare extends Component {
         fixed: 'right',
         width: 120,
         render: (value, record, index) => {
-          console.log(record)
           return record.status == 'edit' || record.status == 'new' ? (
             <div>
               <a onClick={() => this.save(index)}>保存</a>
@@ -208,7 +210,6 @@ class NewShare extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (nextProps.isRefresh !== this.state.isRefresh) {
       this.setState({ data: nextProps.data,
         pagination:{
@@ -341,7 +342,8 @@ class NewShare extends Component {
       this.setState({ data, dataCache: null,pagination:{
           ...pagination,
           total: pagination.total-1,
-          page: parseInt((pagination.total-1)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-1)/pagination.pageSize) : pagination.page
+          page: parseInt((pagination.total-2)/pagination.pageSize),
+          current: parseInt((pagination.total-2)/pagination.pageSize) + 1,
         } });
     }
   };
