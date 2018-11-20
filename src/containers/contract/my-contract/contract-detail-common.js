@@ -916,7 +916,7 @@ class ContractDetailCommon extends React.Component {
                   style={{float: 'right', top: -4}}
                 >
                   {' '}
-                  {this.$t('common.edit')}
+                  {this.$t('my.contract.edit')}
                 </Button>
               )}
               {headerData.status &&
