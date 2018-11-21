@@ -147,6 +147,7 @@ class BudgetBalanceResult extends React.Component {
   };
 
   showSlideFrame = (record, type) => {
+    console.log(record)
     this.setState({
       showSlideFrameFlag: true,
       slideFrameParam: {
@@ -232,6 +233,7 @@ class BudgetBalanceResult extends React.Component {
                bordered
                rowKey="key"
                scroll={{ x: `${scrollx + dimensionColumns.length * 10}%` }}/>
+        {console.log(slideFrameParam)}
         <SlideFrame title={slideFrameParam.title} width="70%"
                     show={showSlideFrameFlag}
                     onClose={() => this.setState({ showSlideFrameFlag: false })}>

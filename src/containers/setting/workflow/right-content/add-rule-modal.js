@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import TagSelect from 'components/TagSelect'
+import TagSelect from 'ant-design-pro/lib/TagSelect'
 import { Form, Modal, Spin, List, message } from 'antd'
 const ListItem = List.Item;
 import PropTypes from 'prop-types';
@@ -72,7 +72,7 @@ class AddApproveRuleModal extends React.Component {
 
   //判断条件类型
   checkConditionType = (remark) => {
-    if (remark === 'out_participant_num') {
+    if (remark === 'out_participant_num' || remark === 'custom_form_travel_day') {
       return 'long' //整数类型
     }
     if (remark === 'total_budget' || remark === 'average_budget' || remark === 'default_total_amount' ||
@@ -83,12 +83,12 @@ class AddApproveRuleModal extends React.Component {
       return 'date' //日期类型
     }
     if (remark === 'title' || remark === 'input' || remark === 'remark' || remark === 'out_participant_name' ||
-      remark === 'text_area' || remark === 'select_box') {
+      remark === 'text_area' || remark === 'select_box'|| remark === 'default_user_work_number' || remark === 'default_user_position') {
       return 'text' //文本类型
     }
     if (remark === 'boolean' || remark === 'writeoff_flag' || remark === 'substitution_invoice' || remark === 'control_beyound_application' ||
       remark === 'control_beyound_position' || remark === 'judge_cost_center' || remark === 'control_beyound_budget' ||
-      remark === 'control_beyound_travel_standard' || remark === 'switch' || remark === 'linkage_switch') {
+      remark === 'control_beyound_travel_standard' || remark === 'switch' || remark === 'linkage_switch' || remark === 'default_travel_application_version') {
       return 'boolean' //布尔类型
     }
     if (remark === 'select_participant' || remark === 'select_approver' || remark === 'applicant' || remark === 'select_user' ||
@@ -96,8 +96,14 @@ class AddApproveRuleModal extends React.Component {
       remark === 'select_corporation_entity' || remark === 'default_corporation_entity' || remark === 'default_expense_type' ||
       remark === 'default_department' || remark === 'currency_code' || remark === 'select_air_ticket_supplier' ||
       remark === 'default_department_level' || remark === 'default_department_path' || remark === 'default_department_role' ||
-      remark === 'select_company' || remark === 'default_applicant_company') {
+      remark === 'select_company' || remark === 'default_applicant_company' || remark ==='default_user_applicant'
+      || remark === 'default_user_department'|| remark === 'default_user_direct_leadership') {
       return 'custList' //值列表类型
+    }
+    if (remark === 'default_user_sex' || remark === 'default_user_level'
+      || remark === 'default_user_post' || remark === 'default_user_category'
+      || remark === 'default_user_department_extend' || remark === 'custom_form_department_extend') {
+      return 'selector'; //选择列表类型
     }
   };
 
@@ -116,26 +122,32 @@ class AddApproveRuleModal extends React.Component {
         if ((item.messageKey !== 'cust_list' && item.messageKey !== 'judge_cost_center' && item.fieldOID === oid) ||
             (item.messageKey === 'cust_list' && item.refCostCenterOID && `${item.fieldOID}_${item.refCostCenterOID}` === oid) ||
             (item.messageKey === 'cust_list' && !item.refCostCenterOID && item.fieldOID === oid) ||
+            ((item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
+            && (`${item.fieldOID},${item.messageKey}` === oid))||
             (item.messageKey === 'judge_cost_center' && `${item.fieldOID}_${item.messageKey}` === oid)) {
           let param = {
             index,
             entityOID: this.props.ruleApproverOID,
             name: item.fieldName,
             remark: item.messageKey,
-            field: item.fieldOID,
+            field: (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')?
+              `${item.fieldOID},${item.messageKey}`:item.fieldOID,
             isEdit: true
           };
           item.fieldContent && (param.fieldContent = item.fieldContent);
           let symbol = null;
           switch(this.checkConditionType(item.messageKey)) {
             case 'custList':
-              symbol = item.messageKey === 'default_department_path' ? '9007' : '9009';
+              symbol = (item.messageKey === 'default_department_path') ? '9007' : '9009';
               break;
             case 'boolean':
               symbol = '9012';
               break;
             case 'text':
               symbol = '9007';
+              break;
+            case 'selector':
+              symbol = '9009';
               break;
             default:
               symbol = '9011'; //'long' || 'double' || 'date' (范围)
@@ -145,6 +157,10 @@ class AddApproveRuleModal extends React.Component {
             param.customEnumerationOID = JSON.parse(item.dataSource || '{}').customEnumerationOID;
             param.refCostCenterOID = item.refCostCenterOID;
             param.costCenterName = item.costCenterName;
+          }
+          if(item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend'){
+            param.customEnumerationOID = JSON.parse(item.dataSource || '{}').customEnumerationOID;
+            // param.customEnumerationOID = "b0a71585-1429-41ee-a7a8-2a40bda07879";
           }
           symbol && (param.symbol = symbol);
           chosenRuleItems.push(param)
@@ -165,12 +181,13 @@ class AddApproveRuleModal extends React.Component {
       (formFieldList['104'] || []).map(item => customFormFieldList.push(item));
       (formFieldList['105'] || []).map(item => customFormFieldList.push(item));
       (formFieldList['106'] || []).map(item => customFormFieldList.push(item));
-      (formFieldList['108'] || []).map(item => customFormFieldList.push(item))
+      (formFieldList['108'] || []).map(item => customFormFieldList.push(item));
+      (formFieldList['109'] || []).map(item => customFormFieldList.push(item));
     }
     return (
       <div className='add-approve-rule-modal'>
         <div className="select-rule-modal-container"/>
-        <Modal title={this.$t('workflow.detail.select.approve.condition')/*请选择要添加的审批条件*/}
+        <Modal title={this.$t('setting.key1284'/*请选择要添加的审批条件*/)}
                visible={visible}
                getContainer={() => {
                  return document.getElementsByClassName("select-rule-modal-container")[0];
@@ -181,26 +198,31 @@ class AddApproveRuleModal extends React.Component {
             <List itemLayout="horizontal">
               <ListItem className="default-addition">
                 <div>
-                  <h4>{this.$t('workflow.detail.default.condition')/*默认条件*/}</h4>
-                  <span>{this.$t('workflow.detail.dept.and.company.notice')/*部门：申请人的部门；法人实体：申请人的法人实体*/}</span>
+                  <h4>{this.$t('setting.key1285'/*默认条件*/)}</h4>
+                  <span>{this.$t('setting.key1286'/*部门：申请人的部门；法人实体：申请人的法人实体*/)}</span>
                   <TagSelect value={chosenRuleOIDs} onChange={value => {this.setState({chosenRuleOIDs: value})}}>
                     {formFieldList && (formFieldList['100'] || []).map(item => {
-                      return <TagSelect.Option value={item.fieldOID} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
+                      let value =  (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
+                        ?`${item.fieldOID},${item.messageKey}`:item.fieldOID;
+                      return <TagSelect.Option value={value} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
                     })}
                   </TagSelect>
                 </div>
               </ListItem>
               <ListItem>
-                <h4>{this.$t('workflow.detail.custom.condition')/*表单自定义条件*/}</h4>
+                <h4>{this.$t('setting.key1287'/*表单自定义条件*/)}</h4>
                 <TagSelect value={chosenRuleOIDs} onChange={value => {this.setState({chosenRuleOIDs: value})}}>
                   {customFormFieldList.map(item => {
-                    return <TagSelect.Option value={item.fieldOID} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
+
+                    let value =  (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
+                      ?`${item.fieldOID},${item.messageKey}`:item.fieldOID;
+                    return <TagSelect.Option value={value} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
                   })}
                 </TagSelect>
               </ListItem>
               {formFieldList && formFieldList['200'] && !!formFieldList['200'].length && (
                 <ListItem>
-                  <h4>{this.$t('workflow.detail.control.condition')/*管控条件*/}</h4>
+                  <h4>{this.$t('setting.key1288'/*管控条件*/)}</h4>
                   <TagSelect value={chosenRuleOIDs} onChange={value => {this.setState({chosenRuleOIDs: value})}}>
                     {formFieldList['200'].map(item => {
                       return <TagSelect.Option value={item.fieldOID} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
@@ -210,7 +232,7 @@ class AddApproveRuleModal extends React.Component {
               )}
               {formFieldCostCenterList && !!formFieldCostCenterList.length && (
                 <ListItem>
-                  <h4>{this.$t('workflow.detail.costCenter.condition')/*成本中心属性条件*/}</h4>
+                  <h4>{this.$t('setting.key1289'/*成本中心属性条件*/)}</h4>
                   {formFieldCostCenterList.map(costCenter => {
                     return (
                       <div key={costCenter.refCostCenterOID}>
@@ -228,7 +250,7 @@ class AddApproveRuleModal extends React.Component {
               )}
               {formFieldList && formFieldList['400'] && !!formFieldList['400'].length && (
                 <ListItem>
-                  <h4>{this.$t('workflow.detail.applicant.and.manager')/*申请人=成本中心经理*/}</h4>
+                  <h4>{this.$t('setting.key1290'/*申请人=成本中心经理*/)}</h4>
                   <TagSelect value={chosenRuleOIDs} onChange={value => {this.setState({chosenRuleOIDs: value})}}>
                     {/*由于【申请人=成本中心经理】和【表单自定义条件中的成本中心】的fieldOID一样，为了区分，在fieldOID后拼上remark*/}
                     {formFieldList['400'].map(item => (
@@ -257,9 +279,6 @@ AddApproveRuleModal.propTypes = {
 };
 
 
-AddApproveRuleModal.contextTypes = {
-  router: PropTypes.object
-};
 
 function mapStateToProps(state) {
   return {
@@ -269,4 +288,4 @@ function mapStateToProps(state) {
 
 const wrappedAddApproveRuleModal = Form.create()(AddApproveRuleModal);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedAddApproveRuleModal)
+export default connect(mapStateToProps)(wrappedAddApproveRuleModal)

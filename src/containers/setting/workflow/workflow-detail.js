@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
+//import Ellipsis from 'ant-design-pro/lib/Ellipsis'
 import { Form, Icon, Row, Col, Button, Spin, Checkbox, message, Popover, Tooltip } from 'antd'
 
 import CustomApproveNode from 'containers/setting/workflow/custom-approve-node'
@@ -12,10 +13,9 @@ import NodeConditionList from 'containers/setting/workflow/right-content/conditi
 import AddPersonModal from 'containers/setting/workflow/right-content/add-person-modal'
 import flowTipsImg from 'images/setting/workflow/flow-tips.png'
 import flowTipsEnImg from 'images/setting/workflow/flow-tips-en.png'
-
+import { routerRedux } from 'dva/router';
 import workflowService from 'containers/setting/workflow/workflow.service'
 import 'styles/setting/workflow/workflow-detail.scss'
-import { routerRedux } from 'dva/router';
 
 class WorkflowDetail extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class WorkflowDetail extends React.Component {
       chosenNodeType: null, //选中的节点
       chosenNodeWidget: {}, //选中的节点内容
       choseNodeIndex: 0, //选中节点的index
+      formFieldList: null, //表单条件字段 用于更新字段的名称
       addPersonModalVisible: false, //添加审批人modal
       isRuleInEdit: false, //是否有审批条件处于编辑状态
     }
@@ -36,12 +37,19 @@ class WorkflowDetail extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    Promise.all([
-      this.getForm(),
-      this.getApprovalChain()
-    ]).then(() => {
-      this.setState({ loading: false })
-    })
+    workflowService.getFormFields(this.props.match.params.formOID).then(res => {
+      this.setState({formFieldList: res.data}, ()=>{
+        Promise.all([
+          this.getForm(),
+          this.getApprovalChain()
+        ]).then(() => {
+          this.setState({ loading: false });
+        });
+      });
+    }).catch(() => {
+      this.setState({ loading: false });
+      message.error(this.$t('common.error1'));
+    });
   }
 
   //获取表单信息
@@ -60,6 +68,7 @@ class WorkflowDetail extends React.Component {
   getApprovalChain = () => {
     return new Promise((resolve, reject) => {
       workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+        res.data = this.refreshName(res.data);
         this.setState({
           chainInfo: res.data,
           chosenNodeType: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[0].type,
@@ -72,10 +81,68 @@ class WorkflowDetail extends React.Component {
     })
   };
 
+  //刷新字段名称，支持judge_cost_center
+  refreshName = (data) => {
+    let formFieldList = this.state.formFieldList;
+    let judgeCostCenterList = formFieldList['400'];//申请人=成本中心经理
+    let judgeCostCenterBatchCode = null;
+    let selectCostCenterList = formFieldList['101'];//表单自定义条件
+    let selectCostCenterBatchCode = null;
+    if (data.ruleApprovalNodes && data.ruleApprovalNodes.length) {
+      data.ruleApprovalNodes.map(node => {
+        if (node.ruleApprovers && node.ruleApprovers.length) {
+          node.ruleApprovers.map(approver => {
+            if (approver.ruleConditionList) {
+              let ruleConditionList = approver.ruleConditionList;
+              ruleConditionList.length && ruleConditionList.map(condition => {
+                condition.remark === 'judge_cost_center' && judgeCostCenterList.map(judgeCostCenter => {
+                  if (condition.field === judgeCostCenter.fieldOID && condition.remark === judgeCostCenter.messageKey) {
+                    condition.name = judgeCostCenter.fieldName;
+                  }
+                });
+                if (condition.remark === 'judge_cost_center') {
+                  judgeCostCenterBatchCode = condition.batchCode.toString();
+                }
+                condition.remark === 'select_cost_center' && selectCostCenterList.map(selectCostCenter => {
+                  if (condition.field === selectCostCenter.fieldOID && condition.remark === selectCostCenter.messageKey) {
+                    condition.name = selectCostCenter.fieldName;
+                  }
+                });
+                if (condition.remark === 'select_cost_center') {
+                  selectCostCenterBatchCode = condition.batchCode.toString();
+                }
+              });
+              let ruleConditions = approver.ruleConditions;
+              if (ruleConditions[judgeCostCenterBatchCode] && ruleConditions[judgeCostCenterBatchCode].length) {
+                ruleConditions[judgeCostCenterBatchCode].map(condition => {
+                  condition.remark === 'judge_cost_center' && judgeCostCenterList.map(judgeCostCenter => {
+                    if (condition.field === judgeCostCenter.fieldOID && condition.remark === judgeCostCenter.messageKey) {
+                      condition.name = judgeCostCenter.fieldName;
+                    }
+                  });
+                });
+              }
+              if (ruleConditions[selectCostCenterBatchCode] && ruleConditions[selectCostCenterBatchCode].length) {
+                ruleConditions[selectCostCenterBatchCode].map(condition => {
+                  condition.remark === 'select_cost_center' && selectCostCenterList.map(selectCostCenter => {
+                    if (condition.field === selectCostCenter.fieldOID && condition.remark === selectCostCenter.messageKey) {
+                      condition.name = selectCostCenter.fieldName;
+                    }
+                  });
+                });
+              }
+            }
+          });
+        }
+      });
+    }
+    return data;
+  };
+
   //是否显示表单配置
   handleFormSettingVisible = () => {
     if (this.state.isRuleInEdit) {
-      message.warning(this.$t('workflow.detail.have.edit.condition'/*你有一个编辑中的审批条件未保存*/));
+      message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/));
       return
     }
     this.setState({ showFormSetting: !this.state.showFormSetting })
@@ -87,7 +154,7 @@ class WorkflowDetail extends React.Component {
       this.setState({ showFormSetting: false })
     } else {
       if (this.state.isRuleInEdit) {
-        message.warning(this.$t('workflow.detail.have.edit.condition'/*你有一个编辑中的审批条件未保存*/));
+        message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/));
         return
       }
       this.setState({ //先将选中的节点类型置空，否则如果选中前后的节点类型一样的话，部分数据可能不会刷新
@@ -112,10 +179,20 @@ class WorkflowDetail extends React.Component {
   //保存基本信息
   handleBasicInfoSave = () => {
     workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+      res.data = this.refreshName(res.data);
       this.setState({ saving: true, chainInfo: res.data }, () => {
         this.setState({ saving: false })
       })
     })
+  };
+
+  //添加审批人弹框显示
+  handlePersonModalShow = (visible) => {
+    if (this.state.isRuleInEdit) {
+      message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/))
+    } else {
+      this.setState({addPersonModalVisible: visible})
+    }
   };
 
   //审批人添加／删除
@@ -124,6 +201,7 @@ class WorkflowDetail extends React.Component {
       if (!approverNotChange) {
         this.setState({ loading : true });
         workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+          res.data = this.refreshName(res.data);
           this.setState({
             loading: false,
             chainInfo: res.data,
@@ -137,7 +215,6 @@ class WorkflowDetail extends React.Component {
 
   //保存审批条件
   handleConditionSave = (widget) => {
-    console.log(widget)
     let chainInfo = this.state.chainInfo;
     chainInfo.ruleApprovalNodes.map((item, index) => {
       if (item.ruleApprovalNodeOID === widget.ruleApprovalNodeOID)
@@ -174,7 +251,7 @@ class WorkflowDetail extends React.Component {
     const { loading, formInfo, chainInfo, showFormSetting, chosenNodeType, chosenNodeWidget, addPersonModalVisible, isRuleInEdit, saving } = this.state;
     let approvalMode = chainInfo.approvalMode;
     return (
-      <div className='workflow-detail' style={{paddingBottom: 20}}>
+      <div className='workflow-detail'>
         <Spin spinning={loading}>
           <Row>
             <Col span={6} className="node-container">
@@ -182,40 +259,40 @@ class WorkflowDetail extends React.Component {
                 <Tooltip title={formInfo.formName} placement="topLeft" className="form-name-tooltip">{formInfo.formName}</Tooltip>
               ) : (
                 <Row>
-                  <Col span={language.code === 'zh_CN' ? 15 : 12} className="form-name">
+                  <Col span={language.code === 'zh_cn' ? 15 : 12} className="form-name">
                     <Tooltip title={formInfo.formName} placement="topLeft" className="form-name-tooltip">{formInfo.formName}</Tooltip>
                   </Col>
                   <Col span={9}>
                     <Button type="primary"
                             onClick={this.handleFormSettingVisible}>
-                      {this.$t('workflow.detail.form.property')/*表单配置*/}
+                      {this.$t('setting.key1412'/*表单配置*/)}
                     </Button>
                   </Col>
                 </Row>
               )}
               <div className="approve-type">
                 <div>
-                  {approvalMode === 1002 && this.$t('workflow.dep.manager'/*部门经理*/)}
-                  {approvalMode === 1003 && this.$t('workflow.detail.candidate'/*选人*/)}
-                  {approvalMode === 1005 && this.$t('workflow.detail.custom'/*自定义*/)}
-                  {approvalMode === 1006 && this.$t('workflow.detail.educationFirst'/*英孚*/)}
-                  {this.$t('workflow.detail.approval')/*审批*/}
-                  <Popover placement="bottom" content={language.local === 'zh_CN' ? <img src={flowTipsImg} /> : <img src={flowTipsEnImg} />}>
+                  {approvalMode === 1002 && this.$t('setting.key1413'/*部门经理*/)}
+                  {approvalMode === 1003 && this.$t('setting.key1414'/*选人*/)}
+                  {approvalMode === 1005 && this.$t('setting.key1415'/*自定义*/)}
+                  {approvalMode === 1006 && this.$t('setting.key1416'/*英孚*/)}
+                  {this.$t('setting.key1248'/*审批*/)}
+                  <Popover placement="bottom" content={language.code === 'zh_cn' ? <img src={flowTipsImg} /> : <img src={flowTipsEnImg} />}>
                     <Icon type="question-circle-o" className="question-icon"/>
                   </Popover>
                 </div>
                 <p>
-                  {approvalMode === 1002 && this.$t('workflow.detail.approve.by.dep.manager'/*由提交人所在部门领导审批*/)}
-                  {(approvalMode === 1003 || approvalMode === 1006) && this.$t('workflow.detail.approve.by.selected.person'/*由提交人选择人员依次进行审批*/)}
+                  {approvalMode === 1002 && this.$t('setting.key1417'/*由提交人所在部门领导审批*/)}
+                  {(approvalMode === 1003 || approvalMode === 1006) && this.$t('setting.key1418'/*由提交人选择人员依次进行审批*/)}
                 </p>
               </div>
               {(approvalMode === 1002 || approvalMode === 1003 || approvalMode === 1006) && (
                 <div className="not-custom-approve selected">
-                  <div className="approval-block">{this.$t('workflow.word.shen')/*审*/}</div>
+                  <div className="approval-block">{this.$t('setting.key1419'/*审*/)}</div>
                   <div className="title">
-                    {approvalMode === 1002 && this.$t('workflow.dep.manager'/*部门经理*/)}
-                    {approvalMode === 1003 && this.$t('workflow.select.approver'/*选人审批*/)}
-                    {approvalMode === 1006 && this.$t('workflow.educationFirst.approver'/*英孚审批*/)}
+                    {approvalMode === 1002 && this.$t('setting.key1413'/*部门经理*/)}
+                    {approvalMode === 1003 && this.$t('setting.key1420'/*选人审批*/)}
+                    {approvalMode === 1006 && this.$t('setting.key1421'/*英孚审批*/)}
                   </div>
                 </div>
               )}
@@ -227,46 +304,49 @@ class WorkflowDetail extends React.Component {
                                    isRuleInEdit={isRuleInEdit}
                                    onSelect={this.handleNodeSelect}
                                    onChange={this.handleNodeChange}
+                                   onSaving={saving => this.setState({saving})}
                                    saving={saving}
                 />
               )}
             </Col>
+            {/*div.right-content-cover 是为了操作节点的时候右边的内容区域不可编辑*/}
+            {saving && <Col span={18} className="right-content-cover"/>}
             {showFormSetting && <Col span={18} className="right-content"><FormSetting formOID={this.props.match.params.formOID}/></Col>}
             {!showFormSetting && (
               <Col span={18} className="right-content">
                 {approvalMode === 1002 && (
                   <div className="node-not-custom-approve">
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.node.null')/*节点为空时*/}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.skip'/*跳过*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1382'/*节点为空时*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1383'/*跳过*/)}</Col>
                     </Row>
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.all.pass.go.next.node'/*全部通过后进入下一节点*/)}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.skip'/*跳过*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1422'/*全部通过后进入下一节点*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1383'/*跳过*/)}</Col>
                     </Row>
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.show.repeat.approve')/*出现重复审批操作*/}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.skip'/*跳过*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1423'/*出现重复审批操作*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1383'/*跳过*/)}</Col>
                     </Row>
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.include.submitter'/*包含提交人*/)}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.skip'/*跳过*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1424'/*包含提交人*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1383'/*跳过*/)}</Col>
                     </Row>
                   </div>
                 )}
                 {approvalMode === 1003 && (
                   <div className="node-not-custom-approve">
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.node.null')/*节点为空时*/}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.skip'/*跳过*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1382'/*节点为空时*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1383'/*跳过*/)}</Col>
                     </Row>
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.show.repeat.approve')/*出现重复审批操作*/}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.not.skip')/*不跳过*/}</Col>
+                      <Col span={5}>{this.$t('setting.key1423'/*出现重复审批操作*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1384'/*不跳过*/)}</Col>
                     </Row>
                     <Row>
-                      <Col span={5}>{this.$t('workflow.detail.include.submitter'/*包含提交人*/)}</Col>
-                      <Col span={5}>{this.$t('workflow.detail.not.skip')/*不跳过*/}</Col>
+                      <Col span={5}>{this.$t('setting.key1424'/*包含提交人*/)}</Col>
+                      <Col span={5}>{this.$t('setting.key1384'/*不跳过*/)}</Col>
                     </Row>
                   </div>
                 )}
@@ -276,14 +356,14 @@ class WorkflowDetail extends React.Component {
                       <NodeApproveMan basicInfo={chosenNodeWidget}
                                       formInfo={formInfo}
                                       basicInfoSaveHandle={this.handleBasicInfoSave}
-                                      addPersonModalVisible={visible => this.setState({addPersonModalVisible: visible})}
+                                      modalVisibleHandle={this.handlePersonModalShow}
                       />
                     )}
                     {chosenNodeType === 1002 && (
                       <NodeKnow basicInfo={chosenNodeWidget}
                                 formInfo={formInfo}
                                 basicInfoSaveHandle={this.handleBasicInfoSave}
-                                addPersonModalVisible={visible => this.setState({addPersonModalVisible: visible})}
+                                modalVisibleHandle={this.handlePersonModalShow}
                       />
                     )}
                     {chosenNodeType === 1003 && (
@@ -299,7 +379,6 @@ class WorkflowDetail extends React.Component {
                                        conditionSaveHandle={this.handleConditionSave}
                     />
                     <AddPersonModal visible={addPersonModalVisible}
-                                    handleCancel={()=>this.setState({addPersonModalVisible: false})}
                                     personType={chosenNodeType === 1001 ? 1 : 2}
                                     ruleApprovers={chosenNodeWidget.ruleApprovers || []}
                                     ruleApprovalNodeOID={chosenNodeWidget.ruleApprovalNodeOID}
@@ -317,15 +396,16 @@ class WorkflowDetail extends React.Component {
                 {approvalMode === 1005 && chosenNodeType === 1005 && (
                   <div>
                     <Row>
-                      <Col span={3}>{this.$t('workflow.detail.node.name')/*节点名称*/}</Col>
-                      <Col span={3}>{this.$t('workflow.detail.node.finish')/*结束*/}</Col>
+                      <Col span={3}>{this.$t('setting.key1372'/*节点名称*/)}</Col>
+                      <Col span={3}>{this.$t('setting.key1252'/*结束*/)}</Col>
                     </Row>
                     {/*报销单的formType以3开头，只有报销单和借款单才有打印配置*/}
                     {formInfo.formType && (String(formInfo.formType).charAt(0) === '3' || formInfo.formType === 2005) && (
                       <Row style={{marginTop: 15}}>
-                        <Col span={3}>{this.$t('workflow.detail.need.print')/*是否打印*/}</Col>
+                        <Col span={3}>{this.$t('setting.key1425'/*是否打印*/)}</Col>
                         <Col span={3}>
-                          <Checkbox defaultChecked={chosenNodeWidget.isPrint} onChange={e => this.handleEndNodePrint(e, chosenNodeWidget)}/>
+                          <Checkbox defaultChecked={chosenNodeWidget.isPrint}
+                                    onChange={e => this.handleEndNodePrint(e, chosenNodeWidget)}/>
                         </Col>
                       </Row>
                     )}
@@ -352,4 +432,4 @@ function mapStateToProps(state) {
 
 const wrappedWorkflowDetail = Form.create()(WorkflowDetail);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedWorkflowDetail)
+export default connect(mapStateToProps)(wrappedWorkflowDetail)

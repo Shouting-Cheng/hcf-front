@@ -509,10 +509,10 @@ class NewPrePaymentDetail extends React.Component {
             )}
           </FormItem>
           <Row gutter={8}>
-            <Col span={8} className="ant-form-item-label label-style" style = {{'padding-right':'0px','color':'rgba(0, 0, 0, 0.85)'}}>
+            <Col span={8} className="ant-form-item-label label-style" style = {{marginLeft: 2,'padding-right':'0px','color':'rgba(0, 0, 0, 0.85)'}}>
               预付款金额：
             </Col>
-            <Col span={5} className="ant-col-offset-1">
+            <Col span={5} className="ant-col-offset-1" >
               <FormItem >
                 {getFieldDecorator('currency', {
                   rules: [
