@@ -1068,7 +1068,7 @@ const chooserData = {
     title: messages('chooser.data.selectPerson'),
     url: `${config.baseUrl}/api/select/user/by/name/or/code`,
     searchForm: [
-      { type: 'input', id: 'employeeID', label: messages('chooser.data.employeeID') },
+      { type: 'input', id: 'keyword', label: messages('chooser.data.employeeID') },
       { type: 'input', id: 'fullName', label: messages('chooser.data.fullName') },
     ],
     columns: [
