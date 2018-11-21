@@ -273,7 +273,10 @@ class NewGLWorkOrder extends Component {
                     labelKey="name"
                     valueKey="id"
                     single={true}
-                    listExtraParams={{ setOfBooksId: this.props.company.setOfBooksId }}
+                    listExtraParams={{ 
+                      setOfBooksId: this.props.company.setOfBooksId,
+                      workOrderTypeId: this.props.match.params.typeId
+                     }}
                   />
                 )}
               </FormItem>
