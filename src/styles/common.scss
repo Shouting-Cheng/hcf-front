@@ -507,6 +507,9 @@ $default-blue: #108ee9;
       border-top: none;
       border-bottom: none;
     }
+    .ant-tabs-tabpane .ant-tabs-tabpane {
+      border: none;
+    }
     .approve .ant-tabs-tabpane {
       border: none;
       margin: 10px 0;

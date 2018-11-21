@@ -251,7 +251,7 @@ export default {
 
   //根据账套获得费用类型
   getExpenseTypesBySetOfBooks(setOfBooksId, createdManually = true, enabled = true, name) {
-    return httpFetch.get(`${config.baseUrl}/invoice/api/expense/types/groupby/category`, {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/types/category/query`, {
       setOfBooksId,
       createdManually: createdManually || "",
       enabled: enabled || "",
