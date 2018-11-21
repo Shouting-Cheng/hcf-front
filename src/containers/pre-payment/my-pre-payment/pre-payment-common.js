@@ -35,7 +35,7 @@ class PrePaymentCommon extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: 50,
-          render: (value, record, index) => index + 1,
+          render: (value, record, index) => index + this.state.page * this.state.pageSize + 1,
         },
         {
           title: '预付款金额',
