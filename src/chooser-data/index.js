@@ -487,6 +487,22 @@ const chooserData = {
     ],
     key: 'id',
   },
+  gl_type_distribution_company: {
+    title: '批量分配公司',
+    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/filter`,
+    searchForm: [
+      { type: 'input', id: 'companyCode', label: '公司代码' },
+      { type: 'input', id: 'companyName', label: '公司名称' },
+      { type: 'input', id: 'companyCodeFrom', label: '公司代码从' },
+      { type: 'input', id: 'companyCodeTo', label: '公司代码至' },
+    ],
+    columns: [
+      { title: '公司代码', dataIndex: 'code' },
+      { title: '公司名称', dataIndex: 'name' },
+      { title: '公司类型', dataIndex: 'attribute4' },
+    ],
+    key: 'id',
+  },
   budget_journal_type: {
     title: messages('budgetJournal.journalTypeId') /*"预算日记账类型"*/,
     url: `${config.budgetUrl}/api/budget/journals/journalType/selectByInput`,
