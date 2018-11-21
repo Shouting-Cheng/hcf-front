@@ -32,7 +32,6 @@ class Workflow extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.getList()
   }
 
@@ -78,8 +77,8 @@ class Workflow extends React.Component {
   //显示粘贴确认框
   showConfirmModal = (targetFormOID) => {
     Modal.confirm({
-      title: this.$t('workflow.is.confirm.modify'), //是否确认更改
-      content: this.$t('workflow.paste.will.cover.original.approval'), //粘贴后将覆盖原审批流
+      title: this.$t('setting.key1426'/*是否确认更改*/), //是否确认更改
+      content: this.$t('setting.key1427'/*粘贴后将覆盖原审批流*/), //粘贴后将覆盖原审批流
       onOk: () => this.handleFormCopy(targetFormOID)
     })
   };
@@ -102,9 +101,6 @@ class Workflow extends React.Component {
 
   //进入详情页
   goDetail = (record) => {
-    /*let url = '/setting/workflow/workflow-setting/:formOID'.replace(':formOID', record.formOID);
-    url += this.props.tenantMode ? `?setOfBooksId=${this.state.setOfBooksId}&setOfBooksName=${this.state.setOfBooksName}` : '';
-*/
     this.props.dispatch(
       routerRedux.replace({
         pathname: '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID'
@@ -127,7 +123,7 @@ class Workflow extends React.Component {
         {tenantMode && (
           <div className="setOfBooks-container">
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_CN' ? 4 : 8} className="title">{this.$t('workflow.set.of.books')/*帐套*/}：</Col>
+              <Col span={language.local === 'zh_CN' ? 4 : 8} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={16}>
                 <Selector type="setOfBooksByTenant"
                           allowClear={false}
@@ -154,45 +150,52 @@ class Workflow extends React.Component {
                             <span>{item.formName}</span>
                             {showEnableList && (
                               <div className="card-title-extra">
-                                <a onClick={() => {this.goDetail(item)}}>{this.$t('workflow.look.edit')/*查看编辑*/}</a>
-                                <span className="ant-divider"/>
-                                <a onClick={() => {this.setState({sourceFormOID: item.formOID})}}>{this.$t('workflow.copy')/*复制*/}</a>
-                                {sourceFormOID && <span className="ant-divider"/>}
-                                {sourceFormOID && <a onClick={() => {this.showConfirmModal(item.formOID)}}>{this.$t('workflow.paste')/*粘贴*/}</a>}
+                                <a onClick={() => {this.goDetail(item)}}>{this.$t('setting.key1429'/*查看编辑*/)}</a>
+                                {/*审批流复制粘贴功能只适用于自定义审批模式 bug 21262*/}
+                                {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 && (
+                                  <div style={{display: 'inline-block'}}>
+                                    <span className="ant-divider"/>
+                                    <a onClick={() => {this.setState({sourceFormOID: item.formOID})}}>{this.$t('setting.key1430'/*复制*/)}</a>
+                                    {sourceFormOID && <span className="ant-divider"/>}
+                                    {sourceFormOID && <a onClick={() => {this.showConfirmModal(item.formOID)}}>{this.$t('setting.key1431'/*粘贴*/)}</a>}
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
                         )}
                   >
-                    {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 &&
-                    (item.ruleApprovalChain.ruleApprovalNodes || []).map((node, index) => {
-                      return (
-                        <div key={node.ruleApprovalNodeOID} className="node-container">
-                          <div>
-                            {this.getNodeImg(node.type)}
-                            {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow"/>}
+                    <Row type="flex">
+                      {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 &&
+                      (item.ruleApprovalChain.ruleApprovalNodes || []).map((node, index) => {
+                        return (
+                          <div key={node.ruleApprovalNodeOID} className="node-container">
+                            <div>
+                              {this.getNodeImg(node.type)}
+                              {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow"/>}
+                            </div>
+                            <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>
                           </div>
-                          <p className="node-remark">{node.type === 1005 ? this.$t('workflow.detail.node.finish'/*结束*/) : node.remark}</p>
+                        )
+                      })}
+                      {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode !== 1005 && (
+                        <div className="node-container">
+                          <div className="approval-block">{this.$t('setting.key1419'/*审*/)}</div>
+                          <p className="node-remark">
+                            {item.ruleApprovalChain.approvalMode === 1002 && this.$t('setting.key1413'/*部门经理*/)}
+                            {item.ruleApprovalChain.approvalMode === 1003 && this.$t('setting.key1420'/*选人审批*/)}
+                            {item.ruleApprovalChain.approvalMode === 1006 && this.$t('setting.key1421'/*英孚审批*/)}
+                          </p>
                         </div>
-                      )
-                    })}
-                    {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode !== 1005 && (
-                      <div className="node-container">
-                        <div className="approval-block">{this.$t('workflow.word.shen')/*审*/}</div>
-                        <p className="node-remark">
-                          {item.ruleApprovalChain.approvalMode === 1002 && this.$t('workflow.dep.manager'/*部门经理*/)}
-                          {item.ruleApprovalChain.approvalMode === 1003 && this.$t('workflow.select.approver'/*选人审批*/)}
-                          {item.ruleApprovalChain.approvalMode === 1006 && this.$t('workflow.educationFirst.approver'/*英孚审批*/)}
-                        </p>
-                      </div>
-                    )}
+                      )}
+                    </Row>
                   </Card>
                 )
               })}
               {showEnableList && !enabledData.length && (
                 <div className="no-form-container">
                   <img src={noFormImg}/>
-                  <p>{this.$t('workflow.go.to.formDesigner.enabled.form')/*无【已启用】单据，请先前往 表单设计器 启用表单*/}</p>
+                  <p>{this.$t('setting.key1432'/*无【已启用】单据，请先前往 表单设计器 启用表单*/)}</p>
                 </div>
               )}
             </div>
@@ -203,9 +206,10 @@ class Workflow extends React.Component {
   }
 }
 
+
 function mapStateToProps(state) {
   return {
-    tenantMode: true, //state.main.tenantMode,
+    tenantMode: true,//state.main.tenantMode,
     company: state.user.company,
     language: state.languages,
   }
@@ -213,4 +217,4 @@ function mapStateToProps(state) {
 
 const wrappedWorkflow = Form.create()(Workflow);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedWorkflow)
+export default connect(mapStateToProps)(wrappedWorkflow)

@@ -1,7 +1,6 @@
 import React from 'react'
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend'
-import PropTypes from 'prop-types';
 
 import manApprovalImg from 'images/setting/workflow/man-approval.svg'
 import knowImg from 'images/setting/workflow/know.svg'
@@ -9,6 +8,7 @@ import aiApprovalImg from 'images/setting/workflow/aiapproval.svg'
 import mailImg from 'images/setting/workflow/mail.png'
 import endImg from 'images/setting/workflow/end.png'
 import auditImg from 'images/setting/workflow/audit.png'
+import PropTypes from 'prop-types';
 
 /**
  * 页面左侧列表内可拖拽组件块
