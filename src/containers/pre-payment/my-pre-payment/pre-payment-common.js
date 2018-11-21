@@ -5,7 +5,7 @@ import React from 'react';
 import config from 'config';
 import httpFetch from 'utils/httpFetch';
 // import menuRoute from 'routes/menuRoute'
-import {Form,Icon,Tag,Tabs,Button,Row,Col,Spin,Breadcrumb,Table,Timeline,message,Popover,Popconfirm,Divider,Card,Drawer,} from 'antd';
+import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Table, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
 const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
 import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';
@@ -44,9 +44,9 @@ class PrePaymentCommon extends React.Component {
           align: 'center',
           render: (value, record) => {
             return (
-                <span className="money-cell">
-                  {record.currency+'  '+record.amount.toFixed(2)}
-                </span>
+              <span className="money-cell">
+                {record.currency + '  ' + record.amount.toFixed(2)}
+              </span>
             );
           },
         },
@@ -128,8 +128,8 @@ class PrePaymentCommon extends React.Component {
                 {value}
               </Popover>
             ) : (
-              '-'
-            );
+                '-'
+              );
           },
         },
       ],
@@ -275,13 +275,13 @@ class PrePaymentCommon extends React.Component {
             businessCode: headerData.requisitionNumber,
             createdDate: headerData.requisitionDate,
             formName: headerData.typeName,
-            createByName: headerData.createByName,
+            createByName: headerData.createByName + "-" + headerData.createdBy,
             currencyCode: headerData.currency,
             totalAmount: res.data.totalFunctionAmount,
             statusCode: headerData.status,
             remark: headerData.description,
             infoList: [
-              { label: '申请人', value: headerData.createByName },
+              { label: '申请人', value: headerData.createByName + "-" + headerData.createdBy },
               { label: '公司', value: headerData.companyName },
               { label: '部门', value: headerData.path },
             ],
@@ -511,7 +511,7 @@ class PrePaymentCommon extends React.Component {
     e.preventDefault();
     let url = `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/deleteLineById?lineId=${
       record.id
-    }`;
+      }`;
     this.setState({ planLoading: true });
     httpFetch
       .delete(url)
@@ -606,61 +606,61 @@ class PrePaymentCommon extends React.Component {
 
         {record.reportWriteOffDTOS
           ? record.reportWriteOffDTOS.map((item, index) => {
-              if (index === 0) {
-                return (
-                  <div>
-                    <Divider />
-                    <Row>
-                      <Col span={2}>
-                        <span style={{ float: 'right' }}>被核销历史</span>
-                      </Col>
-                      <Col span={6} offset={1} className="over-range">
-                        <span>报账单编号：{item.reportNumber}</span>
-                        <a>{item.reportNumber}</a>
-                      </Col>
-                      <Col span={6}>
-                        被核销金额：{record.currency}&nbsp;{this.filterMoney(
-                          item.writeOffAmount,
-                          2,
-                          true
-                        )}
-                      </Col>
-                      <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
-                      <Col span={4}>
-                        核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
-                      </Col>
-                    </Row>
-                  </div>
-                );
-              } else {
-                return (
-                  <div>
-                    <Divider />
-                    <Row>
-                      <Col span={2}>
-                        <span style={{ float: 'right' }} />
-                      </Col>
-                      <Col span={6} offset={1} className="over-range">
-                        <Popover content={<span>报账单编号：{item.reportNumber}</span>}>
-                          报账单编号：{item.reportNumber}
-                        </Popover>
-                      </Col>
-                      <Col span={6}>
-                        被核销金额：{record.currency}&nbsp;{this.filterMoney(
-                          item.writeOffAmount,
-                          2,
-                          true
-                        )}
-                      </Col>
-                      <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
-                      <Col span={4}>
-                        核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
-                      </Col>
-                    </Row>
-                  </div>
-                );
-              }
-            })
+            if (index === 0) {
+              return (
+                <div>
+                  <Divider />
+                  <Row>
+                    <Col span={2}>
+                      <span style={{ float: 'right' }}>被核销历史</span>
+                    </Col>
+                    <Col span={6} offset={1} className="over-range">
+                      <span>报账单编号：{item.reportNumber}</span>
+                      <a>{item.reportNumber}</a>
+                    </Col>
+                    <Col span={6}>
+                      被核销金额：{record.currency}&nbsp;{this.filterMoney(
+                        item.writeOffAmount,
+                        2,
+                        true
+                      )}
+                    </Col>
+                    <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
+                    <Col span={4}>
+                      核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
+                    </Col>
+                  </Row>
+                </div>
+              );
+            } else {
+              return (
+                <div>
+                  <Divider />
+                  <Row>
+                    <Col span={2}>
+                      <span style={{ float: 'right' }} />
+                    </Col>
+                    <Col span={6} offset={1} className="over-range">
+                      <Popover content={<span>报账单编号：{item.reportNumber}</span>}>
+                        报账单编号：{item.reportNumber}
+                      </Popover>
+                    </Col>
+                    <Col span={6}>
+                      被核销金额：{record.currency}&nbsp;{this.filterMoney(
+                        item.writeOffAmount,
+                        2,
+                        true
+                      )}
+                    </Col>
+                    <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
+                    <Col span={4}>
+                      核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
+                    </Col>
+                  </Row>
+                </div>
+              );
+            }
+          })
           : null}
       </div>
     );
@@ -729,10 +729,10 @@ class PrePaymentCommon extends React.Component {
                 {(headerData.status === 1001 ||
                   headerData.status === 1003 ||
                   headerData.status === 1005) && (
-                  <Button type="primary" onClick={this.addItem}>
-                    新建付款信息
+                    <Button type="primary" onClick={this.addItem}>
+                      新建付款信息
                   </Button>
-                )}
+                  )}
               </div>
               {amountText !== '' ? (
                 <div style={{ float: 'right' }}>

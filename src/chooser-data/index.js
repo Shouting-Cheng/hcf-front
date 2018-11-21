@@ -12,7 +12,7 @@ const formatMoney = (number, decimals = 2, isString = false) => {
     sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
     dec = typeof dec_point === 'undefined' ? '.' : dec_point,
     s = '',
-    toFixedFix = function(n, prec) {
+    toFixedFix = function (n, prec) {
       var k = Math.pow(10, prec);
       return '' + Math.ceil(n * k) / k;
     };
@@ -1203,10 +1203,10 @@ const chooserData = {
       { label: '申请单类型', id: 'applicationType', type: 'input' },
     ],
     columns: [
-      { 
-        title: '申请单号', 
+      {
+        title: '申请单号',
         dataIndex: 'businessCode',
-        align:'center',
+        align: 'center',
         render: text => (
           <span>
             {text ? (
@@ -1214,13 +1214,13 @@ const chooserData = {
                 {text}
               </Popover>
             ) : (
-              '-'
-            )}
+                '-'
+              )}
           </span>
         ),
       },
-      { 
-        title: '申请单类型', 
+      {
+        title: '申请单类型',
         dataIndex: 'applicationType',
         align: 'center',
         render: text => (
@@ -1230,8 +1230,8 @@ const chooserData = {
                 {text}
               </Popover>
             ) : (
-              '-'
-            )}
+                '-'
+              )}
           </span>
         ),
       },
@@ -1246,13 +1246,13 @@ const chooserData = {
                 {moment(value).format('YYYY-MM-DD')}
               </Popover>
             ) : (
-              '-'
-            )}
+                '-'
+              )}
           </span>
         ),
       },
-      { 
-        title: '币种', 
+      {
+        title: '币种',
         dataIndex: 'currencyCode',
         align: 'center',
         render: text => (
@@ -1262,13 +1262,13 @@ const chooserData = {
                 {text}
               </Popover>
             ) : (
-              '-'
-            )}
+                '-'
+              )}
           </span>
-        ), 
+        ),
       },
-      { 
-        title: '总金额', 
+      {
+        title: '总金额',
         align: 'center',
         dataIndex: 'amount',
         render: text => (
@@ -1278,59 +1278,59 @@ const chooserData = {
                 {formatMoney(text)}
               </Popover>
             ) : (
-              formatMoney(0)
-            )}
+                formatMoney(0)
+              )}
           </span>
-      ), 
-    },
-    { 
-      title: '已关联金额',
-      dataIndex: 'relatedAmount',
-      align:'center',
-      render: text => (
-        <span>
-          {text ? (
-            <Popover placement="topLeft" content={formatMoney(text)}>
-              {formatMoney(text)}
-            </Popover>
-          ) : (
-            formatMoney(0)
-          )}
-        </span>
-      ), 
-    },
-    { 
-      title: '可关联金额',
-      dataIndex: 'notAssociatedAmount',
-      align: 'right',
-      render: text => (
-        <span>
-          {text ? (
-            <Popover placement="topLeft" content={formatMoney(text)}>
-              {formatMoney(text)}
-            </Popover>
-          ) : (
-            formatMoney(0)
-          )}
-        </span>
-      ), 
-    },
-    { 
-      title: '备注',
-      dataIndex: 'title',
-      align:'center',
-      render: text => (
-        <span>
-          {text ? (
-            <Popover placement="topLeft" content={text}>
+        ),
+      },
+      {
+        title: '已关联金额',
+        dataIndex: 'relatedAmount',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+                formatMoney(0)
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '可关联金额',
+        dataIndex: 'notAssociatedAmount',
+        align: 'right',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+                formatMoney(0)
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '备注',
+        dataIndex: 'title',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
                 {text}
-            </Popover>
-          ) : (
-            '-'
-          )}
-        </span>
-      ), 
-    },
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
+      },
     ],
     key: 'id',
   },
@@ -2839,7 +2839,7 @@ const chooserData = {
     title: '选择公司', // 选择当前租户下的所有公司，展示账套
     url: `${config.baseUrl}/api/company/name/setOfBooksId`,
     searchForm: [
-      { type: 'input', id: 'keyword', label: "公司名称" },
+      { type: 'input', id: 'keyword', label: "公司名称、代码" },
       {
         type: 'select', id: 'setOfBooksId', label: "所属账套", options: [],
         getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
