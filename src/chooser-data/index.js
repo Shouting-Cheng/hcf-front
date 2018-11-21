@@ -782,7 +782,7 @@ const chooserData = {
   },
   company: {
     title: messages('chooser.data.company' /*选择公司*/),
-    url: `${config.baseUrl}/api/company/by/condition`,
+    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/query/company`,
     searchForm: [
       {
         type: 'input',
