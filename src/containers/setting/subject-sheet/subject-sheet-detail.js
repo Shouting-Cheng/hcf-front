@@ -39,6 +39,7 @@ class SubjectSheetDetail extends React.Component {
       focus: false,
       infoData: {},
       tableData: [],
+      enabledTotal:0,
       params: {},
       updateParams: {},
       subParams: {},//子科目的参数
@@ -182,6 +183,7 @@ class SubjectSheetDetail extends React.Component {
       this.setState({
         tableData: response.data,
         loading: false,
+        enabledTotal: Number(response.headers['x-total-count-enable']) ,
         pagination: {
           total: Number(response.headers['x-total-count']),
           onChange: this.onChangePager,
@@ -299,7 +301,7 @@ class SubjectSheetDetail extends React.Component {
   }
 
   render() {
-    const { loading, infoData, searchForm, accountTypeOptions, showSlideFrameNew, showSlideFrameSub, subParams, tableData, updateState, pagination, columns, updateParams } = this.state;
+    const { loading, enabledTotal, infoData, searchForm, accountTypeOptions, showSlideFrameNew, showSlideFrameSub, subParams, tableData, updateState, pagination, columns, updateParams } = this.state;
     const btnCls = classNames({
       'ant-search-btn': true,
       'ant-search-btn-noempty': !!this.state.value.trim(),
@@ -319,7 +321,8 @@ class SubjectSheetDetail extends React.Component {
             <h2 style={{marginBottom: -10}}>{this.$t({ id: "subject.sheet.detail" })/*科目明细*/}</h2>
           </div>
           <div className="table-header-title">
-            {this.$t({ id: 'common.total' }, { total: pagination.total ? pagination.total : '0' })}
+            {this.$t({ id: 'common.total' }, { total: pagination.total ? pagination.total : '0' })}/
+            {this.$t({id:'common.total.enable'},{total:enabledTotal})}
           </div>
           <div className="table-header-buttons">
             <Row>

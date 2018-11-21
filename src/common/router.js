@@ -1741,6 +1741,15 @@ export const getRouterData = app => {
       parent: '/financial-management/finance-audit'
     },
 
+    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID': {
+      //费用申请单详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/base-request-detail')
+      ),
+      name: 'cost-application-detail',
+      parent: '/financial-management/check-cost-application'
+    },
+
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

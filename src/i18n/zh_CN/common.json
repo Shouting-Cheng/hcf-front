@@ -30,6 +30,7 @@
   "common.total1": "共 {total} 条数据",
   "common.total.selected": "已选 {total} 条",
   "common.total.selected2": "已选择 {total} 项数据",
+  "common.total.enable":"当前启用 {total} 条",
   "common.status": "状态: {status}",
   "common.column.status": "状态",
   "common.status.enable": "启用",

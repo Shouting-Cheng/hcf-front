@@ -246,7 +246,7 @@ class NewExpense extends React.Component {
         this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
           this.setState({
             nowCurrency: this.getCurrencyFromList(expenseDetail.currencyCode),
-          },()=>console.log(this.state.nowCurrency));
+          });
         })
       });
       baseService.getExpenseTypeById(this.props.params.nowExpense.expenseTypeId).then(res => {
@@ -304,7 +304,7 @@ class NewExpense extends React.Component {
         this.setState({currencyList: res.data.filter(item => item.enable) },()=>{
           this.setState({
             nowCurrency: this.getCurrencyFromList('CNY'),
-          },()=>console.log(this.state.nowCurrency));
+          });
         })
       });
       rejectPiwik(`我的账本/新建账本`);
