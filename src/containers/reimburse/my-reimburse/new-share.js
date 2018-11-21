@@ -332,7 +332,6 @@ class NewShare extends Component {
   //取消
   cancel = index => {
     let {data,pagination,dataCache }= this.state;
-    index = index+pagination.page*pagination.pageSize;
     if (data[index].status == 'edit') {
       data[index] = { ...dataCache, status: 'normal' };
       this.props.handleOk && this.props.handleOk(data, true);
@@ -343,8 +342,8 @@ class NewShare extends Component {
       this.setState({ data, dataCache: null,pagination:{
           ...pagination,
           total: pagination.total-1,
-          page: parseInt((pagination.total-2)/pagination.pageSize),
-          current: parseInt((pagination.total-2)/pagination.pageSize) + 1,
+          page: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) : pagination.page,
+          current: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) + 1 : pagination.page + 1,
         } });
     }
   };
