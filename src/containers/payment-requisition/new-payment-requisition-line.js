@@ -384,7 +384,7 @@ class NewPaymentRequisitionLine extends React.Component {
                   ],
                   initialValue: lineData.reportNumber,
                 })(<Select
-                  onDropdownVisibleChange={()=>{this.setState({isReload: false,})}}
+                  onDropdownVisibleChange={()=>{this.setState({isReload: false,nowPage: 'type'})}}
                   dropdownStyle={{ display: 'none' }}
                 />)}
               </FormItem>

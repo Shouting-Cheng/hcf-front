@@ -165,7 +165,6 @@ class BudgetItemMap extends React.Component {
 
   //删除
   deleteItem = (e, record, index) => {
-
     e.preventDefault();
     e.stopPropagation();
     let param = [record.id];
@@ -184,8 +183,8 @@ class BudgetItemMap extends React.Component {
         isSave,
         pagination: {
           ...this.state.pagination,
-          page: (this.state.pagination.total - 1)/10,
-          pageSize: this.state.pagination.pageSize - 1 >= 10 ? this.state.pagination.pageSize - 1 : 10,
+          page: (this.state.pagination.total - 1)%10===0 ? (this.state.pagination.total - 1)/10-1 : parseInt((this.state.pagination.total - 1)/10),
+          //pageSize: this.state.pagination.pageSize - 1 >= 10 ? this.state.pagination.pageSize - 1 : 10,
           total: this.state.pagination.total - 1,
         }
       },()=>{
@@ -200,7 +199,6 @@ class BudgetItemMap extends React.Component {
 
   componentWillMount() {
     this.getList();
-
     let itemSelectorItem = selectorData['budget_item'];
     itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.id);
     itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.id);
@@ -368,7 +366,7 @@ class BudgetItemMap extends React.Component {
                 valueKey='id'
                 itemMap={true}
                 selectorItem={paramValueMap[record.sourceType]}
-                listExtraParams={{ setOfBooksId: this.props.organization.setOfBooksId }}
+                listExtraParams={{ setOfBooksId: this.props.setOfBooksId }}
                 value={record.detail}
                 single={true} />
             );

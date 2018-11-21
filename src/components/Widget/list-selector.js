@@ -320,7 +320,7 @@ class ListSelector extends React.Component {
     } else {
       let haveIt = false;
       selectedData.map((selected, index) => {
-        if (selected[this.getLastKey(valueKey || selectorItem.key)] === record[this.getLastKey(valueKey || selectorItem.key)]) {
+        if (selected[this.getLastKey(valueKey || selectorItem.key)].toString() === record[this.getLastKey(valueKey || selectorItem.key)].toString()) {
           selectedData.splice(index, 1);
           haveIt = true;
         }

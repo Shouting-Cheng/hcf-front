@@ -37,7 +37,6 @@ class Widget extends React.Component{
 
   //删除节点
   handleDelete = (e, widget) => {
-    this.props.deleteHandle();
     workflowService.deleteApprovalNode(widget.ruleApprovalNodeOID).then(() => {
       message.success(this.$t('common.delete.success', {name: ''}));
       this.props.deleteHandle(true)

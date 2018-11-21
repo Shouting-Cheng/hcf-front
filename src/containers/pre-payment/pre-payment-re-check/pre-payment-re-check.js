@@ -230,9 +230,9 @@ class Payment extends React.Component {
 
         const { tabValue, loading1, loading2, searchForm1, searchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
         return (
-            <div className="approve approve-contract">
+            <div className="approve-contract">
                 <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-                    <TabPane tab={this.$t("contract.unapproved")} key="unapproved">
+                    <TabPane tab={this.$t("contract.unchecked")} key="unapproved">
                         {
                             tabValue === 'unapproved' &&
                             <div>
@@ -253,7 +253,7 @@ class Payment extends React.Component {
                             </div>
                         }
                     </TabPane>
-                    <TabPane tab={this.$t("contract.approved")} key="approved">
+                    <TabPane tab={this.$t("contract.checked")} key="approved">
                         {
                             tabValue === 'approved' &&
                             <div>

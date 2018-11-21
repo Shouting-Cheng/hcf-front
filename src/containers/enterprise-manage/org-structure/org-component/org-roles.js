@@ -207,7 +207,6 @@ class OrgStructureRoles extends React.Component {
   };
   //组织架构部门详情菜单
   renderRoleMoreMeun = (item) => {
-    debugger;
     return (
       <Menu>
         <Menu.Item key="0">

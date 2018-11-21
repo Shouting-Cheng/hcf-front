@@ -57,6 +57,14 @@ class NodeContent extends React.Component{
       this.setState({ hoverIndex: result, lastHoverIndex: result });
   };
 
+  handleDelete = (params,index)=>{
+    this.setState({
+      hoverIndex: this.state.hoverIndex-1
+
+    })
+    this.props.onDelete(params)
+  };
+
   renderList = () => {
     const { widgetList, nowSelectedIndex, isOver } = this.props;
     const { hoverIndex } = this.state;
@@ -67,7 +75,7 @@ class NodeContent extends React.Component{
                         onHover={this.handleHover}
                         className={nowSelectedIndex === index ? 'selected' : ''}
                         onClick={e => this.handleClick(e, index, widget)}
-                        deleteHandle={this.props.onDelete}
+                        deleteHandle={(index,params)=>this.handleDelete(index,params)}
         />
         <Icon type="arrow-down" className="down-icon"/>
       </div>

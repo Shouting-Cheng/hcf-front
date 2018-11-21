@@ -20,10 +20,16 @@ class CodingRule extends React.Component {
       page: 0,
       pageSize: 10,
       columns: [
-        { title: messages('code.rule.document.type')/*单据类型'*/, dataIndex: "documentTypeName", width: '40%' },
-        { title: messages('code.rule.apply.company')/*应用公司*/, dataIndex: "companyName", width: '40%' },
+        { title: messages('code.rule.document.type')/*单据类型'*/, dataIndex: "documentTypeName", width: '40%',
+          align: 'center',
+        },
+        { title: messages('code.rule.apply.company')/*应用公司*/, dataIndex: "companyName", width: '40%',
+          align: 'center',
+        },
         {
-          title: messages('code.rule.status')/*状态*/, dataIndex: 'enabled', width: '20%', render: enabled => (
+          title: messages('code.rule.status')/*状态*/, dataIndex: 'enabled', width: '20%',
+          align: 'center',
+          render: enabled => (
             <Badge status={enabled ? 'success' : 'error'} text={enabled ? messages('common.status.enable') : messages('common.status.disable')} />)
         }
       ],
