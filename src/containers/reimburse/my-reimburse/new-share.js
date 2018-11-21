@@ -112,6 +112,7 @@ class NewShare extends Component {
         fixed: 'right',
         width: 120,
         render: (value, record, index) => {
+          index = index + this.state.pagination.page * this.state.pagination.pageSize;
           return record.status == 'edit' || record.status == 'new' ? (
             <div>
               <a onClick={() => this.save(index)}>保存</a>
