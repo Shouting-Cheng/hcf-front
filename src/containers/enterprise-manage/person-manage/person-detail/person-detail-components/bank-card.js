@@ -41,16 +41,14 @@ class PersonBankCard extends React.Component {
 
   componentDidMount() {
     // this.setState({ card: this.props.cardInfo });
-    this.setState({ card: this.props.cardInfo }, () => {
-      this.setState({
-        primaryStatus: this.state.card.isPrimary,
-        isChangePrimary: this.state.card.isPrimary,
-      });
-    });
+    let param =  {...this.props.cardInfo};
+    console.log(param)
+    this.setState({ card: param,});
   }
 
   componentWillReceiveProps(nextProps) {
     // this.setState({ card: nextProps.cardInfo });
+    console.log(nextProps)
     this.setState({ card: nextProps.cardInfo }, () => {
       this.setState({
         isChangePrimary: this.state.card.isPrimary,
@@ -74,9 +72,12 @@ class PersonBankCard extends React.Component {
 
     card.enable = null;
     card.bankCode = null;
+    console.log(this.props)
     this.setState(
       {
         modalKey,
+        primaryStatus: this.props.count===0,
+        isChangePrimary: this.props.count===0,
         showCreatModel: true,
         card, //当前编辑或新增的银行卡
       },
@@ -87,10 +88,13 @@ class PersonBankCard extends React.Component {
   };
   // 编辑角色
   editCard = (e, record) => {
+    let {card} = this.state;
     let modalKey = this.state.modalKey;
     modalKey++;
     this.setState({
       modalKey,
+      primaryStatus: card.isPrimary,
+      isChangePrimary: card.isPrimary,
       showCreatModel: true,
     });
   };
@@ -550,6 +554,11 @@ class PersonBankCard extends React.Component {
             <div className="role-list-from-footer">
               <Button onClick={this.cancelCard}>{this.$t('common.cancel')}</Button>
               &nbsp;&nbsp;&nbsp;
+              {
+                console.log(this.state.isChangePrimary)
+              }
+              {console.log(this.state.primaryStatus)}
+              {console.log(this.state.card)}
               {//当初始时为默认时, 则不提示替换
               this.state.primaryStatus ? (
                 <Button type="primary" htmlType="submit" loading={loading}>
