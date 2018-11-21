@@ -698,7 +698,7 @@ class MyGLWorkOrderDetail extends Component {
     let {docHeadData} = this.state;
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/gl-work-order/my-gl-work-order/new-gl-work-order/:typeId/:formOid/${
+        pathname: `/gl-work-order/my-gl-work-order/edit-gl-work-order/:typeId/${this.props.match.params.oid}/${
           docHeadData.id
           }`,
       })
