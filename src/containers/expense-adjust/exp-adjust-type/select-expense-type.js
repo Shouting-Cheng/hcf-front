@@ -141,7 +141,7 @@ class SelectExpenseType extends Component {
    */
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.visible) {
-            this.formRef&&this.formRef.setValues({code:'name',name:'',range: 'all'})
+            this.formRef&&this.formRef.setValues({code:'',name:'',range: 'all'})
             this.setState({ page: 0  }, () => {
                 this.getList();
             });
