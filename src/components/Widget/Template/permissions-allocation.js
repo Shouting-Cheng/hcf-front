@@ -127,7 +127,7 @@ class PermissionsAllocation extends React.Component {
 
     const textStyle = {
       position: 'absolute',
-      top: 1,
+      top: 5,
       left: 10,
       right: 10,
       lineHeight: '30px',
