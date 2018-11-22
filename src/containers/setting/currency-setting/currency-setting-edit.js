@@ -127,7 +127,7 @@ class CurrencySettingEdit extends React.Component {
         if (page - 1 !== this.state.page)
             this.setState({
                 page: page - 1,
-                loading: true
+                loading: false
             }, () => {
                 this.getRateHistory();
             })
