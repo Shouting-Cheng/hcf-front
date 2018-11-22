@@ -185,6 +185,7 @@ class AnnouncementInformationDetail extends React.Component {
         pagination: {
           current: page + 1,
           onChange: this.onChangePaper,
+          total: Number(res.headers["x-total-count"]) || 0
         },
       });
     });
@@ -193,7 +194,7 @@ class AnnouncementInformationDetail extends React.Component {
   onChangePaper = page => {
     if (page - 1 !== this.state.page) {
       this.setState({ page: page - 1 }, () => {
-        this.getList();
+        this.getCompanyList();
       });
     }
   };
