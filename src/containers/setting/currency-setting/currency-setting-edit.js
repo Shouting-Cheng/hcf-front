@@ -294,7 +294,7 @@ class CurrencySettingEdit extends React.Component {
                     }
                 }) .catch(e => {
                   this.setState({ loading: false });
-                  message.error(`${e.response.data.message.replace('(tenantId=1,050,629,004,792,754,178,setOfBooksId=1,050,629,005,174,435,842)','')}`);
+                  message.error(`${e.response.data.message}`);
                 });;
             },
             onCancel: () => {
