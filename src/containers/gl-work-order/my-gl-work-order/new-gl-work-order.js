@@ -282,7 +282,7 @@ class NewGLWorkOrder extends Component {
                     : [{ id: this.props.user.companyId, name: this.props.user.companyName }],
                 })(
                   <Chooser
-                    type="company"
+                    type="accounting_company"
                     labelKey="name"
                     valueKey="id"
                     single={true}
