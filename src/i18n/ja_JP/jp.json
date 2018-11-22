@@ -21,7 +21,7 @@
   "components.search.upload.fold": "非表示",
   "components.search.upload.open": "表示",
   "chooser.data.selectPerson": "従業員選択",
-  "chooser.data.employeeID.fullName.mobile": "従業員番号、姓名、携帯番号",
+  "chooser.data.employeeID.fullName.mobile.email": "従業員番号、姓名、携帯番号、電子メール",
   "chooser.data.employeeID": "従業員番号",
   "chooser.data.fullName": "氏名",
   "chooser.data.mobile": "携帯番号",
