@@ -65,6 +65,13 @@ class InterfaceDetail extends React.Component {
     this.props.test && this.props.test();
   };
 
+  delete = () => {
+    service.delete(this.props.id).then(res => {
+      message.success("删除成功！");
+      this.props.delete && this.props.delete();
+    })
+  }
+
   render() {
     const { confirmLoading, loading } = this.state;
     const { visible } = this.props;

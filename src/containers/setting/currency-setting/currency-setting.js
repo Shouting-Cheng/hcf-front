@@ -46,26 +46,31 @@ class CurrencySetting extends React.Component {
       columns: [
         {
           title: this.$t("currency.setting.currency.name")/*币种名*/,
-          key: 'currencyName', dataIndex: 'currencyName'
+          key: 'currencyName', dataIndex: 'currencyName',
+          align: 'center'
         },
         {
           title: this.$t("currency.setting.code")/*代码*/,
           key: 'currencyCode',
-          dataIndex: 'currencyCode'
+          dataIndex: 'currencyCode',
+          align: 'center'
         },
         {
           title: this.$t("currency.setting.rate.apply.date")/*汇率生效日期*/,
           key: 'applyDate', dataIndex: 'applyDate',
+          align: 'center',
           render: (text, record, index) => this.tableApplyDate(text, record, index)
         },
         {
           title: this.$t("currency.setting.effective.rate")/*生效汇率*/,
           key: 'rate', dataIndex: 'rate',
+          align: 'center',
           render: (text, record, index) => this.tableRate(text, record, index)
         },
         {
           title: this.$t("currency.setting.auto.rate")/*自动汇率*/,
           key: 'enableAutoUpdate', dataIndex: 'enableAutoUpdate',
+          align: 'center',
           render: enableAutoUpdate => (
             <Badge status={enableAutoUpdate ? 'success' : 'error'}
                    text={enableAutoUpdate ? this.$t("common.status.enable") : this.$t("common.status.disable")}/>)
@@ -73,6 +78,7 @@ class CurrencySetting extends React.Component {
         {
           title: this.$t("common.column.status")/*状态*/, key: 'enable',
           dataIndex: 'enable',
+          align: 'center',
           render: enable => (
             <Badge status={enable ? 'success' : 'error'}
                    text={enable ? this.$t("common.status.enable") : this.$t("common.status.disable")}/>)

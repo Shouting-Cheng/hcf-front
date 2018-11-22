@@ -20,6 +20,7 @@ class NewInterface extends React.Component {
         service.add({ ...values, moduleId: this.props.moduleId }).then(res => {
           this.setState({ confirmLoading: false });
           message.success('添加成功！');
+          this.props.form.resetFields();
           this.props.onOk && this.props.onOk(values);
         });
       }
@@ -27,6 +28,7 @@ class NewInterface extends React.Component {
   };
 
   handleCancel = () => {
+    this.props.form.resetFields();
     this.props.onCancel && this.props.onCancel();
   };
 

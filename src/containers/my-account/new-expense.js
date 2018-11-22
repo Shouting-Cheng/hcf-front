@@ -212,7 +212,7 @@ class NewExpense extends React.Component {
     }
 
     //费用改变时  && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))
-    if(this.props.params.nowExpense ){
+    if(this.props.params.nowExpense&&this.props.params.nowExpense.expenseTypeId ){
       let expenseDetail = this.props.params.nowExpense;
       expenseDetail.data && expenseDetail.data.sort((a, b) => a.sequence > b.sequence || -1);
       expenseDetail.preCreatedDate = expenseDetail.createdDate;
@@ -249,7 +249,6 @@ class NewExpense extends React.Component {
           });
         })
       });
-
       baseService.getExpenseTypeById(this.props.params.nowExpense.expenseTypeId).then(res => {
         //里程补贴的readonly是true，但是他是可以编辑的
         let readOnly = this.props.params.readOnly || (res.data.readonly && res.data.messageKey !== 'private.car.for.public');
@@ -296,7 +295,6 @@ class NewExpense extends React.Component {
               valueWillSet.invoiceInstead = expenseDetail.invoiceInstead;
             if(expenseDetail.invoiceInstead)
               valueWillSet.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
-            debugger
             this.props.form.setFieldsValue(valueWillSet);
           }
         });
@@ -318,7 +316,7 @@ class NewExpense extends React.Component {
 
     }
     this.setState({
-      nowExpense:this.props.params.nowExpense
+      nowExpense:this.props.params.nowExpense ||{}
     });
   }
   /**
@@ -888,7 +886,9 @@ class NewExpense extends React.Component {
       case 'DATETIME':
         return <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled={!field.editable} getCalendarContainer={this.getPopupContainer}/>;
       case 'GPS':
-        return <Location disabled={!field.editable}/>;
+        return <Input disabled={!field.editable}/>;
+        //该接口存在问题，暂时不用
+        //return <Location disabled={!field.editable}/>;
       case 'LOCATION':
         return <Selector type='city'
                          params={{vendorType : 'standard', language: this.props.language.local}}
@@ -913,8 +913,8 @@ class NewExpense extends React.Component {
    * 图片上传成功
    * @param response
    */
-  uploadSuccess = (response) => {
-    this.setState({ attachments: response }, { attachmentChange : true });
+  uploadSuccess = (value) => {
+    this.setState({ attachments: value,attachmentChange : true },);
   };
 
   /**
@@ -922,6 +922,7 @@ class NewExpense extends React.Component {
    * @param value
    */
   handleChangeCurrency = (value) => {
+    //debugger;
     if(value){
       let nowCurrency = this.getCurrencyFromList(value);
       this.setState({ nowCurrency },() => {
@@ -2214,7 +2215,7 @@ class NewExpense extends React.Component {
         amountEditConfigSubsidyType = 1;
     }
     //是否为差补费用类型
-    let isSubsidyType = nowExpense.expenseTypeSubsidyType === 1 ? true : false;
+    let isSubsidyType = nowExpense&&nowExpense.expenseTypeSubsidyType === 1 ? true : false;
     let amount = readOnly && !auditAmountEditing ? nowExpense.amount : Number(getFieldValue('amount'));
     let actualCurrencyRate = !auditAmountEditing ? nowExpense.actualCurrencyRate : getFieldValue('actualCurrencyRate');
     let isBaseCurrency = baseCurrency.currencyCode === nowCurrency.currencyCode;
@@ -2615,12 +2616,14 @@ class NewExpense extends React.Component {
                                                 attachmentType: "INVOICE_IMAGES",
                                                 invoiceOid: nowExpense.invoiceOID
                                               }}
-                                              attachmentType="INVOICE_IMAGES" onChange={this.uploadSuccess}
+                                              attachmentType="INVOICE_IMAGES"
+                                              onChange={this.uploadSuccess}
                                               fileSize={10}
                                               isPreViewCallBack={true}
                                               handlePreViewCallBack={(file) => this.handleImageAudit(file)}
                                               isShowDefault showMaxNum
-                                              handleDelete={this.deleteAttachment} setResult={this.setResults}
+                                              handleDelete={this.deleteAttachment}
+                                              setResult={this.setResult}
                                               disabled={!((audit && isWaitForAudit) || auditCapability)}
                                               uploadUrl={`${config.baseUrl}/api/finance/upload/attachment`}/>
                                 </FormItem>

@@ -302,8 +302,8 @@ class ReimburseReview extends React.Component {
     result.dateTo = result.dateTo ? result.dateTo.format('YYYY-MM-DD hh:mm:ss') : undefined; */
     result.dateFrom = result.dateFrom ? result.dateFrom.format('YYYY-MM-DD') : undefined;
     result.dateTo = result.dateTo ? result.dateTo.format('YYYY-MM-DD') : undefined;
-    if(result.applicationId && result.applicationId[0]){
-      result.applicationId = result.applicationId[0];
+    if(result.applicationId && result.applicationId[0].userId){
+      result.applicationId = result.applicationId[0].userId;
     }
     let searchParams = {
       applicationId: result.applicationId,
@@ -356,7 +356,7 @@ class ReimburseReview extends React.Component {
     let {searchParams} = this.state;
     switch (event) {
       case 'applicationId': {
-        if(value && value[0]){
+        if(value && value[0].userId){
           searchParams.applicationId = value[0].userId;
         }else{
           searchParams.applicationId = '';

@@ -280,7 +280,7 @@ class GLWorkOrderTypeDC extends Component {
           visible={companyVisible}
           onCancel={this.onCompanyCancel}
           onOk={this.onCompanyOk}
-          type="gl_distribution_company"
+          type="gl_type_distribution_company"
           extraParams={{ workOrderTypeId: this.props.match.params.id }}
           single={false}
         />

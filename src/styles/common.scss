@@ -507,6 +507,9 @@ $default-blue: #108ee9;
       border-top: none;
       border-bottom: none;
     }
+    .ant-tabs-tabpane .ant-tabs-tabpane {
+      border: none;
+    }
     .approve .ant-tabs-tabpane {
       border: none;
       margin: 10px 0;
@@ -563,8 +566,8 @@ $default-blue: #108ee9;
       left: 220px;
       right: -10px;
     }
-    .new-expense-adjust-detail .ant-form-item-with-help {
-      margin-bottom: 24px;
+    .new-expense-adjust-detail .ant-form-item {
+      margin-bottom: 20px;
     }
 }
 

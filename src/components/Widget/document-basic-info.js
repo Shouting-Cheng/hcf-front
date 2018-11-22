@@ -71,7 +71,7 @@ class DocumentBasicInfo extends React.Component {
           <Row style={{ borderBottom: '1px solid #ececec' }}>
             <Col span={8}>{data.formName}</Col>
             <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.document.code'), data.businessCode) : null}</Col>
-            <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.apply.data'), moment(data.createdDate).format('YYYY-MM-DD')) : null}</Col>
+            <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.apply.data'), data.createdDate !== undefined ? moment(data.createdDate).format('YYYY-MM-DD') : null) : null}</Col>
             <Col span={4}>{!this.props.noHeader ? this.renderList(this.$t('common.create.person'), data.createByName) : null}</Col>
             <Col style={{ textAlign: "right" }} span={4}>
               {this.props.children}

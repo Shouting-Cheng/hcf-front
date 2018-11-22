@@ -1,4 +1,5 @@
 import common from './common.json'
+import index2 from './index2.json'
 import menu from './menu.json';
 import main from './main.json'
 //管理员的控制面板
@@ -264,6 +265,7 @@ const i18nList = [
   personDetailSomeIdCard,//人员信息详情界面-证件信息组件
   personDetailVendorInfo,//人员信息详情界面-供应商组件
   common,  // 公用
+  index2,  //审批流
   login,  // 登录及主界面
   menu,  // 菜单
   budgetOrganization, // 预算组织

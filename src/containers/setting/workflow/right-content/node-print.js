@@ -50,9 +50,9 @@ class NodePrint extends React.Component {
     return (
       <div className='node-print'>
         <Card className="basic-info-container">
-          <h3 className="title">{this.$t('workflow.detail.node.basic.info')/*基础信息*/}</h3>
+          <h3 className="title">{this.$t('setting.key1371'/*基础信息*/)}</h3>
           <Form onSubmit={this.handleSaveBasicInfo}>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.node.name')/*节点名称*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1372'/*节点名称*/)} colon={false}>
               {getFieldDecorator('remark', {
                 rules: [{
                   max: 8,
@@ -85,4 +85,4 @@ function mapStateToProps(state) {
 
 const wrappedNodePrint = Form.create()(NodePrint);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedNodePrint)
+export default connect(mapStateToProps)(wrappedNodePrint)

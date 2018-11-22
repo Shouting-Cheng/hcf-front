@@ -81,7 +81,7 @@ class MyPrePayment extends React.Component {
             render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>
           },
           {
-            title: '单据类型', dataIndex: 'typeName', align: 'left',
+            title: '单据类型', dataIndex: 'typeName', align: 'center',
             render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>
           },
           {
@@ -93,19 +93,19 @@ class MyPrePayment extends React.Component {
             render: desc => <span><Popover content={moment(desc).format('YYYY-MM-DD')}>{desc ? moment(desc).format('YYYY-MM-DD') : "-"}</Popover></span>
           },
           {
-            title: '本币金额', dataIndex: 'advancePaymentAmount', width: 110, align: 'right',
+            title: '本币金额', dataIndex: 'advancePaymentAmount', width: 110, align: 'center',
+            render: desc => <span className="money-cell"><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
+          },
+          {
+            title: '已核销金额', dataIndex: 'writedAmount', width: 110, align: 'center',
             render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
           },
           {
-            title: '已核销金额', dataIndex: 'writedAmount', width: 110, align: 'right',
-            render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
+            title: '未核销金额', dataIndex: 'noWritedAmount', width: 110, align: 'center',
+            render: desc => <span className="money-cell"><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
           },
           {
-            title: '未核销金额', dataIndex: 'noWritedAmount', width: 110, align: 'right',
-            render: desc => <span><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>
-          },
-          {
-            title: '备注', dataIndex: 'description', align: 'left',
+            title: '备注', dataIndex: 'description', align: 'center',
             render: (value) => {
               return (
                 <Popover content={value}>{value}</Popover>

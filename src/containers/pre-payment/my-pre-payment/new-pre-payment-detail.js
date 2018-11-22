@@ -195,12 +195,20 @@ class NewPrePaymentDetail extends React.Component {
         }
         values.partnerId = values.partnerd.key;
         values.partnerName = values.partnerd.label;
-        values.contractLineNumber = this.state.contract.lineNumber
+        //根据contractValue是否为空判断是否把关联合同相关字段置空
+        if (this.state.contractValue.length !== 0) {
+          values.contractLineNumber = this.state.contract.lineNumber
           ? this.state.contract.lineNumber
           : '';
-        values.contractLineId = this.state.contract.contractLineId;
-        values.contractNumber = this.state.contract.contractNumber;
-        values.contractId = this.state.contract.contractId;
+          values.contractLineId = this.state.contract.contractLineId;
+          values.contractNumber = this.state.contract.contractNumber;
+          values.contractId = this.state.contract.contractId;
+        } else {
+          values.contractLineNumber = '';
+          values.contractLineId = '';
+          values.contractNumber = '';
+          values.contractId = '';
+        }
         values.bankBranchCode = this.state.bankBranchCode;
         values.bankBranchName = this.state.bankBranchName;
         values.paymentMethodCategory = this.state.params.paymentMethodCode;
@@ -501,11 +509,11 @@ class NewPrePaymentDetail extends React.Component {
             )}
           </FormItem>
           <Row gutter={8}>
-            <Col span={8} className="ant-form-item-label label-style">
+            <Col span={8} className="ant-form-item-label label-style" style = {{marginLeft: 2,'padding-right':'0px','color':'rgba(0, 0, 0, 0.85)'}}>
               预付款金额：
             </Col>
-            <Col span={5} className="ant-col-offset-1">
-              <FormItem>
+            <Col span={5} className="ant-col-offset-1"  style={{paddingLeft: 0}}>
+              <FormItem >
                 {getFieldDecorator('currency', {
                   rules: [
                     {
@@ -673,12 +681,7 @@ class NewPrePaymentDetail extends React.Component {
             })(<Input.TextArea placeholder="请输入" />)}
           </FormItem>
           <div className="common-item-title">合同信息</div>
-          <div style={{ marginBottom: '16px', marginLeft: '60px' }}>
-            <Row gutter={8}>
-              <Col span={4} className="ant-form-item-label">
-                关联合同:
-              </Col>
-              <Col span={16}>
+          <FormItem {...formItemLayout} label="关联合同">
                 <Select allowClear
                   ref="contractSelect"
                   onChange={(e) => {
@@ -692,28 +695,21 @@ class NewPrePaymentDetail extends React.Component {
                   dropdownStyle={{ display: 'none' }}
                   onDropdownVisibleChange={this.clickContractSelect}
                 />
-                <div style={{ marginTop: '8px' }}>
+                <div style={{ marginTop: '4px' }}>
                   {contractValue.length == 0
                     ? '注：根据收款方选择合同'
-                    : `付款计划序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
+                    : `序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
                       'YYYY-MM-DD'
                     )}`}
                 </div>
-              </Col>
-              {/* <Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
-                {contractValue.length > 0 && (
-                  <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
-                )}
-              </Col>*/}
-            </Row>
-          </div>
+            </FormItem>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
               {this.$t('common.save')}
             </Button>
             <Button onClick={this.onCancel}>{this.$t('common.cancel')}</Button>
           </div>
-        </Form>name
+        </Form>
         <SelectContract
           visible={showListSelector}
           onCancel={this.handleListCancel}

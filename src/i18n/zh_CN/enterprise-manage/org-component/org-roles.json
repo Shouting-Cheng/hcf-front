@@ -1,6 +1,7 @@
 {
   "org.roles.edit": "编辑",
   "org.roles.disabled": "停用该部门",
+  "org.roles.enabled": "启用该部门",
   "org.roles.create-child-dep": "创建子部门",
   "org.roles.please-select": "请选择",
   "org.roles.dep-name": "部门名称",

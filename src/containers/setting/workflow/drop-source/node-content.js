@@ -3,9 +3,9 @@ import { Icon } from 'antd'
 import { DropTarget } from 'react-dnd'
 import ListSort from 'widget/list-sort'
 import DropWidgetItem from 'containers/setting/workflow/drop-source/drop-widget-item'
+import PropTypes from 'prop-types';
 
 import endImg from 'images/setting/workflow/end.png'
-import PropTypes from 'prop-types';
 
 /**
  * 手机内部dropTarget
@@ -58,7 +58,7 @@ class NodeContent extends React.Component{
   };
 
   renderList = () => {
-    const { widgetList, nowSelectedIndex, isOver } = this.props;
+    const { widgetList, nowSelectedIndex, isOver, isRuleInEdit } = this.props;
     const { hoverIndex } = this.state;
     return widgetList.map((widget, index) =>
       <div key={widget.counterFlag} className={`list-sort-widget ${isOver && (hoverIndex - 1) === index && 'hover'}`}>
@@ -66,6 +66,7 @@ class NodeContent extends React.Component{
                         index={index}
                         onHover={this.handleHover}
                         className={nowSelectedIndex === index ? 'selected' : ''}
+                        isRuleInEdit={isRuleInEdit}
                         onClick={e => this.handleClick(e, index, widget)}
                         deleteHandle={this.props.onDelete}
         />
@@ -75,10 +76,10 @@ class NodeContent extends React.Component{
   };
 
   renderDragList = () => {
-    const { saving } = this.props;
+    const { saving, isRuleInEdit } = this.props;
     return (
       <div className="node-content-list">
-        {saving ? <div>{this.renderList()}</div> : (
+        {(saving || isRuleInEdit) ? <div>{this.renderList()}</div> : (
           <ListSort dragClassName="drag-widget-item" onChange={this.handleSort}>
             {this.renderList()}
           </ListSort>
@@ -97,7 +98,7 @@ class NodeContent extends React.Component{
         <div className={`widget-list-item end-node ${endNodeSelected ? 'selected' : ''}`}
              onClick={() => {this.props.onSelect(-1, endNodeWidget)}}>
           <img src={endImg}/>
-          <div>{this.$t('workflow.detail.node.finish')/*结束*/}</div>
+          <div>{this.$t('setting.key1252'/*结束*/)}</div>
         </div>
       </div>
     )
@@ -115,7 +116,8 @@ NodeContent.propTypes = {
   isOver: PropTypes.bool.isRequired,
   endNodeSelected: PropTypes.bool, //是否选中了结束节点
   endNodeWidget: PropTypes.object, //结束节点widget
-  saving: PropTypes.bool
+  saving: PropTypes.bool,
+  isRuleInEdit: PropTypes.bool,
 };
 
 export default DropTarget(

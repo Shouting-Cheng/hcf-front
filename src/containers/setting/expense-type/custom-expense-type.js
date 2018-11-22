@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import baseService from 'share/base.service'
 import 'styles/setting/expense-type/custom-expense-type.scss'
-import { Menu, Col, Row, Button, Icon, Anchor, Spin, message, Dropdown, Modal, Select, Badge } from 'antd'
+import { Menu, Col, Row, Button, Icon, Anchor, Spin, message, Dropdown, Modal, Select, Badge, Tabs } from 'antd'
 const Option = Select.Option;
 const { Link } = Anchor;
 import ListSort from 'widget/list-sort'
@@ -91,14 +91,17 @@ class CustomExpenseType extends React.Component {
   getSourceCategory = (setOfBooksId = this.props.expenseTypeSetOfBooks.id) => {
     this.setState({ loading: true });
     baseService.getExpenseTypesBySetOfBooks(setOfBooksId || this.props.company.setOfBooksId, null, null).then(res => {
-      res.data.rows.map(expenseCategory => {
+      res.data.map(expenseCategory => {
         //如果是第三方费用类型，则不参与排序，放到最下方
         if (!expenseCategory.id) {
           expenseCategory.sequence = 999;
         }
       });
-      let target = res.data.rows;
+
+      let target = res.data;
+
       let categoryCount = 0;
+
       target.map(expenseCategory => {
         if (expenseCategory.enabled) {
           expenseCategory.sequence = categoryCount++;
@@ -120,7 +123,7 @@ class CustomExpenseType extends React.Component {
       if (item.id === setOfBooksId)
         this.props.dispatch({
           type: 'setting/setExpenseTypeSetOfBooks',
-          payload: {...item},
+          payload: { ...item },
         });
     });
     this.getSourceCategory(setOfBooksId);
@@ -280,10 +283,131 @@ class CustomExpenseType extends React.Component {
     this.setState({ nowEditCategory });
   };
 
+  //新建申请类型
+  handleNewApplicationType = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: "/admin-setting/new-application-type/0"
+    }))
+  }
+
+  //费用类别面板
+  renderExpenseTypePanel = () => {
+
+    const { sourceCategory, typeSorting, typeSortingIndex, sortingExpenseType } = this.state;
+    const { tenantMode } = this.props;
+
+    return (
+      <div style={{ padding: 20 }}>
+        <Button type="primary" onClick={this.handleNewExpenseType}>{messages('expense.type.new.expense.type')/*新增费用类型*/}</Button>
+        {sourceCategory.map((expenseTypeCategory, index) => {
+          return (
+            <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
+              id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+              key={expenseTypeCategory.id}>
+              <div className="expense-type-category-title">
+                {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
+                        {typeSorting && typeSortingIndex === index ? (
+                  <div className="expense-type-category-operate">
+                    <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishExpenseTypeSort(true)} loading={sortingExpenseType}>{messages('common.ok')}</Button>
+                    <Button onClick={() => this.finishExpenseTypeSort(false)} disabled={sortingExpenseType}>{messages('common.cancel')}</Button>
+                  </div>
+                ) : (expenseTypeCategory.id && tenantMode && (
+                  <div className="expense-type-category-operate">
+                    <Dropdown overlay={this.renderButtonMenu(expenseTypeCategory)}>
+                      <Button style={{ marginRight: 10 }}>
+                        {messages('common.edit')} <Icon type="down" />
+                      </Button>
+                    </Dropdown>
+                    <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
+                  </div>
+                ))}
+              </div>
+              {typeSorting && typeSortingIndex === index ? (
+                <div className="expense-type-list">
+                  <ListSort
+                    onChange={this.handleSortExpense}
+                    dragClassName="list-drag-selected"
+                  >
+                    {expenseTypeCategory.expenseTypes.map(expenseType => this.renderExpenseType(expenseType, true))}
+                  </ListSort>
+                </div>
+              ) : (
+                  <div className="expense-type-list">
+                    {expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.map(expenseType =>
+                      this.renderExpenseType(expenseType)
+                    ) : null}
+                  </div>
+                )}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  //申请类型面板
+  renderApplicationTypePanel = () => {
+    const { sourceCategory, typeSorting, typeSortingIndex, sortingExpenseType } = this.state;
+    const { tenantMode } = this.props;
+
+    return (
+      <div style={{ padding: 20 }}>
+        <Button type="primary" onClick={this.handleNewApplicationType}>{messages('新增申请类型')}</Button>
+        {sourceCategory.map((expenseTypeCategory, index) => {
+          return (
+            <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
+              id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+              key={expenseTypeCategory.id}>
+              <div className="expense-type-category-title">
+                {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
+                        {typeSorting && typeSortingIndex === index ? (
+                  <div className="expense-type-category-operate">
+                    <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishExpenseTypeSort(true)} loading={sortingExpenseType}>{messages('common.ok')}</Button>
+                    <Button onClick={() => this.finishExpenseTypeSort(false)} disabled={sortingExpenseType}>{messages('common.cancel')}</Button>
+                  </div>
+                ) : (expenseTypeCategory.id && tenantMode && (
+                  <div className="expense-type-category-operate">
+                    <Dropdown overlay={this.renderButtonMenu(expenseTypeCategory)}>
+                      <Button style={{ marginRight: 10 }}>
+                        {messages('common.edit')} <Icon type="down" />
+                      </Button>
+                    </Dropdown>
+                    <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
+                  </div>
+                ))}
+              </div>
+              {typeSorting && typeSortingIndex === index ? (
+                <div className="expense-type-list">
+                  <ListSort
+                    onChange={this.handleSortExpense}
+                    dragClassName="list-drag-selected"
+                  >
+                    {expenseTypeCategory.expenseTypes.map(expenseType => this.renderExpenseType(expenseType, true))}
+                  </ListSort>
+                </div>
+              ) : (
+                  <div className="expense-type-list">
+                    {expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.map(expenseType =>
+                      this.renderExpenseType(expenseType)
+                    ) : null}
+                  </div>
+                )}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  switchTab = () => {
+
+  }
+
   render() {
     const { sourceCategory, categorySorting, typeSorting, typeSortingIndex, savingCategory, setOfBooksLoading,
       sortingCategory, sortingExpenseType, loading, categoryEditVisible, nowEditCategory, setOfBooks } = this.state;
     const { tenantMode } = this.props;
+
     return (
       <div className="custom-expense-type">
         {typeSorting ? <div className="sort-backdrop" onClick={() => this.finishExpenseTypeSort(false)} /> : null}
@@ -334,49 +458,14 @@ class CustomExpenseType extends React.Component {
               </Col>
             ) : (
                 <Col span={18} className="right-container">
-                  {tenantMode && <Button type="primary" onClick={this.handleNewExpenseType}>{messages('expense.type.new.expense.type')/*新增费用类型*/}</Button>}
-                  {sourceCategory.map((expenseTypeCategory, index) => {
-                    return (
-                      <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
-                        id={'' + expenseTypeCategory.expenseTypeCategoryOID}
-                        key={expenseTypeCategory.id}>
-                        <div className="expense-type-category-title">
-                          {expenseTypeCategory.name}&nbsp;({expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})
-                        {typeSorting && typeSortingIndex === index ? (
-                            <div className="expense-type-category-operate">
-                              <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishExpenseTypeSort(true)} loading={sortingExpenseType}>{messages('common.ok')}</Button>
-                              <Button onClick={() => this.finishExpenseTypeSort(false)} disabled={sortingExpenseType}>{messages('common.cancel')}</Button>
-                            </div>
-                          ) : (expenseTypeCategory.id && tenantMode && (
-                            <div className="expense-type-category-operate">
-                              <Dropdown overlay={this.renderButtonMenu(expenseTypeCategory)}>
-                                <Button style={{ marginRight: 10 }}>
-                                  {messages('common.edit')} <Icon type="down" />
-                                </Button>
-                              </Dropdown>
-                              <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
-                            </div>
-                          ))}
-                        </div>
-                        {typeSorting && typeSortingIndex === index ? (
-                          <div className="expense-type-list">
-                            <ListSort
-                              onChange={this.handleSortExpense}
-                              dragClassName="list-drag-selected"
-                            >
-                              {expenseTypeCategory.expenseTypes.map(expenseType => this.renderExpenseType(expenseType, true))}
-                            </ListSort>
-                          </div>
-                        ) : (
-                            <div className="expense-type-list">
-                              {expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.map(expenseType =>
-                                this.renderExpenseType(expenseType)
-                              ) : null}
-                            </div>
-                          )}
-                      </div>
-                    )
-                  })}
+                  <Tabs defaultActiveKey="1" onChange={this.switchTab}>
+                    <Tabs.TabPane tab="申请类型" key="1">
+                      {this.renderApplicationTypePanel()}
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="费用类型" key="2">
+                      {this.renderExpenseTypePanel()}
+                    </Tabs.TabPane>
+                  </Tabs>
                 </Col>
               )
           )}

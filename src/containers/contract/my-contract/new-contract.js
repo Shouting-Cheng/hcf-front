@@ -285,6 +285,17 @@ class NewContract extends React.Component {
     );
   };
 
+  //取消
+  onBack = () => {
+    //this.props.match.params.id ? this.context.router.push(this.state.contractDetail.url.replace(':id', this.props.match.params.id)) :
+    //this.context.router.push(this.state.myContract.url)
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/contract-manage/my-contract/contract-detail/${this.props.match.params.id}`,
+      })
+    );
+  };
+
   //选择公司
   handleCompanyId = value => {
     if (value) {
@@ -548,10 +559,12 @@ class NewContract extends React.Component {
                 htmlType="submit"
                 loading={loading}
                 style={{ margin: '0 20px' }}
-              >
-                {this.$t({ id: 'my.contract.next' })}
+              >{isNew ? this.$t({ id: 'my.contract.next' }): this.$t({id:'common.ok'})}
               </Button>
-              <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' })}</Button>
+
+              {isNew ? <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' })}</Button> :
+                <Button onClick={this.onBack}>{this.$t({ id: 'common.back' })}</Button>
+              }
             </Affix>
           </Form>
         </Spin>

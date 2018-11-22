@@ -143,7 +143,7 @@ class ExpenseReportDetail extends React.Component {
       expenseTypeOIDStr: '',
       showNewExpense: false,
       showNewExpenseReport: false,
-      nowEditExpense: null,
+      nowEditExpense: {},
       expenseSource: 'expenseType',
       showLoanModal: false,
       checkingText: '',
@@ -818,13 +818,16 @@ class ExpenseReportDetail extends React.Component {
   };
 
   goBack = () => {
-    if (this.props.match.params.backType === 'history') {
-      console.log(this.props)
+    if (this.props.match.params.backType&&this.props.match.params.backType.indexOf('history') !== -1) {
       window.history.go(-1);
     } else {
+      let url='';
+      switch (this.props.match.params.pageFrom) {
+        case 'my': url = '/expense-report'
+      }
       this.props.dispatch(
         routerRedux.push({
-          pathname: `/expense-report`
+          pathname: url
         })
       )
     }
@@ -845,7 +848,7 @@ class ExpenseReportDetail extends React.Component {
   };
 
   handleCloseNewCreate = (refresh) => {
-    this.setState({ nowEditExpense: null, showNewExpense: false });
+    this.setState({ nowEditExpense: {}, showNewExpense: false });
     if (refresh === true) {
       this.getInfo(refresh);
     }
@@ -1320,6 +1323,7 @@ class ExpenseReportDetail extends React.Component {
       travelSubsidy, travelSubsidyType, travelSubsidyUser, buttonRoleSwitch, pay, loanRefund,
       costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading
     } = this.state;
+    console.log(nowEditExpense)
     const { profile } = this.props;
     let custFormValues = info.custFormValues || []; //自定义表单
     let expenseReportStatus = info ? this.getStatus() : {};
@@ -1598,13 +1602,14 @@ class ExpenseReportDetail extends React.Component {
           onSelectAll={this.handleSelectAllExpense}
           selectAllLoading={selectAllLoading}
         />
+        {console.log(nowEditExpense)}
         {!loading && <SlideFrame show={showNewExpense}
           title={readOnly ? this.$t('expense.view')/*查看费用*/ : (nowEditExpense ? this.$t('expense.edit')/*编辑费用*/ : this.$t('expense.new')/*新建费用*/)}
-          onClose={() => this.setState({ showNewExpense: false, nowEditExpense: null })}
+          onClose={() => this.setState({ showNewExpense: false, nowEditExpense: {} })}
           hasFooter={false}
           width="800px">
           <NewExpense
-            close={this.handleCloseNewCreate}
+            onClose={this.handleCloseNewCreate}
             params={
               {
                 nowExpense: nowEditExpense,

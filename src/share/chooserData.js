@@ -12,7 +12,7 @@ const chooserData = {
     searchForm: [
       {
         type: 'input', id: 'keyword',
-        label: messages("chooser.data.employeeID.fullName.mobile")//员工工号、姓名、手机号
+        label: messages("chooser.data.employeeID.fullName.mobile.email")//员工工号、姓名、手机号、邮箱
       },
     ],
     columns: [
@@ -22,19 +22,23 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.fullName"),//姓名
-        dataIndex: 'fullName', width: '25%'
+        dataIndex: 'fullName', width: '15%'
       },
       {
         title: messages("chooser.data.mobile"),//手机号
-        dataIndex: 'mobile', width: '25%'
+        dataIndex: 'mobile', width: '20%'
+      },
+      {
+        title: messages('chooser.data.email'), //邮箱
+        dataIndex: 'email', width: '25%'
       },
       {
         title: messages("chooser.data.dep"),//部门名称
-        dataIndex: 'departmentName', width: '20%', render: value => value || '-'
+        dataIndex: 'departmentName', width: '15%', render: value => value || '-'
       },
       {
         title: messages("chooser.data.duty"),//职务
-        dataIndex: 'title', width: '20%', render: value => value || '-'
+        dataIndex: 'title', width: '15%', render: value => value || '-'
       },
     ],
     key: 'userOID'
@@ -45,7 +49,7 @@ const chooserData = {
     searchForm: [
       {
         type: 'input', id: 'keyword',
-        label: messages("chooser.data.employeeID.fullName.mobile")//员工工号、姓名、手机号
+        label: messages("chooser.data.employeeID.fullName.mobile.email")//员工工号、姓名、手机号、邮箱
       },
     ],
     columns: [
@@ -55,19 +59,23 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.fullName"),//姓名
-        dataIndex: 'fullName', width: '25%'
+        dataIndex: 'fullName', width: '15%'
       },
       {
         title: messages("chooser.data.mobile"),//手机号
-        dataIndex: 'mobile', width: '25%'
+        dataIndex: 'mobile', width: '20%'
+      },
+      {
+        title: messages('chooser.data.email'), //邮箱
+        dataIndex: 'email', width: '25%'
       },
       {
         title: messages("chooser.data.dep"),//部门名称
-        dataIndex: 'departmentName', width: '20%', render: value => value || '-'
+        dataIndex: 'departmentName', width: '15%', render: value => value || '-'
       },
       {
         title: messages("chooser.data.duty"),//职务
-        dataIndex: 'title', width: '20%', render: value => value || '-'
+        dataIndex: 'title', width: '15%', render: value => value || '-'
       },
     ],
     key: 'id'

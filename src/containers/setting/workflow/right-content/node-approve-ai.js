@@ -55,9 +55,9 @@ class NodeApproveAi extends React.Component {
     return (
       <div className='node-approve-ai'>
         <Card className="basic-info-container">
-          <h3 className="title">{this.$t('workflow.detail.node.basic.info')/*基础信息*/}</h3>
+          <h3 className="title">{this.$t('setting.key1371'/*基础信息*/)}</h3>
           <Form onSubmit={this.handleSaveBasicInfo}>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.node.name')/*节点名称*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1372'/*节点名称*/)} colon={false}>
               {getFieldDecorator('remark', {
                 rules: [{
                   max: 8,
@@ -68,23 +68,23 @@ class NodeApproveAi extends React.Component {
                 <Input placeholder={this.$t('common.please.enter')} style={{width: 200}} autoComplete="off"/>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.node.type')/*节点类型*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1373'/*节点类型*/)} colon={false}>
               {getFieldDecorator('approvalActions', {
                 initialValue: basicInfo.approvalActions
               })(
                 <RadioGroup onChange={e => {this.setState({approvalAction: e.target.value})}}>
                   <Radio value="8001">
-                    {this.$t('workflow.detail.pass')/*通过*/}
-                    <span className="approve-type-notice">{this.$t('workflow.detail.pass.desc')/*符合审批条件则系统自动审批通过,否则自动跳过到下一个节点*/}</span>
+                    {this.$t('setting.key1374'/*通过*/)}
+                    <span className="approve-type-notice">{this.$t('setting.key1375'/*符合审批条件则系统自动审批通过,否则自动跳过到下一个节点*/)}</span>
                   </Radio>
                   <Radio value="8002">
-                    {this.$t('workflow.detail.reject')/*驳回*/}
-                    <span className="approve-type-notice">{this.$t('workflow.detail.reject.desc')/*符合审批条件则系统自动审批驳回,否则自动跳过到下一个节点*/}</span>
+                    {this.$t('setting.key1376'/*驳回*/)}
+                    <span className="approve-type-notice">{this.$t('setting.key1377'/*符合审批条件则系统自动审批驳回,否则自动跳过到下一个节点*/)}</span>
                   </Radio>
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.approve.comments')/*审批意见*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1378'/*审批意见*/)} colon={false}>
               {getFieldDecorator('comments', {
                 rules: [{
                   max: 50,
@@ -92,8 +92,8 @@ class NodeApproveAi extends React.Component {
                 }],
                 initialValue: basicInfo.comments
               })(
-                <TextArea placeholder={approvalAction === '8001' ? this.$t('workflow.detail.approve.auto.pass'/*系统自动通过*/) :
-                                        this.$t('workflow.detail.approve.auto.reject'/*系统自动驳回*/)}
+                <TextArea placeholder={approvalAction === '8001' ? this.$t('setting.key1379'/*系统自动通过*/) :
+                                        this.$t('setting.key1380'/*系统自动驳回*/)}
                           rows={2} style={{resize: 'none', width: 400}}/>
               )}
             </FormItem>
@@ -102,7 +102,7 @@ class NodeApproveAi extends React.Component {
         </Card>
         <div className="add-btn-container">
           <Icon type="exclamation-circle-o" className="approve-info-icon"/>
-          <span className="approve-info-text">{this.$t('workflow.detail.add.approve.condition.tip')/*一个条件组内多条件为and关系, 不同条件组为or关系*/}</span>
+          <span className="approve-info-text">{this.$t('setting.key1381'/*一个条件组内多条件为and关系, 不同条件组为or关系*/)}</span>
         </div>
       </div>
     )
@@ -111,7 +111,7 @@ class NodeApproveAi extends React.Component {
 
 NodeApproveAi.propTypes = {
   basicInfo: PropTypes.object,
-  basicInfoSaveHandle:PropTypes.func, //基本信息保存成功的回调
+  basicInfoSaveHandle: PropTypes.func, //基本信息保存成功的回调
 };
 
 function mapStateToProps(state) {
@@ -122,4 +122,4 @@ function mapStateToProps(state) {
 
 const wrappedNodeApproveAi = Form.create()(NodeApproveAi);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedNodeApproveAi)
+export default connect(mapStateToProps)(wrappedNodeApproveAi)

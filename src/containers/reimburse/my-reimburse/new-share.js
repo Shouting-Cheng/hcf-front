@@ -22,6 +22,7 @@ class NewShare extends Component {
           dataIndex: 'company',
           width: 200,
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <Input
                 disabled={record.isCreateByApplication}
@@ -45,6 +46,7 @@ class NewShare extends Component {
           dataIndex: 'department',
           width: 200,
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <Input
                 disabled={record.isCreateByApplication}
@@ -69,13 +71,14 @@ class NewShare extends Component {
           width: 160,
           key: 'cost',
           render: (value, record, index) => {
+            index = index + this.state.pagination.page * this.state.pagination.pageSize;
             return record.status == 'edit' || record.status == 'new' ? (
               <div style={{ textAlign: 'right' }}>
                 <InputNumber
                   precision={2}
-                  // value={value}
+                  value={value}
                   onChange={val => this.costChange(index, val)}
-                  disabled={(!this.props.params.relatedApplication&&record.rowKey===1)?true:false}
+                  disabled={record.isCreateByApplication}
                 />
               </div>
             ) : (
@@ -109,6 +112,7 @@ class NewShare extends Component {
         fixed: 'right',
         width: 120,
         render: (value, record, index) => {
+          index = index + this.state.pagination.page * this.state.pagination.pageSize;
           return record.status == 'edit' || record.status == 'new' ? (
             <div>
               <a onClick={() => this.save(index)}>保存</a>
@@ -327,19 +331,19 @@ class NewShare extends Component {
 
   //取消
   cancel = index => {
-    let {data,pagination }= this.state;
-    index = (index+pagination.page)*pagination.pageSize;
-    if(index)
+    let {data,pagination,dataCache }= this.state;
     if (data[index].status == 'edit') {
-      data[index] = { ...this.state.dataCache, status: 'normal' };
+      data[index] = { ...dataCache, status: 'normal' };
       this.props.handleOk && this.props.handleOk(data, true);
-      this.setState({ data, dataCache: null });
+      this.setState({ data, dataCache: null },()=>console.log(this.state.data));
     } else if (data[index].status == 'new') {
       data.splice(index, 1);
       this.props.handleOk && this.props.handleOk(data, true);
       this.setState({ data, dataCache: null,pagination:{
           ...pagination,
-          total: pagination.total-1
+          total: pagination.total-1,
+          page: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) : pagination.page,
+          current: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) + 1 : pagination.page + 1,
         } });
     }
   };

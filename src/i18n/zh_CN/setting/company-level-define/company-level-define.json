@@ -8,5 +8,6 @@
   "company.level.define.edit.description.empty": "描述不能为空",
   "company.level.define.can.not.edit": "公司级别已被引用不可修改",
   "company.level.define.validation.error": "验证失败.",
-  "company.level.define.code.repeat": "公司级别代码不能重复."
+  "company.level.define.code.repeat": "公司级别代码不能重复.",
+  "company.level.define.empty.description": "公司级别描述为空"
 }

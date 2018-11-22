@@ -383,10 +383,13 @@ class NewPaymentRequisitionLine extends React.Component {
                     },
                   ],
                   initialValue: lineData.reportNumber,
-                })(<Input />)}
+                })(<Select
+                  onDropdownVisibleChange={()=>{this.setState({isReload: false,nowPage: 'type'})}}
+                  dropdownStyle={{ display: 'none' }}
+                />)}
               </FormItem>
             </Col>
-            <Col span={2} className="ant-col-offset-1">
+            <Col span={2} style={{marginLeft: 15, marginTop: 10}} className="ant-col-offset-1">
               {lineData.refDocumentId === '' ? (
                 ''
               ) : (

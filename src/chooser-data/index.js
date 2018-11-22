@@ -5,6 +5,39 @@ import moment from 'moment';
 import { messages } from 'utils/utils';
 import { Badge, Popover, Avatar, Tooltip } from 'antd';
 
+const formatMoney = (number, decimals = 2, isString = false) => {
+  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+    dec = typeof dec_point === 'undefined' ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.ceil(n * k) / k;
+    };
+
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  var re = /(-?\d+)(\d{3})/;
+  while (re.test(s[0])) {
+    s[0] = s[0].replace(re, '$1' + sep + '$2');
+  }
+
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+
+  //console.log(s.join(dec));
+
+  if (isString === true) {
+    return s.join(dec);
+  } else {
+    return <span className="money-cell">{s.join(dec)}</span>;
+  }
+};
+
+
 const chooserData = {
   user: {
     title: messages('chooser.data.selectPerson'), //选择人员
@@ -13,7 +46,7 @@ const chooserData = {
       {
         type: 'input',
         id: 'keyword',
-        label: messages('chooser.data.employeeID.fullName.mobile'), //员工工号、姓名、手机号
+        label: messages('chooser.data.employeeID.fullName.mobile.email'), //员工工号、姓名、手机号、邮箱
       },
     ],
     columns: [
@@ -25,23 +58,28 @@ const chooserData = {
       {
         title: messages('chooser.data.fullName'), //姓名
         dataIndex: 'fullName',
-        width: '25%',
+        width: '15%',
       },
       {
         title: messages('chooser.data.mobile'), //手机号
         dataIndex: 'mobile',
+        width: '20%',
+      },
+      {
+        title: messages('chooser.data.email'), //邮箱
+        dataIndex: 'email',
         width: '25%',
       },
       {
         title: messages('chooser.data.dep'), //部门名称
         dataIndex: 'departmentName',
-        width: '20%',
+        width: '15%',
         render: value => value || '-',
       },
       {
         title: messages('chooser.data.duty'), //职务
         dataIndex: 'title',
-        width: '20%',
+        width: '15%',
         render: value => value || '-',
       },
     ],
@@ -454,6 +492,22 @@ const chooserData = {
     ],
     key: 'id',
   },
+  gl_type_distribution_company: {
+    title: '批量分配公司',
+    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/filter`,
+    searchForm: [
+      { type: 'input', id: 'companyCode', label: '公司代码' },
+      { type: 'input', id: 'companyName', label: '公司名称' },
+      { type: 'input', id: 'companyCodeFrom', label: '公司代码从' },
+      { type: 'input', id: 'companyCodeTo', label: '公司代码至' },
+    ],
+    columns: [
+      { title: '公司代码', dataIndex: 'code' },
+      { title: '公司名称', dataIndex: 'name' },
+      { title: '公司类型', dataIndex: 'attribute4' },
+    ],
+    key: 'id',
+  },
   budget_journal_type: {
     title: messages('budgetJournal.journalTypeId') /*"预算日记账类型"*/,
     url: `${config.budgetUrl}/api/budget/journals/journalType/selectByInput`,
@@ -661,7 +715,7 @@ const chooserData = {
         },
       },
     ],
-    key: 'deptId',
+    key: 'departmentId',
   },
   department: {
     title: messages('chooser.data.dep.title'), //部门
@@ -1019,7 +1073,7 @@ const chooserData = {
     title: messages('chooser.data.selectPerson'),
     url: `${config.baseUrl}/api/select/user/by/name/or/code`,
     searchForm: [
-      { type: 'input', id: 'employeeID', label: messages('chooser.data.employeeID') },
+      { type: 'input', id: 'keyword', label: messages('chooser.data.employeeID') },
       { type: 'input', id: 'fullName', label: messages('chooser.data.fullName') },
     ],
     columns: [
@@ -1154,20 +1208,134 @@ const chooserData = {
       { label: '申请单类型', id: 'applicationType', type: 'input' },
     ],
     columns: [
-      { title: '申请单号', dataIndex: 'businessCode' },
-      { title: '申请单类型', dataIndex: 'applicationType' },
+      {
+        title: '申请单号',
+        dataIndex: 'businessCode',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '申请单类型',
+        dataIndex: 'applicationType',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
+      },
       {
         title: '提交时间',
+        align: 'center',
         dataIndex: 'submittedDate',
-        render: value => {
-          return <span>{moment(value).format('YYYY-MM-DD')}</span>;
-        },
+        render: value => (
+          <span>
+            {value ? (
+              <Popover placement="topLeft" content={moment(value).format('YYYY-MM-DD')}>
+                {moment(value).format('YYYY-MM-DD')}
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
       },
-      { title: '币种', dataIndex: 'currencyCode' },
-      { title: '总金额', dataIndex: 'amount' },
-      { title: '已关联金额', dataIndex: 'relatedAmount' },
-      { title: '可关联金额', dataIndex: 'notAssociatedAmount' },
-      { title: '备注', dataIndex: 'title' },
+      {
+        title: '币种',
+        dataIndex: 'currencyCode',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '总金额',
+        align: 'center',
+        dataIndex: 'amount',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+                formatMoney(0)
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '已关联金额',
+        dataIndex: 'relatedAmount',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+                formatMoney(0)
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '可关联金额',
+        dataIndex: 'notAssociatedAmount',
+        align: 'right',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={formatMoney(text)}>
+                {formatMoney(text)}
+              </Popover>
+            ) : (
+                formatMoney(0)
+              )}
+          </span>
+        ),
+      },
+      {
+        title: '备注',
+        dataIndex: 'title',
+        align: 'center',
+        render: text => (
+          <span>
+            {text ? (
+              <Popover placement="topLeft" content={text}>
+                {text}
+              </Popover>
+            ) : (
+                '-'
+              )}
+          </span>
+        ),
+      },
     ],
     key: 'id',
   },
@@ -1454,6 +1622,28 @@ const chooserData = {
     ],
     key: 'companyOID',
   },
+  batch_deploy_company: {
+    title: messages('chooser.data.distribute.company' /*分配公司*/),
+    url: `${config.baseUrl}/api/company/batch/deploy/enumeration`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'companyCode',
+        label: messages('chooser.data.companyCode' /*公司代码*/),
+      },
+      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode' /*公司代码*/), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName' /*公司名称*/), dataIndex: 'name' },
+      {
+        title: messages('chooser.data.companyType' /*公司类型*/),
+        dataIndex: 'companyTypeName',
+        render: value => value || '-',
+      },
+    ],
+    key: 'companyOID',
+  },
   allotSetOfBookCompany: {
     title: messages('chooser.data.distribute.company' /*分配公司*/),
     url: `${config.baseUrl}/api/company/by/condition`,
@@ -1664,11 +1854,11 @@ const chooserData = {
           return record.enable ? (
             value
           ) : (
-            <span>
-              {value}
-              <span style={{ color: '#959595' }}>({messages('common.disabling')})</span>
-            </span>
-          );
+              <span>
+                {value}
+                <span style={{ color: '#959595' }}>({messages('common.disabling')})</span>
+              </span>
+            );
         },
       },
       { title: messages('chooser.data.bank'), dataIndex: 'accountBank' },
@@ -2478,7 +2668,7 @@ const chooserData = {
     title: '核算要素',
     url: `${
       config.accountingUrl
-    }/api/general/ledger/journal/line/model/data/rules/query/fitler/element`,
+      }/api/general/ledger/journal/line/model/data/rules/query/fitler/element`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: '核算要素代码' },
       { type: 'input', id: 'elementNature', label: '核算要素名称' },
@@ -2506,7 +2696,7 @@ const chooserData = {
     title: '核算要素',
     url: `${
       config.accountingUrl
-    }/api/general/ledger/journal/line/model/system/data/rules/query/fitler/element`,
+      }/api/general/ledger/journal/line/model/system/data/rules/query/fitler/element`,
     searchForm: [
       { type: 'input', id: 'accountElementCode', label: '核算要素代码' },
       { type: 'input', id: 'elementNature', label: '核算要素名称' },
@@ -2654,7 +2844,7 @@ const chooserData = {
     title: '选择公司', // 选择当前租户下的所有公司，展示账套
     url: `${config.baseUrl}/api/company/name/setOfBooksId`,
     searchForm: [
-      { type: 'input', id: 'keyword', label: "公司名称" },
+      { type: 'input', id: 'keyword', label: "公司名称、代码" },
       {
         type: 'select', id: 'setOfBooksId', label: "所属账套", options: [],
         getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
@@ -2667,6 +2857,34 @@ const chooserData = {
       { title: "所属账套", dataIndex: 'setOfBooksName' }
     ],
     key: 'id'
+  },
+  accounting_company: {
+    title: messages('chooser.data.company' /*选择公司*/),
+    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/query/company`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'companyCode',
+        label: messages('chooser.data.companyCode' /*公司代码*/),
+      },
+      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
+      {
+        type: 'input',
+        id: 'companyCodeFrom',
+        label: messages('chooser.data.companyCode.from' /*公司代码从*/),
+      },
+      {
+        type: 'input',
+        id: 'companyCodeTo',
+        label: messages('chooser.data.companyCode.to' /*公司代码至*/),
+      },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode' /*公司代码*/), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName' /*公司名称*/), dataIndex: 'name' },
+      { title: messages('chooser.data.companyType' /*公司类型*/), dataIndex: 'companyTypeName' },
+    ],
+    key: 'id',
   },
 };
 

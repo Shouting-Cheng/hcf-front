@@ -121,7 +121,7 @@ class FileUpload extends React.Component {
       this.state.result.map(item => this.isImage(item) && imageList.push(item));
       imageList.map((item, index) => {
         if (
-          item.attachmentOID === (file.response ? file.response.attachmentOID : file.attachmentOID)
+          item.uid === (file.response ? file.response.attachmentOID : file.attachmentOID)
         ) {
           this.setState({
             previewIndex: index,
@@ -153,7 +153,7 @@ class FileUpload extends React.Component {
   };
 
   isImage = file => {
-    let sections = (file.response ? file.response.fileName : file.fileName).split('.');
+    let sections = (file.fileName || file.name).split('.');
     let extension = sections[sections.length - 1];
     let imageExtension = ['png', 'gif', 'jpg', 'jpeg', 'bmp'];
     return imageExtension.has(extension);
@@ -252,7 +252,7 @@ class FileUpload extends React.Component {
             attachments={imageList}
             defaultIndex={previewIndex}
             onCancel={() => this.setState({ previewVisible: false })}
-            urlKey="fileURL"
+            urlKey="thumbnailUrl"
             valueKey="attachmentOID"
           />
         )}
@@ -295,7 +295,7 @@ FileUpload.propTypes = {
 FileUpload.defaultProps = {
   uploadUrl: `${config.baseUrl}/api/upload/attachment`,
   defaultFileList: [],
-  onChange: () => {},
+  onChange: () => { },
   maxNum: 9,
   isShowDefault: false,
   disabled: false,

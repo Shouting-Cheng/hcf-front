@@ -4,7 +4,10 @@ import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal,
 const FormItem = Form.Item;
 const Option = Select.Option;
 import 'styles/setting/data-authority/data-authority.scss';
-import ViewRuleModal from 'containers/setting/data-authority/view-rule-modal'
+import ViewRuleModal from 'containers/setting/data-authority/view-rule-modal';
+import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
+import ListSelector from 'components/Widget/list-selector';
+import config from 'config';
 
 class LineModelChangeRulesSystem extends React.Component {
     constructor() {
@@ -16,18 +19,41 @@ class LineModelChangeRulesSystem extends React.Component {
             renderCompanyList: false,
             renderDepartmentList: false,
             renderEmplyeeList: false,
-            showRuleModal: false
+            showRuleModal: false,
+            tenantVisible: false,
+            tenantItem: {},
+            empolyeeVisible: false,
+            employeeItem: {},
+            companyVisible: false,
+            isEditDelete: false,
         }
     }
     componentWillMount() {
-        console.log(this.props);
+        console.log()
         this.setState({
             targeKey: this.props.targeKey
-        })
+        });
+        if (this.props.isEditRule) {
+            this.setState({ show: false })
+        } else {
+            this.setState({ show: true })
+        }
     }
-    /**删除规则 */
+     /**删除的规则,如果是这条数据正在编辑取消，则回到原来没编辑的状态 */
     removeRule = (targeKey) => {
-        this.props.cancelHandle(targeKey)
+        let { isEditDelete } = this.state;
+        if (isEditDelete) {
+            this.setState({
+                show: false
+            })
+        } else {
+            this.props.cancelHandle(targeKey)
+        }
+
+    }
+   
+    removeEditRule = (targeKey) => {
+        this.props.canceEditHandle(targeKey)
     }
     /**保存单条规则 */
     saveRuleItem = (e) => {
@@ -36,7 +62,9 @@ class LineModelChangeRulesSystem extends React.Component {
             if (!err) {
                 console.log(values);
                 this.setState({
-                    show: false
+                    show: false,
+                    isEditDelete: true
+
                 })
             }
         })
@@ -44,7 +72,8 @@ class LineModelChangeRulesSystem extends React.Component {
     /**编辑单条规则 */
     editRuleItem = () => {
         this.setState({
-            show: true
+            show: true,
+            isEditDelete: true
         })
     }
     /**选中手动选择 */
@@ -103,9 +132,95 @@ class LineModelChangeRulesSystem extends React.Component {
             showRuleModal: false
         })
     }
+    //添加账套
+    addTenant = () => {
+        const tenantItem = {
+            title: '添加账套',
+            url: `${config.baseUrl}/api/expReportHeader/get/release/by/reportId`,
+            searchForm: [
+                { type: 'input', id: 'businessCode', label: '账套代码', colSpan: 6 },
+                { type: 'input', id: 'formName', label: '账套名称', colSpan: 6 },
+            ],
+            columns: [
+                { title: "申请单单号", dataIndex: 'applicationCode', width: 150 },
+                { title: "申请单类型", dataIndex: 'applicationTypeNum' },
+                { title: "费用类型", dataIndex: 'expenseType' },
+                { title: "申请人", dataIndex: 'applicant' },
+                { title: "申请日期", dataIndex: 'applicationDate' },
+                { title: "币种", dataIndex: 'currency' },
+                { title: "金额", dataIndex: 'amount' },
+                { title: "关联金额", dataIndex: 'releaseAmount' },
+                { title: "备注", dataIndex: 'remark' },
+            ],
+            key: 'id'
+        }
+        this.setState({
+            tenantVisible: true,
+            tenantItem
+        })
+    }
+    handleTenantListOk = () => {
+        this.setState({
+            tenantVisible: false
+        })
+    }
+    cancelTenantList = (flag) => {
+        this.setState({
+            tenantVisible: flag
+        })
+    }
+    //添加员工
+    addEmployee = () => {
+        const employeeItem = {
+            title: '添加员工',
+            url: `${config.baseUrl}/api/expReportHeader/get/release/by/reportId`,
+            searchForm: [
+                { type: 'input', id: 'businessCode', label: '账套代码', colSpan: 6 },
+                { type: 'input', id: 'formName', label: '账套名称', colSpan: 6 },
+            ],
+            columns: [
+                { title: "申请单单号", dataIndex: 'applicationCode', width: 150 },
+                { title: "申请单类型", dataIndex: 'applicationTypeNum' },
+                { title: "费用类型", dataIndex: 'expenseType' },
+                { title: "申请人", dataIndex: 'applicant' },
+                { title: "申请日期", dataIndex: 'applicationDate' },
+                { title: "币种", dataIndex: 'currency' },
+                { title: "金额", dataIndex: 'amount' },
+                { title: "关联金额", dataIndex: 'releaseAmount' },
+                { title: "备注", dataIndex: 'remark' },
+            ],
+            key: 'id'
+        }
+        this.setState({
+            empolyeeVisible: true,
+            employeeItem
+        })
+    }
+    handleEmployeeListOk = () => {
+        this.setState({
+            empolyeeVisible: false
+        })
+    }
+    cancelEmployeeList = () => {
+        this.setState({
+            empolyeeVisible: false
+        })
+    }
+    //添加公司
+    addCompany = () => {
+        this.setState({
+            companyVisible: true,
+        })
+    }
+    cancelCompanyList = () => {
+        this.setState({
+            companyVisible: false
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { targeKey, show, renderSelectList, renderCompanyList, renderDepartmentList, renderEmplyeeList, showRuleModal } = this.state;
+        const { targeKey, show, renderSelectList, renderCompanyList, renderDepartmentList, renderEmplyeeList,
+            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, isEditBtn } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
@@ -157,16 +272,32 @@ class LineModelChangeRulesSystem extends React.Component {
                                     </FormItem>
                                 </Col>
                                 {renderSelectList &&
-                                    <Col span={16} style={{ marginTop: 3 }}>
+                                    <Col span={16} >
                                         <Row>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                    <Option value='include'>包含</Option>
-                                                    <Option value='exclude'>排除</Option>
-                                                </Select>
+                                            <Col span={8} style={{ marginLeft: 10 }}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('range', { initialValue: 'include' })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                            <Option value='include'>包含</Option>
+                                                            <Option value='exclude'>排除</Option>
+                                                        </Select>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Button icon="plus">添加账套</Button>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('addTenant')(
+                                                        <Button icon="plus" onClick={this.addTenant}>添加账套</Button>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
                                         </Row>
 
@@ -191,16 +322,32 @@ class LineModelChangeRulesSystem extends React.Component {
                                     </FormItem>
                                 </Col>
                                 {renderCompanyList &&
-                                    <Col span={16} style={{ marginTop: 3 }} >
+                                    <Col span={16} >
                                         <Row>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                    <Option value='include'>包含</Option>
-                                                    <Option value='exclude'>排除</Option>
-                                                </Select>
+                                            <Col span={8} style={{ marginLeft: 10 }}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('range', { initialValue: 'include' })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                            <Option value='include'>包含</Option>
+                                                            <Option value='exclude'>排除</Option>
+                                                        </Select>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Button icon="plus">添加公司</Button>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('addCompany')(
+                                                        <Button icon="plus" onClick={this.addCompany}>添加公司</Button>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
                                         </Row>
 
@@ -225,16 +372,32 @@ class LineModelChangeRulesSystem extends React.Component {
                                     </FormItem>
                                 </Col>
                                 {renderDepartmentList &&
-                                    <Col span={16} style={{ marginTop: 3 }}>
+                                    <Col span={16} >
                                         <Row>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                    <Option value='include'>包含</Option>
-                                                    <Option value='exclude'>排除</Option>
-                                                </Select>
+                                            <Col span={8} style={{ marginLeft: 10 }}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('range', { initialValue: 'include' })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                            <Option value='include'>包含</Option>
+                                                            <Option value='exclude'>排除</Option>
+                                                        </Select>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Button icon="plus">添加部门</Button>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('addTenant')(
+                                                        <Button icon="plus">添加账套</Button>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
                                         </Row>
 
@@ -259,16 +422,32 @@ class LineModelChangeRulesSystem extends React.Component {
                                     </FormItem>
                                 </Col>
                                 {renderEmplyeeList &&
-                                    <Col span={16} style={{ marginTop: 3 }}>
+                                    <Col span={16} >
                                         <Row>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                    <Option value='include'>包含</Option>
-                                                    <Option value='exclude'>排除</Option>
-                                                </Select>
+                                            <Col span={8} style={{ marginLeft: 10 }}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('range', { initialValue: 'include' })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                            <Option value='include'>包含</Option>
+                                                            <Option value='exclude'>排除</Option>
+                                                        </Select>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
-                                            <Col span={6} style={{ marginLeft: 10 }}>
-                                                <Button icon="plus">添加员工</Button>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label=''
+                                                >
+                                                    {getFieldDecorator('addEmpolyee')(
+                                                        <Button icon="plus" onClick={this.addEmployee}>添加员工</Button>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
                                         </Row>
 
@@ -282,7 +461,7 @@ class LineModelChangeRulesSystem extends React.Component {
                         extra={<span>
                             <a onClick={this.handleViewRule}>查看</a>
                             <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>
-                            <a style={{ paddingLeft: 15 }} onClick={() => this.removeRule(targeKey)}>删除</a>
+                            <a style={{ paddingLeft: 15 }} onClick={() => this.removeEditRule(targeKey, isEditDelete)}>删除</a>
                         </span>}>
                         <Row>
                             <Col span={24}>
@@ -307,7 +486,25 @@ class LineModelChangeRulesSystem extends React.Component {
                     visibel={showRuleModal}
                     closeRuleModal={this.closeRuleModal}
                 />
-
+                <ListSelector
+                    visible={tenantVisible}
+                    selectorItem={tenantItem}
+                    onOk={this.handleTenantListOk}
+                    onCancel={() => this.cancelTenantList(false)}
+                    showSelectTotal={true}
+                />
+                <ListSelector
+                    visible={empolyeeVisible}
+                    selectorItem={employeeItem}
+                    onOk={this.handleEmployeeListOk}
+                    onCancel={() => this.cancelEmployeeList(false)}
+                    showSelectTotal={true}
+                />
+                <LineAddTransferModal
+                    visible={companyVisible}
+                    title='添加公司'
+                    onCloseTransferModal={this.cancelCompanyList}
+                />
 
             </div>
 

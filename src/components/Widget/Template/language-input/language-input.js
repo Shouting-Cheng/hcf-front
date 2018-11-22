@@ -9,7 +9,7 @@ import 'styles/components/template/language-input/language-input.scss';
 import languageGrey from 'images/components/language-grey.png';
 import language from 'images/components/language.png';
 import { Modal, Button, message } from 'antd';
-import {deepCopy} from 'utils/extend';
+import { deepCopy } from 'utils/extend';
 import LIService from './language-input.service';
 
 import PropTypes from 'prop-types';
@@ -28,6 +28,7 @@ class LanguageInput extends React.Component {
     super(props);
     this.state = {
       visible: false, //模态框的显示
+      first: true, //第一次操作输入框
       languageListLocal: [], //用户的当前加载到浏览器语言列表
       sysLanguageDefault: '', //用户主表的语言，这是PF配置的:用户登录时候，存在在session中
       currentUseLanguage: '', //用户当前使用的语言：这是用户手动切换的
@@ -91,7 +92,6 @@ class LanguageInput extends React.Component {
           });
         } else {
           const i18nName = this.initLanguageListForCreate(languageListLocal);
-          console.log(i18nName)
           let i18nNameForShow = deepCopy(i18nName);
           let nameForShow = this.getNameForShow(currentUseLanguage, i18nName);
           this.setState({
@@ -184,10 +184,11 @@ class LanguageInput extends React.Component {
 
     this.setState(
       {
+        first: false,
         nameForShow: value,
       },
       () => {
-        this.inputChangeAfter(this.state.nameForShow);
+        this.inputChangeAfter(value);
       }
     );
   };
@@ -444,6 +445,7 @@ class LanguageInput extends React.Component {
 
   renderInp() {
     let classNameInput = this.props.disabled ? 'language-input disabled-class' : 'language-input';
+    this.props.value === '' && this.state.nameForShow === '' && (classNameInput = 'language-input-no');
     if (this.props.textArea) {
       return (
         <textarea
@@ -477,6 +479,10 @@ class LanguageInput extends React.Component {
         ? 'language-input-d-wrap-textarea disabled-class'
         : 'language-input-d-wrap-textarea';
     }
+    if(!this.state.first&&this.props.value===''){
+      classNameWrap = 'language-input-noValue'
+    }
+
     return (
       <div className="language-input-wrap">
         <div className={classNameWrap} style={{ width: this.props.width }}>
@@ -561,7 +567,7 @@ LanguageInput.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    languageList:state.languages.languageList,
+    languageList: state.languages.languageList,
     language: state.languages.languages,
     user: state.user.currentUser,
   };

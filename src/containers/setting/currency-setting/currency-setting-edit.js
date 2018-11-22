@@ -37,21 +37,23 @@ class CurrencySettingEdit extends React.Component {
             columns: [
                 {
                     title: this.$t("cost.center.detail.no")/*编号*/, dataIndex: 'index',
+                    align: 'center',
                     render: (text, record, index) => { return index + 1 }
                 },
                 {
                     title: this.$t("currency.setting.rate.apply.date")/*汇率生效日期*/, dataIndex: 'applyDate',
+                    align: 'center',
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD')) }
                 },
-                { title: this.$t("currency.setting.add.foreign.currency")/*外币*/, dataIndex: 'currencyCode' },
-                { title: this.$t("common.currency.rate")/*汇率*/, dataIndex: 'rate' },
-                { title: this.$t("currency.setting.add.currency")/*本币*/, dataIndex: 'baseCurrencyCode' },
+                { title: this.$t("currency.setting.add.foreign.currency")/*外币*/, dataIndex: 'currencyCode',align: 'center' },
+                { title: this.$t("common.currency.rate")/*汇率*/, dataIndex: 'rate',align: 'center' },
+                { title: this.$t("currency.setting.add.currency")/*本币*/, dataIndex: 'baseCurrencyCode',align: 'center' },
                 {
-                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastModifiedDate',
+                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastModifiedDate',align: 'center',
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD HH:mm:ss')) }
                 },
                 {
-                    title: this.props.tenantMode ? '操作' : '', dataIndex: 'operation', width: this.props.language.local === 'zh_cn' ? '7%' : '10%',
+                    title: this.props.tenantMode ? '操作' : '', align: 'center', dataIndex: 'operation', width: this.props.language.local === 'zh_cn' ? '7%' : '10%',
                     render: (text, record) => this.displayOperation(text, record)
                 },
             ],
@@ -125,7 +127,7 @@ class CurrencySettingEdit extends React.Component {
         if (page - 1 !== this.state.page)
             this.setState({
                 page: page - 1,
-                loading: true
+                loading: false
             }, () => {
                 this.getRateHistory();
             })
@@ -294,7 +296,7 @@ class CurrencySettingEdit extends React.Component {
                     }
                 }) .catch(e => {
                   this.setState({ loading: false });
-                  message.error(`${e.response.data.message.replace('(tenantId=1,050,629,004,792,754,178,setOfBooksId=1,050,629,005,174,435,842)','')}`);
+                  message.error(`${e.response.data.message}`);
                 });;
             },
             onCancel: () => {

@@ -190,6 +190,14 @@ export const getRouterData = app => {
       name: 'new-prepayment',
       parent: '/pre-payment/my-pre-payment',
     },
+    //编辑预付款
+    '/pre-payment/my-pre-payment/edit-pre-payment/:id/:prePaymentTypeId/:formOid': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/pre-payment/my-pre-payment/new-pre-payment.js')
+      ),
+      name: 'edit-prepayment',
+      parent: '/pre-payment/my-pre-payment',
+    },
     //预付款详情
     '/pre-payment/me-pre-payment/pre-payment-detail/:id/:flag': {
       component: dynamicWrapper(app, [], () =>
@@ -218,7 +226,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/my-reimburse/new-reimburse.js')
       ),
-      name: 'new-reimburse',
+      name: 'edit-reimburse',
       parent: '/my-reimburse',
     },
     //新建报账单
@@ -515,6 +523,14 @@ export const getRouterData = app => {
         import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
       ),
       name: 'new-gl-work-order',
+      parent: '/gl-work-order/my-gl-work-order',
+    },
+    //编辑核算工单
+    '/gl-work-order/my-gl-work-order/edit-gl-work-order/:typeId/:formOid/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
+      ),
+      name: 'edit-gl-work-order',
       parent: '/gl-work-order/my-gl-work-order',
     },
     //核算工单详情
@@ -1518,7 +1534,6 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
-      // 付款申请单审批详情
       name: 'new-expense-type',
       parent: '/admin-setting/expense-type',
     },
@@ -1688,11 +1703,11 @@ export const getRouterData = app => {
       parent: '/enterprise-manage/company-maintain',
     },
     //数据权限
-    '/admin-setting/data-authority':{
+    '/admin-setting/data-authority': {
       component: dynamicWrapper(app, [], () =>
-      import('containers/setting/data-authority/data-authority.js')
-    ),
-    name: 'data-authority',
+        import('containers/setting/data-authority/data-authority.js')
+      ),
+      name: 'data-authority',
     },
     '/financial-management/expense-reverse/new-reverse/:id/:businessClass/:isNew/:currency': {
       //财务管理-费用反冲-新建反冲
@@ -1709,6 +1724,38 @@ export const getRouterData = app => {
       ),
       name: 'expense-reverse-detail',
       parent: '/financial-management/expense-reverse'
+    },
+    '/admin-setting/new-application-type/:applicationTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/new-application-type/new-application-type.js')
+      ),
+      name: 'new-application-type',
+      parent: '/admin-setting/expense-type'
+    },
+    //报销单详情
+    '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOID/:backType': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-report/base-expense-report-detail.js')
+      ),
+      name: 'expense-report-detail-audit',
+      parent: '/financial-management/finance-audit'
+    },
+    //借款单详情
+    '/financial-management/finance-audit/loan-request-detail-audit/:formOID/:applicationOID/:backType': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/base-request-detail.js')
+      ),
+      name: 'loan-request-detail-audit',
+      parent: '/financial-management/finance-audit'
+    },
+
+    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID': {
+      //费用申请单详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/base-request-detail')
+      ),
+      name: 'cost-application-detail',
+      parent: '/financial-management/check-cost-application'
     },
 
     // '/user/:id': {

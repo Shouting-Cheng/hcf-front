@@ -75,11 +75,11 @@ class CompanyDistribution extends React.Component {
             },
           ],
           columns: [
-            { title: this.$t('supplier.company.code'), dataIndex: 'code' },
+            { title: this.$t('supplier.company.code'), dataIndex: 'companyCode' },
             { title: this.$t('supplier.company.name'), dataIndex: 'name' },
             {
               title: this.$t('supplier.company.type'),
-              dataIndex: 'attribute4',
+              dataIndex: 'companyTypeName',
               render: value => value || '-',
             },
           ],

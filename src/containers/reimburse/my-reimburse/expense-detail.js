@@ -972,7 +972,11 @@ class NewExpense extends React.Component {
               }}
             >
                 {
-                  this.props.approve || this.props.params.headerData.status ===1002 ?
+                  this.props.params.headerData.reportStatus===1002 ||
+                  this.props.params.headerData.reportStatus===1004||
+                  this.props.params.headerData.reportStatus===2002||
+                  this.props.approve ||
+                  this.props.params.headerData.status ===1002 ?
                     <Button onClick={()=>this.props.close(false)}>返回</Button>
                     :
                     <div>

@@ -14,4 +14,21 @@
         margin-bottom: 0px!important;
         background: #f7f7f7!important   
     }
+    .tree-select {
+        .left-title-w1{
+            display:inline-block;
+            width:75%
+        }
+        .left-title-w2{
+            display:inline-block;
+            width:95%
+        }
+        .right-tree-title{
+            display:inline-block;
+            width:20%
+        }
+    }
+    .tree-select .ant-tree-node-content-wrapper{
+        display: inline!important ;
+    }
 }

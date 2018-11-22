@@ -5,14 +5,14 @@ export default {
   /**
    * 得到组件列表
    */
-  getWidgetList(){
+  getWidgetList() {
     return httpFetch.get(`${config.baseUrl}/invoice/api/expense/widgets`)
   },
 
   /**
    * 得到图标列表
    */
-  getIconList(){
+  getIconList() {
     return httpFetch.get(`${config.baseUrl}/api/expense/types/icon`)
   },
 
@@ -21,7 +21,7 @@ export default {
    * @param params  大类数组
    * @return {*|AxiosPromise}
    */
-  sortCategory(params){
+  sortCategory(params) {
     return httpFetch.post(`${config.baseUrl}/invoice/api/expense/types/category/sort`, params)
   },
 
@@ -29,15 +29,15 @@ export default {
    * 创建大类
    * @param expenseTypeCategory
    */
-  createCategory(expenseTypeCategory){
-    return httpFetch.post(`${config.baseUrl}/api/expense/types/category`, expenseTypeCategory)
+  createCategory(expenseTypeCategory) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/types/category`, expenseTypeCategory)
   },
 
   /**
    * 删除大类
    * @param expenseTypeCategoryOID
    */
-  deleteCategory(expenseTypeCategoryOID){
+  deleteCategory(expenseTypeCategoryOID) {
     return httpFetch.delete(`${config.baseUrl}/api/expense/types/category/${expenseTypeCategoryOID}`)
   },
 
@@ -45,7 +45,7 @@ export default {
    * 编辑大类
    * @param expenseTypeCategory
    */
-  editCategory(expenseTypeCategory){
+  editCategory(expenseTypeCategory) {
     return httpFetch.put(`${config.baseUrl}/api/expense/types/category`, expenseTypeCategory)
   },
 
@@ -54,14 +54,14 @@ export default {
    * @param params  小类数组
    * @return {*|AxiosPromise}
    */
-  sortExpenseType(params){
+  sortExpenseType(params) {
     return httpFetch.post(`${config.baseUrl}/invoice/api/expense/types/sort`, params)
   },
 
   /**
    * 获得费用类型编码
    */
-  getExpenseTypeCode(setOfBooksId){
+  getExpenseTypeCode(setOfBooksId) {
     return httpFetch.get(`${config.baseUrl}/invoice/api/expense/type/code/produce`, { setOfBooksId })
   },
 
@@ -69,15 +69,15 @@ export default {
    * 获得费用类型详情
    * @param id
    */
-  getExpenseTypeDetail(id){
+  getExpenseTypeDetail(id) {
     return httpFetch.get(`${config.baseUrl}/api/expense/types/select/${id}`)
   },
 
   /**
    * 保存费用类型
    */
-  saveExpenseType(expenseType){
-    return httpFetch.post(`${config.baseUrl}/invoice/api/expense/type/base`, expenseType)
+  saveExpenseType(expenseType) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/types`, expenseType)
   },
 
   /**
@@ -86,7 +86,7 @@ export default {
    * @param fields
    * @return {*|AxiosPromise}
    */
-  saveExpenseTypeFields(expenseTypeId, fields){
+  saveExpenseTypeFields(expenseTypeId, fields) {
     return httpFetch.post(`${config.baseUrl}/invoice/api/expense/type/${expenseTypeId}/fields`, fields)
   },
 
@@ -94,7 +94,7 @@ export default {
    * 获得费用类型人员组权限
    * @param expenseTypeId
    */
-  getExpenseTypeScope(expenseTypeId){
+  getExpenseTypeScope(expenseTypeId) {
     return httpFetch.get(`${config.baseUrl}/invoice/api/expense/type/user/groups`, { expenseTypeId })
   },
 
@@ -103,7 +103,7 @@ export default {
    * @param scope
    * @return {*|AxiosPromise}
    */
-  saveExpenseTypeScope(scope){
+  saveExpenseTypeScope(scope) {
     return httpFetch.post(`${config.baseUrl}/invoice/api/expense/type/user/groups`, scope)
   }
 }
