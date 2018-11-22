@@ -585,8 +585,8 @@ const wrappedApproveBar = Form.create(mapStateToProps)(ApproveBar);
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user,
-    company: state.login.company,
+    user: state.user.currentUser,
+    company: state.user.company,
   };
 }
 

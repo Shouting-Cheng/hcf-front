@@ -684,10 +684,9 @@ class FinanceAudit extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     //companyConfiguration: state.login.companyConfiguration,
-    //profile: state.login.profile,
+    profile: state.user.proFile,
     company: state.user.company,
     user: state.user.currentUser,
     financeAudit: state.cache.financeAudit,

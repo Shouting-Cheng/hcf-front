@@ -1323,7 +1323,7 @@ class ExpenseReportDetail extends React.Component {
       travelSubsidy, travelSubsidyType, travelSubsidyUser, buttonRoleSwitch, pay, loanRefund,
       costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading
     } = this.state;
-    console.log(nowEditExpense)
+    console.log(info)
     const { profile } = this.props;
     let custFormValues = info.custFormValues || []; //自定义表单
     let expenseReportStatus = info ? this.getStatus() : {};
@@ -1526,7 +1526,7 @@ class ExpenseReportDetail extends React.Component {
     leftAmount = leftAmount < 0 ? 0 : leftAmount;
     const { pageFrom } = this.props.match.params;
     return (
-      <div className="base-expense-report-detail background-transparent">
+      <div className="base-expense-report-detail background-transparent" style={{paddingBottom: 50}}>
         <div className="tabs-info">
           <Tabs onChange={this.handleTabsChange} type="card">
             <TabPane tab={this.$t('expense-report.info')/*报销单信息*/} key="requestInfo">{requestInfo}</TabPane>
@@ -1547,6 +1547,8 @@ class ExpenseReportDetail extends React.Component {
             customFormPropertyMap={form.customFormPropertyMap}
             auditCapability={auditCapability}
             emitRefresh={() => this.getInfo(true)} />}
+        {console.log(buttonRoleSwitch)}
+        {console.log(info)}
         {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOID={info.expenseReportOID} status={info.status} entityType={1002} expenseOid={this.props.match.params.expenseReportOID} afterClose={this.handleAfterClose} /> :
           <Affix offsetBottom={0} className="bottom-bar">
             <Button onClick={this.handlePrint} type="primary" className="back-btn"

@@ -109,5 +109,9 @@ export default {
     '/mapUrl': {
       target: 'http://apis.map.qq.com',
     },
+    '/receipt':{
+      target: 'http://106.15.26.10:10080',
+      changeOrigin: true,
+    }
   },
 };
