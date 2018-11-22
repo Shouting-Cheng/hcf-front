@@ -479,7 +479,8 @@ class LanguageInput extends React.Component {
         ? 'language-input-d-wrap-textarea disabled-class'
         : 'language-input-d-wrap-textarea';
     }
-    if(!this.state.first&&this.props.value===''){
+    console.log(this.props)
+    if((!this.state.first||this.props.validateStatus)&&this.props.value===''){
       classNameWrap = 'language-input-noValue'
     }
 
@@ -538,6 +539,7 @@ LanguageInput.propTypes = {
   textArea: PropTypes.bool, //是否显示文本域
   textAreaFormat: PropTypes.string, //是否存换行符，默认不存soft或者hard
   origin: PropTypes.any, //源数据
+  validateStatus: PropTypes.bool, //校验状态,需要和表单的校验方法结合使用
 };
 
 LanguageInput.defaultProps = {
@@ -547,6 +549,7 @@ LanguageInput.defaultProps = {
   mainLanguageIsRequired: true,
   textArea: false,
   textAreaFormat: 'soft',
+  validateStatus: false
 };
 //当是文本域的时候，如果样式不够用，可以自己通过父级指定样式
 // language-input-d-wrap-textarea
