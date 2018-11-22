@@ -35,7 +35,7 @@ class PrePaymentCommon extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: 50,
-          render: (value, record, index) => index + this.state.page * this.state.pageSize + 1,
+          render: (value, record, index) => index + this.state.indexAdd + 1,
         },
         {
           title: '预付款金额',
@@ -141,6 +141,7 @@ class PrePaymentCommon extends React.Component {
       },
       pageSize: 5,
       page: 0,
+      indexAdd: 0, //index增量，用于控制序号显示
       showSlideFrame: false,
       slideFrameTitle: '',
       record: {},
@@ -334,6 +335,7 @@ class PrePaymentCommon extends React.Component {
         this.setState({
           data: res.data,
           planLoading: false,
+          indexAdd: page * pageSize,
           pagination: {
             total: Number(res.headers['x-total-count']) ? Number(res.headers['x-total-count']) : 0,
             current: page + 1,
