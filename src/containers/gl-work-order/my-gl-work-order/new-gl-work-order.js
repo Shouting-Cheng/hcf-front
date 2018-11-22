@@ -30,6 +30,8 @@ class NewGLWorkOrder extends Component {
        */
       defaultFileList: [],
       uploadOIDs: [],
+      //是否新建
+      isNew : true,
     };
   }
   /**
@@ -68,6 +70,7 @@ class NewGLWorkOrder extends Component {
               orderData,
               defaultFileList,
               uploadOIDs: res.data.head.attachmentOids,
+              isNew : false,
             });
             //由于initialValue只处理一次，它可能比接口处理的快，所以针对这种情况要单独处理一下
             this.props.form.setFieldsValue({
@@ -213,6 +216,14 @@ class NewGLWorkOrder extends Component {
       })
     );
   };
+
+  onBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/gl-work-order/my-gl-work-order/my-gl-work-order-detail/${this.props.match.params.id}/${this.props.match.params.formOid}`,
+      })
+    );
+  };
   /**
    * 渲染函数
    */
@@ -237,6 +248,8 @@ class NewGLWorkOrder extends Component {
     const { defaultFileList } = this.state;
     //加载状态
     const { loading } = this.state;
+    //是否新建
+    const { isNew } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSave}>
@@ -273,7 +286,10 @@ class NewGLWorkOrder extends Component {
                     labelKey="name"
                     valueKey="id"
                     single={true}
-                    listExtraParams={{ setOfBooksId: this.props.company.setOfBooksId }}
+                    listExtraParams={{ 
+                      setOfBooksId: this.props.company.setOfBooksId,
+                      workOrderTypeId: this.props.match.params.typeId
+                     }}
                   />
                 )}
               </FormItem>
@@ -376,9 +392,9 @@ class NewGLWorkOrder extends Component {
             }}
           >
             <Button type="primary" htmlType="submit" loading={loading} style={{ margin: '0 20px' }}>
-              {orderData.id ? '确定' : '下一步'}
+              {isNew ? '下一步' : '确定'}
             </Button>
-            <Button onClick={this.onCancel}>取消</Button>
+            {isNew ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
           </Affix>
         </Form>
       </div>

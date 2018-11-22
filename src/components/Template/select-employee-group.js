@@ -180,8 +180,8 @@ class SelectEmployeeGroup extends React.Component {
     if (!value) {
       this.setState({ userGroup: this.state.toData, toSearchText: value });
     } else {
-      let temp = this.state.toData.filter(o => o.label.indexOf(value) >= 0);
-
+      // let temp = this.state.toData.filter(o => o.label.indexOf(value) >= 0);
+      let temp = this.state.toData.filter(o => o.label.props.children[0].indexOf(value) >= 0);
       this.setState({ userGroup: temp, toSearchText: value });
     }
   };
@@ -190,8 +190,8 @@ class SelectEmployeeGroup extends React.Component {
     if (!value) {
       this.setState({ useUserGroup: this.state.useData, useSearchText: value });
     } else {
-      let temp = this.state.useData.filter(o => o.label.indexOf(value) >= 0);
-
+      // let temp = this.state.useData.filter(o => o.label.indexOf(value) >= 0);
+      let temp = this.state.useData.filter(o => o.label.props.children[0].indexOf(value) >= 0);
       this.setState({ useUserGroup: temp, useSearchText: value });
     }
   };

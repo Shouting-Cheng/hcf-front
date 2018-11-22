@@ -316,7 +316,7 @@ class Contract extends React.Component {
           dataIndex: 'created',
           width: 130,
           align: 'center',
-          render: value => value && value.fullName + ' - ' + value.employeeId,
+          render: value => value && value.fullName,
         },
         {
           title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
