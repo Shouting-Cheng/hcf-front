@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { deepCopy } from "utils/extend"
 import constants from "share/constants"
-import TagSelect from 'ant-design-pro/lib/TagSelect'
+import TagSelect from 'components/TagSelect'
 import config from 'config'
 import moment from 'moment'
 import PropTypes from 'prop-types';

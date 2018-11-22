@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { deepCopy } from "utils/extend"
 import constants from "share/constants"
-import Ellipsis from 'ant-design-pro/lib/Ellipsis'
+import Ellipsis from 'components/Ellipsis'
 import { Form, Select, message, List, Popconfirm, Tag, Spin, Card } from 'antd'
 const Option = Select.Option;
 const ListItem = List.Item;
