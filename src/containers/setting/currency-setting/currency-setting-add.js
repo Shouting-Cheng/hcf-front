@@ -80,12 +80,12 @@ class CurrencySettingAdd extends React.Component {
                     this.setState({ saving: false });
                     if (res.status === 200) {
                         message.success(this.$t("wait.for.save.addSuc")/*新增成功*/);
-                        this.props.dispatch(
-                            routerRedux.push({
-                                pathname: `/admin-setting/currency-setting`,
-                                
-                           })
-                          );
+                      let{setOfBooksId,baseCurrency,baseCurrencyName}=this.props.match.params;
+                      this.props.dispatch(
+                        routerRedux.push({
+                          pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
+                        })
+                      )
                         // this.context.router.replace({
                         //     pathname: backUrl,
                         //     state: {
@@ -210,12 +210,12 @@ class CurrencySettingAdd extends React.Component {
 
                 <FormItem {...formItemLayout} wrapperCol={{ offset: 5 }}>
                     <Button onClick={() => {
-                         this.props.dispatch(
-                            routerRedux.push({
-                                pathname: `/admin-setting/currency-setting`,
-                                
-                           })
-                          );
+                      let{setOfBooksId,baseCurrency,baseCurrencyName}=this.props.match.params;
+                      this.props.dispatch(
+                        routerRedux.push({
+                          pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
+                        })
+                      )
                     }} style={{ marginRight: 15 }}>
                         {this.$t("common.back")/*返回*/}
                     </Button>
