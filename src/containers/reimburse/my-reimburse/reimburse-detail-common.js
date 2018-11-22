@@ -151,7 +151,6 @@ class ContractDetailCommon extends React.Component {
   }
 
   setDocumentInfo = (nextProps) => {
-    console.log(nextProps)
     let list = [];
     nextProps.headerData.customFormValues && nextProps.headerData.customFormValues.map(o => {
       if (o.messageKey != "select_company" && o.messageKey != "select_department" && o.messageKey != "remark" && o.messageKey != "currency_code") {

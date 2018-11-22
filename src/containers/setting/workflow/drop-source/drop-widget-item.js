@@ -14,10 +14,13 @@ class DropWidgetItem extends React.Component{
   }
 
   render() {
-    const { connectDropTarget, width, onClick, className, widget } = this.props;
+    const { connectDropTarget, width, onClick, className, widget, isRuleInEdit } = this.props;
     return connectDropTarget(
       <div onClick={onClick} style={{ width }}>
-        <Widget className={className} widget={Object.assign({}, widget)} deleteHandle={this.props.deleteHandle}/>
+        <Widget className={className}
+                widget={Object.assign({}, widget)}
+                isRuleInEdit={isRuleInEdit}
+                deleteHandle={this.props.deleteHandle}/>
       </div>
 
     )
@@ -31,6 +34,7 @@ DropWidgetItem.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,  //内部组件的className
   index: PropTypes.number,  //包装后的标记列表顺序，当有新控件hover时返回顺序
+  isRuleInEdit: PropTypes.bool,
   deleteHandle: PropTypes.func,
 };
 

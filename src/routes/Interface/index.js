@@ -123,12 +123,12 @@ class Interface extends React.Component {
     this.setState({ testVisible: true });
   };
 
-  delete = () => {};
+  delete = () => { };
 
-  save = () => {};
+  save = () => { };
 
   focus = () => {
-    console.log('focus');
+
   };
 
   onLoadData = treeNode => {
@@ -176,6 +176,29 @@ class Interface extends React.Component {
       });
     });
   };
+
+  delete = () => {
+    this.setState({
+      modules: [],
+      moduleId: 0,
+      expandedKeys: [],
+      interfaceId: 0,
+      searchValue: '',
+      testVisible: false,
+      loadedKeys: [],
+      loadding: true
+    }, () => {
+      this.setState({ loadding: true });
+      service.getModules().then(res => {
+        this.setState({
+          modules: res.map(item => {
+            return { ...item, isModule: true };
+          }),
+          loadding: false,
+        });
+      });
+    })
+  }
 
   render() {
     const {
@@ -246,8 +269,8 @@ class Interface extends React.Component {
                                   {afterStr}
                                 </span>
                               ) : (
-                                <span>{o.interfaceName}</span>
-                              );
+                                  <span>{o.interfaceName}</span>
+                                );
                             return <TreeNode isLeaf title={title} key={o.id} dataRef={o} />;
                           })}
                       </TreeNode>
@@ -258,7 +281,7 @@ class Interface extends React.Component {
             </Card>
           </Col>
           <Col span={18}>
-            {!!interfaceId && <InterfaceDetail test={this.test} id={interfaceId} />}
+            {!!interfaceId && <InterfaceDetail delete={this.delete} test={this.test} id={interfaceId} />}
             {!!interfaceId && (
               <Card
                 hoverable

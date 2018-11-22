@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Tabs, Table, message, Badge, Popover,InputNumber } from 'antd'
+import {Form, Tabs, Table, message, Badge, Popover, InputNumber, Row, Col, Input} from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import prePaymentService from './pre-payment-re-check.service'
@@ -9,6 +9,8 @@ import config from 'config'
 import SearchArea from 'widget/search-area'
 import moment from 'moment'
 import { routerRedux } from 'dva/router';
+const Search = Input.Search;
+import CustomTable from "components/Widget/custom-table";
 
 class Payment extends React.Component {
     constructor(props) {
@@ -25,44 +27,52 @@ class Payment extends React.Component {
                 1003: { label: '撤回', state: 'warning' }
             },
             searchForm1: [
+/*
                 { type: 'input', id: 'requisitionNumber', label: '单据编号' },
-                { type: 'select', id: 'paymentReqTypeId', label: '单据类型', getUrl: `${config.prePaymentUrl}/api/cash/pay/requisition/types//queryAll?setOfBookId=${this.props.company.setOfBooksId}`, options: [], method: "get", valueKey: "id", labelKey: "typeName" },
+*/
+                { colSpan: '6', type: 'select', id: 'paymentReqTypeId', label: '单据类型', getUrl: `${config.prePaymentUrl}/api/cash/pay/requisition/types//queryAll?setOfBookId=${this.props.company.setOfBooksId}`, options: [], method: "get", valueKey: "id", labelKey: "typeName" },
                 {
-                    type: 'items', id: 'dateRange', items: [
+                  type: 'list', listType: "bgtUser", options: [], id: 'employeeId', label: "申请人", labelKey: "fullName",
+                  valueKey: "id", single: true, colSpan: '6',
+                },
+                { colSpan: '6',
+                  type: 'items', id: 'dateRange', items: [
                         { type: 'date', id: 'submitDateFrom', label: "提交日期从" },
                         { type: 'date', id: 'submitDateTo', label: "提交日期至" }
                     ]
                 },
-                {
-                    type: 'items', id: 'amountRange', items: [
+                { colSpan: '6',
+                  type: 'items', id: 'amountRange', items: [
                         { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
                         { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
                     ]
                 },
-                {
-                    type: 'list', listType: "bgtUser", options: [], id: 'employeeId', label: "申请人", labelKey: "fullName",
-                    valueKey: "id", single: true
-                }
+              {type: 'input', id: 'description', label: "备注", colSpan: '6',event:"description"},
+
             ],
             searchForm2: [
+/*
                 { type: 'input', id: 'requisitionNumber', label: '单据编号' },
-                { type: 'select', id: 'paymentReqTypeId', label: '单据类型', getUrl: `${config.prePaymentUrl}/api/cash/pay/requisition/types//queryAll?setOfBookId=${this.props.company.setOfBooksId}`, options: [], method: "get", valueKey: "id", labelKey: "typeName" },
-                {
+*/
+                { colSpan: '6',type: 'select', id: 'paymentReqTypeId', label: '单据类型', getUrl: `${config.prePaymentUrl}/api/cash/pay/requisition/types//queryAll?setOfBookId=${this.props.company.setOfBooksId}`, options: [], method: "get", valueKey: "id", labelKey: "typeName" },
+                {colSpan: '6',
+                  type: 'list', listType: "bgtUser", options: [], id: 'employeeId', label: "申请人", labelKey: "fullName",
+                  valueKey: "id", single: true
+                },
+                {colSpan: '6',
                     type: 'items', id: 'dateRange', items: [
                         { type: 'date', id: 'submitDateFrom', label: "提交日期从" },
                         { type: 'date', id: 'submitDateTo', label: "提交日期至" }
                     ]
                 },
-                {
+                {colSpan: '6',
                     type: 'items', id: 'amountRange', items: [
                         { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
                         { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
                     ]
                 },
-                {
-                    type: 'list', listType: "bgtUser", options: [], id: 'employeeId', label: "申请人", labelKey: "fullName",
-                    valueKey: "id", single: true
-                }
+              {type: 'input', id: 'description', label: "备注", colSpan: '6',event:"description"},
+
             ],
             unApproveSearchParams: {},
             approveSearchParams: {},
@@ -175,30 +185,30 @@ class Payment extends React.Component {
         })
     };
 
-    //未审批点击页码
+  /*  //未审批点击页码
     onUnapprovedChangePaper = (page) => {
         if (page - 1 !== this.state.page) {
             this.setState({ unapprovedPage: page - 1 }, () => {
                 this.getUnapprovedList()
             })
         }
-    };
+    };*/
 
     //审批点击页码
-    onApprovedChangePaper = (page) => {
+/*    onApprovedChangePaper = (page) => {
         if (page - 1 !== this.state.page) {
             this.setState({ approvedPage: page - 1 }, () => {
                 this.getApprovedList()
             })
         }
-    };
+    };*/
 
     //未审批搜索
     unapprovedSearch = (values) => {
       values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
       values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
         this.setState({ unApproveSearchParams: values }, () => {
-            this.getUnapprovedList()
+            this.unApprovedtable.search(values)
         })
     };
 
@@ -207,7 +217,9 @@ class Payment extends React.Component {
         values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
         values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
         this.setState({ approveSearchParams: values }, () => {
-            this.getApprovedList()
+          this.approvedtable.search(values)
+
+          this.getApprovedList()
         })
     };
 
@@ -226,55 +238,111 @@ class Payment extends React.Component {
         })
     };
 
-    render() {
+
+  /**未审批根据单据编号查询 */
+  onDocumentSearch = (value) => {
+    this.setState({
+      unApproveSearchParams: {...this.state.unApproveSearchParams,businessCode: value}
+    }, () => {
+      this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false'})
+    })
+  }
+  /**已审批根据单据编号查询 */
+  onApprovedSearch = (value) => {
+    this.setState({
+      approveSearchParams: {...this.state.approveSearchParams,businessCode: value}
+    }, () => {
+      this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
+    })
+  }
+  changeApp = (e) =>{
+    let {approveSearchParams} = this.state;
+    if(e && e.target && e.target.value){
+      approveSearchParams.businessCode = e.target.value;
+    }else{
+      approveSearchParams.businessCode = '';
+    }
+    this.setState({approveSearchParams});
+  }
+
+  change = (e) =>{
+    let {unApproveSearchParams} = this.state;
+    if(e && e.target && e.target.value){
+      unApproveSearchParams.businessCode = e.target.value;
+    }else{
+      unApproveSearchParams.businessCode = '';
+    }
+    this.setState({unApproveSearchParams});
+  }
+
+
+  render() {
 
         const { tabValue, loading1, loading2, searchForm1, searchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
         return (
-            <div className="approve approve-contract">
+            <div className="approve-contract">
                 <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-                    <TabPane tab={this.$t("contract.unapproved")} key="unapproved">
+                    <TabPane tab={this.$t("contract.unchecked")} key="unapproved">
                         {
                             tabValue === 'unapproved' &&
                             <div>
                                 <SearchArea searchForm={searchForm1}
+                                            maxLength={4}
                                     submitHandle={this.unapprovedSearch} />
-                                <div className="table-header">
-                                    <div className="table-header-title">
-                                        {this.$t("common.total.selected", { total: unapprovedPagination.total }/*共搜索到 {total} 条数据*/)}
-                                    </div>
-                                </div>
-                                <Table rowKey={record => record.id} columns={columns} dataSource={unapprovedData} pagination={unapprovedPagination} loading={loading1}
-                                    onRow={record => ({
-                                        onClick: () => this.handleRowClick(record)
-                                    })}
-                                    scroll={{ x: true, y: false }}
-                                    bordered
-                                    size="middle" />
+                                <div className="table-header" style={{marginBottom: 12, marginTop: 12}}>
+                                <Row>
+                                  <Col span={18}></Col>
+                                  <Col span={6}>
+                                    <Search
+                                      placeholder="请输入单据编号"
+                                      onSearch={this.onApprovedSearch}
+                                      onChange={this.changeApp}
+                                      enterButton
+                                    />
+                                  </Col>
+                                </Row>
+                              </div>
+                              <CustomTable
+                                url={`${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/query?ifWorkflow=false`}
+                                ref={ref => this.unApprovedtable = ref}
+                                params={{status: 1002}}
+                                columns={columns}
+                                //tableKey="entityOID"
+                                //filterData={this.filterData}
+                                onClick={this.handleRowClick}
+                              />
                             </div>
                         }
                     </TabPane>
-                    <TabPane tab={this.$t("contract.approved")} key="approved">
+                    <TabPane tab={this.$t("contract.checked")} key="approved">
                         {
                             tabValue === 'approved' &&
                             <div>
                                 <SearchArea searchForm={searchForm2}
+                                    maxLength={4}
                                     submitHandle={this.approvedSearch} />
-                                <div className="table-header">
-                                    <div className="table-header-title">
-                                        {this.$t("common.total.selected", { total: approvedPagination.total }/*共搜索到 {total} 条数据*/)}
-                                    </div>
-                                </div>
-                                <Table rowKey={record => record.id}
-                                    columns={columns}
-                                    dataSource={approvedData}
-                                    pagination={approvedPagination}
-                                    loading={loading2}
-                                    onRow={record => ({
-                                        onClick: () => this.handleRowClick(record)
-                                    })}
-                                    scroll={{ x: true, y: false }}
-                                    bordered
-                                    size="middle" />
+                              <div className="table-header" style={{marginBottom: 12, marginTop: 12}}>
+                                <Row>
+                                  <Col span={18}></Col>
+                                  <Col span={6}>
+                                    <Search
+                                      placeholder="请输入单据编号"
+                                      onSearch={this.onApprovedSearch}
+                                      onChange={this.changeApp}
+                                      enterButton
+                                    />
+                                  </Col>
+                                </Row>
+                              </div>
+
+                              <CustomTable
+                                url={`${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/query?ifWorkflow=false`}
+                                ref={ref => this.approvedtable = ref}
+                                params={{status: 1004}}
+                                columns={columns}
+                                //filterData={this.filterData}
+                                onClick={this.handleRowClick}
+                              />
                             </div>
                         }
                     </TabPane>

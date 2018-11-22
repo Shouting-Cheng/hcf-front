@@ -1,6 +1,7 @@
 {
   "org.roles.edit": "Edit",
   "org.roles.disabled": "Disable",
+  "org.roles.enabled": "Enabled",
   "org.roles.create-child-dep": "Create sub-department",
   "org.roles.please-select": "Please select.",
   "org.roles.dep-name": "Department Name",

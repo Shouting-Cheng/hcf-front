@@ -705,7 +705,7 @@ class SearchArea extends React.Component {
         return (
           <Select placeholder={item.placeholder || messages('common.please.select')}
             onChange={handle}
-            allowClear
+            allowClear={!item.clear}
             disabled={item.disabled}
             labelInValue={!!item.entity}
             onFocus={() => this.getValueListOptions(item)}

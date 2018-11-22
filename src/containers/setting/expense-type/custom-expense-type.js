@@ -91,14 +91,17 @@ class CustomExpenseType extends React.Component {
   getSourceCategory = (setOfBooksId = this.props.expenseTypeSetOfBooks.id) => {
     this.setState({ loading: true });
     baseService.getExpenseTypesBySetOfBooks(setOfBooksId || this.props.company.setOfBooksId, null, null).then(res => {
-      res.data.rows.map(expenseCategory => {
+      res.data.map(expenseCategory => {
         //如果是第三方费用类型，则不参与排序，放到最下方
         if (!expenseCategory.id) {
           expenseCategory.sequence = 999;
         }
       });
-      let target = res.data.rows;
+
+      let target = res.data;
+
       let categoryCount = 0;
+
       target.map(expenseCategory => {
         if (expenseCategory.enabled) {
           expenseCategory.sequence = categoryCount++;

@@ -81,15 +81,15 @@ class NodeApproveMan extends React.Component {
     let selfApprovalRule = basicInfo.selfApprovalRule;
     selfApprovalRule = (selfApprovalRule === 5001 || selfApprovalRule === 5002) ? selfApprovalRule : 50035005;
     const formItemLayout = {
-      labelCol: {span: language.local === 'zh_CN' ? 4 : 6},
-      wrapperCol: {span: language.local === 'zh_CN' ? 20 : 18},
+      labelCol: {span: language.code === 'zh_cn' ? 4 : 6},
+      wrapperCol: {span: language.code === 'zh_cn' ? 20 : 18},
     };
     return (
       <div className='node-approve-man'>
         <Card className="basic-info-container">
-          <h3 className="title">{this.$t('workflow.detail.node.basic.info')/*基础信息*/}</h3>
+          <h3 className="title">{this.$t('setting.key1371'/*基础信息*/)}</h3>
           <Form onSubmit={this.handleSaveBasicInfo}>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.node.name')/*节点名称*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1372'/*节点名称*/)} colon={false}>
               {getFieldDecorator('remark', {
                 rules: [{
                   max: 8,
@@ -100,27 +100,27 @@ class NodeApproveMan extends React.Component {
                 <Input placeholder={this.$t('common.please.enter')} style={{width: 200}} autoComplete="off"/>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.node.null')/*节点为空时*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1382'/*节点为空时*/)} colon={false}>
               {getFieldDecorator('nullableRule', {
                 initialValue: basicInfo.nullableRule
               })(
                 <RadioGroup>
-                  <Radio value={2001}>{this.$t('workflow.detail.skip'/*跳过*/)}</Radio>
-                  <Radio value={2002}>{this.$t('workflow.detail.not.skip')/*不跳过*/}</Radio>
+                  <Radio value={2001}>{this.$t('setting.key1383'/*跳过*/)}</Radio>
+                  <Radio value={2002}>{this.$t('setting.key1384'/*不跳过*/)}</Radio>
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.countersign.rule')/*会签规则*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1385'/*会签规则*/)} colon={false}>
               {getFieldDecorator('countersignRule', {
                 initialValue: basicInfo.countersignRule
               })(
                 <RadioGroup>
-                  <Radio value={3001}>{this.$t('workflow.detail.approval.all.pass')/*所有人审批通过*/}</Radio>
-                  <Radio value={3002}>{this.$t('workflow.detail.approval.any.pass')/*任意人审批通过*/}</Radio>
+                  <Radio value={3001}>{this.$t('setting.key1386'/*所有人审批通过*/)}</Radio>
+                  <Radio value={3002}>{this.$t('setting.key1387'/*任意人审批通过*/)}</Radio>
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label={this.$t('workflow.detail.include.applicant')/*包含申请人*/} colon={false}>
+            <FormItem {...formItemLayout} label={this.$t('setting.key1388'/*包含申请人*/)} colon={false}>
               {getFieldDecorator('selfApprovalRule', {
                 initialValue: selfApprovalRule
               })(
@@ -128,16 +128,16 @@ class NodeApproveMan extends React.Component {
                   showDepManager: e.target.value === 50035005,
                   selectApprovalRule: e.target.value === 50035005 ? 5005 : e.target.value
                 })}>
-                  <Radio value={5002}>{this.$t('workflow.detail.not.skip')/*不跳过*/}</Radio>
-                  <Radio value={5001}>{this.$t('workflow.detail.skip'/*跳过*/)}</Radio>
+                  <Radio value={5002}>{this.$t('setting.key1384'/*不跳过*/)}</Radio>
+                  <Radio value={5001}>{this.$t('setting.key1383'/*跳过*/)}</Radio>
                   {/* 5005 本级、5003上级 */}
                   <Radio value={50035005}>
-                    {this.$t('workflow.detail.transfer.manager')/*转交部门经理*/}
+                    {this.$t('setting.key1389'/*转交部门经理*/)}
                     {showDepManager && (
                       <Select className="approval-select" value={selectApprovalRule}
                               onChange={value => {this.setState({selectApprovalRule: value})}}>
-                        <Option value={5005}>{this.$t('workflow.detail.this.level')/*本级*/}</Option>
-                        <Option value={5003}>{this.$t('workflow.detail.last.level')/*上级*/}</Option>
+                        <Option value={5005}>{this.$t('setting.key1390'/*本级*/)}</Option>
+                        <Option value={5003}>{this.$t('setting.key1391'/*上级*/)}</Option>
                       </Select>
                     )}
                   </Radio>
@@ -146,13 +146,13 @@ class NodeApproveMan extends React.Component {
             </FormItem>
             {/*报销单的formType以3开头，只有报销单才可以选择是否允许修改费用*/}
             {formInfo.formType && String(formInfo.formType).charAt(0) === '3' && (
-              <FormItem {...formItemLayout} label={this.$t('workflow.detail.modify.expense.amount')/*允许修改费用*/} colon={false}>
+              <FormItem {...formItemLayout} label={this.$t('setting.key1392'/*允许修改费用*/)} colon={false}>
                 {getFieldDecorator('invoiceAllowUpdateType', {
                   initialValue: basicInfo.invoiceAllowUpdateType || 0
                 })(
                   <RadioGroup>
-                    <Radio value={1}>{this.$t('workflow.detail.modify.expense.amount.yes')/*是*/}</Radio>
-                    <Radio value={0}>{this.$t('workflow.detail.modify.expense.amount.no')/*否*/}</Radio>
+                    <Radio value={1}>{this.$t('setting.key1393'/*是*/)}</Radio>
+                    <Radio value={0}>{this.$t('setting.key1394'/*否*/)}</Radio>
                   </RadioGroup>
                 )}
               </FormItem>
@@ -161,9 +161,9 @@ class NodeApproveMan extends React.Component {
           </Form>
         </Card>
         <div className="add-btn-container">
-          <Button type="primary" onClick={() => this.props.addPersonModalVisible(true)}>{this.$t('workflow.detail.add.approver')/*添加审批人员*/}</Button>
+          <Button type="primary" onClick={() => this.props.modalVisibleHandle(true)}>{this.$t('setting.key1395'/*添加审批人员*/)}</Button>
           <Icon type="exclamation-circle-o" className="approve-info-icon"/>
-          <span className="approve-info-text">{this.$t('workflow.detail.add.approve.condition.tip')/*一个条件组内多条件为and关系, 不同条件组为or关系*/}</span>
+          <span className="approve-info-text">{this.$t('setting.key1381'/*一个条件组内多条件为and关系, 不同条件组为or关系*/)}</span>
         </div>
       </div>
     )
@@ -174,9 +174,8 @@ NodeApproveMan.propTypes = {
   basicInfo: PropTypes.object,
   formInfo: PropTypes.object,
   basicInfoSaveHandle: PropTypes.func, //基本信息保存成功的回调
-  addPersonModalVisible: PropTypes.func, //用于添加审批人modal是否显示的传参
+  modalVisibleHandle: PropTypes.func, //用于添加审批人modal是否显示的传参
 };
-
 
 function mapStateToProps(state) {
   return {
@@ -186,4 +185,4 @@ function mapStateToProps(state) {
 
 const wrappedNodeApproveMan = Form.create()(NodeApproveMan);
 
-export default connect(mapStateToProps, null, null, { withRef: true })(wrappedNodeApproveMan)
+export default connect(mapStateToProps)(wrappedNodeApproveMan)

@@ -379,6 +379,7 @@ class PersonDetail extends React.Component {
         dom.push(
           <div key={'is-empty-bank-card' + index} className="f-left bank-card-item">
             <BankCard
+              count={cards.length}
               isShowEditBtn={this.props.tenantMode && this.state.CREATE_DATA_TYPE}
               createCardOver={this.createCardOver}
               cardInfo={data}
@@ -392,6 +393,7 @@ class PersonDetail extends React.Component {
         dom.push(
           <div key={'is-empty-bank-card' + cards.length - 1} className="f-left bank-card-item">
             <BankCard
+              count={cards.length}
               isEmpty={true}
               createCardOver={this.createCardOver}
               cardInfo={bankAccountDefault}
@@ -413,6 +415,7 @@ class PersonDetail extends React.Component {
           <div className="bank-card-list">
             <div className="f-left bank-card-item">
               <BankCard
+                count={cards.length}
                 isEmpty={true}
                 createCardOver={this.createCardOver}
                 cardInfo={bankAccountDefault}

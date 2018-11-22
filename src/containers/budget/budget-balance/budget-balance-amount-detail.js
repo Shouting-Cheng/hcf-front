@@ -145,21 +145,6 @@ class BudgetBalanceAmountDetail extends React.Component {
     this.getList(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    console.log(this.props)
-    if(nextProps.params.visible && !this.props.params.visible){
-      this.getList(nextProps);
-    }
-    /*console.log(nextProps)
-    console.log(this.props)
-    if ((!this.props.params.data && nextProps.params.data) ||
-      (this.props.params.data &&
-        (nextProps.params.type !== this.props.params.type || nextProps.params.data.key !== this.props.params.data.key))) {
-      this.getList(nextProps);
-    }*/
-  }
-
   goBudgetJournal = (code) => {
     this.props.dispatch(
       routerRedux.replace({

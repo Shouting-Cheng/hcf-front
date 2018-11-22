@@ -433,7 +433,6 @@ class ApplicationList extends React.Component {
   };
 
   handleSearch = value => {
-    debugger;
     let { searchParams } = this.state;
     searchParams.businessCode = value;
     this.setState(

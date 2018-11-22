@@ -916,7 +916,7 @@ class ContractDetailCommon extends React.Component {
                   style={{float: 'right', top: -4}}
                 >
                   {' '}
-                  {this.$t('common.edit')}
+                  {this.$t('my.contract.edit')}
                 </Button>
               )}
               {headerData.status &&
@@ -945,7 +945,7 @@ class ContractDetailCommon extends React.Component {
                       size="small"
                       type="primary"
                       onClick={this.contractCancel}
-                      style={{marginRight: 10, float: 'right', top: -4}}
+                      style={{marginRight: 5, float: 'right', top: -4}}
                     >
                       {this.$t('common.cancel')}
                     </Button>
@@ -953,7 +953,7 @@ class ContractDetailCommon extends React.Component {
                       size="small"
                       type="primary"
                       onClick={this.contractHold}
-                      style={{marginRight: 10, float: 'right', top: -4}}
+                      style={{marginRight: 5, float: 'right', top: -4}}
                     >
                       {this.$t('my.contract.state.hold')}
                     </Button>

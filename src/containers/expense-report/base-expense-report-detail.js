@@ -818,12 +818,16 @@ class ExpenseReportDetail extends React.Component {
   };
 
   goBack = () => {
-    if (this.props.match.params.backType.indexOf('history') !== -1) {
+    if (this.props.match.params.backType&&this.props.match.params.backType.indexOf('history') !== -1) {
       window.history.go(-1);
     } else {
+      let url='';
+      switch (this.props.match.params.pageFrom) {
+        case 'my': url = '/expense-report'
+      }
       this.props.dispatch(
         routerRedux.push({
-          pathname: `/expense-report`
+          pathname: url
         })
       )
     }
@@ -1319,6 +1323,7 @@ class ExpenseReportDetail extends React.Component {
       travelSubsidy, travelSubsidyType, travelSubsidyUser, buttonRoleSwitch, pay, loanRefund,
       costCenterItemsApportion, saving, haveAutoAudit, deleting, withdrawing, repaymentInfo, isWaitForAudit, tabValue, confirmLoading
     } = this.state;
+    console.log(nowEditExpense)
     const { profile } = this.props;
     let custFormValues = info.custFormValues || []; //自定义表单
     let expenseReportStatus = info ? this.getStatus() : {};
@@ -1604,7 +1609,7 @@ class ExpenseReportDetail extends React.Component {
           hasFooter={false}
           width="800px">
           <NewExpense
-            close={this.handleCloseNewCreate}
+            onClose={this.handleCloseNewCreate}
             params={
               {
                 nowExpense: nowEditExpense,

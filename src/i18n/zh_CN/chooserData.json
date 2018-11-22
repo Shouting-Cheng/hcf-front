@@ -1,6 +1,6 @@
 {
   "chooser.data.selectPerson": "选择人员",
-  "chooser.data.employeeID.fullName.mobile": "员工工号、姓名、手机号",
+  "chooser.data.employeeID.fullName.mobile.email": "员工工号、姓名、手机号、邮箱",
   "chooser.data.employeeID.fullName": "员工工号、姓名",
   "chooser.data.employeeID": "工号",
   "chooser.data.fullName": "姓名",

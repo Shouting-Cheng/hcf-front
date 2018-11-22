@@ -179,7 +179,10 @@ class OrgNewDep extends React.Component {
           </FormItem>
 
           {/*部门名称*/}
-          <FormItem {...formItemLayout} label={this.$t('org-new-dep.dep-name')}>
+          <FormItem {...formItemLayout}
+                    validateStatus='error'
+                    //style={{'borderColor': '#f5222d'}}
+                    label={this.$t('org-new-dep.dep-name')}>
               {getFieldDecorator('name', {
                 initialValue : dep.name,
                 rules: [

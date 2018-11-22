@@ -106,5 +106,8 @@ export default {
       target: 'http://115.159.108.80:9081/artemis-sit',
       changeOrigin: true,
     },
+    '/mapUrl': {
+      target: 'http://apis.map.qq.com',
+    },
   },
 };

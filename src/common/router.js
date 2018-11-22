@@ -525,6 +525,14 @@ export const getRouterData = app => {
       name: 'new-gl-work-order',
       parent: '/gl-work-order/my-gl-work-order',
     },
+    //编辑核算工单
+    '/gl-work-order/my-gl-work-order/edit-gl-work-order/:typeId/:formOid/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/gl-work-order/my-gl-work-order/new-gl-work-order.js')
+      ),
+      name: 'edit-gl-work-order',
+      parent: '/gl-work-order/my-gl-work-order',
+    },
     //核算工单详情
     '/gl-work-order/my-gl-work-order/my-gl-work-order-detail/:id/:oid': {
       component: dynamicWrapper(app, [], () =>
@@ -1739,6 +1747,15 @@ export const getRouterData = app => {
       ),
       name: 'loan-request-detail-audit',
       parent: '/financial-management/finance-audit'
+    },
+
+    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID': {
+      //费用申请单详情
+      component: dynamicWrapper(app, [], () =>
+        import('containers/request/base-request-detail')
+      ),
+      name: 'cost-application-detail',
+      parent: '/financial-management/check-cost-application'
     },
 
     // '/user/:id': {
