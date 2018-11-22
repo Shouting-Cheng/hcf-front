@@ -2024,7 +2024,7 @@ class NewRequest extends React.Component {
         {
           type: 'input',
           id: 'keyword',
-          label: this.$t('chooser.data.employeeID.fullName.mobile'), //员工工号、姓名、手机号
+          label: this.$t('chooser.data.employeeID.fullName.mobile.email'), //员工工号、姓名、手机号、邮箱
         },
       ],
       columns: [
@@ -2036,23 +2036,28 @@ class NewRequest extends React.Component {
         {
           title: this.$t('chooser.data.fullName'), //姓名
           dataIndex: 'fullName',
-          width: '25%',
+          width: '15%',
         },
         {
           title: this.$t('chooser.data.mobile'), //手机号
           dataIndex: 'mobile',
+          width: '20%',
+        },
+        {
+          title: messages('chooser.data.email'), //邮箱
+          dataIndex: 'email',
           width: '25%',
         },
         {
           title: this.$t('chooser.data.dep'), //部门名称
           dataIndex: 'departmentName',
-          width: '20%',
+          width: '15%',
           render: value => value || '-',
         },
         {
           title: this.$t('chooser.data.duty'), //职务
           dataIndex: 'title',
-          width: '20%',
+          width: '15%',
           render: value => value || '-',
         },
       ],
