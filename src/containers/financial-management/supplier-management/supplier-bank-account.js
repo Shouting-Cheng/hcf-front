@@ -72,6 +72,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('bank.bankCode'),
           key: 'bankCode',
           dataIndex: 'bankCode',
+          align:"center",
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -83,6 +84,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('bank.bankName'),
           key: 'bankName',
           dataIndex: 'bankName',
+          align:"center",
           width:180,
           render: desc => (
             <span>
@@ -96,6 +98,7 @@ class SupplierBankAccount extends React.Component {
           key: 'bankAccount',
           dataIndex: 'bankAccount',
           width:180,
+          align:"center",
           render: desc => (
             <span>
               <Popover content={desc}>{desc}</Popover>
@@ -107,6 +110,7 @@ class SupplierBankAccount extends React.Component {
           title: this.$t('bank.account.name'),
           key: 'venBankNumberName',
           dataIndex: 'venBankNumberName',
+          align:"center",
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -119,6 +123,7 @@ class SupplierBankAccount extends React.Component {
           key: 'country',
           dataIndex: 'country',
           width:90,
+          align:"center",
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
