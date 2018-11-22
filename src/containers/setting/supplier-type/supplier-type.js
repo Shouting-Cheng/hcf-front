@@ -26,11 +26,13 @@ class SupplierType extends React.Component {
                 {
                   title: this.$t('supplier.type.code1'),
                   dataIndex: 'vendorTypeCode',
-                  width: '20%'
+                  width: '20%',
+                  align: 'center'
                 },
                 {
                   title: this.$t('supplier.type.name1'),
                   dataIndex: 'name',
+                  align: 'center',
                   width: '30%',
                     render: accountSetDesc => (
                         <Popover content={accountSetDesc}>
@@ -38,7 +40,7 @@ class SupplierType extends React.Component {
                         </Popover>)
                 },
                 {
-                    title: this.$t('common.column.status'), dataIndex: 'enabled', width: '15%',
+                    title: this.$t('common.column.status'), dataIndex: 'enabled', width: '15%',align: 'center',
                     render: enabled => (
                         <Badge status={enabled ? 'success' : 'error'}
                             text={enabled ? this.$t('common.status.enable') : this.$t('common.status.disable')} />
@@ -182,7 +184,7 @@ class SupplierType extends React.Component {
                     onRow={record => ({ onClick: () => { this.editItem(record) } })}
                     size="middle" />
 
-                <SlideFrame title={JSON.stringify(updateParams) === "{}" ? this.$t("supplier.type.new") : this.$t("supplier.type.edit")}
+                <SlideFrame title={updateParams.id ? this.$t("supplier.type.edit") : this.$t("supplier.type.new")}
                     show={showSlideFrameNew}
                     onClose={() => this.setState({ showSlideFrameNew: false })}>
                         <NewSupplierType onClose={this.handleCloseNewSlide} 
