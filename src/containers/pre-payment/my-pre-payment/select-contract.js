@@ -393,10 +393,10 @@ class SelectContract extends React.Component {
         <div className="table-header">
           <div className="table-header-title">
             {this.$t('common.total', { total: pagination.total })}
-            &nbsp;<span>/</span>&nbsp;
+            {/* &nbsp;<span>/</span>&nbsp;
             {this.$t('common.total.selected', {
               total: selectedData.length === 0 ? '0' : selectedData.length,
-            })}
+            })} */}
           </div>
         </div>
         <Table

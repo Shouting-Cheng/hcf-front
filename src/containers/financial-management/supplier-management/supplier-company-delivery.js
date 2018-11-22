@@ -115,7 +115,7 @@ class SupplierCompanyDelivery extends React.Component {
   //分页点击
   onChangePager = (pagination, filters, sorter) => {
     let temp = this.state.pagination;
-    temp.page = pagination.current;
+    temp.page = pagination.current - 1;
     temp.current = pagination.current;
     temp.pageSize = pagination.pageSize;
     this.setState({

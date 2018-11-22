@@ -1,6 +1,6 @@
 {
   "chooser.data.selectPerson": "Select Person",
-  "chooser.data.employeeID.fullName.mobile": "EmployeeID/FullName/mobile",
+  "chooser.data.employeeID.fullName.mobile.email": "EmployeeID/FullName/mobile/email",
   "chooser.data.employeeID.fullName": "EmployeeID/FullName",
   "chooser.data.employeeID": "EmployeeID",
   "chooser.data.fullName": "FullName",
