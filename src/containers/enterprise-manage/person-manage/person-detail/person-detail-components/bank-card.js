@@ -48,12 +48,13 @@ class PersonBankCard extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // this.setState({ card: nextProps.cardInfo });
-    console.log(nextProps)
-    this.setState({ card: nextProps.cardInfo }, () => {
-      this.setState({
-        isChangePrimary: this.state.card.isPrimary,
-      });
-    });
+    /*console.log(nextProps)
+    console.log(this.state.showCreatModel)
+    debugger
+    this.setState({
+      card: nextProps.cardInfo,
+      //isChangePrimary: nextProps.cardInfo.isPrimary
+    });*/
   }
 
   //显示添加银行卡模态框
