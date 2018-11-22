@@ -803,7 +803,7 @@ const chooserData = {
   },
   company: {
     title: messages('chooser.data.company' /*选择公司*/),
-    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/query/company`,
+    url: `${config.baseUrl}/api/company/by/condition`,
     searchForm: [
       {
         type: 'input',
@@ -2857,6 +2857,34 @@ const chooserData = {
       { title: "所属账套", dataIndex: 'setOfBooksName' }
     ],
     key: 'id'
+  },
+  accounting_company: {
+    title: messages('chooser.data.company' /*选择公司*/),
+    url: `${config.accountingUrl}/api/general/ledger/work/order/type/companies/query/company`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'companyCode',
+        label: messages('chooser.data.companyCode' /*公司代码*/),
+      },
+      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
+      {
+        type: 'input',
+        id: 'companyCodeFrom',
+        label: messages('chooser.data.companyCode.from' /*公司代码从*/),
+      },
+      {
+        type: 'input',
+        id: 'companyCodeTo',
+        label: messages('chooser.data.companyCode.to' /*公司代码至*/),
+      },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode' /*公司代码*/), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName' /*公司名称*/), dataIndex: 'name' },
+      { title: messages('chooser.data.companyType' /*公司类型*/), dataIndex: 'companyTypeName' },
+    ],
+    key: 'id',
   },
 };
 
