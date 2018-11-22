@@ -195,7 +195,7 @@ class CustomExpenseType extends React.Component {
   renderExpenseType = (expenseType, noClick) => {
     return (
       <div className="expense-type-item" key={expenseType.id} onClick={noClick ? null : () => this.handleEditExpenseType(expenseType.id)}>
-        <img src={expenseType.iconURL} />
+        <img src={expenseType.iconUrl} />
         <Row gutter={10}>
           <Col span={12} className="expense-type-name">{expenseType.name}</Col>
           <Col span={6}>
