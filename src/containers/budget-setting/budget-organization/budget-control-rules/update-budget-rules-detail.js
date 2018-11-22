@@ -89,7 +89,7 @@ class UpdateBudgetRulesDetail extends React.Component {
         selectorItem: itemSelectorItem
       },
       'CURRENCY': {
-        listType: 'baseCurrency',
+        listType: 'currency_budget',
         labelKey: 'currencyName',
         valueKey: 'currencyCode',
         codeKey: 'currencyCode',
