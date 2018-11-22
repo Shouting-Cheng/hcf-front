@@ -24,18 +24,36 @@ class LineModelChangeRulesSystem extends React.Component {
             tenantItem: {},
             empolyeeVisible: false,
             employeeItem: {},
-            companyVisible: false
+            companyVisible: false,
+            isEditDelete: false,
         }
     }
     componentWillMount() {
-        console.log(this.props);
+        console.log()
         this.setState({
             targeKey: this.props.targeKey
-        })
+        });
+        if (this.props.isEditRule) {
+            this.setState({ show: false })
+        } else {
+            this.setState({ show: true })
+        }
     }
-    /**删除规则 */
+     /**删除的规则,如果是这条数据正在编辑取消，则回到原来没编辑的状态 */
     removeRule = (targeKey) => {
-        this.props.cancelHandle(targeKey)
+        let { isEditDelete } = this.state;
+        if (isEditDelete) {
+            this.setState({
+                show: false
+            })
+        } else {
+            this.props.cancelHandle(targeKey)
+        }
+
+    }
+   
+    removeEditRule = (targeKey) => {
+        this.props.canceEditHandle(targeKey)
     }
     /**保存单条规则 */
     saveRuleItem = (e) => {
@@ -44,7 +62,9 @@ class LineModelChangeRulesSystem extends React.Component {
             if (!err) {
                 console.log(values);
                 this.setState({
-                    show: false
+                    show: false,
+                    isEditDelete: true
+
                 })
             }
         })
@@ -52,7 +72,8 @@ class LineModelChangeRulesSystem extends React.Component {
     /**编辑单条规则 */
     editRuleItem = () => {
         this.setState({
-            show: true
+            show: true,
+            isEditDelete: true
         })
     }
     /**选中手动选择 */
@@ -191,15 +212,15 @@ class LineModelChangeRulesSystem extends React.Component {
             companyVisible: true,
         })
     }
-    cancelCompanyList=()=>{
+    cancelCompanyList = () => {
         this.setState({
-            companyVisible:false
+            companyVisible: false
         })
     }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { targeKey, show, renderSelectList, renderCompanyList, renderDepartmentList, renderEmplyeeList,
-            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible } = this.state;
+            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, isEditBtn } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
@@ -267,7 +288,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                                 </FormItem>
                                             </Col>
-                                            <Col span={6}>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
                                                 <FormItem
                                                     {...ruleFormLayout}
                                                     label=''
@@ -317,7 +338,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                                 </FormItem>
                                             </Col>
-                                            <Col span={6}>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
                                                 <FormItem
                                                     {...ruleFormLayout}
                                                     label=''
@@ -367,7 +388,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                                 </FormItem>
                                             </Col>
-                                            <Col span={6}>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
                                                 <FormItem
                                                     {...ruleFormLayout}
                                                     label=''
@@ -417,7 +438,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                                 </FormItem>
                                             </Col>
-                                            <Col span={6}>
+                                            <Col span={6} style={{marginLeft:'-25px'}}>
                                                 <FormItem
                                                     {...ruleFormLayout}
                                                     label=''
@@ -440,7 +461,7 @@ class LineModelChangeRulesSystem extends React.Component {
                         extra={<span>
                             <a onClick={this.handleViewRule}>查看</a>
                             <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>
-                            <a style={{ paddingLeft: 15 }} onClick={() => this.removeRule(targeKey)}>删除</a>
+                            <a style={{ paddingLeft: 15 }} onClick={() => this.removeEditRule(targeKey, isEditDelete)}>删除</a>
                         </span>}>
                         <Row>
                             <Col span={24}>
