@@ -286,6 +286,11 @@ class PersonBasicInfo extends React.Component {
     e.preventDefault();
     this.props.form.resetFields();
     this.props.toNoEditing();
+    this.props.dispatch(
+      routerRedux.replace({
+        pathname: `/setting/employee`,
+      })
+    );
   };
   //渲染手机前缀
   renderMobilePrefix = preFixList => {
