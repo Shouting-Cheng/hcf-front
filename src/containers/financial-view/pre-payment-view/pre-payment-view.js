@@ -7,9 +7,9 @@ import { Input, Button, Table, Badge, Divider, message, Popover, Row, Col, Modal
 const Search = Input.Search;
 import prePaymentService from './pre-payment-view.service';
 import moment from 'moment';
-//import ExcelExporter from 'widget/excel-exporter'
+import ExcelExporter from 'widget/excel-exporter'
 import ListSelector from 'widget/list-selector';
-//import FileSaver from 'file-saver'
+import FileSaver from 'file-saver'
 import PayDetail from 'containers/pay/pay-workbench/payment-detail'; //支付详情
 import { routerRedux } from 'dva/router';
 
@@ -728,11 +728,10 @@ class PerPaymentView extends Component {
    * 点击导出按钮
    */
   onExportClick = () => {
-    alert('暂不支持导出！');
-    // this.setState({
-    //     btLoading: true,
-    //     excelVisible: true
-    // });
+    this.setState({
+        btLoading: true,
+        excelVisible: true
+    });
   };
   /**
    * 导出取消
@@ -765,7 +764,7 @@ class PerPaymentView extends Component {
           hide();
         }
       })
-      .catch(e => {
+      .catch(e => {debugger;
         message.error('下载失败，请重试!');
         this.setState({
           btLoading: false,
@@ -858,14 +857,15 @@ class PerPaymentView extends Component {
           modalWidth={'70%'}
         />
         {/* 导出 */}
-        {/* <ExcelExporter
-                    visible={excelVisible}
-                    onOk={this.export}
-                    columns={exportColumns}
-                    fileName={"预付款单"}
-                    onCancel={this.onExportCancel}
-                    excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
-                /> */}
+        <ExcelExporter
+            visible={excelVisible}
+            onOk={this.export}
+            columns={exportColumns}
+            canCheckVersion={false}
+            fileName={"预付款单"}
+            onCancel={this.onExportCancel}
+            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+        />
         <Modal
           visible={showChild} //支付明细弹窗
           footer={[

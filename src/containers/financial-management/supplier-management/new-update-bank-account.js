@@ -239,7 +239,7 @@ class NewUpdateBankAccount extends React.Component {
 
   //切换银行
   handleBankChange = value => {
-    if (typeof value[0].id !== 'undefined') {
+    if (value.length && value[0].id !== 'undefined') {
       let bankInfo = this.state.bankInfo;
       bankInfo.country = bankInfo.countryCode;
       this.setState({ bankInfo });

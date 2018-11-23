@@ -43,7 +43,7 @@ export default {
     };
     return axios(option);
   },
-  post(url, data) {
+  post(url, data, header = {}, options = {}) {
 
     let params = {};
     if (url.indexOf("TENANT") < 0) {
@@ -51,6 +51,7 @@ export default {
     }
 
     let option = {
+      ...options,
       url: baseUrl + url,
       method: 'POST',
       headers: {

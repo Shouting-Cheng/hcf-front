@@ -105,5 +105,13 @@ export default {
    */
   saveExpenseTypeScope(scope) {
     return httpFetch.post(`${config.baseUrl}/invoice/api/expense/type/user/groups`, scope)
+  },
+
+  /**
+   * 创建一个类别(申请或者费用)
+   * @param {*} params 
+   */
+  addTypes(params) {
+    return httpFetch.post(`${expenseUrl}/api/expense/types`, params);
   }
 }

@@ -35,7 +35,7 @@ class PrePaymentCommon extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: 50,
-          render: (value, record, index) => index + this.state.page * this.state.pageSize + 1,
+          render: (value, record, index) => index + this.state.indexAdd + 1,
         },
         {
           title: '预付款金额',
@@ -141,6 +141,7 @@ class PrePaymentCommon extends React.Component {
       },
       pageSize: 5,
       page: 0,
+      indexAdd: 0, //index增量，用于控制序号显示
       showSlideFrame: false,
       slideFrameTitle: '',
       record: {},
@@ -275,13 +276,13 @@ class PrePaymentCommon extends React.Component {
             businessCode: headerData.requisitionNumber,
             createdDate: headerData.requisitionDate,
             formName: headerData.typeName,
-            createByName: headerData.createByName + "-" + headerData.createdBy,
+            createByName: headerData.createByName + "-" + headerData.createdByCode,
             currencyCode: headerData.currency,
             totalAmount: res.data.totalFunctionAmount,
             statusCode: headerData.status,
             remark: headerData.description,
             infoList: [
-              { label: '申请人', value: headerData.createByName + "-" + headerData.createdBy },
+              { label: '申请人', value: headerData.employeeName + "-" + headerData.employeeCode },
               { label: '公司', value: headerData.companyName },
               { label: '部门', value: headerData.path },
             ],
@@ -334,6 +335,7 @@ class PrePaymentCommon extends React.Component {
         this.setState({
           data: res.data,
           planLoading: false,
+          indexAdd: page * pageSize,
           pagination: {
             total: Number(res.headers['x-total-count']) ? Number(res.headers['x-total-count']) : 0,
             current: page + 1,

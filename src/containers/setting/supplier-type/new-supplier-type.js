@@ -30,7 +30,7 @@ class NewSupplierType extends React.Component {
   //新建或编辑
   handleSave = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({ loading: true });
         if (!this.props.params.id) {

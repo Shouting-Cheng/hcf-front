@@ -619,7 +619,7 @@ class NewPaymentRequisitionDetail extends React.Component {
         .catch(e => {
           this.setState({ loading: false, dLoading: false, pageLoading: false });
           message.error(
-            this.$t('common.operate.filed'  /*操作失败*/) + ',' + '金额超过计划支付的总金额'
+            this.$t('common.operate.filed'  /*操作失败*/) + ',' + e.response.data.message
           );
         });
     }
