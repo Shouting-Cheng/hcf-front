@@ -76,7 +76,6 @@ class BaseRequestDetail extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.setState(
       {
         formOID: this.props.match.params.formOID,
@@ -266,8 +265,6 @@ class BaseRequestDetail extends React.Component {
 
   renderFooter(){
     const {info,view, formInfo, showApproveBottom,formType} = this.state;
-    console.log(this.props.match.params.pageFrom)
-    console.log(info)
     switch (this.props.match.params.pageFrom) {
       case 'my':
         if(info.status === 1003){
@@ -311,6 +308,7 @@ class BaseRequestDetail extends React.Component {
             formInfo={formInfo}/>
         </Row>
       case 'approved':
+      case 'checkCost':
         return<Row gutter={24}>
           <Col span={1} style={{marginLeft: 20}}>
             <GoBackBtn backType={this.props.match.params.pageFrom} />
@@ -498,9 +496,6 @@ class BaseRequestDetail extends React.Component {
     info.status === 1002 && info.rejectType === 1000 && recallVisible && (backMargin = -210);
     //打印
     info.printButtonDisplay && (backMargin = -40);
-    console.log(backMargin)
-    console.log(info.printButtonDisplay)
-
 
     return (
       <div className="base-request-detail" >
@@ -595,8 +590,6 @@ class BaseRequestDetail extends React.Component {
               )}
           </Tabs>
         )}
-        {console.log("123"+audit)}
-        {console.log(buttonRoleSwitch)}
         <Affix
           offsetBottom={0}
           style={{
