@@ -85,8 +85,16 @@ class ReimburseDetail extends React.Component {
         }
       })
       .catch(err => {
+        let mess;
         this.setState({ submitLoading: false });
-        message.error('提交失败：' + err.response.data.message);
+        if(err.response.data.message.indexOf("CONTRACT_STATUS_HOLD")>0){
+          mess = err.response.data.message.replace("CONTRACT_STATUS_HOLD",this.$t('my.zan.gua'));
+        }else if(err.response.data.message.indexOf("CONTRACT_STATUS_CANCEL")>0){
+          mess = err.response.data.message.replace("CONTRACT_STATUS_CANCEL",this.$t('common.cancel'));
+        }else if(err.response.data.message.indexOf("CONTRACT_STATUS_FINISH")){
+          mess = err.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.comtract.state.finish'));
+        }  
+        message.error('提交失败：' + mess);
       });
   };
 
