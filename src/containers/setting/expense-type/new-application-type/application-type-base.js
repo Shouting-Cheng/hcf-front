@@ -34,7 +34,7 @@ class ExpenseTypeBase extends React.Component {
       subsidyType: 0,
       saving: false,
       priceUnit: "",
-      entryMode: ""
+      entryMode: false
       // expenseTypePage: menuRoute.getRouteItem('expense-type'),
       // expenseTypeDetailPage: menuRoute.getRouteItem('expense-type-detail')
     }
@@ -197,6 +197,14 @@ class ExpenseTypeBase extends React.Component {
     this.setState({ name, nameI18n })
   };
 
+  entryModeChange = (value) => {
+    if (value) {
+      this.setState({ priceUnit: "day", entryMode: value });
+    } else {
+      this.setState({ priceUnit: "", entryMode: value });
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { icon, showIconSelectorFlag, expenseTypeCategory, apportionEnabled, valid, saving, name, nameI18n, subsidyType } = this.state;
@@ -271,9 +279,9 @@ class ExpenseTypeBase extends React.Component {
           })(
             <Row gutter={20}>
               <Col span={16}>
-                <Select value={this.state.entryMode} style={{ width: '100%' }} onChange={value => this.setState({ entryMode: value, priceUnit: "" })}>
-                  <Option value={0}>总金额</Option>
-                  <Option value={1}>单价*数量</Option>
+                <Select value={this.state.entryMode} style={{ width: '100%' }} onChange={this.entryModeChange}>
+                  <Option value={false}>总金额</Option>
+                  <Option value={true}>单价*数量</Option>
                 </Select>
               </Col>
               <Col span={8}>

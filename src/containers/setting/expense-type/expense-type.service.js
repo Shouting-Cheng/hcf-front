@@ -70,7 +70,7 @@ export default {
    * @param id
    */
   getExpenseTypeDetail(id) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/types/select/${id}`)
+    return httpFetch.get(`${config.expenseUrl}/api/expense/types/select/${id}`)
   },
 
   /**
@@ -108,10 +108,12 @@ export default {
   },
 
   /**
-   * 创建一个类别(申请或者费用)
-   * @param {*} params 
+   * 查询所有保存的控件
+   * @param {*} id 
    */
-  addTypes(params) {
-    return httpFetch.post(`${expenseUrl}/api/expense/types`, params);
+  getFieldsById(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/types/${id}/fields`);
   }
+
+
 }

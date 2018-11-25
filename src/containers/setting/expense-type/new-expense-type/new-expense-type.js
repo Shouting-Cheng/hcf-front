@@ -40,10 +40,13 @@ class NewExpenseType extends React.Component {
     let { tabs } = this.state;
     let { languageList } = this.props;
     expenseTypeService.getExpenseTypeDetail(id).then(res => {
+
       let expenseType = JSON.parse(JSON.stringify(res.data));
+
       if (expenseType.supplierType === 0 && expenseType.isAbleToCreatedManually && tabs.length === 2) {
         tabs.push({ key: 'scope', name: messages('expense.type.permission.setting') })
       }
+
       if (expenseType.subsidyType === 1) {
         let hasSubsidy = false;
         tabs.map(tab => {
@@ -51,32 +54,36 @@ class NewExpenseType extends React.Component {
         });
         !hasSubsidy && tabs.push({ key: 'subsidy', name: messages('expense.type.allowance.rules.setting') })
       }
-      expenseType.fields = res.data.fields.sort((a, b) => a.sequence > b.sequence || -1);
-      expenseType.fields.map(item => {
-        //i18n name值没有初始化时手动初始化
-        if (!item.i18n) {
-          item.i18n = {};
-        }
-        if (!item.i18n.name) {
-          item.i18n.name = [];
-          languageList.map(language => {
-            item.i18n.name.push({
-              language: language.code.toLowerCase(),
-              value: item.name
-            })
-          });
-        }
-      });
-      this.setState({ expenseType, loading: false, tabs });
-      this.props.dispatch({
-        type: "setting/setExpenseTypeSetOfBooks",
-        payload: {
-          id: expenseType.setOfBooksId,
-          setOfBooksName: expenseType.setOfBooks.setOfBooksName
-        }
-      })
 
-      target && this.setState({ nowTab: target })
+      expenseTypeService.getFieldsById(id).then(data => {
+        expenseType.fields = data.data.sort((a, b) => a.sequence > b.sequence || -1);
+        expenseType.fields.map(item => {
+          //i18n name值没有初始化时手动初始化
+          if (!item.i18n) {
+            item.i18n = {};
+          }
+          if (!item.i18n.name) {
+            item.i18n.name = [];
+            languageList.map(language => {
+              item.i18n.name.push({
+                language: language.code.toLowerCase(),
+                value: item.name
+              })
+            });
+          }
+        });
+        this.setState({ expenseType, loading: false, tabs });
+
+        this.props.dispatch({
+          type: "setting/setExpenseTypeSetOfBooks",
+          payload: {
+            id: expenseType.setOfBooksId,
+            setOfBooksName: expenseType.setOfBooksName
+          }
+        })
+
+        target && this.setState({ nowTab: target });
+      })
     })
   };
 
