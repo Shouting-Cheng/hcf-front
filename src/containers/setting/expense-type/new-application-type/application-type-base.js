@@ -74,7 +74,7 @@ class ExpenseTypeBase extends React.Component {
     });
     this.setState({
       icon: {
-        iconURL: expenseType.iconURL,
+        iconURL: expenseType.iconUrl,
         iconName: expenseType.iconName
       },
       nameI18n: expenseType.i18n.name,
@@ -106,16 +106,33 @@ class ExpenseTypeBase extends React.Component {
         values.iconUrl = icon.iconURL;
         values.iconName = icon.iconName;
 
-        expenseTypeService.saveExpenseType(values).then(res => {
-          this.setState({ saving: false });
-          message.success(messages('common.operate.success'));
-          this.props.dispatch(routerRedux.push({
-            pathname: "/admin-setting/expense-type-detail/" + res.data.id
-          }))
-        }).catch(error => {
-          this.setState({ saving: false });
-          message.error(error.response.message);
-        })
+        if (this.props.expenseType) {
+          values.id = this.props.expenseType.id;
+          this.setState({ saving: true });
+          expenseTypeService.editExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.onSave();
+            this.props.dispatch(routerRedux.push({
+              pathname: "/admin-setting/application-type-detail/" + res.data.id
+            }))
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
+        } else {
+          this.setState({ saving: true });
+          expenseTypeService.saveExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.dispatch(routerRedux.push({
+              pathname: "/admin-setting/application-type-detail/" + res.data.id
+            }))
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
+        }
+
+
 
 
 

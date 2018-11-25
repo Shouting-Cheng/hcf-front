@@ -196,8 +196,9 @@ class CustomExpenseType extends React.Component {
   };
 
   handleEditExpenseType = (id) => {
+    let path = this.state.activeKey == "1" ? "/admin-setting/application-type-detail/" : "/admin-setting/expense-type-detail/";
     this.props.dispatch(routerRedux.push({
-      pathname: "/admin-setting/expense-type-detail/" + id
+      pathname: path + id
     }))
   };
 
