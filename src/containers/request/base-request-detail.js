@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import constants from 'share/constants';
 import { getApprovelHistory } from 'utils/extend';
-import { Form, Tabs, Affix, Spin, Row, message,Col } from 'antd';
+import { Form, Tabs, Affix, Spin, Row, message, Col, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import JDOrderInfo from 'containers/request/jd-request/jd-order-info';
@@ -41,6 +41,8 @@ import approveRequestService from 'containers/approve/request/request.service';
 import 'styles/request/base-request-detail.scss';
 import 'styles/components/template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
+
+import { routerRedux } from 'dva/router';
 
 class BaseRequestDetail extends React.Component {
   constructor(props) {
@@ -264,60 +266,75 @@ class BaseRequestDetail extends React.Component {
     return numberString;
   };
 
-  renderFooter(){
-    const {info,view, formInfo, showApproveBottom,formType} = this.state;
+  renderFooter() {
+    const { info, view, formInfo, showApproveBottom, formType } = this.state;
     console.log(this.props.match.params.pageFrom)
     console.log(info)
     switch (this.props.match.params.pageFrom) {
-      case 'my':
-        if(info.status === 1003){
-          //已通过
-          return <Row gutter={24}>
-            <Col span={1} style={{marginLeft: 20}}>
-              <PrintBtn info={info} printFlag={view} />
-            </Col>
-            <Col span={1} style={{marginLeft: 15}}>
-              <GoBackBtn backType={this.props.match.params.pageFrom} />
-            </Col>
-          </Row>
-        }
-        if(info.status === 1002){
-          //审批中
-          return <Row gutter={24}>
-            <Col span={1} style={{marginLeft: 20}}>
-              <RecallBtn info={info} />
-            </Col>
-            <Col span={1} style={{marginLeft: 15}}>
-              <GoBackBtn backType={this.props.match.params.pageFrom} />
-            </Col>
-          </Row>
-        }
-        break;
-      case 'approving':
-        return <Row style={{
-          width: '88%',
-          height: '50px',
-          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-          background: '#fff',
-          lineHeight: '50px',
-          zIndex: 1,
-          margin: '-20px 0px 20px 0px',
-          paddingLeft: 20
-        }}>
-          <ApproveRequestBtn
-            formType={Number(formType)}
-            info={info}
-            approving={showApproveBottom}
-            formInfo={formInfo}/>
-        </Row>
-      case 'approved':
-        return<Row gutter={24}>
-          <Col span={1} style={{marginLeft: 20}}>
-            <GoBackBtn backType={this.props.match.params.pageFrom} />
-          </Col>
-        </Row>
+      // case 'my':
+      //   if (info.status === 1003) {
+      //     //已通过
+      //     return <Row gutter={24}>
+      //       <Col span={1} style={{ marginLeft: 20 }}>
+      //         <PrintBtn info={info} printFlag={view} />
+      //       </Col>
+      //       <Col span={1} style={{ marginLeft: 15 }}>
+      //         <GoBackBtn backType={this.props.match.params.pageFrom} />
+      //       </Col>
+      //     </Row>
+      //   }
+      //   if (info.status === 1002) {
+      //     //审批中
+      //     return <Row gutter={24}>
+      //       <Col span={1} style={{ marginLeft: 20 }}>
+      //         <RecallBtn info={info} />
+      //       </Col>
+      //       <Col span={1} style={{ marginLeft: 15 }}>
+      //         <GoBackBtn backType={this.props.match.params.pageFrom} />
+      //       </Col>
+      //     </Row>
+      //   }
+      //   break;
+      // case 'approving':
+      //   return <Row style={{
+      //     width: '88%',
+      //     height: '50px',
+      //     boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+      //     background: '#fff',
+      //     lineHeight: '50px',
+      //     zIndex: 1,
+      //     margin: '-20px 0px 20px 0px',
+      //     paddingLeft: 20
+      //   }}>
+      //     <ApproveRequestBtn
+      //       formType={Number(formType)}
+      //       info={info}
+      //       approving={showApproveBottom}
+      //       formInfo={formInfo} />
+      //   </Row>
+      // case 'approved':
+      //   return <Row gutter={24}>
+      //     <Col span={1} style={{ marginLeft: 20 }}>
+      //       <GoBackBtn backType={this.props.match.params.pageFrom} />
+      //     </Col>
+      //   </Row>
+      default:
+        return (
+          <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={this.handleBack}>
+            <Icon type="rollback" style={{ marginRight: '5px' }} />
+            {this.$t({ id: 'common.back' })}
+          </a>
+        )
     }
   }
+
+  handleBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/financial-management/check-cost-application`,
+      })
+    );
+  };
 
   render() {
     const { isPreVersion, latestApplicationOID, from } = this.props;
@@ -432,17 +449,17 @@ class BaseRequestDetail extends React.Component {
             <span className="detail-info">
               {this.$t('request.detail.status' /*当前状态*/)}：
               {info.closed ||
-              (info.applicationParticipant && info.applicationParticipant.closed === 1)
+                (info.applicationParticipant && info.applicationParticipant.closed === 1)
                 ? this.$t('constants.documentStatus.yet.disable' /*已停用*/)
                 : constants.getTextByValue(
-                    String(info.status + '' + info.type),
-                    'documentStatus'
-                  ) ||
-                  constants.getTextByValue(
-                    String(info.status + '' + info.rejectType),
-                    'documentStatus'
-                  ) ||
-                  constants.getTextByValue(String(info.status), 'documentStatus')}
+                  String(info.status + '' + info.type),
+                  'documentStatus'
+                ) ||
+                constants.getTextByValue(
+                  String(info.status + '' + info.rejectType),
+                  'documentStatus'
+                ) ||
+                constants.getTextByValue(String(info.status), 'documentStatus')}
             </span>
             <TravelPreviousVersion info={info} isPreVersion={isPreVersion} />
           </Row>
@@ -503,13 +520,13 @@ class BaseRequestDetail extends React.Component {
 
 
     return (
-      <div className="base-request-detail" >
+      <div style={{ paddingBottom: 20 }} className="base-request-detail" >
         <div className="tabs-info">
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info') /*申请单信息*/} key="requestInfo">
               {requestInfo}
             </TabPane>
-            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals" style={{marginTop: 20}}>
+            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals" style={{ marginTop: 20 }}>
               <ApproveHistory
                 approvalChains={info.approvalChains}
                 isShowReply={this.props.match.params.pageFrom === 'my' && info.status === 1003}
@@ -595,10 +612,8 @@ class BaseRequestDetail extends React.Component {
               )}
           </Tabs>
         )}
-        {console.log("123"+audit)}
-        {console.log(buttonRoleSwitch)}
-        <Affix
-          offsetBottom={0}
+
+        <div
           style={{
             position: 'fixed',
             bottom: 0,
@@ -612,8 +627,8 @@ class BaseRequestDetail extends React.Component {
           }}
         >
           {this.renderFooter()}
-        </Affix>
-       {/* {audit &&
+        </div>
+        {/* {audit &&
           (buttonRoleSwitch ? (
             <AuditApplicationDetail
               status={info.status}
