@@ -339,6 +339,7 @@ class NewUpdateBankAccount extends React.Component {
                   ],
                 })(
                   <Chooser
+                    showClear={false}
                     type="select_bank_supplier"
                     single={true}
                     labelKey="bankBranchName"

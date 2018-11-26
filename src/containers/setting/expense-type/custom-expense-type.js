@@ -20,6 +20,7 @@ class CustomExpenseType extends React.Component {
     this.state = {
       loading: true,
       sourceCategory: [],
+      applicationCategory: [],
       categorySorting: false,
       typeSorting: false,
       typeSortingIndex: -1,
@@ -36,7 +37,8 @@ class CustomExpenseType extends React.Component {
       savingCategory: false,
       categoryEditVisible: false,
       setOfBooks: [],
-      setOfBooksLoading: false
+      setOfBooksLoading: false,
+      activeKey: "1",
     }
   }
 
@@ -85,12 +87,13 @@ class CustomExpenseType extends React.Component {
         })
       }
       this.getSourceCategory(id);
+      this.getSourceCategory(id, 1);
     })
   };
 
-  getSourceCategory = (setOfBooksId = this.props.expenseTypeSetOfBooks.id) => {
+  getSourceCategory = (setOfBooksId = this.props.expenseTypeSetOfBooks.id, typeFlag = 0) => {
     this.setState({ loading: true });
-    baseService.getExpenseTypesBySetOfBooks(setOfBooksId || this.props.company.setOfBooksId, null, null).then(res => {
+    baseService.getExpenseTypesBySetOfBooks(setOfBooksId || this.props.company.setOfBooksId, typeFlag).then(res => {
       res.data.map(expenseCategory => {
         //如果是第三方费用类型，则不参与排序，放到最下方
         if (!expenseCategory.id) {
@@ -114,8 +117,14 @@ class CustomExpenseType extends React.Component {
           })
         }
       });
-      this.setState({ sourceCategory: target, loading: false });
+
+      if (typeFlag == 0) {
+        this.setState({ applicationCategory: target, loading: false });
+      } else {
+        this.setState({ sourceCategory: target, loading: false });
+      };
     });
+
   };
 
   handleChangeSetOfBooks = (setOfBooksId) => {
@@ -187,8 +196,9 @@ class CustomExpenseType extends React.Component {
   };
 
   handleEditExpenseType = (id) => {
+    let path = this.state.activeKey == "1" ? "/admin-setting/application-type-detail/" : "/admin-setting/expense-type-detail/";
     this.props.dispatch(routerRedux.push({
-      pathname: "/admin-setting/expense-type-detail/" + id
+      pathname: path + id
     }))
   };
 
@@ -197,13 +207,7 @@ class CustomExpenseType extends React.Component {
       <div className="expense-type-item" key={expenseType.id} onClick={noClick ? null : () => this.handleEditExpenseType(expenseType.id)}>
         <img src={expenseType.iconUrl} />
         <Row gutter={10}>
-          <Col span={12} className="expense-type-name">{expenseType.name}</Col>
-          <Col span={6}>
-            {messages('expense.type.type')}：
-            {expenseType.subsidyType === 0 && messages('expense.type.non.allowance')}
-            {expenseType.subsidyType === 1 && messages('expense.type.allowance')}
-            {expenseType.subsidyType === 2 && messages('expense.type.daily.allowance')}
-          </Col>
+          <Col span={18} className="expense-type-name">{expenseType.name}</Col>
           <Col span={6} style={{ textAlign: 'right' }}><Badge status={expenseType.enabled ? 'success' : 'error'} />&nbsp;{expenseType.enabled ? messages('common.enabled') : messages('common.disabled')}</Col>
         </Row>
       </div>
@@ -347,13 +351,13 @@ class CustomExpenseType extends React.Component {
 
   //申请类型面板
   renderApplicationTypePanel = () => {
-    const { sourceCategory, typeSorting, typeSortingIndex, sortingExpenseType } = this.state;
+    const { applicationCategory, typeSorting, typeSortingIndex, sortingExpenseType } = this.state;
     const { tenantMode } = this.props;
 
     return (
       <div style={{ padding: 20 }}>
         <Button type="primary" onClick={this.handleNewApplicationType}>{messages('新增申请类型')}</Button>
-        {sourceCategory.map((expenseTypeCategory, index) => {
+        {applicationCategory.map((expenseTypeCategory, index) => {
           return (
             <div className={`expense-type-category${typeSorting && typeSortingIndex === index ? ' sorting-category' : ''}`}
               id={'' + expenseTypeCategory.expenseTypeCategoryOID}
@@ -399,8 +403,8 @@ class CustomExpenseType extends React.Component {
     )
   }
 
-  switchTab = () => {
-
+  switchTab = (key) => {
+    this.setState({ activeKey: key });
   }
 
   render() {
@@ -427,12 +431,12 @@ class CustomExpenseType extends React.Component {
             <Anchor affix={false}
               className="anchor"
             >
-              {sourceCategory.map(expenseTypeCategory => <Link href={`#${expenseTypeCategory.expenseTypeCategoryOID}`}
+              {sourceCategory.map(expenseTypeCategory => <Link key={expenseTypeCategory.id} href={`#${expenseTypeCategory.expenseTypeCategoryOID}`}
                 title={expenseTypeCategory.name}
                 key={expenseTypeCategory.expenseTypeCategoryOID} />)}
             </Anchor>
           </Col>
-          {loading ? <Spin /> : (
+          {
             categorySorting ? (
               <Col span={16} style={{ padding: 0 }}>
                 <Button type="primary" style={{ marginRight: 10 }} onClick={() => this.finishCategorySort(true)} loading={sortingCategory}>{messages('common.ok')}</Button>
@@ -458,7 +462,7 @@ class CustomExpenseType extends React.Component {
               </Col>
             ) : (
                 <Col span={18} className="right-container">
-                  <Tabs defaultActiveKey="1" onChange={this.switchTab}>
+                  <Tabs activeKey={this.state.activeKey} defaultActiveKey="1" onChange={this.switchTab}>
                     <Tabs.TabPane tab="申请类型" key="1">
                       {this.renderApplicationTypePanel()}
                     </Tabs.TabPane>
@@ -468,7 +472,7 @@ class CustomExpenseType extends React.Component {
                   </Tabs>
                 </Col>
               )
-          )}
+          }
         </Row>
         <Modal visible={categoryEditVisible}
           onCancel={() => this.setState({ categoryEditVisible: false })}

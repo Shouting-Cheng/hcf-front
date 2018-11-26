@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import constants from 'share/constants';
 import { getApprovelHistory } from 'utils/extend';
-import { Form, Tabs, Affix, Spin, Row, message,Col } from 'antd';
+import { Form, Tabs, Affix, Spin, Row, message, Col, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 
 import JDOrderInfo from 'containers/request/jd-request/jd-order-info';
@@ -41,6 +41,8 @@ import approveRequestService from 'containers/approve/request/request.service';
 import 'styles/request/base-request-detail.scss';
 import 'styles/components/template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
+
+import { routerRedux } from 'dva/router';
 
 class BaseRequestDetail extends React.Component {
   constructor(props) {
@@ -314,8 +316,23 @@ class BaseRequestDetail extends React.Component {
             <GoBackBtn backType={this.props.match.params.pageFrom} />
           </Col>
         </Row>
+      default:
+        return (
+          <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={this.handleBack}>
+            <Icon type="rollback" style={{ marginRight: '5px' }} />
+            {this.$t({ id: 'common.back' })}
+          </a>
+        )
     }
   }
+
+  handleBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/financial-management/check-cost-application`,
+      })
+    );
+  };
 
   render() {
     const { isPreVersion, latestApplicationOID, from } = this.props;
@@ -498,13 +515,13 @@ class BaseRequestDetail extends React.Component {
     info.printButtonDisplay && (backMargin = -40);
 
     return (
-      <div className="base-request-detail" >
+      <div style={{ paddingBottom: 20 }} className="base-request-detail" >
         <div className="tabs-info">
           <Tabs type="card" activeKey={tapValue} onChange={this.handleTabsChange}>
             <TabPane tab={this.$t('request.detail.request.info') /*申请单信息*/} key="requestInfo">
               {requestInfo}
             </TabPane>
-            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals" style={{marginTop: 20}}>
+            <TabPane tab={this.$t('request.detail.approve.history' /*审批历史*/)} key="approvals" style={{ marginTop: 20 }}>
               <ApproveHistory
                 approvalChains={info.approvalChains}
                 isShowReply={this.props.match.params.pageFrom === 'my' && info.status === 1003}

@@ -149,9 +149,10 @@ class Payment extends React.Component {
         },
         // {title: '币种', dataIndex: 'currency'},
         {
-          title: '本币金额', dataIndex: 'totalAmount', align: 'center', render: this.filterMoney, render: (value) => {
+          title: '本币金额', dataIndex: 'totalAmount', align: 'center',
+          render: (value) => {
             return (
-              <Popover content={value}><div style={{ textAlign: "right" }}>{value}</div></Popover>
+              <Popover content={this.filterMoney(value, 2)}><div style={{ textAlign: "right" }}>{this.filterMoney(value, 2)}</div></Popover>
             )
           }
         },

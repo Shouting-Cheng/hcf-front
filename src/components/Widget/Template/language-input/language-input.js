@@ -438,6 +438,7 @@ class LanguageInput extends React.Component {
 
   onChange = changedValue => {
     const onChange = this.props.onChange;
+    this.setState({name: changedValue});
     if (onChange) {
       onChange(changedValue);
     }
@@ -479,8 +480,8 @@ class LanguageInput extends React.Component {
         ? 'language-input-d-wrap-textarea disabled-class'
         : 'language-input-d-wrap-textarea';
     }
-    console.log(this.props)
-    if((!this.state.first||this.props.validateStatus)&&this.props.value===''){
+
+    if((!this.state.first||this.props.validateStatus)&&(this.props.value===''&&this.state.name==='')){
       classNameWrap = 'language-input-noValue'
     }
 

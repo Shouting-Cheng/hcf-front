@@ -250,12 +250,10 @@ export default {
   },
 
   //根据账套获得费用类型
-  getExpenseTypesBySetOfBooks(setOfBooksId, createdManually = true, enabled = true, name) {
+  getExpenseTypesBySetOfBooks(setOfBooksId, typeFlag = 0) {
     return httpFetch.get(`${config.expenseUrl}/api/expense/types/category/query`, {
       setOfBooksId,
-      createdManually: createdManually || "",
-      enabled: enabled || "",
-      name  //小类名称，模糊搜索
+      typeFlag
     })
   },
 

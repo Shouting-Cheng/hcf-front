@@ -34,7 +34,7 @@ class ExpenseTypeBase extends React.Component {
       subsidyType: 0,
       saving: false,
       priceUnit: "",
-      entryMode: ""
+      entryMode: false
       // expenseTypePage: menuRoute.getRouteItem('expense-type'),
       // expenseTypeDetailPage: menuRoute.getRouteItem('expense-type-detail')
     }
@@ -74,7 +74,7 @@ class ExpenseTypeBase extends React.Component {
     });
     this.setState({
       icon: {
-        iconURL: expenseType.iconURL,
+        iconURL: expenseType.iconUrl,
         iconName: expenseType.iconName
       },
       nameI18n: expenseType.i18n.name,
@@ -106,16 +106,33 @@ class ExpenseTypeBase extends React.Component {
         values.iconUrl = icon.iconURL;
         values.iconName = icon.iconName;
 
-        expenseTypeService.saveExpenseType(values).then(res => {
-          this.setState({ saving: false });
-          message.success(messages('common.operate.success'));
-          this.props.dispatch(routerRedux.push({
-            pathname: "/admin-setting/expense-type-detail/" + res.data.id
-          }))
-        }).catch(error => {
-          this.setState({ saving: false });
-          message.error(error.response.message);
-        })
+        if (this.props.expenseType) {
+          values.id = this.props.expenseType.id;
+          this.setState({ saving: true });
+          expenseTypeService.editExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.onSave();
+            this.props.dispatch(routerRedux.push({
+              pathname: "/admin-setting/application-type-detail/" + res.data.id
+            }))
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
+        } else {
+          this.setState({ saving: true });
+          expenseTypeService.saveExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.dispatch(routerRedux.push({
+              pathname: "/admin-setting/application-type-detail/" + res.data.id
+            }))
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
+        }
+
+
 
 
 
@@ -197,6 +214,14 @@ class ExpenseTypeBase extends React.Component {
     this.setState({ name, nameI18n })
   };
 
+  entryModeChange = (value) => {
+    if (value) {
+      this.setState({ priceUnit: "day", entryMode: value });
+    } else {
+      this.setState({ priceUnit: "", entryMode: value });
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { icon, showIconSelectorFlag, expenseTypeCategory, apportionEnabled, valid, saving, name, nameI18n, subsidyType } = this.state;
@@ -271,9 +296,9 @@ class ExpenseTypeBase extends React.Component {
           })(
             <Row gutter={20}>
               <Col span={16}>
-                <Select value={this.state.entryMode} style={{ width: '100%' }} onChange={value => this.setState({ entryMode: value, priceUnit: "" })}>
-                  <Option value={0}>总金额</Option>
-                  <Option value={1}>单价*数量</Option>
+                <Select value={this.state.entryMode} style={{ width: '100%' }} onChange={this.entryModeChange}>
+                  <Option value={false}>总金额</Option>
+                  <Option value={true}>单价*数量</Option>
                 </Select>
               </Col>
               <Col span={8}>

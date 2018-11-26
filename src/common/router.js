@@ -1541,8 +1541,14 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-expense-type/new-expense-type.js')
       ),
-      // 付款申请单审批详情
       name: 'expense-type-detail',
+      parent: '/admin-setting/expense-type',
+    },
+    '/admin-setting/application-type-detail/:expenseTypeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/expense-type/new-application-type/new-application-type.js')
+      ),
+      name: 'application-type-detail',
       parent: '/admin-setting/expense-type',
     },
     //员工管理

@@ -38,7 +38,7 @@ class ExpenseTypeCustom extends React.Component {
       formService.getExpenseReportScope(4003)
     ]).then(res => {
       this.setState({
-        customWidget: res[0].data.rows,
+        customWidget: res[0].data,
         customEnumeration: res[1].data,
         reportValueList: res[2].data.values || [],
         loading: false

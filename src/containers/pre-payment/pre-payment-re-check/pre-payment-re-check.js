@@ -43,8 +43,8 @@ class Payment extends React.Component {
                 },
                 { colSpan: '6',
                   type: 'items', id: 'amountRange', items: [
-                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
-                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
+                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "本币金额从" },
+                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "本币金额至" }
                     ]
                 },
               {type: 'input', id: 'description', label: "备注", colSpan: '6',event:"description"},
@@ -67,8 +67,8 @@ class Payment extends React.Component {
                 },
                 {colSpan: '6',
                     type: 'items', id: 'amountRange', items: [
-                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "预付款单金额从" },
-                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "预付款单金额至" }
+                        { type: 'inputNumber', id: 'advancePaymentAmountFrom', label: "本币金额从" },
+                        { type: 'inputNumber', id: 'advancePaymentAmountTo', label: "本币金额至" }
                     ]
                 },
               {type: 'input', id: 'description', label: "备注", colSpan: '6',event:"description"},
@@ -77,16 +77,15 @@ class Payment extends React.Component {
             unApproveSearchParams: {},
             approveSearchParams: {},
             columns: [
-                { title: '序号', dataIndex: 'id', render: (value, record, index) => index + 1, width: 50, align: "center" },
-                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180 },
-                { title: '单据类型', dataIndex: 'typeName' },
-                { title: '申请人', dataIndex: 'createByName', width: 110,align:"center" },
-                { title: '提交日期', dataIndex: 'submitDate',width:100, render: (value) => moment(value).format('YYYY-MM-DD') },
+                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180,align: 'center' },
+                { title: '单据类型', dataIndex: 'typeName',align: 'center' },
+                { title: '申请人', dataIndex: 'createByName', width: 100,align:"center" },
+                { title: '提交日期', dataIndex: 'submitDate',width:90, render: (value) => moment(value).format('YYYY-MM-DD') },
                 // {title: '币种', dataIndex: 'currency'},
-                { title: '金额', dataIndex: 'advancePaymentAmount', render: this.filterMoney },
+                { title: '本币金额', dataIndex: 'advancePaymentAmount', render: this.filterMoney,align: 'center' },
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
                 {
-                    title: '说明', dataIndex: 'description', render: (value) => {
+                    title: '备注', dataIndex: 'description',align: 'center', render: (value) => {
                         return (
                             <Popover content={value}>{value}</Popover>
                         )
@@ -207,6 +206,7 @@ class Payment extends React.Component {
     unapprovedSearch = (values) => {
       values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
       values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
+      values.status = 1002;
         this.setState({ unApproveSearchParams: values }, () => {
             this.unApprovedtable.search(values)
         })
@@ -216,6 +216,7 @@ class Payment extends React.Component {
     approvedSearch = (values) => {
         values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
         values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
+      values.status = 1004;
         this.setState({ approveSearchParams: values }, () => {
           this.approvedtable.search(values)
 
@@ -334,7 +335,7 @@ class Payment extends React.Component {
                                   </Col>
                                 </Row>
                               </div>
-
+                              <div className="table-header"></div>
                               <CustomTable
                                 url={`${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/query?ifWorkflow=false`}
                                 ref={ref => this.approvedtable = ref}

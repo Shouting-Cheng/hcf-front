@@ -100,12 +100,12 @@ class PermissionsAllocation extends React.Component {
     let list = !values
       ? []
       : values.checkedKeys.map(item => {
-          return {
-            label: item.label,
-            key: item.value,
-            value: item.value,
-          };
-        });
+        return {
+          label: item.label,
+          key: item.value,
+          value: item.value,
+        };
+      });
 
     const onChange = this.props.onChange;
 
@@ -127,9 +127,11 @@ class PermissionsAllocation extends React.Component {
 
     const textStyle = {
       position: 'absolute',
-      top: 5,
+      top: 1,
       left: 10,
       right: 10,
+      width: 180,
+      height: 30,
       lineHeight: '30px',
       background: type === 'all' || disabled ? '#f5f5f5' : '#fff',
       color: type === 'all' || disabled ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.65)',
@@ -166,6 +168,7 @@ class PermissionsAllocation extends React.Component {
                 onFocus={this.showSelectEmployeeGroup}
                 dropdownStyle={{ display: 'none' }}
                 labelInValue
+                style={{ minWidth: 200 }}
               />
               <div
                 style={textStyle}
