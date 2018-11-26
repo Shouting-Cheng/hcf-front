@@ -80,21 +80,39 @@ class LineAddTransferModal extends React.Component {
             showRenderItem: false,
             singleclick: false,
             isShowTreeNode: false,
-            searchListInfo: []
+            searchListInfo: [],
+            rightList:[],
         }
 
 
     }
     componentWillMount() {
         this.setState({
-            isShowTreeNode: true
+            isShowTreeNode: true,
+        })
+    }
+    componentWillReceiveProps(){
+        const {treeData}=this.state;
+        for(let i=0;i<treeData.length;i++){
+            let item = treeData[i];
+            item.isSelectAll=false;
+            if(item.children){
+                for(let j=0;j<item.children.length;j++){
+                    item.children[j].isSelectAll=false
+                }
+            }
+        }
+        this.setState({
+            selectTreeNodes:[],
+            selectedTreeInfo:[],
+            treeData
         })
     }
     /**
      * 取消弹窗
      */
     onCloseTransferModal = () => {
-        this.props.onCloseTransferModal()
+        this.props.onCloseTransferModal();
     }
     /**渲染树 */
     renderTreeNodes = (data) => {
@@ -121,10 +139,14 @@ class LineAddTransferModal extends React.Component {
     treeNodeSelect = (selectedKeys, info) => {
 
         let selectedTreeInfo = this.state.selectedTreeInfo;
+        let rightList=this.state.rightList;
         if (info.selected) {
             if (!selectedTreeInfo.find(o => o.key == info.node.props.dataRef.key)) {
                 selectedTreeInfo.push(info.node.props.dataRef);
             }
+            rightList.push(info.node.props.dataRef);
+            rightList.splice(rightList.findIndex(o => o.key == info.node.props.dataRef.key), 1);
+            this.setState({rightList})
         } else {
 
             let parent = info.node.props.dataRef.parent;
@@ -250,29 +272,6 @@ class LineAddTransferModal extends React.Component {
         this.setState({ treeData, selectTreeNodes: [...selectedTreeInfo.map(o => o.key)], selectedTreeInfo });
 
     }
-    /***渲染已选择区数据 */
-    alreadySelectLists = (data, selectedKeys) => {
-        let selectTreeArr = this.filterSlectArr(data, selectedKeys);
-        this.setState({
-            selectedTreeInfo: selectTreeArr
-        });
-    }
-    filterSlectArr = (data, selectedKeys) => {
-        let selectTreeArr = [];
-        for (let i = 0; i < selectedKeys.length; i++) {
-            selectTreeArr.push(data.filter(item => item.key === selectedKeys[i])[0]);
-            for (let j = 0; j < data.length; j++) {
-                selectTreeArr.push(data[j].children.filter(item => item.key === selectedKeys[i])[0]);
-            }
-        }
-        for (var i = 0; i < selectTreeArr.length; i++) {
-            if (selectTreeArr[i] == undefined) {
-                selectTreeArr.splice(i, 1);
-                i = i - 1;
-            }
-        }
-        return selectTreeArr
-    }
     /**删除右边数据 */
     deleteListItem = (listItem) => {
         const { selectedTreeInfo, treeData } = this.state;
@@ -336,10 +335,15 @@ class LineAddTransferModal extends React.Component {
      * 右边已选区按照搜索条件查询
      */
     onTreeInfoSearch = (value) => {
-        const { selectedTreeInfo } = this.state;
-        const searchList = selectedTreeInfo.filter(item => item.title === value);
-        this.setState({ selectedTreeInfo: searchList })
-
+        let {selectTreeNodes,selectedTreeInfo,rightList}=this.state
+        if(value===''){
+            console.log(rightList)
+            this.setState({selectedTreeInfo:rightList})
+        }else{
+            const { selectedTreeInfo } = this.state;
+            const searchList = selectedTreeInfo.filter(item => item.title === value);
+            this.setState({ selectedTreeInfo: searchList });
+        }
     }
     render() {
         const { visible, title } = this.props;
