@@ -87,6 +87,7 @@ class ContractTypeDefine extends React.Component {
         {
           title: this.$t('common.operation'),
           dataIndex: 'id',
+          align: 'center',
           render: (id, record) => (
             <span>
               <a onClick={() => this.handleEdit(record)}>{this.$t('common.edit')}</a>

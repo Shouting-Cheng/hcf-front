@@ -181,7 +181,7 @@ class GLWorkOrderCheck extends Component {
         {
           title: '单据类型',
           dataIndex: 'typeName',
-          align: 'left',
+          align: 'center',
         },
         {
           title: '申请人',
@@ -193,7 +193,7 @@ class GLWorkOrderCheck extends Component {
           title: '提交日期',
           dataIndex: 'submittedDate',
           align: 'center',
-          width: 90,
+          width: 120,
           render: (submittedDate, record, index) => {
             return <span>{submittedDate?moment(submittedDate).format('YYYY-MM-DD'):null}</span>;
           },
@@ -215,7 +215,7 @@ class GLWorkOrderCheck extends Component {
         {
           title: '备注',
           dataIndex: 'description',
-          align: 'left',
+          align: 'center',
         },
         {
           title: '状态',
@@ -254,7 +254,7 @@ class GLWorkOrderCheck extends Component {
         {
           title: '单据类型',
           dataIndex: 'typeName',
-          align: 'left',
+          align: 'center',
         },
         {
           title: '申请人',
@@ -266,7 +266,7 @@ class GLWorkOrderCheck extends Component {
           title: '提交日期',
           dataIndex: 'submittedDate',
           align: 'center',
-          width: 90,
+          width: 120,
           render: (submittedDate, record, index) => {
             return <span>{submittedDate?moment(submittedDate).format('YYYY-MM-DD'):null}</span>;
           },
@@ -288,7 +288,7 @@ class GLWorkOrderCheck extends Component {
         {
           title: '备注',
           dataIndex: 'description',
-          align: 'left',
+          align: 'center',
         },
         {
           title: '状态',
@@ -432,7 +432,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading1: true,
         page1: 0,
-        searchParams1: params,
+        searchParams1: {...this.state.searchParams1,...params},
       },
       () => {
         this.getList1();
@@ -571,7 +571,7 @@ class GLWorkOrderCheck extends Component {
       {
         loading2: true,
         page2: 0,
-        searchParams2: params,
+        searchParams2: {...this.state.searchParams2,...params},
       },
       () => {
         this.getList2();
@@ -807,7 +807,7 @@ class GLWorkOrderCheck extends Component {
             <SearchArea
               key="2"
               searchForm={searchForm2}
-              eventHandle={this.eventHandle2()}
+              eventHandle={this.eventHandle2}
               maxLength={4}
               submitHandle={this.search2}
               clearHandle={this.clear2}
