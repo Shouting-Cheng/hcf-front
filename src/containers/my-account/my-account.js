@@ -136,7 +136,7 @@ class MyAccount extends React.Component{
     if(page - 1 !== this.state.page)
       this.setState({page: page - 1,}, this.getList)
   };
-  //切换每页显示的条数
+  //切换每页显示的条数D
   onShowSizeChange=(current,pageSize)=>{
     this.setState({page:current-1,pageSize},()=>{
       this.getList()
@@ -212,11 +212,13 @@ class MyAccount extends React.Component{
     return(
       <div className="my-account">
         <div className="operate-area">
-          <Dropdown overlay={menu}>
-            <Button style={{ marginLeft: 8 }} type="primary">
-              {this.$t('expense.new')/*新建费用*/} <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <div id="drop" style={{position : "relative"}}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu}>
+              <Button style={{ marginLeft: 8 }} type="primary">
+                {this.$t('expense.new')/*新建费用*/} <Icon type="down" />
+              </Button>
+            </Dropdown>
+          </div>
         </div>
         <Table dataSource={data}
                size="middle"

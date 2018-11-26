@@ -406,8 +406,8 @@ class MyGLWorkOrder extends Component {
         <div className="table-header">
           <div className="table-header-buttons">
             <Row>
-              <Col span={18}>
-                <Dropdown
+              <Col id="drop" style={{position : "relative"}} span={18}>
+                <Dropdown getPopupContainer={ () => document.getElementById('drop')}
                   overlay={
                     <Menu onClick={this.handleMenuClick}>
                       {glWorkOrderTypeList.map(item => {
