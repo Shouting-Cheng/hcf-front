@@ -284,7 +284,10 @@ class CheckCostApplication extends React.Component {
     // entityType：1001（申请单
     this.props.dispatch(
       routerRedux.push({
-        pathname: "/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID".replace(':formOID', record.formOID).replace(':applicationOID', record.entityOID) + '?readOnly=true',
+        pathname: "/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID/:pageFrom"
+          .replace(':formOID', record.formOID)
+          .replace(':applicationOID', record.entityOID)
+          .replace(':pageFrom', 'checkCost')
       })
     );
   };

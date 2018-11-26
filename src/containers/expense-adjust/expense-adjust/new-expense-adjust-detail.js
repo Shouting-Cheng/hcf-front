@@ -269,7 +269,7 @@ class NewExpenseAdjustDetail extends React.Component {
     e.stopPropagation();
     const { data, lineData, deleteIds } = this.state;
     data.splice(index, 1);
-    deleteIds.push(record.id)
+    deleteIds.push(record.id);
     lineData && lineData.infoList && lineData.infoList.splice(index, 1);
     this.setState({ data });
   };
@@ -1145,6 +1145,7 @@ class NewExpenseAdjustDetail extends React.Component {
 
 
     const items = this.getFormItems();
+    console.log(this.state.columns)
     return (
       <div className="new-expense-adjust-detail">
         <Form

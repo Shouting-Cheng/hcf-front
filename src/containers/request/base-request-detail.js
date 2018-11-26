@@ -78,7 +78,6 @@ class BaseRequestDetail extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.setState(
       {
         formOID: this.props.match.params.formOID,
@@ -266,58 +265,57 @@ class BaseRequestDetail extends React.Component {
     return numberString;
   };
 
-  renderFooter() {
-    const { info, view, formInfo, showApproveBottom, formType } = this.state;
-    console.log(this.props.match.params.pageFrom)
-    console.log(info)
+  renderFooter(){
+    const {info,view, formInfo, showApproveBottom,formType} = this.state;
     switch (this.props.match.params.pageFrom) {
-      // case 'my':
-      //   if (info.status === 1003) {
-      //     //已通过
-      //     return <Row gutter={24}>
-      //       <Col span={1} style={{ marginLeft: 20 }}>
-      //         <PrintBtn info={info} printFlag={view} />
-      //       </Col>
-      //       <Col span={1} style={{ marginLeft: 15 }}>
-      //         <GoBackBtn backType={this.props.match.params.pageFrom} />
-      //       </Col>
-      //     </Row>
-      //   }
-      //   if (info.status === 1002) {
-      //     //审批中
-      //     return <Row gutter={24}>
-      //       <Col span={1} style={{ marginLeft: 20 }}>
-      //         <RecallBtn info={info} />
-      //       </Col>
-      //       <Col span={1} style={{ marginLeft: 15 }}>
-      //         <GoBackBtn backType={this.props.match.params.pageFrom} />
-      //       </Col>
-      //     </Row>
-      //   }
-      //   break;
-      // case 'approving':
-      //   return <Row style={{
-      //     width: '88%',
-      //     height: '50px',
-      //     boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-      //     background: '#fff',
-      //     lineHeight: '50px',
-      //     zIndex: 1,
-      //     margin: '-20px 0px 20px 0px',
-      //     paddingLeft: 20
-      //   }}>
-      //     <ApproveRequestBtn
-      //       formType={Number(formType)}
-      //       info={info}
-      //       approving={showApproveBottom}
-      //       formInfo={formInfo} />
-      //   </Row>
-      // case 'approved':
-      //   return <Row gutter={24}>
-      //     <Col span={1} style={{ marginLeft: 20 }}>
-      //       <GoBackBtn backType={this.props.match.params.pageFrom} />
-      //     </Col>
-      //   </Row>
+      case 'my':
+        if(info.status === 1003){
+          //已通过
+          return <Row gutter={24}>
+            <Col span={1} style={{marginLeft: 20}}>
+              <PrintBtn info={info} printFlag={view} />
+            </Col>
+            <Col span={1} style={{marginLeft: 15}}>
+              <GoBackBtn backType={this.props.match.params.pageFrom} />
+            </Col>
+          </Row>
+        }
+        if(info.status === 1002){
+          //审批中
+          return <Row gutter={24}>
+            <Col span={1} style={{marginLeft: 20}}>
+              <RecallBtn info={info} />
+            </Col>
+            <Col span={1} style={{marginLeft: 15}}>
+              <GoBackBtn backType={this.props.match.params.pageFrom} />
+            </Col>
+          </Row>
+        }
+        break;
+      case 'approving':
+        return <Row style={{
+          width: '88%',
+          height: '50px',
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+          zIndex: 1,
+          margin: '-20px 0px 20px 0px',
+          paddingLeft: 20
+        }}>
+          <ApproveRequestBtn
+            formType={Number(formType)}
+            info={info}
+            approving={showApproveBottom}
+            formInfo={formInfo}/>
+        </Row>
+      case 'approved':
+      case 'checkCost':
+        return<Row gutter={24}>
+          <Col span={1} style={{marginLeft: 20}}>
+            <GoBackBtn backType={this.props.match.params.pageFrom} />
+          </Col>
+        </Row>
       default:
         return (
           <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={this.handleBack}>
@@ -449,17 +447,17 @@ class BaseRequestDetail extends React.Component {
             <span className="detail-info">
               {this.$t('request.detail.status' /*当前状态*/)}：
               {info.closed ||
-                (info.applicationParticipant && info.applicationParticipant.closed === 1)
+              (info.applicationParticipant && info.applicationParticipant.closed === 1)
                 ? this.$t('constants.documentStatus.yet.disable' /*已停用*/)
                 : constants.getTextByValue(
-                  String(info.status + '' + info.type),
-                  'documentStatus'
-                ) ||
-                constants.getTextByValue(
-                  String(info.status + '' + info.rejectType),
-                  'documentStatus'
-                ) ||
-                constants.getTextByValue(String(info.status), 'documentStatus')}
+                    String(info.status + '' + info.type),
+                    'documentStatus'
+                  ) ||
+                  constants.getTextByValue(
+                    String(info.status + '' + info.rejectType),
+                    'documentStatus'
+                  ) ||
+                  constants.getTextByValue(String(info.status), 'documentStatus')}
             </span>
             <TravelPreviousVersion info={info} isPreVersion={isPreVersion} />
           </Row>
@@ -515,9 +513,6 @@ class BaseRequestDetail extends React.Component {
     info.status === 1002 && info.rejectType === 1000 && recallVisible && (backMargin = -210);
     //打印
     info.printButtonDisplay && (backMargin = -40);
-    console.log(backMargin)
-    console.log(info.printButtonDisplay)
-
 
     return (
       <div style={{ paddingBottom: 20 }} className="base-request-detail" >
@@ -612,8 +607,8 @@ class BaseRequestDetail extends React.Component {
               )}
           </Tabs>
         )}
-
-        <div
+        <Affix
+          offsetBottom={0}
           style={{
             position: 'fixed',
             bottom: 0,
@@ -627,8 +622,8 @@ class BaseRequestDetail extends React.Component {
           }}
         >
           {this.renderFooter()}
-        </div>
-        {/* {audit &&
+        </Affix>
+       {/* {audit &&
           (buttonRoleSwitch ? (
             <AuditApplicationDetail
               status={info.status}

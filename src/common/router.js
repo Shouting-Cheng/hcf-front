@@ -1755,7 +1755,7 @@ export const getRouterData = app => {
       parent: '/financial-management/finance-audit'
     },
 
-    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID': {
+    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID/:pageFrom': {
       //费用申请单详情
       component: dynamicWrapper(app, [], () =>
         import('containers/request/base-request-detail')

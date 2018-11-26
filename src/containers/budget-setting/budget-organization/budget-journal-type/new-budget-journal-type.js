@@ -24,9 +24,11 @@ class NewBudgetJournalType extends React.Component {
       if (!err) {
         this.setState({loading: true});
         values.organizationId = this.props.organization.id;
-        values.form0id = values.form.split("?")[0];
-        values.formType = values.form.split("?")[1];
-        values.formName = values.form.split("?")[2];
+        if( values.form ){
+          values.form0id = values.form.split("?")[0];
+          values.formType = values.form.split("?")[1];
+          values.formName = values.form.split("?")[2];
+        }
         httpFetch.post(`${config.budgetUrl}/api/budget/journal/types`, values).then((res)=>{
           this.setState({loading: false});
           message.success(`预算日记账${res.data.journalTypeName}新建成功`);
