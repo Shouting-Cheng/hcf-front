@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'dva';
+import React, { Component } from 'react';
+import { connect } from 'dva';
 import config from 'config';
 import Pagination, {
   Popconfirm,
@@ -28,7 +28,7 @@ import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import Chooser from 'widget/chooser';
 import Importer from 'widget/Template/importer';
-import {routerRedux} from 'dva/router';
+import { routerRedux } from 'dva/router';
 
 class MyGLWorkOrderDetail extends Component {
   /**
@@ -88,7 +88,7 @@ class MyGLWorkOrderDetail extends Component {
         {
           title: (
             <span>
-              <span style={{color: 'red'}}>*</span>&nbsp;备注
+              <span style={{ color: 'red' }}>*</span>&nbsp;备注
             </span>
           ),
           dataIndex: 'description',
@@ -118,7 +118,7 @@ class MyGLWorkOrderDetail extends Component {
         {
           title: (
             <span>
-              <span style={{color: 'red'}}>*</span>&nbsp;公司
+              <span style={{ color: 'red' }}>*</span>&nbsp;公司
             </span>
           ),
           dataIndex: 'companyName',
@@ -132,13 +132,13 @@ class MyGLWorkOrderDetail extends Component {
                 <Chooser
                   onChange={value => this.onCompanyChange(value, record, index)}
                   value={
-                    record.companyId ? [{id: record.companyId, name: record.companyName}] : []
+                    record.companyId ? [{ id: record.companyId, name: record.companyName }] : []
                   }
                   type="gl_line_company"
                   labelKey="name"
                   valueKey="id"
                   single={true}
-                  listExtraParams={{workOrderTypeId: record.workOrderTypeId}}
+                  listExtraParams={{ workOrderTypeId: record.workOrderTypeId }}
                   showClear={false}
                 />
               );
@@ -172,7 +172,7 @@ class MyGLWorkOrderDetail extends Component {
                   labelKey="name"
                   valueKey="departmentOid"
                   single={true}
-                  listExtraParams={{tenantId: this.props.user.tenantId}}
+                  listExtraParams={{ tenantId: this.props.user.tenantId }}
                   showClear={false}
                 />
               );
@@ -182,7 +182,7 @@ class MyGLWorkOrderDetail extends Component {
         {
           title: (
             <span>
-              <span style={{color: 'red'}}>*</span>&nbsp;科目
+              <span style={{ color: 'red' }}>*</span>&nbsp;科目
             </span>
           ),
           dataIndex: 'accountName',
@@ -211,7 +211,7 @@ class MyGLWorkOrderDetail extends Component {
                   labelKey="name"
                   valueKey="id"
                   single={true}
-                  listExtraParams={{id: record.workOrderTypeId}}
+                  listExtraParams={{ id: record.workOrderTypeId }}
                   showClear={false}
                 />
               );
@@ -221,7 +221,7 @@ class MyGLWorkOrderDetail extends Component {
         {
           title: (
             <span>
-              <span style={{color: 'red'}}>*</span>&nbsp;借方金额
+              <span style={{ color: 'red' }}>*</span>&nbsp;借方金额
             </span>
           ),
           dataIndex: 'enteredAmountCr',
@@ -247,7 +247,7 @@ class MyGLWorkOrderDetail extends Component {
         {
           title: (
             <span>
-              <span style={{color: 'red'}}>*</span>&nbsp;贷方金额
+              <span style={{ color: 'red' }}>*</span>&nbsp;贷方金额
             </span>
           ),
           dataIndex: 'enteredAmountDr',
@@ -282,9 +282,9 @@ class MyGLWorkOrderDetail extends Component {
               return (
                 <div>
                   <a onClick={e => this.onEditClick(e, record, index)}>编辑</a>
-                  <Divider type="vertical"/>
+                  <Divider type="vertical" />
                   <a onClick={e => this.onCopyClick(e, record, index)}>复制</a>
-                  <Divider type="vertical"/>
+                  <Divider type="vertical" />
                   {/* <a onClick={e => this.onDelLineClick(e, record, index)}>删除</a> */}
                   <Popconfirm
                     title="确认删除？"
@@ -327,7 +327,7 @@ class MyGLWorkOrderDetail extends Component {
       .delLineData(record.id)
       .then(res => {
         if (res.status === 200) {
-          this.setState({loading: true});
+          this.setState({ loading: true });
           message.success('删除成功');
           this.getDocInfoById();
         }
@@ -344,7 +344,7 @@ class MyGLWorkOrderDetail extends Component {
    */
   onCopyClick = (e, record, index) => {
     e.preventDefault();
-    this.addDocLine({...record});
+    this.addDocLine({ ...record });
   };
   /**
    * 行编辑
@@ -353,36 +353,36 @@ class MyGLWorkOrderDetail extends Component {
     //把当前编辑的行推入editlines记录原数据
     //再把该条数据的状态变成编辑状态的
     e.preventDefault();
-    let {data, editLines} = this.state;
-    editLines.push({...record});
+    let { data, editLines } = this.state;
+    editLines.push({ ...record });
     data[index].lineStatus = 'edit';
-    this.setState({data, editLines});
+    this.setState({ data, editLines });
   };
   /**
    * 行取消
    */
   onLineCancelClick = (e, record, index) => {
     e.preventDefault();
-    let {data, editLines, pagination, pageSize} = this.state;
+    let { data, editLines, pagination, pageSize } = this.state;
     //当前行的状态如果是新增的话 ，就直接把该行从data中删除
     if (record.lineStatus === 'insert') {
       data.splice(index, 1);
-      this.setState({data});
+      this.setState({ data });
       if (data.length >= 10) {
         pagination.pageSize = data.length;
       }
       pagination.total -= 1;
-      this.setState({pagination});
+      this.setState({ pagination });
     } else if (record.lineStatus === 'edit') {
       //把正在编辑的行复原成改变之前的
       //再把该条数据从editlines中删除
       let tempRecord = editLines.find(o => o.id === record.id);
       data[index] = tempRecord;
-      this.setState({data});
+      this.setState({ data });
       editLines.map((item, index, array) => {
         if (item.id === record.id) {
           editLines.splice(index, 1);
-          this.setState({editLines});
+          this.setState({ editLines });
         }
       });
     }
@@ -391,56 +391,56 @@ class MyGLWorkOrderDetail extends Component {
    * 备注变化事件
    */
   onDescChange = (e, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].description = e.target.value;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 公司变化事件
    */
   onCompanyChange = (value, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].companyId = value[0].id;
     data[index].companyName = value[0].name;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 部门变化事件
    */
   onUnitChange = (value, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].unitId = value[0].departmentId;
     data[index].unitName = value[0].name;
     data[index].unitOid = value[0].departmentOid;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 科目变化事件
    */
   onAccountChange = (value, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].accountId = value[0].id;
     data[index].accountName = value[0].accountName;
     data[index].accountCode = value[0].accountCode;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 借方金额变化事件
    */
   onECAmountChange = (value, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].enteredAmountCr = value;
     data[index].enteredAmountDr = 0;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 贷方金额变化事件
    */
   onDCAmountChange = (value, record, index) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].enteredAmountDr = value;
     data[index].enteredAmountCr = 0;
-    this.setState({data});
+    this.setState({ data });
   };
 
   //四舍五入 保留两位小数
@@ -460,10 +460,10 @@ class MyGLWorkOrderDetail extends Component {
     while (s.length <= rs + 2) {
       s += '0';
     }
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].enteredAmountDr = 0;
     data[index].enteredAmountCr = s;
-    this.setState({data});
+    this.setState({ data });
   };
 
   //四舍五入 保留两位小数
@@ -483,10 +483,10 @@ class MyGLWorkOrderDetail extends Component {
     while (s.length <= rs + 2) {
       s += '0';
     }
-    let {data} = this.state;
+    let { data } = this.state;
     data[index].enteredAmountCr = 0;
     data[index].enteredAmountDr = s;
-    this.setState({data});
+    this.setState({ data });
   };
 
 
@@ -494,10 +494,10 @@ class MyGLWorkOrderDetail extends Component {
    * 维值变化事件
    */
   onDimensionChange = (value, record, index, dimensionKey, dimensionName) => {
-    let {data} = this.state;
+    let { data } = this.state;
     data[index][dimensionKey] = value[0].id;
     data[index][dimensionName] = value[0].name;
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 生命周期函数
@@ -527,7 +527,7 @@ class MyGLWorkOrderDetail extends Component {
         if (e.response) {
           message.error(`加载审批历史数据失败：${e.response.data.message}`);
         }
-        this.setState({historyLoading: false});
+        this.setState({ historyLoading: false });
       });
   };
   /**
@@ -558,9 +558,9 @@ class MyGLWorkOrderDetail extends Component {
             statusCode: docHeadData.status,
             remark: docHeadData.remark,
             infoList: [
-              {label: '申请人', value: docHeadData.employeeName},
-              {label: '公司', value: docHeadData.companyName},
-              {label: '部门', value: docHeadData.unitName},
+              { label: '申请人', value: docHeadData.employeeName },
+              { label: '公司', value: docHeadData.companyName },
+              { label: '部门', value: docHeadData.unitName },
             ],
             attachments: docHeadData.attachments,
           };
@@ -604,7 +604,7 @@ class MyGLWorkOrderDetail extends Component {
    */
   onChangeCheckedPage = page => {
     if (page - 1 !== this.state.page) {
-      let {pagination, pageSize} = this.state;
+      let { pagination, pageSize } = this.state;
       pagination.pageSize = pageSize;
       this.setState(
         {
@@ -622,7 +622,7 @@ class MyGLWorkOrderDetail extends Component {
    * 切换每页显示的条数
    */
   onShowSizeChange = (current, pageSize) => {
-    let {pagination} = this.state;
+    let { pagination } = this.state;
     pagination.pageSize = pageSize;
     this.setState(
       {
@@ -640,7 +640,7 @@ class MyGLWorkOrderDetail extends Component {
    * 实现动态添加维度列
    */
   addDimensionColumns = dimensionData => {
-    let {columns, tableWidth} = this.state;
+    let { columns, tableWidth } = this.state;
     if (columns.length <= 8) {
       dimensionData.map(item => {
         //根据维度个数调整列宽
@@ -658,6 +658,7 @@ class MyGLWorkOrderDetail extends Component {
           title: dimensionTitle,
           dataIndex: dimensionKey,
           align: 'center',
+          width: 140,
           render: (text, record, index) => {
             if (record.lineStatus === 'normal') {
               return <span>{record[dimensionName]}</span>;
@@ -669,14 +670,14 @@ class MyGLWorkOrderDetail extends Component {
                   }
                   value={
                     record[dimensionKey]
-                      ? [{id: record[dimensionKey], name: record[dimensionName]}]
+                      ? [{ id: record[dimensionKey], name: record[dimensionName] }]
                       : []
                   }
                   type="dimension_value"
                   labelKey="name"
                   valueKey="id"
                   single={true}
-                  listExtraParams={{id: dimensionId}}
+                  listExtraParams={{ id: dimensionId }}
                   showClear={false}
                 />
               );
@@ -695,7 +696,7 @@ class MyGLWorkOrderDetail extends Component {
    * 头上的编辑按钮触发的事件
    */
   edit = () => {
-    let {docHeadData} = this.state;
+    let { docHeadData } = this.state;
     this.props.dispatch(
       routerRedux.push({
         pathname: `/gl-work-order/my-gl-work-order/edit-gl-work-order/:typeId/${this.props.match.params.oid}/${
@@ -710,7 +711,7 @@ class MyGLWorkOrderDetail extends Component {
    * 2.如果新增的行所在的页的总条数超过了每页条数，则重设每页条数为当前页所有的条数
    */
   addDocLine = record => {
-    let {pagination, page, pageSize, data} = this.state;
+    let { pagination, page, pageSize, data } = this.state;
     //判断当前页是不是有insert状态的行，是否有edit状态的行
     let insertCount = 0;
     let editCount = 0;
@@ -794,7 +795,7 @@ class MyGLWorkOrderDetail extends Component {
    */
   additionalMethod2 = record => {
     //如果当前页的条数太大，就把当前页的条数变成当前页数据的数量值
-    let {pagination, pageSize, data} = this.state;
+    let { pagination, pageSize, data } = this.state;
     let newRecord = {};
     //如果是复制过来的数据
     if (record.id) {
@@ -816,17 +817,17 @@ class MyGLWorkOrderDetail extends Component {
     pagination.total += 1;
     if (data.length > pageSize) {
       pagination.pageSize = data.length;
-      this.setState({pagination});
+      this.setState({ pagination });
     }
-    this.setState({data});
+    this.setState({ data });
   };
   /**
    * 批量保存
    */
   onSave = () => {
     //校验必输字段
-    let {data} = this.state;
-    this.setState({saveFlag: true});
+    let { data } = this.state;
+    this.setState({ saveFlag: true });
     let nullFlag = 0;
     data.map((item, index) => {
       if (
@@ -846,7 +847,7 @@ class MyGLWorkOrderDetail extends Component {
       message.error('必输字段不可为空');
       return;
     }
-    this.setState({operationLoading: true});
+    this.setState({ operationLoading: true });
     let params = [];
     data.map(record => {
       if (record.lineStatus !== 'normal') {
@@ -893,16 +894,16 @@ class MyGLWorkOrderDetail extends Component {
         if (res.status === 200) {
           message.success('保存成功');
           //清掉用来临时存储编辑行元数据的数组
-          this.setState({editLines: []});
+          this.setState({ editLines: [] });
           //保存成功后刷新页面
-          this.setState({loading: true});
+          this.setState({ loading: true });
           this.getDocInfoById();
-          this.setState({operationLoading: false});
-          this.setState({saveFlag: false});
+          this.setState({ operationLoading: false });
+          this.setState({ saveFlag: false });
           //分页
-          let {pagination} = this.state;
+          let { pagination } = this.state;
           pagination.pageSize = 10;
-          this.setState({pagination});
+          this.setState({ pagination });
         }
       })
       .catch(e => {
@@ -910,21 +911,21 @@ class MyGLWorkOrderDetail extends Component {
         if (e.response) {
           message.error(`保存失败：${e}`);
         }
-        this.setState({operationLoading: false});
+        this.setState({ operationLoading: false });
       });
   };
   /**
    * 删除整单
    */
   onDelete = () => {
-    this.setState({operationLoading: true});
+    this.setState({ operationLoading: true });
     let headerId = this.props.match.params.id;
     myGlWorkOrderService
       .delDocument(headerId)
       .then(res => {
         if (res.status === 200) {
           message.success('删除成功');
-          this.setState({operationLoading: false});
+          this.setState({ operationLoading: false });
           this.onBack();
         }
       })
@@ -933,16 +934,16 @@ class MyGLWorkOrderDetail extends Component {
         if (e.response) {
           message.error(`删除失败：${e.response.data.message}`);
         }
-        this.setState({operationLoading: false});
+        this.setState({ operationLoading: false });
       });
   };
   /**
    * 提交单据
    */
   onSubmit = () => {
-    this.setState({operationLoading: true});
+    this.setState({ operationLoading: true });
     //先判断是否有未保存数据
-    let {data} = this.state;
+    let { data } = this.state;
     let editingCount = 0;
     data.map(item => {
       if (item.lineStatus !== 'normal') {
@@ -951,10 +952,10 @@ class MyGLWorkOrderDetail extends Component {
     });
     if (editingCount !== 0) {
       message.error('请先保存未保存数据');
-      this.setState({operationLoading: false});
+      this.setState({ operationLoading: false });
       return;
     }
-    let {docHeadData} = this.state;
+    let { docHeadData } = this.state;
     let params = {
       applicantOID: docHeadData.applicationOid,
       userOID: docHeadData.empOid,
@@ -967,7 +968,7 @@ class MyGLWorkOrderDetail extends Component {
       .submitDocument(params)
       .then(res => {
         if (res.status === 200) {
-          this.setState({operationLoading: false});
+          this.setState({ operationLoading: false });
           message.success('提交成功');
           this.onBack();
         }
@@ -977,7 +978,7 @@ class MyGLWorkOrderDetail extends Component {
         if (e.response) {
           message.error(`提交失败：${e.response.data.message}`);
         }
-        this.setState({operationLoading: false});
+        this.setState({ operationLoading: false });
       });
   };
   /**
@@ -994,7 +995,7 @@ class MyGLWorkOrderDetail extends Component {
    * 撤回单据
    */
   back = () => {
-    this.setState({operationLoading: true});
+    this.setState({ operationLoading: true });
     let params = {
       entities: [
         {
@@ -1008,7 +1009,7 @@ class MyGLWorkOrderDetail extends Component {
       .then(res => {
         if (res.status === 200) {
           message.success('撤回成功');
-          this.setState({operationLoading: false});
+          this.setState({ operationLoading: false });
           this.onBack();
         }
       })
@@ -1017,20 +1018,20 @@ class MyGLWorkOrderDetail extends Component {
         if (e.response) {
           message.error(`撤回失败：${e.response.data.message}`);
         }
-        this.setState({operationLoading: false});
+        this.setState({ operationLoading: false });
       });
   };
   /**
    * 导入核算信息
    */
   onExportLine = () => {
-    this.setState({showImportFrame: true});
+    this.setState({ showImportFrame: true });
   };
   /**
    * 拼接导入的各种借口地址
    */
   getImportUrl = () => {
-    let {templateUrl, uploadUrl, errorUrl, listenUrl} = this.state;
+    let { templateUrl, uploadUrl, errorUrl, listenUrl } = this.state;
     templateUrl = `${
       config.accountingUrl
       }/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`;
@@ -1056,7 +1057,7 @@ class MyGLWorkOrderDetail extends Component {
       .importOk(transactionID)
       .then(res => {
         if (res.status === 200) {
-          this.setState({showImportFrame: false});
+          this.setState({ showImportFrame: false });
           this.getDocInfoById();
         }
       })
@@ -1073,19 +1074,19 @@ class MyGLWorkOrderDetail extends Component {
    */
   render() {
     //传给头组件的data
-    const {headerInfo} = this.state;
+    const { headerInfo } = this.state;
     //头行数据
-    const {docHeadData} = this.state;
+    const { docHeadData } = this.state;
     //审批历史
-    const {approveHistory, historyLoading} = this.state;
+    const { approveHistory, historyLoading } = this.state;
     //表格
-    let {columns, loading, pagination, data, tableWidth} = this.state;
+    let { columns, loading, pagination, data, tableWidth } = this.state;
     //操作
-    const {operationLoading} = this.state;
+    const { operationLoading } = this.state;
     //保存标志
-    const {saveFlag} = this.state;
+    const { saveFlag } = this.state;
     //导入
-    const {showImportFrame, templateUrl, uploadUrl, errorUrl, listenUrl} = this.state;
+    const { showImportFrame, templateUrl, uploadUrl, errorUrl, listenUrl } = this.state;
     //对操作列的控制
     if (docHeadData.status) {
       if (
@@ -1120,53 +1121,54 @@ class MyGLWorkOrderDetail extends Component {
         </h3>
       );
     } else {
-      status = <h3 className="header-title"/>;
+      status = <h3 className="header-title" />;
     }
     //真正渲染出来的东东
     return (
       <div style={{
         background: 'white',
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
-        padding: '0px 15px 85px 15px'}}>
+        padding: '0px 15px 85px 15px'
+      }}>
         <Spin spinning={false}>
-          <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-              <TabPane tab="单据信息" key="1" style={{border: 'none'}}>
+              <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
                 <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
               </TabPane>
               {/* <TabPane tab="凭证信息" key="2"></TabPane> */}
             </Tabs>
           </Card>
           <Card
-            style={{marginTop: 20, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}
+            style={{ marginTop: 20, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
             title="核算信息"
           >
-            <div className="table-header" style={{marginTop: '-16px'}}>
+            <div className="table-header" style={{ marginTop: '-16px' }}>
               {(docHeadData.status === 1001 ||
                 docHeadData.status === 1003 ||
                 docHeadData.status === 1005) && (
-                <div className="table-header" style={{lineHeight: '32px', height: '32px'}}>
-                  <div className="table-header-buttons" style={{float: 'left'}}>
-                    <div>
-                      <Button type="primary" onClick={this.addDocLine}>
-                        新建核算信息
+                  <div className="table-header" style={{ lineHeight: '32px', height: '32px' }}>
+                    <div className="table-header-buttons" style={{ float: 'left' }}>
+                      <div>
+                        <Button type="primary" onClick={this.addDocLine}>
+                          新建核算信息
                       </Button>
-                      <Button onClick={this.onExportLine}>导入核算信息</Button>
+                        <Button onClick={this.onExportLine}>导入核算信息</Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
               <Table
                 rowClassName={(record, index) => {
                   return saveFlag &&
-                  (!record.description ||
-                    !record.companyId ||
-                    !record.accountId ||
-                    (!record.enteredAmountCr && !record.enteredAmountDr))
+                    (!record.description ||
+                      !record.companyId ||
+                      !record.accountId ||
+                      (!record.enteredAmountCr && !record.enteredAmountDr))
                     ? 'row-background-color'
                     : '';
                 }}
-                style={{clear: 'both'}}
+                style={{ clear: 'both' }}
                 bordered
                 size="middle"
                 rowKey={record => record['key']}
@@ -1174,28 +1176,28 @@ class MyGLWorkOrderDetail extends Component {
                 columns={columns}
                 pagination={pagination}
                 dataSource={data}
-                scroll={{x: 1300}}
+                scroll={{ x: 1300 }}
               />
             </div>
           </Card>
         </Spin>
-        <div style={{marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'}}>
-          <ApproveHistory loading={historyLoading} infoData={approveHistory}/>
+        <div style={{ marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+          <ApproveHistory loading={historyLoading} infoData={approveHistory} />
         </div>
-          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
-            position: 'fixed',
-            bottom: 0,
-            width: '100%',
-            height: '50px',
-            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-            background: '#fff',
-            lineHeight: '50px',
-            zIndex: 1,
-          }}>
-            {docHeadData.status === 1001 ||
+        <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve" style={{
+          position: 'fixed',
+          bottom: 0,
+          width: '100%',
+          height: '50px',
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+          zIndex: 1,
+        }}>
+          {docHeadData.status === 1001 ||
             docHeadData.status === 1003 ||
             docHeadData.status === 1005 ? (
-              <Row  style={{marginLeft: '30px'}}>
+              <Row style={{ marginLeft: '30px' }}>
                 <Button
                   type="primary"
                   loading={operationLoading}
@@ -1204,21 +1206,21 @@ class MyGLWorkOrderDetail extends Component {
                   提交
                 </Button>
                 <Button
-                  style={{marginLeft: '20px'}}
+                  style={{ marginLeft: '20px' }}
                   loading={operationLoading}
                   onClick={this.onSave}
                 >
                   保存
                 </Button>
                 <Button
-                  style={{marginLeft: '20px'}}
+                  style={{ marginLeft: '20px' }}
                   loading={operationLoading}
                   onClick={this.onDelete}
                 >
                   删除
                 </Button>
                 <Button
-                  style={{marginLeft: '20px'}}
+                  style={{ marginLeft: '20px' }}
                   loading={operationLoading}
                   onClick={this.onBack}
                 >
@@ -1226,7 +1228,7 @@ class MyGLWorkOrderDetail extends Component {
                 </Button>
               </Row>
             ) : (
-              <Row style={{marginLeft: '30px'}}>
+              <Row style={{ marginLeft: '30px' }}>
                 <Button
                   loading={operationLoading}
                   onClick={this.onBack}
@@ -1235,7 +1237,7 @@ class MyGLWorkOrderDetail extends Component {
                 </Button>
               </Row>
             )}
-          </Affix>
+        </Affix>
         {/* 导入 */}
         <Importer
           visible={showImportFrame}
@@ -1246,7 +1248,7 @@ class MyGLWorkOrderDetail extends Component {
           title={'导入'}
           fileName={'核算工单'}
           onOk={this.onImportOk}
-          afterClose={() => this.setState({showImportFrame: false})}
+          afterClose={() => this.setState({ showImportFrame: false })}
         />
       </div>
     );
@@ -1264,5 +1266,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  {withRef: true}
+  { withRef: true }
 )(MyGLWorkOrderDetail);

@@ -45,12 +45,12 @@ class ExpenseTypeBase extends React.Component {
       if (!this.props.expenseTypeSetOfBooks.id) {
         this.goBack();
       } else {
-        baseService.getExpenseTypeCategory(this.props.expenseTypeSetOfBooks.id).then(res => {
+        expenseTypeService.getExpenseTypeCategory(this.props.expenseTypeSetOfBooks.id).then(res => {
           this.setState({ expenseTypeCategory: res.data });
         });
       }
     } else {
-      baseService.getExpenseTypeCategory(this.props.expenseType.setOfBooksId).then(res => {
+      expenseTypeService.getExpenseTypeCategory(this.props.expenseType.setOfBooksId).then(res => {
         this.setState({ expenseTypeCategory: res.data });
         this.setFieldsByExpenseType(this.props);
       });
