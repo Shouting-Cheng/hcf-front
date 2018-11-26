@@ -160,7 +160,7 @@ class PermissionsAllocation extends React.Component {
 
         {type &&
           type !== 'all' && (
-            <div style={{ position: 'relative', width: '100%' }}>
+            <div style={{ position: 'relative', width: '100%', height: 32, lineHeight: "32px" }}>
               <Select
                 disabled={type === 'all' || this.props.disabled}
                 value={value}
