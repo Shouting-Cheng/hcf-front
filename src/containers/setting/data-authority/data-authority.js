@@ -99,7 +99,6 @@ class DataAuthority extends React.Component {
     }
     /**编辑数据权限 */
     editItem = (record) => {
-        console.log(record);
         this.setState({
             updateParams: JSON.parse(JSON.stringify(record)),
 
@@ -110,11 +109,11 @@ class DataAuthority extends React.Component {
     /**删除数据权限 */
     deleteCost = (record) => {
         console.log(record);
-        // DataAuthorityService.deleteDataAuthority(record.id).then(res => {
-        //     message.success("删除成功！");
-        // }).catch(err => {
-        //     message.error("删除失败！");
-        // })
+        DataAuthorityService.deleteDataAuthority(record.id).then(res => {
+            message.success("删除成功！");
+        }).catch(err => {
+            message.error("删除失败！");
+        })
     }
 
     handleCloseSlide = () => {

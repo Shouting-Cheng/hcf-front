@@ -42,23 +42,31 @@ class NewDataAuthority extends React.Component {
             })
         } else {
             DataAuthorityService.getDataAuthorityDetail(params.id).then(res => {
-                console.log(res)
-            })
-            const { renderNewChangeRules, treeData } = this.state;
-            renderNewChangeRules.push(
-                treeData.map(Item => (
-                    <LineModelChangeRules
-                        key={Item.key}
-                        canceEditHandle={this.canceEditHandle}
-                        targeKey={Item.key}
-                        isEditRule={!this.state.isEditRule}
-                    />
-                ))
+                console.log(res);
+                const { renderNewChangeRules, treeData } = this.state;
+                const { getFieldDecorator } = this.props.form;
+                renderNewChangeRules.push(
+                    res.data.dataAuthorityRules.map(Item => (
+                        <LineModelChangeRules
+                            key={Item.id}
+                            canceEditHandle={this.canceEditHandle}
+                            targeKey={Item.id}
+                            isEditRule={!this.state.isEditRule}
+                            params={{ name: Item.dataAuthorityRuleName, ruleDatail: Item.dataAuthorityRuleDetails }}
+                            getFieldDecorator={getFieldDecorator}
+                            form={this.props.form}
+                            tenantId={this.props.company.tenantId}
+                            editKey={Item.id}
+                        />
+                    ))
 
-            );
-            this.setState({
-                renderNewChangeRules
+                );
+                this.setState({
+                    renderNewChangeRules,
+                    newDataPrams: res.data
+                })
             })
+
         }
     }
     // componentDidMount() {
@@ -73,18 +81,22 @@ class NewDataAuthority extends React.Component {
         this.props.close()
     }
     renderNewChangeRules = () => {
+        const { getFieldDecorator } = this.props.form;
         const { renderNewChangeRules } = this.state;
         renderNewChangeRules.push(
             <LineModelChangeRules
-                key={`newCard${this.cardIndex++}`}
+                key={`new${this.cardIndex++}`}
                 status="NEW"
                 cancelHandle={this.cancelHandle}
                 canceEditHandle={this.canceEditHandle}
-                targeKey={`newCard${this.targetKey++}`}
+                targeKey={`new${this.targetKey++}`}
                 isEditRule={this.state.isEditRule}
+                // saveNewRule={this.saveNewRule}
+                getFieldDecorator={getFieldDecorator}
+                form={this.props.form}
+                tenantId={this.props.company.tenantId}
             />
         );
-        console.log(renderNewChangeRules)
         this.setState({
             renderNewChangeRules
         })
@@ -135,13 +147,12 @@ class NewDataAuthority extends React.Component {
             };
         }
     }
+
     /**保存所有添加的规则 */
     handleSave = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log(values)
-            }
+
         })
     }
     render() {
@@ -194,9 +205,9 @@ class NewDataAuthority extends React.Component {
                             <div>
                                 <LanguageInput
                                     // disabled={!this.props.tenantMode}
-                                    // key={1}
+                                    key={1}
                                     name={newDataPrams.dataAuthorityName}
-                                    i18nName={newDataPrams.i18n ? newDataPrams.i18n.name : ""}
+                                    i18nName={newDataPrams.i18n ? newDataPrams.i18n.dataAuthorityName : ""}
                                     isEdit={newDataPrams.id ? true : false}
                                     nameChange={this.i18nNameChange}
                                 />
@@ -211,10 +222,10 @@ class NewDataAuthority extends React.Component {
                             <div>
                                 <LanguageInput
                                     // disabled={!this.props.tenantMode}
-                                    // key={1}
+                                    key={1}
                                     name={newDataPrams.description}
-                                    i18nName={newDataPrams.i18n ? newDataPrams.i18n.name : ""}
-                                    isEdit={newDataPrams.id}
+                                    i18nName={newDataPrams.i18n ? newDataPrams.i18n.description : ""}
+                                    isEdit={newDataPrams.id ? true : false}
                                     nameChange={this.i18nNameDes}
                                 />
                             </div>
@@ -236,7 +247,7 @@ class NewDataAuthority extends React.Component {
                     </FormItem>
                     <div>
                         数据权限设置
-                </div>
+                     </div>
                     <Divider></Divider>
                     <Alert message="可定义多条规则，不同规则间数据权限为并集，同一规则不同参数数据权限为交集" type="info" showIcon />
                     <Spin spinning={false}>
@@ -269,7 +280,10 @@ class NewDataAuthority extends React.Component {
 const WrappedNewSubjectSheet = Form.create()(NewDataAuthority);
 
 function mapStateToProps(state) {
-
+    return {
+        user: state.user.currentUser,
+        company: state.user.company
+    };
 }
 
 export default connect(mapStateToProps, null, null, { withRef: true })(WrappedNewSubjectSheet);

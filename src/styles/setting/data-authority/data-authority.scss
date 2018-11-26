@@ -1,14 +1,56 @@
 :global{
     .add-rule-form{
         .rule-form-item .ant-form-item{
-         margin-bottom: 0px!important
+             margin-bottom: 0px!important
         }
         .rule-form-name .ant-form-item{
-          margin-bottom: 10px!important
+            margin-bottom: 10px!important
         }
         .rule-form-name .ant-divider-horizontal{
             margin-bottom: 10px!important
         }
+   
+        .rule-form-title .input_title:focus{
+            outline: none;
+            border-bottom:1px solid #bfbfbf;
+            border-color:none;
+            box-shadow: none;
+            border-right:none
+        
+        }
+        
+        .rule-form-title .input_title:hover{
+            // border-bottom:1px solid #bfbfbf;
+            border-right: none
+        }
+        .rule-form-title .input_title{
+            outline: none;
+            outline: none;
+            width: 170px;
+            height: 30px;
+            line-height: 30px;
+            text-indent: 10px;
+            font-size: 14px;
+            border-color:#bfbfbf;
+            border-style: solid;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-width: 1px;
+            border-left-width: 0px;
+            border-radius: 0px;
+            display: inline-block;
+            margin: 0 auto;
+            background: none
+        }
+        // .rule-form-title:before {
+        //     display: inline-block;
+        //     margin-right: 4px;
+        //     content: "*";
+        //     font-family: SimSun;
+        //     line-height: 1;
+        //     font-size: 14px;
+        //     color: #f5222d;
+        // }    
     }
     .rule-ant-card .ant-card-head .ant-tabs{
         margin-bottom: 0px!important;
