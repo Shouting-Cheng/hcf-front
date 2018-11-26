@@ -21,7 +21,7 @@ export default {
           resolve(res.data);
         })
         .catch(error => {
-          if (error.response.status == 401) {
+          if (error.response&&error.response.status == 401) {
             if (store) {
               store.dispatch({
                 type: 'login/logout',

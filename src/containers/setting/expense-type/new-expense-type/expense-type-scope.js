@@ -59,16 +59,19 @@ class ExpenseTypeScope extends React.Component {
     let userGroups = [];
     userValue.values.map(item => {
       userGroups.push({
-        id: item.key
+        userTypeId: item.key
       })
     });
+
     let target = {
-      expenseTypeId: expenseType.id,
-      accessibleRights: userValue.type === 'all' ? 0 : 1,
-      userGroups
+      allCompanyFlag: true,
+      assignUsers: userGroups,
+      applyType: userValue.type === 'all' ? 101 : 102,
+      assignCompanies: []
     };
+
     this.setState({ saving: true });
-    expenseTypeService.saveExpenseTypeScope(target).then(res => {
+    expenseTypeService.saveExpenseTypeScope(target, expenseType.id).then(res => {
       this.setState({ saving: false });
       this.props.onSave();
     })

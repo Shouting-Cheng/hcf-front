@@ -24,11 +24,11 @@ class ExcelExporter extends React.Component {
   }
   componentDidMount(){
     let selectedRowKeys = [];
-      this.props.columns.map(item => {
-        selectedRowKeys.push(item.dataIndex);
-      });
-      let excelVersion = 'xlsx';
-      this.setState({ selectedRowKeys, excelVersion });
+    this.props.columns.map(item => {
+      selectedRowKeys.push(item.dataIndex);
+    });
+    let excelVersion = 'xlsx';
+    this.setState({ selectedRowKeys, excelVersion });
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible && !this.props.visible) {
@@ -103,7 +103,7 @@ class ExcelExporter extends React.Component {
       onSelect: this.onSelectItem,
       onSelectAll: this.onSelectAll
     };
-    const pagination = { pageSize: 10 };
+    const pagination = { pageSize: 150 };
     return (
       <Modal visible={visible}
         width={800}
@@ -114,11 +114,14 @@ class ExcelExporter extends React.Component {
         bodyStyle={{ height: '70vh', overflowY: 'scroll' }}
         okText='导出'
         cancelText={this.$t({ id: "common.cancel" })}>
-        导出为：
-                    <RadioGroup onChange={(e) => this.setState({ excelVersion: e.target.value })} value={excelVersion}>
+        {this.props.canCheckVersion &&
+        <span>导出为：
+          <RadioGroup onChange={(e) => this.setState({ excelVersion: e.target.value })} value={excelVersion}>
           <Radio value="xls">Excel 2003</Radio>
           <Radio value="xlsx">Excel 2007</Radio>
-        </RadioGroup>
+          </RadioGroup>
+        </span>
+        }
         <Table dataSource={columns}
           rowSelection={rowSelection}
           pagination={pagination}
@@ -144,14 +147,16 @@ ExcelExporter.propTypes = {
   afterClose: PropTypes.func,    //关闭后的回调
   columns: PropTypes.array,    //需要导出的列
   fileName: PropTypes.string, // 导出的文件名称
-  excelItem: PropTypes.string //导出文件大类
+  excelItem: PropTypes.string, //导出文件大类, 这个东东为什么要加，我也不清楚
+  canCheckVersion: PropTypes.bool // 是否可以修改文件格式，默认为true, 如果为false则全部默认为excel2007
 };
 
 ExcelExporter.defaultProps = {
   onOk: () => { },
   afterClose: () => { },
   columns: [],
-  fileName: "excel"
+  fileName: "excel",
+  canCheckVersion: true
 };
 
 function mapStateToProps() {

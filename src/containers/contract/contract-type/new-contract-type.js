@@ -3,16 +3,13 @@ import { connect } from 'dva';
 import { Form, Input, Switch, Button, Icon, Select, message, Spin, Tooltip, Radio } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const RadioGroup = Radio.Group;
 import config from 'config';
 import httpFetch from 'share/httpFetch';
-import PropTypes from 'prop-types';
 
 import contractService from 'containers/contract/contract-type/contract-type-define.service';
-import SelectEmployeeGroup from 'components/Template/select-employee-group';
+import SelectEmployeeGroup from 'widget/Template/select-employee-group';
 import 'styles/contract/contract-type/new-contract-type.scss';
-import PermissionsAllocation from 'components/Template/permissions-allocation';
-import { debug } from 'util';
+import PermissionsAllocation from 'widget/Template/permissions-allocation';
 
 class NewContractType extends React.Component {
   constructor(props) {

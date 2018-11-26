@@ -13,6 +13,7 @@
   "currency.setting.enable.auto.rate": "启用自动汇率:",
   "currency.setting.enable.rate.note": "启用汇率需知:",
   "currency.setting.without.duty": "该自动汇率信息仅供参考，对使用该汇率数据所导致的结果，汇联易不承担任何责任。",
+  "currency.setting.add.new.enable": "状态",
   "currency.setting.add.new.rate": "新增汇率",
   "currency.setting.cancel.edit": "取消修改",
   "currency.setting.batch.edit.rate": "批量更改汇率",

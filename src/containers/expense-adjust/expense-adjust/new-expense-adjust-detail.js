@@ -515,8 +515,29 @@ class NewExpenseAdjustDetail extends React.Component {
           ? 620 + this.props.params.costCenterData.length * 120
           : false,
     });
-
+    this.getDimension(this.props.params.expenseAdjustTypeId);
   }
+
+  getDimension = expenseAdjustTypeId => {
+    const { columns } = this.state;
+    expenseAdjustService.getDimensionAndValue(expenseAdjustTypeId).then(response => {
+      response.data.reverse().map(
+        item =>
+          item &&
+          columns.splice(4, 0, {
+            title: item.name,
+            dataIndex: 'dimension' + item.sequenceNumber + 'Name',
+            align: 'center',
+            render: desc => (
+              <span>
+                <Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover>
+              </span>
+            ),
+          })
+      );
+      this.setState({ columns, costCenterData: response.data });
+    });
+  };
 
   /*componentWillReceiveProps(nextProps) {
     console.log(nextProps)

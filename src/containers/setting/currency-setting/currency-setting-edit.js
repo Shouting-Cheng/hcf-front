@@ -34,11 +34,12 @@ class CurrencySettingEdit extends React.Component {
             endDate: null,//查询历史汇率的截止日期
             language: this.props.language.local,
             loading: false,
+            indexAdd: 0,
             columns: [
                 {
                     title: this.$t("cost.center.detail.no")/*编号*/, dataIndex: 'index',
                     align: 'center',
-                    render: (text, record, index) => { return index + 1 }
+                    render: (text, record, index) => { return index + this.state.indexAdd + 1 }
                 },
                 {
                     title: this.$t("currency.setting.rate.apply.date")/*汇率生效日期*/, dataIndex: 'applyDate',
@@ -110,6 +111,7 @@ class CurrencySettingEdit extends React.Component {
             res => {
                 if (res.status === 200) {
                     this.setState({
+                        indexAdd : page * pageSize,
                         data: res.data.rows,
                         pagination: {
                             total: res.data.total,

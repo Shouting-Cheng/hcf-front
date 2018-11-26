@@ -20,6 +20,7 @@ class AuditApplicationDetail extends React.Component {
       approvalTxtString: '',
       invoiceNumber: 0,
       invoice: [],
+      financeAuditList:'/financial-management/finance-audit',
     };
   }
 
@@ -58,7 +59,7 @@ class AuditApplicationDetail extends React.Component {
         },
       ],
     };
-    this.setState({ passLoading: true });
+    this.setState({ passLoading: true,rejectLoading: true });
     financeAuditService
       .auditPass(params)
       .then(res => {
@@ -100,7 +101,7 @@ class AuditApplicationDetail extends React.Component {
         },
       ],
     };
-    this.setState({ rejectLoading: true });
+    this.setState({ passLoading: true,rejectLoading: true });
     financeAuditService
       .auditReject(params)
       .then(res => {
@@ -110,14 +111,14 @@ class AuditApplicationDetail extends React.Component {
           this.goBack();
         } else {
           this.setState({ rejectLoading: false });
-          modal && this.setState({ paperReject: false, paperLoading: false });
+          this.setState({ paperReject: false, paperLoading: false });
           let errorMessage = res.data.failReason[params.entities[0].entityOID];
           message.error(errorMessage);
         }
       })
       .catch(e => {
         this.setState({ rejectLoading: false });
-        modal && this.setState({ paperReject: false, paperLoading: false });
+        this.setState({ paperReject: false, paperLoading: false });
         message.error(this.$t('common.operate.filed') /*操作失败*/);
       });
   };
@@ -201,11 +202,22 @@ class AuditApplicationDetail extends React.Component {
     moreButtons.push('noticeBtn');
     invoiceNumber > 0 && moreButtons.push('auditCheck');
     return status === 1003 &&
-      location.search.indexOf('prending_audit') > -1 &&
+      location.href.indexOf('prending_audit') > -1 &&
       !(profile['er.disabled'] && 1002 === this.props.entityType) ? (
-      <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+      <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve"
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          width: '88%',
+          paddingLeft: 15,
+          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+          background: '#fff',
+          lineHeight: '50px',
+        }}
+      >
         <ApproveBar
-          backUrl={financeAuditList.url + '?tab=prending_audit'}
+          backUrl={financeAuditList}
+          //backUrl={financeAuditList + '?tab=prending_audit'}
           passLoading={passLoading}
           rejectLoading={rejectLoading}
           noticeLoading={noticeLoading}
@@ -244,7 +256,16 @@ class AuditApplicationDetail extends React.Component {
         </Modal>
       </Affix>
     ) : (
-      <Affix offsetBottom={0} className="bottom-bar">
+      <Affix offsetBottom={0} style={{
+        position: 'fixed',
+        bottom: 0,
+        width: '88%',
+        paddingLeft: 15,
+        boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+        background: '#fff',
+        lineHeight: '50px',
+        marginLeft: -23
+      }}>
         <Button type="primary" className="back-btn" onClick={this.goBack}>
           {this.$t('common.back') /*返回*/}
         </Button>
@@ -271,7 +292,7 @@ AuditApplicationDetail.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    profile: state.login.profile,
+    profile: state.user.proFile,
   };
 }
 

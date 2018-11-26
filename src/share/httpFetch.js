@@ -11,7 +11,7 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   // 对响应错误做点什么
 
-  if (error.response.status == 401) {
+  if (error.response&&error.response.status == 401) {
     store.dispatch({
       type: 'login/logout',
     });
@@ -43,7 +43,7 @@ export default {
     };
     return axios(option);
   },
-  post(url, data) {
+  post(url, data, header = {}, options = {}) {
 
     let params = {};
     if (url.indexOf("TENANT") < 0) {
@@ -51,6 +51,7 @@ export default {
     }
 
     let option = {
+      ...options,
       url: baseUrl + url,
       method: 'POST',
       headers: {

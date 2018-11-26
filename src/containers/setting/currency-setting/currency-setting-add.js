@@ -80,12 +80,12 @@ class CurrencySettingAdd extends React.Component {
                     this.setState({ saving: false });
                     if (res.status === 200) {
                         message.success(this.$t("wait.for.save.addSuc")/*新增成功*/);
-                      let{setOfBooksId,baseCurrency,baseCurrencyName}=this.props.match.params;
-                      this.props.dispatch(
-                        routerRedux.push({
-                          pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
-                        })
-                      )
+                        let { setOfBooksId, baseCurrency, baseCurrencyName } = this.props.match.params;
+                        this.props.dispatch(
+                            routerRedux.push({
+                                pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
+                            })
+                        )
                         // this.context.router.replace({
                         //     pathname: backUrl,
                         //     state: {
@@ -101,9 +101,9 @@ class CurrencySettingAdd extends React.Component {
                     this.props.dispatch(
                         routerRedux.push({
                             pathname: `/admin-setting/currency-setting`,
-                            
-                       })
-                      );
+
+                        })
+                    );
                     //   this.context.router.replace({
                     //     pathname: backUrl,
                     //     state: {
@@ -127,13 +127,13 @@ class CurrencySettingAdd extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className='currency-setting-add' onSubmit={this.onSave}>
-                <FormItem {...formItemLayout} label={this.$t("currency.setting.add.new.rate")/*新增汇率*/}>
+                <FormItem {...formItemLayout} label={this.$t("currency.setting.add.new.enable")/*状态enable*/}>
                     {getFieldDecorator('enable', {
                         valuePropName: 'checked',
                         initialValue: true
                     })(
                         <Switch />
-                    )}
+                        )}
                 </FormItem>
                 <Divider dashed />
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.currency.name")/*币种名*/}>
@@ -153,7 +153,7 @@ class CurrencySettingAdd extends React.Component {
                                     {this.state.language === 'en' ? item.currencyCode : `${item.currencyCode} ${item.currencyName}`}</Option>
                             })}
                         </Select>
-                    )}
+                        )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.code")/*代码*/}>
                     {getFieldDecorator('currencyCode', {
@@ -163,7 +163,7 @@ class CurrencySettingAdd extends React.Component {
                         }]
                     })(
                         <Input disabled />
-                    )}
+                        )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.rate.apply.date")/*汇率生效日期*/}>
                     {getFieldDecorator('applyDate', {
@@ -175,7 +175,7 @@ class CurrencySettingAdd extends React.Component {
                         <DatePicker disabledDate={this.disabledEndDate}
                             style={{ width: '100%' }}
                             allowClear={false} />
-                    )}
+                        )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.effective.rate")/*生效汇率*/}>
                     {getFieldDecorator('rate', {
@@ -196,7 +196,7 @@ class CurrencySettingAdd extends React.Component {
                         ]
                     })(
                         <InputNumber min={0.0000001} precision={7} step={0.0000001} style={{ width: '100%' }} />
-                    )}
+                        )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.enable.auto.rate")/*启用自动汇率*/}>
@@ -205,17 +205,17 @@ class CurrencySettingAdd extends React.Component {
                         initialValue: enableAutoUpdate
                     })(
                         <Switch disabled={!enableAutoUpdate} />
-                    )}
+                        )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} wrapperCol={{ offset: 5 }}>
                     <Button onClick={() => {
-                      let{setOfBooksId,baseCurrency,baseCurrencyName}=this.props.match.params;
-                      this.props.dispatch(
-                        routerRedux.push({
-                          pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
-                        })
-                      )
+                        let { setOfBooksId, baseCurrency, baseCurrencyName } = this.props.match.params;
+                        this.props.dispatch(
+                            routerRedux.push({
+                                pathname: `/admin-setting/currency-setting/${setOfBooksId}/${baseCurrency}/${baseCurrencyName}`,
+                            })
+                        )
                     }} style={{ marginRight: 15 }}>
                         {this.$t("common.back")/*返回*/}
                     </Button>

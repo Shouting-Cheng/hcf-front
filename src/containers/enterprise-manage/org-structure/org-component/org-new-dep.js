@@ -19,6 +19,7 @@ class OrgNewDep extends React.Component {
     super(props);
     this.state = {
       loading: false,
+      validateStatus: false,
       fKey: 0,
       c_type: '', //C_CHILD 与 C_DEP 代表创建子部门与平级部门
       dep: {
@@ -94,6 +95,8 @@ class OrgNewDep extends React.Component {
           values.i18n = dep.i18n;
           values.name = dep.name;
           this.createChildDep(values, this.state.dep.treeNode);
+        }else {
+          err.name&&this.setState({validateStatus: true})
         }
       });
     } else if (this.state.c_type === 'C_DEP') {
@@ -104,6 +107,8 @@ class OrgNewDep extends React.Component {
           values.i18n = dep.i18n;
           values.name = dep.name;
           this.createTopDep(values, this.state.dep.treeNode);
+        }else {
+          err.name&&this.setState({validateStatus: true})
         }
       });
     }
@@ -165,7 +170,7 @@ class OrgNewDep extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { loading, dep } = this.state;
+    const { loading, dep,validateStatus } = this.state;
     const formItemLayout = {};
     return (
       <div className="org-new-dep">
@@ -195,6 +200,7 @@ class OrgNewDep extends React.Component {
                 <LanguageInput
                   key={this.state.fKey}
                   name={dep.name}
+                  validateStatus={validateStatus}
                   i18nName={dep.i18n ? dep.i18n.name : null}
                   isEdit={false}
                   nameChange={this.i18nChange}

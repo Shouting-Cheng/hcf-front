@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from 'dva';
-import {Form, Tabs, Table, message, Badge, Popover, Row, Col, Input,InputNumber} from 'antd'
+import { connect } from 'dva';
+import { Form, Tabs, Table, message, Badge, Popover, Row, Col, Input, InputNumber } from 'antd'
 
 const TabPane = Tabs.TabPane;
-import {routerRedux} from "dva/router";
+import { routerRedux } from "dva/router";
 import config from 'config'
 
 import SearchArea from 'components/Widget/search-area'
@@ -23,11 +23,11 @@ class Payment extends React.Component {
       loading1: false,
       loading2: false,
       status: {
-        1001: {label: '编辑中', state: 'default'},
-        1004: {label: '审批通过', state: 'success'},
-        1002: {label: '审批中', state: 'processing'},
-        1005: {label: '审批驳回', state: 'error'},
-        1003: {label: '撤回', state: 'warning'}
+        1001: { label: '编辑中', state: 'default' },
+        1004: { label: '审批通过', state: 'success' },
+        1002: { label: '审批中', state: 'processing' },
+        1005: { label: '审批驳回', state: 'error' },
+        1003: { label: '撤回', state: 'warning' }
       },
       SearchForm1: [
         {
@@ -40,7 +40,7 @@ class Payment extends React.Component {
           valueKey: "id",
           labelKey: "typeName",
           colSpan: '6',
-          event:"typeId"
+          event: "typeId"
         },
         // { type: 'input', id: 'businessCode', label: "单据编号" /*预付款编号*/ },
         {
@@ -48,27 +48,27 @@ class Payment extends React.Component {
           listType: "bgtUser",
           options: [],
           id: 'userOid',
-          label: this.$t({id: 'common.applicant'}),
+          label: this.$t({ id: 'common.applicant' }),
           labelKey: "fullName",
           valueKey: "userOID",
           colSpan: 6,
           single: true,
-          listExtraParams: {setOfBooksId: this.props.company.setOfBooksId},
-          event:"userOid"
+          listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+          event: "userOid"
         },
         {
           type: 'items', id: 'dateRange', items: [
-            {type: 'date', id: 'beginDate', label: '提交日期从', event:"beginDate"},
-            {type: 'date', id: 'endDate', label: '提交日期至', event:"endDate"}
+            { type: 'date', id: 'beginDate', label: '提交日期从', event: "beginDate" },
+            { type: 'date', id: 'endDate', label: '提交日期至', event: "endDate" }
           ], colSpan: '6'
         },
         {
           type: 'items', id: 'amountRange', items: [
-            {type: 'inputNumber', id: 'amountFrom', label: '本币金额从', event:"amountFrom"},
-            {type: 'inputNumber', id: 'amountTo', label: '本币金额至', event:"amountTo"},
+            { type: 'inputNumber', id: 'amountFrom', label: '本币金额从', event: "amountFrom" },
+            { type: 'inputNumber', id: 'amountTo', label: '本币金额至', event: "amountTo" },
           ], colSpan: '6'
         },
-        {type: 'input', id: 'description', label: "备注", colSpan: '6',event:"description"},
+        { type: 'input', id: 'description', label: "备注", colSpan: '6', event: "description" },
 
       ],
       SearchForm2: [
@@ -89,54 +89,85 @@ class Payment extends React.Component {
           listType: "bgtUser",
           options: [],
           id: 'userOid',
-          label: this.$t({id: 'common.applicant'}),
+          label: this.$t({ id: 'common.applicant' }),
           labelKey: "fullName",
           valueKey: "userOID",
           colSpan: 6,
           single: true,
-          listExtraParams: {setOfBooksId: this.props.company.setOfBooksId}
+          listExtraParams: { setOfBooksId: this.props.company.setOfBooksId }
         },
         {
           type: 'items', id: 'dateRange', items: [
-            {type: 'date', id: 'beginDate', label: '提交日期从'},
-            {type: 'date', id: 'endDate', label: '提交日期至'}
+            { type: 'date', id: 'beginDate', label: '提交日期从' },
+            { type: 'date', id: 'endDate', label: '提交日期至' }
           ], colSpan: '6'
         },
         {
           type: 'items', id: 'amountRange', items: [
-            {type: 'input', id: 'amountFrom', label: '本币金额从'},
-            {type: 'input', id: 'amountTo', label: '本币金额至'},
+            { type: 'input', id: 'amountFrom', label: '本币金额从' },
+            { type: 'input', id: 'amountTo', label: '本币金额至' },
           ], colSpan: '6'
         },
-        {type: 'input', id: 'description', label: "备注", colSpan: '6'},
+        { type: 'input', id: 'description', label: "备注", colSpan: '6' },
       ],
       unApproveSearchParams: {},
       approveSearchParams: {},
       columns: [
-        {title: '单据编号', dataIndex: 'prepaymentCode', align: 'center', width: 180},
-        {title: '单据类型', dataIndex: 'typeName',align: 'center'},
-        {title: '申请人', dataIndex: 'applicantName',align: 'center', width: 100},
         {
-          title: '提交日期',
-          dataIndex: 'stringSubmitDate',
-          width: 90,
-          align: 'center',
-          render: (value) => moment(value).format('YYYY-MM-DD')
-        },
-        // {title: '币种', dataIndex: 'currency'},
-        {title: '本币金额', dataIndex: 'totalAmount', align: 'center', render: this.filterMoney},
-        // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
-        {
-          title: '备注',align: 'center', dataIndex: 'description', render: (value) => {
+          title: '单据编号', dataIndex: 'prepaymentCode', align: 'center', width: 180, render: (value) => {
             return (
               <Popover content={value}>{value}</Popover>
             )
           }
         },
         {
-          title: '状态', dataIndex: 'status',align: 'center', width: 100, render: (value, record) => {
+          title: '单据类型', dataIndex: 'typeName', align: 'center', render: (value) => {
             return (
-              <Badge status={this.state.status[value].state} text={this.state.status[value].label}/>
+              <Popover content={value}>{value}</Popover>
+            )
+          }
+        },
+        {
+          title: '申请人', dataIndex: 'applicantName', align: 'center', width: 100,
+          render: (value) => {
+            return (
+              <Popover content={value}>{value}</Popover>
+            )
+          }
+        },
+        {
+          title: '提交日期',
+          dataIndex: 'stringSubmitDate',
+          width: 90,
+          align: 'center',
+          render: (value) => moment(value).format('YYYY-MM-DD'),
+          render: (value) => {
+            return (
+              <Popover content={value}>{value}</Popover>
+            )
+          }
+        },
+        // {title: '币种', dataIndex: 'currency'},
+        {
+          title: '本币金额', dataIndex: 'totalAmount', align: 'center',
+          render: (value) => {
+            return (
+              <Popover content={this.filterMoney(value, 2)}><div style={{ textAlign: "right" }}>{this.filterMoney(value, 2)}</div></Popover>
+            )
+          }
+        },
+        // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
+        {
+          title: '备注', align: 'center', dataIndex: 'description', render: (value) => {
+            return (
+              <Popover content={value}>{value}</Popover>
+            )
+          }
+        },
+        {
+          title: '状态', dataIndex: 'status', align: 'center', width: 100, render: (value, record) => {
+            return (
+              <Badge status={this.state.status[value].state} text={this.state.status[value].label} />
             )
           }
         }
@@ -171,32 +202,32 @@ class Payment extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({tabValue: 'unapproved'});
+    this.setState({ tabValue: 'unapproved' });
   }
 
   eventHandle = (type, value) => {
-    const {unApproveSearchParams} = this.state;
+    const { unApproveSearchParams } = this.state;
     switch (type) {
       case 'beginDate': {
-        if(value){
+        if (value) {
           unApproveSearchParams.beginDate = moment(value).format('YYYY-MM-DD');
-        }else{
+        } else {
           unApproveSearchParams.beginDate = '';
         }
         break;
       }
       case 'endDate': {
-        if(value){
+        if (value) {
           unApproveSearchParams.endDate = moment(value).format('YYYY-MM-DD');
-        }else{
+        } else {
           unApproveSearchParams.endDate = '';
         }
         break;
       }
       case 'userOid': {
-        if(value && value[0]){
+        if (value && value[0]) {
           unApproveSearchParams.userOid = value[0].userOID;
-        }else{
+        } else {
           unApproveSearchParams.userOid = '';
         }
         break;
@@ -208,28 +239,28 @@ class Payment extends React.Component {
     this.setState(unApproveSearchParams);
   }
   eventHandleApp = (type, value) => {
-    const {approveSearchParams} = this.state;
+    const { approveSearchParams } = this.state;
     switch (type) {
       case 'beginDate': {
-        if(value){
+        if (value) {
           approveSearchParams.beginDate = moment(value).format('YYYY-MM-DD');
-        }else{
+        } else {
           approveSearchParams.beginDate = '';
         }
         break;
       }
       case 'endDate': {
-        if(value){
+        if (value) {
           approveSearchParams.endDate = moment(value).format('YYYY-MM-DD');
-        }else{
+        } else {
           approveSearchParams.endDate = '';
         }
         break;
       }
       case 'userOid': {
-        if(value && value[0]){
+        if (value && value[0]) {
           approveSearchParams.userOid = value[0].userOID;
-        }else{
+        } else {
           approveSearchParams.userOid = '';
         }
         break;
@@ -244,11 +275,11 @@ class Payment extends React.Component {
   unapprovedSearch = (values) => {
     values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
     values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
-    if(values.userOid && values.userOid[0]){
+    if (values.userOid && values.userOid[0]) {
       values.userOid = values.userOid[0];
     }
-    this.setState({...this.state.unApproveSearchParams,...values}, () => {
-      this.unApprovedtable.search({...this.state.unApproveSearchParams,...values, finished: 'false'})
+    this.setState({ ...this.state.unApproveSearchParams, ...values }, () => {
+      this.unApprovedtable.search({ ...this.state.unApproveSearchParams, ...values, finished: 'false' })
     })
   };
 
@@ -256,32 +287,32 @@ class Payment extends React.Component {
   approvedSearch = (values) => {
     values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
     values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
-    if(values.userOid && values.userOid[0]){
+    if (values.userOid && values.userOid[0]) {
       values.userOid = values.userOid[0];
     }
-    this.setState({...this.state.approveSearchParams,...values}, () => {
-      this.approvedtable.search({...this.state.approveSearchParams,...values, finished: 'true'})
+    this.setState({ ...this.state.approveSearchParams, ...values }, () => {
+      this.approvedtable.search({ ...this.state.approveSearchParams, ...values, finished: 'true' })
     })
   };
 
-  changeApp = (e) =>{
-    let {approveSearchParams} = this.state;
-    if(e && e.target && e.target.value){
+  changeApp = (e) => {
+    let { approveSearchParams } = this.state;
+    if (e && e.target && e.target.value) {
       approveSearchParams.businessCode = e.target.value;
-    }else{
+    } else {
       approveSearchParams.businessCode = '';
     }
-    this.setState({approveSearchParams});
+    this.setState({ approveSearchParams });
   }
 
-  change = (e) =>{
-    let {unApproveSearchParams} = this.state;
-    if(e && e.target && e.target.value){
+  change = (e) => {
+    let { unApproveSearchParams } = this.state;
+    if (e && e.target && e.target.value) {
       unApproveSearchParams.businessCode = e.target.value;
-    }else{
+    } else {
       unApproveSearchParams.businessCode = '';
     }
-    this.setState({unApproveSearchParams});
+    this.setState({ unApproveSearchParams });
   }
 
   //进入预付款情页
@@ -295,39 +326,39 @@ class Payment extends React.Component {
   };
   filterData = (data) => {
     return data.map(item => {
-      return {...item.prepaymentApprovalView, entityOID: item.entityOID}
+      return { ...item.prepaymentApprovalView, entityOID: item.entityOID }
     });
   }
   /**未审批根据单据编号查询 */
   onDocumentSearch = (value) => {
     this.setState({
-      unApproveSearchParams: {...this.state.unApproveSearchParams,businessCode: value}
+      unApproveSearchParams: { ...this.state.unApproveSearchParams, businessCode: value }
     }, () => {
-      this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false'})
+      this.unApprovedtable.search({ ...this.state.unApproveSearchParams, finished: 'false' })
     })
   }
   /**已审批根据单据编号查询 */
   onApprovedSearch = (value) => {
     this.setState({
-      approveSearchParams: {...this.state.approveSearchParams,businessCode: value}
+      approveSearchParams: { ...this.state.approveSearchParams, businessCode: value }
     }, () => {
-      this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
+      this.approvedtable.search({ ...this.state.approveSearchParams, finished: 'true' })
     })
   }
   handleTabsChange = (key) => {
     this.setState({
       tabValue: key,
-      approveSearchParams:{},
-      unApproveSearchParams:{}
+      approveSearchParams: {},
+      unApproveSearchParams: {}
     })
   };
 
   //点击重置的事件，清空值为初始值
   handleReset = () => {
     this.clearSearchAreaSelectData();
-    let {unApproveSearchParams,approveSearchParams} = this.state;
+    let { unApproveSearchParams, approveSearchParams } = this.state;
     this.props.clearHandle && this.props.clearHandle();
-    this.setState({unApproveSearchParams:{},approveSearchParams:{}})
+    this.setState({ unApproveSearchParams: {}, approveSearchParams: {} })
 
   };
 
@@ -344,21 +375,21 @@ class Payment extends React.Component {
   }
 
   render() {
-    const {tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination} = this.state;
+    const { tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
     return (
       <div className="approve-contract">
         <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-          <TabPane tab={this.$t({id: "contract.unapproved"}/*未审批*/)} key="unapproved">
+          <TabPane tab={this.$t({ id: "contract.unapproved" }/*未审批*/)} key="unapproved">
             {
               tabValue === 'unapproved' &&
               <div>
                 <SearchArea searchForm={SearchForm1}
-                            submitHandle={this.unapprovedSearch}
-                            eventHandle={this.eventHandle}
-                            clearHandle={this.handleReset}
-                            maxLength={4}
+                  submitHandle={this.unapprovedSearch}
+                  eventHandle={this.eventHandle}
+                  clearHandle={this.handleReset}
+                  maxLength={4}
                 />
-                <div className="table-header" style={{marginBottom: 12, marginTop: 12}}>
+                <div className="table-header" style={{ marginBottom: 12, marginTop: 12 }}>
                   <Row>
                     <Col span={18}></Col>
                     <Col span={6}>
@@ -375,7 +406,7 @@ class Payment extends React.Component {
                 <CustomTable
                   url={`${config.baseUrl}/api/approvals/prepayment/filters`}
                   ref={ref => this.unApprovedtable = ref}
-                  params={{finished: 'false'}}
+                  params={{ finished: 'false' }}
                   columns={columns}
                   tableKey="entityOID"
                   filterData={this.filterData}
@@ -384,16 +415,16 @@ class Payment extends React.Component {
               </div>
             }
           </TabPane>
-          <TabPane tab={this.$t({id: "contract.approved"}/*已审批*/)} key="approved">
+          <TabPane tab={this.$t({ id: "contract.approved" }/*已审批*/)} key="approved">
             {
               tabValue === 'approved' &&
               <div>
                 <SearchArea searchForm={SearchForm1}
-                            submitHandle={this.approvedSearch}
-                            eventHandle={this.eventHandleApp}
-                            maxLength={4}
+                  submitHandle={this.approvedSearch}
+                  eventHandle={this.eventHandleApp}
+                  maxLength={4}
                 />
-                <div className="table-header" style={{marginBottom: 12, marginTop: 12}}>
+                <div className="table-header" style={{ marginBottom: 12, marginTop: 12 }}>
                   <Row>
                     <Col span={18}></Col>
                     <Col span={6}>
@@ -410,7 +441,7 @@ class Payment extends React.Component {
                 <CustomTable
                   url={`${config.baseUrl}/api/approvals/prepayment/filters`}
                   ref={ref => this.approvedtable = ref}
-                  params={{finished: 'true'}}
+                  params={{ finished: 'true' }}
                   columns={columns}
                   tableKey="entityOID"
                   filterData={this.filterData}
@@ -436,4 +467,4 @@ function mapStateToProps(state) {
 
 const wrappedPayment = Form.create()((Payment));
 
-export default connect(mapStateToProps, null, null, {withRef: true})(wrappedPayment)
+export default connect(mapStateToProps, null, null, { withRef: true })(wrappedPayment)
