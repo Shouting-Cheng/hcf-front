@@ -50,7 +50,7 @@ class MyContract extends React.Component {
           colSpan: 6,
           id: 'contractName',
           label: this.$t({ id: 'my.contract.name' } /*合同名称*/),
-          event:"CONTRACT_NAME"
+          event: "CONTRACT_NAME"
         },
         {
           type: 'list',
@@ -63,7 +63,7 @@ class MyContract extends React.Component {
           options: [],
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
           single: true,
-          event:"COMPANY_ID"
+          event: "COMPANY_ID"
         },
         {
           type: 'list',
@@ -75,7 +75,7 @@ class MyContract extends React.Component {
           valueKey: 'id',
           listType: 'contract_type',
           listExtraParams: { companyId: this.props.company.id },
-          event:"CONTRACT_TYPE_ID"
+          event: "CONTRACT_TYPE_ID"
         },
         {
           type: 'select',
@@ -83,7 +83,7 @@ class MyContract extends React.Component {
           id: 'status',
           label: this.$t({ id: 'common.column.status' } /*状态*/),
           options: statusList,
-          event:"STATUS"
+          event: "STATUS"
         },
         {
           type: 'items',
@@ -94,13 +94,13 @@ class MyContract extends React.Component {
               type: 'date',
               id: 'signDateFrom',
               label: this.$t({ id: 'my.contract.signDate.from' } /*签署日期从*/),
-              event:"SIGN_DATE_FROM"
+              event: "SIGN_DATE_FROM"
             },
             {
               type: 'date',
               id: 'signDateTo',
               label: this.$t({ id: 'my.contract.signDate.to' } /*签署日期至*/),
-              event:"SIGN_DATE_TO"
+              event: "SIGN_DATE_TO"
             },
           ],
         },
@@ -123,7 +123,7 @@ class MyContract extends React.Component {
           valueKey: 'id',
           disabled: true,
           labelKey: 'name',
-          event:"PARTNER_ID"
+          event: "PARTNER_ID"
         },
         {
           type: 'select',
@@ -135,7 +135,7 @@ class MyContract extends React.Component {
           labelKey: 'currency',
           valueKey: 'currency',
           colSpan: 6,
-          event:"CURRENCY"
+          event: "CURRENCY"
         },
         {
           type: 'items',
@@ -146,13 +146,13 @@ class MyContract extends React.Component {
               type: 'inputNumber',
               id: 'amountFrom',
               label: this.$t({ id: 'my.contract.amount.from' } /*合同金额从*/),
-              event:"AMOUNT_FROM"
+              event: "AMOUNT_FROM"
             },
             {
               type: 'inputNumber',
               id: 'amountTo',
               label: this.$t({ id: 'my.contract.amount.to' } /*合同金额至*/),
-              event:"AMOUNT_TO"
+              event: "AMOUNT_TO"
             },
           ],
         },
@@ -161,7 +161,7 @@ class MyContract extends React.Component {
           colSpan: 6,
           id: 'remark',
           label: this.$t({ id: 'common.comment' } /*备注*/),
-          event:"REMARK"
+          event: "REMARK"
         },
       ],
       searchParams: {},
@@ -226,8 +226,8 @@ class MyContract extends React.Component {
                 {record.partnerName}
               </div>
             ) : (
-              '-'
-            );
+                '-'
+              );
           },
         },
         {
@@ -296,28 +296,6 @@ class MyContract extends React.Component {
     });
   };
 
-  /*getList = () => {
-    const { page, pageSize, searchParams } = this.state;
-    this.setState({ loading: true });
-    contractService.getContractList(page, pageSize, searchParams).then((res) => {
-      if (res.status === 200) {
-        this.setState({
-          loading: false,
-          data: res.data || [],
-          pagination: {
-            total: Number(res.headers['x-total-count']) ? Number(res.headers['x-total-count']) : 0,
-            current: page + 1,
-            onChange: this.onChangePaper,
-            showTotal: total => this.$t({ id: "common.total" }, { total:total }/!*共搜索到 {total} 条数据*!/)
-          }
-        })
-      }
-    }).catch(() => {
-      this.setState({ loading: false });
-      message.error(this.$t({ id: "common.error" }/!*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*!/))
-    })
-  };*/
-
   searchNumber = e => {
     this.setState(
       {
@@ -333,16 +311,16 @@ class MyContract extends React.Component {
   search = values => {
     values.signDateFrom && (values.signDateFrom = moment(values.signDateFrom).format('YYYY-MM-DD'));
     values.signDateTo && (values.signDateTo = moment(values.signDateTo).format('YYYY-MM-DD'));
-    if(values.companyId && values.companyId[0]){
+    if (values.companyId && values.companyId[0]) {
       values.companyId = values.companyId[0];
     }
-    if(values.contractTypeId && values.contractTypeId[0]){
+    if (values.contractTypeId && values.contractTypeId[0]) {
       values.contractTypeId = values.contractTypeId[0];
     }
-    if(values.partnerId && values.partnerId[0]){
+    if (values.partnerId && values.partnerId[0]) {
       values.partnerId = values.partnerId[0];
     }
-    this.setState({ searchParams:{...this.state.searchParams, ...values} }, () => {
+    this.setState({ searchParams: { ...this.state.searchParams, ...values } }, () => {
       this.customTable.search({ ...this.state.searchParams, ...values });
     });
   };
@@ -350,14 +328,14 @@ class MyContract extends React.Component {
   //点击重置的事件，清空值为初始值
   handleReset = () => {
     this.clearSearchAreaSelectData();
-    let {searchParams} = this.state;
+    let { searchParams } = this.state;
     this.props.clearHandle && this.props.clearHandle();
-    this.setState({searchParams:{}})
+    this.setState({ searchParams: {} })
     this.eventHandle('id', null);
     this.eventHandle('code', null);
   };
 
-//清除searchArea选择数据
+  //清除searchArea选择数据
   clearSearchAreaSelectData = () => {
     this.props.form.resetFields();
     this.state.checkboxListForm && this.state.checkboxListForm.map(list => {
@@ -369,14 +347,14 @@ class MyContract extends React.Component {
     });
   }
 
-  change = (e) =>{
+  change = (e) => {
     const { searchParams } = this.state;
-    if(e && e.target && e.target.value){
+    if (e && e.target && e.target.value) {
       searchParams.contractNumber = e.target.value;
-    }else{
+    } else {
       searchParams.contractNumber = '';
     }
-    this.setState({searchParams});
+    this.setState({ searchParams });
   }
 
 
@@ -414,18 +392,18 @@ class MyContract extends React.Component {
         break;
       }
       case 'COMPANY_ID': {
-        if(value[0].id){
+        if (value[0].id) {
           searchParams.companyId = value[0].id;
-        }else{
+        } else {
           searchParams.companyId = '';
         }
         break;
       }
       case 'CONTRACT_TYPE_ID': {
-        if(value[0].id){
-          searchParams.contractTypeId =  value[0].id;
-        }else{
-          searchParams.contractTypeId =  '';
+        if (value[0].id) {
+          searchParams.contractTypeId = value[0].id;
+        } else {
+          searchParams.contractTypeId = '';
         }
         break;
       }
@@ -434,26 +412,26 @@ class MyContract extends React.Component {
         break;
       }
       case 'SIGN_DATE_FROM': {
-        if(value){
+        if (value) {
           searchParams.signDateFrom = moment(value).format('YYYY-MM-DD')
-        }else{
+        } else {
           searchParams.signDateFrom = '';
         }
         break;
       }
       case 'SIGN_DATE_TO': {
-        if(value){
+        if (value) {
           searchParams.signDateTo = moment(value).format('YYYY-MM-DD')
-        }else{
+        } else {
           searchParams.signDateTo = '';
         }
         break;
       }
       case 'PARTNER_ID': {
-        if(value[0].id){
-          searchParams.partnerId =value[0].id ;
-        }else{
-          searchParams.partnerId ='' ;
+        if (value[0].id) {
+          searchParams.partnerId = value[0].id;
+        } else {
+          searchParams.partnerId = '';
         }
         break;
       }
@@ -471,65 +449,11 @@ class MyContract extends React.Component {
       }
       case 'REMARK': {
         searchParams.remark = value;
-      break;
+        break;
       }
-      this.setState({searchParams});
+        this.setState({ searchParams });
     }
 
-    /*if (type === 'id') {  //合同类型
-      this.formRef._reactInternalInstance._renderedComponent._instance.setValues({
-        contractTypeId: undefined
-      });
-      searchForm.map(item => {
-        if (item.id === 'contractTypeId') {
-          if (value) {
-            item.listExtraParams = { companyId: value };
-            item.disabled = false
-          } else {
-            item.disabled = true
-          }
-        }
-      })
-      searchForm.map(item => {
-        if (item.id === 'partnerId') {
-          item.listExtraParams = { companyId: value };
-          if (value && this.state.contractType) {
-            item.disabled = false;
-          }
-          else {
-            item.disabled = true;
-          }
-        }
-      });
-
-      this.setState({ searchForm, company: value });
-
-    } else if (type === 'CON_PARTNER_TYPE') { //合同方
-      /!*this.formRef._reactInternalInstance._renderedComponent._instance.setValues({
-        partnerId: value === 'EMPLOYEE' ? [] : ''
-      });*!/
-      searchForm.map(item => {
-        if (item.id === 'partnerId') {
-          if (value === 'EMPLOYEE') { //员工
-            item.type = 'list';
-            item.labelKey = 'fullName';
-            item.listType = "contract_user";
-            item.listExtraParams = { companyId: this.state.company };
-          } else if (value === 'VENDER') { //供应商
-            item.type = 'list';
-            item.labelKey = 'venNickname';
-            item.listType = "select_vendor";
-            item.listExtraParams = { companyId: this.state.company }
-          }
-          if (value && this.state.company) {
-            item.disabled = false;
-          }
-          else {
-            item.disabled = true;
-          }
-        }
-      });
-    }*/
     this.setState({ searchParams });
   };
 
@@ -556,9 +480,10 @@ class MyContract extends React.Component {
           wrappedComponentRef={inst => (this.formRef = inst)}
         />
         <Row gutter={24} style={{ marginBottom: 12, marginTop: 12 }}>
-          <Col span={18}>
+          <Col id="drop" style={{ position: "relative" }} span={18}>
             <Dropdown
               trigger={['click']}
+              getPopupContainer={() => document.getElementById('drop')}
               overlay={
                 <Menu onClick={this.handleCreate}>
                   {contractType.map(item => (
