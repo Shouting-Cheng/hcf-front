@@ -162,7 +162,7 @@ class NewRequest extends React.Component {
     ) {
       baseService
         .changeLoginInfo(this.props.match.params.applicantOID)
-        .then(() => {})
+        .then(() => { })
         .catch(() => {
           message.error(this.$t('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
         });
@@ -321,8 +321,8 @@ class NewRequest extends React.Component {
       this.baseModalShowForRangeDateChange(
         isHaveSubsidy
           ? this.$t('itinerary.form.change.about.subsidy.field.tip', {
-              fieldName: fieldStr,
-            }) /*'更改时间将清空已添加差补'*/
+            fieldName: fieldStr,
+          }) /*'更改时间将清空已添加差补'*/
           : '',
         mesStr,
         currentKey,
@@ -470,8 +470,8 @@ class NewRequest extends React.Component {
               this.baseModalShow(
                 isHaveSubsidy
                   ? this.$t('itinerary.form.change.about.subsidy.field.tip', {
-                      fieldName: item.fieldName,
-                    }) /*'更改时间将清空已添加差补'*/
+                    fieldName: item.fieldName,
+                  }) /*'更改时间将清空已添加差补'*/
                   : '',
                 mesStr,
                 baseStartData,
@@ -499,8 +499,8 @@ class NewRequest extends React.Component {
               this.baseModalShow(
                 isHaveSubsidy
                   ? this.$t('itinerary.form.change.about.subsidy.field.tip', {
-                      fieldName: item.fieldName,
-                    }) /*'更改时间将清空已添加差补'*/
+                    fieldName: item.fieldName,
+                  }) /*'更改时间将清空已添加差补'*/
                   : '',
                 mesStr,
                 baseStartData,
@@ -558,8 +558,8 @@ class NewRequest extends React.Component {
               let tipMessage =
                 isEditing && this.state.total > 0
                   ? this.$t(
-                      'itinerary.form.change.participant.tip'
-                    ) /*'更改参与人员将清空已添加差补'*/
+                    'itinerary.form.change.participant.tip'
+                  ) /*'更改参与人员将清空已添加差补'*/
                   : '';
               this.baseModalShow(
                 this.$t(
@@ -995,7 +995,7 @@ class NewRequest extends React.Component {
             signEnable: res.data.enabled,
             signCompanyOIDs: res.data.approvalAddSignScope.companyOIDs,
           },
-          () => {}
+          () => { }
         );
       }
     });
@@ -1398,7 +1398,7 @@ class NewRequest extends React.Component {
           this.setState({ loading: false, saveLoading: false });
           message.error(
             this.$t('itinerary.operation.failed.tip') /*`操作失败:`*/ +
-              `${err.response.data.message}`
+            `${err.response.data.message}`
           );
         });
     } else {
@@ -1455,7 +1455,7 @@ class NewRequest extends React.Component {
             this.setState({ percent: 100, budgeting: false, loading: false, submitLoading: false });
             message.error(
               this.$t('itinerary.form.submit.budgeting.result.tip') /*`校验失败:`*/ +
-                `${err.response.data.message}`
+              `${err.response.data.message}`
             );
           });
       } else {
@@ -1488,8 +1488,8 @@ class NewRequest extends React.Component {
         //获取最大房间数
         travelService
           .getMaxRoom(
-            outNum,
-            travelUtil.getFormHeadValue(params.custFormValues, 'select_participant')
+          outNum,
+          travelUtil.getFormHeadValue(params.custFormValues, 'select_participant')
           )
           .then(h => {
             this.setState({ maxHotel: h.data, randomHotel: false });
@@ -2044,7 +2044,7 @@ class NewRequest extends React.Component {
           width: '20%',
         },
         {
-          title: messages('chooser.data.email'), //邮箱
+          title: this.$t('chooser.data.email'), //邮箱
           dataIndex: 'email',
           width: '25%',
         },
@@ -2095,215 +2095,215 @@ class NewRequest extends React.Component {
           />
           {this.props.match.params.applicationOID
             ? defaultValues.map((field, index) => {
-                //label
-                let label = field.fieldName;
-                if (field.messageKey === 'number') {
-                  label = `${field.fieldName}${JSON.parse(field.fieldContent || '{}').unit &&
-                    `(${JSON.parse(field.fieldContent || '{}').unit})`}`;
-                }
+              //label
+              let label = field.fieldName;
+              if (field.messageKey === 'number') {
+                label = `${field.fieldName}${JSON.parse(field.fieldContent || '{}').unit &&
+                  `(${JSON.parse(field.fieldContent || '{}').unit})`}`;
+              }
 
-                //rules
-                let maxLength =
-                  field.messageKey === 'remark' ||
+              //rules
+              let maxLength =
+                field.messageKey === 'remark' ||
                   field.messageKey === 'textArea' ||
                   field.messageKey === 'text_area'
-                    ? 200
-                    : field.messageKey === 'title' || field.messageKey === 'input'
-                      ? 50
-                      : undefined;
-                let rules = [
-                  {
-                    required: field.required,
-                    message: this.$t('common.can.not.be.empty', { name: field.fieldName }),
+                  ? 200
+                  : field.messageKey === 'title' || field.messageKey === 'input'
+                    ? 50
+                    : undefined;
+              let rules = [
+                {
+                  required: field.required,
+                  message: this.$t('common.can.not.be.empty', { name: field.fieldName }),
+                },
+              ];
+              maxLength &&
+                rules.push({
+                  max: maxLength,
+                  message: this.$t('common.max.characters.length', { max: maxLength }),
+                });
+              (field.messageKey === 'out_participant_name' ||
+                field.messageKey === 'external_participant_name') &&
+                rules.push({
+                  validator: (rule, value, callback) => {
+                    let emptyItem = '';
+                    value &&
+                      value.map(item => {
+                        if (!item.name) {
+                          emptyItem = this.$t('customField.name' /*姓名*/);
+                          return;
+                        }
+                        if (!item.certificateNo) {
+                          emptyItem = this.$t('customField.id.number' /*证件号*/);
+                        }
+                      });
+                    if (!emptyItem) {
+                      callback();
+                      return;
+                    }
+                    callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
                   },
-                ];
-                maxLength &&
-                  rules.push({
-                    max: maxLength,
-                    message: this.$t('common.max.characters.length', { max: maxLength }),
-                  });
-                (field.messageKey === 'out_participant_name' ||
-                  field.messageKey === 'external_participant_name') &&
-                  rules.push({
-                    validator: (rule, value, callback) => {
-                      let emptyItem = '';
-                      value &&
-                        value.map(item => {
-                          if (!item.name) {
-                            emptyItem = this.$t('customField.name' /*姓名*/);
-                            return;
-                          }
-                          if (!item.certificateNo) {
-                            emptyItem = this.$t('customField.id.number' /*证件号*/);
-                          }
-                        });
-                      if (!emptyItem) {
-                        callback();
-                        return;
-                      }
-                      callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
-                    },
-                  });
-                return (
-                  <div key={index}>
-                    {index === 0 &&
-                      field.messageKey !== 'applicant' && (
-                        <RelatedApplication
-                          formOID={this.props.match.params.formOID}
-                          formInfo={formInfo}
-                          applicantOID={this.props.user.userOID}
-                          applicationOID={this.props.match.params.applicationOID}
-                          info={info}
-                          changeHandle={value => {
-                            this.setState({ referenceApplicationOID: value[0].applicationOID });
-                          }}
-                        />
-                      )}
-                    <FormItem {...formItemLayout} label={label} key={field.formValueOID}>
-                      {((field.messageKey === 'total_budget' && formType != 2005) ||
-                        field.messageKey === 'average_budget') && (
+                });
+              return (
+                <div key={index}>
+                  {index === 0 &&
+                    field.messageKey !== 'applicant' && (
+                      <RelatedApplication
+                        formOID={this.props.match.params.formOID}
+                        formInfo={formInfo}
+                        applicantOID={this.props.user.userOID}
+                        applicationOID={this.props.match.params.applicationOID}
+                        info={info}
+                        changeHandle={value => {
+                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                        }}
+                      />
+                    )}
+                  <FormItem {...formItemLayout} label={label} key={field.formValueOID}>
+                    {((field.messageKey === 'total_budget' && formType != 2005) ||
+                      field.messageKey === 'average_budget') && (
                         <span>{this.props.company.baseCurrency}</span>
                       )}
-                      {getFieldDecorator(field.formValueOID, {
-                        rules,
-                        valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
-                        initialValue: customField.getInitialValue(field),
-                      })(
-                        // customField.renderForm(field, null, customFormFields, copyDefaultValues)
-                        customField.renderForm({
-                          field,
-                          formDetail: formDetailValues,
-                          copyValue: copyDefaultValues,
-                        })
+                    {getFieldDecorator(field.formValueOID, {
+                      rules,
+                      valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
+                      initialValue: customField.getInitialValue(field),
+                    })(
+                      // customField.renderForm(field, null, customFormFields, copyDefaultValues)
+                      customField.renderForm({
+                        field,
+                        formDetail: formDetailValues,
+                        copyValue: copyDefaultValues,
+                      })
                       )}
-                    </FormItem>
-                    {/*关联申请单在申请人下面*/}
-                    {index === 0 &&
-                      field.messageKey === 'applicant' && (
-                        <RelatedApplication
-                          formOID={this.props.match.params.formOID}
-                          formInfo={formInfo}
-                          applicantOID={this.props.user.userOID}
-                          applicationOID={this.props.match.params.applicationOID}
-                          info={info}
-                          changeHandle={value => {
-                            this.setState({ referenceApplicationOID: value[0].applicationOID });
-                          }}
-                        />
-                      )}
-                  </div>
-                );
-              })
+                  </FormItem>
+                  {/*关联申请单在申请人下面*/}
+                  {index === 0 &&
+                    field.messageKey === 'applicant' && (
+                      <RelatedApplication
+                        formOID={this.props.match.params.formOID}
+                        formInfo={formInfo}
+                        applicantOID={this.props.user.userOID}
+                        applicationOID={this.props.match.params.applicationOID}
+                        info={info}
+                        changeHandle={value => {
+                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                        }}
+                      />
+                    )}
+                </div>
+              );
+            })
             : customFormFields.map((field, index) => {
-                //label
-                let label = field.fieldName;
-                if (field.messageKey === 'number') {
-                  label = `${field.fieldName}${JSON.parse(field.fieldContent || '{}').unit &&
-                    `(${JSON.parse(field.fieldContent || '{}').unit})`}`;
-                }
+              //label
+              let label = field.fieldName;
+              if (field.messageKey === 'number') {
+                label = `${field.fieldName}${JSON.parse(field.fieldContent || '{}').unit &&
+                  `(${JSON.parse(field.fieldContent || '{}').unit})`}`;
+              }
 
-                //rules
-                let maxLength =
-                  field.messageKey === 'remark' ||
+              //rules
+              let maxLength =
+                field.messageKey === 'remark' ||
                   field.messageKey === 'textArea' ||
                   field.messageKey === 'text_area'
-                    ? 200
-                    : field.messageKey === 'title' || field.messageKey === 'input'
-                      ? 50
-                      : undefined;
-                let rules = [
-                  {
-                    required: field.required,
-                    message: this.$t('common.can.not.be.empty', { name: field.fieldName }),
+                  ? 200
+                  : field.messageKey === 'title' || field.messageKey === 'input'
+                    ? 50
+                    : undefined;
+              let rules = [
+                {
+                  required: field.required,
+                  message: this.$t('common.can.not.be.empty', { name: field.fieldName }),
+                },
+              ];
+              maxLength &&
+                rules.push({
+                  max: maxLength,
+                  message: this.$t('common.max.characters.length', { max: maxLength }),
+                });
+              (field.messageKey === 'out_participant_name' ||
+                field.messageKey === 'external_participant_name') &&
+                rules.push({
+                  validator: (rule, value, callback) => {
+                    let emptyItem = '';
+                    value &&
+                      value.map(item => {
+                        if (!item.name) {
+                          emptyItem = this.$t('customField.name' /*姓名*/);
+                          return;
+                        }
+                        if (
+                          (JSON.parse(field.fieldContent || '{}').isContainCard ||
+                            field.messageKey === 'out_participant_name') &&
+                          !item.certificateNo
+                        ) {
+                          emptyItem = this.$t('customField.id.number' /*证件号*/);
+                        }
+                      });
+                    if (!emptyItem) {
+                      callback();
+                      return;
+                    }
+                    callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
                   },
-                ];
-                maxLength &&
-                  rules.push({
-                    max: maxLength,
-                    message: this.$t('common.max.characters.length', { max: maxLength }),
-                  });
-                (field.messageKey === 'out_participant_name' ||
-                  field.messageKey === 'external_participant_name') &&
-                  rules.push({
-                    validator: (rule, value, callback) => {
-                      let emptyItem = '';
-                      value &&
-                        value.map(item => {
-                          if (!item.name) {
-                            emptyItem = this.$t('customField.name' /*姓名*/);
-                            return;
-                          }
-                          if (
-                            (JSON.parse(field.fieldContent || '{}').isContainCard ||
-                              field.messageKey === 'out_participant_name') &&
-                            !item.certificateNo
-                          ) {
-                            emptyItem = this.$t('customField.id.number' /*证件号*/);
-                          }
-                        });
-                      if (!emptyItem) {
-                        callback();
-                        return;
-                      }
-                      callback(this.$t('common.can.not.be.empty', { name: emptyItem }));
-                    },
-                  });
-
-                //initialValue
-                let fieldDefaultValue = {};
-                formDefaultValue.map(item => {
-                  item.fieldOID === field.fieldOID && (fieldDefaultValue = item);
                 });
 
-                return (
-                  <div key={index}>
-                    {index === 0 &&
-                      field.messageKey !== 'applicant' && (
-                        <RelatedApplication
-                          formOID={this.props.match.params.formOID}
-                          formInfo={formInfo}
-                          applicantOID={this.props.user.userOID}
-                          applicationOID={this.props.match.params.applicationOID}
-                          changeHandle={value => {
-                            this.setState({ referenceApplicationOID: value[0].applicationOID });
-                          }}
-                        />
-                      )}
-                    <FormItem {...formItemLayout} label={label} key={field.fieldOID}>
-                      {((field.messageKey === 'total_budget' && formType != 2005) ||
-                        field.messageKey === 'average_budget') && (
+              //initialValue
+              let fieldDefaultValue = {};
+              formDefaultValue.map(item => {
+                item.fieldOID === field.fieldOID && (fieldDefaultValue = item);
+              });
+
+              return (
+                <div key={index}>
+                  {index === 0 &&
+                    field.messageKey !== 'applicant' && (
+                      <RelatedApplication
+                        formOID={this.props.match.params.formOID}
+                        formInfo={formInfo}
+                        applicantOID={this.props.user.userOID}
+                        applicationOID={this.props.match.params.applicationOID}
+                        changeHandle={value => {
+                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                        }}
+                      />
+                    )}
+                  <FormItem {...formItemLayout} label={label} key={field.fieldOID}>
+                    {((field.messageKey === 'total_budget' && formType != 2005) ||
+                      field.messageKey === 'average_budget') && (
                         <span>{this.props.company.baseCurrency}</span>
                       )}
-                      {getFieldDecorator(field.fieldOID, {
-                        rules,
-                        valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
-                        initialValue: customField.getDefaultValue(field, fieldDefaultValue),
-                      })(
-                        // customField.renderForm(field, fieldDefaultValue,customFormFields , copyDefaultValues)
-                        customField.renderForm({
-                          field,
-                          fieldDefaultValue,
-                          formDetail: formInfo,
-                          copyValue: copyDefaultValues,
-                        })
+                    {getFieldDecorator(field.fieldOID, {
+                      rules,
+                      valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
+                      initialValue: customField.getDefaultValue(field, fieldDefaultValue),
+                    })(
+                      // customField.renderForm(field, fieldDefaultValue,customFormFields , copyDefaultValues)
+                      customField.renderForm({
+                        field,
+                        fieldDefaultValue,
+                        formDetail: formInfo,
+                        copyValue: copyDefaultValues,
+                      })
                       )}
-                    </FormItem>
-                    {/*关联申请单在申请人下面*/}
-                    {index === 0 &&
-                      field.messageKey === 'applicant' && (
-                        <RelatedApplication
-                          formOID={this.props.match.params.formOID}
-                          formInfo={formInfo}
-                          applicantOID={this.props.user.userOID}
-                          applicationOID={this.props.match.params.applicationOID}
-                          changeHandle={value => {
-                            this.setState({ referenceApplicationOID: value[0].applicationOID });
-                          }}
-                        />
-                      )}
-                  </div>
-                );
-              })}
+                  </FormItem>
+                  {/*关联申请单在申请人下面*/}
+                  {index === 0 &&
+                    field.messageKey === 'applicant' && (
+                      <RelatedApplication
+                        formOID={this.props.match.params.formOID}
+                        formInfo={formInfo}
+                        applicantOID={this.props.user.userOID}
+                        applicationOID={this.props.match.params.applicationOID}
+                        changeHandle={value => {
+                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                        }}
+                      />
+                    )}
+                </div>
+              );
+            })}
           {signEnable && (
             <FormItem
               {...formItemLayout}
@@ -2325,7 +2325,7 @@ class NewRequest extends React.Component {
                   }
                   newline
                 />
-              )}
+                )}
             </FormItem>
           )}
         </Form>
@@ -2394,7 +2394,7 @@ class NewRequest extends React.Component {
                 <TabPane
                   tab={this.$t('request.detail.approve.history' /*审批历史*/)}
                   key="approvals"
-                  style={{paddingTop: 20}}
+                  style={{ paddingTop: 20 }}
                 >
                   <ApproveHistory
                     approvalChains={info.approvalChains}
@@ -2420,13 +2420,13 @@ class NewRequest extends React.Component {
           lineHeight: '50px',
           zIndex: 1,
         }}>
-          <Button type="primary" style={{marginLeft: 35}} onClick={this.handleSubmit} loading={submitLoading}>
+          <Button type="primary" style={{ marginLeft: 35 }} onClick={this.handleSubmit} loading={submitLoading}>
             {this.$t('common.submit')}
           </Button>
-          <Button onClick={this.handleSave} style={{marginLeft: 15}} loading={saveLoading}>
+          <Button onClick={this.handleSave} style={{ marginLeft: 15 }} loading={saveLoading}>
             {this.$t('common.save')}
           </Button>
-          <Button style={{marginLeft: 15}} onClick={this.goBack}>{this.$t('common.back')}</Button>
+          <Button style={{ marginLeft: 15 }} onClick={this.goBack}>{this.$t('common.back')}</Button>
           {formType === 2001 && (
             <Row className="total-budget">
               <span className="total">
@@ -2450,7 +2450,7 @@ class NewRequest extends React.Component {
               placement="topRight"
               onConfirm={this.handleDelete}
             >
-              <Button style={{marginLeft: 15}} className="delete-btn" loading={deleteLoading}>
+              <Button style={{ marginLeft: 15 }} className="delete-btn" loading={deleteLoading}>
                 {this.$t('common.delete')}
               </Button>
             </Popconfirm>
@@ -2489,37 +2489,37 @@ class NewRequest extends React.Component {
                   {(info.travelApplication.hasOwnProperty('uniformBooking') ? (
                     info.travelApplication.uniformBooking
                   ) : (
-                    isFlight
-                  )) ? (
-                    <FormItem
-                      {...formItemLayoutModal}
-                      label={this.$t('itinerary.form.submit.booking.flight.peo') /*机票订票人*/}
-                    >
-                      {getFieldDecorator('bookingClerkOID', {
-                        initialValue: info.travelApplication.bookingClerkOID
-                          ? info.travelApplication.bookingClerkOID
-                          : subsidyCtrl.selectPerson[0]
-                            ? subsidyCtrl.selectPerson[0].oid
-                            : '',
-                      })(
-                        <Select disabled={info.sourceApplicationOID ? true : false}>
-                          {subsidyCtrl.selectPerson.map(p => {
-                            return (
-                              <Option opt={p} key={p.oid}>
-                                {p.name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </FormItem>
-                  ) : (
-                    <span>
-                      {this.$t('itinerary.form.submit.noBooking.tip', {
-                        peo: info.createdName,
-                      }) /*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
-                    </span>
-                  )}
+                      isFlight
+                    )) ? (
+                      <FormItem
+                        {...formItemLayoutModal}
+                        label={this.$t('itinerary.form.submit.booking.flight.peo') /*机票订票人*/}
+                      >
+                        {getFieldDecorator('bookingClerkOID', {
+                          initialValue: info.travelApplication.bookingClerkOID
+                            ? info.travelApplication.bookingClerkOID
+                            : subsidyCtrl.selectPerson[0]
+                              ? subsidyCtrl.selectPerson[0].oid
+                              : '',
+                        })(
+                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                            {subsidyCtrl.selectPerson.map(p => {
+                              return (
+                                <Option opt={p} key={p.oid}>
+                                  {p.name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                          )}
+                      </FormItem>
+                    ) : (
+                      <span>
+                        {this.$t('itinerary.form.submit.noBooking.tip', {
+                          peo: info.createdName,
+                        }) /*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
+                      </span>
+                    )}
                 </Col>
               </Row>
             )}
@@ -2546,37 +2546,37 @@ class NewRequest extends React.Component {
                   {(info.travelApplication.hasOwnProperty('trainUniformBooking') ? (
                     info.travelApplication.trainUniformBooking
                   ) : (
-                    isTrain
-                  )) ? (
-                    <FormItem
-                      {...formItemLayoutModal}
-                      label={this.$t('itinerary.form.submit.booking.train.peo') /*火车订票人*/}
-                    >
-                      {getFieldDecorator('trainBookingClerkOID', {
-                        initialValue: info.travelApplication.trainBookingClerkOID
-                          ? info.travelApplication.trainBookingClerkOID
-                          : subsidyCtrl.selectPerson[0]
-                            ? subsidyCtrl.selectPerson[0].oid
-                            : '',
-                      })(
-                        <Select disabled={info.sourceApplicationOID ? true : false}>
-                          {subsidyCtrl.selectPerson.map(p => {
-                            return (
-                              <Option opt={p} key={p.oid}>
-                                {p.name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </FormItem>
-                  ) : (
-                    <span>
-                      {this.$t('itinerary.form.submit.noBooking.tip', {
-                        peo: info.createdName,
-                      }) /*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
-                    </span>
-                  )}
+                      isTrain
+                    )) ? (
+                      <FormItem
+                        {...formItemLayoutModal}
+                        label={this.$t('itinerary.form.submit.booking.train.peo') /*火车订票人*/}
+                      >
+                        {getFieldDecorator('trainBookingClerkOID', {
+                          initialValue: info.travelApplication.trainBookingClerkOID
+                            ? info.travelApplication.trainBookingClerkOID
+                            : subsidyCtrl.selectPerson[0]
+                              ? subsidyCtrl.selectPerson[0].oid
+                              : '',
+                        })(
+                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                            {subsidyCtrl.selectPerson.map(p => {
+                              return (
+                                <Option opt={p} key={p.oid}>
+                                  {p.name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                          )}
+                      </FormItem>
+                    ) : (
+                      <span>
+                        {this.$t('itinerary.form.submit.noBooking.tip', {
+                          peo: info.createdName,
+                        }) /*参与人各自订票，外部参与人由{` ${info.createdName} `}代订*/}
+                      </span>
+                    )}
                 </Col>
               </Row>
             )}
@@ -2603,119 +2603,119 @@ class NewRequest extends React.Component {
                   {(info.travelApplication.hasOwnProperty('hotelUniformBooking') ? (
                     info.travelApplication.hotelUniformBooking
                   ) : (
-                    isHotel
-                  )) ? (
-                    <FormItem
-                      {...formItemLayoutModal}
-                      label={this.$t('itinerary.form.submit.booking.hotel.peo') /*酒店预订人*/}
-                    >
-                      {getFieldDecorator('hotelBookingClerkOID', {
-                        initialValue: info.travelApplication.hotelBookingClerkOID
-                          ? info.travelApplication.hotelBookingClerkOID
-                          : subsidyCtrl.selectPerson[0]
-                            ? subsidyCtrl.selectPerson[0].oid
-                            : '',
-                      })(
-                        <Select disabled={info.sourceApplicationOID ? true : false}>
-                          {subsidyCtrl.selectPerson.map(p => {
-                            return (
-                              <Option opt={p} key={p.oid}>
-                                {p.name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </FormItem>
-                  ) : (
-                    <div>
-                      <p>
-                        {this.$t('itinerary.form.submit.noBooking.hotel.tip', {
-                          peo: info.createdName,
-                        }) /*请选择合住房间的预订人，非合住人员各自订票，外部参与人由 {info.createdName} 预订*/}
-                      </p>
-                      {(maxHotel.maleRoomNumber > 0 || maxHotel.femaleRoomNumber > 0) && (
-                        <FormItem
-                          {...formItemLayoutModal}
-                          label={
-                            this.$t(
-                              'itinerary.form.submit.noBooking.hotel.randomBtn.label'
-                            ) /*'合住房间预订人'*/
-                          }
-                        >
-                          {getFieldDecorator('randomHotelPeopleBtn')(
-                            <Button
-                              type="primary"
-                              loading={randomHotel}
-                              ghost
-                              disabled={info.sourceApplicationOID ? true : false}
-                              onClick={this.createHotelPeople}
-                            >
-                              {this.$t(
-                                'itinerary.form.submit.noBooking.hotel.randomBtn.name'
-                              ) /*随机*/}
-                            </Button>
+                      isHotel
+                    )) ? (
+                      <FormItem
+                        {...formItemLayoutModal}
+                        label={this.$t('itinerary.form.submit.booking.hotel.peo') /*酒店预订人*/}
+                      >
+                        {getFieldDecorator('hotelBookingClerkOID', {
+                          initialValue: info.travelApplication.hotelBookingClerkOID
+                            ? info.travelApplication.hotelBookingClerkOID
+                            : subsidyCtrl.selectPerson[0]
+                              ? subsidyCtrl.selectPerson[0].oid
+                              : '',
+                        })(
+                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                            {subsidyCtrl.selectPerson.map(p => {
+                              return (
+                                <Option opt={p} key={p.oid}>
+                                  {p.name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
                           )}
-                        </FormItem>
-                      )}
-                      {maxHotel.maleRoomNumber > 0 && (
-                        <FormItem
-                          {...formItemLayoutModal}
-                          label={this.$t('itinerary.form.submit.noBooking.hotel.male') /*'男士'*/}
-                        >
-                          {getFieldDecorator('travelHotelBookingMaleClerks', {
-                            initialValue:
-                              info.travelApplication.travelHotelBookingMaleClerks &&
-                              info.sourceApplicationOID
-                                ? info.travelApplication.travelHotelBookingMaleClerks
-                                : [],
-                          })(
-                            <Select
-                              disabled={info.sourceApplicationOID ? true : false}
-                              mode="multiple"
-                              optionFilterProp="children"
-                            >
-                              {maxHotel.maleUsers.map(p => {
-                                return (
-                                  <Option opt={p} key={p.userOID}>
-                                    {p.fullName}
-                                  </Option>
-                                );
-                              })}
-                            </Select>
-                          )}
-                        </FormItem>
-                      )}
-                      {maxHotel.femaleRoomNumber > 0 && (
-                        <FormItem
-                          {...formItemLayoutModal}
-                          label={this.$t('itinerary.form.submit.noBooking.hotel.female') /*'女士'*/}
-                        >
-                          {getFieldDecorator('travelHotelBookingFemaleClerks', {
-                            initialValue:
-                              info.travelApplication.travelHotelBookingFemaleClerks &&
-                              info.sourceApplicationOID
-                                ? info.travelApplication.travelHotelBookingFemaleClerks
-                                : [],
-                          })(
-                            <Select
-                              disabled={info.sourceApplicationOID ? true : false}
-                              mode="multiple"
-                              optionFilterProp="children"
-                            >
-                              {maxHotel.femaleUsers.map(p => {
-                                return (
-                                  <Option opt={p} key={p.userOID}>
-                                    {p.fullName}
-                                  </Option>
-                                );
-                              })}
-                            </Select>
-                          )}
-                        </FormItem>
-                      )}
-                    </div>
-                  )}
+                      </FormItem>
+                    ) : (
+                      <div>
+                        <p>
+                          {this.$t('itinerary.form.submit.noBooking.hotel.tip', {
+                            peo: info.createdName,
+                          }) /*请选择合住房间的预订人，非合住人员各自订票，外部参与人由 {info.createdName} 预订*/}
+                        </p>
+                        {(maxHotel.maleRoomNumber > 0 || maxHotel.femaleRoomNumber > 0) && (
+                          <FormItem
+                            {...formItemLayoutModal}
+                            label={
+                              this.$t(
+                                'itinerary.form.submit.noBooking.hotel.randomBtn.label'
+                              ) /*'合住房间预订人'*/
+                            }
+                          >
+                            {getFieldDecorator('randomHotelPeopleBtn')(
+                              <Button
+                                type="primary"
+                                loading={randomHotel}
+                                ghost
+                                disabled={info.sourceApplicationOID ? true : false}
+                                onClick={this.createHotelPeople}
+                              >
+                                {this.$t(
+                                  'itinerary.form.submit.noBooking.hotel.randomBtn.name'
+                                ) /*随机*/}
+                              </Button>
+                            )}
+                          </FormItem>
+                        )}
+                        {maxHotel.maleRoomNumber > 0 && (
+                          <FormItem
+                            {...formItemLayoutModal}
+                            label={this.$t('itinerary.form.submit.noBooking.hotel.male') /*'男士'*/}
+                          >
+                            {getFieldDecorator('travelHotelBookingMaleClerks', {
+                              initialValue:
+                                info.travelApplication.travelHotelBookingMaleClerks &&
+                                  info.sourceApplicationOID
+                                  ? info.travelApplication.travelHotelBookingMaleClerks
+                                  : [],
+                            })(
+                              <Select
+                                disabled={info.sourceApplicationOID ? true : false}
+                                mode="multiple"
+                                optionFilterProp="children"
+                              >
+                                {maxHotel.maleUsers.map(p => {
+                                  return (
+                                    <Option opt={p} key={p.userOID}>
+                                      {p.fullName}
+                                    </Option>
+                                  );
+                                })}
+                              </Select>
+                              )}
+                          </FormItem>
+                        )}
+                        {maxHotel.femaleRoomNumber > 0 && (
+                          <FormItem
+                            {...formItemLayoutModal}
+                            label={this.$t('itinerary.form.submit.noBooking.hotel.female') /*'女士'*/}
+                          >
+                            {getFieldDecorator('travelHotelBookingFemaleClerks', {
+                              initialValue:
+                                info.travelApplication.travelHotelBookingFemaleClerks &&
+                                  info.sourceApplicationOID
+                                  ? info.travelApplication.travelHotelBookingFemaleClerks
+                                  : [],
+                            })(
+                              <Select
+                                disabled={info.sourceApplicationOID ? true : false}
+                                mode="multiple"
+                                optionFilterProp="children"
+                              >
+                                {maxHotel.femaleUsers.map(p => {
+                                  return (
+                                    <Option opt={p} key={p.userOID}>
+                                      {p.fullName}
+                                    </Option>
+                                  );
+                                })}
+                              </Select>
+                              )}
+                          </FormItem>
+                        )}
+                      </div>
+                    )}
                 </Col>
               </Row>
             )}
