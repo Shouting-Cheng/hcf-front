@@ -8,8 +8,10 @@ import accountingService from 'containers/financial-accounting-setting/section-s
 import config from 'config';
 import 'styles/financial-accounting-setting/section-structure/section-mapping-set.scss';
 import debounce from 'lodash.debounce';
-import Importer from 'widget/Template/importer';
+import ImporterNew from 'widget/Template/importer-new';
+import ExcelExporter from 'widget/excel-exporter'
 import FileSaver from 'file-saver';
+import httpFetch from 'share/httpFetch';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Search = Input.Search;
@@ -26,6 +28,12 @@ class SectionMappingSet extends React.Component {
       paramsKey: 0,
       selectedRowKeys: [],
       showImportFrame: false,
+      excelVisible: false,
+      btLoading: false,
+      exportColumns: [
+        { title: '科目段值代码', dataIndex: 'segmentValueCode' },
+        { title: '总账科目段值代码', dataIndex: 'glSegmentValueCode' },
+      ],
       searchParams: {
         segmentId: this.props.params.id,
         valueCode: '',
@@ -368,29 +376,59 @@ class SectionMappingSet extends React.Component {
   };
 
   //导入成功回调
-  handleImportOk = () => {
+  handleImportOk = (transactionID) => {
+    httpFetch.post(`${config.accountingUrl}/api/general/ledger/segment/map/import/new/confirm/${transactionID}`).then(res => {
+      if (res.status === 200){
+        this.getList()
+      }
+    }).catch(() => {
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
+    })
     this.showImport(false);
-    this.getList();
+  };
+
+  /**
+   * 点击导出按钮
+   */
+  onExportClick = () => {
+    this.setState({
+        btLoading: true,
+        excelVisible: true
+    });
+  };
+  /**
+   * 导出取消
+   */
+  onExportCancel = () => {
+    this.setState({
+      btLoading: false,
+      excelVisible: false,
+    });
   };
 
   //导出
-  handleDownLoad = () => {
-    let params = {
-      segmentId: this.props.params.id,
-    };
+  handleDownLoad = (result) => {
+    let segmentId = this.props.params.id;
+    const exportParams = this.state.searchParams;
     let hide = message.loading(this.$t({ id: 'importer.spanned.file' } /*正在生成文件..*/));
     accountingService
-      .downLoadMapping(params)
+      .downLoadMapping(result,segmentId,exportParams)
       .then(response => {
         let b = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         let name = this.$t({ id: 'section.mapping.export.fileName' });
         FileSaver.saveAs(b, `${name}.xlsx`);
+        this.setState({
+          btLoading: false,
+        });
         hide();
       })
       .catch(() => {
         message.error(this.$t({ id: 'importer.download.error.info' } /*下载失败，请重试*/));
+        this.setState({
+          btLoading: false,
+        });
         hide();
       });
   };
@@ -448,6 +486,9 @@ class SectionMappingSet extends React.Component {
       showImportFrame,
       isSave,
       isDelete,
+      excelVisible,
+      btLoading,
+      exportColumns,
     } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -473,20 +514,29 @@ class SectionMappingSet extends React.Component {
               {this.$t({ id: 'importer.import' })}
             </Button>{' '}
             {/*导入*/}
-            <Importer
-              visible={showImportFrame}
-              title={this.$t({ id: 'section.mapping.set.import' })}
-              templateUrl={`${config.accountingUrl}/api/general/ledger/segment/map/export/template`}
-              uploadUrl={`${config.accountingUrl}/api/general/ledger/segment/map/import?segmentId=${
-                this.props.params.id
-              }`}
-              errorUrl={`${config.accountingUrl}/api/general/ledger/segment/map/export/failed/data`}
-              listenUrl={`${config.accountingUrl}/api/general/ledger/batch/transaction/logs`}
-              fileName={this.$t({ id: 'section.mapping.import.fileName' })}
-              onOk={this.handleImportOk}
-              afterClose={() => this.showImport(false)}
-            />
-            <Button onClick={this.handleDownLoad}>{this.$t({ id: 'importer.importOut' })}</Button>{' '}
+            <ImporterNew visible={showImportFrame}
+                         title={this.$t({ id: 'section.mapping.set.import' })}
+                         templateUrl={`${config.accountingUrl}/api/general/ledger/segment/map/export/template`}
+                         uploadUrl={`${config.accountingUrl}/api/general/ledger/segment/map/import/new?segmentId=${
+                          this.props.params.id
+                        }`}
+                         errorUrl={`${config.accountingUrl}/api/general/ledger/segment/map/import/new/error/export`}
+                         errorDataQueryUrl={`${config.accountingUrl}/api/general/ledger/segment/map/import/new/query/result`}
+                         deleteDataUrl ={`${config.accountingUrl}/api/general/ledger/segment/map/import/new/delete`}
+                         fileName={this.$t({ id: 'section.mapping.import.fileName' })}
+                         onOk={this.handleImportOk}
+                         afterClose={() => this.showImport(false)}/>
+              {/* 导出 */}
+              <ExcelExporter
+                  visible={excelVisible}
+                  onOk={this.handleDownLoad}
+                  columns={exportColumns}
+                  canCheckVersion={false}
+                  fileName={"科目段映射集"}
+                  onCancel={this.onExportCancel}
+                  excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+              />
+            <Button loading={btLoading} onClick={this.onExportClick}>{this.$t({ id: 'importer.importOut' })}</Button>{' '}
             {/*导出*/}
             <Popconfirm
               onConfirm={this.handleDelete}

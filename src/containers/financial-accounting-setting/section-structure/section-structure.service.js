@@ -38,8 +38,12 @@ export default {
   },
 
   //导出映射集
-  downLoadMapping(params){
-    return httpFetch.get(`${config.accountingUrl}/api/general/ledger/segment/map/export/data`,params,{}, {responseType: 'arraybuffer'})
+  downLoadMapping(params,segmentId,exportParams){
+    let url = `${config.accountingUrl}/api/general/ledger/segment/map/export/data/new?segmentId=${segmentId}`
+    for (let searchName in exportParams) {
+      url += exportParams[searchName] ? `&${searchName}=${exportParams[searchName]}` : '';
+    }
+    return httpFetch.post(url,params,{}, {responseType: 'arraybuffer'})
   },
 
   //删除映射集
