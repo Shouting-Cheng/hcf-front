@@ -9,6 +9,8 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 import Chooser from 'widget/chooser'
+import CustomAmount from 'widget/customAmount';
+
 import Location from 'widget/location'
 import Invoice from 'containers/my-account/invoice'
 import ExpenseApportion from 'containers/my-account/expense-apportion'
@@ -823,19 +825,23 @@ class NewExpense extends React.Component {
   switchField = (field) => {
     switch(field.fieldType){
       case 'POSITIVE_INTEGER':
-        return <InputNumber style={{width: '100%'}} precision={0} disabled={!field.editable} min={1}/>;
+        return <CustomAmount style={{width: '100%'}}
+                             //precision={0} min={1}
+                             disabled={!field.editable} />;
       case 'LONG':
-        return <InputNumber style={{width: '100%'}} precision={0} disabled={!field.editable}/>;
+        return <CustomAmount style={{width: '100%'}}
+                            //precision={0}
+                            disabled={!field.editable}/>;
       case 'DOUBLE':
         // 里程
         if(field.messageKey === 'ER_KM'){
-          return <InputNumber style={{width: '100%'}} disabled={!field.editable} onChange={this.handleChangeMileage}/>
+          return <CustomAmount style={{width: '100%'}} disabled={!field.editable} onChange={this.handleChangeMileage}/>
         }
         // 单价模式里程补贴单价由fp控制
         if (this.state.unitPriceMode && field.messageKey === 'unit.price') {
-          return <InputNumber style={{width: '100%'}} disabled={this.checkFunctionProfiles('unit.price.modify.enable', [false, undefined])} onChange={this.handleChangeUnitPrice}/>;
+          return <CustomAmount style={{width: '100%'}} disabled={this.checkFunctionProfiles('unit.price.modify.enable', [false, undefined])} onChange={this.handleChangeUnitPrice}/>;
         }
-        return <InputNumber style={{width: '100%'}} disabled={!field.editable || field.messageKey === 'unit.price'}/>;
+        return <CustomAmount style={{width: '100%'}} disabled={!field.editable || field.messageKey === 'unit.price'}/>;
       case 'TEXT':
         if(field.customEnumerationOID){
           return field.list ? (
@@ -1849,8 +1855,8 @@ class NewExpense extends React.Component {
                     message: this.$t("common.please.enter")
                   }]
                 })(
-                  <InputNumber style={{width: '100%'}} placeholder={this.$t("common.please.enter")}
-                               precision={2} step={0.01} min={0}
+                  <CustomAmount style={{width: '100%'}} placeholder={this.$t("common.please.enter")}
+                               //precision={2} step={0.01} min={0}
                                onChange={this.handleChangePriceTaxAmount}/>
                 )}
               </FormItem>
@@ -1875,8 +1881,8 @@ class NewExpense extends React.Component {
                     },
                   }]
                 })(
-                  <InputNumber style={{width: '100%'}} placeholder={this.$t('common.please.enter')}
-                               precision={2} step={0.01} min={0}
+                  <CustomAmount style={{width: '100%'}} placeholder={this.$t('common.please.enter')}
+                               //precision={2} step={0.01} min={0}
                                onChange={this.handleChangeTaxAmount}/>
                 )}
               </FormItem>
@@ -1901,8 +1907,8 @@ class NewExpense extends React.Component {
                     }
                   }]
                 })(
-                  <InputNumber style={{width: '100%'}} placeholder={this.$t('expense.invoice.amount.help')/*请输入不含税金额*/}
-                               precision={2} step={0.01} min={0}
+                  <CustomAmount style={{width: '100%'}} placeholder={this.$t('expense.invoice.amount.help')/*请输入不含税金额*/}
+                               //precision={2} step={0.01} min={0}
                                onChange={this.handleChangeNonVATinclusiveAmount}/>
                 )}
               </FormItem>
@@ -2475,8 +2481,9 @@ class NewExpense extends React.Component {
                                         message: this.$t("common.please.enter")
                                       }]
                                     })(
-                                      <InputNumber precision={2} min={amountIsNegativeNumber ? undefined : 0}
-                                                   max={amountIsNegativeNumber ? 0 : undefined}
+                                      <CustomAmount
+                                                   //precision={2} min={amountIsNegativeNumber ? undefined : 0}
+                                                  // max={amountIsNegativeNumber ? 0 : undefined}
                                                    style={{width: '40%', marginTop: 6}}
                                                    onChange={this.handleToTalMoneyChange}/>
                                     ) : this.filterMoney(nowExpense.amount)}
@@ -2498,10 +2505,10 @@ class NewExpense extends React.Component {
                                       <span style={{float: 'left'}}>{this.$t('expense.origin.approve.amount')}:</span>
                                       <Col span={10} style={{marginLeft: '10px'}}>
                                         {getFieldDecorator('originalApprovedNonVat')(
-                                          <InputNumber style={{width: '100%'}} step={0.01} precision={2}
-                                                       min={amountIsNegativeNumber ? undefined : 0}
-                                                       max={amountIsNegativeNumber ? 0 : undefined}
-                                                       onChange={this.changeOriginalApprovedNonVat}/>
+                                          <CustomAmount
+                                            style={{ width: '100%' }}
+                                            onChange={this.changeOriginalApprovedNonVat}
+                                          />
                                         )}
                                       </Col>
                                     </Row>
@@ -2509,9 +2516,10 @@ class NewExpense extends React.Component {
                                       <span style={{float: 'left'}}>{this.$t('expense.origin.approve.rate')}:</span>
                                       <Col span={10} style={{marginLeft: '10px'}}>
                                         {getFieldDecorator('originalApprovedVat')(
-                                          <InputNumber style={{width: '100%'}} step={0.01} precision={2}
-                                                       min={amountIsNegativeNumber ? undefined : 0}
-                                                       max={amountIsNegativeNumber ? 0 : undefined} disabled={true}/>
+                                          <CustomAmount
+                                            style={{ width: '100%' }}
+                                            disabled={true}
+                                          />
                                         )}
                                       </Col>
                                     </Row>
@@ -2523,7 +2531,7 @@ class NewExpense extends React.Component {
                                     <span style={{float: 'left'}}>{this.$t('common.currency.rate')}:</span>
                                     <Col span={10} style={{marginLeft: '10px'}}>
                                       {getFieldDecorator('actualCurrencyRate')(
-                                        <InputNumber style={{width: '100%'}} step={0.0001} precision={4} min={0}/>
+                                        <CustomAmount style={{width: '100%'}} />
                                       )}
                                     </Col>
                                     <div>
@@ -2739,9 +2747,10 @@ class NewExpense extends React.Component {
                                         message: this.$t("common.please.enter")
                                       }]
                                     })(
-                                      <InputNumber style={{width: '100%'}} precision={2}
-                                                   min={amountIsNegativeNumber ? undefined : 0} step={0.01}
-                                                   max={amountIsNegativeNumber ? 0 : (isSubsidyType && amountEditConfigSubsidyType === 0) ? nowExpense.orderAmount : undefined}
+                                      <CustomAmount style={{width: '100%'}}
+                                                    //precision={2}
+                                                   //min={amountIsNegativeNumber ? undefined : 0} step={0.01}
+                                                   //max={amountIsNegativeNumber ? 0 : (isSubsidyType && amountEditConfigSubsidyType === 0) ? nowExpense.orderAmount : undefined}
                                                    onChange={this.handleChangeAmount}
                                                    placeholder={this.$t("common.please.enter")}
                                                    disabled={(expenseType.messageKey === 'private.car.for.public' && unitPriceMode) || (isSubsidyType && amountEditConfigSubsidyType === 1) || expenseType.valid}/>
@@ -2761,7 +2770,8 @@ class NewExpense extends React.Component {
                                           message: this.$t("common.please.select")
                                         }],
                                       })(
-                                        <InputNumber style={{width: '100%'}} precision={2} min={0} step={1}
+                                        <CustomAmount style={{width: '100%'}}
+                                                      //precision={2} min={0} step={1}
                                                      onChange={(e) => this.getAmount(e, true)}
                                                      placeholder={this.$t("common.please.enter")}/>
                                       )}
@@ -2783,7 +2793,8 @@ class NewExpense extends React.Component {
                                           message: this.$t("common.please.select")
                                         }],
                                       })(
-                                        <InputNumber style={{width: '100%'}} precision={2} min={0} step={0.01}
+                                        <CustomAmount style={{width: '100%'}}
+                                                     //precision={2} min={0} step={0.01}
                                                      onChange={e => this.getAmount(e)}
                                                      placeholder={this.$t("common.please.enter")}/>
                                       )}
@@ -2801,7 +2812,8 @@ class NewExpense extends React.Component {
                                     {getFieldDecorator('actualCurrencyRate', {
                                       initialValue: this.props.params.nowExpense !==null ? this.props.params.nowExpense.actualCurrencyRate : 1.0000
                                     })(
-                                      <InputNumber style={{width: '100%'}} step={0.0001} precision={4}
+                                      <CustomAmount style={{width: '100%'}}
+                                                   //step={0.0001} precision={4}
                                                    disabled={isBaseCurrency || this.checkFunctionProfiles('web.expense.rate.edit.disabled', [true, 'true'])}/>
                                     )}
                                   </FormItem>

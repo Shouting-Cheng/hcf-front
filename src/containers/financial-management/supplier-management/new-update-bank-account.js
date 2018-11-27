@@ -44,8 +44,8 @@ class NewUpdateBankAccount extends React.Component {
     let params = this.props.params;
     if (params.status == "editor") {
       //编辑
-      this.props.form.setFieldsValue({venBankAccountBeans: params.bankName});
-      params.bankDefaultName = [{bankCode: params.bankCode, bankBranchName: params.bankName}];
+      this.props.form.setFieldsValue({ venBankAccountBeans: params.bankName });
+      params.bankDefaultName = [{ bankCode: params.bankCode, bankBranchName: params.bankName }];
       this.setState({
         bankInfo: params,
         enabled: params.venType === 1001 ? true : false,
@@ -69,9 +69,15 @@ class NewUpdateBankAccount extends React.Component {
 */
 
   statusChange = () => {
-    this.setState(prevState => ({
-      enabled: !prevState.enabled,
-    }));
+
+    let { enabled } = this.state;
+
+    if (enabled) {
+      this.setState({ enabled: !enabled, isMainAccount: !enabled });
+    } else {
+      this.setState({ enabled: !enabled });
+    }
+
   };
 
   mainAccountChange = () => {
@@ -107,13 +113,13 @@ class NewUpdateBankAccount extends React.Component {
           if (typeof this.state.bankInfo.id === 'undefined')
             message.error(
               `${this.$t('common.save.filed')}, ${
-                !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+              !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
               }`
             );
           else
             message.error(
               `${this.$t('common.operate.filed')}, ${
-                !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+              !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
               }`
             );
           this.setState({ loading: false });
@@ -127,7 +133,7 @@ class NewUpdateBankAccount extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         //判断银行卡号是否正确
-        if(this.state.validateAccount ){
+        if (this.state.validateAccount) {
           message.error(`${this.$t(`supplier.bank.account.error`)}`);
           return
         }
@@ -221,13 +227,13 @@ class NewUpdateBankAccount extends React.Component {
               if (typeof this.state.bankInfo.id === 'undefined')
                 message.error(
                   `${this.$t('common.save.filed')}, ${
-                    !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+                  !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
                   }`
                 );
               else
                 message.error(
                   `${this.$t('common.operate.filed')}, ${
-                    !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+                  !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
                   }`
                 );
               this.setState({ loading: false });
@@ -239,7 +245,7 @@ class NewUpdateBankAccount extends React.Component {
 
   //切换银行
   handleBankChange = value => {
-    if (value.length && value[0].id !== 'undefined') {
+    if (value.length && value[0].id) {
       let bankInfo = this.state.bankInfo;
       bankInfo.country = bankInfo.countryCode;
       this.setState({ bankInfo });
@@ -302,7 +308,7 @@ class NewUpdateBankAccount extends React.Component {
                       {enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                     </span>
                   </div>
-                )}
+                  )}
               </FormItem>
             </Col>
             <Col span={8} offset={1}>
@@ -313,6 +319,7 @@ class NewUpdateBankAccount extends React.Component {
                 })(
                   <div>
                     <Switch
+                      disabled={!this.props.form.getFieldValue("enabled")}
                       checked={isMainAccount}
                       checkedChildren={<Icon type="check" />}
                       unCheckedChildren={<Icon type="cross" />}
@@ -322,7 +329,7 @@ class NewUpdateBankAccount extends React.Component {
                       {isMainAccount ? this.$t('supplier.bank.yes') : this.$t('supplier.bank.no')}
                     </span>
                   </div>
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>
@@ -348,7 +355,7 @@ class NewUpdateBankAccount extends React.Component {
                     listExtraParams={{ isAll: true }}
                     onChange={this.handleBankChange}
                   />
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>
@@ -377,7 +384,7 @@ class NewUpdateBankAccount extends React.Component {
                 {...formItemLayout}
                 validateStatus={validateAccount ? 'error' : null}
                 help={validateAccount ?
-                  (this.props.form.getFieldValue('bankAccount')==null || this.props.form.getFieldValue('bankAccount') == "") ? this.$t('common.please.enter'):this.$t('supplier.bank.account.error')
+                  (this.props.form.getFieldValue('bankAccount') == null || this.props.form.getFieldValue('bankAccount') == "") ? this.$t('common.please.enter') : this.$t('supplier.bank.account.error')
                   : ''}
                 label={this.$t('supplier.bank.account')}
                 colon={true}
@@ -413,7 +420,7 @@ class NewUpdateBankAccount extends React.Component {
                   >
                     {country.map(item => <Option value={item.key}>{item.label}</Option>)}
                   </Select>
-                )}
+                  )}
               </FormItem>
             </Col>
           </Row>

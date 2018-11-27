@@ -42,7 +42,7 @@ export default {
    * @param {*} id
    * @param {*} page
    */
-  getCostLineInfo(id, page,pageSize, expenseTypeId) {
+  getCostLineInfo(id, page, pageSize, expenseTypeId) {
     return httpFetch.get(`${config.baseUrl}/api/expReportLine/query?expReportHeaderId=${id}&size=${pageSize}&page=${page}&expenseTypeId=${expenseTypeId}`)
   },
 
@@ -139,7 +139,7 @@ export default {
      * 获取计划付款行列表
      * @param {*} id
      */
-  getPayLineList(id, page,pageSize) {
+  getPayLineList(id, page, pageSize) {
     return httpFetch.get(`${config.baseUrl}/api/expense/payment/schedules/query?expReportHeaderId=${id}&size=${pageSize}&page=${page}`);
   },
 
@@ -290,7 +290,7 @@ export default {
   */
   getAccountingInfo(params) {
     let url = `${config.accountingUrl}/api/accounting/gl/journal/lines/query/by/line?tenantId=${params.tenantId}&sourceTransactionType=${params.sourceTransactionType}&transactionHeaderId=${params.transactionHeaderId}&page=${params.page}&size=${params.size}`;
-    return httpFetch.post(url,[]);
+    return httpFetch.post(url, []);
   },
 
   /**
@@ -310,7 +310,7 @@ export default {
  */
   auditAccounting(headerId, actionType, commons) {
     //处理未填写审批意见的情况
-    if(commons == 'undefined'){
+    if (commons == 'undefined') {
       commons = '';
     }
     let url = `${config.baseUrl}/api/expReport/audit?headerId=${headerId}&actionType=${actionType}&commons=${commons}`;
@@ -342,8 +342,8 @@ export default {
   /**
    * 获取费用凭证信息
    */
-  getVoucherInfo(tenantId,sourceTransactionType,transactionNumber){
-    let url=`${config.accountingUrl}/api/accounting/gl/journal/lines/query/by/transaction/number?tenantId=${tenantId}&sourceTransactionType=${sourceTransactionType}&transactionNumber=${transactionNumber}`
+  getVoucherInfo(tenantId, sourceTransactionType, transactionNumber) {
+    let url = `${config.accountingUrl}/api/accounting/gl/journal/lines/query/by/transaction/number?tenantId=${tenantId}&sourceTransactionType=${sourceTransactionType}&transactionNumber=${transactionNumber}`
     return httpFetch.post(url)
   },
 
@@ -370,7 +370,7 @@ export default {
    * @param vendorId
    */
   getAccountByVendorId(vendorId) {
-    let url = `${config.vendorUrl}/api/ven/bank?page=0&size=999&vendorInfoId=${vendorId}`;
+    let url = `${config.vendorUrl}/api/ven/bank?page=0&size=999&vendorInfoId=${vendorId}&status=1001`;
     return httpFetch.get(url);
   }
 

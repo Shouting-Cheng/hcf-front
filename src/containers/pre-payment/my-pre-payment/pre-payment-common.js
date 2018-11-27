@@ -16,7 +16,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 

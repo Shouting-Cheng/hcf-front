@@ -16,6 +16,7 @@ class MyAccount extends React.Component{
     this.state = {
       loading: false,
       data: [],
+      title: '',
       columns:[
         {title: this.$t('common.sequence')/*序号*/, dataIndex: 'index', width: '5%'},
         {title: this.$t('common.expense.type')/*费用类型*/, dataIndex: 'expenseTypeName', render: expenseTypeName => <Popover content={expenseTypeName}>{expenseTypeName}</Popover>},
@@ -81,7 +82,7 @@ class MyAccount extends React.Component{
     let isNotDelete = (record.paymentType === 1002 && record.readonly) ? true : false;
     return (
       <span>
-      <a onClick={e => this.setState({showExpenseFlag: true, nowExpense: record})}>{this.$t("common.edit")}</a>
+      <a onClick={e => this.setState({showExpenseFlag: true, nowExpense: record, title: this.$t('expense.edit')})}>{this.$t("common.edit")}</a>
       <span className="ant-divider"/>
         {isNotDelete ?<span style={{color:'#bfbfbf'}}>
           {this.$t("common.noDelete")}
@@ -136,7 +137,7 @@ class MyAccount extends React.Component{
     if(page - 1 !== this.state.page)
       this.setState({page: page - 1,}, this.getList)
   };
-  //切换每页显示的条数D
+  //切换每页显示的条数
   onShowSizeChange=(current,pageSize)=>{
     this.setState({page:current-1,pageSize},()=>{
       this.getList()
@@ -144,7 +145,7 @@ class MyAccount extends React.Component{
   }
 
   handleMenuClick = (e) => {
-    this.setState({showExpenseFlag: true, nowExpense: null, expenseSource: e.key});
+    this.setState({title: this.$t('expense.new')/*新建费用*/,showExpenseFlag: true, nowExpense: {}, expenseSource: e.key});
   };
 
   renderExpandedRowCost = (title, content, key) => {
@@ -200,7 +201,7 @@ class MyAccount extends React.Component{
 
   render(){
     const { loading, data, pagination, columns, showExpenseFlag, nowExpense, expenseSource,
-      businessCardEnabled, invoiceEnabled } = this.state;
+      businessCardEnabled, invoiceEnabled, title } = this.state;
     const { user } = this.props;
     const menu = (
       <Menu onClick={this.handleMenuClick}>
@@ -213,7 +214,7 @@ class MyAccount extends React.Component{
       <div className="my-account">
         <div className="operate-area">
           <div id="drop" style={{position : "relative"}}>
-            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')} trigger={['click']} overlay={menu}>
               <Button style={{ marginLeft: 8 }} type="primary">
                 {this.$t('expense.new')/*新建费用*/} <Icon type="down" />
               </Button>
@@ -229,8 +230,9 @@ class MyAccount extends React.Component{
                loading={loading}
                columns={columns}
                pagination={pagination}/>
+        {console.log(nowExpense)}
         <SlideFrame show={showExpenseFlag}
-                    title={this.$t('expense.new')/*新建费用*/}
+                    title={title}
                     hasFooter={false}
                     onClose={() => this.setState({showExpenseFlag: false, nowExpense: null, expenseSource: ''})}
                     width="800px">
