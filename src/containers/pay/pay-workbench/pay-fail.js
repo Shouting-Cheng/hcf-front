@@ -29,7 +29,7 @@ class PayFail extends React.Component {
       payCompanyBankNumber:null,
       searchForm: [
         {
-          type: 'list', colSpan: 6, isRequired:true,selectorItem:{
+          type: 'list', colSpan: 6,event: 'COMPANY', isRequired:true,selectorItem:{
           title: messages('pay.select.pay.company'), //选择付款公司
           url: `${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${this.props.user.userOID}`,
           searchForm: [
@@ -221,6 +221,15 @@ class PayFail extends React.Component {
           partnerId = value;
         }
       });
+    }
+    if(type === 'COMPANY'){
+      let companyIds=[];
+      value.map(item=>companyIds.push(item.bankAccountCompanyId));
+      this.setState({
+          selectedRowKeys: [], //选中行key
+          selectedRows: [],  //选中行
+          searchParams: {...this.state.searchParams, paymentCompanyId: companyIds}},
+        ()=>this.getList())
     }
     this.setState({ searchForm:searchForm,partnerId })
   };
