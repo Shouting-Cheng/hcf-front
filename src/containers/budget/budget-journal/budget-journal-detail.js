@@ -25,6 +25,7 @@ import BasicInfo from 'components/Widget/basic-info';
 import SlideFrame from 'components/Widget/slide-frame';
 import NewBudgetJournalDetail from 'containers/budget/budget-journal/new-budget-journal-detail';
 import Importer from 'components/Widget/Template/importer';
+import ImporterNew from 'widget/Template/importer-new';
 import ApproveHistoryWorkFlow from 'containers/budget/budget-journal/approve-history-work-flow';
 import budgetJournalService from 'containers/budget/budget-journal/budget-journal.service';
 import ApproveHistory from 'containers/financial-management/reimburse-review/approve-history-work-flow';
@@ -999,16 +1000,19 @@ class BudgetJournalDetail extends React.Component {
                 <Button type="primary" onClick={() => this.showImport(true)}>
                   {this.$t({ id: 'importer.import' } /*导入*/)}
                 </Button>
-                <Importer
+                <ImporterNew 
                   visible={showImportFrame}
-                  templateUrl={templateUrl}
-                  uploadUrl={uploadUrl}
-                  errorUrl={errorUrl}
                   title={this.$t({ id: 'budgetJournal.leading' })}
+                  templateUrl={templateUrl}
+                  uploadUrl={`${config.budgetUrl}/api/budget/journals/import?budgetJournalHeadId=${
+                    this.props.match.params.journalCode
+                  }`}
+                  errorUrl={`${config.budgetUrl}/api/budget/journals/import/error/export`}
+                  errorDataQueryUrl={`${config.budgetUrl}/api/budget/journals/import/query/result`}
+                  deleteDataUrl ={`${config.budgetUrl}/api/budget/journals/import/delete`}
                   fileName={this.$t({ id: 'budgetJournal.budgetJournalLeading' })}
                   onOk={this.onLoadOk}
-                  afterClose={() => this.showImport(false)}
-                />
+                  afterClose={() => this.showImport(false)}/>
                 <Popconfirm
                   placement="topLeft"
                   title={this.$t({ id: 'common.delete' })}
