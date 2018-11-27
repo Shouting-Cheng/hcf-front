@@ -213,13 +213,13 @@ class MyAccount extends React.Component{
     return(
       <div className="my-account">
         <div className="operate-area">
-          <Dropdown
-            trigger={['click']}
-            overlay={menu}>
-            <Button style={{ marginLeft: 8 }} type="primary">
-              {this.$t('expense.new')/*新建费用*/} <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <div id="drop" style={{position : "relative"}}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')} trigger={['click']} overlay={menu}>
+              <Button style={{ marginLeft: 8 }} type="primary">
+                {this.$t('expense.new')/*新建费用*/} <Icon type="down" />
+              </Button>
+            </Dropdown>
+          </div>
         </div>
         <Table dataSource={data}
                size="middle"

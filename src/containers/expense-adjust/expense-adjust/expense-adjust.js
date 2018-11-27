@@ -359,8 +359,8 @@ class ExpenseAdjust extends React.Component {
         <div className="table-header">
           <div className="table-header-buttons">
             <Row>
-              <Col span={18}>
-                <Dropdown
+              <Col id="drop" style={{position : "relative"}} span={18}>
+                <Dropdown getPopupContainer={ () => document.getElementById('drop')}
                   trigger={['click']}
                   overlay={
                     <Menu onClick={this.handleCreate}>

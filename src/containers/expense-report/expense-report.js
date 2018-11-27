@@ -315,9 +315,11 @@ class ExpenseReport extends React.Component {
         <div className="table-header">
           <div className="table-header-title">{this.$t('common.total', { total: pagination.total })/*共搜索到 {pagination.total} 条数据*/}</div>
           <div className="table-header-buttons">
-            <Dropdown overlay={menu}>
-              <Button type="primary">{this.$t('expense-report.new')/*新建报销单*/} <Icon type="down" /></Button>
-            </Dropdown>
+            <div id="drop" style={{position : "relative"}}>
+              <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu}>
+                <Button type="primary">{this.$t('expense-report.new')/*新建报销单*/} <Icon type="down" /></Button>
+              </Dropdown>
+            </div>
             {/*代理制单*/}
             <Proxies />
             <Search className="input-search"
