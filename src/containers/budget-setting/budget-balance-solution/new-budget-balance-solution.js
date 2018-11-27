@@ -179,7 +179,7 @@ class NewBudgetBalanceSolution extends Component {
         e.stopPropagation();
         //参数的值的变化，引发弹窗类型和弹窗参数的变化
         let { listSelectorExtraParams, listSelectorType,itemSelectorItem, listSelectorSelectedData } = this.state;
-
+        console.log(record)
         switch (record.parameterCode) {
             /**公司 */
             case "COMPANY":
@@ -254,12 +254,16 @@ class NewBudgetBalanceSolution extends Component {
             listSelectorVisible: true,
             listSelectorSelectedData: record.solutionParameterList,
             recordKey: record.key
+        },()=>{
+          console.log(itemSelectorItem)
+          console.log(listSelectorType)
         });
     }
     /**
      * 当参数类型的值发生变化时，触发的事件
      */
     onParameterTypeChange = (value, record) => {
+      console.log(record)
         let { data } = this.state;
         //把变化的值保存到data中
         //参数类型的变化，会导致参数重新置空
@@ -755,8 +759,8 @@ class NewBudgetBalanceSolution extends Component {
                 <Form onSubmit={this.onFormSubmit}>
                     <List bordered='true' size='small' split>
                         <div className="common-item-title" style={{ borderBottom: '1px solid #D0D0D0' }}>{this.$t('common.baseInfo')}</div>
-                        <Row gutter={16} type="flex" justify="space-around" align="top">
-                            <Col span={6}>
+                        <Row gutter={15} type="flex" justify="space-around" align="top">
+                            <Col span={5}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.code')}>
                                     {
                                         getFieldDecorator('conditionCode', {
@@ -771,7 +775,7 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col span={5}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.name')}>
                                     {
                                         getFieldDecorator('conditionName', {
@@ -786,7 +790,7 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={6} >
+                            <Col span={5} style={{marginTop: 3}} >
                                 <FormItem {...formItemLayout} label={this.$t('common.column.status')}  >
                                     {
                                         getFieldDecorator('enabled', {
@@ -844,6 +848,10 @@ class NewBudgetBalanceSolution extends Component {
                     </div>
                 </Form>
                 {/**行上面的弹窗*/}
+              {
+                console.log(itemSelectorItem)
+              }
+              {console.log(listSelectorType)}
                 <ListSelector visible={listSelectorVisible}
                     onCancel={this.onListSelectCancel}
                     type={listSelectorType}
