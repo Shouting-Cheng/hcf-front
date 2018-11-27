@@ -19,16 +19,17 @@ class CompanyDistribution extends React.Component {
       ],
       companyTypeInfo: {},
       columns: [
-        { title: this.$t('supplier.company.code'), dataIndex: 'companyCode' },
-        { title: this.$t('supplier.company.name'), dataIndex: 'companyName' },
+        { title: this.$t('supplier.company.code'), dataIndex: 'companyCode',align:'center' },
+        { title: this.$t('supplier.company.name'), dataIndex: 'companyName',align:'center' },
         {
           title: this.$t('supplier.company.type'),
-          dataIndex: 'companyTypeName',
+          dataIndex: 'companyTypeName',align:'center',
           render: type => <span>{type ? type : '-'}</span>,
         },
         {
           title: this.$t('common.enabled'),
           dataIndex: 'enabled',
+          align:'center',
           width: '8%',
           render: (enabled, record) => (
             <Checkbox defaultChecked={enabled} onChange={e => this.handleStatusChange(e, record)} />

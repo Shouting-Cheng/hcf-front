@@ -100,7 +100,7 @@ const chooserData = {
   user_group: {
     title: '选择人员组',
     // url: `${config.baseUrl}/api/user/groups/company`,/*wjk 注释：该接口不支持搜所 20180712*/
-    url: `${config.baseUrl}/api/user/groups/search?enabled=true`,
+    url: `${config.baseUrl}/api/user/groups/search`,
     searchForm: [{ type: 'input', id: 'name', label: messages('chooser.data.name') }],
     columns: [
       { title: messages('chooser.data.code'), dataIndex: 'code', width: '30%' },
