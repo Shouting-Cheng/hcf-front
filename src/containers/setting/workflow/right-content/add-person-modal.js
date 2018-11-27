@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import { deepCopy} from "utils/extend"
-import TagSelect from 'ant-design-pro/lib/TagSelect'
+import TagSelect from 'components/TagSelect'
 import { Form, Modal, Icon, Checkbox, List, message, Tag, Button, Spin } from 'antd'
 const ListItem = List.Item;
 import PropTypes from 'prop-types';
