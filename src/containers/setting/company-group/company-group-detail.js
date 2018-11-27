@@ -399,7 +399,7 @@ class CompanyGroupDetail extends React.Component {
             // )
             this.props.dispatch(
               routerRedux.push({
-                pathname: `/admin-setting/company-group/new-company-group/${this.props.match.params.id}`,
+                pathname: `/admin-setting/company-group/edit-company-group/${this.props.match.params.id}`,
               })
             )
           }

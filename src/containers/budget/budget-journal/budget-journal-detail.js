@@ -1062,6 +1062,7 @@ class BudgetJournalDetail extends React.Component {
               boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
               background: '#fff',
               lineHeight: '50px',
+              zIndex: 1,
             }}
           >
             <Popconfirm

@@ -924,6 +924,14 @@ export const getRouterData = app => {
       name: 'new-company-group',
       parent: '/admin-setting/company-group',
     },
+    '/admin-setting/company-group/edit-company-group/:companyGroupId': {
+      //编辑公司组
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/company-group/new-company-group.js')
+      ),
+      name: 'edit-company-group',
+      parent: '/admin-setting/company-group',
+    },
     '/admin-setting/company-group/company-group-detail/:id': {
       //公司组详情
       component: dynamicWrapper(app, [], () =>
@@ -1456,7 +1464,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/person-group/new-person-group.js')
       ),
-      name: 'new-person-group',
+      name: 'edit-person-group',
       parent: '/admin-setting/person-group',
     },
     '/admin-setting/person-group/person-group-detail/:id': {

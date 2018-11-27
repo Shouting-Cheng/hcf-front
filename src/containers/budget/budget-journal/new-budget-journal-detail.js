@@ -777,6 +777,8 @@ class NewBudgetJournalDetail extends React.Component {
       case 'inputNumber': {
 
         return <CustomAmount
+          disabled={item.disabled}
+          onChange={handle}
           style={{ width: '100%' }}
         />
         /*if (item.precision) {

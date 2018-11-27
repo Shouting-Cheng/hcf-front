@@ -179,7 +179,6 @@ class NewBudgetBalanceSolution extends Component {
         e.stopPropagation();
         //参数的值的变化，引发弹窗类型和弹窗参数的变化
         let { listSelectorExtraParams, listSelectorType,itemSelectorItem, listSelectorSelectedData } = this.state;
-        console.log(record)
         switch (record.parameterCode) {
             /**公司 */
             case "COMPANY":
@@ -254,16 +253,12 @@ class NewBudgetBalanceSolution extends Component {
             listSelectorVisible: true,
             listSelectorSelectedData: record.solutionParameterList,
             recordKey: record.key
-        },()=>{
-          console.log(itemSelectorItem)
-          console.log(listSelectorType)
         });
     }
     /**
      * 当参数类型的值发生变化时，触发的事件
      */
     onParameterTypeChange = (value, record) => {
-      console.log(record)
         let { data } = this.state;
         //把变化的值保存到data中
         //参数类型的变化，会导致参数重新置空
@@ -307,7 +302,6 @@ class NewBudgetBalanceSolution extends Component {
      * 当参数的值发生变化时，触发的事件
      */
     onParameterCodeChange = (value, record) => {
-
         let { data } = this.state;
         this.paramCodeChangeQueryScope(value, record);
         //把变化的数据保存到data中
@@ -315,7 +309,8 @@ class NewBudgetBalanceSolution extends Component {
         data[record.key].queryScope = '1002';
         data[record.key].solutionParameterList = [];
         this.setState({
-            data
+            data,
+          listSelectorType: value
         });
     }
     /**
@@ -848,14 +843,10 @@ class NewBudgetBalanceSolution extends Component {
                     </div>
                 </Form>
                 {/**行上面的弹窗*/}
-              {
-                console.log(itemSelectorItem)
-              }
-              {console.log(listSelectorType)}
                 <ListSelector visible={listSelectorVisible}
                     onCancel={this.onListSelectCancel}
                     type={listSelectorType}
-                    selectorItem={itemSelectorItem}
+                    selectorItem={JSON.stringify(itemSelectorItem)==='{}' ? undefined : itemSelectorItem}
                     extraParams={listSelectorExtraParams}
                     selectedData={[...listSelectorSelectedData]}
                     onOk={this.handleListSelectorOk}
@@ -876,7 +867,7 @@ class NewBudgetBalanceSolution extends Component {
  */
 function mapStateToProps(state) {
     return {
-        company: state.login.company
+        company: state.user.company
     }
 };
 const WrappedNewBudgetBalanceSolution = Form.create()(NewBudgetBalanceSolution);
