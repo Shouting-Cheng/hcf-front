@@ -160,12 +160,14 @@ class NodeConditionList extends React.Component {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
     let departmentOID = [];
     ruleApprovers.map(approver => {
-      (approver.ruleConditionList || []).map(item => {
-        if (item.remark === 'select_department' || item.remark === 'default_user_department') { //部门
-          item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            departmentOID.push(oid)
-          })
-        }
+      Object.values((approver.ruleConditions || [])).map(item => {
+        item.map(m => {
+          if (m.remark === 'select_department' || m.remark === 'default_user_department') { //部门
+            m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
+              departmentOID.push(oid)
+            })
+          }
+        });
       })
     });
     if (departmentOID.length) {
@@ -210,12 +212,14 @@ class NodeConditionList extends React.Component {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
     let companyOID = [];
     ruleApprovers.map(approver => {
-      (approver.ruleConditionList || []).map(item => {
-        if (item.remark === 'select_company' || item.remark === 'default_applicant_company') { //公司控件
-          item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            companyOID.push(oid)
-          })
-        }
+      Object.values((approver.ruleConditions || [])).map(item => {
+        item.map(m => {
+          if (m.remark === 'select_company' || m.remark === 'default_applicant_company') { //公司控件
+            m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
+              companyOID.push(oid)
+            })
+          }
+        });
       })
     });
     if (companyOID.length) {
@@ -229,7 +233,6 @@ class NodeConditionList extends React.Component {
       })
     }
   };
-
   //获取人员列表
   getUserList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];

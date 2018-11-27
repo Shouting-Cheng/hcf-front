@@ -275,6 +275,7 @@ class CustomExpenseType extends React.Component {
       });
       message.success(messages('common.operate.success'));
       this.getSourceCategory();
+      this.getSourceCategory(null, 1);
     })
   };
 
@@ -431,9 +432,8 @@ class CustomExpenseType extends React.Component {
             <Anchor affix={false}
               className="anchor"
             >
-              {sourceCategory.map(expenseTypeCategory => <Link key={expenseTypeCategory.id} href={`#${expenseTypeCategory.expenseTypeCategoryOID}`}
-                title={expenseTypeCategory.name}
-                key={expenseTypeCategory.expenseTypeCategoryOID} />)}
+              {sourceCategory.map(expenseTypeCategory => <Link key={expenseTypeCategory.id}
+                title={expenseTypeCategory.name} />)}
             </Anchor>
           </Col>
           {

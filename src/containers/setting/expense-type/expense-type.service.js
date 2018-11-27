@@ -46,7 +46,7 @@ export default {
    * @param expenseTypeCategory
    */
   editCategory(expenseTypeCategory) {
-    return httpFetch.put(`${config.baseUrl}/api/expense/types/category`, expenseTypeCategory)
+    return httpFetch.put(`${config.expenseUrl}/api/expense/types/category`, expenseTypeCategory)
   },
 
   /**
@@ -55,7 +55,7 @@ export default {
    * @return {*|AxiosPromise}
    */
   sortExpenseType(params) {
-    return httpFetch.post(`${config.baseUrl}/invoice/api/expense/types/sort`, params)
+    return httpFetch.post(`${config.expenseUrl}/api/expense/types/sort`, params)
   },
 
   /**
@@ -120,7 +120,15 @@ export default {
    */
   getFieldsById(id) {
     return httpFetch.get(`${config.expenseUrl}/api/expense/types/${id}/fields`);
+  },
+
+  //获取费用大类型
+  getExpenseTypeCategory(setOfBooksId) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/types/category/query`, { setOfBooksId: setOfBooksId })
+  },
+
+  //获取申请类型
+  getTypes(typeCategoryId) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/types/query/by/category`, { typeCategoryId })
   }
-
-
 }

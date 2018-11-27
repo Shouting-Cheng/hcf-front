@@ -30,7 +30,7 @@ import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail'
 import ContractDetail from 'containers/contract/my-contract/contract-detail';
 //import ApproveHistory from 'containers/payment-requisition/approve-history-work-flow';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'components/Widget/document-basic-info';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import 'styles/payment-requisition/payment-requisition-detail.scss';
 

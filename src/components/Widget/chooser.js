@@ -76,9 +76,11 @@ class Chooser extends React.Component {
    * list控件因为select没有onClick事件，所以用onFocus代替
    * 每次focus后，用一个隐藏的input来取消聚焦
    */
-  handleFocus = () => {
-    this.refs.chooserBlur.focus();
-    this.showList()
+  handleFocus = (value) => {
+    if (value) {
+      this.select.blur();
+      this.showList()
+    }
   };
 
   /**
@@ -157,9 +159,10 @@ class Chooser extends React.Component {
           mode="multiple"
           labelInValue
           placeholder={this.$t(placeholder)}
-          onFocus={this.handleFocus}
+          onDropdownVisibleChange={this.handleFocus}
           dropdownStyle={{ display: 'none' }}
           disabled={disabled}
+          ref={ref => this.select = ref}
         >
         </Select>
         {/*如果禁用了，就不要后面的清除icon*/}
@@ -184,7 +187,7 @@ class Chooser extends React.Component {
           showDetail={!single && showDetail}
           showArrow={showArrow}
           method={this.props.method} />
-        <div><input ref="chooserBlur" style={{ opacity: 0, position: 'fixed', width: 0, height: 0, zIndex: -1 }} /></div>
+        {/* <div><input ref="chooserBlur" style={{ opacity: 0, position: 'fixed', width: 0, height: 0, zIndex: -1 }} /></div> */}
       </div>
     );
   }
