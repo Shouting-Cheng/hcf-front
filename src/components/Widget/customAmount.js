@@ -17,7 +17,7 @@ class customAmount extends React.Component{
   componentWillReceiveProps(nextProps) {
     if ('value' in nextProps) {
       const value = nextProps.value;
-      value&&this.setState({value});
+      this.setState({value});
     }
   }
 

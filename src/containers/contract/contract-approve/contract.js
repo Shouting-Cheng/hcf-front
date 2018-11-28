@@ -334,7 +334,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.amount' } /*合同金额*/),
           dataIndex: 'amount',
-          align: 'right',
+          align: 'center',
           render: desc => this.filterMoney(desc),
         },
         {
@@ -421,7 +421,7 @@ class Contract extends React.Component {
     if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ unApproveSearchParams: {...this.state.unApproveSearchParams,...values}}, () => {
+    this.setState({ unApproveSearchParams: {...this.state.unApproveSearchParams,...values},approveSearchParams:{...this.state.unApproveSearchParams,...values}}, () => {
       this.customTable.search({...this.state.unApproveSearchParams,...values});
     });
   };
@@ -436,7 +436,7 @@ class Contract extends React.Component {
     if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ approveSearchParams: {...this.state.approveSearchParams,...values} }, () => {
+    this.setState({ approveSearchParams: {...this.state.approveSearchParams,...values},unApproveSearchParams: {...this.state.approveSearchParams,...values}}, () => {
       this.customTable2.search({...this.state.approveSearchParams,...values});
     });
   };
@@ -533,7 +533,8 @@ class Contract extends React.Component {
       if (this.state.tabValue === 'unapproved') {
         this.customTable.search({ ...this.state.unApproveSearchParams });
       } else {
-        this.customTable.search({ ...this.state.approveSearchParams });
+        this.customTable2 &&
+        this.customTable2.search(approveSearchParams)
       }
     }
     );
@@ -631,10 +632,7 @@ class Contract extends React.Component {
             <Col span={6}>
               <Search
                 placeholder={this.$t({ id: 'my.please.input.number' })}
-                onSearch={e =>
-                  this.customTable2 &&
-                  this.customTable2.search({ ...searchParams, contractNumber: e })
-                }
+                onSearch={this.searchNumber}
                 className="search-number"
                 enterButton
               />

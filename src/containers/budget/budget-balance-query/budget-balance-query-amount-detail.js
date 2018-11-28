@@ -170,12 +170,16 @@ class BudgetBalanceAmountDetail extends React.Component {
   };
 
   getList = (nextProps) => {
+    console.log(nextProps)
     this.setState({ loading: true });
     let { page, size } = this.state;
     let params = nextProps.params.data;
     params.reserveFlag = nextProps.params.type;
-    params.organizationId = this.props.organization.id;
+    //params.organizationId = this.props.organization.id || nextProps.params.organizationId;
+
     params.year = params.periodYear;
+    console.log(params)
+
     httpFetch.post(`${config.budgetUrl}/api/budget/balance/query/results/detail?page=${page}&size=${size}`, params).then(res => {
       let data = res.data.map((item, index) => {
         item.key = index;

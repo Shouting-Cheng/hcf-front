@@ -27,7 +27,7 @@ class GLWorkOrderCheck extends Component {
           colSpan: '6',
           getUrl: `${
             config.accountingUrl
-          }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${this.props.user.id}&setOfBooksId={props.company.setOfBooksId}`,
+          }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${this.props.user.id}&setOfBooksId=${props.company.setOfBooksId}`,
           options: [],
           method: 'get',
           valueKey: 'id',
