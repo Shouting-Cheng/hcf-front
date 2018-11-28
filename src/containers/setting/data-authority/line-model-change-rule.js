@@ -29,8 +29,8 @@ class LineModelChangeRulesSystem extends React.Component {
             companyVisible: false,
             isEditDelete: false,
             ruleDatail: [],
-            saveParams:[],
-            saveRuleName:'',
+            saveParams: [],
+            saveRuleName: '',
             itemKey: 0,
             dataScope: {
                 1001: { label: '全部' },
@@ -38,16 +38,40 @@ class LineModelChangeRulesSystem extends React.Component {
                 1003: { label: '当前及下属' },
                 1004: { label: '手工选择' },
             },
-            rulesParams:'',
-            saveLoading:false
+            rulesParams: '',
+            saveLoading: false,
+            ruleId: '',
+            deleted: undefined,
+            versionNumber: undefined,
+            createdBy: undefined,
+            createdDate: undefined,
+            lastUpdatedBy: undefined,
+            lastUpdatedDate: undefined,
         }
     }
     componentWillMount() {
         let params = this.props.params;
         if (params && JSON.stringify(params) !== '{}') {
             this.setState({
-                ruleName:params.name,
-                ruleDatail:params.ruleDatail
+                ruleName: params.name,
+                ruleDatail: params.ruleDatail,
+                ruleId: this.props.params.ruleId,
+                deleted: this.props.params.deleted,
+                versionNumber: this.props.params.versionNumber,
+                createdBy: this.props.params.createdBy,
+                createdDate: this.props.params.createdDate,
+                lastUpdatedBy: this.props.params.lastUpdatedBy,
+                lastUpdatedDate: this.props.params.lastUpdatedDate,
+            })
+        } else {
+            this.setState({
+                ruleId: this.props.newEditId,
+                deleted: this.props.newDataPrams.deleted,
+                versionNumber: this.props.newDataPrams.versionNumber,
+                createdBy: this.props.newDataPrams.createdBy,
+                createdDate: this.props.newDataPrams.createdDate,
+                lastUpdatedBy: this.props.newDataPrams.lastUpdatedBy,
+                lastUpdatedDate: this.props.newDataPrams.lastUpdatedDate,
             })
         }
         this.setState({
@@ -58,15 +82,7 @@ class LineModelChangeRulesSystem extends React.Component {
         } else {
             this.setState({ show: true })
         }
-        // DataAuthorityService.getDataAuthorityType().then(res=>{
-        //     console.log(res)
-        // })
-        // DataAuthorityService.getDataAuthorityRange().then(res=>{
-        //     console.log(res)
-        // })
-        // DataAuthorityService.getDataAuthorityWay().then(res=>{
-        //     console.log(res)
-        // })
+
     }
 
     /**删除的规则,如果是这条数据正在编辑取消，则回到原来没编辑的状态 */
@@ -88,18 +104,31 @@ class LineModelChangeRulesSystem extends React.Component {
     /**保存单条规则 */
     saveRuleItem = (e, targeKey) => {
         e.preventDefault();
-        this.setState({saveLoading:true})
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.setState({ saveLoading: true });
+        let testRules = ['dataAuthorityCode', 'dataAuthorityName', 'enabled', 'description', `dataAuthorityRuleName-${targeKey}`, `dataScope1-${this.props.targeKey}`, `filtrateMethod1-${this.props.targeKey}`,
+            `dataScope2-${this.props.targeKey}`, `filtrateMethod2-${this.props.targeKey}`, `dataScope3-${this.props.targeKey}`, `filtrateMethod3-${this.props.targeKey}`,
+            `dataScope4-${this.props.targeKey}`, `filtrateMethod4-${this.props.targeKey}`
+        ];
+        let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate } = this.state;
+        console.log(ruleId)
+        this.props.form.validateFields(testRules, (err, values) => {
             if (!err) {
+                console.log(values)
                 let tenantId = this.props.tenantId;
                 let params = {
-                    id:this.props.editKey?this.props.editKey:null,
+                    id: ruleId ? ruleId : null,
                     i18n: null,
                     enabled: values.enabled,
                     tenantId: tenantId,
                     dataAuthorityCode: values.dataAuthorityCode,
-                    dataAuthorityName: values.dataAuthorityName,
-                    description: values.description,
+                    dataAuthorityName: this.props.newDataPrams ? this.props.newDataPrams.dataAuthorityName : values.dataAuthorityName,
+                    description: this.props.newDataPrams ? this.props.newDataPrams.description : values.description,
+                    deleted: deleted,
+                    versionNumber: versionNumber,
+                    createdBy: createdBy,
+                    createdDate: createdDate,
+                    lastUpdatedBy: lastUpdatedBy,
+                    lastUpdatedDate: lastUpdatedDate,
                     dataAuthorityRules: [
                         {
                             i18n: null,
@@ -151,26 +180,35 @@ class LineModelChangeRulesSystem extends React.Component {
                 }
                 DataAuthorityService.saveDataAuthority(params).then(res => {
                     console.log(res.data);
-                    if(res.status===200){
+                    if (res.status === 200) {
                         this.setState({
-                            ruleDatail:res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
-                            ruleName:res.data.dataAuthorityRules[0].dataAuthorityRuleName,
-                            saveLoading:false,
-                        },()=>{
+                            ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
+                            ruleName: res.data.dataAuthorityRules[0].dataAuthorityRuleName,
+                            saveLoading: false,
+                            ruleId: res.data.id,
+                            deleted: res.data.deleted,
+                            versionNumber: res.data.versionNumber,
+                            createdBy: res.data.createdBy,
+                            createdDate: res.data.createdDate,
+                            lastUpdatedBy: res.data.lastUpdatedBy,
+                            lastUpdatedDate: res.data.lastUpdatedDate,
+                        }, () => {
                             this.setState({
                                 show: false,
                                 isEditDelete: true,
                             })
-
                         })
                     }
-                }).catch(res=>{
-                    this.setState({saveLoading:false})
-                    message.error('同一权限下，规则名称不能重复！')
+                    /**单个规则保存成功后返回dataAuthorityRules */
+                    this.props.hadleHasSaveRules(res.data.dataAuthorityRules[0])
+
+                }).catch(e => {
+                    this.setState({ saveLoading: false })
+                    message.error(e.response.data.message)
                 })
 
-            }else{
-                this.setState({saveLoading:false})
+            } else {
+                this.setState({ saveLoading: false })
             }
         })
     }
@@ -324,17 +362,12 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     render() {
         const { getFieldDecorator } = this.props;
-        const { targeKey, show, renderSelectList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataScope,saveLoading,ruleName,
+        const { targeKey, show, renderSelectList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataScope, saveLoading, ruleName,
             showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
         }
-        // const cardTitle = (
-        //     <span className="rule-form-title">
-        //         <Input className="input_title" placeholder='请输入规则名称' />
-        //     </span>
-        // )
         return (
             <div className='add-rule-form'>
                 {show &&
@@ -351,7 +384,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                         rules: [{
                                             required: true, message: this.$t({ id: 'common.please.enter' })
                                         }],
-                                        initialValue: ruleName||'',
+                                        initialValue: ruleName || '',
                                     })(
                                         <Input className="input_title" placeholder='请输入规则名称' />
                                     )}
@@ -371,7 +404,8 @@ class LineModelChangeRulesSystem extends React.Component {
                                     label='账套'
                                 >
                                     {getFieldDecorator(`dataScope1-${this.props.targeKey}`, {
-                                        initialValue: ruleDatail.length?ruleDatail[0].dataScope:'1001'
+                                        rules: [],
+                                        initialValue: ruleDatail.length ? ruleDatail[0].dataScope : '1001'
                                     })(
                                         <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeRuleChange}>
                                             <Option value='1001'>全部</Option>
@@ -390,7 +424,10 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 {...ruleFormLayout}
                                                 label=''
                                             >
-                                                {getFieldDecorator(`filtrateMethod1-${this.props.targeKey}`, { initialValue: 'INCLUDE' })(
+                                                {getFieldDecorator(`filtrateMethod1-${this.props.targeKey}`, {
+                                                    rules: [],
+                                                    initialValue: 'INCLUDE'
+                                                })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
                                                         <Option value='EXCLUDE'>排除</Option>
@@ -422,7 +459,8 @@ class LineModelChangeRulesSystem extends React.Component {
                                     label='公司'
                                 >
                                     {getFieldDecorator(`dataScope2-${this.props.targeKey}`, {
-                                        initialValue:  ruleDatail.length?ruleDatail[1].dataScope:'1001'
+                                        rules: [],
+                                        initialValue: ruleDatail.length ? ruleDatail[1].dataScope : '1001'
                                     })(
                                         <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeCompany}>
                                             <Option value='1001'>全部</Option>
@@ -442,7 +480,10 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 {...ruleFormLayout}
                                                 label=''
                                             >
-                                                {getFieldDecorator(`filtrateMethod2-${this.props.targeKey}`, { initialValue: 'INCLUDE' })(
+                                                {getFieldDecorator(`filtrateMethod2-${this.props.targeKey}`, {
+                                                    rules: [],
+                                                    initialValue: 'INCLUDE'
+                                                })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
                                                         <Option value='EXCLUDE'>排除</Option>
@@ -474,7 +515,8 @@ class LineModelChangeRulesSystem extends React.Component {
                                     label='部门'
                                 >
                                     {getFieldDecorator(`dataScope3-${this.props.targeKey}`, {
-                                        initialValue:  ruleDatail.length?ruleDatail[2].dataScope:'1001'
+                                        rules: [],
+                                        initialValue: ruleDatail.length ? ruleDatail[2].dataScope : '1001'
                                     })(
                                         <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeDepartment}>
                                             <Option value='1001'>全部</Option>
@@ -494,7 +536,10 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 {...ruleFormLayout}
                                                 label=''
                                             >
-                                                {getFieldDecorator(`filtrateMethod3-${this.props.targeKey}`, { initialValue: 'INCLUDE' })(
+                                                {getFieldDecorator(`filtrateMethod3-${this.props.targeKey}`, {
+                                                    rules: [],
+                                                    initialValue: 'INCLUDE'
+                                                })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
                                                         <Option value='EXCLUDE'>排除</Option>
@@ -526,7 +571,8 @@ class LineModelChangeRulesSystem extends React.Component {
                                     label='员工'
                                 >
                                     {getFieldDecorator(`dataScope4-${this.props.targeKey}`, {
-                                        initialValue:  ruleDatail.length?ruleDatail[3].dataScope:'1001'
+                                        rules: [],
+                                        initialValue: ruleDatail.length ? ruleDatail[3].dataScope : '1001'
                                     })(
                                         <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleEmplyee}>
                                             <Option value='1001'>全部</Option>
@@ -545,7 +591,10 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 {...ruleFormLayout}
                                                 label=''
                                             >
-                                                {getFieldDecorator(`filtrateMethod4-${this.props.targeKey}`, { initialValue: 'INCLUDE' })(
+                                                {getFieldDecorator(`filtrateMethod4-${this.props.targeKey}`, {
+                                                    rules: [],
+                                                    initialValue: 'INCLUDE'
+                                                })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
                                                         <Option value='EXCLUDE'>排除</Option>
@@ -573,7 +622,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     </Card>
                 }
                 {!show &&
-                    <Card title={ruleName||''} style={{ marginTop: 25, background: '#f7f7f7' }}
+                    <Card title={ruleName || ''} style={{ marginTop: 25, background: '#f7f7f7' }}
                         extra={<span>
                             <a onClick={this.handleViewRule}>查看</a>
                             <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>

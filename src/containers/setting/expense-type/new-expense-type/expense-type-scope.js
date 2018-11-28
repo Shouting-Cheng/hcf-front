@@ -1,7 +1,7 @@
 import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Button, message, Radio } from 'antd'
+import { Row, Col, Button, message, Radio, Spin } from 'antd'
 
 const RadioGroup = Radio.Group;
 
@@ -18,6 +18,12 @@ class ExpenseTypeScope extends React.Component {
       saving: false,
       value: 1,
       companys: [],
+      loading: true,
+      type: {
+        all: 101,
+        department: 102,
+        group: 103
+      },
       userValue: {
         type: 'all',
         values: []
@@ -27,36 +33,30 @@ class ExpenseTypeScope extends React.Component {
 
   componentWillMount() {
     const { expenseType } = this.props;
+
     expenseTypeService.getExpenseTypeScope(expenseType.id).then(res => {
+
+      let type = {};
+      Object.keys(this.state.type).map(key => {
+        type[this.state.type[key]] = key;
+      });
 
       this.setState({
         value: res.data.allCompanyFlag ? 1 : 2,
-        companys: res.data.assignCompanies.map(o => ({ id: o.companyId }))
+        companys: res.data.assignCompanies.map(o => ({ id: o.companyId, name: o.companyName })),
+        userValue: {
+          type: type[res.data.applyType],
+          values: res.data.assignUsers.map(item => {
+            return {
+              label: item.name,
+              key: item.userTypeId,
+              value: item.userTypeId
+            }
+          })
+        },
+        loading: false
       });
-
-
-
-
-      // if (expenseType.accessibleRights === 1) {
-      //   let values = [];
-      //   res.data.map(item => {
-      //     values.push({
-      //       label: item.name,
-      //       key: item.id,
-      //       value: item.id
-      //     })
-      //   });
-      //   this.setState({
-      //     userValue: {
-      //       type: 'group',
-      //       values
-      //     }
-      //   })
-      // }
     })
-  }
-
-  componentDidMount() {
   }
 
   handleChangePermissions = (userValue) => {
@@ -80,7 +80,7 @@ class ExpenseTypeScope extends React.Component {
     let target = {
       allCompanyFlag: this.state.value == 1,
       assignUsers: userGroups,
-      applyType: userValue.type === 'all' ? 101 : 102,
+      applyType: this.state.type[userValue.type],
       assignCompanies: this.state.companys.map(o => ({ companyId: o.id }))
     };
 
@@ -88,6 +88,9 @@ class ExpenseTypeScope extends React.Component {
     expenseTypeService.saveExpenseTypeScope(target, expenseType.id).then(res => {
       this.setState({ saving: false });
       this.props.onSave();
+    }).catch(error => {
+      message.error(error.response.data.messages);
+      this.setState({ saving: false });
     })
   };
 
@@ -96,15 +99,17 @@ class ExpenseTypeScope extends React.Component {
   }
 
   selectCompany = (values) => {
-    console.log(values);
     this.setState({
       companys: values
     })
   }
 
   render() {
-    const { userValue, saving } = this.state;
+    const { userValue, saving, loading } = this.state;
     const { tenantMode } = this.props;
+
+    if (loading) return <Spin />
+
     return (
       <div>
         <Row gutter={20}>
@@ -139,7 +144,6 @@ class ExpenseTypeScope extends React.Component {
           <Col span={8}>
             <PermissionsAllocation onChange={this.handleChangePermissions}
               needEntity
-              hiddenComponents={["department"]}
               value={userValue}
               disabled={!tenantMode} />
           </Col>

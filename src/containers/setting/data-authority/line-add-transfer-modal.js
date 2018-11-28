@@ -145,7 +145,6 @@ class LineAddTransferModal extends React.Component {
                 selectedTreeInfo.push(info.node.props.dataRef);
             }
             rightList.push(info.node.props.dataRef);
-            rightList.splice(rightList.findIndex(o => o.key == info.node.props.dataRef.key), 1);
             this.setState({rightList})
         } else {
 
@@ -193,7 +192,7 @@ class LineAddTransferModal extends React.Component {
     handleSelectAll = (e, selectTreeNode, item) => {
         e.preventDefault();
         e.stopPropagation();
-        let { treeData, selectTreeNodes } = this.state;
+        let { treeData, selectTreeNodes,rightList } = this.state;
 
         let selectedKeys = [];
 
@@ -214,9 +213,10 @@ class LineAddTransferModal extends React.Component {
 
             if (!selectedTreeInfo.find(o => o.key == item.key)) {
                 selectedTreeInfo.push(item);
+                rightList.push(item);
             }
         })
-        this.setState({ treeData, selectTreeNodes: [...selectTreeNodes], selectedTreeInfo });
+        this.setState({ treeData, selectTreeNodes: [...selectTreeNodes], selectedTreeInfo,rightList });
 
         // this.alreadySelectLists(treeData, this.state.selectTreeNodes)
 
@@ -314,7 +314,6 @@ class LineAddTransferModal extends React.Component {
      * 左边待选区按照搜索条件查询
      * */
     onTreeSelecSearch = (value) => {
-        console.log(value);
         this.setState({
             isShowTreeNode: false,
             searchListInfo: this.state.newTreeData
@@ -335,9 +334,9 @@ class LineAddTransferModal extends React.Component {
      * 右边已选区按照搜索条件查询
      */
     onTreeInfoSearch = (value) => {
-        let {selectTreeNodes,selectedTreeInfo,rightList}=this.state
+        let {rightList,selectedTreeInfo}=this.state
         if(value===''){
-            console.log(rightList)
+            console.log(rightList);
             this.setState({selectedTreeInfo:rightList})
         }else{
             const { selectedTreeInfo } = this.state;
