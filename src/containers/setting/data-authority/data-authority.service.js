@@ -44,7 +44,13 @@ export default{
      * 保存单个的数据权限
      */
     saveDataAuthority(params){
-        let url = `${config.authUrl}/api/system/data/authority/save/and/create/rule`;
+        let url = `${config.authUrl}/api/system/data/authority`;
         return httpFetch.post(url, params);
+    },
+    /**
+     * 删除单条数据权限规则
+     */
+    deletRuleItem(id){
+        return httpFetch.delete(`${config.authUrl}/api/data/authority/rule/${id}`);
     }
 }
