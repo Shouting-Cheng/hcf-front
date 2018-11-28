@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, message, Tag, Table, Icon, Popover, Modal, Menu, Dropdown } from 'antd';
+import {Button, message, Tag, Table, Icon, Popover, Modal, Menu, Dropdown, Row} from 'antd';
 import jobService from './job.service';
 import moment from 'moment';
 import config from 'config';
@@ -480,9 +480,9 @@ class JobLog extends React.Component {
             this.props.params && this.props.params.jobInfoDetail ? searchForm1 : searchForm
           }
         />
-        <div className="table-header">
+        <div id="drop" className="table-header" style={{position : "relative"}}>
           <div className="table-header-buttons">
-            <Dropdown overlay={menu} trigger={['click']}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu} trigger={['click']}>
               <Button icon="delete" type="primary">
                 {this.$t({ id: 'job.log.clear' } /*清除日志*/)}
                 <Icon type="down" />

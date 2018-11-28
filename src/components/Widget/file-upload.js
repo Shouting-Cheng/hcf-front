@@ -14,6 +14,8 @@ import pptImage from 'images/file-type/ppt.png';
 import txtImage from 'images/file-type/txt.png';
 import wordImage from 'images/file-type/word.png';
 import unknownImage from 'images/file-type/unknown.png';
+import httpFetch from "../../utils/httpFetch";
+import FileSaver from "file-saver";
 
 /**
  * 图片上传组件
@@ -130,7 +132,12 @@ class FileUpload extends React.Component {
         }
       });
     } else {
-      window.open(file.response ? file.response.fileURL : file.fileURL, '_blank');
+      httpFetch.get(`${config.baseUrl}/api/attachments/download/${file.uid}?access_token=${localStorage.getItem('token')}`).then(res=>{
+        let b = new Blob([res.data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        FileSaver.saveAs(b, file.name);
+      })
     }
   };
 

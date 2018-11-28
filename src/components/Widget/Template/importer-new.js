@@ -84,12 +84,12 @@ class ImporterNew extends React.Component {
           fileList: [],
           tabKey: 'SUCCESS',
           uploading: false,
-          result: {successEntities:1},
+          result: {successEntities:0},
           transactionID: res.data.transactionID || res.data.transactionOID || res.data.transactionUUID || res.data
         },() => {
           this.getErrorList();
         })
-        message.success(this.$t('importer.import.success',{total: 1})/*导入成功*/)
+        message.success(this.$t('importer.import.success',{total: 0})/*导入成功*/)
       }).catch((e) => {
         this.setState({ uploading: false });
         message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/ + e.response.data.message)
@@ -116,7 +116,7 @@ class ImporterNew extends React.Component {
       }
     }).catch(() => {
       this.setState({ uploading: false });
-      message.error(messages('importer.import.error.info')/*导入失败，请重试*/)
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
     })
   }
 

@@ -16,12 +16,12 @@ class GLWorkOrderTypeDC extends Component {
       //存储当前类型详细数据
       nowTypeList: {},
       columns: [
-        { title: '公司代码', dataIndex: 'companyCode' },
-        { title: '公司名称', dataIndex: 'companyName' },
-        { title: '公司类型', dataIndex: 'companyType' },
+        { title: '公司代码', dataIndex: 'companyCode',align:'center' },
+        { title: '公司名称', dataIndex: 'companyName',align:'center' },
+        { title: '公司类型', dataIndex: 'companyType',align:'center' },
         {
           title: '启用',
-          dataIndex: 'enabled',
+          dataIndex: 'enabled',align:'center',
           render: (enabled, record, index) => {
             return <Checkbox checked={enabled} onChange={e => this.onIsEnabledChange(e, record)} />;
           },

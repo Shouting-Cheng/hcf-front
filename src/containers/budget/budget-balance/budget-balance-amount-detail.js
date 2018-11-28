@@ -39,7 +39,9 @@ class BudgetBalanceAmountDetail extends React.Component {
           {title: this.$t('budget.balance.budget.applicant'), dataIndex: "applicantName"},
           {title: this.$t('budget.balance.budget.journal.type'), dataIndex: "documentType"},
           {title: this.$t('budget.balance.budget.journal.code'), dataIndex: "documentNumber", render: documentNumber => <Popover content={documentNumber}><a onClick={() => this.goBudgetJournal(documentNumber)}>{documentNumber}</a></Popover>},
-          {title: this.$t('budget.balance.budget.edit.date'), dataIndex: "requisitionDate", render: requisitionDate => new Date(requisitionDate).format('yyyy-MM-dd')},
+          {title: this.$t('budget.balance.budget.edit.date'), dataIndex: "requisitionDate",
+            render: requisitionDate =>requisitionDate ? new Date(requisitionDate).format('yyyy-MM-dd'):'-'
+          },
           {title: this.$t('budget.balance.item'), dataIndex: "itemName", render: itemName => <Popover content={itemName}>{itemName}</Popover>},
           {title: this.$t('common.currency'), dataIndex: "currency"},
           {title: this.$t('common.currency.rate'), dataIndex: "rate", render: this.filterMoney},
@@ -58,7 +60,9 @@ class BudgetBalanceAmountDetail extends React.Component {
                 <a onClick={() => this.skipToDocumentDetail(record)}>{documentNumber}</a>
               </Popover>
             )},
-          {title: this.$t('budget.balance.requisitioned.date'), dataIndex: "requisitionDate", render: requisitionDate => new Date(requisitionDate).format('yyyy-MM-dd')},
+          {title: this.$t('budget.balance.requisitioned.date'), dataIndex: "requisitionDate",
+            render: requisitionDate => requisitionDate ? new Date(requisitionDate).format('yyyy-MM-dd'):'-'
+          },
           {title: this.$t('budget.balance.doc.line.no'), dataIndex: "documentLineNum"},
           {title: this.$t('budget.balance.requisitioned.item'), dataIndex: "itemName",  render: itemName => <Popover content={itemName}>{itemName}</Popover>},
           {title: this.$t('common.currency'), dataIndex: "currency"},
@@ -82,7 +86,9 @@ class BudgetBalanceAmountDetail extends React.Component {
                 <a onClick={() => this.skipToDocumentDetail(record)}>{documentNumber}</a>
               </Popover>
             )},
-          {title: this.$t('budget.balance.reimbursed.date'), dataIndex: "requisitionDate", render: requisitionDate => new Date(requisitionDate).format('yyyy-MM-dd')},
+          {title: this.$t('budget.balance.reimbursed.date'), dataIndex: "requisitionDate",
+            render: requisitionDate => requisitionDate ? new Date(requisitionDate).format('yyyy-MM-dd') : '-'
+          },
           {title: this.$t('budget.balance.reimbursed.item'), dataIndex: "itemName", render: itemName => <Popover content={itemName}>{itemName}</Popover>},
           {title: this.$t('common.currency'), dataIndex: "currency"},
           {title: this.$t('budget.balance.reimbursed.amount'), dataIndex: "amount",},

@@ -9,7 +9,7 @@ class customAmount extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      value: props.value || 0,
+      value: props.value || '',
     };
     this.onChange = debounce(this.onChange, 500);
   }
@@ -24,7 +24,7 @@ class customAmount extends React.Component{
   onBlur =(e)=>{
     const {len} = this.props;
     this.setState({
-      value: parseFloat(e.target.value).toFixed(len)
+      value: e.target.value ? parseFloat(e.target.value).toFixed(len) : ''
     })
   };
 
@@ -35,13 +35,16 @@ class customAmount extends React.Component{
       this.setState({value});
       this.props.onChange&&this.props.onChange(value)
     }
+    if(value===''){
+      this.setState({value});
+    }
   };
-
 
   render(){
     const {disabled, len, step,style,  } = this.props;
     return  <InputNumber
       style={style}
+      placeholder={this.$t('common.enter')}
       precision={len}
       step={step}
       value={this.state.value}

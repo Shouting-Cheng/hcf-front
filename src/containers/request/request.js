@@ -671,11 +671,13 @@ class ApplicationList extends React.Component {
             {this.$t('common.total', { total: pagination.total || 0 }) /*共搜索到 {total} 条数据*/}
           </div>
           <div className="table-header-buttons">
-            <Dropdown overlay={menu}>
+            <div id="drop" style={{position : "relative"}}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu}>
               <Button type="primary">
                 {this.$t('request.create') /*新建申请单*/} <Icon type="down" />
               </Button>
             </Dropdown>
+            </div>
             {isShowProxy && (
               <Button onClick={() => this.showProxyModal()}>
                 {this.$t('request.proxy') /*代提申请单*/}

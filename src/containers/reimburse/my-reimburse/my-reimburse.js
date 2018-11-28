@@ -341,8 +341,8 @@ class MyReimburse extends React.Component {
       <div className="reimburse-container">
         <SearchArea searchForm={searchForm} submitHandle={this.search} maxLength={4} />
         <Row style={{ marginBottom: 10, marginTop: 10 }}>
-          <Col span={18}>
-            <Dropdown
+          <Col id="drop" style={{position : "relative"}} span={18}>
+            <Dropdown getPopupContainer={ () => document.getElementById('drop')}
               trigger={['click']}
               overlay={
                 <Menu onClick={this.newReimburseForm}>

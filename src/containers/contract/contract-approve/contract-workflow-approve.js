@@ -114,7 +114,7 @@ class ContractWorkflowApprove extends React.Component {
       columns: [
         {
           title: this.$t({ id: 'my.contract.number' } /*合同编号*/),
-          align: 'left',
+          align: 'center',
           width: 180,
           dataIndex: 'contractNumber',
           render: (desc, record) => record.contractApprovalView.contractNumber,
@@ -122,7 +122,7 @@ class ContractWorkflowApprove extends React.Component {
         {
           title: this.$t({ id: 'my.contract.name' } /*合同名称*/),
           dataIndex: 'contractName',
-          align: 'left',
+          align: 'center',
           render: (desc, record) => (
             <Popover content={record.contractApprovalView.contractName}>
               {record.contractApprovalView.contractName}
@@ -132,7 +132,7 @@ class ContractWorkflowApprove extends React.Component {
         {
           title: this.$t({ id: 'my.contract.type' } /*合同类型*/),
           dataIndex: 'contractTypeName',
-          align: 'left',
+          align: 'center',
           render: (desc, record) => (
             <Popover content={record.contractApprovalView.contractTypeName}>
               {record.contractApprovalView.contractTypeName}
@@ -153,7 +153,7 @@ class ContractWorkflowApprove extends React.Component {
         {
           title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
           align: 'center',
-          width: 90,
+          width: 120,
           dataIndex: 'submittedDate',
           render: (desc, record) =>
             moment(record.contractApprovalView.submittedDate).format('YYYY-MM-DD'),
@@ -167,7 +167,7 @@ class ContractWorkflowApprove extends React.Component {
         },
         {
           title: this.$t({ id: 'my.contract.amount' } /*金额*/),
-          align: 'right',
+          align: 'center',
           dataIndex: 'totalAmount',
           render: (desc, record) => this.filterMoney(record.contractApprovalView.totalAmount),
         },
@@ -175,9 +175,9 @@ class ContractWorkflowApprove extends React.Component {
         // { title: this.$t({ id: "my.contract.signDate" }/*签署时间*/), align: 'center', dataIndex: 'signDate', render: signDate => moment(signDate).format('YYYY-MM-DD') },
         // { title: this.$t({ id: "contract.form.nane" }/*表单类型名称*/), dataIndex: 'formName' },
         {
-          title: '备注',
+          title: this.$t('common.remark'),
           dataIndex: 'remark',
-          align: 'left',
+          align: 'center',
           render: (value, record) => (
             <Popover content={record.contractApprovalView.remark}>
               {record.contractApprovalView.remark}

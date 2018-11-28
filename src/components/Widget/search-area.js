@@ -22,6 +22,7 @@ import {
   message,
   Spin
 } from 'antd';
+import LanguageInput from 'widget/Template/language-input/language-input';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -249,6 +250,9 @@ class SearchArea extends React.Component {
         });
         if (this.props.isReturnLabel) values['expand'] = this.state.expand;
         this.props.submitHandle(values)
+      }else {
+        console.log(err)
+        err.name&&this.setState({validateStatus: true})
       }
     })
   };
@@ -659,6 +663,12 @@ class SearchArea extends React.Component {
       }
       //输入组件
       case 'input': {
+        if(item.language)
+          return <LanguageInput name={name}
+                                i18nName={item.nameI18n}
+                                nameChange={handle}
+                                disabled={item.disabled} />;
+
         return <Input placeholder={item.placeholder || messages('common.please.enter')}
           onChange={handle} disabled={item.disabled} />
       }
@@ -824,6 +834,7 @@ class SearchArea extends React.Component {
         return <Chooser placeholder={item.placeholder || messages('common.please.select')}
           disabled={item.disabled}
           type={item.listType}
+          showClear={item.clear}
           onChange={handle}
           labelKey={this.getLastKey(item.labelKey)}
           valueKey={this.getLastKey(item.valueKey)}

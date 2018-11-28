@@ -31,6 +31,7 @@ import Chooser from './chooser';
 import moment from 'moment';
 import Header from 'antd/lib/calendar/Header';
 import mePrePaymentService from './me-pre-payment.service';
+import CustomAmount from 'widget/customAmount';
 
 import SelectReceivables from 'widget/select-receivables';
 import { connect } from "dva/index";
@@ -539,11 +540,13 @@ class NewPrePaymentDetail extends React.Component {
                     ? Number(this.filterMoney(params.amount, 2, true).replace(/,/g, ''))
                     : '',
                 })(
-                  <InputNumber
-                    placeholder="请输入"
+                  <CustomAmount
                     style={{ width: '100%' }}
-                    onBlur={this.onAmountMouseMove}
                   />
+                  //<InputNumber
+                    //placeholder="请输入"
+                    //style={{ width: '100%' }}
+                    //onBlur={this.onAmountMouseMove}/>
                 )}
               </FormItem>
             </Col>

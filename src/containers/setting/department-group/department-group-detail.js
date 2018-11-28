@@ -39,7 +39,7 @@ class DepartmentGroupDetail extends React.Component {
             },
             infoList: [
                 { type: 'input', id: 'deptGroupCode', isRequired: true, disabled: true, label: this.$t({ id: 'setting.deptGroup.code' }) + " :" },
-                { type: 'input', id: 'description', isRequired: true, disabled: false, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
+                { type: 'input', id: 'description', language: true, isRequired: true, disabled: false, label: this.$t({ id: 'setting.deptGroup.name' }) + " :" },
                 { type: 'switch', id: 'enabled', label: this.$t({ id: 'common.column.status' }) + " :"/*状态*/ },
             ],
             deptSelectorItem: {
@@ -107,6 +107,7 @@ class DepartmentGroupDetail extends React.Component {
 
     //保存所做的详情修改
     handleUpdate = (value) => {
+      console.log(value)
         value.id = this.props.match.params.id;
         deptGroupService.addOrUpdateDeptGroup(value).then((response) => {
             if (response) {

@@ -104,7 +104,7 @@ class MyGLWorkOrder extends Component {
       //表格
       columns: [
         { title: '单据编号', dataIndex: 'workOrderNumber',width:180, align: 'center' },
-        { title: '单据类型', dataIndex: 'typeName', align: 'left' },
+        { title: '单据类型', dataIndex: 'typeName', align: 'center' },
         { title: '申请人', dataIndex: 'employeeName', align: 'center',width:110 },
         {
           title: '申请日期',
@@ -127,7 +127,7 @@ class MyGLWorkOrder extends Component {
         {
           title: '备注',
           dataIndex: 'remark',
-          align: 'left',
+          align: 'center',
           render: remark => {
             return (
               <Popover content={remark}>
@@ -406,8 +406,8 @@ class MyGLWorkOrder extends Component {
         <div className="table-header">
           <div className="table-header-buttons">
             <Row>
-              <Col span={18}>
-                <Dropdown
+              <Col id="drop" style={{position : "relative"}} span={18}>
+                <Dropdown getPopupContainer={ () => document.getElementById('drop')}
                   overlay={
                     <Menu onClick={this.handleMenuClick}>
                       {glWorkOrderTypeList.map(item => {

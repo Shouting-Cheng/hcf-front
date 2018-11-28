@@ -53,10 +53,10 @@ class DocumentBasicInfo extends React.Component {
           {linkId ? (
             <a title={value}>{value}</a>
           ) : (
-            <span title={value} className="content">
-              {value}
-            </span>
-          )}
+              <span title={value} className="content">
+                {value}
+              </span>
+            )}
         </Col>
       </Row>
     );
@@ -71,6 +71,14 @@ class DocumentBasicInfo extends React.Component {
       previewImage: src,
     });
   };
+
+  isImage = file => {
+    let sections = (file.fileName || file.name).split('.');
+    let extension = sections[sections.length - 1];
+    let imageExtension = ['png', 'gif', 'jpg', 'jpeg', 'bmp'];
+    return imageExtension.has(extension);
+  };
+
   /**
    * 预览取消
    */
@@ -85,7 +93,7 @@ class DocumentBasicInfo extends React.Component {
     const { previewImage, previewVisible } = this.state;
     return (
       <Spin spinning={detailLoading}>
-        <div style={{ marginBottom: '14px' }} className="header-title">
+        <div style={{ marginBottom: '14px', marginTop: 16 }} className="header-title">
           <Row style={{ borderBottom: '1px solid #ececec' }}>
             <Col span={8}>{data.formName}</Col>
             <Col span={4}>
@@ -96,9 +104,9 @@ class DocumentBasicInfo extends React.Component {
             <Col span={4}>
               {!this.props.noHeader
                 ? this.renderList(
-                    this.$t('common.apply.data'),
-                    moment(data.createdDate).format('YYYY-MM-DD')
-                  )
+                  this.$t('common.apply.data'),
+                  moment(data.createdDate).format('YYYY-MM-DD')
+                )
                 : null}
             </Col>
             <Col span={4}>
@@ -211,21 +219,21 @@ class DocumentBasicInfo extends React.Component {
                               lineHeight: '32px',
                             }}
                           >
-                            {item.fileType !== 'IMAGE' ? (
+                            {!this.isImage(item) ? (
                               <a
                                 href={`${config.baseUrl}/api/attachments/download/${
                                   item.attachmentOID
-                                }?access_token=${
+                                  }?access_token=${
                                   JSON.parse(localStorage.getItem('hly.token')).access_token
-                                }`}
+                                  }`}
                               >
                                 {item.fileName}
                               </a>
                             ) : (
-                              <a onClick={e => this.onPreviewClick(e, item.thumbnailUrl)}>
-                                {item.fileName}
-                              </a>
-                            )}
+                                <a onClick={e => this.onPreviewClick(e, item.thumbnailUrl)}>
+                                  {item.fileName}
+                                </a>
+                              )}
                           </Col>
                         );
                       })}

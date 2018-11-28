@@ -152,7 +152,7 @@ class Contract extends React.Component {
           title: this.$t({ id: 'my.contract.number' } /*合同编号*/),
           dataIndex: 'contractNumber',
           width: 200,
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -162,7 +162,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.name' } /*合同名称*/),
           dataIndex: 'contractName',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -172,7 +172,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.type' } /*合同类型*/),
           dataIndex: 'contractTypeName',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -189,7 +189,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
           dataIndex: 'submittedDate',
-          width: 100,
+          width: 130,
           align: 'center',
           render: value => (value ? moment(value).format('YYYY-MM-DD') : '-'),
         },
@@ -209,7 +209,7 @@ class Contract extends React.Component {
           title: this.$t({ id: 'common.comment' }),
           key: 'remark',
           dataIndex: 'remark',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -284,7 +284,7 @@ class Contract extends React.Component {
           title: this.$t({ id: 'my.contract.number' } /*合同编号*/),
           dataIndex: 'contractNumber',
           width: 200,
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -294,7 +294,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.name' } /*合同名称*/),
           dataIndex: 'contractName',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -304,7 +304,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'my.contract.type' } /*合同类型*/),
           dataIndex: 'contractTypeName',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : ''}</Popover>
@@ -321,7 +321,7 @@ class Contract extends React.Component {
         {
           title: this.$t({ id: 'common.submit.date' } /*提交时间*/),
           dataIndex: 'submittedDate',
-          width: 100,
+          width: 130,
           align: 'center',
           render: value => (value ? moment(value).format('YYYY-MM-DD') : '-'),
         },
@@ -341,7 +341,7 @@ class Contract extends React.Component {
           title: this.$t({ id: 'common.comment' }),
           key: 'remark',
           dataIndex: 'remark',
-          align: 'left',
+          align: 'center',
           render: desc => (
             <span>
               <Popover content={desc}>{desc ? desc : '-'}</Popover>
@@ -421,8 +421,8 @@ class Contract extends React.Component {
     if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ unApproveSearchParams: values, approveSearchParams: values }, () => {
-      this.customTable.search(this.state.unApproveSearchParams);
+    this.setState({ unApproveSearchParams: {...this.state.unApproveSearchParams,...values}}, () => {
+      this.customTable.search({...this.state.unApproveSearchParams,...values});
     });
   };
 
@@ -436,8 +436,8 @@ class Contract extends React.Component {
     if (values.createdBy && values.createdBy[0]) {
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ approveSearchParams: values, unApproveSearchParams: values }, () => {
-      this.customTable2.search(this.state.approveSearchParams);
+    this.setState({ approveSearchParams: {...this.state.approveSearchParams,...values} }, () => {
+      this.customTable2.search({...this.state.approveSearchParams,...values});
     });
   };
 

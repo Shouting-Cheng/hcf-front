@@ -269,7 +269,7 @@ class NewExpenseAdjustDetail extends React.Component {
     e.stopPropagation();
     const { data, lineData, deleteIds } = this.state;
     data.splice(index, 1);
-    deleteIds.push(record.id)
+    deleteIds.push(record.id);
     lineData && lineData.infoList && lineData.infoList.splice(index, 1);
     this.setState({ data });
   };
@@ -821,7 +821,6 @@ class NewExpenseAdjustDetail extends React.Component {
             linesList: lineData,
             deleteIds: this.state.deleteIds
           };
-          console.log(this.state.deleteIds)
           let method = null;
           let flag = true;
           if (typeof this.state.defaultValue.id !== 'undefined') {
@@ -1115,10 +1114,11 @@ class NewExpenseAdjustDetail extends React.Component {
     });
   };
 
-  //导入成功获取数据
+  //导入成功获取数据 ...toDo, 将导入的数据放到table中
   getImportDetailData = () => {
     expenseAdjustService.getImportDetailData(this.import.state.transactionID).then(response => {
       console.log(response);
+
     });
   };
 

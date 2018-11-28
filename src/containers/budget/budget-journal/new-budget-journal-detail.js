@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, Form, Row, Col, Input, Select, InputNumber, message } from 'antd';
+import CustomAmount from 'widget/customAmount';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -774,7 +775,13 @@ class NewBudgetJournalDetail extends React.Component {
       //switch状态切换组件
       //数字选择InputNumber
       case 'inputNumber': {
-        if (item.precision) {
+
+        return <CustomAmount
+          disabled={item.disabled}
+          onChange={handle}
+          style={{ width: '100%' }}
+        />
+        /*if (item.precision) {
           return (
             <InputNumber
               disabled={item.disabled}
@@ -794,9 +801,8 @@ class NewBudgetJournalDetail extends React.Component {
               onChange={handle}
               style={{ width: 200 }}
             />
-          );
+          );*/
         }
-      }
     }
   }
   getFields() {

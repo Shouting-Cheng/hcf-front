@@ -34,7 +34,9 @@ class ExpenseTypeBase extends React.Component {
       subsidyType: 0,
       saving: false,
       priceUnit: "",
-      entryMode: false
+      entryMode: false,
+      types: [],
+      budgetItemName: ""
       // expenseTypePage: menuRoute.getRouteItem('expense-type'),
       // expenseTypeDetailPage: menuRoute.getRouteItem('expense-type-detail')
     }
@@ -45,15 +47,18 @@ class ExpenseTypeBase extends React.Component {
       if (!this.props.expenseTypeSetOfBooks.id) {
         this.goBack();
       } else {
-        baseService.getExpenseTypeCategory(this.props.expenseTypeSetOfBooks.id).then(res => {
+        expenseTypeService.getExpenseTypeCategory(this.props.expenseTypeSetOfBooks.id).then(res => {
           this.setState({ expenseTypeCategory: res.data });
         });
       }
     } else {
-      baseService.getExpenseTypeCategory(this.props.expenseType.setOfBooksId).then(res => {
-        this.setState({ expenseTypeCategory: res.data });
+      expenseTypeService.getExpenseTypeCategory(this.props.expenseType.setOfBooksId).then(res => {
+        this.setState({ expenseTypeCategory: res.data, budgetItemName: this.props.expenseType.budgetItemName });
         this.setFieldsByExpenseType(this.props);
       });
+
+      this.typeCategoryChange(this.props.expenseType.typeCategoryId);
+
     }
   }
 
@@ -148,9 +153,30 @@ class ExpenseTypeBase extends React.Component {
     }
   }
 
+  typeCategoryChange = (value) => {
+    expenseTypeService.getTypes(value).then(res => {
+      this.setState({
+        types: res.data,
+        sourceTypeId: ""
+      });
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
+  }
+
+  sourceTypeChange = (value) => {
+    let model = this.state.types.find(o => o.id == value);
+
+    this.setState({
+      budgetItemName: model.budgetItemName
+    });
+
+  }
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { icon, showIconSelectorFlag, expenseTypeCategory, apportionEnabled, valid, saving, name, nameI18n, subsidyType } = this.state;
+    const { icon, showIconSelectorFlag, expenseTypeCategory, apportionEnabled, valid, saving, name, nameI18n, subsidyType, types } = this.state;
     const formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 8, offset: 1 },
@@ -211,7 +237,7 @@ class ExpenseTypeBase extends React.Component {
               message: messages('common.please.select')
             }]
           })(
-            <Select style={{ width: 400 }} disabled={!tenantMode}>
+            <Select onChange={this.typeCategoryChange} style={{ width: 400 }} disabled={!tenantMode}>
               {expenseTypeCategory.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
             </Select>
           )}
@@ -219,11 +245,14 @@ class ExpenseTypeBase extends React.Component {
         <FormItem {...formItemLayout} label={messages('申请类型')}>
           {getFieldDecorator('sourceTypeId', {
           })(
-            <Select style={{ width: 400 }}>
-              {expenseTypeCategory.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
+            <Select onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
+              {types.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
             </Select>
           )}
         </FormItem>
+        {this.props.form.getFieldValue("sourceTypeId") && (<FormItem {...formItemLayout} label={messages('预算项目')}>
+          <Input value={this.state.budgetItemName} disabled style={{ width: 400 }} />
+        </FormItem>)}
         <FormItem {...formItemLayout} label={messages('金额录入模式')}>
           {getFieldDecorator('entryMode', {
             initialValue: 0
