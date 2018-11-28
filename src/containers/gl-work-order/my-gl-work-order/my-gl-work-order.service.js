@@ -103,7 +103,7 @@ export default {
     return httpFetch.post(
       `${
         config.accountingUrl
-      }/api/general/ledger/work/order/head/final/confirmation/${transactionID}`
+      }/api/general/ledger/work/order/head/import/new/confirm/${transactionID}`
     );
   },
 };
