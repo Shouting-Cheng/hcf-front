@@ -157,7 +157,7 @@ export default {
   //确认导入
   confirmation(transactionID) {
     return httpFetch.post(
-      `${config.budgetUrl}/api/budget/journals/final/confirmation/${transactionID}`
+      `${config.budgetUrl}/api/budget/journals/import/confirm/${transactionID}`
     );
   },
 };

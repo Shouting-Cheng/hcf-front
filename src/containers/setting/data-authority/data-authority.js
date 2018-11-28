@@ -111,6 +111,7 @@ class DataAuthority extends React.Component {
         console.log(record);
         DataAuthorityService.deleteDataAuthority(record.id).then(res => {
             message.success("删除成功！");
+            this.table.search(this.state.searchParams)
         }).catch(err => {
             message.error("删除失败！");
         })

@@ -179,7 +179,6 @@ class NewBudgetBalanceSolution extends Component {
         e.stopPropagation();
         //参数的值的变化，引发弹窗类型和弹窗参数的变化
         let { listSelectorExtraParams, listSelectorType,itemSelectorItem, listSelectorSelectedData } = this.state;
-
         switch (record.parameterCode) {
             /**公司 */
             case "COMPANY":
@@ -232,7 +231,7 @@ class NewBudgetBalanceSolution extends Component {
             /**"币种" */
             case "CURRENCY":
                 listSelectorType = 'currency_budget';
-                listSelectorExtraParams = { enable: true, setOfBooksId: this.props.company.setOfBooksId, tenantId: this.props.company.tenantId }
+                listSelectorExtraParams = { setOfBooksId: this.props.company.setOfBooksId, tenantId: this.props.company.tenantId }
                 break;
             default:
                 listSelectorType = '';
@@ -303,7 +302,6 @@ class NewBudgetBalanceSolution extends Component {
      * 当参数的值发生变化时，触发的事件
      */
     onParameterCodeChange = (value, record) => {
-
         let { data } = this.state;
         this.paramCodeChangeQueryScope(value, record);
         //把变化的数据保存到data中
@@ -311,7 +309,8 @@ class NewBudgetBalanceSolution extends Component {
         data[record.key].queryScope = '1002';
         data[record.key].solutionParameterList = [];
         this.setState({
-            data
+            data,
+          listSelectorType: value
         });
     }
     /**
@@ -755,8 +754,8 @@ class NewBudgetBalanceSolution extends Component {
                 <Form onSubmit={this.onFormSubmit}>
                     <List bordered='true' size='small' split>
                         <div className="common-item-title" style={{ borderBottom: '1px solid #D0D0D0' }}>{this.$t('common.baseInfo')}</div>
-                        <Row gutter={16} type="flex" justify="space-around" align="top">
-                            <Col span={6}>
+                        <Row gutter={15} type="flex" justify="space-around" align="top">
+                            <Col span={5}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.code')}>
                                     {
                                         getFieldDecorator('conditionCode', {
@@ -771,7 +770,7 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={6}>
+                            <Col span={5}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.name')}>
                                     {
                                         getFieldDecorator('conditionName', {
@@ -786,7 +785,7 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={6} >
+                            <Col span={5} style={{marginTop: 3}} >
                                 <FormItem {...formItemLayout} label={this.$t('common.column.status')}  >
                                     {
                                         getFieldDecorator('enabled', {
@@ -847,7 +846,7 @@ class NewBudgetBalanceSolution extends Component {
                 <ListSelector visible={listSelectorVisible}
                     onCancel={this.onListSelectCancel}
                     type={listSelectorType}
-                    selectorItem={itemSelectorItem}
+                    selectorItem={JSON.stringify(itemSelectorItem)==='{}' ? undefined : itemSelectorItem}
                     extraParams={listSelectorExtraParams}
                     selectedData={[...listSelectorSelectedData]}
                     onOk={this.handleListSelectorOk}
@@ -868,7 +867,7 @@ class NewBudgetBalanceSolution extends Component {
  */
 function mapStateToProps(state) {
     return {
-        company: state.login.company
+        company: state.user.company
     }
 };
 const WrappedNewBudgetBalanceSolution = Form.create()(NewBudgetBalanceSolution);

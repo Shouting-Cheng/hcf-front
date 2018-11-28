@@ -139,6 +139,7 @@ class MyGLWorkOrder extends Component {
         {
           title: '状态',
           dataIndex: 'status',
+          align: 'center',
           width:100,
           render: status => {
             return (

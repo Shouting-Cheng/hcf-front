@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Form, Divider, Input, Switch, Icon, Alert, Row, Col, Spin } from 'antd';
+import { Button, Form, Divider, Input, Switch, Icon, Alert, Row, Col, Spin,message } from 'antd';
 import LanguageInput from 'components/Widget/Template/language-input/language-input';
 import LineModelChangeRules from 'containers/setting/data-authority/line-model-change-rule';
 import DataAuthorityService from 'containers/setting/data-authority/data-authority.service';
@@ -18,32 +18,22 @@ class NewDataAuthority extends React.Component {
             renderNewChangeRules: [],
             newDataPrams: {},
             isEditRule: false,
-            treeData: [
-                {
-                    title: 'parent 1',
-                    key: '0-0'
-                },
-                {
-                    title: 'parent 1-1',
-                    key: '0-1'
-                },
-
-
-            ],
+            formItemKey:'',
+            /**单个保存成功后返回的数据规则组 */
+            hasSaveRules:{}
         }
 
     }
     componentWillMount() {
-        let params = this.props.params;
-        if (params && JSON.stringify(params) === '{}') {
+        let param = this.props.params;
+        if (param && JSON.stringify(param) === '{}') {
             this.setState({
-                newDataPrams: params,
+                newDataPrams: param,
                 renderNewChangeRules: []
             })
         } else {
-            DataAuthorityService.getDataAuthorityDetail(params.id).then(res => {
-                console.log(res);
-                const { renderNewChangeRules, treeData } = this.state;
+            DataAuthorityService.getDataAuthorityDetail(param.id).then(res => {
+                const { renderNewChangeRules} = this.state;
                 const { getFieldDecorator } = this.props.form;
                 renderNewChangeRules.push(
                     res.data.dataAuthorityRules.map(Item => (
@@ -52,14 +42,23 @@ class NewDataAuthority extends React.Component {
                             canceEditHandle={this.canceEditHandle}
                             targeKey={Item.id}
                             isEditRule={!this.state.isEditRule}
-                            params={{ name: Item.dataAuthorityRuleName, ruleDatail: Item.dataAuthorityRuleDetails }}
+                            params={{ 
+                                 name: Item.dataAuthorityRuleName,
+                                 ruleDatail: Item.dataAuthorityRuleDetails,
+                                 deleted:res.data.deleted,
+                                 versionNumber:res.data.versionNumber,
+                                 createdBy:res.data.createdBy,
+                                 createdDate:res.data.createdDate,
+                                 lastUpdatedBy:res.data.lastUpdatedBy,
+                                 lastUpdatedDate:res.data.lastUpdatedDate,
+                                 ruleId:Item.id
+                            }}
                             getFieldDecorator={getFieldDecorator}
                             form={this.props.form}
                             tenantId={this.props.company.tenantId}
-                            editKey={Item.id}
+                            newDataPrams={res.data}
                         />
                     ))
-
                 );
                 this.setState({
                     renderNewChangeRules,
@@ -80,6 +79,7 @@ class NewDataAuthority extends React.Component {
     onCancel = () => {
         this.props.close()
     }
+    /**点击添加转换规则 */
     renderNewChangeRules = () => {
         const { getFieldDecorator } = this.props.form;
         const { renderNewChangeRules } = this.state;
@@ -95,10 +95,13 @@ class NewDataAuthority extends React.Component {
                 getFieldDecorator={getFieldDecorator}
                 form={this.props.form}
                 tenantId={this.props.company.tenantId}
+                newEditId={this.props.params?this.props.params.id:undefined}
+                newDataPrams={this.state.newDataPrams}
+                
             />
         );
         this.setState({
-            renderNewChangeRules
+            renderNewChangeRules,
         })
     }
     /**添加规则 */
@@ -113,6 +116,11 @@ class NewDataAuthority extends React.Component {
         })
     }
     canceEditHandle = (targetKey) => {
+        DataAuthorityService.deletRuleItem(targetKey).then(res=>{
+            if(res.status===200){
+                message.success('规则删除成功！')
+            }
+        })
         let { renderNewChangeRules } = this.state;
         if (renderNewChangeRules[0].length) {
             const card = renderNewChangeRules[0].filter(card => card.key !== targetKey);
@@ -136,6 +144,7 @@ class NewDataAuthority extends React.Component {
                 name: i18nName
             };
         }
+        
     }
     i18nNameDes = (name, i18nName) => {
         this.state.newDataPrams.description = name;
@@ -147,12 +156,93 @@ class NewDataAuthority extends React.Component {
             };
         }
     }
+    hadleHasSaveRules=(dataAuthorityRules)=>{
+        console.log(dataAuthorityRules)
+        this.setState({
+            hasSaveRules:dataAuthorityRules
+        })
+    }
 
     /**保存所有添加的规则 */
     handleSave = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-
+            if(!err){
+                let rules=this.state.renderNewChangeRules;
+                let {hasSaveRules}=this.state;
+                let dataAuthorityRules=[];
+                for(let i=0;i<rules.length;i++){
+                    dataAuthorityRules.push({
+                        i18n:null,
+                        dataAuthorityRuleName:values[`dataAuthorityRuleName-${rules[i].key}`],
+                        dataAuthorityRuleDetails:[
+                            {
+                                dataType: 'SOB',
+                                dataScope: values[`dataScope1-${rules[i].key}`],
+                                filtrateMethod: values[`filtrateMethod1-${rules[i].key}`] ? values[`filtrateMethod1-${rules[i].key}`] : undefined,
+                                dataAuthorityRuleDetailValues: values[`filtrateMethod1-${rules[i].key}`] ? [
+                                    {
+                                        "valueKey": "1"
+                                    }
+                                ] : undefined
+                            },
+                            {
+                                dataType: 'COMPANY',
+                                dataScope: values[`dataScope2-${rules[i].key}`],
+                                filtrateMethod: values[`filtrateMethod2-${rules[i].key}`] ? values[`filtrateMethod2-${rules[i].key}`] : undefined,
+                                dataAuthorityRuleDetailValues: values[`filtrateMethod2-${rules[i].key}`] ? [
+                                    {
+                                        "valueKey": "1"
+                                    }
+                                ] : undefined
+                            },
+                            {
+                                dataType: 'UNIT',
+                                dataScope: values[`dataScope3-${rules[i].key}`],
+                                filtrateMethod: values[`filtrateMethod3-${rules[i].key}`] ? values[`filtrateMethod3-$${rules[i].key}`] : undefined,
+                                dataAuthorityRuleDetailValues: values[`filtrateMethod3-${rules[i].key}`] ? [
+                                    {
+                                        "valueKey": "1"
+                                    }
+                                ] : undefined
+                            },
+                            {
+                                dataType: 'EMPLOYEE',
+                                dataScope: values[`dataScope4-${rules[i].key}`],
+                                filtrateMethod: values[`filtrateMethod4-${rules[i].key}`] ? values[`filtrateMethod4-${rules[i].key}`] : undefined,
+                                dataAuthorityRuleDetailValues: values[`filtrateMethod4-${rules[i].key}`] ? [
+                                    {
+                                        "valueKey": "1"
+                                    }
+                                ] : undefined
+                            },
+                        ]
+                    },
+                    hasSaveRules?hasSaveRules:undefined
+                    )
+                }
+                let params={
+                    id:null,
+                    i18n: null,
+                    enabled: values.enabled,
+                    tenantId: this.props.company.tenantId,
+                    dataAuthorityCode:values.dataAuthorityCode,
+                    dataAuthorityName:values.dataAuthorityName,
+                    description:values.description,
+                    dataAuthorityRules:dataAuthorityRules
+                }
+                DataAuthorityService.saveDataAuthority(params).then(res => {
+                    if(res.status===200){
+                        this.props.close();
+                        // this.setState({
+                        //     hasSaveRules:res.data.dataAuthorityRules[0]
+                        // })
+                    }
+                }).catch(e => {
+                    message.error(e.response.data.message)
+                })
+                
+            }
         })
     }
     render() {
@@ -201,6 +291,7 @@ class NewDataAuthority extends React.Component {
                                 //最多输入100个字符
                                 message: this.$t('value.list.input.max.100'),
                             }],
+                            initialValue: newDataPrams.dataAuthorityName || ''
                         })(
                             <div>
                                 <LanguageInput
@@ -218,7 +309,9 @@ class NewDataAuthority extends React.Component {
                         {...formItemLayout}
                         label="数据权限说明"
                     >
-                        {getFieldDecorator('description')(
+                        {getFieldDecorator('description',{
+                             rules: []
+                        })(
                             <div>
                                 <LanguageInput
                                     // disabled={!this.props.tenantMode}
@@ -237,6 +330,7 @@ class NewDataAuthority extends React.Component {
                         colon={true}
                     >
                         {getFieldDecorator('enabled', {
+                            rules: [],
                             initialValue: newDataPrams.enabled ? true : false,
                             valuePropName: 'checked'
                         })(

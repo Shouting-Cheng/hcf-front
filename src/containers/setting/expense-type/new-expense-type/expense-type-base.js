@@ -35,7 +35,8 @@ class ExpenseTypeBase extends React.Component {
       saving: false,
       priceUnit: "",
       entryMode: false,
-      types: []
+      types: [],
+      budgetItemName: ""
       // expenseTypePage: menuRoute.getRouteItem('expense-type'),
       // expenseTypeDetailPage: menuRoute.getRouteItem('expense-type-detail')
     }
@@ -52,9 +53,12 @@ class ExpenseTypeBase extends React.Component {
       }
     } else {
       expenseTypeService.getExpenseTypeCategory(this.props.expenseType.setOfBooksId).then(res => {
-        this.setState({ expenseTypeCategory: res.data });
+        this.setState({ expenseTypeCategory: res.data, budgetItemName: this.props.expenseType.budgetItemName });
         this.setFieldsByExpenseType(this.props);
       });
+
+      this.typeCategoryChange(this.props.expenseType.typeCategoryId);
+
     }
   }
 
@@ -160,6 +164,15 @@ class ExpenseTypeBase extends React.Component {
     })
   }
 
+  sourceTypeChange = (value) => {
+    let model = this.state.types.find(o => o.id == value);
+
+    this.setState({
+      budgetItemName: model.budgetItemName
+    });
+
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -232,11 +245,14 @@ class ExpenseTypeBase extends React.Component {
         <FormItem {...formItemLayout} label={messages('申请类型')}>
           {getFieldDecorator('sourceTypeId', {
           })(
-            <Select disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
+            <Select onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
               {types.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
             </Select>
           )}
         </FormItem>
+        {this.props.form.getFieldValue("sourceTypeId") && (<FormItem {...formItemLayout} label={messages('预算项目')}>
+          <Input value={this.state.budgetItemName} disabled style={{ width: 400 }} />
+        </FormItem>)}
         <FormItem {...formItemLayout} label={messages('金额录入模式')}>
           {getFieldDecorator('entryMode', {
             initialValue: 0

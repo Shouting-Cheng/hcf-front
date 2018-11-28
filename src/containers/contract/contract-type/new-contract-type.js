@@ -397,7 +397,7 @@ class NewContractType extends React.Component {
             })(
               <Select
                 allowClear
-                onFocus={this.onFormFocus}
+                onDropdownVisibleChange={this.onFormFocus}
                 placeholder={this.$t('common.please.select')}
                 notFoundContent={
                   fetching ? <Spin size="small" /> : this.$t('my.contract.no.result')
