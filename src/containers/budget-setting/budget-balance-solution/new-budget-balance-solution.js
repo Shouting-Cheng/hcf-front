@@ -231,7 +231,7 @@ class NewBudgetBalanceSolution extends Component {
             /**"币种" */
             case "CURRENCY":
                 listSelectorType = 'currency_budget';
-                listSelectorExtraParams = { enable: true, setOfBooksId: this.props.company.setOfBooksId, tenantId: this.props.company.tenantId }
+                listSelectorExtraParams = { setOfBooksId: this.props.company.setOfBooksId, tenantId: this.props.company.tenantId }
                 break;
             default:
                 listSelectorType = '';
