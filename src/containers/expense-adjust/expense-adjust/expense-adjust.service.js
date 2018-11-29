@@ -222,6 +222,6 @@ export default {
   },
   //导入完成
   importData(oid) {
-    return httpFetch.get(`${config.baseUrl} /api/expense/adjust/lines/final/confirmation/${oid}`);
+   return httpFetch.post(`${config.baseUrl} /api/expense/adjust/lines/import/new/confirm/${oid}`);
   },
 };
