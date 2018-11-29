@@ -600,6 +600,8 @@ export default class Login extends React.Component {
       formData.append(key, data[key]);
     });
 
+    window.localStorage.setItem("LastRequestDate", moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
+
     axios({
       url: '/auth/oauth/token',
       method: 'POST',
@@ -613,6 +615,7 @@ export default class Login extends React.Component {
       data: formData,
     }).then(res => {
       window.localStorage.setItem('token', res.data.access_token);
+      window.localStorage.setItem('refresh_token', res.data.refresh_token);
       this.props.dispatch({
         type: 'user/setToken',
         token: res.data.access_token

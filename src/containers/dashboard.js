@@ -4,351 +4,375 @@ import { messages } from "utils/utils";
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Row, Col, Card, Icon, Carousel, DatePicker, message } from 'antd';
-import { Bar, WaterWave } from 'components/Charts';
-const { MonthPicker } = DatePicker;
+import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon } from 'antd';
 import 'styles/dashboard.scss'
-import httpFetch from 'share/httpFetch'
-import config from 'config'
-import recentImg from 'images/dashboard/recent.png'
-import recentBlankImg from 'images/dashboard/recent-blank.png'
-import dashboardService from 'containers/dashboard.service'
-import myAccountImg from 'images/dashboard/my-account.png'
-import businessCardImg from 'images/dashboard/business-card.png'
-import approveImg from 'images/dashboard/approve.png'
-import editingImg from 'images/dashboard/editing.png'
-import constants from 'share/constants'
-// import menuRoute from 'routes/menuRoute'
-// import expenseService from 'containers/my-account/expense.service'
+import moment from "moment"
+import userImage from "images/user1.png"
+import FileSaver from 'file-saver';
+
+const TabPane = Tabs.TabPane;
+const { MonthPicker } = DatePicker;
+
+import {
+  G2,
+  Chart,
+  Geom,
+  Axis,
+  Tooltip,
+  Coord,
+  Label,
+  Legend,
+  View,
+  Guide,
+  Shape,
+  Facet,
+  Util
+} from "bizcharts";
+
+import DataSet from "@antv/data-set";
+
 
 class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      businessCardEnabled: false,
-      imgBasicHeight: 712,
-      imgBasicWidth: 1242,
-      carousels: [],
-      imgStyle: [],
-      cardHeight: 150,
-      recentList: ['记一笔', '休假申请单', '报销单', '安全设置'],
-      waitForVerify: {
-        sum: 55,
-        data: [
-          { x: "TOP1", y: 1111 }, { x: "TOP2", y: 1021 }, { x: "TOP3", y: 750 }, { x: "TOP4", y: 600 }, { x: "TOP5", y: 578 },
-          { x: "TOP6", y: 570 }, { x: "TOP7", y: 500 }, { x: "TOP8", y: 500 }, { x: "TOP9", y: 480 }, { x: "TOP10", y: 300 }
-        ]
-      },
-      loanAndRepayment: {
-        date: '2018-03',
-        loan: {
-          sum: 10,
-          amount: 4191.11,
-          data: [
-            { amount: 1000 }, { amount: 800 }, { amount: 800 }, { amount: 600 }, { amount: 600 }
-          ]
-        },
-        repayment: {
-          sum: 12,
-          amount: 3200.22
-        }
-      },
-      waitForSubmit: {
-        expenseNumber: 0,
-        totalAmount: 0
-      },
-      businessCard: {
-        expenseNumber: 0,
-        totalAmount: 0
-      },
-      waitForApproveNum: 0,
-      pendSubmitList: {
-        page: 1,
-        size: 10,
-        sum: 0,
-        total: 0,
-        loading: false,
-        data: []
-      }
-    };
+      timerStr: "",
+      height: 0,
+      backList: [1, 2, 5, 6, 7, 8, 9, 0, 9],
+      hello: ""
+    }
   }
-
-  componentWillMount() {
-    this.getAccountBookData();
-    this.getBusinessCardData();
-    this.getWaitForApproveNum();
-    this.getPendSubmitList();
-    // expenseService.getBusinessCardStatus().then(res => {
-    //   this.setState({ businessCardEnabled: res.data.rows })
-    // });
-  }
-
-  getAccountBookData = () => {
-    dashboardService.getAccountBook().then(res => {
-      this.setState({ waitForSubmit: res.data })
-    })
-  };
-
-  getBusinessCardData = () => {
-    dashboardService.getBusinessCard().then(res => {
-      this.setState({ businessCard: res.data })
-    })
-  };
-
-  getWaitForApproveNum = () => {
-    dashboardService.getWaitForApproveNum().then(res => {
-      this.setState({ waitForApproveNum: res.data })
-    })
-  };
-
-  getPendSubmitList = () => {
-    const { pendSubmitList } = this.state;
-    pendSubmitList.loading = true;
-    this.setState({ pendSubmitList });
-    dashboardService.getPendSubmitList(pendSubmitList.page, pendSubmitList.size).then(res => {
-      pendSubmitList.loading = false;
-      if (res.data.entityPlainList.length === 0 && pendSubmitList.data.length !== 0) {
-        message.error('没有更多数据了');
-      } else {
-        pendSubmitList.data = pendSubmitList.data.concat(res.data.entityPlainList);
-        pendSubmitList.sum = res.data.sum;
-        pendSubmitList.page++;
-        pendSubmitList.total = res.data.total;
-      }
-      this.setState({ pendSubmitList });
-    })
-  };
 
   componentDidMount() {
-    // const { imgBasicHeight, imgBasicWidth } = this.state;
-    // let percent = imgBasicHeight / imgBasicWidth;  //图片长宽比
-    // let cardWidth = (document.getElementsByClassName('helios-content')[0].clientWidth - 60) / 3;  //内容区域每张Card宽度
-    // let cardHeight = cardWidth * percent;  //每张Card高度
-    // this.setState({ cardHeight });
-    // dashboardService.getCarouselsByCompany(this.props.user.companyOID).then(res => {
-    //   if(res.data.length > 0){
-    //     res.data.map((item, index) => {
-    //       //预加载图片获得图片尺寸，并根据比例调整显示高宽
-    //       let img = new Image();
-    //       img.src = item.attachmentDTO.fileURL;
-    //       img.onload = () => {
-    //         let { height, width } = img;  //图片尺寸
-    //         if(height + width > 1){
-    //           let { imgStyle } = this.state;
-    //           if(height / width < percent){  //需固定高度并且平移x居中图片
-    //             let targetWidth = cardHeight * width / height;
-    //             imgStyle[index] = { height: cardHeight, width: targetWidth, left: - (targetWidth - cardWidth) / 2 };
-    //           }
-    //           if(height / width > percent){  //需固定宽度与底部
-    //             let targetHeight = cardWidth * height / width;
-    //             imgStyle[index] = { width: cardWidth, height: targetHeight,bottom:0 };
-    //           }
-    //           this.setState({ imgStyle });
-    //         }
-    //       };
-    //     });
-    //   }
-    //   this.setState({ carousels: res.data })
-    // })
+    this.getCurrentDate();
   }
 
-  handleChangeLoanMonth = () => {
 
-  };
-
-  // 鼠标横向滚动交互
-  onwheel = (event) => {
-    let divContainer = this.refs.divContainer;
-    let step = 50;
-    if (event.deltaX < 0 || event.deltaX > 0) {
-      //保留触摸横向滚动
-      return
-    } else {
-      event.preventDefault();
-      if (event.deltaY < 0 && event.deltaX == 0) {
-        divContainer.scrollLeft -= step;
-      } else {
-        divContainer.scrollLeft += step;
-      }
-    }
+  renderDate = () => {
+    return (
+      <div>
+        <span style={{ marginRight: 20, cursor: "pointer" }}>本月</span>
+        <span style={{ marginRight: 20, cursor: "pointer" }}>本季</span>
+        <span style={{ marginRight: 20, cursor: "pointer", color: "#1890ff" }}>全年</span>
+        <MonthPicker
+          style={{ marginRight: 20 }}
+          placeholder="开始日期"
+        />
+        <MonthPicker placeholder="结束日期" />
+      </div>
+    )
   }
-  goDocumentDetail = (item) => {
-    let url;
-    if (Number(item.formType) < 3000) {
-      url = menuRoute.getRouteItem('request-edit').url.replace(':formOID', item.formOID).replace(':applicationOID', item.entityOID);
+
+  downloadImage = () => {
+
+    var ctx = document.querySelector(".data canvas");
+    var dataURL = ctx.toDataURL("image/png", 1.0);
+
+    FileSaver.saveAs(dataURL, "费用趋势.png");
+
+  }
+
+  //获取当前时间
+  getCurrentDate() {
+
+    let date = new Date();
+
+    let hours = date.getHours();
+
+    let hello = "";
+
+    if (hours >= 6 && hours <= 11) {
+      hello = "早上好";
+    } else if (hours == 12) {
+      hello = "中午好";
+    } else if (hours > 12 && hours < 18) {
+      hello = "下午好";
     } else {
-      url = menuRoute.getRouteItem('expense-report-detail').url.replace(':expenseReportOID', item.entityOID);
+      hello = "晚上好";
     }
-    this.context.router.push(url)
-  };
+
+    let time = moment(date).format("YYYY-MM-DD dddd");
+
+    this.setState({ timerStr: time, hello });
+  }
 
   render() {
-    const {
-      carousels, cardHeight, imgStyle, recentList, businessCardEnabled,
-      waitForVerify, loanAndRepayment, waitForSubmit, businessCard, waitForApproveNum, pendSubmitList
-    } = this.state;
-    const cardStyle = { height: cardHeight };
-    let recentItemHeight = (cardHeight - 70) / 4;
-    const recentItemStyle = { height: recentItemHeight, lineHeight: recentItemHeight + 'px' };
+
+    const { timerStr, backList, hello } = this.state;
+
+    const { DataView } = DataSet;
+    const { Html } = Guide;
+    const data = [
+      {
+        item: "申请单",
+        count: 12
+      },
+      {
+        item: "报销单",
+        count: 21
+      },
+      {
+        item: "合同",
+        count: 17
+      },
+      {
+        item: "预付款",
+        count: 13
+      },
+      {
+        item: "报账单",
+        count: 9
+      }
+    ];
+
+    const barData = [
+      {
+        year: "一月",
+        sales: 38
+      },
+      {
+        year: "二月",
+        sales: 52
+      },
+      {
+        year: "三月",
+        sales: 61
+      },
+      {
+        year: "四月",
+        sales: 145
+      },
+      {
+        year: "五月",
+        sales: 48
+      },
+      {
+        year: "六月",
+        sales: 38
+      },
+      {
+        year: "七月",
+        sales: 30
+      },
+      {
+        year: "八月",
+        sales: 200
+      },
+      {
+        year: "九月",
+        sales: 100
+      },
+      {
+        year: "十月",
+        sales: 140
+      },
+      {
+        year: "十一月",
+        sales: 320
+      },
+      {
+        year: "十二月",
+        sales: 246
+      },
+    ];
+
+    const cols = {
+      sales: {
+        tickInterval: 40
+      }
+    };
+
+    const dv = new DataView();
+
+    dv.source(data).transform({
+      type: "percent",
+      field: "count",
+      dimension: "item",
+      as: "percent"
+    });
+
     return (
-      <div className="dashboard" style={{backgroundColor: "#F0F2F5", padding: 20}}>
-       
-        <Row gutter={10} type="flex" align="top">
-          {/*<Col span={8}>*/}
-          {/*<Card style={cardStyle}>*/}
-          {/*<div className="card-title">Hi, 这里是最新消息<a className="all-message">全部消息</a></div>*/}
-          {/*<div className="card-content">*/}
-          {/*</div>*/}
-          {/*</Card>*/}
-          {/*</Col>*/}
-          {/*<Col span={8}>*/}
-          {/*<Card className="carousels" style={cardStyle} >*/}
-          {/*{carousels.length > 0 ? <Carousel style={cardStyle}>*/}
-          {/*{carousels.map((item, index) => {*/}
-          {/*return (*/}
-          {/*<div className="carousel" key={item.id} >*/}
-          {/*<img src={item.attachmentDTO.fileURL} style={imgStyle[index]}/>*/}
-          {/*<div className="carousel-title" style={{ top: `${cardHeight - 40}` }}>{item.title}</div>*/}
-          {/*</div>*/}
-          {/*)*/}
-          {/*})}*/}
-          {/*</Carousel> : null}*/}
-          {/*</Card>*/}
-          {/*</Col>*/}
-          {/*<Col span={8}>*/}
-          {/*<Card style={cardStyle}>*/}
-          {/*<div className="card-title">最近使用</div>*/}
-          {/*<div className="card-content">*/}
-          {/*{recentList.map((item, index) => <div className="recent-item" style={recentItemStyle} key={index}>{item}</div>)}*/}
-          {/*<img className="recent-img" src={recentList.length === 0 ? recentBlankImg : recentImg}/>*/}
-          {/*</div>*/}
-          {/*</Card>*/}
-          {/*</Col>*/}
-
-          {/*<Col span={12}>*/}
-          {/*<Card className="chart-card">*/}
-          {/*<div className="card-title">*/}
-          {/*待审核单据<br/>*/}
-          {/*<span>{waitForVerify.sum}</span>笔*/}
-          {/*</div>*/}
-          {/*<div className="card-content">*/}
-          {/*<Bar*/}
-          {/*height={200}*/}
-          {/*data={waitForVerify.data}*/}
-          {/*/>*/}
-          {/*</div>*/}
-          {/*</Card>*/}
-          {/*</Col>*/}
-
-          {/*<Col span={12}>*/}
-          {/*<Card className="chart-card loan-card">*/}
-          {/*<div className="card-title">*/}
-          {/*借还款管理*/}
-          {/*</div>*/}
-          {/*<MonthPicker onChange={this.handleChangeLoanMonth}/>*/}
-          {/*<div className="card-content">*/}
-          {/*<Row gutter={20}>*/}
-          {/*<Col span={8}>*/}
-          {/*<div className="water-wave-container">*/}
-          {/*<WaterWave*/}
-          {/*height={160}*/}
-          {/*title="差额统计"*/}
-          {/*percent={34}*/}
-          {/*/>*/}
-          {/*</div>*/}
-          {/*</Col>*/}
-          {/*<Col span={8} className="loan-content">*/}
-          {/*<div style={{marginTop: 30}}><span>借款单：</span>{loanAndRepayment.loan.sum}笔</div>*/}
-          {/*<div><span>还款单：</span>{loanAndRepayment.repayment.sum}笔</div>*/}
-          {/*<div style={{marginTop: 25  }}><span>借款金额：</span>{loanAndRepayment.loan.amount}</div>*/}
-          {/*<div><span>还款金额：</span>{loanAndRepayment.repayment.amount}</div>*/}
-          {/*</Col>*/}
-          {/*<Col span={8} className="loan-content">*/}
-          {/*<div className="loan-title">借款单金额TOP10</div>*/}
-          {/*{loanAndRepayment.loan.data.map((loan, index) => (*/}
-          {/*<Row key={index}>*/}
-          {/*<Col span={12} className="loan-top-title">TOP{index + 1}</Col>*/}
-          {/*<Col style={{textAlign: 'right'}} span={12}>{this.filterMoney(loan.amount)}</Col>*/}
-          {/*</Row>*/}
-          {/*))}*/}
-          {/*</Col>*/}
-          {/*</Row>*/}
-          {/*</div>*/}
-          {/*</Card>*/}
-          {/*</Col>*/}
-
-          <Col span={8}>
-            <Card>
-              <div className="card-title">
-                {messages('main.bill')/*账单*/}
-              </div>
-              <div className="card-content">
-                <div className="amount-card">
-                  <img src={myAccountImg} />
-                  <div className="amount-title"><b>{waitForSubmit.expenseNumber}</b>{messages('main.wait.for.submit')/*笔待报销费用*/}</div>
-                  <div className="amount-detail">{this.filterMoney(waitForSubmit.totalAmount)}</div>
+      <div className="dashboard-container">
+        <Row gutter={12}>
+          <Col className="user-info" span={8}>
+            <Card
+              title="员工信息"
+              extra={<span style={{ fontSize: 18 }}>{timerStr}</span>}
+            >
+              <div className="user-info-box">
+                <img style={{ height: 120, width: 120, flex: "0 0 120px" }} src={userImage} />
+                <div className="user-info">
+                  <div className="info-item">{hello}，清浅</div>
+                  <div className="info-item">苏州银行  财会部</div>
+                  <div className="info-item">1234567@126.com</div>
+                  <div className="info-item">13321010000</div>
+                  <div className="info-item" style={{ color: "#888" }}>好好学习，天天向上</div>
                 </div>
               </div>
             </Card>
           </Col>
-
-          {businessCardEnabled && (
-            <Col span={8}>
-              <Card>
-                <div className="card-title">
-                  {messages('main.business.card')/*商务卡*/}
-                </div>
-                <div className="card-content">
-                  <div className="amount-card">
-                    <img src={businessCardImg} />
-                    <div className="amount-title"><b>{businessCard.expenseNumber}</b>{messages('main.business.card.record')/*笔待处理商务卡费用*/}</div>
-                    <div className="amount-detail">{this.filterMoney(businessCard.totalAmount)}</div>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          )}
-
           <Col span={8}>
-            <Card>
-              <div className="card-title">
-                {messages('main.approve')/*审批*/}
-              </div>
-              <div className="card-content">
-                <div className="amount-card">
-                  <img src={approveImg} />
-                  <div className="amount-title" style={{ height: 60, lineHeight: '60px' }}><b>{waitForApproveNum}</b>{messages('main.wait.for.approve')/*笔待审批单据*/}</div>
-                </div>
-              </div>
-            </Card>
+            <Carousel autoplay>
+              <div><h3>1</h3></div>
+              <div><h3>2</h3></div>
+              <div><h3>3</h3></div>
+              <div><h3>4</h3></div>
+            </Carousel>
           </Col>
-
-          <Col span={24}>
-            <Card className="document-card">
-              <div className="card-title">
-                待提报单据
-              </div>
-              <div className="card-content" onWheel={this.onwheel} ref="divContainer">
-                {pendSubmitList.data.map(item => (
-                  <div className="application-item" key={item.entityOID} onClick={() => this.goDocumentDetail(item)}>
-                    <div className="application-date">{new Date(item.lastModifiedDate).format('yyyy-MM-dd')}</div>
-                    <div className="application-form-name">{item.formName}</div>
-                    <div className="application-amount">{item.currencyCode}&nbsp;{this.filterMoney(item.totalAmount)}</div>
-                    <div className="application-business-code">{item.businessCode}</div>
-                    <div className="application-operate">
-                      <img src={editingImg} />{constants.getTextByValue(Number(item.status + '' + item.rejectType), 'documentStatus')}</div>
-                  </div>
-                ))}
-                <div className="document-icon" onClick={this.getPendSubmitList}>
-                  <Icon type={pendSubmitList.loading ? 'loading' : 'forward'} />
-                </div>
-              </div>
+          <Col span={8}>
+            <Card
+              title="待审批的单据"
+              extra={<span style={{ fontSize: 18 }}>共72笔</span>}
+            >
+              <Chart
+                data={dv}
+                // scale={cols}
+                height={160}
+                padding={[30, 30, 30, 30]}
+                forceFit
+              >
+                <Coord type={"theta"} innerRadius={0.6} />
+                {/* <Axis name="percent" /> */}
+                <Tooltip
+                  showTitle={false}
+                  itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
+                />
+                <Geom
+                  type="intervalStack"
+                  position="percent"
+                  color="item"
+                  tooltip={[
+                    "item*percent",
+                    (item, percent) => {
+                      return {
+                        name: item,
+                        value: (percent * 100).toFixed(2) + "%"
+                      };
+                    }
+                  ]}
+                  style={{
+                    lineWidth: 1,
+                    stroke: "#fff"
+                  }}
+                >
+                  <Label
+                    content="count"
+                    formatter={(val, item) => {
+                      return item.point.item + ": " + val + "笔";
+                    }}
+                  />
+                </Geom>
+              </Chart>
             </Card>
           </Col>
         </Row>
-      </div>
-    );
+        <Row className="disboard-bottom" style={{ marginTop: 12 }} gutter={12}>
+          <Col className="data" span={16}>
+            <Card
+              title="个人报表"
+              extra={this.renderDate()}
+            >
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="费用趋势" key="1">
+                  <div style={{ padding: 12 }}>
+                    <div style={{ textAlign: "right" }}>
+                      <Icon type="bar-chart" style={{ marginRight: 20, fontSize: 18, color: "#1890ff", cursor: "pointer" }} />
+                      <Icon type="line-chart" style={{ fontSize: 18, cursor: "pointer", marginRight: 30 }} />
+                      <span onClick={this.downloadImage} style={{ cursor: "pointer" }}>
+                        <Icon type="download" style={{ fontSize: 18 }} />导出
+                      </span>
+                    </div>
+                    <div id="bar-chat">
+                      <Chart height={360} padding={[60, 60, 60, 60]} data={barData} scale={cols} forceFit>
+                        <Axis name="year" />
+                        <Axis name="sales" />
+                        <Tooltip
+                          crosshairs={{
+                            type: "y"
+                          }}
+                        />
+                        <Geom type="interval" position="year*sales" />
+                      </Chart>
+                    </div>
+                  </div>
+                </TabPane>
+                <TabPane tab="费用占比" key="2"></TabPane>
+                <TabPane tab="付款状态" key="3"></TabPane>
+              </Tabs>
+            </Card>
+          </Col>
+          <Col className="tabs" span={8}>
+            <Card
+              title="我的单据"
+              className="info-card"
+            >
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="被退回的单据(5)" key="1">
+                  {backList.map((item, index) => {
+                    return (
+                      <Card
+                        title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
+                        extra={<span>2018-11-25</span>}
+                        style={{ marginTop: 12 }}
+                        key={index}
+                      >
+                        <Row>
+                          <Col span={12}>费用申请单</Col>
+                          <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
+                        </Row>
+                        <Row style={{ marginTop: 16 }}>
+                          <Col span={12}>差旅申请</Col>
+                          <Col span={12} style={{ textAlign: "right" }}>
+                            <Tag color="#f50">审批驳回</Tag>
+                          </Col>
+                        </Row>
+                        <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
+                          驳回人：财务负责人-清浅
+                    </div>
+                      </Card>
+                    )
+                  })}
+                </TabPane>
+                <TabPane tab="未完成的单据(7)" key="2">
+                  <Card
+                    title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
+                    extra={<span>2018-11-25</span>}
+                    style={{ marginTop: 12 }}
+                  >
+                    <Row>
+                      <Col span={12}>费用申请单</Col>
+                      <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
+                    </Row>
+                    <Row style={{ marginTop: 16 }}>
+                      <Col span={12}>差旅申请</Col>
+                      <Col span={12} style={{ textAlign: "right" }}>
+                        <Tag color="#f50">审批驳回</Tag>
+                      </Col>
+                    </Row>
+                  </Card>
+                  <Card
+                    title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
+                    extra={<span>2018-11-25</span>}
+                    style={{ marginTop: 12 }}
+                  >
+                    <Row>
+                      <Col span={12}>费用申请单</Col>
+                      <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
+                    </Row>
+                    <Row style={{ marginTop: 16 }}>
+                      <Col span={12}>差旅申请</Col>
+                      <Col span={12} style={{ textAlign: "right" }}>
+                        <Tag color="#f50">审批驳回</Tag>
+                      </Col>
+                    </Row>
+                  </Card>
+                </TabPane>
+              </Tabs>
+            </Card>
+          </Col>
+        </Row>
+      </div>)
   }
 }
 
