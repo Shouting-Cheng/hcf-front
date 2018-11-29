@@ -98,14 +98,14 @@ class PrePaymentDetail extends React.Component {
           }
         })
         .catch(e => {
-          console.log(e);
+          console.log(e); 
           let mess;
           if(e.response.data.message.indexOf("CONTRACT_STATUS_HOLD")>0){
             mess = e.response.data.message.replace("CONTRACT_STATUS_HOLD",this.$t('my.zan.gua'));
           }else if(e.response.data.message.indexOf("CONTRACT_STATUS_CANCEL")>0){
             mess = e.response.data.message.replace("CONTRACT_STATUS_CANCEL",this.$t('common.cancel'));
           }else if(e.response.data.message.indexOf("CONTRACT_STATUS_FINISH")){
-            mess = e.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.comtract.state.finish'));
+            mess = e.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.contract.state.finish'));
           }
           this.setState({
             loading: false,
