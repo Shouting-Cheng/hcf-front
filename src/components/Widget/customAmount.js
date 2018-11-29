@@ -11,7 +11,7 @@ class customAmount extends React.Component{
     this.state={
       value: props.value || '',
     };
-    this.onChange = debounce(this.onChange, 500);
+    //this.onChange = debounce(this.onChange, 500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,7 +31,7 @@ class customAmount extends React.Component{
   onChange =(value)=>{
     if(value){
       const {len} = this.props;
-      value = parseFloat(value).toFixed(len);
+      //value = parseFloat(value).toFixed(len);
       this.setState({value});
       this.props.onChange&&this.props.onChange(value)
     }

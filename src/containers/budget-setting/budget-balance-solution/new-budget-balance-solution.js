@@ -785,18 +785,15 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={5} style={{marginTop: 3}} >
+                            <Col span={5} >
                                 <FormItem {...formItemLayout} label={this.$t('common.column.status')}  >
                                     {
                                         getFieldDecorator('enabled', {
-                                            rules: [{
-                                                required: true
-                                            }],
                                             initialValue: true,
                                             valuePropName: 'checked'
                                         })
                                             (
-                                            <Switch />
+                                            <Switch style={{marginTop: 48,marginLeft: -42,}} />
                                             )
                                     }
                                 </FormItem>
