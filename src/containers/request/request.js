@@ -671,8 +671,8 @@ class ApplicationList extends React.Component {
             {this.$t('common.total', { total: pagination.total || 0 }) /*共搜索到 {total} 条数据*/}
           </div>
           <div className="table-header-buttons">
-            <div id="drop" style={{position : "relative"}}>
-            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menu}>
+            <div id="request-drop" style={{position : "relative"}}>
+            <Dropdown getPopupContainer={ () => document.getElementById('request-drop')} overlay={menu}>
               <Button type="primary">
                 {this.$t('request.create') /*新建申请单*/} <Icon type="down" />
               </Button>

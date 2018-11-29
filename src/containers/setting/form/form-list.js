@@ -341,15 +341,15 @@ class FormList extends React.Component {
     return (
       <div>
         {this.props.tenantMode && (
-          <div id="drop" style={{marginBottom: 20,position : "relative"}}>
+          <div id="form-list1-drop" style={{marginBottom: 20,position : "relative"}}>
             <span>{this.$t('form.setting.set.of.books')/*帐套*/}：</span>
-            <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={menuSetOfBooks} trigger={['click']}>
+            <Dropdown getPopupContainer={ () => document.getElementById('form-list1-drop')} overlay={menuSetOfBooks} trigger={['click']}>
               <span style={{color: '#0092da'}}>{currentSetOfBooksName} <Icon type="down"/></span>
             </Dropdown>
           </div>
         )}
-        <div id="drop2" style={{position : "relative"}}>
-          <Dropdown getPopupContainer={ () => document.getElementById('drop2')} overlay={menu} trigger={['click']}>
+        <div id="form-list2-drop" style={{position : "relative"}}>
+          <Dropdown getPopupContainer={ () => document.getElementById('form-list2-drop')} overlay={menu} trigger={['click']}>
             <Button type="primary">
               {this.$t('form.setting.new.form')/*新建表单*/} <Icon type="down"/>
            </Button>
