@@ -78,7 +78,7 @@ class NewShare extends Component {
                   precision={2}
                   value={value}
                   onChange={val => this.costChange(index, val)}
-                  disabled={record.isCreateByApplication}
+                  disabled={record.defaultApportion||record.isCreateByApplication}
                 />
               </div>
             ) : (

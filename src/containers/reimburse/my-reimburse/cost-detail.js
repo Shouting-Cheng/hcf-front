@@ -40,6 +40,11 @@ class CostDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      pagination: {
+        total: 0,
+      },
+      page: 0,
+      pageSize: 5,
       columns: [
         {
           title: '序号',
@@ -48,7 +53,7 @@ class CostDetail extends React.Component {
           dataIndex: 'index',
           key: 'index',
           render: (value, record, index) => {
-            return <span>{index + 1}</span>;
+            return <span>{this.state.page*this.state.pageSize+index + 1}</span>;
           },
         },
         {
@@ -179,11 +184,6 @@ class CostDetail extends React.Component {
       ],
       data: [],
       expenseTypeList: [],
-      pagination: {
-        total: 0,
-      },
-      page: 0,
-      pageSize: 5,
       loading: false,
       headerData: {},
       flag: false,

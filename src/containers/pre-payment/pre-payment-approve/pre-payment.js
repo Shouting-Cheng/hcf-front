@@ -140,7 +140,7 @@ class Payment extends React.Component {
           dataIndex: 'stringSubmitDate',
           width: 90,
           align: 'center',
-          render: (value) => moment(value).format('YYYY-MM-DD'),
+         // render: (value) => moment(value).format('YYYY-MM-DD'),
           render: (value) => {
             return (
               <Popover content={value}>{value}</Popover>

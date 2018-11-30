@@ -1841,7 +1841,7 @@ class NewExpense extends React.Component {
                           disabled={currencyEditable}>
                     {currencyList.map(item => {
                       return <Option
-                        key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
+                        key={item.currency} value={item.currency}>{item.currency+' -'}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                     })}
                   </Select>
                 )}
@@ -2469,7 +2469,7 @@ class NewExpense extends React.Component {
                                             placeholder={this.$t('common.please.select')/* 请选择 */}>
                                       {currencyList.map(item => {
                                         return <Option
-                                          key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
+                                          key={item.currency} value={item.currency}>{item.currency+' -'}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                                       })}
                                     </Select>
                                   ) : nowExpense.invoiceCurrencyCode}
@@ -2732,7 +2732,7 @@ class NewExpense extends React.Component {
                                               placeholder={this.$t('common.please.select')/* 请选择 */}>
                                         {currencyList.map(item => {
                                           return <Option
-                                            key={item.currency} value={item.currency}>{item.currency}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
+                                            key={item.currency} value={item.currency}>{item.currency+' -'}{this.props.language.local === 'zh_CN' ? ` ${item.currencyName}` : ''}</Option>
                                         })}
                                       </Select>
                                     )}

@@ -7,7 +7,7 @@ class LoanRelatedApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      requestDetail: menuRoute.getRouteItem('request-detail', 'key'), //申请单详情页
+      //requestDetail: menuRoute.getRouteItem('request-detail', 'key'), //申请单详情页
     };
   }
 

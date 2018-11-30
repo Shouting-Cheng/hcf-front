@@ -53,10 +53,10 @@ class DocumentBasicInfo extends React.Component {
           {linkId ? (
             <a title={value}>{value}</a>
           ) : (
-              <span title={value} className="content">
+            <span title={value} className="content">
                 {value}
               </span>
-            )}
+          )}
         </Col>
       </Row>
     );
@@ -121,25 +121,25 @@ class DocumentBasicInfo extends React.Component {
           <Col span={16}>
             <Row>
               {this.state.data.infoList &&
-                this.state.data.infoList.length &&
-                this.state.data.infoList.map((item, index) => {
-                  return (
-                    <Col key={index} span={6}>
-                      {item && this.renderList(item.label, item.value, item.linkId)}
-                    </Col>
-                  );
-                })}
+              this.state.data.infoList.length &&
+              this.state.data.infoList.map((item, index) => {
+                return (
+                  <Col key={index} span={6}>
+                    {item && this.renderList(item.label, item.value, item.linkId)}
+                  </Col>
+                );
+              })}
             </Row>
             <Row>
               {this.state.data.customList &&
-                this.state.data.customList.length &&
-                this.state.data.customList.map((item, index) => {
-                  return (
-                    <Col key={index} span={6}>
-                      {this.renderList(item.label, item.value)}
-                    </Col>
-                  );
-                })}
+              this.state.data.customList.length &&
+              this.state.data.customList.map((item, index) => {
+                return (
+                  <Col key={index} span={6}>
+                    {this.renderList(item.label, item.value)}
+                  </Col>
+                );
+              })}
             </Row>
             <Row>
               <Col span={24}>
@@ -230,10 +230,10 @@ class DocumentBasicInfo extends React.Component {
                                 {item.fileName}
                               </a>
                             ) : (
-                                <a onClick={e => this.onPreviewClick(e, item.thumbnailUrl)}>
-                                  {item.fileName}
-                                </a>
-                              )}
+                              <a onClick={e => this.onPreviewClick(e, item.thumbnailUrl)}>
+                                {item.fileName}
+                              </a>
+                            )}
                           </Col>
                         );
                       })}
