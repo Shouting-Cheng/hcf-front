@@ -26,8 +26,8 @@ class GLWorkOrderCheck extends Component {
           id: 'typeId',
           colSpan: '6',
           getUrl: `${
-            config.accountingUrl
-          }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${this.props.user.id}&setOfBooksId=${props.company.setOfBooksId}`,
+            config.accountingUrl//userId=${this.props.user.id}&
+          }/api/general/ledger/work/order/types/query/by/setOfBooksId?setOfBooksId=${props.company.setOfBooksId}`,
           options: [],
           method: 'get',
           valueKey: 'id',
@@ -103,7 +103,7 @@ class GLWorkOrderCheck extends Component {
           colSpan: '6',
           getUrl: `${
             config.accountingUrl
-          }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${this.props.user.id}`,
+          }/api/general/ledger/work/order/types/query/by/setOfBooksId?setOfBooksId=${props.company.setOfBooksId}`,//userId=${this.props.user.id}
           options: [],
           method: 'get',
           valueKey: 'id',

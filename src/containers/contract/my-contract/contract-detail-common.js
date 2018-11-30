@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
-import {routerRedux} from 'dva/router';
+import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import contractService from 'containers/contract/contract-approve/contract.service';
 import {
   Form,
@@ -92,21 +92,21 @@ class ContractDetailCommon extends React.Component {
       AccountData: [], //关联的报账单
       contractEdit: false, //合同是否可编辑
       contractStatus: {
-        6002: {label: this.$t({id: 'my.contract.state.cancel'} /*已取消*/), state: 'default'},
-        6003: {label: this.$t({id: 'my.contract.state.finish'} /*已完成*/), state: 'success'},
+        6002: { label: this.$t({ id: 'my.contract.state.cancel' } /*已取消*/), state: 'default' },
+        6003: { label: this.$t({ id: 'my.contract.state.finish' } /*已完成*/), state: 'success' },
         1001: {
-          label: this.$t({id: 'my.contract.state.generate'} /*编辑中*/),
+          label: this.$t({ id: 'my.contract.state.generate' } /*编辑中*/),
           state: 'processing',
         },
-        6001: {label: this.$t({id: 'my.contract.state.hold'} /*暂挂*/), state: 'warning'},
+        6001: { label: this.$t({ id: 'my.contract.state.hold' } /*暂挂*/), state: 'warning' },
         1002: {
-          label: this.$t({id: 'my.contract.state.submitted'} /*审批中*/),
+          label: this.$t({ id: 'my.contract.state.submitted' } /*审批中*/),
           state: 'processing',
         },
-        1005: {label: this.$t({id: 'my.contract.state.rejected'} /*已驳回*/), state: 'error'},
-        1004: {label: this.$t({id: 'my.contract.state.confirm'} /*已通过*/), state: 'success'},
+        1005: { label: this.$t({ id: 'my.contract.state.rejected' } /*已驳回*/), state: 'error' },
+        1004: { label: this.$t({ id: 'my.contract.state.confirm' } /*已通过*/), state: 'success' },
         1003: {
-          label: this.$t({id: 'my.contract.state.withdrawal'} /*已撤回*/),
+          label: this.$t({ id: 'my.contract.state.withdrawal' } /*已撤回*/),
           state: 'warning',
         },
       },
@@ -114,8 +114,8 @@ class ContractDetailCommon extends React.Component {
         total: 0,
         showTotal: (total, range) =>
           this.$t(
-            {id: 'common.show.total'},
-            {range0: `${range[0]}`, range1: `${range[1]}`, total: total}
+            { id: 'common.show.total' },
+            { range0: `${range[0]}`, range1: `${range[1]}`, total: total }
           ),
         showSizeChanger: true,
         showQuickJumper: true,
@@ -127,8 +127,8 @@ class ContractDetailCommon extends React.Component {
         total: 0,
         showTotal: (total, range) =>
           this.$t(
-            {id: 'common.show.total'},
-            {range0: `${range[0]}`, range1: `${range[1]}`, total: total}
+            { id: 'common.show.total' },
+            { range0: `${range[0]}`, range1: `${range[1]}`, total: total }
           ),
         showSizeChanger: true,
         showQuickJumper: true,
@@ -139,25 +139,25 @@ class ContractDetailCommon extends React.Component {
       },
       columns: [
         {
-          title: this.$t({id: 'my.contract.currency'} /*币种*/),
+          title: this.$t({ id: 'my.contract.currency' } /*币种*/),
           dataIndex: 'currency',
           align: 'center',
           width: 90,
         },
         {
-          title: this.$t({id: 'request.amount'} /*金额*/),
+          title: this.$t({ id: 'request.amount' } /*金额*/),
           dataIndex: 'amount',
           align: 'center',
           render: desc => this.filterMoney(desc),
         },
         {
-          title: this.$t({id: 'request.base.amount'} /*本币金额*/),
+          title: this.$t({ id: 'request.base.amount' } /*本币金额*/),
           dataIndex: 'funcAmount',
           align: 'center',
           render: (desc, record) => this.filterMoney(record.functionAmount),
         },
         {
-          title: this.$t({id: 'my.receivable'} /*收款方*/),
+          title: this.$t({ id: 'my.receivable' } /*收款方*/),
           dataIndex: 'partnerName',
           align: 'center',
           render: (value, record) => {
@@ -168,7 +168,7 @@ class ContractDetailCommon extends React.Component {
                     ? this.$t('acp.employee')
                     : this.$t('acp.vendor')}
                 </Tag>
-                <div style={{whiteSpace: 'normal'}}>
+                <div style={{ whiteSpace: 'normal' }}>
                   {record.partnerName}
                 </div>
               </div>
@@ -176,7 +176,7 @@ class ContractDetailCommon extends React.Component {
           },
         },
         {
-          title: this.$t({id: 'my.contract.plan.pay.date'} /*计划付款日期*/),
+          title: this.$t({ id: 'my.contract.plan.pay.date' } /*计划付款日期*/),
           dataIndex: 'dueDate',
           align: 'center',
           render: value => (
@@ -186,17 +186,17 @@ class ContractDetailCommon extends React.Component {
           ),
         },
         {
-          title: this.$t({id: 'common.remark'} /*备注*/),
+          title: this.$t({ id: 'common.remark' } /*备注*/),
           dataIndex: 'remark',
           align: 'center',
           render: value =>
             value ? (
-              <Popover content={value} overlayStyle={{maxWidth: 300}}>
+              <Popover content={value} overlayStyle={{ maxWidth: 300 }}>
                 {value}
               </Popover>
             ) : (
-              '-'
-            ),
+                '-'
+              ),
         },
       ],
       data: [],
@@ -258,15 +258,15 @@ class ContractDetailCommon extends React.Component {
         },
 
         {
-          title: this.$t({id: 'my.receivable'} /*收款方*/),
+          title: this.$t({ id: 'my.receivable' } /*收款方*/),
           dataIndex: 'partnerName',
           align: 'center',
           render: (value, record) => {
             return (
               <div>
-                <div style={{whiteSpace: 'normal'}}>
+                <div style={{ whiteSpace: 'normal' }}>
                   {record.payeeCategory === 'EMPLOYEE'
-                    ? this.$t('acp.employee')
+                    ? this.$t('acp.employee') + '-' + record.partnerName
                     : this.$t('acp.vendor') + '-' + record.partnerName}
                 </div>
               </div>
@@ -275,7 +275,7 @@ class ContractDetailCommon extends React.Component {
         },
         {
           /*状态*/
-          title: this.$t({id: 'common.column.status'}),
+          title: this.$t({ id: 'common.column.status' }),
           key: 'status',
           width: '10%',
           align: 'center',
@@ -305,7 +305,7 @@ class ContractDetailCommon extends React.Component {
             </Popover>
           ),
         },
-        {title: this.$t('my.line.number'), dataIndex: 'lineNumber', align: 'center', width: 90},
+        { title: this.$t('my.line.number'), dataIndex: 'lineNumber', align: 'center', width: 90 },
         {
           /*提交日期*/
           title: this.$t('acp.requisitionDate'),
@@ -326,13 +326,13 @@ class ContractDetailCommon extends React.Component {
         },
 
         {
-          title: this.$t({id: 'my.receivable'} /*收款方*/),
+          title: this.$t({ id: 'my.receivable' } /*收款方*/),
           dataIndex: 'partnerName',
           align: 'center',
           render: (value, record) => {
             return (
               <div>
-                <div style={{whiteSpace: 'normal'}}>
+                <div style={{ whiteSpace: 'normal' }}>
                   {record.payeeCategory === 'EMPLOYEE'
                     ? this.$t('acp.employee')
                     : this.$t('acp.vendor') + '-' + record.partnerName}
@@ -343,13 +343,13 @@ class ContractDetailCommon extends React.Component {
         },
         {
           /*状态*/
-          title: this.$t({id: 'common.column.status'}),
+          title: this.$t({ id: 'common.column.status' }),
           key: 'status',
           width: '10%',
           align: 'center',
           dataIndex: 'status',
           render: status => (
-            <Badge status={this.$statusList[status].state} text={this.$statusList[status].label}/>
+            <Badge status={this.$statusList[status].state} text={this.$statusList[status].label} />
           ),
         },
       ],
@@ -374,7 +374,7 @@ class ContractDetailCommon extends React.Component {
           align: 'center',
           render: (desc, record) => <Popover content={desc}>{desc}</Popover>,
         }, //行序号
-        {title: this.$t('my.line.number'), dataIndex: 'num', align: 'center', width: 90},
+        { title: this.$t('my.line.number'), dataIndex: 'num', align: 'center', width: 90 },
         {
           //操作类型
           title: this.$t('operate.log.operation.type'),
@@ -425,8 +425,8 @@ class ContractDetailCommon extends React.Component {
 
   //获取合同信息
   getInfo = () => {
-    const {columns} = this.state;
-    this.setState({detailLoading: true});
+    const { columns } = this.state;
+    this.setState({ detailLoading: true });
     contractService.getContractHeaderInfo(this.props.id).then(response => {
       if (
         (response.data.status === 1001 ||
@@ -435,22 +435,22 @@ class ContractDetailCommon extends React.Component {
       ) {
         //编辑中、已驳回、已撤回
         columns.splice(columns.length, 0, {
-          title: this.$t({id: 'common.operation'} /*操作*/),
+          title: this.$t({ id: 'common.operation' } /*操作*/),
           dataIndex: 'id',
           width: '10%',
           render: (text, record) => (
             <span>
-                <a onClick={e => this.editItem(e, record)}>
-                  {this.$t({id: 'common.edit'} /*编辑*/)}
-                </a>
-                <span className="ant-divider"/>
-                <Popconfirm
-                  title={this.$t({id: 'common.confirm.delete'} /*确定要删除吗？*/)}
-                  onConfirm={e => this.deleteItem(e, record)}
-                >
-                  <a>{this.$t({id: 'common.delete'} /*删除*/)}</a>
-                </Popconfirm>
-              </span>
+              <a onClick={e => this.editItem(e, record)}>
+                {this.$t({ id: 'common.edit' } /*编辑*/)}
+              </a>
+              <span className="ant-divider" />
+              <Popconfirm
+                title={this.$t({ id: 'common.confirm.delete' } /*确定要删除吗？*/)}
+                onConfirm={e => this.deleteItem(e, record)}
+              >
+                <a>{this.$t({ id: 'common.delete' } /*删除*/)}</a>
+              </Popconfirm>
+            </span>
           ),
         });
       }
@@ -462,14 +462,14 @@ class ContractDetailCommon extends React.Component {
         businessCode: '12',
         currencyCode: response.data.currency,
         infoList: [
-          {label: this.$t('my.contract.number'), value: response.data.contractNumber},
+          { label: this.$t('my.contract.number'), value: response.data.contractNumber },
           {
             label: this.$t('common.applicant'),
             value:
-            response.data.created &&
-            response.data.created.fullName + '-' + response.data.created.employeeId,
+              response.data.created &&
+              response.data.created.fullName + '-' + response.data.created.employeeId,
           },
-          {label: this.$t('my.contract.category'), value: response.data.contractCategoryName},
+          { label: this.$t('my.contract.category'), value: response.data.contractCategoryName },
         ],
         attachments: response.data.attachments,
       };
@@ -499,14 +499,14 @@ class ContractDetailCommon extends React.Component {
     })
       .catch(e => {
         message.error(
-          this.$t({id: 'common.error'} /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
+          this.$t({ id: 'common.error' } /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
         );
       });
   };
 
   //获取合同关联的预付款单
   getPrepaymentHeadByContract() {
-    const {headerData, paginationPre} = this.state;
+    const { headerData, paginationPre } = this.state;
     contractService
       .getPrepaymentHeadByContractNumber(headerData.contractNumber)
       .then(res => {
@@ -517,7 +517,7 @@ class ContractDetailCommon extends React.Component {
               ...item.head,
               ...i,
               lineNumber:
-              index + 1 + this.state.paginationPre.page * this.state.paginationPre.pageSize,
+                index + 1 + this.state.paginationPre.page * this.state.paginationPre.pageSize,
             })
           )
         );
@@ -537,12 +537,12 @@ class ContractDetailCommon extends React.Component {
 
   //获取合同关联的报账单
   getAccountHeadByContract() {
-    let {headerData} = this.state;
+    let { headerData } = this.state;
     contractService.getAccountHeadByContract(headerData.id).then(res => {
       let data = [];
       res.data.map(item => {
         item.expensePaymentScheduleList.map(i => {
-          data.push({...item.expenseReportHeader, ...i});
+          data.push({ ...item.expenseReportHeader, ...i });
         });
       });
 
@@ -554,7 +554,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取支付明细数据payData
   getPayDetailByContractHeaderId() {
-    let {headerData, page1, pageSize1} = this.state;
+    let { headerData, page1, pageSize1 } = this.state;
     contractService.getPayDetailByContractHeaderId(headerData.id, page1, pageSize1).then(res => {
       this.setState({
         payData: res.data,
@@ -570,7 +570,7 @@ class ContractDetailCommon extends React.Component {
   //支付明细页面切换
   onChangePaper1 = page1 => {
     if (page1 - 1 !== this.state.page1) {
-      this.setState({page1: page1 - 1}, () => {
+      this.setState({ page1: page1 - 1 }, () => {
         this.getPayDetailByContractHeaderId();
       });
     }
@@ -578,7 +578,7 @@ class ContractDetailCommon extends React.Component {
   //资金计划表格页码切换
   onChangePaper = page => {
     if (page - 1 !== this.state.page) {
-      this.setState({page: page - 1}, () => {
+      this.setState({ page: page - 1 }, () => {
         this.getPayList();
       });
     }
@@ -596,7 +596,7 @@ class ContractDetailCommon extends React.Component {
 
   //侧滑
   showSlide = flag => {
-    this.setState({showSlideFrame: flag});
+    this.setState({ showSlideFrame: flag });
   };
 
   handleClosePlan = params => {
@@ -666,20 +666,20 @@ class ContractDetailCommon extends React.Component {
   //删除资金计划行
   deleteItem = (e, record) => {
     e.preventDefault();
-    this.setState({planLoading: true});
+    this.setState({ planLoading: true });
     contractService
       .deletePayPlan(record.id)
       .then(() => {
-        this.setState({planLoading: false}, () => {
+        this.setState({ planLoading: false }, () => {
           this.table.reload();
           this.getInfo();
         });
-        message.success(this.$t({id: 'common.delete.success'}, {name: ''} /*{name} 删除成功*/));
+        message.success(this.$t({ id: 'common.delete.success' }, { name: '' } /*{name} 删除成功*/));
       })
       .catch(e => {
-        this.setState({planLoading: false});
+        this.setState({ planLoading: false });
         message.error(
-          `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -688,7 +688,7 @@ class ContractDetailCommon extends React.Component {
   contractRecall = () => {
     if (this.state.headerData.formOid) {
       // 走工作流
-      const {headerData} = this.state;
+      const { headerData } = this.state;
       let params = {
         entities: [
           {
@@ -701,13 +701,13 @@ class ContractDetailCommon extends React.Component {
         .recallWorkflowContract(params)
         .then(res => {
           if (res.status === 200) {
-            message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+            message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
             this.getInfo();
           }
         })
         .catch(e => {
           message.error(
-            `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
           );
         });
     } else {
@@ -716,13 +716,13 @@ class ContractDetailCommon extends React.Component {
         .recallContract(this.props.id)
         .then(res => {
           if (res.status === 200) {
-            message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+            message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
             this.getInfo();
           }
         })
         .catch(e => {
           message.error(
-            `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+            `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
           );
         });
     }
@@ -734,13 +734,13 @@ class ContractDetailCommon extends React.Component {
       .holdContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -751,13 +751,13 @@ class ContractDetailCommon extends React.Component {
       .unHoldContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -768,13 +768,13 @@ class ContractDetailCommon extends React.Component {
       .cancelContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -785,13 +785,13 @@ class ContractDetailCommon extends React.Component {
       .finishContract(this.props.id)
       .then(res => {
         if (res.status === 200) {
-          message.success(this.$t({id: 'common.operate.success'} /*操作成功*/));
+          message.success(this.$t({ id: 'common.operate.success' } /*操作成功*/));
           this.getInfo();
         }
       })
       .catch(e => {
         message.error(
-          `${this.$t({id: 'common.operate.filed'} /*操作失败*/)}，${e.response.data.message}`
+          `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${e.response.data.message}`
         );
       });
   };
@@ -818,11 +818,11 @@ class ContractDetailCommon extends React.Component {
  */
   //渲染支付明细
   renderPay = () => {
-    const {payData} = this.state;
+    const { payData } = this.state;
     let renderPay = [];
     if (payData.length > 0) {
       payData.map(item => {
-        renderPay.push(<FormCard key={item.head.id} basicsData={{item}} formType={'12'}/>);
+        renderPay.push(<FormCard key={item.head.id} basicsData={{ item }} formType={'12'} />);
       });
     }
     return renderPay;
@@ -841,12 +841,12 @@ class ContractDetailCommon extends React.Component {
 
   //渲染关联的报账单
   renderAccount = () => {
-    const {AccountData} = this.state;
+    const { AccountData } = this.state;
     let renderAccount = [];
     if (AccountData.length > 0) {
       AccountData.map(item => {
         renderAccount.push(
-          <FormCard key={item.expenseReportHeader.id} basicsData={{item}} formType={'account'}/>
+          <FormCard key={item.expenseReportHeader.id} basicsData={{ item }} formType={'account'} />
         );
       });
     }
@@ -855,7 +855,7 @@ class ContractDetailCommon extends React.Component {
 
   //切换tab
   tabChange = key => {
-    this.setState({tabIndex: key}, () => {
+    this.setState({ tabIndex: key }, () => {
       if ((key = 'link')) {
         if (this.state.headerData.status >= 1004) {
           this.getAccountHeadByContract();
@@ -902,42 +902,42 @@ class ContractDetailCommon extends React.Component {
     return (
       <div>
         <Card
-          style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20}}
+          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20 }}
         >
-          <div style={flag ? {paddingTop: 0, marginTop: '-20px'} : {marginTop: '-20px'}}>
+          <div style={flag ? { paddingTop: 0, marginTop: '-20px' } : { marginTop: '-20px' }}>
             <DocumentBasicInfo params={documentParams} noHeader={true}>
               {headerData.status &&
-              (headerData.status == 1001 ||
-                headerData.status == 1003 ||
-                headerData.status == 1005) && (
-                <Button
-                  onClick={this.handleHeadEdit}
-                  type="primary"
-                  style={{float: 'right', top: -4}}
-                >
-                  {' '}
-                  {this.$t('my.contract.edit')}
-                </Button>
-              )}
+                (headerData.status == 1001 ||
+                  headerData.status == 1003 ||
+                  headerData.status == 1005) && (
+                  <Button
+                    onClick={this.handleHeadEdit}
+                    type="primary"
+                    style={{ float: 'right', top: -4 }}
+                  >
+                    {' '}
+                    {this.$t('my.contract.edit')}
+                  </Button>
+                )}
               {headerData.status &&
-              headerData.status === 1002 && (
-                <Button
-                  type="primary"
-                  onClick={this.contractRecall}
-                  style={{float: 'right', top: -4}}
-                >
-                  {this.$t('common.withdraw')}
-                </Button>
-              )}
+                headerData.status === 1002 && (
+                  <Button
+                    type="primary"
+                    onClick={this.contractRecall}
+                    style={{ float: 'right', top: -4 }}
+                  >
+                    {this.$t('common.withdraw')}
+                  </Button>
+                )}
 
               {headerData.status &&
-              headerData.status === 1004 && (
-                <span>
+                headerData.status === 1004 && (
+                  <span>
                     <Button
                       size="small"
                       type="primary"
                       onClick={this.contractFinish}
-                      style={{float: 'right', top: -4}}
+                      style={{ float: 'right', top: -4 }}
                     >
                       {this.$t('my.contract.state.finish')}
                     </Button>
@@ -945,7 +945,7 @@ class ContractDetailCommon extends React.Component {
                       size="small"
                       type="primary"
                       onClick={this.contractCancel}
-                      style={{marginRight: 5, float: 'right', top: -4}}
+                      style={{ marginRight: 5, float: 'right', top: -4 }}
                     >
                       {this.$t('common.cancel')}
                     </Button>
@@ -953,35 +953,35 @@ class ContractDetailCommon extends React.Component {
                       size="small"
                       type="primary"
                       onClick={this.contractHold}
-                      style={{marginRight: 5, float: 'right', top: -4}}
+                      style={{ marginRight: 5, float: 'right', top: -4 }}
                     >
                       {this.$t('my.contract.state.hold')}
                     </Button>
                   </span>
-              )}
+                )}
               {headerData.status &&
-              headerData.status === 6001 && ( //暂挂
-                <Button
-                  type="primary"
-                  onClick={this.contractCancelHold}
-                  style={{float: 'right', top: -4}}
-                >
-                  {this.$t('my.contract.cancel.hold')}
-                </Button>
-              )}
+                headerData.status === 6001 && ( //暂挂
+                  <Button
+                    type="primary"
+                    onClick={this.contractCancelHold}
+                    style={{ float: 'right', top: -4 }}
+                  >
+                    {this.$t('my.contract.cancel.hold')}
+                  </Button>
+                )}
             </DocumentBasicInfo>
           </div>
         </Card>
         <Spin spinning={detailLoading}>
-          <div className="contract-info" style={{margin: 0}}>
+          <div className="contract-info" style={{ margin: 0 }}>
             <Card
-              style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20}}
+              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20 }}
             >
               <div
                 className="contract-info-header"
-                style={{borderBottom: '1px solid rgb(236, 236, 236)', marginTop: '-20px'}}
+                style={{ borderBottom: '1px solid rgb(236, 236, 236)', marginTop: '-20px' }}
               >
-                <h3 style={{display: 'inline', marginLeft: '8px', fontSize: '18px'}}>
+                <h3 style={{ display: 'inline', marginLeft: '8px', fontSize: '18px' }}>
                   {this.$t('my.contract.info')}
                 </h3>
                 <a
@@ -989,21 +989,21 @@ class ContractDetailCommon extends React.Component {
                     marginLeft: 15,
                     display:
                       headerData.status === 1004 ||
-                      headerData.status === 6001 ||
-                      headerData.status === 6003 ||
-                      headerData.status === 1002 ||
-                      headerData.status === 6002
+                        headerData.status === 6001 ||
+                        headerData.status === 6003 ||
+                        headerData.status === 1002 ||
+                        headerData.status === 6002
                         ? 'none'
                         : !headerData.contractName
-                        ? 'none'
-                        : 'inline-block',
+                          ? 'none'
+                          : 'inline-block',
                   }}
                   onClick={this.handleContractEdit}
                 >
                   {this.$t('common.edit')}
                 </a>
               </div>
-              <div style={{marginTop: 5}}>
+              <div style={{ marginTop: 5 }}>
                 <Button
                   type="primary"
                   style={{
@@ -1015,7 +1015,7 @@ class ContractDetailCommon extends React.Component {
                   {this.$t('my.create.contract.info')}
                 </Button>
               </div>
-              <div style={{marginLeft: 15}}>
+              <div style={{ marginLeft: 15 }}>
                 <Row gutter={24} className="info-items">
                   <Col span={2} className="label-tips">
                     {this.$t('common.baseInfo')}:
@@ -1043,8 +1043,8 @@ class ContractDetailCommon extends React.Component {
                       title={
                         headerData.contractName
                           ? headerData.signDate
-                          ? moment(new Date(headerData.signDate)).format('YYYY-MM-DD')
-                          : '-'
+                            ? moment(new Date(headerData.signDate)).format('YYYY-MM-DD')
+                            : '-'
                           : ''
                       }
                     >
@@ -1114,8 +1114,8 @@ class ContractDetailCommon extends React.Component {
                       title={
                         headerData.contractName
                           ? (headerData.startDate
-                          ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
-                          : '-') +
+                            ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
+                            : '-') +
                           ' ~ ' +
                           (headerData.endDate
                             ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
@@ -1125,8 +1125,8 @@ class ContractDetailCommon extends React.Component {
                     >
                       {headerData.contractName
                         ? (headerData.startDate
-                        ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
-                        : '-') +
+                          ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
+                          : '-') +
                         ' ~ ' +
                         (headerData.endDate
                           ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
@@ -1140,8 +1140,8 @@ class ContractDetailCommon extends React.Component {
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 10}}>
-            <div className="pay-info" style={{marginTop: '0px'}}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 10 }}>
+            <div className="pay-info" style={{ marginTop: '0px' }}>
               <h3
                 className="info-header-title"
                 style={{
@@ -1157,10 +1157,10 @@ class ContractDetailCommon extends React.Component {
                 className="pay-info-header"
                 style={
                   headerData.status === 6001 ||
-                  headerData.status === 6003 ||
-                  headerData.status === 6002 ||
-                  headerData.status === 1002
-                    ? {marginTop: -20}
+                    headerData.status === 6003 ||
+                    headerData.status === 6002 ||
+                    headerData.status === 1002
+                    ? { marginTop: -20 }
                     : {}
                 }
               >
@@ -1169,10 +1169,10 @@ class ContractDetailCommon extends React.Component {
                     style={{
                       display:
                         headerData.status === 1004 ||
-                        headerData.status === 6001 ||
-                        headerData.status === 6003 ||
-                        headerData.status === 6002 ||
-                        headerData.status === 1002
+                          headerData.status === 6001 ||
+                          headerData.status === 6003 ||
+                          headerData.status === 6002 ||
+                          headerData.status === 1002
                           ? 'none'
                           : 'inline',
                     }}
@@ -1183,18 +1183,18 @@ class ContractDetailCommon extends React.Component {
                     {this.$t('acp.new.payment')}
                   </Button>
                 </Col>
-                <Col span={12} className="header-tips" style={{textAlign: 'right'}}>
-                  <Breadcrumb style={{marginBottom: '10px'}}>
+                <Col span={12} className="header-tips" style={{ textAlign: 'right' }}>
+                  <Breadcrumb style={{ marginBottom: '10px' }}>
                     <Breadcrumb.Item>
-                      <span style={{color: "rgba(0, 0, 0, 0.60)"}}>{this.$t('common.amount')}:</span>&nbsp;<span
-                      style={{color: 'Green'}}>
+                      <span style={{ color: "rgba(0, 0, 0, 0.60)" }}>{this.$t('common.amount')}:</span>&nbsp;<span
+                        style={{ color: 'Green' }}>
                         {' '}
-                      {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
                       </span>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                      <span style={{color: "rgba(0, 0, 0, 0.60)"}}>{this.$t('acp.function.amount')}</span><span
-                      style={{color: 'Green'}}>
+                      <span style={{ color: "rgba(0, 0, 0, 0.60)" }}>{this.$t('acp.function.amount')}</span><span
+                        style={{ color: 'Green' }}>
                         {this.props.company.baseCurrency}&nbsp;{this.filterMoney(headerData.functionAmount)}
                       </span>
                     </Breadcrumb.Item>
@@ -1205,7 +1205,7 @@ class ContractDetailCommon extends React.Component {
                 ref={ref => (this.table = ref)}
                 url={`${config.contractUrl}/api/contract/line/herder/${this.props.id}`}
                 showNumber={true}
-                pagination={{pageSize: 5}}
+                pagination={{ pageSize: 5 }}
                 columns={columns}
               />
             </div>
@@ -1220,7 +1220,7 @@ class ContractDetailCommon extends React.Component {
               marginBottom: 50,
             }}
           >
-            <ApproveHistory loading={false} infoData={approveHistory}/>
+            <ApproveHistory loading={false} infoData={approveHistory} />
           </Card>
         </div>
         <SlideFrame
@@ -1240,7 +1240,7 @@ class ContractDetailCommon extends React.Component {
         <SlideFrame
           title={payPlanTitle}
           show={payPlanVisible}
-          onClose={() => this.setState({payPlanVisible: false})}
+          onClose={() => this.setState({ payPlanVisible: false })}
         >
           <NewPayPlan
             onClose={this.handleClosePlan}
@@ -1290,60 +1290,60 @@ class ContractDetailCommon extends React.Component {
         {headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005 ? (
           this.renderContent()
         ) : (
-          <Tabs defaultActiveKey="detail" onChange={this.tabChange}>
-            <TabPane style={{marginLeft: 12}} tab={this.$t('menu.contract-detail')} key="detail">
-              {this.renderContent()}
-            </TabPane>
-            <TabPane tab={this.$t('my.link.info')} key="link">
-              <div style={{background: 'white', margin: '20px 0 50px 0px', padding: 0}}>
-                <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15}}>
-                  <h3 style={{fontSize: 18, borderBottom: '1px solid #ececec'}}>
-                    {this.$t('my.link.pre')}
-                  </h3>
-                  <Table
-                    rowKey={record => record.id}
-                    columns={preColumns}
-                    dataSource={prepaymentData}
-                    pagination={paginationPre}
-                    bordered
-                    size="middle"
-                  />
-                </Card>
-              </div>
-              <div style={{background: 'white', margin: '-50px 0 50px 0px', padding: 0}}>
-                <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15}}>
-                  <h3 style={{fontSize: 18, borderBottom: '1px solid #ececec'}}>
-                    {this.$t('my.link.rem')}
-                  </h3>
-                  <Table
-                    rowKey={record => record.id}
-                    columns={accountColumns}
-                    dataSource={AccountData}
-                    pagination={paginationAccount}
-                    bordered
-                    size="middle"
-                  />
-                </Card>
-              </div>
-              <div style={{background: 'white', margin: '-50px 0 50px 0px', padding: 0}}>
-                <Card style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15}}>
-                  <h3 style={{fontSize: 18, borderBottom: '1px solid #ececec'}}>
-                    {this.$t('my.pay.info')}
-                  </h3>
-                  <CustomTable
-                    ref={ref => (this.payDetail = ref)}
-                    url={`${
-                      config.payUrl
-                      }/api/cash/transaction/details/getDetailByContractHeaderId`}
-                    params={{contractHeaderId: headerData.id}}
-                    pagination={{pageSize: 5}}
-                    columns={payColumns}
-                  />
-                </Card>
-              </div>
-            </TabPane>
-          </Tabs>
-        )}
+            <Tabs defaultActiveKey="detail" onChange={this.tabChange}>
+              <TabPane style={{ marginLeft: 12 }} tab={this.$t('menu.contract-detail')} key="detail">
+                {this.renderContent()}
+              </TabPane>
+              <TabPane tab={this.$t('my.link.info')} key="link">
+                <div style={{ background: 'white', margin: '20px 0 50px 0px', padding: 0 }}>
+                  <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15 }}>
+                    <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
+                      {this.$t('my.link.pre')}
+                    </h3>
+                    <Table
+                      rowKey={record => record.id}
+                      columns={preColumns}
+                      dataSource={prepaymentData}
+                      pagination={paginationPre}
+                      bordered
+                      size="middle"
+                    />
+                  </Card>
+                </div>
+                <div style={{ background: 'white', margin: '-50px 0 50px 0px', padding: 0 }}>
+                  <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15 }}>
+                    <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
+                      {this.$t('my.link.rem')}
+                    </h3>
+                    <Table
+                      rowKey={record => record.id}
+                      columns={accountColumns}
+                      dataSource={AccountData}
+                      pagination={paginationAccount}
+                      bordered
+                      size="middle"
+                    />
+                  </Card>
+                </div>
+                <div style={{ background: 'white', margin: '-50px 0 50px 0px', padding: 0 }}>
+                  <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15 }}>
+                    <h3 style={{ fontSize: 18, borderBottom: '1px solid #ececec' }}>
+                      {this.$t('my.pay.info')}
+                    </h3>
+                    <CustomTable
+                      ref={ref => (this.payDetail = ref)}
+                      url={`${
+                        config.payUrl
+                        }/api/cash/transaction/details/getDetailByContractHeaderId`}
+                      params={{ contractHeaderId: headerData.id }}
+                      pagination={{ pageSize: 5 }}
+                      columns={payColumns}
+                    />
+                  </Card>
+                </div>
+              </TabPane>
+            </Tabs>
+          )}
       </div>
     );
   }
@@ -1371,5 +1371,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  {withRef: true}
+  { withRef: true }
 )(wrappedContractDetailCommon);

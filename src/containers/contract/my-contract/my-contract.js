@@ -480,10 +480,10 @@ class MyContract extends React.Component {
           wrappedComponentRef={inst => (this.formRef = inst)}
         />
         <Row gutter={24} style={{ marginBottom: 12, marginTop: 12 }}>
-          <Col id="drop" style={{ position: "relative" }} span={18}>
+          <Col id="my-contract-drop" style={{ position: "relative" }} span={18}>
             <Dropdown
               trigger={['click']}
-              getPopupContainer={() => document.getElementById('drop')}
+              getPopupContainer={() => document.getElementById('my-contract-drop')}
               overlay={
                 <Menu onClick={this.handleCreate}>
                   {contractType.map(item => (

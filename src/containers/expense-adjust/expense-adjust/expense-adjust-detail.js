@@ -33,7 +33,7 @@ import moment from 'moment';
 import CustomTable from 'widget/custom-table';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
-
+import ImporterNew from 'widget/Template/importer-new'
 class ExpenseAdjustDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -630,17 +630,19 @@ class ExpenseAdjustDetail extends React.Component {
       this.getList();
     });
   };
-  //导入成功
+  // 导入成功
   getImportDetailData = transactionId => {
     adjustService
       .importData(transactionId)
       .then(res => {
+        console.log(res);
         if (res.status === 200) {
           message.success(this.$t('common.operate.success' /*操作成功*/));
+          this.getList();
         }
       })
       .catch(e => {
-        message.error(`${this.$t('exp.summit.failed')}，${e.response.data.message}`);
+        message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
       });
   };
 
@@ -697,6 +699,7 @@ class ExpenseAdjustDetail extends React.Component {
                     }}
                     key={item.id}
                   >
+                
                     <Popover content={item.fileName}>
                       {item.fileType !== 'IMAGE' ? (
                         <a
@@ -898,7 +901,7 @@ class ExpenseAdjustDetail extends React.Component {
           params={{ costCenterData: costCenterData, data: apportionParams }}
           z-index={1001}
         />
-        <Importer
+        {/* <Importer
           visible={showImportFrame}
           templateUrl={`${
             config.baseUrl
@@ -916,7 +919,20 @@ class ExpenseAdjustDetail extends React.Component {
           fileName={this.$t('exp.import.line')}
           onOk={this.onLoadOk}
           afterClose={() => this.setState({ showImportFrame: false })}
-        />
+        /> */}
+        {/*导入*/}
+        <ImporterNew visible={showImportFrame}
+                         title={this.$t('exp.import.line')}
+                         templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${this.props.match.params.id}&external=${true}`}
+                         uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
+                          this.props.match.params.id
+                          }`}
+                         errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
+                         errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
+                         deleteDataUrl ={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+                         fileName={this.$t('exp.import.line')}
+                         onOk={this.onLoadOk}
+                         afterClose={() => this.setState({ showImportFrame: false })} />
         <SlideFrame
           width="900px"
           show={showSlideFrame}

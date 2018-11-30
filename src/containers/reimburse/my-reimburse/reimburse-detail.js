@@ -92,7 +92,7 @@ class ReimburseDetail extends React.Component {
         }else if(err.response.data.message.indexOf("CONTRACT_STATUS_CANCEL")>0){
           mess = err.response.data.message.replace("CONTRACT_STATUS_CANCEL",this.$t('common.cancel'));
         }else if(err.response.data.message.indexOf("CONTRACT_STATUS_FINISH")){
-          mess = err.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.comtract.state.finish'));
+          mess = err.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.contract.state.finish'));
         }  
         message.error('提交失败：' + mess);
       });

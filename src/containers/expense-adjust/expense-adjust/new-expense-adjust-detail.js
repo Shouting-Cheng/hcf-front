@@ -29,7 +29,7 @@ import 'styles/expense-adjust/new-expense-adjust-detail.scss';
 import expenseAdjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 import Upload from 'widget/upload-button';
 const TextArea = Input.TextArea;
-
+import ImporterNew from 'widget/Template/importer-new'
 class NewExpenseAdjustDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -285,7 +285,8 @@ class NewExpenseAdjustDetail extends React.Component {
         name !== 'rowKey' &&
         name !== 'isEdit' &&
         name !== 'status' &&
-        !record[name]
+        !record[name] &&
+        this.state.validator[name]
       ) {
         message.error(`${this.state.validator[name]}${this.$t('exp.can.not.null')}`);
         flag = false;
@@ -399,8 +400,8 @@ class NewExpenseAdjustDetail extends React.Component {
   componentDidMount() {
     const { formItems, columns, column, opt, defaultValue, validator } = this.state;
     if (
-      !this.props.params.flag &&
-      this.props.match.costCenterData.length &&
+      this.props.params.flag &&
+      this.props.params.costCenterData.length &&
       columns.length === 5 &&
       this.props.params.flag
     ) {
@@ -739,7 +740,8 @@ class NewExpenseAdjustDetail extends React.Component {
             name !== 'rowKey' &&
             name !== 'isEdit' &&
             name !== 'status' &&
-            !item[name]
+            !item[name] &&
+            this.state.validator[name]
           ) {
             message.error(`${this.state.validator[name]}${this.$t('exp.can.not.null')}`);
             this.setState({ loading: false });
@@ -799,7 +801,6 @@ class NewExpenseAdjustDetail extends React.Component {
               lineData.map(item => delete item.id);
             }
           }
-
           let param = {
             ...values,
             employeeId: this.props.user.id,
@@ -1097,9 +1098,9 @@ class NewExpenseAdjustDetail extends React.Component {
     });
   };
 
-  onLoadOk = () => {
+  onLoadOk = transactionId => {
     this.showImport(false);
-    this.getImportDetailData();
+    this.getImportDetailData(transactionId);
   };
 
   showImport = flag => {
@@ -1114,14 +1115,32 @@ class NewExpenseAdjustDetail extends React.Component {
     });
   };
 
-  //导入成功获取数据 ...toDo, 将导入的数据放到table中
-  getImportDetailData = () => {
-    expenseAdjustService.getImportDetailData(this.import.state.transactionID).then(response => {
+  //导入成功获取数据
+  getImportDetailData = transactionId => {
+    expenseAdjustService.getImportDetailData(transactionId).then(response => {
+      let amount = this.props.form.getFieldValue('amount')
       console.log(response);
-
+      if(response.status === 200){
+        let {data, _data} = this.state;
+        response.data.map(item => {
+          item.saved = true;
+          amount -= item.amount;
+          item['companyId' + '_table'] = [{ id: item.companyId, name: item.companyName }];
+          item['unitId' + '_table'] = [{ departmentId: item.unitId, name: item.unitName }];
+          item['expenseTypeId_table'] = [{ id: item.expenseTypeId, name: item.expenseTypeName }];
+          data.push({...item})
+          _data.push({...item})
+        })
+        this.setState({
+          _data,
+          data
+        },()=>{
+          this.props.form.setFieldsValue({ amount: amount });
+        });
+        message.success(this.$t('common.operate.success' /*操作成功*/));
+      }
     });
   };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -1201,7 +1220,7 @@ class NewExpenseAdjustDetail extends React.Component {
           </Affix>
         </Form>
 
-        <Importer
+        {/* <Importer
           visible={showImportFrame}
           ref={ref => (this.import = ref)}
           templateUrl={`${
@@ -1218,7 +1237,20 @@ class NewExpenseAdjustDetail extends React.Component {
           fileName={this.$t('exp.import.detail.line')}
           onOk={this.onLoadOk}
           afterClose={() => this.showImport(false)}
-        />
+        /> */}
+                {/*导入*/}
+        <ImporterNew visible={showImportFrame}
+          title={this.$t('exp.import.detail.line')}
+          templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
+            this.props.params.expenseAdjustHeadId}&external=${false}`}
+          uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
+            this.props.params.expenseAdjustHeadId}&sourceAdjustLineId=1`}
+          errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
+          errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
+          deleteDataUrl ={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+          fileName={this.$t('exp.import.detail.line')}
+          onOk={this.onLoadOk}
+          afterClose={() => this.showImport(false)} />
       </div>
     );
   }

@@ -3,25 +3,42 @@ import { notification } from 'antd';
 import store from '../index';
 import { routerRedux } from 'dva/router';
 import qs from 'qs'
+import moment from "moment"
+
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
+
+//过期时间  单位秒
+const InvalidTime = 60 * 60 * 2;   //2小时
+
+
+axios.interceptors.request.use(function (config) {
+
+  httpFetch.checkoutToken();
+
+  return config;
+});
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
-  return response;
-}, function (error) {
-  // 对响应错误做点什么
 
-  if (error.response&&error.response.status == 401) {
-    store.dispatch({
-      type: 'login/logout',
-    });
+  window.localStorage.setItem("LastRequestDate", moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
+
+  return response;
+}, async function (error) {
+
+  if (error.response && error.response.status == 401) {
+    await httpFetch.refreshToken();
+    let config = error.config;
+    return httpFetch[config.method](config.url, config.params, config.headers);
   }
 
   return Promise.reject(error);
 });
 
+
 const baseUrl = '';
-export default {
+const httpFetch = {
 
   get(url, params, header = {}, options = {}) {
 
@@ -34,12 +51,13 @@ export default {
       url: baseUrl + url,
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.localStorage.getItem("token"),
       },
       params,
       paramsSerializer: function (params) {
         return qs.stringify(params, { arrayFormat: 'repeat' })
-      }
+      },
+      cancelToken: source.token
     };
     return axios(option);
   },
@@ -61,7 +79,8 @@ export default {
       params,
       paramsSerializer: function (params) {
         return qs.stringify(params, { arrayFormat: 'repeat' })
-      }
+      },
+      cancelToken: source.token
     };
 
     return axios(option);
@@ -82,7 +101,8 @@ export default {
       params,
       paramsSerializer: function (params) {
         return qs.stringify(params, { arrayFormat: 'repeat' })
-      }
+      },
+      cancelToken: source.token
     };
     return axios(baseUrl + url, option);
   },
@@ -102,8 +122,49 @@ export default {
       params,
       paramsSerializer: function (params) {
         return qs.stringify(params, { arrayFormat: 'repeat' })
-      }
+      },
+      cancelToken: source.token
     };
     return axios(baseUrl + url, option);
   },
+
+  //刷新token
+  refreshToken: function () {
+
+    return new Promise((resolve, reject) => {
+      let refreshParams = `client_id=ArtemisWeb&client_secret=nLCnwdIhizWbykHyuZM6TpQDd7KwK9IXDK8LGsa7SOW&refresh_token=${window.localStorage.getItem("refresh_token")}&grant_type=refresh_token`;
+      return axios(encodeURI(`${config.uathUrl}/oauth/token?${refreshParams}`), {
+        method: 'POST',
+        headers: {
+          'x-helios-client': 'web',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer ' + window.localStorage.getItem("token")
+        }
+      }).then(response => {
+        let token = response.data;
+        window.localStorage.setItem("token", token.access_token);
+        window.localStorage.setItem("refresh_token", token.refresh_token);
+        resolve();
+      })
+    })
+  },
+
+  //检查token是否失效，如果失效就跳到登录页面
+  checkoutToken() {
+    let currentDate = new Date(moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
+
+    let lastDate = new Date(window.localStorage.getItem("LastRequestDate") || currentDate);
+
+    let span = currentDate.getTime() - lastDate.getTime();
+
+    if (span > InvalidTime * 1000) {
+
+      store.dispatch({
+        type: 'login/logout',
+      });
+      return true;
+    }
+  }
 };
+
+export default httpFetch

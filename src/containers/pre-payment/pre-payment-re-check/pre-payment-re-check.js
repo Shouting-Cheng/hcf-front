@@ -207,6 +207,8 @@ class Payment extends React.Component {
       values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
       values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
       values.status = 1002;
+      values.employeeId && (values.employeeId = values.employeeId[0]);
+
         this.setState({ unApproveSearchParams: values }, () => {
             this.unApprovedtable.search(values)
         })
@@ -216,7 +218,8 @@ class Payment extends React.Component {
     approvedSearch = (values) => {
         values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
         values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
-      values.status = 1004;
+        values.status = 1004;
+        values.employeeId && (values.employeeId = values.employeeId[0]);
         this.setState({ approveSearchParams: values }, () => {
           this.approvedtable.search(values)
 
@@ -243,17 +246,24 @@ class Payment extends React.Component {
   /**未审批根据单据编号查询 */
   onDocumentSearch = (value) => {
     this.setState({
-      unApproveSearchParams: {...this.state.unApproveSearchParams,businessCode: value}
+      unApproveSearchParams: {...this.state.unApproveSearchParams,
+        requisitionNumber:value,
+        status:1002
+      }
     }, () => {
-      this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false'})
+      this.unApprovedtable&&this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false',})
     })
   }
   /**已审批根据单据编号查询 */
   onApprovedSearch = (value) => {
     this.setState({
-      approveSearchParams: {...this.state.approveSearchParams,businessCode: value}
+      approveSearchParams: {...this.state.approveSearchParams,
+        checkBy: this.props.user.id,
+        status: 1004,
+        requisitionNumber:value
+      }
     }, () => {
-      this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
+      this.approvedtable&&this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
     })
   }
   changeApp = (e) =>{
@@ -296,7 +306,7 @@ class Payment extends React.Component {
                                   <Col span={6}>
                                     <Search
                                       placeholder="请输入单据编号"
-                                      onSearch={this.onApprovedSearch}
+                                      onSearch={this.onDocumentSearch}
                                       onChange={this.changeApp}
                                       enterButton
                                     />

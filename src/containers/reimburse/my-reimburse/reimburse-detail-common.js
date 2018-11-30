@@ -302,7 +302,6 @@ class ContractDetailCommon extends React.Component {
 
   //选取报账单后
   handleListOk = (values) => {
-    console.log(values)
     if(values.result && values.result.length){
       this.setState({ invoicesLoading: true });
       let data = {
@@ -438,6 +437,7 @@ class ContractDetailCommon extends React.Component {
                 <DocumentBasicInfo params={this.state.remburseInfo} values={{}}>
                   {isEdit &&
                     <Button type="primary" style={{ marginBottom: '14px', marginLeft: 155 }} onClick={this.edit}>编辑</Button>}
+                    <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
                     <Button type="primary" style={{ marginBottom: '14px', marginLeft: 155 }}
                       onClick={this.withdraw}>撤回</Button>}
