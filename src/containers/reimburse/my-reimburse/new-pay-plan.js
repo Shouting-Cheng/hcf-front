@@ -295,6 +295,8 @@ class NewPayPlan extends React.Component {
                 });
               }
             });
+          accountList.length === 0 &&
+          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
           this.setState({ payeeId: record.key, payeeName: record.label, accountList });
         });
       } else if (payeeCategory == 'VENDER') {
@@ -313,6 +315,8 @@ class NewPayPlan extends React.Component {
                 bankCode: item.bankCode,
               });
             });
+          accountList.length === 0 &&
+          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
           this.setState({ payeeId: record.key, payeeName: record.label, accountList });
         });
       }

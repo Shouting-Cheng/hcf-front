@@ -37,7 +37,7 @@ class FormMatch extends React.Component {
                         { label: this.props.company.setOfBooksName , value:this.props.company.setOfBooksId}]
                     },
                     {
-                        type: 'input', label: '现金事务分类', id: 'classCode'
+                        type: 'input', label: '现金事务分类代码', id: 'classCode'
                     },
                     {
                         type: 'input', label: '现金事务分类名称', id: 'description'

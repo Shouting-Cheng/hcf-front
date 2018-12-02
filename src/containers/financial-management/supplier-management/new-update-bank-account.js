@@ -44,13 +44,20 @@ class NewUpdateBankAccount extends React.Component {
     let params = this.props.params;
     if (params.status == "editor") {
       //编辑
-      this.props.form.setFieldsValue({ venBankAccountBeans: params.bankName });
       params.bankDefaultName = [{ bankCode: params.bankCode, bankBranchName: params.bankName }];
       this.setState({
         bankInfo: params,
         enabled: params.venType === 1001 ? true : false,
         isMainAccount: params.primaryFlag,
       });
+    }
+  }
+
+  componentDidMount(){
+    let params = this.props.params;
+    if (params.status == "editor") {
+      //编辑
+      this.props.form.setFieldsValue({ venBankAccountBeans: params.bankName });
     }
   }
 

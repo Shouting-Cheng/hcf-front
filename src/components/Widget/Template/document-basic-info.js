@@ -265,13 +265,29 @@ class DocumentBasicInfo extends React.Component {
           </Col>
         </Row>
         <Modal
-          bodyStyle={{ height: '50vh' }}
+          width={720}
+          bodyStyle={{ height: '65vh' }}
           visible={previewVisible}
           footer={null}
           onCancel={this.previewCancel}
           closable={false}
         >
-          <img alt="pictures" style={{ width: '100%', height: '100%' }} src={previewImage} />
+          <img alt="pictures"
+               src={previewImage}
+               style={{
+                 marginLeft: 'auto',
+                 marginRight: 'auto',
+                 height: 'auto',
+                 '-webkit-transform-origin': '50% 50%',
+                 '-moz-transform-origin': '50% 50%',
+                 '-ms-transform-origin': '50% 50%',
+                 '-o-transform-origin': '50% 50%',
+                 'transform-origin': '50% 50%',
+                 'max-width': '100%',
+                 'max-height': '100%',
+                 'cursor': 'move',
+                 'position': 'relative'
+               }} />
         </Modal>
       </Spin>
     );
