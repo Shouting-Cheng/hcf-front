@@ -29,7 +29,7 @@ import 'styles/expense-adjust/new-expense-adjust-detail.scss';
 import expenseAdjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
 import Upload from 'widget/upload-button';
 const TextArea = Input.TextArea;
-import ImporterNew from 'widget/Template/importer-new'
+import ImporterNew from 'widget/Template/importer-new';
 class NewExpenseAdjustDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -222,18 +222,16 @@ class NewExpenseAdjustDetail extends React.Component {
                   {this.$t('common.cancel')}
                 </a>
               ) : (
-                  <Popconfirm
-                    onConfirm={e => this.deleteItem(e, record, index)}
-                    title={this.$t('budget.are.you.sure.to.delete.rule', {
-                      controlRule: record.controlRuleName,
-                    })}
-                  >
-                    {/* 你确定要删除organizationName吗 */}
-                    <a style={{ marginLeft: 12 }}>
-                      {this.$t('common.delete')}
-                    </a>
-                  </Popconfirm>
-                )}
+                <Popconfirm
+                  onConfirm={e => this.deleteItem(e, record, index)}
+                  title={this.$t('budget.are.you.sure.to.delete.rule', {
+                    controlRule: record.controlRuleName,
+                  })}
+                >
+                  {/* 你确定要删除organizationName吗 */}
+                  <a style={{ marginLeft: 12 }}>{this.$t('common.delete')}</a>
+                </Popconfirm>
+              )}
             </span>
           ),
         },
@@ -303,7 +301,7 @@ class NewExpenseAdjustDetail extends React.Component {
           data,
           _data,
         },
-        () => { }
+        () => {}
       );
     }
   };
@@ -332,7 +330,7 @@ class NewExpenseAdjustDetail extends React.Component {
         defaultValue,
         data,
       },
-      () => { }
+      () => {}
     );
   };
 
@@ -408,9 +406,7 @@ class NewExpenseAdjustDetail extends React.Component {
       this.props.params.costCenterData.reverse().map(item => {
         if (item) {
           let options = [];
-          item.itemDTOList.map(item =>
-            options.push({ label: item.itemName, value: item.itemId })
-          );
+          item.itemDTOList.map(item => options.push({ label: item.itemName, value: item.itemId }));
           formItems.splice(4, 0, {
             type: 'select',
             label: item.name,
@@ -437,10 +433,16 @@ class NewExpenseAdjustDetail extends React.Component {
       //新建
       let defaultValue = [];
       defaultValue['companyId'] = [
-        { id: this.props.params.expenseHeader.companyId, name: this.props.params.expenseHeader.companyName },
+        {
+          id: this.props.params.expenseHeader.companyId,
+          name: this.props.params.expenseHeader.companyName,
+        },
       ];
       defaultValue['unitId'] = [
-        { departmentId: this.props.params.expenseHeader.unitId, name: this.props.params.expenseHeader.unitName },
+        {
+          departmentId: this.props.params.expenseHeader.unitId,
+          name: this.props.params.expenseHeader.unitName,
+        },
       ];
       this.setState({ defaultValue });
     } else {
@@ -516,29 +518,29 @@ class NewExpenseAdjustDetail extends React.Component {
           ? 620 + this.props.params.costCenterData.length * 120
           : false,
     });
-    this.getDimension(this.props.params.expenseAdjustTypeId);
+    // this.getDimension(this.props.params.expenseAdjustTypeId);
   }
 
-  getDimension = expenseAdjustTypeId => {
-    const { columns } = this.state;
-    expenseAdjustService.getDimensionAndValue(expenseAdjustTypeId).then(response => {
-      response.data.reverse().map(
-        item =>
-          item &&
-          columns.splice(4, 0, {
-            title: item.name,
-            dataIndex: 'dimension' + item.sequenceNumber + 'Name',
-            align: 'center',
-            render: desc => (
-              <span>
-                <Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover>
-              </span>
-            ),
-          })
-      );
-      this.setState({ columns, costCenterData: response.data });
-    });
-  };
+  // getDimension = expenseAdjustTypeId => {
+  //   const { columns } = this.state;
+  //   expenseAdjustService.getDimensionAndValue(expenseAdjustTypeId).then(response => {
+  //     response.data.reverse().map(
+  //       item =>
+  //         item &&
+  //         columns.splice(4, 0, {
+  //           title: item.name,
+  //           dataIndex: 'dimension' + item.sequenceNumber + 'Name',
+  //           align: 'center',
+  //           render: desc => (
+  //             <span>
+  //               <Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover>
+  //             </span>
+  //           ),
+  //         })
+  //     );
+  //     this.setState({ columns, costCenterData: response.data });
+  //   });
+  // };
 
   /*componentWillReceiveProps(nextProps) {
     console.log(nextProps)
@@ -688,7 +690,7 @@ class NewExpenseAdjustDetail extends React.Component {
           <Select
             placeholder={this.$t('common.please.select')}
             onFocus={
-              item.options.length === 0 && item.method ? this.handleFocus(item, index) : () => { }
+              item.options.length === 0 && item.method ? this.handleFocus(item, index) : () => {}
             }
           >
             {item.options.map(item => <Option key={item.value}>{item.label}</Option>)}
@@ -820,7 +822,7 @@ class NewExpenseAdjustDetail extends React.Component {
             jeCreationStatus: null,
             jeCreationDate: null,
             linesList: lineData,
-            deleteIds: this.state.deleteIds
+            deleteIds: this.state.deleteIds,
           };
           let method = null;
           let flag = true;
@@ -885,13 +887,13 @@ class NewExpenseAdjustDetail extends React.Component {
     let formItemLayout =
       this.props.params.adjustLineCategory === '1001'
         ? {
-          labelCol: { span: 6 },
-          wrapperCol: { span: 17 },
-        }
+            labelCol: { span: 6 },
+            wrapperCol: { span: 17 },
+          }
         : {
-          labelCol: { span: 6 },
-          wrapperCol: { span: 12 },
-        };
+            labelCol: { span: 6 },
+            wrapperCol: { span: 12 },
+          };
     let arr = [];
     let style = {};
     this.state.formItems.map((item, index) => {
@@ -910,13 +912,13 @@ class NewExpenseAdjustDetail extends React.Component {
                   ) : this.props.params.adjustLineCategory === '1002' ? (
                     this.$t('common.amount')
                   ) : (
-                        <span>
-                          {this.$t('common.amount')}&nbsp;
+                    <span>
+                      {this.$t('common.amount')}&nbsp;
                       <Tooltip title={this.$t('exp.detail.amount.tips')}>
-                            <Icon type="info-circle-o" />
-                          </Tooltip>
-                        </span>
-                      )
+                        <Icon type="info-circle-o" />
+                      </Tooltip>
+                    </span>
+                  )
                 }
               >
                 {getFieldDecorator(item.key, {
@@ -933,37 +935,37 @@ class NewExpenseAdjustDetail extends React.Component {
               </FormItem>
             )
           ) : (
-              <FormItem
-                {...formItemLayout}
-                key={item.key + 'item'}
-                label={
-                  item.label ? (
-                    item.label
-                  ) : this.props.params.adjustLineCategory === '1002' ? (
-                    this.$t('common.amount')
-                  ) : (
-                        <span>
-                          {this.$t('common.amount')}&nbsp;
+            <FormItem
+              {...formItemLayout}
+              key={item.key + 'item'}
+              label={
+                item.label ? (
+                  item.label
+                ) : this.props.params.adjustLineCategory === '1002' ? (
+                  this.$t('common.amount')
+                ) : (
+                  <span>
+                    {this.$t('common.amount')}&nbsp;
                     <Tooltip title={this.$t('exp.detail.amount.tips')}>
-                            <Icon type="info-circle-o" />
-                          </Tooltip>
-                        </span>
-                      )
-                }
-              >
-                {getFieldDecorator(item.key, {
-                  initialValue: this.state.defaultValue[item.key],
-                  rules: [
-                    {
-                      required: item.required,
-                      message: this.$t('common.can.not.be.empty', {
-                        name: item.label ? item.label : this.$t('common.amount'),
-                      }), //name 不可为空
-                    },
-                  ],
-                })(this.renderItem(item, index))}
-              </FormItem>
-            )}
+                      <Icon type="info-circle-o" />
+                    </Tooltip>
+                  </span>
+                )
+              }
+            >
+              {getFieldDecorator(item.key, {
+                initialValue: this.state.defaultValue[item.key],
+                rules: [
+                  {
+                    required: item.required,
+                    message: this.$t('common.can.not.be.empty', {
+                      name: item.label ? item.label : this.$t('common.amount'),
+                    }), //name 不可为空
+                  },
+                ],
+              })(this.renderItem(item, index))}
+            </FormItem>
+          )}
         </Col>
       );
     });
@@ -1045,7 +1047,7 @@ class NewExpenseAdjustDetail extends React.Component {
                   fileList: [],
                   addData: true,
                   loading: false,
-                  attachmentOid: []
+                  attachmentOid: [],
                 },
                 () => {
                   this.props.form.resetFields();
@@ -1118,25 +1120,28 @@ class NewExpenseAdjustDetail extends React.Component {
   //导入成功获取数据
   getImportDetailData = transactionId => {
     expenseAdjustService.getImportDetailData(transactionId).then(response => {
-      let amount = this.props.form.getFieldValue('amount')
+      let amount = this.props.form.getFieldValue('amount');
       console.log(response);
-      if(response.status === 200){
-        let {data, _data} = this.state;
+      if (response.status === 200) {
+        let { data, _data } = this.state;
         response.data.map(item => {
           item.saved = true;
           amount -= item.amount;
           item['companyId' + '_table'] = [{ id: item.companyId, name: item.companyName }];
           item['unitId' + '_table'] = [{ departmentId: item.unitId, name: item.unitName }];
           item['expenseTypeId_table'] = [{ id: item.expenseTypeId, name: item.expenseTypeName }];
-          data.push({...item})
-          _data.push({...item})
-        })
-        this.setState({
-          _data,
-          data
-        },()=>{
-          this.props.form.setFieldsValue({ amount: amount });
+          data.push({ ...item });
+          _data.push({ ...item });
         });
+        this.setState(
+          {
+            _data,
+            data,
+          },
+          () => {
+            this.props.form.setFieldsValue({ amount: amount });
+          }
+        );
         message.success(this.$t('common.operate.success' /*操作成功*/));
       }
     });
@@ -1162,7 +1167,6 @@ class NewExpenseAdjustDetail extends React.Component {
       adjustTypeCategory,
     } = this.state;
 
-
     const items = this.getFormItems();
     return (
       <div className="new-expense-adjust-detail">
@@ -1176,8 +1180,14 @@ class NewExpenseAdjustDetail extends React.Component {
               : this.$t('exp.add.info')}
           </div>
 
-          {items.map((item, index) =>
-            (index % 2 == 0 && <Row gutter={24}>{item}{items[index + 1]}</Row>)
+          {items.map(
+            (item, index) =>
+              index % 2 == 0 && (
+                <Row gutter={24}>
+                  {item}
+                  {items[index + 1]}
+                </Row>
+              )
           )}
 
           {this.props.params.adjustLineCategory === '1001' ? (
@@ -1238,19 +1248,25 @@ class NewExpenseAdjustDetail extends React.Component {
           onOk={this.onLoadOk}
           afterClose={() => this.showImport(false)}
         /> */}
-                {/*导入*/}
-        <ImporterNew visible={showImportFrame}
+        {/*导入*/}
+        <ImporterNew
+          visible={showImportFrame}
           title={this.$t('exp.import.detail.line')}
-          templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
-            this.props.params.expenseAdjustHeadId}&external=${false}`}
+          templateUrl={`${
+            config.baseUrl
+          }/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
+            this.props.params.expenseAdjustHeadId
+          }&external=${false}`}
           uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
-            this.props.params.expenseAdjustHeadId}&sourceAdjustLineId=1`}
+            this.props.params.expenseAdjustHeadId
+          }&sourceAdjustLineId=1`}
           errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
           errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
-          deleteDataUrl ={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+          deleteDataUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
           fileName={this.$t('exp.import.detail.line')}
           onOk={this.onLoadOk}
-          afterClose={() => this.showImport(false)} />
+          afterClose={() => this.showImport(false)}
+        />
       </div>
     );
   }
