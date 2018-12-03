@@ -96,6 +96,7 @@ class MyReimburse extends React.Component {
           id: 'currencyCode',
           label: '币种',
           getUrl: `${config.baseUrl}/api/company/standard/currency/getAll`,
+          getParams:{setOfBooksId: this.props.company.setOfBooksId},
           options: [],
           method: 'get',
           labelKey: 'currency',
@@ -105,6 +106,7 @@ class MyReimburse extends React.Component {
         {
           type: 'items',
           id: 'amount',
+          colSpan: 6,
           items: [
             { type: 'input', id: 'amountFrom', label: '金额从' },
             { type: 'input', id: 'amountTo', label: '金额至' },
@@ -397,7 +399,9 @@ class MyReimburse extends React.Component {
 //   router: React.PropTypes.object
 // }
 function mapStateToProps(state) {
-  return {};
+  return {
+    company: state.user.company
+  };
 }
 
 export default connect(

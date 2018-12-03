@@ -26,12 +26,12 @@ class PayInfo extends React.Component {
                 //     }
                 // },
                 {
-                    title: "付款金额", width: 100, dataIndex: "amount", key: "amount", render: (value, record) => {
+                    title: "付款金额", width: 100, dataIndex: "amount", align: 'center',key: "amount", render: (value, record) => {
                         return this.filterMoney(record.amount)
                     }
                 },
                 {
-                    title: "收款对象", width: 120, dataIndex: "partnerName", key: "partnerName", render: (value, record) => {
+                    title: "收款对象", width: 120, align: 'center',dataIndex: "partnerName", key: "partnerName", render: (value, record) => {
                         return (<div>
                             {/* <Tag color="#000">{record.payeeCategory == "EMPLOYEE" ? "员工" : "供应商"}</Tag> */}
                             {record.payeeCategory && <Tag color="#000">{record.payeeCategory == "EMPLOYEE" ? "员工" : "供应商"}</Tag>}
@@ -40,7 +40,7 @@ class PayInfo extends React.Component {
                     }
                 },
                 {
-                    title: "收款账户", width: 180, dataIndex: "accountName", key: "accountName", render: (value, record) => {
+                    title: "收款账户", width: 180,align: 'center', dataIndex: "accountName", key: "accountName", render: (value, record) => {
                         return (
                             <Popover content={<div>
                                 <div>户名：{record.accountName}</div>
@@ -55,7 +55,7 @@ class PayInfo extends React.Component {
                     }
                 },
                 {
-                    title: "付款属性", width: 160, dataIndex: "cshTransactionClassName", key: "cshTransactionClassName", render: (value, record) => {
+                    title: "付款属性", width: 160,align: 'center', dataIndex: "cshTransactionClassName", key: "cshTransactionClassName", render: (value, record) => {
                         return (
                             <Popover content={<div>
                                 <div>付款方式类型：{record.paymentMethodName}</div>
@@ -70,11 +70,11 @@ class PayInfo extends React.Component {
                     }
                 },
                 {
-                    title: "计划付款日期", width: 120, dataIndex: "schedulePaymentDate", key: "schedulePaymentDate",
+                    title: "计划付款日期", width: 120,align: 'center', dataIndex: "schedulePaymentDate", key: "schedulePaymentDate",
                     render: value => moment(value).format('YYYY-MM-DD')
                 },
                 {
-                    title: "备注", dataIndex: "description", key: "description"
+                    title: "备注", align: 'center',dataIndex: "description", key: "description"
                 },
                 {
                     title: "操作", dataIndex: "id", key: "id", width: 140, align: "center", render: (value, record) => {

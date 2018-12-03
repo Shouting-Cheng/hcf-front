@@ -1,84 +1,98 @@
 :global {
-  .dashboard-container{
-     background-color: rgb(240, 242, 245);
-     padding: 12px 14px;
-     box-sizing: border-box;
-     .ant-card-head {
-       min-height: auto;
-       .ant-card-head-title {
-         padding: 12px 0;
-       }
-       .ant-card-extra {
-          padding: 12px 0;
-       }
-     }
-  }
-
-  .user-info .ant-card-body  {
-       padding: 0;
-   }
-
-  .user-info-box {
-     display: flex;
-     height: 208px;
-     align-items: center;
-  }
-  .user-info {
-    flex: 1;
-    padding: 0 8%;
-    display: flex;
-    flex-direction: column;
-    height: 170px;
-  }
-  .info-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    color: #333;
-    font-size: 16px;
-  }
-  .ant-carousel .slick-slide {
-    text-align: center;
-    height: 260px;
-    line-height: 260px;
-    background: #364d79;
-    overflow: hidden;
-  }
-
-  .ant-carousel .slick-slide h3 {
-    color: #fff;
-  }
-
-  .tabs .ant-card-body {
-   padding: 14px;
-  }
-
-  .data .ant-card-body {
-   padding: 14px;
-  }
-
-  .disboard-bottom  {
-    height: 527px;
-  
-    .ant-card-head .ant-card-extra {
-      padding: 8px 0;
-    }
-    .tabs {
-      height: 100%;
-      .info-card {
-         height: 100%;
-         .ant-card-body {
-            height: calc(100% - 60px);
-            padding: 10px;
-            .ant-tabs {
-              height: calc(100% - 28px);
-              .ant-tabs-content {
-                height: calc(100% - 44px);
-                overflow: auto;
-              }
+    .dashboard-container {
+        background-color: rgb(240, 242, 245);
+        padding: 12px 14px;
+        box-sizing: border-box;
+        .ant-card-head {
+            min-height: auto;
+            .ant-card-head-title {
+                padding: 12px 0;
             }
-          }
-      }
+            .ant-card-extra {
+                padding: 12px 0;
+            }
+        }
     }
-  }
+    .user-info .ant-card-body {
+        padding: 0;
+    }
+    .user-info-box {
+        display: flex;
+        height: 208px;
+        align-items: center;
+    }
+    .user-info {
+        flex: 1;
+        padding: 0 8%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .info-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        color: #333;
+        font-size: 16px;
+        span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+    .ant-carousel .slick-slide {
+        text-align: center;
+        height: 260px;
+        line-height: 260px;
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        .title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            line-height: 40px;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 0 20px;
+            color: #fff;
+            text-align: left;
+        }
+    }
+    .ant-carousel .slick-slide img {
+        display: inline-block;
+        height: 260px;
+        width: 100%;
+    }
+    .tabs .ant-card-body {
+        padding: 14px;
+    }
+    .data .ant-card-body {
+        padding: 14px;
+    }
+    .disboard-bottom {
+        height: 527px;
+        .ant-card-head .ant-card-extra {
+            padding: 8px 0;
+        }
+        .tabs {
+            height: 100%;
+            .info-card {
+                height: 100%;
+                .ant-card-body {
+                    height: calc(100% - 60px);
+                    padding: 10px;
+                    .ant-tabs {
+                        height: calc(100% - 28px);
+                        .ant-tabs-content {
+                            height: calc(100% - 44px);
+                            overflow: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

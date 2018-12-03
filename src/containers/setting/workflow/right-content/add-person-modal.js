@@ -366,7 +366,8 @@ class AddPersonModal extends React.Component {
         <Modal title={personType === 1 ? this.$t('setting.key1253'/*请选择审批人员*/) : this.$t('setting.key1254'/*请选择知会人员*/)}
                visible={visible}
                width={550}
-               closable={false}
+               closable={true}
+               onCancel={()=>this.setState({visible: false})}
                getContainer={() => {
                  return document.getElementsByClassName("select-person-modal-container")[0];
                }}
