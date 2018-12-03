@@ -1112,7 +1112,7 @@ class MyGLWorkOrderDetail extends Component {
     if (docHeadData.status === 1001 || docHeadData.status === 1003 || docHeadData.status === 1005) {
       status = (
         <h3 className="header-title">
-          <Button type="primary" onClick={this.edit}>
+          <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>
             编 辑
           </Button>
         </h3>

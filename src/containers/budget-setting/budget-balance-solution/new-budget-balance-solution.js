@@ -755,7 +755,7 @@ class NewBudgetBalanceSolution extends Component {
                     <List bordered='true' size='small' split>
                         <div className="common-item-title" style={{ borderBottom: '1px solid #D0D0D0' }}>{this.$t('common.baseInfo')}</div>
                         <Row gutter={15} type="flex" justify="space-around" align="top">
-                            <Col span={5}>
+                            <Col span={6}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.code')}>
                                     {
                                         getFieldDecorator('conditionCode', {
@@ -770,7 +770,7 @@ class NewBudgetBalanceSolution extends Component {
                                     }
                                 </FormItem>
                             </Col>
-                            <Col span={5}>
+                            <Col span={6}>
                                 <FormItem {...formItemLayout} label={this.$t('budget.balance.condition.name')}>
                                     {
                                         getFieldDecorator('conditionName', {
