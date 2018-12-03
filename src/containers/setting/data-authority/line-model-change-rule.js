@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider } from 'antd';
+import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider,Popconfirm } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import 'styles/setting/data-authority/data-authority.scss';
@@ -47,6 +47,7 @@ class LineModelChangeRulesSystem extends React.Component {
             createdDate: undefined,
             lastUpdatedBy: undefined,
             lastUpdatedDate: undefined,
+            getRulesArr: {}
         }
     }
     componentWillMount() {
@@ -55,17 +56,18 @@ class LineModelChangeRulesSystem extends React.Component {
             this.setState({
                 ruleName: params.name,
                 ruleDatail: params.ruleDatail,
-                ruleId: this.props.params.ruleId,
-                deleted: this.props.params.deleted,
-                versionNumber: this.props.params.versionNumber,
-                createdBy: this.props.params.createdBy,
-                createdDate: this.props.params.createdDate,
-                lastUpdatedBy: this.props.params.lastUpdatedBy,
-                lastUpdatedDate: this.props.params.lastUpdatedDate,
+                ruleId: params.ruleId,
+                deleted: params.deleted,
+                versionNumber: params.versionNumber,
+                createdBy: params.createdBy,
+                createdDate: params.createdDate,
+                lastUpdatedBy: params.lastUpdatedBy,
+                lastUpdatedDate: params.lastUpdatedDate,
+                getRulesArr: params.getRulesArr
             })
         } else {
             this.setState({
-                ruleId: this.props.newEditId,
+                ruleId: this.props.newEditId ? this.props.newEditId : this.props.hasId,
                 deleted: this.props.newDataPrams.deleted,
                 versionNumber: this.props.newDataPrams.versionNumber,
                 createdBy: this.props.newDataPrams.createdBy,
@@ -109,11 +111,9 @@ class LineModelChangeRulesSystem extends React.Component {
             `dataScope2-${this.props.targeKey}`, `filtrateMethod2-${this.props.targeKey}`, `dataScope3-${this.props.targeKey}`, `filtrateMethod3-${this.props.targeKey}`,
             `dataScope4-${this.props.targeKey}`, `filtrateMethod4-${this.props.targeKey}`
         ];
-        let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate } = this.state;
-        console.log(ruleId)
+        let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr } = this.state;
         this.props.form.validateFields(testRules, (err, values) => {
             if (!err) {
-                console.log(values)
                 let tenantId = this.props.tenantId;
                 let params = {
                     id: ruleId ? ruleId : null,
@@ -174,16 +174,24 @@ class LineModelChangeRulesSystem extends React.Component {
                                         }
                                     ] : undefined
                                 },
-                            ]
+                            ],
+                            id: getRulesArr.id,
+                            deleted: getRulesArr.deleted,
+                            versionNumber: getRulesArr.versionNumber,
+                            createdBy: getRulesArr.createdBy,
+                            createdDate: getRulesArr.createdDate,
+                            lastUpdatedBy: getRulesArr.lastUpdatedBy,
+                            lastUpdatedDate: getRulesArr.lastUpdatedDate,
+
                         }
                     ]
                 }
                 DataAuthorityService.saveDataAuthority(params).then(res => {
-                    console.log(res.data);
                     if (res.status === 200) {
                         this.setState({
                             ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
                             ruleName: res.data.dataAuthorityRules[0].dataAuthorityRuleName,
+                            getRulesArr: res.data.dataAuthorityRules[0],
                             saveLoading: false,
                             ruleId: res.data.id,
                             deleted: res.data.deleted,
@@ -200,12 +208,13 @@ class LineModelChangeRulesSystem extends React.Component {
                         })
                     }
                     /**单个规则保存成功后返回dataAuthorityRules */
-                    this.props.hadleHasSaveRules(res.data.dataAuthorityRules[0])
+                    this.props.hadleHasSaveRules(res.data.dataAuthorityRules);
 
-                }).catch(e => {
-                    this.setState({ saveLoading: false })
-                    message.error(e.response.data.message)
                 })
+                    .catch(e => {
+                        this.setState({ saveLoading: false })
+                        message.error(e.response.data.message)
+                    })
 
             } else {
                 this.setState({ saveLoading: false })
@@ -217,7 +226,11 @@ class LineModelChangeRulesSystem extends React.Component {
         this.setState({
             show: true,
             isEditDelete: true
+        }, () => {
+            /**保存完成后再编辑 */
+            this.props.hasSaveEdit(this.state.getRulesArr)
         })
+
     }
     /**选中手动选择 */
     handleChangeRuleChange = (value) => {
@@ -279,10 +292,10 @@ class LineModelChangeRulesSystem extends React.Component {
     addTenant = () => {
         const tenantItem = {
             title: '添加账套',
-            url: `${config.baseUrl}/api/expReportHeader/get/release/by/reportId`,
+            url: `${config.baseUrl}/api/setOfBooks/current/tenant`,
             searchForm: [
-                { type: 'input', id: 'businessCode', label: '账套代码', colSpan: 6 },
-                { type: 'input', id: 'formName', label: '账套名称', colSpan: 6 },
+                { type: 'input', id: 'setOfBooksCode', label: '账套代码', colSpan: 6 },
+                { type: 'input', id: 'setOfBooksName', label: '账套名称', colSpan: 6 },
             ],
             columns: [
                 { title: "申请单单号", dataIndex: 'applicationCode', width: 150 },
@@ -554,7 +567,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 label=''
                                             >
                                                 {getFieldDecorator('addTenant')(
-                                                    <Button icon="plus">添加账套</Button>
+                                                    <Button icon="plus">添加部门</Button>
                                                 )}
 
                                             </FormItem>
@@ -624,9 +637,19 @@ class LineModelChangeRulesSystem extends React.Component {
                 {!show &&
                     <Card title={ruleName || ''} style={{ marginTop: 25, background: '#f7f7f7' }}
                         extra={<span>
-                            <a onClick={this.handleViewRule}>查看</a>
+                            <a onClick={this.handleViewRule}>详情</a>
                             <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>
-                            <a style={{ paddingLeft: 15 }} onClick={() => this.removeEditRule(targeKey, isEditDelete)}>删除</a>
+                            <Popconfirm placement="top" title={'确认删除？'}
+                                onConfirm={e => {
+                                    e.preventDefault();
+                                    this.removeEditRule(targeKey, isEditDelete);
+                                }}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                                <a style={{ paddingLeft: 15 }}  onClick={e => { e.preventDefault(); e.stopPropagation(); }}>删除</a>
+                            </Popconfirm>
+                            {/* <a style={{ paddingLeft: 15 }} onClick={() => this.removeEditRule(targeKey, isEditDelete)}>删除</a> */}
                         </span>}>
                         <Row>
                             <Col span={24}>
@@ -650,6 +673,7 @@ class LineModelChangeRulesSystem extends React.Component {
                 <ViewRuleModal
                     visibel={showRuleModal}
                     closeRuleModal={this.closeRuleModal}
+                    targeKey={this.props.params.ruleId}
                 />
                 <ListSelector
                     visible={tenantVisible}
