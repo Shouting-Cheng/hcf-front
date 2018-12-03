@@ -491,6 +491,7 @@ class NewExpense extends React.Component {
         ...this.state.editModel,
         ...values,
         ...data,
+        createTime: values.createdDate,
         expenseTypeId: this.state.expenseType.id,
         expenseTypeCategoryDTO: {},
         expenseTypeOID: this.state.expenseType.expenseTypeOID,
