@@ -771,12 +771,14 @@ class BankDefinition extends React.Component {
 
   //导出
   handleDownLoad = (result) => {
+    debugger;
+    let exportParams = this.state.searchParams;
     let ps={
       page: this.state.pagination.page,
       size: this.state.pagination.pageSize,
     }
     let hide = message.loading(this.$t({ id: 'importer.spanned.file' } /*正在生成文件..*/));
-    BSService.exportSelfBank(result,ps)
+    BSService.exportSelfBank(result,ps,exportParams)
       .then(response => {
         let b = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
