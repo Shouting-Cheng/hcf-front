@@ -354,7 +354,7 @@ class NewExpense extends React.Component {
       message.success('保存成功！');
       this.setState({ againLoading: false });
       this.props.params.refresh && this.props.params.refresh();
-
+      this.props.form.setFieldsValue({costType:''});
       this.resetForm();
       if (this.state.headerData.relatedApplication === false) {
         this.setDefaultApplication();

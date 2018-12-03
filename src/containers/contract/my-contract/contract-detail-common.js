@@ -438,6 +438,7 @@ class ContractDetailCommon extends React.Component {
           title: this.$t({ id: 'common.operation' } /*操作*/),
           dataIndex: 'id',
           width: '10%',
+          align: 'center',
           render: (text, record) => (
             <span>
               <a onClick={e => this.editItem(e, record)}>
