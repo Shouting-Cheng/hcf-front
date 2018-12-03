@@ -248,7 +248,7 @@ class DocumentBasicInfo extends React.Component {
               <div style={{ textAlign: 'right', fontSize: 14 }} className="amount-title">
                 {this.$t('common.amount')}
               </div>
-              <div style={{ fontSize: '20px' }} className="amount-content">
+              <div style={{ fontSize: '18px' }} className="amount-content">
                 {data.currencyCode} {this.filterMoney(data.totalAmount)}
               </div>
             </div>
@@ -273,21 +273,21 @@ class DocumentBasicInfo extends React.Component {
           closable={false}
         >
           <img alt="pictures"
-               src={previewImage}
-               style={{
-                 marginLeft: 'auto',
-                 marginRight: 'auto',
-                 height: 'auto',
-                 '-webkit-transform-origin': '50% 50%',
-                 '-moz-transform-origin': '50% 50%',
-                 '-ms-transform-origin': '50% 50%',
-                 '-o-transform-origin': '50% 50%',
-                 'transform-origin': '50% 50%',
-                 'max-width': '100%',
-                 'max-height': '100%',
-                 'cursor': 'move',
-                 'position': 'relative'
-               }} />
+            src={previewImage}
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              height: 'auto',
+              '-webkit-transform-origin': '50% 50%',
+              '-moz-transform-origin': '50% 50%',
+              '-ms-transform-origin': '50% 50%',
+              '-o-transform-origin': '50% 50%',
+              'transform-origin': '50% 50%',
+              'max-width': '100%',
+              'max-height': '100%',
+              'cursor': 'move',
+              'position': 'relative'
+            }} />
         </Modal>
       </Spin>
     );
