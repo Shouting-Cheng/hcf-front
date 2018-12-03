@@ -77,12 +77,17 @@ class Payment extends React.Component {
             unApproveSearchParams: {},
             approveSearchParams: {},
             columns: [
-                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180,align: 'center' },
-                { title: '单据类型', dataIndex: 'typeName',align: 'center' },
-                { title: '申请人', dataIndex: 'createByName', width: 100,align:"center" },
-                { title: '提交日期', dataIndex: 'submitDate',width:90, render: (value) => moment(value).format('YYYY-MM-DD') },
+                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180,align: 'center',
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '单据类型', dataIndex: 'typeName',align: 'center',
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '申请人', dataIndex: 'createByName', width: 100,align:"center",
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '提交日期', dataIndex: 'submitDate',width:90,align:"center",
+                  render: desc => <span><Popover content={moment(desc).format('YYYY-MM-DD')}>{desc ? moment(desc).format('YYYY-MM-DD') : "-"}</Popover></span> },
                 // {title: '币种', dataIndex: 'currency'},
-                { title: '本币金额', dataIndex: 'advancePaymentAmount', render: this.filterMoney,align: 'center' },
+                { title: '本币金额', dataIndex: 'advancePaymentAmount', align: 'center',
+                  render: desc => <span className="money-cell"><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>},
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
                 {
                     title: '备注', dataIndex: 'description',align: 'center', render: (value) => {
