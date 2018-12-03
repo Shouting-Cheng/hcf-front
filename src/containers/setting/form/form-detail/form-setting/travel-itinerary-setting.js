@@ -1005,7 +1005,7 @@ class TravelItinerarySetting extends React.Component{
         <div className='travel-alert'>
           <Alert
             message={this.$t("common.help")/*帮助提示*/}
-            description={this.$t("form.setting.travel.info.to.supplier")/*下方的设置决定了供应商如何对差旅行程管控，若启用相应功能后，汇联易会将相应信息传递给供应商*/}
+            description={this.$t("form.setting.travel.info.to.supplier")/*下方的设置决定了供应商如何对差旅行程管控，若启用相应功能后，汉得融晶会将相应信息传递给供应商*/}
             type="info"
             showIcon/>
         </div>
@@ -1017,7 +1017,7 @@ class TravelItinerarySetting extends React.Component{
             <div>
               <Button type='primary' className='buttons-save' onClick={this.saveTravelForm}>{this.$t("common.save")/*保存*/}</Button>
               <Button type='primary' className='buttons-cancelEdit' onClick={this.cancelEditing}>{this.$t("form.setting.huilianyi.cancel.edit")/*取消编辑*/}</Button>
-              <Button type='default' 
+              <Button type='default'
               onClick={() => {
                 this.props.dispatch(
                   routerRedux.push({
@@ -1030,7 +1030,7 @@ class TravelItinerarySetting extends React.Component{
             :
             <div>
               <Button type='primary' className='buttons-edit' onClick={this.editClicked}>{this.$t("common.edit")/*编辑*/}</Button>
-              <Button type='default' 
+              <Button type='default'
               onClick={() => {
                 this.props.dispatch(
                   routerRedux.push({

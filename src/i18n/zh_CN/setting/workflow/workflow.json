@@ -52,7 +52,7 @@
   "workflow.detail.approve.auto.reject": "系统自动驳回",
   "workflow.detail.app.message": "APP消息",
   "workflow.detail.weChat.message": "微信企业号消息",
-  "workflow.detail.weChat.message.info": "请先开通微信企业号，并联系客服启用汇联易微信版本",
+  "workflow.detail.weChat.message.info": "请先开通微信企业号，并联系客服启用汉得融晶微信版本",
   "workflow.detail.web.message": "网页端消息",
   "workflow.detail.notify.way": "知会方式",
   "workflow.detail.notify.format": "知会格式",

@@ -685,7 +685,7 @@ class PrePaymentCommon extends React.Component {
     let status = null;
     if (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005) {
       status = (
-        <h3 className="header-title">
+        <h3 className="header-title" style={{textAlign: 'right'}}>
           <Button type="primary" onClick={this.edit}>
             编 辑
           </Button>

@@ -218,7 +218,7 @@ class ContractWorkflowApprove extends React.Component {
     if(values.createdBy && values.createdBy[0]){
       values.createdBy = values.createdBy[0];
     }
-    this.setState({ ...this.state.searchParams,...values },()=>{
+    this.setState({searchParams:{ ...this.state.searchParams,...values} },()=>{
       this.table.search({ ...this.state.searchParams,...values });
     });
   };
@@ -267,7 +267,6 @@ class ContractWorkflowApprove extends React.Component {
 
   //进入合同详情页
   handleRowClick = (record, flag) => {
-    console.log(record);
     /* let url = this.state.contractWorkflowDetail.url.replace(
       ':id',
       record.contractApprovalView.contractId

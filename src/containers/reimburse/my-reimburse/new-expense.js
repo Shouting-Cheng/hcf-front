@@ -860,8 +860,8 @@ class NewExpense extends React.Component {
                   </Col>
                   <Col span={11} offset={1}>
                     <FormItem {...formItemLayout} label="发生日期">
-                      {getFieldDecorator('createTime', {
-                        initialValue: editModel.id ? moment(editModel.createTime) : moment(),
+                      {getFieldDecorator('createdDate', {
+                        initialValue: editModel.id ? moment(editModel.createdDate) : moment(),
                         rules: [{ message: '请输入', required: true }],
                       })(<DatePicker style={{ width: '100%' }} format="YYYY-MM-DD" />)}
                     </FormItem>

@@ -329,9 +329,9 @@ class MyNewPrePayment extends React.Component {
                 loading={loading}
                 style={{ margin: '0 20px' }}
               >
-                {isNew ? '下一步' : '确定'}
+                {this.props.match.params.id === '0'? '下一步' : '确定'}
               </Button>
-              {isNew ? <Button onClick={this.onCancel}>取消</Button>:<Button onClick={this.onBack}>返回</Button>}
+              {this.props.match.params.id === '0' ? <Button onClick={this.onCancel}>取消</Button>:<Button onClick={this.onBack}>返回</Button>}
             </Affix>
           </Form>
         </Spin>

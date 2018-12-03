@@ -302,25 +302,28 @@ class ContractDetailCommon extends React.Component {
 
   //选取报账单后
   handleListOk = (values) => {
+    if(values.result && values.result.length){
+      this.setState({ invoicesLoading: true });
+      let data = {
+        expenseReportId: this.props.id,
+        invoices: []
+      };
 
-    this.setState({ invoicesLoading: true });
-    let data = {
-      expenseReportId: this.props.id,
-      invoices: []
-    };
+      values.result && values.result.map(item => {
+        data.invoices.push(item.invoiceOID);
+      });
 
-    values.result && values.result.map(item => {
-      data.invoices.push(item.invoiceOID);
-    });
-
-    reimburseService.import(data).then(res => {
-      message.success("导入费用成功！");
-      this.setState({ showInvoices: false, invoicesLoading: false });
-      this.getCostList(true);
-    }).catch(res => {
-      message.error("导入失败！");
-    })
-  }
+      reimburseService.import(data).then(res => {
+        message.success("导入费用成功！");
+        this.setState({ showInvoices: false, invoicesLoading: false });
+        this.getCostList(true);
+      }).catch(res => {
+        message.error("导入失败！");
+      })
+    }else {
+      message.warn('请选择费用')
+    }
+  };
 
   //撤回
   withdraw = () => {
@@ -433,9 +436,9 @@ class ContractDetailCommon extends React.Component {
               <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
                 <DocumentBasicInfo params={this.state.remburseInfo} values={{}}>
                   {isEdit &&
-                    <Button type="primary" style={{ marginBottom: '14px' }} onClick={this.edit}>编辑</Button>}
+                    <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
-                    <Button type="primary" style={{ marginBottom: '14px' }}
+                    <Button type="primary" style={{ marginBottom: '14px', marginLeft: 155 }}
                       onClick={this.withdraw}>撤回</Button>}
                 </DocumentBasicInfo>
               </TabPane>
@@ -470,7 +473,7 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={visible}
-          title="新建费用"
+          title={this.state.costRecord.id ?'编辑费用' :"新建费用"}
           width="900px"
           onClose={() => this.setState({ visible: false })}>
           <NewExpense

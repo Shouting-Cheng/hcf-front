@@ -38,7 +38,7 @@ class MyGLWorkOrder extends Component {
           colSpan: '6',
           getUrl: `${
             config.accountingUrl
-          }/api/general/ledger/work/order/types/queryByEmployeeId?userId=${this.props.user.id}`,
+          }/api/general/ledger/work/order/types/query/by/setOfBooksId?setOfBooksId=${props.company.setOfBooksId}`,//userId=${this.props.user.id}
           options: [],
           method: 'get',
           valueKey: 'id',
@@ -139,6 +139,7 @@ class MyGLWorkOrder extends Component {
         {
           title: '状态',
           dataIndex: 'status',
+          align: 'center',
           width:100,
           render: status => {
             return (
@@ -406,8 +407,8 @@ class MyGLWorkOrder extends Component {
         <div className="table-header">
           <div className="table-header-buttons">
             <Row>
-              <Col id="drop" style={{position : "relative"}} span={18}>
-                <Dropdown getPopupContainer={ () => document.getElementById('drop')}
+              <Col id="my-gl-work-order-drop" style={{position : "relative"}} span={18}>
+                <Dropdown getPopupContainer={ () => document.getElementById('my-gl-work-order-drop')}
                   overlay={
                     <Menu onClick={this.handleMenuClick}>
                       {glWorkOrderTypeList.map(item => {

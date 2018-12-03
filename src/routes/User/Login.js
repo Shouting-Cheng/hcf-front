@@ -600,6 +600,8 @@ export default class Login extends React.Component {
       formData.append(key, data[key]);
     });
 
+    window.localStorage.setItem("LastRequestDate", moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
+
     axios({
       url: '/auth/oauth/token',
       method: 'POST',
@@ -613,6 +615,7 @@ export default class Login extends React.Component {
       data: formData,
     }).then(res => {
       window.localStorage.setItem('token', res.data.access_token);
+      window.localStorage.setItem('refresh_token', res.data.refresh_token);
       this.props.dispatch({
         type: 'user/setToken',
         token: res.data.access_token
@@ -966,7 +969,7 @@ export default class Login extends React.Component {
     if (this.state.qcodeValue && !this.state.scanSuccess) {
       return (
         <div className="qcode-bottom-tips">
-          {/*请使用汇联易APP扫描登录*/}
+          {/*请使用汉得融晶APP扫描登录*/}
           {messages('login.qcode.please.scan')}
         </div>
       );
@@ -1695,7 +1698,7 @@ export default class Login extends React.Component {
         <img src={BG} className="background-img" />
         <div className="login-area">
           <div className="login-logo-text">
-            {/*汇联易管理系统*/}
+            {/*汉得融晶管理系统*/}
             {this.$t('login.helios.management.system')}
           </div>
 
@@ -1728,7 +1731,7 @@ export default class Login extends React.Component {
             {messages('login.slogan2')}
           </div>
         </div>
-        <div className="footer">CopyRight 汇联易 | 沪ICP备16047366号</div>
+        <div className="footer">CopyRight 汉得融晶 | 沪ICP备16047366号</div>
         {/* <StopAnnonuce></StopAnnonuce> */}
 
         <div className="stop-annonuce-modal-wrap" />

@@ -28,6 +28,7 @@ import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import Chooser from 'widget/chooser';
 import Importer from 'widget/Template/importer';
+import ImporterNew from 'widget/Template/importer-new';
 import { routerRedux } from 'dva/router';
 
 class MyGLWorkOrderDetail extends Component {
@@ -1035,7 +1036,7 @@ class MyGLWorkOrderDetail extends Component {
     templateUrl = `${
       config.accountingUrl
       }/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`;
-    uploadUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/import?headId=${
+    uploadUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/import/new?headId=${
       this.props.match.params.id
       }`;
     errorUrl = `${config.accountingUrl}/api/general/ledger/work/order/head/export/fail/${
@@ -1067,6 +1068,10 @@ class MyGLWorkOrderDetail extends Component {
           message.error(`导入失败:${e.response.data.message}`);
         }
       });
+  };
+
+  showImport = (flag) => {
+    this.setState({ showImportFrame: flag })
   };
 
   /**
@@ -1107,7 +1112,7 @@ class MyGLWorkOrderDetail extends Component {
     if (docHeadData.status === 1001 || docHeadData.status === 1003 || docHeadData.status === 1005) {
       status = (
         <h3 className="header-title">
-          <Button type="primary" onClick={this.edit}>
+          <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>
             编 辑
           </Button>
         </h3>
@@ -1239,17 +1244,16 @@ class MyGLWorkOrderDetail extends Component {
             )}
         </Affix>
         {/* 导入 */}
-        <Importer
-          visible={showImportFrame}
-          templateUrl={templateUrl}
-          uploadUrl={uploadUrl}
-          errorUrl={errorUrl}
-          listenUrl={listenUrl}
-          title={'导入'}
-          fileName={'核算工单'}
-          onOk={this.onImportOk}
-          afterClose={() => this.setState({ showImportFrame: false })}
-        />
+        <ImporterNew visible={showImportFrame}
+                     title={this.$t({ id: 'section.mapping.set.import' })}
+                     templateUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`}
+                     uploadUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new?headId=${this.props.match.params.id}`}
+                     errorUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/error/export`}
+                     errorDataQueryUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/query/result`}
+                     deleteDataUrl ={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/delete`}
+                     fileName={this.$t({ id: 'section.mapping.import.fileName' })}
+                     onOk={this.onImportOk}
+                     afterClose={() => this.showImport(false)}/>
       </div>
     );
   }

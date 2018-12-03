@@ -276,8 +276,8 @@ class MyPrePayment extends React.Component {
         {/* <div className='divider'></div> */}
         <div style={{ marginBottom: 10, marginTop: 10 }}>
           <Row>
-            <Col id="drop" style={{position : "relative"}} span={18}>
-              <Dropdown getPopupContainer={ () => document.getElementById('drop')} overlay={
+            <Col id="me-pre-payment-drop" style={{position : "relative"}} span={18}>
+              <Dropdown getPopupContainer={ () => document.getElementById('me-pre-payment-drop')} overlay={
                 <Menu onClick={this.handleMenuClick} >
                   {
                     prePaymentTypeMenu.map(item => {

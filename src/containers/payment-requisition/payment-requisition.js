@@ -404,9 +404,9 @@ class PaymentRequisition extends React.Component {
         <div className="divider" />
         <div className="table-header">
           <Row>
-            <Col id="drop" style={{position : "relative"}} span={18}>
+            <Col id="payment-requisition-drop" style={{position : "relative"}} span={18}>
               <div className="table-header-buttons">
-                <Dropdown getPopupContainer={ () => document.getElementById('drop')}
+                <Dropdown getPopupContainer={ () => document.getElementById('payment-requisition-drop')}
                   trigger={['click']}
                   overlay={
                     <Menu onClick={this.newRequistionForm}>

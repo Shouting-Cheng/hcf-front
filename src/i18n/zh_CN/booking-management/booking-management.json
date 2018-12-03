@@ -86,10 +86,10 @@
   "bookingManagement.bookingDetails.maintain.issueAndNotice": "出票并通知乘机人",
   "bookingManagement.bookingDetails.maintain.issue": "出票",
   "bookingManagement.bookingDetails.maintain.refundAndNotice": "退票并通知乘机人",
-  "bookingManagement.bookingDetails.maintain.refundAndNotice.tips":"将在汇联易APP内收到退票信息，请仔细核对信息后确认",
+  "bookingManagement.bookingDetails.maintain.refundAndNotice.tips":"将在汉得融晶APP内收到退票信息，请仔细核对信息后确认",
   "bookingManagement.bookingDetails.maintain.refund": "退票",
   "bookingManagement.bookingDetails.booking.information": "订票信息",
-  "bookingManagement.bookingDetails.maintain.information.tips":"将在汇联易APP内收到航班信息，请仔细核对信息后确认",
+  "bookingManagement.bookingDetails.maintain.information.tips":"将在汉得融晶APP内收到航班信息，请仔细核对信息后确认",
   "bookingManagement.bookingDetails.maintain.finalPrice.tips": "个人承担费用无法高于总金额！",
   "bookingManagement.bookingDetails.maintain.saveAndNotice": "保存并通知",
 

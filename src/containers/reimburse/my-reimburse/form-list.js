@@ -468,7 +468,7 @@ class FormList extends React.Component {
                   {currencyCodeList.map(value => {
                     return (
                       <Option key={value.currency} value={value.currency}>
-                        {value.currency} - {value.currencyName}
+                        {value.currency}-{value.currencyName}
                       </Option>
                     );
                   })}

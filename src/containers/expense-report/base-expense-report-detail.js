@@ -244,10 +244,21 @@ class ExpenseReportDetail extends React.Component {
         })}>{this.$t('common.view')/*查看*/}{record.status === 1002 && `(${this.$t('constants.documentStatus.has.been.rejected')})`/*(已驳回)*/}</a>
         {record.digitalInvoice && (print || isFinancial) &&
           ((record.digitalInvoice.cardsignType === 'ALICARDSIGN' && record.digitalInvoice.pdfUrl) || record.digitalInvoice.cardsignType === 'APPCARDSIGN' || record.digitalInvoice.cardsignType === 'JSCARDSIGN') ?
-          (<span>
-            <span className="ant-divider" />
-            <a onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
-          </span>) : ''}
+          <Affix className="bottom-bar bottom-bar-approve" offsetBottom="0" style={{
+            width:'124%',
+            height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+            background: '#fff',
+            lineHeight: '50px',
+            zIndex: 1,
+          }}>
+            <Row gutter={12} type="flex" justify="start">
+              <Button style={{marginLeft: 20}} onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</Button>
+              <Col span={3} style={{marginLeft: 38}}>
+                <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
+              </Col>
+            </Row>
+          </Affix> : ''}
       </span>
     ) : (
         <span>
@@ -258,10 +269,22 @@ class ExpenseReportDetail extends React.Component {
           <span className="ant-divider" />
           {record.digitalInvoice && print &&
             ((record.digitalInvoice.cardsignType === 'ALICARDSIGN' && record.digitalInvoice.pdfUrl) || record.digitalInvoice.cardsignType === 'APPCARDSIGN' || record.digitalInvoice.cardsignType === 'JSCARDSIGN') &&
-            <span>
-              <a onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</a>
-              <span className="ant-divider" />
-            </span>}
+
+          <Affix className="bottom-bar bottom-bar-approve" offsetBottom="0" style={{
+            width:'124%',
+            height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+            background: '#fff',
+            lineHeight: '50px',
+            zIndex: 1,
+          }}>
+            <Row gutter={12} type="flex" justify="start">
+              <Button style={{marginLeft: 20}} onClick={() => this.handlePrintInvoice(record.digitalInvoice)}>{this.$t('common.print')/*打印*/}</Button>
+              <Col span={3} style={{marginLeft: 38}}>
+                <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
+              </Col>
+            </Row>
+          </Affix>})}
           {this.deletingRecord(record) ? (<span>
             <Button shape="circle" size="small" loading style={{ border: 'none', background: 'transparent' }} />
             <a>{this.$t('common.delete')/*删除*/}</a>
@@ -1550,19 +1573,35 @@ class ExpenseReportDetail extends React.Component {
         {console.log(buttonRoleSwitch)}
         {console.log(info)}
         {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOID={info.expenseReportOID} status={info.status} entityType={1002} expenseOid={this.props.match.params.expenseReportOID} afterClose={this.handleAfterClose} /> :
-          <Affix offsetBottom={0} className="bottom-bar">
-            <Button onClick={this.handlePrint} type="primary" className="back-btn"
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve"style={{
+            width:'124%',
+            height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+            background: '#fff',
+            lineHeight: '50px',
+            zIndex: 1,
+          }}>
+            <Button style={{marginLeft: 20}} onClick={this.handlePrint} type="primary" className="back-btn"
               loading={printLoading}>{this.$t('common.print')/*打印*/}</Button>
-            <Button className="back-btn" onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
+            <Button style={{marginLeft: 15}} className="back-btn" onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
           </Affix>)}
         {!audit && !approve && view && (
-          <Affix offsetBottom={0} className="bottom-bar">
-            <Button onClick={this.handlePrint} type="primary" className="back-btn"
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve"
+                 style={{
+                   width:'124%',
+                   height: '50px',
+                   boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                   background: '#fff',
+                   lineHeight: '50px',
+                   zIndex: 1,
+                 }}>
+            <Button style={{marginLeft: 20}} onClick={this.handlePrint} type="primary" className="back-btn"
               loading={printLoading}>{this.$t('common.print')/*打印*/}</Button>
+            <Button style={{marginLeft: 15}} className="back-btn" onClick={this.goBack}>{this.$t('common.back')/*返回*/}</Button>
           </Affix>
         )}
         {pay && (
-          <Affix offsetBottom={0} className="bottom-bar">
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
             {info.status === 1008 && this.checkFunctionProfiles('web.financial.approval.sure.ready.pay.disabled', [undefined, false]) && expenseReportStatus.state === 'processing' && this.checkPageRole('EXPENSEPAYMENT', 2) &&
               <Button type="primary" className="back-btn" onClick={this.handleConfirmPay}
                 loading={submitting}>{this.$t('confirm.payment.confirmPaid'/*确认已付款！*/)}</Button>}
@@ -1570,7 +1609,7 @@ class ExpenseReportDetail extends React.Component {
           </Affix>
         )}
         {!audit && !approve && !view && !pay && !loanRefund && (
-          <Affix offsetBottom={0} className="bottom-bar">
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
             {expenseReportStatus.operate === 'edit' &&
               <Button type="primary" className="back-btn" onClick={this.handleSubmit}
                 loading={submitting} >{this.$t('common.submit')/*提交*/}</Button>}

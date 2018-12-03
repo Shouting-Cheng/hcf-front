@@ -81,6 +81,7 @@ class BudgetBalanceResult extends React.Component {
           companyNumber = item.allFlag ? this.$t('common.all') : this.$t('common.total1', {total: item.queryParameterList.length});
       });
       this.setState({
+        organizationId: res.data.organizationId,
         condition: {
           companyNumber: companyNumber,
           version: res.data.versionName,
@@ -234,7 +235,7 @@ class BudgetBalanceResult extends React.Component {
                     show={showSlideFrameFlag}
                     onClose={() => this.setState({ showSlideFrameFlag: false })}>
                     <BudgetBalanceAmountDetail
-                    params={slideFrameParam}
+                    params={{...slideFrameParam,orgId: this.state.organizationId}}
                     />
         </SlideFrame>
 

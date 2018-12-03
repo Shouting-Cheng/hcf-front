@@ -19,7 +19,7 @@ class NodeKnow extends React.Component {
         {label: (
           <div className="notify-weChat">
             {this.$t('setting.key1397'/*微信企业号消息*/)}
-            <span> {this.$t('setting.key1398'/*请先开通微信企业号，并联系客服启用汇联易微信版本*/)}</span>
+            <span> {this.$t('setting.key1398'/*请先开通微信企业号，并联系客服启用汉得融晶微信版本*/)}</span>
           </div>
         ), value: 'isWeChat'},
         {label: this.$t('setting.key1399'/*网页端消息*/), value: 'isWeb'}

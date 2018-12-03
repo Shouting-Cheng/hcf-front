@@ -15,7 +15,7 @@
   "bookingManagement.transferTicketNum": "Transfer {ticketNum} Tickets to ...",
 
   "bookingManagement.bookingDetails.afterDelete": "If Delete",
-  "bookingManagement.bookingDetails.delete.tips": "not be able to see this flight information via Helios APP. Are you sure to delete ?",
+  "bookingManagement.bookingDetails.delete.tips": "not be able to see this flight information via HAND APP. Are you sure to delete ?",
   "bookingManagement.bookingDetails.inform.applicant": "Inform applicant to confirm ticket information",
   "bookingManagement.bookingDetails.price.review": "Request price review",
   "bookingManagement.bookingDetails.price.review.yesORno": "Raise for price review？",
@@ -87,10 +87,10 @@
   "bookingManagement.bookingDetails.maintain.issueAndNotice": "Issue & Inform Passenger",
   "bookingManagement.bookingDetails.maintain.issue": "Issue",
   "bookingManagement.bookingDetails.maintain.refundAndNotice": "Refund & Inform Passenger",
-  "bookingManagement.bookingDetails.maintain.refundAndNotice.tips":"You will receive the refund information via Helios APP, please carefully check the information and confirm",
+  "bookingManagement.bookingDetails.maintain.refundAndNotice.tips":"You will receive the refund information via HAND APP, please carefully check the information and confirm",
   "bookingManagement.bookingDetails.maintain.refund": "Refund",
   "bookingManagement.bookingDetails.booking.information": "Booking Information",
-  "bookingManagement.bookingDetails.maintain.information.tips":"You will receive the flight information via Helios APP, please carefully check the information and confirm",
+  "bookingManagement.bookingDetails.maintain.information.tips":"You will receive the flight information via HAND APP, please carefully check the information and confirm",
   "bookingManagement.bookingDetails.maintain.finalPrice.tips": "Personal commitment fee can not exceed the total amount!",
   "bookingManagement.bookingDetails.maintain.saveAndNotice": "Save & Inform Passenger",
 

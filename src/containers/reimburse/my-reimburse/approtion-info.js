@@ -10,20 +10,20 @@ class Verification extends Component {
       visible: false,
       columns: [
         {
-          title: "关联申请单", dataIndex: "sourceDocumentCode", key: "sourceDocumentCode", width: 180,
+          title: "关联申请单", dataIndex: "sourceDocumentCode", key: "sourceDocumentCode", width: 180,align: 'center',
           render: desc => <Popover content={desc}>{desc ? desc : "-"}</Popover>
         },
         {
-          title: "公司", dataIndex: "companyName", key: "companyName", width: 120, render: (value, record) => {
+          title: "公司", dataIndex: "companyName", key: "companyName",align: 'center', width: 120, render: (value, record) => {
             return <span>{value}</span>
           }
         },
         {
-          title: "部门", dataIndex: "departmentName", key: "departmentName", width: 120, render: (value, record) => {
+          title: "部门", dataIndex: "departmentName",align: 'center', key: "departmentName", width: 120, render: (value, record) => {
             return <span>{value}</span>
           }
         },
-        { title: "分摊金额", dataIndex: "amount", key: "amount", width: 100, render: (desc) => this.formatMoney(this.props.mode === "negative" ? -desc : desc) }
+        { title: "分摊金额", align: 'center',dataIndex: "amount", key: "amount", width: 100, render: (desc) => this.formatMoney(this.props.mode === "negative" ? -desc : desc) }
       ],
       data: [
 
@@ -81,12 +81,12 @@ class Verification extends Component {
         render: desc => <Popover content={desc}>{desc ? desc : "-"}</Popover>
       },
       {
-        title: "公司", dataIndex: "companyName", key: "companyName", width: 120, render: (value, record) => {
+        title: "公司", dataIndex: "companyName",align: 'center', key: "companyName", width: 120, render: (value, record) => {
           return <span>{value}</span>
         }
       },
       {
-        title: "部门", dataIndex: "departmentName", key: "departmentName", width: 120, render: (value, record) => {
+        title: "部门", dataIndex: "departmentName",align: 'center', key: "departmentName", width: 120, render: (value, record) => {
           return <span>{value}</span>
         }
       }
@@ -95,26 +95,24 @@ class Verification extends Component {
     if (!this.state.headerData.relatedApplication) {
       columns = [
         {
-          title: "公司", dataIndex: "companyName", key: "companyName", width: 120, render: (value, record) => {
+          title: "公司", dataIndex: "companyName",align: 'center', key: "companyName", width: 120, render: (value, record) => {
             return <span>{value}</span>
           }
         },
         {
-          title: "部门", dataIndex: "departmentName", key: "departmentName", width: 120, render: (value, record) => {
+          title: "部门", dataIndex: "departmentName", align: 'center',key: "departmentName", width: 120, render: (value, record) => {
             return <span>{value}</span>
           }
         },
       ]
     }
-    console.log(columns)
     this.state.headerData.defaultApportionInfo.costCenterItems.map(o => {
       columns.push({ title: o.fieldName, dataIndex: o.sequenceNumber, key: o.sequenceNumber })
     })
 
-    columns.push({ title: "分摊金额", dataIndex: "amount", fixed: "right", width: 100, key: "amount", render: desc => this.filterMoney(this.props.mode === "negative" ? -desc : desc) });
+    columns.push({ title: "分摊金额",align: 'center', dataIndex: "amount", fixed: "right", width: 100, key: "amount", render: desc => this.filterMoney(this.props.mode === "negative" ? -desc : desc) });
 
     let width = this.state.headerData.relatedApplication ? 400 : 300;
-    console.log(columns)
     this.setState({ columns, flag: true, x: this.state.headerData.defaultApportionInfo.costCenterItems.length ? width + (this.state.headerData.defaultApportionInfo.costCenterItems.length) * 150 : false });
   };
 

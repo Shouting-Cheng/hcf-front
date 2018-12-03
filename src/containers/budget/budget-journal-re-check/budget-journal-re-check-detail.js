@@ -30,6 +30,7 @@ import config from 'config';
 import budgetJournalService from 'containers/budget/budget-journal-re-check/budget-journal-re-check.service';
 
 import ApproveBar from 'components/Widget/Template/approve-bar';
+import ApproveHistory from 'containers/financial-management/reimburse-review/approve-history-work-flow';
 
 class BudgetJournalReCheckDetail extends React.Component {
   constructor(props) {
@@ -283,6 +284,7 @@ class BudgetJournalReCheckDetail extends React.Component {
     budgetJournalService.getBudgetJournalHeaderLine(budgetCode).then(request => {
       let listData = request.data.list;
       let headerData = request.data.dto;
+      this.getApproveHistory(headerData);
       this.getDimensionByStructureId(headerData.structureId);
       headerData.attachmentOID.map(item => {
         this.getFileByAttachmentOID(item);
@@ -432,6 +434,16 @@ class BudgetJournalReCheckDetail extends React.Component {
     }
   };
 
+  //获取审批历史数据
+  getApproveHistory(headerData) {
+    let params = {};
+    params.entityType = headerData.documentType;
+    params.entityOID = headerData.documentOid;
+    budgetJournalService.getBudgetJournalApproveHistory(params).then(response => {
+      this.setState({ historyData: response.data });
+    });
+  }
+
   //获得总金额
   getAmount = () => {
     const data = this.state.data;
@@ -459,7 +471,7 @@ class BudgetJournalReCheckDetail extends React.Component {
   };
 
   render() {
-    const { data, columns, infoData, spinLoading, rejectLoading } = this.state;
+    const { data,historyData, columns, infoData, spinLoading, rejectLoading } = this.state;
     return (
       <div style={{ paddingBottom: 100 }} className="budget-journal-re-check-detail">
         <div className="base-info">
@@ -540,6 +552,9 @@ class BudgetJournalReCheckDetail extends React.Component {
             pagination={this.state.pagination}
           />
         </Spin>
+        <div >
+          <ApproveHistory infoData={historyData} loading={false} />
+        </div>
         <div className="bottom-bar bottom-bar-approve">
           <ApproveBar
             backUrl={`/budget/budget-journal-re-check`}

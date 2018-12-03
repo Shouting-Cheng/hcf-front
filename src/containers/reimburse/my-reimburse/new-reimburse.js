@@ -443,6 +443,14 @@ class NewReimburse extends React.Component {
     );
   };
 
+  onBack = () => {
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: `/my-reimburse/reimburse-detail/${this.props.match.params.id}`,
+      })
+    );
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { user } = this.props;
@@ -456,6 +464,7 @@ class NewReimburse extends React.Component {
       formItemLayout,
       costCenterSelectorItem,
       showCostCenterSelector,
+      isNew,
     } = this.state;
 
     return (
@@ -514,9 +523,9 @@ class NewReimburse extends React.Component {
                 type="primary"
                 onClick={this.handleSubmit}
               >
-                下一步
+                {isNew ? '下一步' : '确定'}
               </Button>
-              <Button onClick={this.handleReturn}>取消</Button>
+              {isNew ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
             </Affix>
           </Form>
         </Spin>

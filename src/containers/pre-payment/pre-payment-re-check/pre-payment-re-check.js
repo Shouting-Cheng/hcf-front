@@ -77,12 +77,17 @@ class Payment extends React.Component {
             unApproveSearchParams: {},
             approveSearchParams: {},
             columns: [
-                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180,align: 'center' },
-                { title: '单据类型', dataIndex: 'typeName',align: 'center' },
-                { title: '申请人', dataIndex: 'createByName', width: 100,align:"center" },
-                { title: '提交日期', dataIndex: 'submitDate',width:90, render: (value) => moment(value).format('YYYY-MM-DD') },
+                { title: '单据编号', dataIndex: 'requisitionNumber', width: 180,align: 'center',
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '单据类型', dataIndex: 'typeName',align: 'center',
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '申请人', dataIndex: 'createByName', width: 100,align:"center",
+                  render: desc => <span><Popover content={desc}>{desc ? desc : "-"}</Popover></span>},
+                { title: '提交日期', dataIndex: 'submitDate',width:90,align:"center",
+                  render: desc => <span><Popover content={moment(desc).format('YYYY-MM-DD')}>{desc ? moment(desc).format('YYYY-MM-DD') : "-"}</Popover></span> },
                 // {title: '币种', dataIndex: 'currency'},
-                { title: '本币金额', dataIndex: 'advancePaymentAmount', render: this.filterMoney,align: 'center' },
+                { title: '本币金额', dataIndex: 'advancePaymentAmount', align: 'center',
+                  render: desc => <span className="money-cell"><Popover content={this.filterMoney(desc, 2)}>{this.filterMoney(desc, 2)}</Popover></span>},
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
                 {
                     title: '备注', dataIndex: 'description',align: 'center', render: (value) => {
@@ -207,6 +212,8 @@ class Payment extends React.Component {
       values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
       values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
       values.status = 1002;
+      values.employeeId && (values.employeeId = values.employeeId[0]);
+
         this.setState({ unApproveSearchParams: values }, () => {
             this.unApprovedtable.search(values)
         })
@@ -216,7 +223,8 @@ class Payment extends React.Component {
     approvedSearch = (values) => {
         values.submitDateFrom && (values.submitDateFrom = values.submitDateFrom.format('YYYY-MM-DD'));
         values.submitDateTo && (values.submitDateTo = values.submitDateTo.format('YYYY-MM-DD'));
-      values.status = 1004;
+        values.status = 1004;
+        values.employeeId && (values.employeeId = values.employeeId[0]);
         this.setState({ approveSearchParams: values }, () => {
           this.approvedtable.search(values)
 
@@ -243,17 +251,24 @@ class Payment extends React.Component {
   /**未审批根据单据编号查询 */
   onDocumentSearch = (value) => {
     this.setState({
-      unApproveSearchParams: {...this.state.unApproveSearchParams,businessCode: value}
+      unApproveSearchParams: {...this.state.unApproveSearchParams,
+        requisitionNumber:value,
+        status:1002
+      }
     }, () => {
-      this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false'})
+      this.unApprovedtable&&this.unApprovedtable.search({...this.state.unApproveSearchParams, finished: 'false',})
     })
   }
   /**已审批根据单据编号查询 */
   onApprovedSearch = (value) => {
     this.setState({
-      approveSearchParams: {...this.state.approveSearchParams,businessCode: value}
+      approveSearchParams: {...this.state.approveSearchParams,
+        checkBy: this.props.user.id,
+        status: 1004,
+        requisitionNumber:value
+      }
     }, () => {
-      this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
+      this.approvedtable&&this.approvedtable.search({...this.state.approveSearchParams, finished: 'true'})
     })
   }
   changeApp = (e) =>{
@@ -296,7 +311,7 @@ class Payment extends React.Component {
                                   <Col span={6}>
                                     <Search
                                       placeholder="请输入单据编号"
-                                      onSearch={this.onApprovedSearch}
+                                      onSearch={this.onDocumentSearch}
                                       onChange={this.changeApp}
                                       enterButton
                                     />
