@@ -186,7 +186,7 @@ class BasicInfo extends React.Component {
         });
 
         children.push(
-          <Col span={8} style={{ marginBottom: '15px' }} key={index.id}>
+          <Col span={this.props.colSpan?this.props.colSpan:8} style={{ marginBottom: '15px' }} key={index.id}>
             <div style={{ color: '#989898' }}>{item.infoLabel}</div>
             {this.renderGetInfo(item)}
           </Col>
@@ -200,15 +200,23 @@ class BasicInfo extends React.Component {
       }
 
       children.push(
-        <Col span={8} style={{ marginBottom: '15px', paddingRight: '5px' }} key={item.id}>
+        <Col span={this.props.colSpan?this.props.colSpan:8} style={{ marginBottom: '15px', paddingRight: '5px' }} key={item.id}>
           <div style={{ color: '#989898' }}>{item.label}</div>
           {this.renderGetInfo(item)}
         </Col>
       );
-      if ((index + 1) % 3 === 0) {
-        rows.push(<Row key={index}>{children}</Row>);
-        children = [];
+      if(this.props.colSpan){
+        if ((index + 1) % 4 === 0) {
+          rows.push(<Row key={index}>{children}</Row>);
+          children = [];
+        }
+      }else{
+        if ((index + 1) % 3 === 0) {
+          rows.push(<Row key={index}>{children}</Row>);
+          children = [];
+        }
       }
+      
       if (index + 1 === infoList.length && (index + 1) % 3 !== 0) {
         rows.push(<Row key={index}>{children}</Row>);
       }

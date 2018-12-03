@@ -125,7 +125,7 @@ class MyReimburse extends React.Component {
           title: this.$t('myReimburse.businessCode'),
           dataIndex: 'businessCode',
           width: 180,
-          align: 'left',
+          align: 'center',
           render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {

@@ -147,7 +147,7 @@ class SectionMappingSet extends React.Component {
               loading: true,
               isSave: true,
             },
-            this.getList()
+            ()=>this.getList()
           );
         })
         .catch(e => {

@@ -1,4 +1,3 @@
-import { messages } from "utils/utils";
 /**
  * Created by zaranengap on 2017/7/4.
  */
@@ -9,6 +8,9 @@ import 'styles/dashboard.scss'
 import moment from "moment"
 import userImage from "images/user1.png"
 import FileSaver from 'file-saver';
+
+import service from "./dashboard.service"
+
 
 const TabPane = Tabs.TabPane;
 const { MonthPicker } = DatePicker;
@@ -40,26 +42,130 @@ class Dashboard extends React.Component {
       timerStr: "",
       height: 0,
       backList: [1, 2, 5, 6, 7, 8, 9, 0, 9],
-      hello: ""
+      hello: "",
+      chartsType: 1,    //1.饼状图   2.折线图
+      timeType: 3,      //1.本月 2.本季 3.全年
+      startTime: null,
+      endTime: null,
+      carousels: [],   //公告信息
+      barData: [
+        {
+          year: "一月",
+          sales: 38
+        },
+        {
+          year: "二月",
+          sales: 52
+        },
+        {
+          year: "三月",
+          sales: 61
+        },
+        {
+          year: "四月",
+          sales: 145
+        },
+        {
+          year: "五月",
+          sales: 48
+        },
+        {
+          year: "六月",
+          sales: 38
+        },
+        {
+          year: "七月",
+          sales: 30
+        },
+        {
+          year: "八月",
+          sales: 200
+        },
+        {
+          year: "九月",
+          sales: 100
+        },
+        {
+          year: "十月",
+          sales: 140
+        },
+        {
+          year: "十一月",
+          sales: 320
+        },
+        {
+          year: "十二月",
+          sales: 246
+        }
+      ],
+      cols: {
+        sales: {
+          tickInterval: 40
+        }
+      }
     }
   }
 
+  changeTimeType = (type) => {
+
+    if (type == 1) {
+      this.setState({ startTime: moment(moment().format("YYYY-MM")), endTime: moment(moment().format("YYYY-MM")) });
+    } else if (type == 2) {
+
+      let month = moment().month();
+
+      let tmp = Math.ceil(month / 3);
+
+      let year = moment().year();
+
+      if (tmp == 1) {
+        this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "03") });
+      } else if (tmp == 2) {
+        this.setState({ startTime: moment(year + "-" + "04"), endTime: moment(year + "-" + "06") });
+      } else if (tmp == 3) {
+        this.setState({ startTime: moment(year + "-" + "07"), endTime: moment(year + "-" + "09") });
+      } else if (tmp == 4) {
+        this.setState({ startTime: moment(year + "-" + "10"), endTime: moment(year + "-" + "12") });
+      }
+    } else if (type == 3) {
+      let year = moment().year();
+      this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "12") });
+    }
+
+    this.setState({ timeType: type });
+  }
+
   componentDidMount() {
+
     this.getCurrentDate();
+    this.getCarousels();
+
+    let year = moment().year();
+    this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "12") });
   }
 
 
+  getCarousels = () => {
+    service.getCarouselsByCompany(this.props.company.companyOID).then(res => {
+      this.setState({ carousels: res.data });
+    })
+  }
+
   renderDate = () => {
+
+    const { timeType, startTime, endTime } = this.state;
+
     return (
       <div>
-        <span style={{ marginRight: 20, cursor: "pointer" }}>本月</span>
-        <span style={{ marginRight: 20, cursor: "pointer" }}>本季</span>
-        <span style={{ marginRight: 20, cursor: "pointer", color: "#1890ff" }}>全年</span>
+        <span onClick={() => { this.changeTimeType(1) }} style={{ marginRight: 20, cursor: "pointer", color: timeType == 1 ? "#1890ff" : "#000" }}>本月</span>
+        <span onClick={() => { this.changeTimeType(2) }} style={{ marginRight: 20, cursor: "pointer", color: timeType == 2 ? "#1890ff" : "#000" }}>本季</span>
+        <span onClick={() => { this.changeTimeType(3) }} style={{ marginRight: 20, cursor: "pointer", color: timeType == 3 ? "#1890ff" : "#000" }}>全年</span>
         <MonthPicker
           style={{ marginRight: 20 }}
           placeholder="开始日期"
+          value={startTime}
         />
-        <MonthPicker placeholder="结束日期" />
+        <MonthPicker placeholder="结束日期" value={endTime} />
       </div>
     )
   }
@@ -97,16 +203,109 @@ class Dashboard extends React.Component {
     this.setState({ timerStr: time, hello });
   }
 
+
+  renderBar = () => {
+    return (
+      <Chart height={360} padding={[60, 60, 60, 60]} data={this.state.barData} scale={this.state.cols} forceFit>
+        <Axis name="year" />
+        <Axis name="sales" />
+        <Tooltip
+          crosshairs={{
+            type: "y"
+          }}
+        />
+        <Geom type="interval" position="year*sales" />
+      </Chart>
+    )
+  }
+
+  renderLine = () => {
+
+    const cols = {
+      value: {
+        min: 0
+      },
+      year: {
+        range: [0, 1]
+      }
+    };
+
+    const data = [
+      {
+        year: "1991",
+        value: 3
+      },
+      {
+        year: "1992",
+        value: 4
+      },
+      {
+        year: "1993",
+        value: 3.5
+      },
+      {
+        year: "1994",
+        value: 5
+      },
+      {
+        year: "1995",
+        value: 4.9
+      },
+      {
+        year: "1996",
+        value: 6
+      },
+      {
+        year: "1997",
+        value: 7
+      },
+      {
+        year: "1998",
+        value: 9
+      },
+      {
+        year: "1999",
+        value: 13
+      }
+    ];
+
+    return (
+      <Chart height={360} padding={[60, 60, 60, 60]} data={data} scale={cols} forceFit>
+        <Axis name="year" />
+        <Axis name="value" />
+        <Tooltip
+          crosshairs={{
+            type: "y"
+          }}
+        />
+        <Geom type="line" position="year*value" size={2} />
+        <Geom
+          type="point"
+          position="year*value"
+          size={4}
+          shape={"circle"}
+          style={{
+            stroke: "#fff",
+            lineWidth: 1
+          }}
+        />
+      </Chart>
+    )
+  }
+
   render() {
 
-    const { timerStr, backList, hello } = this.state;
+    const { timerStr, backList, hello, chartsType, carousels } = this.state;
+    const { user, company } = this.props;
 
     const { DataView } = DataSet;
     const { Html } = Guide;
+
     const data = [
       {
         item: "申请单",
-        count: 12
+        count: 12,
+        type: ""
       },
       {
         item: "报销单",
@@ -125,63 +324,6 @@ class Dashboard extends React.Component {
         count: 9
       }
     ];
-
-    const barData = [
-      {
-        year: "一月",
-        sales: 38
-      },
-      {
-        year: "二月",
-        sales: 52
-      },
-      {
-        year: "三月",
-        sales: 61
-      },
-      {
-        year: "四月",
-        sales: 145
-      },
-      {
-        year: "五月",
-        sales: 48
-      },
-      {
-        year: "六月",
-        sales: 38
-      },
-      {
-        year: "七月",
-        sales: 30
-      },
-      {
-        year: "八月",
-        sales: 200
-      },
-      {
-        year: "九月",
-        sales: 100
-      },
-      {
-        year: "十月",
-        sales: 140
-      },
-      {
-        year: "十一月",
-        sales: 320
-      },
-      {
-        year: "十二月",
-        sales: 246
-      },
-    ];
-
-    const cols = {
-      sales: {
-        tickInterval: 40
-      }
-    };
 
     const dv = new DataView();
 
@@ -202,22 +344,27 @@ class Dashboard extends React.Component {
             >
               <div className="user-info-box">
                 <img style={{ height: 120, width: 120, flex: "0 0 120px" }} src={userImage} />
-                <div className="user-info">
-                  <div className="info-item">{hello}，清浅</div>
-                  <div className="info-item">苏州银行  财会部</div>
-                  <div className="info-item">1234567@126.com</div>
-                  <div className="info-item">13321010000</div>
-                  <div className="info-item" style={{ color: "#888" }}>好好学习，天天向上</div>
+                <div style={{ height: 180 }} className="user-info">
+                  <div className="info-item"><span><Icon type="smile" theme="twoTone" style={{ marginRight: 6 }} />{hello}，{user.fullName}</span></div>
+                  <div className="info-item"><span><Icon type="bank" theme="twoTone" style={{ marginRight: 6 }} />{user.companyName}</span></div>
+                  <div className="info-item"><span><Icon type="project" theme="twoTone" style={{ marginRight: 6 }} />{user.departmentName}</span></div>
+                  <div className="info-item"><Icon type="mail" theme="twoTone" style={{ marginRight: 6 }} /> {user.email}</div>
+                  <div className="info-item"><Icon type="mobile" theme="twoTone" style={{ marginRight: 6 }} /> {user.mobile}</div>
+                  <div className="info-item" style={{ color: "#888" }}>海纳百川，有容乃大</div>
                 </div>
               </div>
             </Card>
           </Col>
           <Col span={8}>
             <Carousel autoplay>
-              <div><h3>1</h3></div>
-              <div><h3>2</h3></div>
-              <div><h3>3</h3></div>
-              <div><h3>4</h3></div>
+              {carousels.map(item => {
+                return (
+                  <div style={{ textAlign: "center" }}>
+                    <img src={item.attachmentDTO.thumbnailUrl} />
+                    <div className="title">{item.title}</div>
+                  </div>
+                )
+              })}
             </Carousel>
           </Col>
           <Col span={8}>
@@ -227,13 +374,11 @@ class Dashboard extends React.Component {
             >
               <Chart
                 data={dv}
-                // scale={cols}
                 height={160}
                 padding={[30, 30, 30, 30]}
                 forceFit
               >
                 <Coord type={"theta"} innerRadius={0.6} />
-                {/* <Axis name="percent" /> */}
                 <Tooltip
                   showTitle={false}
                   itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
@@ -277,23 +422,14 @@ class Dashboard extends React.Component {
                 <TabPane tab="费用趋势" key="1">
                   <div style={{ padding: 12 }}>
                     <div style={{ textAlign: "right" }}>
-                      <Icon type="bar-chart" style={{ marginRight: 20, fontSize: 18, color: "#1890ff", cursor: "pointer" }} />
-                      <Icon type="line-chart" style={{ fontSize: 18, cursor: "pointer", marginRight: 30 }} />
+                      <Icon onClick={() => { this.setState({ chartsType: 1 }) }} type="bar-chart" style={{ marginRight: 20, fontSize: 18, color: chartsType == 1 ? "#1890ff" : "#000", cursor: "pointer" }} />
+                      <Icon onClick={() => { this.setState({ chartsType: 2 }) }} type="line-chart" style={{ fontSize: 18, cursor: "pointer", marginRight: 30, color: chartsType == 2 ? "#1890ff" : "#000" }} />
                       <span onClick={this.downloadImage} style={{ cursor: "pointer" }}>
                         <Icon type="download" style={{ fontSize: 18 }} />导出
                       </span>
                     </div>
                     <div id="bar-chat">
-                      <Chart height={360} padding={[60, 60, 60, 60]} data={barData} scale={cols} forceFit>
-                        <Axis name="year" />
-                        <Axis name="sales" />
-                        <Tooltip
-                          crosshairs={{
-                            type: "y"
-                          }}
-                        />
-                        <Geom type="interval" position="year*sales" />
-                      </Chart>
+                      {chartsType == 1 ? this.renderBar() : this.renderLine()}
                     </div>
                   </div>
                 </TabPane>
@@ -319,7 +455,7 @@ class Dashboard extends React.Component {
                       >
                         <Row>
                           <Col span={12}>费用申请单</Col>
-                          <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
+                          <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>CNY 2000.00</Col>
                         </Row>
                         <Row style={{ marginTop: 16 }}>
                           <Col span={12}>差旅申请</Col>
@@ -378,7 +514,8 @@ class Dashboard extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user
+    user: state.user.currentUser,
+    company: state.user.company
   }
 }
 

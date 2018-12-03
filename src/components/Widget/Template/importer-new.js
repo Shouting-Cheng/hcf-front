@@ -89,7 +89,7 @@ class ImporterNew extends React.Component {
         },() => {
           this.getErrorList();
         })
-        message.success(this.$t('importer.import.success',{total: 0})/*导入成功*/)
+        // message.success(this.$t('importer.import.success',{total: 0})/*导入成功*/)
       }).catch((e) => {
         this.setState({ uploading: false });
         message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/ + e.response.data.message)
@@ -114,6 +114,7 @@ class ImporterNew extends React.Component {
           errorData: res.data.errorData
         })
       }
+      message.success(this.$t('importer.import.success',{total: res.data.successEntities})/*导入成功*/)
     }).catch(() => {
       this.setState({ uploading: false });
       message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
