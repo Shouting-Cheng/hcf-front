@@ -27,7 +27,7 @@
   "finance.audit.quick.reply": "快捷回复",
   "finance.audit.reply": "回复",
   "finance.audit.no.quick.reply.info": "尚未设置快捷回复，请联系管理员在值列表中添加",
-  "finance.audit.scan.audit.info": "请打开汇联易app，扫描报销单上的二维码",
+  "finance.audit.scan.audit.info": "请打开汉得融晶app，扫描报销单上的二维码",
   "finance.audit.scan.audit.result1": "审核结果(在这里统一显示扫码",
   "finance.audit.scan.audit.result2": "和在此页面",
   "finance.audit.scan.audit.result3": "的单据）",
