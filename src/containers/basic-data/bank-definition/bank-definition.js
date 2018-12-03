@@ -22,13 +22,16 @@ import CreateOrUpdateBank from 'containers/basic-data/bank-definition/create-or-
 const TabPane = Tabs.TabPane;
 import BSService from 'containers/basic-data/bank-definition/bank-definition.service';
 import FileSaver from 'file-saver';
+import ImporterNew from 'widget/Template/importer-new';
+import ExcelExporter from 'widget/excel-exporter'
+import httpFetch from 'share/httpFetch';
 
 class BankDefinition extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       slideFrameKey: 0,
-      loading: true,
+      loading: false,
       showImportBankModel: false, //导入自定义银行弹窗
       progressImportErrInfo: 1,
       showImportErrInfo: false,
@@ -36,7 +39,7 @@ class BankDefinition extends React.Component {
       errorsList: [],
       fileList: [],
       flieUploading: false, //文件是否正在上传
-
+      excelVisible: false,
       data: [],
       country: [], //需要传入侧边栏的数据
       label: 'customBank',
@@ -291,6 +294,16 @@ class BankDefinition extends React.Component {
         },
       ],
       columns: [],
+      exportColumns: [
+        { title: '国家', dataIndex: 'countryName' },
+        { title: '银行代码', dataIndex: 'bankCode' },
+        { title: 'Swift Code', dataIndex: 'swiftCode' },
+        { title: '银行名称', dataIndex: 'bankName' },
+        { title: '支行名称', dataIndex: 'bankBranchName' },
+        { title: '开户地', dataIndex: 'openAccount' },
+        { title: '详细地址', dataIndex: 'detailAddress' },
+        { title: '状态', dataIndex: 'enable' },
+      ],
     };
   }
 
@@ -545,6 +558,15 @@ class BankDefinition extends React.Component {
       showImportBankModel: true,
     });
   };
+  /**
+   * 点击导出按钮
+   */
+  onExportClick = () => {
+    this.setState({
+        loading: true,
+        excelVisible: true
+    });
+  };
   handleExport = () => {
     this.setState({
       loading: true,
@@ -693,6 +715,7 @@ class BankDefinition extends React.Component {
       .catch(res => {});
   };
   renderBtns = tabName => {
+    const { loading } = this.state;
     if (tabName === 'commonBank') {
       return null;
     } else {
@@ -702,13 +725,12 @@ class BankDefinition extends React.Component {
             {this.$t('common.create')}
           </Button>
           <Button onClick={this.handleImportShow}>
-            {/*批量导入*/}
-            {this.$t('bank.customBank.import')}
-          </Button>
-          <Button onClick={this.handleExport}>
-            {/*批量导出*/}
-            {this.$t('bank.customBank.export')}
-          </Button>
+              {this.$t({ id: 'importer.import' })}
+            </Button>{' '}
+            {/*导入*/}
+          <Button loading={loading} onClick={this.onExportClick}>
+            {this.$t({ id: 'importer.importOut' })}
+          </Button>{' '}
         </div>
       );
     }
@@ -732,6 +754,59 @@ class BankDefinition extends React.Component {
       return <TabPane tab={tab.name} key={tab.key} />;
     });
   }
+  //导入成功回调
+  handleImportOk = (transactionID) => {
+    httpFetch.post(`${config.baseUrl}/api/bank/infos/import/new/confirm/${transactionID}`).then(res => {
+      if (res.status === 200){
+        this.getList()
+      }
+    }).catch(() => {
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
+    })
+    this.showImport(false);
+  };
+  showImport = flag => {
+    this.setState({ showImportBankModel: flag });
+  };
+
+  //导出
+  handleDownLoad = (result) => {
+    let ps={
+      page: this.state.pagination.page,
+      size: this.state.pagination.pageSize,
+    }
+    let hide = message.loading(this.$t({ id: 'importer.spanned.file' } /*正在生成文件..*/));
+    BSService.exportSelfBank(result,ps)
+      .then(response => {
+        let b = new Blob([response.data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        let name = this.$t({ id: 'section.mapping.export.fileName' });
+        FileSaver.saveAs(b, `${name}.xlsx`);
+        this.setState({
+          loading: false,
+        });
+        hide();
+      })
+      .catch(() => {
+        message.error(this.$t({ id: 'importer.download.error.info' } /*下载失败，请重试*/));
+        this.setState({
+          btLoading: false,
+        });
+        hide();
+      });
+  };
+
+  /**
+   * 导出取消
+   */
+  onExportCancel = () => {
+    this.setState({
+      loading: false,
+      excelVisible: false,
+    });
+  };
+
 
   render() {
     const props = {
@@ -754,7 +829,8 @@ class BankDefinition extends React.Component {
       fileList: this.state.fileList,
     };
 
-    const { loading, data, searchForm, pagination, columns, label, slideFrame } = this.state;
+    const { loading, data, searchForm, pagination, columns, label, slideFrame, showImportBankModel, excelVisible, exportColumns }
+     = this.state;
 
     return (
       <div className="budget-bank-definition">
@@ -790,67 +866,27 @@ class BankDefinition extends React.Component {
               onClose={this.handleCloseSlide}/>
         </SlideFrame>
 
-        <Modal
-          closable
-          width={800}
-          className="pm-import-person-modal"
-          title={this.$t('person.manage.im')} //导入
-          visible={this.state.showImportBankModel}
-          footer={null}
-          onCancel={this.cancelImport}
-          destroyOnClose={true}
-        >
-          <div className="import-person-modal-wrap">
-            <div className="f-left import-person-modal-left">
-              <div>
-                <p>
-                  {/*1.创建导入文件*/}
-                  {this.$t('bank.customBank.im.tip1')}
-                </p>
-                <p>
-                  {/*2.严格按照导入模板整理数据，检查必输事项是否缺少数据*/}
-                  {this.$t('bank.customBank.im.tip2')}
-                </p>
-                <p>
-                  {/*3.关闭文件后，方可进行数据导入*/}
-                  {this.$t('bank.customBank.im.tip3')}
-                </p>
-              </div>
-              <div className="download-list-item" onClick={this.downloadTemplate}>
-                {/*点击下载模板*/}
-                {this.$t('bank.customBank.download.temp')}
-              </div>
-            </div>
-            <div className="f-right import-person-modal-right">
-              <div className="import-person-right-tips">
-                {/*上传模板*/}
-                {this.$t('bank.customBank.upload.temp')}
-              </div>
-              <div className="upload-file-wrap">
-                <Upload {...props}>
-                  <Button>
-                    <Icon type="upload" />
-                    {/*选择一个文件*/}
-                    {this.$t('person.manage.select.file')}
-                  </Button>
-                </Upload>
-                <Button
-                  className="upload-file-start"
-                  type="primary"
-                  onClick={this.handleFileUpload}
-                  disabled={this.state.fileList.length === 0}
-                  loading={this.state.flieUploading}
-                >
-                  {/*?上传中:开始上传*/}
-                  {this.state.flieUploading
-                    ? this.$t('person.manage.uploading')
-                    : this.$t('person.manage.start.upload')}
-                </Button>
-              </div>
-            </div>
-            <div className="clear" />
-          </div>
-        </Modal>
+        {/*导入*/}
+        <ImporterNew visible={showImportBankModel}
+                         title={this.$t({ id: 'section.mapping.set.import' })}
+                         templateUrl={`${config.baseUrl}/api/bank/infos/custom/bank/info/template`}
+                         uploadUrl={`${config.baseUrl}/api/bank/infos/import/custom/bank/info/new`}
+                         errorUrl={`${config.baseUrl}/api/bank/infos/import/new/error/export`}
+                         errorDataQueryUrl={`${config.baseUrl}/api/bank/infos/import/new/query/result`}
+                         deleteDataUrl ={`${config.baseUrl}/api/bank/infos/import/new/delete`}
+                         fileName={this.$t('bank.customBank.temp')}
+                         onOk={this.handleImportOk}
+                         afterClose={() => this.showImport(false)}/>
+        {/* 导出 */}
+        <ExcelExporter
+            visible={excelVisible}
+            onOk={this.handleDownLoad}
+            columns={exportColumns}
+            canCheckVersion={false}
+            fileName={"自定义银行"}
+            onCancel={this.onExportCancel}
+            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+        />
         {/* <ImportErrInfo
           progress={this.state.progressImportErrInfo}
           cancel={this.hideImportErrInfo}
