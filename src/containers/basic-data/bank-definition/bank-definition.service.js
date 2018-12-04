@@ -295,9 +295,14 @@ export default {
     })
   },
   //导出自定义银行：接口测试ok
-  exportSelfBank: function () {
+  exportSelfBank: function (result,ps,exportParams) {
+    let url = config.baseUrl + '/api/bank/infos/export/custom/bank/info/new?page=' + ps.page + '&size=' + ps.size;
+    for (let searchName in exportParams) {
+      url += exportParams[searchName] ? `&${searchName}=${exportParams[searchName]}` : '';
+    }
+    debugger;
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/bank/infos/export/custom/bank/info', {}, {}, {responseType: 'arraybuffer'})
+      httpFetch.post(url, result, {}, {responseType: 'arraybuffer'})
         .then((res) => {
           resolve(res)
         })

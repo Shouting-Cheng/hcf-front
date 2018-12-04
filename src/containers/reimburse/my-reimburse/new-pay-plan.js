@@ -296,7 +296,7 @@ class NewPayPlan extends React.Component {
               }
             });
           accountList.length === 0 &&
-          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
+            message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
           this.setState({ payeeId: record.key, payeeName: record.label, accountList });
         });
       } else if (payeeCategory == 'VENDER') {
@@ -316,7 +316,7 @@ class NewPayPlan extends React.Component {
               });
             });
           accountList.length === 0 &&
-          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
+            message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
           this.setState({ payeeId: record.key, payeeName: record.label, accountList });
         });
       }
@@ -337,7 +337,7 @@ class NewPayPlan extends React.Component {
 
   //选定合同后
   handleListOk = values => {
-    if(values && values.result[0]){
+    if (values && values.result[0]) {
       this.setState({
         contractInfo: values.result[0],
         showSelectContract: false,
@@ -531,9 +531,7 @@ class NewPayPlan extends React.Component {
                     initialValue: isNew ? '' : model.amount,
                     rules: [{ validator: this.checkPrice }],
                   })(
-                    <CustomAmount
-                      style={{ width: '100%' }}
-                    />
+                    <CustomAmount style={{ width: '100%' }} />
                     // <InputNumber
                     //   step={0.01}
                     //   precision={2}
@@ -710,41 +708,31 @@ class NewPayPlan extends React.Component {
             {(headerData.relatedContract || headerData.relatedContractLine) && (
               <div>
                 <div className="common-item-title">合同信息</div>
+                <FormItem {...formItemLayout} label="关联合同">
+                  <Select
+                    allowClear
+                    ref="contractSelect"
+                    onDropdownVisibleChange={this.showSelectContract}
+                    defaultValue={
+                      isNew ? '' : contractInfo.contractLineId ? contractInfo.contractNumber : ''
+                    }
+                    value={contractInfo.contractLineId ? contractInfo.contractNumber : ''}
+                    dropdownStyle={{ display: 'none' }}
+                  />
+                  <div style={{ marginTop: '-10px' }}>
+                    {!contractInfo.contractLineId
+                      ? '注：根据收款方选择合同'
+                      : `付款计划序号：${contractInfo.lineNumber} | 付款计划日期：${moment(
+                          contractInfo.dueDate
+                        ).format('YYYY-MM-DD')}`}
+                  </div>
 
-                <div style={{ marginBottom: '16px', marginLeft: '60px' }}>
-                  <Row gutter={8}>
-                    <Col span={4} className="ant-form-item-label">
-                      关联合同:
-                    </Col>
-                    <Col span={16}>
-                      <Select allowClear
-                        ref="contractSelect"
-                        onDropdownVisibleChange={this.showSelectContract}
-                        defaultValue={
-                          isNew
-                            ? ''
-                            : contractInfo.contractLineId
-                              ? contractInfo.contractNumber
-                              : ''
-                        }
-                        value={contractInfo.contractLineId ? contractInfo.contractNumber : ''}
-                        dropdownStyle={{ display: 'none' }}
-                      />
-                      <div style={{ marginTop: '8px' }}>
-                        {!contractInfo.contractLineId
-                          ? '注：根据收款方选择合同'
-                          : `付款计划序号：${contractInfo.lineNumber} | 付款计划日期：${moment(
-                              contractInfo.dueDate
-                            ).format('YYYY-MM-DD')}`}
-                      </div>
-                    </Col>
-                    {/*<Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
+                  {/*<Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
                       {contractInfo.contractId && (
                         <a onClick={() => this.detail(contract.contractId)}>查看详情</a>
                       )}
                     </Col>*/}
-                  </Row>
-                </div>
+                </FormItem>
               </div>
             )}
 

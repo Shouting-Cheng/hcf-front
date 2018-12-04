@@ -80,8 +80,9 @@ class Chooser extends React.Component {
    * list控件因为select没有onClick事件，所以用onFocus代替
    * 每次focus后，用一个隐藏的input来取消聚焦
    */
-  handleFocus = () => {
-    this.refs.chooserBlur.focus();
+  handleFocus = (value) => {
+    if (!value) return;
+
     this.showList();
   };
 
@@ -176,7 +177,7 @@ class Chooser extends React.Component {
           mode="multiple"
           labelInValue
           placeholder={placeholder}
-          onFocus={this.handleFocus}
+          onDropdownVisibleChange={this.handleFocus}
           dropdownStyle={{ display: 'none' }}
           disabled={disabled}
         />
@@ -217,8 +218,8 @@ Chooser.propTypes = {
   placeholder: PropTypes.string, //输入框空白时的显示文字
   disabled: PropTypes.bool, //是否可用
   type: PropTypes.string, //list选择的type，参见chooserData内
-  selectorItem:PropTypes.object, //listSelector的selectorItem
-  valueKey:PropTypes.string, //表单项的id变量名
+  selectorItem: PropTypes.object, //listSelector的selectorItem
+  valueKey: PropTypes.string, //表单项的id变量名
   labelKey: PropTypes.string, //表单项的显示变量名
   listExtraParams: PropTypes.object, //listSelector的额外参数
   onChange: PropTypes.func, //进行选择后的回调
