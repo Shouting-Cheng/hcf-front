@@ -124,7 +124,6 @@ class DocumentBasicInfo extends React.Component {
               {this.state.data.infoList &&
                 this.state.data.infoList.length &&
                 this.state.data.infoList.map((item, index) => {
-                  if(item)
                   return (
                     <Col key={index} span={6}>
                       {item && this.renderList(item.label, item.value, item.linkId)}
@@ -132,8 +131,8 @@ class DocumentBasicInfo extends React.Component {
                   );
                 })}
             </Row>
-            {console.log(this.state.data.infoList)}
             <Row>
+              {console.log(this.state.data.customList)}
               {this.state.data.customList &&
                 this.state.data.customList.length &&
                 this.state.data.customList.map((item, index) => {

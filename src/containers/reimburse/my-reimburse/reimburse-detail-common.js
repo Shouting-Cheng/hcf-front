@@ -160,7 +160,7 @@ class ContractDetailCommon extends React.Component {
     this.setState({
       remburseInfo: {
         businessCode: nextProps.headerData.businessCode,
-        createdDate: nextProps.headerData.reportDate,
+        createdDate: nextProps.headerData.createdDate,
         formName: nextProps.headerData.formName,
         createByName: `${nextProps.headerData.createByName}-${nextProps.headerData.createByCode}`,
         totalAmount: nextProps.headerData.totalAmount,

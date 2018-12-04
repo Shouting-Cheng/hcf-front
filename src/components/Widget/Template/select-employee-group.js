@@ -103,6 +103,12 @@ class SelectEmployeeGroup extends React.Component {
       }
     });
   }
+  componentDidMount(){
+    this.setState({ useData: this.props.selectedData ? this.props.selectedData : [] }, () => {
+      this.getList();
+      //this.onLoadData();
+    });
+  }
 
   checkboxChange = values => {
     this.setState({ toSelectList: values });
