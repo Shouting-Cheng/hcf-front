@@ -383,7 +383,6 @@ class NewReimburse extends React.Component {
             o.showValue = '';
           }
         });
-
         let data = {
           formOid: this.props.match.params.formOID,
           formId: this.props.match.params.formId,
@@ -395,8 +394,8 @@ class NewReimburse extends React.Component {
         };
 
         if (!this.state.formSetings.multipleReceivables) {
-          data.payeeId = values.payeeId.key.split('_')[0];
-          data.payeeCategory = values.payeeId.key.split('_')[1] == 'true' ? 'EMPLOYEE' : 'VENDER';
+          data.payeeId = values.payeeId.key;
+          data.payeeCategory = values.partnerCategory;
           data.accountNumber = values.accountNumber;
           data.accountName = values.accountName;
           data.bankLocationCode = '1';
@@ -435,7 +434,7 @@ class NewReimburse extends React.Component {
     });
   };
   //返回按钮
-  handleReturn = () => {
+  onCancel = () => {
     this.props.dispatch(
       routerRedux.push({
         pathname: `/my-reimburse`,
@@ -491,6 +490,8 @@ class NewReimburse extends React.Component {
                 </Select>
               )}
             </FormItem>
+            {console.log(this.state.isNew)}
+            {console.log(this.state.formSetings)}
             <Spin spinning={this.state.loading}>
               <FormList
                 isNew={this.state.isNew}

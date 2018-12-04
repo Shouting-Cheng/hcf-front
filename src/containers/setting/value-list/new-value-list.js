@@ -392,6 +392,7 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
+    console.log(name)
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -419,7 +420,7 @@ class ValueList extends React.Component {
     // let validateStatus = length > 15 ? "error" : null;
     // let help = length > 15 ? messages('value.list.name.max.15'/*最多输入15个字符*/) : null;
 
-    if (this.validataNameLengthErr(this.state._form.name)) {
+    if (this.validataNameLengthErr(this.state.form.name)) {
       return;
     }
     if (this.state.customEnumerationOID) {

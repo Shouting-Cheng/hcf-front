@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Spin, Modal, Popover } from 'antd';
 import moment from 'moment';
 import config from 'config';
+import ImageViewer from 'widget/image-viewer';
 
 class DocumentBasicInfo extends React.Component {
   constructor(props) {
@@ -123,6 +124,7 @@ class DocumentBasicInfo extends React.Component {
               {this.state.data.infoList &&
                 this.state.data.infoList.length &&
                 this.state.data.infoList.map((item, index) => {
+                  if(item)
                   return (
                     <Col key={index} span={6}>
                       {item && this.renderList(item.label, item.value, item.linkId)}
@@ -130,6 +132,7 @@ class DocumentBasicInfo extends React.Component {
                   );
                 })}
             </Row>
+            {console.log(this.state.data.infoList)}
             <Row>
               {this.state.data.customList &&
                 this.state.data.customList.length &&
@@ -264,31 +267,12 @@ class DocumentBasicInfo extends React.Component {
             </div>
           </Col>
         </Row>
-        <Modal
-          width={720}
-          bodyStyle={{ height: '65vh' }}
+        <ImageViewer
           visible={previewVisible}
-          footer={null}
-          onCancel={this.previewCancel}
-          closable={false}
-        >
-          <img alt="pictures"
-               src={previewImage}
-               style={{
-                 marginLeft: 'auto',
-                 marginRight: 'auto',
-                 height: 'auto',
-                 '-webkit-transform-origin': '50% 50%',
-                 '-moz-transform-origin': '50% 50%',
-                 '-ms-transform-origin': '50% 50%',
-                 '-o-transform-origin': '50% 50%',
-                 'transform-origin': '50% 50%',
-                 'max-width': '100%',
-                 'max-height': '100%',
-                 'cursor': 'move',
-                 'position': 'relative'
-               }} />
-        </Modal>
+          url={previewImage}
+          type={true}
+          onCancel={() => this.setState({ previewVisible: false })}/>
+
       </Spin>
     );
   }

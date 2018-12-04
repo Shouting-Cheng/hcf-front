@@ -19,7 +19,7 @@ import reimburseService from 'containers/reimburse/my-reimburse/reimburse.servic
 import ListSelector from 'containers/reimburse/my-reimburse/list-selector'
 import ApproveHistory from "widget/Template/approve-history-work-flow"
 import Invoice from "containers/reimburse/my-reimburse/invoice"
-import DocumentBasicInfo from "widget/document-basic-info"
+import DocumentBasicInfo from "widget/Template/document-basic-info"
 import VoucherInfo from "containers/reimburse/my-reimburse/voucher-info"
 import { routerRedux } from 'dva/router';
 
