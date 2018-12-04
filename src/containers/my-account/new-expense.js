@@ -2266,13 +2266,14 @@ class NewExpense extends React.Component {
           {approvalHistory && approvalHistory.length>0 &&<Tag color="blue-inverse" style={{marginBottom:20,fontSize:14,cursor:'default'}}>{this.$t('expense.approval.history')/*审批历史*/}</Tag>}
           <Timeline>
             {approvalHistory && approvalHistory.map(item => {
+              let operateDetail = item.operateDetail.split('：');
               return (
                 <Timeline.Item key={item.id} dot={<Icon type={getApprovelHistory(item.operate).icon} style={{color: getApprovelHistory(item.operate).color}}/>}>
                   <Row>
                     <Col span={5}>{moment(item.createdDate).format('YYYY-MM-DD HH:mm')}</Col>
-                    <Col span={4} className="operation-type">{getApprovelHistory(item.operate).text || '-'}</Col>
+                    <Col span={4} className="operation-type">{this.$t(getApprovelHistory(item.operate).text) || '-'}</Col>
                     <Col span={5} className="operation-name">{item.role ? `${item.role} ${<span className="ant-divider"/>} ` : ''} {item.operator.fullName+' '+(item.operator.employeeID?item.operator.employeeID:'')}</Col>
-                    <Col span={7} className="operation-remark" style={{color:'red'}}>{item.operateDetail}</Col>
+                    <Col span={7} className="operation-remark" style={{color:'red'}}>{operateDetail[0]}</Col>
                   </Row>
                 </Timeline.Item>
               )

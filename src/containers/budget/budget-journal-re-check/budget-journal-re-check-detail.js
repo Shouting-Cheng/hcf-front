@@ -206,6 +206,7 @@ class BudgetJournalReCheckDetail extends React.Component {
           this.getToleAmount();
         }
       );
+      this.getApproveHistory(headerData);
     });
   }
 

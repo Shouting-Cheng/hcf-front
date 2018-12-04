@@ -214,7 +214,7 @@ class AcpRequestType extends React.Component {
   clear = () => {
     this.setState({
       searchParams: {
-        setOfBooksId: '',
+        setOfBooksId: this.props.company.setOfBooksId,
         acpReqTypeCode: '',
         description: '',
       },
@@ -240,12 +240,12 @@ class AcpRequestType extends React.Component {
   };
 
   handleNew = () => {
-    let slideParams = this.state.slideParams;
+    let searchParams = this.state.searchParams;
     this.setState(
       {
         slideParams: {
-          setOfBooksId: slideParams.setOfBooksId
-            ? slideParams.setOfBooksId
+          setOfBooksId: searchParams.setOfBooksId
+            ? searchParams.setOfBooksId
             : this.props.company.setOfBooksId,
         },
       },

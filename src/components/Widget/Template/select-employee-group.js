@@ -101,6 +101,12 @@ class SelectEmployeeGroup extends React.Component {
       this.getList();
     });
   }
+  componentDidMount(){
+    this.setState({ useData: this.props.selectedData ? this.props.selectedData : [] }, () => {
+      this.getList();
+      //this.onLoadData();
+    });
+  }
 
   // componentWillReceiveProps(nextProps) {
   //   this.setState({ selectedData: nextProps.selectedData }, () => {

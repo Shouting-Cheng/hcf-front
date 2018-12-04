@@ -358,16 +358,56 @@ class ExpenseAdjustApproveCommon extends React.Component {
     this.context.router.push(this.state.expenseAdjust.url);
   };
 
-  expandedRowRender = (recode) => {
-    let adjustTypeCategory = this.state.expenseAdjustType.adjustTypeCategory;
-    let columnsHeader = this.state.columnsHeader;
+  expandedRowRender = record => {
     return (
-      <Table
-        columns={columnsHeader}
-        dataSource={recode.linesDTOList}
-        size="middle"
-        scroll={{ x: 1300 }}
-      />);
+      <Row>
+        <Col style={{ textAlign: 'right' }} span={2}>
+          <h3>{this.$t('my.contract.enclosure.information')}：</h3>
+        </Col>
+        <Col span={20}>
+          <Row>
+            {record.attachments &&
+            record.attachments.map(item => {
+              return (
+                <Col
+                  span={6}
+                  style={{
+                    textAlign: 'left',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                  key={item.id}
+                >
+
+                  <Popover content={item.fileName}>
+                    {item.fileType !== 'IMAGE' ? (
+                      <a
+                        href={`${config.baseUrl}/api/attachments/download/${
+                          item.attachmentOID
+                          }?access_token=${
+                          localStorage.getItem('token')
+                          }`}
+                      >
+                        {item.fileName}
+                      </a>
+                    ) : (
+                      <a
+                        onClick={() => {
+                          this.preview(item);
+                        }}
+                      >
+                        {item.fileName}
+                      </a>
+                    )}
+                  </Popover>
+                </Col>
+              );
+            })}
+          </Row>
+        </Col>
+      </Row>
+    );
   };
   /**
    * 行点击事件

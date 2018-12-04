@@ -666,7 +666,7 @@ class SearchArea extends React.Component {
         if(item.language)
           return <LanguageInput name={name}
                                 i18nName={item.nameI18n}
-                                nameChange={handle}
+                                nameChange={(name, i18nName)=>this.props.eventHandle(item.event, {name,i18nName})}
                                 disabled={item.disabled} />;
 
         return <Input placeholder={item.placeholder || messages('common.please.enter')}

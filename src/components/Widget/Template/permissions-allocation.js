@@ -35,7 +35,6 @@ class PermissionsAllocation extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let model = nextProps.value;
-
     model &&
       this.setState({ type: model.type, selectedList: model.values, value: model.values }, () => {
         this.setSelectEmployeeText();

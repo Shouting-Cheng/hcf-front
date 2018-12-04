@@ -140,4 +140,9 @@ export default {
       `${config.budgetUrl}/api/budget/journals/get/line/amount/group/by/header/id?id=${id}`
     );
   },
+  //获取审批历史（工作流）
+  getBudgetJournalApproveHistory(params) {
+    return httpFetch.get(`${config.baseUrl}/api/budget/journa/reports/history`, params);
+  },
+
 };
