@@ -32,11 +32,19 @@ class SelectDepartment extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     if (nextProps.visible) {
       this.setState({ useData: nextProps.selectedData ? nextProps.selectedData : [] }, () => {
         this.getList();
       });
     }
+  }
+
+  componentDidMount(){
+    this.setState({ useData: this.props.selectedData ? this.props.selectedData : [] }, () => {
+      this.getList();
+      //this.onLoadData();
+    });
   }
 
   useSearch = value => {

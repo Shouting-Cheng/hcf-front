@@ -44,7 +44,6 @@ class Verification extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (!nextProps.visible && this.props.visible) {
       this.setState({
         data: [], changeList: [], page: 0, pagination: {

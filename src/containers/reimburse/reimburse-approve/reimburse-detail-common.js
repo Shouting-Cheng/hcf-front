@@ -305,6 +305,7 @@ class ContractDetailCommon extends React.Component {
         list.push({ label: o.fieldName, value: o.showValue });
       }
     });
+    console.log(headerData)
     let headerInfo = {
       businessCode: headerData.businessCode,
       createdDate: headerData.createdDate,

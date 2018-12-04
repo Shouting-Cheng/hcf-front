@@ -190,10 +190,9 @@ class NewExpenseAdjustDetail extends React.Component {
           //分摊金额
           title: this.$t('exp.detail.amount'),
           key: 'amount',
-          width: '100px',
+          width: '120px',
           dataIndex: 'amount',
           align: 'center',
-          //width: '100px',
           render: (desc, record, index) => this.renderCol(desc, record, index, 'amount'),
         },
         {
@@ -361,11 +360,12 @@ class NewExpenseAdjustDetail extends React.Component {
           data.length > 0 && data[index] && data[index][key] ? data[index][key] : null;
         record.status === 'create' && (defaultValue = '');
         return (
-          <InputNumber
-            step={0.01}
-            defaultValue={defaultValue}
-            onBlur={e => this.handleChange(key, e, record, index)}
-          />
+            <InputNumber
+              style={{width: 90}}
+              step={0.01}
+              defaultValue={defaultValue}
+              onBlur={e => this.handleChange(key, e, record, index)}
+            />
         );
       } else {
         let defaultValue =

@@ -352,6 +352,7 @@ class AcpRequestTypeDetail extends React.Component {
         </Tooltip>
       </span>
     );
+
     return (
       <div>
         <Form onSubmit={this.handleSave}>
@@ -512,13 +513,14 @@ class AcpRequestTypeDetail extends React.Component {
             <Button onClick={this.onCancel}>{this.$t({ id: 'common.cancel' }) /* 取消 */}</Button>
           </div>
         </Form>
+        {showSelectCheckSheetType&&
         <SelectCheckSheetType
           visible={showSelectCheckSheetType}
           onCancel={this.onSelectCheckSheetTypeCancel}
           params={{ setOfBooksId: nowType.setOfBooksId }}
           selectedData={[...relatedList]}
-          onOk={this.handleCheckSheetOk}
-        />
+          onOk={this.handleCheckSheetOk}/>
+        }
       </div>
     );
   }

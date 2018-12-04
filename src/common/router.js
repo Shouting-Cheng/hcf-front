@@ -1660,13 +1660,13 @@ export const getRouterData = app => {
       name: 'finance-view',
     },
     //借款单详情
-    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID': {
+    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID/:pageFrom': {
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'loan-request-detail-audit',
       parent: '/financial-management/finance-view',
     },
     //查看单据-报销单详情
-    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID': {
+    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID/:pageFrom': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/base-expense-report-detail.js')
       ),

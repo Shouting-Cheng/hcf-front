@@ -383,6 +383,7 @@ class WorkflowDetail extends React.Component {
                                     ruleApprovers={chosenNodeWidget.ruleApprovers || []}
                                     ruleApprovalNodeOID={chosenNodeWidget.ruleApprovalNodeOID}
                                     formInfo={formInfo}
+                                    onCancel={()=>this.setState({addPersonModalVisible: false})}
                                     onSelect={this.handleApproverChange}
                                     onDelete={this.handleDeleteApprover}
                     />
