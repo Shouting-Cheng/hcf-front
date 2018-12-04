@@ -20,17 +20,19 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
       ],
       companyTypeInfo: {},
       columns: [
-        { title: '公司代码', dataIndex: 'companyCode' },
-        { title: '公司名称', dataIndex: 'companyName' },
+        { title: '公司代码', dataIndex: 'companyCode', align: "center" },
+        { title: '公司名称', dataIndex: 'companyName', align: "center" },
         {
           title: '公司类型',
           dataIndex: 'companyTypeName',
+          align: "center",
           render: type => <span>{type ? type : '-'}</span>,
         },
         {
           title: '启用',
           dataIndex: 'enabled',
           width: '8%',
+          align: "center",
           render: (enabled, record) => (
             <Checkbox
               defaultChecked={enabled}
@@ -64,7 +66,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
         title: '批量分配公司',
         url: `${config.payUrl}/api/acp/request/type/company/${
           params.setOfBooksId
-        }/companies/query/filter`,
+          }/companies/query/filter`,
         searchForm: [
           // { type: 'input', id: 'setOfBooksCode', label: '账套', defaultValue: res.data.setOfBooksCode + '-' + res.data.setOfBooksName, disabled: true },
           { type: 'input', id: 'companyCode', label: '公司代码' },
@@ -91,10 +93,10 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
     };
     httpFetch
       .put(
-        `${config.payUrl}/api/acp/request/type/company/${
-          this.props.match.params.setOfBooksId
-        }/updateCompany`,
-        params
+      `${config.payUrl}/api/acp/request/type/company/${
+      this.props.match.params.setOfBooksId
+      }/updateCompany`,
+      params
       )
       .then(res => {
         if (res.status === 200) {
@@ -121,8 +123,8 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
     });
     httpFetch
       .post(
-        `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
-        paramsValue
+      `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
+      paramsValue
       )
       .then(res => {
         if (res.status === 200) {
@@ -194,7 +196,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
     });
 
     return (
-      <div className="company-distribution" style={{paddingBottom:'20px'}}>
+      <div className="company-distribution" style={{ paddingBottom: '20px' }}>
         <Row
           gutter={24}
           style={{
@@ -220,7 +222,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
           ref="table"
           url={`${config.payUrl}/api/acp/request/type/company/${
             this.props.match.params.setOfBooksId
-          }/queryCompany?acpReqTypeId=${this.props.match.params.id}`}
+            }/queryCompany?acpReqTypeId=${this.props.match.params.id}`}
         />
         <ListSelector
           visible={showListSelector}
@@ -229,7 +231,7 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
           extraParams={{ acpReqTypesId: this.props.match.params.id }}
           onOk={this.handleListOk}
         />
-        <a style={{ fontSize: '14px', paddingBottom:'20px' }} onClick={this.handleBack}>
+        <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
           <Icon type="rollback" style={{ marginRight: '5px' }} />返回
         </a>
       </div>
