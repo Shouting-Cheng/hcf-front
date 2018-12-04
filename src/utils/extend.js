@@ -1,6 +1,6 @@
 import React from 'react';
 import app from '../index';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 import config from 'config';
 import constants from 'share/constants';
 

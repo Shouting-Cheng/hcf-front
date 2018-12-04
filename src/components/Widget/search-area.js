@@ -37,7 +37,7 @@ import moment from 'moment'
 import TagSelect from 'components/TagSelect';
 
 import debounce from 'lodash.debounce';
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 
 
 

@@ -34,7 +34,7 @@ class SelectEmployeeGroup extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   renderLabel = item => {
     return (
@@ -96,13 +96,19 @@ class SelectEmployeeGroup extends React.Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ selectedData: nextProps.selectedData }, () => {
-      if (nextProps.visible) {
-        this.getList();
-      }
+  componentDidMount() {
+    this.setState({ selectedData: this.props.selectedData }, () => {
+      this.getList();
     });
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({ selectedData: nextProps.selectedData }, () => {
+  //     if (nextProps.visible) {
+  //       this.getList();
+  //     }
+  //   });
+  // }
 
   checkboxChange = values => {
     this.setState({ toSelectList: values });

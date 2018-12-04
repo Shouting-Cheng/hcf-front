@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 // import menuRoute from 'routes/menuRoute'
 import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Table, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
 const TabPane = Tabs.TabPane;

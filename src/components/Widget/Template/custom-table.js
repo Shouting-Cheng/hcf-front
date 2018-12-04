@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Badge, Tooltip } from 'antd';
 
-import httpFetch from '../../utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 
 import moment from 'moment';
 import columnTemplate from '../../column-Template/index';

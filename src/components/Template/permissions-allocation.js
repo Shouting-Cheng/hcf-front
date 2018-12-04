@@ -75,7 +75,7 @@ class PermissionsAllocation extends React.Component {
   };
 
   handleListCancel = () => {
-    this.setState({ selectedList:[],showSelectEmployeeGroup: false, showSelectDepartment: false });
+    this.setState({ selectedList: [], showSelectEmployeeGroup: false, showSelectDepartment: false });
   };
 
   handleListOk = values => {
@@ -99,12 +99,12 @@ class PermissionsAllocation extends React.Component {
     let list = !values
       ? []
       : values.checkedKeys.map(item => {
-          return {
-            label: item.label,
-            key: item.value,
-            value: item.value,
-          };
-        });
+        return {
+          label: item.label,
+          key: item.value,
+          value: item.value,
+        };
+      });
 
     const onChange = this.props.onChange;
 
@@ -177,23 +177,23 @@ class PermissionsAllocation extends React.Component {
             </div>
           )}
 
-        <SelectEmployeeGroup
+        {showSelectEmployeeGroup && <SelectEmployeeGroup
           visible={showSelectEmployeeGroup}
           onCancel={this.handleListCancel}
           onOk={this.handleListOk}
           single={true}
           selectedData={selectedList}
           mode={this.props.mode}
-        />
+        />}
 
-        <SelectDepartment
+        {showSelectDepartment && <SelectDepartment
           visible={showSelectDepartment}
           onCancel={this.handleListCancel}
           onOk={this.handleListOk}
           single={true}
           selectedData={selectedList}
           mode={this.props.mode}
-        />
+        />}
       </div>
     );
   }

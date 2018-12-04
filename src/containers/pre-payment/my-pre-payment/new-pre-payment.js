@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 // import menuRoute from 'routes/menuRoute'
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+import httpFetch from 'share/httpFetch';
 import moment from 'moment';
 import Upload from 'widget/upload';
 import Chooser from './chooser';

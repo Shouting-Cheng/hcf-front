@@ -359,7 +359,7 @@ class Dashboard extends React.Component {
             <Carousel autoplay>
               {carousels.map(item => {
                 return (
-                  <div style={{ textAlign: "center" }}>
+                  <div key={item.id} style={{ textAlign: "center" }}>
                     <img src={item.attachmentDTO.thumbnailUrl} />
                     <div className="title">{item.title}</div>
                   </div>

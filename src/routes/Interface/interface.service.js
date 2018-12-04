@@ -20,7 +20,7 @@ export default {
     return httpFetch.put('/auth/api/interface/update', parmas);
   },
   delete(id) {
-     return httpFetch.delete('/auth/api/interface/delete/' + id);
+    return httpFetch.delete('/auth/api/interface/delete/' + id);
   },
   addRequest(parmas) {
     return httpFetch.post('/auth/api/interfaceRequest/create', parmas);
@@ -50,7 +50,7 @@ export default {
   },
   getResponseList(interfaceId) {
     return httpFetch.get(
-      '/auth/api/interfaceResponse/query?isEnabled=true&page=0&size=10&interfaceId=' + interfaceId
+      '/auth/api/interfaceResponse/query?isEnabled=true&page=0&size=9999&interfaceId=' + interfaceId
     );
   },
 };

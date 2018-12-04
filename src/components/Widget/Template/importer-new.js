@@ -20,20 +20,24 @@ class ImporterNew extends React.Component {
       result: {},
       transactionID: null,
       errorColumns: [
-        { title: this.$t('importer.line.number') /*行号*/, dataIndex: 'index',align: 'center', width: 50 ,render: value => {
+        {
+          title: this.$t('importer.line.number') /*行号*/, dataIndex: 'index', align: 'center', width: 50, render: value => {
             return (
-              <Popover  content={value} overlayStyle={{ maxWidth: 100 }}>
+              <Popover content={value} overlayStyle={{ maxWidth: 100 }}>
                 {value}
               </Popover>
             );
-          } },
-        { title: this.$t('importer.error.message') /*错误信息*/, dataIndex: 'error',align: 'center', width:300,render: value => {
+          }
+        },
+        {
+          title: this.$t('importer.error.message') /*错误信息*/, dataIndex: 'error', align: 'center', width: 300, render: value => {
             return (
-              <Popover  content={value} overlayStyle={{ maxWidth: 500 }}>
+              <Popover content={value} overlayStyle={{ maxWidth: 500 }}>
                 {value}
               </Popover>
             );
-          } },
+          }
+        },
       ],
       errorData: [],
     };
@@ -80,20 +84,20 @@ class ImporterNew extends React.Component {
           }
 
 
-        this.setState({
-          fileList: [],
-          tabKey: 'SUCCESS',
-          uploading: false,
-          result: {successEntities:0},
-          transactionID: res.data.transactionID || res.data.transactionOID || res.data.transactionUUID || res.data
-        },() => {
-          this.getErrorList();
+          this.setState({
+            fileList: [],
+            tabKey: 'SUCCESS',
+            uploading: false,
+            result: { successEntities: 0 },
+            transactionID: res.data.transactionID || res.data.transactionOID || res.data.transactionUUID || res.data
+          }, () => {
+            this.getErrorList();
+          })
+          // message.success(this.$t('importer.import.success',{total: 0})/*导入成功*/)
+        }).catch((e) => {
+          this.setState({ uploading: false });
+          message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/ + e.response.data.message)
         })
-        // message.success(this.$t('importer.import.success',{total: 0})/*导入成功*/)
-      }).catch((e) => {
-        this.setState({ uploading: false });
-        message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/ + e.response.data.message)
-      })
     } else {
       this.props.onOk(this.state.transactionID);
       this.setState({
@@ -105,7 +109,7 @@ class ImporterNew extends React.Component {
 
   getErrorList = () => {
     httpFetch.get(`${this.props.errorDataQueryUrl}/${this.state.transactionID}`).then(res => {
-      if (res.status === 200){
+      if (res.status === 200) {
         this.setState({
           fileList: [],
           tabKey: 'SUCCESS',
@@ -114,7 +118,7 @@ class ImporterNew extends React.Component {
           errorData: res.data.errorData
         })
       }
-      message.success(this.$t('importer.import.success',{total: res.data.successEntities})/*导入成功*/)
+      message.success(this.$t('importer.import.success', { total: res.data.successEntities })/*导入成功*/)
     }).catch(() => {
       this.setState({ uploading: false });
       message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
@@ -122,14 +126,14 @@ class ImporterNew extends React.Component {
   }
 
   showImporter = () => {
-    this.setState({visible: true, tabKey: 'UPDATE'})
+    this.setState({ visible: true, tabKey: 'UPDATE' })
   };
 
   onCancel = () => {
-    this.setState({visible: false, uploading: false,fileList:[]});
+    this.setState({ visible: false, uploading: false, fileList: [] });
     if (this.state.transactionID && this.props.deleteDataUrl) {
       httpFetch.delete(`${this.props.deleteDataUrl}/${this.state.transactionID}`);
-      this.setState({transactionID: null});
+      this.setState({ transactionID: null });
     }
   };
 
@@ -279,7 +283,7 @@ class ImporterNew extends React.Component {
             <div>
               {this.$t('importer.import.success', {
                 total: result.successEntities || 0,
-              }) /*导入成功：{total}条*/}，点击确定将导入成功的数据进行保存
+              }) /*导入成功：{total}条*/}，点击完成将导入成功的数据进行保存
             </div>
             <div>
               {this.$t('importer.import.fail', {
@@ -336,11 +340,11 @@ ImporterNew.propTypes = {
   errorDataQueryUrl: PropTypes.string,    //导入成功查询导入结果接口，不需要写transactionID变量 后台url http://*****/{transactionID} 此处写http://*****
   deleteDataUrl: PropTypes.string,    //点击取消调用接口，删除当前导入的数据，不需要写transactionID变量 后台url http://*****/{transactionID} 此处写http://*****
   title: PropTypes.string,      //标题
-  fileName:PropTypes.string,  //下载文件名
+  fileName: PropTypes.string,  //下载文件名
   onOk: PropTypes.func,       //导入成功回调
   tabKey: PropTypes.string,  //导入文件||导入结果页
   callBackResult: PropTypes.func,//导入结果通知
-  isImporterResultDom:PropTypes.bool,//是否定制化导入结果DOM
+  isImporterResultDom: PropTypes.bool,//是否定制化导入结果DOM
   downFileExtension: PropTypes.string,    //下载模板文件后缀
   afterClose: PropTypes.func,//关闭后的回调
 };
@@ -349,8 +353,8 @@ ImporterNew.defaultProps = {
   title: '导入',
   fileName: '导入文件',
   createTableShow: true,//创建表格示例是否显示
-  onOk: () => {},
-  afterClose: () => {},
+  onOk: () => { },
+  afterClose: () => { },
 };
 
 function mapStateToProps() {
