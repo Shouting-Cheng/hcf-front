@@ -19,22 +19,21 @@ class FormMatch extends React.Component {
             isRelation: false,
             paymentTypeVal: '全部类型',
             applyTypeVal: '全部类型',
-            selectDisabled: true,
             listNumber: 0,
             listVisible: false,
             extraParams: {},
             applyTypeDisabled: true,
             applyListVisible: false,
             selectorItem: {},
-            contractPosition:'',
+            contractPosition: '',
             paymentSelectorItem: {
                 title: "付款用途",
                 url: `${config.baseUrl}/api/expense/form/assign/cash/transaction/classes/query`,
                 searchForm: [
                     {
                         type: 'select', label: '账套', id: 'setOfBookId', defaultValue: this.props.company.setOfBooksId, disabled: true,
-                        options:[
-                        { label: this.props.company.setOfBooksName , value:this.props.company.setOfBooksId}]
+                        options: [
+                            { label: this.props.company.setOfBooksName, value: this.props.company.setOfBooksId }]
                     },
                     {
                         type: 'input', label: '现金事务分类代码', id: 'classCode'
@@ -77,33 +76,33 @@ class FormMatch extends React.Component {
             },
             isApply: false,
             isApplyType: false,
-            isCashTransactionClass:false,
+            isCashTransactionClass: true,
             applyIds: [],
             cashTransactionIds: [],
             isCommon: false,
             // formMenu: menuRoute.getRouteItem('form-list', 'key'),    //表单管理
-            relatedChecked:false
+            relatedChecked: false
         }
 
     }
     componentWillMount() {
         const { form } = this.context;
-        this.setState({isCommon: form.sameContract,contractPosition: form.contractPosition});
+        this.setState({ isCommon: form.sameContract, contractPosition: form.contractPosition });
         if (form.needApply) {
             this.setState({
                 isApply: true
             })
         }
-        if(form.applyIds){
+        if (form.applyIds) {
             this.setState({
                 applyTypeDisabled: false,
-                isApplyType:true,
-                applyIds:form.applyIds,
+                isApplyType: true,
+                applyIds: form.applyIds,
                 applyTypeVal: `已选择${form.applyIds.length}个类型`
             })
-        }else{
+        } else {
             this.setState({
-                isApplyType:false,
+                isApplyType: false,
                 applyTypeDisabled: true,
                 applyTypeVal: "全部类型"
             })
@@ -111,16 +110,14 @@ class FormMatch extends React.Component {
         // 付款用途初始化值
         if (form.cashTransactionIds) {
             this.setState({
-                selectDisabled: false,
-                isCashTransactionClass:true,
-                transactionClassIdList:form.cashTransactionIds,
-                cashTransactionIds:form.cashTransactionIds,
+                isCashTransactionClass: false,
+                transactionClassIdList: form.cashTransactionIds,
+                cashTransactionIds: form.cashTransactionIds,
                 paymentTypeVal: `已选择${form.cashTransactionIds.length}个类型`
             });
         } else {
             this.setState({
-                selectDisabled: true,
-                isCashTransactionClass:false,
+                isCashTransactionClass: true,
                 paymentTypeVal: "全部类型"
             });
         }
@@ -147,18 +144,18 @@ class FormMatch extends React.Component {
     //是否选择关联合同
     normContract = (e) => {
         this.setState({
-            relatedChecked:e.target.value,
-        },()=>{
+            relatedChecked: e.target.value,
+        }, () => {
             if (e.target.checked) {
-              this.props.form.setFieldsValue({ contractPosition: 'DOCUMENTS_LINE' });
+                this.props.form.setFieldsValue({ contractPosition: 'DOCUMENTS_LINE' });
                 this.setState({
                     isRelation: true,
-                    contractPosition:'DOCUMENTS_LINE'
+                    contractPosition: 'DOCUMENTS_LINE'
                 })
             } else {
                 this.setState({
                     isRelation: false,
-                    contractPosition:' '
+                    contractPosition: ' '
                 })
             }
         })
@@ -180,29 +177,29 @@ class FormMatch extends React.Component {
     paymentFun = (e) => {
         if (e.target.value === false) {
             this.setState({
-                selectDisabled: false,
+                isCashTransactionClass: false,
                 paymentTypeVal: `已选择了0个类型`,
             })
         } else {
             this.setState({
-                selectDisabled: true,
+                isCashTransactionClass: true,
                 paymentTypeVal: '全部类型',
                 cashTransactionIds: []
             })
         }
 
     }
-  changeContractPostion = (value) => {
-      if(value){
-        this.setState({
-          contractPosition: value
-        });
-      }else{
-        this.setState({
-          contractPosition: " "
-        });
-      }
-  }
+    changeContractPostion = (value) => {
+        if (value) {
+            this.setState({
+                contractPosition: value
+            });
+        } else {
+            this.setState({
+                contractPosition: " "
+            });
+        }
+    }
     //获取付款用途弹框列表
     getCashIds = () => {
         this.select.blur();
@@ -210,7 +207,7 @@ class FormMatch extends React.Component {
         this.setState({
             isApplyType: false,
             extraParams: {
-                transactionClassIdList: this.state.transactionClassIdList||[]
+                transactionClassIdList: this.state.transactionClassIdList || []
             },
         }, () => {
             this.setState({
@@ -225,9 +222,9 @@ class FormMatch extends React.Component {
         // this.context.router.push(this.state.formMenu.url)
         this.props.dispatch(
             routerRedux.push({
-              pathname: `/admin-setting/form-list`,
+                pathname: `/admin-setting/form-list`,
             })
-          );
+        );
     }
     //关闭弹出框
     showListSelector = () => {
@@ -269,7 +266,7 @@ class FormMatch extends React.Component {
             this.setState({
                 applyTypeDisabled: true,
                 applyTypeVal: '全部类型',
-                applyIds:[]
+                applyIds: []
             });
         }
 
@@ -279,23 +276,23 @@ class FormMatch extends React.Component {
      *
      */
     getApplyIds = (open) => {
-      if(open){
-        //this.applyTypeSelect.blur();
-        const { applyTypeSelectorItem } = this.state;
-        this.setState({
-          isApplyType: true,
-          extraParams: {
-            companyId: this.props.company.id,
-            formCode: '',
-            idList: this.state.applyIds
-          },
-        }, () => {
-          this.setState({
-            listVisible: true,
-            selectorItem: applyTypeSelectorItem
-          })
-        })
-      }
+        if (open) {
+            //this.applyTypeSelect.blur();
+            const { applyTypeSelectorItem } = this.state;
+            this.setState({
+                isApplyType: true,
+                extraParams: {
+                    companyId: this.props.company.id,
+                    formCode: '',
+                    idList: this.state.applyIds
+                },
+            }, () => {
+                this.setState({
+                    listVisible: true,
+                    selectorItem: applyTypeSelectorItem
+                })
+            })
+        }
     }
     /**
      * 保存表单设置的值
@@ -304,7 +301,7 @@ class FormMatch extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const { applyIds, cashTransactionIds, isRelation, isCommon,contractPosition } = this.state;
+                const { applyIds, cashTransactionIds, isRelation, isCommon, contractPosition, isCashTransactionClass } = this.state;
                 const { form } = this.context;
                 const formVal = {
                     ...form,
@@ -320,7 +317,8 @@ class FormMatch extends React.Component {
                     paymentMethod: values.paymentMethod,
                     relatedContract: isRelation,
                     sameApplicationForm: values.sameApplicationForm,
-                    sameContract: isCommon
+                    sameContract: isCommon,
+                    cashTransactionClass: isCashTransactionClass
                 }
                 formService.saveFormDetail(formVal).then(res => {
                     if (res.status === 200) {
@@ -338,7 +336,7 @@ class FormMatch extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { form } = this.context;
-        const { isRelation, paymentTypeVal, selectDisabled, listVisible, selectorItem, extraParams, applyTypeDisabled, applyTypeVal, applyListVisible, isApply,relatedChecked } = this.state;
+        const { isRelation, paymentTypeVal, isCashTransactionClass, listVisible, selectorItem, extraParams, applyTypeDisabled, applyTypeVal, applyListVisible, isApply, relatedChecked } = this.state;
         return (
             <div className="form-permission">
                 <Form style={{ marginBottom: '20px' }} onSubmit={this.save}>
@@ -356,7 +354,7 @@ class FormMatch extends React.Component {
                                         <Radio value={true}>可关联</Radio>
                                         <Radio value={false}>不可关联</Radio>
                                     </RadioGroup>
-                                )}
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -371,11 +369,11 @@ class FormMatch extends React.Component {
                                         initialValue: form.allowAultipleConnections,
                                     })(
                                         <Checkbox
-                                        defaultChecked={form.allowAultipleConnections}
-                                    >
-                                        同一申请允许多次关联
+                                            defaultChecked={form.allowAultipleConnections}
+                                        >
+                                            同一申请允许多次关联
                                     </Checkbox>
-                                    )}
+                                        )}
                                 </Col>
                             </Row>
                         </FormItem>
@@ -394,7 +392,7 @@ class FormMatch extends React.Component {
                                             <Radio value={3}>报账单头公司+头部门=申请单头公司+头部门</Radio>
                                             <Radio value={4}>报账单头申请人=申请单头申请人</Radio>
                                         </RadioGroup>
-                                    )}
+                                        )}
                                 </Col>
                             </Row>
                         </FormItem>
@@ -419,7 +417,7 @@ class FormMatch extends React.Component {
                                         <Select ref={ref => this.applyTypeSelect = ref} disabled={applyTypeDisabled} onDropdownVisibleChange={this.getApplyIds}>
                                             <Option value="val1">{applyTypeVal}</Option>
                                         </Select>
-                                    )}
+                                        )}
 
                                 </Col>
                             </Row>
@@ -439,7 +437,7 @@ class FormMatch extends React.Component {
                                         <Radio value={true}>启用</Radio>
                                         <Radio value={false}>不启用</Radio>
                                     </RadioGroup>
-                                )}
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -458,7 +456,7 @@ class FormMatch extends React.Component {
                                     >
                                         关联合同
                                     </Checkbox>
-                                )}
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -490,7 +488,7 @@ class FormMatch extends React.Component {
                                     initialValue: form.multipleReceivables
                                 })(
                                     <Checkbox defaultChecked={form.multipleReceivables}>支持多收款方</Checkbox>
-                                )}
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -533,7 +531,7 @@ class FormMatch extends React.Component {
                     <FormItem>
                         <Row>
                             <Col span={8} offset={2}>
-                                <RadioGroup onChange={this.paymentFun} defaultValue={!this.state.isCashTransactionClass}>
+                                <RadioGroup onChange={this.paymentFun} value={this.state.isCashTransactionClass}>
                                     <Radio value={true}>全部类型</Radio>
                                     <Radio value={false}>部分类型</Radio>
                                 </RadioGroup>
@@ -545,10 +543,10 @@ class FormMatch extends React.Component {
                                     initialValue: 'val1',
 
                                 })(
-                                    <Select ref={ref => this.select = ref} disabled={selectDisabled} onFocus={this.getCashIds}>
+                                    <Select ref={ref => this.select = ref} disabled={isCashTransactionClass} onFocus={this.getCashIds}>
                                         <Option value="val1">{paymentTypeVal}</Option>
                                     </Select>
-                                )}
+                                    )}
 
                             </Col>
                         </Row>
@@ -562,8 +560,8 @@ class FormMatch extends React.Component {
                                 {getFieldDecorator('sameApplicationForm', {
                                     initialValue: form.sameApplicationForm
                                 })(
-                                    <Checkbox  defaultChecked={form.sameApplicationForm}>关联相同申请单</Checkbox>
-                                )}
+                                    <Checkbox defaultChecked={form.sameApplicationForm}>关联相同申请单</Checkbox>
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -574,8 +572,8 @@ class FormMatch extends React.Component {
                                     initialValue: form.sameContract,
 
                                 })(
-                                    <Checkbox  defaultChecked={form.sameContract} onChange={this.commonContract}>关联相同合同</Checkbox>
-                                )}
+                                    <Checkbox defaultChecked={form.sameContract} onChange={this.commonContract}>关联相同合同</Checkbox>
+                                    )}
                             </Col>
                         </Row>
                     </FormItem>
@@ -605,7 +603,7 @@ class FormMatch extends React.Component {
 function mapStateToProps(state) {
     return {
         company: state.user.company,
-        language:state.languages.languages,
+        language: state.languages.languages,
         languageList: state.languages.languageList,
         user: state.user.currentUser,
         tenantMode: true

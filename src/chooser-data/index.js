@@ -950,7 +950,7 @@ const chooserData = {
   },
   journal_line_department: {
     title: messages('chooser.data.dep.title'), //选择部门
-    url: `${config.budgetUrl}/api/budget/journals/selectDepartmentsByCompanyAndTenant`,
+    url: `${config.baseUrl}/api/DepartmentGroup/selectdepartmentByCompanyId`,
     searchForm: [
       {
         type: 'input',

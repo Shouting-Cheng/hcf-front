@@ -102,14 +102,14 @@ class Payment extends React.Component {
             approveSearchParams: {},
             columns: [
                 { title: '单据编号', dataIndex: 'businessCode', width: 180, align: "center" },
-                { title: '单据类型', dataIndex: 'formName', align: "left" },
+                { title: '单据类型', dataIndex: 'formName', align: "left", align: 'center' },
                 { title: '申请人', dataIndex: 'applicantName', width: 100, align: "center" },
                 { title: '提交日期', dataIndex: 'lastSubmittedDate', width: 90, align: "center", render: (value, record) => moment(value).format('YYYY-MM-DD') },
                 { title: '币种', dataIndex: 'currencyCode', width: 80, align: "center" },
-                { title: '金额', dataIndex: 'totalAmount', render: this.filterMoney },
-                { title: '本币金额', dataIndex: 'functionalAmount', render: this.filterMoney },
+                { title: '金额', dataIndex: 'totalAmount', render: this.filterMoney, align: 'center' },
+                { title: '本币金额', dataIndex: 'functionalAmount', render: this.filterMoney, align: 'center' },
                 {
-                    title: '备注', dataIndex: 'remark',
+                    title: '备注', dataIndex: 'remark', align: 'center',
                     render: (desc, record) => <Popover content={desc}>{desc || '-'}</Popover>
                 },
                 // { title: '已核销金额', dataIndex: 'pppamount', render: this.filterMoney },
@@ -198,7 +198,7 @@ class Payment extends React.Component {
     /**未审批根据单据编号查询 */
     onDocumentSearch = (value) => {
         this.setState({
-            unApproveSearchParams: {...this.state.unApproveSearchParams, businessCode: value }
+            unApproveSearchParams: { ...this.state.unApproveSearchParams, businessCode: value }
         }, () => {
             this.unApprovedtable.search({ ...this.state.unApproveSearchParams, finished: 'false' })
         })
@@ -206,7 +206,7 @@ class Payment extends React.Component {
     /**已审批根据单据编号查询 */
     onApprovedSearch = (value) => {
         this.setState({
-            approveSearchParams: {...this.state.approveSearchParams, businessCode: value }
+            approveSearchParams: { ...this.state.approveSearchParams, businessCode: value }
         }, () => {
             this.approvedTable.search({ ...this.state.approveSearchParams, finished: 'true' })
         })

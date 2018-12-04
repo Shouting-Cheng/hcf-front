@@ -38,7 +38,7 @@ class NewBudgetJournalDetail extends React.Component {
       sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
       dec = typeof dec_point === 'undefined' ? '.' : dec_point,
       s = '',
-      toFixedFix = function(n, prec) {
+      toFixedFix = function (n, prec) {
         var k = Math.pow(10, prec);
         return '' + Math.ceil(n * k) / k;
       };
@@ -261,7 +261,7 @@ class NewBudgetJournalDetail extends React.Component {
         event: 'unit',
         isRequired: false,
         disabled: false,
-        listExtraParams: { companyId: '' },
+        listExtraParams: { companyId: '', tenantId: this.props.company.tenantId },
         columnLabel: 'departmentName',
         columnValue: 'unitId',
       }, //部门
@@ -322,7 +322,7 @@ class NewBudgetJournalDetail extends React.Component {
         event: 'periodName',
         getUrl: `${config.baseUrl}/api/company/group/assign/query/budget/periods?setOfBooksId=${
           this.props.company.setOfBooksId
-        }`,
+          }`,
         columnLabel: 'periodName',
         columnValue: 'periodName',
       }, //期间
@@ -654,10 +654,10 @@ class NewBudgetJournalDetail extends React.Component {
 
   //渲染搜索表单组件
   renderFormItem(item) {
-    let handle = item.event ? event => this.handleEvent(event, item.event) : () => {};
+    let handle = item.event ? event => this.handleEvent(event, item.event) : () => { };
     let chooserHandle = item.event
       ? event => this.chooserChangeHandle(event, item.event)
-      : () => {};
+      : () => { };
     switch (item.type) {
       //输入组件
       case 'input': {
@@ -678,7 +678,7 @@ class NewBudgetJournalDetail extends React.Component {
             allowClear
             disabled={item.disabled}
             labelInValue={!!item.entity}
-            onFocus={item.getUrl ? () => this.getOptions(item) : () => {}}
+            onFocus={item.getUrl ? () => this.getOptions(item) : () => { }}
           >
             {item.options.map(option => {
               return (
@@ -802,7 +802,7 @@ class NewBudgetJournalDetail extends React.Component {
               style={{ width: 200 }}
             />
           );*/
-        }
+      }
     }
   }
   getFields() {
@@ -819,18 +819,18 @@ class NewBudgetJournalDetail extends React.Component {
           {item.type === 'items' ? (
             this.renderFormItem(item)
           ) : (
-            <FormItem {...formItemLayout} label={item.label} colon={false}>
-              {getFieldDecorator(item.id, {
-                initialValue: item.defaultValue,
-                rules: [
-                  {
-                    required: item.isRequired,
-                    message: this.$t({ id: 'common.can.not.be.empty' }, { name: item.label }), //name 不可为空
-                  },
-                ],
-              })(this.renderFormItem(item))}
-            </FormItem>
-          )}
+              <FormItem {...formItemLayout} label={item.label} colon={false}>
+                {getFieldDecorator(item.id, {
+                  initialValue: item.defaultValue,
+                  rules: [
+                    {
+                      required: item.isRequired,
+                      message: this.$t({ id: 'common.can.not.be.empty' }, { name: item.label }), //name 不可为空
+                    },
+                  ],
+                })(this.renderFormItem(item))}
+              </FormItem>
+            )}
         </Col>
       );
     });
