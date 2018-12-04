@@ -22,7 +22,9 @@ class NewInterface extends React.Component {
           message.success('添加成功！');
           this.props.form.resetFields();
           this.props.onOk && this.props.onOk(values);
-        });
+        }).catch(err => {
+          this.setState({ confirmLoading: false });
+        })
       }
     });
   };

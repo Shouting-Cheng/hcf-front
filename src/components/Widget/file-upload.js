@@ -14,8 +14,6 @@ import pptImage from 'images/file-type/ppt.png';
 import txtImage from 'images/file-type/txt.png';
 import wordImage from 'images/file-type/word.png';
 import unknownImage from 'images/file-type/unknown.png';
-import httpFetch from "../../utils/httpFetch";
-import FileSaver from "file-saver";
 
 /**
  * 图片上传组件

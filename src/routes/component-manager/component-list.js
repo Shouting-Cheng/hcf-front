@@ -47,6 +47,7 @@ class ComponentList extends React.Component {
               ...record,
               ...item,
               componentId: record.id,
+              componentVersionNumber: record.versionNumber
             };
           });
 

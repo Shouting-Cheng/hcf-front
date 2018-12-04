@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import config from 'config';
-import httpFetch from 'utils/httpFetch';
+
 // import menuRoute from 'routes/menuRoute'
 import { Form, Affix, Button, message, Modal } from 'antd';
 const confirm = Modal.confirm;

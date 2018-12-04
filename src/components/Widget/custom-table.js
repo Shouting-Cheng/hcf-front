@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from 'prop-types';
 import { Table } from "antd"
 
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 
 
 class CustomTable extends Component {

@@ -114,30 +114,34 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
   };
 
   handleListOk = values => {
-    const { params } = this.props.match;
-    let paramsValue = {};
-    paramsValue.acpReqTypesId = params.id;
-    paramsValue.companyIds = [];
-    values.result.map(item => {
-      paramsValue.companyIds.push(item.id);
-    });
-    httpFetch
-      .post(
-      `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
-      paramsValue
-      )
-      .then(res => {
-        if (res.status === 200) {
-          message.success('操作成功');
-          this.handleListShow(false);
-          this.refs.table.search();
-        }
-      })
-      .catch(e => {
-        if (e.response) {
-          message.error(`操作失败，${e.response.data.message}`);
-        }
+    if (values && values.result.length) {
+      const { params } = this.props.match;
+      let paramsValue = {};
+      paramsValue.acpReqTypesId = params.id;
+      paramsValue.companyIds = [];
+      values.result.map(item => {
+        paramsValue.companyIds.push(item.id);
       });
+      httpFetch
+        .post(
+        `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
+        paramsValue
+        )
+        .then(res => {
+          if (res.status === 200) {
+            message.success('操作成功');
+            this.handleListShow(false);
+            this.refs.table.search();
+          }
+        })
+        .catch(e => {
+          if (e.response) {
+            message.error(`操作失败，${e.response.data.message}`);
+          }
+        });
+    } else {
+      message.warn('请选择公司')
+    }
   };
 
   handleBack = () => {
