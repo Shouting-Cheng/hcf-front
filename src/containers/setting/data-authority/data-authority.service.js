@@ -52,5 +52,12 @@ export default{
      */
     deletRuleItem(id){
         return httpFetch.delete(`${config.authUrl}/api/data/authority/rule/${id}`);
+    },
+    /**
+     * 获取当前租户下的所有公司
+     */
+    getTenantCompany(keyWord){
+        return httpFetch.get(`${config.baseUrl}/api/company/all/current/tenant?keyWord=${keyWord}`);
+       
     }
 }

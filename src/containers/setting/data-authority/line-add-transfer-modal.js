@@ -1,76 +1,79 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Input, Row, Col, Tag, Icon, Card, Tree, List } from 'antd';
+import { Modal, Button, Input, Row, Col, Tag, Icon, Card, Tree, List, Spin } from 'antd';
 import PropTypes from 'prop-types';
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
+import DataAuthorityService from 'containers/setting/data-authority/data-authority.service';
 
 class LineAddTransferModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             autoExpandParent: true,
-            treeData: [
-                {
-                    title: 'parent 1',
-                    key: '0-0',
-                    parent: 0,
-                    children: [
-                        {
-                            title: 'parent 1-0',
-                            key: '0-0-0',
-                            parent: "0-0",
-                            children: [
-                                {
-                                    title: 'leaf',
-                                    key: '0-0-0-0',
-                                    parent: "0-0-0",
-                                },
-                                {
-                                    title: 'leaf',
-                                    key: '0-0-0-1',
-                                    parent: "0-0-0"
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    title: 'parent 1-1',
-                    key: '0-1',
-                    parent: 0,
-                    children: [
-                        {
-                            title: 'parent 1-1',
-                            key: '0-1-0',
-                            parent: "0-1",
-                            children: [
-                                {
-                                    title: 'leaf',
-                                    key: '0-1-0-0',
-                                    parent: "0-1-0"
-                                },
-                                {
-                                    title: 'leaf',
-                                    key: '0-1-0-1',
-                                    parent: "0-1-0"
-                                },
-                            ],
-                        },
-                    ],
-                },
+            treeData: [],
+            // treeData: [
+            //     {
+            //         title: 'parentId 1',
+            //         id: '0-0',
+            //         parentId: null,
+            //         details: [
+            //             {
+            //                 title: 'parentId 1-0',
+            //                 id: '0-0-0',
+            //                 parentId: "0-0",
+            //                 details: [
+            //                     {
+            //                         title: 'leaf',
+            //                         id: '0-0-0-0',
+            //                         parentId: "0-0-0",
+            //                     },
+            //                     {
+            //                         title: 'leaf',
+            //                         id: '0-0-0-1',
+            //                         parentId: "0-0-0"
+            //                     },
+            //                 ],
+            //             },
+            //         ],
+            //     },
+            //     {
+            //         title: 'parentId 1-1',
+            //         id: 1234,
+            //         parentId: null,
+            //         details: [
+            //             // {
+            //             //     title: 'parentId 1-1',
+            //             //     id: '0-1-0',
+            //             //     parentId: "0-1",
+            //             //     details: [
+            //             //         {
+            //             //             title: 'leaf',
+            //             //             id: '0-1-0-0',
+            //             //             parentId: "0-1-0"
+            //             //         },
+            //             //         {
+            //             //             title: 'leaf',
+            //             //             id: '0-1-0-1',
+            //             //             parentId: "0-1-0"
+            //             //         },
+            //             //     ],
+            //             // },
+            //         ],
+            //     },
 
 
-            ],
+            // ],
+
             newTreeData: [
-                { title: 'parent 1', key: '0-0', parent: 0 },
-                { title: 'parent 1-0', key: '0-0-0', parent: "0-0" },
-                { title: 'leaf', key: '0-0-0-0', parent: "0-0-0" },
-                { title: 'leaf', key: '0-0-0-1', parent: "0-0-0" },
-                { title: 'parent 1', key: '0-1', parent: 0 },
-                { title: 'parent 1-1', key: '0-1-0', parent: "0-1" },
-                { title: 'leaf', key: '0-1-0-0', parent: "0-1-0" },
-                { title: 'leaf', key: '0-1-0-1', parent: "0-1-0" },
+                { title: 'parentId 1', key: '0-0', parentId: 0 },
+                { title: 'parentId 1-0', key: '0-0-0', parentId: "0-0" },
+                { title: 'leaf', key: '0-0-0-0', parentId: "0-0-0" },
+                { title: 'leaf', key: '0-0-0-1', parentId: "0-0-0" },
+                { title: 'parentId 1', key: '0-1', parentId: 0 },
+                { title: 'parentId 1-1', key: '0-1-0', parentId: "0-1" },
+                { title: 'leaf', key: '0-1-0-0', parentId: "0-1-0" },
+                { title: 'leaf', key: '0-1-0-1', parentId: "0-1-0" },
             ],
             selectTreeNodes: [],
             selectedTreeInfo: [],
@@ -81,30 +84,49 @@ class LineAddTransferModal extends React.Component {
             singleclick: false,
             isShowTreeNode: false,
             searchListInfo: [],
-            rightList:[],
+            rightList: [],
+            treeLoading:true
         }
 
 
     }
     componentWillMount() {
+        // DataAuthorityService.getTenantCompany(undefined).then(res => {
+        //     console.log(res.data)
+        //     this.setState({
+        //         treeData: res.data
+        //     })
+        // })
         this.setState({
             isShowTreeNode: true,
         })
     }
-    componentWillReceiveProps(){
-        const {treeData}=this.state;
-        for(let i=0;i<treeData.length;i++){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.visible) {
+            DataAuthorityService.getTenantCompany(undefined).then(res => {
+                console.log(res.data);
+                if(res.status===200){
+                    this.setState({
+                        treeLoading:false,
+                        treeData: res.data
+                    })
+                }
+                
+            })
+        }
+        const { treeData } = this.state;
+        for (let i = 0; i < treeData.length; i++) {
             let item = treeData[i];
-            item.isSelectAll=false;
-            if(item.children){
-                for(let j=0;j<item.children.length;j++){
-                    item.children[j].isSelectAll=false
+            item.isSelectAll = false;
+            if (item.details) {
+                for (let j = 0; j < item.details.length; j++) {
+                    item.details[j].isSelectAll = false
                 }
             }
         }
         this.setState({
-            selectTreeNodes:[],
-            selectedTreeInfo:[],
+            selectTreeNodes: [],
+            selectedTreeInfo: [],
             treeData
         })
     }
@@ -118,47 +140,47 @@ class LineAddTransferModal extends React.Component {
     renderTreeNodes = (data) => {
         const { selectTreeNode, changeBtn } = this.state
         return data.map((item) => {
-            if (item.children) {
+            if (item.details) {
                 return (
                     <TreeNode
                         className="tree-select"
-                        title={<span><span className={'left-title-w1'}>{item.title}</span>
+                        title={<span><span className={'left-title-w1'}>{item.code}-{item.name}</span>
                             {item.isSelectAll ? <a className='right-tree-title' onClick={(e) => this.cancelSelectAll(e, selectTreeNode, item)}>取消全选</a> :
                                 <a className='right-tree-title' onClick={(e) => this.handleSelectAll(e, selectTreeNode, item)}>全选</a>}</span>
                         }
-                        key={item.key}
+                        key={item.id}
                         dataRef={item}>
-                        {this.renderTreeNodes(item.children)}
+                        {this.renderTreeNodes(item.details)}
                     </TreeNode>
                 )
             }
-            return <TreeNode dataRef={item} title={<span className="left-title-w2">{item.title}</span>} key={item.key} />;
+            return <TreeNode dataRef={item} title={<span className="left-title-w2">{item.code}-{item.name}</span>} key={item.id} />;
         })
     }
     /**选中树节点的每个元素 */
     treeNodeSelect = (selectedKeys, info) => {
-
+        console.log(info)
         let selectedTreeInfo = this.state.selectedTreeInfo;
-        let rightList=this.state.rightList;
+        let rightList = this.state.rightList;
         if (info.selected) {
-            if (!selectedTreeInfo.find(o => o.key == info.node.props.dataRef.key)) {
+            if (!selectedTreeInfo.find(o => o.id == info.node.props.dataRef.id)) {
                 selectedTreeInfo.push(info.node.props.dataRef);
             }
             rightList.push(info.node.props.dataRef);
-            this.setState({rightList})
+            this.setState({ rightList })
         } else {
 
-            let parent = info.node.props.dataRef.parent;
+            let parentId = info.node.props.dataRef.parentId;
 
-            let temp = this.getItemById(this.state.treeData, info.node.props.dataRef.key);
+            let temp = this.getItemById(this.state.treeData, info.node.props.dataRef.id);
             temp.isSelectAll = false;
 
-            while (parent) {
-                let obj = this.getItemById(this.state.treeData, parent);
+            while (parentId) {
+                let obj = this.getItemById(this.state.treeData, parentId);
                 obj.isSelectAll = false;
-                parent = obj.parent;
+                parentId = obj.parentId;
             }
-            selectedTreeInfo.splice(selectedTreeInfo.findIndex(o => o.key == info.node.props.dataRef.key), 1);
+            selectedTreeInfo.splice(selectedTreeInfo.findIndex(o => o.id == info.node.props.dataRef.id), 1);
         }
 
         this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo });
@@ -168,10 +190,10 @@ class LineAddTransferModal extends React.Component {
     getItemById = (data = [], id) => {
         for (let i = 0, len = data.length; i < len; i++) {
             let item = data[i];
-            if (item.key == id) {
+            if (item.id == id) {
                 return item;
             } else {
-                let result = this.getItemById(item.children, id);
+                let result = this.getItemById(item.details, id);
                 if (result) {
                     return result;
                 }
@@ -184,7 +206,7 @@ class LineAddTransferModal extends React.Component {
             let item = data[i];
             item.isSelectAll = true;
             selectedKeys.push(item);
-            this.selectAllChildren(item.children, selectedKeys);
+            this.selectAllChildren(item.details, selectedKeys);
         }
     }
 
@@ -192,31 +214,31 @@ class LineAddTransferModal extends React.Component {
     handleSelectAll = (e, selectTreeNode, item) => {
         e.preventDefault();
         e.stopPropagation();
-        let { treeData, selectTreeNodes,rightList } = this.state;
+        let { treeData, selectTreeNodes, rightList } = this.state;
 
         let selectedKeys = [];
 
-        let obj = this.getItemById(treeData, item.key);
+        let obj = this.getItemById(treeData, item.id);
         let selectedTreeInfo = this.state.selectedTreeInfo;
 
         selectedKeys.push(item);
 
-        this.selectAllChildren(obj.children, selectedKeys);
+        this.selectAllChildren(obj.details, selectedKeys);
 
         obj.isSelectAll = true;
 
         selectedKeys.map(item => {
-            let index = selectTreeNodes.indexOf(item.key);
+            let index = selectTreeNodes.indexOf(item.id);
             if (index < 0) {
-                selectTreeNodes.push(item.key);
+                selectTreeNodes.push(item.id);
             }
 
-            if (!selectedTreeInfo.find(o => o.key == item.key)) {
+            if (!selectedTreeInfo.find(o => o.id == item.id)) {
                 selectedTreeInfo.push(item);
                 rightList.push(item);
             }
         })
-        this.setState({ treeData, selectTreeNodes: [...selectTreeNodes], selectedTreeInfo,rightList });
+        this.setState({ treeData, selectTreeNodes: [...selectTreeNodes], selectedTreeInfo, rightList });
 
         // this.alreadySelectLists(treeData, this.state.selectTreeNodes)
 
@@ -229,7 +251,7 @@ class LineAddTransferModal extends React.Component {
             let item = data[i];
             item.isSelectAll = false;
             selectedKeys.push(item);
-            this.cancelSelectAllChildren(item.children, selectedKeys);
+            this.cancelSelectAllChildren(item.details, selectedKeys);
         }
     }
 
@@ -241,27 +263,27 @@ class LineAddTransferModal extends React.Component {
 
         let { treeData, selectedTreeInfo } = this.state;
 
-        let parent = item.parent;
+        let parentId = item.parentId;
 
-        while (parent) {
-            let obj = this.getItemById(treeData, parent);
+        while (parentId) {
+            let obj = this.getItemById(treeData, parentId);
             obj.isSelectAll = false;
-            parent = obj.parent;
+            parentId = obj.parentId;
         }
 
         let selectedKeys = [];
 
-        let obj = this.getItemById(treeData, item.key);
+        let obj = this.getItemById(treeData, item.id);
 
         selectedKeys.push(item);
 
-        this.cancelSelectAllChildren(obj.children, selectedKeys);
+        this.cancelSelectAllChildren(obj.details, selectedKeys);
 
         obj.isSelectAll = false;
 
         selectedKeys.map(item => {
 
-            let index = selectedTreeInfo.findIndex(o => o.key == item.key);
+            let index = selectedTreeInfo.findIndex(o => o.id == item.id);
 
             if (index >= 0) {
                 selectedTreeInfo.splice(index, 1);
@@ -269,27 +291,27 @@ class LineAddTransferModal extends React.Component {
 
         })
 
-        this.setState({ treeData, selectTreeNodes: [...selectedTreeInfo.map(o => o.key)], selectedTreeInfo });
+        this.setState({ treeData, selectTreeNodes: [...selectedTreeInfo.map(o => o.id)], selectedTreeInfo });
 
     }
     /**删除右边数据 */
     deleteListItem = (listItem) => {
         const { selectedTreeInfo, treeData } = this.state;
-        const rightSlectList = selectedTreeInfo.filter(item => item.key !== listItem.key);
+        const rightSlectList = selectedTreeInfo.filter(item => item.id !== listItem.id);
 
-        let parent = listItem.parent;
+        let parentId = listItem.parentId;
 
-        let temp = this.getItemById(treeData, listItem.key);
+        let temp = this.getItemById(treeData, listItem.id);
         temp.isSelectAll = false;
 
-        while (parent) {
-            let obj = this.getItemById(treeData, parent);
+        while (parentId) {
+            let obj = this.getItemById(treeData, parentId);
             obj.isSelectAll = false;
-            parent = obj.parent;
+            parentId = obj.parentId;
         }
 
         this.setState({
-            selectTreeNodes: rightSlectList.map(o => o.key),
+            selectTreeNodes: rightSlectList.map(o => o.id),
             selectedTreeInfo: rightSlectList,
             treeData
         })
@@ -302,8 +324,8 @@ class LineAddTransferModal extends React.Component {
     */
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
-            return <Row key={item.key} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 14 }}>{item.title}</Col>
+            return <Row key={item.id} style={{ marginTop: 5 }}>
+                <Col span={22} style={{ fontSize: 14 }}>{item.code}-{item.name}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })
@@ -334,19 +356,20 @@ class LineAddTransferModal extends React.Component {
      * 右边已选区按照搜索条件查询
      */
     onTreeInfoSearch = (value) => {
-        let {rightList,selectedTreeInfo}=this.state
-        if(value===''){
+        let { rightList, selectedTreeInfo } = this.state;
+        console.log(value)
+        if (value === '') {
             console.log(rightList);
-            this.setState({selectedTreeInfo:rightList})
-        }else{
+            this.setState({ selectedTreeInfo: rightList })
+        } else {
             const { selectedTreeInfo } = this.state;
-            const searchList = selectedTreeInfo.filter(item => item.title === value);
+            const searchList = selectedTreeInfo.filter(item => item.code || item.name === value);
             this.setState({ selectedTreeInfo: searchList });
         }
     }
     render() {
         const { visible, title } = this.props;
-        const { autoExpandParent, treeData, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
+        const { autoExpandParent, treeData,treeLoading, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -365,21 +388,27 @@ class LineAddTransferModal extends React.Component {
                                 placeholder="请输入公司代码/名称"
                                 onSearch={this.onTreeSelecSearch}
                             />
-                            {isShowTreeNode ?
-                                <Tree
-                                    defaultExpandedKeys={['0-0-0', '0-0-1']}
-                                    selectedKeys={selectTreeNodes}
-                                    autoExpandParent={true}
-                                    multiple={true}
-                                    onSelect={this.treeNodeSelect}
-                                >
-                                    {this.renderTreeNodes(treeData)}
-                                </Tree> : searchListInfo.map(list => (
-                                    <Row key={list.key} style={{ marginTop: 5 }}>
-                                        <Col onClick={(e) => this.clickList(list)}>{list.title}</Col>
-                                    </Row>
-                                ))
-                            }
+                            <div className='treeStyle'>
+                                {isShowTreeNode ?
+                                    <Spin spinning={treeLoading}>
+                                        <Tree
+                                            defaultExpandedKeys={['0-0-0', '0-0-1']}
+                                            selectedKeys={selectTreeNodes}
+                                            autoExpandParent={true}
+                                            multiple={true}
+                                            onSelect={this.treeNodeSelect}
+                                        >
+                                            {this.renderTreeNodes(treeData)}
+                                        </Tree>
+                                    </Spin>
+                                    : searchListInfo.map(list => (
+                                        <Row key={list.key} style={{ marginTop: 5 }}>
+                                            <Col onClick={(e) => this.clickList(list)}>{list.title}</Col>
+                                        </Row>
+                                    ))
+                                }
+                            </div>
+
 
                         </Card>
                     </Col>

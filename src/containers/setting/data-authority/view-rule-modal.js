@@ -74,15 +74,29 @@ class ViewRuleModal extends React.Component {
             companyVisible: false,
             empolyeeVisible: false,
             employeeItem: {},
+            renderRuleInfo: undefined,
+            renderNewChangeRules: [],
+            dataType: {
+                'SOB': { label: '账套' },
+                'COMPANY': { label: '公司' },
+                'UNIT': { label: '部门' },
+                'EMPLOYEE': { label: '员工' },
+            },
+
 
         }
     }
     componentWillReceiveProps(nextProps) {
-        DataAuthorityService.getDataAuthorityDetail(this.props.targeKey).then(res => {
-            this.setState({
-                infoData: res.data
+        if (nextProps.visibel) {
+            DataAuthorityService.getDataAuthorityDetail(this.props.targeKey).then(res => {
+                console.log(res);
+                this.setState({
+                    infoData: res.data,
+                    renderRuleInfo: res.data
+                })
             })
-        })
+        }
+
     }
 
     onCloseRuleModal = () => {
@@ -93,7 +107,7 @@ class ViewRuleModal extends React.Component {
     }
     /**选中手动选择 */
     handleChangeRuleChange = (value) => {
-        if (value === 'handleSelect') {
+        if (value === '1004') {
             this.setState({
                 renderSelectList: true
             })
@@ -104,7 +118,7 @@ class ViewRuleModal extends React.Component {
         }
     }
     handleChangeCompany = (value) => {
-        if (value === 'handleSelect') {
+        if (value === '1004') {
             this.setState({
                 renderCompanyList: true
             })
@@ -115,7 +129,7 @@ class ViewRuleModal extends React.Component {
         }
     }
     handleChangeDepartment = (value) => {
-        if (value === 'handleSelect') {
+        if (value === '1004') {
             this.setState({
                 renderDepartmentList: true
             })
@@ -126,7 +140,7 @@ class ViewRuleModal extends React.Component {
         }
     }
     handleEmplyee = (value) => {
-        if (value === 'handleSelect') {
+        if (value === '1004') {
             this.setState({
                 renderEmplyeeList: true
             })
@@ -137,7 +151,8 @@ class ViewRuleModal extends React.Component {
         }
     }
     /**编辑数据详情 */
-    editRuleCard = () => {
+    editRuleCard = (item) => {
+        console.log(item.id)
         this.setState({
             show: false
         })
@@ -241,33 +256,18 @@ class ViewRuleModal extends React.Component {
             empolyeeVisible: false
         })
     }
+    handleRenderLists = () => {
+
+    }
     render() {
         const { visibel } = this.props;
-        const { infoList, infoData, renderSelectList, renderCompanyList, noTitleKey, tenantItem, companyVisible,
+        const { infoList, infoData, renderSelectList, renderCompanyList, noTitleKey, tenantItem, companyVisible, renderRuleInfo, dataType,
             renderDepartmentList, renderEmplyeeList, show, tabListNoTitle, tenantVisible, empolyeeVisible, employeeItem } = this.state;
         const { getFieldDecorator } = this.props.form;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
         }
-        const cardTitle = (
-            <span className="rule-form-item">
-                <FormItem
-                    {...ruleFormLayout}
-                    label=' '
-                >
-                    {getFieldDecorator('ruleName', {
-                        rules: [{
-                            required: true,
-                            message: this.$t({ id: 'common.please.enter' }),
-                        }],
-                    })(
-                        <Input placeholder="请输入规则名称" />
-                    )}
-
-                </FormItem>
-            </span>
-        )
         return (
             <Modal
                 visible={visibel}
@@ -288,249 +288,278 @@ class ViewRuleModal extends React.Component {
                         infoData={infoData}
                         colSpan={6}
                     />
-                    <Form>
-                        <Card title={show ? '数据权限组1' : cardTitle} style={{ marginTop: 25, background: '#f7f7f7' }}
-                            extra={show ? <a onClick={this.editRuleCard}>编辑</a> : <span>
-                                <a onClick={this.saveRuleCard}>保存</a>
-                                <a onClick={this.canceleRuleCard} style={{ marginLeft: 10 }}>取消</a></span>}>
-                            {show &&
-                                <Row>
-                                    <Col span={24}>
-                                        <span>账套：</span>
-                                        <span>全部账套</span>
-                                    </Col>
-                                    <Col span={24}>
-                                        <span>公司：</span>
-                                        <span>当前公司</span>
-                                    </Col>
-                                    <Col span={24}>
-                                        <span>部门：</span>
-                                        <span>当前及下属部门</span>
-                                    </Col>
-                                    <Col span={24}>
-                                        <span>员工：</span>
-                                        <span>排除5个员工</span>
-                                    </Col>
-                                </Row>
-                            }
-                            {!show &&
-                                <div className='add-rule-form'>
-                                    <Row className="rule-form-item">
-                                        <Col span={4}>
-                                            <FormItem
-                                                {...ruleFormLayout}
-                                                label='账套'
-                                            >
-                                                {getFieldDecorator('tenantId', { initialValue: 'all' })(
-                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeRuleChange}>
-                                                        <Option value='all'>全部</Option>
-                                                        <Option value='current'>当前</Option>
-                                                        <Option value='handleSelect'>手动选择</Option>
-                                                    </Select>
-                                                )}
+                    {renderRuleInfo ? renderRuleInfo.dataAuthorityRules.map((item) => (
+                        <Form>
+                            <Card key={item.id} title={show ? item.dataAuthorityRuleName :
+                                <span className="rule-form-title">
+                                    <FormItem
+                                        {...ruleFormLayout}
+                                        label=' '
+                                    >
+                                        {getFieldDecorator(`dataAuthorityRuleName-${item.id}`, {
+                                            rules: [{
+                                                required: true,
+                                                message: this.$t({ id: 'common.please.enter' }),
+                                            }],
+                                            initialValue: item.dataAuthorityRuleName || '',
+                                        })(
+                                            <Input className="input_title" placeholder='请输入规则名称' />
+                                        )}
 
-                                            </FormItem>
-                                        </Col>
-                                        {renderSelectList &&
-                                            <Col span={16} >
-                                                <Row>
-                                                    <Col span={6} style={{ marginLeft: 10 }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator(`filtrateMethod1`, {
-                                                                rules: [],
-                                                                initialValue: 'INCLUDE'
-                                                            })(
-                                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                    <Option value='INCLUDE'>包含</Option>
-                                                                    <Option value='EXCLUDE'>排除</Option>
-                                                                </Select>
-                                                            )}
-
-                                                        </FormItem>
-                                                    </Col>
-                                                    <Col span={6} style={{ marginLeft: '-25px' }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator('addTenant')(
-                                                                <Button icon="plus" onClick={this.addTenant}>添加账套</Button>
-                                                            )}
-
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-
+                                    </FormItem>
+                                </span>
+                            } style={{ marginTop: 25, background: '#f7f7f7' }}
+                                extra={show ? <a onClick={()=>this.editRuleCard(item)}>编辑</a> : <span>
+                                    <a onClick={this.saveRuleCard}>保存</a>
+                                    <a onClick={this.canceleRuleCard} style={{ marginLeft: 10 }}>取消</a></span>}>
+                                {show &&
+                                    <Row>
+                                        {item.dataAuthorityRuleDetails.map(rule => (
+                                            <Col span={24}>
+                                                <span>{dataType[rule.dataType].label}:</span>
+                                                {rule.dataScopeDesc === '手工选择' ?
+                                                    <span>
+                                                        {rule.filtrateMethodDesc}
+                                                    </span> : <span>
+                                                        {rule.dataScopeDesc}{dataType[rule.dataType].label}
+                                                    </span>
+                                                }
                                             </Col>
-                                        }
+                                        ))}
+
                                     </Row>
-                                    <Row className="rule-form-item">
-                                        <Col span={4}>
-                                            <FormItem
-                                                {...ruleFormLayout}
-                                                label='公司'
-                                            >
-                                                {getFieldDecorator('company', { initialValue: 'all' })(
-                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeCompany}>
-                                                        <Option value='all'>全部</Option>
-                                                        <Option value='current'>当前</Option>
-                                                        <Option value='currentBranch'>当前及下属</Option>
-                                                        <Option value='handleSelect'>手动选择</Option>
-                                                    </Select>
-                                                )}
+                                }
+                                {!show &&
+                                    <div className='add-rule-form'>
+                                        <Row className="rule-form-item">
+                                            <Col span={4}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label='账套'
+                                                >
+                                                    {getFieldDecorator(`dataScope1-${item.id}`, {
+                                                        rules: [],
+                                                        initialValue: item.dataAuthorityRuleDetails.length ? item.dataAuthorityRuleDetails[0].dataScope : '1001'
+                                                    })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeRuleChange}>
+                                                            <Option value='1001'>全部</Option>
+                                                            <Option value='1002'>当前</Option>
+                                                            <Option value='1004'>手动选择</Option>
+                                                        </Select>
+                                                    )}
 
-                                            </FormItem>
-                                        </Col>
-                                        {renderCompanyList &&
-                                            <Col span={16} >
-                                                <Row>
-                                                    <Col span={6} style={{ marginLeft: 10 }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator(`filtrateMethod2`, {
-                                                                rules: [],
-                                                                initialValue: 'INCLUDE'
-                                                            })(
-                                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                    <Option value='INCLUDE'>包含</Option>
-                                                                    <Option value='EXCLUDE'>排除</Option>
-                                                                </Select>
-                                                            )}
-
-                                                        </FormItem>
-                                                    </Col>
-                                                    <Col span={6} style={{ marginLeft: '-25px' }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator('addCompany')(
-                                                                <Button icon="plus" onClick={this.addCompany}>添加公司</Button>
-                                                            )}
-
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-
+                                                </FormItem>
                                             </Col>
-                                        }
-                                    </Row>
-                                    <Row className="rule-form-item">
-                                        <Col span={4}>
-                                            <FormItem
-                                                {...ruleFormLayout}
-                                                label='部门'
-                                            >
-                                                {getFieldDecorator('department', { initialValue: 'all' })(
-                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeDepartment}>
-                                                        <Option value='all'>全部</Option>
-                                                        <Option value='current'>当前</Option>
-                                                        <Option value='currentBranch'>当前及下属</Option>
-                                                        <Option value='handleSelect'>手动选择</Option>
-                                                    </Select>
-                                                )}
+                                            {renderSelectList &&
+                                                <Col span={16} >
+                                                    <Row>
+                                                        <Col span={6} style={{ marginLeft: 10 }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator(`filtrateMethod1-${item.id}`, {
+                                                                    rules: [],
+                                                                    initialValue: item.dataAuthorityRuleDetails[0].filtrateMethod ? item.dataAuthorityRuleDetails[0].filtrateMethod : 'INCLUDE'
+                                                                })(
+                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                        <Option value='INCLUDE'>包含</Option>
+                                                                        <Option value='EXCLUDE'>排除</Option>
+                                                                    </Select>
+                                                                )}
 
-                                            </FormItem>
-                                        </Col>
-                                        {renderDepartmentList &&
-                                            <Col span={16} >
-                                                <Row>
-                                                    <Col span={6} style={{ marginLeft: 10 }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator(`filtrateMethod3`, {
-                                                                rules: [],
-                                                                initialValue: 'INCLUDE'
-                                                            })(
-                                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                    <Option value='INCLUDE'>包含</Option>
-                                                                    <Option value='EXCLUDE'>排除</Option>
-                                                                </Select>
-                                                            )}
+                                                            </FormItem>
+                                                        </Col>
+                                                        <Col span={6} style={{ marginLeft: '-25px' }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator('addTenant')(
+                                                                    <Button icon="plus" onClick={this.addTenant}>添加账套</Button>
+                                                                )}
 
-                                                        </FormItem>
-                                                    </Col>
-                                                    <Col span={6} style={{ marginLeft: '-25px' }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator('addTenant')(
-                                                                <Button icon="plus">添加部门</Button>
-                                                            )}
+                                                            </FormItem>
+                                                        </Col>
+                                                    </Row>
 
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
+                                                </Col>
+                                            }
+                                        </Row>
+                                        <Row className="rule-form-item">
+                                            <Col span={4}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label='公司'
+                                                >
+                                                    {getFieldDecorator(`dataScope2-${item.id}`, {
+                                                        rules: [],
+                                                        initialValue: item.dataAuthorityRuleDetails.length ? item.dataAuthorityRuleDetails[1].dataScope : '1001'
+                                                    })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeCompany}>
+                                                            <Option value='1001'>全部</Option>
+                                                            <Option value='1002'>当前</Option>
+                                                            <Option value='1003'>当前及下属</Option>
+                                                            <Option value='1004'>手动选择</Option>
+                                                        </Select>
+                                                    )}
+
+                                                </FormItem>
                                             </Col>
-                                        }
-                                    </Row>
-                                    <Row className="rule-form-item">
-                                        <Col span={4}>
-                                            <FormItem
-                                                {...ruleFormLayout}
-                                                label='员工'
-                                            >
-                                                {getFieldDecorator('employee', { initialValue: 'all' })(
-                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleEmplyee}>
-                                                        <Option value='all'>全部</Option>
-                                                        <Option value='current'>当前</Option>
-                                                        <Option value='currentBranch'>当前及下属</Option>
-                                                        <Option value='handleSelect'>手动选择</Option>
-                                                    </Select>
-                                                )}
+                                            {renderCompanyList &&
+                                                <Col span={16} >
+                                                    <Row>
+                                                        <Col span={6} style={{ marginLeft: 10 }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator(`filtrateMethod2-${item.id}`, {
+                                                                    rules: [],
+                                                                    initialValue: item.dataAuthorityRuleDetails[1].filtrateMethod ? item.dataAuthorityRuleDetails[1].filtrateMethod : 'INCLUDE'
+                                                                })(
+                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                        <Option value='INCLUDE'>包含</Option>
+                                                                        <Option value='EXCLUDE'>排除</Option>
+                                                                    </Select>
+                                                                )}
+                                                            </FormItem>
+                                                        </Col>
+                                                        <Col span={6} style={{ marginLeft: '-25px' }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator('addCompany')(
+                                                                    <Button icon="plus" onClick={this.addCompany}>添加公司</Button>
+                                                                )}
 
-                                            </FormItem>
-                                        </Col>
-                                        {renderEmplyeeList &&
-                                            <Col span={16} >
-                                                <Row>
-                                                    <Col span={6} style={{ marginLeft: 10 }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator(`filtrateMethod4`, {
-                                                                rules: [],
-                                                                initialValue: 'INCLUDE'
-                                                            })(
-                                                                <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                    <Option value='INCLUDE'>包含</Option>
-                                                                    <Option value='EXCLUDE'>排除</Option>
-                                                                </Select>
-                                                            )}
+                                                            </FormItem>
+                                                        </Col>
+                                                    </Row>
 
-                                                        </FormItem>
-                                                    </Col>
-                                                    <Col span={6} style={{ marginLeft: '-25px' }}>
-                                                        <FormItem
-                                                            {...ruleFormLayout}
-                                                            label=''
-                                                        >
-                                                            {getFieldDecorator('addEmpolyee')(
-                                                                <Button icon="plus" onClick={this.addEmployee}>添加员工</Button>
-                                                            )}
+                                                </Col>
+                                            }
+                                        </Row>
+                                        <Row className="rule-form-item">
+                                            <Col span={4}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label='部门'
+                                                >
+                                                    {getFieldDecorator(`dataScope3-${item.id}`, {
+                                                        rules: [],
+                                                        initialValue: item.dataAuthorityRuleDetails.length ? item.dataAuthorityRuleDetails[2].dataScope : '1001'
+                                                    })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeDepartment}>
+                                                            <Option value='1001'>全部</Option>
+                                                            <Option value='1002'>当前</Option>
+                                                            <Option value='1003'>当前及下属</Option>
+                                                            <Option value='1004'>手动选择</Option>
+                                                        </Select>
+                                                    )}
 
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-
+                                                </FormItem>
                                             </Col>
-                                        }
-                                    </Row>
-                                </div>
-                            }
+                                            {renderDepartmentList &&
+                                                <Col span={16} >
+                                                    <Row>
+                                                        <Col span={6} style={{ marginLeft: 10 }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator(`filtrateMethod3-${item.id}`, {
+                                                                    rules: [],
+                                                                    initialValue: item.dataAuthorityRuleDetails[2].filtrateMethod ? item.dataAuthorityRuleDetails[2].filtrateMethod : 'INCLUDE'
+                                                                })(
+                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                        <Option value='INCLUDE'>包含</Option>
+                                                                        <Option value='EXCLUDE'>排除</Option>
+                                                                    </Select>
+                                                                )}
 
-                        </Card>
+                                                            </FormItem>
+                                                        </Col>
+                                                        <Col span={6} style={{ marginLeft: '-25px' }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator('addTenant')(
+                                                                    <Button icon="plus">添加部门</Button>
+                                                                )}
 
-                    </Form>
+                                                            </FormItem>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            }
+                                        </Row>
+                                        <Row className="rule-form-item">
+                                            <Col span={4}>
+                                                <FormItem
+                                                    {...ruleFormLayout}
+                                                    label='员工'
+                                                >
+                                                    {getFieldDecorator(`dataScope4-${item.id}`, {
+                                                        rules: [],
+                                                        initialValue: item.dataAuthorityRuleDetails.length ? item.dataAuthorityRuleDetails[3].dataScope : '1001'
+                                                    })(
+                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleEmplyee}>
+                                                            <Option value='1001'>全部</Option>
+                                                            <Option value='1002'>当前</Option>
+                                                            <Option value='1004'>手动选择</Option>
+                                                        </Select>
+                                                    )}
+
+
+                                                </FormItem>
+                                            </Col>
+                                            {renderEmplyeeList &&
+                                                <Col span={16} >
+                                                    <Row>
+                                                        <Col span={6} style={{ marginLeft: 10 }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator(`filtrateMethod4-${item.id}`, {
+                                                                    rules: [],
+                                                                    initialValue: item.dataAuthorityRuleDetails[3].filtrateMethod ? item.dataAuthorityRuleDetails[3].filtrateMethod : 'INCLUDE'
+                                                                })(
+                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                        <Option value='INCLUDE'>包含</Option>
+                                                                        <Option value='EXCLUDE'>排除</Option>
+                                                                    </Select>
+                                                                )}
+
+                                                            </FormItem>
+                                                        </Col>
+                                                        <Col span={6} style={{ marginLeft: '-25px' }}>
+                                                            <FormItem
+                                                                {...ruleFormLayout}
+                                                                label=''
+                                                            >
+                                                                {getFieldDecorator('addEmpolyee')(
+                                                                    <Button icon="plus" onClick={this.addEmployee}>添加员工</Button>
+                                                                )}
+
+                                                            </FormItem>
+                                                        </Col>
+                                                    </Row>
+
+                                                </Col>
+                                            }
+                                        </Row>
+                                    </div>
+                                }
+
+                            </Card>
+
+                        </Form>
+                    )) : null}
+
                     <Card
                         tabList={tabListNoTitle}
                         activeTabKey={noTitleKey}
