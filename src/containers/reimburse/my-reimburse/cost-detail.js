@@ -53,7 +53,7 @@ class CostDetail extends React.Component {
           dataIndex: 'index',
           key: 'index',
           render: (value, record, index) => {
-            return <span>{this.state.page*this.state.pageSize+index + 1}</span>;
+            return <span>{this.state.page * this.state.pageSize + index + 1}</span>;
           },
         },
         {
@@ -240,7 +240,7 @@ class CostDetail extends React.Component {
   getList = (typeId = '') => {
     this.setState({ loading: true });
     reimburseService
-      .getCostLineInfo(this.state.headerData.id, this.state.page,this.state.pageSize,typeId)
+      .getCostLineInfo(this.state.headerData.id, this.state.page, this.state.pageSize, typeId)
       .then(res => {
         this.setState({
           data: res.data,
@@ -357,21 +357,21 @@ class CostDetail extends React.Component {
                         <a
                           href={`${config.baseUrl}/api/attachments/download/${
                             item.attachmentOID
-                          }?access_token=${
-                           localStorage.getItem('token')
-                          }`}
+                            }?access_token=${
+                            sessionStorage.getItem('token')
+                            }`}
                         >
                           {item.fileName}
                         </a>
                       ) : (
-                        <a
-                          onClick={() => {
-                            this.preview(item);
-                          }}
-                        >
-                          {item.fileName}
-                        </a>
-                      )}
+                          <a
+                            onClick={() => {
+                              this.preview(item);
+                            }}
+                          >
+                            {item.fileName}
+                          </a>
+                        )}
                     </Popover>
                   </Col>
                 );

@@ -96,9 +96,9 @@ class TagSelect extends Component {
     });
     return (
       <div className={cls} style={style}>
-        <CheckableTag checked={checkedAll} key="tag-select-__all__" onChange={this.onSelectAll}>
+        {!this.props.hideCheckAll && <CheckableTag checked={checkedAll} key="tag-select-__all__" onChange={this.onSelectAll}>
           全部
-        </CheckableTag>
+        </CheckableTag>}
         {value &&
           React.Children.map(children, child => {
             if (this.isTagSelectOption(child)) {

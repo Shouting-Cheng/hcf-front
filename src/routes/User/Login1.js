@@ -76,7 +76,7 @@ export default class LoginPage extends Component {
         },
         data: formData,
       }).then(res => {
-        window.localStorage.setItem('token', res.data.access_token);
+        window.sessionStorage.setItem('token', res.data.access_token);
 
         Promise.all([this.getMenuList(), this.getUser()]).then(() => {
           this.redirect();

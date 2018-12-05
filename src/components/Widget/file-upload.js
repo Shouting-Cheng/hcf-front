@@ -199,7 +199,7 @@ class FileUpload extends React.Component {
       </Button>
     );
     const upload_headers = {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     };
     // let imageList = [];
     // result.map(item => this.isImage(item) && imageList.push(item));

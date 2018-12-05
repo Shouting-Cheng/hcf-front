@@ -134,7 +134,7 @@ class ImageUpload extends React.Component {
       </div>
     );
     const upload_headers = {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     };
     return (
       <div className="image-upload">

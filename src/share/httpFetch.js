@@ -22,7 +22,7 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
 
-  window.localStorage.setItem("LastRequestDate", moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
+  window.sessionStorage.setItem("LastRequestDate", moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
 
   return response;
 }, async function (error) {
@@ -51,7 +51,7 @@ const httpFetch = {
       url: baseUrl + url,
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem("token"),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem("token"),
       },
       params,
       paramsSerializer: function (params) {
@@ -73,7 +73,7 @@ const httpFetch = {
       url: baseUrl + url,
       method: 'POST',
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
       },
       data,
       params,
@@ -95,7 +95,7 @@ const httpFetch = {
       url: baseUrl + url,
       method: 'PUT',
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
       },
       data,
       params,
@@ -116,7 +116,7 @@ const httpFetch = {
     let option = {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
       },
       data,
       params,
@@ -134,18 +134,18 @@ const httpFetch = {
     console.error("refreshToken");
 
     return new Promise((resolve, reject) => {
-      let refreshParams = `client_id=ArtemisWeb&client_secret=nLCnwdIhizWbykHyuZM6TpQDd7KwK9IXDK8LGsa7SOW&refresh_token=${window.localStorage.getItem("refresh_token")}&grant_type=refresh_token`;
+      let refreshParams = `client_id=ArtemisWeb&client_secret=nLCnwdIhizWbykHyuZM6TpQDd7KwK9IXDK8LGsa7SOW&refresh_token=${window.sessionStorage.getItem("refresh_token")}&grant_type=refresh_token`;
       return axios(encodeURI(`auth/oauth/token?${refreshParams}`), {
         method: 'POST',
         headers: {
           'x-helios-client': 'web',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Bearer ' + window.localStorage.getItem("token")
+          'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
         }
       }).then(response => {
         let token = response.data;
-        window.localStorage.setItem("token", token.access_token);
-        window.localStorage.setItem("refresh_token", token.refresh_token);
+        window.sessionStorage.setItem("token", token.access_token);
+        window.sessionStorage.setItem("refresh_token", token.refresh_token);
         resolve();
       })
     })
@@ -155,7 +155,7 @@ const httpFetch = {
   checkoutToken() {
     let currentDate = new Date(moment(new Date()).format("YYYY-MM-DD hh:mm:ss"));
 
-    let lastDate = new Date(window.localStorage.getItem("LastRequestDate") || currentDate);
+    let lastDate = new Date(window.sessionStorage.getItem("LastRequestDate") || currentDate);
 
     let span = currentDate.getTime() - lastDate.getTime();
 
