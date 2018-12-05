@@ -252,11 +252,11 @@ class NewBudgetJournalDetail extends React.Component {
       {
         type: 'list',
         key: 'unit',
-        id: 'unit',
+        id: 'unitId',
         listType: 'journal_line_department',
         label: this.$t({ id: 'budgetJournal.unitId' }),
         labelKey: 'name',
-        valueKey: 'id',
+        valueKey: 'departmentId',
         single: true,
         event: 'unit',
         isRequired: false,
