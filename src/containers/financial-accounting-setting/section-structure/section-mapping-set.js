@@ -147,7 +147,7 @@ class SectionMappingSet extends React.Component {
               loading: true,
               isSave: true,
             },
-            this.getList()
+            ()=>this.getList()
           );
         })
         .catch(e => {
@@ -565,7 +565,7 @@ class SectionMappingSet extends React.Component {
         <div className="slide-footer">
           <Button
             type="primary"
-            disabled={isSave}
+            //disabled={isSave}
             onClick={this.handleSave}
             loading={this.state.btnLoading}
           >

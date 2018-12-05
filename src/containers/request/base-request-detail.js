@@ -316,6 +316,20 @@ class BaseRequestDetail extends React.Component {
             <GoBackBtn backType={this.props.match.params.pageFrom} />
           </Col>
         </Row>
+      case 'f_view':{
+        return (
+          <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={()=>{
+            this.props.dispatch(
+              routerRedux.push({
+                pathname: '/financial-management/finance-view',
+              })
+            );
+          }}>
+            <Icon type="rollback" style={{ marginRight: '5px' }} />
+            {this.$t({ id: 'common.back' })}
+          </a>
+        )
+      }
       default:
         return (
           <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={this.handleBack}>

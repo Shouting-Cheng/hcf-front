@@ -6,10 +6,11 @@ import { messages } from 'utils/utils';
  * 2.值列表详情：包括自定义值列表详情与系统值列表详情
  */
 import React from 'react';
-
+import ExcelExporter from 'widget/excel-exporter'
 import config from 'config';
 import { connect } from 'dva';
-
+import ImporterNew from 'widget/Template/importer-new';
+import httpFetch from 'share/httpFetch';
 // import menuRoute from 'routes/menuRoute';
 import debounce from 'lodash.debounce';
 import {
@@ -206,6 +207,20 @@ class ValueList extends React.Component {
       slideFrameParams: {}, //侧滑参数
       selectedRowKeys: [],
       // valueList: menuRoute.getRouteItem('value-list', 'key')   //值列表页
+      /**
+       * 导出
+       */
+      excelVisible: false,
+      btLoading: false,
+      exportColumns: [
+        { title: '值名称', dataIndex: 'messageKey' },
+        { title: '编码', dataIndex: 'code' },
+        { title: '序号', dataIndex: 'sequenceNumber' },
+        { title: '是否全员可见', dataIndex: 'commonStr' },
+        { title: '备注', dataIndex: 'remark' },
+        { title: '是否启用', dataIndex: 'enabledStr' },
+        { title: '是否默认值', dataIndex: 'patientiaStr' },
+      ],
     };
     this.handleSearch = debounce(this.handleSearch, 250);
   }
@@ -392,6 +407,7 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
+    console.log(name)
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -419,7 +435,7 @@ class ValueList extends React.Component {
     // let validateStatus = length > 15 ? "error" : null;
     // let help = length > 15 ? messages('value.list.name.max.15'/*最多输入15个字符*/) : null;
 
-    if (this.validataNameLengthErr(this.state._form.name)) {
+    if (this.validataNameLengthErr(this.state.form.name)) {
       return;
     }
     if (this.state.customEnumerationOID) {
@@ -494,6 +510,54 @@ class ValueList extends React.Component {
     form.name = name;
     form.i18n.name = i18nName;
     this.setState({ form, });
+  };
+
+    /**
+   * 点击导出按钮
+   */
+  onExportClick = () => {
+    this.setState({
+        btLoading: true,
+        excelVisible: true
+    });
+  };
+  /**
+   * 导出取消
+   */
+  onExportCancel = () => {
+    this.setState({
+      btLoading: false,
+      excelVisible: false,
+    });
+  };
+  /**
+   * 确定导出
+   */
+  export = result => {
+    let hide = message.loading('正在生成文件，请等待......');
+
+    const { customEnumerationOID, isCustom } = this.state;
+    valueListService
+      .exportValues(result, customEnumerationOID, isCustom)
+      .then(res => {
+        if (res.status === 200) {
+          message.success('操作成功');
+          let fileName = res.headers['content-disposition'].split('filename=')[1];
+          let f = new Blob([res.data]);
+          FileSaver.saveAs(f, decodeURIComponent(fileName));
+          this.setState({
+            btLoading: false,
+          });
+          hide();
+        }
+      })
+      .catch(e => {
+        message.error('下载失败，请重试!');
+        this.setState({
+          btLoading: false,
+        });
+        hide();
+      });
   };
 
   renderForm() {
@@ -627,9 +691,15 @@ class ValueList extends React.Component {
   };
 
   //导入成功回调
-  handleImportOk = () => {
+  handleImportOk = (transactionID) => {
+    httpFetch.post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`).then(res => {
+      if (res.status === 200){
+        this.getList()
+      }
+    }).catch(() => {
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
+    })
     this.showImport(false);
-    this.getList();
   };
 
   //值导出
@@ -698,6 +768,8 @@ class ValueList extends React.Component {
       isCustom,
       selectedRowKeys,
     } = this.state;
+    //导出
+    const { exportColumns, excelVisible, btLoading } = this.state;
     const rowSelection = {
       selectedRowKeys: selectedRowKeys,
       onChange: this.onSelectChange,
@@ -756,8 +828,9 @@ class ValueList extends React.Component {
                         {messages('value.list.new.value' /*新建值内容*/)}
                       </Dropdown.Button>
                     )}
-                    <Button onClick={this.exportValues}>
-                      {messages('value.list.value.export' /*值导出*/)}
+                    
+                    <Button loading={btLoading} onClick={this.onExportClick}>
+                     {messages('value.list.value.export' /*值导出*/)}
                     </Button>
                     {(this.props.tenantMode || isCustom === 'CUSTOM') && (
                       <div style={{ display: 'inline-block' }}>
@@ -862,22 +935,26 @@ class ValueList extends React.Component {
             />
           </div>
         )}
-
-        <Importer
-          visible={showImportFrame}
+        <ImporterNew visible={showImportFrame}
           title={messages('value.list.value.import' /*值导入*/)}
           templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${
-            config.baseUrl
-          }/api/custom/enumerations/items/import?customEnumerationOID=${customEnumerationOID}&isCustom=${isCustom ===
-            'CUSTOM'}`}
-          listenUrl={`${config.baseUrl}/api/batch/transaction/logs/customenumerationitem`}
-          errorUrl={`${
-            config.baseUrl
-          }/api/batch/transaction/logs/failed/export/customenumerationitem`}
+          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOID=${customEnumerationOID}
+          &isCustom=${isCustom ==='CUSTOM'}`}
+          errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
+          errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
+          deleteDataUrl ={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
           fileName={messages('value.list.value.import' /*值导入*/)}
           onOk={this.handleImportOk}
-          afterClose={() => this.showImport(false)}
+          afterClose={() => this.showImport(false)} />
+        {/* 导出 */}
+        <ExcelExporter
+            visible={excelVisible}
+            onOk={this.export}
+            columns={exportColumns}
+            canCheckVersion={false}
+            fileName={"值列表"}
+            onCancel={this.onExportCancel}
+            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
         />
       </div>
     );

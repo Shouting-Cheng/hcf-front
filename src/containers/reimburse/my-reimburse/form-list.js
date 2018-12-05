@@ -25,6 +25,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const CheckableTag = Tag.CheckableTag;
 const {TextArea} = Input;
+import SelectReceivables from 'widget/select-receivables';
 
 import Chooser from 'containers/reimburse/my-reimburse/chooser';
 import moment from 'moment';
@@ -167,6 +168,82 @@ class FormList extends React.Component {
     });
   };
 
+
+  //收款方变化事件
+  handle = record => {
+    this.props.form.setFieldsValue({ accountNumber: '' });
+    this.props.form.setFieldsValue({ accountName: '' });
+    if (record) {
+      let payeeCategory = this.props.form.getFieldValue('partnerCategory');
+      let accountList = [];
+      if (payeeCategory === 'EMPLOYEE') {
+        reimburseService.getAccountByUserId(record.key).then(res => {
+          res.data &&
+          res.data.map(item => {
+            if (item.enable) {
+              if (item.isPrimary) {
+                this.props.form.setFieldsValue({ accountNumber: item.bankAccountNo,accountName: item.bankAccountName });
+                //this.props.form.setFieldsValue({ accountName: item.bankAccountName });
+                this.setState({
+                  bankLocationName: item.bankName,
+                  bankLocationCode: item.bankCode,
+                  accountNumber: item.bankAccountNo,
+                  accountName: item.bankAccountName,
+                });
+              }
+              accountList.push({
+                bankAccountNo: item.bankAccountNo,
+                accountName: item.bankAccountName,
+                bankName: item.bankName,
+                bankCode: item.bankCode,
+              });
+            }
+          });
+          accountList.length === 0 &&
+          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
+          this.setState({
+            selectedData: [],
+            contractValue: [],
+            payeeId: record.key,
+            payeeName: record.label,
+            accountList,
+          });
+        });
+      } else if (payeeCategory === 'VENDER') {
+        reimburseService.getAccountByVendorId(record.key).then(res => {
+          res.data.body &&
+          res.data.body.map(item => {
+            if (item.primaryFlag) {
+              this.props.form.setFieldsValue({ accountNumber: item.bankAccount,accountName: item.venBankNumberName });
+              //this.props.form.setFieldsValue({ e });
+              this.setState({
+                bankLocationName: item.bankName,
+                bankLocationCode: item.bankCode,
+                accountNumber: item.bankAccountNo,
+                accountName: item.bankAccountName,
+              });
+            }
+            accountList.push({
+              bankAccountNo: item.bankAccount,
+              accountName: item.venBankNumberName,
+              bankName: item.bankName,
+              bankCode: item.bankCode,
+            });
+          });
+          accountList.length === 0 &&
+          message.warning('该收款方没有银行信息，请先维护改收款方下银行信息！');
+          this.setState({
+            selectedData: [],
+            contractValue: [],
+            payeeId: record.key,
+            payeeName: record.label,
+            accountList,
+          });
+        });
+      }
+    }
+  };
+
   //根据表单设置加载对应的控件
   getReimburseItem = () => {
     let forms = [];
@@ -178,38 +255,53 @@ class FormList extends React.Component {
     if (formSetings.multipleReceivables === false) {
       forms.push(
         <div key="receivables">
+          <FormItem {...formItemLayout} label="收款方类型">
+            {getFieldDecorator('partnerCategory', {
+              rules: [
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ],
+              initialValue: isNew ?  'EMPLOYEE' : formSetings.payeeCategory,
+            })(
+              <Select onChange={()=>{
+                this.props.form.setFieldsValue({ payeeId: {key:'', label:''},accountNumber:'',accountName:'' });
+              }}>
+                <Option value="EMPLOYEE">员工</Option>
+                <Option value="VENDER">供应商</Option>
+              </Select>
+            )}
+          </FormItem>
+
           <FormItem {...formItemLayout} label="收款方">
             {getFieldDecorator('payeeId', {
-              initialValue: this.state.payeeId,
-              rules: [{message: '请输入', required: true}],
+              rules: [
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ],
+              initialValue: isNew ? {key: '',label:'' }  : {key: formSetings.payeeId, label: formSetings.payeeId} ,
             })(
-              <Select
-                showSearch
-                onSearch={this.receivablesSerarch}
-                onChange={this.onSelect}
-                filterOption={false}
-                labelInValue
-                allowClear
-                defaultActiveFirstOption={false}
-                notFoundContent={this.state.fetching ? <Spin size="small"/> : null}
-              >
-                {this.state.receivables.map(o => {
-                  return <Option key={o.sign}>{o.name}</Option>;
-                })}
-              </Select>
+              <SelectReceivables
+                onChange={this.handle}
+                type={this.props.form.getFieldValue('partnerCategory')}
+                disabled={!this.props.form.getFieldValue('partnerCategory')}
+              />
             )}
           </FormItem>
 
           <FormItem {...formItemLayout} key="accountNumber" label="收款方银行账号">
             {getFieldDecorator('accountNumber', {
-              initialValue: '',
+              initialValue: isNew ? '' : formSetings.accountNumber,
               rules: [{message: '请输入', required: true}],
             })(
               <Select onChange={this.accountNumberChange}>
                 {this.state.accountList.map(o => {
                   return (
-                    <Select.Option key={o.number} value={o.number}>
-                      {o.number}
+                    <Select.Option key={o.bankAccountNo} value={o.bankAccountNo}>
+                      {o.bankAccountNo}
                     </Select.Option>
                   );
                 })}
@@ -219,7 +311,7 @@ class FormList extends React.Component {
 
           <FormItem {...formItemLayout} key="accountName" label="收款方户名">
             {getFieldDecorator('accountName', {
-              initialValue: '',
+              initialValue: isNew ? '' : formSetings.accountName,
               rules: [{message: '请输入', required: true}],
             })(<Input disabled/>)}
           </FormItem>

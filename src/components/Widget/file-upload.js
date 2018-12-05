@@ -14,8 +14,6 @@ import pptImage from 'images/file-type/ppt.png';
 import txtImage from 'images/file-type/txt.png';
 import wordImage from 'images/file-type/word.png';
 import unknownImage from 'images/file-type/unknown.png';
-import httpFetch from "../../utils/httpFetch";
-import FileSaver from "file-saver";
 
 /**
  * 图片上传组件
@@ -31,6 +29,7 @@ class FileUpload extends React.Component {
       previewIndex: 0, //预览图片的index
       modalShow: false,
       info: null,
+      imageList: []
     };
   }
   componentDidMount() {
@@ -113,31 +112,26 @@ class FileUpload extends React.Component {
   };
   // 预览
   handlePreview = file => {
+
     let { isPreViewCallBack, handlePreViewCallBack } = this.props;
+
+    file = file.response || file;
+
     if (isPreViewCallBack) {
       handlePreViewCallBack(file);
       return;
     }
+
     if (this.isImage(file)) {
-      let imageList = [];
-      this.state.result.map(item => this.isImage(item) && imageList.push(item));
-      imageList.map((item, index) => {
-        if (
-          item.uid === (file.response ? file.response.attachmentOID : file.attachmentOID)
-        ) {
-          this.setState({
-            previewIndex: index,
-            previewVisible: true,
-          });
-        }
+      let imageList = [file];
+
+      this.setState({
+        previewIndex: 0,
+        previewVisible: true,
+        imageList
       });
     } else {
-      httpFetch.get(`${config.baseUrl}/api/attachments/download/${file.uid}?access_token=${localStorage.getItem('token')}`).then(res=>{
-        let b = new Blob([res.data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-        FileSaver.saveAs(b, file.name);
-      })
+      window.open(file.thumbnailUrl, "_blank");
     }
   };
 
@@ -198,7 +192,7 @@ class FileUpload extends React.Component {
   };
 
   render() {
-    const { previewVisible, fileList, previewIndex, result, modalShow } = this.state;
+    const { previewVisible, fileList, previewIndex, result, modalShow, imageList } = this.state;
     const uploadButton = (
       <Button>
         <Icon type="upload" /> {this.$t('common.upload') /*上传*/}
@@ -207,8 +201,8 @@ class FileUpload extends React.Component {
     const upload_headers = {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
-    let imageList = [];
-    result.map(item => this.isImage(item) && imageList.push(item));
+    // let imageList = [];
+    // result.map(item => this.isImage(item) && imageList.push(item));
     let size = this.props.fileSize ? this.props.fileSize : 10;
     return (
       <div className="file-upload">

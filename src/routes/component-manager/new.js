@@ -57,6 +57,9 @@ class NewComponent extends React.Component {
       if (!error) {
         let buttonList = [];
 
+        console.log(this.props.components);
+
+
         this.props.components.components.map(item => {
           if (item.type == 'button' && item.code) {
             buttonList.push({
@@ -74,13 +77,14 @@ class NewComponent extends React.Component {
               ...values,
               id: version.componentId,
               buttonList: buttonList,
+              versionNumber: version.componentVersionNumber
             })
             .then(res => {
               let content = JSON.stringify(this.props.components.components);
               fetch
                 .post('/auth/api/componentVersion/create', {
                   componentId: version.componentId,
-                  remark: version.remark,
+                  remark: values.remark,
                   contents: content,
                 })
                 .then(() => {
@@ -90,13 +94,13 @@ class NewComponent extends React.Component {
             });
         } else {
           fetch
-            .post('/auth/api/component/create', { ...values, buttonList: buttonList })
+            .post('/auth/api/component/create', { ...values, buttonList: buttonList, deleted: false })
             .then(res => {
               let content = JSON.stringify(this.props.components.components);
               fetch
                 .post('/auth/api/componentVersion/create', {
                   componentId: res.id,
-                  remark: '新建',
+                  remark: values.remark || "1.0版本",
                   contents: content,
                 })
                 .then(() => {

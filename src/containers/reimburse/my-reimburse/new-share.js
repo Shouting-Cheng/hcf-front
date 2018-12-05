@@ -10,7 +10,7 @@ class NewShare extends Component {
     super(props);
     this.state = {
       data: [],
-      pagination:{
+      pagination: {
         total: 0,
         page: 0,
         pageSize: 10
@@ -35,10 +35,10 @@ class NewShare extends Component {
                 }}
               />
             ) : (
-              <Popover content={record.company ? record.company.name : ''}>
-                <span>{record.company ? record.company.name : ''}</span>
-              </Popover>
-            );
+                <Popover content={record.company ? record.company.name : ''}>
+                  <span>{record.company ? record.company.name : ''}</span>
+                </Popover>
+              );
           },
         },
         {
@@ -59,10 +59,10 @@ class NewShare extends Component {
                 }}
               />
             ) : (
-              <Popover content={record.department ? record.department.name : ''}>
-                <span>{record.department ? record.department.name : ''}</span>
-              </Popover>
-            );
+                <Popover content={record.department ? record.department.name : ''}>
+                  <span>{record.department ? record.department.name : ''}</span>
+                </Popover>
+              );
           },
         },
         {
@@ -78,12 +78,12 @@ class NewShare extends Component {
                   precision={2}
                   value={value}
                   onChange={val => this.costChange(index, val)}
-                  disabled={record.defaultApportion||record.isCreateByApplication}
+                  disabled={record.defaultApportion || record.isCreateByApplication}
                 />
               </div>
             ) : (
-              <span style={{ textAlign: 'right' }}>{this.toDecimal2(value)}</span>
-            );
+                <span style={{ textAlign: 'right' }}>{this.toDecimal2(value)}</span>
+              );
           },
         },
       ],
@@ -94,7 +94,7 @@ class NewShare extends Component {
       index: 0,
       selectType: '',
       selectKey: '',
-      dataCache: {},
+      dataCache: [],
       costCenterData: {},
       applicationCol: {
         title: '关联申请单',
@@ -120,22 +120,22 @@ class NewShare extends Component {
               <a onClick={() => this.cancel(index)}>取消</a>
             </div>
           ) : (
-            <div>
-              <a onClick={() => this.edit(index)}>编辑</a>
-              {!record.defaultApportion && <Divider type="vertical" />}
-              <Popconfirm
-                placement="top"
-                title={'确认删除？'}
-                onConfirm={() => {
-                  this.delete(index);
-                }}
-                okText="确定"
-                cancelText="取消"
-              >
-                {!record.defaultApportion && <a>删除</a>}
-              </Popconfirm>
-            </div>
-          );
+              <div>
+                <a onClick={() => this.edit(index)}>编辑</a>
+                {!record.defaultApportion && <Divider type="vertical" />}
+                <Popconfirm
+                  placement="top"
+                  title={'确认删除？'}
+                  onConfirm={() => {
+                    this.delete(index);
+                  }}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  {!record.defaultApportion && <a>删除</a>}
+                </Popconfirm>
+              </div>
+            );
         },
       },
     };
@@ -171,7 +171,7 @@ class NewShare extends Component {
                     labelInValue
                     value={value}
                     onChange={val => this.centerChange(index, val, o.costCenterOID)}
-                    onDropdownVisibleChange={(open) => this.handleFocus(o.costCenterOID,open)}
+                    onDropdownVisibleChange={(open) => this.handleFocus(o.costCenterOID, open)}
                   >
                     {this.state.costCenterData[o.costCenterOID] &&
                       this.state.costCenterData[o.costCenterOID].map(item => {
@@ -183,8 +183,8 @@ class NewShare extends Component {
                       })}
                   </Select>
                 ) : (
-                  <span>{record[o.costCenterOID].label}</span>
-                );
+                    <span>{record[o.costCenterOID].label}</span>
+                  );
               },
             });
           });
@@ -212,12 +212,14 @@ class NewShare extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isRefresh !== this.state.isRefresh) {
-      this.setState({ data: nextProps.data,
-        pagination:{
+      this.setState({
+        data: nextProps.data,
+        pagination: {
           ...this.state.pagination,
           total: nextProps.data.length,
         },
-        isRefresh: nextProps.isRefresh });
+        isRefresh: nextProps.isRefresh
+      });
     }
   }
 
@@ -258,7 +260,7 @@ class NewShare extends Component {
 
   //保存
   save = index => {
-    let data = this.state.data;
+    let { data, dataCache } = this.state;
     let record = data[index];
     let error = false;
 
@@ -291,13 +293,19 @@ class NewShare extends Component {
 
     record.status = 'normal';
     record.cost = this.toDecimal2(record.cost);
+
+    let i = -1;
+    if ((i = dataCache.findIndex(o => o.rowKey == record.rowKey)) >= 0) {
+      dataCache.splice(i, 1);
+    }
+
     this.props.handleOk && this.props.handleOk(data);
-    this.setState({ data });
+    this.setState({ data, dataCache });
   };
 
   //成本中心得到焦点时
   handleFocus = oid => {
-    if(open===false){
+    if (open === false) {
       return
     }
     if (this.state.costCenterData[oid]) return;
@@ -314,7 +322,7 @@ class NewShare extends Component {
     this.setState({
       pagination: {
         ...this.state.pagination,
-        total: this.state.pagination.total-1
+        total: this.state.pagination.total - 1
       }
     });
     this.props.deleteShare && this.props.deleteShare(index);
@@ -322,29 +330,42 @@ class NewShare extends Component {
 
   //编辑
   edit = index => {
-    let data = this.state.data;
+    let { data, dataCache } = this.state;
     let record = data[index];
+    dataCache.push({ ...record });
+
+    console.log({ ...record });
     record.status = 'edit';
-    let dataCache = { ...record };
     this.setState({ data, dataCache });
   };
 
   //取消
   cancel = index => {
-    let {data,pagination,dataCache }= this.state;
+    let { data, pagination, dataCache } = this.state;
     if (data[index].status == 'edit') {
-      data[index] = { ...dataCache, status: 'normal' };
+
+      let i = dataCache.findIndex(o => o.rowKey == data[index].rowKey);
+
+      data[index] = { ...dataCache[i], status: 'normal' };
+
+      dataCache.splice(i, 1);
+
+      
       this.props.handleOk && this.props.handleOk(data, true);
-      this.setState({ data, dataCache: null },()=>console.log(this.state.data));
+
+      this.setState({ data, dataCache });
+
     } else if (data[index].status == 'new') {
       data.splice(index, 1);
       this.props.handleOk && this.props.handleOk(data, true);
-      this.setState({ data, dataCache: null,pagination:{
+      this.setState({
+        data, dataCache: null, pagination: {
           ...pagination,
-          total: pagination.total-1,
-          page: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) : pagination.page,
-          current: parseInt((pagination.total-2)/pagination.pageSize) < pagination.page ? parseInt((pagination.total-2)/pagination.pageSize) + 1 : pagination.page + 1,
-        } });
+          total: pagination.total - 1,
+          page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
+          current: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) + 1 : pagination.page + 1,
+        }
+      });
     }
   };
 
@@ -367,10 +388,10 @@ class NewShare extends Component {
     return s;
   };
 
-  handleChange=(value)=> {
-    value.page = value.current-1;
+  handleChange = (value) => {
+    value.page = value.current - 1;
     this.setState({
-      pagination: {...value}
+      pagination: { ...value }
     });
   };
   render() {

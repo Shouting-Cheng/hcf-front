@@ -228,21 +228,26 @@ class ListSelector extends React.Component {
       this.formRef && this.formRef.clearSearchAreaSelectData();
     }
     this.setState({ page: 0 });
-    if (nextProps.selectedData && nextProps.selectedData.length > 0)
-      this.setState({ selectedData: nextProps.selectedData });
+    if (nextProps.selectedData && nextProps.selectedData.length > 0){
+      let { rowSelection, selectorItem } = this.state;
+      let temp = [];
+      let key = selectorItem.key || nextProps.selectorItem&&nextProps.selectorItem.key || chooserData[nextProps.type].key ;
+      nextProps.selectedData.map(item=>temp.push(item[key]));
+      rowSelection.selectedRowKeys = temp;
+      this.setState({ selectedData: nextProps.selectedData ,rowSelection });
+    }
     else
       this.setState({ selectedData: [] });
     if (nextProps.type !== this.state.type && !nextProps.selectorItem && nextProps.visible)
       this.checkType(nextProps.type);
     else if (nextProps.selectorItem && nextProps.visible)
       this.checkSelectorItem(nextProps.selectorItem);
-
+    //rowSelection.selectedRowKeys = [];
     let { rowSelection } = this.state;
-    rowSelection.selectedRowKeys = [];
-    if(nextProps.single !== (rowSelection.type === 'radio')){
+    if(nextProps.single !== (rowSelection.type === 'radio')) {
       rowSelection.type = nextProps.single ? 'radio' : 'checkbox';
+      this.setState({rowSelection})
     }
-    this.setState({ rowSelection })
   };
 
   componentDidMount() {
@@ -265,7 +270,7 @@ class ListSelector extends React.Component {
     let nowSelectedRowKeys = [];
     selectedData.map(selected => {
       data.map(item => {
-        if (item[this.getLastKey(valueKey || selectorItem.key)] == selected[this.getLastKey(valueKey || selectorItem.key)])
+        if (item[this.getLastKey(selectorItem.key)] === selected[this.getLastKey(selectorItem.key)])
           nowSelectedRowKeys.push(item[this.getLastKey(selectorItem.key)])
       })
     });

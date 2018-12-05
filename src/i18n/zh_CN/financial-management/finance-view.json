@@ -6,7 +6,7 @@
   "finance.view.search.approvalDateFrom":"审批日期从",
   "finance.view.search.approvalDateTo":"审批日期至",
   "finance.view.search.auditedDateFrom":"审核日期从",
-  "finance.view.search.auditedDateTo":"审核日期从",
+  "finance.view.search.auditedDateTo":"审核日期至",
   "finance.view.search.submitted": "审批中",
   "finance.view.search.pass": "已通过",
   "finance.view.search.reject": "已驳回",

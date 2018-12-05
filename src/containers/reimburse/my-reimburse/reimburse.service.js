@@ -1,5 +1,5 @@
 import config from 'config'
-import httpFetch from 'utils/httpFetch'
+import httpFetch from 'share/httpFetch'
 
 export default {
   //根据用户查询帐套信息

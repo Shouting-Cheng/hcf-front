@@ -131,9 +131,11 @@ const httpFetch = {
   //刷新token
   refreshToken: function () {
 
+    console.error("refreshToken");
+
     return new Promise((resolve, reject) => {
       let refreshParams = `client_id=ArtemisWeb&client_secret=nLCnwdIhizWbykHyuZM6TpQDd7KwK9IXDK8LGsa7SOW&refresh_token=${window.localStorage.getItem("refresh_token")}&grant_type=refresh_token`;
-      return axios(encodeURI(`${config.uathUrl}/oauth/token?${refreshParams}`), {
+      return axios(encodeURI(`auth/oauth/token?${refreshParams}`), {
         method: 'POST',
         headers: {
           'x-helios-client': 'web',

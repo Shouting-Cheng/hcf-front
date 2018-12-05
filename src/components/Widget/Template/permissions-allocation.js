@@ -35,7 +35,6 @@ class PermissionsAllocation extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let model = nextProps.value;
-
     model &&
       this.setState({ type: model.type, selectedList: model.values, value: model.values }, () => {
         this.setSelectEmployeeText();
@@ -181,23 +180,23 @@ class PermissionsAllocation extends React.Component {
             </div>
           )}
 
-        <SelectEmployeeGroup
+        {showSelectEmployeeGroup && <SelectEmployeeGroup
           visible={showSelectEmployeeGroup}
           onCancel={this.handleListCancel}
           onOk={this.handleListOk}
           single={true}
           selectedData={selectedList}
           mode={this.props.mode}
-        />
+        />}
 
-        <SelectDepartment
+        {showSelectDepartment && <SelectDepartment
           visible={showSelectDepartment}
           onCancel={this.handleListCancel}
           onOk={this.handleListOk}
           single={true}
           selectedData={selectedList}
           mode={this.props.mode}
-        />
+        />}
       </div>
     );
   }

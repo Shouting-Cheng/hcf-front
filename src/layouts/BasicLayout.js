@@ -1,4 +1,4 @@
-import React, { Fragment, createElement } from 'react';
+import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 import { Layout, Icon, message, Spin, Tabs } from 'antd';
 import DocumentTitle from 'react-document-title';
@@ -759,7 +759,7 @@ class BasicLayout extends React.Component {
                 type="editable-card"
                 onEdit={this.onEdit}
                 tabBarGutter={2}
-                // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
+              // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
                   <TabPane

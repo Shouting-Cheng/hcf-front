@@ -1,7 +1,8 @@
 /**
  * Created by zaranengap on 2017/7/3.
  */
-import React from 'react';
+import React, { createElement } from 'react';
+
 import { connect } from 'dva';
 import { Input, message, Tabs, Modal, Button, Spin, Row, Col } from 'antd';
 const Search = Input.Search;

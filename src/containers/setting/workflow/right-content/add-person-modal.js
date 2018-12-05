@@ -367,7 +367,7 @@ class AddPersonModal extends React.Component {
                visible={visible}
                width={550}
                closable={true}
-               onCancel={()=>this.setState({visible: false})}
+               onCancel={this.props.onCancel}
                getContainer={() => {
                  return document.getElementsByClassName("select-person-modal-container")[0];
                }}

@@ -1245,13 +1245,13 @@ class MyGLWorkOrderDetail extends Component {
         </Affix>
         {/* 导入 */}
         <ImporterNew visible={showImportFrame}
-                     title={this.$t({ id: 'section.mapping.set.import' })}
+                     title={this.$t("核算工单信息导入")}
                      templateUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`}
                      uploadUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new?headId=${this.props.match.params.id}`}
                      errorUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/error/export`}
                      errorDataQueryUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/query/result`}
                      deleteDataUrl ={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/delete`}
-                     fileName={this.$t({ id: 'section.mapping.import.fileName' })}
+                     fileName={this.$t("核算工单信息导入模板")}
                      onOk={this.onImportOk}
                      afterClose={() => this.showImport(false)}/>
       </div>

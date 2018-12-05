@@ -171,22 +171,10 @@ export default {
     })
   },
   //根据值列表OID导出值,isCustom: CUSTOM(自定义值列表)、SYSTEM(系统值列表)
-  exportValues(OID, isCustom) {
+  exportValues(params, OID, isCustom) {
     //isCustom传false就是系统值列表
-    let params = {
-      isCustom: isCustom === 'CUSTOM',
-      customEnumerationOID: OID
-    }
-    return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/custom/enumerations/items/export', params, {}, {responseType: 'arraybuffer'})
-        .then(function (res) {
-          resolve(res)
-        })
-        .catch(function (err) {
-          errorMessage(err.response);
-          reject(err.response);
-        })
-    })
+    let url = `${config.baseUrl}/api/custom/enumerations/items/export?customEnumerationOID=${OID}&isCustom=${isCustom === 'CUSTOM'}`;
+    return httpFetch.post(url, params, {}, { responseType: 'arraybuffer' });
   },
   //根据值OID获取员工列表
   getEmployeeList(page, size, OID) {

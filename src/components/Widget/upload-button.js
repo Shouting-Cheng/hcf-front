@@ -24,7 +24,7 @@ class UploadButton extends React.Component {
       previewVisible: false,
       previewImage: "",
       defaultListTag: true,
-      activeKey: "1"
+      visible: true
     }
   }
 
@@ -65,7 +65,6 @@ class UploadButton extends React.Component {
   };
 
   handleChange = (info) => {
-    this.setState({ activeKey: "1" })
     if (this.props.disabled) {
       return;
     }
@@ -126,10 +125,6 @@ class UploadButton extends React.Component {
 
   };
 
-  onChange = (value) => {
-    this.setState({ activeKey: value });
-  };
-
   //图片预览
   preview = (record) => {
     this.setState({ previewVisible: true, previewImage: record.response ? record.response.thumbnailUrl : record.thumbnailUrl })
@@ -138,7 +133,8 @@ class UploadButton extends React.Component {
 
   render() {
 
-    const { previewVisible, previewImage } = this.state;
+    const { previewVisible, previewImage, visible } = this.state;
+
     const upload_headers = {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     };
@@ -155,6 +151,7 @@ class UploadButton extends React.Component {
     } else {
       fileTotal = this.props.title
     }
+
     let upload = (
       <Upload name="file"
         action={this.props.uploadUrl}
@@ -177,35 +174,31 @@ class UploadButton extends React.Component {
         <Modal visible={previewVisible} footer={null} onCancel={() => { this.setState({ previewVisible: false }) }}>
           <img alt="picture is missing." style={{ width: '100%' }} src={previewImage} />
         </Modal>
-        <Collapse onChange={this.onChange} activeKey={this.state.activeKey} bordered={false} defaultActiveKey={['1']}>
-          <Collapse.Panel header={upload} key="1" style={customPanelStyle}>
-            {
-              fileList.map((item, index) => {
-                let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-                let type = item.response ? item.response.fileType : item.fileType
-                return (
-                  <Row key={item.uid} className="file-item">
-                    <Col style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} span={18}>
-                      <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
-                      {
-                        type !== 'IMAGE' ?
-                          <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${localStorage.getItem('token')}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
-                          :
-                          <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
-                      }
-                    </Col>
-                    {!this.props.noDelete &&
-                      <Col span={6} style={{ textAlign: "right" }}>
-                        <Icon style={{ color: item.status == "error" ? "red" : "" }} onClick={() => this.handleRemove(item, index)} type="delete" />
-                      </Col>
-                    }
-                  </Row>
-                )
-              })
-            }
-
-          </Collapse.Panel>
-        </Collapse>
+        <Icon onClick={() => { this.setState({ visible: !this.state.visible }) }} type={visible ? "down" : "right"} style={{ marginRight: 10, cursor: "pointer" }} />
+        {upload}
+        {visible && fileList.map((item, index) => {
+          let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
+          let type = item.response ? item.response.fileType : item.fileType
+          return (
+            <Row key={item.uid} className="file-item">
+              <Col style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} span={18}>
+                <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
+                {
+                  type !== 'IMAGE' ?
+                    <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${localStorage.getItem('token')}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                    :
+                    <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                }
+              </Col>
+              {!this.props.noDelete &&
+                <Col span={6} style={{ textAlign: "right" }}>
+                  <Icon style={{ color: item.status == "error" ? "red" : "" }} onClick={() => this.handleRemove(item, index)} type="delete" />
+                </Col>
+              }
+            </Row>
+          )
+        })
+        }
       </div>
     )
   }

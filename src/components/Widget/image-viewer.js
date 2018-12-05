@@ -123,6 +123,8 @@ class ImageViewer extends React.Component {
       attachments,
       urlKey,
       valueKey,
+      url,
+      type,
       thumbnailUrlKey,
     } = this.props;
     return (
@@ -136,7 +138,7 @@ class ImageViewer extends React.Component {
       >
         <div className="attachment-area">
           <img
-            src={attachments[nowIndex][urlKey]}
+            src={ type ? url : attachments[nowIndex][urlKey]}
             ref="imageRef"
             draggable={false}
             onMouseDown={this.onMouseDown}

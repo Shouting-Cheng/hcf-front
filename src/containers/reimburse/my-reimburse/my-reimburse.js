@@ -62,7 +62,7 @@ class MyReimburse extends React.Component {
           type: 'select',
           id: 'formId',
           label: '单据类型',
-          getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all/?formType=105`,
+          getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/get/all/?formType=105`,
           options: [],
           method: 'get',
           valueKey: 'formId',
@@ -96,7 +96,7 @@ class MyReimburse extends React.Component {
           id: 'currencyCode',
           label: '币种',
           getUrl: `${config.baseUrl}/api/company/standard/currency/getAll`,
-          getParams:{setOfBooksId: this.props.company.setOfBooksId},
+          getParams: { setOfBooksId: this.props.company.setOfBooksId },
           options: [],
           method: 'get',
           labelKey: 'currency',
@@ -125,7 +125,7 @@ class MyReimburse extends React.Component {
           title: this.$t('myReimburse.businessCode'),
           dataIndex: 'businessCode',
           width: 180,
-          align: 'left',
+          align: 'center',
           render: recode => <Popover content={recode}>{recode}</Popover>,
         },
         {
@@ -343,8 +343,9 @@ class MyReimburse extends React.Component {
       <div className="reimburse-container">
         <SearchArea searchForm={searchForm} submitHandle={this.search} maxLength={4} />
         <Row style={{ marginBottom: 10, marginTop: 10 }}>
-          <Col id="my-reimburse-drop" style={{position : "relative"}} span={18}>
-            <Dropdown getPopupContainer={ () => document.getElementById('my-reimburse-drop')}
+          <Col id="my-reimburse-drop" style={{ position: 'relative' }} span={18}>
+            <Dropdown
+              getPopupContainer={() => document.getElementById('my-reimburse-drop')}
               trigger={['click']}
               overlay={
                 <Menu onClick={this.newReimburseForm}>
@@ -400,7 +401,7 @@ class MyReimburse extends React.Component {
 // }
 function mapStateToProps(state) {
   return {
-    company: state.user.company
+    company: state.user.company,
   };
 }
 

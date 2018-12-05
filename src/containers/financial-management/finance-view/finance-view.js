@@ -330,14 +330,17 @@ class FinanceView extends React.Component{
       //  window.open('/financial-management/finance-view/expense-report-detail-view/:expenseReportOID'.replace(':expenseReportOID', record.entityOID))
       this.props.dispatch(
         routerRedux.replace({
-          pathname: `/financial-management/finance-view/expense-report-detail-view/${record.entityOID}`,
+          pathname: `/financial-management/finance-view/expense-report-detail-view/${record.entityOID}/f_view`,
         })
       );
     } else {
       //  window.open('/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID'.replace(':formOID', record.formOID).replace(':applicationOID', record.entityOID))
       this.props.dispatch(
         routerRedux.replace({
-          pathname: `/financial-management/finance-view/loan-request-detail-view/${record.formOID}/${record.entityOID}`,
+          pathname: '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID/:pageFrom'
+            .replace(':formOID', record.formOID)
+            .replace(':applicationOID', record.entityOID)
+            .replace(':pageFrom', 'f_view')
         })
       )
     }

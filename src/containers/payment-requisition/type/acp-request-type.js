@@ -24,6 +24,7 @@ class AcpRequestType extends React.Component {
           title: '账套',
           dataIndex: 'setOfBooksName',
           width: '20%',
+          align: "center",
           render: (value, record) => {
             return (
               <span>
@@ -38,6 +39,7 @@ class AcpRequestType extends React.Component {
           title: '付款申请单类型代码',
           dataIndex: 'acpReqTypeCode',
           width: '20%',
+          align: "center",
           render: recode => (
             <span>
               <Popover content={recode}>{recode ? recode : '-'}</Popover>
@@ -48,6 +50,7 @@ class AcpRequestType extends React.Component {
           title: '付款申请单类型名称',
           dataIndex: 'description',
           width: '20%',
+          align: "center",
           render: description => (
             <Popover content={description}>{description ? description : '-'}</Popover>
           ),
@@ -57,6 +60,7 @@ class AcpRequestType extends React.Component {
           title: '关联表单类型',
           dataIndex: 'formName',
           width: '20%',
+          align: "center",
           render: recode => (
             <span>
               <Popover content={recode}>{recode ? recode : '-'}</Popover>
@@ -67,6 +71,7 @@ class AcpRequestType extends React.Component {
           title: '状态',
           dataIndex: 'enabled',
           width: '15%',
+          align: "center",
           render: isEnabled => (
             <Badge status={isEnabled ? 'success' : 'error'} text={isEnabled ? '启用' : '禁用'} />
           ),
@@ -75,6 +80,7 @@ class AcpRequestType extends React.Component {
           title: '操作',
           key: 'operation',
           width: '15%',
+          align: "center",
           render: (text, record) => (
             <span>
               <a onClick={e => this.editItem(e, record)}>编辑</a>
@@ -214,7 +220,7 @@ class AcpRequestType extends React.Component {
   clear = () => {
     this.setState({
       searchParams: {
-        setOfBooksId: '',
+        setOfBooksId: this.props.company.setOfBooksId,
         acpReqTypeCode: '',
         description: '',
       },
@@ -240,12 +246,12 @@ class AcpRequestType extends React.Component {
   };
 
   handleNew = () => {
-    let slideParams = this.state.slideParams;
+    let searchParams = this.state.searchParams;
     this.setState(
       {
         slideParams: {
-          setOfBooksId: slideParams.setOfBooksId
-            ? slideParams.setOfBooksId
+          setOfBooksId: searchParams.setOfBooksId
+            ? searchParams.setOfBooksId
             : this.props.company.setOfBooksId,
         },
       },
