@@ -177,7 +177,7 @@ class ExpenseAdjustApprove extends React.Component {
     //进入详情页
     handleRowClick = (record, flag) => {
       let place = {
-        pathname:'/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag'
+        pathname:'/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag/:entityType'
           .replace(':id', record.expenseAdjustApprovalView.expenseReportId)
           .replace(':expenseAdjustTypeId', record.expenseAdjustApprovalView.expAdjustTypeId)
           .replace(":entityOID", record.expenseAdjustApprovalView.expenseReportOID)
@@ -200,9 +200,9 @@ class ExpenseAdjustApprove extends React.Component {
 
       </div>)
     }
-    
+
     render() {
-        
+
         const { tabValue, loading1, loading2, SearchForm1, SearchForm2, columns, unapprovedData, approvedData, unapprovedPagination, approvedPagination } = this.state;
         return (
             <div className="approve-contract">
