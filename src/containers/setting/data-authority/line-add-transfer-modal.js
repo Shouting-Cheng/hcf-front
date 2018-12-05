@@ -12,69 +12,6 @@ class LineAddTransferModal extends React.Component {
         this.state = {
             autoExpandParent: true,
             treeData: [],
-            // treeData: [
-            //     {
-            //         title: 'parentId 1',
-            //         id: '0-0',
-            //         parentId: null,
-            //         details: [
-            //             {
-            //                 title: 'parentId 1-0',
-            //                 id: '0-0-0',
-            //                 parentId: "0-0",
-            //                 details: [
-            //                     {
-            //                         title: 'leaf',
-            //                         id: '0-0-0-0',
-            //                         parentId: "0-0-0",
-            //                     },
-            //                     {
-            //                         title: 'leaf',
-            //                         id: '0-0-0-1',
-            //                         parentId: "0-0-0"
-            //                     },
-            //                 ],
-            //             },
-            //         ],
-            //     },
-            //     {
-            //         title: 'parentId 1-1',
-            //         id: 1234,
-            //         parentId: null,
-            //         details: [
-            //             // {
-            //             //     title: 'parentId 1-1',
-            //             //     id: '0-1-0',
-            //             //     parentId: "0-1",
-            //             //     details: [
-            //             //         {
-            //             //             title: 'leaf',
-            //             //             id: '0-1-0-0',
-            //             //             parentId: "0-1-0"
-            //             //         },
-            //             //         {
-            //             //             title: 'leaf',
-            //             //             id: '0-1-0-1',
-            //             //             parentId: "0-1-0"
-            //             //         },
-            //             //     ],
-            //             // },
-            //         ],
-            //     },
-
-
-            // ],
-
-            newTreeData: [
-                { title: 'parentId 1', key: '0-0', parentId: 0 },
-                { title: 'parentId 1-0', key: '0-0-0', parentId: "0-0" },
-                { title: 'leaf', key: '0-0-0-0', parentId: "0-0-0" },
-                { title: 'leaf', key: '0-0-0-1', parentId: "0-0-0" },
-                { title: 'parentId 1', key: '0-1', parentId: 0 },
-                { title: 'parentId 1-1', key: '0-1-0', parentId: "0-1" },
-                { title: 'leaf', key: '0-1-0-0', parentId: "0-1-0" },
-                { title: 'leaf', key: '0-1-0-1', parentId: "0-1-0" },
-            ],
             selectTreeNodes: [],
             selectedTreeInfo: [],
             changeBtn: false,
@@ -85,33 +22,37 @@ class LineAddTransferModal extends React.Component {
             isShowTreeNode: false,
             searchListInfo: [],
             rightList: [],
-            treeLoading:true
+            treeLoading: true
         }
 
 
     }
     componentWillMount() {
-        // DataAuthorityService.getTenantCompany(undefined).then(res => {
-        //     console.log(res.data)
-        //     this.setState({
-        //         treeData: res.data
-        //     })
-        // })
         this.setState({
             isShowTreeNode: true,
         })
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.visible) {
-            DataAuthorityService.getTenantCompany(undefined).then(res => {
-                console.log(res.data);
-                if(res.status===200){
+        if (nextProps.isAddCompany&&nextProps.visible) {
+            DataAuthorityService.getTenantCompany('').then(res => {
+                if (res.status === 200) {
                     this.setState({
-                        treeLoading:false,
+                        treeLoading: false,
                         treeData: res.data
                     })
                 }
-                
+
+            })
+        }
+        if(!nextProps.isAddCompany&&nextProps.visible){
+            DataAuthorityService.getTenantDepartment('').then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        treeLoading: false,
+                        treeData: res.data
+                    })
+                }
+
             })
         }
         const { treeData } = this.state;
@@ -127,7 +68,8 @@ class LineAddTransferModal extends React.Component {
         this.setState({
             selectTreeNodes: [],
             selectedTreeInfo: [],
-            treeData
+            treeData,
+            isShowTreeNode:true
         })
     }
     /**
@@ -140,7 +82,7 @@ class LineAddTransferModal extends React.Component {
     renderTreeNodes = (data) => {
         const { selectTreeNode, changeBtn } = this.state
         return data.map((item) => {
-            if (item.details) {
+            if (item.details.length) {
                 return (
                     <TreeNode
                         className="tree-select"
@@ -159,7 +101,6 @@ class LineAddTransferModal extends React.Component {
     }
     /**选中树节点的每个元素 */
     treeNodeSelect = (selectedKeys, info) => {
-        console.log(info)
         let selectedTreeInfo = this.state.selectedTreeInfo;
         let rightList = this.state.rightList;
         if (info.selected) {
@@ -317,7 +258,8 @@ class LineAddTransferModal extends React.Component {
         })
     }
     ok = () => {
-
+        let {selectedTreeInfo}=this.state;
+        this.props.transferList(selectedTreeInfo);
     }
     /** 
      * 单个点击树节点右边渲染已选项
@@ -325,7 +267,7 @@ class LineAddTransferModal extends React.Component {
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
             return <Row key={item.id} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 14 }}>{item.code}-{item.name}</Col>
+                <Col span={22} style={{ fontSize: 12 }}>{item.code}-{item.name}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })
@@ -336,10 +278,30 @@ class LineAddTransferModal extends React.Component {
      * 左边待选区按照搜索条件查询
      * */
     onTreeSelecSearch = (value) => {
-        this.setState({
-            isShowTreeNode: false,
-            searchListInfo: this.state.newTreeData
-        });
+        this.setState({treeLoading:true});
+        if(this.props.isAddCompany){
+            DataAuthorityService.getTenantCompany(value).then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        treeLoading: false,
+                        isShowTreeNode: false,
+                        searchListInfo: res.data
+                    })
+                }
+            })
+        }
+        if(!this.props.isAddCompany){
+            DataAuthorityService.getTenantDepartment(value).then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        treeLoading: false,
+                        isShowTreeNode: false,
+                        searchListInfo: res.data
+                    })
+                }
+            })
+        }
+       
     }
     /**
      * 点击查询出来的单个条件
@@ -348,7 +310,7 @@ class LineAddTransferModal extends React.Component {
         const { treeData, selectedTreeInfo } = this.state;
         this.setState({
             isShowTreeNode: true,
-            selectTreeNodes: [list.key],
+            selectTreeNodes: [list.id],
             selectedTreeInfo: [list]
         });
     }
@@ -357,19 +319,17 @@ class LineAddTransferModal extends React.Component {
      */
     onTreeInfoSearch = (value) => {
         let { rightList, selectedTreeInfo } = this.state;
-        console.log(value)
         if (value === '') {
-            console.log(rightList);
             this.setState({ selectedTreeInfo: rightList })
         } else {
             const { selectedTreeInfo } = this.state;
-            const searchList = selectedTreeInfo.filter(item => item.code || item.name === value);
+            const searchList = selectedTreeInfo.filter(item => item.code=== value);
             this.setState({ selectedTreeInfo: searchList });
         }
     }
     render() {
         const { visible, title } = this.props;
-        const { autoExpandParent, treeData,treeLoading, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
+        const { autoExpandParent, treeData, treeLoading, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -388,7 +348,7 @@ class LineAddTransferModal extends React.Component {
                                 placeholder="请输入公司代码/名称"
                                 onSearch={this.onTreeSelecSearch}
                             />
-                            <div className='treeStyle'>
+                            <div className='treeStyle' style={{height: 290,overflowX:'hidden',overflowY:'scroll'}}>
                                 {isShowTreeNode ?
                                     <Spin spinning={treeLoading}>
                                         <Tree
@@ -401,9 +361,10 @@ class LineAddTransferModal extends React.Component {
                                             {this.renderTreeNodes(treeData)}
                                         </Tree>
                                     </Spin>
-                                    : searchListInfo.map(list => (
-                                        <Row key={list.key} style={{ marginTop: 5 }}>
-                                            <Col onClick={(e) => this.clickList(list)}>{list.title}</Col>
+                                    : 
+                                    searchListInfo.map(list => (
+                                        <Row key={list.id} style={{ marginTop: 5 }}>
+                                            <Col onClick={(e) => this.clickList(list)}>{list.code}-{list.name}</Col>
                                         </Row>
                                     ))
                                 }

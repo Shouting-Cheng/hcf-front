@@ -194,6 +194,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
     this.getDimension();
     this.getList();
     this.getExpenseType();
+    console.log(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -277,6 +278,11 @@ class ExpenseAdjustApproveCommon extends React.Component {
     })
   };
 
+  //显示分摊行
+  showApportion = record => {
+    this.setState({ apportionParams: record.linesDTOList, showApportion: true });
+  };
+
   getList = () => {
     const { page, pageSize, pagination } = this.state;
     this.setState({ planLoading: true });
@@ -286,7 +292,6 @@ class ExpenseAdjustApproveCommon extends React.Component {
       page: page
     };
     adjustService.getExpenseAdjustLine(params).then(resp => {
-      console.log(resp)
       if (resp.status === 200) {
         resp.data.map(item => item.key = item.id);
         pagination.total = Number(resp.headers['x-total-count']);

@@ -22,7 +22,21 @@ class NewDataAuthority extends React.Component {
             /**单个保存成功后返回的数据规则组 */
             hasSaveRules: [],
             hasId: '',
-            getRulesArr: []
+            getRulesArr: [],
+            dataScopeDesc: {
+                '1001': { label: '全部' },
+                '1002': { label: '当前' },
+                '1003': { label: '当前及下属' },
+                '1004': { label: '手动选择' }
+            },
+            filtrateMethodDesc: {
+                'INCLUDE': { label: '包含' },
+                'EXCLUDE': { label: '排除' },
+            },
+            sobValuesKeys: [],
+            employeeKeys: [],
+            companyItemsKeys:[],
+            departMentItemsKeys:[]
         }
 
     }
@@ -62,6 +76,10 @@ class NewDataAuthority extends React.Component {
                             newDataPrams={res.data}
                             hadleHasSaveRules={this.hadleHasSaveRules}
                             hasSaveEdit={this.hasSaveEdit}
+                            handleTenantListOk={this.handleTenantListOk}
+                            handleEmployeeListOk={this.handleEmployeeListOk}
+                            handleCompanyListOk={this.handleCompanyListOk}
+                            handleDePListOk={this.handleDePListOk}
                         />
                     ))
                 );
@@ -98,6 +116,10 @@ class NewDataAuthority extends React.Component {
                 hadleHasSaveRules={this.hadleHasSaveRules}
                 hasSaveEdit={this.hasSaveEdit}
                 hasId={this.state.hasId}
+                handleTenantListOk={this.handleTenantListOk}
+                handleEmployeeListOk={this.handleEmployeeListOk}
+                handleCompanyListOk={this.handleCompanyListOk}
+                handleDePListOk={this.handleDePListOk}
 
             />
         );
@@ -174,7 +196,27 @@ class NewDataAuthority extends React.Component {
     hasSaveEdit = (getRulesArr) => {
         this.setState({ getRulesArr: getRulesArr })
     }
-
+    /**listSlector弹窗关闭返回值 */
+    handleTenantListOk = (sobValuesKeys) => {
+        this.setState({
+            sobValuesKeys: sobValuesKeys
+        })
+    }
+    handleEmployeeListOk = (employeeKeys) => {
+        this.setState({
+            employeeKeys: employeeKeys
+        })
+    }
+    handleCompanyListOk=(companyItemsKeys)=>{
+        this.setState({
+            companyItemsKeys:companyItemsKeys
+        })
+    }
+    handleDePListOk=(departMentItemsKeys)=>{
+        this.setState({
+            departMentItemsKeys:departMentItemsKeys
+        })
+    }
     /**保存所有添加的规则 */
     handleSave = (e) => {
         e.preventDefault();
@@ -191,6 +233,7 @@ class NewDataAuthority extends React.Component {
                     }
                 }
                 let getRulesArr = this.state.getRulesArr;
+                console.log(getRulesArr)
                 let dataAuthorityRules = this.returnDataAuthorityRules(values, getRulesArr, rules);
                 let params = {
                     id: newDataPrams.id ? newDataPrams.id : null,
@@ -200,7 +243,7 @@ class NewDataAuthority extends React.Component {
                     dataAuthorityCode: values.dataAuthorityCode,
                     dataAuthorityName: values.dataAuthorityName,
                     description: values.description,
-                    dataAuthorityRules: rules.length ? dataAuthorityRules : undefined,
+                    dataAuthorityRules: rules.length ? (dataAuthorityRules.length ? dataAuthorityRules : undefined) : undefined,
                     deleted: false,
                     versionNumber: newDataPrams.versionNumber ? newDataPrams.versionNumber : undefined,
                     createdBy: newDataPrams.createdBy ? newDataPrams.createdBy : undefined,
@@ -222,6 +265,7 @@ class NewDataAuthority extends React.Component {
     }
     returnDataAuthorityRules = (values, getRulesArr, rules) => {
         let dataAuthorityRules = [];
+        let { dataScopeDesc, newDataPrams, filtrateMethodDesc,sobValuesKeys,employeeKeys,companyItemsKeys,departMentItemsKeys } = this.state;
         for (let i = 0; i < rules.length; i++) {
             dataAuthorityRules.push({
                 i18n: null,
@@ -230,42 +274,70 @@ class NewDataAuthority extends React.Component {
                     {
                         dataType: 'SOB',
                         dataScope: values[`dataScope1-${rules[i].key}`],
+                        dataScopeDesc: values[`dataScope1-${rules[i].key}`] ? dataScopeDesc[values[`dataScope1-${rules[i].key}`]].label : undefined,
                         filtrateMethod: values[`filtrateMethod1-${rules[i].key}`] ? values[`filtrateMethod1-${rules[i].key}`] : undefined,
-                        dataAuthorityRuleDetailValues: values[`filtrateMethod1-${rules[i].key}`] ? [
-                            {
-                                "valueKey": "1"
-                            }
-                        ] : undefined
+                        filtrateMethodDesc: values[`filtrateMethod1-${rules[i].key}`] ? filtrateMethodDesc[values[`filtrateMethod1-${rules[i].key}`]].label : null,
+                        dataAuthorityRuleDetailValues: values[`filtrateMethod1-${rules[i].key}`] ? sobValuesKeys: null,
+                        id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[0].id : null,
+                        deleted: getRulesArr ? getRulesArr.deleted : undefined,
+                        versionNumber: getRulesArr ? getRulesArr.versionNumber : undefined,
+                        createdBy: getRulesArr ? getRulesArr.createdBy : undefined,
+                        createdDate: getRulesArr ? getRulesArr.createdDate : undefined,
+                        lastUpdatedBy: getRulesArr ? getRulesArr.lastUpdatedBy : undefined,
+                        lastUpdatedDate: getRulesArr ? getRulesArr.lastUpdatedDate : undefined,
+                        dataAuthorityId: newDataPrams.id ? newDataPrams.id : null,
+                        dataAuthorityRuleId: getRulesArr ? getRulesArr.id : undefined
                     },
                     {
                         dataType: 'COMPANY',
                         dataScope: values[`dataScope2-${rules[i].key}`],
+                        dataScopeDesc: values[`dataScope2-${rules[i].key}`] ? dataScopeDesc[values[`dataScope2-${rules[i].key}`]].label : undefined,
                         filtrateMethod: values[`filtrateMethod2-${rules[i].key}`] ? values[`filtrateMethod2-${rules[i].key}`] : undefined,
-                        dataAuthorityRuleDetailValues: values[`filtrateMethod2-${rules[i].key}`] ? [
-                            {
-                                "valueKey": "1"
-                            }
-                        ] : undefined
+                        filtrateMethodDesc: values[`filtrateMethod2-${rules[i].key}`] ? filtrateMethodDesc[values[`filtrateMethod2-${rules[i].key}`]].label : null,
+                        dataAuthorityRuleDetailValues: values[`filtrateMethod2-${rules[i].key}`] ? companyItemsKeys: null,
+                        id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[1].id : null,
+                        deleted: getRulesArr ? getRulesArr.deleted : undefined,
+                        versionNumber: getRulesArr ? getRulesArr.versionNumber : undefined,
+                        createdBy: getRulesArr ? getRulesArr.createdBy : undefined,
+                        createdDate: getRulesArr ? getRulesArr.createdDate : undefined,
+                        lastUpdatedBy: getRulesArr ? getRulesArr.lastUpdatedBy : undefined,
+                        lastUpdatedDate: getRulesArr ? getRulesArr.lastUpdatedDate : undefined,
+                        dataAuthorityId: newDataPrams.id ? newDataPrams.id : null,
+                        dataAuthorityRuleId: getRulesArr ? getRulesArr.id : undefined
                     },
                     {
                         dataType: 'UNIT',
                         dataScope: values[`dataScope3-${rules[i].key}`],
+                        dataScopeDesc: values[`dataScope3-${rules[i].key}`] ? dataScopeDesc[values[`dataScope3-${rules[i].key}`]].label : undefined,
                         filtrateMethod: values[`filtrateMethod3-${rules[i].key}`] ? values[`filtrateMethod3-$${rules[i].key}`] : undefined,
-                        dataAuthorityRuleDetailValues: values[`filtrateMethod3-${rules[i].key}`] ? [
-                            {
-                                "valueKey": "1"
-                            }
-                        ] : undefined
+                        filtrateMethodDesc: values[`filtrateMethod3-${rules[i].key}`] ? filtrateMethodDesc[values[`filtrateMethod3-${rules[i].key}`]].label : null,
+                        dataAuthorityRuleDetailValues: values[`filtrateMethod3-${rules[i].key}`] ? departMentItemsKeys: null,
+                        id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[2].id : null,
+                        deleted: getRulesArr ? getRulesArr.deleted : undefined,
+                        versionNumber: getRulesArr ? getRulesArr.versionNumber : undefined,
+                        createdBy: getRulesArr ? getRulesArr.createdBy : undefined,
+                        createdDate: getRulesArr ? getRulesArr.createdDate : undefined,
+                        lastUpdatedBy: getRulesArr ? getRulesArr.lastUpdatedBy : undefined,
+                        lastUpdatedDate: getRulesArr ? getRulesArr.lastUpdatedDate : undefined,
+                        dataAuthorityId: newDataPrams.id ? newDataPrams.id : null,
+                        dataAuthorityRuleId: getRulesArr ? getRulesArr.id : undefined
                     },
                     {
                         dataType: 'EMPLOYEE',
                         dataScope: values[`dataScope4-${rules[i].key}`],
+                        dataScopeDesc: values[`dataScope4-${rules[i].key}`] ? dataScopeDesc[values[`dataScope4-${rules[i].key}`]].label : undefined,
                         filtrateMethod: values[`filtrateMethod4-${rules[i].key}`] ? values[`filtrateMethod4-${rules[i].key}`] : undefined,
-                        dataAuthorityRuleDetailValues: values[`filtrateMethod4-${rules[i].key}`] ? [
-                            {
-                                "valueKey": "1"
-                            }
-                        ] : undefined
+                        filtrateMethodDesc: values[`filtrateMethod4-${rules[i].key}`] ? filtrateMethodDesc[values[`filtrateMethod4-${rules[i].key}`]].label : null,
+                        dataAuthorityRuleDetailValues: values[`filtrateMethod4-${rules[i].key}`] ? employeeKeys : null,
+                        id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[3].id : null,
+                        deleted: getRulesArr ? getRulesArr.deleted : undefined,
+                        versionNumber: getRulesArr ? getRulesArr.versionNumber : undefined,
+                        createdBy: getRulesArr ? getRulesArr.createdBy : undefined,
+                        createdDate: getRulesArr ? getRulesArr.createdDate : undefined,
+                        lastUpdatedBy: getRulesArr ? getRulesArr.lastUpdatedBy : undefined,
+                        lastUpdatedDate: getRulesArr ? getRulesArr.lastUpdatedDate : undefined,
+                        dataAuthorityId: newDataPrams.id ? newDataPrams.id : null,
+                        dataAuthorityRuleId: getRulesArr ? getRulesArr.id : undefined
                     },
                 ],
                 id: getRulesArr ? getRulesArr.id : undefined,
@@ -275,6 +347,7 @@ class NewDataAuthority extends React.Component {
                 createdDate: getRulesArr ? getRulesArr.createdDate : undefined,
                 lastUpdatedBy: getRulesArr ? getRulesArr.lastUpdatedBy : undefined,
                 lastUpdatedDate: getRulesArr ? getRulesArr.lastUpdatedDate : undefined,
+                dataAuthorityId: newDataPrams.id ? newDataPrams.id : null
 
             }
             )

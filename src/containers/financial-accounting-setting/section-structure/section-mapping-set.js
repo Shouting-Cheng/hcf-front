@@ -454,7 +454,7 @@ class SectionMappingSet extends React.Component {
     data.map(item => {
       if (item.edit) {
         item.segmentId = this.props.params.id;
-        item.edit = false;
+        item.edit = true;
         params.push(item);
       }
     });
