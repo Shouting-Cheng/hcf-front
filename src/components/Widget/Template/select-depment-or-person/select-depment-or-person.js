@@ -46,7 +46,11 @@ class SelectDepOrPerson extends React.Component {
     // this.getTenantAllDep();
   }
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    //外面控制弹出
+    if(!this.props.visible&&nextProps.visible)
+     this.showModal()
+  }
 
   showModal = () => {
     SelectPersonService.setIsLoadingPerson(!this.props.onlyDep);
