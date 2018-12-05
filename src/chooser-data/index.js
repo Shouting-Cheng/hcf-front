@@ -968,14 +968,15 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.code'), //部门代码
-        dataIndex: 'code',
+        dataIndex: 'custDeptNumber',
       },
       {
         title: messages('chooser.data.dep'), //部门名称
         dataIndex: 'name',
       },
     ],
-    key: 'id',
+    key: 'departmentId',
+    listKey: 'records'
   },
   department_budget: {
     title: messages('chooser.data.dep.title'), //选择部门

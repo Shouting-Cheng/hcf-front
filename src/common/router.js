@@ -264,7 +264,7 @@ export const getRouterData = app => {
       ),
       name: 'approve-expense-adjust',
     },
-    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag': {
+    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag/:entityType': {
       //费用调整单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-approve/expense-adjust-approve-detail')
