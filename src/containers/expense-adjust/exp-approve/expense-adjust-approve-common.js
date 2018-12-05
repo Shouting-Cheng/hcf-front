@@ -193,6 +193,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
     this.getDimension();
     this.getList();
     this.getExpenseType();
+    console.log(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -235,6 +236,29 @@ class ExpenseAdjustApproveCommon extends React.Component {
   //获取费用调整头信息
   getInfo = () => {
     adjustService.getExpenseAdjustHeadById(this.props.id).then(response=>{
+      let columns = this.state.columns;
+      if(response.data.adjustTypeCategory.toString() === '1001'){
+        columns.splice(columns.length - 1, 0, {
+          title: this.$t('exp.dir.info'),
+          dataIndex: 'checkInfo',
+          width: 120,
+          align: 'center',
+          render: (value, record) => {
+            return (
+              <a
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.showApportion(record);
+                }}
+              >
+                {this.$t('exp.detail.info')}
+              </a>
+            );
+          },
+        });
+      }
+
       let documentParams = {
         businessCode: response.data.expAdjustHeaderNumber,
         createdDate:  moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
@@ -252,7 +276,6 @@ class ExpenseAdjustApproveCommon extends React.Component {
         ],
         attachments: response.data.attachments
       };
-      let columns = this.state.columns;
       if(response.data.status === 1002 || response.data.status === 1004){
         columns.splice(columns.length-1,1)
       }
@@ -274,6 +297,11 @@ class ExpenseAdjustApproveCommon extends React.Component {
     })
   };
 
+  //显示分摊行
+  showApportion = record => {
+    this.setState({ apportionParams: record.linesDTOList, showApportion: true });
+  };
+
   getList = () => {
     const { page, pageSize, pagination } = this.state;
     this.setState({ planLoading: true });
@@ -283,7 +311,6 @@ class ExpenseAdjustApproveCommon extends React.Component {
       page: page
     };
     adjustService.getExpenseAdjustLine(params).then(resp => {
-      console.log(resp)
       if (resp.status === 200){
         resp.data.map(item=>item.key = item.id);
         pagination.total = Number(resp.headers['x-total-count']);
