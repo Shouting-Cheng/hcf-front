@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon, message } from 'antd';
+import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon, message, Modal } from 'antd';
 import 'styles/dashboard.scss'
 import moment from "moment"
 import userImage from "images/user1.png"
@@ -151,7 +151,7 @@ class Dashboard extends React.Component {
 
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
-      this.setState({ total: res.data.totalcount, unApprovals: res.data.approvalDashboardDetailDTOList });
+      this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
@@ -306,6 +306,31 @@ class Dashboard extends React.Component {
     )
   }
 
+  goCarouselDetail = (item) => {
+    if (!!item.carouselOID) {
+      if (item.outLinkUrl) {
+        window.open(item.outLinkUrl, '_blank');
+      }
+      else {
+        service.getCatouselsContent(item.carouselOID).then((res) => {
+          if (res.status === 200) {
+            item.content = res.data.content;
+            item.localDate = moment(res.data.createdDate).format('YYYY-MM-DD');
+            Modal.info({
+              title: item.title,
+              content: (
+                <div className="carousel-modal">
+                  <p>{item.localDate}</p>
+                  <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                </div>
+              )
+            });
+          }
+        });
+      }
+    }
+  };
+
   render() {
 
     const { timerStr, backList, hello, chartsType, carousels, total, unApprovals } = this.state;
@@ -344,10 +369,10 @@ class Dashboard extends React.Component {
           </Col>
           <Col span={8}>
             {(carousels && !!carousels.length) ? (
-              <Carousel autoplay>
+              <Carousel arrows autoplay>
                 {carousels.map(item => {
                   return (
-                    <div key={item.id} style={{ textAlign: "center" }}>
+                    <div onClick={() => this.goCarouselDetail(item)} key={item.id} style={{ textAlign: "center" }}>
                       <img src={item.attachmentDTO.thumbnailUrl} />
                       <div className="title">{item.title}</div>
                     </div>
@@ -372,7 +397,8 @@ class Dashboard extends React.Component {
                 padding={[30, 30, 30, 30]}
                 forceFit
               >
-                <Coord type={"theta"} innerRadius={0.6} />
+                <Coord type={"theta"} innerRadius={0.5} />
+                <Axis name="percent" />
                 <Tooltip
                   showTitle={false}
                   itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"

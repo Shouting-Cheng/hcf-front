@@ -448,13 +448,12 @@ class AnnouncementInformationDetail extends React.Component {
                     </span>
                   }
                 >
-                  <Button type="primary" onClick={this.showTempModal}>
-                    {/*从模板中选择*/}
+                  {/* <Button type="primary" onClick={this.showTempModal}>
                     {this.$t('announcement.info.s.fromtemp')}
-                  </Button>
-                  <br />
+                  </Button> */}
+                  {/* <br />
                   &nbsp;
-                  <br />
+                  <br /> */}
                   <ImageUpload
                     attachmentType="CARROUSEL_IMAGES"
                     uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}

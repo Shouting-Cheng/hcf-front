@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, Form, Row, Col, Input, Select, InputNumber, message } from 'antd';
-import CustomAmount from 'widget/customAmount';
+import CustomAmount from 'widget/custom-amount';
 const FormItem = Form.Item;
 const Option = Select.Option;
 

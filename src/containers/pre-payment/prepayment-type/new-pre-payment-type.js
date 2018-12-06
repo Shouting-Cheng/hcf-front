@@ -16,9 +16,6 @@ import {
 } from 'antd';
 import httpFetch from 'share/httpFetch';
 import config from 'config';
-import Chooser from 'widget/chooser';
-import SelectDepartment from './select-department';
-import SelectEmployeeGroup from 'widget/Template/select-employee-group';
 import PermissionsAllocation from 'widget/Template/permissions-allocation';
 import SelectCashTransaction from './select-cash-transaction.js';
 import PrePaymentTypeService from './pre-payment-type.service';
@@ -99,12 +96,12 @@ class NewPrePaymentType extends React.Component {
               type: type[temp.applyEmployee],
               values: res.data.departmentOrUserGroupList
                 ? res.data.departmentOrUserGroupList.map(item => {
-                    return {
-                      label: item.name,
-                      key: item.id,
-                      value: item.id,
-                    };
-                  })
+                  return {
+                    label: item.name,
+                    key: item.id,
+                    value: item.id,
+                  };
+                })
                 : [],
             },
           },
@@ -575,9 +572,9 @@ class NewPrePaymentType extends React.Component {
                 value={
                   allType == 'BASIS_02'
                     ? this.$t(
-                        { id: 'pre.payment.requisition.type.selected' },
-                        { total: `${requisitionTypeIdList.length}` } /* 已选择了多少个类型 */
-                      )
+                      { id: 'pre.payment.requisition.type.selected' },
+                      { total: `${requisitionTypeIdList.length}` } /* 已选择了多少个类型 */
+                    )
                     : this.$t({ id: 'pre.payment.all.types' } /* 全部类型 */)
                 }
                 placeholder={this.$t({ id: 'common.please.select' }) /* 请选择 */}
@@ -613,9 +610,9 @@ class NewPrePaymentType extends React.Component {
                   allClass
                     ? this.$t({ id: 'pre.payment.all.types' }) /* 全部类型 */
                     : this.$t(
-                        { id: 'pre.payment.requisition.type.selected' },
-                        { total: `${transactionClassList.length}` } /* 已选择了多少个类型 */
-                      )
+                      { id: 'pre.payment.requisition.type.selected' },
+                      { total: `${transactionClassList.length}` } /* 已选择了多少个类型 */
+                    )
                 }
                 placeholder={this.$t({ id: 'common.please.select' }) /* 请选择 */}
               />

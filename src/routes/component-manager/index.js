@@ -111,22 +111,6 @@ class ComponentManager extends React.Component {
     this.setState({ value });
   };
 
-  componentDidMount() {
-    // const { versionId, status } = this.props;
-    // let timer = window.setInterval(() => {
-    //   const { components } = this.props;
-    //   window.localStorage.setItem("components", JSON.stringify(components));
-    // }, 1000 * 5)
-    // this.setState({ timer });
-    // let str = '/supplier/api/ven/type/query?id=${props.name}';
-    // str.replace(/\$\{(\w+)\}/g, function (match, key) {
-    //   console.log(key);   // name
-    // });
-    // window.addEventListener('keydown', (e) => {
-    //   superThrottle(this.handleKeyDown(e), 300, 5000);
-    // });
-  }
-
   componentWillUnmount() {
     window.clearInterval(this.state.timer);
   }

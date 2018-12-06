@@ -36,7 +36,7 @@ class Module extends Component {
         {
           title: '创建日期',
           dataIndex: 'createdDate',
-          type: 'date',
+          typeCode: 'date',
           align: 'left',
         },
         {

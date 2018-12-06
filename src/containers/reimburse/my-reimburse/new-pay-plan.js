@@ -1,30 +1,24 @@
 import React from 'react';
-import config from 'config';
-import httpFetch from 'share/httpFetch';
 
 import {
   Form,
   Button,
   Input,
   Row,
-  Icon,
   Col,
   Select,
-  InputNumber,
   DatePicker,
   message,
   Alert,
   Switch,
-  Spin,
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
-const InputGroup = Input.Group;
 
 import ListSelector from 'widget/list-selector';
 import moment from 'moment';
-import CustomAmount from 'widget/customAmount';
+import CustomAmount from 'widget/custom-amount';
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import SelectContract from 'containers/pre-payment/my-pre-payment/select-contract';
 import SelectReceivables from 'widget/select-receivables';
@@ -80,13 +74,13 @@ class NewPayPlan extends React.Component {
           selectedData: record.contractHeaderId ? [record.contractHeaderLineDTO.lineId] : [],
           contractInfo: record.contractHeaderId
             ? {
-                contractId: record.contractHeaderId,
-                contractLineId: record.contractHeaderLineDTO.lineId,
-                lineNumber: record.contractHeaderLineDTO.lineNumber,
-                contractLineAmount: record.contractLineAmount,
-                dueDate: record.contractHeaderLineDTO.dueDate,
-                contractNumber: record.contractHeaderLineDTO.contractNumber,
-              }
+              contractId: record.contractHeaderId,
+              contractLineId: record.contractHeaderLineDTO.lineId,
+              lineNumber: record.contractHeaderLineDTO.lineNumber,
+              contractLineAmount: record.contractLineAmount,
+              dueDate: record.contractHeaderLineDTO.dueDate,
+              contractNumber: record.contractHeaderLineDTO.contractNumber,
+            }
             : {},
         },
         () => {
@@ -109,29 +103,6 @@ class NewPayPlan extends React.Component {
     }
     this.getPayWayTypeList();
   }
-  // componentWillReceiveProps(nextProps) {
-  //   let record = nextProps.params.record;
-  //   //关闭
-  //   if (!nextProps.params.visible && this.props.params.visible) {
-  //     this.setState({
-  //       contractInfo: {},
-  //       contractParams: {},
-  //       value: '',
-  //       payeeId: '',
-  //       bankLocationCode: '',
-  //       bankLocationName: '',
-  //       model: {},
-  //       selectedData: [],
-  //       receivables: [],
-  //       payeeName: '',
-  //     });
-  //   }
-
-  //   //显示
-  //   if (nextProps.params.visible && !this.props.params.visible) {
-
-  //   }
-  // }
 
   //获取付款方式类型
   getPayWayTypeList = () => {
@@ -502,11 +473,11 @@ class NewPayPlan extends React.Component {
                   headerData.summaryView.lineTotalAmount
                 )}`}
                  /  付款总金额: ${headerData.summaryView &&
-                   `${headerData.currencyCode}  ${this.formatMoney(
-                     headerData.summaryView.paymentLineTotalAmount
-                   )}`}
+                `${headerData.currencyCode}  ${this.formatMoney(
+                  headerData.summaryView.paymentLineTotalAmount
+                )}`}
                  /  核销总金额: ${headerData.summaryView &&
-                   this.formatMoney(headerData.summaryView.writeOffAmount)}`}
+                this.formatMoney(headerData.summaryView.writeOffAmount)}`}
               type="info"
             />
           </Col>
@@ -570,18 +541,18 @@ class NewPayPlan extends React.Component {
                     </Select.Option>
                   </Select>
                 ) : (
-                  <Select
-                    //disabled={headerData.multipleReceivables === false}
-                    onChange={this.payeeCategoryChange}
-                  >
-                    <Select.Option key={'EMPLOYEE'} value={'EMPLOYEE'}>
-                      员工
+                      <Select
+                        //disabled={headerData.multipleReceivables === false}
+                        onChange={this.payeeCategoryChange}
+                      >
+                        <Select.Option key={'EMPLOYEE'} value={'EMPLOYEE'}>
+                          员工
                     </Select.Option>
-                    <Select.Option key={'VENDER'} value={'VENDER'}>
-                      供应商
+                        <Select.Option key={'VENDER'} value={'VENDER'}>
+                          供应商
                     </Select.Option>
-                  </Select>
-                )
+                      </Select>
+                    )
               )}
             </FormItem>
 
@@ -723,8 +694,8 @@ class NewPayPlan extends React.Component {
                     {!contractInfo.contractLineId
                       ? '注：根据收款方选择合同'
                       : `付款计划序号：${contractInfo.lineNumber} | 付款计划日期：${moment(
-                          contractInfo.dueDate
-                        ).format('YYYY-MM-DD')}`}
+                        contractInfo.dueDate
+                      ).format('YYYY-MM-DD')}`}
                   </div>
 
                   {/*<Col span={4} style={{ textAlign: 'left' }} className="ant-form-item-label">
