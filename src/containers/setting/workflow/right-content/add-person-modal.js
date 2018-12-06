@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { deepCopy} from "utils/extend"
+import { deepCopy } from "utils/extend"
 import TagSelect from 'components/TagSelect'
 import { Form, Modal, Icon, Checkbox, List, message, Tag, Button, Spin } from 'antd'
 const ListItem = List.Item;
@@ -222,7 +222,7 @@ class AddPersonModal extends React.Component {
       costCenterDeptKeys, directManager, apiReturnApprover, containsApportionmentDepartmentManager,
       containsApportionmentCostCenterManager, containsApportionmentCostCenterPrimaryDepartmentManager,
       approveUser, approveUserGroup, defaultApproveUserOID, defaultApproveUserGroupOID } = this.state;
-    this.setState({loadingAddPerson: true});
+    this.setState({ loadingAddPerson: true });
     let params = [];
     depByApplicantKeys.map(key => {
       allApproverType['RuleEnumDTO(key=0, value=按申请人所在的组织架构审批, remark=)'].map(item => {
@@ -346,11 +346,11 @@ class AddPersonModal extends React.Component {
         });
         this.setState({ defaultApproveUserOID, defaultApproveUserGroupOID });
         message.success(this.$t('common.operate.success'));
-        this.setState({loadingAddPerson: false});
+        this.setState({ loadingAddPerson: false });
         this.props.onSelect()
       })
     } else {
-      this.setState({loadingAddPerson: false});
+      this.setState({ loadingAddPerson: false });
       this.props.onSelect(this.state.approverNotChange)
     }
   };
@@ -362,16 +362,16 @@ class AddPersonModal extends React.Component {
       directManager, apiReturnApprover, costCenterApprover, costCenterDeptApprover, loadingAddPerson, departmentByLeader, departmentByBill } = this.state;
     return (
       <div className='add-person-modal'>
-        <div className="select-person-modal-container"/>
+        <div className="select-person-modal-container" />
         <Modal title={personType === 1 ? this.$t('setting.key1253'/*请选择审批人员*/) : this.$t('setting.key1254'/*请选择知会人员*/)}
-               visible={visible}
-               width={550}
-               closable={true}
-               onCancel={this.props.onCancel}
-               getContainer={() => {
-                 return document.getElementsByClassName("select-person-modal-container")[0];
-               }}
-               footer={<Button type="primary" loading={loadingAddPerson} onClick={this.handleOK}>{this.$t('common.ok')}</Button>}
+          visible={visible}
+          width={550}
+          closable={true}
+          onCancel={this.props.onCancel}
+          getContainer={() => {
+            return document.getElementsByClassName("select-person-modal-container")[0];
+          }}
+          footer={<Button type="primary" loading={loadingAddPerson} onClick={this.handleOK}>{this.$t('common.ok')}</Button>}
         >
           <Spin spinning={loading}>
             <List itemLayout="horizontal">
@@ -380,7 +380,7 @@ class AddPersonModal extends React.Component {
                   {personType === 1 ? this.$t('setting.key1255'/*按申请人所在的组织架构审批*/) :
                     this.$t('setting.key1256'/*按申请人所在的组织架构知会*/)}
                 </h4>
-                <TagSelect value={depByApplicantKeys} onChange={value => this.setState({depByApplicantKeys: value})}>
+                <TagSelect hideCheckAll value={depByApplicantKeys} onChange={value => this.setState({ depByApplicantKeys: value })}>
                   {(departmentByLeader || []).map(item => (
                     <TagSelect.Option value={item.key} key={item.key}>{item.value}</TagSelect.Option>
                   ))}
@@ -393,12 +393,12 @@ class AddPersonModal extends React.Component {
                       this.$t('setting.key1258'/*按单据上的组织架构知会*/)}
                   </h4>
                   <Checkbox checked={containsApportionmentDepartmentManager}
-                            onChange={e => this.setState({containsApportionmentDepartmentManager: e.target.checked})}>
+                    onChange={e => this.setState({ containsApportionmentDepartmentManager: e.target.checked })}>
                     {personType === 1 ? this.$t('setting.key1259'/*分摊组织领导会签*/) :
                       this.$t('setting.key1260'/*知会分摊组织领导*/)}
                   </Checkbox>
                 </div>
-                <TagSelect value={depByDeptKeys} onChange={value => this.setState({depByDeptKeys: value})}>
+                <TagSelect hideCheckAll value={depByDeptKeys} onChange={value => this.setState({ depByDeptKeys: value })}>
                   {(departmentByBill || []).map(item => (
                     <TagSelect.Option value={item.key} key={item.key}>{item.value}</TagSelect.Option>
                   ))}
@@ -412,12 +412,12 @@ class AddPersonModal extends React.Component {
                         this.$t('setting.key1262'/*按单据上的成本中心经理知会*/)}
                     </h4>
                     <Checkbox checked={containsApportionmentCostCenterManager}
-                              onChange={e => this.setState({containsApportionmentCostCenterManager: e.target.checked})}>
+                      onChange={e => this.setState({ containsApportionmentCostCenterManager: e.target.checked })}>
                       {personType === 1 ? this.$t('setting.key1263'/*分摊成本中心经理会签*/) :
                         this.$t('setting.key1264'/*知会分摊成本中心经理*/)}
                     </Checkbox>
                   </div>
-                  <TagSelect value={costCenterKeys} onChange={values => this.setState({costCenterKeys: values})}>
+                  <TagSelect hideCheckAll value={costCenterKeys} onChange={values => this.setState({ costCenterKeys: values })}>
                     {costCenterApprover.map(item => (
                       <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
                     ))}
@@ -432,12 +432,12 @@ class AddPersonModal extends React.Component {
                         this.$t('setting.key1266'/*按单据上的成本中心的主要部门经理知会*/)}
                     </h4>
                     <Checkbox checked={containsApportionmentCostCenterPrimaryDepartmentManager}
-                              onChange={e => this.setState({containsApportionmentCostCenterPrimaryDepartmentManager: e.target.checked})}>
+                      onChange={e => this.setState({ containsApportionmentCostCenterPrimaryDepartmentManager: e.target.checked })}>
                       {personType === 1 ? this.$t('setting.key1267'/*分摊后，对应的部门经理会签*/) :
                         this.$t('setting.key1268'/*分摊后，知会对应的部门经理*/)}
                     </Checkbox>
                   </div>
-                  <TagSelect value={costCenterDeptKeys} onChange={values => this.setState({costCenterDeptKeys: values})}>
+                  <TagSelect hideCheckAll value={costCenterDeptKeys} onChange={values => this.setState({ costCenterDeptKeys: values })}>
                     {costCenterDeptApprover.map(item => (
                       <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
                     ))}
@@ -449,7 +449,7 @@ class AddPersonModal extends React.Component {
                   <h4>{this.$t('setting.key1269'/*直属领导*/)}</h4>
                   <span>{this.$t('setting.key1270'/*指申请人的人员信息中【直属领导】*/)}</span>
                 </div>
-                <Checkbox checked={directManager} onChange={e => this.setState({directManager: e.target.checked})}>
+                <Checkbox checked={directManager} onChange={e => this.setState({ directManager: e.target.checked })}>
                   {personType === 1 ? this.$t('setting.key1271'/*参与审批*/) : this.$t('setting.key1272'/*知会*/)}
                 </Checkbox>
               </ListItem>
@@ -459,8 +459,8 @@ class AddPersonModal extends React.Component {
                     {personType === 1 ? this.$t('setting.key1273'/*指定人员审批*/) :
                       this.$t('setting.key1274'/*知会指定人员*/)}
                   </h4>
-                  <a onClick={() => {this.setState({userVisible: true})}}>
-                    <Icon type="plus-circle"/> {this.$t('setting.key1275'/*选择人员*/)}
+                  <a onClick={() => { this.setState({ userVisible: true }) }}>
+                    <Icon type="plus-circle" /> {this.$t('setting.key1275'/*选择人员*/)}
                   </a>
                 </div>
                 {approveUser && approveUser.map(item =>
@@ -473,11 +473,11 @@ class AddPersonModal extends React.Component {
                     {personType === 1 ? this.$t('setting.key1276'/*指定人员组审批*/) :
                       this.$t('setting.key1277'/*知会指定组人员*/)}
                   </h4>
-                  <a onClick={() => {this.setState({userGroupVisible: true})}}>
+                  <a onClick={() => { this.setState({ userGroupVisible: true }) }}>
                     <Icon type="plus-circle" /> {this.$t('setting.key1278'/*选择人员组*/)}
                   </a>
                 </div>
-                <div style={{marginBottom: 5}}>{this.$t('setting.key1279'/*只能引用到人员组中*/)}</div>
+                <div style={{ marginBottom: 5 }}>{this.$t('setting.key1279'/*只能引用到人员组中*/)}</div>
                 {approveUserGroup && approveUserGroup.map(item =>
                   <Tag key={item.userGroupOID} closable onClose={() => this.handleDeleteUserGroup(item.userGroupOID)}>{item.name}</Tag>
                 )}
@@ -497,23 +497,23 @@ class AddPersonModal extends React.Component {
         </Modal>
 
         <ListSelector visible={userVisible}
-                      type="user"
-                      valueKey="userOID"
-                      labelKey="fullName"
-                      onlyNeed="userOID"
-                      showDetail
-                      extraParams={{roleType: 'TENANT'}}
-                      selectedData={approveUser}
-                      onOk={this.handleAddUser}
-                      onCancel={() => {this.setState({userVisible: false})}}
+          type="user"
+          valueKey="userOID"
+          labelKey="fullName"
+          onlyNeed="userOID"
+          showDetail
+          extraParams={{ roleType: 'TENANT' }}
+          selectedData={approveUser}
+          onOk={this.handleAddUser}
+          onCancel={() => { this.setState({ userVisible: false }) }}
         />
         <ListSelector visible={userGroupVisible}
-                      type="user_group"
-                      valueKey="userGroupOID"
-                      labelKey="name"
-                      selectedData={approveUserGroup}
-                      onOk={this.handleAddUserGroup}
-                      onCancel={() => {this.setState({userGroupVisible: false})}}
+          type="user_group"
+          valueKey="userGroupOID"
+          labelKey="name"
+          selectedData={approveUserGroup}
+          onOk={this.handleAddUserGroup}
+          onCancel={() => { this.setState({ userGroupVisible: false }) }}
         />
       </div>
     )

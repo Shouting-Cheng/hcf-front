@@ -699,27 +699,27 @@ class ExpenseAdjustDetail extends React.Component {
                     }}
                     key={item.id}
                   >
-                
+
                     <Popover content={item.fileName}>
                       {item.fileType !== 'IMAGE' ? (
                         <a
                           href={`${config.baseUrl}/api/attachments/download/${
                             item.attachmentOID
-                          }?access_token=${
-                            localStorage.getItem('token')
-                          }`}
+                            }?access_token=${
+                            sessionStorage.getItem('token')
+                            }`}
                         >
                           {item.fileName}
                         </a>
                       ) : (
-                        <a
-                          onClick={() => {
-                            this.preview(item);
-                          }}
-                        >
-                          {item.fileName}
-                        </a>
-                      )}
+                          <a
+                            onClick={() => {
+                              this.preview(item);
+                            }}
+                          >
+                            {item.fileName}
+                          </a>
+                        )}
                     </Popover>
                   </Col>
                 );
@@ -809,8 +809,8 @@ class ExpenseAdjustDetail extends React.Component {
     let flag = headerData.status === 1004;
 
     return (
-      <div className="adjust-content" style={{ marginBottom: 50,paddingBottom:20 }}>
-        <Card style={{boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)"}}>
+      <div className="adjust-content" style={{ marginBottom: 50, paddingBottom: 20 }}>
+        <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
           <DocumentBasicInfo params={documentParams}>
             {headerData.status &&
               (headerData.status == 1001 ||
@@ -832,7 +832,7 @@ class ExpenseAdjustDetail extends React.Component {
             )}
           </DocumentBasicInfo>
         </Card>
-        <Card style={{marginTop: 20,boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)"}} className='expense-adjust-detail-center'>
+        <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} className='expense-adjust-detail-center'>
           <div className="center-title">{this.$t('exp.adjust.info')}</div>
           <Row gutter={24} style={{ marginTop: 15 }}>
             <Col span={18} style={{ marginBottom: 5 }}>
@@ -922,17 +922,17 @@ class ExpenseAdjustDetail extends React.Component {
         /> */}
         {/*导入*/}
         <ImporterNew visible={showImportFrame}
-                         title={this.$t('exp.import.line')}
-                         templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${this.props.match.params.id}&external=${true}`}
-                         uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
-                          this.props.match.params.id
-                          }`}
-                         errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
-                         errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
-                         deleteDataUrl ={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
-                         fileName={this.$t('exp.import.line')}
-                         onOk={this.onLoadOk}
-                         afterClose={() => this.setState({ showImportFrame: false })} />
+          title={this.$t('exp.import.line')}
+          templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${this.props.match.params.id}&external=${true}`}
+          uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
+            this.props.match.params.id
+            }`}
+          errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
+          errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
+          deleteDataUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+          fileName={this.$t('exp.import.line')}
+          onOk={this.onLoadOk}
+          afterClose={() => this.setState({ showImportFrame: false })} />
         <SlideFrame
           width="900px"
           show={showSlideFrame}
@@ -1028,7 +1028,7 @@ class ExpenseAdjustDetail extends React.Component {
                     }}
                     url={`${
                       config.accountingUrl
-                    }/api/accounting/gl/journal/lines/query/by/transaction/number`}
+                      }/api/accounting/gl/journal/lines/query/by/transaction/number`}
                     croll={{ x: 1300, y: voucherData.length === 0 ? false : 200 }}
                   />
                 </div>
@@ -1036,8 +1036,8 @@ class ExpenseAdjustDetail extends React.Component {
             </TabPane>
           </Tabs>
         ) : (
-          this.renderContent()
-        )}
+            this.renderContent()
+          )}
       </div>
     );
   }

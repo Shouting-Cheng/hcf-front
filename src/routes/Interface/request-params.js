@@ -139,6 +139,20 @@ class RequestParams extends React.Component {
           },
         },
         {
+          title: '值',
+          width: 120,
+          dataIndex: 'defaultFlag',
+          render: (value, record, index) => {
+            return record.status == 'edit' || record.status == 'new' ? (
+              <Select allowClear style={{ width: "100%" }} value={value} onChange={value => this.change('defaultFlag', value, record)}>
+                <Select.Option value="SETOFBOOKS">当前帐套</Select.Option>
+              </Select>
+            ) : (
+                <span>{value}</span>
+              );
+          },
+        },
+        {
           title: '操作',
           fixed: 'right',
           dataIndex: 'option',
@@ -209,6 +223,7 @@ class RequestParams extends React.Component {
     let dataSource = this.state.dataSource;
     let record = this.getDataById(dataSource, id);
     let params = { ...record, interfaceId: this.props.id };
+    params.defaultFlag = params.defaultFlag || "";
     if (!params.id || params.id == '0') {
       delete params.id;
       service

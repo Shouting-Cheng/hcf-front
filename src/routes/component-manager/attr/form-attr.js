@@ -57,16 +57,8 @@ class FormAttr extends Component {
       dispatch,
     } = this.props;
 
-    // let form = components.find(o => o.id === selectedId);
-
-    // let formItems = form.props.formItems || [];
-
-    fetch.get('/auth/api/interfaceRequest/query?page=0&size=10&interfaceId=' + value).then(res => {
+    fetch.get('/auth/api/interfaceRequest/query?page=0&size=999&interfaceId=' + value).then(res => {
       res.map(item => {
-        // formItems.push({
-        //   label: item.name,
-        //   dataIndex: item.keyCode,
-        // });
 
         let box = {
           type: 'form-item',

@@ -96,7 +96,7 @@ class UploadFile extends React.Component {
 
   render() {
     const upload_headers = {
-      Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
     };
     return (
       <div className="upload">
@@ -142,12 +142,12 @@ UploadFile.defaultProps = {
   defaultFileList: [],
   defaultOIDs: [],
   needAllResponse: false,
-  uploadHandle: () => {},
+  uploadHandle: () => { },
 };
 
 function mapStateToProps(state) {
   return {
-    //authToken: window.localStorage.getItem('token')
+    //authToken: window.sessionStorage.getItem('token')
   };
 }
 

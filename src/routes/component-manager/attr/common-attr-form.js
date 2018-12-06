@@ -42,8 +42,9 @@ class CommonAttrForm extends Component {
       fetching: false,
       dataSource: [],
       modules: [],
+      searchResult: []
     };
-    this.titleSearch = debounce(this.titleSearch, 600);
+    this.titleSearch = debounce(this.titleSearch, 500);
   }
 
   componentDidMount() {
@@ -66,7 +67,7 @@ class CommonAttrForm extends Component {
       languageList.push({ key: item, value: languages[item] });
     });
 
-    this.setState({ languageList, dataSource: [...languageList] });
+    this.setState({ dataSource: [...languageList] });
   }
 
   updateComponent = (item, value) => {
@@ -199,14 +200,16 @@ class CommonAttrForm extends Component {
   titleSearch = value => {
     let { dataSource } = this.state;
 
-    if (!value) {
-      this.setState({ languageList: dataSource });
+    if (!value || !value.length) {
+      this.setState({ languageList: [] });
+      return;
     }
 
     this.setState({ fetching: true });
+
     let languageList = dataSource.filter(
       item => item.key.indexOf(value) >= 0 || item.value.indexOf(value) >= 0
-    );
+    ).slice(0, 20);
 
     this.setState({ languageList, fetching: false });
   };

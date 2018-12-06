@@ -3,6 +3,9 @@ import { Table, Badge, Tooltip } from 'antd';
 
 import httpFetch from 'share/httpFetch';
 
+
+import commonService from "services/common"
+
 import moment from 'moment';
 import columnTemplate from '../../column-template/index';
 
@@ -32,6 +35,7 @@ class CustomTable extends Component {
   }
 
   componentDidMount() {
+
     if (this.props.getRef) {
       this.props.getRef(this);
     }
@@ -39,9 +43,7 @@ class CustomTable extends Component {
     if (this.props.url.indexOf('/') >= 0) {
       this.setState({ url: this.props.url }, this.getList);
     } else {
-      httpFetch.get('/auth/api/interface/query/' + this.props.url).then(res => {
-        this.setState({ url: res.data.reqUrl }, this.getList);
-      });
+      this.getList();
     }
 
     // this.getList();
@@ -123,25 +125,31 @@ class CustomTable extends Component {
     this.setState({ page: 0, pagination, searchParams: {} }, this.getList);
   };
 
-  test = params => {
-    console.log(params);
-    console.log('hello world!');
-  };
-
   getList = () => {
-    if (!this.state.url) return;
+    if (!this.props.url) return;
 
     this.setState({ loading: true });
     const { page, size, searchParams } = this.state;
 
-    httpFetch.get(this.state.url, { page: page, size: size, ...searchParams }).then(res => {
+
+    commonService.getInterface(this.props.url, { page: page, size: size, ...searchParams }).then(res => {
+
       let pagination = {
         ...this.state.pagination,
         total: Number(res.headers['x-total-count']) || 0,
       };
 
       this.setState({ dataSource: res.data, loading: false, pagination });
-    });
+    })
+
+    // httpFetch.get(this.state.url, { page: page, size: size, ...searchParams }).then(res => {
+    //   let pagination = {
+    //     ...this.state.pagination,
+    //     total: Number(res.headers['x-total-count']) || 0,
+    //   };
+
+    //   this.setState({ dataSource: res.data, loading: false, pagination });
+    // });
   };
 
   indexChange = (page, size) => {

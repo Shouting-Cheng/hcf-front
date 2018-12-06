@@ -59,5 +59,8 @@ export default{
     getTenantCompany(keyWord){
         return httpFetch.get(`${config.baseUrl}/api/company/all/current/tenant?keyWord=${keyWord}`);
        
+    },
+    getTenantDepartment(keyWord){
+        return httpFetch.get(`${config.baseUrl}/api/department/current/tenant?keyWord=${keyWord}`);
     }
 }

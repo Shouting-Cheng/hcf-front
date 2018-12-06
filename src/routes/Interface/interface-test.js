@@ -80,7 +80,7 @@ class InterfaceTest extends React.Component {
       url: info.reqUrl,
       method: info['requestMethod'],
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
       },
       body: params,
       params:

@@ -192,7 +192,7 @@ export default class Login extends React.Component {
 
   //邮件审批
   mailApprove = Request => {
-    if (localStorage.getItem('hly.token')) {
+    if (sessionStorage.getItem('token')) {
       //有token的情况
       redirect_by_url_for_mail_approve();
     } else {
@@ -216,8 +216,8 @@ export default class Login extends React.Component {
 
   //各种方式的登录，单点登录，普通登录，单点值登录
   anyWayLogin = Request => {
-    if (localStorage.getItem('hly.token')) {
-      configureStore.store.dispatch(setAuthToken(JSON.parse(localStorage.getItem('hly.token'))));
+    if (sessionStorage.getItem('token')) {
+      configureStore.store.dispatch(setAuthToken(sessionStorage.getItem('token')));
       this.setState({ loading: true });
       baseService
         .getInfo()
@@ -615,8 +615,8 @@ export default class Login extends React.Component {
       },
       data: formData,
     }).then(res => {
-      window.localStorage.setItem('token', res.data.access_token);
-      window.localStorage.setItem('refresh_token', res.data.refresh_token);
+      window.sessionStorage.setItem('token', res.data.access_token);
+      window.sessionStorage.setItem('refresh_token', res.data.refresh_token);
       this.props.dispatch({
         type: 'user/setToken',
         token: res.data.access_token

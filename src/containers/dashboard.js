@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon } from 'antd';
+import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon, message } from 'antd';
 import 'styles/dashboard.scss'
 import moment from "moment"
 import userImage from "images/user1.png"
@@ -48,6 +48,8 @@ class Dashboard extends React.Component {
       startTime: null,
       endTime: null,
       carousels: [],   //公告信息
+      unApprovals: [],
+      totol: 0,
       barData: [
         {
           year: "一月",
@@ -139,9 +141,20 @@ class Dashboard extends React.Component {
 
     this.getCurrentDate();
     this.getCarousels();
+    this.getUnApprovals();
+
 
     let year = moment().year();
     this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "12") });
+  }
+
+
+  getUnApprovals = () => {
+    service.getUnApprovals().then(res => {
+      this.setState({ total: res.data.totalcount, unApprovals: res.data.approvalDashboardDetailDTOList });
+    }).catch(err => {
+      message.error("获取待审批列表失败,请稍后重试！");
+    })
   }
 
 
@@ -295,42 +308,17 @@ class Dashboard extends React.Component {
 
   render() {
 
-    const { timerStr, backList, hello, chartsType, carousels } = this.state;
-    const { user, company } = this.props;
+    const { timerStr, backList, hello, chartsType, carousels, total, unApprovals } = this.state;
+    const { user } = this.props;
 
     const { DataView } = DataSet;
-    const { Html } = Guide;
-
-    const data = [
-      {
-        item: "申请单",
-        count: 12,
-        type: ""
-      },
-      {
-        item: "报销单",
-        count: 21
-      },
-      {
-        item: "合同",
-        count: 17
-      },
-      {
-        item: "预付款",
-        count: 13
-      },
-      {
-        item: "报账单",
-        count: 9
-      }
-    ];
 
     const dv = new DataView();
 
-    dv.source(data).transform({
+    dv.source(unApprovals).transform({
       type: "percent",
       field: "count",
-      dimension: "item",
+      dimension: "name",
       as: "percent"
     });
 
@@ -350,27 +338,33 @@ class Dashboard extends React.Component {
                   <div className="info-item"><span><Icon type="project" theme="twoTone" style={{ marginRight: 6 }} />{user.departmentName}</span></div>
                   <div className="info-item"><Icon type="mail" theme="twoTone" style={{ marginRight: 6 }} /> {user.email}</div>
                   <div className="info-item"><Icon type="mobile" theme="twoTone" style={{ marginRight: 6 }} /> {user.mobile}</div>
-                  <div className="info-item" style={{ color: "#888" }}>海纳百川，有容乃大</div>
                 </div>
               </div>
             </Card>
           </Col>
           <Col span={8}>
-            <Carousel autoplay>
-              {carousels.map(item => {
-                return (
-                  <div key={item.id} style={{ textAlign: "center" }}>
-                    <img src={item.attachmentDTO.thumbnailUrl} />
-                    <div className="title">{item.title}</div>
-                  </div>
-                )
-              })}
-            </Carousel>
+            {(carousels && !!carousels.length) ? (
+              <Carousel autoplay>
+                {carousels.map(item => {
+                  return (
+                    <div key={item.id} style={{ textAlign: "center" }}>
+                      <img src={item.attachmentDTO.thumbnailUrl} />
+                      <div className="title">{item.title}</div>
+                    </div>
+                  )
+                })}
+              </Carousel>
+            ) : (
+                <div style={{ height: 260, fontSize: 18, lineHeight: "260px", textAlign: "center", backgroundColor: "#fff" }}>
+                  暂无公告信息
+              </div>
+              )}
+
           </Col>
           <Col span={8}>
             <Card
               title="待审批的单据"
-              extra={<span style={{ fontSize: 18 }}>共72笔</span>}
+              extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
             >
               <Chart
                 data={dv}
@@ -386,12 +380,12 @@ class Dashboard extends React.Component {
                 <Geom
                   type="intervalStack"
                   position="percent"
-                  color="item"
+                  color="name"
                   tooltip={[
-                    "item*percent",
-                    (item, percent) => {
+                    "name*percent",
+                    (name, percent) => {
                       return {
-                        name: item,
+                        name,
                         value: (percent * 100).toFixed(2) + "%"
                       };
                     }
@@ -404,7 +398,7 @@ class Dashboard extends React.Component {
                   <Label
                     content="count"
                     formatter={(val, item) => {
-                      return item.point.item + ": " + val + "笔";
+                      return item.point.name + ": " + val + "笔";
                     }}
                   />
                 </Geom>

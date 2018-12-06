@@ -38,6 +38,17 @@ class LineModelChangeRulesSystem extends React.Component {
                 'UNIT': { label: '部门' },
                 'EMPLOYEE': { label: '员工' },
             },
+            dataScopeDesc: {
+                '1001': { label: '全部' },
+                '1002': { label: '当前' },
+                '1003': { label: '当前及下属' },
+                '1004': { label: '手动选择' }
+            },
+            filtrateMethodDesc: {
+                'INCLUDE': { label: '包含' },
+                'EXCLUDE': { label: '排除' },
+            },
+
             rulesParams: '',
             saveLoading: false,
             ruleId: '',
@@ -48,7 +59,11 @@ class LineModelChangeRulesSystem extends React.Component {
             lastUpdatedBy: undefined,
             lastUpdatedDate: undefined,
             getRulesArr: {},
-            departMentVisible: false
+            departMentVisible: false,
+            sobValuesKeys: [],
+            employeeKeys: [],
+            companyItemsKeys:[],
+            departMentItemsKeys:[]
         }
     }
     componentWillMount() {
@@ -94,10 +109,10 @@ class LineModelChangeRulesSystem extends React.Component {
         if (isEditDelete) {
             this.setState({
                 show: false,
-                renderSobList:false,
-                renderCompanyList:false,
-                renderDepartmentList:false,
-                renderEmplyeeList:false
+                renderSobList: false,
+                renderCompanyList: false,
+                renderDepartmentList: false,
+                renderEmplyeeList: false
             })
         } else {
             this.props.cancelHandle(targeKey)
@@ -116,7 +131,8 @@ class LineModelChangeRulesSystem extends React.Component {
             `dataScope2-${this.props.targeKey}`, `filtrateMethod2-${this.props.targeKey}`, `dataScope3-${this.props.targeKey}`, `filtrateMethod3-${this.props.targeKey}`,
             `dataScope4-${this.props.targeKey}`, `filtrateMethod4-${this.props.targeKey}`
         ];
-        let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr } = this.state;
+        let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr,
+             dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc,companyItemsKeys,departMentItemsKeys } = this.state;
         this.props.form.validateFields(testRules, (err, values) => {
             if (!err) {
                 let tenantId = this.props.tenantId;
@@ -141,43 +157,71 @@ class LineModelChangeRulesSystem extends React.Component {
                             dataAuthorityRuleDetails: [
                                 {
                                     dataType: 'SOB',
+                                    dataScopeDesc: dataScopeDesc[values[`dataScope1-${targeKey}`]].label,
                                     dataScope: values[`dataScope1-${targeKey}`],
-                                    filtrateMethod: values[`filtrateMethod1-${targeKey}`] ? values[`filtrateMethod1-${targeKey}`] : undefined,
-                                    dataAuthorityRuleDetailValues: values[`filtrateMethod1-${targeKey}`] ? [
-                                        {
-                                            "valueKey": "1"
-                                        }
-                                    ] : undefined
+                                    filtrateMethod: values[`filtrateMethod1-${targeKey}`] ? values[`filtrateMethod1-${targeKey}`] : null,
+                                    filtrateMethodDesc: values[`filtrateMethod1-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod1-${targeKey}`]].label:null,
+                                    dataAuthorityRuleDetailValues: values[`filtrateMethod1-${targeKey}`] ? sobValuesKeys : [],
+                                    id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[0].id : null,
+                                    deleted: getRulesArr.deleted,
+                                    versionNumber: getRulesArr.versionNumber,
+                                    createdBy: getRulesArr.createdBy,
+                                    createdDate: getRulesArr.createdDate,
+                                    lastUpdatedBy: getRulesArr.lastUpdatedBy,
+                                    lastUpdatedDate: getRulesArr.lastUpdatedDate,
+                                    dataAuthorityId: ruleId ? ruleId : null,
+                                    dataAuthorityRuleId: getRulesArr.id
                                 },
                                 {
                                     dataType: 'COMPANY',
+                                    dataScopeDesc: dataScopeDesc[values[`dataScope2-${targeKey}`]].label,
                                     dataScope: values[`dataScope2-${targeKey}`],
-                                    filtrateMethod: values[`filtrateMethod2-${targeKey}`] ? values[`filtrateMethod2-${targeKey}`] : undefined,
-                                    dataAuthorityRuleDetailValues: values[`filtrateMethod2-${targeKey}`] ? [
-                                        {
-                                            "valueKey": "1"
-                                        }
-                                    ] : undefined
+                                    filtrateMethod: values[`filtrateMethod2-${targeKey}`] ? values[`filtrateMethod2-${targeKey}`] : null,
+                                    filtrateMethodDesc:values[`filtrateMethod2-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod2-${targeKey}`]].label:null,
+                                    dataAuthorityRuleDetailValues: values[`filtrateMethod2-${targeKey}`] ? companyItemsKeys : [],
+                                    id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[1].id : null,
+                                    deleted: getRulesArr.deleted,
+                                    versionNumber: getRulesArr.versionNumber,
+                                    createdBy: getRulesArr.createdBy,
+                                    createdDate: getRulesArr.createdDate,
+                                    lastUpdatedBy: getRulesArr.lastUpdatedBy,
+                                    lastUpdatedDate: getRulesArr.lastUpdatedDate,
+                                    dataAuthorityId: ruleId ? ruleId : null,
+                                    dataAuthorityRuleId: getRulesArr.id
                                 },
                                 {
                                     dataType: 'UNIT',
+                                    dataScopeDesc: dataScopeDesc[values[`dataScope3-${targeKey}`]].label,
                                     dataScope: values[`dataScope3-${targeKey}`],
-                                    filtrateMethod: values[`filtrateMethod3-${targeKey}`] ? values[`filtrateMethod3-${targeKey}`] : undefined,
-                                    dataAuthorityRuleDetailValues: values[`filtrateMethod3-${targeKey}`] ? [
-                                        {
-                                            "valueKey": "1"
-                                        }
-                                    ] : undefined
+                                    filtrateMethod: values[`filtrateMethod3-${targeKey}`] ? values[`filtrateMethod3-${targeKey}`] : null,
+                                    filtrateMethodDesc: values[`filtrateMethod3-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod3-${targeKey}`]].label:null,
+                                    dataAuthorityRuleDetailValues: values[`filtrateMethod3-${targeKey}`] ? departMentItemsKeys : [],
+                                    id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[2].id : null,
+                                    deleted: getRulesArr.deleted,
+                                    versionNumber: getRulesArr.versionNumber,
+                                    createdBy: getRulesArr.createdBy,
+                                    createdDate: getRulesArr.createdDate,
+                                    lastUpdatedBy: getRulesArr.lastUpdatedBy,
+                                    lastUpdatedDate: getRulesArr.lastUpdatedDate,
+                                    dataAuthorityId: ruleId ? ruleId : null,
+                                    dataAuthorityRuleId: getRulesArr.id
                                 },
                                 {
                                     dataType: 'EMPLOYEE',
+                                    dataScopeDesc: dataScopeDesc[values[`dataScope4-${targeKey}`]].label,
                                     dataScope: values[`dataScope4-${targeKey}`],
-                                    filtrateMethod: values[`filtrateMethod4-${targeKey}`] ? values[`filtrateMethod4-${targeKey}`] : undefined,
-                                    dataAuthorityRuleDetailValues: values[`filtrateMethod4-${targeKey}`] ? [
-                                        {
-                                            "valueKey": "1"
-                                        }
-                                    ] : undefined
+                                    filtrateMethod: values[`filtrateMethod4-${targeKey}`] ? values[`filtrateMethod4-${targeKey}`] : null,
+                                    filtrateMethodDesc:values[`filtrateMethod4-${targeKey}`]? filtrateMethodDesc[values[`filtrateMethod4-${targeKey}`]].label:null,
+                                    dataAuthorityRuleDetailValues: values[`filtrateMethod4-${targeKey}`] ? employeeKeys : [],
+                                    id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[3].id : null,
+                                    deleted: getRulesArr.deleted,
+                                    versionNumber: getRulesArr.versionNumber,
+                                    createdBy: getRulesArr.createdBy,
+                                    createdDate: getRulesArr.createdDate,
+                                    lastUpdatedBy: getRulesArr.lastUpdatedBy,
+                                    lastUpdatedDate: getRulesArr.lastUpdatedDate,
+                                    dataAuthorityId: ruleId ? ruleId : null,
+                                    dataAuthorityRuleId: getRulesArr.id
                                 },
                             ],
                             id: getRulesArr.id,
@@ -187,6 +231,7 @@ class LineModelChangeRulesSystem extends React.Component {
                             createdDate: getRulesArr.createdDate,
                             lastUpdatedBy: getRulesArr.lastUpdatedBy,
                             lastUpdatedDate: getRulesArr.lastUpdatedDate,
+                            dataAuthorityId: ruleId ? ruleId : null
 
                         }
                     ]
@@ -228,7 +273,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     /**编辑单条规则 */
     editRuleItem = () => {
-        
+
         this.setState({
             show: true,
             isEditDelete: true
@@ -296,8 +341,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     //添加账套
     addTenant = () => {
-        console.log(this.state.ruleId)
-        const ruleId = this.props.params ? this.props.params.getRulesArr.id : this.state.ruleId;
+        const ruleId = this.props.params ? this.props.params.getRulesArr.id : '';
         const tenantItem = {
             title: '添加账套',
             url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
@@ -325,9 +369,15 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleTenantListOk = (result) => {
-        console.log(result)
+        let resultArr = result.result;
+        let arr = [];
+        for (let i = 0; i < resultArr.length; i++) {
+            arr.push(resultArr[i].valueKey);
+        }
+        this.props.handleTenantListOk(arr)
         this.setState({
-            tenantVisible: false
+            tenantVisible: false,
+            sobValuesKeys: arr
         })
     }
     cancelTenantList = (flag) => {
@@ -337,7 +387,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     //添加员工
     addEmployee = () => {
-        const ruleId = this.props.params ? this.props.params.getRulesArr.id : this.state.ruleId
+        const ruleId = this.props.params ? this.props.params.getRulesArr.id : ''
         const employeeItem = {
             title: '添加员工',
             url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
@@ -363,9 +413,16 @@ class LineModelChangeRulesSystem extends React.Component {
             employeeItem
         })
     }
-    handleEmployeeListOk = () => {
+    handleEmployeeListOk = (result) => {
+        let resultArr = result.result;
+        let arr = [];
+        for (let i = 0; i < resultArr.length; i++) {
+            arr.push(resultArr[i].valueKey);
+        }
+        this.props.handleEmployeeListOk(arr)
         this.setState({
-            empolyeeVisible: false
+            empolyeeVisible: false,
+            employeeKeys: arr
         })
     }
     cancelEmployeeList = () => {
@@ -394,6 +451,33 @@ class LineModelChangeRulesSystem extends React.Component {
         this.setState({
             departMentVisible: false
         })
+    }
+    //获取公司，部门选择的值
+    transferCompanyList=(items)=>{
+        let resultArr = items;
+        let arr = [];
+        for (let i = 0; i < resultArr.length; i++) {
+            arr.push(resultArr[i].id);
+        }
+        this.props.handleCompanyListOk(arr)
+        this.setState({
+            companyItemsKeys:arr,
+            companyVisible:false
+        })
+
+    }
+    transDePferList=(items)=>{
+        let resultArr = items;
+        let arr = [];
+        for (let i = 0; i < resultArr.length; i++) {
+            arr.push(resultArr[i].id);
+        }
+        this.props.handleDePListOk(arr)
+        this.setState({
+            departMentItemsKeys:arr,
+            departMentVisible:false
+        })
+
     }
     render() {
         const { getFieldDecorator } = this.props;
@@ -461,7 +545,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                             >
                                                 {getFieldDecorator(`filtrateMethod1-${this.props.targeKey}`, {
                                                     rules: [],
-                                                    initialValue: ruleDatail.length ? ruleDatail[0].filtrateMethod : 'INCLUDE'
+                                                    initialValue: (ruleDatail.length && ruleDatail[0].filtrateMethod) ? ruleDatail[0].filtrateMethod : 'INCLUDE'
                                                 })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
@@ -517,7 +601,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                             >
                                                 {getFieldDecorator(`filtrateMethod2-${this.props.targeKey}`, {
                                                     rules: [],
-                                                    initialValue: ruleDatail.length ? ruleDatail[0].filtrateMethod : 'INCLUDE'
+                                                    initialValue: (ruleDatail.length && ruleDatail[1].filtrateMethod) ? ruleDatail[1].filtrateMethod : 'INCLUDE'
                                                 })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
@@ -573,7 +657,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                             >
                                                 {getFieldDecorator(`filtrateMethod3-${this.props.targeKey}`, {
                                                     rules: [],
-                                                    initialValue: ruleDatail.length ? ruleDatail[0].filtrateMethod : 'INCLUDE'
+                                                    initialValue: (ruleDatail.length && ruleDatail[2].filtrateMethod) ? ruleDatail[2].filtrateMethod : 'INCLUDE'
                                                 })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
@@ -628,7 +712,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                             >
                                                 {getFieldDecorator(`filtrateMethod4-${this.props.targeKey}`, {
                                                     rules: [],
-                                                    initialValue: ruleDatail.length ? ruleDatail[0].filtrateMethod : 'INCLUDE'
+                                                    initialValue: (ruleDatail.length && ruleDatail[3].filtrateMethod) ? ruleDatail[3].filtrateMethod : 'INCLUDE'
                                                 })(
                                                     <Select placeholder={this.$t({ id: "common.please.enter" })} >
                                                         <Option value='INCLUDE'>包含</Option>
@@ -677,16 +761,16 @@ class LineModelChangeRulesSystem extends React.Component {
                             {ruleDatail.map(item => (
                                 <Col span={24}>
                                     <span>{dataType[item.dataType].label}:</span>
-                                    {item.dataScopeDesc=== '手工选择' ?
+                                    {item.dataScope === '1004' ?
                                         <span>
-                                            {item.filtrateMethodDesc}
+                                            {item.filtrateMethodDesc}{`${item.dataAuthorityRuleDetailValues.length}个`}{dataType[item.dataType].label}
                                         </span> : <span>
                                             {item.dataScopeDesc}{dataType[item.dataType].label}
                                         </span>
                                     }
                                 </Col>
                             ))}
-                            
+
                         </Row>
                     </Card>}
                 <ViewRuleModal
@@ -712,11 +796,15 @@ class LineModelChangeRulesSystem extends React.Component {
                     visible={companyVisible}
                     title='添加公司'
                     onCloseTransferModal={this.cancelCompanyList}
+                    isAddCompany={true}
+                    transferList={this.transferCompanyList}
                 />
                 <LineAddTransferModal
                     visible={departMentVisible}
                     title='添加部门'
                     onCloseTransferModal={this.cancelDepartMentList}
+                    isAddCompany={false}
+                    transferList={this.transDePferList}
                 />
 
             </div>

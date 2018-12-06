@@ -1,9 +1,9 @@
 
 import React from 'react'
-import {connect} from 'dva'
+import { connect } from 'dva'
 
 
-import {Table, Button, Tabs, Popover} from 'antd'
+import { Table, Button, Tabs, Popover } from 'antd'
 
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';
@@ -12,12 +12,12 @@ import httpFetch from 'share/httpFetch'
 import config from 'config'
 import 'styles/financial-management/finance-audit/audit.scss'
 import SearchArea from 'widget/search-area'
-import {invoiceAmountChange, dealCache, removeArryItem, deepFullCopy} from "utils/extend";
-import {message, Modal} from "antd/lib/index";
+import { invoiceAmountChange, dealCache, removeArryItem, deepFullCopy } from "utils/extend";
+import { message, Modal } from "antd/lib/index";
 import ReconnectingWebSocket from "reconnectingwebsocket";
-let cacheSearchData={};
-let defaultSearchForm=[];
-let defaultCheckboxListForm={};
+let cacheSearchData = {};
+let defaultSearchForm = [];
+let defaultCheckboxListForm = {};
 
 class FinanceAudit extends React.Component {
 
@@ -37,27 +37,30 @@ class FinanceAudit extends React.Component {
         total: 0
       },
       invoiceColumns: [
-        {title: this.$t('finance.audit.serialNo'/*序号*/), dataIndex: "index", width: '5%'},
-        {title: this.$t('finance.view.search.jobNumber')/*工号*/, dataIndex: "employeeID", width: '10%'},
-        {title: this.$t('finance.view.search.applicant'/*申请人*/), dataIndex: "applicantName", width: '10%'},
-        {title: this.$t('finance.view.search.submitDate'/*提交日期*/), dataIndex: "submittedDate", width: '10%', render: date => new Date(date).format('yyyy-MM-dd'), sorter: true},
+        { title: this.$t('finance.audit.serialNo'/*序号*/), dataIndex: "index", width: '5%' },
+        { title: this.$t('finance.view.search.jobNumber')/*工号*/, dataIndex: "employeeID", width: '10%' },
+        { title: this.$t('finance.view.search.applicant'/*申请人*/), dataIndex: "applicantName", width: '10%' },
+        { title: this.$t('finance.view.search.submitDate'/*提交日期*/), dataIndex: "submittedDate", width: '10%', render: date => new Date(date).format('yyyy-MM-dd'), sorter: true },
         {
           title: this.$t('finance.view.search.documentType'/*单据名称*/), dataIndex: 'formName', width: '10%', render: formName => (
-          <Popover content={formName}>
-            {formName}
-          </Popover>
-        ),sorter: true},
-        {title: this.$t('finance.audit.reimbursement'/*报销单号*/) , dataIndex: 'childBusinessCode', width: '15%', render: (text, record, index) => {
-          let showText = !record.parentBusinessCode && record.businessCode ||
-            record.parentBusinessCode !== record.childBusinessCode && (record.parentBusinessCode + '-' + record.childBusinessCode) ||
-            record.childBusinessCode;
-          return (
-            <Popover content={showText}>
-              {showText}
+            <Popover content={formName}>
+              {formName}
             </Popover>
-          )
-        }, sorter: true},
-        {title: this.$t('finance.view.search.currency'/*币种*/), dataIndex: "currencyCode", width: '10%'},
+          ), sorter: true
+        },
+        {
+          title: this.$t('finance.audit.reimbursement'/*报销单号*/), dataIndex: 'childBusinessCode', width: '15%', render: (text, record, index) => {
+            let showText = !record.parentBusinessCode && record.businessCode ||
+              record.parentBusinessCode !== record.childBusinessCode && (record.parentBusinessCode + '-' + record.childBusinessCode) ||
+              record.childBusinessCode;
+            return (
+              <Popover content={showText}>
+                {showText}
+              </Popover>
+            )
+          }, sorter: true
+        },
+        { title: this.$t('finance.view.search.currency'/*币种*/), dataIndex: "currencyCode", width: '10%' },
         {
           title: this.$t('finance.view.search.totalAmount'/*总金额*/), dataIndex: "totalAmount", width: '10%',
           render: (totalAmount, record) => {
@@ -66,35 +69,38 @@ class FinanceAudit extends React.Component {
               {showText}
             </Popover>)
           },
-          sorter: true},
-        {title: (
-          <Popover content={this.$t('finance.audit.payCurrency'/*支付币种*/)} overlayStyle={{ width: 100 }}>
-            {this.$t('finance.audit.payCurrency'/*支付币种*/)}
-          </Popover>
-        ), dataIndex: "baseCurrency", width: '10%'},
-        {title: this.$t('finance.audit.duePay'/*待支付金额*/), dataIndex: "baseCurrencyRealPaymentAmount", width: '10%', render: this.duePay, sorter: true},
+          sorter: true
+        },
+        {
+          title: (
+            <Popover content={this.$t('finance.audit.payCurrency'/*支付币种*/)} overlayStyle={{ width: 100 }}>
+              {this.$t('finance.audit.payCurrency'/*支付币种*/)}
+            </Popover>
+          ), dataIndex: "baseCurrency", width: '10%'
+        },
+        { title: this.$t('finance.audit.duePay'/*待支付金额*/), dataIndex: "baseCurrencyRealPaymentAmount", width: '10%', render: this.duePay, sorter: true },
       ],
       borrowColumns: [
-        {title: this.$t('finance.audit.serialNo'/*序号*/), dataIndex: "index", width: '5%'},
-        {title: this.$t('finance.view.search.jobNumber')/*工号*/, dataIndex: "employeeID", width: '10%'},
-        {title: this.$t('finance.view.search.applicant'/*申请人*/), dataIndex: "applicantName", width: '10%'},
-        {title: this.$t('finance.view.search.submitDate'/*提交日期*/), dataIndex: "submittedDate", width: '10%', render: date => new Date(date).format('yyyy-MM-dd')},
+        { title: this.$t('finance.audit.serialNo'/*序号*/), dataIndex: "index", width: '5%' },
+        { title: this.$t('finance.view.search.jobNumber')/*工号*/, dataIndex: "employeeID", width: '10%' },
+        { title: this.$t('finance.view.search.applicant'/*申请人*/), dataIndex: "applicantName", width: '10%' },
+        { title: this.$t('finance.view.search.submitDate'/*提交日期*/), dataIndex: "submittedDate", width: '10%', render: date => new Date(date).format('yyyy-MM-dd') },
         {
           title: this.$t('finance.view.search.documentType'/*单据名称*/), dataIndex: 'formName', width: '15%', render: formName => (
-          <Popover content={formName}>
-            {formName}
-          </Popover>
-        )
+            <Popover content={formName}>
+              {formName}
+            </Popover>
+          )
         },
-        {title: this.$t('bookingManagement.businessCode'/*申请单号*/), dataIndex: 'businessCode', width: '15%'},
-        {title: this.$t('finance.view.search.currency'/*币种*/), dataIndex: "currencyCode", width: '10%', render: text => text || this.props.company.baseCurrency},
-        {title: this.$t('finance.audit.duePay'/*待支付金额*/), dataIndex: "paymentAmount", width: '10%', render: this.duePay},
+        { title: this.$t('bookingManagement.businessCode'/*申请单号*/), dataIndex: 'businessCode', width: '15%' },
+        { title: this.$t('finance.view.search.currency'/*币种*/), dataIndex: "currencyCode", width: '10%', render: text => text || this.props.company.baseCurrency },
+        { title: this.$t('finance.audit.duePay'/*待支付金额*/), dataIndex: "paymentAmount", width: '10%', render: this.duePay },
       ],
       nowType: 'INVOICE',
       status: 'prending_audit',   //当前状态
       tabs: [
-        {key: 'prending_audit', name: this.$t('finance.audit.dueAudit'/*待审核*/)},
-        {key: 'audit_pass', name: this.$t('finance.audit.audited'/*已审核*/)}],
+        { key: 'prending_audit', name: this.$t('finance.audit.dueAudit'/*待审核*/) },
+        { key: 'audit_pass', name: this.$t('finance.audit.audited'/*已审核*/) }],
       searchParams: {
         applicantOID: null,
         businessCode: null,
@@ -108,8 +114,8 @@ class FinanceAudit extends React.Component {
           id: 'type',
           label: this.$t('finance.view.search.documentType'/*单据名称*/),
           options: [
-            {label: this.$t('finance.view.search.reimbursement'/*报销单*/), value: 'INVOICE'},
-            {label: this.$t('finance.view.search.borrowingDocument'/*借款单*/), value: 'BORROW'}],
+            { label: this.$t('finance.view.search.reimbursement'/*报销单*/), value: 'INVOICE' },
+            { label: this.$t('finance.view.search.borrowingDocument'/*借款单*/), value: 'BORROW' }],
           event: 'CHANGE_TYPE',
           defaultValue: 'INVOICE'
         },
@@ -117,16 +123,16 @@ class FinanceAudit extends React.Component {
           type: 'items',
           id: 'dateRange',
           items: [
-            {type: 'date', id: 'dateFrom', label: this.$t('finance.view.search.dateFrom')}, //提交日期从
-            {type: 'date', id: 'dateTo', label: this.$t('finance.view.search.dateTo')} //提交日期至
+            { type: 'date', id: 'dateFrom', label: this.$t('finance.view.search.dateFrom') }, //提交日期从
+            { type: 'date', id: 'dateTo', label: this.$t('finance.view.search.dateTo') } //提交日期至
           ]
         },
         {
           type: 'items',
           id: 'approvalDateRange',
           items: [
-            {type: 'date', id: 'approvalStartDate', label: this.$t('finance.view.search.approvalDateFrom')}, //审批日期从
-            {type: 'date', id: 'approvalEndDate', label: this.$t('finance.view.search.approvalDateTo')} //审批日期至
+            { type: 'date', id: 'approvalStartDate', label: this.$t('finance.view.search.approvalDateFrom') }, //审批日期从
+            { type: 'date', id: 'approvalEndDate', label: this.$t('finance.view.search.approvalDateTo') } //审批日期至
           ]
         },
         {
@@ -135,7 +141,7 @@ class FinanceAudit extends React.Component {
           options: [],
           searchUrl: `${config.baseUrl}/api/expense/report/search`,
           method: 'get',
-          searchKey: 'keyword', getParams: {status: 'prending_audit'}, labelKey: '_self', valueKey: '_self'
+          searchKey: 'keyword', getParams: { status: 'prending_audit' }, labelKey: '_self', valueKey: '_self'
         },
         {
           type: 'combobox',
@@ -166,34 +172,34 @@ class FinanceAudit extends React.Component {
         id: 'printFree',
         label: this.$t('finance.audit.weatherPrint')/*是否免打印*/,
         options: [
-          {label: this.$t('finance.audit.all')/*全部*/, value: 'null'},
-          {label: this.$t('finance.audit.printFree')/*免打印*/, value: 'true'},
-          {label: this.$t('finance.audit.noPrintFree')/*非免打印*/, value: 'false'}]
+          { label: this.$t('finance.audit.all')/*全部*/, value: 'null' },
+          { label: this.$t('finance.audit.printFree')/*免打印*/, value: 'true' },
+          { label: this.$t('finance.audit.noPrintFree')/*非免打印*/, value: 'false' }]
       },
       expenseForms: [],
       loanForms: [],
-      checkboxListForm: {id: 'formOIDs', items: []},
+      checkboxListForm: { id: 'formOIDs', items: [] },
       sort: '',
-      isPrintFreeSearch:false,
+      isPrintFreeSearch: false,
     };
     this.connector = null;
     this.data = [];
   }
   componentWillMount() {
-    if(this.connector)
+    if (this.connector)
       this.connector.close();
     this.openWebSocket();
     let params = [
-      {factorCode:"COMPANY",factorValue: this.props.user.companyId},
-      {factorCode:"SET_OF_BOOKS",factorValue: this.props.company.setOfBooksId}
+      { factorCode: "COMPANY", factorValue: this.props.user.companyId },
+      { factorCode: "SET_OF_BOOKS", factorValue: this.props.company.setOfBooksId }
     ];
-    httpFetch.post(`${config.baseUrl}/config/api/config/hit/EXPENSE_REPORT_PRINT_FREE?tenantId=${this.props.user.tenantId}`, params).then( res => {
+    httpFetch.post(`${config.baseUrl}/config/api/config/hit/EXPENSE_REPORT_PRINT_FREE?tenantId=${this.props.user.tenantId}`, params).then(res => {
       if (res.data.rows[0].hitValue === 'Y') {
         let search = this.state.searchForm;
         defaultSearchForm.push(JSON.parse(JSON.stringify(this.state.printFreeForm)))
         this.state.printFreeForm.defaultValue = cacheSearchData['printFreeLable'];
-        if(this.state.nowType==='INVOICE')search.push(this.state.printFreeForm);
-        this.setState({searchForm: search, isPrintFreeSearch: true});
+        if (this.state.nowType === 'INVOICE') search.push(this.state.printFreeForm);
+        this.setState({ searchForm: search, isPrintFreeSearch: true });
       }
     });
     // let countResult = {};
@@ -205,7 +211,7 @@ class FinanceAudit extends React.Component {
     // });
     this.setState({
       //this.props.location.query.tab
-      status:  undefined || 'prending_audit'
+      status: undefined || 'prending_audit'
     }, () => {
       this.getCache();
       // this.getCount();
@@ -213,7 +219,7 @@ class FinanceAudit extends React.Component {
     })
   }
   componentWillUnmount = () => {
-    if(this.connector)
+    if (this.connector)
       this.connector.close();
   };
 
@@ -230,7 +236,7 @@ class FinanceAudit extends React.Component {
   onOpen = () => {
     let body = {
       userOID: this.props.user.userOID,
-      token: localStorage.getItem('token')
+      token: sessionStorage.getItem('token')
     };
     let dict = {
       command: 'AUTH',
@@ -241,7 +247,7 @@ class FinanceAudit extends React.Component {
   };
 
   onError = (error) => {
-    this.setState({connectStatus: false})
+    this.setState({ connectStatus: false })
   };
 
   onMessage = (message) => {
@@ -251,7 +257,7 @@ class FinanceAudit extends React.Component {
 
   onClose = () => {
     if (this.state.connectStatus)
-      this.setState({connectStatus: false});
+      this.setState({ connectStatus: false });
   };
 
   analyseData = () => {
@@ -270,17 +276,17 @@ class FinanceAudit extends React.Component {
     if (expense.command === 'ERROR') {
       if (this.state.hasConfirm)
         return;
-      this.setState({hasConfirm: true});
+      this.setState({ hasConfirm: true });
       Modal.confirm({
         title: 'Oops',
         content: expense.body,
         okText: this.$t('finance.audit.reconnect')/*重连*/,
         cancelText: this.$t('common.cancel')/*取消*/,
         onOk: () => {
-          this.setState({hasConfirm: false});
+          this.setState({ hasConfirm: false });
         },
         onCancel: () => {
-          this.setState({hasConfirm: false});
+          this.setState({ hasConfirm: false });
           this.data = [];
           this.connector.close();
         }
@@ -292,9 +298,9 @@ class FinanceAudit extends React.Component {
     if (expense.command !== 'MESSAGE') return;
     let content = expense.body.content.split(':');
     if ('AUTH_SUCCESS' === expense.body.type) {
-      this.setState({connectStatus: true});
+      this.setState({ connectStatus: true });
     } else if ('EXPENSE_REPORT_REVIEW' === expense.body.type) {
-      let {status, expenseDetailAudit} = this.state;
+      let { status, expenseDetailAudit } = this.state;
       let url = expenseDetailAudit.replace(':expenseReportOID', content[0]).replace(':backType', 'history');
       url += `?prending_audit=true`;
       this.props.dispatch({
@@ -302,7 +308,7 @@ class FinanceAudit extends React.Component {
         payload: cacheSearchData,
       });
       this.props.dispatch(
-        routerRedux.push({pathname: url})
+        routerRedux.push({ pathname: url })
       )
     }
   };
@@ -344,7 +350,7 @@ class FinanceAudit extends React.Component {
   // }
 
   getList = () => {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let temp = this.state.searchParams;
     temp.status = this.state.status;
     httpFetch.post(`${config.baseUrl}/api/${this.state.nowType === 'INVOICE' ? 'v2/expense/reports' : 'loan/application'}/finance/admin/search?page=${this.state.page}&size=${this.state.pageSize}&sort=${this.state.sort}`, temp).then(res => {
@@ -372,26 +378,26 @@ class FinanceAudit extends React.Component {
       let expenseForms = [];
       let loanForms = [];
       res[0].data.map(item => {
-        expenseForms.push({label: item.formName, value: item.formOID})
+        expenseForms.push({ label: item.formName, value: item.formOID })
       });
       res[1].data.map(item => {
-        loanForms.push({label: item.formName, value: item.formOID})
+        loanForms.push({ label: item.formName, value: item.formOID })
       });
-      checkboxListForm.items = [{label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue}];
-      defaultCheckboxListForm.items = [{label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue}];
+      checkboxListForm.items = [{ label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue }];
+      defaultCheckboxListForm.items = [{ label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue }];
       this.setState({ expenseForms, loanForms, checkboxListForm })
     })
   };
 
   handleClickSwitch = () => {
     this.props.dispatch(
-      routerRedux.push({pathname: '/financial-management/finance-audit/scan-audit'})
+      routerRedux.push({ pathname: '/financial-management/finance-audit/scan-audit' })
     );
   };
 
   handleClickSwitchGun = () => {
     this.props.dispatch(
-      routerRedux.push({pathname: '/financial-management/finance-audit/scan-gun-audit'})
+      routerRedux.push({ pathname: '/financial-management/finance-audit/scan-gun-audit' })
     );
   };
 
@@ -401,35 +407,34 @@ class FinanceAudit extends React.Component {
       this.state.tabs.map(tab => {
         // let typeCount = this.state.count[tab.key];
         return <TabPane tab={`${tab.name}`}
-                        key={tab.key}/>
+          key={tab.key} />
       })
     )
   }
 
   //渲染处理数据源
   handleData = () => {
-    let {invoiceColumns, borrowColumns, status, isPrintFreeSearch, nowType, printFreeForm, searchForm, checkboxListForm, expenseForms, loanForms} = this.state;
-    if(checkboxListForm.items[0]){
-      checkboxListForm.items[0].options=(nowType === 'INVOICE' ? expenseForms : loanForms);
+    let { invoiceColumns, borrowColumns, status, isPrintFreeSearch, nowType, printFreeForm, searchForm, checkboxListForm, expenseForms, loanForms } = this.state;
+    if (checkboxListForm.items[0]) {
+      checkboxListForm.items[0].options = (nowType === 'INVOICE' ? expenseForms : loanForms);
     }
-    searchForm.map(item=>{
-        if(item.id==='formID'){
-          let url = config.baseUrl;
-          if (nowType === 'INVOICE') {
-            url += `/api/expense/report/search`;
-          } else {
-            url += `/api/loan/application/search`
-          }
-          item.searchUrl = url;
-          item.getParams = {status: status};
+    searchForm.map(item => {
+      if (item.id === 'formID') {
+        let url = config.baseUrl;
+        if (nowType === 'INVOICE') {
+          url += `/api/expense/report/search`;
+        } else {
+          url += `/api/loan/application/search`
         }
+        item.searchUrl = url;
+        item.getParams = { status: status };
+      }
     });
     removeArryItem(searchForm, searchForm.filter(item => item.id === 'printFree')[0]);
-    if(isPrintFreeSearch && nowType === 'INVOICE')
-    {
+    if (isPrintFreeSearch && nowType === 'INVOICE') {
       searchForm.push(printFreeForm);
     }
-    if(status==='audit_pass'){
+    if (status === 'audit_pass') {
       if (invoiceColumns[invoiceColumns.length - 1].dataIndex != "origDocumentSequence")
         invoiceColumns.push({
           title: this.$t('finance.audit.journalNo'/*凭证编号*/),
@@ -442,11 +447,11 @@ class FinanceAudit extends React.Component {
           dataIndex: "origDocumentSequence",
           width: '9%'
         });
-    }else{
+    } else {
       removeArryItem(invoiceColumns, invoiceColumns.filter(item => item.dataIndex === 'origDocumentSequence')[0]);
       removeArryItem(borrowColumns, borrowColumns.filter(item => item.dataIndex === 'origDocumentSequence')[0]);
     }
-    this.setState({invoiceColumns,borrowColumns});
+    this.setState({ invoiceColumns, borrowColumns });
   };
   //Tab点击事件
   onChangeTabs = (key) => {
@@ -483,50 +488,50 @@ class FinanceAudit extends React.Component {
     this.setState({
       searchParams: searchParams,
       loading: true,
-      page: result.page?result.page:0
+      page: result.page ? result.page : 0
     }, () => {
       this.getList();
     })
   };
 
   //子组件this
-  onRef = (ref) =>{
-    this.child=ref;
+  onRef = (ref) => {
+    this.child = ref;
   };
   //存储筛选数据缓存
-  setCache(result){
-    let {status,page} = this.state;
+  setCache(result) {
+    let { status, page } = this.state;
     result.tabsStatus = status;
     result.page = page;
-    cacheSearchData=result;
+    cacheSearchData = result;
   }
   //获取筛选数据缓存
-  getCache(){
-    let result=this.props.financeAudit;
-    if(result&&JSON.stringify(result) !== "{}"){
-      cacheSearchData=result;
+  getCache() {
+    let result = this.props.financeAudit;
+    if (result && JSON.stringify(result) !== "{}") {
+      cacheSearchData = result;
       this.dealCache(result);
     }
-    else{
-      defaultSearchForm=deepFullCopy(this.state.searchForm)
-      defaultCheckboxListForm=deepFullCopy(this.state.checkboxListForm)
+    else {
+      defaultSearchForm = deepFullCopy(this.state.searchForm)
+      defaultCheckboxListForm = deepFullCopy(this.state.checkboxListForm)
       this.getList()
     }
 
   };
   //处理筛选缓存数据
   dealCache(result) {
-    let {status, searchForm, nowType, page, checkboxListForm} = this.state;
-    defaultSearchForm=deepFullCopy(searchForm);
-    defaultCheckboxListForm=deepFullCopy(checkboxListForm);
+    let { status, searchForm, nowType, page, checkboxListForm } = this.state;
+    defaultSearchForm = deepFullCopy(searchForm);
+    defaultCheckboxListForm = deepFullCopy(checkboxListForm);
     if (result) {
       status = result.tabsStatus;
       nowType = result.type;
       page = result.page;
-      checkboxListForm.defaultValue=result['formOIDsLable'] || [];
-      checkboxListForm.formOIDsExpand=result['formOIDsExpand'];
+      checkboxListForm.defaultValue = result['formOIDsLable'] || [];
+      checkboxListForm.formOIDsExpand = result['formOIDsExpand'];
       dealCache(searchForm, result);
-      this.setState({status, nowType, searchForm, page}, () => {
+      this.setState({ status, nowType, searchForm, page }, () => {
         this.handleData();
         this.search(result);
         configureStore.store.dispatch(setFinanceAudit(null));
@@ -535,10 +540,10 @@ class FinanceAudit extends React.Component {
   }
 
   clear = () => {
-    cacheSearchData={};
+    cacheSearchData = {};
     this.setState({
-      page:0,
-      searchForm:defaultSearchForm,
+      page: 0,
+      searchForm: defaultSearchForm,
       nowType: 'INVOICE',
       searchParams: {
         applicantOID: "",
@@ -547,7 +552,7 @@ class FinanceAudit extends React.Component {
         endDate: null,
         startDate: null
       }
-    },()=>{this.handleData();this.getList();});
+    }, () => { this.handleData(); this.getList(); });
   };
 
   searchEventHandle = (event, value, valuesTmp) => {
@@ -556,11 +561,11 @@ class FinanceAudit extends React.Component {
         if (value === this.state.nowType)
           return;
         let { checkboxListForm, expenseForms, loanForms } = this.state;
-        checkboxListForm.items = [{label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: value === 'INVOICE' ? expenseForms : loanForms, checked: []}];
+        checkboxListForm.items = [{ label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: value === 'INVOICE' ? expenseForms : loanForms, checked: [] }];
         this.setState({ checkboxListForm });
-        this.setState({page: 0, nowType: value, loading: true}, () => {
-          valuesTmp.type=value;
-          valuesTmp.typeLable=value;
+        this.setState({ page: 0, nowType: value, loading: true }, () => {
+          valuesTmp.type = value;
+          valuesTmp.typeLable = value;
           this.handleData();
           this.search(valuesTmp);
         });
@@ -570,16 +575,16 @@ class FinanceAudit extends React.Component {
   };
 
   handleTableChange = (pagination, filters, sorter) => {
-    let page =  pagination.current;
+    let page = pagination.current;
     let sort = '';
-    if(sorter.order){
+    if (sorter.order) {
       sort = `${sorter.columnKey},${sorter.order === 'ascend' ? 'ASC' : 'DESC'}`
     }
     this.setState({
       page: page - 1,
       loading: true,
       sort
-    }, ()=>{
+    }, () => {
       this.child.handleSearch();
     })
   };
@@ -588,17 +593,17 @@ class FinanceAudit extends React.Component {
     const { nowType, status, expenseDetailAudit, loanDetailAudit } = this.state;
     let url = '';
 
-    if(nowType === 'INVOICE')
-      url = expenseDetailAudit.replace(':expenseReportOID', record.expenseReportOID).replace(':backType','history');
+    if (nowType === 'INVOICE')
+      url = expenseDetailAudit.replace(':expenseReportOID', record.expenseReportOID).replace(':backType', 'history');
     else
-      url = loanDetailAudit.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':backType','history');
+      url = loanDetailAudit.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':backType', 'history');
     status === 'prending_audit' && (url += `?prending_audit=true`);
     this.props.dispatch({
       type: 'cache/setFinanceAudit',
       payload: cacheSearchData,
     });
     this.props.dispatch(
-      routerRedux.push({pathname: url})
+      routerRedux.push({ pathname: url })
     )
   };
 
@@ -611,10 +616,10 @@ class FinanceAudit extends React.Component {
     )
   };
 
-  renderAllExpandedRow = (record) =>{
+  renderAllExpandedRow = (record) => {
     let result = [];
-    if(record.warningList){
-      let warningList=JSON.parse(record.warningList);
+    if (record.warningList) {
+      let warningList = JSON.parse(record.warningList);
       let content = '';
       warningList.map(item => {
         if (item.showFlag) {
@@ -623,21 +628,21 @@ class FinanceAudit extends React.Component {
       });
       content && result.push(this.renderExpandedRow(this.$t('common.label'), content.substr(0, content.length - 1)));
     }
-    if(record.printFree){
+    if (record.printFree) {
       result.push(this.renderExpandedRow(this.$t('common.print.free'), this.$t('common.print.require')));
     }
-    if(record.noticeFlag){
+    if (record.noticeFlag) {
       result.push(this.renderExpandedRow(this.$t('finance.view.column.notice'), this.$t('finance.view.column.noticeContent')));
     }
-    if(result.length>0){
+    if (result.length > 0) {
       return result;
-    }else{
+    } else {
       return null;
     }
   };
 
   render() {
-    const {data, loading, invoiceColumns ,borrowColumns, pagination, searchForm, nowType, checkboxListForm, status} = this.state;
+    const { data, loading, invoiceColumns, borrowColumns, pagination, searchForm, nowType, checkboxListForm, status } = this.state;
 
     return (
       <div className="finance-audit">
@@ -655,28 +660,28 @@ class FinanceAudit extends React.Component {
           {this.renderTabs()}
         </Tabs>
         <SearchArea onRef={this.onRef}
-                    searchForm={searchForm}
-                    checkboxListForm={[checkboxListForm]}
-                    submitHandle={this.search}
-                    clearHandle={this.clear}
-                    isReturnLabel={true}
-                    eventHandle={this.searchEventHandle}/>
-        <div className="divider"/>
+          searchForm={searchForm}
+          checkboxListForm={[checkboxListForm]}
+          submitHandle={this.search}
+          clearHandle={this.clear}
+          isReturnLabel={true}
+          eventHandle={this.searchEventHandle} />
+        <div className="divider" />
         <div className="table-header">
-          <div className="table-header-title">{this.$t('common.total', {total: pagination.total})}</div>
+          <div className="table-header-title">{this.$t('common.total', { total: pagination.total })}</div>
           {/* 共total条数据 */}
         </div>
         <Table columns={nowType === 'INVOICE' ? invoiceColumns : borrowColumns}
-               dataSource={data}
-               bordered
-               pagination={pagination}
-               onChange={this.handleTableChange}
-               onRow={record => ({onClick: () => this.handleRowClick(record)})}
-               loading={loading}
-               expandedRowRender = { this.renderAllExpandedRow }
-               rowClassName = {record => (record.printFree || record.noticeFlag ||  record.warningList  ) ? '' :'finance-audit-reject' }
-               size="middle"
-               rowKey={nowType === 'INVOICE' ? 'expenseReportOID' : 'applicationOID'}/>
+          dataSource={data}
+          bordered
+          pagination={pagination}
+          onChange={this.handleTableChange}
+          onRow={record => ({ onClick: () => this.handleRowClick(record) })}
+          loading={loading}
+          expandedRowRender={this.renderAllExpandedRow}
+          rowClassName={record => (record.printFree || record.noticeFlag || record.warningList) ? '' : 'finance-audit-reject'}
+          size="middle"
+          rowKey={nowType === 'INVOICE' ? 'expenseReportOID' : 'applicationOID'} />
       </div>
     )
   }
