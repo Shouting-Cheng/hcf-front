@@ -206,7 +206,6 @@ class ExpenseAdjustApproveCommon extends React.Component {
     }).then((e) => { })
   };
 
-
   //获取维度
   getDimension = (expenseAdjustTypeId)=>{
     const {columns} = this.state;
