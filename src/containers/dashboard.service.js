@@ -71,6 +71,20 @@ export default {
    */
   getCatouselsContent(id) {
     return httpFetch.get(`${config.baseUrl}/api/carousels/${id}`);
+  },
+
+  /***
+   * 获取未完成的单据
+   */
+  getDoingDocument() {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/2`);
+  },
+
+   /***
+   * 获取退回的单据
+   */
+  getBackDocument() {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/1`);
   }
 
 }

@@ -1,12 +1,35 @@
-import { Form, Row, Col, Input, Button, Icon, Switch } from 'antd';
+import { Form, Row, Col, Input, Button, Icon, Switch, Select } from 'antd';
 import React from 'react';
 const FormItem = Form.Item;
+import commonService from 'services/common';
 
 import './search-form.less';
+
+import { connect } from "dva"
+
+
+@connect(state => state)
+
 class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
+    options: []
   };
+
+  componentDidMount() {
+
+    if (this.props.getRef) {
+      this.props.getRef(this);
+    }
+
+    let { formItems } = this.props;
+
+    formItems.map(item => {
+      if ((!item.options || !item.options.length) && item.url) {
+        this.getOptions(item);
+      }
+    });
+  }
 
   handleSearch = e => {
     e.preventDefault();
@@ -29,6 +52,17 @@ class AdvancedSearchForm extends React.Component {
     this.props.form.resetFields();
   }
 
+  getOptions = item => {
+    commonService.getInterface(item.url).then(res => {
+      if (res.data) {
+        let options = res.data.map(o => {
+          return { label: o[item.labelKey], value: o[item.valueKey] };
+        });
+        this.setState({ options: { [item.id]: options } });
+      }
+    });
+  };
+
   // To generate mock Form.Item
   getFields() {
     const { getFieldDecorator } = this.props.form;
@@ -36,12 +70,32 @@ class AdvancedSearchForm extends React.Component {
     const children = [];
     const count = this.state.expand ? formItems.length : 4;
 
+
     formItems.map((item, i) => {
       if (item.dataIndex) {
+
+        let options = {};
+
+        if (item.defaultValue) {
+          let key = "";
+          item.defaultValue.replace(/\$\{(.+)\}/g, (target, result) => {
+            key = result;
+          });
+
+          if (key) {
+            let temp = this.getValue(this.props, key);
+            if (temp && temp.length) {
+              item.defaultValue = temp[0];
+            }
+          }
+
+          options.initialValue = item.defaultValue;
+        }
+
         children.push(
           <Col span={item.colSpan || 6} key={item.dataIndex} style={{ display: i < count ? 'block' : 'none' }}>
             <FormItem label={item.label}>
-              {getFieldDecorator(item.dataIndex)(this.renderItem(item))}
+              {getFieldDecorator(item.dataIndex, options)(this.renderItem(item))}
             </FormItem>
           </Col>
         );
@@ -51,8 +105,16 @@ class AdvancedSearchForm extends React.Component {
     return children;
   }
 
+  getValue(data, ...args) {
+    const res = JSON.stringify(data);
+    return args.map((item) => (new Function(`try {return ${res}.${item} } catch(e) {}`))());
+  }
+
   renderItem = item => {
-    switch (item.type) {
+
+    const { options } = this.state;
+
+    switch (item.typeCode) {
       case 'input':
         return <Input placeholder={item.placeholder} />;
       case 'switch':
@@ -65,9 +127,10 @@ class AdvancedSearchForm extends React.Component {
       case 'select':
         return (
           <Select placeholder={item.placeholder}>
-            {item.options.map(option => {
-              return <Option key={option.value}>{option.label}</Option>;
-            })}
+            {options[item.id] &&
+              options[item.id].map(option => {
+                return <Select.Option key={option.value}>{option.label}</Select.Option>;
+              })}
           </Select>
         );
       default:
@@ -100,6 +163,8 @@ class AdvancedSearchForm extends React.Component {
     );
   }
 }
+
+
 
 const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
 
