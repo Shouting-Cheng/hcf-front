@@ -33,7 +33,7 @@ class Payment extends React.Component {
                 2003: { label: '支付中', state: 'processing' },
             },
             SearchForm1: [
-                { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
+                { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105&available=1`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
                 {
                     type: 'list',
                     listType: 'bgtUserOID',
