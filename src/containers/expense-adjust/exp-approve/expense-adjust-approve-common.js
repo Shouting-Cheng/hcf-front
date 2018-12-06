@@ -111,8 +111,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
         },
       ],
       columns: [
-        {
-          title: this.$t('common.sequence'), align: "center", dataIndex: "index", key: "index", width: 62,
+        { title: this.$t('common.sequence'), align: "center", dataIndex: "index", key: "index", width: 62,
           render: (value, record, index) => index + 1
         },
         {
@@ -124,19 +123,19 @@ class ExpenseAdjustApproveCommon extends React.Component {
           render: desc => <span><Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover></span>
         },
         {//费用类型
-          title: this.$t('common.expense.type'), dataIndex: 'expenseTypeName', width: 100,
+          title:  this.$t('common.expense.type') , dataIndex: 'expenseTypeName', width: 100,
           render: desc => <span><Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover></span>
         },
         {
           title: this.$t('common.amount'), dataIndex: 'amount', width: 100, align: 'center',
-          render: desc => this.filterMoney(desc)
+          render: desc=> this.filterMoney(desc)
         },
         {
           title: this.$t('acp.function.amount'), dataIndex: 'functionalAmount', width: 120, align: 'center',
-          render: desc => this.filterMoney(desc)
+          render: desc=> this.filterMoney(desc)
         },
         {
-          title: this.$t('common.comment'), dataIndex: 'description', align: 'center',
+          title: this.$t('common.comment'), dataIndex: 'description',align: 'center',
           render: desc => <span><Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover></span>
         },
         {
@@ -184,7 +183,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
       flag: false,
       EditExpenseAdjust: '/expense-adjust/my-expense-adjust/new-expense-adjust/', //新建费用调整
       // ExpenseAdjustDetail: menuRoute.getRouteItem('expense-adjust-detail', 'key'), //费用调整详情,
-      ExpenseAdjustDetail: '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/',
+      ExpenseAdjustDetail:'/approval-management/approve-expense-adjust/expense-adjust-approve-detail/',
       expenseAdjust: '/expense-adjust/my-expense-adjust',    //费用调整
     }
   }
@@ -209,15 +208,13 @@ class ExpenseAdjustApproveCommon extends React.Component {
 
 
   //获取维度
-  getDimension = (expenseAdjustTypeId) => {
-    const { columns } = this.state;
-    adjustService.getDimensionAndValue(this.props.expenseAdjustTypeId).then(response => {
-      response.data.reverse().map(item => item && columns.splice(7, 0, {
-        title: item.name, dataIndex: 'dimension' + item.sequenceNumber + 'Name', align: 'center',
-        render: desc => <span><Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover></span>
-      })
+  getDimension = (expenseAdjustTypeId)=>{
+    const {columns} = this.state;
+    adjustService.getDimensionAndValue(this.props.expenseAdjustTypeId).then(response=>{
+      response.data.reverse().map(item=> item&&columns.splice(7,0,{title: item.name, dataIndex: 'dimension'+item.sequenceNumber+'Name', align: 'center',
+        render: desc => <span><Popover content={desc ? desc : '-'}>{desc ? desc : '-'}</Popover></span>})
       );
-      this.setState({ columns, costCenterData: response.data })
+      this.setState({columns, costCenterData: response.data })
     })
   };
 
@@ -238,10 +235,33 @@ class ExpenseAdjustApproveCommon extends React.Component {
 
   //获取费用调整头信息
   getInfo = () => {
-    adjustService.getExpenseAdjustHeadById(this.props.id).then(response => {
+    adjustService.getExpenseAdjustHeadById(this.props.id).then(response=>{
+      let columns = this.state.columns;
+      if(response.data.adjustTypeCategory.toString() === '1001'){
+        columns.splice(columns.length - 1, 0, {
+          title: this.$t('exp.dir.info'),
+          dataIndex: 'checkInfo',
+          width: 120,
+          align: 'center',
+          render: (value, record) => {
+            return (
+              <a
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.showApportion(record);
+                }}
+              >
+                {this.$t('exp.detail.info')}
+              </a>
+            );
+          },
+        });
+      }
+
       let documentParams = {
         businessCode: response.data.expAdjustHeaderNumber,
-        createdDate: moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
+        createdDate:  moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
         formName: response.data.expAdjustTypeName,
         createByName: response.data.employeeName,
         totalAmount: response.data.totalAmount ? response.data.totalAmount : 0,
@@ -256,22 +276,21 @@ class ExpenseAdjustApproveCommon extends React.Component {
         ],
         attachments: response.data.attachments
       };
-      let columns = this.state.columns;
-      if (response.data.status === 1002 || response.data.status === 1004) {
-        columns.splice(columns.length - 1, 1)
+      if(response.data.status === 1002 || response.data.status === 1004){
+        columns.splice(columns.length-1,1)
       }
       this.setState({
         headerData: response.data,
         documentParams,
         columns
-      }, () => {
+      },()=>{
         this.getHistory(response.data.documentOid)
       })
     })
   };
 
-  getHistory = (oid) => {
-    adjustService.getApproveHistoryWorkflow(oid).then(response => {
+  getHistory = (oid) =>{
+    adjustService.getApproveHistoryWorkflow(oid).then(response=>{
       this.setState({
         approveHistory: response.data
       })
@@ -292,8 +311,8 @@ class ExpenseAdjustApproveCommon extends React.Component {
       page: page
     };
     adjustService.getExpenseAdjustLine(params).then(resp => {
-      if (resp.status === 200) {
-        resp.data.map(item => item.key = item.id);
+      if (resp.status === 200){
+        resp.data.map(item=>item.key = item.id);
         pagination.total = Number(resp.headers['x-total-count']);
         this.setState({
           data: resp.data,
@@ -375,43 +394,43 @@ class ExpenseAdjustApproveCommon extends React.Component {
         <Col span={20}>
           <Row>
             {record.attachments &&
-              record.attachments.map(item => {
-                return (
-                  <Col
-                    span={6}
-                    style={{
-                      textAlign: 'left',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                    key={item.id}
-                  >
+            record.attachments.map(item => {
+              return (
+                <Col
+                  span={6}
+                  style={{
+                    textAlign: 'left',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                  key={item.id}
+                >
 
-                    <Popover content={item.fileName}>
-                      {item.fileType !== 'IMAGE' ? (
-                        <a
-                          href={`${config.baseUrl}/api/attachments/download/${
-                            item.attachmentOID
-                            }?access_token=${
-                            sessionStorage.getItem('token')
-                            }`}
-                        >
-                          {item.fileName}
-                        </a>
-                      ) : (
-                          <a
-                            onClick={() => {
-                              this.preview(item);
-                            }}
-                          >
-                            {item.fileName}
-                          </a>
-                        )}
-                    </Popover>
-                  </Col>
-                );
-              })}
+                  <Popover content={item.fileName}>
+                    {item.fileType !== 'IMAGE' ? (
+                      <a
+                        href={`${config.baseUrl}/api/attachments/download/${
+                          item.attachmentOID
+                          }?access_token=${
+                          localStorage.getItem('token')
+                          }`}
+                      >
+                        {item.fileName}
+                      </a>
+                    ) : (
+                      <a
+                        onClick={() => {
+                          this.preview(item);
+                        }}
+                      >
+                        {item.fileName}
+                      </a>
+                    )}
+                  </Popover>
+                </Col>
+              );
+            })}
           </Row>
         </Col>
       </Row>
@@ -430,65 +449,63 @@ class ExpenseAdjustApproveCommon extends React.Component {
     })
   };
 
-  renderContent = () => {
-    const { nowStatus, type, previewVisible, previewImage, widthDrawLoading, documentParams, apportionParams, showApportion, voucherColumns, voucherData, pagination, voucherPagination, voucherLoading, loading, dLoading, data, columns, showSlideFrame, showImportFrame, slideFrameTitle, tabs, isModal, costCenterData, infoList, headerData, approveHistory } = this.state;
+  renderContent = ()=>{
+    const { nowStatus, type, previewVisible, previewImage, widthDrawLoading, documentParams, apportionParams,showApportion, voucherColumns, voucherData,pagination,voucherPagination, voucherLoading,loading, dLoading, data, columns, showSlideFrame, showImportFrame, slideFrameTitle, tabs, isModal, costCenterData, infoList, headerData, approveHistory } = this.state;
     let flag = headerData.status === 1004;
     return (
-      <div className="adjust-content" style={{ marginBottom: 50, paddingBottom: 30 }}>
+      <div className="adjust-content" style={{marginBottom: 50, paddingBottom: 30}}>
         <div className="document-basic-info" style={flag ?
           {
             boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
             padding: 15,
-            background: 'white',
-            margin: '0px 15px 0px 15px'
-          }
-          : {
+            background:'white',
+            margin: '0px 15px 0px 15px'}
+          :{
             boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
             padding: 15,
-            margin: '0px 15px 0px 15px'
-          }}>
-          <DocumentBasicInfo params={documentParams} />
+            margin: '0px 15px 0px 15px'}}>
+          <DocumentBasicInfo params={documentParams}/>
         </div>
         <div className="expense-adjust-detail-center" style={{
           boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
           margin: '20px 15px 0px 15px',
-          background: 'white',
+          background:'white',
           padding: '0px 0px 40px 0px'
         }}>
-          <Divider />
+          <Divider/>
           <div style={{
             padding: '0px 20px 0px 20px'
           }}>
-            <div className="center-title" style={{ color: 'black', fontSize: 17, borderBottom: '1px solid #ececec' }}>
+            <div className="center-title" style={{color:'black', fontSize: 17, borderBottom: '1px solid #ececec'}}>
               {this.$t('exp.adjust.info')}
             </div>
-            <Row gutter={24} style={{ marginTop: 15 }}>
-              <Col span={18} style={{ marginBottom: 5 }} />
-              <Col span={6} className="table-header-tips" style={{ textAlign: 'right', marginTop: 10 }}>
-                {this.$t('exp.amount.total')}：<span style={{ color: 'green' }}>{headerData.currencyCode && headerData.currencyCode + " "}&nbsp;{headerData.totalAmount ? this.filterMoney(headerData.totalAmount) : this.filterMoney(0)}</span>
+            <Row gutter={24} style={{marginTop: 15}}>
+              <Col span={18} style={{marginBottom: 5}}/>
+              <Col span={6} className="table-header-tips" style={{textAlign: 'right', marginTop: 10}}>
+                {this.$t('exp.amount.total')}：<span style={{color: 'green'}}>{headerData.currencyCode&&headerData.currencyCode +" "}&nbsp;{headerData.totalAmount? this.filterMoney(headerData.totalAmount) : this.filterMoney(0)}</span>
               </Col>
             </Row>
             <Table
-              rowKey={record => record.id}
+              rowKey={record=> record.id}
               dataSource={data}
               loading={loading}
               columns={columns}
               pagination={pagination}
-              scroll={{ x: 1300, y: 0 }}
+              scroll={{x: 1300 ,y:0}}
               onChange={this.onChangePager}
               size="middle"
               expandedRowRender={this.expandedRowRender}
-              bordered />
+              bordered/>
           </div>
         </div>
-        <div className="approve-history" style={flag ? { margin: '20px 15px 35px 15px' } :
-          { margin: '20px 15px 20px 15px' }}>
-          <ApproveHistory loading={false} infoData={approveHistory} />
+        <div className="approve-history" style={ flag? {margin:'20px 15px 35px 15px'}:
+          {margin: '20px 15px 20px 15px'}}>
+          <ApproveHistory loading={false} infoData={approveHistory}/>
         </div>
         <ApprotionInfo
           close={() => { this.setState({ showApportion: false, apportionParams: [] }) }}
           visible={showApportion}
-          params={{ costCenterData: costCenterData, data: apportionParams }}
+          params={{costCenterData:costCenterData, data: apportionParams}}
           z-index={1001} />
         <Modal visible={previewVisible} footer={null} onCancel={() => { this.setState({ previewVisible: false }) }}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -510,9 +527,9 @@ class ExpenseAdjustApproveCommon extends React.Component {
                 {this.renderContent()}
               </TabPane>
               <TabPane tab={this.$t('detail.voucher.info')} key='voucher'>
-                <div style={{ background: 'white', margin: '-16px -10px 0 -10px', padding: 10 }}>
-                  <div style={{ padding: 10, margin: '20px 15px 20px 30px' }}>
-                    <div style={{ fontSize: 18, marginBottom: 5 }}>{this.$t('exp.expense.voucher')}</div>
+                <div style={{background: 'white', margin: '-16px -10px 0 -10px', padding: 10} }>
+                  <div style={{padding: 10, margin: '20px 15px 20px 30px'}}>
+                    <div style={{fontSize: 18, marginBottom: 5}}>{this.$t('exp.expense.voucher')}</div>
                     <CustomTable
                       ref={ref => this.customTable = ref}
                       showNumber={true}
