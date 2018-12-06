@@ -224,7 +224,7 @@ class DocumentBasicInfo extends React.Component {
                                 href={`${config.baseUrl}/api/attachments/download/${
                                   item.attachmentOID
                                   }?access_token=${
-                                  JSON.parse(localStorage.getItem('hly.token')).access_token
+                                  sessionStorage.getItem('token')
                                   }`}
                               >
                                 {item.fileName}

@@ -33,7 +33,7 @@ class ResetPasswordModal extends React.Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   componentDidMount() {
     let mobile_or_email = this.props.user.email || this.props.user.mobile;
@@ -43,9 +43,9 @@ class ResetPasswordModal extends React.Component {
           rule: res.data,
         });
       })
-      .catch(err => {});
+      .catch(err => { });
     //必须是resetPassword为ture且isAccountLogin是用账号登陆的
-    if (this.props.user.resetPassword && localStorage.getItem('isAccountLogin')) {
+    if (this.props.user.resetPassword && sessionStorage.getItem('isAccountLogin')) {
       this.setState({
         visible: true,
       });

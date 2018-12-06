@@ -68,20 +68,18 @@ class TableAttrForm extends Component {
       dispatch,
     } = this.props;
 
-    // let table = components.find(o => o.id === selectedId);
-
-    // let columns = table.props.columns || [];
-
-    // let result  = await this.showConfirm();
-
     fetch
-      .get('/auth/api/interfaceResponse/query?isEnabled=true&page=0&size=10&interfaceId=' + value)
+      .get('/auth/api/interfaceResponse/query?isEnabled=true&page=0&size=999&interfaceId=' + value)
       .then(res => {
         res.map(item => {
-          // columns.push({
-          //   title: item.name,
-          //   dataIndex: item.keyCode,
-          // });
+
+          if (!item.visibled) return;
+
+          let typeCode = "";
+
+          if (item.respType == "date") {
+            typeCode = "date";
+          } 
 
           let box = {
             type: 'column',
@@ -91,6 +89,7 @@ class TableAttrForm extends Component {
             parent: selectedId,
             title: item.name,
             dataIndex: item.keyCode,
+            typeCode
           };
 
           dispatch({

@@ -1,10 +1,11 @@
 import fetch from '../utils/fetch';
 import axios from 'axios';
+import app from "../index"
 
 export default {
   async getInterface(id, params = {}) {
     let info = await fetch.get('/auth/api/interface/query/' + id);
-    let list = await fetch.get('/auth/api/interfaceRequest/query?page=0&size=10&interfaceId=' + id);
+    let list = await fetch.get('/auth/api/interfaceRequest/query?page=0&size=9999&interfaceId=' + id);
 
     let values = {};
 
@@ -16,7 +17,7 @@ export default {
       url: info.reqUrl,
       method: info['requestMethod'],
       headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
       },
       data: values.data,
       params:
@@ -71,10 +72,29 @@ export default {
   },
 
   dataDel(value, type) {
+
+    let store = app.getState();
+
+    let key = "";
+    value.replace(/\$\{(.+)\}/g, (target, result) => {
+      key = result;
+    });
+
+    if (key) {
+      let temp = this.getValue(store, key);
+      if (temp && temp.length) {
+        value = temp[0];
+      }
+    }
+
     if (type == "bool") {
       return Boolean(value);
     }
     return value;
-  }
+  },
 
+  getValue(data, ...args) {
+    const res = JSON.stringify(data);
+    return args.map((item) => (new Function(`try {return ${res}.${item} } catch(e) {}`))());
+  }
 };

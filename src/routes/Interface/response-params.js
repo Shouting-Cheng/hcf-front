@@ -45,6 +45,8 @@ class ResponseParams extends React.Component {
                 <Select.Option value="string">string</Select.Option>
                 <Select.Option value="array">array</Select.Option>
                 <Select.Option value="object">object</Select.Option>
+                <Select.Option value="bool">bool</Select.Option>
+                <Select.Option value="date">date</Select.Option>
                 <Select.Option value="int">int</Select.Option>
                 <Select.Option value="long">long</Select.Option>
                 <Select.Option value="float">float</Select.Option>
@@ -87,8 +89,22 @@ class ResponseParams extends React.Component {
           },
         },
         {
+          title: '是否显示',
+          width: 140,
+          dataIndex: 'visibled',
+          render: (value, record, index) => {
+            return record.status == 'edit' || record.status == 'new' ? (
+              <Switch
+                onChange={value => this.change('visibled', value, record)}
+                checked={value}
+              />
+            ) : (
+                <span>{value ? '是' : '否'}</span>
+              );
+          },
+        },
+        {
           title: '操作',
-          fixed: 'right',
           dataIndex: 'option',
           width: 160,
           align: 'center',

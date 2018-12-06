@@ -89,10 +89,9 @@ class EditViewUpload extends Component {
         previewImage: file.thumbnailUrl ? file.thumbnailUrl : file.response.thumbnailUrl,
       });
     } else {
-      console.log(localStorage.getItem('token'));
       this.a.href = `${config.baseUrl}/api/attachments/download/${
         file.attachmentOID ? file.attachmentOID : file.response.attachmentOID
-      }?access_token=${localStorage.getItem('token')}`;
+        }?access_token=${sessionStorage.getItem('token')}`;
       this.a.click();
     }
   };
@@ -123,7 +122,7 @@ class EditViewUpload extends Component {
     } = this.props;
     const upload_headers = {
       //JSON.parse(localStorage.getItem('hly.token')).access_token
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     };
     const { fileList } = this.state;
     const footer = disabled ? { footer: ' ' } : {};
@@ -188,7 +187,7 @@ class EditViewUpload extends Component {
 EditViewUpload.defaultProps = {
   uploadUrl: `${config.baseUrl}/api/upload/static/attachment`,
   defaultFileList: [],
-  onChange: () => {},
+  onChange: () => { },
   maxNum: 9,
   multiple: false,
   disabled: false,

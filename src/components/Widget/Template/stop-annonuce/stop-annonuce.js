@@ -30,12 +30,12 @@ class StopAnnounceModal extends React.Component {
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   componentDidMount() {
     this.getStopAnnounce();
 
-    if (localStorage.getItem('hly.token')) {
+    if (sessionStorage.getItem('token')) {
       // bug 15224
       // 登陆之后，不用调白名单;
       // 默认直接设置为非白名单的人（180625与魏胜确认）
@@ -162,7 +162,7 @@ class StopAnnounceModal extends React.Component {
       //如果不是白名单的人去登录页
       if (!this.state.isRightPerson && this.state.remindFlag === 2) {
         //正在停机
-        window.localStorage.clear();
+        window.sessionStorage.clear();
         window.sessionStorage.clear();
         this.context.router.push('/?logout_sso=true');
       } else {

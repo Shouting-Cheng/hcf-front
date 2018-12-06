@@ -147,6 +147,12 @@ class BasicLayout extends React.Component {
       });
     });
 
+    if (!window.sessionStorage.getItem("token")) {
+      this.props.dispatch({
+        type: 'login/logout'
+      })
+    }
+
     //如果刷新重新请求所有信息
     if (JSON.stringify(this.props.currentUser) == '{}') {
       this.getALlInfo();
@@ -195,21 +201,6 @@ class BasicLayout extends React.Component {
       );
       return;
     }
-
-    // console.log(this.props.organization);
-    // if (path.indexOf("budget") >= 0 && path.indexOf('budget-journal-check') == -1 && path.indexOf('budget-setting') == -1 && JSON.stringify(this.props.organization) == "{}") {
-    //   this.setState({
-    //     error: true,
-    //     errorContent: {
-    //       text: this.$t("main.error.budget.organization"),  //该账套下的默认预算组织未启用
-    //       title: this.$t("main.error.budget.organization.description"),  //预算组织不可用
-    //       skip: "/budget-setting/budget-organization",
-    //       buttonText: this.$t("main.error.set"),  //去设置
-    //       hasButton: true
-    //     }
-    //   })
-    //   return;
-    // }
 
     if (panes.findIndex(o => o.routeKey == '/dashboard') < 0) {
       let dashboard = this.getContent('/dashboard');

@@ -56,6 +56,13 @@ export default {
    */
   getCarousels(params) {
     return httpFetch.get(`${config.baseUrl}/api/carousels/all`, params)
+  },
+
+  /**
+   * 获取当前用户未审批单据
+   */
+  getUnApprovals() {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/approvals/batchfilters`)
   }
 
 }

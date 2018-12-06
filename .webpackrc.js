@@ -25,6 +25,7 @@ export default {
     utils: path.resolve(__dirname, 'src/utils/'),
     chooserData: path.resolve(__dirname, 'src/chooser-data/index.js'),
     share: path.resolve(__dirname, 'src/share/'),
+    services: path.resolve(__dirname, 'src/services/'),
   },
   commons: [
     // new webpack.optimize.CommonsChunkPlugin({
@@ -109,7 +110,7 @@ export default {
     '/mapUrl': {
       target: 'http://apis.map.qq.com',
     },
-    '/receipt':{
+    '/receipt': {
       target: 'http://106.15.26.10:10080',
       changeOrigin: true,
     }

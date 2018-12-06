@@ -33,7 +33,7 @@ export default {
   },
   getRequestList(interfaceId) {
     return httpFetch.get(
-      '/auth/api/interfaceRequest/query?page=0&size=10&interfaceId=' + interfaceId
+      '/auth/api/interfaceRequest/query?page=0&size=999&interfaceId=' + interfaceId
     );
   },
   addResponse(parmas) {
