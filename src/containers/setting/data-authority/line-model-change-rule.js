@@ -69,6 +69,7 @@ class LineModelChangeRulesSystem extends React.Component {
     componentWillMount() {
         let params = this.props.params;
         if (params && JSON.stringify(params) !== '{}') {
+            console.log(params.getRulesArr.id)
             this.setState({
                 ruleName: params.name,
                 ruleDatail: params.ruleDatail,
@@ -482,7 +483,7 @@ class LineModelChangeRulesSystem extends React.Component {
     render() {
         const { getFieldDecorator } = this.props;
         const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible,
-            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail } = this.state;
+            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail,getRulesArr } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
@@ -498,6 +499,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                 <FormItem
                                     {...ruleFormLayout}
                                     label=''
+                                    className='rule-item-name'
                                 >
                                     {getFieldDecorator(`dataAuthorityRuleName-${this.props.targeKey}`, {
                                         rules: [{
@@ -776,7 +778,8 @@ class LineModelChangeRulesSystem extends React.Component {
                 <ViewRuleModal
                     visibel={showRuleModal}
                     closeRuleModal={this.closeRuleModal}
-                    targeKey={this.state.ruleId}
+                    targetId={getRulesArr.id}
+                    dataId={this.state.ruleId}
                 />
                 <ListSelector
                     visible={tenantVisible}
