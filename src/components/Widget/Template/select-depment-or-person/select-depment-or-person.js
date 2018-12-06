@@ -48,7 +48,7 @@ class SelectDepOrPerson extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     //外面控制弹出
-    if(!this.props.visible&&nextProps.visible)
+    if(!this.state.visible&&nextProps.visible)
      this.showModal()
   }
 
@@ -176,6 +176,7 @@ class SelectDepOrPerson extends React.Component {
     });
   };
   afterClose = () => {
+    this.props.onCancel&&this.props.onCancel();
     this.setState({
       userDepName: '',
       expandedKeys: [],
