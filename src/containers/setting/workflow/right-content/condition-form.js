@@ -564,7 +564,7 @@ class ConditionForm extends React.Component {
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
-    this.setState({ condition })
+    this.setState({ condition,deptVisible: false })
   };
 
   //添加费用类型
@@ -1288,6 +1288,7 @@ class ConditionForm extends React.Component {
                                                visible={this.state.deptVisible}
                                                title={this.$t('common.add')}
                                                onlyDep={true}
+                                               onCancel={()=>{this.setState({deptVisible: false})}}
                                                onConfirm={values => this.handleAddDepPath(values, item.remark)}/>
                           </a>
                         ) : (
