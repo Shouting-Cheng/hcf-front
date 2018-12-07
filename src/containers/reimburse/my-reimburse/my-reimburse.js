@@ -95,7 +95,7 @@ class MyReimburse extends React.Component {
           key: 'currency',
           id: 'currencyCode',
           label: '币种',
-          getUrl: `${config.baseUrl}/api/company/standard/currency/getAll`,
+          getUrl: `${config.baseUrl}/api/company/standard/currency/getAllCurrency`,
           getParams: { setOfBooksId: this.props.company.setOfBooksId },
           options: [],
           method: 'get',
