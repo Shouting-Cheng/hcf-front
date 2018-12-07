@@ -282,7 +282,7 @@ class FormList extends React.Component {
                   message: '请选择',
                 },
               ],
-              initialValue: isNew ? {key: '',label:'' }  : {key: formSetings.payeeId, label: formSetings.payeeId} ,
+              initialValue: isNew ? {key: '',label:'' }  : {key: formSetings.payeeId, label: formSetings.payeeName} ,
             })(
               <SelectReceivables
                 onChange={this.handle}
