@@ -260,7 +260,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
 
       let documentParams = {
         businessCode: response.data.expAdjustHeaderNumber,
-        createdDate:  moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
+        reportDate:  moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
         formName: response.data.expAdjustTypeName,
         createByName: response.data.employeeName,
         totalAmount: response.data.totalAmount ? response.data.totalAmount : 0,

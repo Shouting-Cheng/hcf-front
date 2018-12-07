@@ -106,7 +106,7 @@ class DocumentBasicInfo extends React.Component {
               {!this.props.noHeader
                 ? this.renderList(
                   this.$t('common.apply.data'),
-                  moment(data.createdDate).format('YYYY-MM-DD')
+                  moment(data.reportDate).format('YYYY-MM-DD')
                 )
                 : null}
             </Col>
