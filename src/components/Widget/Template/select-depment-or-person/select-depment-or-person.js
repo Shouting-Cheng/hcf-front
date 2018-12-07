@@ -168,11 +168,14 @@ class SelectDepOrPerson extends React.Component {
   }
 
   handleCancel = e => {
-    if (this.props.onCancel) {
-      this.props.onCancel();
-    }
+    e.preventDefault();
+    e.stopPropagation();
     this.setState({
       visible: false,
+    },()=>{
+      if (this.props.onCancel) {
+        this.props.onCancel();
+      }
     });
   };
   afterClose = () => {

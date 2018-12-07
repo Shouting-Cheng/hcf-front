@@ -1282,13 +1282,14 @@ class ConditionForm extends React.Component {
                       {item.remark !== 'cust_list' && this.props.itemValueRender(item, true)}
                       {String(item.symbol) === '9015' || String(item.symbol) === '9016'? '' : (
                         (item.remark === 'default_department_path' || item.remark === 'select_department' || item.remark === 'default_user_department') ? (
-                          <a style={{whiteSpace: 'nowrap'}} onClick={()=>{this.setState({deptVisible: true})}}>
+                          <a style={{whiteSpace: 'nowrap'}} onClick={(e)=>{
+                            this.setState({[`dept${index}`]: true})}}>
                             {'+ '}
                             <SelectDepOrPerson renderButton={false}
-                                               visible={this.state.deptVisible}
+                                               visible={this.state[`dept${index}`]}
                                                title={this.$t('common.add')}
                                                onlyDep={true}
-                                               onCancel={()=>{this.setState({deptVisible: false})}}
+                                               onCancel={()=>{this.setState({[`dept${index}`]: false})}}
                                                onConfirm={values => this.handleAddDepPath(values, item.remark)}/>
                           </a>
                         ) : (
