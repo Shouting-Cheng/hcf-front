@@ -62,9 +62,9 @@ class ExpenseAdjust extends React.Component {
           labelKey: 'expAdjustTypeName',
           colSpan: 6,
           valueKey: 'id',
-          getUrl: `${config.baseUrl}/api/expense/adjust/types/queryExpenseAdjustType`,
+          getUrl: `${config.expenseUrl}/api/expense/adjust/types/document/query`,
           method: 'get',
-          getParams: { setOfBooksId: this.props.company.setOfBooksId, userId: this.props.user.id },
+          getParams: { setOfBooksId: this.props.company.setOfBooksId},
         },
         {
           type: 'items',
@@ -137,7 +137,7 @@ class ExpenseAdjust extends React.Component {
         {
           //单据编号
           title: this.$t('common.document.code'),
-          dataIndex: 'expAdjustHeaderNumber',
+          dataIndex: 'documentNumber',
           width: 150,
           align: 'center',
           render: desc => (
@@ -149,7 +149,7 @@ class ExpenseAdjust extends React.Component {
         {
           //单据类型
           title: this.$t('exp.receipt.type'),
-          dataIndex: 'expAdjustTypeName',
+          dataIndex: 'typeName',
           align: 'center',
           render: desc => (
             <span>
@@ -287,10 +287,10 @@ class ExpenseAdjust extends React.Component {
   searchNumber = e => {
     this.setState(
       {
-        searchParams: { ...this.state.searchParams, expAdjustHeaderNumber: e },
+        searchParams: { ...this.state.searchParams, documentNumber: e },
       },
       () => {
-        this.customTable.search({ ...this.state.searchParams, expAdjustHeaderNumber: e });
+        this.customTable.search({ ...this.state.searchParams, documentNumber: e });
       }
     );
   };
@@ -365,7 +365,7 @@ class ExpenseAdjust extends React.Component {
                   overlay={
                     <Menu onClick={this.handleCreate}>
                       {expenseType.map(item => (
-                        <Menu.Item key={item.id}>{item.expAdjustTypeName}</Menu.Item>
+                        <Menu.Item key={item.id}>{item.name}</Menu.Item>
                       ))}
                     </Menu>
                   }
@@ -390,7 +390,7 @@ class ExpenseAdjust extends React.Component {
         <CustomTable
           ref={ref => (this.customTable = ref)}
           columns={columns}
-          url={`${config.baseUrl}/api/expense/adjust/headers/query/dto`}
+          url={`${config.expenseUrl}/api/expense/adjust/headers/query/dto`}
           onClick={this.rowClick}
         />
         <ListSelector

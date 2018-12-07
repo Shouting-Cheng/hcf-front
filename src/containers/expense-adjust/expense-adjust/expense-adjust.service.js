@@ -38,14 +38,14 @@ export default {
    * 添加费用调整单头
    * */
   addExpenseAdjustHead(params) {
-    return httpFetch.post(`${config.baseUrl}/api/expense/adjust/headers`, params);
+    return httpFetch.post(`${config.expenseUrl}/api/expense/adjust/headers`, params);
   },
 
   /**
    * 修改费用调整单头
    * */
   upExpenseAdjustHead(params) {
-    return httpFetch.put(`${config.baseUrl}/api/expense/adjust/headers`, params);
+    return httpFetch.put(`${config.expenseUrl}/api/expense/adjust/headers`, params);
   },
 
   /**
@@ -108,7 +108,7 @@ export default {
   //获取费用类型
   getExpenseTypes(params) {
     return httpFetch.get(
-      `${config.baseUrl}/api/expense/adjust/types/queryExpenseAdjustType`,
+      `${config.expenseUrl}/api/expense/adjust/types/queryExpenseAdjustType`,
       params
     );
   },
@@ -126,7 +126,7 @@ export default {
 
   /*根据id查询费用类型*/
   getExpenseAdjustTypeById(id) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/adjust/types/${id}`);
+    return httpFetch.get(`${config.expenseUrl}/api/expense/adjust/types/${id}`);
   },
 
   getDeptByOid(oid) {
