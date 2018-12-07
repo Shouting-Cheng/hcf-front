@@ -40,13 +40,7 @@ class CustomTable extends Component {
       this.props.getRef(this);
     }
 
-    if (this.props.url.indexOf('/') >= 0) {
-      this.setState({ url: this.props.url }, this.getList);
-    } else {
-      this.getList();
-    }
-
-    // this.getList();
+    this.getList();
 
     const { columns = [] } = this.props;
 
@@ -128,10 +122,21 @@ class CustomTable extends Component {
   getList = () => {
     if (!this.props.url) return;
 
-    this.setState({ loading: true });
     const { page, size, searchParams } = this.state;
 
+    if (this.props.url.indexOf('/') >= 0) {
+      this.setState({ loading: true });
+      httpFetch.get(this.props.url, { page: page, size: size, ...searchParams }).then(res => {
+        let pagination = {
+          ...this.state.pagination,
+          total: Number(res.headers['x-total-count']) || 0,
+        };
+        this.setState({ dataSource: res.data, loading: false, pagination });
+      });
+      return;
+    }
 
+    this.setState({ loading: true });
     commonService.getInterface(this.props.url, { page: page, size: size, ...searchParams }).then(res => {
 
       let pagination = {
@@ -142,14 +147,7 @@ class CustomTable extends Component {
       this.setState({ dataSource: res.data, loading: false, pagination });
     })
 
-    // httpFetch.get(this.state.url, { page: page, size: size, ...searchParams }).then(res => {
-    //   let pagination = {
-    //     ...this.state.pagination,
-    //     total: Number(res.headers['x-total-count']) || 0,
-    //   };
 
-    //   this.setState({ dataSource: res.data, loading: false, pagination });
-    // });
   };
 
   indexChange = (page, size) => {

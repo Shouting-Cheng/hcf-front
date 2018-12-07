@@ -9,7 +9,7 @@ export default {
    */
   getAccountBook() {
     let dashboardUserOID = app.getState().user.currentUser.userOID;
-    return httpFetch.get(`${config.baseUrl}/api/dashboard/accountbook/${dashboardUserOID}`)
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/accountbook/${dashboardUserOID}`);
   },
 
   /**ƒ
@@ -17,14 +17,14 @@ export default {
    */
   getBusinessCard() {
     let dashboardUserOID = app.getState().user.currentUser.userOID;
-    return httpFetch.get(`${config.baseUrl}/api/dashboard/businesscard/${dashboardUserOID}`)
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/businesscard/${dashboardUserOID}`);
   },
 
   /**
    * 得到待审批单据总数量
    */
   getWaitForApproveNum() {
-    return httpFetch.get(`${config.baseUrl}/api/approvals/amount?finished=false`)
+    return httpFetch.get(`${config.baseUrl}/api/approvals/amount?finished=false`);
   },
 
   /**
@@ -33,21 +33,21 @@ export default {
    * @param size
    */
   getPendSubmitList(page, size) {
-    return httpFetch.get(`${config.baseUrl}/api/document/draft?pageSize=${size}&pageNumber=${page}`)
+    return httpFetch.get(`${config.baseUrl}/api/document/draft?pageSize=${size}&pageNumber=${page}`);
   },
 
   /**
    * 得到企业各信息数量
    */
   getEnterpriseCount() {
-    return httpFetch.post(`${config.baseUrl}/api/company/info/count`)
+    return httpFetch.post(`${config.baseUrl}/api/company/info/count`);
   },
 
   /**
    * 根据公司得到公告信息
    */
   getCarouselsByCompany(companyOID) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/company/${companyOID}`)
+    return httpFetch.get(`${config.baseUrl}/api/carousels/company/${companyOID}`);
   },
 
   /**
@@ -55,14 +55,36 @@ export default {
    * @param params {enabled}是否可用
    */
   getCarousels(params) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/all`, params)
+    return httpFetch.get(`${config.baseUrl}/api/carousels/all`, params);
   },
 
   /**
    * 获取当前用户未审批单据
    */
   getUnApprovals() {
-    return httpFetch.get(`${config.baseUrl}/api/dashboard/approvals/batchfilters`)
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/approvals/batchfilters`);
+  },
+
+  /**
+   * 获取公告信息详情
+   * @param {*} id 
+   */
+  getCatouselsContent(id) {
+    return httpFetch.get(`${config.baseUrl}/api/carousels/${id}`);
+  },
+
+  /***
+   * 获取未完成的单据
+   */
+  getDoingDocument() {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/2`);
+  },
+
+   /***
+   * 获取退回的单据
+   */
+  getBackDocument() {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/1`);
   }
 
 }

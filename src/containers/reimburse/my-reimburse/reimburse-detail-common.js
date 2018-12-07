@@ -157,6 +157,7 @@ class ContractDetailCommon extends React.Component {
         list.push({ label: o.fieldName, value: o.showValue });
       }
     });
+    console.log(nextProps.headerData)
     this.setState({
       remburseInfo: {
         businessCode: nextProps.headerData.businessCode,
@@ -438,7 +439,7 @@ class ContractDetailCommon extends React.Component {
                   {isEdit &&
                     <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
-                    <Button type="primary" style={{ marginBottom: '14px', marginLeft: 'right' }}
+                    <Button type="primary" style={{ marginBottom: '14px', float: 'right' }}
                       onClick={this.withdraw}>撤回</Button>}
                 </DocumentBasicInfo>
               </TabPane>

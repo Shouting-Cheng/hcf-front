@@ -11,27 +11,17 @@ import {
   Row,
   Col,
   Select,
-  InputNumber,
   DatePicker,
   message,
-  Steps,
-  Modal,
-  Tag,
-  Icon,
-  Spin,
 } from 'antd';
 const FormItem = Form.Item;
-const InputGroup = Input.Group;
 const Option = Select.Option;
-const { TextArea } = Input;
-import ListSelector from 'widget/list-selector';
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import SelectContract from './select-contract';
 import Chooser from './chooser';
 import moment from 'moment';
-import Header from 'antd/lib/calendar/Header';
 import mePrePaymentService from './me-pre-payment.service';
-import CustomAmount from 'widget/customAmount';
+import CustomAmount from 'widget/custom-amount';
 
 import SelectReceivables from 'widget/select-receivables';
 import { connect } from "dva/index";
@@ -199,8 +189,8 @@ class NewPrePaymentDetail extends React.Component {
         //根据contractValue是否为空判断是否把关联合同相关字段置空
         if (this.state.contractValue.length !== 0) {
           values.contractLineNumber = this.state.contract.lineNumber
-          ? this.state.contract.lineNumber
-          : '';
+            ? this.state.contract.lineNumber
+            : '';
           values.contractLineId = this.state.contract.contractLineId;
           values.contractNumber = this.state.contract.contractNumber;
           values.contractId = this.state.contract.contractId;
@@ -510,10 +500,10 @@ class NewPrePaymentDetail extends React.Component {
             )}
           </FormItem>
           <Row gutter={8}>
-            <Col span={8} className="ant-form-item-label label-style" style = {{marginLeft: 2,'padding-right':'0px','color':'rgba(0, 0, 0, 0.85)'}}>
+            <Col span={8} className="ant-form-item-label label-style" style={{ marginLeft: 2, 'padding-right': '0px', 'color': 'rgba(0, 0, 0, 0.85)' }}>
               预付款金额：
             </Col>
-            <Col span={5} className="ant-col-offset-1"  style={{paddingLeft: 0}}>
+            <Col span={5} className="ant-col-offset-1" style={{ paddingLeft: 0 }}>
               <FormItem >
                 {getFieldDecorator('currency', {
                   rules: [
@@ -544,9 +534,9 @@ class NewPrePaymentDetail extends React.Component {
                     style={{ width: '100%' }}
                   />
                   //<InputNumber
-                    //placeholder="请输入"
-                    //style={{ width: '100%' }}
-                    //onBlur={this.onAmountMouseMove}/>
+                  //placeholder="请输入"
+                  //style={{ width: '100%' }}
+                  //onBlur={this.onAmountMouseMove}/>
                 )}
               </FormItem>
             </Col>
@@ -685,27 +675,27 @@ class NewPrePaymentDetail extends React.Component {
           </FormItem>
           <div className="common-item-title">合同信息</div>
           <FormItem {...formItemLayout} label="关联合同">
-                <Select allowClear
-                  ref="contractSelect"
-                  onChange={(e) => {
-                    console.log(e)
-                    this.setState({
-                      contractValue: []
-                    })
-                  }}
-                  value={contractValue}
-                  labelInValue
-                  dropdownStyle={{ display: 'none' }}
-                  onDropdownVisibleChange={this.clickContractSelect}
-                />
-                <div style={{ marginTop: '4px' }}>
-                  {contractValue.length == 0
-                    ? '注：根据收款方选择合同'
-                    : `序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
-                      'YYYY-MM-DD'
-                    )}`}
-                </div>
-            </FormItem>
+            <Select allowClear
+              ref="contractSelect"
+              onChange={(e) => {
+                console.log(e)
+                this.setState({
+                  contractValue: []
+                })
+              }}
+              value={contractValue}
+              labelInValue
+              dropdownStyle={{ display: 'none' }}
+              onDropdownVisibleChange={this.clickContractSelect}
+            />
+            <div style={{ marginTop: '4px' }}>
+              {contractValue.length == 0
+                ? '注：根据收款方选择合同'
+                : `序号：${lineNumber} | 付款计划日期：${moment(dueDate).format(
+                  'YYYY-MM-DD'
+                )}`}
+            </div>
+          </FormItem>
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
               {this.$t('common.save')}
