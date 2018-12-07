@@ -157,6 +157,7 @@ class ContractDetailCommon extends React.Component {
         list.push({ label: o.fieldName, value: o.showValue });
       }
     });
+    console.log(nextProps.headerData)
     this.setState({
       remburseInfo: {
         businessCode: nextProps.headerData.businessCode,
