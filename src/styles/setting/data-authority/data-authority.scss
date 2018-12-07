@@ -51,12 +51,14 @@
             font-size: 14px;
             color: #f5222d;
             position: absolute;
-            bottom:30px
+            bottom:10px
+        }
+        .rule-form-title .rule-item-name{
+            margin-bottom: 0px!important
         }    
     }
     .rule-ant-card .ant-card-head .ant-tabs{
         margin-bottom: 0px!important;
-        background: #f7f7f7!important   
     }
     .tree-select {
         .ant-tree-title{

@@ -118,6 +118,7 @@ class AcpRequestType extends React.Component {
         '/document-type-manage/payment-requisition/acp-request-type/distribution-company/:setOfBooksId/:id', //公司分配
     };
   }
+
   editItem = (e, record) => {
     let slideParams = this.state.slideParams;
     slideParams.record = record;
@@ -137,15 +138,7 @@ class AcpRequestType extends React.Component {
     );
   };
 
-  onChangePaper = page => {
-    if (page - 1 !== this.state.page) {
-      this.setState({ page: page - 1 }, () => {
-        this.getList();
-      });
-    }
-  };
   componentWillMount() {
-    this.getList();
     this.getSetOfBookList();
   }
 
@@ -164,42 +157,6 @@ class AcpRequestType extends React.Component {
     });
   };
 
-  //得到列表数据
-  getList = () => {
-    const { searchParams, page, pageSize } = this.state;
-
-    this.setState({ loading: true });
-    let url = `${config.payUrl}/api/acp/request/type/query?page=${page}&size=${pageSize}`;
-    for (let paramsName in searchParams) {
-      url += searchParams[paramsName] ? `&${paramsName}=${searchParams[paramsName]}` : '';
-    }
-    return httpFetch.get(url).then(response => {
-      this.setState({
-        data: response.data,
-        loading: false,
-        pagination: {
-          total: Number(response.headers['x-total-count'])
-            ? Number(response.headers['x-total-count'])
-            : 0,
-          current: page + 1,
-          onChange: this.onChangePaper,
-          onShowSizeChange: this.onShowSizeChange,
-          pageSize: pageSize,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: () =>
-            this.$t(
-              { id: 'common.total' },
-              {
-                total: Number(response.headers['x-total-count'])
-                  ? Number(response.headers['x-total-count'])
-                  : 0,
-              } /*共搜索到*/
-            ),
-        },
-      });
-    });
-  };
 
   search = result => {
     this.setState(
@@ -208,10 +165,9 @@ class AcpRequestType extends React.Component {
           setOfBooksId: result.setOfBooksId ? result.setOfBooksId : this.props.company.setOfBooksId,
           acpReqTypeCode: result.acpReqTypeCode ? result.acpReqTypeCode : '',
           description: result.description ? result.description : '',
-        },
+        }
       },
       () => {
-        //this.getList();
         this.refs.table.search(this.state.searchParams);
       }
     );
@@ -224,13 +180,18 @@ class AcpRequestType extends React.Component {
         acpReqTypeCode: '',
         description: '',
       },
+      slideParams: { ...this.state.slideParams, setOfBooksId: this.props.company.setOfBooksId }
+    }, () => {
+      this.refs.table.search(this.state.searchParams);
     });
   };
+
   showSlide = flag => {
     this.setState({ showSlideFrame: flag }, () => {
       !flag && this.refs.table.search(this.state.searchParams);
     });
   };
+
   searchEventHandle = (event, value) => {
     if (event == 'SETOFBOOKID') {
       value = value ? value : '';
@@ -271,32 +232,13 @@ class AcpRequestType extends React.Component {
       }
     );
   };
-  onShowSizeChange = (current, pageSize) => {
-    this.setState(
-      {
-        page: current - 1,
-        pageSize,
-      },
-      () => {
-        this.getList();
-      }
-    );
-  };
-  // //根据账套进行查询
-  // onDocumentSearch=(value)=>{
-  //   this.setState({searchParams:{setOfBooksName:value}},()=>{
-  //     this.getList()
-  //   })
-  // }
+
   render() {
     const {
       columns,
-      data,
-      loading,
       searchForm,
       showSlideFrame,
       slideParams,
-      pagination,
       searchParams,
     } = this.state;
     return (
@@ -341,7 +283,6 @@ class AcpRequestType extends React.Component {
           show={showSlideFrame}
           afterClose={this.afterClose}
           onClose={() => this.showSlide(false)}
-          params={{ editFlag: showSlideFrame, record: slideParams }}
         >
           <AcpRequestTypeDetail
             onClose={e => this.showSlide(e)}

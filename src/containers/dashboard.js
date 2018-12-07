@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon, message } from 'antd';
+import { Row, Col, Card, Carousel, Tabs, DatePicker, Tag, Icon, message, Modal } from 'antd';
 import 'styles/dashboard.scss'
 import moment from "moment"
 import userImage from "images/user1.png"
@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
     this.state = {
       timerStr: "",
       height: 0,
-      backList: [1, 2, 5, 6, 7, 8, 9, 0, 9],
+      backList: [],
       hello: "",
       chartsType: 1,    //1.饼状图   2.折线图
       timeType: 3,      //1.本月 2.本季 3.全年
@@ -104,7 +104,8 @@ class Dashboard extends React.Component {
         sales: {
           tickInterval: 40
         }
-      }
+      },
+      doingList: []
     }
   }
 
@@ -142,16 +143,34 @@ class Dashboard extends React.Component {
     this.getCurrentDate();
     this.getCarousels();
     this.getUnApprovals();
-
+    this.getBackDocument();
 
     let year = moment().year();
     this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "12") });
   }
 
+  getDoingDocument = () => {
+    service.getDoingDocument().then(res => {
+      this.setState({ doingList: res.data });
+    }).catch(err => {
+      message.error("获取数据失败,请稍后重试！");
+    })
+  }
+
+  getBackDocument = () => {
+    service.getBackDocument().then(res => {
+      this.setState({ backList: res.data });
+      this.getDoingDocument();
+    }).catch(err => {
+      message.error("获取数据失败,请稍后重试！");
+      this.getDoingDocument();
+    })
+  }
+
 
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
-      this.setState({ total: res.data.totalcount, unApprovals: res.data.approvalDashboardDetailDTOList });
+      this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
@@ -163,6 +182,8 @@ class Dashboard extends React.Component {
       this.setState({ carousels: res.data });
     })
   }
+
+
 
   renderDate = () => {
 
@@ -306,9 +327,34 @@ class Dashboard extends React.Component {
     )
   }
 
+  goCarouselDetail = (item) => {
+    if (!!item.carouselOID) {
+      if (item.outLinkUrl) {
+        window.open(item.outLinkUrl, '_blank');
+      }
+      else {
+        service.getCatouselsContent(item.carouselOID).then((res) => {
+          if (res.status === 200) {
+            item.content = res.data.content;
+            item.localDate = moment(res.data.createdDate).format('YYYY-MM-DD');
+            Modal.info({
+              title: item.title,
+              content: (
+                <div className="carousel-modal">
+                  <p>{item.localDate}</p>
+                  <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                </div>
+              )
+            });
+          }
+        });
+      }
+    }
+  };
+
   render() {
 
-    const { timerStr, backList, hello, chartsType, carousels, total, unApprovals } = this.state;
+    const { timerStr, backList, hello, chartsType, carousels, total, unApprovals, doingList } = this.state;
     const { user } = this.props;
 
     const { DataView } = DataSet;
@@ -344,10 +390,10 @@ class Dashboard extends React.Component {
           </Col>
           <Col span={8}>
             {(carousels && !!carousels.length) ? (
-              <Carousel autoplay>
+              <Carousel arrows autoplay>
                 {carousels.map(item => {
                   return (
-                    <div key={item.id} style={{ textAlign: "center" }}>
+                    <div onClick={() => this.goCarouselDetail(item)} key={item.id} style={{ textAlign: "center" }}>
                       <img src={item.attachmentDTO.thumbnailUrl} />
                       <div className="title">{item.title}</div>
                     </div>
@@ -366,13 +412,14 @@ class Dashboard extends React.Component {
               title="待审批的单据"
               extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
             >
-              <Chart
+              {!!total ? (<Chart
                 data={dv}
                 height={160}
                 padding={[30, 30, 30, 30]}
                 forceFit
               >
-                <Coord type={"theta"} innerRadius={0.6} />
+                <Coord type={"theta"} innerRadius={0.5} />
+                <Axis name="percent" />
                 <Tooltip
                   showTitle={false}
                   itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
@@ -402,7 +449,11 @@ class Dashboard extends React.Component {
                     }}
                   />
                 </Geom>
-              </Chart>
+              </Chart>) : (
+                  <div style={{ height: 160, fontSize: 18, lineHeight: "160px", textAlign: "center", backgroundColor: "#fff" }}>
+                    暂无待审批单据
+              </div>
+                )}
             </Card>
           </Col>
         </Row>
@@ -438,65 +489,59 @@ class Dashboard extends React.Component {
               className="info-card"
             >
               <Tabs defaultActiveKey="1">
-                <TabPane tab="被退回的单据(5)" key="1">
+                <TabPane forceRender key="1" tab={`被退回的单据(${backList.length})`}>
                   {backList.map((item, index) => {
                     return (
                       <Card
-                        title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
-                        extra={<span>2018-11-25</span>}
+                        title={<span style={{ fontSize: 14 }}>{item.code}</span>}
+                        extra={<span>{item.createdTime}</span>}
                         style={{ marginTop: 12 }}
-                        key={index}
+                        key={item.id}
                       >
                         <Row>
-                          <Col span={12}>费用申请单</Col>
-                          <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>CNY 2000.00</Col>
+                          <Col span={12}>{item.name}</Col>
+                          <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
                         </Row>
                         <Row style={{ marginTop: 16 }}>
-                          <Col span={12}>差旅申请</Col>
-                          <Col span={12} style={{ textAlign: "right" }}>
-                            <Tag color="#f50">审批驳回</Tag>
+                          <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
+                          <Col span={10} style={{ textAlign: "right" }}>
+                            <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
                           </Col>
                         </Row>
                         <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
-                          驳回人：财务负责人-清浅
-                    </div>
+                          驳回人：{item.nodeName}-{item.rejecterName}
+                        </div>
                       </Card>
                     )
                   })}
                 </TabPane>
-                <TabPane tab="未完成的单据(7)" key="2">
-                  <Card
-                    title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
-                    extra={<span>2018-11-25</span>}
-                    style={{ marginTop: 12 }}
-                  >
-                    <Row>
-                      <Col span={12}>费用申请单</Col>
-                      <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
-                    </Row>
-                    <Row style={{ marginTop: 16 }}>
-                      <Col span={12}>差旅申请</Col>
-                      <Col span={12} style={{ textAlign: "right" }}>
-                        <Tag color="#f50">审批驳回</Tag>
-                      </Col>
-                    </Row>
-                  </Card>
-                  <Card
-                    title={<span style={{ fontSize: 14 }}>APPGST1201811110019</span>}
-                    extra={<span>2018-11-25</span>}
-                    style={{ marginTop: 12 }}
-                  >
-                    <Row>
-                      <Col span={12}>费用申请单</Col>
-                      <Col span={12} style={{ textAlign: "right" }}>CNY 2000.00</Col>
-                    </Row>
-                    <Row style={{ marginTop: 16 }}>
-                      <Col span={12}>差旅申请</Col>
-                      <Col span={12} style={{ textAlign: "right" }}>
-                        <Tag color="#f50">审批驳回</Tag>
-                      </Col>
-                    </Row>
-                  </Card>
+                <TabPane forceRender key="2" tab={`未完成的单据(${doingList.length})`}>
+                  <div style={{ height: "100%", overflowY: "auto" }}>
+                    {doingList.map((item, index) => {
+                      return (
+                        <Card
+                          title={<span style={{ fontSize: 14 }}>{item.code}</span>}
+                          extra={<span>{item.createdTime}</span>}
+                          style={{ marginTop: 12 }}
+                          key={item.id}
+                        >
+                          <Row>
+                            <Col span={12}>{item.name}</Col>
+                            <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
+                          </Row>
+                          <Row style={{ marginTop: 16 }}>
+                            <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
+                            <Col span={10} style={{ textAlign: "right" }}>
+                              <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
+                            </Col>
+                          </Row>
+                          <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
+                            申请人：{item.nodeName}-{item.rejecterName}
+                          </div>
+                        </Card>
+                      )
+                    })}
+                  </div>
                 </TabPane>
               </Tabs>
             </Card>

@@ -14,6 +14,8 @@ import pptImage from 'images/file-type/ppt.png';
 import txtImage from 'images/file-type/txt.png';
 import wordImage from 'images/file-type/word.png';
 import unknownImage from 'images/file-type/unknown.png';
+import httpFetch from 'share/httpFetch';
+import FileSaver from 'file-saver';
 
 /**
  * 图片上传组件
@@ -124,14 +126,24 @@ class FileUpload extends React.Component {
 
     if (this.isImage(file)) {
       let imageList = [file];
-
       this.setState({
         previewIndex: 0,
         previewVisible: true,
         imageList
       });
     } else {
-      window.open(file.thumbnailUrl, "_blank");
+      httpFetch
+        .get(`${config.baseUrl}/api/attachments/download/${file.attachmentOID}?access_token=${sessionStorage.getItem('token')}`, {}, {}, { responseType: 'arraybuffer' })
+        .then(res => {
+          let b = new Blob([res.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          let name = file.fileName;
+          FileSaver.saveAs(b, `${name}`);
+        })
+        .catch(() => {
+          message.error(this.$t('importer.download.error.info') /*下载失败，请重试*/);
+        });
     }
   };
 
@@ -198,6 +210,7 @@ class FileUpload extends React.Component {
         <Icon type="upload" /> {this.$t('common.upload') /*上传*/}
       </Button>
     );
+
     const upload_headers = {
       Authorization: 'Bearer ' + sessionStorage.getItem('token'),
     };
@@ -236,7 +249,7 @@ class FileUpload extends React.Component {
             <div>{this.$t('upload.size', { total: size })}</div>
           </div>
         )}
-        <Row type="flex" style={{ marginTop: 10 }}>
+        {/* <Row type="flex" style={{ marginTop: 10 }}>
           {result.map((attachment, index) => (
             <Col
               className="attachment-block"
@@ -246,7 +259,7 @@ class FileUpload extends React.Component {
               <img src={this.getImage(attachment)} />
             </Col>
           ))}
-        </Row>
+        </Row> */}
         {imageList.length > 0 && (
           <ImageViewer
             visible={previewVisible}

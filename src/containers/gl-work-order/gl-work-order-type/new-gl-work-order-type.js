@@ -5,12 +5,10 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
-import SearchArea from 'components/Widget/search-area';
 import baseService from 'share/base.service';
 import glWorkOrderTypeService from './gl-work-order-type.service';
 import ListSelector from 'components/Widget/list-selector';
-import PermissionsAllocation from 'components/Template/permissions-allocation';
+import PermissionsAllocation from 'widget/Template/permissions-allocation';
 class NewGLWorkOrderType extends Component {
   /**
    * 构造函数
