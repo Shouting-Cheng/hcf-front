@@ -1771,7 +1771,29 @@ export const getRouterData = app => {
       name: 'cost-application-detail',
       parent: '/financial-management/check-cost-application'
     },
-
+    // 分布式事务管理器
+    '/admin-setting/lcn-manager': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/lcn/lcn-manager.js')
+      ),
+      name: 'lcn-manager',
+    },
+    // 在线模块
+    '/admin-setting/lcn-manager/model': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/lcn/lcn-model.js')
+      ),
+      name: 'lcn-model',
+      parent: '/admin-setting/lcn-manager'
+    },
+    // 事务补偿
+    '/admin-setting/lcn-manager/transaction': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/lcn/lcn-transaction.js')
+      ),
+      name: 'lcn-transaction',
+      parent: '/admin-setting/lcn-manager'
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

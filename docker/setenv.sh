@@ -79,6 +79,11 @@ server {
         proxy_pass $CONFIG_URL;
         client_max_body_size  $MAX_FILE_SIZE;
     }
+
+    location /tx-manager/ {
+        proxy_pass $TX_MANAGER_URL;
+        client_max_body_size  $MAX_FILE_SIZE;
+    }
 }
 
 EOF
