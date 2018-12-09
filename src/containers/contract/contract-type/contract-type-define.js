@@ -192,7 +192,16 @@ class ContractTypeDefine extends React.Component {
     );
   };
 
-  onClear = () => {};
+  onClear = () => {
+    this.setState({
+      searchParams: { setOfBooksId: this.props.company.setOfBooksId },
+      slideParams: { setOfBooksId: this.props.company.setOfBooksId }
+    },
+      () => {
+        this.customTable.search(this.state.searchParams);
+      }
+    );
+  };
 
   showSlide = flag => {
     this.setState({ showSlideFrame: flag });
@@ -238,7 +247,7 @@ class ContractTypeDefine extends React.Component {
       routerRedux.replace({
         pathname: `/document-type-manage/contract-type/company-distribution/${
           record.setOfBooksId
-        }/${record.id}`,
+          }/${record.id}`,
       })
     );
   };
