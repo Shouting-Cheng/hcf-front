@@ -432,6 +432,7 @@ class CustomExpenseType extends React.Component {
             <Anchor affix={false}
               className="anchor"
             >
+              {console.log(sourceCategory)}
               {sourceCategory.map(expenseTypeCategory => (
                 <div style={{ padding: "7px 0 7px 16px" }} key={expenseTypeCategory.id}>
                   <span>{expenseTypeCategory.name}</span>
