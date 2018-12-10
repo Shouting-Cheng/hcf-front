@@ -336,7 +336,9 @@ class FormMatch extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { form } = this.context;
-        const { isRelation, paymentTypeVal, isCashTransactionClass, listVisible, selectorItem, extraParams, applyTypeDisabled, applyTypeVal, applyListVisible, isApply, relatedChecked } = this.state;
+        const { cashTransactionIds,isRelation, paymentTypeVal, isCashTransactionClass, listVisible, selectorItem, extraParams, applyTypeDisabled, applyTypeVal, applyListVisible, isApply, relatedChecked } = this.state;
+        let selected = [];
+        cashTransactionIds.map(item => selected.push({id: item}));
         return (
             <div className="form-permission">
                 <Form style={{ marginBottom: '20px' }} onSubmit={this.save}>
@@ -592,7 +594,7 @@ class FormMatch extends React.Component {
                     extraParams={extraParams}
                     method={'post'}
                     onOk={this.handleListOk}
-
+                    selectedData={selected}
                 />
 
             </div>

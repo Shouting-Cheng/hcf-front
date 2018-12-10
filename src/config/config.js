@@ -25,7 +25,8 @@ const config = {
   brmsUrl: '/brms',
   // Settings configured here will be merged into the final config object.
   mapKey: 'E5XBZ-LWVWJ-2TUFJ-F73PP-VS5LS-W3FUM',
-  expenseUrl: '/expense'
+  expenseUrl: '/expense',
+  txManagerUrl: "/tx-manager"
 
 };
 

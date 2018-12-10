@@ -693,7 +693,7 @@ class PrePaymentCommon extends React.Component {
       );
     } else if (headerData.status === 1002 && this.props.flag) {
       status = (
-        <h3 className="header-title">
+        <h3 className="header-title" style={{textAlign: 'right'}}>
           <Button loading={backLoadding} type="primary" onClick={this.back}>
             撤 回
           </Button>
