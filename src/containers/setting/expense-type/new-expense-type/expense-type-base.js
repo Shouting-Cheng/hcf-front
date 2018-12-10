@@ -10,7 +10,6 @@ import 'styles/setting/expense-type/new-expense-type/expense-type-base.scss'
 import baseService from 'share/base.service'
 import IconSelector from 'containers/setting/expense-type/new-expense-type/icon-selector'
 import expenseTypeService from 'containers/setting/expense-type/expense-type.service'
-// import menuRoute from 'routes/menuRoute'
 import { LanguageInput } from 'widget/index';
 import PropTypes from 'prop-types';
 import { routerRedux } from 'dva/router';
@@ -118,14 +117,14 @@ class ExpenseTypeBase extends React.Component {
         this.setState({ saving: true });
         expenseTypeService.saveExpenseType(values).then(res => {
           this.setState({ saving: false });
-
-          if (values.id) {
-            this.props.onSave();
-          } else {
-            this.props.dispatch(routerRedux.push({
-              pathname: "/admin-setting/application-type-detail/" + res.data.id
-            }))
-          }
+          this.props.onSave('custom',res.data.id);
+          /* if (values.id) {
+             this.props.onSave(res.data,res.data.id,true);
+           } else {
+             this.props.dispatch(routerRedux.push({
+               pathname: "/admin-setting/new-expense-type/" + res.data.id
+             }))
+           }*/
         }).catch(error => {
           this.setState({ saving: false });
           message.error(error.response.data.message);
@@ -191,7 +190,7 @@ class ExpenseTypeBase extends React.Component {
           <img src={icon.iconURL || defaultExpenseTypeIcon} className="expense-type-icon"
             onClick={() => { tenantMode && this.setState({ showIconSelectorFlag: true }) }} />
         </FormItem>
-        <FormItem {...formItemLayout} label={messages('申请类型代码')}>
+        <FormItem {...formItemLayout} label={messages('费用类型代码')}>
           {getFieldDecorator('code', {
             rules: [{
               required: true,
@@ -201,7 +200,7 @@ class ExpenseTypeBase extends React.Component {
             <Input disabled={!!expenseType} />
           )}
         </FormItem>
-        <FormItem {...formItemLayout} label={messages('申请类型名称')}>
+        <FormItem {...formItemLayout} label={messages('费用类型名称')}>
           {getFieldDecorator('name', {
             rules: [{
               required: true,
