@@ -300,7 +300,6 @@ export default {
     for (let searchName in exportParams) {
       url += exportParams[searchName] ? `&${searchName}=${exportParams[searchName]}` : '';
     }
-    debugger;
     return new Promise((resolve, reject) => {
       httpFetch.post(url, result, {}, {responseType: 'arraybuffer'})
         .then((res) => {

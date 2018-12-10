@@ -764,7 +764,7 @@ class PerPaymentView extends Component {
           hide();
         }
       })
-      .catch(e => {debugger;
+      .catch(e => {
         message.error('下载失败，请重试!');
         this.setState({
           btLoading: false,

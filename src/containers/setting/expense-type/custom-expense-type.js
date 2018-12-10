@@ -307,8 +307,8 @@ class CustomExpenseType extends React.Component {
         },
       });
       message.success(messages('common.operate.success'));
-      this.getSourceCategory();
-      this.getSourceCategory(null, 1);
+      this.getSourceCategory(nowEditCategory.setOfBooksId);
+      this.getSourceCategory(nowEditCategory.setOfBooksId, 1);
     });
   };
 
