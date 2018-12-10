@@ -14,17 +14,17 @@ class Priview extends Component {
     super(props);
     this.state = {};
   }
-  componentDidMount() {}
-  selected = () => {};
+  componentDidMount() { }
+  selected = () => { };
 
   formatProps = data => {
     Object.keys(data).map(key => {
       if (typeof data[key] == 'string') {
-        data[key] = data[key].replace(/\$\{(.+)\}/g, function(match, k) {
+        data[key] = data[key].replace(/\$\{(.+)\}/g, function (match, k) {
           return '45';
         });
       } else if (typeof data[key] == 'number') {
-        data[key] = String(data[key]).replace(/\$\{(.+)\}/g, function(match, k) {
+        data[key] = String(data[key]).replace(/\$\{(.+)\}/g, function (match, k) {
           console.log(k); // name
         });
       } else if (typeof data[key] == 'object') {
@@ -51,13 +51,16 @@ class Priview extends Component {
   };
 
   getChildren = (item, key) => {
-    const { components = [] } = this.props;
+    let { components = [] } = this.props;
+    components = JSON.parse(JSON.stringify(components));
     let result = components.filter(o => o.parent == item.id);
     item.props[key] = result;
   };
 
   renderNode = (id = 0) => {
-    const { components = [] } = this.props;
+    let { components = [] } = this.props;
+
+    components = JSON.parse(JSON.stringify(components));
 
     let roots = components.filter(o => o.parent == id);
 
@@ -89,7 +92,7 @@ class Priview extends Component {
       if (item.events) {
         let that = this;
         Object.keys(item.events).map(key => {
-          item.props[key] = function() {
+          item.props[key] = function () {
             that.exec(item.events[key], arguments);
           };
         });
