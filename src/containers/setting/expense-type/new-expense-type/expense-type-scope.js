@@ -66,10 +66,12 @@ class ExpenseTypeScope extends React.Component {
   handleSave = () => {
     const { userValue } = this.state;
     const { expenseType } = this.props;
+
     if (userValue.type === 'group' && userValue.values.length === 0) {
       message.error(messages('expense.type.please.add.user.group'));
       return;
     }
+
     let userGroups = [];
     userValue.values.map(item => {
       userGroups.push({
@@ -89,7 +91,7 @@ class ExpenseTypeScope extends React.Component {
       this.setState({ saving: false });
       this.props.onSave();
     }).catch(error => {
-      message.error(error.response.data.messages);
+      message.error(error.response.data.message);
       this.setState({ saving: false });
     })
   };
@@ -123,6 +125,7 @@ class ExpenseTypeScope extends React.Component {
               <Radio value={1}>全部公司</Radio>
               <Radio value={2}>部分公司</Radio>
             </RadioGroup>
+            <div style={{height: 10}}></div>
             {(this.state.value == 2) && <Chooser
               placeholder={this.$t({ id: "common.please.select" })}
               value={this.state.companys}

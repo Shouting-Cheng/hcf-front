@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input } from 'antd';
-const FormItem = Form.Item;
-const Option = Select.Option;
+import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input,Spin } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import ListSelector from 'components/Widget/list-selector';
 import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
@@ -10,6 +8,9 @@ import DataAuthorityService from 'containers/setting/data-authority/data-authori
 import RuleDetailItem from 'containers/setting/data-authority/rule-detail-items';
 import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
+const FormItem = Form.Item;
+const Option = Select.Option;
+const Search = Input.Search;
 
 class ViewRuleModal extends React.Component {
     constructor(props) {
@@ -98,38 +99,44 @@ class ViewRuleModal extends React.Component {
                     dataIndex: 'valueKeyDesc',
                 }
             ],
-            dataTypeValue: ''
+            dataTypeValue: '',
+            loading:true,
+            keyWord:''
 
         }
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.visibel) {
-            let { columns } = this.state;
             DataAuthorityService.getSingleDataAuthorityDetail(this.props.dataId, this.props.targetId).then(res => {
-                if (res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataScope === '1004') {
+                if(res.status===200){
+                    if (res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataScope === '1004') {
+                        this.setState({
+                            columns: [
+                                {
+                                    title: '账套代码',
+                                    dataIndex: 'valueKeyCode',
+                                },
+                                {
+                                    title: '账套名称',
+                                    dataIndex: 'valueKeyDesc',
+                                },
+                                {
+                                    title: '权限状态',
+                                    dataIndex: 'filtrateMethodDesc',
+                                }
+                            ],
+                        })
+                    }
                     this.setState({
-                        columns: [
-                            {
-                                title: '账套代码',
-                                dataIndex: 'valueKeyCode',
-                            },
-                            {
-                                title: '账套名称',
-                                dataIndex: 'valueKeyDesc',
-                            },
-                            {
-                                title: '权限状态',
-                                dataIndex: 'filtrateMethodDesc',
-                            }
-                        ],
+                        loading:false,
+                        infoData: res.data,
+                        renderRuleInfo: res.data,
+                        ruleDetail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
+                        dataTypeValue: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataType,
+                        activeKey: 'SOB',
                     })
                 }
-                this.setState({
-                    infoData: res.data,
-                    renderRuleInfo: res.data,
-                    ruleDetail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
-                    dataTypeValue: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataType,
-                })
+               
             })
         }
 
@@ -137,6 +144,9 @@ class ViewRuleModal extends React.Component {
 
     onCloseRuleModal = () => {
         this.props.closeRuleModal()
+    }
+    onBackRuleModal=()=>{
+        this.props.backRuleModal()
     }
     editRuleItem = () => {
 
@@ -579,50 +589,129 @@ class ViewRuleModal extends React.Component {
         })
 
     }
+    /**按照账套代码/名称查询 */
+    onSobDetailSearch = (value) => {
+        this.setState({
+            keyWord:value
+        },()=>{
+            this.sobTable.search()
+        })
+
+    }
+    /**按照公司代码/名称查询 */
+    onCompanyDetailSearch = (value) => {
+        this.setState({
+            keyWord:value
+        },()=>{
+            this.companyTable.search()
+        })
+    }
+    /**按照部门代码/名称查询 */
+    onUnitDetailSearch = (value) => {
+        this.setState({
+            keyWord:value
+        },()=>{
+            this.unitTable.search()
+        })
+    }
+    /**按照员工代码/名称查询 */
+    onEmployeeDetailSearch=(value)=>{
+        this.setState({
+            keyWord:value
+        },()=>{
+            this.employeeTable.search()
+        })
+    }
     render() {
         const { visibel } = this.props;
-        const { infoList, infoData, dataTypeValue, renderCompanyList, activeKey, tenantItem, companyVisible, renderRuleInfo, dataType,
-            ruleDetail, tabListNoTitle, tenantVisible, empolyeeVisible, employeeItem, renderNewChangeRules, columns } = this.state;
-        console.log(ruleDetail)
+        const { infoList, infoData, dataTypeValue, loading, activeKey, tenantItem, companyVisible, renderRuleInfo, dataType,
+            ruleDetail, tabListNoTitle, tenantVisible, empolyeeVisible, employeeItem, keyWord, columns } = this.state;
         const contentListNoTitle = {
             SOB:
                 <div>
-                    {ruleDetail.length ? ruleDetail[0].dataScopeDesc : null}
+                    <Row>
+                        <Col span={18}>
+                            {ruleDetail.length ? ruleDetail[0].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[0].dataType].label : null}
+                        </Col>
+                        <Col span={6}>
+                            <Search
+                                placeholder="请输入账套代码/名称"
+                                onSearch={this.onSobDetailSearch}
+                                enterButton
+                            />
+                        </Col>
+                    </Row>
+
                     <div style={{ marginTop: 20 }}>
                         <CustomTable
                             columns={columns}
-                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue ? dataTypeValue : 'SOB'}`}
+                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue ? dataTypeValue : 'SOB'}&keyWord=${keyWord}`}
                             ref={ref => this.sobTable = ref}
                         />
                     </div>
                 </div>,
             COMPANY:
                 <div>
-                    {ruleDetail.length ? ruleDetail[1].dataScopeDesc : null}
+                    <Row>
+                        <Col span={18}>
+                            {ruleDetail.length ? ruleDetail[1].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[1].dataType].label : null}
+                        </Col>
+                        <Col span={6}>
+                            <Search
+                                placeholder="请输入公司代码/名称"
+                                onSearch={this.onCompanyDetailSearch}
+                                enterButton
+                            />
+                        </Col>
+                    </Row>
+
                     <div style={{ marginTop: 20 }}>
                         <CustomTable
                             columns={columns}
-                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}`}
+                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
                             ref={ref => this.companyTable = ref}
                         />
                     </div>
                 </div>,
             UNIT: <div>
-                {ruleDetail.length ? ruleDetail[2].dataScopeDesc : null}
+                <Row>
+                    <Col span={18}>
+                        {ruleDetail.length ? ruleDetail[2].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[2].dataType].label : null}
+                    </Col>
+                    <Col span={6}>
+                        <Search
+                            placeholder="请输入部门代码/名称"
+                            onSearch={this.onUnitDetailSearch}
+                            enterButton
+                        />
+                    </Col>
+                </Row>
+
                 <div style={{ marginTop: 20 }}>
                     <CustomTable
                         columns={columns}
-                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}`}
+                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
                         ref={ref => this.unitTable = ref}
                     />
                 </div>
             </div>,
             EMPLOYEE: <div>
-                {ruleDetail.length ? ruleDetail[3].dataScopeDesc : null}
+                <Row>
+                    <Col span={18}>
+                        {ruleDetail.length ? ruleDetail[3].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[3].dataType].label : null}
+                    </Col>
+                    <Col span={6}>
+                        <Search
+                            placeholder="请输入员工代码/名称"
+                            onSearch={this.onEmployeeDetailSearch}
+                            enterButton
+                        />
+                    </Col>
+                </Row>
                 <div style={{ marginTop: 20 }}>
                     <CustomTable
                         columns={columns}
-                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}`}
+                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
                         ref={ref => this.employeeTable = ref}
                     />
                 </div>
@@ -632,11 +721,11 @@ class ViewRuleModal extends React.Component {
             <Modal
                 visible={visibel}
                 footer={[
-                    <Button key="back" onClick={this.onCloseRuleModal}>
+                    <Button key="back" onClick={this.onBackRuleModal}>
                         {this.$t({ id: 'common.back' } /* 返回*/)}
                     </Button>,
                 ]}
-                width={1200}
+                width={900}
                 destroyOnClose={true}
                 closable={false}
                 onCancel={this.onCloseRuleModal}
@@ -649,7 +738,7 @@ class ViewRuleModal extends React.Component {
                         colSpan={6}
                     />
 
-                    <div style={{ marginTop: 24 }}>
+                    <Spin spinning={loading} style={{ marginTop: 24 }}>
                         {renderRuleInfo ? renderRuleInfo.dataAuthorityRules.map(Item => (
                             <RuleDetailItem
                                 key={Item.id}
@@ -670,7 +759,7 @@ class ViewRuleModal extends React.Component {
                                 refresh={this.refresh}
                             />
                         )) : null}
-                    </div>
+                    </Spin>
 
                     <Card
                         tabList={tabListNoTitle}

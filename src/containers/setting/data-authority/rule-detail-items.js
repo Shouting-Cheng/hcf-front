@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider, Popconfirm } from 'antd';
+import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider, Popconfirm, } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import 'styles/setting/data-authority/data-authority.scss';
@@ -56,11 +56,18 @@ class RuleDetailItem extends React.Component {
             lastUpdatedDate: undefined,
             getRulesArr: {},
             renderRuleInfo:{},
+            sobText:'添加账套',
+            sobIcon:'plus',
+            companyText:'添加公司',
+            departmentText:'添加部门',
+            employeeText:'添加员工',
+            companyIcon:'plus',
+            departmentIcon:'plus',
+            emplyeeIcon:'plus'
         }
     }
     componentWillMount = () => {
         let params = this.props.params;
-        console.log(params)
         this.setState({
             ruleName: params.name,
             ruleDatail: params.ruleDatail,
@@ -77,17 +84,34 @@ class RuleDetailItem extends React.Component {
 
     }
     editRuleItem = () => {
+        let {ruleDatail}=this.state;
+        if(ruleDatail[0].dataScope==='1004'){
+            this.setState({
+                renderSobList:true
+            })
+        }
+        if(ruleDatail[1].dataScope==='1004'){
+            this.setState({
+                renderCompanyList:true
+            })
+        }
+        if(ruleDatail[2].dataScope==='1004'){
+            this.setState({
+                renderDepartmentList:true
+            })
+        }
+        if(ruleDatail[3].dataScope==='1004'){
+            this.setState({
+                renderEmplyeeList:true
+            })
+        }
         this.setState({
             show: false
         })
     }
     removeRule = () => {
         this.setState({
-            show: true,
-            renderSobList: false,
-            renderCompanyList: false,
-            renderDepartmentList: false,
-            renderEmplyeeList: false
+            show: true
         })
     }
     /**保存单条规则 */
@@ -306,7 +330,9 @@ class RuleDetailItem extends React.Component {
         }
         this.setState({
             tenantVisible: false,
-            sobValuesKeys: arr
+            sobValuesKeys: arr,
+            sobText:`已选择${resultArr.length}个账套`,
+            sobIcon:null
         })
     }
     cancelTenantList = (flag) => {
@@ -319,7 +345,7 @@ class RuleDetailItem extends React.Component {
         const ruleId = this.props.params.getRulesArr.id
         const employeeItem = {
             title: '添加员工',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
+            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
             searchForm: [
                 { type: 'input', id: 'code', label: '员工代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '员工名称', colSpan: 6 },
@@ -339,7 +365,9 @@ class RuleDetailItem extends React.Component {
         }
         this.setState({
             empolyeeVisible: true,
-            employeeItem
+            employeeItem,
+            employeeText:`已选择${resultArr.length}个员工`,
+            emplyeeIcon:null
         })
     }
     handleEmployeeListOk = (result) => {
@@ -378,7 +406,9 @@ class RuleDetailItem extends React.Component {
         }
         this.setState({
             companyItemsKeys: arr,
-            companyVisible: false
+            companyVisible: false,
+            companyText:`已选择${resultArr.length}个公司`,
+            companyIcon:null
         })
 
     }
@@ -401,13 +431,16 @@ class RuleDetailItem extends React.Component {
         }
         this.setState({
             departMentItemsKeys: arr,
-            departMentVisible: false
+            departMentVisible: false,
+            departmentText:`已选择${resultArr.length}个部门`,
+            departmentIcon:null
         })
 
     }
     render() {
-        const { show, ruleName, ruleDatail, dataType, renderSobList, tenantVisible, tenantItem, renderCompanyList, renderDepartmentList,
-            renderEmplyeeList, employeeItem, empolyeeVisible, companyVisible, departMentVisible
+        const { show, ruleName, ruleDatail, dataType, renderSobList, tenantVisible, tenantItem, renderCompanyList, renderDepartmentList,departmentText,
+            renderEmplyeeList, employeeItem, empolyeeVisible, companyVisible, departMentVisible,sobText,sobIcon,companyIcon,companyText,departmentIcon,
+            employeeText,emplyeeIcon
         } = this.state;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const ruleFormLayout = {
@@ -511,7 +544,7 @@ class RuleDetailItem extends React.Component {
                                                     label=''
                                                 >
                                                     {getFieldDecorator('addTenant')(
-                                                        <Button icon="plus" onClick={this.addTenant}>添加账套</Button>
+                                                        <Button icon={sobIcon} onClick={this.addTenant}>{sobText}</Button>
                                                     )}
 
                                                 </FormItem>
@@ -567,7 +600,7 @@ class RuleDetailItem extends React.Component {
                                                     label=''
                                                 >
                                                     {getFieldDecorator('addCompany')(
-                                                        <Button icon="plus" onClick={this.addCompany}>添加公司</Button>
+                                                        <Button icon={companyIcon} onClick={this.addCompany}>{companyText}</Button>
                                                     )}
 
                                                 </FormItem>
@@ -623,7 +656,7 @@ class RuleDetailItem extends React.Component {
                                                     label=''
                                                 >
                                                     {getFieldDecorator('addDepartment')(
-                                                        <Button icon="plus" onClick={this.addDepartment}>添加部门</Button>
+                                                        <Button icon={departmentIcon} onClick={this.addDepartment}>{departmentText}</Button>
                                                     )}
 
                                                 </FormItem>
@@ -678,7 +711,7 @@ class RuleDetailItem extends React.Component {
                                                     label=''
                                                 >
                                                     {getFieldDecorator('addEmpolyee')(
-                                                        <Button icon="plus" onClick={this.addEmployee}>添加员工</Button>
+                                                        <Button icon={emplyeeIcon} onClick={this.addEmployee}>{employeeText}</Button>
                                                     )}
 
                                                 </FormItem>

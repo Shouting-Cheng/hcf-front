@@ -93,10 +93,10 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
     };
     httpFetch
       .put(
-      `${config.payUrl}/api/acp/request/type/company/${
-      this.props.match.params.setOfBooksId
-      }/updateCompany`,
-      params
+        `${config.payUrl}/api/acp/request/type/company/${
+        this.props.match.params.setOfBooksId
+        }/updateCompany`,
+        params
       )
       .then(res => {
         if (res.status === 200) {
@@ -124,8 +124,8 @@ class AcpRequestTypesCompanyDistribution extends React.Component {
       });
       httpFetch
         .post(
-        `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
-        paramsValue
+          `${config.payUrl}/api/acp/request/type/company/${params.setOfBooksId}/batchAssignCompany`,
+          paramsValue
         )
         .then(res => {
           if (res.status === 200) {

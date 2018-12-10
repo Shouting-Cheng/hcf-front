@@ -135,6 +135,7 @@ class NewExpense extends React.Component {
       this.setState({ currencyList: res.data });
     });
   }
+
   componentDidMount() {
     let params = this.props.params;
     if (!params.record.id) {
@@ -357,7 +358,7 @@ class NewExpense extends React.Component {
       this.setState({ againLoading: false });
       this.props.params.refresh && this.props.params.refresh();
       this.resetForm();
-      this.props.form.setFieldsValue({ costType: '' });
+      this.props.form.setFieldsValue({ costType: [] });
       if (this.state.headerData.relatedApplication === false) {
         this.setDefaultApplication();
       }
@@ -398,7 +399,7 @@ class NewExpense extends React.Component {
       }
       values.receiptGoodsID = null;
       values.receiptID = null;
-      values.createTime && (values.createTime = values.createTime.format('YYYY-MM-DD'));
+      values.createdDate && (values.createdDate = values.createdDate.format('YYYY-MM-DD'));
 
       let isError = false;
       if (values.vatInvoice) {
@@ -409,7 +410,7 @@ class NewExpense extends React.Component {
             return;
           }
 
-          data = model;
+          data = [...model];
 
           if (parseFloat(data.priceTaxAmount) < parseFloat(values.amount)) {
             message.error('报账金额不能大于价税合计！');
@@ -806,25 +807,15 @@ class NewExpense extends React.Component {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const {
-      nowPage,
       expenseType,
       loading,
-      saving,
-      attachments,
-      currencyList,
-      nowCurrency,
       attachmentOID,
-      businessCardConsumptions,
-      nowBusinessCardConsumptionIndex,
-      shareVisible,
-      isCreateByApplication,
       saveLoading,
       editModel,
       fileList,
       invoiceData,
       applicationData,
       showSelectApplication,
-      applincationParams,
       selectedData,
     } = this.state;
 
@@ -846,7 +837,8 @@ class NewExpense extends React.Component {
                         initialValue: expenseType.id
                           ? [{ id: expenseType.id, name: expenseType.name }]
                           : [],
-                        rules: [{ required: true, message: '请选择' }]
+                        rules: [{ required: true, message: '请选择' }],
+
                       })(
                         <Chooser
                           onChange={value => this.handleSelectExpenseType(value)}
