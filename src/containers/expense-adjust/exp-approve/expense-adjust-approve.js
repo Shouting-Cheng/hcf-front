@@ -152,12 +152,10 @@ class ExpenseAdjustApprove extends React.Component {
 
     componentDidMount() {
       //this.props.location.query.approved
-      console.log(this.props)
       this.setState({ tabValue: false ? 'approved' : 'unapproved' });
     }
 
   handleSearch = (values) => {
-      console.log(values)
       values.fullName = values.fullName&&values.fullName[0];
       values.beginDate && (values.beginDate = moment(values.beginDate).format('YYYY-MM-DD'));
       values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
