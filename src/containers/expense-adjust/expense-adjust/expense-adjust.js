@@ -344,6 +344,10 @@ class ExpenseAdjust extends React.Component {
       })
     );
   };
+  // 清除
+  clearFunction = () => {
+    this.setState({ searchParams: {} });
+  };
 
   render() {
     const { visible, loading, searchForm, columns, data, pagination, expenseType } = this.state;
@@ -352,7 +356,7 @@ class ExpenseAdjust extends React.Component {
         <SearchArea
           searchForm={searchForm}
           maxLength={4}
-          clearHandle={() => {}}
+          clearHandle={this.clearFunction}
           submitHandle={this.search}
         />
         <div className="divider" />

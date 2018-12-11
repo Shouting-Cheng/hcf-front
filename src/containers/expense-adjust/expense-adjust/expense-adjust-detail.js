@@ -365,9 +365,9 @@ class ExpenseAdjustDetail extends React.Component {
     this.setState({ apportionParams: record.linesDTOList, showApportion: true });
   };
 
-  getDimension = expenseAdjustTypeId => {
+  getDimension = headerId => {
     const { columns } = this.state;
-    adjustService.getDimensionAndValue(expenseAdjustTypeId).then(response => {
+    adjustService.getDimensionAndValue(headerId).then(response => {
       response.data.reverse().map(
         item =>
           item &&
@@ -414,10 +414,10 @@ class ExpenseAdjustDetail extends React.Component {
   getHeaderInfo = () => {
     adjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(response => {
       let documentParams = {
-        businessCode: response.data.expAdjustHeaderNumber,
+        businessCode: response.data.documentNumber,
         createdDate: moment(new Date(response.data.adjustDate)).format('YYYY-MM-DD'),
-        formName: response.data.expAdjustTypeName,
-        createByName: response.data.employeeName,
+        formName: response.data.typeName,
+        createByName: response.data.createdByName,
         totalAmount: response.data.totalAmount ? response.data.totalAmount : 0,
         currencyCode: response.data.currencyCode,
         statusCode: response.data.status,
@@ -507,7 +507,7 @@ class ExpenseAdjustDetail extends React.Component {
           : this.$t('exp.crate.add'),
     });
     this.getHeaderInfo();
-    this.getDimension(this.props.match.params.expenseAdjustTypeId);
+    this.getDimension(this.props.match.params.id);
     this.getList();
   }
 
@@ -624,24 +624,31 @@ class ExpenseAdjustDetail extends React.Component {
     this.getHeaderInfo();
   };
 
-  onLoadOk = transactionId => {
+  onLoadOk = (transactionId) => {
     this.setState({ showImportFrame: false }, () => {
       this.getImportDetailData(transactionId);
-      this.getList();
     });
   };
   // 导入成功
-  getImportDetailData = transactionId => {
-    adjustService
-      .importData(transactionId)
-      .then(res => {
+  getImportDetailData = (transactionId) => {
+    let id = this.props.match.params.id;
+    adjustService.importData(transactionId, id).then(res => {
         console.log(res);
         if (res.status === 200) {
+          if (res.data !== 0){
+            const {documentParams} = this.state;
+            this.setState({
+              documentParams:{
+                ...documentParams,
+                totalAmount: res.data
+              } },()=>{
+              this.renderContent();
+            })
+          }
           message.success(this.$t('common.operate.success' /*操作成功*/));
           this.getList();
         }
-      })
-      .catch(e => {
+      }).catch(e => {
         message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
       });
   };
@@ -807,7 +814,6 @@ class ExpenseAdjustDetail extends React.Component {
     );
 
     let flag = headerData.status === 1004;
-
     return (
       <div className="adjust-content" style={{ marginBottom: 50, paddingBottom: 20 }}>
         <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
@@ -923,13 +929,13 @@ class ExpenseAdjustDetail extends React.Component {
         {/*导入*/}
         <ImporterNew visible={showImportFrame}
           title={this.$t('exp.import.line')}
-          templateUrl={`${config.baseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${this.props.match.params.id}&external=${true}`}
-          uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
+          templateUrl={`${config.expenseUrl}/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${this.props.match.params.id}&external=${true}`}
+          uploadUrl={`${config.expenseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
             this.props.match.params.id
             }`}
-          errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
-          errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
-          deleteDataUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+          errorUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/error/export/${this.props.match.params.id}/true`}
+          errorDataQueryUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/log`}
+          deleteDataUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/delete`}
           fileName={this.$t('exp.import.line')}
           onOk={this.onLoadOk}
           afterClose={() => this.setState({ showImportFrame: false })} />

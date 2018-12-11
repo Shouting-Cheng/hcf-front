@@ -30,7 +30,7 @@ export default {
    * */
   getExpenseAdjustHeadById(id) {
     return httpFetch.get(
-      `${config.baseUrl}/api/expense/adjust/headers/query/id?expAdjustHeaderId=${id}`
+      `${config.expenseUrl}/api/expense/adjust/headers/query/id?expAdjustHeaderId=${id}`
     );
   },
 
@@ -52,7 +52,7 @@ export default {
    * 删除费用调整单
    * */
   deleteExpenseAdjustHead(id) {
-    return httpFetch.delete(`${config.baseUrl}/api/expense/adjust/headers/${id}`);
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/adjust/headers/${id}`);
   },
 
   /**
@@ -65,7 +65,7 @@ export default {
    * */
   getExpenseAdjustLine(params) {
     return httpFetch.get(
-      `${config.baseUrl}/api/expense/adjust/lines/query/dto/by/header/id`,
+      `${config.expenseUrl}/api/expense/adjust/lines/query/dto/by/header/id`,
       params
     );
   },
@@ -81,28 +81,14 @@ export default {
    * 删除费用调整单行
    * */
   deleteExpenseAdjustLine(id) {
-    return httpFetch.delete(`${config.baseUrl}/api/expense/adjust/lines/${id}`);
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/adjust/lines/${id}`);
   },
 
   /**
    * 添加费用调整单行
    * */
   addExpenseAdjustLine(params) {
-    return httpFetch.post(`${config.baseUrl}/api/expense/adjust/lines`, params);
-  },
-
-  /**
-   * 修改费用调整单行
-   * */
-  upExpenseAdjustLine(params) {
-    return httpFetch.put(`${config.baseUrl}/api/expense/adjust/lines`, params);
-  },
-
-  /**
-   * 获取费用类型
-   * */
-  getExpenseTypeByExpenseAdjustType(params) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/adjust/types/getExpenseType`, params);
+    return httpFetch.post(`${config.expenseUrl}/api/expense/adjust/lines`, params);
   },
 
   //获取费用类型
@@ -116,11 +102,11 @@ export default {
   /*
   * 获取维度和对应的维值
   * */
-  getDimensionAndValue(expAdjustTypeId) {
+  getDimensionAndValue(headerId) {
     return httpFetch.get(
       `${
-        config.baseUrl
-      }/api/expense/adjust/headers/query/dimension/dto?expAdjustTypeId=${expAdjustTypeId}`
+        config.expenseUrl
+      }/api/expense/adjust/headers/query/dimension/dto?headerId=${headerId}`
     );
   },
 
@@ -218,10 +204,10 @@ export default {
 
   //获取导入成功后的分摊行信息
   getImportDetailData(oid) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/adjust/lines/query/temp/by/${oid}`);
+    return httpFetch.get(`${config.expenseUrl}/api/expense/adjust/lines/query/temp/by/${oid}`);
   },
   //导入完成
-  importData(oid) {
-   return httpFetch.post(`${config.baseUrl} /api/expense/adjust/lines/import/new/confirm/${oid}`);
+  importData(oid, id) {
+   return httpFetch.post(`${config.expenseUrl}/api/expense/adjust/lines/import/confirm/${id}/${oid}`);
   },
 };
