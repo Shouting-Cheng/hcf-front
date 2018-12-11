@@ -725,7 +725,7 @@ class ViewRuleModal extends React.Component {
                         {this.$t({ id: 'common.back' } /* 返回*/)}
                     </Button>,
                 ]}
-                width={900}
+                width={1000}
                 destroyOnClose={true}
                 closable={false}
                 onCancel={this.onCloseRuleModal}
