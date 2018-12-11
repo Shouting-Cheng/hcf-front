@@ -59,6 +59,10 @@ class SelectCheckSheetType extends Component {
       this.onItemSelect(changeRow, selected);
     });
   };
+
+  componentDidMount(){
+    this.getList();
+  }
   componentWillReceiveProps = nextProps => {
     if (nextProps.visible) {
       this.setState(

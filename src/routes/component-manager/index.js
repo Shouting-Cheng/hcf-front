@@ -228,7 +228,7 @@ class ComponentManager extends React.Component {
     return (
       <div>
         <Row className="component">
-          <Col span={6}>
+          <Col span={5}>
             <Card title="组件库" hoverable>
               <Collapse
                 defaultExpandAll
@@ -312,7 +312,7 @@ class ComponentManager extends React.Component {
               <ComponentContainer />
             </Card>
           </Col>
-          <Col className="attr" span={6}>
+          <Col className="attr" span={7}>
             <Card
               className="attr-box"
               title="页面布局"

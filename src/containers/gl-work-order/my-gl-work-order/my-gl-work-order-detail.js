@@ -1112,7 +1112,7 @@ class MyGLWorkOrderDetail extends Component {
     if (docHeadData.status === 1001 || docHeadData.status === 1003 || docHeadData.status === 1005) {
       status = (
         <h3 className="header-title">
-          <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>
+          <Button type="primary" style={{ marginBottom: '14px', float: 'right' }} onClick={this.edit}>
             编 辑
           </Button>
         </h3>
@@ -1245,15 +1245,15 @@ class MyGLWorkOrderDetail extends Component {
         </Affix>
         {/* 导入 */}
         <ImporterNew visible={showImportFrame}
-                     title={this.$t("核算工单信息导入")}
-                     templateUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`}
-                     uploadUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new?headId=${this.props.match.params.id}`}
-                     errorUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/error/export`}
-                     errorDataQueryUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/query/result`}
-                     deleteDataUrl ={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/delete`}
-                     fileName={this.$t("核算工单信息导入模板")}
-                     onOk={this.onImportOk}
-                     afterClose={() => this.showImport(false)}/>
+          title={this.$t("核算工单信息导入")}
+          templateUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/export/template?headId=${this.props.match.params.id}`}
+          uploadUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new?headId=${this.props.match.params.id}`}
+          errorUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/error/export`}
+          errorDataQueryUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/query/result`}
+          deleteDataUrl={`${config.accountingUrl}/api/general/ledger/work/order/head/import/new/delete`}
+          fileName={this.$t("核算工单信息导入模板")}
+          onOk={this.onImportOk}
+          afterClose={() => this.showImport(false)} />
       </div>
     );
   }

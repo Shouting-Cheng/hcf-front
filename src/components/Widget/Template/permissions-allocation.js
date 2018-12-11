@@ -126,12 +126,12 @@ class PermissionsAllocation extends React.Component {
 
     const textStyle = {
       position: 'absolute',
-      top: 1,
+      top: 3,
       left: 10,
       right: 10,
       width: 180,
-      height: 30,
-      lineHeight: '30px',
+      height: 26,
+      lineHeight: '26px',
       background: type === 'all' || disabled ? '#f5f5f5' : '#fff',
       color: type === 'all' || disabled ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.65)',
       cursor: 'pointer',

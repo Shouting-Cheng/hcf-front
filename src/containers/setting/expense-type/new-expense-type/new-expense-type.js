@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'dva'
 import { Tabs, Spin } from 'antd'
 const TabPane = Tabs.TabPane;
-// import menuRoute from 'routes/menuRoute'
 import expenseTypeService from 'containers/setting/expense-type/expense-type.service'
 import ApplicationTypeBase from 'containers/setting/expense-type/new-expense-type/expense-type-base'
 import ExpenseTypeCustom from 'containers/setting/expense-type/new-expense-type/expense-type-custom/expense-type-custom'
@@ -38,10 +37,8 @@ class NewExpenseType extends React.Component {
 
   getExpenseType = (target, id = this.props.match.params.expenseTypeId) => {
     this.setState({ loading: true });
-
     let { languageList } = this.props;
     expenseTypeService.getExpenseTypeDetail(id).then(res => {
-
       let expenseType = JSON.parse(JSON.stringify(res.data));
 
       expenseTypeService.getFieldsById(id).then(data => {
@@ -65,7 +62,7 @@ class NewExpenseType extends React.Component {
 
         });
 
-        this.setState({ expenseType, loading: false, entryMode: expenseType.entryMode, priceUnit: expenseType.priceUnit });
+        this.setState({expenseType, loading: false, entryMode: expenseType.entryMode, priceUnit: expenseType.priceUnit });
 
         this.props.dispatch({
           type: "setting/setExpenseTypeSetOfBooks",
@@ -90,7 +87,7 @@ class NewExpenseType extends React.Component {
   renderTabs() {
     return (
       this.state.tabs.map(tab => {
-        return <TabPane tab={tab.name} key={tab.key} disabled={tab.key !== 'base' && (!this.props.match.params.expenseTypeId || this.props.match.params.expenseTypeId == "0")} />
+        return <TabPane tab={tab.name} key={tab.key} disabled={tab.key !== 'base' && !this.state.expenseType} />
       })
     )
   }
@@ -112,6 +109,7 @@ class NewExpenseType extends React.Component {
 
   render() {
     const { nowTab, loading } = this.state;
+    console.log(nowTab)
     return (
       <div className="new-expense-type">
         <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>

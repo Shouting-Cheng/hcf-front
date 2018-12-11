@@ -405,7 +405,6 @@ class Dashboard extends React.Component {
                   暂无公告信息
               </div>
               )}
-
           </Col>
           <Col span={8}>
             <Card
@@ -478,7 +477,9 @@ class Dashboard extends React.Component {
                     </div>
                   </div>
                 </TabPane>
-                <TabPane tab="费用占比" key="2"></TabPane>
+                <TabPane tab="费用占比" key="2">
+
+                </TabPane>
                 <TabPane tab="付款状态" key="3"></TabPane>
               </Tabs>
             </Card>

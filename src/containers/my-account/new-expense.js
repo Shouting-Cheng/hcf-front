@@ -928,7 +928,6 @@ class NewExpense extends React.Component {
    * @param value
    */
   handleChangeCurrency = (value) => {
-    //debugger;
     if (value) {
       let nowCurrency = this.getCurrencyFromList(value);
       this.setState({ nowCurrency }, () => {

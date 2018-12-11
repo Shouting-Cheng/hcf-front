@@ -307,8 +307,8 @@ class CustomExpenseType extends React.Component {
         },
       });
       message.success(messages('common.operate.success'));
-      this.getSourceCategory();
-      this.getSourceCategory(null, 1);
+      this.getSourceCategory(nowEditCategory.setOfBooksId);
+      this.getSourceCategory(nowEditCategory.setOfBooksId, 1);
     });
   };
 
@@ -376,6 +376,7 @@ class CustomExpenseType extends React.Component {
                         {messages('common.edit')} <Icon type="down" />
                       </Button>
                     </Dropdown>
+                    <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
                   </div>
                 )
                   )}
@@ -413,7 +414,7 @@ class CustomExpenseType extends React.Component {
       <div style={{ padding: 20 }}>
         <Button type="primary" onClick={this.handleNewApplicationType}>{messages('新增申请类型')}</Button>
         {loading ? <Spin /> : applicationCategory.map((expenseTypeCategory, index) => {
-          const title = categorySorting ? "" : `(${expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})`;
+          const title = `(${expenseTypeCategory.expenseTypes ? expenseTypeCategory.expenseTypes.length : 0})`;
           return (
             <div
               className={`expense-type-category${
@@ -448,6 +449,7 @@ class CustomExpenseType extends React.Component {
                         {messages('common.edit')} <Icon type="down" />
                       </Button>
                     </Dropdown>
+                    <Button onClick={() => this.setState({ typeSorting: true, typeSortingIndex: index })}>{messages('expense.type.sort')}</Button>
                   </div>
                 )
                   )}
