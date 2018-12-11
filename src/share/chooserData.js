@@ -2291,13 +2291,13 @@ const chooserData = {
   },
   'adjust_expense_type': {
     title: messages("itemMap.expenseType"),
-    url: `${config.baseUrl}/api/expense/adjust/types/getExpenseType`,
+    url: `${config.expenseUrl}/api/expense/adjust/types/getExpenseType`,
     searchForm: [
       { type: 'input', id: 'name', label: messages("itemMap.expenseTypeName") },
     ],
     columns: [
       {
-        title: messages("itemMap.icon"), dataIndex: 'iconURL',
+        title: messages("itemMap.icon"), dataIndex: 'iconUrl',
         render: (value) => {
           return <img src={value} height="20" width="20" />
         }

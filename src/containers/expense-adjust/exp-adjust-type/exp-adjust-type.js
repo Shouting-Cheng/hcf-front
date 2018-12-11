@@ -213,32 +213,7 @@ class ExpAdjustType extends Component {
             this.setState({ searchForm: form });
         })
     };
-    //得到列表数据
-   /* getList() {
- this.setState({ loading: true });
- let params = this.state.searchParams;
- params.setOfBooksId = this.state.setOfBooksId;
- let { page, pageSize } = this.state;
- return expAdjustService.getExpenseAdjustTypes(page, pageSize, params).then(response => {
- this.setState({
- data: response.data,
- loading: false,
- pagination: {
- total: Number(response.headers['x-total-count'] ? Number(response.headers['x-total-count']) : 0),
- onChange: this.onChangePaper,
- current: this.state.page + 1,
- showTotal: total => this.$t({ id: 'common.total' }, { total: `${total}` })
- }
- })
- }).catch(e => {
- if (e.response) {
- message.error(`获取数据失败：${e.response.data.message}`);
- this.setState({
- loading: false
- });
- }
- })
- }*/
+
     //分页点击
     onChangePaper = (page) => {
         if (page - 1 !== this.state.page) {
@@ -343,7 +318,7 @@ class ExpAdjustType extends Component {
                 ref={ref => this.customTable = ref}
                 columns={columns}
                 params={{setOfBooksId: this.state.setOfBooksId}}
-                url={`${config.baseUrl}/api/expense/adjust/types/query`}
+                url={`${config.expenseUrl}/api/expense/adjust/types/query`}
               />
                 <SlideFrame
                     title={slideFrameTitle}

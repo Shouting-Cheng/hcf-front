@@ -250,12 +250,14 @@ class NewExpAdjustType extends Component {
 
     };
     //显示费用类型显示页面
-    showSelectExpenseType = () => {
+    showSelectExpenseType = (open) => {
+      if (open) {
         this.refs.SelectExpenseType.blur();
         let setOfBooksId = this.props.form.getFieldValue('setOfBooksId');
         let model = { ...this.state.nowType };
         model.setOfBooksId = setOfBooksId;
         this.setState({ showSelectExpenseType: true, nowType: model });
+      }
     };
     //费用类型弹框确定按钮事件
     onSelectExpenseTypeOk = (values) => {
@@ -266,12 +268,14 @@ class NewExpAdjustType extends Component {
         this.setState({ showSelectExpenseType: false });
     };
     //显示维度选择窗口
-    showSelectDimension = () => {
+    showSelectDimension = (open) => {
+      if (open) {
         this.refs.SelectDimension.blur();
         let setOfBooksId = this.props.form.getFieldValue('setOfBooksId');
         let model = { ...this.state.nowType };
         model.setOfBooksId = setOfBooksId;
         this.setState({ showSelectDimension: true, nowType: model });
+      }
     };
     //选择维度弹框取消按钮事件
     onSelectDimensionCancel = () => {
@@ -431,7 +435,7 @@ class NewExpAdjustType extends Component {
                                 <Radio value={true}>{this.$t({ id: 'adjust.all.type' })/*全部类型*/}</Radio>
                                 <Radio value={false}>{this.$t({ id: 'adjust.partial.type' })/*部分类型*/}</Radio>
                             </RadioGroup>
-                            <Select ref='SelectExpenseType' onFocus={this.showSelectExpenseType} placeholder={this.$t({ id: 'common.please.select' })} disabled={allExpense} value={allExpense ? this.$t({ id: 'adjust.all.type' }/*全部类型*/) : this.$t({ id: 'adjust.expense.type.selected' }, { total: `${expenseIdList.length}` }/*已选择了多少个类型*/)}></Select>
+                            <Select ref='SelectExpenseType' onDropdownVisibleChange={this.showSelectExpenseType} placeholder={this.$t({ id: 'common.please.select' })} disabled={allExpense} value={allExpense ? this.$t({ id: 'adjust.all.type' }/*全部类型*/) : this.$t({ id: 'adjust.expense.type.selected' }, { total: `${expenseIdList.length}` }/*已选择了多少个类型*/)}></Select>
                         </div>
                     </FormItem>
                     <div className="common-item-title">{this.$t({ id: 'adjust.dimension.set' })/*维度设置*/}</div>
@@ -441,7 +445,7 @@ class NewExpAdjustType extends Component {
                                 <Radio value={true}>{this.$t({ id: 'adjust.all.dimension' })/*全部维度*/}</Radio>
                                 <Radio value={false}>{this.$t({ id: 'adjust.partial.dimension' })/*部分维度*/}</Radio>
                             </RadioGroup>
-                            <Select ref='SelectDimension' onFocus={this.showSelectDimension} placeholder={this.$t({ id: 'common.please.select' })} disabled={allDimension} value={allDimension ? this.$t({ id: 'adjust.all.dimension' }/*全部维度*/) : this.$t({ id: 'adjust.dimension.selected' }, { total: `${dimensionIdList.length}` }/*已选择了个维度*/)}></Select>
+                            <Select ref='SelectDimension' onDropdownVisibleChange={this.showSelectDimension} placeholder={this.$t({ id: 'common.please.select' })} disabled={allDimension} value={allDimension ? this.$t({ id: 'adjust.all.dimension' }/*全部维度*/) : this.$t({ id: 'adjust.dimension.selected' }, { total: `${dimensionIdList.length}` }/*已选择了个维度*/)}></Select>
                         </div>
                     </FormItem>
                     <div className="common-item-title">{this.$t({ id: 'adjust.authority.set' })/*权限设置*/}</div>
