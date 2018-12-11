@@ -100,6 +100,15 @@ class FormList extends React.Component {
           },
           () => {
             this.getReceivables('', sign);
+            const {formSetings} = this.props;
+            if(JSON.stringify(formSetings) !== '{}'){
+              let record = {
+              key: formSetings.payeeId,
+              label: formSetings.payeeName
+              }
+              this.handle(record);
+            }
+
           }
         );
       } else {
