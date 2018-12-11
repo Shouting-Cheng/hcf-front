@@ -216,7 +216,7 @@ class ApplicationList extends React.Component {
         {
           title: this.$t('common.column.status'),
           dataIndex: 'status',
-          width: this.props.local === 'zh_CN' ? '80' : '90',
+          width: this.props.local === 'zh_cn' ? '80' : '90',
           render: (value, record) => {
             let applicationType = 2005; //申请单
             let text;

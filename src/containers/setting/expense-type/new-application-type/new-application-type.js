@@ -52,7 +52,6 @@ class NewExpenseType extends React.Component {
           if (!item.i18n) {
             item.i18n = {};
           }
-
           if (!item.i18n.name) {
             item.i18n.name = [];
             languageList.map(language => {
@@ -62,7 +61,6 @@ class NewExpenseType extends React.Component {
               })
             });
           }
-
         });
 
         this.setState({ expenseType, loading: false, entryMode: expenseType.entryMode, priceUnit: expenseType.priceUnit });

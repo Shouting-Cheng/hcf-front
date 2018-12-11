@@ -136,7 +136,7 @@ class TravelOther extends React.Component {
         vendorType,
         keyWord,
         'all',
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+        this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({
@@ -163,7 +163,7 @@ class TravelOther extends React.Component {
         vendorType,
         keyWord,
         'all',
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+      this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({

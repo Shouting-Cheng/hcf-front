@@ -8,7 +8,7 @@ const selectorData = {
     url: `${config.baseUrl}/api/company/standard/currency/getAll`,
     label: record =>
       `${record.currency}${
-        app.getState().languages.local === 'zh_CN'
+      app.getState().languages.local === 'zh_cn'
           ? `-${record.currencyName}`
           : ''
       }`,

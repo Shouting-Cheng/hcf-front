@@ -91,7 +91,7 @@ class CheckCostApplication extends React.Component {
         { title: this.$t('finance.view.search.currency'/*币种*/), dataIndex: 'currencyCode', width: '7%' },
         { title: this.$t('finance.view.search.totalAmount'/*总金额*/), dataIndex: 'totalAmount', render: this.renderMoney, sorter: true },
         {
-          title: this.$t('common.column.status'), dataIndex: 'status', width: this.props.language.local === 'zh_CN' ? '8%' : '13%', render: (value, record) => {
+          title: this.$t('common.column.status'), dataIndex: 'status', width: this.props.language.local === 'zh_cn' ? '8%' : '13%', render: (value, record) => {
             let applicationType = '';
             (+record.entityType === 1001) && (applicationType = 2005);//申请单下的applicationType是2005
             return (

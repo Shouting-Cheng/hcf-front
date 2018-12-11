@@ -1717,7 +1717,7 @@ class NewExpense extends React.Component {
     return (
       <div className="vat-invoice-area">
         <Popover content={<img style={{ width: '70vw' }}
-          src={this.props.language.local === 'zh_CN' ? invoiceImg : invoiceImgEn} />}
+          src={this.props.language.local === 'zh_cn' ? invoiceImg : invoiceImgEn} />}
           placement="bottomRight">
           <div className="invoice-info">{this.$t('expense.invoice.enter.info')/*发票填写说明*/}</div>
         </Popover>
@@ -1836,7 +1836,7 @@ class NewExpense extends React.Component {
                     disabled={currencyEditable}>
                     {currencyList.map(item => {
                       return <Option
-                        key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_CN' ? `${item.currencyName}` : ''}</Option>
+                        key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_cn' ? `${item.currencyName}` : ''}</Option>
                     })}
                   </Select>
                 )}
@@ -2465,7 +2465,7 @@ class NewExpense extends React.Component {
                                       placeholder={this.$t('common.please.select')/* 请选择 */}>
                                       {currencyList.map(item => {
                                         return <Option
-                                          key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_CN' ? `${item.currencyName}` : ''}</Option>
+                                          key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_cn' ? `${item.currencyName}` : ''}</Option>
                                       })}
                                     </Select>
                                   ) : nowExpense.invoiceCurrencyCode}
@@ -2728,7 +2728,7 @@ class NewExpense extends React.Component {
                                           placeholder={this.$t('common.please.select')/* 请选择 */}>
                                           {currencyList.map(item => {
                                             return <Option
-                                              key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_CN' ? `${item.currencyName}` : ''}</Option>
+                                              key={item.currency} value={item.currency}>{item.currency + '-'}{this.props.language.local === 'zh_cn' ? `${item.currencyName}` : ''}</Option>
                                           })}
                                         </Select>
                                       )}

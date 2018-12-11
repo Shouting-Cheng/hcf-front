@@ -36,11 +36,9 @@ import StopAnnounceImage from 'images/stop-annonuce.png';
 // import ShowPasswordRule from 'components/Template/show-password-rule/show-password-rule';
 // import ResetPasswordService from "components/Template/reset-password/reset-password.service";
 
-import request from '../../utils/request';
 import axios from 'axios';
-import { getPageQuery } from '../../utils/utils';
+
 import { routerRedux } from 'dva/router';
-import { stringify } from 'qs';
 import fetch from '../../utils/fetch';
 import { getMenuData } from '../../common/menu';
 import zh_CN from '../../i18n/zh_CN/index';
@@ -305,17 +303,17 @@ export default class Login extends React.Component {
   };
 
   componentWillMount() {
-    let langType = window.localStorage.getItem('langType') || 'zh_CN';
+    let langType = window.localStorage.getItem('langType') || 'zh_cn';
 
-    if (langType == 'zh_CN') {
+    if (langType == 'zh_cn') {
       this.props.dispatch({
         type: 'languages/selectLanguage',
-        payload: { languages: zh_CN, local: 'zh_CN' },
+        payload: { languages: zh_CN, local: 'zh_cn' },
       });
     } else {
       this.props.dispatch({
         type: 'languages/selectLanguage',
-        payload: { languages: en_US, local: 'en_US' },
+        payload: { languages: en_US, local: 'en_us' },
       });
     }
   }
@@ -789,7 +787,7 @@ export default class Login extends React.Component {
       let local = user.language;
 
       fetch
-        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 })
+        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
         .then(res => {
           let languages = {};
 
@@ -798,13 +796,13 @@ export default class Login extends React.Component {
           });
 
           if (!local) {
-            window.localStorage.setItem('local', 'zh_CN');
-            local = 'zh_CN';
+            window.localStorage.setItem('local', 'zh_cn');
+            local = 'zh_cn';
           } else {
             window.localStorage.setItem('local', local);
           }
 
-          if (local == 'zh_CN') {
+          if (local == 'zh_cn') {
             languages = { ...languages, ...zh_CN };
           } else {
             languages = { ...languages, ...en_US };
@@ -836,7 +834,7 @@ export default class Login extends React.Component {
   getLanguageList = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.post(`${config.baseUrl}/api/lov/language/zh_CN`).then(res => {
+      fetch.post(`${config.baseUrl}/api/lov/language/zh_cn`).then(res => {
         dispatch({
           type: 'languages/setLanguageList',
           payload: { languageList: res },

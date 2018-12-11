@@ -204,7 +204,7 @@ class FormDetailBase extends React.Component {
       let formNameLanguageList = [];
       formData.formNameI18n.map((item) => {
         if (item.language === 'zh_cn') {
-          item.language = 'zh_CN';
+          item.language = 'zh_cn';
         }
         formNameLanguageList.push(item.language);
       });
@@ -223,7 +223,7 @@ class FormDetailBase extends React.Component {
       let remarkLanguageList = [];
       formData.remarkI18n.map((item) => {
         if (item.language === 'zh_cn') {
-          item.language = 'zh_CN';
+          item.language = 'zh_cn';
         }
         remarkLanguageList.push(item.language);
       });
