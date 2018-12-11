@@ -113,7 +113,7 @@ class NewExpenseAdjust extends React.Component {
         this.setState({ loading: true });
         let dataValue = {
           ...values,
-          attachmentOids: this.state.uploadOIDs,
+          attachmentOidList: this.state.uploadOIDs,
           companyId: values.companyId[0].id,
           unitId: values.unitId[0].departmentId,
         };
@@ -133,8 +133,6 @@ class NewExpenseAdjust extends React.Component {
             auditFlag: 1001,
             jeCreationStatus: null,
             jeCreationDate: null,
-            adjustDate: moment(new Date()).format('YYYY-MM-DD'),
-            expAdjustHeaderNumber: new Date().valueOf(),
             expAdjustTypeId: this.props.match.params.expenseAdjustTypeId,
             employeeId: this.props.user.id,
           };
@@ -351,7 +349,7 @@ class NewExpenseAdjust extends React.Component {
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={model.attachmentOids}
+                      defaultOIDs={model.attachmentOid}
                     />
                   )}
                 </FormItem>

@@ -94,6 +94,7 @@ class ExpenseTypeBase extends React.Component {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
       valueWillSet.attachmentFlag = expenseType.attachmentFlag + "";
+      valueWillSet.sourceTypeId = { label: valueWillSet.sourceTypeName, key: valueWillSet.sourceTypeId };
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
@@ -108,6 +109,7 @@ class ExpenseTypeBase extends React.Component {
           return;
         }
         values.typeFlag = 1;
+        values.sourceTypeId = values.sourceTypeId && values.sourceTypeId.key;
         values.priceUnit = this.state.priceUnit;
         values.entryMode = this.state.entryMode;
         values.setOfBooksId = this.props.expenseTypeSetOfBooks.id;
@@ -169,16 +171,17 @@ class ExpenseTypeBase extends React.Component {
     }).catch(err => {
       message.error(err.response.data.message);
     })
-  }
+  };
 
   sourceTypeChange = (value) => {
-    let model = this.state.types.find(o => o.id == value);
+    if (value) {
+      let model = this.state.types.find(o => o.id == value.key);
 
-    this.setState({
-      budgetItemName: model.budgetItemName
-    });
-
-  }
+      this.setState({
+        budgetItemName: model.budgetItemName
+      });
+    }
+  };
 
 
   render() {
@@ -252,7 +255,7 @@ class ExpenseTypeBase extends React.Component {
         <FormItem {...formItemLayout} label={messages('申请类型')}>
           {getFieldDecorator('sourceTypeId', {
           })(
-            <Select onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
+            <Select labelInValue={true} allowClear onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
               {types.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
             </Select>
           )}
@@ -266,7 +269,7 @@ class ExpenseTypeBase extends React.Component {
           })(
             <Row gutter={20}>
               <Col span={16}>
-                <Select value={this.state.entryMode} style={{ width: '100%' }} onChange={this.entryModeChange}>
+                <Select value={this.state.entryMode} allowClear style={{ width: '100%' }} onChange={this.entryModeChange}>
                   <Option value={false}>总金额</Option>
                   <Option value={true}>单价*数量</Option>
                 </Select>
@@ -288,7 +291,7 @@ class ExpenseTypeBase extends React.Component {
           {getFieldDecorator('attachmentFlag', {
 
           })(
-            <Select style={{ width: 400 }}>
+            <Select allowClear style={{ width: 400 }}>
               <Option value="1">始终必填</Option>
               <Option value="2">始终不必填</Option>
               <Option value="3">仅有发票原件时不必填</Option>
@@ -298,7 +301,6 @@ class ExpenseTypeBase extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} wrapperCol={{ offset: 5 }}>
           <Button type="primary" htmlType="submit" loading={saving}>{messages('common.save')}</Button>
-          <Button style={{ marginLeft: 8 }} onClick={this.goBack}>{messages('common.back')}</Button>
         </FormItem>
         <IconSelector visible={showIconSelectorFlag}
           onOk={this.handleSelectIcon}

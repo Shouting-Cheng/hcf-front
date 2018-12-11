@@ -131,7 +131,7 @@ class ExpenseAdjustApproveCommon extends React.Component {
           render: desc=> this.filterMoney(desc)
         },
         {
-          title: this.$t('acp.function.amount'), dataIndex: 'functionalAmount', width: 120, align: 'center',
+          title: this.$t('customField.base.amount'), dataIndex: 'functionalAmount', width: 120, align: 'center',
           render: desc=> this.filterMoney(desc)
         },
         {

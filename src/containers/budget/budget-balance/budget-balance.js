@@ -341,7 +341,7 @@ class BudgetBalance extends React.Component {
         labelKey: 'companyGroupName',
         valueKey: 'id',
         codeKey: 'companyGroupCode',
-        listExtraParams: {},
+        listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
         selectorItem: undefined,
       },
       UNIT: {

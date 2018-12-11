@@ -12,13 +12,6 @@ class SelectDimension extends Component {
             searchForm: [
               { type: 'input', id: 'code', label: this.$t({ id: 'adjust.dimension.code' }/*维度代码*/) },
               { type: 'input', id: 'name', label: this.$t({ id: 'adjust.dimension.name' }/*维度名称*/) },
-              { type: 'select', id: 'range', label: this.$t('common.view'), defaultValue: 'all',
-                options:[
-                  {label: this.$t('common.all'), value: 'all'},
-                  {label: this.$t('common.has.selected'), value: 'selected' },
-                  {label: this.$t('adjust.not.selected'), value: 'notChoose' },
-                ]
-              }
             ],
           searchParams: {
             range: 'all'
@@ -79,8 +72,6 @@ class SelectDimension extends Component {
         });
       }else {
         let {searchForm, searchParams} = this.state;
-        searchForm[2].defaultValue = 'all';
-        searchParams.range = 'all';
         this.setState({searchForm})
       }
     };
@@ -89,14 +80,10 @@ class SelectDimension extends Component {
         let params = {
             page: this.state.page,
             size: this.state.pageSize,
-            range: this.state.searchParams.range,
             setOfBooksId: this.props.params.setOfBooksId,
-            id: this.props.params.id,
             code: this.state.searchParams.code,
             name: this.state.searchParams.name
         };
-        !params.range && (params.range = 'all');
-
         return expAdjustService.getDimension(params).then(res => {
             this.setState({
                 loading: false,
