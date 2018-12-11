@@ -89,6 +89,7 @@ class ExpenseTypeBase extends React.Component {
     }, () => {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
+      valueWillSet.sourceTypeId = {label: valueWillSet.sourceTypeName, key: valueWillSet.sourceTypeId};
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
@@ -104,6 +105,7 @@ class ExpenseTypeBase extends React.Component {
         }
 
         values.typeFlag = 1;
+        values.sourceTypeId = values.sourceTypeId&&values.sourceTypeId.key;
         values.priceUnit = this.state.priceUnit;
         values.entryMode = this.state.entryMode;
         values.setOfBooksId = this.props.expenseTypeSetOfBooks.id;
@@ -164,7 +166,7 @@ class ExpenseTypeBase extends React.Component {
   }
 
   sourceTypeChange = (value) => {
-    let model = this.state.types.find(o => o.id == value);
+    let model = this.state.types.find(o => o.id == value.key);
 
     this.setState({
       budgetItemName: model.budgetItemName
@@ -241,10 +243,11 @@ class ExpenseTypeBase extends React.Component {
             </Select>
           )}
         </FormItem>
+        {console.log(types)}
         <FormItem {...formItemLayout} label={messages('申请类型')}>
           {getFieldDecorator('sourceTypeId', {
           })(
-            <Select onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
+            <Select labelInValue={true} onChange={this.sourceTypeChange} disabled={!this.props.form.getFieldValue("typeCategoryId")} style={{ width: 400 }}>
               {types.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
             </Select>
           )}

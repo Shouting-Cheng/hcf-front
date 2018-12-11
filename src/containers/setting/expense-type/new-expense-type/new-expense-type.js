@@ -109,7 +109,6 @@ class NewExpenseType extends React.Component {
 
   render() {
     const { nowTab, loading } = this.state;
-    console.log(nowTab)
     return (
       <div className="new-expense-type">
         <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
