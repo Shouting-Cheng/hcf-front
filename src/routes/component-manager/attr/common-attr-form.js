@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
-  Row,
-  Col,
-  Collapse,
-  Card,
   Input,
   Form,
   Select,
@@ -14,7 +9,6 @@ import {
   Spin,
   TreeSelect,
 } from 'antd';
-const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TreeNode = TreeSelect.TreeNode;
@@ -32,6 +26,7 @@ import service from '../../Interface/interface.service';
 @connect(({ languages }) => ({
   languages,
 }))
+
 class CommonAttrForm extends Component {
   constructor(props) {
     super(props);
@@ -101,11 +96,11 @@ class CommonAttrForm extends Component {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 10 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 14 },
       },
     };
 

@@ -51,12 +51,14 @@
             font-size: 14px;
             color: #f5222d;
             position: absolute;
-            bottom:30px
+            bottom:10px
+        }
+        .rule-form-title .rule-item-name{
+            margin-bottom: 0px!important
         }    
     }
     .rule-ant-card .ant-card-head .ant-tabs{
         margin-bottom: 0px!important;
-        background: #f7f7f7!important   
     }
     .tree-select {
         .ant-tree-title{
@@ -70,25 +72,37 @@
             }
             .left-title-w2{
                 display:inline-block;
-                width:40%;
+                width:50%;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
             .right-tree-title{
                 display:inline-block;
-                width:20%;
-                overflow: hidden
+                width:30%;
+                overflow: hidden;
+                text-align: right
             }
         }
         
     }
     .tree-select .ant-tree-node-content-wrapper{
-        display: inline!important ;
+        display: inline-block!important ;
+        width: 85%
     }
     .treeStyle{
         .ant-tree{
-            font-size: 12px!important
+            font-size: 13px!important
+        }
+        .listStyle1{
+            margin-top: 5px;
+            font-size:13px;
+            height: 24px;
+            line-height: 24px;
+            cursor: pointer;
+        }
+        .listStyle1:hover{
+            background: #caeff3
         }
     }
 }

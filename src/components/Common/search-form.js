@@ -40,7 +40,7 @@ const cardSource = {
       type: 'form-item',
       id: uuid(),
       props: {},
-      text: '',
+      text: item.text,
       parent: props.id,
       typeCode: item.text,
       key: '',

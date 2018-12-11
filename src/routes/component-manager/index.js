@@ -111,22 +111,6 @@ class ComponentManager extends React.Component {
     this.setState({ value });
   };
 
-  componentDidMount() {
-    // const { versionId, status } = this.props;
-    // let timer = window.setInterval(() => {
-    //   const { components } = this.props;
-    //   window.localStorage.setItem("components", JSON.stringify(components));
-    // }, 1000 * 5)
-    // this.setState({ timer });
-    // let str = '/supplier/api/ven/type/query?id=${props.name}';
-    // str.replace(/\$\{(\w+)\}/g, function (match, key) {
-    //   console.log(key);   // name
-    // });
-    // window.addEventListener('keydown', (e) => {
-    //   superThrottle(this.handleKeyDown(e), 300, 5000);
-    // });
-  }
-
   componentWillUnmount() {
     window.clearInterval(this.state.timer);
   }
@@ -244,7 +228,7 @@ class ComponentManager extends React.Component {
     return (
       <div>
         <Row className="component">
-          <Col span={6}>
+          <Col span={5}>
             <Card title="组件库" hoverable>
               <Collapse
                 defaultExpandAll
@@ -328,7 +312,7 @@ class ComponentManager extends React.Component {
               <ComponentContainer />
             </Card>
           </Col>
-          <Col className="attr" span={6}>
+          <Col className="attr" span={7}>
             <Card
               className="attr-box"
               title="页面布局"

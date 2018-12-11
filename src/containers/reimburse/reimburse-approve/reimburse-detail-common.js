@@ -308,7 +308,7 @@ class ContractDetailCommon extends React.Component {
     console.log(headerData)
     let headerInfo = {
       businessCode: headerData.businessCode,
-      createdDate: headerData.createdDate,
+      createdDate: headerData.reportDate,
       createByName: `${headerData.createByName}-${headerData.createByCode}`,
       formName: headerData.formName,
       statusCode: headerData.reportStatus,

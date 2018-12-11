@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, Form, Row, Col, Input, Select, InputNumber, message } from 'antd';
-import CustomAmount from 'widget/customAmount';
+import CustomAmount from 'widget/custom-amount';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -904,7 +904,8 @@ class NewBudgetJournalDetail extends React.Component {
             }
           }
           if (item.type === 'list') {
-            if (values[item.id].length > 0) {
+            if(values[item.id] !== undefined){
+            // if (values[item.id].length > 0) {
               if (values[item.id].length > 0) {
                 const value = values[item.id][0];
                 valuesData[item.columnLabel] = value[item.labelKey];

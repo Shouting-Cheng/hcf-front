@@ -4,7 +4,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Input, Radio, Row, Col, message, Icon,Affix } from 'antd'
+import { Button, Input, Radio, Row, Col, message, Icon, Affix } from 'antd'
 import formService from 'containers/setting/form/form.service'
 // import menuRoute from 'routes/menuRoute'
 import Chooser from 'widget/chooser'
@@ -451,19 +451,19 @@ class FormPermission extends React.Component {
             )
         }
     }
-    goBack=()=>{
+    goBack = () => {
         this.props.dispatch(
             routerRedux.push({
-              pathname: `/admin-setting/form-list`,
+                pathname: `/admin-setting/form-list`,
             })
-          );
-      }
+        );
+    }
 
     render() {
         const { loading1, isEdit1, loading2, isEdit2, loading3, isEdit3, companySelectedList, visibleCompanyScope,
             expenseSelectedList, visibleExpenseScope, userValue, canEditExpense } = this.state;
         return (
-            <div className="form-permission" style={{paddingBottom:50}}>
+            <div className="form-permission" style={{ paddingBottom: 50 }}>
                 {this.props.tenantMode &&
                     <div>
                         <div className="info-title">{this.$t('form.setting.form.divide.company')/*分配公司*/}&nbsp;&nbsp;&nbsp;<span style={{ color: '#989898', fontSize: 14 }}>{this.$t('form.setting.form.tip04')/*当前账套下启用的公司*/}</span></div>
@@ -481,7 +481,7 @@ class FormPermission extends React.Component {
                                         disabled={!isEdit1}
                                         onChange={this.handleSelectCompany}
                                         value={companySelectedList}
-                                        listExtraParams={{ setOfBooksId: this.context.booksID }}
+                                        listExtraParams={{ setOfBooksId: this.context.booksID, enabled: true }}
                                         showNumber={true}
                                         single={false} />
                                 }
@@ -537,19 +537,19 @@ class FormPermission extends React.Component {
                         </Col>
                     </Row>
                 )}
-                 <div style={{paddingLeft:'20px'}}>
-                <Affix offsetBottom={0} style={{
-                 position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
-                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
-                 }}>
-                    <Button
-                    type="primary"
-                    onClick={this.goBack}
-                    style={{ margin: '0 20px' }}
-                    >
-                {this.$t('common.back' /*提 交*/)}
-                </Button>
-                </Affix>
+                <div style={{ paddingLeft: '20px' }}>
+                    <Affix offsetBottom={0} style={{
+                        position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+                        boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+                    }}>
+                        <Button
+                            type="primary"
+                            onClick={this.goBack}
+                            style={{ margin: '0 20px' }}
+                        >
+                            {this.$t('common.back' /*提 交*/)}
+                        </Button>
+                    </Affix>
 
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider, Popconfirm } from 'antd';
+import { Button, Form, Switch, Input, message, Icon, InputNumber, Select, Modal, Card, Row, Col, Badge, Divider, Popconfirm,Spin  } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import 'styles/setting/data-authority/data-authority.scss';
@@ -62,8 +62,16 @@ class LineModelChangeRulesSystem extends React.Component {
             departMentVisible: false,
             sobValuesKeys: [],
             employeeKeys: [],
-            companyItemsKeys:[],
-            departMentItemsKeys:[]
+            companyItemsKeys: [],
+            departMentItemsKeys: [],
+            sobText:'添加账套',
+            sobIcon:'plus',
+            companyText:'添加公司',
+            departmentText:'添加部门',
+            employeeText:'添加员工',
+            companyIcon:'plus',
+            departmentIcon:'plus',
+            emplyeeIcon:'plus'
         }
     }
     componentWillMount() {
@@ -112,7 +120,7 @@ class LineModelChangeRulesSystem extends React.Component {
                 renderSobList: false,
                 renderCompanyList: false,
                 renderDepartmentList: false,
-                renderEmplyeeList: false
+                renderEmplyeeList: false,
             })
         } else {
             this.props.cancelHandle(targeKey)
@@ -132,7 +140,7 @@ class LineModelChangeRulesSystem extends React.Component {
             `dataScope4-${this.props.targeKey}`, `filtrateMethod4-${this.props.targeKey}`
         ];
         let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr,
-             dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc,companyItemsKeys,departMentItemsKeys } = this.state;
+            dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc, companyItemsKeys, departMentItemsKeys } = this.state;
         this.props.form.validateFields(testRules, (err, values) => {
             if (!err) {
                 let tenantId = this.props.tenantId;
@@ -160,7 +168,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope1-${targeKey}`]].label,
                                     dataScope: values[`dataScope1-${targeKey}`],
                                     filtrateMethod: values[`filtrateMethod1-${targeKey}`] ? values[`filtrateMethod1-${targeKey}`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod1-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod1-${targeKey}`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod1-${targeKey}`] ? filtrateMethodDesc[values[`filtrateMethod1-${targeKey}`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod1-${targeKey}`] ? sobValuesKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[0].id : null,
                                     deleted: getRulesArr.deleted,
@@ -177,7 +185,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope2-${targeKey}`]].label,
                                     dataScope: values[`dataScope2-${targeKey}`],
                                     filtrateMethod: values[`filtrateMethod2-${targeKey}`] ? values[`filtrateMethod2-${targeKey}`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod2-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod2-${targeKey}`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod2-${targeKey}`] ? filtrateMethodDesc[values[`filtrateMethod2-${targeKey}`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod2-${targeKey}`] ? companyItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[1].id : null,
                                     deleted: getRulesArr.deleted,
@@ -194,7 +202,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope3-${targeKey}`]].label,
                                     dataScope: values[`dataScope3-${targeKey}`],
                                     filtrateMethod: values[`filtrateMethod3-${targeKey}`] ? values[`filtrateMethod3-${targeKey}`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod3-${targeKey}`]?filtrateMethodDesc[values[`filtrateMethod3-${targeKey}`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod3-${targeKey}`] ? filtrateMethodDesc[values[`filtrateMethod3-${targeKey}`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod3-${targeKey}`] ? departMentItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[2].id : null,
                                     deleted: getRulesArr.deleted,
@@ -211,7 +219,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope4-${targeKey}`]].label,
                                     dataScope: values[`dataScope4-${targeKey}`],
                                     filtrateMethod: values[`filtrateMethod4-${targeKey}`] ? values[`filtrateMethod4-${targeKey}`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod4-${targeKey}`]? filtrateMethodDesc[values[`filtrateMethod4-${targeKey}`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod4-${targeKey}`] ? filtrateMethodDesc[values[`filtrateMethod4-${targeKey}`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod4-${targeKey}`] ? employeeKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[3].id : null,
                                     deleted: getRulesArr.deleted,
@@ -252,8 +260,7 @@ class LineModelChangeRulesSystem extends React.Component {
                             lastUpdatedDate: res.data.lastUpdatedDate,
                         }, () => {
                             this.setState({
-                                show: false,
-                                isEditDelete: true,
+                                show: false
                             })
                         })
                     }
@@ -273,7 +280,27 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     /**编辑单条规则 */
     editRuleItem = () => {
-
+        let {ruleDatail}=this.state;
+        if(ruleDatail[0].dataScope==='1004'){
+            this.setState({
+                renderSobList:true
+            })
+        }
+        if(ruleDatail[1].dataScope==='1004'){
+            this.setState({
+                renderCompanyList:true
+            })
+        }
+        if(ruleDatail[2].dataScope==='1004'){
+            this.setState({
+                renderDepartmentList:true
+            })
+        }
+        if(ruleDatail[3].dataScope==='1004'){
+            this.setState({
+                renderEmplyeeList:true
+            })
+        }
         this.setState({
             show: true,
             isEditDelete: true
@@ -336,7 +363,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     closeRuleModal = () => {
         this.setState({
-            showRuleModal: false
+            showRuleModal: false,
         })
     }
     //添加账套
@@ -377,7 +404,9 @@ class LineModelChangeRulesSystem extends React.Component {
         this.props.handleTenantListOk(arr)
         this.setState({
             tenantVisible: false,
-            sobValuesKeys: arr
+            sobValuesKeys: arr,
+            sobText:`已选择${resultArr.length}个账套`,
+            sobIcon:null
         })
     }
     cancelTenantList = (flag) => {
@@ -390,7 +419,7 @@ class LineModelChangeRulesSystem extends React.Component {
         const ruleId = this.props.params ? this.props.params.getRulesArr.id : ''
         const employeeItem = {
             title: '添加员工',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
+            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
             searchForm: [
                 { type: 'input', id: 'code', label: '员工代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '员工名称', colSpan: 6 },
@@ -422,7 +451,9 @@ class LineModelChangeRulesSystem extends React.Component {
         this.props.handleEmployeeListOk(arr)
         this.setState({
             empolyeeVisible: false,
-            employeeKeys: arr
+            employeeKeys: arr,
+            employeeText:`已选择${resultArr.length}个员工`,
+            emplyeeIcon:null
         })
     }
     cancelEmployeeList = () => {
@@ -453,7 +484,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     //获取公司，部门选择的值
-    transferCompanyList=(items)=>{
+    transferCompanyList = (items) => {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -461,12 +492,14 @@ class LineModelChangeRulesSystem extends React.Component {
         }
         this.props.handleCompanyListOk(arr)
         this.setState({
-            companyItemsKeys:arr,
-            companyVisible:false
+            companyItemsKeys: arr,
+            companyVisible: false,
+            companyText:`已选择${resultArr.length}个公司`,
+            companyIcon:null
         })
 
     }
-    transDePferList=(items)=>{
+    transDePferList = (items) => {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -474,15 +507,43 @@ class LineModelChangeRulesSystem extends React.Component {
         }
         this.props.handleDePListOk(arr)
         this.setState({
-            departMentItemsKeys:arr,
-            departMentVisible:false
+            departMentItemsKeys: arr,
+            departMentVisible: false,
+            departmentText:`已选择${resultArr.length}个部门`,
+            departmentIcon:null
         })
 
     }
+    /**详情编辑完成后返回侧滑框，页面刷新 */
+    backRuleModal = () => {
+        let { getRulesArr, ruleId } = this.state;
+        DataAuthorityService.getSingleDataAuthorityDetail(ruleId, getRulesArr.id).then(res => {
+            if (res.status === 200) {
+                this.setState({
+                    ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
+                    ruleName: res.data.dataAuthorityRules[0].dataAuthorityRuleName,
+                    getRulesArr: res.data.dataAuthorityRules[0],
+                    saveLoading: false,
+                    ruleId: res.data.id,
+                    deleted: res.data.deleted,
+                    versionNumber: res.data.versionNumber,
+                    createdBy: res.data.createdBy,
+                    createdDate: res.data.createdDate,
+                    lastUpdatedBy: res.data.lastUpdatedBy,
+                    lastUpdatedDate: res.data.lastUpdatedDate,
+                },()=>{
+                    this.setState({
+                        showRuleModal: false,
+                    })
+                })
+            }
+
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props;
-        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible,
-            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail } = this.state;
+        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible,companyText,companyIcon,departmentIcon,emplyeeIcon,
+            showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail, getRulesArr,sobText,sobIcon,departmentText,employeeText } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 16, offset: 1 },
@@ -498,6 +559,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                 <FormItem
                                     {...ruleFormLayout}
                                     label=''
+                                    className='rule-item-name'
                                 >
                                     {getFieldDecorator(`dataAuthorityRuleName-${this.props.targeKey}`, {
                                         rules: [{
@@ -561,7 +623,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 label=''
                                             >
                                                 {getFieldDecorator('addTenant')(
-                                                    <Button icon="plus" onClick={this.addTenant}>添加账套</Button>
+                                                    <Button icon={sobIcon} onClick={this.addTenant}>{sobText}</Button>
                                                 )}
 
                                             </FormItem>
@@ -617,7 +679,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 label=''
                                             >
                                                 {getFieldDecorator('addCompany')(
-                                                    <Button icon="plus" onClick={this.addCompany}>添加公司</Button>
+                                                    <Button icon={companyIcon} onClick={this.addCompany}>{companyText}</Button>
                                                 )}
 
                                             </FormItem>
@@ -673,7 +735,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 label=''
                                             >
                                                 {getFieldDecorator('addDepartment')(
-                                                    <Button icon="plus" onClick={this.addDepartment}>添加部门</Button>
+                                                    <Button icon={departmentIcon} onClick={this.addDepartment}>{departmentText}</Button>
                                                 )}
 
                                             </FormItem>
@@ -728,7 +790,7 @@ class LineModelChangeRulesSystem extends React.Component {
                                                 label=''
                                             >
                                                 {getFieldDecorator('addEmpolyee')(
-                                                    <Button icon="plus" onClick={this.addEmployee}>添加员工</Button>
+                                                    <Button icon={emplyeeIcon} onClick={this.addEmployee}>{employeeText}</Button>
                                                 )}
 
                                             </FormItem>
@@ -741,6 +803,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     </Card>
                 }
                 {!show &&
+
                     <Card title={ruleName || ''} style={{ marginTop: 25, background: '#f7f7f7' }}
                         extra={<span>
                             <a onClick={this.handleViewRule}>详情</a>
@@ -776,7 +839,9 @@ class LineModelChangeRulesSystem extends React.Component {
                 <ViewRuleModal
                     visibel={showRuleModal}
                     closeRuleModal={this.closeRuleModal}
-                    targeKey={this.state.ruleId}
+                    targetId={getRulesArr.id}
+                    dataId={this.state.ruleId}
+                    backRuleModal={this.backRuleModal}
                 />
                 <ListSelector
                     visible={tenantVisible}

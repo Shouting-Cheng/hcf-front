@@ -12,6 +12,7 @@ const options = [
 @connect(({ components }) => ({
   components,
 }))
+
 class SearchFormAttr extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +22,9 @@ class SearchFormAttr extends Component {
           label: 'ref',
           key: 'refName',
           type: 'input',
-          tooltip: '组件的引用，通过这个属性，可以用代码访问组件。',
+          tooltip: '组件的引用，通过这个属性，可以用代码访问组件。'
         },
-        { label: 'search', key: 'events.search', type: 'method', tooltip: '搜索触发的事件' },
+        { label: 'search', key: 'events.search', type: 'method', tooltip: '搜索触发的事件' }
       ],
     };
   }

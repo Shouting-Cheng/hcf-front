@@ -38,6 +38,12 @@ class FormItemAttrForm extends Component {
           tooltip: '绑定后台字段',
         },
         {
+          type: 'input',
+          key: 'defaultValue',
+          label: 'defaultValue',
+          tooltip: '默认值',
+        },
+        {
           type: 'switch',
           key: 'required',
           label: 'required',

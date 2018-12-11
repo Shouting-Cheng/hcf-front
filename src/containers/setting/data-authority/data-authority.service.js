@@ -16,6 +16,10 @@ export default{
     getDataAuthorityDetail(id){
         return httpFetch.get(`${config.authUrl}/api/system/data/authority/detail/${id}`);
     },
+    getSingleDataAuthorityDetail(id,ruleId){
+        
+        return httpFetch.get(`${config.authUrl}/api/system/data/authority/detail/${id}?ruleId=${ruleId}`);
+    },
     /**
      * 获取数据类型
      */
@@ -62,5 +66,13 @@ export default{
     },
     getTenantDepartment(keyWord){
         return httpFetch.get(`${config.baseUrl}/api/department/current/tenant?keyWord=${keyWord}`);
+    },
+    /**
+     * 获取具体规则的明细值
+     */
+    getRuleDetail(ruleId,dataType){
+        return httpFetch.get(`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${ruleId}&dataType=${dataType}`);
     }
+
+
 }

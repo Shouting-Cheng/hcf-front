@@ -81,7 +81,7 @@ class NewExpense extends React.Component {
         title: this.$t({ id: 'itemMap.expenseType' }),
         url: `${
           config.baseUrl
-        }/api/v2/custom/forms/fa94050f-3fba-475a-ae04-8a4291efd957/selected/expense/types`,
+          }/api/v2/custom/forms/fa94050f-3fba-475a-ae04-8a4291efd957/selected/expense/types`,
         searchForm: [
           { type: 'input', id: 'name', label: this.$t({ id: 'itemMap.expenseTypeName' }) },
         ],
@@ -135,6 +135,7 @@ class NewExpense extends React.Component {
       this.setState({ currencyList: res.data });
     });
   }
+
   componentDidMount() {
     let params = this.props.params;
     if (!params.record.id) {
@@ -146,7 +147,7 @@ class NewExpense extends React.Component {
       let expenseTypeItem = this.state.expenseTypeItem;
       expenseTypeItem.url = `${config.baseUrl}/api/v2/custom/forms/${
         params.headerData.formOid
-      }/selected/expense/types`;
+        }/selected/expense/types`;
 
       this.setState(
         {
@@ -178,7 +179,7 @@ class NewExpense extends React.Component {
       let expenseTypeItem = this.state.expenseTypeItem;
       expenseTypeItem.url = `${config.baseUrl}/api/v2/custom/forms/${
         params.headerData.formOid
-      }/selected/expense/types`;
+        }/selected/expense/types`;
 
       this.setState(
         {
@@ -232,18 +233,20 @@ class NewExpense extends React.Component {
 
   //重置表单
   resetForm = flag => {
+
     if (this.state.isShowInvoice) {
       this.refs.invoice.resetFields();
     }
+
     this.props.form.resetFields();
 
     var editModel = this.state.editModel.id
       ? {
-          id: this.state.editModel.id,
-          invoiceOID: this.state.editModel.invoiceOID,
-          receiptGoodsID: this.state.editModel.receiptGoodsID,
-          receiptID: this.state.editModel.receiptID,
-        }
+        id: this.state.editModel.id,
+        invoiceOID: this.state.editModel.invoiceOID,
+        receiptGoodsID: this.state.editModel.receiptGoodsID,
+        receiptID: this.state.editModel.receiptID,
+      }
       : {};
 
     // this.props.form.setFieldsValue({costType: [], vatInvoice: false, amount: 0, actualAmount: 0, comment: ""});
@@ -354,8 +357,8 @@ class NewExpense extends React.Component {
       message.success('保存成功！');
       this.setState({ againLoading: false });
       this.props.params.refresh && this.props.params.refresh();
-      this.props.form.setFieldsValue({costType:''});
       this.resetForm();
+      this.props.form.setFieldsValue({ costType: [] });
       if (this.state.headerData.relatedApplication === false) {
         this.setDefaultApplication();
       }
@@ -396,7 +399,7 @@ class NewExpense extends React.Component {
       }
       values.receiptGoodsID = null;
       values.receiptID = null;
-      values.createTime && (values.createTime = values.createTime.format('YYYY-MM-DD'));
+      values.createdDate && (values.createdDate = values.createdDate.format('YYYY-MM-DD'));
 
       let isError = false;
       if (values.vatInvoice) {
@@ -407,7 +410,7 @@ class NewExpense extends React.Component {
             return;
           }
 
-          data = model;
+          data = [...model];
 
           if (parseFloat(data.priceTaxAmount) < parseFloat(values.amount)) {
             message.error('报账金额不能大于价税合计！');
@@ -804,25 +807,15 @@ class NewExpense extends React.Component {
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const {
-      nowPage,
       expenseType,
       loading,
-      saving,
-      attachments,
-      currencyList,
-      nowCurrency,
       attachmentOID,
-      businessCardConsumptions,
-      nowBusinessCardConsumptionIndex,
-      shareVisible,
-      isCreateByApplication,
       saveLoading,
       editModel,
       fileList,
       invoiceData,
       applicationData,
       showSelectApplication,
-      applincationParams,
       selectedData,
     } = this.state;
 
@@ -845,7 +838,7 @@ class NewExpense extends React.Component {
                           ? [{ id: expenseType.id, name: expenseType.name }]
                           : [],
                         rules: [{ required: true, message: '请选择' }],
-                        // validateTrigger: "onBlur"
+
                       })(
                         <Chooser
                           onChange={value => this.handleSelectExpenseType(value)}

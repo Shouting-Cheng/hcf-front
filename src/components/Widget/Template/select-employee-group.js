@@ -34,8 +34,6 @@ class SelectEmployeeGroup extends React.Component {
     };
   }
 
-  componentDidMount() { }
-
   renderLabel = item => {
     return (
       <span>
@@ -50,9 +48,9 @@ class SelectEmployeeGroup extends React.Component {
   };
 
   getList = () => {
-    let isOID = this.props.mode === 'oid';
+    let isOID = this.props.mode == 'oid';
 
-    let url = `${config.baseUrl}/api/user/groups/company?page=0&size=1000`;
+    let url = `${config.baseUrl}/api/user/groups/company?page=0&size=10000`;
 
     httpFetch.get(url).then(res => {
       if (this.state.selectedData && this.state.selectedData.length) {
@@ -61,7 +59,7 @@ class SelectEmployeeGroup extends React.Component {
         let tempSelect = [];
         res.data.map(item => {
           let valueItem = isOID ? item.userGroupOID : item.id;
-          if (this.state.selectedData.findIndex(o => o.value === valueItem) >= 0) {
+          if (this.state.selectedData.findIndex(o => o.value == valueItem) >= 0) {
             let labelShow = this.renderLabel(item);
             list.push({ label: labelShow, value: valueItem });
             tempSelect.push(valueItem);
@@ -97,24 +95,10 @@ class SelectEmployeeGroup extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ selectedData: this.props.selectedData }, () => {
+    this.setState({ useData: this.props.selectedData || [], selectedData: this.props.selectedData || [] }, () => {
       this.getList();
     });
   }
-  componentDidMount(){
-    this.setState({ useData: this.props.selectedData ? this.props.selectedData : [] }, () => {
-      this.getList();
-      //this.onLoadData();
-    });
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({ selectedData: nextProps.selectedData }, () => {
-  //     if (nextProps.visible) {
-  //       this.getList();
-  //     }
-  //   });
-  // }
 
   checkboxChange = values => {
     this.setState({ toSelectList: values });
@@ -217,7 +201,7 @@ class SelectEmployeeGroup extends React.Component {
       let temp = [];
       this.state.useData.map(o => {
         this.state.userUserGroupEntity.map(u => {
-          if (o.value === (this.props.mode === 'oid' ? u.userGroupOID : u.id)) {
+          if (o.value == (this.props.mode == 'oid' ? u.userGroupOID : u.id)) {
             temp.push(u);
           }
         });
@@ -255,7 +239,7 @@ class SelectEmployeeGroup extends React.Component {
               title={
                 <Checkbox
                   onChange={this.onCheckAllChange}
-                  checked={!!toSelectList.length && toSelectList.length === userGroup.length}
+                  checked={!!toSelectList.length && toSelectList.length == userGroup.length}
                   indeterminate={!!toSelectList.length && toSelectList.length < userGroup.length}
                 >
                   {toSelectList.length}/{userGroup.length}
@@ -314,7 +298,7 @@ class SelectEmployeeGroup extends React.Component {
               title={
                 <Checkbox
                   onChange={this.onUseCheckAllChange}
-                  checked={!!useSelectList.length && useSelectList.length === useUserGroup.length}
+                  checked={!!useSelectList.length && useSelectList.length == useUserGroup.length}
                   indeterminate={
                     !!useSelectList.length && useSelectList.length < useUserGroup.length
                   }

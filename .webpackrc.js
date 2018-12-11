@@ -113,6 +113,10 @@ export default {
     '/receipt': {
       target: 'http://106.15.26.10:10080',
       changeOrigin: true,
+    },
+    "/tx-manager" :{
+      target: 'http://115.159.108.80:9081',
+      changeOrigin: true
     }
   },
 };

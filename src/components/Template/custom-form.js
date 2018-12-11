@@ -1,11 +1,9 @@
 import { Form, Row, Col, Input, Button, Icon, Switch, Select, message } from 'antd';
 import React from 'react';
 const FormItem = Form.Item;
-import { DragSource, DropTarget } from 'react-dnd';
-import { connect } from 'dva';
 import './search-form.less';
 import fetch from '../../utils/fetch';
-import commonService from '../../services/common';
+import commonService from 'services/common';
 import baseMethods from '../../methods/index';
 
 class AdvancedSearchForm extends React.Component {

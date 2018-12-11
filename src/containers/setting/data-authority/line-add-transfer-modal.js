@@ -22,7 +22,8 @@ class LineAddTransferModal extends React.Component {
             isShowTreeNode: false,
             searchListInfo: [],
             rightList: [],
-            treeLoading: true
+            treeLoading: true,
+
         }
 
 
@@ -33,7 +34,7 @@ class LineAddTransferModal extends React.Component {
         })
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isAddCompany&&nextProps.visible) {
+        if (nextProps.isAddCompany && nextProps.visible) {
             DataAuthorityService.getTenantCompany('').then(res => {
                 if (res.status === 200) {
                     this.setState({
@@ -44,7 +45,7 @@ class LineAddTransferModal extends React.Component {
 
             })
         }
-        if(!nextProps.isAddCompany&&nextProps.visible){
+        if (!nextProps.isAddCompany && nextProps.visible) {
             DataAuthorityService.getTenantDepartment('').then(res => {
                 if (res.status === 200) {
                     this.setState({
@@ -69,7 +70,7 @@ class LineAddTransferModal extends React.Component {
             selectTreeNodes: [],
             selectedTreeInfo: [],
             treeData,
-            isShowTreeNode:true
+            isShowTreeNode: true
         })
     }
     /**
@@ -86,7 +87,7 @@ class LineAddTransferModal extends React.Component {
                 return (
                     <TreeNode
                         className="tree-select"
-                        title={<span><span className={'left-title-w1'}>{item.code}-{item.name}</span>
+                        title={<span><span className='left-title-w1'>{item.code}-{item.name}</span>
                             {item.isSelectAll ? <a className='right-tree-title' onClick={(e) => this.cancelSelectAll(e, selectTreeNode, item)}>取消全选</a> :
                                 <a className='right-tree-title' onClick={(e) => this.handleSelectAll(e, selectTreeNode, item)}>全选</a>}</span>
                         }
@@ -96,7 +97,7 @@ class LineAddTransferModal extends React.Component {
                     </TreeNode>
                 )
             }
-            return <TreeNode dataRef={item} title={<span className="left-title-w2">{item.code}-{item.name}</span>} key={item.id} />;
+            return <TreeNode className="tree-select" dataRef={item} title={<span className="left-title-w2">{item.code}-{item.name}</span>} key={item.id} />;
         })
     }
     /**选中树节点的每个元素 */
@@ -258,7 +259,7 @@ class LineAddTransferModal extends React.Component {
         })
     }
     ok = () => {
-        let {selectedTreeInfo}=this.state;
+        let { selectedTreeInfo } = this.state;
         this.props.transferList(selectedTreeInfo);
     }
     /** 
@@ -267,7 +268,7 @@ class LineAddTransferModal extends React.Component {
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
             return <Row key={item.id} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 12 }}>{item.code}-{item.name}</Col>
+                <Col span={22} style={{ fontSize: 13 }}>{item.code}-{item.name}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })
@@ -278,8 +279,8 @@ class LineAddTransferModal extends React.Component {
      * 左边待选区按照搜索条件查询
      * */
     onTreeSelecSearch = (value) => {
-        this.setState({treeLoading:true});
-        if(this.props.isAddCompany){
+        this.setState({ treeLoading: true });
+        if (this.props.isAddCompany) {
             DataAuthorityService.getTenantCompany(value).then(res => {
                 if (res.status === 200) {
                     this.setState({
@@ -290,7 +291,7 @@ class LineAddTransferModal extends React.Component {
                 }
             })
         }
-        if(!this.props.isAddCompany){
+        if (!this.props.isAddCompany) {
             DataAuthorityService.getTenantDepartment(value).then(res => {
                 if (res.status === 200) {
                     this.setState({
@@ -301,17 +302,39 @@ class LineAddTransferModal extends React.Component {
                 }
             })
         }
-       
+
     }
     /**
      * 点击查询出来的单个条件
      */
     clickList = (list) => {
-        const { treeData, selectedTreeInfo } = this.state;
+        let { treeData, selectTreeNodes } = this.state;
+
+        let selectedKeys = [];
+
+        let obj = this.getItemById(treeData, list.id);
+        let selectedTreeInfo = this.state.selectedTreeInfo;
+
+        selectedKeys.push(list);
+
+        this.selectAllChildren(obj.details, selectedKeys);
+
+        obj.isSelectAll = true;
+
+        selectedKeys.map(item => {
+            let index = selectTreeNodes.indexOf(item.id);
+            if (index < 0) {
+                selectTreeNodes.push(item.id);
+            }
+            if (!selectedTreeInfo.find(o => o.id == item.id)) {
+                selectedTreeInfo.push(item)
+            }
+        })
         this.setState({
             isShowTreeNode: true,
-            selectTreeNodes: [list.id],
-            selectedTreeInfo: [list]
+            treeData,
+            selectTreeNodes: [...selectTreeNodes],
+            selectedTreeInfo
         });
     }
     /**
@@ -323,18 +346,26 @@ class LineAddTransferModal extends React.Component {
             this.setState({ selectedTreeInfo: rightList })
         } else {
             const { selectedTreeInfo } = this.state;
-            const searchList = selectedTreeInfo.filter(item => item.code=== value);
+            let searchList = [];
+            for (let i = 0; i < selectedTreeInfo.length; i++) {
+                if (selectedTreeInfo[i].code === value) {
+                    searchList = selectedTreeInfo.filter(item => item.code === value);
+                }
+                if (selectedTreeInfo[i].name === value) {
+                    searchList = selectedTreeInfo.filter(item => item.name === value);
+                }
+            }
             this.setState({ selectedTreeInfo: searchList });
         }
     }
     render() {
-        const { visible, title } = this.props;
-        const { autoExpandParent, treeData, treeLoading, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
+        const { visible, title, isAddCompany } = this.props;
+        const { treeData, treeLoading, selectTreeNodes, selectedTreeInfo, renderChildren, singleclick, isShowTreeNode, searchListInfo } = this.state;
         return (
             <Modal
                 visible={visible}
                 title={title}
-                width={800}
+                width={900}
                 destroyOnClose={true}
                 onCancel={this.onCloseTransferModal}
                 onOk={this.ok}
@@ -345,10 +376,10 @@ class LineAddTransferModal extends React.Component {
                             <Search
                                 style={{ marginBottom: 8 }}
                                 enterButton
-                                placeholder="请输入公司代码/名称"
+                                placeholder={isAddCompany ? "请输入公司代码/名称" : "请输入部门代码/名称"}
                                 onSearch={this.onTreeSelecSearch}
                             />
-                            <div className='treeStyle' style={{height: 290,overflowX:'hidden',overflowY:'scroll'}}>
+                            <div className='treeStyle' style={{ height: 290, overflowX: 'hidden', overflowY: 'scroll' }}>
                                 {isShowTreeNode ?
                                     <Spin spinning={treeLoading}>
                                         <Tree
@@ -361,9 +392,9 @@ class LineAddTransferModal extends React.Component {
                                             {this.renderTreeNodes(treeData)}
                                         </Tree>
                                     </Spin>
-                                    : 
+                                    :
                                     searchListInfo.map(list => (
-                                        <Row key={list.id} style={{ marginTop: 5 }}>
+                                        <Row key={list.id} className='listStyle1'>
                                             <Col onClick={(e) => this.clickList(list)}>{list.code}-{list.name}</Col>
                                         </Row>
                                     ))
@@ -377,7 +408,7 @@ class LineAddTransferModal extends React.Component {
                         <Card title="已选择">
                             <Search
                                 style={{ marginBottom: 8 }}
-                                placeholder="请输入公司代码/名称"
+                                placeholder={isAddCompany ? "请输入公司代码/名称" : "请输入部门代码/名称"}
                                 enterButton
                                 onSearch={this.onTreeInfoSearch}
                             />
