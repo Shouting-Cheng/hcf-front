@@ -27,6 +27,7 @@ class FormSetting extends React.Component {
       selectorItem: chooserData['deploy_company_by_carousel'],
       selectedCompany: [],
       companyLoading: false,
+      companyOID:[]
     }
   }
 
@@ -38,7 +39,6 @@ class FormSetting extends React.Component {
     this.setState({ loading: true });
     workflowService.getCustomFormProperty(this.props.formOID).then(res => {
       let companyOID = (res.data.approvalAddSignScope || {}).companyOIDs || [];
-      companyOID.length && this.getSelectedCompany(companyOID);
       this.setState({
         loading: false,
         enableCounterSign: res.data.enableCounterSign,
@@ -54,21 +54,22 @@ class FormSetting extends React.Component {
         rejectSendEmail: res.data.rejectSendEmail,
         printSendEmail: res.data.printSendEmail,
         endSendEmail: res.data.endSendEmail,
+        companyOID:companyOID
 
       })
     })
   };
 
   //获取选择的公司
-  getSelectedCompany = (companyOID) => {
-    this.setState({ companyLoading: true });
-    workflowService.getBatchCompanyItemList(companyOID).then(res => {
-      this.setState({
-        selectedCompany: res.data,
-        companyLoading: false
-      })
-    })
-  };
+  // getSelectedCompany = (companyOID) => {
+  //   this.setState({ companyLoading: true });
+  //   workflowService.getBatchCompanyItemList(companyOID).then(res => {
+  //     this.setState({
+  //       selectedCompany: res.data,
+  //       companyLoading: false
+  //     })
+  //   })
+  // };
 
   //修改加签人
   handleSignChange = (enableCounterSign, counterSignRule) => {
@@ -91,7 +92,9 @@ class FormSetting extends React.Component {
     this.setState({
       filterTypeRuleMode,
       filterRule: filterTypeRuleMode === '5' ? filterRule : 10,
-      filterTypeRule: filterTypeRuleMode === '5' ? filterTypeRule : 4
+      filterTypeRule: filterTypeRuleMode === '5' ? filterTypeRule : 4,
+      enableAmountFilter:filterTypeRuleMode === '5'?false:true,
+      enableExpenseTypeFilter:filterTypeRuleMode === '5'?false:true,
     })
   };
 
@@ -167,6 +170,18 @@ class FormSetting extends React.Component {
       this.setState({ saveLoading: false })
     })
   };
+  handleSelectCompany=()=>{
+    let companyOID=this.state.companyOID;
+    this.setState({ companyLoading: true });
+      workflowService.getBatchCompanyItemList(companyOID).then(res => {
+        this.setState({
+          selectedCompany: res.data,
+          companyLoading: false,
+          companySelectorShow: true
+        })
+      })
+   
+  }
   render() {
     const { loading, saveLoading, enableCounterSign, counterSignRule, enableCounterSignForSubmitter, counterSignRuleForSubmitter,
             filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
@@ -283,7 +298,6 @@ class FormSetting extends React.Component {
                       checked={proxyStrategy === 1 || proxyStrategy === 3}>
               {this.$t('setting.key1359'/*B填写好的单据，先经被代理人A审批，通过后开始走流程*/)}
             </Checkbox>
-            <br/>
             <Checkbox onChange={e => {this.handleProxyChange('strategy2', e.target.checked)}}
                       checked={proxyStrategy === 2 || proxyStrategy === 3}>
               {this.$t('setting.key1360'/*B填写好的单据，提交后，知会被代理人A*/)}
@@ -299,7 +313,7 @@ class FormSetting extends React.Component {
             <Row>
               <div className="remark">{this.$t('setting.key1363'/*注: 若未选择公司，则默认允许选择所有公司的人员*/)}</div>
               <Col span={5}>
-                <Button type="primary" onClick={() => this.setState({companySelectorShow: true})}>
+                <Button type="primary" onClick={this.handleSelectCompany}>
                   {this.$t('setting.key1331'/*选择公司*/)}
                 </Button>
               </Col>
@@ -321,17 +335,17 @@ class FormSetting extends React.Component {
                     <span>{this.$t('setting.key1366'/*审批流中，需要通过邮件通知申请人的环节、动作*/)}</span>
                   </div>
                 }>
-            <Row type="flex" align="middle">
+            <Row>
               <Col span={4}>{this.$t('setting.key1367'/*发送打印通知：*/)}</Col>
-              <Col> <Checkbox onChange={e => {this.setState({printSendEmail: e.target.checked})}}
-                              checked={printSendEmail}/>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Col>
-              <Col> <Checkbox onChange={e => {this.setState({endSendEmail: e.target.checked})}}
-                              checked={endSendEmail}/>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Col>
+              <Col span={6}> <Checkbox onChange={e => {this.setState({printSendEmail: e.target.checked})}}
+                              checked={printSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => {this.setState({endSendEmail: e.target.checked})}}
+                              checked={endSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Checkbox></Col>
             </Row>
-            <Row type="flex" align="middle">
+            <Row >
               <Col span={4}>{this.$t('setting.key1370'/*驳回时是否通知：*/)}</Col>
-              <Col> <Checkbox onChange={e => {this.setState({rejectSendEmail: e.target.checked})}}
-                              checked={rejectSendEmail}/></Col>
+              <Col span={6}> <Checkbox onChange={e => {this.setState({rejectSendEmail: e.target.checked})}}
+                              checked={rejectSendEmail}></Checkbox></Col>
             </Row>
           </Card>
         </Spin>
