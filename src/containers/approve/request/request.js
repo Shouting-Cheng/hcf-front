@@ -258,7 +258,7 @@ class ApproveRequest extends React.Component {
         {
           title: this.$t('common.column.status'),
           dataIndex: 'status',
-          width: this.props.language.code === 'zh_CN' ? '8%' : '13%',
+          width: this.props.language.code === 'zh_cn' ? '8%' : '13%',
           render: (value, record) => {
             return (
               <Badge

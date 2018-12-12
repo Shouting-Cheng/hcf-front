@@ -32,7 +32,7 @@ class LanguageManager extends Component {
   }
 
   handleClick = record => {
-    if (this.props.match.params.langType == 'zh_CN') {
+    if (this.props.match.params.langType == 'zh_cn') {
       this.props.dispatch(
         routerRedux.push({
           pathname: '/setting/language/language-setting/' + record.id,

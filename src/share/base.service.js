@@ -19,7 +19,7 @@ export default {
 
     let code = value;
     if (value === "zh_cn") {
-      code = "zh_CN"
+      code = "zh_cn"
     }
     return httpFetch.post(`${config.baseUrl}/api/users/language/${code}`).then(response => {
       configureStore.store.dispatch(setLanguage(language));
@@ -105,7 +105,7 @@ export default {
   },
 
   getLanguageList() {
-    return httpFetch.post(`${config.baseUrl}/api/lov/language/zh_CN`, {}).then((response) => {
+    return httpFetch.post(`${config.baseUrl}/api/lov/language/zh_cn`, {}).then((response) => {
       configureStore.store.dispatch(setLanguageList(response.data));
       return response;
     })

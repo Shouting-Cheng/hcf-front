@@ -1120,7 +1120,7 @@ class MyGLWorkOrderDetail extends Component {
     } else if (docHeadData.status === 1002) {
       status = (
         <h3 className="header-title">
-          <Button loading={operationLoading} type="primary" onClick={this.back}>
+          <Button style={{ marginBottom: '14px',float:'right' }} loading={operationLoading} type="primary" onClick={this.back}>
             撤 回
           </Button>
         </h3>

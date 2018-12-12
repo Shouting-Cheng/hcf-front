@@ -8,7 +8,7 @@ import UpdateBudgetOrganization from 'containers/budget-setting/budget-organizat
 import SearchArea from 'widget/search-area'
 import SlideFrame from 'widget/slide-frame'
 import { routerRedux } from 'dva/router';
-import zh_CN from "../../../i18n/zh_CN";
+
 
 class BudgetOrganization extends React.Component {
   constructor(props) {

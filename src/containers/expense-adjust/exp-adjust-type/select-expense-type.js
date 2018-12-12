@@ -25,8 +25,8 @@ class SelectExpenseType extends Component {
             },
             columns: [
                 {
-                    title: this.$t({ id: 'adjust.expense.type.icon' }/*图标*/), dataIndex: 'iconURL', render: (value, record) => {
-                        return <img width='20' height='20' src={record.iconURL} />
+                    title: this.$t({ id: 'adjust.expense.type.icon' }/*图标*/), dataIndex: 'iconUrl', render: (value, record) => {
+                        return <img width='20' height='20' src={record.iconUrl} />
                     }, width: 100
                 },
                 { title: this.$t({ id: 'adjust.expense.type.code' }/*费用类型代码*/), dataIndex: 'code' },
@@ -88,7 +88,9 @@ class SelectExpenseType extends Component {
             ...searchParams,
             id: this.props.params.id,
             page: this.state.page,
-            size: this.state.pageSize
+            size: this.state.pageSize,
+            documentType: 801006,
+            typeFlag : 1
         };
         model.range = model.range ||'all';
         return expAdjustService.getExpenseType(model).then(res => {

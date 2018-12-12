@@ -146,7 +146,7 @@ class PublicReimburseReport extends React.Component {
                 },
                 /**已核销金额 */
                 {
-                    title: '已核销金额', dataIndex: 'writeOffAmount ', render: recode => <span><Popover content={this.filterMoney(recode, 2)}>{this.filterMoney(recode, 2)}</Popover></span>,
+                    title: '已核销金额', dataIndex: 'writeOffAmount', render: recode => <span><Popover content={this.filterMoney(recode, 2)}>{this.filterMoney(recode, 2)}</Popover></span>,
                     width: 110
                 },
                 /**反冲标志 */
@@ -235,7 +235,7 @@ class PublicReimburseReport extends React.Component {
         values.applyDateTo = values.applyDateTo ? moment(values.applyDateTo).format('YYYY-MM-DD') : undefined;
         values.checkDateFrom = values.checkDateFrom ? moment(values.checkDateFrom).format('YYYY-MM-DD') : undefined;
         values.checkDateTo = values.checkDateTo ? moment(values.checkDateTo).format('YYYY-MM-DD') : undefined
-        this.setState({ searchParams: {...values} }, () => {
+        this.setState({ searchParams: { ...values } }, () => {
             this.getList()
         });
         // this.setState({ searchParams: {...values,...this.state.searchParams}}, () => {
@@ -481,7 +481,7 @@ class PublicReimburseReport extends React.Component {
     }
     //根据单据编号进行查询
     onDocumentSearch = (value) => {
-        this.setState({ searchParams: {...this.state.searchParams, documentCode: value } },
+        this.setState({ searchParams: { ...this.state.searchParams, documentCode: value } },
             () => {
                 this.getList();
             });

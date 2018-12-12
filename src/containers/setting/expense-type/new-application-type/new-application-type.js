@@ -1,13 +1,14 @@
 import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'dva'
-import { Tabs, Spin } from 'antd'
+import {Tabs, Spin, Affix, Button} from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import expenseTypeService from 'containers/setting/expense-type/expense-type.service'
 import ApplicationTypeBase from 'containers/setting/expense-type/new-application-type/application-type-base'
 import ExpenseTypeCustom from 'containers/setting/expense-type/new-expense-type/expense-type-custom/expense-type-custom'
 import ExpenseTypeScope from 'containers/setting/expense-type/new-expense-type/expense-type-scope'
+import { routerRedux } from 'dva/router';
 
 class NewExpenseType extends React.Component {
   constructor(props) {
@@ -52,7 +53,6 @@ class NewExpenseType extends React.Component {
           if (!item.i18n) {
             item.i18n = {};
           }
-
           if (!item.i18n.name) {
             item.i18n.name = [];
             languageList.map(language => {
@@ -62,7 +62,6 @@ class NewExpenseType extends React.Component {
               })
             });
           }
-
         });
 
         this.setState({ expenseType, loading: false, entryMode: expenseType.entryMode, priceUnit: expenseType.priceUnit });
@@ -109,11 +108,16 @@ class NewExpenseType extends React.Component {
         return <ExpenseTypeScope expenseType={expenseType} onSave={this.getExpenseType} />;
     }
   };
+  goBack = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: "/admin-setting/expense-type"
+    }))
+  };
 
   render() {
     const { nowTab, loading } = this.state;
     return (
-      <div className="new-expense-type">
+      <div className="new-expense-type" style={{paddingBottom: 30}}>
         <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
           {this.renderTabs()}
         </Tabs>
@@ -121,6 +125,21 @@ class NewExpenseType extends React.Component {
           <div style={{ padding: 20 }}>
             {this.getExpenseTypeComponents()}
           </div>)}
+        <div style={{paddingLeft:'20px'}}>
+          <Affix offsetBottom={0} style={{
+            position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
+            boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
+          }}>
+            <Button
+              type="primary"
+              onClick={this.goBack}
+              style={{ margin: '0 20px' }}
+            >
+              {this.$t('common.back')}
+            </Button>
+          </Affix>
+
+        </div>
       </div>
     )
   }

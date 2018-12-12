@@ -1121,7 +1121,9 @@ class NewExpenseAdjustDetail extends React.Component {
   getImportDetailData = transactionId => {
     expenseAdjustService.getImportDetailData(transactionId).then(response => {
       let amount = this.props.form.getFieldValue('amount');
-      console.log(response);
+      if (undefined === amount || null === amount){
+        amount = 0;
+      }
       if (response.status === 200) {
         let { data, _data } = this.state;
         response.data.map(item => {
@@ -1253,16 +1255,16 @@ class NewExpenseAdjustDetail extends React.Component {
           visible={showImportFrame}
           title={this.$t('exp.import.detail.line')}
           templateUrl={`${
-            config.baseUrl
+            config.expenseUrl
           }/api/expense/adjust/lines/export/template?expenseAdjustHeaderId=${
             this.props.params.expenseAdjustHeadId
           }&external=${false}`}
-          uploadUrl={`${config.baseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
+          uploadUrl={`${config.expenseUrl}/api/expense/adjust/lines/import?expenseAdjustHeaderId=${
             this.props.params.expenseAdjustHeadId
           }&sourceAdjustLineId=1`}
-          errorUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/error/export`}
-          errorDataQueryUrl={`${config.baseUrl}/api/expense/adjust/lines/import/log`}
-          deleteDataUrl={`${config.baseUrl}/api/expense/adjust/lines/import/new/delete`}
+          errorUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/error/export/${this.props.params.expenseAdjustHeadId}/true`}
+          errorDataQueryUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/log`}
+          deleteDataUrl={`${config.expenseUrl}/api/expense/adjust/lines/import/delete`}
           fileName={this.$t('exp.import.detail.line')}
           onOk={this.onLoadOk}
           afterClose={() => this.showImport(false)}

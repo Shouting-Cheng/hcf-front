@@ -260,6 +260,9 @@ class CustomExpenseType extends React.Component {
           expenseTypeService.deleteCategory(expenseTypeCategory.id).then(res => {
             message.success(messages('common.delete.success', { name: '' }));
             this.getSourceCategory();
+            this.getSourceCategory(this.props.expenseTypeSetOfBooks.id, 1);
+          }).catch(err => {
+            message.error(err.response.data.message)
           });
     }
   };

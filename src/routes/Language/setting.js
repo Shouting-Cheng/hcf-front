@@ -59,7 +59,7 @@ class LanguageManager extends Component {
       if (!err) {
 
         if (this.state.record.id) {
-          values = { ...this.state.record, ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_CN' };
+          values = { ...this.state.record, ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_cn' };
           service.edit(values).then(res => {
             message.success('保存成功！');
             this.setState({ addShow: false });
@@ -67,7 +67,7 @@ class LanguageManager extends Component {
             this.refs.table.reload();
           });
         } else {
-          values = { ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_CN' };
+          values = { ...values, moduleId: this.props.match.params.moduleId, lang: 'zh_cn' };
           service.addLanguage(values).then(res => {
             message.success('保存成功！');
             this.setState({ addShow: false });
@@ -88,7 +88,7 @@ class LanguageManager extends Component {
   back = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/setting/language/language-modules/zh_CN',
+        pathname: '/setting/language/language-modules/zh_cn',
       })
     );
   };
@@ -126,7 +126,7 @@ class LanguageManager extends Component {
         </Button>
         <CustomTable
           ref="table"
-          url={`/auth/api/frontKey/query/module/lang?lang=zh_CN&moduleId=` + moduleId}
+          url={`/auth/api/frontKey/query/module/lang?lang=zh_cn&moduleId=` + moduleId}
           columns={columns}
         />
         <Modal

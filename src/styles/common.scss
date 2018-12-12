@@ -534,4 +534,15 @@ $default-blue: #108ee9;
     .new-expense-type .chooser-number {
         margin-left: 6px;
     }
+    .react-resizable {
+        position: relative;
+    }
+    .react-resizable-handle {
+        position: absolute;
+        width: 10px;
+        height: 100%;
+        bottom: 0;
+        right: -5px;
+        cursor: col-resize;
+    }
 }
