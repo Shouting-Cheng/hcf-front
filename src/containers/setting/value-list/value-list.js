@@ -5,7 +5,9 @@
 //0516重构与添加多语言
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, Table, Button, Badge, message } from 'antd';
+import { Tabs, Button, Badge, message } from 'antd';
+import Table from 'widget/table'
+
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute';
 import valueListService from 'containers/setting/value-list/value-list.service';

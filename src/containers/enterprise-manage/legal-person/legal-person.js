@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import { Table, Button, Badge, Tooltip, Icon, Popover } from 'antd';
+import {  Button, Badge, Tooltip, Icon, Popover } from 'antd';
+import Table from 'widget/table'
 
 import LPService from 'containers/enterprise-manage/legal-person/legal-person.service';
 import SearchArea from 'components/Widget/search-area.js';

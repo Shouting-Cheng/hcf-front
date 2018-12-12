@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Button, Table, Icon, Menu, Dropdown, Input, Modal, Popover } from 'antd';
+import { Button,  Icon, Menu, Dropdown, Input, Modal, Popover } from 'antd';
+import Table from 'widget/table'
 
 const confirm = Modal.confirm;
 const Search = Input.Search;

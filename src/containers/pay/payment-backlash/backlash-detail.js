@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 import paymentService  from 'containers/pay/pay-workbench/pay-workbench.service'
-import { Alert, Badge, Table, Card, Icon, Spin } from 'antd'
+import { Alert, Badge, Card, Icon, Spin } from 'antd'
+import Table from 'widget/table'
 import { messages} from 'utils/utils'
 import moment from 'moment'
 

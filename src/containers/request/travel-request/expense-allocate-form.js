@@ -6,7 +6,8 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 
 import { getApprovelHistory } from 'utils/extend';
-import { Table, message, InputNumber, Form, Popconfirm } from 'antd';
+import {  message, InputNumber, Form, Popconfirm } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 
 import config from 'config';

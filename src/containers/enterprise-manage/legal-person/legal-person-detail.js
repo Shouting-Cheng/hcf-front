@@ -19,11 +19,10 @@ import {
   Input,
   Switch,
   Icon,
-  Table,
   message,
   Popconfirm,
 } from 'antd';
-
+import Table from 'widget/table'
 const Search = Input.Search;
 import { routerRedux } from "dva/router";
 import ListSelector from 'components/Widget/list-selector';

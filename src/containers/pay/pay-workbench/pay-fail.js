@@ -6,7 +6,8 @@ import { routerRedux } from 'dva/router';
 import config from 'config'
 import httpFetch from 'share/httpFetch'
 import paymentService  from './pay-workbench.service'
-import { Form, Radio, Badge, Table, Pagination, message, Button, Alert, Modal, Select, Input, Popconfirm, Spin } from 'antd'
+import { Form, Radio, Badge,  Pagination, message, Button, Alert, Modal, Select, Input, Popconfirm, Spin } from 'antd'
+import Table from 'widget/table'
 const Option = Select.Option;
 const FormItem = Form.Item;
 const { TextArea } = Input;

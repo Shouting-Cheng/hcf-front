@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Badge, message } from 'antd';
-
+import { Button, Badge, message } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area.js';
 import cashFlowItemService from './cash-flow-item.service';
 import baseService from 'share/base.service';

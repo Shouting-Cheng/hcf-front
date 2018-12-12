@@ -12,13 +12,13 @@ import {
   message,
   Modal,
   Tabs,
-  Table,
   Popover,
   Divider,
   Row,
   Col,
   Popconfirm, Card, Spin,
 } from 'antd';
+import Table from 'widget/table'
 import NewExpenseAdjustDetail from 'containers/expense-adjust/expense-adjust/new-expense-adjust-detail';
 import ApprotionInfo from 'containers/expense-adjust/expense-adjust/approtion-info';
 import Importer from 'widget/Template/importer';

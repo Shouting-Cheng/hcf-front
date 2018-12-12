@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import SearchArea from 'widget/search-area';
 import config from 'config';
 import {
-  Table,
   Popover,
   Alert,
   message,
@@ -18,6 +17,7 @@ import {
   Button,
   Modal,
 } from 'antd';
+import Table from 'widget/table'
 import moment from 'moment';
 import httpFetch from 'share/httpFetch';
 import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';

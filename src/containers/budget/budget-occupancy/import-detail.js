@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Spin, Row, Col, Tabs, Table, Icon, message } from 'antd'
+import { Form, Spin, Row, Col, Tabs,  Icon, message } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import menuRoute from 'routes/menuRoute'
 

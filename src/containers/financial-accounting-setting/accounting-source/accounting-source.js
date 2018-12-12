@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import {connect} from 'dva'
-import {Button, Table, Checkbox, message} from 'antd'
+import {Button, Checkbox, message} from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import ListSelector from 'widget/list-selector'
 import config from 'config'

@@ -4,7 +4,7 @@
 import React from 'react'
 import { connect } from 'dva';
 import { routerRedux } from "dva/router"
-import { Table, Tabs, message, Popover, Badge } from 'antd'
+import { Tabs, message, Popover, Badge } from 'antd'
 import SearchArea from 'components/Widget/search-area';
 import CustomTable from 'components/Widget/custom-table';
 import {messages} from 'utils/utils';

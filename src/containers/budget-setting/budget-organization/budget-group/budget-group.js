@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Table, Badge, Button } from 'antd';
+import {  Badge, Button } from 'antd';
+import Table from 'widget/table'
 import budgetGroupService from 'containers/budget-setting/budget-organization/budget-group/budget-group.service'
 import { routerRedux } from 'dva/router';
 import SearchArea from 'widget/search-area'

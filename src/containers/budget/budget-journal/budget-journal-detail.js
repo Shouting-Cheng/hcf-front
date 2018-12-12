@@ -5,7 +5,6 @@ import {
   Affix,
   Popover,
   Button,
-  Table,
   Select,
   Modal,
   message,
@@ -16,6 +15,7 @@ import {
   Collapse,
   Timeline,
 } from 'antd';
+import Table from 'widget/table'
 import 'styles/budget/budget-journal/budget-journal-detail.scss';
 
 import httpFetch from 'share/httpFetch';

@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Select, Modal, Divider, Button, Table, message, Popover, Popconfirm, Row, Col, Badge } from 'antd'
+import { Select, Modal, Divider, Button, message, Popover, Popconfirm, Row, Col, Badge } from 'antd'
+import Table from 'widget/table'
 import 'styles/reimburse/reimburse.scss';
 import SearchArea from 'components/Widget/search-area';
 import {messages} from 'utils/utils';

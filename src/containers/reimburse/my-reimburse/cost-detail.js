@@ -14,7 +14,6 @@ import {
   Row,
   Col,
   Spin,
-  Table,
   Timeline,
   message,
   Popover,
@@ -23,6 +22,7 @@ import {
   Divider,
   Modal,
 } from 'antd';
+import Table from 'widget/table'
 import config from 'config';
 import moment from 'moment';
 

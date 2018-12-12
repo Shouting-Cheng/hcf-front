@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import SlideFrame from 'widget/slide-frame';
-import { Form, Table, Badge, Button } from 'antd';
+import { Form,  Badge, Button } from 'antd';
+import Table from 'widget/table'
 import PropTypes from 'prop-types';
 import requestService from 'containers/request/request.service';
 import NewRepaymentFrame from 'containers/request/loan-request/new-repayment-frame';

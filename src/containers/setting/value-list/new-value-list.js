@@ -15,7 +15,6 @@ import httpFetch from 'share/httpFetch';
 import debounce from 'lodash.debounce';
 import {
   Form,
-  Table,
   Button,
   Icon,
   Badge,
@@ -30,7 +29,7 @@ import {
   Checkbox,
   Tabs,
 } from 'antd';
-
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;

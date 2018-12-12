@@ -6,8 +6,9 @@ import config from 'config'
 import SearchArea from 'widget/search-area'
 import backlashService from './pay-backlash-recheck.service'
 import moment from 'moment'
-import { Radio, Badge, Table, Tabs,Popover,Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
+import { Radio, Badge,  Tabs,Popover,Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
 import ToBacklash from './to-backlash-rechecked';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 
 class BacklashRechecked  extends React.Component {

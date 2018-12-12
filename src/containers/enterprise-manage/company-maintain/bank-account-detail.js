@@ -23,11 +23,10 @@ import {
   Icon,
   Badge,
   Tabs,
-  Table,
   message,
   Popconfirm,
 } from 'antd';
-
+import Table from 'widget/table'
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
 import SlideFrame from 'components/slide-frame';
 import NewDimension from 'containers/budget-setting/budget-organization/budget-structure/new-dimension';

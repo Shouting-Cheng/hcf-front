@@ -3,7 +3,6 @@ import { connect } from 'dva';
 
 import {
   Button,
-  Table,
   Badge,
   Popover,
   Popconfirm,
@@ -13,6 +12,7 @@ import {
   Icon,
   message,
 } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'components/Widget/search-area';
 import config from 'config';
 import 'styles/basic-data/bank-definition/bank-definition.scss';

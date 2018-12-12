@@ -4,7 +4,8 @@ import { connect } from 'dva'
 import Exporter from 'containers/budget/budget-balance/exporter'
 
 import 'styles/budget/budget-balance/budget-balance-result.scss'
-import { Table, Row, Col, Form, message, Button, Popover } from 'antd'
+import { Row, Col, Form, message, Button, Popover } from 'antd'
+import Table from 'widget/table'
 const FormItem = Form.Item;
 
 import httpFetch from 'share/httpFetch'

@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import {
   Button,
-  Table,
   Badge,
   Input,
   Switch,

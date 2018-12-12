@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Badge, Tooltip } from 'antd';
-
+import {  Badge, Tooltip } from 'antd';
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
 import moment from 'moment';

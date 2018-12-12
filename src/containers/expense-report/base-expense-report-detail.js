@@ -10,7 +10,6 @@ import moment from 'moment'
 import customField from 'share/customField'
 import { Pie } from 'components/Charts';
 import {
-  Table,
   Tabs,
   Icon,
   Spin,
@@ -27,6 +26,7 @@ import {
   Popover,
   Tag
 } from 'antd'
+import Table from 'widget/table'
 const RadioGroup = Radio.Group;
 const confirm = Modal.confirm;
 const TabPane = Tabs.TabPane;

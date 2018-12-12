@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Button, Input, Divider, message, Select, Modal, Switch } from 'antd';
+import {  Button, Input, Divider, message, Select, Modal, Switch } from 'antd';
 import service from './interface.service';
-
+import Table from 'widget/table'
 class RequestParams extends React.Component {
   constructor(props) {
     super(props);

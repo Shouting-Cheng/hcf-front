@@ -6,7 +6,7 @@ import BacklashRechecking from './pay-backlash-rechecking'
 import BacklashRechecked from  './pay-backlash-rechecked'
 import {messages} from 'utils/utils'
 
-import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, Table, message, Popover } from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, message, Popover } from 'antd'
 const TabPane = Tabs.TabPane;
 
 

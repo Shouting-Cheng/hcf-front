@@ -21,12 +21,11 @@ import {
   Icon,
   Badge,
   Tabs,
-  Table,
   message,
   Popconfirm,
   Popover
 } from 'antd';
-
+import Table from 'widget/table'
 import SlideFrame from "widget/slide-frame"
 import ListSelector from 'widget/list-selector'
 import AddAuthorization from './add-authorization'

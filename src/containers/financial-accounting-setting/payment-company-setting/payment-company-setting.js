@@ -5,7 +5,8 @@ import {messages} from "share/common";
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {Button, Table,Popover, Popconfirm,message} from 'antd'
+import {Button, Popover, Popconfirm,message} from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'components/slide-frame'
 import SearchArea from 'components/search-area'
 

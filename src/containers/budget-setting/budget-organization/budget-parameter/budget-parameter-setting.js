@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import {Button, Table, Badge, notification, Popover, Icon} from 'antd';
+import {Button,  Badge, notification, Popover, Icon} from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import httpFetch from 'share/httpFetch';
 import config from 'config'

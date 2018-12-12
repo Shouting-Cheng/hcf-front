@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
 
-import { Table, Button } from 'antd'
+import {  Button } from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'components/Widget/search-area'
 import SlideFrame from 'components/Widget/slide-frame'
 import NewAccountPeriod from 'containers/finance-setting/account-period-define/new-account-period'

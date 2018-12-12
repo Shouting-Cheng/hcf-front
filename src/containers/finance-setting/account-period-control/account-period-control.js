@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import { Form, Table, Badge, Modal } from 'antd'
+import { Form, Badge, Modal } from 'antd'
+import Table from 'widget/table'
 import periodControlService from 'containers/finance-setting/account-period-control/account-period-control.service'
 import SearchArea from 'components/Widget/search-area';
 

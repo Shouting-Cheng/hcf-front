@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, message, Popconfirm, Tag, Table } from 'antd';
-
+import { Button, message, Popconfirm, Tag, } from 'antd';
+import Table from 'widget/table'
 import jobService from './job.service';
 import SlideFrame from 'widget/slide-frame';
 import JobActuatorDetail from './job-actuator-detail';

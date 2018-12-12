@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
-import { Modal, Button, Tabs, Upload, Icon, message, Table } from 'antd';
+import { Modal, Button, Tabs, Upload, Icon, message } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import httpFetch from 'share/httpFetch';
 import PropTypes from 'prop-types';

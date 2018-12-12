@@ -1,7 +1,8 @@
 import React from 'react';
-import { Drawer, Table, Input, Button, Badge } from 'antd';
+import { Drawer,  Input, Button, Badge } from 'antd';
 import service from './interface.service';
 import httpFetch from '../../utils/fetch';
+import Table from 'widget/table'
 import axios from 'axios';
 
 class InterfaceTest extends React.Component {

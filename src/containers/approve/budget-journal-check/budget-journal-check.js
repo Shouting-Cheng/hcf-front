@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Tabs, Table, message, Badge, Input, Row, Col, Popover } from 'antd'
+import { Form, Tabs, message, Badge, Input, Row, Col, Popover } from 'antd'
 const TabPane = Tabs.TabPane;
 import config from 'config'
 const Search = Input.Search;

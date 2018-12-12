@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Table, Popover } from 'antd';
+import { Modal, Popover } from 'antd';
+import Table from 'widget/table'
 
 class Verification extends Component {
   constructor(props) {

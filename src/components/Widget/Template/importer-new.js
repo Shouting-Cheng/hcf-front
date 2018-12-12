@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
-import { Modal, Button, Tabs, Upload, Icon, message, Table, Popover } from 'antd';
+import { Modal, Button, Tabs, Upload, Icon, message, Popover } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import httpFetch from 'share/httpFetch';
 import FileSaver from 'file-saver';

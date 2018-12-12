@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
-import { Modal, Button, Tabs, Upload, Icon, message, Table, Steps, Timeline } from 'antd';
+import { Modal, Button, Tabs, Upload, Icon, message, Steps, Timeline } from 'antd';
 import { Selector } from 'widget/index';
 
 const Step = Steps.Step;

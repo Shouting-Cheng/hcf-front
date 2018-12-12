@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import {connect} from 'dva'
-import {Button, Table, message, Checkbox} from 'antd'
+import {Button,  message, Checkbox} from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import DataStructure from 'containers/financial-accounting-setting/accounting-source-system/data-structure'
 import SearchArea from 'widget/search-area';

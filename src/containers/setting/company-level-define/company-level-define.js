@@ -4,7 +4,8 @@ import { connect } from 'dva'
 
 import config from "config";
 import httpFetch from "share/httpFetch";
-import { Button, Table, Badge, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch } from 'antd';
+import { Button, Badge, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 import SearchArea from 'widget/search-area'
 import 'styles/setting/company-level-define/company-level-define.scss'

@@ -2,7 +2,8 @@ import { messages } from 'share/common';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Table, Badge, message, Row, Col, Input } from 'antd';
+import { Button, Badge, message, Row, Col, Input } from 'antd';
+import Table from 'widget/table'
 import supplierManagementService from 'containers/financial-management/supplier-management/supplier-management.service';
 import 'styles/financial-management/supplier-management/supplier-detail.scss';
 import EditableCell from 'containers/financial-management/supplier-management/editable-cell';

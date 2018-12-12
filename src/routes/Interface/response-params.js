@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Button, Input, Divider, message, Select, Switch } from 'antd';
+import {  Button, Input, Divider, message, Select, Switch } from 'antd';
+import Table from 'widget/table'
 import service from './interface.service';
 import baseCommon from '../../services/common';
 

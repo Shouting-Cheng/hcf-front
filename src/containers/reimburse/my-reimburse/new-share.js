@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message, Input } from 'antd';
+import {  Row, Col, Popconfirm, Divider, Popover, Select, InputNumber, message, Input } from 'antd';
 import { connect } from 'dva';
-
+import Table from 'widget/table'
 import ListSelector from 'widget/list-selector';
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 

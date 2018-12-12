@@ -2,7 +2,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Button, Icon, Tabs, Table, message, Popover } from 'antd';
+import { Form, Button, Icon, Tabs, message, Popover } from 'antd';
+import Table from 'widget/table'
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
 import ListSelector from 'components/Widget/list-selector';
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';

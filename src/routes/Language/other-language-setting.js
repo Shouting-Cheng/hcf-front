@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, message, Table } from 'antd';
+import { Button, Modal, Form, Input, message } from 'antd';
+import Table from 'widget/table'
 import service from './service';
 import moment from 'moment';
 import httpFetch from '../../utils/fetch';

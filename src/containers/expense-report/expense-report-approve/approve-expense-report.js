@@ -3,7 +3,8 @@ import React from 'react'
 // import menuRoute from 'routes/menuRoute'
 import { connect } from 'dva'
 
-import { Form, Tabs, Badge, Popover, Table, Affix, message, Tooltip, Button } from 'antd'
+import { Form, Tabs, Badge, Popover, Affix, message, Tooltip, Button } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment'

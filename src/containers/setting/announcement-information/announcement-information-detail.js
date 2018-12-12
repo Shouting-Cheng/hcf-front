@@ -6,7 +6,6 @@ import {
   Tabs,
   Input,
   Button,
-  Table,
   Form,
   Checkbox,
   message,
@@ -15,7 +14,7 @@ import {
   Spin,
   Modal,
 } from 'antd';
-
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 

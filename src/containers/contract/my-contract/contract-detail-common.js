@@ -10,7 +10,6 @@ import {
   Card,
   Col,
   Spin,
-  Table,
   Timeline,
   message,
   Popover,
@@ -20,7 +19,7 @@ import {
   Tag,
   Badge,
 } from 'antd';
-
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import config from 'config';
 import moment from 'moment';

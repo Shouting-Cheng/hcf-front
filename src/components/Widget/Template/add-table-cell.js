@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Form, Icon, Input, Popconfirm, Table, Tooltip, message } from 'antd';
-
+import { Form, Icon, Input, Popconfirm, Tooltip, message } from 'antd';
+import Table from 'widget/table'
 import 'styles/components/template/add-table-cell.scss';
 
 class EditableCell extends React.Component {

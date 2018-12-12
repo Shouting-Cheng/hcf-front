@@ -10,7 +10,6 @@ import {
   Col,
   Spin,
   Breadcrumb,
-  Table,
   Timeline,
   message,
   Popover,
@@ -19,6 +18,7 @@ import {
   Affix,
   Divider
 } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import moment from 'moment'
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
