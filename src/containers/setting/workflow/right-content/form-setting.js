@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Card, Radio, Row, Col, Checkbox, Spin, Button, message } from 'antd'
+import { Form, Card, Tag, Radio, Row, Col, Checkbox, Spin, Button, message } from 'antd'
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 import PropTypes from 'prop-types';
@@ -32,7 +32,9 @@ class FormSetting extends React.Component {
   }
 
   componentDidMount() {
-    this.getProperty()
+    this.getProperty();
+    this.getSelectedCompany();
+    console.log(this.props)
   }
 
   getProperty = () => {
@@ -60,16 +62,16 @@ class FormSetting extends React.Component {
     })
   };
 
-  //获取选择的公司
-  // getSelectedCompany = (companyOID) => {
-  //   this.setState({ companyLoading: true });
-  //   workflowService.getBatchCompanyItemList(companyOID).then(res => {
-  //     this.setState({
-  //       selectedCompany: res.data,
-  //       companyLoading: false
-  //     })
-  //   })
-  // };
+  获取选择的公司
+  getSelectedCompany = (companyOID) => {
+    this.setState({ companyLoading: true });
+    workflowService.getBatchCompanyItemList(companyOID).then(res => {
+      this.setState({
+        selectedCompany: res.data,
+        companyLoading: false
+      })
+    })
+  };
 
   //修改加签人
   handleSignChange = (enableCounterSign, counterSignRule) => {
@@ -187,6 +189,7 @@ class FormSetting extends React.Component {
             filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
             companySelectorShow, selectorItem, selectedCompany, companyLoading,printSendEmail ,rejectSendEmail,endSendEmail } = this.state;
     selectorItem.title = this.$t('setting.key1331'/*选择公司*/);
+    console.log(selectedCompany)
     return (
       <div className='form-setting'>
         <Spin spinning={loading}>
@@ -322,7 +325,16 @@ class FormSetting extends React.Component {
                   <h4>{this.$t('setting.key1364'/*已选择公司*/)}：</h4>
                   <Spin spinning={companyLoading}>
                     {selectedCompany.map((item, index) => {
-                      return `${item.name}${index < selectedCompany.length - 1 ? '、 ' : ''}`
+                      return <Tag key={item.id} closable onClose={
+                        (e)=>{
+                          e.preventDefault();
+                          let selected = this.state.selectedCompany.filter(o=> o.id !== item.id);
+                          this.setState({
+                            selectedCompany: selected
+                          })
+                        }
+                      }>{item.name}</Tag>
+                      //return `${item.name}${index < selectedCompany.length - 1 ? '、 ' : ''}`
                     })}
                   </Spin>
                 </div>
