@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Icon, Badge, Popover } from 'antd';
+import { Button,  Icon, Badge, Popover } from 'antd';
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame';
 import NewUpdateSection from 'containers/financial-accounting-setting/section-structure/new-update-section';
 import SectionMappingSet from 'containers/financial-accounting-setting/section-structure/section-mapping-set';

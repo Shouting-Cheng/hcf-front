@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import {
   Form,
   Tabs,
-  Table,
   message,
   Badge,
   Col,

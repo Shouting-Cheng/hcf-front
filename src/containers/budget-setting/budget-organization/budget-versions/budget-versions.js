@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import {connect} from 'dva'
-import {Button, Table, Badge, Popconfirm, Form, message, DatePicker, Col, Row, Switch, notification, Icon} from 'antd'
+import {Button, Badge, Popconfirm, Form, message, DatePicker, Col, Row, Switch, notification, Icon} from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area'
 import NewBudgetVersion from 'containers/budget-setting/budget-organization/budget-versions/new-budget-versions'
 import SlideFrame from 'widget/slide-frame'

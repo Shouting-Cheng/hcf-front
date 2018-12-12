@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import { Modal, Table, message, Button, Input, Row, Col } from 'antd'
+import { Modal,  message, Button, Input, Row, Col } from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area'
 import expAdjustService from 'containers/expense-adjust/exp-adjust-type/exp-adjust-type.service'
 import PropTypes from 'prop-types';

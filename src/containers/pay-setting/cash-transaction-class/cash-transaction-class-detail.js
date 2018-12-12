@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, Button, message, Icon, Table, Checkbox, Badge } from 'antd';
+import { Tabs, Button, message, Icon, Checkbox, Badge } from 'antd';
+import Table from 'widget/table'
 import chooserData from 'chooserData';
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';

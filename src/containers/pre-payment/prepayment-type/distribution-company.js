@@ -1,7 +1,8 @@
 import React from 'react'
 
 import config from 'config'
-import { Form, Row, Col, Badge, Button, Table, Checkbox, message, Icon } from 'antd'
+import { Form, Row, Col, Badge, Button,  Checkbox, message, Icon } from 'antd'
+import Table from 'widget/table'
 import ListSelector from 'widget/list-selector'
 import httpFetch from 'share/httpFetch'
 import PrePaymentTypeService from './pre-payment-type.service'

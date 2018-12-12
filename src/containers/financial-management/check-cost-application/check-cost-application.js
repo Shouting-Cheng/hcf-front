@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Button, Table, message, Badge, Popover } from 'antd'
+import { Form, Button,message, Badge, Popover } from 'antd'
+import Table from 'widget/table'
 import moment from 'moment'
 import config from 'config'
 import FileSaver from 'file-saver'

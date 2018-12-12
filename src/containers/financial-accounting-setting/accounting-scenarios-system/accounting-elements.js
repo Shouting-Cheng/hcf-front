@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Input, Icon, Popover} from 'antd'
+import { Button,  Badge, Input, Icon, Popover} from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import NewUpdateAccountingElements from 'containers/financial-accounting-setting/accounting-scenarios-system/new-update-accounting-elements'
 import 'styles/financial-accounting-setting/accounting-scenarios-system/accounting-elements.scss'

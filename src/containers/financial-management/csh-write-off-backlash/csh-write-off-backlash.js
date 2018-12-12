@@ -4,7 +4,6 @@ import SearchArea from 'widget/search-area';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
 import {
-  Table,
   Divider,
   message,
   Tabs,
@@ -17,6 +16,7 @@ import {
   Timeline,
   Popconfirm,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import cshWriteOffBacklashService from 'containers/financial-management/csh-write-off-backlash/csh-write-off-backlash.service';
 import EditViewUpload from 'widget/Template/edit-view-upload';

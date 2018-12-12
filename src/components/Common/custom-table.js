@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table, message } from 'antd';
+import {  message } from 'antd';
+import Table from 'widget/table'
 import { DragSource, DropTarget } from 'react-dnd';
 import uuid from '../../utils/uuid';
 

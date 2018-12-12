@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import { Row, Col, List, Form, Input, Button, Table, Select, Switch, message, Radio } from 'antd'
+import { Row, Col, List, Form, Input, Button, Select, Switch, message, Radio } from 'antd'
+import Table from 'widget/table'
+
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;

@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Form, Input, Switch, Icon, InputNumber, message} from 'antd'
+import { Button, Badge, Form, Input, Switch, Icon, InputNumber, message} from 'antd'
+import Table from 'widget/table'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios.service';
 import 'styles/financial-accounting-setting/accounting-scenarios/new-update-matching-group.scss'
 

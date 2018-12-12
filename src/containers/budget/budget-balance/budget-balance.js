@@ -13,12 +13,12 @@ import {
   Select,
   Spin,
   Icon,
-  Table,
   Popconfirm,
   Modal,
   message,
   Checkbox,
 } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 

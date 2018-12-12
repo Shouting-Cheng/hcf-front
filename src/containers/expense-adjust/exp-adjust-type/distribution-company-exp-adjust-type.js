@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import {Col, Badge, Button, Table, Checkbox, message, Icon } from 'antd'
+import {Col, Badge, Button,  Checkbox, message, Icon } from 'antd'
 import config from 'config'
 import expAdjustService from 'containers/expense-adjust/exp-adjust-type/exp-adjust-type.service'
 import ListSelector from 'widget/list-selector'

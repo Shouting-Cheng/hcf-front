@@ -2,7 +2,8 @@ import { messages } from 'share/common';
 import React from 'react';
 import menuRoute from 'routes/menuRoute';
 import { connect } from 'react-redux';
-import { Form, Tabs, Table } from 'antd';
+import { Form, Tabs, } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment';

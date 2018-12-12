@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'dva';
 import { routerRedux } from 'dva/router';
-import { Icon, Row, Col, Table, Card, Button, Modal, message, Popconfirm } from 'antd';
+import { Icon, Row, Col, Card, Button, Modal, message, Popconfirm } from 'antd';
+import Table from 'widget/table'
 import config from 'config'
 import httpFetch from 'share/httpFetch'
 

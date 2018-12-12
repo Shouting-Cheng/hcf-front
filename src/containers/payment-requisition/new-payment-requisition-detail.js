@@ -12,7 +12,6 @@ import {
   Col,
   Spin,
   Breadcrumb,
-  Table,
   message,
   Popover,
   Popconfirm,
@@ -20,6 +19,7 @@ import {
   Divider,
   Modal, Card,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import paymentRequisitionService from './paymentRequisitionService.service';
 import NewPaymentRequisitionLine from './new-payment-requisition-line';

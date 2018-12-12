@@ -11,7 +11,6 @@ import {
   Popover,
   Button,
   Collapse,
-  Table,
   Select,
   Affix,
   message,
@@ -24,6 +23,7 @@ import {
   Input,
   Steps,
 } from 'antd';
+import Table from 'widget/table'
 const Step = Steps.Step;
 const FormItem = Form.Item;
 import 'styles/budget/budget-journal-re-check/budget-journal-re-check-detail.scss';

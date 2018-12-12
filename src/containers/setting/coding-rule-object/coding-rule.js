@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Table, Button, Badge, message, Icon, Popover } from 'antd';
+import {  Button, Badge, message, Icon, Popover } from 'antd';
+import Table from 'widget/table'
 import codingRuleService from './coding-rule.service'
 // import menuRoute from 'routes/menuRoute'
 import BasicInfo from 'widget/basic-info'

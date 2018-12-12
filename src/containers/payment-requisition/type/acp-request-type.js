@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
-import { Badge, Button, Popover, message, Table, Row, Col, Input } from 'antd';
+import { Badge, Button, Popover, message, Row, Col, Input } from 'antd';
 import { routerRedux } from 'dva/router';
 import httpFetch from 'share/httpFetch';
 import AcpRequestTypeDetail from './new-acp-request-type';

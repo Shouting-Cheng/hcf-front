@@ -13,7 +13,8 @@ import SlideFrame from 'components/Widget/slide-frame'
 import NewRepaymentFrame from 'containers/request/new-repayment-frame'
 import RepaymentDetailFrame from 'containers/request/repayment-detail-frame'
 
-import { Table, Tabs, Icon, Spin, Row, Col, Timeline, Button, Affix, Badge } from 'antd'
+import {  Tabs, Icon, Spin, Row, Col, Timeline, Button, Affix, Badge } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 class LoanRequestDetail extends React.Component{

@@ -13,10 +13,10 @@ import {
   Card,
   Popover,
   Badge,
-  Table,
   Tooltip,
   Divider,
 } from 'antd';
+import Table from 'widget/table'
 import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';

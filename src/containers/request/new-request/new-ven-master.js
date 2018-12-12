@@ -4,7 +4,6 @@ import {
   Form,
   Icon,
   Modal,
-  Table,
   message,
   Card,
   Row,
@@ -13,6 +12,7 @@ import {
   Button,
   Popover,
 } from 'antd';
+import Table from 'widget/table'
 import NewVendorForm from 'containers/request/new-request/new-vendor-form';
 import PropTypes from 'prop-types';
 

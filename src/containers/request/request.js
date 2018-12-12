@@ -4,7 +4,6 @@ import constants from 'share/constants';
 import { dealCache } from 'utils/extend';
 import {
   Form,
-  Table,
   Button,
   Badge,
   Input,
@@ -16,6 +15,7 @@ import {
   Modal,
   Select,
 } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 const Search = Input.Search;
 const FormItem = Form.Item;

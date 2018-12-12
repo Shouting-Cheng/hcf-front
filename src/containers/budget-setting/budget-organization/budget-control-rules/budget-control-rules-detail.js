@@ -5,7 +5,8 @@ import React from 'react';
 import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
 
-import { Form, Button, Select, Icon, Table, message, Popconfirm, } from 'antd'
+import { Form, Button, Select, Icon,message, Popconfirm, } from 'antd'
+import Table from 'widget/table'
 
 import 'styles/budget-setting/budget-organization/budget-control-rules/budget-control-rules-detail.scss';
 import SlideFrame from 'widget/slide-frame'

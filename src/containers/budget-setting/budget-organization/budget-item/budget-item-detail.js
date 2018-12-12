@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva'
-import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, Table, message, Checkbox   } from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, message, Checkbox   } from 'antd'
+import Table from 'widget/table'
 import budgetService from 'containers/budget-setting/budget-organization/budget-item/budget-item.service'
 import ListSelector from 'widget/list-selector'
 import BasicInfo from 'widget/basic-info'

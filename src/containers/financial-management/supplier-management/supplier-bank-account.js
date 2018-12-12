@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Button, Table, Badge, notification, Popover, Popconfirm, Icon } from 'antd';
+import { Button,  Badge, notification, Popover, Popconfirm, Icon } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'components/Widget/search-area';
 import SlideFrame from 'components/Widget/slide-frame';
 import vendorService from 'containers/financial-management/supplier-management/vendorService';

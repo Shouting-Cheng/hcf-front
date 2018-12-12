@@ -3,8 +3,8 @@ import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 
 
-import { Table, Button, message, Popover } from 'antd'
-
+import {  Button, message, Popover } from 'antd'
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
 import FileSaver from 'file-saver'

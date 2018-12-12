@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Button, message, Alert, Popover, InputNumber, Tag } from 'antd';
+import {  Button, message, Alert, Popover, InputNumber, Tag } from 'antd';
+import Table from 'widget/table'
 import config from 'config';
 import moment from 'moment'
 import httpFetch from 'share/httpFetch';

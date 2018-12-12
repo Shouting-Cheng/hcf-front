@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Table, message, Button, Input, Row, Col, Select, Tag, Icon, Popover } from 'antd';
+import { Modal,  message, Button, Input, Row, Col, Select, Tag, Icon, Popover } from 'antd';
+import Table from 'widget/table'
 import { connect } from 'dva';
 import httpFetch from 'share/httpFetch';
 import SearchArea from 'widget/search-area';

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-import { Button, Table, Badge, Popover } from 'antd';
+import { Button, Badge, Popover } from 'antd';
 import SearchArea from 'components/Widget/search-area';
 
 import companyMaintainService from 'containers/enterprise-manage/company-maintain/company-maintain.service';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Modal, Table, Alert, Input, Popover, message } from "antd"
+import { Modal,  Alert, Input, Popover, message } from "antd"
+import Table from 'widget/table'
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import moment from "moment"
 

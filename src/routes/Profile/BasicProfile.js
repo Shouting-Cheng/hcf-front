@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider } from 'antd';
+import { Card, Badge, Divider } from 'antd';
+import Table from 'widget/table'
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';

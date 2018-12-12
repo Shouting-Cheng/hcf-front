@@ -6,7 +6,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
-import { Modal, Input, Icon, Button, Table, message, Popover } from 'antd';
+import { Modal, Input, Icon, Button, message, Popover } from 'antd';
+import Table from 'widget/table'
 import PMService from 'containers/enterprise-manage/person-manage/person-manage.service';
 import 'styles/enterprise-manage/person-manage/person-manage-components/invite.person.modal.scss';
 

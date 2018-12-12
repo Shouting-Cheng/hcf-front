@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Tabs, Button,Card, Menu, Affix,Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
+import { Form, Tabs, Button,Card, Menu, Affix,Radio, Dropdown, Row, Col, Spin, Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 const RadioGroup = Radio.Group;
 import moment from 'moment'

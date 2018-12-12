@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Table, Row, Col, Tag } from 'antd';
-
+import { Form,  Row, Col, Tag } from 'antd';
+import Table from 'widget/table'
 class JDOrderInfo extends React.Component {
   constructor(props) {
     super(props);

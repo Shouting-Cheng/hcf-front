@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import config from 'config';
 import SearchArea from 'widget/search-area';
 import baseService from 'share/base.service';
-import { Input, Button, Table, Badge, Divider, message, Popover, Row, Col, Modal } from 'antd';
+import { Input, Button,  Badge, Divider, message, Popover, Row, Col, Modal } from 'antd';
+import Table from 'widget/table'
 const Search = Input.Search;
 import prePaymentService from './pre-payment-view.service';
 import moment from 'moment';

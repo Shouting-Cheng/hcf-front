@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { routerRedux } from "dva/router";
-import { Form, Tabs, Button, Badge, Menu, Modal, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
+import { Form, Tabs, Button, Badge, Menu, Modal, Radio, Dropdown, Row, Col, Spin,  Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import SearchArea from 'components/Widget/search-area'
 import moment from 'moment'

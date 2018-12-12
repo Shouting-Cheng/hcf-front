@@ -13,11 +13,11 @@ import {
   Row,
   Col,
   Tag,
-  Table,
   message,
   Timeline,
   Icon,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 

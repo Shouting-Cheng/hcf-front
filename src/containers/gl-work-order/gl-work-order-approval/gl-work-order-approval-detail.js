@@ -14,11 +14,11 @@ import {
   Icon,
   Input,
   Tabs,
-  Table,
   Divider,
   InputNumber,
   Popover,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';

@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
 import config from 'config'
-import { Form, Button, Table, Input, message, Icon } from 'antd'
+import { Form, Button, Input, message, Icon } from 'antd'
+import Table from 'widget/table'
 const Search = Input.Search;
 import { routerRedux } from 'dva/router';
 

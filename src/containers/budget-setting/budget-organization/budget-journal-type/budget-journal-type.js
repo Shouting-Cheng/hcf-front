@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
 
-import { Table, Badge, Button } from 'antd'
-
+import {  Badge, Button } from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area'
 import httpFetch from 'share/httpFetch'
 import config from 'config'

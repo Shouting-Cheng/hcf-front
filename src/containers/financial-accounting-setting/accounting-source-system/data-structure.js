@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import {connect} from 'dva'
-import {Button,Form, Table,message} from 'antd'
+import {Button,Form, message} from 'antd'
+import Table from 'widget/table'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'
 import 'styles/financial-accounting-setting/section-structure/section-mapping-set.scss'
 

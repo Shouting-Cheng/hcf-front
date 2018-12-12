@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Badge, Icon, message, Popover, Checkbox, Input } from 'antd';
+import { Button, Badge, Icon, message, Popover, Checkbox, Input } from 'antd';
+import Table from 'widget/table'
 import ListSelector from 'widget/list-selector';
 import config from 'config';
 import debounce from 'lodash.debounce';

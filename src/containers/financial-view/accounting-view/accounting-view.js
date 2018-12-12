@@ -20,13 +20,13 @@ import {
   Row,
   Col,
   Spin,
-  Table,
   Timeline,
   message,
   Popover,
   Popconfirm,
   Icon
 } from 'antd';
+import Table from 'widget/table'
 
 import SearchArea from 'widget/search-area';
 import config from 'config'

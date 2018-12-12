@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
 import PropTypes from 'prop-types'
-import {Row, Col, Table, Tag, Button, Popover, Icon, Alert} from 'antd'
+import {Row, Col,  Tag, Button, Popover, Icon, Alert} from 'antd'
+import Table from 'widget/table'
 import 'styles/my-account/invoice.scss'
 import expenseService from 'containers/my-account/expense.service'
 import FileSaver from "file-saver";

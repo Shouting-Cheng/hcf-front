@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Button, Table, Badge, Popconfirm, message } from 'antd'
-
+import { Button,  Badge, Popconfirm, message } from 'antd'
+import Table from 'widget/table'
 import moment from 'moment'
 import ListSelector from 'components/Widget/list-selector'
 import announcementService from 'containers/setting/announcement-information/announcement-information.service'
