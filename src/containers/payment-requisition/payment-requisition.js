@@ -10,7 +10,6 @@ import {
   Badge,
   message,
   Popover,
-  Table,
   Dropdown,
   Menu,
   Icon,
@@ -24,6 +23,7 @@ import paymentRequisitionService from './paymentRequisitionService.service';
 import moment from 'moment';
 import SearchArea from 'widget/search-area';
 import httpFetch from 'share/httpFetch';
+import Table from 'widget/table'
 const Search = Input.Search;
 
 class PaymentRequisition extends React.Component {

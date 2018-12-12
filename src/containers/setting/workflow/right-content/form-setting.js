@@ -27,7 +27,8 @@ class FormSetting extends React.Component {
       selectorItem: chooserData['deploy_company_by_carousel'],
       selectedCompany: [],
       companyLoading: false,
-      companyOID:[]
+      companyOID: [],
+      rightSelectedCompany:[]
     }
   }
 
@@ -56,7 +57,7 @@ class FormSetting extends React.Component {
         rejectSendEmail: res.data.rejectSendEmail,
         printSendEmail: res.data.printSendEmail,
         endSendEmail: res.data.endSendEmail,
-        companyOID:companyOID
+        companyOID: companyOID
 
       })
     })
@@ -95,15 +96,15 @@ class FormSetting extends React.Component {
       filterTypeRuleMode,
       filterRule: filterTypeRuleMode === '5' ? filterRule : 10,
       filterTypeRule: filterTypeRuleMode === '5' ? filterTypeRule : 4,
-      enableAmountFilter:filterTypeRuleMode === '5'?false:true,
-      enableExpenseTypeFilter:filterTypeRuleMode === '5'?false:true,
+      enableAmountFilter: filterTypeRuleMode === '5' ? false : true,
+      enableExpenseTypeFilter: filterTypeRuleMode === '5' ? false : true,
     })
   };
 
   //修改代理提交规则
   handleProxyChange = (type, checked) => {
     let proxyStrategy = this.state.proxyStrategy;
-    switch(proxyStrategy) {
+    switch (proxyStrategy) {
       case 1:
         proxyStrategy = type === 'strategy1' ? 10 : 3;
         break;
@@ -125,9 +126,9 @@ class FormSetting extends React.Component {
   //保存表单配置
   handleSave = () => {
     const { enableCounterSign, counterSignRule, enableCounterSignForSubmitter, counterSignRuleForSubmitter, filterTypeRuleMode,
-            filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy, endSendEmail, printSendEmail, rejectSendEmail } = this.state;
+      filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy, endSendEmail, printSendEmail, rejectSendEmail } = this.state;
     let chainHistoryFirstRule = ''; //重复审批规则角色对比: all approver singer
-    switch(this.state.filterRule) {
+    switch (this.state.filterRule) {
       case 3:
         chainHistoryFirstRule = 'all';
         break;
@@ -141,7 +142,7 @@ class FormSetting extends React.Component {
         chainHistoryFirstRule = '';
     }
     let companyOIDs = [];
-    this.state.selectedCompany.map(item => {
+    this.state.rightSelectedCompany.map(item => {
       companyOIDs.push(item.companyOID)
     });
     let params = {
@@ -172,24 +173,32 @@ class FormSetting extends React.Component {
       this.setState({ saveLoading: false })
     })
   };
-  handleSelectCompany=()=>{
-    let companyOID=this.state.companyOID;
+  handleSelectCompany = () => {
+    let companyOID = this.state.companyOID;
     this.setState({ companyLoading: true });
+    if (companyOID.length) {
       workflowService.getBatchCompanyItemList(companyOID).then(res => {
         this.setState({
           selectedCompany: res.data,
           companyLoading: false,
-          companySelectorShow: true
+          companySelectorShow: true,
+          rightSelectedCompany:res.data,
         })
       })
-   
+    } else {
+      this.setState({
+        companySelectorShow: true,
+        companyLoading: false,
+      })
+    }
+
+
   }
   render() {
     const { loading, saveLoading, enableCounterSign, counterSignRule, enableCounterSignForSubmitter, counterSignRuleForSubmitter,
-            filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
-            companySelectorShow, selectorItem, selectedCompany, companyLoading,printSendEmail ,rejectSendEmail,endSendEmail } = this.state;
+      filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
+      companySelectorShow, selectorItem, selectedCompany,rightSelectedCompany, companyLoading, printSendEmail, rejectSendEmail, endSendEmail } = this.state;
     selectorItem.title = this.$t('setting.key1331'/*选择公司*/);
-    console.log(selectedCompany)
     return (
       <div className='form-setting'>
         <Spin spinning={loading}>
@@ -342,31 +351,31 @@ class FormSetting extends React.Component {
             </Row>
           </Card>
           <Card type="inner" className="card-container select-company-card"
-                title={
-                  <div className="card-title"> {this.$t('setting.key1365'/*邮件通知*/)}
-                    <span>{this.$t('setting.key1366'/*审批流中，需要通过邮件通知申请人的环节、动作*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title"> {this.$t('setting.key1365'/*邮件通知*/)}
+                <span>{this.$t('setting.key1366'/*审批流中，需要通过邮件通知申请人的环节、动作*/)}</span>
+              </div>
+            }>
             <Row>
               <Col span={4}>{this.$t('setting.key1367'/*发送打印通知：*/)}</Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({printSendEmail: e.target.checked})}}
-                              checked={printSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Checkbox></Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({endSendEmail: e.target.checked})}}
-                              checked={endSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ printSendEmail: e.target.checked }) }}
+                checked={printSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ endSendEmail: e.target.checked }) }}
+                checked={endSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Checkbox></Col>
             </Row>
             <Row >
               <Col span={4}>{this.$t('setting.key1370'/*驳回时是否通知：*/)}</Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({rejectSendEmail: e.target.checked})}}
-                              checked={rejectSendEmail}></Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ rejectSendEmail: e.target.checked }) }}
+                checked={rejectSendEmail}></Checkbox></Col>
             </Row>
           </Card>
         </Spin>
         <Button type="primary" loading={saveLoading} onClick={this.handleSave}>{this.$t('common.save')}</Button>
         <ListSelector selectorItem={selectorItem}
-                      visible={companySelectorShow}
-                      selectedData={selectedCompany}
-                      onOk={value => this.setState({selectedCompany: value.result, companySelectorShow: false})}
-                      onCancel={() => this.setState({companySelectorShow: false})}/>
+          visible={companySelectorShow}
+          selectedData={selectedCompany}
+          onOk={value => this.setState({ selectedCompany: value.result,rightSelectedCompany:value.result, companySelectorShow: false })}
+          onCancel={() => this.setState({ companySelectorShow: false })} />
       </div>
     )
   }
