@@ -138,10 +138,8 @@ class ListSelector extends React.Component {
       });
       data = tmpData;
       let selectedData=[];
-
       data.map((item) => {
-        item.key = item[this.getLastKey(selectorItem.key)];
-        this.state.selectedData.map(o => o[this.getLastKey(selectorItem.key)] === item[this.getLastKey(selectorItem.key)]&&selectedData.push(item))
+        this.state.selectedData.map(o => o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item))
       });
       let pagination = {
         total: Number(response.headers['x-total-count']),
@@ -386,7 +384,6 @@ class ListSelector extends React.Component {
           submitHandle={this.search}
           clearHandle={this.clear}
           wrappedComponentRef={(inst) => this.formRef = inst} /> : null}
-
         {showDetail && (
           <div className="selected-tag">
             {selectedData.map((item, index) => (
