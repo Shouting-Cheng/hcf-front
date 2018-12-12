@@ -59,7 +59,6 @@ class CustomTable extends React.Component {
             }),
         }));
 
-
         return (
             <Table
                 rowKey={this.props.rowKey}
