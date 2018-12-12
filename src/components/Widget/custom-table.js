@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types';
 
+import { Table } from "antd"
 
 import httpFetch from 'share/httpFetch'
 import Table from "widget/table"

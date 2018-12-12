@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import { Resizable } from 'react-resizable';
+import PropTypes from 'prop-types';
 
 const ResizeableTitle = (props) => {
     const { onResize, width, ...restProps } = props;
@@ -92,6 +93,42 @@ class CustomTable extends React.Component {
         );
     }
 }
+
+
+CustomTable.propTypes = {
+    dataSource: PropTypes.array,
+    columns: PropTypes.array,
+    prefixCls: PropTypes.string,
+    useFixedHeader: PropTypes.bool,
+    rowSelection: PropTypes.object,
+    className: PropTypes.string,
+    size: PropTypes.string,
+    loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    bordered: PropTypes.bool,
+    onChange: PropTypes.func,
+    locale: PropTypes.object,
+    dropdownPrefixCls: PropTypes.string,
+};
+
+CustomTable.defaultProps = {
+    dataSource: [],
+    prefixCls: 'ant-table',
+    useFixedHeader: false,
+    className: '',
+    size: 'default',
+    loading: false,
+    bordered: false,
+    indentSize: 20,
+    locale: {},
+    rowKey: 'key',
+    showHeader: true,
+    defaultExpandAllRows: false,
+    defaultExpandedRowKeys: [],
+    expandedRowKeys: []
+}
+
+
+
 
 export default CustomTable
 
