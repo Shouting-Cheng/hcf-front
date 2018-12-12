@@ -17,25 +17,17 @@ import 'echarts/lib/chart/pie';
 // 引入提示框和标题组件
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import 'echarts/theme/macarons'
 
 
 const TabPane = Tabs.TabPane;
 const { MonthPicker } = DatePicker;
 
 import {
-  G2,
   Chart,
   Geom,
   Axis,
   Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util
 } from "bizcharts";
 
 import DataSet from "@antv/data-set";
@@ -160,7 +152,7 @@ class Dashboard extends React.Component {
   //渲染待审批单据
   renderPie = (data = []) => {
     var dom = document.getElementById("pie");
-    var myChart = echarts.init(dom);
+    var myChart = echarts.init(dom, "macarons");
 
     let option = {
 
@@ -168,11 +160,24 @@ class Dashboard extends React.Component {
         trigger: 'item',
         formatter: "{b} : {c}笔 ({d}%)"
       },
+      color: [
+        '#1890FF',
+        '#13C2C2',
+        '#2FC25B',
+        '#FACC14',
+        '#F04864',
+        '#8543E0',
+        '#3436C7',
+        '#223273'],
       series: [
         {
           type: 'pie',
           radius: ['40%', '60%'],
           avoidLabelOverlap: false,
+          label: {
+            show: true,
+            formatter: '{b}: {c}笔'
+          },
           data: data.map(o => ({
             name: o.name,
             value: o.count

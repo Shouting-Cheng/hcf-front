@@ -387,6 +387,7 @@ class MyReimburse extends React.Component {
           />
         </div> */}
         <CustomTable
+          tableKey="expenseReportId"
           onClick={this.handleRowClick}
           ref="table"
           columns={columns}
