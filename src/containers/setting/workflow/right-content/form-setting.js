@@ -27,7 +27,8 @@ class FormSetting extends React.Component {
       selectorItem: chooserData['deploy_company_by_carousel'],
       selectedCompany: [],
       companyLoading: false,
-      companyOID:[]
+      companyOID: [],
+      rightSelectedCompany:[]
     }
   }
 
@@ -54,7 +55,7 @@ class FormSetting extends React.Component {
         rejectSendEmail: res.data.rejectSendEmail,
         printSendEmail: res.data.printSendEmail,
         endSendEmail: res.data.endSendEmail,
-        companyOID:companyOID
+        companyOID: companyOID
 
       })
     })
@@ -93,15 +94,15 @@ class FormSetting extends React.Component {
       filterTypeRuleMode,
       filterRule: filterTypeRuleMode === '5' ? filterRule : 10,
       filterTypeRule: filterTypeRuleMode === '5' ? filterTypeRule : 4,
-      enableAmountFilter:filterTypeRuleMode === '5'?false:true,
-      enableExpenseTypeFilter:filterTypeRuleMode === '5'?false:true,
+      enableAmountFilter: filterTypeRuleMode === '5' ? false : true,
+      enableExpenseTypeFilter: filterTypeRuleMode === '5' ? false : true,
     })
   };
 
   //修改代理提交规则
   handleProxyChange = (type, checked) => {
     let proxyStrategy = this.state.proxyStrategy;
-    switch(proxyStrategy) {
+    switch (proxyStrategy) {
       case 1:
         proxyStrategy = type === 'strategy1' ? 10 : 3;
         break;
@@ -123,9 +124,9 @@ class FormSetting extends React.Component {
   //保存表单配置
   handleSave = () => {
     const { enableCounterSign, counterSignRule, enableCounterSignForSubmitter, counterSignRuleForSubmitter, filterTypeRuleMode,
-            filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy, endSendEmail, printSendEmail, rejectSendEmail } = this.state;
+      filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy, endSendEmail, printSendEmail, rejectSendEmail } = this.state;
     let chainHistoryFirstRule = ''; //重复审批规则角色对比: all approver singer
-    switch(this.state.filterRule) {
+    switch (this.state.filterRule) {
       case 3:
         chainHistoryFirstRule = 'all';
         break;
@@ -139,7 +140,7 @@ class FormSetting extends React.Component {
         chainHistoryFirstRule = '';
     }
     let companyOIDs = [];
-    this.state.selectedCompany.map(item => {
+    this.state.rightSelectedCompany.map(item => {
       companyOIDs.push(item.companyOID)
     });
     let params = {
@@ -165,38 +166,47 @@ class FormSetting extends React.Component {
     this.setState({ saveLoading: true });
     workflowService.saveCustomFormProperty(params).then(() => {
       this.setState({ saveLoading: false });
-      message.success(this.$t('common.save.success', {name: ''}))
+      message.success(this.$t('common.save.success', { name: '' }))
     }).catch(() => {
       this.setState({ saveLoading: false })
     })
   };
-  handleSelectCompany=()=>{
-    let companyOID=this.state.companyOID;
+  handleSelectCompany = () => {
+    let companyOID = this.state.companyOID;
     this.setState({ companyLoading: true });
+    if (companyOID.length) {
       workflowService.getBatchCompanyItemList(companyOID).then(res => {
         this.setState({
           selectedCompany: res.data,
           companyLoading: false,
-          companySelectorShow: true
+          companySelectorShow: true,
+          rightSelectedCompany:res.data,
         })
       })
-   
+    } else {
+      this.setState({
+        companySelectorShow: true,
+        companyLoading: false,
+      })
+    }
+
+
   }
   render() {
     const { loading, saveLoading, enableCounterSign, counterSignRule, enableCounterSignForSubmitter, counterSignRuleForSubmitter,
-            filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
-            companySelectorShow, selectorItem, selectedCompany, companyLoading,printSendEmail ,rejectSendEmail,endSendEmail } = this.state;
+      filterTypeRuleMode, filterRule, filterTypeRule, enableAmountFilter, enableExpenseTypeFilter, proxyStrategy,
+      companySelectorShow, selectorItem, selectedCompany,rightSelectedCompany, companyLoading, printSendEmail, rejectSendEmail, endSendEmail } = this.state;
     selectorItem.title = this.$t('setting.key1331'/*选择公司*/);
     return (
       <div className='form-setting'>
         <Spin spinning={loading}>
           <Card type="inner" className="card-container"
-                title={
-                  <div className="card-title">
-                    {this.$t('setting.key1332'/*加签*/)}
-                    <span>{this.$t('setting.key1333'/*审批单据时，同意单据，并额外指定一名或几名员工进行审批*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title">
+                {this.$t('setting.key1332'/*加签*/)}
+                <span>{this.$t('setting.key1333'/*审批单据时，同意单据，并额外指定一名或几名员工进行审批*/)}</span>
+              </div>
+            }>
             <RadioGroup onChange={e => this.handleSignChange(e.target.value, 2)} value={enableCounterSign}>
               <Radio value={false}>{this.$t('setting.key1334'/*不允许加签*/)}</Radio>
               <Radio value={true}>{this.$t('setting.key1335'/*允许加签*/)}</Radio>
@@ -211,12 +221,12 @@ class FormSetting extends React.Component {
             </RadioGroup>
           </Card>
           <Card type="inner" className="card-container"
-                title={
-                  <div className="card-title">
-                    {this.$t('setting.key1338'/*自选审批人*/)}
-                    <span>{this.$t('setting.key1339'/*提交人（含代理人）提交单据时，先选择一名或几名指定员工进行审批，再按配置的流程进行审批*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title">
+                {this.$t('setting.key1338'/*自选审批人*/)}
+                <span>{this.$t('setting.key1339'/*提交人（含代理人）提交单据时，先选择一名或几名指定员工进行审批，再按配置的流程进行审批*/)}</span>
+              </div>
+            }>
             <RadioGroup onChange={e => this.handleSubmitterChange(e.target.value, 2)} value={enableCounterSignForSubmitter}>
               <Radio value={false}>{this.$t('setting.key1340'/*不允许自选审批人*/)}</Radio>
               <Radio value={true}>{this.$t('setting.key1341'/*允许自选审批人*/)}</Radio>
@@ -231,12 +241,12 @@ class FormSetting extends React.Component {
             </RadioGroup>
           </Card>
           <Card type="inner" className="card-container"
-                title={
-                  <div className="card-title">
-                    {this.$t('setting.key1342'/*重复审批规则*/)}
-                    <span>{this.$t('setting.key1343'/*当配置的审批流程中，出现一个员工重复审批的情况时*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title">
+                {this.$t('setting.key1342'/*重复审批规则*/)}
+                <span>{this.$t('setting.key1343'/*当配置的审批流程中，出现一个员工重复审批的情况时*/)}</span>
+              </div>
+            }>
             <RadioGroup onChange={e => this.handleFilterChange(e.target.value, 3, 2)} value={filterTypeRuleMode}>
               <Radio value="">{this.$t('setting.key1344'/*每次都进行审批*/)}</Radio>
               <Radio value="5">{this.$t('setting.key1345'/*依据下列设定，不需要每次都进行审批*/)}</Radio>
@@ -271,45 +281,45 @@ class FormSetting extends React.Component {
                 </Radio>
               </Col></Row>
             </RadioGroup>
-            <div style={{display: filterTypeRule === 1 ? 'block' : 'none'}}>
+            <div style={{ display: filterTypeRule === 1 ? 'block' : 'none' }}>
               <Row><Col offset={2}>{this.$t('setting.key1354'/*特殊情况*/)}</Col></Row>
               <Row><Col offset={2}>
-                <Checkbox onChange={e => {this.setState({enableAmountFilter: e.target.checked})}}
-                          checked={enableAmountFilter}>
+                <Checkbox onChange={e => { this.setState({ enableAmountFilter: e.target.checked }) }}
+                  checked={enableAmountFilter}>
                   {this.$t('setting.key1355'/*当单据金额变大时，校验当前工作流*/)}
                 </Checkbox>
               </Col></Row>
               <Row><Col offset={2}>
-                <Checkbox onChange={e => {this.setState({enableExpenseTypeFilter: e.target.checked})}}
-                          checked={enableExpenseTypeFilter}>
+                <Checkbox onChange={e => { this.setState({ enableExpenseTypeFilter: e.target.checked }) }}
+                  checked={enableExpenseTypeFilter}>
                   {this.$t('setting.key1356'/*当单据的费用类型发生变化时，校验当前工作流*/)}
                 </Checkbox>
               </Col></Row>
             </div>
           </Card>
           <Card type="inner" className="card-container"
-                title={
-                  <div className="card-title">
-                    {this.$t('setting.key1357'/*代理提交规则*/)}
-                    <span>{this.$t('setting.key1358'/*当员工A授权给员工B，允许代替自己填写单据*/)}</span>
-                  </div>
-                }>
-            <Checkbox onChange={e => {this.handleProxyChange('strategy1', e.target.checked)}}
-                      checked={proxyStrategy === 1 || proxyStrategy === 3}>
+            title={
+              <div className="card-title">
+                {this.$t('setting.key1357'/*代理提交规则*/)}
+                <span>{this.$t('setting.key1358'/*当员工A授权给员工B，允许代替自己填写单据*/)}</span>
+              </div>
+            }>
+            <Checkbox onChange={e => { this.handleProxyChange('strategy1', e.target.checked) }}
+              checked={proxyStrategy === 1 || proxyStrategy === 3}>
               {this.$t('setting.key1359'/*B填写好的单据，先经被代理人A审批，通过后开始走流程*/)}
             </Checkbox>
-            <Checkbox onChange={e => {this.handleProxyChange('strategy2', e.target.checked)}}
-                      checked={proxyStrategy === 2 || proxyStrategy === 3}>
+            <Checkbox onChange={e => { this.handleProxyChange('strategy2', e.target.checked) }}
+              checked={proxyStrategy === 2 || proxyStrategy === 3}>
               {this.$t('setting.key1360'/*B填写好的单据，提交后，知会被代理人A*/)}
             </Checkbox>
           </Card>
           <Card type="inner" className="card-container select-company-card"
-                title={
-                  <div className="card-title">
-                    {this.$t('setting.key1361'/*选人范围*/)}
-                    <span>{this.$t('setting.key1362'/*对加签、自选审批人等需要选人的功能，规定选人范围*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title">
+                {this.$t('setting.key1361'/*选人范围*/)}
+                <span>{this.$t('setting.key1362'/*对加签、自选审批人等需要选人的功能，规定选人范围*/)}</span>
+              </div>
+            }>
             <Row>
               <div className="remark">{this.$t('setting.key1363'/*注: 若未选择公司，则默认允许选择所有公司的人员*/)}</div>
               <Col span={5}>
@@ -321,8 +331,8 @@ class FormSetting extends React.Component {
                 <div className="selected-company-container">
                   <h4>{this.$t('setting.key1364'/*已选择公司*/)}：</h4>
                   <Spin spinning={companyLoading}>
-                    {selectedCompany.map((item, index) => {
-                      return `${item.name}${index < selectedCompany.length - 1 ? '、 ' : ''}`
+                    {rightSelectedCompany.map((item, index) => {
+                      return `${item.name}${index < rightSelectedCompany.length - 1 ? '、 ' : ''}`
                     })}
                   </Spin>
                 </div>
@@ -330,31 +340,31 @@ class FormSetting extends React.Component {
             </Row>
           </Card>
           <Card type="inner" className="card-container select-company-card"
-                title={
-                  <div className="card-title"> {this.$t('setting.key1365'/*邮件通知*/)}
-                    <span>{this.$t('setting.key1366'/*审批流中，需要通过邮件通知申请人的环节、动作*/)}</span>
-                  </div>
-                }>
+            title={
+              <div className="card-title"> {this.$t('setting.key1365'/*邮件通知*/)}
+                <span>{this.$t('setting.key1366'/*审批流中，需要通过邮件通知申请人的环节、动作*/)}</span>
+              </div>
+            }>
             <Row>
               <Col span={4}>{this.$t('setting.key1367'/*发送打印通知：*/)}</Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({printSendEmail: e.target.checked})}}
-                              checked={printSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Checkbox></Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({endSendEmail: e.target.checked})}}
-                              checked={endSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ printSendEmail: e.target.checked }) }}
+                checked={printSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1368'/*打印环节*/)}&nbsp;&nbsp;</Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ endSendEmail: e.target.checked }) }}
+                checked={endSendEmail}>&nbsp;&nbsp;{this.$t('setting.key1369'/*结束环节*/)}</Checkbox></Col>
             </Row>
             <Row >
               <Col span={4}>{this.$t('setting.key1370'/*驳回时是否通知：*/)}</Col>
-              <Col span={6}> <Checkbox onChange={e => {this.setState({rejectSendEmail: e.target.checked})}}
-                              checked={rejectSendEmail}></Checkbox></Col>
+              <Col span={6}> <Checkbox onChange={e => { this.setState({ rejectSendEmail: e.target.checked }) }}
+                checked={rejectSendEmail}></Checkbox></Col>
             </Row>
           </Card>
         </Spin>
         <Button type="primary" loading={saveLoading} onClick={this.handleSave}>{this.$t('common.save')}</Button>
         <ListSelector selectorItem={selectorItem}
-                      visible={companySelectorShow}
-                      selectedData={selectedCompany}
-                      onOk={value => this.setState({selectedCompany: value.result, companySelectorShow: false})}
-                      onCancel={() => this.setState({companySelectorShow: false})}/>
+          visible={companySelectorShow}
+          selectedData={selectedCompany}
+          onOk={value => this.setState({ selectedCompany: value.result,rightSelectedCompany:value.result, companySelectorShow: false })}
+          onCancel={() => this.setState({ companySelectorShow: false })} />
       </div>
     )
   }
