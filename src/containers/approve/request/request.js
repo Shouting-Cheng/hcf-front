@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'dva';
 import constants from 'share/constants';
 import { deepFullCopy, dealCache } from 'utils/extend';
-import { Form, Tabs, Badge, Popover, Table, Affix, message } from 'antd';
+import { Form, Tabs, Badge, Popover,  Affix, message } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';
 

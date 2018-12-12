@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Table, message, Button, Input, Row, Col, Card, Checkbox } from 'antd';
+import { Modal,message, Button, Input, Row, Col, Card, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 
 const Search = Input.Search;

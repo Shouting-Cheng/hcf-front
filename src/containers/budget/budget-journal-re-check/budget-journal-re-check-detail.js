@@ -9,7 +9,6 @@ import {
   Popover,
   Button,
   Collapse,
-  Table,
   Select,
   Modal,
   message,
@@ -23,6 +22,7 @@ import {
   Steps,
   Affix,
 } from 'antd';
+import Table from 'widget/table'
 const Step = Steps.Step;
 import 'styles/budget/budget-journal-re-check/budget-journal-re-check-detail.scss';
 import httpFetch from 'share/httpFetch';

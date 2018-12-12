@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import config from 'config';
-import { Table, Badge, Button, Popover, message } from 'antd';
+import { Badge, Button, Popover, message } from 'antd';
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 import SearchArea from 'components/Widget/search-area'
 import SlideFrame from 'components/Widget/slide-frame'

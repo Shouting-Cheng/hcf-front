@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import { Form, Select, Breadcrumb, Tag, Divider, Input, DatePicker, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon } from 'antd'
+import { Form, Select, Breadcrumb, Tag, Divider, Input, DatePicker, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin,  Timeline, message, Popover, Popconfirm, Icon } from 'antd'
+import Table from 'widget/table'
 import config from 'config';
 const TabPane = Tabs.TabPane;
 

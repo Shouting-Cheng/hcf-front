@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Badge } from 'antd';
+import { Button,  Badge } from 'antd';
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame';
 import SearchArea from 'widget/search-area';
 import WrappedPaymentMethod from './new-payment-method';

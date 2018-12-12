@@ -5,7 +5,8 @@ import React from 'react';
 import config from 'config';
 import httpFetch from 'share/httpFetch';
 // import menuRoute from 'routes/menuRoute'
-import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Table, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
+import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb,  Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
 import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';

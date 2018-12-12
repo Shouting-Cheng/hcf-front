@@ -12,11 +12,11 @@ import {
   Button,
   message,
   DatePicker,
-  Table,
   Popover,
   Spin,
   Divider,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import moment from 'moment';
 import ApproveHistory from 'components/Widget/Template/approve-history-work-flow';

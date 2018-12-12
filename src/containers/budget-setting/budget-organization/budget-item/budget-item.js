@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Select, Popover, Badge, message } from 'antd';
+import { Button, Select, Popover, Badge, message } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import 'styles/budget-setting/budget-organization/budget-item/budget-item.scss';
 import config from 'config';

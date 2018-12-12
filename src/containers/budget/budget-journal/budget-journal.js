@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Button, Popover, Table, Select, Tag, Badge, message } from 'antd';
+import { Button, Popover,  Select, Tag, Badge, message } from 'antd';
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 import config from 'config';
 import SearchArea from 'components/Widget/search-area.js';

@@ -4,7 +4,8 @@ import { connect } from 'dva'
 import httpFetch from 'share/httpFetch'
 import debounce from 'lodash.debounce'
 import config from 'config'
-import { Table, Button, Input, Popover, message, Icon,Row,Col } from 'antd'
+import { Button, Input, Popover, message, Icon,Row,Col } from 'antd'
+import Table from 'widget/table'
 const Search = Input.Search;
 import { routerRedux } from 'dva/router';
 import BasicInfo from 'widget/basic-info'

@@ -3,7 +3,8 @@ import React from 'react'
 import { connect } from 'dva'
 
 
-import { Table, Button, Tabs, Popover } from 'antd'
+import {  Button, Tabs, Popover } from 'antd'
+import Table from 'widget/table'
 
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';

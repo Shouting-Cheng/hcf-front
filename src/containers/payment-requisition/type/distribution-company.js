@@ -1,6 +1,6 @@
 import React from 'react';
 import config from 'config';
-import { Form, Row, Col, Badge, Button, Table, Checkbox, message, Icon, Input, Affix } from 'antd';
+import { Form, Row, Col, Badge, Button, Checkbox, message, Icon, Input, Affix } from 'antd';
 import { routerRedux } from 'dva/router';
 import ListSelector from 'widget/list-selector';
 import httpFetch from 'share/httpFetch';

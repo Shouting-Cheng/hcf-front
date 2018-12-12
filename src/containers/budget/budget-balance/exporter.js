@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva'
-import { Modal, Button, Tabs, Upload, Icon, message, Table, Radio } from 'antd'
+import { Modal, Button, Tabs, Upload, Icon, message,  Radio } from 'antd'
+import Table from 'widget/table'
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
 import budgetBalanceService from 'containers/budget/budget-balance/budget-balance.service'

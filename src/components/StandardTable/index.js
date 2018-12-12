@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import { Alert } from 'antd';
+import Table from 'widget/table'
 import styles from './index.less';
 
 function initTotalList(columns) {

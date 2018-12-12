@@ -1,7 +1,8 @@
 import React from 'react'
 import menuRoute from 'routes/menuRoute'
 import config from 'config'
-import { Form, Button, Table, message, Popover } from 'antd'
+import { Form, Button, message, Popover } from 'antd'
+import Table from 'widget/table'
 
 import occupancyService from 'containers/budget/budget-occupancy/budget-occupancy.service'
 import moment from 'moment'

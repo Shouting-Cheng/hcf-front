@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Tabs, Table, message, Badge, Popover, Input, Row, Col } from 'antd'
+import { Form, Tabs,  message, Badge, Popover, Input, Row, Col } from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';

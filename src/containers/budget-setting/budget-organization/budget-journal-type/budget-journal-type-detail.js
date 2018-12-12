@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
 
-import { Tabs, Button, message, Icon, Table, Checkbox, Badge } from 'antd';
+import { Tabs, Button, message, Icon, Checkbox, Badge } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 import httpFetch from 'share/httpFetch'

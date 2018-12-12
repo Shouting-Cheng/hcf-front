@@ -2,7 +2,8 @@ import React from 'react';
 import menuRoute from 'routes/menuRoute';
 
 import { dealCache, deepFullCopy, messages } from 'share/common';
-import { Form, Table, Icon } from 'antd';
+import { Form,  Icon } from 'antd';
+import Table from 'widget/table'
 
 import moment from 'moment';
 import SearchArea from 'components/search-area';

@@ -6,7 +6,8 @@ import { routerRedux } from 'dva/router';
 import config from 'config'
 
 
-import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, Table, message, Popover } from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, message, Popover } from 'antd'
+import Table from 'widget/table'
 
 
 import SearchArea from 'widget/search-area'

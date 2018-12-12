@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import config from 'config';
-import { Table, Button, message, Badge, Divider } from 'antd';
+import {  Button, message, Badge, Divider } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'components/Widget/search-area';
 import baseService from 'share/base.service';
 import NewGLWorkOrderType from 'containers/gl-work-order/gl-work-order-type/new-gl-work-order-type';

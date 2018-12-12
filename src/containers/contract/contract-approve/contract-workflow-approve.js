@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Tabs, Table, message,InputNumber, Badge, Input, Row, Col, Popover } from 'antd';
+import { Form, Tabs, message,InputNumber, Badge, Input, Row, Col, Popover } from 'antd';
 const TabPane = Tabs.TabPane;
 import { routerRedux } from 'dva/router';
 import config from 'config';

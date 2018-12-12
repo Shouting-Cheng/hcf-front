@@ -1,7 +1,8 @@
 
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Table, Button, Badge, Input, Row, Col, Popover, Dropdown, Icon, Menu } from 'antd'
+import { Form,  Button, Badge, Input, Row, Col, Popover, Dropdown, Icon, Menu } from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area'
 const Search = Input.Search;
 import constants from 'share/constants'

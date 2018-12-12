@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Form, Row, Col, Input, Select, Spin, Icon, Table, Popconfirm, Modal, message, Checkbox } from 'antd'
+import { Button, Form, Row, Col, Input, Select, Spin, Icon, Popconfirm, Modal, message, Checkbox } from 'antd'
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { routerRedux } from 'dva/router';

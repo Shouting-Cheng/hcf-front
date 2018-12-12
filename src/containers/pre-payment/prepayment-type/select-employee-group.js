@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { connect } from 'react-redux'
-import { Modal, Table, message, Button, Input, Row, Col, Card, Checkbox } from 'antd'
+import { Modal,  message, Button, Input, Row, Col, Card, Checkbox } from 'antd'
 
 const Search = Input.Search;
 const CheckboxGroup = Checkbox.Group;

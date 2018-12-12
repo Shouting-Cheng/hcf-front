@@ -1,7 +1,8 @@
 
 import React from 'react'
 import {connect} from 'dva'
-import {Form, Modal, message, Table, Popover, Spin} from 'antd'
+import {Form, Modal, message,Popover, Spin} from 'antd'
+import Table from 'widget/table'
 import expenseReportService from 'containers/expense-report/expense-report.service'
 import PropTypes from 'prop-types'
 

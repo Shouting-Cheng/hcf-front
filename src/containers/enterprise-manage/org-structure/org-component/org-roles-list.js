@@ -6,7 +6,8 @@
 import React from 'react';
 
 import 'styles/enterprise-manage/org-structure/org-component/org-roles-list.scss';
-import { Button, Table, Badge, Switch, Modal, Icon, Input, Form } from 'antd';
+import { Button,  Badge, Switch, Modal, Icon, Input, Form } from 'antd';
+import Table from 'widget/table'
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 const FormItem = Form.Item;

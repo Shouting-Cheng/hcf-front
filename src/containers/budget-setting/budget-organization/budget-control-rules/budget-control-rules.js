@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table} from 'antd'
+import { Button} from 'antd'
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import budgetService from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rulles.service'
 import config from 'config'

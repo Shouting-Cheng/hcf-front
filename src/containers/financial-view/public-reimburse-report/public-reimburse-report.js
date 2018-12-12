@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Table, message, Badge, Button, Row, Col, Popover } from 'antd';
+import { Input,  message, Badge, Button, Row, Col, Popover } from 'antd';
+import Table from 'widget/table'
 import { connect } from 'dva'
 import SearchArea from 'components/Widget/search-area';
 import config from 'config';

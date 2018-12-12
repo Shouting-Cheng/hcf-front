@@ -3,7 +3,8 @@ import moment from 'moment'
 import config from 'config'
 import {deepCopy, deepFullCopy} from 'utils/extend'
 import { messages } from "utils/utils"
-import {Switch, Input, Select, Row, Col, InputNumber, DatePicker, Table, Popover, TimePicker} from 'antd'
+import {Switch, Input, Select, Row, Col, InputNumber, DatePicker, Popover, TimePicker} from 'antd'
+import Table from 'widget/table'
 import app from '../index';
 
 const {TextArea} = Input;

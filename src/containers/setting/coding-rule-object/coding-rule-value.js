@@ -2,8 +2,8 @@ import { messages } from 'utils/utils';
 import React from 'react';
 import { connect } from 'dva';
 
-import { Table, Button, Badge, message, Popconfirm, Icon, Alert, Col, Row, Divider } from 'antd';
-
+import { Button, Badge, message, Popconfirm, Icon, Alert, Col, Row, Divider } from 'antd';
+import Table from 'widget/table'
 import codingRuleService from './coding-rule.service';
 import BasicInfo from 'widget/basic-info';
 import NewCodingRuleValue from './new-coding-rule-value';

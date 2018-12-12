@@ -5,7 +5,8 @@ import React from 'react';
 import { connect } from 'dva'
 import budgetService from 'containers/budget-setting/budget-organization/budget-structure/budget-structure.service'
 
-import { Form, Button, Select, Input, Switch, Icon, Badge, Tabs, Checkbox, Table, message, Popover  } from 'antd'
+import { Form, Button, Select, Input, Switch, Icon, Badge, Tabs, Checkbox,message, Popover  } from 'antd'
+import Table from 'widget/table'
 import { routerRedux } from 'dva/router';
 import 'styles/budget-setting/budget-organization/budget-structure/budget-structure-detail.scss';
 import SlideFrame from "widget/slide-frame";

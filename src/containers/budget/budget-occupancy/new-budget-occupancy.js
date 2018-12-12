@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import menuRoute from 'routes/menuRoute'
 import config from 'config'
-import { Form, Card, Row, Col, Input, Affix, Button, Table, message } from 'antd'
+import { Form, Card, Row, Col, Input, Affix, Button,  message } from 'antd'
+import Table from 'widget/table'
 const FormItem = Form.Item;
 
 import occupancyService from 'containers/budget/budget-occupancy/budget-occupancy.service'

@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Icon, Popconfirm, message, Input, Popover } from 'antd'
+import { Button,  Badge, Icon, Popconfirm, message, Input, Popover } from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import NewUpDataLineModeJudgeRules from 'containers/financial-accounting-setting/accounting-source-system/new-updata-line-mode-data-judge-rules'
 import accountingService from 'containers/financial-accounting-setting/accounting-source-system/accounting-source-system.service'

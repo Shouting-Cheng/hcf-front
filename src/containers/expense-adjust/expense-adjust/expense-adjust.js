@@ -6,7 +6,6 @@ import { connect } from 'dva';
 import {
   Form,
   Button,
-  Table,
   message,
   Badge,
   Popover,
@@ -18,6 +17,7 @@ import {
   Input,
   InputNumber
 } from 'antd';
+import Table from 'widget/table'
 import config from 'config';
 import ListSelector from 'widget/list-selector';
 import { routerRedux } from 'dva/router';

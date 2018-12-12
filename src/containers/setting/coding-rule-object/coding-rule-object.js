@@ -2,7 +2,8 @@ import { messages } from "utils/utils";
 import React from 'react'
 import { connect } from 'dva'
 
-import { Table, Button, Badge } from 'antd';
+import {  Button, Badge } from 'antd';
+import Table from 'widget/table'
 import codingRuleService from './coding-rule.service'
 import SearchArea from 'widget/search-area'
 

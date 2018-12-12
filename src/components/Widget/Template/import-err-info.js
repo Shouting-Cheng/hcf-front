@@ -9,7 +9,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { messages } from 'utils/utils';
-import { Modal, Button, Tabs, Progress, Icon, Table, Popover } from 'antd';
+import { Modal, Button, Tabs, Progress, Icon, Popover } from 'antd';
+import Table from 'widget/table'
 import PropTypes from 'prop-types';
 
 

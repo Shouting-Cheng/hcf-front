@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import {Button, message, Tag, Table, Icon, Popover, Modal, Menu, Dropdown, Row} from 'antd';
+import {Button, message, Tag,  Icon, Popover, Modal, Menu, Dropdown, Row} from 'antd';
+import Table from 'widget/table'
 import jobService from './job.service';
 import moment from 'moment';
 import config from 'config';

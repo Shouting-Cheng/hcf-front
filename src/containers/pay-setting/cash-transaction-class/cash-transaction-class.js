@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Table, Badge, notification, Popover, Popconfirm, message } from 'antd';
-
+import { Button,Badge, notification, Popover, Popconfirm, message } from 'antd';
+import Table from 'widget/table'
 import SearchArea from 'widget/search-area.js';
 import cashTransactionClassService from './cash-transaction-class.service';
 import baseService from 'share/base.service';

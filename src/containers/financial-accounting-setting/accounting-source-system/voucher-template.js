@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Icon, Popconfirm, message, Input } from 'antd'
+import { Button,  Badge, Icon, Popconfirm, message, Input } from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import NewUpdateVoucherTemplate from 'containers/financial-accounting-setting/accounting-source-system/new-update-voucher-template'
 import debounce from 'lodash.debounce'

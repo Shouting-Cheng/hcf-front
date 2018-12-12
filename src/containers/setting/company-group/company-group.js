@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Button, Table, Badge, notification, Popover, Popconfirm, message } from 'antd';
+import { Button,  Badge, notification, Popover, Popconfirm, message } from 'antd';
+import Table from 'widget/table'
 import companyGroupService from 'containers/setting/company-group/company-group.service';
 import config from 'config';
 

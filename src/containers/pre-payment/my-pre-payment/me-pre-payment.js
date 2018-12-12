@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Button, Table, message, Badge, Popover, Dropdown, Icon, Menu, Row, Col, Input,InputNumber } from 'antd'
+import { Form, Button, message, Badge, Popover, Dropdown, Icon, Menu, Row, Col, Input,InputNumber } from 'antd'
 const Search = Input.Search;
 import config from 'config'
 

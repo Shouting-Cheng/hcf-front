@@ -16,10 +16,10 @@ import {
   Tooltip,
   Icon,
   Select,
-  Table,
   Spin,
   Col,
 } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 import Importer from 'widget/Template/importer';

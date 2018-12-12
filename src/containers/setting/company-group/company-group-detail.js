@@ -4,7 +4,8 @@ import { connect } from 'dva';
 import companyGroupService from 'containers/setting/company-group/company-group.service';
 import config from 'config';
 
-import { Form, Button, Select, Popover, Input, Switch, Icon, Popconfirm, Tabs, Table, message, } from 'antd';
+import { Form, Button, Select, Popover, Input, Switch, Icon, Popconfirm, Tabs,  message, } from 'antd';
+import Table from 'widget/table'
 
 import ListSelector from 'components/Widget/list-selector';
 import BasicInfo from 'components/Widget/basic-info';

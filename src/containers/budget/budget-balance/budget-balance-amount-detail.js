@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'dva'
 
 
-import { Table, Button, message, Popover } from 'antd'
+import { Button, message, Popover } from 'antd'
+import Table from 'widget/table'
 
 import httpFetch from 'share/httpFetch'
 import config from 'config'

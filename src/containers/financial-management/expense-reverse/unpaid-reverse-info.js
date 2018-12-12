@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Tag, Divider, Button, Row, Col, Spin, Table, Modal, message, Popover, Popconfirm, Input, InputNumber } from 'antd'
+import { Tag, Divider, Button, Row, Col, Spin,  Modal, message, Popover, Popconfirm, Input, InputNumber } from 'antd'
+import Table from 'widget/table'
 
 import SearchArea from 'components/Widget/search-area';
 import 'styles/reimburse/reimburse.scss';

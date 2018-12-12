@@ -5,7 +5,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Button, Modal, Radio, Input, Row, Col, Table, message, Popover } from 'antd';
+import { Form, Button, Modal, Radio, Input, Row, Col,  message, Popover } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const TextArea = Input.TextArea;

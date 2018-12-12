@@ -2,7 +2,8 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Alert, Table, Checkbox, message, Button, Form, Divider} from 'antd';
+import { Alert,  Checkbox, message, Button, Form, Divider} from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 import formService from 'containers/setting/form/form.service'
 import 'styles/setting/form/form-detail.scss'
