@@ -94,7 +94,7 @@ class ExpenseTypeBase extends React.Component {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
       valueWillSet.attachmentFlag = expenseType.attachmentFlag + "";
-      valueWillSet.sourceTypeId = { label: valueWillSet.sourceTypeName, key: valueWillSet.sourceTypeId };
+      valueWillSet.sourceTypeId = { label: expenseType.sourceTypeName, key: valueWillSet.sourceTypeId };
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
