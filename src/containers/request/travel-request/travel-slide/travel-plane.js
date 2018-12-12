@@ -95,7 +95,7 @@ class TravelPlane extends React.Component {
         this.searchType,
         keyWord,
         country,
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+        this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({
@@ -123,7 +123,7 @@ class TravelPlane extends React.Component {
         this.searchType,
         keyWord,
         country,
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+      this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({
@@ -519,13 +519,13 @@ class TravelPlane extends React.Component {
                   key={'1001'}
                 />
                 {supplyId === 'supplyCtripService' ||
-                supplyId === 'vendorCtripService' ||
-                supplyId === 'other' ? (
-                  <TabPane
-                    tab={this.$t('itinerary.plane.slide.international') /*国际机票*/}
-                    key={'1002'}
-                  />
-                ) : null}
+                  supplyId === 'vendorCtripService' ||
+                  supplyId === 'other' ? (
+                    <TabPane
+                      tab={this.$t('itinerary.plane.slide.international') /*国际机票*/}
+                      key={'1002'}
+                    />
+                  ) : null}
               </Tabs>
             )}
             {!travelElement && (
@@ -897,7 +897,7 @@ class TravelPlane extends React.Component {
                 label={this.$t('itinerary.public.slide.remark') /*备注*/}
                 className={
                   (formCtrl.ticketPrice.show || formCtrl.discount.show) &&
-                  (supplyId === 'supplyCtripService' || supplyId === 'vendorCtripService')
+                    (supplyId === 'supplyCtripService' || supplyId === 'vendorCtripService')
                     ? 'plane-margin-top'
                     : ''
                 }

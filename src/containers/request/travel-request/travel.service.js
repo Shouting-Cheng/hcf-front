@@ -9,20 +9,20 @@ import app from '../../../index';
 export default {
   searchCitys(vendorType, keyWord, country, language) {
     let head = {
-      language: language ? language : 'zh_CN',
+      language: language ? language : 'zh_cn',
       country: country ? country : 'all',
     };
-    if (head.language === 'zh_CN' && head.country === 'China') {
+    if (head.language === 'zh_cn' && head.country === 'China') {
       head.country = '中国';
     }
-    if (head.language === 'en_US') {
-      head.language = 'en_US';
+    if (head.language === 'en_us') {
+      head.language = 'en_us';
     }
     return httpFetch.get(
       `${
-        config.localUrl
+      config.localUrl
       }/api/location/search?keyWord=${keyWord}&vendorType=${vendorType}&language=${
-        head.language
+      head.language
       }&country=${head.country}&size=10`
     );
   },
@@ -89,7 +89,7 @@ export default {
   getSubsidyDetailByDate(date, id) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/subsidies/request?endDate=${date}+23:59:59&id=${id}&startDate=${date}+00:00:00`
     );
   },
@@ -101,7 +101,7 @@ export default {
   getItinerary(appOid) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/applications/itinerarys?applicationOID=${appOid}&itineraryShowDetails=true&withItemDetail=true&withRequestDetail=true`
     );
   },
@@ -125,7 +125,7 @@ export default {
   getDates(oid, start, end) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/remark/itinerary/generate?applicationOID=${oid}&endDate=${end}&startDate=${start}`
     );
   },
@@ -139,7 +139,7 @@ export default {
   getRemarksByDate(oid, date) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/applications/itinerarys?applicationOID=${oid}&itineraryShowDetails=true&remarkDate=${date}`
     );
   },
@@ -301,7 +301,7 @@ export default {
     });
     return httpFetch.post(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/application/hotel/room/share?externalParticipantNumber=${outNum}`,
       participant
     );
@@ -315,7 +315,7 @@ export default {
   getMaxFlight(applicationOid) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/application/itinerary/ctrip/exist?applicationOID=${applicationOid}`
     );
   },
@@ -337,7 +337,7 @@ export default {
   deleteAllSubsidy(applicationOID) {
     return httpFetch.delete(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/subsidies/request/applicationOID?applicationOID=${applicationOID}`
     );
   },
@@ -452,7 +452,7 @@ export default {
   getDefaultCostCenter(applicationOID, costCenterOID) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/bills/default/cost/center/item?applicantOID=${applicationOID}&costCenterOID=${costCenterOID}`
     );
   },
@@ -475,7 +475,7 @@ export default {
   stopPlane(disable, id) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/flight/itinerary/disable?disable=${disable}&flightItineraryOID=${id}`
     );
   },
@@ -489,7 +489,7 @@ export default {
   stopTrain(disable, id) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/train/itinerary/disable?disable=${disable}&trainItineraryOID=${id}`
     );
   },
@@ -503,7 +503,7 @@ export default {
   stopHotel(disable, id) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/hotel/itinerary/disable?disable=${disable}&hotelItineraryOID=${id}`
     );
   },
@@ -517,7 +517,7 @@ export default {
   stopOther(disable, id) {
     return httpFetch.get(
       `${
-        config.baseUrl
+      config.baseUrl
       }/api/travel/other/itinerary/disable?disable=${disable}&otherItineraryOID=${id}`
     );
   },

@@ -106,7 +106,7 @@ class FormList extends React.Component {
               key: formSetings.payeeId,
               label: formSetings.payeeName
               }
-              this.handle(record);
+              this.handle(record,formSetings);
             }
 
           }
@@ -179,19 +179,26 @@ class FormList extends React.Component {
 
 
   //收款方变化事件
-  handle = record => {
+  handle = (record,formSetings) => {
     this.props.form.setFieldsValue({ accountNumber: '' });
     this.props.form.setFieldsValue({ accountName: '' });
     if (record) {
       let payeeCategory = this.props.form.getFieldValue('partnerCategory');
       let accountList = [];
+      let isSeting = false;
       if (payeeCategory === 'EMPLOYEE') {
         reimburseService.getAccountByUserId(record.key).then(res => {
+          if(formSetings){
+            this.props.form.setFieldsValue({ accountNumber: formSetings.accountNumber,accountName: formSetings.accountName });
+            isSeting = true;
+          }
           res.data &&
           res.data.map(item => {
             if (item.enable) {
               if (item.isPrimary) {
-                this.props.form.setFieldsValue({ accountNumber: item.bankAccountNo,accountName: item.bankAccountName });
+                if(!isSeting){
+                  this.props.form.setFieldsValue({ accountNumber: item.bankAccountNo,accountName: item.bankAccountName });
+                }
                 //this.props.form.setFieldsValue({ accountName: item.bankAccountName });
                 this.setState({
                   bankLocationName: item.bankName,
@@ -220,10 +227,16 @@ class FormList extends React.Component {
         });
       } else if (payeeCategory === 'VENDER') {
         reimburseService.getAccountByVendorId(record.key).then(res => {
+          if(formSetings){
+            this.props.form.setFieldsValue({ accountNumber: formSetings.accountNumber,accountName: formSetings.accountName });
+            isSeting = true;
+          }
           res.data.body &&
           res.data.body.map(item => {
             if (item.primaryFlag) {
-              this.props.form.setFieldsValue({ accountNumber: item.bankAccount,accountName: item.venBankNumberName });
+              if(!isSeting){
+                this.props.form.setFieldsValue({ accountNumber: item.bankAccount,accountName: item.venBankNumberName });
+              }
               //this.props.form.setFieldsValue({ e });
               this.setState({
                 bankLocationName: item.bankName,

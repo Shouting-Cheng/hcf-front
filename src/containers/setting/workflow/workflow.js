@@ -25,7 +25,7 @@ class Workflow extends React.Component {
       pasteLoading: false, //粘贴后页面loading
       data: [],
       setOfBooksId: this.props.match.params.setOfBooksId || this.props.company.setOfBooksId,
-      setOfBooksName:  this.props.company.setOfBooksName,
+      setOfBooksName: this.props.company.setOfBooksName,
       sourceFormOID: null, //复制的表单OID
       showEnableList: true, //显示启用的单据
     }
@@ -51,26 +51,26 @@ class Workflow extends React.Component {
       setOfBooksId: value.id,
       setOfBooksName: value.setOfBooksName,
       showEnableList: true
-    },() => {
+    }, () => {
       this.getList()
     })
   };
 
   //获取节点图片
   getNodeImg = (type) => {
-    switch(type) {
+    switch (type) {
       case 1001:  //审批
-        return <img src={manApprovalImg} className="node-image"/>;
+        return <img src={manApprovalImg} className="node-image" />;
       case 1002:  //知会
-        return <img src={knowImg} className="node-image"/>;
+        return <img src={knowImg} className="node-image" />;
       case 1003:  //机器人
-        return <img src={aiApprovalImg} className="node-image"/>;
+        return <img src={aiApprovalImg} className="node-image" />;
       case 1004:  //发送打印
-        return <img src={mailImg} className="node-image"/>;
+        return <img src={mailImg} className="node-image" />;
       case 1006:  //审核
-        return <img src={auditImg} className="node-image"/>;
+        return <img src={auditImg} className="node-image" />;
       case 1005:  //结束
-        return <img src={endImg} className="node-image"/>
+        return <img src={endImg} className="node-image" />
     }
   };
 
@@ -105,7 +105,7 @@ class Workflow extends React.Component {
       routerRedux.replace({
         pathname: '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID'
           .replace(':formOID', record.formOID)
-          .replace(':setOfBooksId',this.state.setOfBooksId )
+          .replace(':setOfBooksId', this.state.setOfBooksId)
       })
     );
   };
@@ -123,61 +123,61 @@ class Workflow extends React.Component {
         {tenantMode && (
           <div className="setOfBooks-container">
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_CN' ? 4 : 8} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 4 : 8} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={16}>
                 <Selector type="setOfBooksByTenant"
-                          allowClear={false}
-                          entity
-                          value={{label: setOfBooksName, key: setOfBooksId}}
-                          onChange={this.handleSetOfBooksChange}
+                  allowClear={false}
+                  entity
+                  value={{ label: setOfBooksName, key: setOfBooksId }}
+                  onChange={this.handleSetOfBooksChange}
                 />
               </Col>
             </Row>
           </div>
         )}
-        {loading ? <Spin/> : (
+        {loading ? <Spin /> : (
           <Spin spinning={pasteLoading}>
             <div>
-              <RadioGroup defaultValue={true} onChange={e => this.setState({showEnableList: e.target.value})}>
+              <RadioGroup defaultValue={true} onChange={e => this.setState({ showEnableList: e.target.value })}>
                 <RadioButton value={true}>{this.$t('common.enabled')}</RadioButton>
                 <RadioButton value={false}>{this.$t('common.disabled')}</RadioButton>
               </RadioGroup>
               {(showEnableList ? enabledData : disabledData).map(item => {
                 return (
                   <Card key={item.formOID} className="card-list" type="inner"
-                        title={(
-                          <div>
-                            <span>{item.formName}</span>
-                            {showEnableList && (
-                              <div className="card-title-extra">
-                                <a onClick={() => {this.goDetail(item)}}>{this.$t('setting.key1429'/*查看编辑*/)}</a>
-                                {/*审批流复制粘贴功能只适用于自定义审批模式 bug 21262*/}
-                                {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 && (
-                                  <div style={{display: 'inline-block'}}>
-                                    <span className="ant-divider"/>
-                                    <a onClick={() => {this.setState({sourceFormOID: item.formOID})}}>{this.$t('setting.key1430'/*复制*/)}</a>
-                                    {sourceFormOID && <span className="ant-divider"/>}
-                                    {sourceFormOID && <a onClick={() => {this.showConfirmModal(item.formOID)}}>{this.$t('setting.key1431'/*粘贴*/)}</a>}
-                                  </div>
-                                )}
+                    title={(
+                      <div>
+                        <span>{item.formName}</span>
+                        {showEnableList && (
+                          <div className="card-title-extra">
+                            <a onClick={() => { this.goDetail(item) }}>{this.$t('setting.key1429'/*查看编辑*/)}</a>
+                            {/*审批流复制粘贴功能只适用于自定义审批模式 bug 21262*/}
+                            {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 && (
+                              <div style={{ display: 'inline-block' }}>
+                                <span className="ant-divider" />
+                                <a onClick={() => { this.setState({ sourceFormOID: item.formOID }) }}>{this.$t('setting.key1430'/*复制*/)}</a>
+                                {sourceFormOID && <span className="ant-divider" />}
+                                {sourceFormOID && <a onClick={() => { this.showConfirmModal(item.formOID) }}>{this.$t('setting.key1431'/*粘贴*/)}</a>}
                               </div>
                             )}
                           </div>
                         )}
+                      </div>
+                    )}
                   >
                     <Row type="flex">
                       {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 &&
-                      (item.ruleApprovalChain.ruleApprovalNodes || []).map((node, index) => {
-                        return (
-                          <div key={node.ruleApprovalNodeOID} className="node-container">
-                            <div>
-                              {this.getNodeImg(node.type)}
-                              {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow"/>}
+                        (item.ruleApprovalChain.ruleApprovalNodes || []).map((node, index) => {
+                          return (
+                            <div key={node.ruleApprovalNodeOID} className="node-container">
+                              <div>
+                                {this.getNodeImg(node.type)}
+                                {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow" />}
+                              </div>
+                              <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>
                             </div>
-                            <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
                       {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode !== 1005 && (
                         <div className="node-container">
                           <div className="approval-block">{this.$t('setting.key1419'/*审*/)}</div>
@@ -194,7 +194,7 @@ class Workflow extends React.Component {
               })}
               {showEnableList && !enabledData.length && (
                 <div className="no-form-container">
-                  <img src={noFormImg}/>
+                  <img src={noFormImg} />
                   <p>{this.$t('setting.key1432'/*无【已启用】单据，请先前往 表单设计器 启用表单*/)}</p>
                 </div>
               )}

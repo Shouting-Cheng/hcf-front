@@ -455,7 +455,7 @@ class BasicLayout extends React.Component {
       let local = user.language;
 
       fetch
-        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 })
+        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
         .then(res => {
           let languages = {};
 
@@ -464,13 +464,13 @@ class BasicLayout extends React.Component {
           });
 
           if (!local) {
-            window.localStorage.setItem('local', 'zh_CN');
-            local = 'zh_CN';
+            window.localStorage.setItem('local', 'zh_cn');
+            local = 'zh_cn';
           } else {
             window.localStorage.setItem('local', local);
           }
 
-          if (local == 'zh_CN') {
+          if (local == 'zh_cn') {
             languages = { ...languages, ...zh_CN };
           } else {
             languages = { ...languages, ...en_US };
@@ -502,7 +502,7 @@ class BasicLayout extends React.Component {
   getLanguageList = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.post(`${config.baseUrl}/api/lov/language/zh_CN`).then(res => {
+      fetch.post(`${config.baseUrl}/api/lov/language/zh_cn`).then(res => {
         dispatch({
           type: 'languages/setLanguageList',
           payload: { languageList: res },

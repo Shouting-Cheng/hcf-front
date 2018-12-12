@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, message, Card } from 'antd';
-import service from './service';
-import CustomTable from '../../components/Template/custom-table';
-import moment from 'moment';
+import { Form, Card } from 'antd';
+
 import chinaImg from '../../assets/china.png';
 import englishImg from '../../assets/english.png';
 import { routerRedux } from 'dva/router';
@@ -14,8 +12,8 @@ class LanguageManager extends Component {
     this.state = {
       languages: [],
       images: {
-        en_US: englishImg,
-        zh_CN: chinaImg,
+        en_us: englishImg,
+        zh_cn: chinaImg,
       },
     };
   }

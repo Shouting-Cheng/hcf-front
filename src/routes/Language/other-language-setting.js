@@ -14,7 +14,7 @@ class LanguageManager extends Component {
       addShow: false,
       url: `/auth/api/frontKey/query/module/lang?lang=${
         this.props.match.params.langType
-      }&moduleId=`,
+        }&moduleId=`,
       columns: [
         {
           title: 'key',
@@ -75,7 +75,7 @@ class LanguageManager extends Component {
       json.map(item => {
         temp[item.keyCode] = item;
       });
-      service.getFrontKey('zh_CN', moduleId).then(data => {
+      service.getFrontKey('zh_cn', moduleId).then(data => {
         let dataSource = [];
         data.map(item => {
           if (temp[item.keyCode]) {

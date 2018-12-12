@@ -80,7 +80,7 @@ class BankDefinition extends React.Component {
           method: 'get',
           //默认国家是分页的20个一页，这里下拉列表直接显示全部
           getParams: {
-            language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
+            language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
             page: 0,
             size: 1000,
           },
@@ -116,8 +116,8 @@ class BankDefinition extends React.Component {
                   {desc}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -146,8 +146,8 @@ class BankDefinition extends React.Component {
                   {desc}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -189,7 +189,7 @@ class BankDefinition extends React.Component {
           dataIndex: 'operation',
           render: (text, record) => (
             <span>
-              <a  onClick={e => this.editItem(e, record)}>
+              <a onClick={e => this.editItem(e, record)}>
                 {this.$t('common.edit')}
               </a>
               <span className="ant-divider" />
@@ -228,8 +228,8 @@ class BankDefinition extends React.Component {
                   {desc}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -258,8 +258,8 @@ class BankDefinition extends React.Component {
                   {desc}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -275,8 +275,8 @@ class BankDefinition extends React.Component {
                   {desc}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -319,7 +319,7 @@ class BankDefinition extends React.Component {
   };
 
   //暂时不需要联动下级城市
-  handleEvent = (event, value) => {};
+  handleEvent = (event, value) => { };
 
   componentDidMount() {
     let { customBankColumns } = this.state;
@@ -443,7 +443,7 @@ class BankDefinition extends React.Component {
   //获取中国的所有省
   getChinaState = () => {
     let params = {
-      language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
+      language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
       code: 'CHN000000000',
       vendorType: 'standard',
       page: 0,
@@ -476,7 +476,7 @@ class BankDefinition extends React.Component {
   //获取市
   getCityByCode = code => {
     let params = {
-      language: this.props.language.local === 'zh_CN' ? 'zh_CN' : 'en_US',
+      language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
       code: code,
       vendorType: 'standard',
     };
@@ -563,8 +563,8 @@ class BankDefinition extends React.Component {
    */
   onExportClick = () => {
     this.setState({
-        loading: true,
-        excelVisible: true
+      loading: true,
+      excelVisible: true
     });
   };
   handleExport = () => {
@@ -606,7 +606,7 @@ class BankDefinition extends React.Component {
         let name = this.$t('bank.customBank.temp');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(res => {});
+      .catch(res => { });
   };
   handleFileUpload = () => {
     const { fileList } = this.state;
@@ -712,7 +712,7 @@ class BankDefinition extends React.Component {
         let name = this.$t('bank.customBank.error.info');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(res => {});
+      .catch(res => { });
   };
   renderBtns = tabName => {
     const { loading } = this.state;
@@ -725,9 +725,9 @@ class BankDefinition extends React.Component {
             {this.$t('common.create')}
           </Button>
           <Button onClick={this.handleImportShow}>
-              {this.$t({ id: 'importer.import' })}
-            </Button>{' '}
-            {/*导入*/}
+            {this.$t({ id: 'importer.import' })}
+          </Button>{' '}
+          {/*导入*/}
           <Button loading={loading} onClick={this.onExportClick}>
             {this.$t({ id: 'importer.importOut' })}
           </Button>{' '}
@@ -757,7 +757,7 @@ class BankDefinition extends React.Component {
   //导入成功回调
   handleImportOk = (transactionID) => {
     httpFetch.post(`${config.baseUrl}/api/bank/infos/import/new/confirm/${transactionID}`).then(res => {
-      if (res.status === 200){
+      if (res.status === 200) {
         this.getList()
       }
     }).catch(() => {
@@ -773,12 +773,12 @@ class BankDefinition extends React.Component {
   handleDownLoad = (result) => {
     debugger;
     let exportParams = this.state.searchParams;
-    let ps={
+    let ps = {
       page: this.state.pagination.page,
       size: this.state.pagination.pageSize,
     }
     let hide = message.loading(this.$t({ id: 'importer.spanned.file' } /*正在生成文件..*/));
-    BSService.exportSelfBank(result,ps,exportParams)
+    BSService.exportSelfBank(result, ps, exportParams)
       .then(response => {
         let b = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -832,7 +832,7 @@ class BankDefinition extends React.Component {
     };
 
     const { loading, data, searchForm, pagination, columns, label, slideFrame, showImportBankModel, excelVisible, exportColumns }
-     = this.state;
+      = this.state;
 
     return (
       <div className="budget-bank-definition">
@@ -864,30 +864,30 @@ class BankDefinition extends React.Component {
           show={slideFrame.visible}
           onClose={() => this.setState({ slideFrame: { visible: false } })}>
           <CreateOrUpdateBank
-              params={slideFrame.params}
-              onClose={this.handleCloseSlide}/>
+            params={slideFrame.params}
+            onClose={this.handleCloseSlide} />
         </SlideFrame>
 
         {/*导入*/}
         <ImporterNew visible={showImportBankModel}
-                         title={this.$t({ id: 'section.mapping.set.import' })}
-                         templateUrl={`${config.baseUrl}/api/bank/infos/custom/bank/info/template`}
-                         uploadUrl={`${config.baseUrl}/api/bank/infos/import/custom/bank/info/new`}
-                         errorUrl={`${config.baseUrl}/api/bank/infos/import/new/error/export`}
-                         errorDataQueryUrl={`${config.baseUrl}/api/bank/infos/import/new/query/result`}
-                         deleteDataUrl ={`${config.baseUrl}/api/bank/infos/import/new/delete`}
-                         fileName={this.$t('bank.customBank.temp')}
-                         onOk={this.handleImportOk}
-                         afterClose={() => this.showImport(false)}/>
+          title={this.$t({ id: 'section.mapping.set.import' })}
+          templateUrl={`${config.baseUrl}/api/bank/infos/custom/bank/info/template`}
+          uploadUrl={`${config.baseUrl}/api/bank/infos/import/custom/bank/info/new`}
+          errorUrl={`${config.baseUrl}/api/bank/infos/import/new/error/export`}
+          errorDataQueryUrl={`${config.baseUrl}/api/bank/infos/import/new/query/result`}
+          deleteDataUrl={`${config.baseUrl}/api/bank/infos/import/new/delete`}
+          fileName={this.$t('bank.customBank.temp')}
+          onOk={this.handleImportOk}
+          afterClose={() => this.showImport(false)} />
         {/* 导出 */}
         <ExcelExporter
-            visible={excelVisible}
-            onOk={this.handleDownLoad}
-            columns={exportColumns}
-            canCheckVersion={false}
-            fileName={"自定义银行"}
-            onCancel={this.onExportCancel}
-            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+          visible={excelVisible}
+          onOk={this.handleDownLoad}
+          columns={exportColumns}
+          canCheckVersion={false}
+          fileName={"自定义银行"}
+          onCancel={this.onExportCancel}
+          excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
         />
         {/* <ImportErrInfo
           progress={this.state.progressImportErrInfo}

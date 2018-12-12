@@ -203,7 +203,7 @@ class CreateInvoice extends React.Component{
                   </Col>
                   <Col span={5}>
                     <Popover content={<img style={{width: '70vw'}}
-                                           src={this.props.language.local === 'zh_CN' ? invoiceImg : invoiceImgEn}/>}
+                      src={this.props.language.local === 'zh_cn' ? invoiceImg : invoiceImgEn}/>}
                              placement="bottomRight">
                       <div className="invoice-info">{this.$t('expense.invoice.enter.info')/*发票填写说明*/}</div>
                     </Popover>

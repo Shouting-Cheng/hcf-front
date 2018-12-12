@@ -78,7 +78,7 @@ export default class GlobalHeader extends React.Component {
 
       window.localStorage.setItem('local', value);
 
-      if (value == "zh_CN") {
+      if (value == "zh_cn") {
         languages = { ...languages, ...zh_CN };
       } else {
         languages = { ...languages, ...en_US };
@@ -120,7 +120,7 @@ export default class GlobalHeader extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    const noticeData = this.getNoticeData();
+
     return (
       <div className={styles.header}>
         {isMobile && [

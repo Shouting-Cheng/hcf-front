@@ -81,10 +81,15 @@ class ExpenseTypeBase extends React.Component {
       name: expenseType.name,
       apportionEnabled: expenseType.apportionEnabled,
       valid: Number(expenseType.valid),
-      subsidyType: expenseType.subsidyType
+      subsidyType: expenseType.subsidyType,
+      entryMode: expenseType.entryMode,
+      budgetItemName: expenseType.budgetItemName,
+      priceUnit: expenseType.priceUnit,
+      attachmentFlag: expenseType.attachmentFlag
     }, () => {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
+      valueWillSet.attachmentFlag = expenseType.attachmentFlag + "";
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
@@ -109,12 +114,10 @@ class ExpenseTypeBase extends React.Component {
         if (this.props.expenseType) {
           values.id = this.props.expenseType.id;
           this.setState({ saving: true });
-          expenseTypeService.editExpenseType(values).then(res => {
+          expenseTypeService.editExpenseType({ ...this.props.expenseType, ...values }).then(res => {
             this.setState({ saving: false });
             this.props.onSave();
-            this.props.dispatch(routerRedux.push({
-              pathname: "/admin-setting/application-type-detail/" + res.data.id
-            }))
+            message.success("更新成功！");
           }).catch(error => {
             this.setState({ saving: false });
             message.error(error.response.data.message);
@@ -125,80 +128,12 @@ class ExpenseTypeBase extends React.Component {
             this.setState({ saving: false });
             this.props.dispatch(routerRedux.push({
               pathname: "/admin-setting/application-type-detail/" + res.data.id
-            }))
+            }));
           }).catch(error => {
             this.setState({ saving: false });
             message.error(error.response.data.message);
           })
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // values.pasteInvoiceNeeded = Boolean(values.pasteInvoiceNeeded);
-        // values.valid = Boolean(values.valid);
-
-        // values.crossCheckStatus = 0;
-        // values.setOfBooksId = this.props.expenseTypeSetOfBooks.id;
-        // if (!values.apportionmentDataScope) {
-        //   values.apportionmentDataScope = 0;
-        // }
-        // if (!values.pushType) {
-        //   values.pushType = 'PERSONAL_PAY'
-        // }
-        // if (!values.isAmountEditable && values.isAmountEditable !== false) {
-        //   values.isAmountEditable = true;
-        // }
-        // values.i18n = {
-        //   name: nameI18n
-        // };
-        // this.setState({ saving: true });
-        // if (this.props.expenseType) {
-        //   let temp = deepCopy(this.props.expenseType);
-        //   if (temp.supplierType !== 0 && temp.supplierType !== 15) {
-        //     values.pasteInvoiceNeeded = temp.pasteInvoiceNeeded;
-        //   }
-        //   let target = Object.assign({}, temp, values);
-        //   expenseTypeService.saveExpenseType(target).then(res => {
-        //     this.setState({ saving: false });
-        //     message.success(messages('common.operate.success'));
-        //     this.props.onSave();
-        //   }).catch(e => {
-        //     this.setState({ saving: false });
-        //   })
-        // } else {
-        //   values.sequence = 0;
-        //   expenseTypeService.saveExpenseType(values).then(res => {
-        //     this.setState({ saving: false });
-        //     message.success(messages('common.operate.success'));
-
-        //     this.props.dispatch(routerRedux.push({
-        //       pathname: "/admin-setting/expense-type-detail/" + res.data.rows.id
-        //     }))
-
-        //     this.props.onSave('custom', res.data.rows.id);
-        //   }).catch(e => {
-        //     this.setState({ saving: false });
-        //     if (e && e.response && e.response.data) {
-        //       let data = e.response.data;
-        //       if (data.validationErrors.length > 0) {
-        //         data.validationErrors.map(error => {
-        //           if (error.externalPropertyName === 'code unique')
-        //             message.error(messages('expense.type.code.exist'))
-        //         });
-        //       }
-        //     }
-        //   })
-        // }
       }
     })
   };

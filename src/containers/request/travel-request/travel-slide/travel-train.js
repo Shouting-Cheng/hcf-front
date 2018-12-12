@@ -133,7 +133,7 @@ class TravelTrain extends React.Component {
         this.searchType,
         keyWord,
         'all',
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+        this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({
@@ -150,7 +150,7 @@ class TravelTrain extends React.Component {
         this.searchType,
         keyWord,
         'all',
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+        this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({

@@ -10,6 +10,13 @@ import userImage from "images/user1.png"
 import FileSaver from 'file-saver';
 
 import service from "./dashboard.service"
+// 引入 ECharts 主模块
+import echarts from 'echarts/lib/echarts';
+// 引入柱状图
+import 'echarts/lib/chart/pie';
+// 引入提示框和标题组件
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
 
 
 const TabPane = Tabs.TabPane;
@@ -145,8 +152,36 @@ class Dashboard extends React.Component {
     this.getUnApprovals();
     this.getBackDocument();
 
+
     let year = moment().year();
     this.setState({ startTime: moment(year + "-" + "01"), endTime: moment(year + "-" + "12") });
+  }
+
+  //渲染待审批单据
+  renderPie = (data = []) => {
+    var dom = document.getElementById("pie");
+    var myChart = echarts.init(dom);
+
+    let option = {
+
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} : {c}笔 ({d}%)"
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['40%', '60%'],
+          avoidLabelOverlap: false,
+          data: data.map(o => ({
+            name: o.name,
+            value: o.count
+          }))
+        }
+      ]
+    };
+
+    myChart.setOption(option, true);
   }
 
   getDoingDocument = () => {
@@ -171,6 +206,7 @@ class Dashboard extends React.Component {
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
       this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
+      this.renderPie(res.data.approvalDashboardDetailDTOList);
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
@@ -411,48 +447,7 @@ class Dashboard extends React.Component {
               title="待审批的单据"
               extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
             >
-              {!!total ? (<Chart
-                data={dv}
-                height={160}
-                padding={[30, 30, 30, 30]}
-                forceFit
-              >
-                <Coord type={"theta"} innerRadius={0.5} />
-                <Axis name="percent" />
-                <Tooltip
-                  showTitle={false}
-                  itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"
-                />
-                <Geom
-                  type="intervalStack"
-                  position="percent"
-                  color="name"
-                  tooltip={[
-                    "name*percent",
-                    (name, percent) => {
-                      return {
-                        name,
-                        value: (percent * 100).toFixed(2) + "%"
-                      };
-                    }
-                  ]}
-                  style={{
-                    lineWidth: 1,
-                    stroke: "#fff"
-                  }}
-                >
-                  <Label
-                    content="count"
-                    formatter={(val, item) => {
-                      return item.point.name + ": " + val + "笔";
-                    }}
-                  />
-                </Geom>
-              </Chart>) : (
-                  <div style={{ height: 160, fontSize: 18, lineHeight: "160px", textAlign: "center", backgroundColor: "#fff" }}>
-                    暂无待审批单据
-              </div>
-                )}
+              <div id="pie" style={{ width: "100%", height: 160 }}></div>
             </Card>
           </Col>
         </Row>

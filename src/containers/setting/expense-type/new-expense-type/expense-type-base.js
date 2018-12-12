@@ -85,11 +85,16 @@ class ExpenseTypeBase extends React.Component {
       name: expenseType.name,
       apportionEnabled: expenseType.apportionEnabled,
       valid: Number(expenseType.valid),
-      subsidyType: expenseType.subsidyType
+      subsidyType: expenseType.subsidyType,
+      entryMode: expenseType.entryMode,
+      budgetItemName: expenseType.budgetItemName,
+      priceUnit: expenseType.priceUnit,
+      attachmentFlag: expenseType.attachmentFlag + ""
     }, () => {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
-      valueWillSet.sourceTypeId = {label: valueWillSet.sourceTypeName, key: valueWillSet.sourceTypeId};
+      valueWillSet.attachmentFlag = expenseType.attachmentFlag + "";
+      valueWillSet.sourceTypeId = { label: valueWillSet.sourceTypeName, key: valueWillSet.sourceTypeId };
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
@@ -103,9 +108,8 @@ class ExpenseTypeBase extends React.Component {
           message.error(messages('expense.type.please.select.icon'));
           return;
         }
-
         values.typeFlag = 1;
-        values.sourceTypeId = values.sourceTypeId&&values.sourceTypeId.key;
+        values.sourceTypeId = values.sourceTypeId && values.sourceTypeId.key;
         values.priceUnit = this.state.priceUnit;
         values.entryMode = this.state.entryMode;
         values.setOfBooksId = this.props.expenseTypeSetOfBooks.id;
@@ -114,24 +118,27 @@ class ExpenseTypeBase extends React.Component {
 
         if (this.props.expenseType) {
           values.id = this.props.expenseType.id;
+          this.setState({ saving: true });
+          expenseTypeService.editExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.onSave();
+            message.success("更新成功！");
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
+        } else {
+          this.setState({ saving: true });
+          expenseTypeService.saveExpenseType(values).then(res => {
+            this.setState({ saving: false });
+            this.props.dispatch(routerRedux.push({
+              pathname: "/admin-setting/expense-type-detail/" + res.data.id
+            }));
+          }).catch(error => {
+            this.setState({ saving: false });
+            message.error(error.response.data.message);
+          })
         }
-
-        this.setState({ saving: true });
-        expenseTypeService.saveExpenseType(values).then(res => {
-          this.setState({ saving: false });
-          message.success(this.$t('common.save.success',{name:''}));
-          this.props.onSave('custom',res.data.id);
-          /* if (values.id) {
-             this.props.onSave(res.data,res.data.id,true);
-           } else {
-             this.props.dispatch(routerRedux.push({
-               pathname: "/admin-setting/new-expense-type/" + res.data.id
-             }))
-           }*/
-        }).catch(error => {
-          this.setState({ saving: false });
-          message.error(error.response.data.message);
-        })
       }
     })
   };
@@ -167,7 +174,7 @@ class ExpenseTypeBase extends React.Component {
   };
 
   sourceTypeChange = (value) => {
-    if(value){
+    if (value) {
       let model = this.state.types.find(o => o.id == value.key);
 
       this.setState({

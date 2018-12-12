@@ -187,7 +187,7 @@ class TravelInformation extends React.Component {
               {(info.version > 0 || isPreVersion) &&
                 item.disabled && (
                   <img
-                    src={language.code === 'zh_CN' ? disabledImg : disabledEnImg}
+                  src={language.code === 'zh_cn' ? disabledImg : disabledEnImg}
                     className="disabled-img"
                   />
                 )}

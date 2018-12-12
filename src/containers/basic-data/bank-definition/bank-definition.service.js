@@ -70,7 +70,7 @@ export default {
   //获取所有国家列表
   getCountries(lang) {
     let params = {
-      language: lang === 'zh_CN' ? "zh_CN" : "en_US",
+      language: lang === 'zh_cn' ? "zh_cn" : "en_us",
       page: 0,
       size: 1000
     };
@@ -284,7 +284,7 @@ export default {
   //导出错误信息：因为导入自定义银行报系统异常，接口测试ok
   exportSelfBankErr: function (transactionOID) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/bankinfo/' + transactionOID, {}, {}, {responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/bankinfo/' + transactionOID, {}, {}, { responseType: 'arraybuffer' })
         .then((res) => {
           resolve(res)
         })
@@ -295,13 +295,13 @@ export default {
     })
   },
   //导出自定义银行：接口测试ok
-  exportSelfBank: function (result,ps,exportParams) {
+  exportSelfBank: function (result, ps, exportParams) {
     let url = config.baseUrl + '/api/bank/infos/export/custom/bank/info/new?page=' + ps.page + '&size=' + ps.size;
     for (let searchName in exportParams) {
       url += exportParams[searchName] ? `&${searchName}=${exportParams[searchName]}` : '';
     }
     return new Promise((resolve, reject) => {
-      httpFetch.post(url, result, {}, {responseType: 'arraybuffer'})
+      httpFetch.post(url, result, {}, { responseType: 'arraybuffer' })
         .then((res) => {
           resolve(res)
         })
@@ -314,7 +314,7 @@ export default {
   //下载导入模板:接口测试ok
   downloadSelfBankTemp: function () {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/bank/infos/custom/bank/info/template', {},{}, {responseType: 'arraybuffer'})
+      httpFetch.get(config.baseUrl + '/api/bank/infos/custom/bank/info/template', {}, {}, { responseType: 'arraybuffer' })
         .then((res) => {
           resolve(res)
         })

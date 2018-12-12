@@ -264,7 +264,7 @@ class TravelSubsidy extends React.Component {
         'standard',
         keyWord,
         country,
-        this.props.language.code === 'zh_CN' ? 'zh_CN' : 'en_US'
+      this.props.language.code === 'zh_cn' ? 'zh_cn' : 'en_us'
       )
       .then(res => {
         this.setState({
