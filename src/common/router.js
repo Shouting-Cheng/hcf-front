@@ -1794,6 +1794,13 @@ export const getRouterData = app => {
       name: 'lcn-transaction',
       parent: '/admin-setting/lcn-manager'
     },
+    // 参数设置
+    '/admin-setting/params-setting': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/params-setting/index.js')
+      ),
+      name: 'params-setting'
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
