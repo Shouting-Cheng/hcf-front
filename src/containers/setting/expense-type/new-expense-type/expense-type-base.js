@@ -90,6 +90,7 @@ class ExpenseTypeBase extends React.Component {
       budgetItemName: expenseType.budgetItemName,
       priceUnit: expenseType.priceUnit,
       attachmentFlag: expenseType.attachmentFlag + ""
+
     }, () => {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
