@@ -133,6 +133,7 @@ class ExpenseTypeBase extends React.Component {
           this.setState({ saving: true });
           expenseTypeService.saveExpenseType(values).then(res => {
             this.setState({ saving: false });
+            message.success(this.$t('common.save.success',{name:''}));
             this.props.dispatch(routerRedux.push({
               pathname: "/admin-setting/expense-type-detail/" + res.data.id
             }));
