@@ -19,6 +19,8 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/theme/macarons'
 
+import { routerRedux } from 'dva/router';
+
 
 const TabPane = Tabs.TabPane;
 const { MonthPicker } = DatePicker;
@@ -393,6 +395,13 @@ class Dashboard extends React.Component {
     }
   };
 
+  //跳转到详情
+  click = (item) => {
+    this.props.dispatch(routerRedux.push({
+      pathname: 'my-reimburse/reimburse-detail/' + item.id
+    }))
+  }
+
   render() {
 
     const { timerStr, backList, hello, chartsType, carousels, total, unApprovals, doingList } = this.state;
@@ -496,8 +505,10 @@ class Dashboard extends React.Component {
                       <Card
                         title={<span style={{ fontSize: 14 }}>{item.code}</span>}
                         extra={<span>{item.createdTime}</span>}
-                        style={{ marginTop: 12 }}
+                        style={{ marginTop: 12, cursor: "pointer" }}
                         key={item.id}
+                        hoverable
+                        onClick={() => this.click(item)}
                       >
                         <Row>
                           <Col span={12}>{item.name}</Col>
@@ -523,8 +534,10 @@ class Dashboard extends React.Component {
                         <Card
                           title={<span style={{ fontSize: 14 }}>{item.code}</span>}
                           extra={<span>{item.createdTime}</span>}
-                          style={{ marginTop: 12 }}
+                          style={{ marginTop: 12, cursor: "pointer" }}
                           key={item.id}
+                          hoverable
+                          onClick={() => this.click(item)}
                         >
                           <Row>
                             <Col span={12}>{item.name}</Col>
@@ -537,7 +550,7 @@ class Dashboard extends React.Component {
                             </Col>
                           </Row>
                           <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
-                            申请人：{item.nodeName}-{item.rejecterName}
+                            审批人：{item.nodeName}-{item.rejecterName}
                           </div>
                         </Card>
                       )

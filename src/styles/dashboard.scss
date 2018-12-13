@@ -13,6 +13,9 @@
             }
         }
     }
+    .ant-card-extra {
+        padding: 12px 0;
+    }
     .user-info .ant-card-body {
         padding: 0;
     }
@@ -76,6 +79,12 @@
         height: 527px;
         .ant-card-head .ant-card-extra {
             padding: 8px 0;
+        }
+        .info-card .ant-card-body .ant-card-head {
+            padding: 0 12px;
+        }
+        .info-card .ant-card-head .ant-card-extra {
+            padding: 12px 0;
         }
         .tabs {
             height: 100%;

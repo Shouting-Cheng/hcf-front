@@ -4,6 +4,9 @@ import { Button, Table, Divider, message, Popconfirm } from "antd"
 import SlideFrame from "widget/slide-frame"
 import NewParamsSetting from "./new-params-setting"
 import service from "./service"
+import config from 'config'
+
+import CustomTable from "widget/custom-table"
 
 import "styles/setting/params-setting/params-setting.scss"
 
@@ -87,20 +90,10 @@ class ParamsSetting extends Component {
                     }
                 }
             ],
-            data: [],
             searchParams: {},
-            loading: false,
             visibel: false,
-            size: 10,
-            page: 0,
-            pagination: {},
             model: {}
         }
-    }
-
-    //页面加载时调用，只会调用一次
-    componentDidMount() {
-        this.getList();
     }
 
     //新建
@@ -143,19 +136,8 @@ class ParamsSetting extends Component {
 
     //获取列表
     getList = () => {
-        let { searchParams, size, page, pagination } = this.state;
-        this.setState({ loading: true });
-        service.getParamsSettingList({ ...searchParams, size, page }).then(res => {
-            pagination.total = Number(res.headers["x-total-count"]);
-            this.setState({
-                data: res.data,
-                loading: false,
-                pagination
-            });
-        }).catch(err => {
-            message.error(err.response.data.message);
-            this.setState({ loading: false });
-        })
+        let { searchParams } = this.state;
+        this.table.search(searchParams);
     }
 
     //关闭侧拉框回调
@@ -164,16 +146,6 @@ class ParamsSetting extends Component {
             if (flag) {
                 this.getList();
             }
-        })
-    }
-
-    //分页回调
-    handleTableChange = (pagination) => {
-        this.setState({
-            size: pagination.pageSize || 10,
-            page: pagination.current - 1
-        }, () => {
-            this.getList();
         })
     }
 
@@ -187,15 +159,10 @@ class ParamsSetting extends Component {
                     submitHandle={this.search}
                 />
                 <Button style={{ margin: "20px 0" }} className="create-btn" type="primary" onClick={this.create}>新建</Button>
-                <Table
-                    rowKey={record => record.id}
+                <CustomTable
                     columns={columns}
-                    dataSource={data}
-                    bordered
-                    loading={loading}
-                    size="middle"
-                    pagination={pagination}
-                    onChange={this.handleTableChange}
+                    url={`${config.authUrl}/api/data/auth/table/properties/query`}
+                    ref={ref => this.table = ref}
                 />
                 <SlideFrame
                     title={model.id ? "编辑参数配置" : "新建参数配置"}
