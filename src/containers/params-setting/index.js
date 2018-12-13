@@ -163,7 +163,7 @@ class ParamsSetting extends Component {
                     columns={columns}
                     url={`${config.authUrl}/api/data/auth/table/properties/query`}
                     ref={ref => this.table = ref}
-                />
+                /> 
                 <SlideFrame
                     title={model.id ? "编辑参数配置" : "新建参数配置"}
                     show={visibel}
