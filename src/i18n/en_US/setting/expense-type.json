@@ -10,7 +10,7 @@
   "expense.type.allowance": "Allowance",
   "expense.type.daily.allowance": "Daily allowance",
   "expense.type.non.allowance": "Non allowance",
-  "expense.type.move.before.remove": "Please move all the expense types before delete the expense group.",
+  "expense.type.move.before.remove": "Please move all the expense types before delete the {name} group.",
   "expense.type.update.success": "Update success！Reloading",
   "expense.type.basic.info": "Basic info",
   "expense.type.detail.setting": "Detail setting",

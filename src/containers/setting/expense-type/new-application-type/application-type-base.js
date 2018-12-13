@@ -126,6 +126,7 @@ class ExpenseTypeBase extends React.Component {
           this.setState({ saving: true });
           expenseTypeService.saveExpenseType(values).then(res => {
             this.setState({ saving: false });
+            message.success(this.$t('common.save.success',{name:''}));
             this.props.dispatch(routerRedux.push({
               pathname: "/admin-setting/application-type-detail/" + res.data.id
             }));
@@ -251,7 +252,6 @@ class ExpenseTypeBase extends React.Component {
         </FormItem>
         <FormItem {...formItemLayout} wrapperCol={{ offset: 5 }}>
           <Button type="primary" htmlType="submit" loading={saving}>{messages('common.save')}</Button>
-          <Button style={{ marginLeft: 8 }} onClick={this.goBack}>{messages('common.back')}</Button>
         </FormItem>
         <IconSelector visible={showIconSelectorFlag}
           onOk={this.handleSelectIcon}
