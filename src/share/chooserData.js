@@ -705,7 +705,7 @@ const chooserData = {
       }
 
     ],
-    key: 'departmentId'
+    key: 'departmentOid'
   },
   'department_group': {
     title: messages('chooser.data.department_group'),
