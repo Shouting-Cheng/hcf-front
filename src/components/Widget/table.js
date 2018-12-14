@@ -96,6 +96,7 @@ class CustomTable extends React.Component {
                 onExpand={this.props.onExpand}
                 onExpandedRowsChange={this.onExpandedRowsChange}
                 onHeaderRow={this.props.onHeaderRow}
+                style={this.props.style}
             />
         );
     }

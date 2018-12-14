@@ -203,7 +203,7 @@ class SelectDimension extends Component {
                     bordered
                     size='middle'
                     rowSelection={rowSelection}
-                    onRowClick={this.onTableRowClick}
+                    onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
                 />
             </Modal>
         )

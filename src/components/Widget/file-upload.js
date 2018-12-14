@@ -55,7 +55,8 @@ class FileUpload extends React.Component {
         uid: attachment.attachmentOID,
         name: attachment.fileName,
         status: 'done',
-        url: attachment.fileURL,
+        url: attachment.thumbnailUrl,
+        thumbnailUrl: attachment.thumbnailUrl
       });
     });
     this.setState({ fileList, result: defaultFileList });
