@@ -90,11 +90,13 @@ class ExpenseTypeBase extends React.Component {
       budgetItemName: expenseType.budgetItemName,
       priceUnit: expenseType.priceUnit,
       attachmentFlag: expenseType.attachmentFlag + ""
+
     }, () => {
       valueWillSet.pasteInvoiceNeeded = Number(valueWillSet.pasteInvoiceNeeded);
       valueWillSet.valid = Number(valueWillSet.valid);
       valueWillSet.attachmentFlag = expenseType.attachmentFlag + "";
       valueWillSet.sourceTypeId = { label: expenseType.sourceTypeName, key: valueWillSet.sourceTypeId };
+      valueWillSet.attachmentFlag === 'null'&& (valueWillSet.attachmentFlag = '');
       this.props.form.setFieldsValue(valueWillSet)
     })
   };
@@ -131,6 +133,7 @@ class ExpenseTypeBase extends React.Component {
           this.setState({ saving: true });
           expenseTypeService.saveExpenseType(values).then(res => {
             this.setState({ saving: false });
+            message.success(this.$t('common.save.success',{name:''}));
             this.props.dispatch(routerRedux.push({
               pathname: "/admin-setting/expense-type-detail/" + res.data.id
             }));

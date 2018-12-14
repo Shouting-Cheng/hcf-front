@@ -18,7 +18,8 @@ const ResizeableTitle = (props) => {
 
 class CustomTable extends React.Component {
     state = {
-        columns: []
+        columns: [],
+        expandedRows:[]
     };
 
     componentDidMount() {
@@ -49,15 +50,22 @@ class CustomTable extends React.Component {
             return { columns: nextColumns };
         });
     };
-
+    onExpandedRowsChange = (keys) => {
+      if (this.props.onExpandedRowsChange){
+        this.props.onExpandedRowsChange(keys);
+      }else{
+        this.setState({expandedRows:keys})
+      }
+    }
     render() {
         const columns = this.state.columns.map((col, index) => ({
             ...col,
             onHeaderCell: column => ({
-                width: column.width,
+                width: column.width || 120,
                 onResize: this.handleResize(index),
             }),
         }));
+        const  {expandedRows} = this.state;
 
         return (
             <Table
@@ -73,7 +81,7 @@ class CustomTable extends React.Component {
                 childrenColumnName={this.props.childrenColumnName}
                 defaultExpandAllRows={this.props.defaultExpandAllRows}
                 defaultExpandedRowKeys={this.props.defaultExpandedRowKeys}
-                expandedRowKeys={this.props.expandedRowKeys}
+                expandedRowKeys={this.props.onExpandedRowsChange ? this.props.expandedRowKeys : expandedRows}
                 expandedRowRender={this.props.expandedRowRender}
                 expandRowByClick={this.props.expandRowByClick}
                 footer={this.props.footer}
@@ -86,8 +94,9 @@ class CustomTable extends React.Component {
                 title={this.props.title}
                 onChange={this.props.onChange}
                 onExpand={this.props.onExpand}
-                onExpandedRowsChange={this.props.onExpandedRowsChange}
+                onExpandedRowsChange={this.onExpandedRowsChange}
                 onHeaderRow={this.props.onHeaderRow}
+                style={this.props.style}
             />
         );
     }
