@@ -110,6 +110,7 @@ class ExpenseTypeBase extends React.Component {
           message.error(messages('expense.type.please.select.icon'));
           return;
         }
+
         values.typeFlag = 1;
         values.sourceTypeId = values.sourceTypeId && values.sourceTypeId.key;
         values.priceUnit = this.state.priceUnit;
