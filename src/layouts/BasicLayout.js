@@ -190,6 +190,7 @@ class BasicLayout extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
 
@@ -562,13 +563,11 @@ class BasicLayout extends React.Component {
 
     const redirect = urlParams.searchParams.get('redirect');
 
-    // Remove the parameters in the url
     if (redirect) {
       urlParams.searchParams.delete('redirect');
       window.history.replaceState(null, 'redirect', urlParams.href);
     } else {
       const { routerData } = this.props;
-      // get the first authorized route path in routerData
       const authorizedPath = Object.keys(routerData).find(
         item => check(routerData[item].authority, item) && item !== '/'
       );
@@ -670,6 +669,14 @@ class BasicLayout extends React.Component {
   };
 
   onChange = activeKey => {
+    // console.log(activeKey);
+
+    let path = this.state.panes.find(o => o.routeKey == activeKey).pathname;
+
+    this.props.dispatch(routerRedux.push({
+      pathname: path
+    }));
+
     this.setState({ activeKey });
   };
 
@@ -693,7 +700,14 @@ class BasicLayout extends React.Component {
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].routeKey;
     }
-    this.setState({ panes, activeKey });
+
+    this.setState({ panes, activeKey }, () => {
+      let path = this.state.panes.find(o => o.routeKey == this.state.activeKey).pathname;
+
+      this.props.dispatch(routerRedux.push({
+        pathname: path
+      }));
+    });
   };
 
   render() {
@@ -702,22 +716,16 @@ class BasicLayout extends React.Component {
       collapsed,
       fetchingNotices,
       notices,
-      routerData,
-      match,
       location,
       menu,
     } = this.props;
 
-    const { isMobile: mb, menus, loading, panes, selectKey } = this.state;
+    const { isMobile: mb, loading, panes, selectKey } = this.state;
 
-    const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
         <SiderMenu
           logo={logo}
-          // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
-          // If you do not have the Authorized parameter
-          // you will be forced to jump to the 403 interface without permission
           Authorized={Authorized}
           menuData={menu.menuList}
           collapsed={collapsed}
@@ -750,7 +758,6 @@ class BasicLayout extends React.Component {
                 type="editable-card"
                 onEdit={this.onEdit}
                 tabBarGutter={2}
-              // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
                   <TabPane
@@ -768,8 +775,6 @@ class BasicLayout extends React.Component {
                 ))}
               </Tabs>
             )}
-
-            {/* {menu.routerData[path] && React.createElement(menu.routerData[path].component, {})} */}
           </Content>
           {/* <Footer style={{ padding: 0 }}>
             <GlobalFooter
