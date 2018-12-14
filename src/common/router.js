@@ -1796,6 +1796,13 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/demo-gc/index.js')),
       name: 'demo-gc',
     },
+    // 培训demo--lbf
+    '/demo/demo-lbf': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/demo-lbf/index.js')
+      ),
+      name: 'demo-lbf'
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
