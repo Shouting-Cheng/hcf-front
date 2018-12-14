@@ -167,6 +167,7 @@ class ExpenseTypeBase extends React.Component {
   }
 
   typeCategoryChange = (value) => {
+    this.props.form.setFieldsValue({sourceTypeId:''});
     expenseTypeService.getTypes(value).then(res => {
       this.setState({
         types: res.data,
