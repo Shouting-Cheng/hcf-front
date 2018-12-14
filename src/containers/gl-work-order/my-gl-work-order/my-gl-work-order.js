@@ -441,7 +441,7 @@ class MyGLWorkOrder extends Component {
           size="middle"
           bordered
           rowKey={record => record['id']}
-          onRowClick={record => this.onTableRowClick(record)}
+          onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
         />
       </div>
     );
