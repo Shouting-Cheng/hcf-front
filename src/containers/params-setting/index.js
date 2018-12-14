@@ -10,6 +10,7 @@ import CustomTable from "widget/custom-table"
 
 import "styles/setting/params-setting/params-setting.scss"
 
+import "styles/setting/params-setting/params-setting.scss";
 
 class ParamsSetting extends Component {
     constructor(props) {
@@ -99,38 +100,9 @@ class ParamsSetting extends Component {
     //新建
     create = () => {
         this.setState({
-            visibel: true
-        })
-    }
-
-    //编辑
-    edit = (record) => {
-        this.setState({ model: JSON.parse(JSON.stringify(record)), visibel: true });
-    }
-
-    //删除
-    delete = (id) => {
-        service.deleteParamsSetting(id).then(res => {
-            message.success("删除成功！");
-            this.setState({ page: 0 }, () => {
-                this.getList();
-            })
-        }).catch(err => {
-            message.error(err.response.data.message);
-        })
-    }
-
-    //搜索
-    search = (values) => {
-
-        Object.keys(values).map(key => {
-            if (!values[key]) {
-                delete values[key]
-            }
-        });
-
-        this.setState({ searchParams: values, page: 0 }, () => {
-            this.getList();
+            data: res.data,
+            loading: false,
+            pagination
         });
     }
 
@@ -163,7 +135,7 @@ class ParamsSetting extends Component {
                     columns={columns}
                     url={`${config.authUrl}/api/data/auth/table/properties/query`}
                     ref={ref => this.table = ref}
-                /> 
+                />
                 <SlideFrame
                     title={model.id ? "编辑参数配置" : "新建参数配置"}
                     show={visibel}
@@ -181,4 +153,4 @@ class ParamsSetting extends Component {
     }
 }
 
-export default ParamsSetting
+export default ParamsSetting;
