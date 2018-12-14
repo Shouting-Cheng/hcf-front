@@ -10,7 +10,7 @@
   "expense.type.allowance": "差旅补贴",
   "expense.type.daily.allowance": "日常补贴",
   "expense.type.non.allowance": "非补贴",
-  "expense.type.move.before.remove": "删除前请先移动该大类下的费用类型",
+  "expense.type.move.before.remove": "删除前请先移动该大类下的{name}类型",
   "expense.type.update.success": "更新成功！正在刷新页面",
   "expense.type.basic.info": "基础信息",
   "expense.type.detail.setting": "详情设置",

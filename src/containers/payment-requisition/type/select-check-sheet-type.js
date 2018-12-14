@@ -229,7 +229,7 @@ class SelectCheckSheetType extends Component {
             rowSelection={rowSelection}
             dataSource={data}
             bordered
-            onRowClick={this.onTableRowClick}
+            onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
           />
         </div>
       </Modal>

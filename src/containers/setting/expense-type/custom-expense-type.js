@@ -254,7 +254,10 @@ class CustomExpenseType extends React.Component {
       case 'delete':
         if (expenseTypeCategory.expenseTypes.length > 0)
           Modal.warning({
-            title: messages('expense.type.move.before.remove'), //删除前请先移动该大类下的费用类型
+            title: messages('expense.type.move.before.remove',{
+              name: this.state.activeKey === '1' ?
+                '申请' : '费用'
+            }), //删除前请先移动该大类下的费用类型
           });
         else
           expenseTypeService.deleteCategory(expenseTypeCategory.id).then(res => {

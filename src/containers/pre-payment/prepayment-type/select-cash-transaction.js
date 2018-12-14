@@ -266,7 +266,8 @@ class SelectContract extends React.Component {
                     rowSelection={this.state.rowSelection}
                     rowKey={record => record["id"]}
                     size="middle"
-                    onRowClick={this.onTableRowClick} />
+                    onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
+                    />
             </Modal>
         );
     }

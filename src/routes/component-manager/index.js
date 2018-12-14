@@ -1,29 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   Row,
   Col,
   Collapse,
   Card,
-  Input,
   Tree,
   Form,
-  message,
-  Affix,
   Button,
-  Tag,
-  Divider,
-  Modal,
-  Select,
-  InputNumber,
   Drawer,
 } from 'antd';
 const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
-const FormItem = Form.Item;
 
-import { DragSource, DragDropContext } from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import ComponentItem from './component-item';
@@ -32,19 +22,12 @@ import AttrForm from './attr-form';
 import { routerRedux } from 'dva/router';
 import ComponentList from './component-list';
 
-// import configureStore from 'stores'
-// import { addElement, selectedElement, back, replace } from 'actions/elements'
 import './index.less';
 
 import { connect } from 'react-redux';
 
-// import { superThrottle } from "share/common"
-// import service from "./component-manager.service"
-
-// import SlideFrame from "components/slide-frame"
-// import CustomTable from "components/custom-table"
 import New from './new';
-import fetch from '../../utils/fetch';
+
 
 class ComponentManager extends React.Component {
   constructor(props) {
