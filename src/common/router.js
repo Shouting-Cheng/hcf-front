@@ -1801,6 +1801,13 @@ export const getRouterData = app => {
       ),
       name: 'params-setting'
     },
+    //demo --wgs
+    '/demo/demo-wgs': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/demo-wgs/index.js')
+      ),
+      name: 'demo-wgs'
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },

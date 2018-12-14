@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import SearchArea from "widget/search-area";
-import { Button, Table, Divider, message, Popconfirm } from "antd";
+import { Button, Table, Divider, message, Popconfirm , Pagination } from "antd";
 import SlideFrame from "widget/slide-frame";
-import NewParamsSetting from "./new-params-setting";
+import NewDemoBuilt from "./new-params-setting";
+// import NewDemoEdit from "./demo-edit";
 import service from "./service";
 
 import "styles/setting/params-setting/params-setting.scss";
@@ -80,7 +81,7 @@ class ParamsSetting extends Component {
             <span>
               <a onClick={()=>{this.edit(record)}}>编辑</a>
               <Divider type="vertical" />
-              <Popconfirm title="您确定删除吗?" onConfirm={()=>{this.delete(record.id)}} okText="确定" cancelText="取消">
+              <Popconfirm placement="topLeft" title="确定删除?" onConfirm={()=>{this.delete(record.id)}} okText="确定" cancelText="取消">
                 <a>删除</a>
               </Popconfirm>
             </span>
@@ -96,7 +97,7 @@ class ParamsSetting extends Component {
       size:10,
       page:0,
       pagination:{},
-      modal:{}
+      model:{}
     };
 
   }
@@ -116,54 +117,85 @@ class ParamsSetting extends Component {
             loading: false,
             pagination
         });
-    }).catch(err => {
+    }).catch((err) => {
         message.error(err.response.data.message);
         this.setState({ loading: false });
     })
 }
   // 新增
-  createBtn = ()=>{
+  createBtn = () => {
     this.setState({
       visibel:true
     })
   }
   // 编辑
-  edit = (record)=>{
-    this.setState({
-      modal:JSON.parse(JSON.stringify(record)),
-      visibel:false
+  edit = (record) => {
+    console.log(record);
+      this.setState({
+      model:JSON.parse(JSON.stringify(record)),
+      visibel:true
+
     })
 
   }
   // 删除
-  delete = (id)=>{
+  delete = (id) => {
     service.deleteParamsSetting(id).then((res)=>{
       message.success("删除成功");
       this.setState({page:0},()=>{
         this.getList();
       })
-    }).catch((err)=>{
+    }).catch((err) => {
       message.error(err.response.data.message);
     })
 
   }
+  // 搜索
+  search = (values) => {
+    Object.keys(values).map((key) => {
+      if(!values[key]){
+        delete values[key]
+      }
+    });
+    this.setState({
+       searchParams:values,
+       page:0
+    },()=>{
+      this.getList();
+    });
+  }
+  // 关闭
+  close = (flag) => {
+    this.setState({ visibel: false, model: {} }, () => {
+      if (flag) {
+          this.getList();
+      }
+    })
+  }
+
   // 分页
-  handleTableChange = (pagination)=>{
+  handleTableChange = (pagination) => {
     this.setState({
       size: pagination.pageSize ||10,
       page:pagination.current-1
-    },()=>{
+    },() => {
       this.getList();
     })
 
   }
+  // handleTableChange = (total) => {
+  //   this.getList();
+
+  // }
+
+
 
   render() {
-    const { searchForm, columns, data, loading, visibel, pagination, model } = this.state;
+    const { searchForm, columns, data, loading, visibel, pagination, model ,showTotal } = this.state;
     return (
       <div>
         <SearchArea
-          searchForm={searchForm}
+          searchForm={searchForm }
           submitHandle={this.search}
         />
         <Button style={{margin:"20px 0"}} className="create-btn" type="primary" onClick={this.createBtn}>新增</Button>
@@ -177,7 +209,20 @@ class ParamsSetting extends Component {
           pagination={pagination}
           onChange={this.handleTableChange}
         />
-
+          {/* <Pagination showQuickJumper defaultCurrent={1} total={500} onChange={this.handleTableChange} /> */}
+        <SlideFrame
+            title={model.id ? "编辑参数配置" : "新建参数配置"}
+            show={visibel}
+            onClose={() => {
+                this.setState({
+                    visibel: false,
+                    model: {}
+                })
+            }}
+        >
+          {/* <NewDemoEdit params={model} close={this.close} /> */}
+          <NewDemoBuilt params={model} close={this.close} />
+        </SlideFrame>
       </div>
     );
   }
