@@ -1314,7 +1314,8 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-add.js')
       ),
       name: 'currency-setting-add',
-      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
+      parent:
+        '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //编辑汇率
     '/admin-setting/currency-setting/currency-setting-edit/:enableAutoUpdate/:currencyRateOid/:functionalCurrencyName/:functionalCurrencyCode/:setOfBooksId': {
@@ -1322,7 +1323,8 @@ export const getRouterData = app => {
         import('containers/setting/currency-setting/currency-setting-edit.js')
       ),
       name: 'currency-setting-edit',
-      parent: '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
+      parent:
+        '/admin-setting/currency-setting/:setOfBooksId/:functionalCurrencyCode/:functionalCurrencyName',
     },
     //实体法人
     '/enterprise-manage/legal-person': {
@@ -1729,7 +1731,7 @@ export const getRouterData = app => {
         import('containers/financial-management/expense-reverse/new-reverse.js')
       ),
       name: 'new-reverse',
-      parent: '/financial-management/expense-reverse'
+      parent: '/financial-management/expense-reverse',
     },
     '/financial-management/expense-reverse/expense-reverse-detail/:id': {
       //财务管理-费用反冲-详情
@@ -1737,14 +1739,14 @@ export const getRouterData = app => {
         import('containers/financial-management/expense-reverse/expense-reverse-detail.js')
       ),
       name: 'expense-reverse-detail',
-      parent: '/financial-management/expense-reverse'
+      parent: '/financial-management/expense-reverse',
     },
     '/admin-setting/new-application-type/:applicationTypeId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/expense-type/new-application-type/new-application-type.js')
       ),
       name: 'new-application-type',
-      parent: '/admin-setting/expense-type'
+      parent: '/admin-setting/expense-type',
     },
     //报销单详情
     '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOID/:backType': {
@@ -1752,54 +1754,47 @@ export const getRouterData = app => {
         import('containers/expense-report/base-expense-report-detail.js')
       ),
       name: 'expense-report-detail-audit',
-      parent: '/financial-management/finance-audit'
+      parent: '/financial-management/finance-audit',
     },
     //借款单详情
     '/financial-management/finance-audit/loan-request-detail-audit/:formOID/:applicationOID/:backType': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/base-request-detail.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail.js')),
       name: 'loan-request-detail-audit',
-      parent: '/financial-management/finance-audit'
+      parent: '/financial-management/finance-audit',
     },
 
     '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID/:pageFrom': {
       //费用申请单详情
-      component: dynamicWrapper(app, [], () =>
-        import('containers/request/base-request-detail')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'cost-application-detail',
-      parent: '/financial-management/check-cost-application'
+      parent: '/financial-management/check-cost-application',
     },
     // 分布式事务管理器
     '/admin-setting/lcn-manager': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/lcn/lcn-manager.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/setting/lcn/lcn-manager.js')),
       name: 'lcn-manager',
     },
     // 在线模块
     '/admin-setting/lcn-manager/model': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/lcn/lcn-model.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/setting/lcn/lcn-model.js')),
       name: 'lcn-model',
-      parent: '/admin-setting/lcn-manager'
+      parent: '/admin-setting/lcn-manager',
     },
     // 事务补偿
     '/admin-setting/lcn-manager/transaction': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/lcn/lcn-transaction.js')
-      ),
+      component: dynamicWrapper(app, [], () => import('containers/setting/lcn/lcn-transaction.js')),
       name: 'lcn-transaction',
-      parent: '/admin-setting/lcn-manager'
+      parent: '/admin-setting/lcn-manager',
     },
     // 参数设置
     '/admin-setting/params-setting': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/params-setting/index.js')
-      ),
-      name: 'params-setting'
+      component: dynamicWrapper(app, [], () => import('containers/params-setting/index.js')),
+      name: 'params-setting',
+    },
+    // gc的练习
+    '/demo/demo-gc': {
+      component: dynamicWrapper(app, [], () => import('containers/demo-gc/index.js')),
+      name: 'demo-gc',
     },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
