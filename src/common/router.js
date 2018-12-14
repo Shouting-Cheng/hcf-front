@@ -1801,6 +1801,13 @@ export const getRouterData = app => {
       ),
       name: 'params-setting'
     },
+    // 培训demo--lbf
+    '/demo/demo-lbf': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/demo-lbf/index.js')
+      ),
+      name: 'demo-lbf'
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
