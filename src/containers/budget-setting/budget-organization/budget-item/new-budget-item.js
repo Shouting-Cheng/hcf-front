@@ -43,7 +43,8 @@ class NewBudgetItem extends React.Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         values.organizationId = this.state.organization.id;
-        values.itemTypeId = values.itemTypeName[0].key;
+        values.itemTypeId = values.itemTypeName[0].id;
+        values.itemTypeName = values.itemTypeName[0].itemTypeName;
         budgetService.addItem(values).then((response)=>{
           if(response) {
             message.success(this.$t({id:"structure.saveSuccess"})); /*保存成功！*/
