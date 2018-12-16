@@ -96,7 +96,9 @@ class ParamsSetting extends Component {
       visibel:false,
       size:10,
       page:0,
-      pagination:{},
+      pagination:{
+
+      },
       model:{}
     };
 
@@ -109,9 +111,16 @@ class ParamsSetting extends Component {
   // 加载数据
   getList = () => {
     let { searchParams, size, page, pagination } = this.state;
+
     this.setState({ loading: true });
-    service.getParamsSettingList({ ...searchParams, size, page }).then(res => {
+    service.getParamsSettingList({ ...searchParams, size}).then(res => {
         pagination.total = Number(res.headers["x-total-count"]);
+        pagination.current=page+1;
+        pagination.pageSize=4;
+        pagination.showTotal=()=>{
+          return `共${Number(res.headers["x-total-count"])}条`
+        };
+        pagination.showQuickJumper=true;
         this.setState({
             data: res.data,
             loading: false,
@@ -175,13 +184,14 @@ class ParamsSetting extends Component {
 
   // 分页
   handleTableChange = (pagination) => {
+    page=pagination.current-1
     this.setState({
       size: pagination.pageSize ||10,
-      page:pagination.current-1
+
     },() => {
       this.getList();
+      console.log(pagination,'pag');
     })
-
   }
   // handleTableChange = (total) => {
   //   this.getList();
