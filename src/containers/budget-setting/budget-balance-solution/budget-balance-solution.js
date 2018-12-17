@@ -44,7 +44,12 @@ class BudgetBalanceSolution extends Component {
                                 <div>
                                     <a onClick={e => this.onEditClick(e, record)}>{this.$t('common.edit')}</a>
                                     <Divider type='vertical' />
-                                    <a onClick={e => this.onDeleteClick(e, record)}>{this.$t('common.delete')}</a>
+                                  <Popconfirm
+                                    title={this.$t('itinerary.form.component.allocation.delete.tip')}
+                                    onConfirm={e => this.onDeleteClick(e, record)}
+                                  >
+                                    <a>{this.$t('common.delete')}</ a>
+                                  </Popconfirm>
                                 </div>
                             )
                         }
