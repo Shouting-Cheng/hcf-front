@@ -41,19 +41,19 @@ class RowAttr extends Component {
                 },
                 {
                     label: 'margin',
-                    key: 'style.margin',
+                    key: 'props.style.margin',
                     type: 'input',
                     tooltip: '外边距',
                 },
                 {
                     label: 'padding',
-                    key: 'style.padding',
+                    key: 'props.style.padding',
                     type: 'input',
                     tooltip: '内边距',
                 },
                 {
                     label: 'background',
-                    key: 'style.backgroundColor',
+                    key: 'props.style.backgroundColor',
                     type: 'color',
                     tooltip: '背景颜色',
                 }

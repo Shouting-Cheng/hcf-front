@@ -12,7 +12,7 @@ import {
 } from 'antd';
 
 const FormItem = Form.Item;
-const Option = Select.Option;npm
+const Option = Select.Option;
 const TreeNode = TreeSelect.TreeNode;
 const TextArea = Input.TextArea;
 

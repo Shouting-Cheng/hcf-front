@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  message } from 'antd';
+import { message } from 'antd';
 import Table from 'widget/table'
 import { DragSource, DropTarget } from 'react-dnd';
 import uuid from '../../utils/uuid';
@@ -167,13 +167,7 @@ class CustomTable extends Component {
       connectDropTarget(
         <div className={className}>
           <Table
-            rowKey={record => record.id}
-            loading={loading}
-            dataSource={dataSource}
-            columns={columns || []}
-            pagination={false}
-            size="middle"
-            bordered
+            columns={columns.map(item => ({ ...item, dataIndex: "" })) || []}
           />
         </div>
       )
