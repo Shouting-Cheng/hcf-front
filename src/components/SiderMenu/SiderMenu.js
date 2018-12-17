@@ -68,6 +68,20 @@ export default class SiderMenu extends React.Component {
   }
 
 
+  componentDidMount() {
+    let menuMap = {};
+    this.props.menuData.map(item => {
+      item.children && item.children.map(o => {
+        menuMap[`${o.path}`] = item.path;
+      })
+    });
+
+    let path = window.location.hash.replace('#', '');
+
+    this.setState({ openKey: menuMap[path], menuMap });
+  }
+
+
   componentWillReceiveProps(nextProps) {
 
     if (!this.state.searchValue) {

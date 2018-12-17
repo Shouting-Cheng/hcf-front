@@ -57,12 +57,12 @@ class ParamsSetting extends Component {
                 },
                 {
                     title: "参数类型",
-                    dataIndex: "dataType",
+                    dataIndex: "dataTypeName",
                     align: "center"
                 },
                 {
                     title: "筛选方式",
-                    dataIndex: "filterMethod",
+                    dataIndex: "filterMethodName",
                     align: "center"
                 },
                 {
@@ -163,7 +163,7 @@ class ParamsSetting extends Component {
                     columns={columns}
                     url={`${config.authUrl}/api/data/auth/table/properties/query`}
                     ref={ref => this.table = ref}
-                /> 
+                />
                 <SlideFrame
                     title={model.id ? "编辑参数配置" : "新建参数配置"}
                     show={visibel}
