@@ -1094,6 +1094,7 @@ class NewExpenseAdjustDetail extends React.Component {
       item.key !== 'operation' && (params[item.key] = undefined);
     });
     data.splice(0, 0, { rowKey: num, isEdit: true, status: 'create', ...params });
+    console.log(num)
     this.setState({
       data,
       num: num + 1,
@@ -1202,7 +1203,7 @@ class NewExpenseAdjustDetail extends React.Component {
                 <Button onClick={this.handleImport}>{this.$t('exp.import.detail.info')}</Button>
               </div>
               <Table
-                rowKey={(record, index) => record.id || record['rowKey'] || index}
+                rowKey={(record, index) => record.id || index}
                 dataSource={data}
                 columns={columns}
                 loading={tableLoading}
