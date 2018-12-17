@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Form, Input, Button, message, Select } from "antd"
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 import service from "./service"
 
@@ -139,11 +140,13 @@ class NewParamsSetting extends Component {
                     >
                         {getFieldDecorator('customSql', {
                             rules: [{
-                                required: true, message: '请输入',
+                                required: this.props.form.getFieldValue("filterMethod") == "CUSTOM_SQL", message: '请输入',
                             }],
                             initialValue: this.props.params.customSql || ""
                         })(
-                            <Input />
+                            <TextArea autosize={{
+                                minRows: 3
+                            }} disabled={this.props.form.getFieldValue("filterMethod") != "CUSTOM_SQL"} />
                         )}
                     </FormItem>
                     <FormItem
@@ -152,11 +155,11 @@ class NewParamsSetting extends Component {
                     >
                         {getFieldDecorator('columnName', {
                             rules: [{
-                                required: true, message: '请输入',
+                                required: this.props.form.getFieldValue("filterMethod") == "TABLE_COLUMN", message: '请输入',
                             }],
                             initialValue: this.props.params.columnName || ""
                         })(
-                            <Input />
+                            <Input disabled={this.props.form.getFieldValue("filterMethod") != "TABLE_COLUMN"} />
                         )}
                     </FormItem>
                     <div className="slide-footer">

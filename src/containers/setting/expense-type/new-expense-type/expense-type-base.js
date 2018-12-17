@@ -110,6 +110,7 @@ class ExpenseTypeBase extends React.Component {
           message.error(messages('expense.type.please.select.icon'));
           return;
         }
+
         values.typeFlag = 1;
         values.sourceTypeId = values.sourceTypeId && values.sourceTypeId.key;
         values.priceUnit = this.state.priceUnit;
@@ -166,6 +167,7 @@ class ExpenseTypeBase extends React.Component {
   }
 
   typeCategoryChange = (value) => {
+    this.props.form.setFieldsValue({sourceTypeId:''});
     expenseTypeService.getTypes(value).then(res => {
       this.setState({
         types: res.data,
