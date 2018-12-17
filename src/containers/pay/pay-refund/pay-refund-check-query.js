@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Tabs, Table, message,Badge} from 'antd'
+import { Form, Tabs,  message,Badge} from 'antd'
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import payRefundService from './pay-refund.service'
 import SlideFrame from 'widget/slide-frame'

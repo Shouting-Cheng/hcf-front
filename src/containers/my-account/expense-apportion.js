@@ -1,7 +1,8 @@
 
 import React from 'react'
 import { connect } from 'dva';
-import { Table, Input, InputNumber, Form, Select, Spin, Icon, Row, Col} from 'antd'
+import {  Input, InputNumber, Form, Select, Spin, Icon, Row, Col} from 'antd'
+import Table from 'widget/table'
 const Option = Select.Option; 
 const FormItem = Form.Item;
 import PropTypes from 'prop-types';

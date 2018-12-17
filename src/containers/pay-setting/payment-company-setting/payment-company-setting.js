@@ -5,7 +5,8 @@ import {messages} from "utils/utils";
 import React from 'react'
 import {connect} from 'dva'
 
-import {Button, Table,Popover, Popconfirm,message} from 'antd'
+import {Button, Popover, Popconfirm,message} from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import SearchArea from 'widget/search-area'
 

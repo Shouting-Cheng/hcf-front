@@ -12,7 +12,6 @@ import {
   Col,
   Spin,
   Breadcrumb,
-  Table,
   message,
   Popover,
   Popconfirm,
@@ -20,6 +19,7 @@ import {
   Divider,
   Modal, Card,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import paymentRequisitionService from './paymentRequisitionService.service';
 import NewPaymentRequisitionLine from './new-payment-requisition-line';
@@ -58,7 +58,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           title: this.$t( 'acp.index'  /*序号*/),
           dataIndex: 'index',
           align: 'center',
-          width: '7%',
+          width: 60,
           render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1)  * this.state.pagination.pageSize),
         },
         {
@@ -456,7 +456,7 @@ class NewPaymentRequisitionDetail extends React.Component {
   };
 
   // 扩展行
-  expandedRowRender = record => {
+  expandedRowRender = record => {debugger;
     return (
       <div>
         <Row>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Card } from 'antd'
+import { Form, Select, Breadcrumb, Tag, Divider, Input, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Timeline, message, Popover, Popconfirm, Icon, Card } from 'antd'
 import config from 'config';
 import 'styles/reimburse/reimburse.scss';
-
+import Table from 'widget/table'
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import moment from "moment"
 

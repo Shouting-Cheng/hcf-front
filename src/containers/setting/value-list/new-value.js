@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { messages } from 'utils/utils';
 import { deepCopy } from 'utils/extend';
-import { Form, Input, Switch, Button, Icon, Table, message } from 'antd';
+import { Form, Input, Switch, Button, Icon, message } from 'antd';
+import Table from 'widget/table'
 
 const FormItem = Form.Item;
 import { LanguageInput } from 'widget/index';

@@ -10,10 +10,10 @@ import {
   Button,
   Dropdown,
   Icon,
-  Table,
   Modal,
   Upload,
 } from 'antd';
+import Table from 'widget/table'
 import service from './service';
 // import NewRole from "./new"
 import SelectRoles from './roles';

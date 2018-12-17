@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Popover, message } from 'antd'
+import { Button,  Badge, Popover, message } from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import NewUpdateSectionStructure from 'containers/financial-accounting-setting/section-structure/new-update-section-structure'
 import SearchArea from 'widget/search-area';

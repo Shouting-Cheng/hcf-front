@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'react-redux'
-import { Tabs, Table, Button, notification, Icon, Popover  } from 'antd';
+import { Tabs,  Button, notification, Icon, Popover  } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import httpFetch from 'share/httpFetch'
 import config from 'config'

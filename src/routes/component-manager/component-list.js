@@ -1,9 +1,9 @@
 import React from 'react';
-import { Table, Divider, Tag, message } from 'antd';
+import {  Divider, Tag, message } from 'antd';
 import httpFetch from '../../utils/fetch';
 import './component-list.less';
 import moment from 'moment';
-
+import Table from 'widget/table'
 class ComponentList extends React.Component {
   constructor(props) {
     super(props);

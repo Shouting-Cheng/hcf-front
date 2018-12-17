@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Table, Badge, Button, Popover, message } from 'antd';
+import { Badge, Button, Popover, message } from 'antd';
+import Table from 'widget/table'
 import config from 'config'
 
 import budgetOrganizationService from 'containers/budget-setting/budget-organization/budget-organnization.service'

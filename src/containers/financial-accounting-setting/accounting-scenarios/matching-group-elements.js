@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import { Button, Table, Badge, Icon, Popover} from 'antd'
+import { Button, Badge, Icon, Popover} from 'antd'
+import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame'
 import NewUpdateMatchingGroup from 'containers/financial-accounting-setting/accounting-scenarios/new-update-matching-group'
 import accountingService from 'containers/financial-accounting-setting/accounting-scenarios/accounting-scenarios.service';

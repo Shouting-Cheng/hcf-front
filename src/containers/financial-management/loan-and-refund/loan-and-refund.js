@@ -3,7 +3,8 @@ import menuRoute from 'routes/menuRoute';
 
 import { connect } from 'react-redux';
 import { dealCache, deepFullCopy, messages } from 'share/common';
-import { Form, Tabs, Table, message } from 'antd';
+import { Form, Tabs,  message } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment';

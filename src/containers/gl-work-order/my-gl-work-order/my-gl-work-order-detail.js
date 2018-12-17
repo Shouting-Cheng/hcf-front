@@ -11,14 +11,13 @@ import Pagination, {
   Icon,
   Input,
   Tabs,
-  Table,
   Divider,
   InputNumber,
   Popover,
   Spin,
   Card,
 } from 'antd';
-
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';

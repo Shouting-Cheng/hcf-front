@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
-import {Affix, Spin, Button, Form, Table, Badge, Row, Col, message, Pagination } from 'antd'
+import {Affix, Spin, Button, Form,  Badge, Row, Col, message, Pagination } from 'antd'
+import Table from 'widget/table'
 
 import moment from 'moment';
 import periodControlService from 'containers/finance-setting/account-period-control/account-period-control.service'

@@ -4,21 +4,18 @@ import { Layout, Icon, message, Spin, Tabs } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import config from 'config';
-import { Route, Redirect, Switch, routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import GlobalHeader from '../components/GlobalHeader';
-import GlobalFooter from '../components/GlobalFooter';
+
 import SiderMenu from '../components/SiderMenu';
-import NotFound from '../routes/Exception/404';
-import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import { getMenuData } from '../common/menu';
 import logo from '../assets/logo.png';
 import fetch from '../utils/fetch';
-import View from '../routes/View/index';
 
 import zh_CN from '../i18n/zh_CN/index';
 import en_US from '../i18n/en_US/index';
@@ -27,11 +24,10 @@ import { isUrl } from '../utils/utils';
 
 import 'styles/common.scss';
 
-import Error from 'widget/error';
 
 const TabPane = Tabs.TabPane;
-const { Content, Header, Footer } = Layout;
-const { AuthorizedRoute, check } = Authorized;
+const { Content, Header } = Layout;
+const { check } = Authorized;
 
 /**
  * 根据菜单取得重定向地址.
@@ -130,6 +126,7 @@ class BasicLayout extends React.Component {
     selectKey: '',
     error: false,
     errorContent: {},
+    menuList: []
   };
 
   getChildContext() {
@@ -190,6 +187,7 @@ class BasicLayout extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     let panes = this.state.panes;
     let path = window.location.hash.replace('#', '');
 
@@ -290,7 +288,8 @@ class BasicLayout extends React.Component {
 
     return new Promise((resolve, reject) => {
       fetch.get('/auth/api/userRole/query/user/menuList').then(response => {
-        let result = response || [];
+
+        let result = JSON.parse(JSON.stringify(response || []));
         let group = {};
 
         result.map(item => {
@@ -316,7 +315,6 @@ class BasicLayout extends React.Component {
 
         resolve();
 
-        //this.redirect();
       });
     });
   };
@@ -327,6 +325,7 @@ class BasicLayout extends React.Component {
       item.level = level;
       item.name = item.menuName;
       item.icon = level > 1 ? '' : item.menuIcon;
+      item.parentKey = parent.path;
 
       if (item.fromSource == 'FILE') {
         item.path = item.menuUrl;
@@ -562,13 +561,11 @@ class BasicLayout extends React.Component {
 
     const redirect = urlParams.searchParams.get('redirect');
 
-    // Remove the parameters in the url
     if (redirect) {
       urlParams.searchParams.delete('redirect');
       window.history.replaceState(null, 'redirect', urlParams.href);
     } else {
       const { routerData } = this.props;
-      // get the first authorized route path in routerData
       const authorizedPath = Object.keys(routerData).find(
         item => check(routerData[item].authority, item) && item !== '/'
       );
@@ -670,6 +667,14 @@ class BasicLayout extends React.Component {
   };
 
   onChange = activeKey => {
+    // console.log(activeKey);
+
+    let path = this.state.panes.find(o => o.routeKey == activeKey).pathname;
+
+    this.props.dispatch(routerRedux.push({
+      pathname: path
+    }));
+
     this.setState({ activeKey });
   };
 
@@ -693,7 +698,14 @@ class BasicLayout extends React.Component {
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].routeKey;
     }
-    this.setState({ panes, activeKey });
+
+    this.setState({ panes, activeKey }, () => {
+      let path = this.state.panes.find(o => o.routeKey == this.state.activeKey).pathname;
+
+      this.props.dispatch(routerRedux.push({
+        pathname: path
+      }));
+    });
   };
 
   render() {
@@ -702,22 +714,16 @@ class BasicLayout extends React.Component {
       collapsed,
       fetchingNotices,
       notices,
-      routerData,
-      match,
       location,
       menu,
     } = this.props;
 
-    const { isMobile: mb, menus, loading, panes, selectKey } = this.state;
+    const { isMobile: mb, loading, panes, selectKey, menuList } = this.state;
 
-    const bashRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
         <SiderMenu
           logo={logo}
-          // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
-          // If you do not have the Authorized parameter
-          // you will be forced to jump to the 403 interface without permission
           Authorized={Authorized}
           menuData={menu.menuList}
           collapsed={collapsed}
@@ -725,6 +731,7 @@ class BasicLayout extends React.Component {
           isMobile={mb}
           onCollapse={this.handleMenuCollapse}
           activeKey={selectKey}
+          menuList={menuList}
         />
         <Layout>
           <Header style={{ padding: 0 }}>
@@ -750,7 +757,6 @@ class BasicLayout extends React.Component {
                 type="editable-card"
                 onEdit={this.onEdit}
                 tabBarGutter={2}
-              // style={{ backgroundColor: '#fff', margin: '-10px -10px 0' }}
               >
                 {panes.map((pane, index) => (
                   <TabPane
@@ -768,8 +774,6 @@ class BasicLayout extends React.Component {
                 ))}
               </Tabs>
             )}
-
-            {/* {menu.routerData[path] && React.createElement(menu.routerData[path].component, {})} */}
           </Content>
           {/* <Footer style={{ padding: 0 }}>
             <GlobalFooter

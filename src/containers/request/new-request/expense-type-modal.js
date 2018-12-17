@@ -13,10 +13,10 @@ import {
   Select,
   Popover,
   Icon,
-  Table,
   Popconfirm,
   message,
 } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 

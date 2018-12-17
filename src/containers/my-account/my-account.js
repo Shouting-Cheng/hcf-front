@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva';
-import { Button, Table, Menu, Dropdown, Icon, Row, Col, Popconfirm, Popover, message } from 'antd'
-
+import { Button, Menu, Dropdown, Icon, Row, Col, Popconfirm, Popover, message } from 'antd'
+import Table from 'widget/table'
 import 'styles/my-account/my-account.scss'
 import SlideFrame from "components/Widget/slide-frame";
 import NewExpense from 'containers/my-account/new-expense'

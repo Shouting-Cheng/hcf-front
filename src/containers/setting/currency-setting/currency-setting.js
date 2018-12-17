@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'dva'
 import config from "config";
 import httpFetch from "share/httpFetch";
-import {Button, Table, InputNumber, Form, Icon, message, Checkbox, Badge, Select, Modal, DatePicker, Spin} from 'antd';
-
+import {Button, InputNumber, Form, Icon, message, Checkbox, Badge, Select, Modal, DatePicker, Spin} from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 import moment from 'moment';

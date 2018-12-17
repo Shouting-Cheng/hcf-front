@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva'
-import { Modal, Tabs, message, Table, Radio } from 'antd'
+import { Modal, Tabs, message, Radio } from 'antd'
+import Table from 'widget/table'
 import PropTypes from 'prop-types'
 const RadioGroup = Radio.Group;
 

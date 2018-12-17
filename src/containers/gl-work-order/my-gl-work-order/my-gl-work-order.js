@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import config from 'config';
 import {
-  Table,
   Button,
   message,
   Badge,
@@ -15,6 +14,7 @@ import {
   Input,
   Popover,
 } from 'antd';
+import Table from 'widget/table'
 const Search = Input.Search;
 import SearchArea from 'widget/search-area';
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';
@@ -441,7 +441,7 @@ class MyGLWorkOrder extends Component {
           size="middle"
           bordered
           rowKey={record => record['id']}
-          onRowClick={record => this.onTableRowClick(record)}
+          onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
         />
       </div>
     );

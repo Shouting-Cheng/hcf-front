@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Row, Col, message } from 'antd';
+import { Row, Col, message } from 'antd';
+import Table from 'widget/table'
 import { connect } from 'react-redux';
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service';
 import moment from 'moment'

@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import {
   Button,
-  Table,
   Input,
   Select,
   Switch,
@@ -15,6 +14,7 @@ import {
   Row,
   Col,
 } from 'antd';
+import Table from 'widget/table'
 import vendorService from 'containers/financial-management/supplier-management/vendorService';
 import baseService from 'share/base.service';
 import config from 'config';

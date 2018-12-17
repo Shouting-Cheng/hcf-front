@@ -7,7 +7,8 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Table, Button, Badge, Popover, Switch, Icon } from 'antd';
+import {  Button, Badge, Popover, Switch, Icon } from 'antd';
+import Table from 'widget/table'
 import CCService from 'containers/setting/cost-center/cost-center.service';
 import SearchArea from 'widget/search-area';
 import 'styles/setting/cost-center/cost-center.scss';

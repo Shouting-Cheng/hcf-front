@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Modal, Table, Select, Checkbox, Alert } from 'antd';
+import { Modal,  Select, Checkbox, Alert } from 'antd';
+import Table from 'widget/table'
 import CostCenterSearchFormService from 'widget/Template/cost-center-search-form/cost-center-search-form.service';
 import debounce from 'lodash.debounce';
 import 'styles/components/search-area.scss';

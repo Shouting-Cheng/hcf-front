@@ -4,8 +4,8 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Table, Popconfirm, Badge, Button, Popover, Form, Switch, Input, message, Icon, Select, Radio } from 'antd';
-
+import {  Popconfirm, Badge, Button, Popover, Form, Switch, Input, message, Icon, Select, Radio } from 'antd';
+import Table from 'widget/table'
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;

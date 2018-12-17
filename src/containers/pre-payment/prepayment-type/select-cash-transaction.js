@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { connect } from 'dva'
-import { Modal, Table, message, Button, Input, Row, Col } from 'antd'
+import { Modal, message, Button, Input, Row, Col } from 'antd'
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch'
 import SearchArea from 'widget/search-area'
 import 'styles/pre-payment/my-pre-payment/select-contract.scss'
@@ -265,7 +266,8 @@ class SelectContract extends React.Component {
                     rowSelection={this.state.rowSelection}
                     rowKey={record => record["id"]}
                     size="middle"
-                    onRowClick={this.onTableRowClick} />
+                    onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
+                    />
             </Modal>
         );
     }

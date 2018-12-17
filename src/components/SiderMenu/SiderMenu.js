@@ -1,10 +1,12 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Input } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
 import { messages } from '../../utils/utils';
+
+import debounce from 'lodash.debounce';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -56,21 +58,48 @@ export default class SiderMenu extends React.Component {
     this.flatMenuKeys = getFlatMenuKeys(props.menuData);
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
+      menuList: [...props.menuData],
+      lastOpenKeys: [],
+      searchValue: "",
+      openKey: "",
+      menuMap: {}
     };
+    this.search = debounce(this.search, 500);
   }
 
+
   componentWillReceiveProps(nextProps) {
-    const { location } = this.props;
-    if (nextProps.location.pathname !== location.pathname) {
-      this.setState({
-        openKeys: this.getDefaultCollapsedSubMenus(nextProps),
-      });
+
+    if (!this.state.searchValue) {
+      const { location } = this.props;
+
+      if (nextProps.location.pathname !== location.pathname) {
+        this.setState({
+          openKeys: this.getDefaultCollapsedSubMenus(nextProps),
+        });
+      }
+
+      this.menus = nextProps.menuData;
+      this.flatMenuKeys = getFlatMenuKeys(nextProps.menuData);
+
+      this.setState({ openKeys: this.getDefaultCollapsedSubMenus(nextProps), menuList: [...nextProps.menuData] });
     }
 
-    this.menus = nextProps.menuData;
-    this.flatMenuKeys = getFlatMenuKeys(nextProps.menuData);
-    let selectedKeys = this.getSelectedMenuKeys();
-    this.setState({ openKeys: this.getDefaultCollapsedSubMenus(nextProps) });
+    if (this.props.menuData.length != nextProps.menuData.length) {
+
+      let menuMap = {};
+      nextProps.menuData.map(item => {
+        item.children && item.children.map(o => {
+          menuMap[`${o.path}`] = item.path;
+        })
+      });
+
+      let path = window.location.hash.replace('#', '');
+
+      this.setState({ openKey: menuMap[path], menuMap });
+    }
+
+
   }
 
   /**
@@ -110,7 +139,25 @@ export default class SiderMenu extends React.Component {
         </a>
       );
     }
+
     const { location, isMobile, onCollapse } = this.props;
+
+    let nameDom = (
+      <span>{messages(name)}</span>
+    );
+    if (this.state.searchValue) {
+      let strs = messages(name).split(this.state.searchValue);
+
+      //todo name中出现两个关键字情况暂不支持 ps"123132" key: "1"
+      nameDom = (
+        <span>
+          <span>{strs[0]}</span>
+          <span style={{ color: "#FF9966" }}>{this.state.searchValue}</span>
+          <span>{strs[1]}</span>
+        </span>
+      )
+    }
+
     return (
       <Link
         to={itemPath}
@@ -125,7 +172,7 @@ export default class SiderMenu extends React.Component {
         }
       >
         {icon}
-        <span>{messages(name)}</span>
+        {nameDom}
       </Link>
     );
   };
@@ -215,27 +262,47 @@ export default class SiderMenu extends React.Component {
 
   handleOpenChange = openKeys => {
     const lastOpenKey = openKeys[openKeys.length - 1];
-    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // console.log(openKeys);
     this.setState({
-      openKeys: moreThanOne ? [lastOpenKey] : [...openKeys],
+      openKey: lastOpenKey
     });
   };
 
+  search = (value) => {
+
+    if (!value) {
+      this.setState({ menuList: [...this.menus], searchValue: value });
+      return;
+    }
+
+    //todo  三级搜索暂不支持 后面加一下
+    let result = [];
+    this.menus.map(item => {
+      if (item.children) {
+        let children = item.children.filter(o => this.$t(o.name).includes(value));
+        if (children && children.length) {
+          item.children = [...children];
+          result.push(item);
+        }
+      } else {
+        item.children = [];
+      }
+    });
+
+    this.setState({ menuList: result, openKeys: result.map(item => item.path), searchValue: value });
+  }
+
+  select = ({ key }) => {
+    this.setState({
+      openKey: this.state.menuMap[key]
+    })
+  }
+
   render() {
     const { logo, collapsed, onCollapse, activeKey } = this.props;
-    const { openKeys } = this.state;
-    // Don't show popup menu when it is been collapsed
-    const menuProps = collapsed
-      ? {}
-      : {
-        openKeys,
-      };
-    // if pathname can't match, use the nearest parent's key
-    // let selectedKeys = this.getSelectedMenuKeys();
-    // if (!selectedKeys.length) {
-    //   selectedKeys = [openKeys[openKeys.length - 1]];
-    // }
-
+    const { openKeys, menuList, searchValue, openKey } = this.state;
+    const menuProps = collapsed ? {} : { openKeys: searchValue ? openKeys : [openKey] };
 
     return (
       <Sider
@@ -248,12 +315,15 @@ export default class SiderMenu extends React.Component {
         className={styles.sider}
       >
         <div className={styles.logo} key="logo">
-          <Link to="/">
+          <Link to="/dashboard">
             <img src={logo} alt="logo" />
             <h1>汉得融晶</h1>
           </Link>
         </div>
         <div className="menu-container">
+          <div style={{ padding: "18px 32px 0px 16px" }}>
+            <Input.Search placeholder="功能查询" onChange={e => this.search(e.target.value)}></Input.Search>
+          </div>
           <Menu
             key="Menu"
             theme="dark"
@@ -264,7 +334,7 @@ export default class SiderMenu extends React.Component {
             style={{ padding: '16px 0', paddingRight: 18, width: '100%' }}
             onSelect={this.select}
           >
-            {this.getNavMenuItems(this.menus)}
+            {this.getNavMenuItems(menuList)}
           </Menu>
         </div>
       </Sider>

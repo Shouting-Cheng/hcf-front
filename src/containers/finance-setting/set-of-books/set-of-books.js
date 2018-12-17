@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 
 import config from 'config';
-import { Table, Button, Badge } from 'antd';
+import { Button, Badge } from 'antd';
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
 import SearchArea from 'components/Widget/search-area';

@@ -5,7 +5,8 @@
 //成本中心详情
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Button, Input, message, Icon, Tooltip, Tabs, Badge } from 'antd';
+import { Button, Input, message, Icon, Tooltip, Tabs, Badge } from 'antd';
+import Table from 'widget/table'
 import VlService from 'containers/setting/value-list/value-list.service';
 import CCService from 'containers/setting/cost-center/cost-center.service';
 import BasicInfo from 'widget/basic-info';

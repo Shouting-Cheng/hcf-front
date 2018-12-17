@@ -1,7 +1,8 @@
 import React from 'react';
 import config from 'config';
 import { connect } from 'dva';
-import { Form, Row, Col, Badge,Card, Button, Table, Checkbox, message, Icon } from 'antd';
+import { Form, Row, Col, Badge,Card, Button, Checkbox, message, Icon } from 'antd';
+import Table from 'widget/table'
 import contractService from 'containers/contract/contract-type/contract-type-define.service';
 import ListSelector from 'components/Widget/list-selector';
 import { routerRedux } from 'dva/router';

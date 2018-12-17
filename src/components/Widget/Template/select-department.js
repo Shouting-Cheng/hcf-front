@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, Table, message, Button, Input, Row, Col, Card, Checkbox, Tree, Spin } from 'antd';
+import { Modal, message, Button, Input, Row, Col, Card, Checkbox, Tree, Spin } from 'antd';
 const Search = Input.Search;
 const CheckboxGroup = Checkbox.Group;
 const TreeNode = Tree.TreeNode;

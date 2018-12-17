@@ -11,7 +11,6 @@ import {
   Row,
   Col,
   Spin,
-  Table,
   Timeline,
   message,
   Popover,

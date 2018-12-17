@@ -7,7 +7,6 @@ import {
   Button,
   Collapse,
   Affix,
-  Table,
   message,
   Icon,
   Badge,
@@ -16,6 +15,7 @@ import {
   Steps,
   Popconfirm,
 } from 'antd';
+import Table from 'widget/table'
 const Step = Steps.Step;
 import ApproveHistoryWorkFlow from 'containers/budget/budget-journal/approve-history-work-flow.js';
 import 'styles/budget/budget-journal/budget-journal-detail-submit.scss';

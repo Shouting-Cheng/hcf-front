@@ -4,8 +4,9 @@ import {connect} from 'dva';
 
 import {
   Button, Popover, message, Col, Row, Dropdown,
-  Icon, Menu, Table, Tabs, Badge
+  Icon, Menu, Tabs, Badge
 } from 'antd';
+import Table from 'widget/table'
 
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute';

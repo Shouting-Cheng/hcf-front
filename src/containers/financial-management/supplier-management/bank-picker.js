@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
-import { Modal, Table, message, Button, Popconfirm, Popover, Badge, Tabs } from 'antd';
+import { Modal, message, Button, Popconfirm, Popover, Badge, Tabs } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import BSService from 'containers/basic-data/bank-definition/bank-definition.service';
 import SearchArea from 'widget/search-area';

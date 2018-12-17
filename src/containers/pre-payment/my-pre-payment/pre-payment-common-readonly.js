@@ -15,12 +15,12 @@ import {
   Col,
   Spin,
   Breadcrumb,
-  Table,
   Timeline,
   message,
   Popover,
   Popconfirm,
 } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
 import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';

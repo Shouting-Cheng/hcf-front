@@ -5,13 +5,13 @@ import {
   Form,
   Input,
   message,
-  Table,
   Icon,
   Divider,
   Popconfirm,
   Tag,
   Alert,
 } from 'antd';
+import Table from 'widget/table'
 import service from './service';
 import moment from 'moment';
 import NewMenu from './new';

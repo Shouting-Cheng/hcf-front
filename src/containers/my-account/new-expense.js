@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import baseService from 'share/base.service'
 import moment from 'moment'
 import { getApprovelHistory, mulCalculate, deepFullCopy } from 'utils/extend'
-import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message, Card, Popover, InputNumber, DatePicker, Spin, Popconfirm, Tag, Table, Modal, Timeline } from 'antd'
+import { Alert, Form, Switch, Icon, Input, Select, Button, Row, Col, message, Card, Popover, InputNumber, DatePicker, Spin, Popconfirm, Tag, Modal, Timeline } from 'antd'
+import Table from 'widget/table'
 const { MonthPicker } = DatePicker;
 const FormItem = Form.Item;
 const Option = Select.Option;

@@ -4,7 +4,8 @@ import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 
 import config from 'config'
-import { Radio, Badge, Table, Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
+import { Radio, Badge, Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
+import Table from 'widget/table'
 const FormItem = Form.Item;
 import paymentService  from './pay-workbench.service'
 

@@ -7,7 +7,8 @@
 //统一用导出组件export-modal
 import React from 'react';
 
-import { Button, Tag, Table, Popover, message, Icon, Menu, Dropdown, Modal, Upload } from 'antd';
+import { Button, Tag,  Popover, message, Icon, Menu, Dropdown, Modal, Upload } from 'antd';
+import Table from 'widget/table'
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 

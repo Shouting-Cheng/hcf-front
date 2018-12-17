@@ -6,7 +6,8 @@ import config from 'config'
 import SearchArea from 'components/Widget/search-area.js';
 import SlideFrame from 'components/Widget/slide-frame'
 import BasicInfo from 'components/Widget/basic-info'
-import { Form, Button, Select, Row, Col, Input, Switch, Popover, Icon, Badge, Tabs, Table, message } from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Popover, Icon, Badge, Tabs, message } from 'antd'
+import Table from 'widget/table'
 import classNames from 'classnames';
 import SubjectSheetDetailMaintain from 'containers/setting/subject-sheet/subject-sheet-detail-maintain'
 import SubSubjectMaintain from 'containers/setting/subject-sheet/sub-subject-maintain'

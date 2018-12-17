@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import SearchArea from 'widget/search-area';
-import { Button, Table, Badge, Divider, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch, Popconfirm } from 'antd';
+import { Button,  Badge, Divider, Form, Icon, message, Checkbox, Input, Modal, Alert, Switch, Popconfirm } from 'antd';
 const FormItem = Form.Item;
 import CustomTable from 'components/Widget/custom-table';
 import SlideFrame from 'widget/slide-frame'

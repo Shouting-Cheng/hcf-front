@@ -4,8 +4,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Input, Button, Icon, Tabs, Table, message, Modal, Popconfirm } from 'antd';
-
+import { Input, Button, Icon, Tabs, message, Modal, Popconfirm } from 'antd';
+import Table from 'widget/table'
 import 'styles/setting/person-group/person-group-detail.scss';
 import ListSelector from 'components/Widget/list-selector.js';
 //顶部信息

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Select, Tag, Input, Progress, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Divider, Modal } from 'antd'
+import { Form, Select, Tag, Input, Progress, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Timeline, message, Popover, Popconfirm, Icon, Divider, Modal } from 'antd'
+import Table from 'widget/table'
 import { routerRedux } from "dva/router";
 import moment from "moment"
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import { Modal, Table, message, Button, Input, Row, Col } from 'antd'
+import { Modal,  message, Button, Input, Row, Col } from 'antd'
+import Table from 'widget/table'
 import httpFetch from 'share/httpFetch'
 import SearchArea from 'widget/search-area'
 import config from 'config'
@@ -209,7 +210,8 @@ class SelectRequisitionType extends Component {
                     bordered
                     size='middle'
                     rowSelection={rowSelection}
-                    onRowClick={this.onTableRowClick} />
+                    onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
+                    />
             </Modal>
         )
     }

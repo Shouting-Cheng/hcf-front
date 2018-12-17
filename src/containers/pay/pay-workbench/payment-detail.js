@@ -3,7 +3,8 @@ import React from 'react'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router';
 import paymentService  from './pay-workbench.service'
-import { Alert, Badge, Table, Card, Icon, Spin, Button, Modal } from 'antd';
+import { Alert, Badge, Card, Icon, Spin, Button, Modal } from 'antd';
+import Table from 'widget/table'
 import PaymentRequisitionDetail from 'containers/payment-requisition/new-payment-requisition-detail' //付款申请单
 import PublicReport from 'containers/reimburse/my-reimburse/reimburse-detail' // 对公报账单
 import PrepaymentDetail from 'containers/pre-payment/my-pre-payment/pre-payment-detail'

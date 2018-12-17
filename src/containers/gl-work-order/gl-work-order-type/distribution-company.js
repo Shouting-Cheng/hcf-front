@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import config from 'config';
-import { Form, Row, Col, Badge, Button, Table, Checkbox, message, Icon } from 'antd';
+import { Form, Row, Col, Badge, Button, Checkbox, message, Icon } from 'antd';
+import Table from 'widget/table'
 import ListSelector from 'components/Widget/list-selector';
 import httpFetch from 'share/httpFetch';
 import glWorkOrderTypeService from './gl-work-order-type.service';

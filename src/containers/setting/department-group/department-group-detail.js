@@ -3,7 +3,8 @@ import { connect } from 'dva'
 
 import config from 'config'
 
-import { Form, Button, Select, Checkbox, Input, Switch, Icon, Alert, Tabs, Table, message, Popconfirm } from 'antd'
+import { Form, Button, Select, Checkbox, Input, Switch, Icon, Alert, Tabs,message, Popconfirm } from 'antd'
+import Table from 'widget/table'
 import ListSelector from 'components/Widget/list-selector'
 import BasicInfo from 'components/Widget/basic-info'
 import 'styles/setting/department-group/department-group-detail.scss';

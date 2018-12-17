@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'dva'
 import SearchArea from 'widget/search-area'
 import baseService from 'share/base.service'
-import { Button, Table, Badge, Divider, message } from 'antd'
+import { Button,  Badge, Divider, message } from 'antd'
+import Table from 'widget/table'
 import budgetBalanceSolutionService from 'containers/budget-setting/budget-balance-solution/budget-balance-solution.service'
 import { routerRedux } from 'dva/router';
 

@@ -3,7 +3,8 @@ import React from 'react'
 import { connect } from 'dva'
 import config from "config";
 import httpFetch from "share/httpFetch";
-import { Button, Table, InputNumber, message, Checkbox, Modal, Divider, Switch, DatePicker, Row, Col } from 'antd';
+import { Button, InputNumber, message, Checkbox, Modal, Divider, Switch, DatePicker, Row, Col } from 'antd';
+import Table from 'widget/table'
 import moment from 'moment';
 import 'styles/setting/currency-setting/currency-setting-edit.scss';
 // import menuRoute from "routes/menuRoute";

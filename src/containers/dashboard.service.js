@@ -80,11 +80,34 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/2`);
   },
 
-   /***
-   * 获取退回的单据
-   */
+  /***
+  * 获取退回的单据
+  */
   getBackDocument() {
     return httpFetch.get(`${config.baseUrl}/api/dashboard/my/document/1`);
+  },
+
+  /***
+   * 获取费用趋势
+   */
+  getExpenceTrend(startDate, endDate) {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/report/cost/trend?startDate=${startDate}&endDate=${endDate}`);
+  },
+
+  /***
+   * 获取费用占比
+   */
+  getExpenceRatio(startDate, endDate) {
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/my/report/cost/ratio?startDate=${startDate}&endDate=${endDate}`);
+  },
+
+  /***
+   * 获取付款信息
+   */
+  getPayInfo(startDate, endDate, type) {
+    return httpFetch.get(`${config.payUrl}/api/dashboard/my/report/payment/situation?entityType=${type}&startDate=${startDate}&endDate=${endDate}`);
   }
+
+
 
 }

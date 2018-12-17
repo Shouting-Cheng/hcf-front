@@ -1,7 +1,8 @@
 import React from 'react';
-import { Modal, message, Table } from 'antd';
+import { Modal, message } from 'antd';
 import service from './service';
 import SearchForm from '../../components/Template/search-form';
+import Table from 'widget/table'
 
 class SelectRoles extends React.Component {
   constructor(props) {

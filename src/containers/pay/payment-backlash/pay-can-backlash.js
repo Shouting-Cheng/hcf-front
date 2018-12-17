@@ -6,8 +6,9 @@ import config from 'config'
 import SearchArea from 'widget/search-area'
 import backlashService from './pay-backlash.service'
 import moment from 'moment'
-import { Radio, Badge, Table, Tabs, Popover, Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
+import { Radio, Badge, Tabs, Popover, Pagination, message, Alert, Icon, Dropdown, Menu, Modal, Form, DatePicker } from 'antd'
 import ToBacklash from './to-backlash';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 import {messages } from 'utils/utils'
 

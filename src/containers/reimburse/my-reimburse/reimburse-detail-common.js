@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
-import { Form, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Table, Timeline, message, Popover, Popconfirm, Icon, Select, Card } from 'antd'
+import { Form, Tabs, Button, Menu, Radio, Dropdown, Row, Col, Spin, Timeline, message, Popover, Popconfirm, Icon, Select, Card } from 'antd'
 const TabPane = Tabs.TabPane;
 
 const RadioGroup = Radio.Group;

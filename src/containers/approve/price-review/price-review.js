@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Table, Tabs } from 'antd';
+import { Form, Tabs } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 
 import moment from 'moment';

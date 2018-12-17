@@ -250,9 +250,9 @@ class SearchArea extends React.Component {
         });
         if (this.props.isReturnLabel) values['expand'] = this.state.expand;
         this.props.submitHandle(values)
-      }else {
+      } else {
         console.log(err)
-        err.name&&this.setState({validateStatus: true})
+        err.name && this.setState({ validateStatus: true })
       }
     })
   };
@@ -398,18 +398,18 @@ class SearchArea extends React.Component {
       let url = item.getUrl;
       let tempForm = this.state.searchForm;
       tempForm = tempForm.map(searchItem => {
-        if (searchItem.id === item.id){
+        if (searchItem.id === item.id) {
           searchItem.fetching = true;
         }
         if (searchItem.type === 'items')
           searchItem.items.map(subItem => {
-            if (subItem.id === item.id){
+            if (subItem.id === item.id) {
               subItem.fetching = true;
             }
           });
         return searchItem;
       });
-      this.setState({searchForm: tempForm});
+      this.setState({ searchForm: tempForm });
       httpFetch[item.method](url, item.getParams).then((res) => {
         let options = [];
         let data = res.data;
@@ -426,20 +426,20 @@ class SearchArea extends React.Component {
         });
         let searchForm = this.state.searchForm;
         searchForm = searchForm.map(searchItem => {
-          if (searchItem.id === item.id){
+          if (searchItem.id === item.id) {
             searchItem.options = options;
             searchItem.fetching = false;
           }
           if (searchItem.type === 'items')
             searchItem.items.map(subItem => {
-              if (subItem.id === item.id){
+              if (subItem.id === item.id) {
                 subItem.fetching = false;
                 subItem.options = options;
               }
             });
           return searchItem;
         });
-        this.setState({searchForm});
+        this.setState({ searchForm });
       })
     }
   };
@@ -452,7 +452,7 @@ class SearchArea extends React.Component {
       this.getSystemValueList(item.valueListCode).then(res => {
         let options = [];
         res.data.values.map(data => {
-          options.push({ label: data.messageKey, value: data.code, data: data })
+          options.push({ label: data.messageKey, value: data.code || data.value, data: data })
         });
         let searchForm = this.state.searchForm;
         searchForm = searchForm.map(searchItem => {
@@ -663,18 +663,18 @@ class SearchArea extends React.Component {
       }
       //输入组件
       case 'input': {
-        if(item.language)
+        if (item.language)
           return <LanguageInput name={name}
-                                i18nName={item.nameI18n}
-                                nameChange={(name, i18nName)=>this.props.eventHandle(item.event, {name,i18nName})}
-                                disabled={item.disabled} />;
+            i18nName={item.nameI18n}
+            nameChange={(name, i18nName) => this.props.eventHandle(item.event, { name, i18nName })}
+            disabled={item.disabled} />;
 
         return <Input placeholder={item.placeholder || messages('common.please.enter')}
           onChange={handle} disabled={item.disabled} />
       }
       //输入金额组件组件
       case 'inputNumber': {
-        let min = item.min? {}:{min: 0};
+        let min = item.min ? {} : { min: 0 };
         return <InputNumber style={{ width: '100%' }} precision={2} {...min} step={0.01}
           placeholder={item.placeholder || messages('common.please.enter')}
           onChange={handle} disabled={item.disabled} />
@@ -736,8 +736,8 @@ class SearchArea extends React.Component {
       //日期
       case 'datePicker': {
         return <RangePicker format="YYYY-MM-DD" onChange={handle} disabled={item.disabled}
-          // disabledDate={date => { return date && date.valueOf() > new Date().getTime()}}
-         />
+        // disabledDate={date => { return date && date.valueOf() > new Date().getTime()}}
+        />
       }
       // 日期范围选择
       // noRange 是否有范围限制
@@ -879,7 +879,7 @@ class SearchArea extends React.Component {
                       }]
                     })(
                       this.renderFormItem(searchItem)
-                      )}
+                    )}
                   </FormItem>
                 </Col>
               )
@@ -939,7 +939,7 @@ class SearchArea extends React.Component {
                 }]
               })(
                 this.renderFormItem(item)
-                )}
+              )}
             </FormItem>
           }
         </Col>
@@ -976,7 +976,7 @@ class SearchArea extends React.Component {
   }
 
   getCheckboxList() {
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="checkbox-list-form">
         {this.state.checkboxListForm.map(list => {
@@ -1002,7 +1002,7 @@ class SearchArea extends React.Component {
               })(
                 list.single ?
                   <RadioGroup onChange={e => {
-                    this.props.checkboxChange({[list.id]: e.target.value})
+                    this.props.checkboxChange({ [list.id]: e.target.value })
                   }}>
                     {list.items.map(item => {
                       return (
@@ -1011,14 +1011,14 @@ class SearchArea extends React.Component {
                           <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
                             {/*折叠:展开*/}
                             <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
-                              <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
+                              <Icon type={item.expand ? 'up' : 'down'} style={{ marginLeft: '10px' }} />
                             </a>
                           </Col>
-                          <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
+                          <Col span={19} className="list-col-content" style={{ height: item.expand ? 'auto' : '42px' }}>
                             {item.options.map(option => {
                               return (
                                 <Radio value={option.value}
-                                       key={option.value}>{messages(option.label)}</Radio>)
+                                  key={option.value}>{messages(option.label)}</Radio>)
                             })}
                           </Col>
                         </Row>)
@@ -1036,16 +1036,16 @@ class SearchArea extends React.Component {
                           <Col span={2} className="list-col-content" onClick={() => this.checkboxToggle(item)}>
                             {/*折叠:展开*/}
                             <a>{item.expand ? messages("components.search.upload.fold") : messages("components.search.upload.more")}
-                              <Icon type={item.expand ? 'up' : 'down'} style={{marginLeft: '10px'}}/>
+                              <Icon type={item.expand ? 'up' : 'down'} style={{ marginLeft: '10px' }} />
                             </a>
                           </Col>
-                          <Col span={19} className="list-col-content" style={{height: item.expand ? 'auto' : '42px'}}>
+                          <Col span={19} className="list-col-content" style={{ height: item.expand ? 'auto' : '42px' }}>
                             <TagSelect key={item.key}
-                                       value={item.checked}
-                                       onChange={(checked) => this.onCheckChange(list.id, item.key, checked)}>
+                              value={item.checked}
+                              onChange={(checked) => this.onCheckChange(list.id, item.key, checked)}>
                               {item.options.map(option => {
                                 return <TagSelect.Option key={option.value}
-                                                         value={option.value}>{option.label}</TagSelect.Option>
+                                  value={option.value}>{option.label}</TagSelect.Option>
                               })}
                             </TagSelect>
                           </Col>

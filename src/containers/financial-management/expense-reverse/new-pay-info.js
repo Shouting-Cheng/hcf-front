@@ -6,7 +6,8 @@
  */
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Button, message, Alert, Popover, InputNumber, Tag, Row, Col, Divider } from 'antd';
+import {  Button, message, Alert, Popover, InputNumber, Tag, Row, Col, Divider } from 'antd';
+import Table from 'widget/table'
 import reverseService from 'containers/financial-management/expense-reverse/expense-reverse.service'
 
 

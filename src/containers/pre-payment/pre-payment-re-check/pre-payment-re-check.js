@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import {Form, Tabs, Table, message, Badge, Popover, InputNumber, Row, Col, Input} from 'antd'
+import {Form, Tabs, message, Badge, Popover, InputNumber, Row, Col, Input} from 'antd'
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import prePaymentService from './pre-payment-re-check.service'

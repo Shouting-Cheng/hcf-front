@@ -97,7 +97,7 @@ class AddApproveRuleModal extends React.Component {
       remark === 'default_department' || remark === 'currency_code' || remark === 'select_air_ticket_supplier' ||
       remark === 'default_department_level' || remark === 'default_department_path' || remark === 'default_department_role' ||
       remark === 'select_company' || remark === 'default_applicant_company' || remark === 'default_user_applicant'
-      || remark === 'default_user_department' || remark === 'default_user_direct_leadership') {
+      || remark === 'default_user_department' || remark === 'default_user_direct_leadership'|| remark === 'select_document_department') {
       return 'custList' //值列表类型
     }
     if (remark === 'default_user_sex' || remark === 'default_user_level'
@@ -198,8 +198,7 @@ class AddApproveRuleModal extends React.Component {
             <List itemLayout="horizontal">
               <ListItem className="default-addition">
                 <div>
-                  <h4>{this.$t('setting.key1285'/*默认条件*/)}</h4>
-                  <span>{this.$t('setting.key1286'/*部门：申请人的部门；法人实体：申请人的法人实体*/)}</span>
+                  <h4>{this.$t('setting.key1286'/*申请人条线*/)}</h4>
                   <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
                     {formFieldList && (formFieldList['100'] || []).map(item => {
                       let value = (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
@@ -277,7 +276,7 @@ AddApproveRuleModal.propTypes = {
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
 };
-
+  
 
 
 function mapStateToProps(state) {

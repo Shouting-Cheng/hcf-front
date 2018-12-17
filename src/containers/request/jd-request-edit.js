@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Input, Table, Row, Col, Tag, Affix, Button, Alert, message, Spin } from 'antd';
+import { Form, Input,  Row, Col, Tag, Affix, Button, Alert, message, Spin } from 'antd';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 

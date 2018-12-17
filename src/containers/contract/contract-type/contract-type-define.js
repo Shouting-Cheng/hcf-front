@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Button, Table, Badge, message } from 'antd';
+import { Button, Badge, message } from 'antd';
+import Table from 'widget/table'
 import config from 'config';
 import baseService from 'share/base.service';
 import contractService from 'containers/contract/contract-type/contract-type-define.service';

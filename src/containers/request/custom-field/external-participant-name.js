@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Button, Modal, Table, Popover } from 'antd';
-
+import { Form, Button, Modal,Popover } from 'antd';
+import Table from 'widget/table'
 import 'styles/request/custom-field/external-participant-name.scss';
 
 class ExternalParticipantName extends React.Component {

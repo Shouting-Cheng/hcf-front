@@ -6,7 +6,8 @@ import config from 'config'
 import httpFetch from 'share/httpFetch'
 import moment from 'moment'
 
-import { Radio, Table, Badge, Modal, Form, Select, Input, Pagination, Button, Alert, message, Icon, Tooltip, DatePicker, Spin } from 'antd'
+import { Radio,  Badge, Modal, Form, Select, Input, Pagination, Button, Alert, message, Icon, Tooltip, DatePicker, Spin } from 'antd'
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;

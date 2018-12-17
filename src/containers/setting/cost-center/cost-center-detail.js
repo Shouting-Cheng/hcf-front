@@ -8,10 +8,10 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import {
-    Table, Button, Badge, message, Icon, Input, Menu,
+import { Button, Badge, message, Icon, Input, Menu,
     Dropdown, Modal, Upload, Popover
 } from 'antd';
+import Table from 'widget/table'
 import ImportErrInfo from 'widget/Template/import-err-info';
 import FileSaver from 'file-saver';
 import CCService from 'containers/setting/cost-center/cost-center.service';

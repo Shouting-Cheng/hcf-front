@@ -5,7 +5,7 @@ import CanBacklash from './pay-can-backlash'
 import MyBacklash from  './pay-my-backlash'
 import {messages} from 'utils/utils'
 
-import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, Table, message, Popover } from 'antd'
+import { Form, Button, Select, Row, Col, Input, Switch, Icon, Badge, Tabs, message, Popover } from 'antd'
 const TabPane = Tabs.TabPane;
 
 class PayBacklash extends React.Component {

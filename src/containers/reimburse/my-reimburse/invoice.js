@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { Row, Col, Input, Select, InputNumber, DatePicker, Form, Modal, Button, Popover, Table } from 'antd'
+import { Row, Col, Input, Select, InputNumber, DatePicker, Form, Modal, Button, Popover, } from 'antd'
+import Table from 'widget/table'
 import "styles/reimburse/invoice-info.scss"
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import baseService from 'share/base.service'

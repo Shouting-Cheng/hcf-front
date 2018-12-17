@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from "dva/router";
 import config from 'config';
-import { Table, Button, message, Badge, Popover, Tabs, Input, Row, Col } from 'antd';
+import {  Button, message, Badge, Popover, Tabs, Input, Row, Col } from 'antd';
+import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 import SearchArea from 'widget/search-area';
@@ -796,7 +797,7 @@ class GLWorkOrderCheck extends Component {
               bordered
               size="middle"
               rowKey={record => record['id']}
-              onRowClick={record => this.onTableRowClick(record)}
+              onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
             />
           </div>
         );
@@ -837,7 +838,7 @@ class GLWorkOrderCheck extends Component {
               bordered
               size="middle"
               rowKey={record => record['id']}
-              onRowClick={record => this.onTableRowClick(record)}
+              onRow={record => ({ onClick: () => this.onTableRowClick(record) })}
             />
           </div>
         );
