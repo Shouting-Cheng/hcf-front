@@ -46,6 +46,8 @@ export default {
       let component = components.find(o => o.id == id);
       let oldValue = '';
 
+      console.log(id, key, value)
+
       if (String(key).indexOf('.') >= 0) {
         let keys = String(key).split('.');
         let temp = component;
@@ -72,7 +74,7 @@ export default {
             key,
             newValue: value,
             oldValue,
-          },
+          }
         ],
       };
     },

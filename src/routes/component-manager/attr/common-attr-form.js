@@ -8,10 +8,13 @@ import {
   Switch,
   Spin,
   TreeSelect,
+  message
 } from 'antd';
+
 const FormItem = Form.Item;
-const Option = Select.Option;
+const Option = Select.Option;npm
 const TreeNode = TreeSelect.TreeNode;
+const TextArea = Input.TextArea;
 
 import { connect } from 'dva';
 
@@ -22,6 +25,7 @@ import columnTemplate from '../../../column-template/index';
 import baseMethods from '../../../methods/index';
 import debounce from 'lodash/debounce';
 import service from '../../Interface/interface.service';
+
 
 @connect(({ languages }) => ({
   languages,
@@ -37,7 +41,8 @@ class CommonAttrForm extends Component {
       fetching: false,
       dataSource: [],
       modules: [],
-      searchResult: []
+      searchResult: [],
+      displayColorPicker: false
     };
     this.titleSearch = debounce(this.titleSearch, 500);
   }
@@ -210,13 +215,6 @@ class CommonAttrForm extends Component {
   };
 
   onLoadData = treeNode => {
-    // let loadedKeys = this.state.loadedKeys;
-
-    // if (loadedKeys.indexOf(treeNode.props.dataRef.id) < 0) {
-    //   loadedKeys.push(treeNode.props.dataRef.id);
-    // }
-
-    // this.setState({ loadedKeys });
 
     return new Promise(resolve => {
       if (treeNode.props.dataRef.children) {
@@ -240,10 +238,23 @@ class CommonAttrForm extends Component {
     });
   };
 
-  renderFormElement = (item, value) => {
-    let languages = this.props.languages.languages;
+  //检查是否为json
+  checkJson = (e, data) => {
+    try {
+      var obj = JSON.parse(data);
+      if (!(typeof obj == 'object' && obj)) {
+        message.error(`json格式不正确`);
+        e.target.focus();
+      }
+    } catch (error) {
+      message.error(`json格式不正确：` + error);
+      e.target.focus();
+    }
+  }
 
-    const { interfaceList, templateList, languageList, fetching, modules } = this.state;
+  renderFormElement = (item, value) => {
+
+    const { languageList, fetching, modules } = this.state;
 
     switch (item.type) {
       case 'input':
@@ -356,6 +367,19 @@ class CommonAttrForm extends Component {
           <Select value={value} onChange={value => this.updateComponent(item, value)}>
             {this.renderTamplate()}
           </Select>
+        );
+      case 'json':
+        return (
+          <TextArea onBlur={(e) => this.checkJson(e, value)} value={value} autosize={{ minRows: 3 }} onChange={e => this.updateComponent(item, e.target.value)}>
+          </TextArea>
+        );
+      case 'color':
+        return (
+          <Input
+            value={value}
+            onChange={e => this.updateComponent(item, e.target.value)}
+            style={{ width: '100%' }}
+          />
         );
 
       // <Select value={selected.events && selected.events.submitHandle} onChange={this.clickChange}>

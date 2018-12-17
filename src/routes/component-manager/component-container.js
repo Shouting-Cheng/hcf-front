@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { DragSource, DropTarget } from 'react-dnd';
 import styles from './component-container.less';
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker, Row } from 'antd';
 import { connect } from 'dva';
 
 import CustomTable from 'components/Common/custom-table';
@@ -22,6 +22,7 @@ const componentList = {
   form: CustomForm,
   'date-picker': DatePicker,
   'range-picker': RangePicker,
+  row: Row
 };
 
 /**
@@ -116,6 +117,8 @@ class ComponentContainer extends Component {
       //className = [(selected === item.id && !isOver) ? 'selected' : ""];
 
       let selectedClass = isOver ? [] : item.id == selectedId ? ['selected'] : [];
+
+      console.log(props);
 
       return (
         Type && (
