@@ -23,11 +23,11 @@ const extendFieldDefault = {
   formCode: 'user_attach_form',
   asSystem: false,
   valid: true,
-  parentOID: null,
+  parentOid: null,
   associateExpenseReport: false,
   customFormFields: [],
   remark: '人员附加信息', //
-  referenceOID: null,
+  referenceOid: null,
   visibleExpenseTypeScope: 1001,
   visibleUserScope: 1001,
 };
@@ -103,9 +103,9 @@ class ExtendField extends React.Component {
   };
   //更新表单
   updateCustomForm = form => {
-    if (!form.formOID) {
+    if (!form.forOid) {
       //只有当新增之后，立即再次更新执行这个逻辑
-      form.formOID = this.props.profile['company.contact.custom.form'];
+      form.formOid = this.props.profile['company.contact.custom.form'];
     }
     this.setState({
       loading: true,

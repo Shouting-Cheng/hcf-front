@@ -83,7 +83,7 @@ class SecuritySetting extends React.Component {
 
   //获取安全设置数据
   getCompanySecuritySetting() {
-    SSService.getCompanySecuritySetting(this.props.company.companyOID)
+    SSService.getCompanySecuritySetting(this.props.company.companyOid)
       .then((response) => {
         let selectedPasswordRule = [];
         let array = response.data.passwordRule.split("");
@@ -122,7 +122,7 @@ class SecuritySetting extends React.Component {
           modifyMoblieEmail: modifyMoblieEmail,
 
           createDataType: response.data.createDataType,
-          companyOID: response.data.companyOID,
+          companyOid: response.data.companyOid,
           name: response.data.name,
           taxId: response.data.taxId,
         };
@@ -250,7 +250,7 @@ class SecuritySetting extends React.Component {
       enableMobileModify: this.state.securitySetting.defaultEnableMobileModify,
       enableEmailModify: this.state.securitySetting.defaultEnableEmailModify,
       createDataType: this.state.securitySetting.createDataType,
-      companyOID: this.state.securitySetting.companyOID,
+      companyOID: this.state.securitySetting.companyOid,
       name: this.state.securitySetting.name,
       taxId: this.state.securitySetting.taxId
     };

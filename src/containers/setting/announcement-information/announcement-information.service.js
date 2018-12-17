@@ -33,7 +33,7 @@ export default {
   },
   //获取分配公司列表
   getCompanyList(page, size, OID) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/company/find/distribution?page=${page}&size=${size}&carouselOID=${OID}`)
+    return httpFetch.get(`${config.baseUrl}/api/carousels/company/find/distribution?page=${page}&size=${size}&carouselOid=${OID}`)
   },
 
   //分配公司，carouselOIDs 和 companyOIDs 都是数组格式

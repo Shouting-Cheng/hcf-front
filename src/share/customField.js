@@ -380,22 +380,22 @@ export default {
                         single/>;
       case 'select_corporation_entity':
         return <Chooser type="corporation_entity"
-                        valueKey="companyReceiptedOID"
+                        valueKey="companyReceiptedOid"
                         placeholder={field.promptInfo}
                         labelKey="companyName"
-                        onlyNeed="companyReceiptedOID"
+                        onlyNeed="companyReceiptedOid"
                         disabled={field.isReadOnly}
                         single/>;
       case 'select_participant':
         let fieldContent=field.fieldContent?JSON.parse(field.fieldContent):{editable:true};
         chooserItem = deepFullCopy(chooserData['participants']);
         chooserItem.title = `${messages('configuration.detail.select')}${field.fieldName}`;
-        chooserItem.key = 'userOID';
+        chooserItem.key = 'userOid';
         //参与人安全权限校验
         let departmentValues = this.byMkGetValue(formDetail.customFormFields, 'select_department');
-        let departmentOIDSet = '';
+        let departmentOidSet = '';
         if (departmentValues && departmentValues.length > 0 && departmentValues[0]) {
-          departmentOIDSet = `&departmentOID=${departmentValues[0]}`;
+          departmentOidSet = `&departmentOid=${departmentValues[0]}`;
         }
         let costCentreValues = this.byMkGetValue(formDetail.customFormFields, 'select_cost_center');
         let costCentreValue = [];
@@ -403,26 +403,26 @@ export default {
         if (costCentreValues && costCentreValues.length > 0) {
           costCentreValues.map(item => {
             if (item) {
-              costCentreValue.push(`costCentreOID=${item}`)
+              costCentreValue.push(`costCentreOid=${item}`)
             }
           })
           if (costCentreValue.length > 0) {
             costCentreValuesSet = '&' + costCentreValue.join('&');
           }
         }
-        chooserItem.url += `?proposerOID=${app.getState().user.currentUser.userOID}${departmentOIDSet}${costCentreValuesSet}`;
+        chooserItem.url += `?proposerOid=${app.getState().user.currentUser.userOid}${departmentOidSet}${costCentreValuesSet}`;
         return <Chooser selectorItem={chooserItem}
-                        valueKey="userOID"
+                        valueKey="userOid"
                         labelKey="fullName"
-                        listExtraParams={{formOID: field.formOID}}
+                        listExtraParams={{formOID: field.formOid}}
                         disabled={field.isReadOnly || !fieldContent.editable}
                         newline/>;
       case 'select_approver':
         return <Chooser type="user"
-                        valueKey="userOID"
+                        valueKey="userOid"
                         listExtraParams={{roleType: 'TENANT'}}
                         labelKey="fullName"
-                        onlyNeed="userOID"
+                        onlyNeed="userOid"
                         maxNum={JSON.parse(field.fieldConstraint || '{}').maxApprovalChain || -1}
                         newline/>;
       case 'total_budget':
@@ -440,17 +440,17 @@ export default {
       case 'payee':
         return <NewPayee disabled={field.isReadOnly}/>;
       case 'contact_bank_account':
-        let userOID=app.getState().user.currentUser.userOID;
+        let userOid=app.getState().user.currentUser.userOid;
         formDetail.customFormFields.map(item => {
           if (item.messageKey === 'payee' && item.value) {
-            userOID = item.value;
+            userOid = item.value;
           }
         })
         return <Chooser type="bank_card"
-                        valueKey="contactBankAccountOID"
+                        valueKey="contactBankAccountOid"
                         labelKey="bankAccountNo"
-                        onlyNeed="contactBankAccountOID"
-                        listExtraParams={{userOID: userOID}}
+                        onlyNeed="contactBankAccountOid"
+                        listExtraParams={{userOid: userOid}}
                         single/>;
       case 'linkage_switch':
         return <NewLinkageSwitch/>;
@@ -471,9 +471,9 @@ export default {
           </Select>
         );
       case 'cust_list':
-        let OID = field.dataSource ? JSON.parse(field.dataSource || '{}').customEnumerationOID : '';
+        let oid = field.dataSource ? JSON.parse(field.dataSource || '{}').customEnumerationOid : '';
         let selectorItem = {
-          url: `${config.baseUrl}/api/custom/enumerations/${OID}/items/v2?&page=0&size=1000`,
+          url: `${config.baseUrl}/api/custom/enumerations/${oid}/items/v2?&page=0&size=1000`,
           label: record => record.messageKey,
           key: 'value', //报销单和申请单保存时存的都是code，不要再改成OID了～～
           offlineSearchMode: true,
@@ -529,10 +529,10 @@ export default {
         return <DatePicker showTime={{format: 'HH:mm'}} format="YYYY-MM-DD HH:mm"/>;
       case 'select_user':
         return <Chooser type="user"
-                        valueKey="userOID"
+                        valueKey="userOid"
                         placeholder={field.promptInfo}
                         labelKey="fullName"
-                        onlyNeed="userOID"
+                        onlyNeed="userOid"
                         listExtraParams={{roleType: 'TENANT'}}
                         single={!JSON.parse(field.fieldConstraint || '{}').selectMode}
                         newline/>;
@@ -547,13 +547,13 @@ export default {
                               disabled/>
         }
         else if (field.fieldContent && (JSON.parse(field.fieldContent) || {}).messageKey === 'cust_list') {
-          let OID = '';
+          let oid = '';
           if (field.fieldContent && JSON.parse(field.fieldContent)) {
             let fieldItem = JSON.parse(field.fieldContent);
-            OID = fieldItem.dataSource ? JSON.parse(fieldItem.dataSource).customEnumerationOID : '';
+             oid = fieldItem.dataSource ? JSON.parse(fieldItem.dataSource).customEnumerationOid : '';
           }
           let selectorItem = {
-            url: `${config.baseUrl}/api/custom/enumerations/${OID}/items/v2?&page=0&size=1000`,
+            url: `${config.baseUrl}/api/custom/enumerations/${oid}/items/v2?&page=0&size=1000`,
             label: record => record.messageKey,
             key: 'value',
             offlineSearchMode: true,
@@ -567,9 +567,9 @@ export default {
         }
       case 'select_special_booking_person':
         return <Chooser type="booker"
-                        valueKey="userOID"
+                        valueKey="userOid"
                         labelKey="fullName"
-                        onlyNeed="userOID"
+                        onlyNeed="userOid"
                         single/>;
       case 'external_participant_name':
         let external_participant_name_columns = [{
@@ -606,7 +606,7 @@ export default {
         }];
         return <AddTableCell columns={out_participant_name_columns}/>;
       case 'budget_detail':
-        return <ExpenseTypeModal formOID={field.formOID} formDetail={formDetail}/>;
+        return <ExpenseTypeModal formOid={field.formOid} formDetail={formDetail}/>;
       case 'writeoff_flag':
         return <Switch/>;
       case 'exp_allocate':
@@ -623,20 +623,20 @@ export default {
       case 'select_company':
         let showCode = JSON.parse(field.fieldConstraint || '{}').showCode;
         let selectorItemCompany = {
-          url: `${config.baseUrl}/api/refactor/companies/user/setOfBooks?userOID=${app.getState().user.currentUser.userOID}&enabled=true&page=0&size=1000`,
+          url: `${config.baseUrl}/api/refactor/companies/user/setOfBooks?userOid=${app.getState().user.currentUser.userOid}&enabled=true&page=0&size=1000`,
           label: record => showCode ? `${record.name} - ${record.companyCode}` : record.name,
-          key: 'companyOID'
+          key: 'companyOid'
         };
         return <Selector selectorItem={selectorItemCompany} disabled={field.isReadOnly} getPopupContainer={getPopupContainer}/>;
       case 'applicant':
         let selectorItemApplicant = {
-          url: `${config.baseUrl}/api/bill/proxy/my/principals/${field.formOID}`,
+          url: `${config.baseUrl}/api/bill/proxy/my/principals/${field.formOid}`,
           label: record => `${record.fullName} - ${record.employeeID}`,
-          key: 'userOID',
+          key: 'userOid',
           dynamicUrl: true
         };
         // 关联申请单会修改url信息
-        field.applicationOID && (selectorItemApplicant.url = `${selectorItemApplicant.url}?applicationOID=${field.applicationOID}`);
+        field.applicationOid && (selectorItemApplicant.url = `${selectorItemApplicant.url}?applicationOid=${field.applicationOid}`);
 
         return (
           <Selector disabled={true} selectorItem={selectorItemApplicant} onChange={(e, all) => {
@@ -663,18 +663,18 @@ export default {
       case 'remark':
         return field.showValue;
       case 'select_cost_center':
-        return field.value ? [{name: field.showValue, costCenterItemOID: field.value}] : undefined;
+        return field.value ? [{name: field.showValue, costCenterItemOdi: field.value}] : undefined;
       case 'select_corporation_entity':
-        return field.value ? [{companyName: field.showValue, companyReceiptedOID: field.value}] : undefined;
+        return field.value ? [{companyName: field.showValue, companyReceiptedOid: field.value}] : undefined;
       case 'select_participant':
         let initValue = (field.clearDefault) ? [] : JSON.parse(field.showValue || '[]').map(item => {
-          values.push({userOID: item.userOID, fullName: item.fullName})
+          values.push({userOid: item.userOid, fullName: item.fullName})
         });
         field.clearDefault = false;
         return values;
       case 'select_approver':
         field.showValue && field.showValue.split(',').map((name, index) => {
-          values.push({fullName: name, userOID: field.value.split(':')[index]})
+          values.push({fullName: name, userOid: field.value.split(':')[index]})
         });
         return values;
       case 'total_budget':
@@ -688,7 +688,7 @@ export default {
       case 'contact_bank_account':
         return field.value ? [{
           bankAccountNo: field.showValue && this.isJson(field.showValue) ? JSON.parse(field.showValue).bankAccountNo : field.showValue,
-          contactBankAccountOID: field.value
+          contactBankAccountOid: field.value
         }] : undefined;
       case 'linkage_switch':
         return {
@@ -735,7 +735,7 @@ export default {
         return field.showValue ? moment(field.showValue) : undefined;
       case 'select_user':
         field.showValue && field.showValue.split(',').map((name, index) => {
-          values.push({fullName: name, userOID: field.value.split(':')[index]})
+          values.push({fullName: name, userOid: field.value.split(':')[index]})
         });
         return field.value ? (JSON.parse(field.fieldConstraint || '{}').selectMode ? values : [values[0]]) : undefined;
       case 'employee_expand':
@@ -744,7 +744,7 @@ export default {
         }
         return field.showValue;
       case 'select_special_booking_person':
-        return field.value ? [{fullName: field.showValue, userOID: field.value}] : undefined;
+        return field.value ? [{fullName: field.showValue, userOid: field.value}] : undefined;
       case 'external_participant_name':
         return field.showValue ? JSON.parse(field.showValue) : undefined;
       case 'out_participant_name':
@@ -828,7 +828,7 @@ export default {
         if (fieldDefaultValue.value) {
           let values = [];
           fieldDefaultValue.value && fieldDefaultValue.value.split(':').map((value, index) => {
-            values.push({fullName: fieldDefaultValue.name.split(',')[index], userOID: value})
+            values.push({fullName: fieldDefaultValue.name.split(',')[index], userOid: value})
           });
           return values;
         }
@@ -852,12 +852,12 @@ export default {
         return false;
       case 'select_cost_center':
         if (fieldDefaultValue.value) {
-          return [{name: fieldDefaultValue.name, costCenterItemOID: fieldDefaultValue.value}]
+          return [{name: fieldDefaultValue.name, costCenterItemOid: fieldDefaultValue.value}]
         }
         return undefined;
       case 'select_corporation_entity':
         if (JSON.parse(field.fieldConstraint || '{}').default && fieldDefaultValue.value) {
-          return [{companyName: fieldDefaultValue.name, companyReceiptedOID: fieldDefaultValue.value}]
+          return [{companyName: fieldDefaultValue.name, companyReceiptedOid: fieldDefaultValue.value}]
         }
         return undefined;
       case 'select_company':
@@ -882,17 +882,17 @@ export default {
         return fieldDefaultValue.value || undefined;
       case 'contact_bank_account':
         if (fieldDefaultValue.value) {
-          return [{bankAccountNo: fieldDefaultValue.name, contactBankAccountOID: fieldDefaultValue.value}]
+          return [{bankAccountNo: fieldDefaultValue.name, contactBankAccountOid: fieldDefaultValue.value}]
         }
         return undefined;
       /********** 根据接口:/api/custom/form/user/default/values 拿到默认值 End ***********/
 
       case 'applicant':
-        return {label: `${user.fullName} - ${user.employeeID}`, key: user.userOID};
+        return {label: `${user.fullName} - ${user.employeeID}`, key: user.userOid};
       case 'payee':
         return {label: `${user.employeeID} | ${user.fullName} | ${user.departmentName ? user.departmentName: messages('expense.invoice.type.unknown')/*"未知"*/} | ${user.title || messages('expense.invoice.type.unknown')/*"未知"*/}`, key: user.userOID};
       case 'select_participant':
-        let initValue = (field.clearDefault) ? [] : [{userOID: user.userOID, fullName: user.fullName}];
+        let initValue = (field.clearDefault) ? [] : [{userOid: user.userOid, fullName: user.fullName}];
         field.clearDefault = false;
         return initValue;
       case 'linkage_switch':
@@ -929,7 +929,7 @@ export default {
     }
     if (field.messageKey === 'select_participant') {
       value.map(item => {
-        item.participantOID = item.userOID
+        item.participantOid = item.userOid
       })
     }
     if (field.messageKey === 'applicant' ||
@@ -945,7 +945,7 @@ export default {
       if (field.attachmentImages && field.attachmentImages.length) { //个人扩展字段为图片时
         let tempEmployeeExpandValue = [];
         field.attachmentImages.map(item => {
-          tempEmployeeExpandValue.push(item.attachmentOID)
+          tempEmployeeExpandValue.push(item.attachmentOid)
         });
         value = tempEmployeeExpandValue.join(',') //保存提交时和老中控统一为 attachmentOID,attachmentOID,... 的格式
       }
