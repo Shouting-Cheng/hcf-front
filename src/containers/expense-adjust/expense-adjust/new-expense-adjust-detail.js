@@ -123,6 +123,9 @@ class NewExpenseAdjustDetail extends React.Component {
           key: 'apportion',
           span: 24,
           className: type ? 'apportion-1' : 'apportion-2',
+          style:{
+            marginLeft: -3
+          },
           formItemLayout: {
             labelCol: { span: type ? 3 : 6 },
             wrapperCol: { span: type ? 20 : 12 },
@@ -134,6 +137,9 @@ class NewExpenseAdjustDetail extends React.Component {
           label: this.$t('common.comment'),
           key: type ? 'description' : 'desc',
           span: 24,
+          style:{
+            marginLeft: -3
+          },
           className: type ? 'new-adjust-description-1' : 'new-adjust-description-2',
           formItemLayout: {
             labelCol: { span: type ? 3 : 6 },
@@ -897,7 +903,7 @@ class NewExpenseAdjustDetail extends React.Component {
     let arr = [];
     let style = {};
     this.state.formItems.map((item, index) => {
-      item.key === 'expenseTypeId' ? (style = this.state.style) : (style = {});
+      item.key === 'expenseTypeId' ? (style = this.state.style) : (style = item.sstyle);
       formItemLayout = item.formItemLayout || formItemLayout;
       arr.push(
         <Col key={item.key} span={item.span || 12} className={item.className} style={style}>
@@ -1010,7 +1016,7 @@ class NewExpenseAdjustDetail extends React.Component {
           let param = {
             ...values,
             employeeId: this.props.user.id,
-            attachmentOid: this.state.attachmentOid.toString(),
+            attachmentOid: this.state.attachmentOid&&this.state.attachmentOid.toString(),
             expAdjustHeaderId: this.props.params.expenseAdjustHeadId,
             setOfBooksId: this.props.company.setOfBooksId,
             adjustLineCategory: '1001',
@@ -1202,7 +1208,7 @@ class NewExpenseAdjustDetail extends React.Component {
                 <Button onClick={this.handleImport}>{this.$t('exp.import.detail.info')}</Button>
               </div>
               <Table
-                rowKey={(record, index) => record.id || record['rowKey'] || index}
+                rowKey={(record, index) => record.id || index}
                 dataSource={data}
                 columns={columns}
                 loading={tableLoading}

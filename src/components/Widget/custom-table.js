@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import PropTypes from 'prop-types';
 
 import httpFetch from 'share/httpFetch'
 import Table from "widget/table"

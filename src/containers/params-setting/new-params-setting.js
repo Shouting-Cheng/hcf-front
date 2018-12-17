@@ -109,8 +109,8 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.tableName || ""
                         })(
-                            <Input />
-                        )}
+                            <Input disabled={this.props.params.id ? true : false} />
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -122,14 +122,14 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.dataType || ""
                         })(
-                            <Select>
+                            <Select disabled={this.props.params.id ? true : false}>
                                 {paramsTypeList.map(item => {
                                     return (
                                         <Select.Option key={item.value} value={item.value}>{item.messageKey}</Select.Option>
                                     )
                                 })}
                             </Select>
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -148,7 +148,7 @@ class NewParamsSetting extends Component {
                                     )
                                 })}
                             </Select>
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -163,7 +163,7 @@ class NewParamsSetting extends Component {
                             <TextArea autosize={{
                                 minRows: 3
                             }} disabled={this.props.form.getFieldValue("filterMethod") != "CUSTOM_SQL"} />
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -176,7 +176,7 @@ class NewParamsSetting extends Component {
                             initialValue: this.props.params.columnName || ""
                         })(
                             <Input disabled={this.props.form.getFieldValue("filterMethod") != "TABLE_COLUMN"} />
-                        )}
+                            )}
                     </FormItem>
                     <div className="slide-footer">
                         <Button type="primary" htmlType="submit" loading={saveLoading}>
