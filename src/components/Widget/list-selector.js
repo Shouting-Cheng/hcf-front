@@ -1,13 +1,12 @@
-
 /**
  * Created By ZaraNengap on 2017/09/21
  */
 import React from 'react';
-import { connect } from 'dva'
-import { Modal,  message, Button, Input, Row, Col, Tag, Icon, Popover } from 'antd'
-import Table from 'widget/table'
-import httpFetch from 'share/httpFetch'
-import SearchArea from 'widget/search-area'
+import { connect } from 'dva';
+import { Modal, message, Button, Input, Row, Col, Tag, Icon, Popover } from 'antd';
+import Table from 'widget/table';
+import httpFetch from 'share/httpFetch';
+import SearchArea from 'widget/search-area';
 import PropTypes from 'prop-types';
 
 /**
@@ -21,7 +20,7 @@ import PropTypes from 'prop-types';
  * @params key  数据主键
  * @params listKey  列表在接口返回值内的变量名，如果接口直接返回数组则置空
  */
-import chooserData from 'chooserData'
+import chooserData from 'chooserData';
 
 /**
  * 通用表格选择器组件
@@ -55,60 +54,67 @@ class ListSelector extends React.Component {
       page: 0,
       pageSize: 10,
       pagination: {
-        total: 0
+        total: 0,
       },
-      selectedData: [],  //已经选择的数据项
-      selectorItem: {},  //当前的选择器类型数据项, 包含url、searchForm、columns
-      searchParams: {},  //搜索需要的参数
+      selectedData: [], //已经选择的数据项
+      selectorItem: {}, //当前的选择器类型数据项, 包含url、searchForm、columns
+      searchParams: {}, //搜索需要的参数
       rowSelection: {
         type: this.props.single ? 'radio' : 'checkbox',
         selectedRowKeys: [],
         onChange: this.onSelectChange,
         onSelect: this.onSelectItem,
-        onSelectAll: this.onSelectAll
+        onSelectAll: this.onSelectAll,
       },
       scrollX: false,
     };
   }
 
-  search = (params) => {
-    this.setState({
-      page: 0,
-      searchParams: params,
-      loading: true
-    }, () => {
-      this.getList();
-    })
+  search = params => {
+    this.setState(
+      {
+        page: 0,
+        searchParams: params,
+        loading: true,
+      },
+      () => {
+        this.getList();
+      }
+    );
   };
 
   clear = () => {
     let searchParams = {};
     this.state.selectorItem.searchForm.map(form => {
-      if(form.type === 'select' && form.defaultValue && form.defaultValue.key){
+      if (form.type === 'select' && form.defaultValue && form.defaultValue.key) {
         searchParams[form.id] = form.defaultValue.key;
       } else {
         searchParams[form.id] = form.defaultValue;
       }
     });
-    this.setState({
-      page: 0,
-      searchParams: searchParams
-    }, () => {
-      this.getList();
-    })
+    this.setState(
+      {
+        page: 0,
+        searchParams: searchParams,
+      },
+      () => {
+        this.getList();
+      }
+    );
   };
   getDataLabel(data, keys) {
     let lenth = keys.split('.').length;
-    keys && keys.split('.').map((key, index) => {
-      if (lenth - 1 !== index) {
-        data = data[key];
-      }
-    })
+    keys &&
+      keys.split('.').map((key, index) => {
+        if (lenth - 1 !== index) {
+          data = data[key];
+        }
+      });
     return data;
   }
-  getLastKey = (key) => {
+  getLastKey = key => {
     return key.split('.')[key.split('.').length - 1];
-  }
+  };
   //得到数据
   getList() {
     let selectorItem = this.state.selectorItem;
@@ -121,69 +127,92 @@ class ListSelector extends React.Component {
     } else {
       url = `${selectorItem.url}?page=${this.state.page}&size=${this.state.pageSize}`;
     }
-    return httpFetch[this.props.method](url, searchParams).then((response) => {
-      let data = [];
-      if (selectorItem.isValue) {
-        response.data.map((item) => {
-          let option = {};
-          option[this.getLastKey(selectorItem.key)] = item;
-          data.push(option)
+    return httpFetch[this.props.method](url, searchParams)
+      .then(response => {
+        let data = [];
+        if (selectorItem.isValue) {
+          response.data.map(item => {
+            let option = {};
+            option[this.getLastKey(selectorItem.key)] = item;
+            data.push(option);
+          });
+        } else {
+          data = selectorItem.listKey
+            ? response.data[selectorItem.listKey]
+            : selectorItem.isValueList
+              ? response.data.values
+              : response.data;
+        }
+        let tmpData = [];
+        data.map(item => {
+          item.key = item[this.getLastKey(selectorItem.key)];
+          tmpData.push(this.getDataLabel(item, selectorItem.key));
         });
-      } else {
-        data = selectorItem.listKey ? response.data[selectorItem.listKey] : selectorItem.isValueList ? response.data.values : response.data;
-      }
-      let tmpData = [];
-      data.map((item) => {
-        tmpData.push(this.getDataLabel(item, selectorItem.key))
-      });
-      data = tmpData;
-      let selectedData=[];
-      data.map((item) => {
-        this.state.selectedData.map(o => o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item))
-      });
-      let pagination = {
-        total: Number(response.headers['x-total-count']),
-        onChange: this.onChangePager,
-        current: this.state.page + 1
-      };
-      if (!Number(response.headers['x-total-count']) && typeof selectorItem.listKey !== 'undefined') {
-        pagination.total = response.data[selectorItem.listKey].length
-      }
-      this.setState({
-        data: data,
-        loading: false,
-        selectedData,
-        pagination
-      }, () => {
-        this.refreshSelected();  //刷新当页选择器
+        data = tmpData;
+        let selectedData = [];
+        data.map(item => {
+          this.state.selectedData.map(
+            o =>
+              o[this.getLastKey(selectorItem.key)].toString() ===
+                item[this.getLastKey(selectorItem.key)].toString() && selectedData.push(item)
+          );
+        });
+        let pagination = {
+          total: Number(response.headers['x-total-count']),
+          onChange: this.onChangePager,
+          current: this.state.page + 1,
+        };
+        if (
+          !Number(response.headers['x-total-count']) &&
+          typeof selectorItem.listKey !== 'undefined'
+        ) {
+          pagination.total = response.data[selectorItem.listKey].length;
+        }
+        this.setState(
+          {
+            data: data,
+            loading: false,
+            selectedData,
+            pagination,
+          },
+          () => {
+            this.refreshSelected(); //刷新当页选择器
+          }
+        );
       })
-    }).catch(e => {
-      let pagination = {
-        total: 0,
-        onChange: this.onChangePager,
-        current: 1
-      };
-      this.setState({
-        data: [],
-        loading: false,
-        pagination
-      }, () => {
-        this.refreshSelected();  //刷新当页选择器
-      })
-      // '获取数据失败，请稍后重试或联系管理员'
-      message.error(this.$t("common.error1"));
-      this.setState({ loading: false })
-    });
+      .catch(e => {
+        let pagination = {
+          total: 0,
+          onChange: this.onChangePager,
+          current: 1,
+        };
+        this.setState(
+          {
+            data: [],
+            loading: false,
+            pagination,
+          },
+          () => {
+            this.refreshSelected(); //刷新当页选择器
+          }
+        );
+        // '获取数据失败，请稍后重试或联系管理员'
+        message.error(this.$t('common.error1'));
+        this.setState({ loading: false });
+      });
   }
 
-  onChangePager = (page) => {
+  onChangePager = page => {
     if (page - 1 !== this.state.page)
-      this.setState({
-        page: page - 1,
-        loading: true
-      }, () => {
-        this.getList();
-      })
+      this.setState(
+        {
+          page: page - 1,
+          loading: true,
+        },
+        () => {
+          this.getList();
+        }
+      );
   };
 
   /**
@@ -193,27 +222,27 @@ class ListSelector extends React.Component {
   checkType(type) {
     let selectorItem = chooserData[type];
     if (selectorItem) {
-      this.checkSelectorItem(selectorItem)
+      this.checkSelectorItem(selectorItem);
     }
-  };
+  }
 
   checkSelectorItem(selectorItem) {
     let searchParams = {};
     selectorItem.searchForm.map(form => {
-      searchParams[form.id] = form.defaultValue;  //遍历searchForm，取id组装成searchParams
+      searchParams[form.id] = form.defaultValue; //遍历searchForm，取id组装成searchParams
       form.label = this.$t(form.label);
-      if(form.type === 'select' && form.defaultValue && form.defaultValue.key){
+      if (form.type === 'select' && form.defaultValue && form.defaultValue.key) {
         searchParams[form.id] = form.defaultValue.key;
       }
     });
 
     selectorItem.columns.map(item => {
       item.title = this.$t(item.title);
-    })
+    });
 
     this.setState({ selectorItem, searchParams }, () => {
       this.getList();
-    })
+    });
   }
 
   /**
@@ -222,33 +251,33 @@ class ListSelector extends React.Component {
    * 如果没有值则需要把本地已选择数组置空
    * @param nextProps 下一阶段的props
    */
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.visible === this.props.visible)
-      return;
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.visible === this.props.visible) return;
     if (!nextProps.visible && this.props.visible) {
       //关闭Modal不需要再次查list数据
       this.formRef && this.formRef.clearSearchAreaSelectData();
     }
     this.setState({ page: 0 });
-    if (nextProps.selectedData && nextProps.selectedData.length > 0){
+    if (nextProps.selectedData && nextProps.selectedData.length > 0) {
       let { rowSelection, selectorItem } = this.state;
       let temp = [];
-      let key = selectorItem.key || nextProps.selectorItem&&nextProps.selectorItem.key || chooserData[nextProps.type].key ;
-      nextProps.selectedData.map(item=>temp.push(item[key]));
+      let key =
+        selectorItem.key ||
+        (nextProps.selectorItem && nextProps.selectorItem.key) ||
+        chooserData[nextProps.type].key;
+      nextProps.selectedData.map(item => temp.push(item[key]));
       rowSelection.selectedRowKeys = temp;
-      this.setState({ selectedData: nextProps.selectedData ,rowSelection });
-    }
-    else
-      this.setState({ selectedData: [] });
+      this.setState({ selectedData: nextProps.selectedData, rowSelection });
+    } else this.setState({ selectedData: [] });
     if (nextProps.type !== this.state.type && !nextProps.selectorItem && nextProps.visible)
       this.checkType(nextProps.type);
     else if (nextProps.selectorItem && nextProps.visible)
       this.checkSelectorItem(nextProps.selectorItem);
     //rowSelection.selectedRowKeys = [];
     let { rowSelection } = this.state;
-    if(nextProps.single !== (rowSelection.type === 'radio')) {
+    if (nextProps.single !== (rowSelection.type === 'radio')) {
       rowSelection.type = nextProps.single ? 'radio' : 'checkbox';
-      this.setState({rowSelection})
+      this.setState({ rowSelection });
     }
   };
 
@@ -259,8 +288,8 @@ class ListSelector extends React.Component {
   handleOk = () => {
     this.props.onOk({
       result: this.state.selectedData,
-      type: this.props.type
-    })
+      type: this.props.type,
+    });
   };
 
   /**
@@ -273,18 +302,20 @@ class ListSelector extends React.Component {
     selectedData.map(selected => {
       data.map(item => {
         if (item[this.getLastKey(selectorItem.key)] === selected[this.getLastKey(selectorItem.key)])
-          nowSelectedRowKeys.push(item[this.getLastKey(selectorItem.key)])
-      })
+          nowSelectedRowKeys.push(item[this.getLastKey(selectorItem.key)]);
+      });
     });
     rowSelection.selectedRowKeys = nowSelectedRowKeys;
     this.setState({ rowSelection });
-  };
+  }
 
   //选项改变时的回调，重置selection
   onSelectChange = (selectedRowKeys, selectedRows) => {
     let { rowSelection } = this.state;
-    if (!(this.props.maxNum && this.props.maxNum > 0 && selectedRowKeys.length > this.props.maxNum)) {
-      rowSelection.selectedRowKeys = selectedRowKeys
+    if (
+      !(this.props.maxNum && this.props.maxNum > 0 && selectedRowKeys.length > this.props.maxNum)
+    ) {
+      rowSelection.selectedRowKeys = selectedRowKeys;
     }
     this.setState({ rowSelection });
   };
@@ -302,15 +333,22 @@ class ListSelector extends React.Component {
     } else {
       if (!selected) {
         selectedData.map((selected, index) => {
-          if (selected[this.getLastKey(valueKey || selectorItem.key)] == record[this.getLastKey(valueKey || selectorItem.key)]) {
+          if (
+            selected[this.getLastKey(valueKey || selectorItem.key)] ==
+            record[this.getLastKey(valueKey || selectorItem.key)]
+          ) {
             selectedData.splice(index, 1);
           }
-        })
+        });
       } else {
-        if (this.props.maxNum && this.props.maxNum > 0 && selectedData.length >= this.props.maxNum) {
-          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }))
+        if (
+          this.props.maxNum &&
+          this.props.maxNum > 0 &&
+          selectedData.length >= this.props.maxNum
+        ) {
+          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }));
         } else {
-          selectedData.push(record)
+          selectedData.push(record);
         }
       }
     }
@@ -318,33 +356,40 @@ class ListSelector extends React.Component {
   };
 
   //点击行时的方法，遍历遍历selectedData，根据是否选中进行遍历遍历selectedData和rowSelection的插入或删除操作
-  handleRowClick = (record) => {
+  handleRowClick = record => {
     let { valueKey } = this.props;
     let { selectedData, selectorItem, rowSelection } = this.state;
     if (this.props.single) {
       selectedData = [record];
-      rowSelection.selectedRowKeys = [record[this.getLastKey(selectorItem.key)]]
+      rowSelection.selectedRowKeys = [record[this.getLastKey(selectorItem.key)]];
     } else {
       let haveIt = false;
       selectedData.map((selected, index) => {
-        if (selected[this.getLastKey(valueKey || selectorItem.key)].toString() === record[this.getLastKey(valueKey || selectorItem.key)].toString()) {
+        if (
+          selected[this.getLastKey(valueKey || selectorItem.key)].toString() ===
+          record[this.getLastKey(valueKey || selectorItem.key)].toString()
+        ) {
           selectedData.splice(index, 1);
           haveIt = true;
         }
       });
       if (!haveIt) {
-        if (this.props.maxNum && this.props.maxNum > 0 && selectedData.length >= this.props.maxNum) {
-          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }))
+        if (
+          this.props.maxNum &&
+          this.props.maxNum > 0 &&
+          selectedData.length >= this.props.maxNum
+        ) {
+          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }));
         } else {
           selectedData.push(record);
-          rowSelection.selectedRowKeys.push(record[this.getLastKey(selectorItem.key)])
+          rowSelection.selectedRowKeys.push(record[this.getLastKey(selectorItem.key)]);
         }
       } else {
         rowSelection.selectedRowKeys.map((item, index) => {
-          if((item + '') === (record[this.getLastKey(selectorItem.key)] + '')){
+          if (item + '' === record[this.getLastKey(selectorItem.key)] + '') {
             rowSelection.selectedRowKeys.splice(index, 1);
           }
-        })
+        });
       }
     }
     this.setState({ selectedData, rowSelection });
@@ -352,21 +397,46 @@ class ListSelector extends React.Component {
 
   //选择当页全部时的判断
   onSelectAll = (selected, selectedRows, changeRows) => {
-    if (this.props.maxNum && this.props.maxNum > 0 && changeRows.length + this.state.selectedData.length > this.props.maxNum) {
+    if (
+      this.props.maxNum &&
+      this.props.maxNum > 0 &&
+      changeRows.length + this.state.selectedData.length > this.props.maxNum
+    ) {
       message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }));
     } else {
-      changeRows.map(changeRow => this.onSelectItem(changeRow, selected))
+      changeRows.map(changeRow => this.onSelectItem(changeRow, selected));
     }
   };
 
   closeTag = (e, record) => {
     e.preventDefault();
-    this.handleRowClick(record)
+    this.handleRowClick(record);
   };
 
   render() {
-    const { visible, onCancel, afterClose, selectAll, selectAllLoading, onSelectAll, showDetail, labelKey, showArrow, valueKey, modalWidth,showRowClick} = this.props;
-    const { data, pagination, loading, selectorItem, selectedData, rowSelection, scrollX } = this.state;
+    const {
+      visible,
+      onCancel,
+      afterClose,
+      selectAll,
+      selectAllLoading,
+      onSelectAll,
+      showDetail,
+      labelKey,
+      showArrow,
+      valueKey,
+      modalWidth,
+      showRowClick,
+    } = this.props;
+    const {
+      data,
+      pagination,
+      loading,
+      selectorItem,
+      selectedData,
+      rowSelection,
+      scrollX,
+    } = this.state;
     const { searchForm, columns, title, key } = selectorItem;
     return (
       <Modal
@@ -379,28 +449,44 @@ class ListSelector extends React.Component {
         className="list-selector"
         footer={this.props.hideFooter ? null : this.state.footerButton}
       >
-
-        {searchForm && searchForm.length > 0 ? <SearchArea searchForm={searchForm}
-          submitHandle={this.search}
-          clearHandle={this.clear}
-          wrappedComponentRef={(inst) => this.formRef = inst} /> : null}
+        {searchForm && searchForm.length > 0 ? (
+          <SearchArea
+            searchForm={searchForm}
+            submitHandle={this.search}
+            clearHandle={this.clear}
+            wrappedComponentRef={inst => (this.formRef = inst)}
+          />
+        ) : null}
         {showDetail && (
           <div className="selected-tag">
             {selectedData.map((item, index) => (
               <span key={item[this.getLastKey(valueKey || key)]}>
-                <Tag closable
-                  onClose={e => this.closeTag(e, item)}>{item[labelKey]}</Tag>
-                {showArrow && index !== selectedData.length - 1 && <Icon type="arrow-right" style={{ marginRight: 8 }} />}
+                <Tag closable onClose={e => this.closeTag(e, item)}>
+                  {item[labelKey]}
+                </Tag>
+                {showArrow &&
+                  index !== selectedData.length - 1 && (
+                    <Icon type="arrow-right" style={{ marginRight: 8 }} />
+                  )}
               </span>
-            )
-            )}
+            ))}
           </div>
         )}
 
         <div className="table-header">
           <div className="table-header-title">
-            {selectAll && <Button style={{ marginRight: 10 }} loading={selectAllLoading} onClick={onSelectAll} type="primary">{this.$t('common.selectAll')/*选择全部*/}</Button>}
-            {this.$t('common.total', { total: pagination.total || data.length })}{/* 共 total 条数据 */}
+            {selectAll && (
+              <Button
+                style={{ marginRight: 10 }}
+                loading={selectAllLoading}
+                onClick={onSelectAll}
+                type="primary"
+              >
+                {this.$t('common.selectAll') /*选择全部*/}
+              </Button>
+            )}
+            {this.$t('common.total', { total: pagination.total || data.length })}
+            {/* 共 total 条数据 */}
             {/* 已选数据显示有问题，所有注掉了
             {this.props.showSelectTotal?undefined:<span style={{color:'rgba(0, 0, 0, 0.65)'}}>
               &nbsp;<span>/</span>&nbsp;
@@ -408,12 +494,15 @@ class ListSelector extends React.Component {
             </span>}*/}
           </div>
         </div>
-        <div>
+        <div />
 
-        </div>
-
-        <Table columns={columns}
-          onRow={this.props.showRowClick?undefined:record => ({ onClick: () => this.handleRowClick(record) })}
+        <Table
+          columns={columns}
+          onRow={
+            this.props.showRowClick
+              ? undefined
+              : record => ({ onClick: () => this.handleRowClick(record) })
+          }
           dataSource={data}
           rowKey={record => record[this.getLastKey(key)]}
           pagination={pagination}
@@ -422,7 +511,6 @@ class ListSelector extends React.Component {
           scroll={{ x: scrollX }}
           size="middle"
           rowSelection={this.props.hideRowSelect ? undefined : rowSelection}
-
         />
       </Modal>
     );
@@ -430,46 +518,51 @@ class ListSelector extends React.Component {
 }
 
 ListSelector.propTypes = {
-  visible: PropTypes.bool,  //对话框是否可见
-  onOk: PropTypes.func,  //点击OK后的回调，当有选择的值时会返回一个数组
-  onCancel: PropTypes.func,  //点击取消后的回调
-  afterClose: PropTypes.func,  //关闭后的回调
-  type: PropTypes.string,  //选择类型
-  selectedData: PropTypes.array,  //默认选择的值id数组
-  extraParams: PropTypes.object,  //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
-  selectorItem: PropTypes.object,  //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
-  single: PropTypes.bool,  //是否单选
-  method: PropTypes.string,  //调用方法get/post
-  selectAll: PropTypes.bool,  //是否需要选择全部按钮
-  selectAllLoading: PropTypes.bool,  //全选全部按钮loading
-  onSelectAll: PropTypes.func,  //点击选择全部时的回调
-  maxNum: PropTypes.number,  //最多选择多少条数据
-  showDetail: PropTypes.bool,  //是否在界面显示已选项
-  labelKey: PropTypes.string,  //Tag内显示的值
-  showArrow: PropTypes.bool,  //是否在Tag中显示箭头,
+  visible: PropTypes.bool, //对话框是否可见
+  onOk: PropTypes.func, //点击OK后的回调，当有选择的值时会返回一个数组
+  onCancel: PropTypes.func, //点击取消后的回调
+  afterClose: PropTypes.func, //关闭后的回调
+  type: PropTypes.string, //选择类型
+  selectedData: PropTypes.array, //默认选择的值id数组
+  extraParams: PropTypes.object, //搜索时额外需要的参数,如果对象内含有组件内存在的变量将替换组件内部的数值
+  selectorItem: PropTypes.object, //组件查询的对象，如果存在普通配置没法实现的可单独传入，例如参数在url中间动态变换时，表单项需要参数搜索时
+  single: PropTypes.bool, //是否单选
+  method: PropTypes.string, //调用方法get/post
+  selectAll: PropTypes.bool, //是否需要选择全部按钮
+  selectAllLoading: PropTypes.bool, //全选全部按钮loading
+  onSelectAll: PropTypes.func, //点击选择全部时的回调
+  maxNum: PropTypes.number, //最多选择多少条数据
+  showDetail: PropTypes.bool, //是否在界面显示已选项
+  labelKey: PropTypes.string, //Tag内显示的值
+  showArrow: PropTypes.bool, //是否在Tag中显示箭头,
   hideRowSelect: PropTypes.bool, //是否去掉勾选框
   hideFooter: PropTypes.bool, //是否去掉底部确定取消按钮
   modalWidth: PropTypes.number, //modal的宽度
-  showSelectTotal:PropTypes.bool,//是否显示已选多少条
-  showRowClick:PropTypes.bool//是否需要行点击
+  showSelectTotal: PropTypes.bool, //是否显示已选多少条
+  showRowClick: PropTypes.bool, //是否需要行点击
 };
 
 ListSelector.defaultProps = {
-  afterClose: () => { },
+  afterClose: () => {},
   extraParams: {},
   single: false,
   method: 'get',
   selectAll: false,
   selectAllLoading: false,
-  onSelectAll: () => { },
+  onSelectAll: () => {},
   showDetail: false,
   showArrow: false,
-  showSelectTotal:false,
-  showRowClick:false
+  showSelectTotal: false,
+  showRowClick: false,
 };
 
 function mapStateToProps() {
-  return {}
+  return {};
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(ListSelector);
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { withRef: true }
+)(ListSelector);
