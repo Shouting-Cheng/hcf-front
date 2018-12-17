@@ -362,9 +362,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     closeRuleModal = () => {
-        this.setState({
-            showRuleModal: false,
-        })
+       this.hasRefreshRules()
     }
     //添加账套
     addTenant = () => {
@@ -516,6 +514,9 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     /**详情编辑完成后返回侧滑框，页面刷新 */
     backRuleModal = () => {
+       this.hasRefreshRules()
+    }
+    hasRefreshRules=()=>{
         let { getRulesArr, ruleId } = this.state;
         DataAuthorityService.getSingleDataAuthorityDetail(ruleId, getRulesArr.id).then(res => {
             if (res.status === 200) {
