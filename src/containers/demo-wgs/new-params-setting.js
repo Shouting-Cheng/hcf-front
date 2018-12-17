@@ -92,10 +92,14 @@ class NewDemoBuilt extends Component {
       isFieldTouched('customSql') &&
       isFieldTouched('tableName') &&
       isFieldTouched('columnName');
-      console.log(fieldsError,'field');
+    console.log(fieldsError, 'field');
     // let flag = Object.keys(fieldsError).every(field=>isFieldTouched(field));
     // console.log(flag);
-    return Object.keys(fieldsError).some(field => {fieldsError[field]}) || !flag;
+    return (
+      Object.keys(fieldsError).some(field => {
+        fieldsError[field];
+      }) || !flag
+    );
   }
   //取消
   handleCancel = () => {
