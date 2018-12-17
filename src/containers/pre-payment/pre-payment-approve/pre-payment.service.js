@@ -27,7 +27,7 @@ export default {
      */
     approveReject(params) {
 
-        let url = `${config.baseUrl}/api/approvals/reject`;
+        let url = `${config.baseUrl}/api/workflow/reject`;
 
         return httpFetch.post(url, params);
     },
@@ -37,7 +37,7 @@ export default {
      * @param {*} params
      */
     approvePass(params) {
-        let url = `${config.baseUrl}/api/approvals/pass`;
+        let url = `${config.baseUrl}/api/workflow/pass`;
 
         return httpFetch.post(url, params);
     },

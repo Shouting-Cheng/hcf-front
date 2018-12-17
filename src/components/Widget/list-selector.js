@@ -1,3 +1,4 @@
+
 /**
  * Created By ZaraNengap on 2017/09/21
  */
@@ -92,27 +93,23 @@ class ListSelector extends React.Component {
         searchParams[form.id] = form.defaultValue;
       }
     });
-    this.setState(
-      {
-        page: 0,
-        searchParams: searchParams,
-      },
-      () => {
-        this.getList();
-      }
-    );
+    this.setState({
+      page: 0,
+      searchParams: searchParams
+    }, () => {
+      this.getList();
+    })
   };
   getDataLabel(data, keys) {
     let lenth = keys.split('.').length;
-    keys &&
-      keys.split('.').map((key, index) => {
-        if (lenth - 1 !== index) {
-          data = data[key];
-        }
-      });
+    keys && keys.split('.').map((key, index) => {
+      if (lenth - 1 !== index) {
+        data = data[key];
+      }
+    })
     return data;
   }
-  getLastKey = key => {
+  getLastKey = (key) => {
     return key.split('.')[key.split('.').length - 1];
   };
   //得到数据
@@ -127,92 +124,77 @@ class ListSelector extends React.Component {
     } else {
       url = `${selectorItem.url}?page=${this.state.page}&size=${this.state.pageSize}`;
     }
-    return httpFetch[this.props.method](url, searchParams)
-      .then(response => {
-        let data = [];
-        if (selectorItem.isValue) {
-          response.data.map(item => {
-            let option = {};
-            option[this.getLastKey(selectorItem.key)] = item;
-            data.push(option);
-          });
-        } else {
-          data = selectorItem.listKey
-            ? response.data[selectorItem.listKey]
-            : selectorItem.isValueList
-              ? response.data.values
-              : response.data;
-        }
-        let tmpData = [];
-        data.map(item => {
-          item.key = item[this.getLastKey(selectorItem.key)];
-          tmpData.push(this.getDataLabel(item, selectorItem.key));
+    return httpFetch[this.props.method](url, searchParams).then((response) => {
+      let data = [];
+      if (selectorItem.isValue) {
+        response.data.map((item) => {
+          let option = {};
+          option[this.getLastKey(selectorItem.key)] = item;
+          data.push(option)
         });
-        data = tmpData;
-        let selectedData = [];
-        data.map(item => {
-          this.state.selectedData.map(
-            o =>
-              o[this.getLastKey(selectorItem.key)].toString() ===
-                item[this.getLastKey(selectorItem.key)].toString() && selectedData.push(item)
-          );
-        });
-        let pagination = {
-          total: Number(response.headers['x-total-count']),
-          onChange: this.onChangePager,
-          current: this.state.page + 1,
-        };
-        if (
-          !Number(response.headers['x-total-count']) &&
-          typeof selectorItem.listKey !== 'undefined'
-        ) {
-          pagination.total = response.data[selectorItem.listKey].length;
-        }
-        this.setState(
-          {
-            data: data,
-            loading: false,
-            selectedData,
-            pagination,
-          },
-          () => {
-            this.refreshSelected(); //刷新当页选择器
-          }
-        );
-      })
-      .catch(e => {
-        let pagination = {
-          total: 0,
-          onChange: this.onChangePager,
-          current: 1,
-        };
-        this.setState(
-          {
-            data: [],
-            loading: false,
-            pagination,
-          },
-          () => {
-            this.refreshSelected(); //刷新当页选择器
-          }
-        );
-        // '获取数据失败，请稍后重试或联系管理员'
-        message.error(this.$t('common.error1'));
-        this.setState({ loading: false });
+      } else {
+        data = selectorItem.listKey ? response.data[selectorItem.listKey] : selectorItem.isValueList ? response.data.values : response.data;
+      }
+      let tmpData = [];
+      data.map((item) => {
+        item.key = item[this.getLastKey(selectorItem.key)];
+        tmpData.push(this.getDataLabel(item, selectorItem.key))
       });
+      data = tmpData;
+      let selectedData=[];
+      data.map((item) => {
+        this.state.selectedData.map(o => {
+          if(o[this.getLastKey(selectorItem.key)]){
+            o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item)
+          }else {
+            o[this.props.valueKey].toString() === item[this.props.valueKey].toString()&&selectedData.push(item)
+          }
+        })
+      });
+      let pagination = {
+        total: Number(response.headers['x-total-count']),
+        onChange: this.onChangePager,
+        current: this.state.page + 1
+      };
+      if (!Number(response.headers['x-total-count']) && typeof selectorItem.listKey !== 'undefined') {
+        pagination.total = response.data[selectorItem.listKey].length
+      }
+      this.setState({
+        data: data,
+        loading: false,
+        selectedData,
+        pagination
+      }, () => {
+        this.refreshSelected();  //刷新当页选择器
+      })
+    }).catch(e => {
+      console.log(e)
+      let pagination = {
+        total: 0,
+        onChange: this.onChangePager,
+        current: 1
+      };
+      this.setState({
+        data: [],
+        loading: false,
+        pagination
+      }, () => {
+        this.refreshSelected();  //刷新当页选择器
+      })
+      // '获取数据失败，请稍后重试或联系管理员'
+      message.error(this.$t("common.error1"));
+      this.setState({ loading: false })
+    });
   }
 
-  onChangePager = page => {
+  onChangePager = (page) => {
     if (page - 1 !== this.state.page)
-      this.setState(
-        {
-          page: page - 1,
-          loading: true,
-        },
-        () => {
-          this.getList();
-        }
-      );
+      this.setState({
+        page: page - 1,
+        loading: true
+      }, () => {
+        this.getList();
+      })
   };
 
   /**
@@ -222,27 +204,27 @@ class ListSelector extends React.Component {
   checkType(type) {
     let selectorItem = chooserData[type];
     if (selectorItem) {
-      this.checkSelectorItem(selectorItem);
+      this.checkSelectorItem(selectorItem)
     }
-  }
+  };
 
   checkSelectorItem(selectorItem) {
     let searchParams = {};
     selectorItem.searchForm.map(form => {
-      searchParams[form.id] = form.defaultValue; //遍历searchForm，取id组装成searchParams
+      searchParams[form.id] = form.defaultValue;  //遍历searchForm，取id组装成searchParams
       form.label = this.$t(form.label);
-      if (form.type === 'select' && form.defaultValue && form.defaultValue.key) {
+      if(form.type === 'select' && form.defaultValue && form.defaultValue.key){
         searchParams[form.id] = form.defaultValue.key;
       }
     });
 
     selectorItem.columns.map(item => {
       item.title = this.$t(item.title);
-    });
+    })
 
     this.setState({ selectorItem, searchParams }, () => {
       this.getList();
-    });
+    })
   }
 
   /**
@@ -251,21 +233,19 @@ class ListSelector extends React.Component {
    * 如果没有值则需要把本地已选择数组置空
    * @param nextProps 下一阶段的props
    */
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.visible === this.props.visible) return;
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.visible === this.props.visible)
+      return;
     if (!nextProps.visible && this.props.visible) {
       //关闭Modal不需要再次查list数据
       this.formRef && this.formRef.clearSearchAreaSelectData();
     }
     this.setState({ page: 0 });
-    if (nextProps.selectedData && nextProps.selectedData.length > 0) {
+    if (nextProps.selectedData && nextProps.selectedData.length > 0){
       let { rowSelection, selectorItem } = this.state;
       let temp = [];
-      let key =
-        selectorItem.key ||
-        (nextProps.selectorItem && nextProps.selectorItem.key) ||
-        chooserData[nextProps.type].key;
-      nextProps.selectedData.map(item => temp.push(item[key]));
+      let key = selectorItem.key || nextProps.selectorItem&&nextProps.selectorItem.key || chooserData[nextProps.type].key ;
+      nextProps.selectedData.map(item=>temp.push(item[key]));
       rowSelection.selectedRowKeys = temp;
       this.setState({ selectedData: nextProps.selectedData, rowSelection });
     } else this.setState({ selectedData: [] });
@@ -312,10 +292,8 @@ class ListSelector extends React.Component {
   //选项改变时的回调，重置selection
   onSelectChange = (selectedRowKeys, selectedRows) => {
     let { rowSelection } = this.state;
-    if (
-      !(this.props.maxNum && this.props.maxNum > 0 && selectedRowKeys.length > this.props.maxNum)
-    ) {
-      rowSelection.selectedRowKeys = selectedRowKeys;
+    if (!(this.props.maxNum && this.props.maxNum > 0 && selectedRowKeys.length > this.props.maxNum)) {
+      rowSelection.selectedRowKeys = selectedRowKeys
     }
     this.setState({ rowSelection });
   };
@@ -333,20 +311,13 @@ class ListSelector extends React.Component {
     } else {
       if (!selected) {
         selectedData.map((selected, index) => {
-          if (
-            selected[this.getLastKey(valueKey || selectorItem.key)] ==
-            record[this.getLastKey(valueKey || selectorItem.key)]
-          ) {
+          if (selected[this.getLastKey(valueKey || selectorItem.key)] == record[this.getLastKey(valueKey || selectorItem.key)]) {
             selectedData.splice(index, 1);
           }
-        });
+        })
       } else {
-        if (
-          this.props.maxNum &&
-          this.props.maxNum > 0 &&
-          selectedData.length >= this.props.maxNum
-        ) {
-          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }));
+        if (this.props.maxNum && this.props.maxNum > 0 && selectedData.length >= this.props.maxNum) {
+          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }))
         } else {
           selectedData.push(record);
         }
@@ -356,7 +327,7 @@ class ListSelector extends React.Component {
   };
 
   //点击行时的方法，遍历遍历selectedData，根据是否选中进行遍历遍历selectedData和rowSelection的插入或删除操作
-  handleRowClick = record => {
+  handleRowClick = (record) => {
     let { valueKey } = this.props;
     let { selectedData, selectorItem, rowSelection } = this.state;
     if (this.props.single) {
@@ -374,12 +345,8 @@ class ListSelector extends React.Component {
         }
       });
       if (!haveIt) {
-        if (
-          this.props.maxNum &&
-          this.props.maxNum > 0 &&
-          selectedData.length >= this.props.maxNum
-        ) {
-          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }));
+        if (this.props.maxNum && this.props.maxNum > 0 && selectedData.length >= this.props.maxNum) {
+          message.warning(this.$t('common.max.selected.data', { max: this.props.maxNum }))
         } else {
           selectedData.push(record);
           rowSelection.selectedRowKeys.push(record[this.getLastKey(selectorItem.key)]);
@@ -414,29 +381,8 @@ class ListSelector extends React.Component {
   };
 
   render() {
-    const {
-      visible,
-      onCancel,
-      afterClose,
-      selectAll,
-      selectAllLoading,
-      onSelectAll,
-      showDetail,
-      labelKey,
-      showArrow,
-      valueKey,
-      modalWidth,
-      showRowClick,
-    } = this.props;
-    const {
-      data,
-      pagination,
-      loading,
-      selectorItem,
-      selectedData,
-      rowSelection,
-      scrollX,
-    } = this.state;
+    const { visible, onCancel, afterClose, selectAll, selectAllLoading, onSelectAll, showDetail, labelKey, showArrow, valueKey, modalWidth,showRowClick} = this.props;
+    const { data, pagination, loading, selectorItem, selectedData, rowSelection, scrollX } = this.state;
     const { searchForm, columns, title, key } = selectorItem;
     return (
       <Modal
@@ -461,32 +407,19 @@ class ListSelector extends React.Component {
           <div className="selected-tag">
             {selectedData.map((item, index) => (
               <span key={item[this.getLastKey(valueKey || key)]}>
-                <Tag closable onClose={e => this.closeTag(e, item)}>
-                  {item[labelKey]}
-                </Tag>
-                {showArrow &&
-                  index !== selectedData.length - 1 && (
-                    <Icon type="arrow-right" style={{ marginRight: 8 }} />
-                  )}
+                <Tag closable
+                  onClose={e => this.closeTag(e, item)}>{item[labelKey]}</Tag>
+                {showArrow && index !== selectedData.length - 1 && <Icon type="arrow-right" style={{ marginRight: 8 }} />}
               </span>
-            ))}
+            )
+            )}
           </div>
         )}
 
         <div className="table-header">
           <div className="table-header-title">
-            {selectAll && (
-              <Button
-                style={{ marginRight: 10 }}
-                loading={selectAllLoading}
-                onClick={onSelectAll}
-                type="primary"
-              >
-                {this.$t('common.selectAll') /*选择全部*/}
-              </Button>
-            )}
-            {this.$t('common.total', { total: pagination.total || data.length })}
-            {/* 共 total 条数据 */}
+            {selectAll && <Button style={{ marginRight: 10 }} loading={selectAllLoading} onClick={onSelectAll} type="primary">{this.$t('common.selectAll')/*选择全部*/}</Button>}
+            {this.$t('common.total', { total: pagination.total || data.length })}{/* 共 total 条数据 */}
             {/* 已选数据显示有问题，所有注掉了
             {this.props.showSelectTotal?undefined:<span style={{color:'rgba(0, 0, 0, 0.65)'}}>
               &nbsp;<span>/</span>&nbsp;
@@ -494,15 +427,12 @@ class ListSelector extends React.Component {
             </span>}*/}
           </div>
         </div>
-        <div />
+        <div>
 
-        <Table
-          columns={columns}
-          onRow={
-            this.props.showRowClick
-              ? undefined
-              : record => ({ onClick: () => this.handleRowClick(record) })
-          }
+        </div>
+
+        <Table columns={columns}
+          onRow={this.props.showRowClick?undefined:record => ({ onClick: () => this.handleRowClick(record) })}
           dataSource={data}
           rowKey={record => record[this.getLastKey(key)]}
           pagination={pagination}

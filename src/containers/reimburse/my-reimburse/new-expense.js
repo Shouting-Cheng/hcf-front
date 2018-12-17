@@ -605,7 +605,7 @@ class NewExpense extends React.Component {
     }
     this.setState({
       showSelectApplication: true,
-      applincationParams: this.props.headerData,
+      applincationParams: this.props.params.headerData,
       selectedData: [],
     });
   };
@@ -1022,6 +1022,7 @@ class NewExpense extends React.Component {
                     type={this.state.expenseType.id}
                 >
                 </ShareForm> */}
+        {console.log(this.state.applincationParams)}
         <SelectApplication
           visible={showSelectApplication}
           onCancel={() => {
