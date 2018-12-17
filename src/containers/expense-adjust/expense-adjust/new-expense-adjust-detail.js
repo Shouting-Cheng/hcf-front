@@ -1010,7 +1010,7 @@ class NewExpenseAdjustDetail extends React.Component {
           let param = {
             ...values,
             employeeId: this.props.user.id,
-            attachmentOid: this.state.attachmentOid.toString(),
+            attachmentOid: this.state.attachmentOid&&this.state.attachmentOid.toString(),
             expAdjustHeaderId: this.props.params.expenseAdjustHeadId,
             setOfBooksId: this.props.company.setOfBooksId,
             adjustLineCategory: '1001',
