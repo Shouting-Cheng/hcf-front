@@ -87,6 +87,7 @@ class NewExpenseAdjust extends React.Component {
         let model = res.data;
         model.companyId = [{ id: model.companyId, name: model.companyName }];
         model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
+        console.log(model)
         this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
         this.setState({ model, fileList });
       })
@@ -254,9 +255,10 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: model.id
+                    initialValue: this.props.match.params.id ==='new' ? [{ id: this.props.user.companyId, name: this.props.user.companyName }] :
+                      model.id
                       ? model.companyId
-                      : [{ id: this.props.user.companyId, name: this.props.user.companyName }],
+                      : [],
                   })(
                     <Chooser
                       type="company"
@@ -279,7 +281,8 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: model.id ? model.unitId : deptId,
+                    initialValue: this.props.match.params.id ==='new' ? deptId :
+                    model.id ? model.unitId : [],
                   })(
                     <Chooser
                       type="department"

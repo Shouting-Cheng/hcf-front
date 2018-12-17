@@ -139,7 +139,13 @@ class ListSelector extends React.Component {
       data = tmpData;
       let selectedData=[];
       data.map((item) => {
-        this.state.selectedData.map(o => o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item))
+        this.state.selectedData.map(o => {
+          if(o[this.getLastKey(selectorItem.key)]){
+            o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item)
+          }else {
+            o[this.props.valueKey].toString() === item[this.props.valueKey].toString()&&selectedData.push(item)
+          }
+        })
       });
       let pagination = {
         total: Number(response.headers['x-total-count']),
@@ -158,6 +164,7 @@ class ListSelector extends React.Component {
         this.refreshSelected();  //刷新当页选择器
       })
     }).catch(e => {
+      console.log(e)
       let pagination = {
         total: 0,
         onChange: this.onChangePager,
