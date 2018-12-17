@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { message } from 'antd';
 import Table from 'widget/table'
-import { DragSource, DropTarget } from 'react-dnd';
+import { DropTarget } from 'react-dnd';
 import uuid from '../../utils/uuid';
 
 import { connect } from 'dva';
@@ -14,28 +14,6 @@ const cardSource = {
       message.warning('table只能接收table-column!');
       return;
     }
-
-    // console.log(props);
-
-    // let components = props.components;
-
-    // let table = components.find(o => o.id === props.id);
-
-    // let columns = table.props.columns || [];
-
-    // columns.push({
-    //   title: '',
-    //   dataIndex: '',
-    // });
-
-    // props.dispatch({
-    //   type: 'components/updateComponent',
-    //   payload: {
-    //     id: props.id,
-    //     value: columns,
-    //     key: 'props.columns',
-    //   },
-    // });
 
     let box = {
       type: 'column',
@@ -51,11 +29,6 @@ const cardSource = {
       type: 'components/addComponent',
       payload: box,
     });
-
-    // configureStore.store.dispatch(addElement({
-    //   text: "column",
-    //   parent: props.id
-    // }));
   },
 };
 
@@ -159,7 +132,7 @@ class CustomTable extends Component {
   };
 
   render() {
-    const { dataSource, pagination, loading, columns } = this.state;
+    const { columns } = this.state;
     const { connectDropTarget, className } = this.props;
 
     return (
