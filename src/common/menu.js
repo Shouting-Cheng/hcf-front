@@ -20,30 +20,37 @@ const menuData = [
       {
         name: '网页生成器',
         path: 'component-manager',
+        parentKey: "setting"
       },
       {
         name: '接口管理',
         path: 'interface',
+        parentKey: "setting"
       },
       {
         name: '模块管理',
         path: 'modules',
+        parentKey: "setting"
       },
       {
         name: '多语言管理',
         path: 'language',
+        parentKey: "setting"
       },
       {
         name: '菜单管理',
         path: 'menu',
+        parentKey: "setting"
       },
       {
         name: '角色管理',
         path: 'role',
+        parentKey: "setting"
       },
       {
         name: '员工管理',
         path: 'employee',
+        parentKey: "setting"
       },
     ],
   },

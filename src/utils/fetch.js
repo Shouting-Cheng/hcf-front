@@ -61,9 +61,9 @@ const httpFetch = {
     return new Promise((resolve, reject) => {
       axios(option).then(res => {
         resolve(res.data);
+      }).catch(err => {
+        reject(err);
       })
-    }).catch(err => {
-      reject(err);
     })
   },
   post(url, data, header = {}, options = {}) {

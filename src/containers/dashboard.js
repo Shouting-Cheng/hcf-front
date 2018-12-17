@@ -765,7 +765,7 @@ class Dashboard extends React.Component {
               title="待审批的单据"
               extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
             >
-              <div id="pie" style={{ width: "100%", height: 160 }}></div>
+              {!!total ? <div id="pie" style={{ width: "100%", height: 160 }}></div> : <div style={{ lineHeight: "160px", textAlign: "center", fontSize: 18 }}>暂无待审批单据</div>}
             </Card>
           </Col>
         </Row>
@@ -816,32 +816,34 @@ class Dashboard extends React.Component {
             >
               <Tabs defaultActiveKey="1">
                 <TabPane forceRender key="1" tab={`被退回的单据(${backList.length})`}>
-                  {backList.map((item, index) => {
-                    return (
-                      <Card
-                        title={<span style={{ fontSize: 14 }}>{item.code}</span>}
-                        extra={<span>{item.createdTime}</span>}
-                        style={{ marginTop: 12, cursor: "pointer" }}
-                        key={item.id}
-                        hoverable
-                        onClick={() => this.click(item)}
-                      >
-                        <Row>
-                          <Col span={12}>{item.name}</Col>
-                          <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
-                        </Row>
-                        <Row style={{ marginTop: 16 }}>
-                          <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
-                          <Col span={10} style={{ textAlign: "right" }}>
-                            <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
-                          </Col>
-                        </Row>
-                        <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
-                          驳回人：{item.nodeName}-{item.rejecterName}
-                        </div>
-                      </Card>
-                    )
-                  })}
+                  <div style={{ height: "100%", overflowY: "auto" }}>
+                    {backList.map((item, index) => {
+                      return (
+                        <Card
+                          title={<span style={{ fontSize: 14 }}>{item.code}</span>}
+                          extra={<span>{item.createdTime}</span>}
+                          style={{ marginTop: 12, cursor: "pointer" }}
+                          key={item.id}
+                          hoverable
+                          onClick={() => this.click(item)}
+                        >
+                          <Row>
+                            <Col span={12}>{item.name}</Col>
+                            <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
+                          </Row>
+                          <Row style={{ marginTop: 16 }}>
+                            <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
+                            <Col span={10} style={{ textAlign: "right" }}>
+                              <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
+                            </Col>
+                          </Row>
+                          <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
+                            驳回人：{item.nodeName}-{item.rejecterName}
+                          </div>
+                        </Card>
+                      )
+                    })}
+                  </div>
                 </TabPane>
                 <TabPane forceRender key="2" tab={`未完成的单据(${doingList.length})`}>
                   <div style={{ height: "100%", overflowY: "auto" }}>
