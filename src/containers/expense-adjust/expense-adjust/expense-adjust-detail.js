@@ -700,7 +700,7 @@ class ExpenseAdjustDetail extends React.Component {
         <Col style={{ textAlign: 'right' }} span={2}>
           <h3>{this.$t('my.contract.enclosure.information')}：</h3>
         </Col>
-        <Col span={20}>
+        <Col span={20} style={{marginTop: 2}}>
           <Row>
             {record.attachments &&
               record.attachments.map(item => {
