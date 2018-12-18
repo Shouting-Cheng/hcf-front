@@ -216,7 +216,6 @@ class NewDataAuthority extends React.Component {
     handleSave = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            console.log(values)
             if (!err) {
                 let newDataPrams = this.state.newDataPrams;
                 let renderNewChangeRules = this.state.renderNewChangeRules;
@@ -229,7 +228,6 @@ class NewDataAuthority extends React.Component {
                     }
                 }
                 let getRulesArr = this.state.getRulesArr;
-                console.log(getRulesArr)
                 let dataAuthorityRules = this.returnDataAuthorityRules(values, getRulesArr, rules);
                 let params = {
                     id: newDataPrams.id ? newDataPrams.id : null,

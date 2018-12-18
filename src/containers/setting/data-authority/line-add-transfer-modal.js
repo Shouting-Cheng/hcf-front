@@ -68,9 +68,10 @@ class LineAddTransferModal extends React.Component {
         }
         this.setState({
             selectTreeNodes: [],
-            selectedTreeInfo: [],
+            selectedTreeInfo: nextProps.selectedTreeInfo,
             treeData,
-            isShowTreeNode: true
+            isShowTreeNode: true,
+            rightList:[]
         })
     }
     /**
@@ -308,34 +309,42 @@ class LineAddTransferModal extends React.Component {
      * 点击查询出来的单个条件
      */
     clickList = (list) => {
-        let { treeData, selectTreeNodes } = this.state;
+        // console.log(list)
+        // let { treeData, selectTreeNodes } = this.state;
 
-        let selectedKeys = [];
+        // let selectedKeys = [];
 
-        let obj = this.getItemById(treeData, list.id);
-        let selectedTreeInfo = this.state.selectedTreeInfo;
+        // let obj = this.getItemById(treeData, list.id);
+        // let selectedTreeInfo = this.state.selectedTreeInfo;
 
-        selectedKeys.push(list);
+        // selectedKeys.push(list);
 
-        this.selectAllChildren(obj.details, selectedKeys);
+        // this.selectAllChildren(obj.details, selectedKeys);
 
-        obj.isSelectAll = true;
+        // obj.isSelectAll = true;
 
-        selectedKeys.map(item => {
-            let index = selectTreeNodes.indexOf(item.id);
-            if (index < 0) {
-                selectTreeNodes.push(item.id);
-            }
-            if (!selectedTreeInfo.find(o => o.id == item.id)) {
-                selectedTreeInfo.push(item)
-            }
-        })
+        // selectedKeys.map(item => {
+        //     let index = selectTreeNodes.indexOf(item.id);
+        //     if (index < 0) {
+        //         selectTreeNodes.push(item.id);
+        //     }
+        //     if (!selectedTreeInfo.find(o => o.id == item.id)) {
+        //         selectedTreeInfo.push(item)
+        //     }
+        // })
+        // this.setState({
+        //     isShowTreeNode: true,
+        //     treeData,
+        //     selectTreeNodes: [...selectTreeNodes],
+        //     selectedTreeInfo
+        // });
+        const { treeData, selectedTreeInfo } = this.state;
         this.setState({
             isShowTreeNode: true,
-            treeData,
-            selectTreeNodes: [...selectTreeNodes],
-            selectedTreeInfo
+            selectTreeNodes: [list.id],
+            selectedTreeInfo: [list]
         });
+
     }
     /**
      * 右边已选区按照搜索条件查询
