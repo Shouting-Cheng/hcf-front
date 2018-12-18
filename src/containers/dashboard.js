@@ -28,8 +28,6 @@ const { MonthPicker } = DatePicker;
 const RadioGroup = Radio.Group;
 
 
-import DataSet from "@antv/data-set";
-
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -710,17 +708,6 @@ class Dashboard extends React.Component {
 
     const { timerStr, backList, hello, chartsType, carousels, total, unApprovals, doingList, payType, tabKey } = this.state;
     const { user } = this.props;
-
-    const { DataView } = DataSet;
-
-    const dv = new DataView();
-
-    dv.source(unApprovals).transform({
-      type: "percent",
-      field: "count",
-      dimension: "name",
-      as: "percent"
-    });
 
     return (
       <div className="dashboard-container">

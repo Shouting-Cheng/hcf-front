@@ -42,7 +42,8 @@ class CommonAttrForm extends Component {
       dataSource: [],
       modules: [],
       searchResult: [],
-      displayColorPicker: false
+      displayColorPicker: false,
+      data: {}
     };
     this.titleSearch = debounce(this.titleSearch, 500);
   }
@@ -51,14 +52,6 @@ class CommonAttrForm extends Component {
     fetch.get('/auth/api/interface/query/all').then(res => {
       this.setState({ modules: res });
     });
-
-    // service.getModules().then(res => {
-    //   this.setState({
-    //     modules: res.map(item => {
-    //       return { ...item, isModule: true };
-    //     })
-    //   });
-    // });
 
     let languages = this.props.languages.languages;
     let languageList = [];
@@ -83,14 +76,19 @@ class CommonAttrForm extends Component {
       return;
     }
 
-    dispatch({
-      type: 'components/updateComponent',
-      payload: {
-        id: selectedId,
-        value,
-        key: item.key,
-      },
-    });
+    let { data } = this.state;
+
+    this.setState({ ...data, [item.key]: value });
+
+
+    // dispatch({
+    //   type: 'components/updateComponent',
+    //   payload: {
+    //     id: selectedId,
+    //     value,
+    //     key: item.key,
+    //   },
+    // });
   };
 
   renderFormItem = () => {
@@ -254,13 +252,13 @@ class CommonAttrForm extends Component {
 
   renderFormElement = (item, value) => {
 
-    const { languageList, fetching, modules } = this.state;
+    const { languageList, fetching, modules, data } = this.state;
 
     switch (item.type) {
       case 'input':
         return (
           <Input
-            value={value}
+            value={data[item.key]}
             onChange={e => this.updateComponent(item, e.target.value)}
             style={{ width: '100%' }}
           />
@@ -268,7 +266,7 @@ class CommonAttrForm extends Component {
       case 'switch':
         return (
           <Switch
-            checked={value}
+            value={data[item.key]}
             onChange={value => this.updateComponent(item, value)}
             checkedChildren={<Icon type="check" />}
             unCheckedChildren={<Icon type="close" />}
@@ -276,7 +274,7 @@ class CommonAttrForm extends Component {
         );
       case 'select':
         return (
-          <Select value={value} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
             {item.options.map(option => {
               return <Option key={option.value}>{option.label}</Option>;
             })}
@@ -284,14 +282,14 @@ class CommonAttrForm extends Component {
         );
       case 'method':
         return (
-          <Select value={value} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
             {this.renderMethods()}
           </Select>
         );
       case 'icon':
         return (
           <Select
-            value={value}
+            value={data[item.key]}
             onChange={value => this.updateComponent(item, value)}
             optionLabelProp="value"
           >
@@ -307,7 +305,7 @@ class CommonAttrForm extends Component {
       case 'title':
         return (
           <Select
-            value={value}
+            value={data[item.key]}
             onChange={value => this.updateComponent(item, value)}
             optionLabelProp="value"
             notFoundContent={fetching ? <Spin size="small" /> : null}
@@ -333,7 +331,7 @@ class CommonAttrForm extends Component {
         return (
           <TreeSelect
             getPopupContainer={() => document.querySelector('#attr-form')}
-            value={value}
+            value={data[item.key]}
             onChange={value => this.updateComponent(item, value)}
           >
             {modules.map(item => {
@@ -364,19 +362,19 @@ class CommonAttrForm extends Component {
         );
       case 'template':
         return (
-          <Select value={value} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
             {this.renderTamplate()}
           </Select>
         );
       case 'json':
         return (
-          <TextArea onBlur={(e) => this.checkJson(e, value)} value={value} autosize={{ minRows: 3 }} onChange={e => this.updateComponent(item, e.target.value)}>
+          <TextArea onBlur={(e) => this.checkJson(e, value)} value={data[item.key]} autosize={{ minRows: 3 }} onChange={e => this.updateComponent(item, e.target.value)}>
           </TextArea>
         );
       case 'color':
         return (
           <Input
-            value={value}
+            value={data[item.key]}
             onChange={e => this.updateComponent(item, e.target.value)}
             style={{ width: '100%' }}
           />
@@ -388,7 +386,7 @@ class CommonAttrForm extends Component {
       default:
         return (
           <Input
-            value={value}
+            value={data[item.key]}
             onChange={e => this.updateComponent(key, e.target.value)}
             style={{ width: '100%' }}
           />

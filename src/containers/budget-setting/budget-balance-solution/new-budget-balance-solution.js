@@ -537,7 +537,7 @@ class NewBudgetBalanceSolution extends Component {
                 params.visibleUserScope = visibleUserScope;
 
                 releaseIdsList.map(item => {
-                    nowReleaseIds.push(item.key);
+                    nowReleaseIds.push(item.id);
                 });
                 params.releaseIds = nowReleaseIds;
                 //当radio值不为全部人员，校验数据至少有一条
@@ -717,7 +717,7 @@ class NewBudgetBalanceSolution extends Component {
      * 人员权限弹窗确认事件
      */
     handleReleaseIdsOk = (values) => {
-
+        console.log(values)
         let { releaseIdsList } = this.state;
         releaseIdsList = values.result;
         this.setState({
