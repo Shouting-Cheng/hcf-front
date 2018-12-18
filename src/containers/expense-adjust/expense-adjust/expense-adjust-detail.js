@@ -633,24 +633,25 @@ class ExpenseAdjustDetail extends React.Component {
   getImportDetailData = (transactionId) => {
     let id = this.props.match.params.id;
     adjustService.importData(transactionId, id).then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          if (res.data !== 0){
-            const {documentParams} = this.state;
-            this.setState({
-              documentParams:{
-                ...documentParams,
-                totalAmount: res.data
-              } },()=>{
-              this.renderContent();
-            })
-          }
-          message.success(this.$t('common.operate.success' /*操作成功*/));
-          this.getList();
+      console.log(res);
+      if (res.status === 200) {
+        if (res.data !== 0) {
+          const { documentParams } = this.state;
+          this.setState({
+            documentParams: {
+              ...documentParams,
+              totalAmount: res.data
+            }
+          }, () => {
+            this.renderContent();
+          })
         }
-      }).catch(e => {
-        message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
-      });
+        message.success(this.$t('common.operate.success' /*操作成功*/));
+        this.getList();
+      }
+    }).catch(e => {
+      message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
+    });
   };
 
   withdraw = () => {
@@ -817,26 +818,31 @@ class ExpenseAdjustDetail extends React.Component {
     return (
       <div className="adjust-content" style={{ marginBottom: 50, paddingBottom: 20 }}>
         <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
-          <DocumentBasicInfo params={documentParams}>
-            {headerData.status &&
-              (headerData.status == 1001 ||
-                headerData.status == 1003 ||
-                headerData.status == 1005) && (
-                <Button
-                  loading={widthDrawLoading}
-                  onClick={this.handleHeadEdit}
-                  type="primary"
-                  style={{ float: 'right', top: -4 }}
-                >
-                  {this.$t('common.edit')}
-                </Button>
-              )}
-            {headerData.status === 1002 && (
-              <Button type="primary" onClick={this.withdraw} style={{ float: 'right', top: -4 }}>
-                {this.$t('common.withdraw')}
-              </Button>
-            )}
-          </DocumentBasicInfo>
+          <Tabs forceRender defaultActiveKey="1" >
+            <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
+              <DocumentBasicInfo params={documentParams}>
+                {headerData.status &&
+                  (headerData.status == 1001 ||
+                    headerData.status == 1003 ||
+                    headerData.status == 1005) && (
+                    <Button
+                      loading={widthDrawLoading}
+                      onClick={this.handleHeadEdit}
+                      type="primary"
+                      style={{ float: 'right', top: -4 }}
+                    >
+                      {this.$t('common.edit')}
+                    </Button>
+                  )}
+                {headerData.status === 1002 && (
+                  <Button type="primary" onClick={this.withdraw} style={{ float: 'right', top: -4 }}>
+                    {this.$t('common.withdraw')}
+                  </Button>
+                )}
+              </DocumentBasicInfo>
+            </TabPane>
+          </Tabs>
+
         </Card>
         <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} className='expense-adjust-detail-center'>
           <div className="center-title">{this.$t('exp.adjust.info')}</div>

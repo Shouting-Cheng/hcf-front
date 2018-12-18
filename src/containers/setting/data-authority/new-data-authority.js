@@ -216,6 +216,7 @@ class NewDataAuthority extends React.Component {
     handleSave = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
+            console.log(values)
             if (!err) {
                 let newDataPrams = this.state.newDataPrams;
                 let renderNewChangeRules = this.state.renderNewChangeRules;
@@ -417,7 +418,8 @@ class NewDataAuthority extends React.Component {
                         label="数据权限说明"
                     >
                         {getFieldDecorator('description', {
-                            rules: []
+                            rules: [],
+                            initialValue: newDataPrams.description || ''
                         })(
                             <div>
                                  <LanguageInput
