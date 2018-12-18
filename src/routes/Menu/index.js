@@ -168,7 +168,7 @@ class LanguageManager extends Component {
       <div style={{ backgroundColor: '#fff', padding: 10, paddingBottom: 20 }}>
         <Alert
           closable
-          message="添加完菜单后，用户刷新当前页面，或则重新登录才能生效！"
+          message="添加完菜单后，用户刷新当前页面，或者重新登录才能生效！"
           type="info"
         />
         <Button onClick={this.add} style={{ margin: '10px 0' }} type="primary">

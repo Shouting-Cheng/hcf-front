@@ -110,9 +110,9 @@ class ExpAdjustType extends Component {
                                 <a onClick={(e) => this.editItem(e, record)}>{this.$t({ id: 'common.edit' })}</a>
                                 <Divider type="vertical" />
                                 <a onClick={() => this.handleDistribute(record)}>{this.$t({ id: 'adjust.company.distribution' })/**公司分配*/}</a>
-                                <Divider type="vertical" />
+                               {/* <Divider type="vertical" />
                                 <a onClick={(e) => this.deleteItem(e, record)}>{this.$t({ id: 'common.delete' })}</a>
-                            </span>
+                       */}     </span>
                         )
                     }
                 ],

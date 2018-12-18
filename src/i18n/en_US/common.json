@@ -162,5 +162,6 @@
   "common.all.type": "All type",
   "common.selected.number.department": "{number} departments have been selected",
   "common.selected.number.user.group": "{number} user groups have been selected",
-  "common.operate.value.disabled": "The value is disabled."
+  "common.operate.value.disabled": "The value is disabled.",
+  "common.document.categories": "Major categories of documents"
 }

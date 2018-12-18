@@ -3,23 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import CommonAttrForm from './common-attr-form';
 
-const types = [
-  { label: '日期', value: 'date' },
-  { label: '金额', value: 'money' },
-  { label: '币种', value: 'currency' },
-  { label: '姓名', value: 'name' },
-  { label: '单据状态', value: 'progress' },
-];
-
-const aligns = [
-  { label: '居中', value: 'center' },
-  { label: '左对齐', value: 'left' },
-  { label: '右对齐', value: 'right' },
-];
 
 @connect(({ components }) => ({
   components,
 }))
+
 class FormItemAttrForm extends Component {
   constructor(props) {
     super(props);
@@ -87,6 +75,12 @@ class FormItemAttrForm extends Component {
           label: 'valueKey',
           tooltip: '绑定选中的字段',
         },
+        {
+          type: 'json',
+          key: 'dataSource',
+          label: '默认值',
+          tooltip: '默认下拉框数据源，当配置了这个属性，url就不会生效。',
+        }
       ],
       formItems: [],
     };

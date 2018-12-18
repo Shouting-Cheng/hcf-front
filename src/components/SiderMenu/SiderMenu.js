@@ -60,13 +60,30 @@ export default class SiderMenu extends React.Component {
       openKeys: this.getDefaultCollapsedSubMenus(props),
       menuList: [...props.menuData],
       lastOpenKeys: [],
-      searchValue: ""
+      searchValue: "",
+      openKey: "",
+      menuMap: {}
     };
     this.search = debounce(this.search, 500);
   }
 
 
+  componentDidMount() {
+    let menuMap = {};
+    this.props.menuData.map(item => {
+      item.children && item.children.map(o => {
+        menuMap[`${o.path}`] = item.path;
+      })
+    });
+
+    let path = window.location.hash.replace('#', '');
+
+    this.setState({ openKey: menuMap[path], menuMap });
+  }
+
+
   componentWillReceiveProps(nextProps) {
+
     if (!this.state.searchValue) {
       const { location } = this.props;
 
@@ -78,8 +95,25 @@ export default class SiderMenu extends React.Component {
 
       this.menus = nextProps.menuData;
       this.flatMenuKeys = getFlatMenuKeys(nextProps.menuData);
+
       this.setState({ openKeys: this.getDefaultCollapsedSubMenus(nextProps), menuList: [...nextProps.menuData] });
     }
+
+    if (this.props.menuData.length != nextProps.menuData.length) {
+
+      let menuMap = {};
+      nextProps.menuData.map(item => {
+        item.children && item.children.map(o => {
+          menuMap[`${o.path}`] = item.path;
+        })
+      });
+
+      let path = window.location.hash.replace('#', '');
+
+      this.setState({ openKey: menuMap[path], menuMap });
+    }
+
+
   }
 
   /**
@@ -242,41 +276,47 @@ export default class SiderMenu extends React.Component {
 
   handleOpenChange = openKeys => {
     const lastOpenKey = openKeys[openKeys.length - 1];
-    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // console.log(openKeys);
     this.setState({
-      openKeys: moreThanOne ? [lastOpenKey] : [...openKeys],
+      openKey: lastOpenKey
     });
   };
 
   search = (value) => {
 
     if (!value) {
-      this.setState({ menuList: [...this.menus], openKeys: [...this.state.lastOpenKeys], searchValue: value });
+      this.setState({ menuList: [...this.menus], searchValue: value });
       return;
     }
 
     //todo  三级搜索暂不支持 后面加一下
     let result = [];
     this.menus.map(item => {
-      item.children && item.children.map(o => {
-        if (this.$t(o.name).includes(value)) {
-          if (result.findIndex(o => o.id == item.id) < 0) {
-            result.push(item);
-          }
+      if (item.children) {
+        let children = item.children.filter(o => this.$t(o.name).includes(value));
+        if (children && children.length) {
+          item.children = [...children];
+          result.push(item);
         }
-      })
+      } else {
+        item.children = [];
+      }
+    });
+
+    this.setState({ menuList: result, openKeys: result.map(item => item.path), searchValue: value });
+  }
+
+  select = ({ key }) => {
+    this.setState({
+      openKey: this.state.menuMap[key]
     })
-
-    let lastOpenKeys = [...this.state.openKeys];
-
-    this.setState({ menuList: result, openKeys: result.map(item => item.path), lastOpenKeys, searchValue: value });
   }
 
   render() {
     const { logo, collapsed, onCollapse, activeKey } = this.props;
-    const { openKeys, menuList } = this.state;
-
-    const menuProps = collapsed ? {} : { openKeys };
+    const { openKeys, menuList, searchValue, openKey } = this.state;
+    const menuProps = collapsed ? {} : { openKeys: searchValue ? openKeys : [openKey] };
 
     return (
       <Sider

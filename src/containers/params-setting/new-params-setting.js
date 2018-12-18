@@ -43,14 +43,22 @@ class NewParamsSetting extends Component {
         })
     }
 
-
     //提交
     handleSubmit = () => {
         this.props.form.validateFields((err, values) => {
             if (err) return;
+
+            let { params } = this.props;
+
+            let method = service.addParamsSetting;
+
+            if (params.id) {
+                method = service.updateParamsSetting;
+            }
+
             this.setState({ saveLoading: true });
-            service.addParamsSetting(values).then(res => {
-                message.success("新增成功！");
+            method({ ...params, ...values }).then(res => {
+                message.success(params.id ? "编辑成功！" : "新增成功！");
                 this.setState({ saveLoading: false });
                 this.props.close && this.props.close(true);
             }).catch(err => {
@@ -65,6 +73,14 @@ class NewParamsSetting extends Component {
         this.props.close && this.props.close();
     }
 
+    //筛选方式改变
+    filterMethodChange = (value) => {
+        if (value == "CUSTOM_SQL") {
+            this.props.form.setFieldsValue({ columnName: "" });
+        } else if (value == "TABLE_COLUMN") {
+            this.props.form.setFieldsValue({ customSql: "" });
+        }
+    }
 
     render() {
 
@@ -93,8 +109,8 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.tableName || ""
                         })(
-                            <Input />
-                        )}
+                            <Input disabled={this.props.params.id ? true : false} />
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -106,14 +122,14 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.dataType || ""
                         })(
-                            <Select>
+                            <Select disabled={this.props.params.id ? true : false}>
                                 {paramsTypeList.map(item => {
                                     return (
                                         <Select.Option key={item.value} value={item.value}>{item.messageKey}</Select.Option>
                                     )
                                 })}
                             </Select>
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -125,14 +141,14 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.filterMethod || ""
                         })(
-                            <Select>
+                            <Select onChange={this.filterMethodChange}>
                                 {filterMethodList.map(item => {
                                     return (
                                         <Select.Option key={item.value} value={item.value}>{item.messageKey}</Select.Option>
                                     )
                                 })}
                             </Select>
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -147,7 +163,7 @@ class NewParamsSetting extends Component {
                             <TextArea autosize={{
                                 minRows: 3
                             }} disabled={this.props.form.getFieldValue("filterMethod") != "CUSTOM_SQL"} />
-                        )}
+                            )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -160,7 +176,7 @@ class NewParamsSetting extends Component {
                             initialValue: this.props.params.columnName || ""
                         })(
                             <Input disabled={this.props.form.getFieldValue("filterMethod") != "TABLE_COLUMN"} />
-                        )}
+                            )}
                     </FormItem>
                     <div className="slide-footer">
                         <Button type="primary" htmlType="submit" loading={saveLoading}>

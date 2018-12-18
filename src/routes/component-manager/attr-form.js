@@ -15,6 +15,7 @@ import SearchFormAtrr from './attr/search-form-attr';
 import FormItemAtrr from './attr/form-item-attr';
 import SlideFrameAttr from './attr/slide-frame-attr';
 import FormAttr from './attr/form-attr';
+import RowAttr from './attr/row-attr';
 
 import './attr-form.less';
 
@@ -26,11 +27,13 @@ const componentMap = {
   'form-item': FormItemAtrr,
   'slide-frame': SlideFrameAttr,
   form: FormAttr,
+  row: RowAttr
 };
 
 @connect(({ components }) => ({
   components,
 }))
+
 class AttrForm extends Component {
   constructor(props) {
     super(props);

@@ -16,6 +16,7 @@ import Selector from 'widget/selector'
 import workflowService from 'containers/setting/workflow/workflow.service'
 import 'styles/setting/workflow/workflow.scss'
 import { routerRedux } from 'dva/router';
+import LanguageInput from "../../../components/Widget/Template/language-input/language-input";
 
 class Workflow extends React.Component {
   constructor(props) {
@@ -123,14 +124,27 @@ class Workflow extends React.Component {
         {tenantMode && (
           <div className="setOfBooks-container">
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_cn' ? 4 : 8} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
-              <Col span={16}>
+              <Col span={language.local === 'zh_cn' ? 1 : 2} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                   allowClear={false}
                   entity
                   value={{ label: setOfBooksName, key: setOfBooksId }}
                   onChange={this.handleSetOfBooksChange}
                 />
+              </Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={3} style={{marginLeft: -30}}>
+                <Selector type="setOfBooksByTenant"
+                          allowClear={false}
+                          entity
+                          value={{ label: setOfBooksName, key: setOfBooksId }}
+                          onChange={this.handleSetOfBooksChange}
+                />
+              </Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+              <Col span={3} >
+                <LanguageInput/>
               </Col>
             </Row>
           </div>

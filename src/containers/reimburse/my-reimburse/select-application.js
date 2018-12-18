@@ -114,6 +114,7 @@ class SelectContract extends React.Component {
     let selectorItem = this.state.selectorItem;
     const { page, pageSize } = this.state;
 
+    console.log(applincationParams)
     let url = `${
       config.baseUrl
     }/api/application/related/expense?expenseTypeId=${type}&currencyCode=${

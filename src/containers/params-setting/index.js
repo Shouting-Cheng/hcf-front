@@ -10,7 +10,6 @@ import CustomTable from "widget/custom-table"
 
 import "styles/setting/params-setting/params-setting.scss"
 
-import "styles/setting/params-setting/params-setting.scss";
 
 class ParamsSetting extends Component {
     constructor(props) {
@@ -58,12 +57,12 @@ class ParamsSetting extends Component {
                 },
                 {
                     title: "参数类型",
-                    dataIndex: "dataType",
+                    dataIndex: "dataTypeName",
                     align: "center"
                 },
                 {
                     title: "筛选方式",
-                    dataIndex: "filterMethod",
+                    dataIndex: "filterMethodName",
                     align: "center"
                 },
                 {
@@ -100,9 +99,38 @@ class ParamsSetting extends Component {
     //新建
     create = () => {
         this.setState({
-            data: res.data,
-            loading: false,
-            pagination
+            visibel: true
+        })
+    }
+
+    //编辑
+    edit = (record) => {
+        this.setState({ model: JSON.parse(JSON.stringify(record)), visibel: true });
+    }
+
+    //删除
+    delete = (id) => {
+        service.deleteParamsSetting(id).then(res => {
+            message.success("删除成功！");
+            this.setState({ page: 0 }, () => {
+                this.getList();
+            })
+        }).catch(err => {
+            message.error(err.response.data.message);
+        })
+    }
+
+    //搜索
+    search = (values) => {
+
+        Object.keys(values).map(key => {
+            if (!values[key]) {
+                delete values[key]
+            }
+        });
+
+        this.setState({ searchParams: values, page: 0 }, () => {
+            this.getList();
         });
     }
 
@@ -153,4 +181,4 @@ class ParamsSetting extends Component {
     }
 }
 
-export default ParamsSetting;
+export default ParamsSetting

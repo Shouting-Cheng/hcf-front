@@ -13,7 +13,7 @@ import { connect } from "dva"
 class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
-    options: []
+    options: {}
   };
 
   componentDidMount() {
@@ -25,8 +25,12 @@ class AdvancedSearchForm extends React.Component {
     let { formItems } = this.props;
 
     formItems.map(item => {
-      if ((!item.options || !item.options.length) && item.url) {
-        this.getOptions(item);
+      if (item.dataSource) {
+        this.setState({ options: { [item.id]: JSON.parse(item.dataSource) } });
+      } else {
+        if ((!item.options || !item.options.length) && item.url) {
+          this.getOptions(item);
+        }
       }
     });
   }
@@ -55,10 +59,7 @@ class AdvancedSearchForm extends React.Component {
   getOptions = item => {
     commonService.getInterface(item.url).then(res => {
       if (res.data) {
-        let options = res.data.map(o => {
-          return { label: o[item.labelKey], value: o[item.valueKey] };
-        });
-        this.setState({ options: { [item.id]: options } });
+        this.setState({ options: { [item.id]: res.data } });
       }
     });
   };
@@ -129,7 +130,7 @@ class AdvancedSearchForm extends React.Component {
           <Select placeholder={item.placeholder}>
             {options[item.id] &&
               options[item.id].map(option => {
-                return <Select.Option key={option.value}>{option.label}</Select.Option>;
+                return <Select.Option key={option[item.valueKey]}>{option[item.labelKey]}</Select.Option>;
               })}
           </Select>
         );
@@ -169,3 +170,7 @@ class AdvancedSearchForm extends React.Component {
 const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
 
 export default WrappedAdvancedSearchForm;
+
+
+
+
