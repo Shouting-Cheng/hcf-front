@@ -48,7 +48,7 @@ export default {
   hash: true,
   proxy: {
     '/api': {
-      target: 'http://115.159.108.80:9081/artemis-sit',
+      target: 'http://47.101.145.62:9081/base',
       changeOrigin: true,
     },
     // '/api': {
@@ -56,7 +56,7 @@ export default {
     //   changeOrigin: true,
     // },
     '/auth': {
-      target: 'http://115.159.108.80:9081',
+      target: 'http://47.101.145.62:9081',
       changeOrigin: true,
     },
     '/prepayment': {
@@ -114,7 +114,7 @@ export default {
       target: 'http://106.15.26.10:10080',
       changeOrigin: true,
     },
-    "/tx-manager" :{
+    "/tx-manager": {
       target: 'http://115.159.108.80:9081',
       changeOrigin: true
     }

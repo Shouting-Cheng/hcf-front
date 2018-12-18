@@ -287,7 +287,7 @@ class BasicLayout extends React.Component {
     const { routerData, dispatch } = this.props;
 
     return new Promise((resolve, reject) => {
-      fetch.get('/auth/api/userRole/query/user/menuList').then(response => {
+      fetch.get('/api/userRole/query/user/menuList').then(response => {
 
         let result = JSON.parse(JSON.stringify(response || []));
         let group = {};

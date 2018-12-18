@@ -632,7 +632,7 @@ export default class Login extends React.Component {
     const { routerData, dispatch } = this.props;
 
     return new Promise((resolve, reject) => {
-      fetch.get('/auth/api/userRole/query/user/menuList').then(response => {
+      fetch.get('/api/userRole/query/user/menuList').then(response => {
         let result = response || [];
         let group = {};
 
