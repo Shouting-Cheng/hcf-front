@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Card, Spin, Icon, Row, Col, Modal, message, Radio } from 'antd'
+import {Form, Card, Spin, Icon, Row, Col, Modal, message, Radio, Select,Input} from 'antd'
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-
+import constants from 'share/constants';
 import manApprovalImg from 'images/setting/workflow/man-approval.svg'
 import knowImg from 'images/setting/workflow/know.svg'
 import aiApprovalImg from 'images/setting/workflow/aiapproval.svg'
@@ -18,6 +18,9 @@ import 'styles/setting/workflow/workflow.scss'
 import { routerRedux } from 'dva/router';
 import LanguageInput from "../../../components/Widget/Template/language-input/language-input";
 
+const Option = Select.Option;
+
+
 class Workflow extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +32,7 @@ class Workflow extends React.Component {
       setOfBooksName: this.props.company.setOfBooksName,
       sourceFormOID: null, //复制的表单OID
       showEnableList: true, //显示启用的单据
+      params: {}
     }
   }
 
@@ -38,7 +42,11 @@ class Workflow extends React.Component {
 
   getList = () => {
     this.setState({ loading: true });
-    workflowService.getWorkflowList(this.props.tenantMode ? this.state.setOfBooksId : '').then(res => {
+    let params = {
+      ...this.state.params,
+      booksID: this.props.tenantMode ? this.state.setOfBooksId : '',
+    };
+    workflowService.getWorkflowList(params).then(res => {
       this.setState({
         loading: false,
         data: res.data
@@ -111,6 +119,24 @@ class Workflow extends React.Component {
     );
   };
 
+  handleCatType = (value)=>{
+    this.setState({
+      params: {
+        ...this.state.params,
+        documentCategory: value
+      }
+    },()=>this.getList())
+  };
+
+  handleDocType = (e)=>{
+    this.setState({
+      params: {
+        ...this.state.params,
+        documentTypeName: e.target.value
+      }
+    },()=>this.getList())
+  };
+
   render() {
     const { tenantMode, language } = this.props;
     const { loading, data, setOfBooksName, setOfBooksId, sourceFormOID, showEnableList, pasteLoading } = this.state;
@@ -124,7 +150,7 @@ class Workflow extends React.Component {
         {tenantMode && (
           <div className="setOfBooks-container">
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_cn' ? 1 : 2} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{width: 43}} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                   allowClear={false}
@@ -133,18 +159,23 @@ class Workflow extends React.Component {
                   onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
-              <Col span={3} style={{marginLeft: -30}}>
-                <Selector type="setOfBooksByTenant"
-                          allowClear={false}
-                          entity
-                          value={{ label: setOfBooksName, key: setOfBooksId }}
-                          onChange={this.handleSetOfBooksChange}
-                />
+              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={3}>
+                <Select
+                  allowClear
+                  onChange={this.handleCatType}
+                  style={{width: '100%'}}
+                  placeholder={this.$t('common.please.select')}>
+                  {
+                    constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
+                  }
+                </Select>
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+                <Col span={language.local === 'zh_cn' ? 3 : 4} style={{width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
-                <LanguageInput/>
+                <Input
+                  onBlur={this.handleDocType}
+                  placeholder={this.$t('common.please.enter')}/>
               </Col>
             </Row>
           </div>
