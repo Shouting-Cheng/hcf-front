@@ -250,7 +250,7 @@ class FormList extends React.Component {
     this.setState({
       params: {
         ...this.state.params,
-        documentTypeName: e.target.value
+        formName: e.target.value
       }
     },()=>this.getFormList())
   };
