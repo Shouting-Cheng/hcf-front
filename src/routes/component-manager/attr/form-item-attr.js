@@ -78,7 +78,7 @@ class FormItemAttrForm extends Component {
         {
           type: 'json',
           key: 'dataSource',
-          label: '默认值',
+          label: 'dataSource',
           tooltip: '默认下拉框数据源，当配置了这个属性，url就不会生效。',
         }
       ],

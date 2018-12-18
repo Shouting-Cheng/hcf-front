@@ -26,7 +26,8 @@ class AdvancedSearchForm extends React.Component {
 
     formItems.map(item => {
       if (item.dataSource) {
-        this.setState({ options: { [item.id]: JSON.parse(item.dataSource) } });
+        console.log(item.dataSource);
+        this.setState({ options: { ...this.state.options, [item.id]: JSON.parse(item.dataSource) } });
       } else {
         if ((!item.options || !item.options.length) && item.url) {
           this.getOptions(item);
@@ -59,7 +60,7 @@ class AdvancedSearchForm extends React.Component {
   getOptions = item => {
     commonService.getInterface(item.url).then(res => {
       if (res.data) {
-        this.setState({ options: { [item.id]: res.data } });
+        this.setState({ options: { ...this.state.options, [item.id]: res.data } });
       }
     });
   };
@@ -130,6 +131,7 @@ class AdvancedSearchForm extends React.Component {
           <Select placeholder={item.placeholder}>
             {options[item.id] &&
               options[item.id].map(option => {
+                console.log(option[item.labelKey])
                 return <Select.Option key={option[item.valueKey]}>{option[item.labelKey]}</Select.Option>;
               })}
           </Select>
