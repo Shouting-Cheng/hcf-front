@@ -133,8 +133,8 @@ class Workflow extends React.Component {
                   onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
-              <Col span={3} style={{marginLeft: -30}}>
+              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                           allowClear={false}
                           entity
@@ -142,7 +142,7 @@ class Workflow extends React.Component {
                           onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3} className="title" style={{marginLeft: 30}}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+                <Col span={language.local === 'zh_cn' ? 3 : 4} style={{width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <LanguageInput/>
               </Col>
