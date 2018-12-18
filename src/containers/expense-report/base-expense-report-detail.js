@@ -8,7 +8,6 @@ import { connect } from 'dva'
 import 'styles/expense-report/base-expense-report-detail.scss'
 import moment from 'moment'
 import customField from 'share/customField'
-import { Pie } from 'components/Charts';
 import {
   Tabs,
   Icon,
