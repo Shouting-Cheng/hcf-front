@@ -337,6 +337,14 @@ class ExpenseAdjustDetail extends React.Component {
       .then(response => {
         message.success(this.$t('common.delete.success', { name: '' }));
         this.getHeaderInfo();
+        let { pagination } = this.state;
+        this.setState({
+          pagination: {
+          ...pagination,
+          total: pagination.total - 1,
+          page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
+        }
+        })
         this.getList();
       })
       .catch(e => {
