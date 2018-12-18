@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { parse, stringify } from 'qs';
 import app from '../index';
-import { track } from '@antv/g2/src';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -198,7 +197,7 @@ export function isUrl(path) {
 export function superThrottle(fn, delay, mustRunDelay) {
   let timer = null;
   let t_start;
-  return function() {
+  return function () {
     let context = this;
     let args = arguments;
     let t_curr = +new Date();
@@ -210,7 +209,7 @@ export function superThrottle(fn, delay, mustRunDelay) {
       fn.apply(context, args);
       t_start = t_curr;
     } else {
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         fn.apply(context, args);
       }, delay);
     }

@@ -61,17 +61,17 @@ class NewExpenseAdjust extends React.Component {
       });
   }
 
-  getDept() {
+ /* getDept() {
     expenseAdjustService.getDeptByOid(this.props.user.departmentOID).then(response => {
       this.setState({ deptId: [{ departmentId: response.data.id, name: response.data.name }] });
     });
   }
-
+*/
   componentDidMount() {
-    Promise.all([
-      this.getExpenseAdjustTypeById(),
-      this.getDept(),
-      this.getCurrencyOptions(),
+      console.log(this.props)
+      this.getExpenseAdjustTypeById();
+      //this.getDept();
+      this.getCurrencyOptions();
       this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
         let fileList = [];
         if (res.data.attachments) {
@@ -87,13 +87,9 @@ class NewExpenseAdjust extends React.Component {
         let model = res.data;
         model.companyId = [{ id: model.companyId, name: model.companyName }];
         model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
-        console.log(model)
         this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
         this.setState({ model, fileList });
       })
-    ]).then(()=>{
-
-    });
   }
 
   //获取币种
@@ -281,7 +277,7 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id ==='new' ? deptId :
+                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentOID }] :
                     model.id ? model.unitId : [],
                   })(
                     <Chooser
