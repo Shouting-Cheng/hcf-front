@@ -83,7 +83,7 @@ const chooserData = {
         render: value => value || '-',
       },
     ],
-    key: 'userOID',
+    key: 'userOid',
   },
   contract_user: {
     title: '选择人员',
@@ -95,7 +95,7 @@ const chooserData = {
       { title: '部门名称', dataIndex: 'departmentName', width: '25%' },
       { title: '职务', dataIndex: 'title', width: '25%' },
     ],
-    key: 'userOID',
+    key: 'userOid',
   },
   user_group: {
     title: '选择人员组',
@@ -284,7 +284,7 @@ const chooserData = {
         dataIndex: 'name',
       },
     ],
-    key: 'expenseTypeOID',
+    key: 'expenseTypeOid',
   },
   available_company: {
     title: '选择公司',
@@ -897,7 +897,7 @@ const chooserData = {
         dataIndex: 'name',
       },
     ],
-    key: 'costCenterItemOID',
+    key: 'costCenterItemOid',
   },
   expense_cost_center_item: {
     //费用分摊用成本中心
@@ -923,7 +923,7 @@ const chooserData = {
         dataIndex: 'name',
       },
     ],
-    key: 'costCenterItemOID',
+    key: 'costCenterItemOid',
   },
   cost_center: {
     title: messages('chooser.data.costCenter'), //成本中心
@@ -1621,7 +1621,7 @@ const chooserData = {
         render: value => value || '-',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
   batch_deploy_company: {
     title: messages('chooser.data.distribute.company' /*分配公司*/),
@@ -1643,7 +1643,7 @@ const chooserData = {
         render: value => value || '-',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
   allotSetOfBookCompany: {
     title: messages('chooser.data.distribute.company' /*分配公司*/),
@@ -1840,7 +1840,7 @@ const chooserData = {
       { title: messages('chooser.data.legal.entity.name'), dataIndex: 'companyName' },
       { title: messages('chooser.data.bank'), dataIndex: 'accountBank' },
     ],
-    key: 'companyReceiptedOID',
+    key: 'companyReceiptedOid',
   },
   // 所有法人实体
   corporation_entity_all: {
@@ -1864,7 +1864,7 @@ const chooserData = {
       },
       { title: messages('chooser.data.bank'), dataIndex: 'accountBank' },
     ],
-    key: 'companyReceiptedOID',
+    key: 'companyReceiptedOid',
   },
   deploy_company_by_carousel: {
     //公告信息分配公司用
@@ -1887,7 +1887,7 @@ const chooserData = {
         render: value => value || '-',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
 
   bank_card: {
@@ -1899,7 +1899,7 @@ const chooserData = {
       { title: messages('chooser.data.bankName'), dataIndex: 'bankName' },
       { title: messages('chooser.data.bank.card.num'), dataIndex: 'bankAccountNo' },
     ],
-    key: 'contactBankAccountOID',
+    key: 'contactBankAccountOid',
   },
   booker: {
     title: messages('chooser.data.booker'),
@@ -1915,7 +1915,7 @@ const chooserData = {
       },
       { title: messages('chooser.data.duty'), dataIndex: 'title', render: value => value || '-' },
     ],
-    key: 'userOID',
+    key: 'userOid',
   },
   my_request: {
     title: messages('chooser.data.my.application') /*'我的申请单'*/,
@@ -1957,12 +1957,12 @@ const chooserData = {
         },
       },
     ],
-    key: 'applicationOID',
+    key: 'applicationOid',
   },
   //这个包含新老集团的：老集团是法人实体，新集团是公司，但是后端返回的结构都是一样，前端统一按照公司处理
   //todo
   //后端还在做功能keyword关键字查询公司
-  //目前返回的列表每一个对象只有两个字段，companyOID与companyName
+  //目前返回的列表每一个对象只有两个字段，companyOid与companyName
   //后端还在重构添加companyCode,companyID等字段，如果法人实体没有这个字段，就返回null
   all_company_with_legal_entity: {
     title: messages('chooser.data.company'), //选择公司
@@ -1980,7 +1980,7 @@ const chooserData = {
         dataIndex: 'companyName',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
   //这个尽量使用all_company_with_legal_entity去代替，all_company，不要用这个了
   //如果发现all_company_with_legal_entity列表字段缺少，就叫后端立即开发
@@ -1999,7 +1999,7 @@ const chooserData = {
         dataIndex: 'baseCurrency',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
   company_bank_account: {
     title: messages('chooser.data.company_bank_account'),
@@ -2026,7 +2026,7 @@ const chooserData = {
         dataIndex: 'baseCurrency',
       },
     ],
-    key: 'companyOID',
+    key: 'companyOid',
   },
   payment_type: {
     title: messages('payment.batch.company.payWay') /*付款方式*/,
@@ -2198,7 +2198,7 @@ const chooserData = {
       },
       { title: messages('common.comment') /*"备注"*/, dataIndex: 'comment' },
     ],
-    key: 'invoiceOID',
+    key: 'invoiceOid',
   },
   //预算用的新版货币接口
   new_currency: {
@@ -2432,7 +2432,7 @@ const chooserData = {
       { title: messages('chooser.data.dep'), dataIndex: 'departmentName', width: '25%' },
       // { title: '职务', dataIndex: 'title', width: '25%' },
     ],
-    key: 'userOID',
+    key: 'userOid',
   },
   bgtUser: {
     title: messages('chooser.data.selectPerson'),
@@ -2623,7 +2623,7 @@ const chooserData = {
         },
       },
     ],
-    key: 'invoiceOID',
+    key: 'invoiceOid',
   },
   select_payee: {
     title: '选择收款方',
@@ -2781,7 +2781,7 @@ const chooserData = {
         dataIndex: 'title',
       },
     ],
-    key: 'userOID',
+    key: 'userOid',
   },
   department_document: {
     title: messages('chooser.data.dep.title'), //部门
