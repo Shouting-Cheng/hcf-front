@@ -901,9 +901,8 @@ class NewExpenseAdjustDetail extends React.Component {
             wrapperCol: { span: 12 },
           };
     let arr = [];
-    let style = {};
     this.state.formItems.map((item, index) => {
-      item.key === 'expenseTypeId' ? (style = this.state.style) : (style = item.sstyle);
+      let style = item.key === 'expenseTypeId' ? this.state.style : item.style;
       formItemLayout = item.formItemLayout || formItemLayout;
       arr.push(
         <Col key={item.key} span={item.span || 12} className={item.className} style={style}>
