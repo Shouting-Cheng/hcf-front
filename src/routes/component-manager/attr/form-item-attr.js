@@ -38,6 +38,12 @@ class FormItemAttrForm extends Component {
           tooltip: '是否必填',
         },
         {
+          type: 'switch',
+          key: 'disabled',
+          label: 'disabled',
+          tooltip: '是否禁用',
+        },
+        {
           type: 'input',
           key: 'message',
           label: 'message',

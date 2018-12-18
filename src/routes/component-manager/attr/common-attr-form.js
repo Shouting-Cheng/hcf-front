@@ -213,8 +213,12 @@ class CommonAttrForm extends Component {
     this.setState({ fetching: true });
 
     let languageList = dataSource.filter(
-      item => item.key.indexOf(value) >= 0 || item.value.indexOf(value) >= 0
+      item => item.key == (value) || item.value == value
     ).slice(0, 20);
+
+    languageList = [...languageList, ...dataSource.filter(
+      item => item.key.indexOf(value) >= 0 || item.value.indexOf(value) >= 0
+    ).slice(0, 20 - languageList.length)];
 
     this.setState({ languageList, fetching: false });
   };
@@ -282,15 +286,15 @@ class CommonAttrForm extends Component {
         return (
           <Switch
             value={data[item.key] || value}
-            onBlur={e => this.updateComponent(item, e.target.value)}
-            onChange={e => this.setData(item, e.target.value)}
+            onBlur={value => this.updateComponent(item, value)}
+            onChange={value => this.setData(item, value)}
             checkedChildren={<Icon type="check" />}
             unCheckedChildren={<Icon type="close" />}
           />
         );
       case 'select':
         return (
-          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={e => this.updateComponent(item, e.target.value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {item.options.map(option => {
               return <Option key={option.value}>{option.label}</Option>;
             })}
@@ -298,7 +302,7 @@ class CommonAttrForm extends Component {
         );
       case 'method':
         return (
-          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, e.target.value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {this.renderMethods()}
           </Select>
         );
@@ -306,8 +310,8 @@ class CommonAttrForm extends Component {
         return (
           <Select
             value={data[item.key] || value}
-            onBlur={value => this.updateComponent(item, e.target.value)}
-            onChange={e => this.setData(item, e)}
+            onBlur={value => this.updateComponent(item, value)}
+            onChange={value => this.setData(item, value)}
             optionLabelProp="value"
           >
             {icons.map(item => {
@@ -323,7 +327,7 @@ class CommonAttrForm extends Component {
         return (
           <Select
             value={data[item.key] || value}
-            onBlur={e => this.updateComponent(item, e.target.value)}
+            onBlur={value => this.updateComponent(item, value)}
             optionLabelProp="value"
             notFoundContent={fetching ? <Spin size="small" /> : null}
             filterOption={false}
@@ -350,7 +354,7 @@ class CommonAttrForm extends Component {
           <TreeSelect
             getPopupContainer={() => document.querySelector('#attr-form')}
             value={data[item.key] || value}
-            onBlur={e => this.updateComponent(item, e.target.value)}
+            onBlur={value => this.updateComponent(item, value)}
             onChange={value => this.setData(item, value)}
           >
             {modules.map(item => {
@@ -381,7 +385,7 @@ class CommonAttrForm extends Component {
         );
       case 'template':
         return (
-          <Select value={data[item.key] || value} onChange={e => this.setData(item, e.target.value)} onBlur={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {this.renderTamplate()}
           </Select>
         );
