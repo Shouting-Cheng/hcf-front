@@ -641,25 +641,27 @@ class ExpenseAdjustDetail extends React.Component {
   getImportDetailData = (transactionId) => {
     let id = this.props.match.params.id;
     adjustService.importData(transactionId, id).then(res => {
-      console.log(res);
-      if (res.status === 200) {
-        if (res.data !== 0) {
-          const { documentParams } = this.state;
-          this.setState({
-            documentParams: {
-              ...documentParams,
-              totalAmount: res.data
-            }
-          }, () => {
-            this.renderContent();
-          })
+        console.log(res);
+        if (res.status === 200) {
+          if (res.data !== 0){
+            const {documentParams,headerData} = this.state;
+            headerData.totalAmount = res.data
+            this.setState({
+              documentParams:{
+                ...documentParams,
+                totalAmount: res.data,
+              },
+              headerData
+             },()=>{
+              this.renderContent();
+            })
+          }
+          message.success(this.$t('common.operate.success' /*操作成功*/));
+          this.getList();
         }
-        message.success(this.$t('common.operate.success' /*操作成功*/));
-        this.getList();
-      }
-    }).catch(e => {
-      message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
-    });
+      }).catch(e => {
+        message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
+      });
   };
 
   withdraw = () => {
