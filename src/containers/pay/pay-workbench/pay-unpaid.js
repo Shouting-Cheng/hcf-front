@@ -43,7 +43,9 @@ class PayUnpaid extends React.Component {
               { title: messages('chooser.data.companyName'/*公司名称*/), dataIndex: 'bankAccountCompanyName' }
             ], key: 'bankAccountCompanyId'
           },
-          id: 'paymentCompanyId', defaultValue: [{ bankAccountCompanyName: this.props.company.name, bankAccountCompanyId: this.props.company.id }], label: messages('paymentCompanySetting.paymentCompanyName') /*"付款公司名称"*/, labelKey: "bankAccountCompanyName", valueKey: "bankAccountCompanyId", single: false
+          id: 'paymentCompanyId',
+          defaultValue: [{ bankAccountCompanyName: this.props.company.name, bankAccountCompanyId: this.props.company.id }],
+          label: messages('paymentCompanySetting.paymentCompanyName') /*"付款公司名称"*/, labelKey: "bankAccountCompanyName", valueKey: "bankAccountCompanyId", single: false
         },
         { type: 'input',colSpan: 6, id: 'documentNumber', label: messages('pay.workbench.receiptNumber')/*单据编号*/ },
         { type: 'value_list', colSpan: 6, id: 'documentTypeName', label: messages('pay.workbench.receiptType')/*单据类型*/, options: [], valueListCode: 2106 },
@@ -195,7 +197,10 @@ class PayUnpaid extends React.Component {
   }
 
   componentWillMount() {
+    let {searchForm} = this.state;
     this.props.subTab && this.setState({ radioValue: this.props.subTab });
+    searchForm[0].defaultValue = paymentService.getDefaultCompany(this.props.user.userOID,this.props.company.id);
+    this.setState({searchForm});
     this.getList()
   }
 

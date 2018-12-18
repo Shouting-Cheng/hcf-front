@@ -1438,6 +1438,14 @@ export const getRouterData = app => {
       ),
       name: 'org-structure',
     },
+    //员工管理
+    '/enterprise-manage/org-structure/person-detail/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
+      ),
+      name: 'person-detail',
+      parent: '/enterprise-manage/org-structure',
+    },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
       component: dynamicWrapper(app, [], () =>
