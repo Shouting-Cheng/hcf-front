@@ -28,8 +28,8 @@ class SelectRoles extends React.Component {
       defaultIds: [],
       loading: false,
       formItems: [
-        { label: '代码', dataIndex: 'roleCode' ,colSpan: 8},
-        { label: '名称', dataIndex: 'roleName' ,colSpan: 8},
+        { label: '代码', dataIndex: 'roleCode' ,colSpan: 8, placeholder: this.$t('common.please.enter')},
+        { label: '名称', dataIndex: 'roleName' ,colSpan: 8, placeholder: this.$t('common.please.enter')},
       ],
     };
   }
