@@ -28,7 +28,7 @@ build:
     - "docker login -u5268 -pDick.1212 registry.cloud.saas.hand-china.com"
     - "yarn install"
     - "npm run fix-memory-limit"
-    - "npm run build"
+    - "npm run start"
 
 publish:    
     stage: publish
