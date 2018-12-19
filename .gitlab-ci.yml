@@ -1,4 +1,4 @@
-image: registry.cloud.saas.hand-china.com/devops/gitlab-runner-docker:node-runner
+image: node:latest
 
 variables:
     IMAGE: registry.cloud.saas.hand-china.com/hec/front
