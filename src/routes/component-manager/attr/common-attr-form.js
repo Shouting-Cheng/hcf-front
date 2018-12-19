@@ -63,8 +63,20 @@ class CommonAttrForm extends Component {
     this.setState({ dataSource: [...languageList] });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selectedId != nextProps.selectedId) {
+      this.setState({ data: {} });
+    }
+  }
+
+
+  setData = (item, value) => {
+    let { data } = this.state;
+
+    this.setState({ data: { ...data, [item.key]: value } });
+  }
+
   updateComponent = (item, value) => {
-    const { selectedId, dispatch } = this.props;
 
     if (item.onChange) {
       item.onChange(item.key, value);
@@ -76,19 +88,14 @@ class CommonAttrForm extends Component {
       return;
     }
 
-    let { data } = this.state;
-
-    this.setState({ ...data, [item.key]: value });
-
-
-    // dispatch({
-    //   type: 'components/updateComponent',
-    //   payload: {
-    //     id: selectedId,
-    //     value,
-    //     key: item.key,
-    //   },
-    // });
+    this.props.dispatch({
+      type: 'components/updateComponent',
+      payload: {
+        id: this.props.selectedId,
+        value,
+        key: item.key,
+      },
+    });
   };
 
   renderFormItem = () => {
@@ -206,13 +213,22 @@ class CommonAttrForm extends Component {
     this.setState({ fetching: true });
 
     let languageList = dataSource.filter(
-      item => item.key.indexOf(value) >= 0 || item.value.indexOf(value) >= 0
+      item => item.key == (value) || item.value == value
     ).slice(0, 20);
+
+    languageList = [...languageList, ...dataSource.filter(
+      item => item.key.indexOf(value) >= 0 || item.value.indexOf(value) >= 0
+    ).slice(0, 20 - languageList.length)];
 
     this.setState({ languageList, fetching: false });
   };
 
   onLoadData = treeNode => {
+
+    // let o = [
+    //   { "key": 1, "label": "启用" },
+    //   { "key": 0, "label": "禁用" }
+    // ]
 
     return new Promise(resolve => {
       if (treeNode.props.dataRef.children) {
@@ -237,12 +253,14 @@ class CommonAttrForm extends Component {
   };
 
   //检查是否为json
-  checkJson = (e, data) => {
+  checkJson = (e, item) => {
     try {
-      var obj = JSON.parse(data);
+      var obj = JSON.parse(e.target.value);
       if (!(typeof obj == 'object' && obj)) {
         message.error(`json格式不正确`);
         e.target.focus();
+      } else {
+        this.updateComponent(item, e.target.value);
       }
     } catch (error) {
       message.error(`json格式不正确：` + error);
@@ -258,23 +276,25 @@ class CommonAttrForm extends Component {
       case 'input':
         return (
           <Input
-            value={data[item.key]}
-            onChange={e => this.updateComponent(item, e.target.value)}
+            value={data[item.key] || value}
+            onBlur={e => this.updateComponent(item, e.target.value)}
+            onChange={e => this.setData(item, e.target.value)}
             style={{ width: '100%' }}
           />
         );
       case 'switch':
         return (
           <Switch
-            value={data[item.key]}
-            onChange={value => this.updateComponent(item, value)}
+            value={data[item.key] || value}
+            onBlur={value => this.updateComponent(item, value)}
+            onChange={value => this.setData(item, value)}
             checkedChildren={<Icon type="check" />}
             unCheckedChildren={<Icon type="close" />}
           />
         );
       case 'select':
         return (
-          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {item.options.map(option => {
               return <Option key={option.value}>{option.label}</Option>;
             })}
@@ -282,15 +302,16 @@ class CommonAttrForm extends Component {
         );
       case 'method':
         return (
-          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {this.renderMethods()}
           </Select>
         );
       case 'icon':
         return (
           <Select
-            value={data[item.key]}
-            onChange={value => this.updateComponent(item, value)}
+            value={data[item.key] || value}
+            onBlur={value => this.updateComponent(item, value)}
+            onChange={value => this.setData(item, value)}
             optionLabelProp="value"
           >
             {icons.map(item => {
@@ -305,14 +326,15 @@ class CommonAttrForm extends Component {
       case 'title':
         return (
           <Select
-            value={data[item.key]}
-            onChange={value => this.updateComponent(item, value)}
+            value={data[item.key] || value}
+            onBlur={value => this.updateComponent(item, value)}
             optionLabelProp="value"
             notFoundContent={fetching ? <Spin size="small" /> : null}
             filterOption={false}
             onSearch={this.titleSearch}
             showSearch
             showArrow={false}
+            onChange={e => this.setData(item, e)}
           >
             {languageList.map((item, index) => {
               return (
@@ -331,8 +353,9 @@ class CommonAttrForm extends Component {
         return (
           <TreeSelect
             getPopupContainer={() => document.querySelector('#attr-form')}
-            value={data[item.key]}
-            onChange={value => this.updateComponent(item, value)}
+            value={data[item.key] || value}
+            onBlur={value => this.updateComponent(item, value)}
+            onChange={value => this.setData(item, value)}
           >
             {modules.map(item => {
               return (
@@ -362,20 +385,21 @@ class CommonAttrForm extends Component {
         );
       case 'template':
         return (
-          <Select value={data[item.key]} onChange={value => this.updateComponent(item, value)}>
+          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
             {this.renderTamplate()}
           </Select>
         );
       case 'json':
         return (
-          <TextArea onBlur={(e) => this.checkJson(e, value)} value={data[item.key]} autosize={{ minRows: 3 }} onChange={e => this.updateComponent(item, e.target.value)}>
+          <TextArea onBlur={(e) => this.checkJson(e, item)} onChange={e => this.setData(item, e.target.value)} value={data[item.key] || value} autosize={{ minRows: 3 }} >
           </TextArea>
         );
       case 'color':
         return (
           <Input
-            value={data[item.key]}
-            onChange={e => this.updateComponent(item, e.target.value)}
+            onChange={e => this.setData(item, e.target.value)}
+            value={data[item.key] || value}
+            onBlur={e => this.updateComponent(item, e.target.value)}
             style={{ width: '100%' }}
           />
         );
@@ -386,8 +410,9 @@ class CommonAttrForm extends Component {
       default:
         return (
           <Input
-            value={data[item.key]}
-            onChange={e => this.updateComponent(key, e.target.value)}
+            onChange={e => this.setData(item, e.target.value)}
+            value={data[item.key] || value}
+            onBlur={e => this.updateComponent(key, e.target.value)}
             style={{ width: '100%' }}
           />
         );

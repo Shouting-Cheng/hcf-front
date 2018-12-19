@@ -220,4 +220,15 @@ export default {
   getPayAccount(OID) {
     return httpFetch.get(`${config.baseUrl}/api/companyBankAuth/selectAuthBank?empId=${OID}`)
   },
+
+  getDefaultCompany(userOid,defaultId){
+    let defaultValue = [];
+    httpFetch.get(`${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${userOid}`).then(res=>{
+      res.data.map(item=> item.bankAccountCompanyId.toString() === defaultId.toString()&& defaultValue.push({
+        bankAccountCompanyId: defaultId,
+        bankAccountCompanyName: item.bankAccountCompanyName
+      }))
+    })
+    return defaultValue
+  }
 }

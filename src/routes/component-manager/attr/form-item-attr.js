@@ -38,6 +38,12 @@ class FormItemAttrForm extends Component {
           tooltip: '是否必填',
         },
         {
+          type: 'switch',
+          key: 'disabled',
+          label: 'disabled',
+          tooltip: '是否禁用',
+        },
+        {
           type: 'input',
           key: 'message',
           label: 'message',
@@ -78,7 +84,7 @@ class FormItemAttrForm extends Component {
         {
           type: 'json',
           key: 'dataSource',
-          label: '默认值',
+          label: 'dataSource',
           tooltip: '默认下拉框数据源，当配置了这个属性，url就不会生效。',
         }
       ],

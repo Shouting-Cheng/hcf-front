@@ -149,6 +149,10 @@ class ParamsSetting extends Component {
         })
     }
 
+    empty = () => {
+        this.search({});
+    }
+
     render() {
         const { searchForm, columns, data, loading, visibel, pagination, model } = this.state;
 
@@ -157,6 +161,7 @@ class ParamsSetting extends Component {
                 <SearchArea
                     searchForm={searchForm}
                     submitHandle={this.search}
+                    clearHandle={this.empty}
                 />
                 <Button style={{ margin: "20px 0" }} className="create-btn" type="primary" onClick={this.create}>新建</Button>
                 <CustomTable
