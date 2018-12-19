@@ -336,8 +336,10 @@ class Dashboard extends React.Component {
 
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
-      this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
-      this.renderPie(res.data.approvalDashboardDetailDTOList);
+      if (!!res.totalCount) {
+        this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
+        this.renderPie(res.data.approvalDashboardDetailDTOList);
+      }
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
