@@ -535,9 +535,8 @@ class NewBudgetBalanceSolution extends Component {
                 params.versionNumber = versionNumber;
                 //人员权限
                 params.visibleUserScope = visibleUserScope;
-
                 releaseIdsList.map(item => {
-                    nowReleaseIds.push(item.id);
+                    nowReleaseIds.push(item.key);
                 });
                 params.releaseIds = nowReleaseIds;
                 //当radio值不为全部人员，校验数据至少有一条

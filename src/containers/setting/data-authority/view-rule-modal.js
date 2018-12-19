@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin } from 'antd';
+import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin,message } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import ListSelector from 'components/Widget/list-selector';
 import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
@@ -135,7 +135,10 @@ class ViewRuleModal extends React.Component {
             lastUpdatedBy: undefined,
             lastUpdatedDate: undefined,
             sobValuesKeys:[],
-            renderRuleInfo:{}
+            renderRuleInfo:{},
+            selectedTenantList:[],
+            selectedEmployeeList:[],
+            selectedTreeInfo:[]
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -191,9 +194,6 @@ class ViewRuleModal extends React.Component {
     onBackRuleModal = () => {
         this.props.backRuleModal()
     }
-    editRuleItem = () => {
-
-    }
     removeRule = () => {
         this.setState({
             show: true
@@ -207,7 +207,10 @@ class ViewRuleModal extends React.Component {
             })
         } else {
             this.setState({
-                renderSelectList: false
+                renderSelectList: false,
+                selectedTenantList: [],
+                sobText: '添加账套',
+                sobIcon: 'plus',
             })
         }
     }
@@ -218,7 +221,10 @@ class ViewRuleModal extends React.Component {
             })
         } else {
             this.setState({
-                renderCompanyList: false
+                renderCompanyList: false,
+                selectedTreeInfo: [],
+                companyText: '添加公司',
+                companyIcon: 'plus',
             })
         }
     }
@@ -229,7 +235,10 @@ class ViewRuleModal extends React.Component {
             })
         } else {
             this.setState({
-                renderDepartmentList: false
+                renderDepartmentList: false,
+                selectedTreeInfo: [],
+                departmentText: '添加部门',
+                departmentIcon: 'plus',
             })
         }
     }
@@ -240,7 +249,10 @@ class ViewRuleModal extends React.Component {
             })
         } else {
             this.setState({
-                renderEmplyeeList: false
+                renderEmplyeeList: false,
+                selectedEmployeeList:[],
+                employeeText: '添加员工',
+                emplyeeIcon: 'plus',
             })
         }
     }
@@ -396,7 +408,8 @@ class ViewRuleModal extends React.Component {
             tenantVisible: false,
             sobValuesKeys: arr,
             sobText: `已选择${resultArr.length}个账套`,
-            sobIcon: null
+            sobIcon: null,
+            selectedTenantList: result.result
         })
     }
     cancelTenantList = (flag) => {
@@ -590,6 +603,21 @@ class ViewRuleModal extends React.Component {
                 renderSobList: true
             })
         }
+        if(ruleDatail[1].dataScope==='1004'){
+            this.setState({
+                renderCompanyList:true
+            })
+        }
+        if(ruleDatail[2].dataScope==='1004'){
+            this.setState({
+                renderDepartmentList:true
+            })
+        }
+        if(ruleDatail[3].dataScope==='1004'){
+            this.setState({
+                renderEmplyeeList:true
+            })
+        }
         this.setState({
             show: false
         })
@@ -643,7 +671,8 @@ class ViewRuleModal extends React.Component {
     }
     cancelCompanyList = () => {
         this.setState({
-            companyVisible: false
+            companyVisible: false,
+            selectedTreeInfo:[]
         })
     }
     //获取公司，部门选择的值
@@ -657,7 +686,8 @@ class ViewRuleModal extends React.Component {
             companyItemsKeys: arr,
             companyVisible: false,
             companyText: `已选择${resultArr.length}个公司`,
-            companyIcon: null
+            companyIcon: null,
+            selectedTreeInfo: items
         })
 
     }
@@ -669,7 +699,8 @@ class ViewRuleModal extends React.Component {
     }
     cancelDepartMentList = () => {
         this.setState({
-            departMentVisible: false
+            departMentVisible: false,
+            selectedTreeInfo:[]
         })
     }
     transDePferList = (items) => {
@@ -707,7 +738,7 @@ class ViewRuleModal extends React.Component {
                 { title: "员工代码", dataIndex: 'valueKeyCode', width: 150 },
                 { title: "员工名称", dataIndex: 'valueKeyDesc' },
             ],
-            key: 'id'
+            key: 'valueKey'
         }
         this.setState({
             empolyeeVisible: true,
@@ -724,7 +755,8 @@ class ViewRuleModal extends React.Component {
             empolyeeVisible: false,
             employeeKeys: arr,
             employeeText: `已选择${resultArr.length}个员工`,
-            emplyeeIcon: null
+            emplyeeIcon: null,
+            selectedEmployeeList:result.result
         })
     }
     cancelEmployeeList = () => {
@@ -872,6 +904,7 @@ class ViewRuleModal extends React.Component {
             ruleDetail, tabListNoTitle, tenantVisible, keyWord, columns, show, ruleName, ruleDatail, departmentIcon,
             sobIcon, renderSobList, companyIcon, companyVisible, renderCompanyList, companyText, renderDepartmentList,
             departmentText, departMentVisible, renderEmplyeeList, emplyeeIcon,empolyeeVisible,employeeItem,employeeText,
+            selectedTenantList,selectedEmployeeList,selectedTreeInfo
         } = this.state;
         const contentListNoTitle = {
             SOB:
@@ -974,10 +1007,10 @@ class ViewRuleModal extends React.Component {
                 visible={visibel}
                 footer={[
                     <Button key="back" onClick={this.onBackRuleModal}>
-                        {this.$t({ id: 'common.back' } /* 返回*/)}
+                        {this.$t({ id: 'common.ok' } /* 返回*/)}
                     </Button>,
                 ]}
-                width={1000}
+                width={1200}
                 destroyOnClose={true}
                 closable={false}
                 onCancel={this.onCloseRuleModal}
@@ -1287,6 +1320,7 @@ class ViewRuleModal extends React.Component {
                         onOk={this.handleTenantListOk}
                         onCancel={() => this.cancelTenantList(false)}
                         showSelectTotal={true}
+                        selectedData={selectedTenantList}
                     />
                     <LineAddTransferModal
                         visible={companyVisible}
@@ -1294,6 +1328,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelCompanyList}
                         isAddCompany={true}
                         transferList={this.transferCompanyList}
+                        selectedTreeInfo={selectedTreeInfo}
                     />
                     <LineAddTransferModal
                         visible={departMentVisible}
@@ -1301,6 +1336,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelDepartMentList}
                         isAddCompany={false}
                         transferList={this.transDePferList}
+                        selectedTreeInfo={selectedTreeInfo}
                     />
                     <ListSelector
                         visible={empolyeeVisible}
@@ -1308,6 +1344,7 @@ class ViewRuleModal extends React.Component {
                         onOk={this.handleEmployeeListOk}
                         onCancel={() => this.cancelEmployeeList(false)}
                         showSelectTotal={true}
+                        selectedData={selectedEmployeeList}
                     />
                 </div>
             </Modal>

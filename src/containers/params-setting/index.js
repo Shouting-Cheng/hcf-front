@@ -9,6 +9,7 @@ import config from 'config'
 import CustomTable from "widget/custom-table"
 
 import "styles/setting/params-setting/params-setting.scss"
+import { Object } from "core-js";
 
 
 class ParamsSetting extends Component {
@@ -96,6 +97,33 @@ class ParamsSetting extends Component {
         }
     }
 
+    componentDidMount() {
+        let obj = {
+            "国家不存在": [6, 5],
+            "银行代码已存在": [6, 5, 3],
+            "银行名称重复,无法保存": [6, 5, 4]
+        }
+
+        let result = {};
+
+        Object.keys(obj).map(key => {
+            obj[key].map(item => {
+                if (result[item]) {
+                    result[item] += "、" + key;
+                } else {
+                    result[item] = key;
+                }
+            })
+        });
+
+        result = Object.keys(result).map(key => ({
+            index: key,
+            error: result[key]
+        }))
+
+        console.log(result);
+    }
+
     //新建
     create = () => {
         this.setState({
@@ -149,6 +177,10 @@ class ParamsSetting extends Component {
         })
     }
 
+    empty = () => {
+        this.search({});
+    }
+
     render() {
         const { searchForm, columns, data, loading, visibel, pagination, model } = this.state;
 
@@ -157,6 +189,7 @@ class ParamsSetting extends Component {
                 <SearchArea
                     searchForm={searchForm}
                     submitHandle={this.search}
+                    clearHandle={this.empty}
                 />
                 <Button style={{ margin: "20px 0" }} className="create-btn" type="primary" onClick={this.create}>新建</Button>
                 <CustomTable

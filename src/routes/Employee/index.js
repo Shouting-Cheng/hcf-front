@@ -22,13 +22,15 @@ import { isEmptyObj, deepCopy } from 'utils/extend';
 import SearchArea from 'components/Widget/search-area.js';
 import { routerRedux } from 'dva/router';
 import PMService from 'containers/enterprise-manage/person-manage/person-manage.service';
-import {SelectDepOrPerson} from 'components/Widget/index';
+import { SelectDepOrPerson } from 'components/Widget/index';
 import ImportErrInfo from 'components/Widget/Template/import-err-info';
 import 'styles/enterprise-manage/person-manage/person-manage.scss';
 
 //导出控件
 import ExportModal from 'components/Widget/Template/export-modal/export-modal';
 import InvitePersonModal from 'containers/enterprise-manage/person-manage/person-manage-components/invite.person.modal';
+
+import FileSaver from "file-saver"
 
 class Employee extends React.Component {
   constructor(props) {
@@ -176,17 +178,17 @@ class Employee extends React.Component {
           ],
         },
         {
-          type: 'list', 
-          listType: 'department', 
+          type: 'list',
+          listType: 'department',
           id: 'departmentOIDs',
-          label: '部门', 
+          label: '部门',
           options: [],
-          labelKey: 'name', 
-          valueKey: 'departmentOid', 
-          single: true, 
+          labelKey: 'name',
+          valueKey: 'departmentOid',
+          single: true,
           listExtraParams: { "tenantId": this.props.user.tenantId },
-        //   event:'departmentOIDChange'
-      },
+          //   event:'departmentOIDChange'
+        },
       ],
       columns: [
         {
@@ -201,8 +203,8 @@ class Employee extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -217,12 +219,12 @@ class Employee extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
-        
+
         {
           title: this.$t('person.manage.name'), //姓名
           dataIndex: 'fullName',
@@ -243,8 +245,8 @@ class Employee extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -258,8 +260,8 @@ class Employee extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -273,8 +275,8 @@ class Employee extends React.Component {
                   {text}
                 </Popover>
               ) : (
-                '-'
-              )}
+                  '-'
+                )}
             </span>
           ),
         },
@@ -520,7 +522,7 @@ class Employee extends React.Component {
   };
   clearSearchHandle = () => {
     localStorage.setItem("person-manage-cache", null);
-    const {searchForm,params,pagination,cacheObj} = this.state;
+    const { searchForm, params, pagination, cacheObj } = this.state;
     searchForm[0].defaultValue = "";
     searchForm[1].defaultValue = [];
     searchForm[2].defaultValue = "all";
@@ -546,7 +548,7 @@ class Employee extends React.Component {
       pagination,
       cacheObj,
       searchForm
-    },()=>{
+    }, () => {
       this.handleSearch(this.state.params);
     })
     this.selectDepSearchArea([]);
@@ -556,7 +558,7 @@ class Employee extends React.Component {
     e.stopPropagation();
     this.selectDepSearchArea([]);
   };
-  
+
   //下载模板
   downloadTemplateByType = type => {
     switch (type) {
@@ -605,7 +607,9 @@ class Employee extends React.Component {
         let name = this.$t('person.manage.person.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log(err);
+      });
   };
   //下载携程供应商模板
   downloadCtripSupplierTemplate = () => {
@@ -618,7 +622,7 @@ class Employee extends React.Component {
         let name = this.$t('person.manage.vendor.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
   //下载银行信息模板
   downloadBankAccountTemplate = () => {
@@ -631,7 +635,7 @@ class Employee extends React.Component {
         let name = this.$t('person.manage.bank.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
   //下载证件信息模板
   downloadCardAccountTemplate = () => {
@@ -644,7 +648,7 @@ class Employee extends React.Component {
         let name = this.$t('person.manage.card.info.temp1');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(err => {});
+      .catch(err => { });
   };
 
   //编辑员工
@@ -807,7 +811,7 @@ class Employee extends React.Component {
     if (values.corporationOIDs && values.corporationOIDs[0]) {
       values.corporationOIDs = values.corporationOIDs[0];
     }
-    if(values.departmentOIDs && values.departmentOIDs[0]){
+    if (values.departmentOIDs && values.departmentOIDs[0]) {
       values.departmentOIDs = values.departmentOIDs[0];
     }
     params.keyword = values.keyword;
@@ -893,7 +897,7 @@ class Employee extends React.Component {
         let name = this.$t('person.manage.im.err');
         FileSaver.saveAs(b, `${name}.xlsx`);
       })
-      .catch(res => {});
+      .catch(res => { });
   };
   //人员导入的错误信息-start
   showImportErrInfo = () => {
@@ -984,54 +988,54 @@ class Employee extends React.Component {
           clearHandle={this.clearSearchHandle}
           submitHandle={this.handleSearch}/> */}
         <div className="table-header">
-            <div className="table-header-title">
-              {this.$t('common.total', { total: `${this.state.pagination.total}` })}
-        </div>
-        {/*共搜索到*条数据*/}
-        <div className="table-header-buttons">
-          <div className="f-left">
-            {this.state.CREATE_DATA_TYPE ? (
-              <Button
-                type="primary"
-                disabled={!this.props.tenantMode}
-                onClick={this.handleCreatePerson}
-              >
-                {/*新增员工*/}
-                {this.$t('person.manage.new.person')}
-              </Button>
-            ) : (
-              <span />
-            )}
-            {this.state.CREATE_DATA_TYPE ? (
-              <Button onClick={this.personImport} disabled={!this.props.tenantMode}>
-                {/*导入人员数据*/}
-                {this.$t('person.manage.im.person.data')}
-              </Button>
-            ) : (
-              <span />
-            )}
-
-            <Dropdown.Button overlay={menu} disabled={false}>
-              <ExportModal
-                exportTitle={this.$t('person.manage.ex.person.data')}
-                exportType="USER"
-                exportCondition={{
-                  sort: 'status',
-                  keyword: this.state.params.keyword,
-                  departmentOIDs: this.state.params.departmentOIDs,
-                  corporationOIDs: this.state.params.corporationOIDs,
-                  status: this.state.params.status,
-                }}
-                exportCommand={'user_full_info'}
-              />
-            </Dropdown.Button>
+          <div className="table-header-title">
+            {this.$t('common.total', { total: `${this.state.pagination.total}` })}
           </div>
-          <div className="f-left">
-            <InvitePersonModal params={this.state.params} />
-          </div>
+          {/*共搜索到*条数据*/}
+          <div className="table-header-buttons">
+            <div className="f-left">
+              {this.state.CREATE_DATA_TYPE ? (
+                <Button
+                  type="primary"
+                  disabled={!this.props.tenantMode}
+                  onClick={this.handleCreatePerson}
+                >
+                  {/*新增员工*/}
+                  {this.$t('person.manage.new.person')}
+                </Button>
+              ) : (
+                  <span />
+                )}
+              {this.state.CREATE_DATA_TYPE ? (
+                <Button onClick={this.personImport} disabled={!this.props.tenantMode}>
+                  {/*导入人员数据*/}
+                  {this.$t('person.manage.im.person.data')}
+                </Button>
+              ) : (
+                  <span />
+                )}
 
-          <div className="clear" />
-        </div>
+              <Dropdown.Button overlay={menu} disabled={false}>
+                <ExportModal
+                  exportTitle={this.$t('person.manage.ex.person.data')}
+                  exportType="USER"
+                  exportCondition={{
+                    sort: 'status',
+                    keyword: this.state.params.keyword,
+                    departmentOIDs: this.state.params.departmentOIDs,
+                    corporationOIDs: this.state.params.corporationOIDs,
+                    status: this.state.params.status,
+                  }}
+                  exportCommand={'user_full_info'}
+                />
+              </Dropdown.Button>
+            </div>
+            <div className="f-left">
+              <InvitePersonModal params={this.state.params} />
+            </div>
+
+            <div className="clear" />
+          </div>
         </div>
         <div style={{ padding: '24px 0' }}>
           {/* <CustomTable

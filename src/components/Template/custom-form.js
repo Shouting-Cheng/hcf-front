@@ -21,8 +21,12 @@ class AdvancedSearchForm extends React.Component {
     let { formItems } = this.props;
 
     formItems.map(item => {
-      if ((!item.options || !item.options.length) && item.url) {
-        this.getOptions(item);
+      if (item.dataSource) {
+        this.setState({ options: { ...this.state.options, [item.id]: JSON.parse(item.dataSource) } });
+      } else {
+        if ((!item.options || !item.options.length) && item.url) {
+          this.getOptions(item);
+        }
       }
     });
   }
@@ -113,11 +117,12 @@ class AdvancedSearchForm extends React.Component {
   }
 
   renderItem = item => {
+
     const { options } = this.state;
 
     switch (item.typeCode) {
       case 'input':
-        return <Input placeholder={item.placeholder} />;
+        return <Input placeholder={item.placeholder} disabled={item.disabled} />;
       case 'switch':
         return (
           <Switch
@@ -127,19 +132,13 @@ class AdvancedSearchForm extends React.Component {
         );
       case 'select':
         return (
-          <Select
-            onChange={value => this.onChange(item, value)}
-            allowClear={item.allowClear}
-            placeholder={item.placeholder}
-          >
+          <Select placeholder={item.placeholder}>
             {options[item.id] &&
               options[item.id].map(option => {
-                return <Select.Option key={option.value}>{option.label}</Select.Option>;
+                return <Select.Option key={option[item.valueKey]}>{option[item.labelKey]}</Select.Option>;
               })}
           </Select>
         );
-      case 'date-picker':
-        return <DatePicker allowClear={item.allowClear} placeholder={item.placeholder} />;
       default:
         return <Input placeholder={item.placeholder} />;
     }
