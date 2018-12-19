@@ -29,6 +29,7 @@ app.model(require('./models/cache').default);
 app.model(require('./models/budget').default);
 app.model(require('./models/billing').default);
 app.model(require('./models/setting').default);
+app.model(require('./models/database').default);
 // 4. Router
 app.router(require('./router').default);
 

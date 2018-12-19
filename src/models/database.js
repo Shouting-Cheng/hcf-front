@@ -1,17 +1,27 @@
-import { queryFakeList } from '../services/api';
 
 export default {
   namespace: 'database',
 
   state: {
-    list: [],
+
   },
 
   reducers: {
-    queryList(state, action) {
+    setData(state, { payload }) {
+      // let params = { moduleName: "preview", objName: "searchForm", key: "", value: 4 };
+      let params = payload;
+
+      if (!state[params.moduleName]) {
+        state[params.moduleName] = {};
+      }
+      if (!state[params.moduleName][params.objName]) {
+        state[params.moduleName][params.objName] = {};
+      }
+
+      state[params.moduleName][params.objName][params.key] = params.value;
+
       return {
-        ...state,
-        list: action.payload,
+        ...state
       };
     }
   },

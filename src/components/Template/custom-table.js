@@ -101,8 +101,6 @@ class CustomTable extends Component {
       tableColumns.push(item);
     });
 
-    console.log(tableColumns);
-
     this.setState({ columns: tableColumns });
   }
 

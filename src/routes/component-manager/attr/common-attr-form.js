@@ -276,7 +276,7 @@ class CommonAttrForm extends Component {
       case 'input':
         return (
           <Input
-            value={data[item.key] || value}
+            value={data[item.key] == undefined ? value : data[item.key]}
             onBlur={e => this.updateComponent(item, e.target.value)}
             onChange={e => this.setData(item, e.target.value)}
             style={{ width: '100%' }}
