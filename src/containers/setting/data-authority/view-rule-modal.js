@@ -995,7 +995,7 @@ class ViewRuleModal extends React.Component {
                 visible={visibel}
                 footer={[
                     <Button key="back" onClick={this.onBackRuleModal}>
-                        {this.$t({ id: 'common.back' } /* 返回*/)}
+                        {this.$t({ id: 'common.ok' } /* 返回*/)}
                     </Button>,
                 ]}
                 width={1000}
