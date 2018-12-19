@@ -26,6 +26,7 @@ build:
     when: manual
     script:
     - "yarn install"
+    - "npm run fix-memory-limit"
     - "npm run build"
 
 publish:    
