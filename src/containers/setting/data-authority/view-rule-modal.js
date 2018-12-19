@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin } from 'antd';
+import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin,message } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import ListSelector from 'components/Widget/list-selector';
 import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
@@ -193,9 +193,6 @@ class ViewRuleModal extends React.Component {
     }
     onBackRuleModal = () => {
         this.props.backRuleModal()
-    }
-    editRuleItem = () => {
-
     }
     removeRule = () => {
         this.setState({
@@ -606,6 +603,21 @@ class ViewRuleModal extends React.Component {
                 renderSobList: true
             })
         }
+        if(ruleDatail[1].dataScope==='1004'){
+            this.setState({
+                renderCompanyList:true
+            })
+        }
+        if(ruleDatail[2].dataScope==='1004'){
+            this.setState({
+                renderDepartmentList:true
+            })
+        }
+        if(ruleDatail[3].dataScope==='1004'){
+            this.setState({
+                renderEmplyeeList:true
+            })
+        }
         this.setState({
             show: false
         })
@@ -995,10 +1007,10 @@ class ViewRuleModal extends React.Component {
                 visible={visibel}
                 footer={[
                     <Button key="back" onClick={this.onBackRuleModal}>
-                        {this.$t({ id: 'common.back' } /* 返回*/)}
+                        {this.$t({ id: 'common.ok' } /* 返回*/)}
                     </Button>,
                 ]}
-                width={1000}
+                width={1200}
                 destroyOnClose={true}
                 closable={false}
                 onCancel={this.onCloseRuleModal}

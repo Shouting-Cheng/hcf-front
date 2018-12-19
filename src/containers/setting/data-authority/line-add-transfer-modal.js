@@ -109,8 +109,9 @@ class LineAddTransferModal extends React.Component {
             if (!selectedTreeInfo.find(o => o.id == info.node.props.dataRef.id)) {
                 selectedTreeInfo.push(info.node.props.dataRef);
             }
-            rightList.push(info.node.props.dataRef);
-            this.setState({ rightList })
+            if (!rightList.find(o => o.id == info.node.props.dataRef.id)) {
+                rightList.push(info.node.props.dataRef);
+            }
         } else {
 
             let parentId = info.node.props.dataRef.parentId;
@@ -126,7 +127,7 @@ class LineAddTransferModal extends React.Component {
             selectedTreeInfo.splice(selectedTreeInfo.findIndex(o => o.id == info.node.props.dataRef.id), 1);
         }
 
-        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo });
+        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo,rightList });
 
 
     }
