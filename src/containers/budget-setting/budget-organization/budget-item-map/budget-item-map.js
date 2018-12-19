@@ -203,17 +203,15 @@ class BudgetItemMap extends React.Component {
     let itemSelectorItem = selectorData['budget_item'];
     itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.id);
     itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.id);
-
     let paramValueMap = {
-      EXPENSE_TYPE: {
         title: this.$t({ id: "itemMap.expenseType" }),
-        url: `${config.baseUrl}/api/company/integration/expense/types/and/name`,
+        url: `${config.expenseUrl}/api/expense/types/${this.props.setOfBooksId}/query`,
         searchForm: [
           { type: 'input', id: 'name', label: this.$t({ id: "itemMap.expenseTypeName" }) },
         ],
         columns: [
           {
-            title: this.$t({ id: "itemMap.icon" }), dataIndex: 'iconURL',
+            title: this.$t({ id: "itemMap.icon" }), dataIndex: 'iconUrl',
             render: (value) => {
               return <img src={value} height="20" width="20" />
             }
@@ -228,7 +226,6 @@ class BudgetItemMap extends React.Component {
           },
         ],
         key: 'id'
-      },
     };
     this.setState({ paramValueMap });
     //获取来源类别值列表
@@ -359,33 +356,17 @@ class BudgetItemMap extends React.Component {
           );
         }
         case 'detail': {
-          if (record.sourceType === 'EXPENSE_TYPE') {
             return (
               <Chooser
                 onChange={(value) => this.handleChangeExpenseType(value, index)}
                 labelKey='name'
                 valueKey='id'
                 itemMap={true}
-                selectorItem={paramValueMap[record.sourceType]}
-                listExtraParams={{ setOfBooksId: this.props.setOfBooksId }}
+                selectorItem={paramValueMap}
+                listExtraParams={{typeFlag:  record.sourceType ===  'EXPENSE_TYPE' ? 1 : 0}}
                 value={record.detail}
                 single={true} />
             );
-          } else {
-            if (record.sourceType === 'APPLICATION_TYPE') {
-              return (
-                <Chooser
-                  onChange={(value) => this.handleChangeAppType(value, index)}
-                  type='cost_type'
-                  labelKey='itemName'
-                  valueKey='id'
-                  listExtraParams={{ organizationId:  this.props.id||this.props.organization.id }}
-                  value={record.item}
-                  single={true} />
-              );
-            } else
-              return <Select disabled />;
-          }
         }
         case 'item': {
           return (
