@@ -74,7 +74,9 @@ class LineModelChangeRulesSystem extends React.Component {
             emplyeeIcon: 'plus',
             selectedTenantList: [],
             selectedEmployeeList: [],
-            selectedTreeInfo: []
+            selectedTreeInfo: [],
+            selectedCompanyTreeInfo:[],
+            selectedDepTreeInfo:[]
         }
     }
     componentWillMount() {
@@ -336,7 +338,7 @@ class LineModelChangeRulesSystem extends React.Component {
         } else {
             this.setState({
                 renderCompanyList: false,
-                selectedTreeInfo: [],
+                selectedCompanyTreeInfo: [],
                 companyText: '添加公司',
                 companyIcon: 'plus',
             })
@@ -350,7 +352,7 @@ class LineModelChangeRulesSystem extends React.Component {
         } else {
             this.setState({
                 renderDepartmentList: false,
-                selectedTreeInfo: [],
+                selectedDepTreeInfo: [],
                 departmentText: '添加部门',
                 departmentIcon: 'plus',
             })
@@ -485,7 +487,7 @@ class LineModelChangeRulesSystem extends React.Component {
     cancelCompanyList = () => {
         this.setState({
             companyVisible: false,
-            selectedTreeInfo:[]
+            // selectedTreeInfo:[]
         })
     }
     //添加部门
@@ -497,7 +499,7 @@ class LineModelChangeRulesSystem extends React.Component {
     cancelDepartMentList = () => {
         this.setState({
             departMentVisible: false,
-            selectedTreeInfo:[]
+            // selectedTreeInfo:[]
         })
     }
     //获取公司，部门选择的值
@@ -513,7 +515,7 @@ class LineModelChangeRulesSystem extends React.Component {
             companyVisible: false,
             companyText: `已选择${resultArr.length}个公司`,
             companyIcon: null,
-            selectedTreeInfo: items
+            selectedCompanyTreeInfo: items
         })
 
     }
@@ -529,7 +531,7 @@ class LineModelChangeRulesSystem extends React.Component {
             departMentVisible: false,
             departmentText: `已选择${resultArr.length}个部门`,
             departmentIcon: null,
-            selectedTreeInfo: items
+            selectedDepTreeInfo: items
         })
 
     }
@@ -564,7 +566,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     render() {
         const { getFieldDecorator } = this.props;
-        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo,
+        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo,selectedCompanyTreeInfo,selectedDepTreeInfo,
             showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail, getRulesArr, sobText, sobIcon, departmentText, employeeText, selectedTenantList, selectedEmployeeList } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
@@ -887,7 +889,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     onCloseTransferModal={this.cancelCompanyList}
                     isAddCompany={true}
                     transferList={this.transferCompanyList}
-                    selectedTreeInfo={selectedTreeInfo}
+                    selectedTreeInfo={selectedCompanyTreeInfo}
                 />
                 <LineAddTransferModal
                     visible={departMentVisible}
@@ -895,7 +897,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     onCloseTransferModal={this.cancelDepartMentList}
                     isAddCompany={false}
                     transferList={this.transDePferList}
-                    selectedTreeInfo={selectedTreeInfo}
+                    selectedTreeInfo={selectedDepTreeInfo}
                 />
 
             </div>
