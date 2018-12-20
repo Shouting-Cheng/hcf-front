@@ -62,16 +62,16 @@ class BudgetItemMap extends React.Component {
         },                            //操作
         {
           title: this.$t({ id: "common.operation" }), key: 'operation', width: '15%', render: (text, record, index) => (
-          <span>
+            <span>
               <a href="#" onClick={record.edit ? (e) => this.saveItem(e, record, index) : (e) => this.operateItem(e, record, index, true)}>{this.$t({ id: record.edit ? "common.save" : "common.edit" })}</a>
-            {record.edit ?
-              <a href="#" style={{ marginLeft: 12 }}
-                 onClick={(e) => this.operateItem(e, record, index, false)} >{this.$t({ id: "common.cancel" })}</a>
-              :
-              <Popconfirm onConfirm={(e) => this.deleteItem(e, record, index)} title={this.$t({ id: "budget.are.you.sure.to.delete.rule" }, { controlRule: record.controlRuleName })}>{/* 你确定要删除organizationName吗 */}
-                <a href="#" style={{ marginLeft: 12 }}>{this.$t({ id: "common.delete" })}</a>
-              </Popconfirm>
-            }
+              {record.edit ?
+                <a href="#" style={{ marginLeft: 12 }}
+                   onClick={(e) => this.operateItem(e, record, index, false)} >{this.$t({ id: "common.cancel" })}</a>
+                :
+                <Popconfirm onConfirm={(e) => this.deleteItem(e, record, index)} title={this.$t({ id: "budget.are.you.sure.to.delete.rule" }, { controlRule: record.controlRuleName })}>{/* 你确定要删除organizationName吗 */}
+                  <a href="#" style={{ marginLeft: 12 }}>{this.$t({ id: "common.delete" })}</a>
+                </Popconfirm>
+              }
             </span>)
         },
       ],
@@ -205,32 +205,29 @@ class BudgetItemMap extends React.Component {
     let itemSelectorItem = selectorData['budget_item'];
     itemSelectorItem.searchForm[1].getUrl=itemSelectorItem.searchForm[1].getUrl.replace(':organizationId',this.props.id);
     itemSelectorItem.searchForm[2].getUrl=itemSelectorItem.searchForm[2].getUrl.replace(':organizationId',this.props.id);
-
     let paramValueMap = {
-      EXPENSE_TYPE: {
-        title: this.$t({ id: "itemMap.expenseType" }),
-        url: `${config.baseUrl}/api/company/integration/expense/types/and/name`,
-        searchForm: [
-          { type: 'input', id: 'name', label: this.$t({ id: "itemMap.expenseTypeName" }) },
-        ],
-        columns: [
-          {
-            title: this.$t({ id: "itemMap.icon" }), dataIndex: 'iconURL',
-            render: (value) => {
-              return <img src={value} height="20" width="20" />
-            }
-          },
-          { title: this.$t({ id: "itemMap.expenseTypeName" }), dataIndex: 'name' },
-          {
-            title: this.$t({ id: "common.column.status" }), dataIndex: 'enabled',
-            render: enabled => (
-              <Badge status={enabled ? 'success' : 'error'}
-                     text={enabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
-            )
-          },
-        ],
-        key: 'id'
-      },
+      title: this.$t({ id: "itemMap.expenseType" }),
+      url: `${config.expenseUrl}/api/expense/types/${this.props.setOfBooksId}/query`,
+      searchForm: [
+        { type: 'input', id: 'name', label: this.$t({ id: "itemMap.expenseTypeName" }) },
+      ],
+      columns: [
+        {
+          title: this.$t({ id: "itemMap.icon" }), dataIndex: 'iconUrl',
+          render: (value) => {
+            return <img src={value} height="20" width="20" />
+          }
+        },
+        { title: this.$t({ id: "itemMap.expenseTypeName" }), dataIndex: 'name' },
+        {
+          title: this.$t({ id: "common.column.status" }), dataIndex: 'enabled',
+          render: enabled => (
+            <Badge status={enabled ? 'success' : 'error'}
+                   text={enabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
+          )
+        },
+      ],
+      key: 'id'
     };
     this.setState({ paramValueMap });
     //获取来源类别值列表
@@ -364,34 +361,20 @@ class BudgetItemMap extends React.Component {
           );
         }
         case 'detail': {
-          if (record.sourceType === 'EXPENSE_TYPE') {
-            return (
-              <Chooser
-                onChange={(value) => this.handleChangeExpenseType(value, index)}
-                labelKey='name'
-                valueKey='id'
-                itemMap={true}
-                selectorItem={paramValueMap[record.sourceType]}
-                listExtraParams={{ setOfBooksId: this.props.setOfBooksId }}
-                value={record.detail}
-                single={true} />
-            );
-          } else {
-            if (record.sourceType === 'APPLICATION_TYPE') {
-              return (
-                <Chooser
-                  onChange={(value) => this.handleChangeAppType(value, index)}
-                  type='cost_type'
-                  disabled={true}
-                  labelKey='itemName'
-                  valueKey='id'
-                  listExtraParams={{ organizationId:  this.props.id||this.props.organization.id }}
-                  value={record.item}
-                  single={true} />
-              );
-            } else
-              return <Select disabled />;
-          }
+          let flag = record.sourceType ===  'EXPENSE_TYPE';
+          paramValueMap.title = this.$t({ id: flag ? "itemMap.expenseType" : 'itemMap.applyType' });
+          paramValueMap.columns[1].title = this.$t({ id: flag ? "itemMap.expenseType" : 'application.type.management.name'});
+          return (
+            <Chooser
+              onChange={(value) => this.handleChangeExpenseType(value, index)}
+              labelKey='name'
+              valueKey='id'
+              itemMap={true}
+              selectorItem={paramValueMap}
+              listExtraParams={{typeFlag:  record.sourceType ===  'EXPENSE_TYPE' ? 1 : 0}}
+              value={record.detail}
+              single={true} />
+          );
         }
         case 'item': {
           return (
