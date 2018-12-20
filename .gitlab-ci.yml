@@ -1,0 +1,45 @@
+image: registry.cloud.saas.hand-china.com/devops:node-runner
+
+variables:
+    IMAGE: registry.cloud.saas.hand-china.com/hec/front
+    DEV_VERSION: dev-1.0.$CI_PIPELINE_ID
+    STAGE_VERSION: stage-1.0.$CI_PIPELINE_ID
+    RELEASE_VERSION: prod-1.0.$CI_PIPELINE_ID
+    GIT_SUBMODULE_STRATEGY: recursive
+
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+    - dist/
+
+stages:
+- build
+- publish
+
+build:
+    stage: build
+    only:
+    - "develop"
+    - "gitlab-ci"
+    when: manual
+    script:
+    - "yarn install"
+    - "npm run fix-memory-limit"
+    - "npm run build"
+
+publish:    
+    stage: publish
+    only:
+    - "develop"
+    - "gitlab-ci"
+    when: manual
+    script:
+    - "ls"
+    - "docker login -u5268 -pDick.1212 registry.cloud.saas.hand-china.com"
+    - "docker build -t $IMAGE:$DEV_VERSION ."
+    - "docker push $IMAGE:$DEV_VERSION"
+    
+    
+    

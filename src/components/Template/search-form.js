@@ -7,6 +7,7 @@ import './search-form.less';
 
 import { connect } from "dva"
 
+import store from "../../index"
 
 @connect(state => state)
 
@@ -33,6 +34,10 @@ class AdvancedSearchForm extends React.Component {
         }
       }
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   handleSearch = e => {
@@ -165,9 +170,32 @@ class AdvancedSearchForm extends React.Component {
   }
 }
 
+function fieldsChange(props, fields) {
+
+  console.log(props);
+
+  if (JSON.stringify(fields) == "{}") {
+    return;
+  }
+
+  let result = Object.keys(fields).map(key => {
+    return {
+      moduleName: "priview",
+      objName: "form",
+      key,
+      value: fields[key].value
+    }
+  })
+
+  store.dispatch({
+    type: "database/setData",
+    payload: result[0]
+  })
+
+}
 
 
-const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
+const WrappedAdvancedSearchForm = Form.create({ onFieldsChange: fieldsChange })(AdvancedSearchForm);
 
 export default WrappedAdvancedSearchForm;
 
