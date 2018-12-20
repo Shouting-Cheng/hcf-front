@@ -26,7 +26,7 @@ build:
     when: manual
     script:
     - "yarn install"
-    - "npm start"
+    - "npm run analyze"
 
 publish:    
     stage: publish
