@@ -25,8 +25,7 @@ build:
     - "gitlab-ci"
     when: manual
     script:
-    - "npm install yarn -g"
-    - "yarn install"
+    - "npm install"
     - "npm run fix-memory-limit"
     - "npm run build"
 
