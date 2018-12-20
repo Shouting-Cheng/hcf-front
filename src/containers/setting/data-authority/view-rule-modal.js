@@ -138,7 +138,9 @@ class ViewRuleModal extends React.Component {
             renderRuleInfo:{},
             selectedTenantList:[],
             selectedEmployeeList:[],
-            selectedTreeInfo:[]
+            selectedTreeInfo:[],
+            selectedCompanyTreeInfo:[],
+            selectedDepTreeInfo:[]
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -222,7 +224,7 @@ class ViewRuleModal extends React.Component {
         } else {
             this.setState({
                 renderCompanyList: false,
-                selectedTreeInfo: [],
+                selectedCompanyTreeInfo: [],
                 companyText: '添加公司',
                 companyIcon: 'plus',
             })
@@ -236,7 +238,7 @@ class ViewRuleModal extends React.Component {
         } else {
             this.setState({
                 renderDepartmentList: false,
-                selectedTreeInfo: [],
+                selectedDepTreeInfo: [],
                 departmentText: '添加部门',
                 departmentIcon: 'plus',
             })
@@ -672,7 +674,6 @@ class ViewRuleModal extends React.Component {
     cancelCompanyList = () => {
         this.setState({
             companyVisible: false,
-            selectedTreeInfo:[]
         })
     }
     //获取公司，部门选择的值
@@ -687,7 +688,7 @@ class ViewRuleModal extends React.Component {
             companyVisible: false,
             companyText: `已选择${resultArr.length}个公司`,
             companyIcon: null,
-            selectedTreeInfo: items
+            selectedCompanyTreeInfo: items
         })
 
     }
@@ -700,7 +701,6 @@ class ViewRuleModal extends React.Component {
     cancelDepartMentList = () => {
         this.setState({
             departMentVisible: false,
-            selectedTreeInfo:[]
         })
     }
     transDePferList = (items) => {
@@ -713,7 +713,8 @@ class ViewRuleModal extends React.Component {
             departMentItemsKeys: arr,
             departMentVisible: false,
             departmentText: `已选择${resultArr.length}个部门`,
-            departmentIcon: null
+            departmentIcon: null,
+            selectedDepTreeInfo: items
         })
 
     }
@@ -904,7 +905,7 @@ class ViewRuleModal extends React.Component {
             ruleDetail, tabListNoTitle, tenantVisible, keyWord, columns, show, ruleName, ruleDatail, departmentIcon,
             sobIcon, renderSobList, companyIcon, companyVisible, renderCompanyList, companyText, renderDepartmentList,
             departmentText, departMentVisible, renderEmplyeeList, emplyeeIcon,empolyeeVisible,employeeItem,employeeText,
-            selectedTenantList,selectedEmployeeList,selectedTreeInfo
+            selectedTenantList,selectedEmployeeList,selectedDepTreeInfo,selectedCompanyTreeInfo
         } = this.state;
         const contentListNoTitle = {
             SOB:
@@ -1328,7 +1329,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelCompanyList}
                         isAddCompany={true}
                         transferList={this.transferCompanyList}
-                        selectedTreeInfo={selectedTreeInfo}
+                        selectedTreeInfo={selectedCompanyTreeInfo}
                     />
                     <LineAddTransferModal
                         visible={departMentVisible}
@@ -1336,7 +1337,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelDepartMentList}
                         isAddCompany={false}
                         transferList={this.transDePferList}
-                        selectedTreeInfo={selectedTreeInfo}
+                        selectedTreeInfo={selectedDepTreeInfo}
                     />
                     <ListSelector
                         visible={empolyeeVisible}
