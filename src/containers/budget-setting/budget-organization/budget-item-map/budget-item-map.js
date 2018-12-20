@@ -23,6 +23,7 @@ class BudgetItemMap extends React.Component {
       loading: true,
       btnLoading: false,
       params: [],
+      _data:[],
       isSave: true,
       paramsKey: 0,
       sourceType: [],
@@ -151,6 +152,7 @@ class BudgetItemMap extends React.Component {
           }
         });
       }else {
+        params[index] = {...this.state._data[index],edit: flag};
         this.setState({
           params,
           isSave: !flag
@@ -267,12 +269,15 @@ class BudgetItemMap extends React.Component {
       });
       let pagination = this.state.pagination;
       pagination.total = Number(response.headers['x-total-count']);
+      let _data = [];
+      response.data.map(item=>_data.push({...item}));
       this.setState({
         pagination,
         loading: false,
         isSave: true,
         btnLoading: false,
         params: response.data,
+        _data,
         paramsKey
       })
     })
@@ -377,6 +382,7 @@ class BudgetItemMap extends React.Component {
                 <Chooser
                   onChange={(value) => this.handleChangeAppType(value, index)}
                   type='cost_type'
+                  disabled={true}
                   labelKey='itemName'
                   valueKey='id'
                   listExtraParams={{ organizationId:  this.props.id||this.props.organization.id }}
