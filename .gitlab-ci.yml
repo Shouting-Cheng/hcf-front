@@ -1,4 +1,4 @@
-image: node:10.12.0
+image: registry.cloud.saas.hand-china.com/devops:node
 
 variables:
     IMAGE: registry.cloud.saas.hand-china.com/hec/front
