@@ -1,4 +1,4 @@
-image: node:latest
+image: node:10.12.0
 
 variables:
     IMAGE: registry.cloud.saas.hand-china.com/hec/front
@@ -26,8 +26,7 @@ build:
     when: manual
     script:
     - "yarn install"
-    - "npm run fix-memory-limit"
-    - "npm run build"
+    - "npm run analyze"
 
 publish:    
     stage: publish
@@ -36,6 +35,7 @@ publish:
     - "gitlab-ci"
     when: manual
     script:
+    - "ls"
     - "docker login -u5268 -pDick.1212 registry.cloud.saas.hand-china.com"
     - "docker build -t $IMAGE:$DEV_VERSION ."
     - "docker push $IMAGE:$DEV_VERSION"

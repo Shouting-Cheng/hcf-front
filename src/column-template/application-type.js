@@ -11,4 +11,9 @@ export default {
       </span>
     )
   },
+  dimension: (value) => {
+    return (
+      <a>维度设置</a>
+    )
+  },
 };
