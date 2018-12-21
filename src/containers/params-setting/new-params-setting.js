@@ -3,6 +3,8 @@ import { Form, Input, Button, message, Select } from "antd"
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
+import CustomChooser from "components/Template/custom-chooser"
+
 import service from "./service"
 
 class NewParamsSetting extends Component {
@@ -110,7 +112,7 @@ class NewParamsSetting extends Component {
                             initialValue: this.props.params.tableName || ""
                         })(
                             <Input disabled={this.props.params.id ? true : false} />
-                            )}
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -129,7 +131,7 @@ class NewParamsSetting extends Component {
                                     )
                                 })}
                             </Select>
-                            )}
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -148,7 +150,7 @@ class NewParamsSetting extends Component {
                                     )
                                 })}
                             </Select>
-                            )}
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -163,7 +165,20 @@ class NewParamsSetting extends Component {
                             <TextArea autosize={{
                                 minRows: 3
                             }} disabled={this.props.form.getFieldValue("filterMethod") != "CUSTOM_SQL"} />
-                            )}
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="test"
+                    >
+                        {getFieldDecorator('test', {
+                            initialValue: { radioValue: true }
+                        })(
+                            <CustomChooser
+                                type="select_bank"
+                                labelKey="bankBranchName"
+                                valueKey="bankCode" />
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
@@ -176,7 +191,7 @@ class NewParamsSetting extends Component {
                             initialValue: this.props.params.columnName || ""
                         })(
                             <Input disabled={this.props.form.getFieldValue("filterMethod") != "TABLE_COLUMN"} />
-                            )}
+                        )}
                     </FormItem>
                     <div className="slide-footer">
                         <Button type="primary" htmlType="submit" loading={saveLoading}>

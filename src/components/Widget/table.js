@@ -23,7 +23,6 @@ class CustomTable extends React.Component {
     };
 
     componentDidMount() {
-      console.log(this.props)
         this.setState({
             columns: this.props.columns,
         })
@@ -59,7 +58,7 @@ class CustomTable extends React.Component {
         }
     }
     render() {
-        const columns = this.state.columns&&this.state.columns.map((col, index) => ({
+        const columns = this.state.columns && this.state.columns.map((col, index) => ({
             ...col,
             onHeaderCell: column => ({
                 width: parseInt(column.width) || 120,

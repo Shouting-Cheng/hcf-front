@@ -8,7 +8,7 @@ import uuid from '../../utils/uuid';
 
 const { RangePicker } = DatePicker;
 
-const forms = ['select', 'input', 'date-picker', 'switch'];
+const forms = ['select', 'input', 'date-picker', 'switch', 'custom-chooser', 'permissions-allocation'];
 
 const cardSource = {
   drop(props, monitor, component) {

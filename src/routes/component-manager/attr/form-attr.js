@@ -21,7 +21,7 @@ class FormAttr extends Component {
       formItems: [
         {
           label: 'ref',
-          key: 'props.refName',
+          key: 'refName',
           type: 'input',
           tooltip: '组件的引用，通过这个属性，可以用代码访问组件。',
         },
@@ -37,6 +37,12 @@ class FormAttr extends Component {
           key: 'events.onSubmit',
           type: 'method',
           tooltip: '提交事件，如果此选项有值，不会自动提交。',
+        },
+        {
+          label: 'onCancel',
+          key: 'events.onCancel',
+          type: 'method',
+          tooltip: '取消事件回调',
         },
         {
           label: 'onSuccess',
