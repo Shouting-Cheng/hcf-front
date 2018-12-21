@@ -35,6 +35,7 @@
   }
   .f-right{
     float: right;
+    padding-right: 5px
   }
   .clear{
     clear: both;
@@ -66,7 +67,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     border: solid 1px #eeeeee;
-    padding: 10px;
+    padding: 8px;
     margin-left: 500px;
     .role-pannel{
       margin-bottom: 16px;

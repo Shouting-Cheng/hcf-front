@@ -483,7 +483,6 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleEmployeeListOk = (result) => {
-        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
