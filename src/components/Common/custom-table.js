@@ -88,6 +88,11 @@ class CustomTable extends Component {
       let formItems = this.props.components.filter(o => o.parent == this.props.id);
       this.setState({ formItems });
     }
+
+    window.refs = window.refs || {};
+    if (this.props.refName) {
+      window.refs[this.props.refName] = this;
+    }
   }
 
   componentWillReceiveProps(nextProps) {

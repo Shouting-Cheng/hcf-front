@@ -5,12 +5,16 @@ import './search-form.less';
 import fetch from '../../utils/fetch';
 import commonService from 'services/common';
 import baseMethods from '../../methods/index';
+import { connect } from "dva"
+
+@connect(state => state)
 
 class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
     loading: false,
     options: {},
+    defaultValue: {}
   };
 
   componentDidMount() {
@@ -18,17 +22,50 @@ class AdvancedSearchForm extends React.Component {
       this.props.getRef(this);
     }
 
-    let { formItems } = this.props;
+    const { formItems = [], dispatch } = this.props;
 
-    formItems.map(item => {
+    let defaultValue = {};
+
+    formItems.map((item, i) => {
+      if (!item.dataIndex) return;
+
       if (item.dataSource) {
         this.setState({ options: { ...this.state.options, [item.id]: JSON.parse(item.dataSource) } });
       } else {
-        if ((!item.options || !item.options.length) && item.url) {
+        if ((!item.options || !item.options.length) && item.url && !this.state.options[item.id]) {
           this.getOptions(item);
         }
       }
-    });
+
+      if (item.defaultValue) {
+
+        defaultValue[item.id] = item.defaultValue;
+        let key = "";
+        item.defaultValue.replace(/\$\{(.+)\}/g, (target, result) => {
+          key = result;
+        });
+
+        if (key) {
+          let temp = this.getValue(this.props, key);
+          if (temp && temp.length) {
+            defaultValue[item.id] = temp[0];
+          }
+        }
+
+        dispatch({
+          type: "database/setData",
+          payload: {
+            moduleName: "priview",
+            objName: this.props.code,
+            key: item.dataIndex,
+            value: defaultValue[item.id]
+          }
+        })
+      }
+    })
+
+    this.setState({ defaultValue });
+
   }
 
   handleSearch = e => {
@@ -58,10 +95,9 @@ class AdvancedSearchForm extends React.Component {
   getOptions = item => {
     commonService.getInterface(item.url).then(res => {
       if (res.data) {
-        let options = res.data.map(o => {
-          return { label: o[item.labelKey], value: o[item.valueKey] };
+        this.setState({ options: { ...this.state.options, [item.id]: res.data } }, () => {
+          this.getFields();
         });
-        this.setState({ options: { [item.id]: options } });
       }
     });
   };
@@ -85,39 +121,64 @@ class AdvancedSearchForm extends React.Component {
 
   // To generate mock Form.Item
   getFields() {
-    const children = [];
-    const { formItems = [] } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 10 },
-      },
-    };
+    const { formItems = [] } = this.props;
+    const children = [];
 
     formItems.map((item, i) => {
-      if (item.dataIndex) {
-        children.push(
-          <Col span={24} key={i}>
-            <FormItem {...formItemLayout} label={item.label}>
-              {getFieldDecorator(item.dataIndex, {
-                rules: [{ required: item.required, message: item.message || '不能为空' }],
-              })(this.renderItem(item))}
-            </FormItem>
-          </Col>
-        );
+      if (!item.dataIndex) return;
+
+      const formItemLayout = {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 7 },
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 10 },
+        },
+      };
+
+      let options = {};
+
+      if (this.state.defaultValue[item.id]) {
+        if (item.typeCode == "switch") {
+          if (this.state.defaultValue[item.id] == "false") {
+            options.initialValue = false;
+          } else {
+            options.initialValue = Boolean(this.state.defaultValue[item.id]);
+          }
+        } else {
+          options.initialValue = this.state.defaultValue[item.id];
+        }
       }
+
+      if (item.typeCode == "switch") {
+        options.valuePropName = "checked";
+      }
+
+      children.push(
+        <Col span={24} key={i}>
+          <FormItem {...formItemLayout} label={item.label}>
+            {getFieldDecorator(item.dataIndex, {
+              rules: [{ required: item.required, message: item.message || '不能为空' }],
+              ...options
+            })(this.renderItem(item))}
+          </FormItem>
+        </Col>
+      );
+
     });
 
     return children;
   }
 
-  renderItem = item => {
+  getValue(data, ...args) {
+    const res = JSON.stringify(data);
+    return args.map((item) => (new Function(`try {return ${res}.${item} } catch(e) {}`))());
+  }
 
+  renderItem = item => {
     const { options } = this.state;
 
     switch (item.typeCode) {
@@ -132,17 +193,21 @@ class AdvancedSearchForm extends React.Component {
         );
       case 'select':
         return (
-          <Select placeholder={item.placeholder}>
+          <Select disabled={item.disabled} allowClear={item.allowClear} placeholder={item.placeholder}>
             {options[item.id] &&
               options[item.id].map(option => {
                 return <Select.Option key={option[item.valueKey]}>{option[item.labelKey]}</Select.Option>;
               })}
           </Select>
         );
+      case 'date-picker':
+        return <DatePicker allowClear={item.allowClear} placeholder={item.placeholder} />;
       default:
         return <Input placeholder={item.placeholder} />;
     }
   };
+
+
 
   submit = e => {
     e.preventDefault();
@@ -151,8 +216,15 @@ class AdvancedSearchForm extends React.Component {
 
       this.setState({ loading: true });
 
-      if (this.props.submit) {
-        this.props.submit(values);
+      if (this.props.onSubmit) {
+        this.props.onSubmit(values, (flag) => {
+          this.setState({ loading: false });
+          if (flag) {
+            this.props.onSuccess && this.props.onSuccess();
+          } else {
+            this.props.onError && this.props.onError();
+          }
+        });
         return;
       }
 
@@ -178,7 +250,6 @@ class AdvancedSearchForm extends React.Component {
   };
 
   render() {
-    const { className } = this.props;
     const { loading } = this.state;
     return (
       <Form>
@@ -194,13 +265,6 @@ class AdvancedSearchForm extends React.Component {
       </Form>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    components: state.components.components,
-    selectedId: state.components.selectedId,
-  };
 }
 
 export default Form.create()(AdvancedSearchForm);

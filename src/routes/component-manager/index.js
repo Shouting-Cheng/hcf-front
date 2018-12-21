@@ -278,6 +278,14 @@ class ComponentManager extends React.Component {
                   </Row>
                   <Row style={{ marginTop: 12 }} gutter={20}>
                     <Col span={12}>
+                      <ComponentItem text="switch" />
+                    </Col>
+                    <Col span={12}>
+                      <ComponentItem text="range-picker" />
+                    </Col>
+                  </Row>
+                  <Row style={{ marginTop: 12 }} gutter={20}>
+                    <Col span={12}>
                       <ComponentItem text="date-picker" />
                     </Col>
                     <Col span={12}>

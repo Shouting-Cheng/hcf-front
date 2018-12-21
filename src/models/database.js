@@ -11,6 +11,8 @@ export default {
       // let params = { moduleName: "preview", objName: "searchForm", key: "", value: 4 };
       let params = payload;
 
+      if (!params.moduleName || !params.objName || !params.key || !params.value) return state;
+
       if (!state[params.moduleName]) {
         state[params.moduleName] = {};
       }
