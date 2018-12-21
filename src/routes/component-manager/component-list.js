@@ -36,7 +36,7 @@ class ComponentList extends React.Component {
     if (expand && !record.versions) {
       httpFetch
         .get(
-          `/auth/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=10`
+          `/auth/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=999`
         )
         .then(res => {
           let data = this.state.data;
