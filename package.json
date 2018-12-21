@@ -7,7 +7,7 @@
         "precommit": "npm run lint-staged",
         "start": "cross-env ESLINT=none roadhog dev",
         "start:no-proxy": "cross-env NO_PROXY=true ESLINT=none roadhog dev",
-        "build": "cross-env ESLINT=none roadhog build",
+        "build": "roadhog build",
         "site": "roadhog-api-doc static && gh-pages -d dist",
         "analyze": "cross-env ESLINT=none ANALYZE=true roadhog build",
         "lint:style": "stylelint \"src/**/*.less\" --syntax less",
@@ -19,7 +19,7 @@
         "test:component": "roadhog test ./src/components",
         "test:all": "node ./tests/run-tests.js",
         "prettier": "prettier --write ./src/**/**/**/*",
-        "fix-memory-limit": "cross-env LIMIT=2048 increase-memory-limit"
+        "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
     },
     "dependencies": {
         "@antv/data-set": "^0.8.0",
