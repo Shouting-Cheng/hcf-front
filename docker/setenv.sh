@@ -14,74 +14,74 @@ server {
     }
 
     location /api/ {
-        proxy_pass $ARTEMIS_URL;
+        proxy_pass http://$IP:$PORT/artemis-sit/api/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /auth/ {
-        proxy_pass $AUTH_URL;
+        proxy_pass http://$IP:$PORT/auth/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /prepayment/ {
-        proxy_pass $PREPAYMENT_URL;
+        proxy_pass http://$IP:$PORT/prepayment/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /contract/ {
-        proxy_pass $CONTRACT_URL;
+        proxy_pass http://$IP:$PORT/contract/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /supplier/ {
-        proxy_pass $SUPPLIER_URL;
+        proxy_pass http://$IP:$PORT/supplier/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
     location /job/ {
-        proxy_pass $JOB_URL;
+        proxy_pass http://$IP:$PORT/job/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
     location /payment/ {
-        proxy_pass $PAYMENT_URL;
+        proxy_pass http://$IP:$PORT/payment/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /accounting/ {
-        proxy_pass $ACCOUNTING_URL;
+        proxy_pass http://$IP:$PORT/accounting/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /budget/ {
-        proxy_pass $BUDGRT_URL;
+        proxy_pass http://$IP:$PORT/budget/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /location/ {
-        proxy_pass $LOCATION_URL;
+        proxy_pass http://$IP:$PORT/location/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /brms/ {
-        proxy_pass $BRMS_URL;
+        proxy_pass http://$IP:$PORT/brms/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /invoice/ {
-        proxy_pass $INVOICE_URL;
+        proxy_pass http://$IP:$PORT/artemis-sit/invoice/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /expense/ {
-        proxy_pass $EXPENSE_URL;
+        proxy_pass http://$IP:$PORT/expense/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
     location /config/ {
-        proxy_pass $CONFIG_URL;
+        proxy_pass http://$IP:$PORT/artemis-sit/config/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /tx-manager/ {
-        proxy_pass $TX_MANAGER_URL;
+        proxy_pass http://$IP:$PORT/tx-manager/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 }
