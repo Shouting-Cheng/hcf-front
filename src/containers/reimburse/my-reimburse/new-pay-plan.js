@@ -683,6 +683,11 @@ class NewPayPlan extends React.Component {
                   <Select
                     allowClear
                     ref="contractSelect"
+                    onChange={(e) => {
+                      this.setState({
+                        contractInfo: {}
+                      })
+                    }}
                     onDropdownVisibleChange={this.showSelectContract}
                     defaultValue={
                       isNew ? '' : contractInfo.contractLineId ? contractInfo.contractNumber : ''

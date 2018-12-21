@@ -23,7 +23,7 @@ class CustomAmount extends React.Component {
 
   onBlur = (e) => {
     this.setState({
-      value: this.filterMoney(e.target.value, 2, true)
+      value: this.filterMoney(e.target.value, 2, true, true)
     })
   };
 
