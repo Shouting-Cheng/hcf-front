@@ -111,17 +111,18 @@ class FormItemAttrForm extends Component {
   componentDidMount() {
     const {
       components: { selectedId },
-      components: { components },
-      dispatch,
+      components: { components }
     } = this.props;
 
     let selected = components.find(o => o.id == selectedId);
 
     const { commonFormItems, selectFormItems } = this.state;
     let formItems = [...commonFormItems];
+
     if (selected.text == 'select') {
       formItems = [...formItems, ...selectFormItems];
     }
+
     this.setState({ formItems });
   }
 

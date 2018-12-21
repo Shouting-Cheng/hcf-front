@@ -1,11 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, Collapse, Card, Input, Tree, Form, Select } from 'antd';
-const Panel = Collapse.Panel;
-const TreeNode = Tree.TreeNode;
-const FormItem = Form.Item;
-const Option = Select.Option;
-
 import { connect } from 'dva';
 
 import TableColumnAttrForm from './attr/table-column-attr-form';
@@ -16,6 +9,7 @@ import FormItemAtrr from './attr/form-item-attr';
 import SlideFrameAttr from './attr/slide-frame-attr';
 import FormAttr from './attr/form-attr';
 import RowAttr from './attr/row-attr';
+import SwitchAttr from "./attr/root-attr"
 
 import './attr-form.less';
 
@@ -27,7 +21,8 @@ const componentMap = {
   'form-item': FormItemAtrr,
   'slide-frame': SlideFrameAttr,
   form: FormAttr,
-  row: RowAttr
+  row: RowAttr,
+  "switch": SwitchAttr
 };
 
 @connect(({ components }) => ({
@@ -40,9 +35,9 @@ class AttrForm extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  handleSubmit = () => {};
+  handleSubmit = () => { };
 
   //
   nameChange = e => {
@@ -77,7 +72,6 @@ class AttrForm extends Component {
     const {
       components: { selectedId },
       components: { components },
-      dispatch,
     } = this.props;
 
     let selected = components.find(o => o.id == selectedId);
