@@ -22,7 +22,7 @@ class LanguageManager extends Component {
         },
         {
           type: 'input',
-          id: 'desc',
+          id: 'descriptions',
           label: this.$t('chooser.data.description'),
           colSpan: 6,
         },
