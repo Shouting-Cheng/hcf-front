@@ -286,9 +286,21 @@ class LineModelChangeRulesSystem extends React.Component {
     /**编辑单条规则 */
     editRuleItem = () => {
         let { ruleDatail } = this.state;
+        console.log(ruleDatail)
         if (ruleDatail[0].dataScope === '1004') {
+            let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
+            let selectedSobData=[];
+            detaileValues0&&detaileValues0.map(item=>{
+                selectedSobData.push({
+                    valueKey:item
+                })
+            });
             this.setState({
-                renderSobList: true
+                renderSobList: true,
+                sobText: `已选择${detaileValues0.length}个账套`,
+                sobIcon: null,
+                selectedTenantList: selectedSobData,
+                sobValuesKeys:detaileValues0
             })
         }
         if (ruleDatail[1].dataScope === '1004') {
@@ -302,8 +314,19 @@ class LineModelChangeRulesSystem extends React.Component {
             })
         }
         if (ruleDatail[3].dataScope === '1004') {
+            let detaileValues=ruleDatail[3].dataAuthorityRuleDetailValues;
+            let selectedEmployeeData=[];
+            detaileValues&&detaileValues.map(item=>{
+                selectedEmployeeData.push({
+                    valueKey:item
+                })
+            });
             this.setState({
-                renderEmplyeeList: true
+                renderEmplyeeList: true,
+                employeeText: `已选择${detaileValues.length}个员工`,
+                emplyeeIcon: null,
+                selectedEmployeeList:selectedEmployeeData,
+                employeeKeys:detaileValues
             })
         }
         this.setState({
@@ -411,6 +434,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleTenantListOk = (result) => {
+        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -459,6 +483,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleEmployeeListOk = (result) => {
+        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -596,7 +621,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col span={8} style={{paddingLeft:60}}>
                                 <Button type='primary' loading={saveLoading} onClick={(e) => this.saveRuleItem(e, this.props.targeKey)}>{this.$t({ id: 'common.save' })} </Button>
                                 <Button style={{ marginLeft: 10 }} onClick={() => this.removeRule(targeKey)}>{this.$t({ id: 'common.cancel' })}</Button>
                             </Col>

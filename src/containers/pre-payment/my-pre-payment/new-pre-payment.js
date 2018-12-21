@@ -221,7 +221,8 @@ class MyNewPrePayment extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id===0
+                    
+                    initialValue: isNew
                       ? [{ id: this.props.user.companyId, name: this.props.user.companyName }]
                       : model.id?[{ id: model.companyId, name: model.companyName }]:[],
                   })(
@@ -246,7 +247,7 @@ class MyNewPrePayment extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id===0
+                    initialValue:isNew
                       ? [
                           {
                             departmentOid: this.props.user.departmentOID,
