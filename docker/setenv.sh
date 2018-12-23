@@ -14,7 +14,7 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://$IP:$PORT/artemis-sit/api/;
+        proxy_pass http://$IP:$PORT/base/api/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
