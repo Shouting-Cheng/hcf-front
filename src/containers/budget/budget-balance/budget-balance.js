@@ -333,7 +333,8 @@ class BudgetBalance extends React.Component {
         labelKey: 'name',
         valueKey: 'id',
         codeKey: 'companyCode',
-        listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
+        // enabled:false 后端默认查询所有 标识符
+        listExtraParams: { enabled: false,setOfBooksId: this.props.company.setOfBooksId },
         selectorItem: undefined,
       },
       COMPANY_GROUP: {

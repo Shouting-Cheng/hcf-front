@@ -120,6 +120,13 @@ class SectionMappingSet extends React.Component {
     accountingService
       .deleteSectionMap(param)
       .then(response => {
+        this.setState({
+          pagination:{
+            ...this.state.pagination,
+            total: this.state.pagination.total-1,
+            page: Number((this.state.pagination.total-2)/this.state.pagination.pageSize)
+          }
+        });
         this.getList();
         message.success(`${this.$t({ id: 'common.operate.success' })}`);
       })
