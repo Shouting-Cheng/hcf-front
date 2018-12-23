@@ -4,8 +4,8 @@ import app from "../index"
 
 export default {
   async getInterface(id, params = {}) {
-    let info = await fetch.get('/auth/api/interface/query/' + id);
-    let list = await fetch.get('/auth/api/interfaceRequest/query?page=0&size=9999&interfaceId=' + id);
+    let info = await fetch.get('/api/interface/query/' + id);
+    let list = await fetch.get('/api/interfaceRequest/query?page=0&size=9999&interfaceId=' + id);
 
     let values = {};
 

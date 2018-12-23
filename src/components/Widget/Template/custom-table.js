@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Badge, Tooltip } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
@@ -39,7 +39,7 @@ class CustomTable extends Component {
     if (this.props.url.indexOf('/') >= 0) {
       this.setState({ url: this.props.url }, this.getList);
     } else {
-      httpFetch.get('/auth/api/interface/query/' + this.props.url).then(res => {
+      httpFetch.get('/api/interface/query/' + this.props.url).then(res => {
         this.setState({ url: res.data.reqUrl }, this.getList);
       });
     }

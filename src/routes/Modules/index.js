@@ -148,7 +148,7 @@ class Module extends Component {
         </Button>
         <CustomTable
           ref={ref => (this.table = ref)}
-          url="/auth/api/module/query"
+          url="/api/module/query"
           columns={columns}
         />
         <Modal

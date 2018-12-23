@@ -161,7 +161,7 @@ class AdvancedSearchForm extends React.Component {
 
       if (!this.props.url) return;
 
-      fetch.get('/auth/api/interface/query/' + this.props.url).then(res => {
+      fetch.get('/api/interface/query/' + this.props.url).then(res => {
         fetch
           .post(res.reqUrl, values)
           .then(response => {

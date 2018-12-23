@@ -126,7 +126,7 @@ class LanguageManager extends Component {
         </Button>
         <CustomTable
           ref="table"
-          url={`/auth/api/frontKey/query/module/lang?lang=zh_cn&moduleId=` + moduleId}
+          url={`/api/frontKey/query/module/lang?lang=zh_cn&moduleId=` + moduleId}
           columns={columns}
         />
         <Modal

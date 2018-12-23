@@ -57,7 +57,7 @@ class FormAttr extends Component {
       dispatch,
     } = this.props;
 
-    fetch.get('/auth/api/interfaceRequest/query?page=0&size=999&interfaceId=' + value).then(res => {
+    fetch.get('/api/interfaceRequest/query?page=0&size=999&interfaceId=' + value).then(res => {
       res.map(item => {
 
         let box = {

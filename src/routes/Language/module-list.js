@@ -107,7 +107,7 @@ class LanguageManager extends Component {
         </Button>
         <CustomTable
           ref="table"
-          url="/auth/api/module/query"
+          url="/api/module/query"
           columns={columns}
           onRowClick={this.handleClick}
         />

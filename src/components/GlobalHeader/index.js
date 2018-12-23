@@ -69,7 +69,7 @@ export default class GlobalHeader extends React.Component {
   langChange = value => {
     const { dispatch } = this.props;
 
-    fetch.get('/auth/api/frontKey/query/keyword?lang=' + value, { page: 0, size: 99999 }).then(res => {
+    fetch.get('/api/frontKey/query/keyword?lang=' + value, { page: 0, size: 99999 }).then(res => {
       let languages = {};
 
       res.map(item => {

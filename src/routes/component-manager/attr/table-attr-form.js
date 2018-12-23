@@ -69,7 +69,7 @@ class TableAttrForm extends Component {
     } = this.props;
 
     fetch
-      .get('/auth/api/interfaceResponse/query?isEnabled=true&page=0&size=999&interfaceId=' + value)
+      .get('/api/interfaceResponse/query?isEnabled=true&page=0&size=999&interfaceId=' + value)
       .then(res => {
         res.map(item => {
 
@@ -79,7 +79,7 @@ class TableAttrForm extends Component {
 
           if (item.respType == "date") {
             typeCode = "date";
-          } 
+          }
 
           let box = {
             type: 'column',

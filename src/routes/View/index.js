@@ -18,7 +18,7 @@ class Menu extends React.Component {
   }
 
   componentDidMount() {
-    httpFetch.get(`/auth/api/menu/query`).then(res => {
+    httpFetch.get(`/api/menu/query`).then(res => {
       let { panes } = this.state;
       let id = this.props.match.params.id;
       let menu = res.find(o => o.id == id) || {};

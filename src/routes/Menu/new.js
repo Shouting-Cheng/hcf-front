@@ -23,7 +23,7 @@ class NewMenu extends React.Component {
     service.getLanguageKeys(this.props.languages.local).then(res => {
       this.setState({ languageKeys: res });
     });
-    httpFetch.get('/auth/api/component/query?enabled=true&page=0&size=9999').then(res => {
+    httpFetch.get('/api/component/query?enabled=true&page=0&size=9999').then(res => {
       this.setState({ components: res });
     });
   }
@@ -53,7 +53,7 @@ class NewMenu extends React.Component {
         return;
       }
 
-      httpFetch.get(`/auth/api/componentVersion/query?componentId=${treeNode.props.dataRef.id}&enabled=true&page=0&size=99999`).then(res => {
+      httpFetch.get(`/api/componentVersion/query?componentId=${treeNode.props.dataRef.id}&enabled=true&page=0&size=99999`).then(res => {
         let components = this.state.components;
         let model = components.find(o => o.id == treeNode.props.dataRef.id);
 
@@ -99,7 +99,7 @@ class NewMenu extends React.Component {
             });
         } else {
 
-          values = { ...values,  parentMenuId: this.props.parentId, componentVersionId, componentId };
+          values = { ...values, parentMenuId: this.props.parentId, componentVersionId, componentId };
           service
             .addMenu(values)
             .then(res => {
@@ -164,7 +164,7 @@ class NewMenu extends React.Component {
                   </Select.Option>
                 ))}
               </Select>
-              )}
+            )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="类型">
             {getFieldDecorator('menuTypeEnum', {
@@ -175,7 +175,7 @@ class NewMenu extends React.Component {
                 <Select.Option value="1001">目录</Select.Option>
                 <Select.Option value="1000">功能</Select.Option>
               </Select>
-              )}
+            )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="来源">
             {getFieldDecorator('fromSource', {
@@ -186,7 +186,7 @@ class NewMenu extends React.Component {
                 <Select.Option value="DB">数据库</Select.Option>
                 <Select.Option value="FILE">本地文件</Select.Option>
               </Select>
-              )}
+            )}
           </Form.Item>
           {this.props.form.getFieldValue('fromSource') == "DB" && (
             <Form.Item {...formItemLayout} label="组件">
@@ -211,7 +211,7 @@ class NewMenu extends React.Component {
                     );
                   })}
                 </TreeSelect>
-                )}
+              )}
             </Form.Item>
           )}
           <Form.Item {...formItemLayout} label="路由">

@@ -27,7 +27,7 @@ class ComponentList extends React.Component {
   }
 
   componentDidMount() {
-    httpFetch.get('/auth/api/component/query?enabled=true&page=0&size=9999').then(res => {
+    httpFetch.get('/api/component/query?enabled=true&page=0&size=9999').then(res => {
       this.setState({ data: res, loading: false });
     });
   }
@@ -36,7 +36,7 @@ class ComponentList extends React.Component {
     if (expand && !record.versions) {
       httpFetch
         .get(
-          `/auth/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=10`
+          `/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=10`
         )
         .then(res => {
           let data = this.state.data;
@@ -67,10 +67,10 @@ class ComponentList extends React.Component {
   };
 
   delete = id => {
-    httpFetch.delete('/auth/api/componentVersion/delete/' + id).then(res => {
+    httpFetch.delete('/api/componentVersion/delete/' + id).then(res => {
       message.success('删除成功！');
       this.setState({ loading: true });
-      httpFetch.get('/auth/api/component/query?enabled=true&page=0&size=9999').then(res => {
+      httpFetch.get('/api/component/query?enabled=true&page=0&size=9999').then(res => {
         this.setState({ data: res, loading: false, expandedRowKeys: [] });
       });
     });

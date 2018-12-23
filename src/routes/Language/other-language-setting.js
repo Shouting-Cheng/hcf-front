@@ -13,7 +13,7 @@ class LanguageManager extends Component {
     this.state = {
       dataSource: [],
       addShow: false,
-      url: `/auth/api/frontKey/query/module/lang?lang=${
+      url: `/api/frontKey/query/module/lang?lang=${
         this.props.match.params.langType
         }&moduleId=`,
       columns: [
@@ -150,7 +150,7 @@ class LanguageManager extends Component {
       to: langType,
     };
 
-    httpFetch.post('/auth/api/transfer', params).then(result => {
+    httpFetch.post('/api/transfer', params).then(result => {
       result.map((item, index) => {
         let words = String(item.dst).split(' ');
 

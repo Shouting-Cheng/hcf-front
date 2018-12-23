@@ -116,7 +116,7 @@ class Role extends React.Component {
         <CustomTable
           ref={ref => (this.table = ref)}
           columns={columns}
-          url={'/auth/api/role/query/tenant?tenantId=' + this.props.currentUser.tenantId}
+          url={'/api/role/query/tenant?tenantId=' + this.props.currentUser.tenantId}
         />
         <NewRole params={record} visible={newShow} onClose={this.close} />
         <SelectMenus

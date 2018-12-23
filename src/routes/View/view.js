@@ -18,9 +18,9 @@ class View extends Component {
   }
 
   componentDidMount() {
-    fetch.get(`/auth/api/menuButton/query/selectedButton?menuId=` + this.props.id).then(data => {
+    fetch.get(`/api/menuButton/query/selectedButton?menuId=` + this.props.id).then(data => {
       fetch
-        .get(`/auth/api/componentVersion/query/latest/byMenuId?menuId=` + this.props.id)
+        .get(`/api/componentVersion/query/latest/byMenuId?menuId=` + this.props.id)
         .then(res => {
           this.setState({
             components: JSON.parse(res.contents || '[]'),
@@ -30,16 +30,16 @@ class View extends Component {
     });
   }
 
-  selected = () => {};
+  selected = () => { };
 
   formatProps = data => {
     Object.keys(data).map(key => {
       if (typeof data[key] == 'string') {
-        data[key] = data[key].replace(/\$\{(.+)\}/g, function(match, k) {
+        data[key] = data[key].replace(/\$\{(.+)\}/g, function (match, k) {
           return '45';
         });
       } else if (typeof data[key] == 'number') {
-        data[key] = String(data[key]).replace(/\$\{(.+)\}/g, function(match, k) {
+        data[key] = String(data[key]).replace(/\$\{(.+)\}/g, function (match, k) {
           console.log(k); // name
         });
       } else if (typeof data[key] == 'object') {
@@ -87,7 +87,7 @@ class View extends Component {
       if (item.events) {
         let that = this;
         Object.keys(item.events).map(key => {
-          item.props[key] = function() {
+          item.props[key] = function () {
             that.exec(item.events[key], arguments);
           };
         });

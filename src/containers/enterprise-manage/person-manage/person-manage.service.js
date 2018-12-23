@@ -38,7 +38,7 @@ export default {
   searchUserListByCond(params) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(config.baseUrl + '/auth/api/userRole/query/usersList', params)
+        .get(config.baseUrl + '/api/userRole/query/usersList', params)
         .then(res => {
           resolve(res);
         })
@@ -154,7 +154,7 @@ export default {
   // },
 
   //人员信息模版
-  downloadEmployeeTemplate: function() {
+  downloadEmployeeTemplate: function () {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(
@@ -173,7 +173,7 @@ export default {
     });
   },
   //下载携程供应商模版
-  downloadCtripSupplierTemplate: function() {
+  downloadCtripSupplierTemplate: function () {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(
@@ -192,7 +192,7 @@ export default {
     });
   },
   //下载银行信息模板
-  downloadBankAccountTemplate: function() {
+  downloadBankAccountTemplate: function () {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(
@@ -211,7 +211,7 @@ export default {
     });
   },
   //下载证件信息模板
-  downloadCardAccountTemplate: function() {
+  downloadCardAccountTemplate: function () {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(
@@ -231,7 +231,7 @@ export default {
   },
 
   //人员信息导入
-  importEmployeeNew: function(file) {
+  importEmployeeNew: function (file) {
     return new Promise((resolve, reject) => {
       httpFetch
         .post(config.baseUrl + '/api/refactor/users/v2/info/import', file)
@@ -245,7 +245,7 @@ export default {
     });
   },
   //导入监听返回:人员信息导入之后监听
-  getBatchTransactionLogNew: function(transactionOID) {
+  getBatchTransactionLogNew: function (transactionOID) {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(config.baseUrl + '/api/batch/transaction/logs/v2/' + transactionOID)
@@ -259,7 +259,7 @@ export default {
     });
   },
   //导出错误记录：人员信息
-  exportFailedLog: function(transactionOID) {
+  exportFailedLog: function (transactionOID) {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(

@@ -202,7 +202,7 @@ export default class LoginPage extends Component {
     return new Promise(async (resolve, reject) => {
       let local = user.language;
 
-      fetch.get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 }).then(res => {
+      fetch.get('/api/frontKey/query/keyword?lang=' + local || 'zh_CN', { page: 0, size: 99999 }).then(res => {
         let languages = {};
 
         res.map(item => {

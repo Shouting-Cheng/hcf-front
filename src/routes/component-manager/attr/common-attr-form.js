@@ -43,7 +43,7 @@ class CommonAttrForm extends Component {
   }
 
   componentDidMount() {
-    fetch.get('/auth/api/interface/query/all').then(res => {
+    fetch.get('/api/interface/query/all').then(res => {
       this.setState({ modules: res });
     });
 

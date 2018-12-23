@@ -454,7 +454,7 @@ class BasicLayout extends React.Component {
       let local = user.language;
 
       fetch
-        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
+        .get('/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
         .then(res => {
           let languages = {};
 
@@ -488,7 +488,7 @@ class BasicLayout extends React.Component {
   getLanguageType = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.get('/auth/api/language/query').then(res => {
+      fetch.get('/api/language/query').then(res => {
         dispatch({
           type: 'languages/setLanguageType',
           payload: { languageType: res },

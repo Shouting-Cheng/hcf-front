@@ -17,7 +17,7 @@ class NewComponent extends React.Component {
   }
 
   componentDidMount() {
-    fetch.get('/auth/api/menu/query').then(response => {
+    fetch.get('/api/menu/query').then(response => {
       let result = response || [];
       let group = {};
 
@@ -72,7 +72,7 @@ class NewComponent extends React.Component {
 
         if (version.componentId && version.status == 'edit') {
           fetch
-            .put('/auth/api/component/update', {
+            .put('/api/component/update', {
               ...version,
               ...values,
               id: version.componentId,
@@ -82,7 +82,7 @@ class NewComponent extends React.Component {
             .then(res => {
               let content = JSON.stringify(this.props.components.components);
               fetch
-                .post('/auth/api/componentVersion/create', {
+                .post('/api/componentVersion/create', {
                   componentId: version.componentId,
                   remark: values.remark,
                   contents: content,
@@ -94,11 +94,11 @@ class NewComponent extends React.Component {
             });
         } else {
           fetch
-            .post('/auth/api/component/create', { ...values, buttonList: buttonList, deleted: false })
+            .post('/api/component/create', { ...values, buttonList: buttonList, deleted: false })
             .then(res => {
               let content = JSON.stringify(this.props.components.components);
               fetch
-                .post('/auth/api/componentVersion/create', {
+                .post('/api/componentVersion/create', {
                   componentId: res.id,
                   remark: values.remark || "1.0版本",
                   contents: content,

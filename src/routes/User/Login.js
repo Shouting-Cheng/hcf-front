@@ -787,7 +787,7 @@ export default class Login extends React.Component {
       let local = user.language;
 
       fetch
-        .get('/auth/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
+        .get('/api/frontKey/query/keyword?lang=' + local || 'zh_cn', { page: 0, size: 99999 })
         .then(res => {
           let languages = {};
 
