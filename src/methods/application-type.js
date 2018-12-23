@@ -12,8 +12,6 @@ const permissionsType = {
 export default {
   newApplicationType(values, cb) {
 
-    console.log(values);
-
     values = {
       applicationType: {
         ...values,

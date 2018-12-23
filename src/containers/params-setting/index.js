@@ -97,33 +97,6 @@ class ParamsSetting extends Component {
         }
     }
 
-    componentDidMount() {
-        let obj = {
-            "国家不存在": [6, 5],
-            "银行代码已存在": [6, 5, 3],
-            "银行名称重复,无法保存": [6, 5, 4]
-        }
-
-        let result = {};
-
-        Object.keys(obj).map(key => {
-            obj[key].map(item => {
-                if (result[item]) {
-                    result[item] += "、" + key;
-                } else {
-                    result[item] = key;
-                }
-            })
-        });
-
-        result = Object.keys(result).map(key => ({
-            index: key,
-            error: result[key]
-        }))
-
-        console.log(result);
-    }
-
     //新建
     create = () => {
         this.setState({

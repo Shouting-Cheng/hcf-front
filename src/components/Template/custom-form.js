@@ -20,7 +20,7 @@ class AdvancedSearchForm extends React.Component {
     defaultValue: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
 
     if (this.props.getRef) {
       this.props.getRef(this);
@@ -97,7 +97,7 @@ class AdvancedSearchForm extends React.Component {
     let data = this.props.form.getFieldsValue();
 
     Object.keys(data).map(key => {
-      this.props.form.setFieldsValue({ [key]: String(values[key]) });
+      this.props.form.setFieldsValue({ [key]: values[key] });
     });
   };
 

@@ -2889,24 +2889,14 @@ const chooserData = {
   },
   application_type: {
     title: "选择申请类型",
-    url: `${config.expenseUrl}/api/expense/types/query/by/category?typeCategoryId=1059677501352337410`,
+    url: `${config.expenseUrl}/api/expense/types/query`,
     searchForm: [
       {
         type: 'input',
-        id: 'companyCode',
-        label: messages('chooser.data.companyCode' /*公司代码*/),
+        id: 'code',
+        label: "申请类型代码"
       },
-      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
-      {
-        type: 'input',
-        id: 'companyCodeFrom',
-        label: messages('chooser.data.companyCode.from' /*公司代码从*/),
-      },
-      {
-        type: 'input',
-        id: 'companyCodeTo',
-        label: messages('chooser.data.companyCode.to' /*公司代码至*/),
-      },
+      { type: 'input', id: 'name', label: "申请类型名称" }
     ],
     columns: [
       {
@@ -2918,7 +2908,7 @@ const chooserData = {
       },
       { title: "申请类型代码", dataIndex: 'code' },
       { title: "申请类型名称", dataIndex: 'name' },
-      { title: "申请大类", dataIndex: "" }
+      { title: "申请大类", dataIndex: "typeCategoryName" }
     ],
     key: 'id',
   }

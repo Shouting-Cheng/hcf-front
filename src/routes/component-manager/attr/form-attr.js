@@ -21,7 +21,7 @@ class FormAttr extends Component {
       formItems: [
         {
           label: 'ref',
-          key: 'refName',
+          key: 'props.refName',
           type: 'input',
           tooltip: '组件的引用，通过这个属性，可以用代码访问组件。',
         },
