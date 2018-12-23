@@ -170,7 +170,7 @@ class OrgStructure extends React.Component {
   useDetail = (e, record) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/setting/employee/person-detail/person-detail/${record.userOID}`,
+        pathname: `/enterprise-manage/org-structure/person-detail/${record.userOID}`,
       })
     );
     // let path = menuRoute

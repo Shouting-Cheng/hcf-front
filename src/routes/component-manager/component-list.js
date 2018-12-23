@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Divider, Tag, message } from 'antd';
+import { Divider, Tag, message } from 'antd';
 import httpFetch from '../../utils/fetch';
 import './component-list.less';
 import moment from 'moment';
@@ -36,7 +36,7 @@ class ComponentList extends React.Component {
     if (expand && !record.versions) {
       httpFetch
         .get(
-          `/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=10`
+          `/api/componentVersion/query?componentId=${record.id}&enabled=true&page=0&size=9999
         )
         .then(res => {
           let data = this.state.data;
@@ -114,7 +114,7 @@ class ComponentList extends React.Component {
     ];
 
     return (
-      <Table columns={columns} dataSource={record.versions || []} pagination={false} rowKey="id" />
+      <Table size="small" columns={columns} dataSource={record.versions || []} pagination={false} rowKey="id" />
     );
   };
 
@@ -136,6 +136,7 @@ class ComponentList extends React.Component {
         rowKey="id"
         expandedRowKeys={expandedRowKeys}
         onExpandedRowsChange={this.expandedRowsChange}
+        size="small"
       />
     );
   }

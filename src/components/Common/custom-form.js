@@ -8,7 +8,7 @@ import uuid from '../../utils/uuid';
 
 const { RangePicker } = DatePicker;
 
-const forms = ['select', 'input', 'date-picker'];
+const forms = ['select', 'input', 'date-picker', 'switch', 'custom-chooser', 'permissions-allocation'];
 
 const cardSource = {
   drop(props, monitor, component) {
@@ -18,27 +18,6 @@ const cardSource = {
       message.warning('form只能接收表单元素!');
       return;
     }
-
-    // let components = props.components;
-
-    // let form = components.find(o => o.id === props.id);
-
-    // let formItems = form.props.formItems || [];
-
-    // formItems.push({
-    //   type: item.text,
-    //   key: '',
-    //   label: '',
-    // });
-
-    // props.dispatch({
-    //   type: 'components/updateComponent',
-    //   payload: {
-    //     id: props.id,
-    //     value: formItems,
-    //     key: 'props.formItems',
-    //   },
-    // });
 
     let box = {
       type: 'form-item',
@@ -82,6 +61,11 @@ class AdvancedSearchForm extends React.Component {
     if ((selected && selected.parent == this.props.id) || this.props.selectedId == 0) {
       let formItems = this.props.components.filter(o => o.parent == this.props.id);
       this.setState({ formItems });
+    }
+
+    window.refs = window.refs || {};
+    if (this.props.refName) {
+      window.refs[this.props.refName] = this;
     }
   }
 
@@ -180,9 +164,9 @@ class AdvancedSearchForm extends React.Component {
     }
   };
 
-  submit = () => {};
+  submit = () => { };
 
-  cancel = () => {};
+  cancel = () => { };
 
   render() {
     const { connectDropTarget, className } = this.props;

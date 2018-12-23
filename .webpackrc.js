@@ -10,9 +10,7 @@ export default {
     },
   },
   externals: {
-    '@antv/data-set': 'DataSet',
-    bizcharts: 'BizCharts',
-    rollbar: 'rollbar',
+    rollbar: 'rollbar'
   },
   alias: {
     components: path.resolve(__dirname, 'src/components/'),
@@ -29,11 +27,11 @@ export default {
   },
   commons: [
     // new webpack.optimize.CommonsChunkPlugin({
-    //   names: ['antd', 'vendor', 'bizcharts'],
+    //   names: ['antd', 'vendor'],
     //   minChunks: Infinity
     // })
   ],
-  extraBabelIncludes: ['node_modules/@antv'],
+  // extraBabelIncludes: ['node_modules/@antv'],
   ignoreMomentLocale: true,
   theme: './src/theme.js',
   html: {

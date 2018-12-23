@@ -33,7 +33,6 @@ export default {
       };
     },
     selectedComponent(state, action) {
-      console.log(action);
       return {
         ...state,
         selectedId: action.payload,
@@ -49,6 +48,7 @@ export default {
       if (String(key).indexOf('.') >= 0) {
         let keys = String(key).split('.');
         let temp = component;
+        temp.props = { ...temp.props, style: { ...temp.props.style } };
         keys.map(item => {
           if (typeof temp[item] == 'object') {
             temp = temp[item];
@@ -72,7 +72,7 @@ export default {
             key,
             newValue: value,
             oldValue,
-          },
+          }
         ],
       };
     },

@@ -71,7 +71,7 @@ else
   });
 
 //金额过滤
-React.Component.prototype.filterMoney = (money, fixed = 2, isString = false) => {
+React.Component.prototype.filterMoney = (money, fixed = 2, isString = false, isNumber = false) => {
   if (typeof fixed !== 'number') fixed = 2;
   money = Number(money || 0)
     .toFixed(fixed)
@@ -80,9 +80,9 @@ React.Component.prototype.filterMoney = (money, fixed = 2, isString = false) => 
   if (money.indexOf('.') > -1) {
     let integer = money.split('.')[0];
     let decimals = money.split('.')[1];
-    numberString = integer.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + '.' + decimals;
+    numberString = integer.replace(/(\d)(?=(\d{3})+(?!\d))/g, isNumber ? '$1' : '$1,') + '.' + decimals;
   } else {
-    numberString = money.replace(/(\d)(?=(\d{3})+(?!\d))\./g, '$1,');
+    numberString = money.replace(/(\d)(?=(\d{3})+(?!\d))\./g, isNumber ? '$1' : '$1,');
   }
   numberString += numberString.indexOf('.') > -1 ? '' : '.00';
   if (isString === true) {

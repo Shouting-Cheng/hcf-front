@@ -28,8 +28,6 @@ const { MonthPicker } = DatePicker;
 const RadioGroup = Radio.Group;
 
 
-import DataSet from "@antv/data-set";
-
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -338,8 +336,10 @@ class Dashboard extends React.Component {
 
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
-      this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
-      this.renderPie(res.data.approvalDashboardDetailDTOList);
+      if (!!res.totalCount) {
+        this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
+        this.renderPie(res.data.approvalDashboardDetailDTOList);
+      }
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
@@ -710,17 +710,6 @@ class Dashboard extends React.Component {
 
     const { timerStr, backList, hello, chartsType, carousels, total, unApprovals, doingList, payType, tabKey } = this.state;
     const { user } = this.props;
-
-    const { DataView } = DataSet;
-
-    const dv = new DataView();
-
-    dv.source(unApprovals).transform({
-      type: "percent",
-      field: "count",
-      dimension: "name",
-      as: "percent"
-    });
 
     return (
       <div className="dashboard-container">

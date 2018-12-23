@@ -19,7 +19,7 @@ const ResizeableTitle = (props) => {
 class CustomTable extends React.Component {
     state = {
         columns: [],
-        expandedRows:[]
+        expandedRows: []
     };
 
     componentDidMount() {
@@ -51,21 +51,21 @@ class CustomTable extends React.Component {
         });
     };
     onExpandedRowsChange = (keys) => {
-      if (this.props.onExpandedRowsChange){
-        this.props.onExpandedRowsChange(keys);
-      }else{
-        this.setState({expandedRows:keys})
-      }
+        if (this.props.onExpandedRowsChange) {
+            this.props.onExpandedRowsChange(keys);
+        } else {
+            this.setState({ expandedRows: keys })
+        }
     }
     render() {
-        const columns = this.state.columns.map((col, index) => ({
+        const columns = this.state.columns && this.state.columns.map((col, index) => ({
             ...col,
             onHeaderCell: column => ({
-                width: column.width || 120,
+                width: parseInt(column.width) || 120,
                 onResize: this.handleResize(index),
             }),
         }));
-        const  {expandedRows} = this.state;
+        const { expandedRows } = this.state;
 
         return (
             <Table
@@ -134,8 +134,6 @@ CustomTable.defaultProps = {
     defaultExpandedRowKeys: [],
     expandedRowKeys: []
 }
-
-
 
 
 export default CustomTable

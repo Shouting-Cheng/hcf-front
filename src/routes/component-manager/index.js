@@ -74,7 +74,7 @@ class ComponentManager extends React.Component {
     this.setState({ componentsShow: false });
   };
 
-  onSelect = (selectedKeys, e) => {
+  onSelect = (selectedKeys) => {
     this.props.dispatch({
       type: 'components/selectedComponent',
       payload: selectedKeys[0],
@@ -202,9 +202,7 @@ class ComponentManager extends React.Component {
   render() {
     const { selectedId, components, version } = this.props;
 
-    const { componentsShow, columns, saveShow, value } = this.state;
-
-    const { getFieldDecorator } = this.props.form;
+    const { componentsShow, saveShow } = this.state;
 
     const text = version.id ? (version.status === 'copy' ? '复制组件' : '编辑组件') : '';
 
@@ -280,10 +278,23 @@ class ComponentManager extends React.Component {
                   </Row>
                   <Row style={{ marginTop: 12 }} gutter={20}>
                     <Col span={12}>
+                      <ComponentItem text="switch" />
+                    </Col>
+                    <Col span={12}>
+                      <ComponentItem text="custom-chooser" />
+                    </Col>
+                  </Row>
+                  <Row style={{ marginTop: 12 }} gutter={20}>
+                    <Col span={12}>
                       <ComponentItem text="date-picker" />
                     </Col>
                     <Col span={12}>
                       <ComponentItem text="range-picker" />
+                    </Col>
+                  </Row>
+                  <Row style={{ marginTop: 12 }} gutter={20}>
+                    <Col span={24}>
+                      <ComponentItem text="permissions-allocation" />
                     </Col>
                   </Row>
                 </Panel>
@@ -359,7 +370,6 @@ class ComponentManager extends React.Component {
         >
           <ComponentList onEdit={this.edit} />
         </Drawer>
-
         <New components={components} onClose={this.handleCancel} visible={saveShow} />
       </div>
     );

@@ -73,7 +73,7 @@ class DemoGc extends Component {
           title: '操作',
           dataIndex: 'id',
           align: 'center',
-          render: (value, record, index) => {
+          render: (value, record) => {
             return (
               <span>
                 <a onClick={() => this.edit(record)}>编辑</a>

@@ -3,6 +3,8 @@ import { Form, Input, Button, message, Select } from "antd"
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
+import CustomChooser from "components/Template/custom-chooser"
+
 import service from "./service"
 
 class NewParamsSetting extends Component {
@@ -109,7 +111,7 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.tableName || ""
                         })(
-                            <Input />
+                            <Input disabled={this.props.params.id ? true : false} />
                         )}
                     </FormItem>
                     <FormItem
@@ -122,7 +124,7 @@ class NewParamsSetting extends Component {
                             }],
                             initialValue: this.props.params.dataType || ""
                         })(
-                            <Select>
+                            <Select disabled={this.props.params.id ? true : false}>
                                 {paramsTypeList.map(item => {
                                     return (
                                         <Select.Option key={item.value} value={item.value}>{item.messageKey}</Select.Option>
@@ -163,6 +165,19 @@ class NewParamsSetting extends Component {
                             <TextArea autosize={{
                                 minRows: 3
                             }} disabled={this.props.form.getFieldValue("filterMethod") != "CUSTOM_SQL"} />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="test"
+                    >
+                        {getFieldDecorator('test', {
+                            initialValue: { radioValue: true }
+                        })(
+                            <CustomChooser
+                                type="select_bank"
+                                labelKey="bankBranchName"
+                                valueKey="bankCode" />
                         )}
                     </FormItem>
                     <FormItem

@@ -230,8 +230,8 @@ class ValueList extends React.Component {
             {messages('value.list.system.notice')}
           </div> : null}
           {status === 'CUSTOM' ?
-            <div className="table-header-buttons">
-              <Button type="primary" onClick={this.goValueListPage}>
+            <div className="table-header-buttons" style={{paddingTop: 15}}>
+              <Button type="primary" onClick={this.goValueListPage} style={{marginRight: 15}}>
                 {/*新增值列表*/}
                 {messages('value.list.new')}
               </Button>

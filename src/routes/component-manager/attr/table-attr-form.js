@@ -64,7 +64,6 @@ class TableAttrForm extends Component {
   urlChange = async (key, value) => {
     const {
       components: { selectedId },
-      components: { components },
       dispatch,
     } = this.props;
 

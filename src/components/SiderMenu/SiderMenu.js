@@ -292,7 +292,8 @@ export default class SiderMenu extends React.Component {
 
     //todo  三级搜索暂不支持 后面加一下
     let result = [];
-    this.menus.map(item => {
+    let menus = JSON.parse(JSON.stringify(this.menus));
+    menus.map(item => {
       if (item.children) {
         let children = item.children.filter(o => this.$t(o.name).includes(value));
         if (children && children.length) {

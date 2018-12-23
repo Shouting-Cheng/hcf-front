@@ -456,8 +456,8 @@ class PersonBasicInfo extends React.Component {
         </div>
 
         <div className="clear" />
-        <div>{this.renderExtendTitle()}</div>
-        {this.renderNoEditingForExtend()}
+       {/* <div>{this.renderExtendTitle()}</div>
+        {this.renderNoEditingForExtend()}*/}
       </div>
     );
   };

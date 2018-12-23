@@ -4,9 +4,7 @@ import CustomTable from 'components/Template/custom-table';
 import SearchForm from 'components/Template/search-form';
 import SlideFrame from 'components/Template/slide-frame';
 import CustomForm from 'components/Template/custom-form';
-import styles from './priview.less';
-import { messages } from '../../utils/utils';
-import { Button } from 'antd';
+import { Button, Row } from 'antd';
 import baseMethods from '../../methods/index';
 
 class Priview extends Component {
@@ -70,6 +68,7 @@ class Priview extends Component {
       button: Button,
       'slide-frame': SlideFrame,
       form: CustomForm,
+      row: Row
     };
 
     return roots.map(item => {
@@ -106,7 +105,8 @@ class Priview extends Component {
 
       // this.formatProps(Object.assign({}, item));
 
-      return Type && React.createElement(Type, { ...item.props, key: item.id }, children);
+
+      return Type && React.createElement(Type, { ...item.props, key: item.id, code: item.props.refName }, children);
     });
   };
 

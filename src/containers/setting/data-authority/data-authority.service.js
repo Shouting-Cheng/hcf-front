@@ -72,7 +72,10 @@ export default{
      */
     getRuleDetail(ruleId,dataType){
         return httpFetch.get(`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${ruleId}&dataType=${dataType}`);
+    },
+    /**手动选择员工添加员工 */
+    handleAddEmployee(ruleId){
+        return httpFetch.get(`${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&page=0&size=10&scope=all&dataType=EMPLOYEE`);
     }
-
 
 }

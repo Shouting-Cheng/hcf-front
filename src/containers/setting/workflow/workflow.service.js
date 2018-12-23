@@ -5,9 +5,7 @@ import errorMessage from 'share/errorMessage'
 export default {
 
   //获取审批流列表，booksID：帐套id
-  getWorkflowList(booksID) {
-    let params = {};
-    booksID && (params.booksID = booksID);
+  getWorkflowList(params) {
     return httpFetch.get(`${config.baseUrl}/brms/api/rule/custom/forms`, params)
   },
 
@@ -28,10 +26,10 @@ export default {
   },
 
   //获取表单信息
-  getCustomForm(formOID) {
+ /* getCustomForm(formOID) {
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}`)
   },
-
+*/
   //获取审批链详情
   getApprovalChainDetail(formOID) {
     let params = {

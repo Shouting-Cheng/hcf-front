@@ -58,6 +58,11 @@ class SlideFrame extends Component {
     if (this.props.getRef) {
       this.props.getRef(this);
     }
+
+    window.refs = window.refs || {};
+    if (this.props.refName) {
+      window.refs[this.props.refName] = this;
+    }
   }
 
   componentWillReceiveProps(nextProps) {

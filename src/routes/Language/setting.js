@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal, Form, Input, message } from 'antd';
 import service from './service';
 import CustomTable from '../../components/Template/custom-table';
-import moment from 'moment';
+import SearchArea from 'widget/search-area';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 
@@ -13,6 +13,20 @@ class LanguageManager extends Component {
       modules: [],
       addShow: false,
       record: {},
+      searchForm: [
+        {
+          type: 'input',
+          id: 'key',
+          label: 'key',
+          colSpan: 6,
+        },
+        {
+          type: 'input',
+          id: 'descriptions',
+          label: this.$t('chooser.data.description'),
+          colSpan: 6,
+        },
+      ],
       columns: [
         {
           title: 'key',
@@ -100,8 +114,12 @@ class LanguageManager extends Component {
     });
   };
 
+  search = (values)=>{
+    this.refs.table.search(values);
+  };
+
   render() {
-    const { columns, addShow, record } = this.state;
+    const { columns, addShow, record, searchForm } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { moduleId, langType } = this.props.match.params;
 
@@ -118,6 +136,12 @@ class LanguageManager extends Component {
 
     return (
       <div style={{ backgroundColor: '#fff', padding: 10, overflow: 'auto' }}>
+        <SearchArea
+          searchForm={searchForm}
+          maxLength={4}
+          clearHandle={()=>{}}
+          submitHandle={this.search}
+        />
         <Button style={{ margin: '10px 0' }} onClick={this.add} type="primary">
           添加
         </Button>

@@ -535,7 +535,6 @@ class NewBudgetBalanceSolution extends Component {
                 params.versionNumber = versionNumber;
                 //人员权限
                 params.visibleUserScope = visibleUserScope;
-
                 releaseIdsList.map(item => {
                     nowReleaseIds.push(item.key);
                 });
@@ -717,7 +716,7 @@ class NewBudgetBalanceSolution extends Component {
      * 人员权限弹窗确认事件
      */
     handleReleaseIdsOk = (values) => {
-
+        console.log(values)
         let { releaseIdsList } = this.state;
         releaseIdsList = values.result;
         this.setState({

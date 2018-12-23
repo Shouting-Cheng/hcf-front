@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal, Form, Input, message } from 'antd';
 import service from './service';
 import CustomTable from '../../components/Template/custom-table';
-import moment from 'moment';
+import SearchArea from 'widget/search-area';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 
@@ -12,6 +12,20 @@ class LanguageManager extends Component {
     this.state = {
       modules: [],
       addShow: false,
+      searchForm: [
+        {
+          type: 'input',
+          id: 'moduleCode',
+          label: this.$t('currency.setting.code'),
+          colSpan: 6,
+        },
+        {
+          type: 'input',
+          id: 'moduleName',
+          label: this.$t('configuration.detail.name'),
+          colSpan: 6,
+        },
+      ],
       columns: [
         {
           title: '代码',
@@ -85,8 +99,12 @@ class LanguageManager extends Component {
     );
   };
 
+  search = (values)=>{
+    this.refs.table.search(values);
+  };
+
   render() {
-    const { columns, addShow } = this.state;
+    const { columns, addShow, searchForm } = this.state;
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -102,6 +120,13 @@ class LanguageManager extends Component {
 
     return (
       <div style={{ backgroundColor: '#fff', padding: 10, overflow: 'auto' }}>
+        <SearchArea
+          searchForm={searchForm}
+          maxLength={4}
+          clearHandle={()=>{}}
+          submitHandle={this.search}
+        />
+
         <Button style={{ margin: '10px 0' }} onClick={this.back}>
           返回上一级
         </Button>

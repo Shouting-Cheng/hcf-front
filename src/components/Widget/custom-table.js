@@ -1,10 +1,7 @@
 import React, { Component } from "react"
 
-
 import httpFetch from 'share/httpFetch'
 import Table from "widget/table"
-
-
 
 
 class CustomTable extends Component {
@@ -67,15 +64,16 @@ class CustomTable extends Component {
 
   getList = (url) => {
     if (!this.props.url) return;
+
     this.setState({ loading: true });
     const { page, size, params } = this.state;
-    let searchParams = { page: page, size: size, ...params };
+
+    let searchParams = { page: page, size: size, ...this.props.params, ...params };
     let { methodType, dataKey } = this.props;
     url = url || this.props.url;
     if (methodType && methodType === 'post') {
       let reg = /\?+/;
       if (reg.test(url)) {
-        //检测是否已经有参数了，如果有直接加&
         url = `${url}&page=${page}&size=${size}`;
       } else {
         url = `${url}?page=${page}&size=${size}`;
@@ -93,7 +91,7 @@ class CustomTable extends Component {
       if (this.props.filterData) {
         data = this.props.filterData(data);
       }
-      console.log()
+
       this.setState({ dataSource: data, loading: false, pagination }, () => {
         this.props.onLoadData && this.props.onLoadData(res.data, pagination)
       });
