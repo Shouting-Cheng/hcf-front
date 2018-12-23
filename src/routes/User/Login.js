@@ -821,7 +821,7 @@ export default class Login extends React.Component {
   getLanguageType = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
-      fetch.get('/auth/api/language/query').then(res => {
+      fetch.get('/api/language/query').then(res => {
         dispatch({
           type: 'languages/setLanguageType',
           payload: { languageType: res },
