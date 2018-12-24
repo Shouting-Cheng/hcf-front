@@ -67,9 +67,9 @@ class AdvancedSearchForm extends React.Component {
 
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps);
+  // }
 
   handleSearch = e => {
     e.preventDefault();

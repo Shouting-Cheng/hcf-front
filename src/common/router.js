@@ -1799,28 +1799,25 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/params-setting/index.js')),
       name: 'params-setting',
     },
-    // gc的练习
-    '/demo/demo-gc': {
-      component: dynamicWrapper(app, [], () => import('containers/demo-gc/index.js')),
-      name: 'demo-gc',
+    //申请类型分配公司
+    '/document-type-manage/application-type/distribution-company/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/distribution-company')),
+      name: 'distribution-company',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
     },
-    // 培训demo--lbf
-    '/demo/demo-lbf': {
+    //申请类型维度设置
+    '/document-type-manage/application-type/dimension-setting/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/dimension-setting')),
+      name: 'dimension-setting',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
+    },
+    //申请类型
+    '/document-type-manage/application-type/:setOfBooksId': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/demo-lbf/index.js')
+        import('containers/application-type/index')
       ),
-      name: 'demo-lbf'
+      name: 'application-type'
     },
-    //demo --wgs
-    '/demo/demo-wgs': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/demo-wgs/index.js')
-      ),
-      name: 'demo-wgs'
-    },
-    // '/user/:id': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-    // },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

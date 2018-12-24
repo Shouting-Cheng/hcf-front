@@ -39,6 +39,12 @@ class FormAttr extends Component {
           tooltip: '提交事件，如果此选项有值，不会自动提交。',
         },
         {
+          label: 'onCancel',
+          key: 'events.onCancel',
+          type: 'method',
+          tooltip: '取消事件回调',
+        },
+        {
           label: 'onSuccess',
           key: 'events.onSuccess',
           type: 'method',
