@@ -250,6 +250,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     ]
                 }
                 DataAuthorityService.saveDataAuthority(params).then(res => {
+                    console.log(res)
                     if (res.status === 200) {
                         this.setState({
                             ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
