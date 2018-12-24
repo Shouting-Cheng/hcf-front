@@ -185,7 +185,7 @@ class NewBudgetBalanceSolution extends Component {
             /**公司 */
             case "COMPANY":
                 listSelectorType = 'company';
-                listSelectorExtraParams = { setOfBooksId: this.props.match.params.setOfBooksId };
+                listSelectorExtraParams = {enabled: false, setOfBooksId: this.props.match.params.setOfBooksId };
                 break;
             /**"公司组" */
             case "COMPANY_GROUP":
