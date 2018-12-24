@@ -1,5 +1,5 @@
-import test from './test';
+import applicationType from "./application-type"
 
 export default {
-  test,
+  applicationType
 };

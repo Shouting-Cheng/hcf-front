@@ -363,7 +363,8 @@ class BudgetItemMap extends React.Component {
         case 'detail': {
           let flag = record.sourceType ===  'EXPENSE_TYPE';
           paramValueMap.title = this.$t({ id: flag ? "itemMap.expenseType" : 'itemMap.applyType' });
-          paramValueMap.columns[1].title = this.$t({ id: flag ? "itemMap.expenseType" : 'application.type.management.name'});
+          paramValueMap.columns[1].title = this.$t({ id: flag ? "expense.type.name" : 'application.type.management.name'});
+          paramValueMap.searchForm[0].label = this.$t({ id: flag ? "expense.type.name" : 'application.type.management.name'});
           return (
             <Chooser
               onChange={(value) => this.handleChangeExpenseType(value, index)}

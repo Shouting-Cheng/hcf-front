@@ -6,6 +6,9 @@ import fetch from '../../utils/fetch';
 import commonService from 'services/common';
 import baseMethods from '../../methods/index';
 import { connect } from "dva"
+import CustomChooser from "components/Template/custom-chooser"
+import PermissionsAllocation from "components/Template/permissions-allocation"
+import store from "../../index"
 
 @connect(state => state)
 
@@ -18,6 +21,7 @@ class AdvancedSearchForm extends React.Component {
   };
 
   componentDidMount() {
+
     if (this.props.getRef) {
       this.props.getRef(this);
     }
@@ -40,16 +44,11 @@ class AdvancedSearchForm extends React.Component {
       if (item.defaultValue) {
 
         defaultValue[item.id] = item.defaultValue;
-        let key = "";
-        item.defaultValue.replace(/\$\{(.+)\}/g, (target, result) => {
-          key = result;
-        });
 
-        if (key) {
-          let temp = this.getValue(this.props, key);
-          if (temp && temp.length) {
-            defaultValue[item.id] = temp[0];
-          }
+        let result = this.getDataByPath(item.defaultValue, this.props);
+
+        if (result) {
+          defaultValue[item.id] = result;
         }
 
         dispatch({
@@ -59,6 +58,16 @@ class AdvancedSearchForm extends React.Component {
             objName: this.props.code,
             key: item.dataIndex,
             value: defaultValue[item.id]
+          }
+        })
+      } else {
+        dispatch({
+          type: "database/setData",
+          payload: {
+            moduleName: "priview",
+            objName: this.props.code,
+            key: item.dataIndex,
+            value: ""
           }
         })
       }
@@ -88,7 +97,7 @@ class AdvancedSearchForm extends React.Component {
     let data = this.props.form.getFieldsValue();
 
     Object.keys(data).map(key => {
-      this.props.form.setFieldsValue({ [key]: String(values[key]) });
+      this.props.form.setFieldsValue({ [key]: values[key] });
     });
   };
 
@@ -101,6 +110,20 @@ class AdvancedSearchForm extends React.Component {
       }
     });
   };
+
+  getDataByPath = (path, data) => {
+    let key = "";
+    path.replace(/\$\{(.+)\}/g, (target, result) => {
+      key = result;
+    });
+
+    if (key) {
+      let temp = this.getValue(data, key);
+      if (temp && temp.length) {
+        return temp[0];
+      }
+    }
+  }
 
   onChange = (item, value) => {
     if (item.onChange) {
@@ -128,6 +151,11 @@ class AdvancedSearchForm extends React.Component {
     formItems.map((item, i) => {
       if (!item.dataIndex) return;
 
+      if (item.visible) {
+        let result = this.getDataByPath(item.visible, this.props);
+        if (!result) return;
+      }
+
       const formItemLayout = {
         labelCol: {
           xs: { span: 24 },
@@ -148,8 +176,18 @@ class AdvancedSearchForm extends React.Component {
           } else {
             options.initialValue = Boolean(this.state.defaultValue[item.id]);
           }
+        } else if (item.typeCode == "custom-chooser") {
+          if (this.state.defaultValue[item.id]) {
+
+          } else {
+            options.initialValue = { radioValue: true, chooserValue: [] };
+          }
         } else {
           options.initialValue = this.state.defaultValue[item.id];
+        }
+      } else {
+        if (item.typeCode == "custom-chooser") {
+          options.initialValue = { radioValue: true, chooserValue: [] };
         }
       }
 
@@ -173,6 +211,10 @@ class AdvancedSearchForm extends React.Component {
     return children;
   }
 
+  formatDefaultValue = () => {
+
+  }
+
   getValue(data, ...args) {
     const res = JSON.stringify(data);
     return args.map((item) => (new Function(`try {return ${res}.${item} } catch(e) {}`))());
@@ -181,19 +223,35 @@ class AdvancedSearchForm extends React.Component {
   renderItem = item => {
     const { options } = this.state;
 
+    let disabled = true;
+    if (item.disabled) {
+      let key = "";
+      String(item.disabled).replace(/\$\{(.+)\}/g, (target, result) => {
+        key = result;
+      });
+
+      if (key) {
+        let temp = this.getValue(this.props, key);
+        if (temp && temp.length) {
+          disabled = temp[0];
+        }
+      }
+    }
+
     switch (item.typeCode) {
       case 'input':
-        return <Input placeholder={item.placeholder} disabled={item.disabled} />;
+        return <Input placeholder={item.placeholder} disabled={!disabled} />;
       case 'switch':
         return (
           <Switch
+            disabled={!disabled}
             checkedChildren={<Icon type="check" />}
             unCheckedChildren={<Icon type="close" />}
           />
         );
       case 'select':
         return (
-          <Select disabled={item.disabled} allowClear={item.allowClear} placeholder={item.placeholder}>
+          <Select disabled={!disabled} allowClear={item.allowClear} placeholder={item.placeholder}>
             {options[item.id] &&
               options[item.id].map(option => {
                 return <Select.Option key={option[item.valueKey]}>{option[item.labelKey]}</Select.Option>;
@@ -201,15 +259,19 @@ class AdvancedSearchForm extends React.Component {
           </Select>
         );
       case 'date-picker':
-        return <DatePicker allowClear={item.allowClear} placeholder={item.placeholder} />;
+        return <DatePicker disabled={disabled} allowClear={item.allowClear} placeholder={item.placeholder} />;
+      case 'custom-chooser':
+        return <CustomChooser disabled={disabled} type={item.chooserType} valueKey={item.valueKey} labelKey={item.labelKey} placeholder={item.placeholder} />;
+      case 'permissions-allocation':
+        return <PermissionsAllocation disabled={!disabled} type={item.chooserType} valueKey={item.valueKey} labelKey={item.labelKey} placeholder={item.placeholder} />;
       default:
-        return <Input placeholder={item.placeholder} />;
+        return <Input disabled={disabled} placeholder={item.placeholder} />;
+
     }
   };
 
-
-
   submit = e => {
+
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (err) return;
@@ -267,4 +329,26 @@ class AdvancedSearchForm extends React.Component {
   }
 }
 
-export default Form.create()(AdvancedSearchForm);
+function fieldsChange(props, fields) {
+
+  if (JSON.stringify(fields) == "{}") {
+    return;
+  }
+
+  let result = Object.keys(fields).map(key => {
+    return {
+      moduleName: "priview",
+      objName: props.code,
+      key,
+      value: fields[key].value
+    }
+  })
+
+  store.dispatch({
+    type: "database/setData",
+    payload: result[0]
+  })
+
+}
+
+export default Form.create({ onFieldsChange: fieldsChange })(AdvancedSearchForm);

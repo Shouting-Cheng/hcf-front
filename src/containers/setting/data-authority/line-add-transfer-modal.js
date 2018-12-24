@@ -269,8 +269,8 @@ class LineAddTransferModal extends React.Component {
     */
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
-            return <Row key={item.id} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 13 }}>{item.code}-{item.name}</Col>
+            return <Row key={item.valueKey?item.valueKey:item.id} style={{ marginTop: 5 }}>
+                <Col span={22} style={{ fontSize: 13 }}>{item.valueKey?`${item.valueKeyCode}-${item.valueKeyDesc}`:`${item.code}-${item.name}`}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })

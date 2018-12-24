@@ -289,44 +289,47 @@ class LineModelChangeRulesSystem extends React.Component {
         console.log(ruleDatail)
         if (ruleDatail[0].dataScope === '1004') {
             let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
-            let selectedSobData=[];
-            detaileValues0&&detaileValues0.map(item=>{
-                selectedSobData.push({
-                    valueKey:item
-                })
-            });
+            let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderSobList: true,
                 sobText: `已选择${detaileValues0.length}个账套`,
                 sobIcon: null,
-                selectedTenantList: selectedSobData,
+                selectedTenantList: ruleDetailValueDTOs0,
                 sobValuesKeys:detaileValues0
             })
         }
         if (ruleDatail[1].dataScope === '1004') {
+            let detaileValues1=ruleDatail[1].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs1=ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderCompanyList: true
+                renderCompanyList: true,
+                companyText: `已选择${detaileValues1.length}个公司`,
+                companyIcon: null,
+                selectedCompanyTreeInfo: ruleDetailValueDTOs1,
+                companyItemsKeys:detaileValues1
             })
         }
         if (ruleDatail[2].dataScope === '1004') {
+            let detaileValues2=ruleDatail[2].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs2=ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderDepartmentList: true
+                renderDepartmentList: true,
+                departmentText: `已选择${detaileValues2.length}个部门`,
+                departmentIcon: null,
+                selectedDepTreeInfo: ruleDetailValueDTOs2,
+                departMentItemsKeys:detaileValues2
+
             })
         }
         if (ruleDatail[3].dataScope === '1004') {
-            let detaileValues=ruleDatail[3].dataAuthorityRuleDetailValues;
-            let selectedEmployeeData=[];
-            detaileValues&&detaileValues.map(item=>{
-                selectedEmployeeData.push({
-                    valueKey:item
-                })
-            });
+            let detaileValues3=ruleDatail[3].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs3=ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderEmplyeeList: true,
-                employeeText: `已选择${detaileValues.length}个员工`,
+                employeeText: `已选择${detaileValues3.length}个员工`,
                 emplyeeIcon: null,
-                selectedEmployeeList:selectedEmployeeData,
-                employeeKeys:detaileValues
+                selectedEmployeeList:ruleDetailValueDTOs3,
+                employeeKeys:detaileValues3
             })
         }
         this.setState({
