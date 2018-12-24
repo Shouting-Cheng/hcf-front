@@ -47,6 +47,7 @@ class SelectDepOrPerson extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     //外面控制弹出
     if(!this.state.visible&&nextProps.visible)
      this.showModal()
