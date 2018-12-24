@@ -717,7 +717,7 @@ export default class Login extends React.Component {
 
         await this.getCompany();
         await this.getLanguage(result);
-        await this.getLanguageType();
+        // await this.getLanguageType();
         await this.getLanguageList();
         await this.getProfile();
 
@@ -742,13 +742,14 @@ export default class Login extends React.Component {
         payload: result,
       });
 
-      try {
-        await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
-        resolve();
+      resolve();
+      // try {
+      //   await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
+      //   resolve();
 
-      } catch (e) {
-        resolve();
-      }
+      // } catch (e) {
+      //   resolve();
+      // }
 
     });
   };
@@ -818,26 +819,26 @@ export default class Login extends React.Component {
     });
   };
 
-  getLanguageType = () => {
-    const { dispatch } = this.props;
-    return new Promise(async (resolve, reject) => {
-      fetch.get('/api/language/query').then(res => {
-        dispatch({
-          type: 'languages/setLanguageType',
-          payload: { languageType: res },
-        });
-        resolve();
-      });
-    });
-  };
+  // getLanguageType = () => {
+  //   const { dispatch } = this.props;
+  //   return new Promise(async (resolve, reject) => {
+  //     fetch.get('/api/language/query').then(res => {
+  //       dispatch({
+  //         type: 'languages/setLanguageType',
+  //         payload: { languageType: res },
+  //       });
+  //       resolve();
+  //     });
+  //   });
+  // };
 
   getLanguageList = () => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
       fetch.post(`${config.baseUrl}/api/lov/language/zh_cn`).then(res => {
         dispatch({
-          type: 'languages/setLanguageList',
-          payload: { languageList: res },
+          type: 'languages/setLanguageType',
+          payload: { languageType: res },
         });
         resolve();
       });

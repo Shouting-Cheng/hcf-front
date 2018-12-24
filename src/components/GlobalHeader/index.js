@@ -97,12 +97,9 @@ export default class GlobalHeader extends React.Component {
     const {
       currentUser = {},
       collapsed,
-      fetchingNotices,
       isMobile,
       logo,
-      onNoticeVisibleChange,
       onMenuClick,
-      onNoticeClear,
       languages: { local, languageType },
     } = this.props;
 
@@ -137,8 +134,8 @@ export default class GlobalHeader extends React.Component {
         <div className={styles.right}>
           <Select width={200} value={local} onChange={this.langChange}>
             {languageType.map(item => (
-              <Select.Option key={item.id} value={item.language}>
-                {item.languageName}
+              <Select.Option key={item.code} value={item.code}>
+                {item.value}
               </Select.Option>
             ))}
           </Select>

@@ -21,10 +21,9 @@ class LanguageManager extends Component {
   toModuleList = record => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/setting/language/language-modules/' + record.language,
+        pathname: '/setting/language/language-modules/' + record.code,
       })
     );
-    // this.context.router.push("/main/language-manager/module-list/" + 1);
   };
 
   render() {
@@ -35,17 +34,17 @@ class LanguageManager extends Component {
       <div>
         {languageType.map(item => (
           <Card
-            key={item.id}
+            key={item.code}
             hoverable
             style={{ width: 240, display: 'inline-block', marginRight: 20 }}
             onClick={() => this.toModuleList(item)}
             cover={
               <div style={{ textAlign: 'center', height: 200, marginTop: 70 }}>
-                <img style={{ width: 100, height: 100 }} src={this.state.images[item.language]} />
+                <img style={{ width: 100, height: 100 }} src={this.state.images[item.code]} />
               </div>
             }
           >
-            <Card.Meta title={item.languageName} />
+            <Card.Meta title={item.value} />
           </Card>
         ))}
       </div>
