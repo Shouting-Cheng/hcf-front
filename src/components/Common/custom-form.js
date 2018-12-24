@@ -8,7 +8,7 @@ import uuid from '../../utils/uuid';
 
 const { RangePicker } = DatePicker;
 
-const forms = ['select', 'input', 'date-picker', 'switch'];
+const forms = ['select', 'input', 'date-picker', 'switch', 'custom-chooser', 'permissions-allocation'];
 
 const cardSource = {
   drop(props, monitor, component) {
@@ -61,6 +61,11 @@ class AdvancedSearchForm extends React.Component {
     if ((selected && selected.parent == this.props.id) || this.props.selectedId == 0) {
       let formItems = this.props.components.filter(o => o.parent == this.props.id);
       this.setState({ formItems });
+    }
+
+    window.refs = window.refs || {};
+    if (this.props.refName) {
+      window.refs[this.props.refName] = this;
     }
   }
 

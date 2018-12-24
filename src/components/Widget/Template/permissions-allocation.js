@@ -167,7 +167,7 @@ class PermissionsAllocation extends React.Component {
                 onFocus={this.showSelectEmployeeGroup}
                 dropdownStyle={{ display: 'none' }}
                 labelInValue
-                style={{ minWidth: 200 }}
+                style={{ minWidth: 200, maxWidth: 300 }}
               />
               <div
                 style={textStyle}

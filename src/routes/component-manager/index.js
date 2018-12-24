@@ -281,7 +281,7 @@ class ComponentManager extends React.Component {
                       <ComponentItem text="switch" />
                     </Col>
                     <Col span={12}>
-                      <ComponentItem text="range-picker" />
+                      <ComponentItem text="custom-chooser" />
                     </Col>
                   </Row>
                   <Row style={{ marginTop: 12 }} gutter={20}>
@@ -290,6 +290,11 @@ class ComponentManager extends React.Component {
                     </Col>
                     <Col span={12}>
                       <ComponentItem text="range-picker" />
+                    </Col>
+                  </Row>
+                  <Row style={{ marginTop: 12 }} gutter={20}>
+                    <Col span={24}>
+                      <ComponentItem text="permissions-allocation" />
                     </Col>
                   </Row>
                 </Panel>
