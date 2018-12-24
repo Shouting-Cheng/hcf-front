@@ -10,27 +10,27 @@ export default {
     return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/query/all`, params);
   },
   /**
-   * 获取分配的公司
+   * 获取币种列表
    * @param {*} id 
    */
-  getDistributiveCompany(id) {
-    return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/${id}/company/query`);
+  getCurrencyList(id) {
+    return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll`);
   },
 
   /**
-   * 更改公司分配状态
+   * 获取维度
    * @param {*} parmas
    */
-  updateAssignCompany(parmas) {
-    return httpFetch.put(`${config.expenseUrl}/api/expense/application/type/assign/company`, parmas);
+  getDimension(typeId) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/${typeId}/dimension/query`);
   },
 
   /**
-   * 批量分配公司
-   * @param {*} parmas 
+   * 获取申请单类型详情
+   * @param {*} typeId
    */
-  batchDistributeCompany(id, parmas) {
-    return httpFetch.post(`${config.expenseUrl}/api/expense/application/type/${id}/assign/company`, parmas);
+  getApplicationTypeById(typeId) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/query/` + typeId);
   },
 
   /**

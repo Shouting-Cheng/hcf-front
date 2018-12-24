@@ -1825,6 +1825,22 @@ export const getRouterData = app => {
       ),
       name: 'expense-application'
     },
+    //新建费用申请单
+    '/expense-application/new-expense-application/:typeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'new-expense-application',
+      parent: '/expense-application'
+    },
+    //编辑费用申请单
+    '/expense-application/new-expense-application/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'edit-expense-application',
+      parent: '/expense-application'
+    },
 
   };
   // Get name from ./menu.js or just set it in the router data.
