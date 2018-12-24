@@ -1818,6 +1818,14 @@ export const getRouterData = app => {
       ),
       name: 'application-type'
     },
+    //费用申请单
+    '/expense-application': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/index')
+      ),
+      name: 'expense-application'
+    },
+
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

@@ -2889,7 +2889,7 @@ const chooserData = {
   },
   application_type: {
     title: "选择申请类型",
-    url: `${config.expenseUrl}/api/expense/types/query`,
+    url: `${config.expenseUrl}/api/expense/types/chooser/query`,
     searchForm: [
       {
         type: 'input',
