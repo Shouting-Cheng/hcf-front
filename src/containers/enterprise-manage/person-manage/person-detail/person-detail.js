@@ -291,21 +291,18 @@ class PersonDetail extends React.Component {
       .catch(res => {});
   };
   setResignDateModel = () => {
-    console.log(this.state.hireTime);
     this.setState({
       showSelectTime: true,
       hireTime: null,
     });
   };
   hideSelectTime = () => {
-    console.log(this.state.hireTime);
     this.setState({
       hireTime: null,
       showSelectTime: false,
     });
   };
   handleChangeHireTime = time => {
-    console.log(time);
     this.setState({
       hireTime: time,
     });
@@ -535,7 +532,7 @@ class PersonDetail extends React.Component {
   handleBack = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/setting/employee`,
+        pathname: window.location.href.indexOf('enterprise-manage/org-structure')!==-1 ? '/enterprise-manage/org-structure' : `/setting/employee`,
       })
     );
     // this.context.router.push(menuRoute.getRouteItem('person-manage').url);

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Collapse, Card, Input, Tree, Form, Select, Icon } from 'antd';
-const Panel = Collapse.Panel;
-const TreeNode = Tree.TreeNode;
-const FormItem = Form.Item;
-const Option = Select.Option;
+import { Form } from 'antd';
 
 import { connect } from 'dva';
 import CommonAttrForm from './common-attr-form';

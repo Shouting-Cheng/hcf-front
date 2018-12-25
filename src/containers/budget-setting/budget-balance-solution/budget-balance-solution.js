@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'dva'
 import SearchArea from 'widget/search-area'
 import baseService from 'share/base.service'
-import { Button,  Badge, Divider, message } from 'antd'
+import { Button,  Badge, Divider, message, Popconfirm } from 'antd'
 import Table from 'widget/table'
 import budgetBalanceSolutionService from 'containers/budget-setting/budget-balance-solution/budget-balance-solution.service'
 import { routerRedux } from 'dva/router';
@@ -44,7 +44,12 @@ class BudgetBalanceSolution extends Component {
                                 <div>
                                     <a onClick={e => this.onEditClick(e, record)}>{this.$t('common.edit')}</a>
                                     <Divider type='vertical' />
-                                    <a onClick={e => this.onDeleteClick(e, record)}>{this.$t('common.delete')}</a>
+                                  <Popconfirm
+                                    title={this.$t('itinerary.form.component.allocation.delete.tip')}
+                                    onConfirm={e => this.onDeleteClick(e, record)}
+                                  >
+                                    <a>{this.$t('common.delete')}</ a>
+                                  </Popconfirm>
                                 </div>
                             )
                         }

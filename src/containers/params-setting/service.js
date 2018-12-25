@@ -23,4 +23,11 @@ export default {
     deleteParamsSetting(id) {
         return httpFetch.delete(`${config.authUrl}/api/data/auth/table/properties/${id}`);
     },
+    /**
+     * 更新参数设置
+     * @param {*} params 
+     */
+    updateParamsSetting(params) {
+        return httpFetch.put(`${config.authUrl}/api/data/auth/table/properties`, params);
+    },
 }

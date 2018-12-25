@@ -141,7 +141,10 @@ class PayFail extends React.Component {
   }
 
   componentWillMount() {
+    let {searchForm} = this.state;
     this.props.subTab && this.setState({ radioValue: this.props.subTab });
+    searchForm[0].defaultValue = paymentService.getDefaultCompany(this.props.user.userOID,this.props.company.id);
+    this.setState({searchForm});
     this.getList()
   }
 

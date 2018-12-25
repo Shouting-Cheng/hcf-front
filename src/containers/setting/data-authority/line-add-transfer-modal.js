@@ -68,9 +68,10 @@ class LineAddTransferModal extends React.Component {
         }
         this.setState({
             selectTreeNodes: [],
-            selectedTreeInfo: [],
+            selectedTreeInfo: nextProps.selectedTreeInfo,
             treeData,
-            isShowTreeNode: true
+            isShowTreeNode: true,
+            rightList:[]
         })
     }
     /**
@@ -108,8 +109,9 @@ class LineAddTransferModal extends React.Component {
             if (!selectedTreeInfo.find(o => o.id == info.node.props.dataRef.id)) {
                 selectedTreeInfo.push(info.node.props.dataRef);
             }
-            rightList.push(info.node.props.dataRef);
-            this.setState({ rightList })
+            if (!rightList.find(o => o.id == info.node.props.dataRef.id)) {
+                rightList.push(info.node.props.dataRef);
+            }
         } else {
 
             let parentId = info.node.props.dataRef.parentId;
@@ -125,7 +127,7 @@ class LineAddTransferModal extends React.Component {
             selectedTreeInfo.splice(selectedTreeInfo.findIndex(o => o.id == info.node.props.dataRef.id), 1);
         }
 
-        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo });
+        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo,rightList });
 
 
     }
@@ -267,8 +269,8 @@ class LineAddTransferModal extends React.Component {
     */
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
-            return <Row key={item.id} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 13 }}>{item.code}-{item.name}</Col>
+            return <Row key={item.valueKey?item.valueKey:item.id} style={{ marginTop: 5 }}>
+                <Col span={22} style={{ fontSize: 13 }}>{item.valueKey?`${item.valueKeyCode}-${item.valueKeyDesc}`:`${item.code}-${item.name}`}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })
@@ -308,34 +310,42 @@ class LineAddTransferModal extends React.Component {
      * 点击查询出来的单个条件
      */
     clickList = (list) => {
-        let { treeData, selectTreeNodes } = this.state;
+        // console.log(list)
+        // let { treeData, selectTreeNodes } = this.state;
 
-        let selectedKeys = [];
+        // let selectedKeys = [];
 
-        let obj = this.getItemById(treeData, list.id);
-        let selectedTreeInfo = this.state.selectedTreeInfo;
+        // let obj = this.getItemById(treeData, list.id);
+        // let selectedTreeInfo = this.state.selectedTreeInfo;
 
-        selectedKeys.push(list);
+        // selectedKeys.push(list);
 
-        this.selectAllChildren(obj.details, selectedKeys);
+        // this.selectAllChildren(obj.details, selectedKeys);
 
-        obj.isSelectAll = true;
+        // obj.isSelectAll = true;
 
-        selectedKeys.map(item => {
-            let index = selectTreeNodes.indexOf(item.id);
-            if (index < 0) {
-                selectTreeNodes.push(item.id);
-            }
-            if (!selectedTreeInfo.find(o => o.id == item.id)) {
-                selectedTreeInfo.push(item)
-            }
-        })
+        // selectedKeys.map(item => {
+        //     let index = selectTreeNodes.indexOf(item.id);
+        //     if (index < 0) {
+        //         selectTreeNodes.push(item.id);
+        //     }
+        //     if (!selectedTreeInfo.find(o => o.id == item.id)) {
+        //         selectedTreeInfo.push(item)
+        //     }
+        // })
+        // this.setState({
+        //     isShowTreeNode: true,
+        //     treeData,
+        //     selectTreeNodes: [...selectTreeNodes],
+        //     selectedTreeInfo
+        // });
+        const { treeData, selectedTreeInfo } = this.state;
         this.setState({
             isShowTreeNode: true,
-            treeData,
-            selectTreeNodes: [...selectTreeNodes],
-            selectedTreeInfo
+            selectTreeNodes: [list.id],
+            selectedTreeInfo: [list]
         });
+
     }
     /**
      * 右边已选区按照搜索条件查询

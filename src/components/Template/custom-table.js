@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Badge, Tooltip } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
@@ -8,6 +8,7 @@ import commonService from "services/common"
 
 import moment from 'moment';
 import columnTemplate from '../../column-template/index';
+
 
 class CustomTable extends Component {
   constructor(props) {
@@ -91,6 +92,10 @@ class CustomTable extends Component {
             };
           }
         }
+      }
+
+      if (item.width) {
+        item.width = parseInt(item.width);
       }
 
       tableColumns.push(item);

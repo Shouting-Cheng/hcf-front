@@ -5,13 +5,14 @@ import React from 'react';
 import config from 'config';
 
 // import menuRoute from 'routes/menuRoute'
-import { Form, Affix, Button, message, Modal } from 'antd';
+import {Form, Affix, Button, message, Modal} from 'antd';
+
 const confirm = Modal.confirm;
-import { connect } from 'dva';
+import {connect} from 'dva';
 import PrePaymentCommon from 'containers/pre-payment/my-pre-payment/pre-payment-common';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
-import { routerRedux } from 'dva/router';
+import {routerRedux} from 'dva/router';
 
 class PrePaymentDetail extends React.Component {
   constructor(props) {
@@ -25,9 +26,11 @@ class PrePaymentDetail extends React.Component {
       id: 0,
     };
   }
+
   componentDidMount() {
     this.getInfo();
   }
+
   //获取预付款头信息
   getInfo = () => {
     let id = null;
@@ -54,14 +57,31 @@ class PrePaymentDetail extends React.Component {
   };
   //提交
   onSubmit = () => {
-    const { applicationOid, empOid, formOid, documentOid, id } = this.state.headerData;
-    let model = {
+    const {applicationOid, empOid, formOid, documentOid, createdDate, id, requisitionNumber, description, companyId, unitOid, advancePaymentAmount, currency, paymentReqTypeId} = this.state.headerData;
+    /*let model = {
       applicantOID: applicationOid,
       userOID: empOid,
       formOID: formOid,
       entityOID: documentOid,
       entityType: 801003,
       countersignApproverOIDs: null,
+    };*/
+    let workFlowDocumentRef = {
+      applicantOid: applicationOid,
+      userOid: empOid,
+      formOid: formOid,
+      documentOid: documentOid,
+      documentCategory: 801003,
+      countersignApproverOIDs: null,
+      documentNumber: requisitionNumber,
+      remark: description,
+      companyId: companyId,
+      unitOid: unitOid,
+      amount: advancePaymentAmount,
+      currencyCode: currency,
+      documentTypeId: paymentReqTypeId,
+      applicantDate: createdDate,
+      documentId: id
     };
     this.setState({
       loading: true,
@@ -87,7 +107,7 @@ class PrePaymentDetail extends React.Component {
         });
     } else {
       prePaymentService
-        .submitToWorkflow(model)
+        .submitToWorkflow(workFlowDocumentRef)
         .then(res => {
           if (res.status === 200) {
             message.success(this.$t('common.operate.success'));
@@ -98,14 +118,14 @@ class PrePaymentDetail extends React.Component {
           }
         })
         .catch(e => {
-          console.log(e); 
+          console.log(e);
           let mess;
-          if(e.response.data.message.indexOf("CONTRACT_STATUS_HOLD")>0){
-            mess = e.response.data.message.replace("CONTRACT_STATUS_HOLD",this.$t('my.zan.gua'));
-          }else if(e.response.data.message.indexOf("CONTRACT_STATUS_CANCEL")>0){
-            mess = e.response.data.message.replace("CONTRACT_STATUS_CANCEL",this.$t('common.cancel'));
-          }else if(e.response.data.message.indexOf("CONTRACT_STATUS_FINISH")){
-            mess = e.response.data.message.replace("CONTRACT_STATUS_FINISH",this.$t('my.contract.state.finish'));
+          if (e.response.data.message.indexOf("CONTRACT_STATUS_HOLD") > 0) {
+            mess = e.response.data.message.replace("CONTRACT_STATUS_HOLD", this.$t('my.zan.gua'));
+          } else if (e.response.data.message.indexOf("CONTRACT_STATUS_CANCEL") > 0) {
+            mess = e.response.data.message.replace("CONTRACT_STATUS_CANCEL", this.$t('common.cancel'));
+          } else if (e.response.data.message.indexOf("CONTRACT_STATUS_FINISH")) {
+            mess = e.response.data.message.replace("CONTRACT_STATUS_FINISH", this.$t('my.contract.state.finish'));
           }
           this.setState({
             loading: false,
@@ -158,36 +178,37 @@ class PrePaymentDetail extends React.Component {
       );
     }
   };
+
   render() {
-    const { loading, dLoading, headerData, id } = this.state;
+    const {loading, dLoading, headerData, id} = this.state;
     const newState = (
       <div>
         <Button
           type="primary"
           onClick={this.onSubmit}
           loading={loading}
-          style={{ margin: '0 20px' }}
+          style={{margin: '0 20px'}}
         >
           提 交
         </Button>
         <Button onClick={this.onDelete} loading={dLoading}>
           删 除
         </Button>
-        <Button style={{ marginLeft: '20px' }} onClick={this.onCancel}>
+        <Button style={{marginLeft: '20px'}} onClick={this.onCancel}>
           返 回
         </Button>
       </div>
     );
     const otherState = (
       <div>
-        <Button style={{ marginLeft: '20px' }} onClick={this.onCancel}>
+        <Button style={{marginLeft: '20px'}} onClick={this.onCancel}>
           返 回
         </Button>
       </div>
     );
     return (
-      <div style={{ paddingBottom: 100 }} className="pre-payment-detail">
-        <PrePaymentCommon params={headerData} contractEdit={true} id={id} />
+      <div style={{paddingBottom: 100}} className="pre-payment-detail">
+        <PrePaymentCommon params={headerData} contractEdit={true} id={id}/>
         {this.props.params && this.props.params.refund ? (
           ''
         ) : (
@@ -228,5 +249,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  {withRef: true}
 )(wrappedPrePaymentDetail);

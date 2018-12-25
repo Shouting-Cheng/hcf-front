@@ -186,7 +186,7 @@ class BankAccountDetail extends React.Component {
 
   getList = () => {
     const { tabsData, page, pageSize, nowStatus } = this.state;
-
+    this.setState({loading: true});
     let url = tabsData[nowStatus].url;
     if (url) {
       // &page=${page}&size=${pageSize}
@@ -239,7 +239,13 @@ class BankAccountDetail extends React.Component {
     // httpFetch.delete(`${config.baseUrl}/api/comapnyBankPayment/deleteById?id=${record.id}`).then(res => {
     companyAccountSettingService.deletePayWay(record.id).then(res => {
       message.success(messages('common.operate.success'));
-      this.getList();
+      this.setState({
+        page: parseInt((this.state.pagination.total-2)/this.state.pageSize),
+        pagination:{
+          ...this.state.pagination,
+          total: this.state.pagination.total-1,
+        }
+      },()=> this.getList());
     }).catch(e => {
       message.error(e.response.data.message);
     })

@@ -228,7 +228,6 @@ class NewDataAuthority extends React.Component {
                     }
                 }
                 let getRulesArr = this.state.getRulesArr;
-                console.log(getRulesArr)
                 let dataAuthorityRules = this.returnDataAuthorityRules(values, getRulesArr, rules);
                 let params = {
                     id: newDataPrams.id ? newDataPrams.id : null,
@@ -388,6 +387,7 @@ class NewDataAuthority extends React.Component {
                         })(<Input
                             placeholder={this.$t("common.please.enter")}
                             disabled={newDataPrams.id ? true : false}
+                            style={{width:'80%'}}
                         />)
                         }
 
@@ -417,7 +417,8 @@ class NewDataAuthority extends React.Component {
                         label="数据权限说明"
                     >
                         {getFieldDecorator('description', {
-                            rules: []
+                            rules: [],
+                            initialValue: newDataPrams.description || ''
                         })(
                             <div>
                                  <LanguageInput
@@ -458,7 +459,7 @@ class NewDataAuthority extends React.Component {
                         <div style={{ marginTop: 24 }}>
                             <Row>
                                 <Col offset={3} span={18} >
-                                    <Button type="dashed" style={{ high: 40, width: "100%" }} onClick={this.addApply}><Icon type="plus" />{this.$t({ id: "accounting.source.addChangeRule" })} </Button>
+                                    <Button type="dashed" style={{ high: 40, width: "100%" }} onClick={this.addApply}><Icon type="plus" />添加规则</Button>
                                 </Col>
                             </Row>
                         </div>

@@ -1,5 +1,7 @@
-import test from './test';
+import common from './common';
+import applicationType from './application-type';
 
 export default {
-  test,
+  common,
+  applicationType
 };

@@ -52,7 +52,7 @@ class SlideFrame extends React.Component {
           visible={visible}
           width={width}
         >
-          {this.props.children}
+          {visible && this.props.children}
         </Drawer>
       </div>
     );

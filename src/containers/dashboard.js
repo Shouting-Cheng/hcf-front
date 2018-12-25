@@ -28,8 +28,6 @@ const { MonthPicker } = DatePicker;
 const RadioGroup = Radio.Group;
 
 
-import DataSet from "@antv/data-set";
-
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -338,8 +336,10 @@ class Dashboard extends React.Component {
 
   getUnApprovals = () => {
     service.getUnApprovals().then(res => {
-      this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
-      this.renderPie(res.data.approvalDashboardDetailDTOList);
+      if (!!res.totalCount) {
+        this.setState({ total: res.data.totalCount, unApprovals: res.data.approvalDashboardDetailDTOList });
+        this.renderPie(res.data.approvalDashboardDetailDTOList);
+      }
     }).catch(err => {
       message.error("获取待审批列表失败,请稍后重试！");
     })
@@ -711,17 +711,6 @@ class Dashboard extends React.Component {
     const { timerStr, backList, hello, chartsType, carousels, total, unApprovals, doingList, payType, tabKey } = this.state;
     const { user } = this.props;
 
-    const { DataView } = DataSet;
-
-    const dv = new DataView();
-
-    dv.source(unApprovals).transform({
-      type: "percent",
-      field: "count",
-      dimension: "name",
-      as: "percent"
-    });
-
     return (
       <div className="dashboard-container">
         <Row gutter={12}>
@@ -765,7 +754,7 @@ class Dashboard extends React.Component {
               title="待审批的单据"
               extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
             >
-              <div id="pie" style={{ width: "100%", height: 160 }}></div>
+              {!!total ? <div id="pie" style={{ width: "100%", height: 160 }}></div> : <div style={{ lineHeight: "160px", textAlign: "center", fontSize: 18 }}>暂无待审批单据</div>}
             </Card>
           </Col>
         </Row>
@@ -816,32 +805,34 @@ class Dashboard extends React.Component {
             >
               <Tabs defaultActiveKey="1">
                 <TabPane forceRender key="1" tab={`被退回的单据(${backList.length})`}>
-                  {backList.map((item, index) => {
-                    return (
-                      <Card
-                        title={<span style={{ fontSize: 14 }}>{item.code}</span>}
-                        extra={<span>{item.createdTime}</span>}
-                        style={{ marginTop: 12, cursor: "pointer" }}
-                        key={item.id}
-                        hoverable
-                        onClick={() => this.click(item)}
-                      >
-                        <Row>
-                          <Col span={12}>{item.name}</Col>
-                          <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
-                        </Row>
-                        <Row style={{ marginTop: 16 }}>
-                          <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
-                          <Col span={10} style={{ textAlign: "right" }}>
-                            <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
-                          </Col>
-                        </Row>
-                        <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
-                          驳回人：{item.nodeName}-{item.rejecterName}
-                        </div>
-                      </Card>
-                    )
-                  })}
+                  <div style={{ height: "100%", overflowY: "auto" }}>
+                    {backList.map((item, index) => {
+                      return (
+                        <Card
+                          title={<span style={{ fontSize: 14 }}>{item.code}</span>}
+                          extra={<span>{item.createdTime}</span>}
+                          style={{ marginTop: 12, cursor: "pointer" }}
+                          key={item.id}
+                          hoverable
+                          onClick={() => this.click(item)}
+                        >
+                          <Row>
+                            <Col span={12}>{item.name}</Col>
+                            <Col span={12} style={{ textAlign: "right", fontWeight: 600, fontSize: 16 }}>{item.currency} {this.filterMoney(item.amount, 2, true)}</Col>
+                          </Row>
+                          <Row style={{ marginTop: 16 }}>
+                            <Col style={{ textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }} span={14}>{item.remark}</Col>
+                            <Col span={10} style={{ textAlign: "right" }}>
+                              <Tag color={this.$statusList[item.statusCode].color}>{this.$statusList[item.statusCode].label}</Tag>
+                            </Col>
+                          </Row>
+                          <div style={{ textAlign: "right", marginTop: 10, paddingTop: 10, borderTop: "1px solid #eee" }}>
+                            驳回人：{item.nodeName}-{item.rejecterName}
+                          </div>
+                        </Card>
+                      )
+                    })}
+                  </div>
                 </TabPane>
                 <TabPane forceRender key="2" tab={`未完成的单据(${doingList.length})`}>
                   <div style={{ height: "100%", overflowY: "auto" }}>
