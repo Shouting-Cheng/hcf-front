@@ -1810,6 +1810,11 @@ export const getRouterData = app => {
       ),
       name: 'demo-wgs'
     },
+    // 维度定义
+    '/admin-setting/dimension-definition': {
+      component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),
+      name: 'dimension-definition',
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
