@@ -62,7 +62,7 @@ class NewPaymentRequisition extends React.Component {
         .catch(() => {
           this.setState({ pageLoading: false });
           message.error(
-            this.$t( 'common.error'  /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
+            this.$t('common.error' /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
           );
         });
     } else {
@@ -95,7 +95,7 @@ class NewPaymentRequisition extends React.Component {
             pageLoading: false,
           });
           message.error(
-            this.$t( 'common.error'  /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
+            this.$t('common.error' /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
           );
         });
     }
@@ -105,7 +105,12 @@ class NewPaymentRequisition extends React.Component {
   onCancel = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: this.state.myPaymentRequisition,
+        pathname:
+          this.props.match.params.id === '0'
+            ? this.state.myPaymentRequisition
+            : `/payment-requisition/my-payment-requisition/payment-requisition-detail/${
+                this.props.match.params.id
+              }`,
       })
     );
   };
@@ -163,9 +168,7 @@ class NewPaymentRequisition extends React.Component {
             message.success(this.$t({ id: 'common.save.success' }, { name: '' }));
           })
           .catch(e => {
-            message.error(
-              this.$t('common.save.filed'  /*保存失败*/) + e.response.data.message
-            );
+            message.error(this.$t('common.save.filed' /*保存失败*/) + e.response.data.message);
             this.setState({ loading: false });
           });
       }
@@ -192,17 +195,14 @@ class NewPaymentRequisition extends React.Component {
           <Form onSubmit={this.handleSave}>
             <Row {...rowLayout}>
               <Col span={10}>
-                <FormItem
-                  label={this.$t( 'acp.employeeName'  /*申请人*/)}
-                  {...formItemLayout}
-                >
+                <FormItem label={this.$t('acp.employeeName' /*申请人*/)} {...formItemLayout}>
                   {getFieldDecorator('employeeId', {
                     rules: [
                       {
                         required: true,
                         message: this.$t(
-                           'common.can.not.be.empty' ,
-                          { name: this.$t( 'acp.employeeName'  /*申请人*/) } /*不能为空*/
+                          'common.can.not.be.empty',
+                          { name: this.$t('acp.employeeName' /*申请人*/) } /*不能为空*/
                         ),
                       },
                     ],
@@ -213,14 +213,14 @@ class NewPaymentRequisition extends React.Component {
             </Row>
             <Row {...rowLayout}>
               <Col span={10}>
-                <FormItem label={this.$t( 'acp.company' /*公司*/)} {...formItemLayout}>
+                <FormItem label={this.$t('acp.company' /*公司*/)} {...formItemLayout}>
                   {getFieldDecorator('companyId', {
                     rules: [
                       {
                         required: true,
                         message: this.$t(
-                           'common.can.not.be.empty' ,
-                          { name: this.$t('acp.company'  /*公司*/) } /*不能为空*/
+                          'common.can.not.be.empty',
+                          { name: this.$t('acp.company' /*公司*/) } /*不能为空*/
                         ),
                       },
                     ],
@@ -241,14 +241,14 @@ class NewPaymentRequisition extends React.Component {
             </Row>
             <Row {...rowLayout}>
               <Col span={10}>
-                <FormItem label={this.$t( 'acp.unitName'  /*部门*/)} {...formItemLayout}>
+                <FormItem label={this.$t('acp.unitName' /*部门*/)} {...formItemLayout}>
                   {getFieldDecorator('unitId', {
                     rules: [
                       {
                         required: true,
                         message: this.$t(
-                          'common.can.not.be.empty' ,
-                          { name: this.$t( 'acp.unitName'  /*部门*/) } /*不能为空*/
+                          'common.can.not.be.empty',
+                          { name: this.$t('acp.unitName' /*部门*/) } /*不能为空*/
                         ),
                       },
                     ],
@@ -281,14 +281,14 @@ class NewPaymentRequisition extends React.Component {
             </Row>
             <Row {...rowLayout}>
               <Col span={10}>
-                <FormItem label={this.$t('acp.remark'  /*备注*/)} {...formItemLayout}>
+                <FormItem label={this.$t('acp.remark' /*备注*/)} {...formItemLayout}>
                   {getFieldDecorator('description', {
                     rules: [
                       {
                         required: true,
                         message: this.$t(
-                          'common.can.not.be.empty' ,
-                          { name: this.$t('acp.description'  /*事由说明*/) } /*不能为空*/
+                          'common.can.not.be.empty',
+                          { name: this.$t('acp.description' /*事由说明*/) } /*不能为空*/
                         ),
                       },
                     ],
@@ -300,7 +300,7 @@ class NewPaymentRequisition extends React.Component {
             {/* 附件信息 */}
             <Row {...rowLayout}>
               <Col span={10}>
-                <FormItem label={this.$t( 'acp.fileInfo'  /*附件信息*/)} {...formItemLayout}>
+                <FormItem label={this.$t('acp.fileInfo' /*附件信息*/)} {...formItemLayout}>
                   {getFieldDecorator('attachmentOID')(
                     <Upload
                       attachmentType="PAYMENT"
@@ -332,12 +332,10 @@ class NewPaymentRequisition extends React.Component {
                 loading={loading}
                 style={{ margin: '0 20px' }}
               >
-                {isNew
-                  ? this.$t( 'acp.next' /*下一步*/)
-                  : this.$t( 'common.ok'  /*确定*/)}
+                {isNew ? this.$t('acp.next' /*下一步*/) : this.$t('common.ok' /*确定*/)}
               </Button>
               <Button onClick={this.onCancel} loading={loading}>
-                {this.$t( 'common.cancel'  /*取消*/)}
+                {this.$t('common.cancel' /*取消*/)}
               </Button>
             </Affix>
           </Form>
@@ -353,7 +351,6 @@ class NewPaymentRequisition extends React.Component {
 //     numberString += (numberString.indexOf('.') > -1 ? '' : '.00');
 //     return <span className="money-cell">{numberString}</span>;
 // };
-
 
 const wrappedNewPaymentRequisition = Form.create()(NewPaymentRequisition);
 
