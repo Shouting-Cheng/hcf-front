@@ -46,7 +46,7 @@ class ContractDetail extends React.Component {
           countersignApproverOIDs: null,
         };*/
         let workFlowDocumentRef = {
-          applicantOid: header.applicatOid,
+          applicantOid: header.applicantOid,
           userOid: this.props.user.userOID,
           formOid: header.formOid,
           documentOid: header.documentOid,
