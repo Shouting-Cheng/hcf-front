@@ -1825,6 +1825,11 @@ export const getRouterData = app => {
       ),
       name: 'expense-application'
     },
+    // 维度定义
+    '/admin-setting/dimension-definition': {
+      component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),
+      name: 'dimension-definition',
+    },
     //新建费用申请单
     '/expense-application/new-expense-application/:typeId': {
       component: dynamicWrapper(app, [], () =>
@@ -1840,8 +1845,7 @@ export const getRouterData = app => {
       ),
       name: 'edit-expense-application',
       parent: '/expense-application'
-    },
-
+    }
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
