@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { messages } from 'utils/utils';
 import { deepCopy } from 'utils/extend';
 import { Form, Input, Switch, Button, Icon, message } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
 
 const FormItem = Form.Item;
 import { LanguageInput } from 'widget/index';
@@ -488,7 +488,7 @@ class ValueList extends React.Component {
               />
             )}
           </FormItem>
-          {this.props.params.isCustom === 'CUSTOM' && (
+          {this.props.params.custom === 'CUSTOM' && (
             <div>
               <div className="common-item-title">{messages('value.list.limit' /*数据权限*/)}</div>
               <FormItem

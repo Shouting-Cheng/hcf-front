@@ -6,7 +6,7 @@ import { messages } from 'utils/utils';
  * 2.值列表详情：包括自定义值列表详情与系统值列表详情
  */
 import React from 'react';
-import ExcelExporter from 'widget/excel-exporter'
+import ExcelExporter from 'widget/excel-exporter';
 import config from 'config';
 import { connect } from 'dva';
 import ImporterNew from 'widget/Template/importer-new';
@@ -29,7 +29,7 @@ import {
   Checkbox,
   Tabs,
 } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
 const FormItem = Form.Item;
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -284,7 +284,7 @@ class ValueList extends React.Component {
         isCustom: res.data.isCustom,
         defaultCustomEnumerationItemOid: res.data.defaultCustomEnumerationItemOid,
         form,
-        _form: { ...form,i18n: {...form.i18n} },
+        _form: { ...form, i18n: { ...form.i18n } },
       });
     });
   };
@@ -352,18 +352,21 @@ class ValueList extends React.Component {
     console.log(record);
     data.map(item => {
       if (e.target.checked) {
-        item.isDefault = item.id === record.id;
+        item.defaultFlag = item.id === record.id;
         form.defaultCustomEnumerationItemOid = record.customEnumerationItemOid;
         form.defaultCustomEnumerationItemValue = record.value;
       } else {
-        item.isDefault = false;
+        item.defaultFlag = false;
         form.defaultCustomEnumerationItemOid = null;
         form.defaultCustomEnumerationItemValue = null;
       }
     });
-    this.setState({ data, form, _form: {...form, i18n: {...form.i18n}}, tableLoading: true }, () => {
-      this.handleSave();
-    });
+    this.setState(
+      { data, form, _form: { ...form, i18n: { ...form.i18n } }, tableLoading: true },
+      () => {
+        this.handleSave();
+      }
+    );
   };
 
   handleSearch = value => {
@@ -406,7 +409,7 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
-    console.log(name)
+    console.log(name);
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -473,7 +476,10 @@ class ValueList extends React.Component {
   handleCancel = () => {
     if (this.state.customEnumerationOid) {
       //编辑
-      this.setState({ edit: false, form: { ...this.state._form, i18n: {...this.state._form.i18n} } });
+      this.setState({
+        edit: false,
+        form: { ...this.state._form, i18n: { ...this.state._form.i18n } },
+      });
     } else {
       //新增
       this.props.dispatch(
@@ -508,16 +514,16 @@ class ValueList extends React.Component {
     const form = this.state.form;
     form.name = name;
     form.i18n.name = i18nName;
-    this.setState({ form, });
+    this.setState({ form });
   };
 
-    /**
+  /**
    * 点击导出按钮
    */
   onExportClick = () => {
     this.setState({
-        btLoading: true,
-        excelVisible: true
+      btLoading: true,
+      excelVisible: true,
     });
   };
   /**
@@ -690,14 +696,17 @@ class ValueList extends React.Component {
   };
 
   //导入成功回调
-  handleImportOk = (transactionID) => {
-    httpFetch.post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`).then(res => {
-      if (res.status === 200){
-        this.getList()
-      }
-    }).catch(() => {
-      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
-    })
+  handleImportOk = transactionID => {
+    httpFetch
+      .post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`)
+      .then(res => {
+        if (res.status === 200) {
+          this.getList();
+        }
+      })
+      .catch(() => {
+        message.error(this.$t('importer.import.error.info') /*导入失败，请重试*/);
+      });
     this.showImport(false);
   };
 
@@ -827,9 +836,9 @@ class ValueList extends React.Component {
                         {messages('value.list.new.value' /*新建值内容*/)}
                       </Dropdown.Button>
                     )}
-                    
+
                     <Button loading={btLoading} onClick={this.onExportClick}>
-                     {messages('value.list.value.export' /*值导出*/)}
+                      {messages('value.list.value.export' /*值导出*/)}
                     </Button>
                     {(this.props.tenantMode || isCustom === 'CUSTOM') && (
                       <div style={{ display: 'inline-block' }}>
@@ -934,26 +943,30 @@ class ValueList extends React.Component {
             />
           </div>
         )}
-        <ImporterNew visible={showImportFrame}
+        <ImporterNew
+          visible={showImportFrame}
           title={messages('value.list.value.import' /*值导入*/)}
           templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}
-          &isCustom=${isCustom ==='CUSTOM'}`}
+          uploadUrl={`${
+            config.baseUrl
+          }/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}
+          &isCustom=${isCustom === 'CUSTOM'}`}
           errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
           errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
-          deleteDataUrl ={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
+          deleteDataUrl={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
           fileName={messages('value.list.value.import' /*值导入*/)}
           onOk={this.handleImportOk}
-          afterClose={() => this.showImport(false)} />
+          afterClose={() => this.showImport(false)}
+        />
         {/* 导出 */}
         <ExcelExporter
-            visible={excelVisible}
-            onOk={this.export}
-            columns={exportColumns}
-            canCheckVersion={false}
-            fileName={"值列表"}
-            onCancel={this.onExportCancel}
-            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+          visible={excelVisible}
+          onOk={this.export}
+          columns={exportColumns}
+          canCheckVersion={false}
+          fileName={'值列表'}
+          onCancel={this.onExportCancel}
+          excelItem={'PREPAYMENT_FINANCIAL_QUERY'}
         />
       </div>
     );
