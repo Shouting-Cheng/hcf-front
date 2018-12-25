@@ -17,6 +17,7 @@ import workflowService from 'containers/setting/workflow/workflow.service'
 import 'styles/setting/workflow/workflow.scss'
 import { routerRedux } from 'dva/router';
 import LanguageInput from "../../../components/Widget/Template/language-input/language-input";
+import debounce from 'lodash-decorators/debounce';
 
 const Option = Select.Option;
 
@@ -30,10 +31,11 @@ class Workflow extends React.Component {
       data: [],
       setOfBooksId: this.props.match.params.setOfBooksId || this.props.company.setOfBooksId,
       setOfBooksName: this.props.company.setOfBooksName,
-      sourceFormOID: null, //复制的表单OID
+      sourceFormOid: null, //复制的表单Oid
       showEnableList: true, //显示启用的单据
       params: {}
-    }
+    };
+    this.handleDocType = debounce(this.handleDocType, 500);
   }
 
   componentDidMount() {
