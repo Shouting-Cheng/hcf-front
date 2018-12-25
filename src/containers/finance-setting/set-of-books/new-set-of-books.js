@@ -75,7 +75,8 @@ class NewSetOfBooks extends React.Component {
   getCurrencyList = (open) => {
     open&&this.state.currencyOptions.length === 0 &&
       baseService.getCurrencyList('', this.props.language.local).then(res => {
-        this.setState({ currencyOptions: res.data.rows, currencyFetched: true });
+        console.log(res);
+        this.setState({ currencyOptions: res.data, currencyFetched: true });
       });
   };
 
