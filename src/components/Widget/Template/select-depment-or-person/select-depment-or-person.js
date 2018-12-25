@@ -47,22 +47,20 @@ class SelectDepOrPerson extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     //外面控制弹出
     if(!this.state.visible&&nextProps.visible)
-     this.showModal()
+     this.showModal(nextProps)
   }
 
-  showModal = () => {
+  showModal = (nextProps) => {
     SelectPersonService.setIsLoadingPerson(!this.props.onlyDep);
     //显示模态框的时候再加载
-    this.getTenantAllDep();
     this.setState({
       selectedKeys: [],
       selectedKeysDepData: [],
       selectedKeysDepDataFromSearch: [],
       visible: true,
-    });
+    },()=>this.getTenantAllDep(nextProps));
   };
   handleOk = e => {
     if (!this.props.depResList && !this.props.personResList) {
@@ -188,10 +186,23 @@ class SelectDepOrPerson extends React.Component {
   };
 
   // 查询所有集团部门
-  getTenantAllDep() {
+  getTenantAllDep(nextProps) {
     SelectPersonService.getTenantAllDep().then(response => {
+      console.log(nextProps)
+      console.log(response)
+      let selectedKeys = [];
+      let selectedKeysDepData = [];
+      nextProps.selected&&response.map(item=>{
+        console.log(item)
+        if(nextProps.selected.indexOf(item.key) > -1){
+          selectedKeys.push(item.key)
+          //selectedKeysDepData.push(item);
+        }
+      });
       this.setState({
         treeData: response,
+        selectedKeys,
+        selectedKeysDepData
       });
     });
   }
@@ -287,6 +298,7 @@ class SelectDepOrPerson extends React.Component {
     }
   };
   onSelectAfter = (selectedKeys, info) => {
+    console.log(selectedKeys,info)
     // 如果搜索结果列表中有，需要把搜索结果列表中删除
     this.removeSelectedKeysDepDataFromSearch(info.node);
     if (this.props.onlyPerson) {
@@ -705,6 +717,7 @@ class SelectDepOrPerson extends React.Component {
               {this.renderSelectTitle()}
               <div className="selected-person-wrap">
                 {this.renderSelectedFromSearch(this.state.selectedKeysDepDataFromSearch)}
+                {console.log(this.state.selectedKeysDepData)}
                 {this.renderSelected(this.state.selectedKeysDepData)}
               </div>
             </div>

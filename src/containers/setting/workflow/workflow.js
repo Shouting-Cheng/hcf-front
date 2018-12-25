@@ -17,7 +17,7 @@ import workflowService from 'containers/setting/workflow/workflow.service'
 import 'styles/setting/workflow/workflow.scss'
 import { routerRedux } from 'dva/router';
 import LanguageInput from "../../../components/Widget/Template/language-input/language-input";
-
+import debounce from 'lodash.debounce';
 const Option = Select.Option;
 
 
@@ -33,7 +33,8 @@ class Workflow extends React.Component {
       sourceFormOID: null, //复制的表单OID
       showEnableList: true, //显示启用的单据
       params: {}
-    }
+    };
+    this.handleDocType = debounce(this.handleDocType, 500);
   }
 
   componentDidMount() {
@@ -128,11 +129,11 @@ class Workflow extends React.Component {
     },()=>this.getList())
   };
 
-  handleDocType = (e)=>{
+  handleDocType = (value)=>{
     this.setState({
       params: {
         ...this.state.params,
-        formName: e.target.value
+        formName: value
       }
     },()=>this.getList())
   };
@@ -174,7 +175,7 @@ class Workflow extends React.Component {
                 <Col span={language.local === 'zh_cn' ? 3 : 4} style={{width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <Input
-                  onBlur={this.handleDocType}
+                  onChange={e=>this.handleDocType(e.target.value)}
                   placeholder={this.$t('common.please.enter')}/>
               </Col>
             </Row>
