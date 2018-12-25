@@ -1,135 +1,121 @@
-
 import React, { Component } from 'react';
-import { Row, Col, Badge, Tabs, Icon,} from 'antd';
+import { Card, Row, Col, Badge, Icon, Tabs } from 'antd';
+import BasicInfo from 'widget/basic-info';
+import DimensionGroup from './dimension-group';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-
-import DimensionDeValue from './dimension-details-value.js'
+import { messages } from 'utils/utils';
 
 const TabPane = Tabs.TabPane;
-
-class DimensionDetail extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         //当前维度信息
-         curTypeList: {},
-         //默认的tab页
-         tabValue: 'dimensionValue',
-         //用于切换tab页的变量
-         tabName: 'dimensionValue',
-         //当前账套Id
-         setOfBooksId: this.props.match.params.setOfBooksId,
-         //当前维度Id
-         dimensionId: this.props.match.params.dimensionId
-      }
-   }
-
-  componentWillMount = () => {
-    console.log(this.props);
-    this.setState({
-       curTypeList: {
-         dimensionCode: 'one',
-         dimensionName: 'name',
-         setOfBooksName: 'two',
-         enabled: false
-       }
-    })
+class DimensionDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      infoList: [
+        {
+          type: 'input',
+          id: 'code',
+          isRequired: true,
+          label: '维度代码',
+        },
+        {
+          type: 'input',
+          id: 'name',
+          isRequired: true,
+          label: '维度名称',
+        },
+        {
+          type: 'input',
+          id: 'account',
+          isRequired: true,
+          label: '维度账套',
+        },
+        {
+          type: 'switch',
+          id: 'enable',
+          isRequired: true,
+          label: '状态',
+        },
+      ],
+      infoData: {},
+      tabKey: "1"
+    }
   }
 
-  //改变当前的tab
-  handleTabsChange = (value) => {
-      this.setState({tabName:value});
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        infoData: {
+          id: 12344,
+          code: 123,
+          name: '维度',
+          account: 'demo',
+          enable: false
+        }
+      })
+    }, 1500)
   }
 
-  //返回上一页
-  onBackClick = e =>{
+   //返回到维度定义
+  onBackClick = (e) => {
     e.preventDefault();
     this.props.dispatch(
-     routerRedux.replace({
-       pathname: `/admin-setting/dimension-definition`,
-     })
-   );
- }
+      routerRedux.replace({
+        pathname: `/admin-setting/dimension-definition`,
+      })
+    );
+  };
 
-  //据tab分别渲染维值或维值组表格
-  renderTabContent = () => {
-    const {tabName,dimensionId} = this.state;
+  // tab选项卡切换
+  tabChange = (key) => {
+    console.log(typeof(key))
+    this.setState({ tabKey: key }, () => {
 
-    if(tabName === 'dimensionValue') {
-        return (
-           //渲染维值table
-          <DimensionDeValue dimensionId={dimensionId}/>
-        )
-     } else {
-        return (
-          //渲染维值组table
-          <div>
-            11
-          </div>
-        )
-     }
+    });
   }
 
   render() {
-      const { tabValue, curTypeList } = this.state;
+    const { infoList, infoData, tabKey } = this.state;
 
-      return (
-          <div>
-              <h1 style={{paddingBottom: '20px',borderBottom: '1px solid #C9C9C9'}}>基本信息</h1>
-              <div>
-                <Row
-                gutter={24}
-                type="flex"
-                justify="start"
-                style={{ background: '#f7f7f7', padding: '20px 25px 0', borderRadius: '6px 6px 0 0' }}>
-                   <Col span={6} style={{ marginBottom: '15px' }}>
-                    <div style={{ color: '#989898' }}>维度代码</div>
-                    <div style={{ wordWrap: 'break-word' }}>
-                        {curTypeList.dimensionCode}
-                    </div>
-                  </Col>
-                  <Col span={6} style={{ marginBottom: '15px' }}>
-                    <div style={{ color: '#989898' }}>维度名称</div>
-                    <div style={{ wordWrap: 'break-word' }}>
-                        {curTypeList.dimensionName}
-                    </div>
-                  </Col>
-                  <Col span={6} style={{ marginBottom: '15px' }}>
-                    <div style={{ color: '#989898' }}>账套</div>
-                    <div style={{ wordWrap: 'break-word' }}>
-                        {curTypeList.setOfBooksName}
-                    </div>
-                  </Col>
-                  <Col span={6} style={{ marginBottom: '15px' }}>
-                    <div style={{ color: '#989898' }}>状态</div>
-                    <div style={{ wordWrap: 'break-word' }}>
-                      <Badge
-                        status={curTypeList.enabled ? 'success' : 'error'}
-                        text={curTypeList.enabled ? '启用' : '禁用'}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <div>
-                <Tabs defaultActiveKey={tabValue} onChange={this.handleTabsChange}>
-                  <TabPane tab="维值定义" key="dimensionValue"></TabPane>
-                  <TabPane tab="维值组定义" key="dimensionGroup"></TabPane>
-                </Tabs>
-                {this.renderTabContent()}
-              </div>
-              <a onClick={this.onBackClick}>
-                <Icon type="rollback" />返回
-              </a>
-          </div>
-      )
-   }
+    return (
+      <div>
+        <BasicInfo
+          infoList={infoList}
+          infoData={infoData}
+          isHideEditBtn={true}
+          // colSpan="6"
+        />
+        <Tabs
+          defaultActiveKey={tabKey}
+          onChange={this.tabChange}
+          style={{margin: "20px 0"}}
+        >
+          <TabPane tab="维值定义" key="1" />
+          <TabPane tab="维值组定义" key="2" />
+        </Tabs>
+
+        { tabKey === "1" && "维值定义" }
+
+        { tabKey === "2" && <DimensionGroup />}
+
+        <p style={{ marginBottom: '20px' }}>
+          <a onClick={this.onBackClick}>
+            <Icon type="rollback" />返回
+          </a>
+        </p>
+      </div>
+    )
+  }
 }
 
+function mapStateToProps(state) {
+  return {
+    dimensionValue: 123,
+  };
+}
 export default connect(
-  null,
+  mapStateToProps,
   null,
   null,
   { withRef: true }
-)(DimensionDetail);
+)(DimensionDetails);
