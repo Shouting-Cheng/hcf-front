@@ -1811,6 +1811,29 @@ export const getRouterData = app => {
       name: 'dimension-setting',
       parent: "/document-type-manage/application-type/:setOfBooksId"
     },
+    //维度定义
+    '/admin-setting/dimension-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-definition.js')
+      ),
+      name: 'dimension-definition',
+    },
+    //维度详情
+    '/admin-setting/dimension-definition/dimension-details': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
+      ),
+      name: 'dimension-details',
+      parent: '/admin-setting/dimension-definition',
+    },
+    //分配子维值
+    '/admin-setting/dimension-definition/dimension-details/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/distribution-dimension-value.js')
+      ),
+      name: 'distribution-dimension-value',
+      parent: '/admin-setting/dimension-definition',
+    },
     //申请类型
     '/document-type-manage/application-type/:setOfBooksId': {
       component: dynamicWrapper(app, [], () =>
