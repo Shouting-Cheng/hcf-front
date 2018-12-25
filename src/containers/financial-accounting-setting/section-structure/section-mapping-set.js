@@ -124,7 +124,7 @@ class SectionMappingSet extends React.Component {
           pagination:{
             ...this.state.pagination,
             total: this.state.pagination.total-1,
-            page: Number((this.state.pagination.total-2)/this.state.pagination.pageSize)
+            page: parseInt((this.state.pagination.total-2)/this.state.pagination.pageSize)
           }
         });
         this.getList();
