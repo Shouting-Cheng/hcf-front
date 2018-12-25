@@ -1848,6 +1848,30 @@ export const getRouterData = app => {
       ),
       name: 'expense-application'
     },
+
+    //维值详情
+    '/admin-setting/dimension-definition/dimension-details/:setOfBookId/:dimensionId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
+      ),
+      name: 'dimension-details',
+      parent: 'admin-setting/dimension-definition'
+    },
+    //维值下的分配公司
+    '/admin-setting/dimension-definition/batch-company/:dimensionCodeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/batch-company.js')
+      ),
+      name: 'batch-company',
+      parent: 'admin-setting/dimension-definition'
+    },
+    //维度
+    '/admin-setting/dimension-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/index.js')
+      ),
+      name: 'dimension-definition',
+    },
     // 维度定义
     '/admin-setting/dimension-definition': {
       component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),
@@ -1868,7 +1892,7 @@ export const getRouterData = app => {
       ),
       name: 'edit-expense-application',
       parent: '/expense-application'
-    }
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
