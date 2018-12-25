@@ -111,9 +111,11 @@ class NewExpenseApplicationFrom extends Component {
                 <FormItem label="部门" {...formItemLayout}>
                   {getFieldDecorator('unitId', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? []
+                    initialValue: isNew ? [{
+                      departmentId: this.props.user.departmentID,
+                      path: this.props.user.departmentName,
+                    }]
                       : model.id ? [{
-                        departmentOid: model.unitOid,
                         departmentId: model.unitId,
                         path: model.path,
                       }] : []
@@ -132,7 +134,7 @@ class NewExpenseApplicationFrom extends Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="币种" {...formItemLayout}>
-                  {getFieldDecorator('unitId', {
+                  {getFieldDecorator('currencyCode', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
                     initialValue: isNew ? this.props.company.baseCurrency : model.currency
                   })(
