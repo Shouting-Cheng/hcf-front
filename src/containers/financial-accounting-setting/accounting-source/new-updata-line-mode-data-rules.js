@@ -47,7 +47,7 @@ class NewUpDataLineModeDataRules extends React.Component {
 
   }
 
- /* componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!nextProps.params.visible && this.props.params.visible) {
       this.setState({ saveCount: 0 });
     }
@@ -100,7 +100,6 @@ class NewUpDataLineModeDataRules extends React.Component {
       }
     }
   }
-*/
   //获取转换规则
   getChangeRules = modelDataRuleId => {
     this.setState({
@@ -253,8 +252,6 @@ class NewUpDataLineModeDataRules extends React.Component {
           </div>
           {changeRulesRender ? (
             <div>
-              {console.log(newChangeRulesRender && this.props.params.timestamp)}
-              {console.log(renderNewChangeRules)}
               <div style={{ marginTop: '24px' }}>
                 {newChangeRulesRender && this.props.params.timestamp ? renderNewChangeRules : ''}
               </div>
