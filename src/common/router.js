@@ -1818,6 +1818,29 @@ export const getRouterData = app => {
       ),
       name: 'demo-wgs'
     },
+    //维值详情
+    '/admin-setting/dimension-definition/dimension-details/:setOfBookId/:dimensionId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
+      ),
+      name: 'dimension-details',
+      parent: 'admin-setting/dimension-definition'
+    },
+    //维值下的分配公司
+    '/admin-setting/dimension-definition/batch-company/:dimensionCodeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/batch-company.js')
+      ),
+      name: 'batch-company',
+      parent: 'admin-setting/dimension-definition'
+    },
+    //维度
+    '/admin-setting/dimension-definition': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/dimension-definition/dimension-details/index.js')
+      ),
+      name: 'dimension-definition',
+    }
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
