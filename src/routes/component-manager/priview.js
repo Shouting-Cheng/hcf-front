@@ -105,7 +105,8 @@ class Priview extends Component {
 
       // this.formatProps(Object.assign({}, item));
 
-      return Type && React.createElement(Type, { ...item.props, key: item.id }, children);
+
+      return Type && React.createElement(Type, { ...item.props, key: item.id, code: item.props.refName }, children);
     });
   };
 

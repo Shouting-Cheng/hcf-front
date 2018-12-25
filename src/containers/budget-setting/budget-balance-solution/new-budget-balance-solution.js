@@ -185,7 +185,7 @@ class NewBudgetBalanceSolution extends Component {
             /**公司 */
             case "COMPANY":
                 listSelectorType = 'company';
-                listSelectorExtraParams = { setOfBooksId: this.props.match.params.setOfBooksId };
+                listSelectorExtraParams = {enabled: false, setOfBooksId: this.props.match.params.setOfBooksId };
                 break;
             /**"公司组" */
             case "COMPANY_GROUP":
@@ -535,9 +535,8 @@ class NewBudgetBalanceSolution extends Component {
                 params.versionNumber = versionNumber;
                 //人员权限
                 params.visibleUserScope = visibleUserScope;
-
                 releaseIdsList.map(item => {
-                    nowReleaseIds.push(item.id);
+                    nowReleaseIds.push(item.key);
                 });
                 params.releaseIds = nowReleaseIds;
                 //当radio值不为全部人员，校验数据至少有一条

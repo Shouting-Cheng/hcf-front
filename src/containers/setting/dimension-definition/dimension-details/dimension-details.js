@@ -54,12 +54,12 @@ class DimensionDetail extends Component {
 
   //据tab分别渲染维值或维值组表格
   renderTabContent = () => {
-    const {tabName} = this.state;
+    const {tabName,dimensionId} = this.state;
 
     if(tabName === 'dimensionValue') {
         return (
            //渲染维值table
-          <DimensionDeValue />
+          <DimensionDeValue dimensionId={dimensionId}/>
         )
      } else {
         return (

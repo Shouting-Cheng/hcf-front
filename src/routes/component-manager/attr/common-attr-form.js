@@ -276,7 +276,7 @@ class CommonAttrForm extends Component {
       case 'input':
         return (
           <Input
-            value={data[item.key] || value}
+            value={data[item.key] == undefined ? value : data[item.key]}
             onBlur={e => this.updateComponent(item, e.target.value)}
             onChange={e => this.setData(item, e.target.value)}
             style={{ width: '100%' }}
@@ -285,9 +285,8 @@ class CommonAttrForm extends Component {
       case 'switch':
         return (
           <Switch
-            value={data[item.key] || value}
-            onBlur={value => this.updateComponent(item, value)}
-            onChange={value => this.setData(item, value)}
+            checked={value}
+            onChange={value => this.updateComponent(item, value)}
             checkedChildren={<Icon type="check" />}
             unCheckedChildren={<Icon type="close" />}
           />
@@ -302,7 +301,7 @@ class CommonAttrForm extends Component {
         );
       case 'method':
         return (
-          <Select value={data[item.key] || value} onChange={value => this.setData(item, value)} onBlur={value => this.updateComponent(item, value)}>
+          <Select value={value} onChange={value => this.updateComponent(item, value)}>
             {this.renderMethods()}
           </Select>
         );
@@ -353,9 +352,8 @@ class CommonAttrForm extends Component {
         return (
           <TreeSelect
             getPopupContainer={() => document.querySelector('#attr-form')}
-            value={data[item.key] || value}
-            onBlur={value => this.updateComponent(item, value)}
-            onChange={value => this.setData(item, value)}
+            value={value}
+            onChange={value => this.updateComponent(item, value)}
           >
             {modules.map(item => {
               return (
@@ -391,14 +389,14 @@ class CommonAttrForm extends Component {
         );
       case 'json':
         return (
-          <TextArea onBlur={(e) => this.checkJson(e, item)} onChange={e => this.setData(item, e.target.value)} value={data[item.key] || value} autosize={{ minRows: 3 }} >
+          <TextArea onBlur={(e) => this.checkJson(e, item)} onChange={e => this.setData(item, e.target.value)} value={data[item.key] == undefined ? value : data[item.key]} autosize={{ minRows: 3 }} >
           </TextArea>
         );
       case 'color':
         return (
           <Input
             onChange={e => this.setData(item, e.target.value)}
-            value={data[item.key] || value}
+            value={data[item.key] == undefined ? value : data[item.key]}
             onBlur={e => this.updateComponent(item, e.target.value)}
             style={{ width: '100%' }}
           />
@@ -411,7 +409,7 @@ class CommonAttrForm extends Component {
         return (
           <Input
             onChange={e => this.setData(item, e.target.value)}
-            value={data[item.key] || value}
+            value={data[item.key] == undefined ? value : data[item.key]}
             onBlur={e => this.updateComponent(key, e.target.value)}
             style={{ width: '100%' }}
           />

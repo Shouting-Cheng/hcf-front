@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin } from 'antd';
+import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin,message } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import ListSelector from 'components/Widget/list-selector';
 import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
@@ -138,7 +138,9 @@ class ViewRuleModal extends React.Component {
             renderRuleInfo:{},
             selectedTenantList:[],
             selectedEmployeeList:[],
-            selectedTreeInfo:[]
+            selectedTreeInfo:[],
+            selectedCompanyTreeInfo:[],
+            selectedDepTreeInfo:[]
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -194,9 +196,6 @@ class ViewRuleModal extends React.Component {
     onBackRuleModal = () => {
         this.props.backRuleModal()
     }
-    editRuleItem = () => {
-
-    }
     removeRule = () => {
         this.setState({
             show: true
@@ -225,7 +224,7 @@ class ViewRuleModal extends React.Component {
         } else {
             this.setState({
                 renderCompanyList: false,
-                selectedTreeInfo: [],
+                selectedCompanyTreeInfo: [],
                 companyText: '添加公司',
                 companyIcon: 'plus',
             })
@@ -239,7 +238,7 @@ class ViewRuleModal extends React.Component {
         } else {
             this.setState({
                 renderDepartmentList: false,
-                selectedTreeInfo: [],
+                selectedDepTreeInfo: [],
                 departmentText: '添加部门',
                 departmentIcon: 'plus',
             })
@@ -602,8 +601,48 @@ class ViewRuleModal extends React.Component {
     editRuleItem = () => {
         let { ruleDatail } = this.state;
         if (ruleDatail[0].dataScope === '1004') {
+            let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderSobList: true
+                renderSobList: true,
+                sobText: `已选择${detaileValues0.length}个账套`,
+                sobIcon: null,
+                selectedTenantList: ruleDetailValueDTOs0,
+                sobValuesKeys:detaileValues0
+            })
+        }
+        if(ruleDatail[1].dataScope==='1004'){
+            let detaileValues1=ruleDatail[1].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs1=ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
+            this.setState({
+                renderCompanyList: true,
+                companyText: `已选择${detaileValues1.length}个公司`,
+                companyIcon: null,
+                selectedCompanyTreeInfo: ruleDetailValueDTOs1,
+                companyItemsKeys:detaileValues1
+            })
+        }
+        if(ruleDatail[2].dataScope==='1004'){
+            let detaileValues2=ruleDatail[2].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs2=ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
+            this.setState({
+                renderDepartmentList: true,
+                departmentText: `已选择${detaileValues2.length}个部门`,
+                departmentIcon: null,
+                selectedDepTreeInfo: ruleDetailValueDTOs2,
+                departMentItemsKeys:detaileValues2
+
+            })
+        }
+        if(ruleDatail[3].dataScope==='1004'){
+            let detaileValues3=ruleDatail[3].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs3=ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
+            this.setState({
+                renderEmplyeeList: true,
+                employeeText: `已选择${detaileValues3.length}个员工`,
+                emplyeeIcon: null,
+                selectedEmployeeList:ruleDetailValueDTOs3,
+                employeeKeys:detaileValues3
             })
         }
         this.setState({
@@ -660,7 +699,6 @@ class ViewRuleModal extends React.Component {
     cancelCompanyList = () => {
         this.setState({
             companyVisible: false,
-            selectedTreeInfo:[]
         })
     }
     //获取公司，部门选择的值
@@ -675,7 +713,7 @@ class ViewRuleModal extends React.Component {
             companyVisible: false,
             companyText: `已选择${resultArr.length}个公司`,
             companyIcon: null,
-            selectedTreeInfo: items
+            selectedCompanyTreeInfo: items
         })
 
     }
@@ -688,7 +726,6 @@ class ViewRuleModal extends React.Component {
     cancelDepartMentList = () => {
         this.setState({
             departMentVisible: false,
-            selectedTreeInfo:[]
         })
     }
     transDePferList = (items) => {
@@ -701,7 +738,8 @@ class ViewRuleModal extends React.Component {
             departMentItemsKeys: arr,
             departMentVisible: false,
             departmentText: `已选择${resultArr.length}个部门`,
-            departmentIcon: null
+            departmentIcon: null,
+            selectedDepTreeInfo: items
         })
 
     }
@@ -892,7 +930,7 @@ class ViewRuleModal extends React.Component {
             ruleDetail, tabListNoTitle, tenantVisible, keyWord, columns, show, ruleName, ruleDatail, departmentIcon,
             sobIcon, renderSobList, companyIcon, companyVisible, renderCompanyList, companyText, renderDepartmentList,
             departmentText, departMentVisible, renderEmplyeeList, emplyeeIcon,empolyeeVisible,employeeItem,employeeText,
-            selectedTenantList,selectedEmployeeList,selectedTreeInfo
+            selectedTenantList,selectedEmployeeList,selectedDepTreeInfo,selectedCompanyTreeInfo
         } = this.state;
         const contentListNoTitle = {
             SOB:
@@ -995,10 +1033,10 @@ class ViewRuleModal extends React.Component {
                 visible={visibel}
                 footer={[
                     <Button key="back" onClick={this.onBackRuleModal}>
-                        {this.$t({ id: 'common.back' } /* 返回*/)}
+                        {this.$t({ id: 'common.ok' } /* 返回*/)}
                     </Button>,
                 ]}
-                width={1000}
+                width={1200}
                 destroyOnClose={true}
                 closable={false}
                 onCancel={this.onCloseRuleModal}
@@ -1316,7 +1354,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelCompanyList}
                         isAddCompany={true}
                         transferList={this.transferCompanyList}
-                        selectedTreeInfo={selectedTreeInfo}
+                        selectedTreeInfo={selectedCompanyTreeInfo}
                     />
                     <LineAddTransferModal
                         visible={departMentVisible}
@@ -1324,7 +1362,7 @@ class ViewRuleModal extends React.Component {
                         onCloseTransferModal={this.cancelDepartMentList}
                         isAddCompany={false}
                         transferList={this.transDePferList}
-                        selectedTreeInfo={selectedTreeInfo}
+                        selectedTreeInfo={selectedDepTreeInfo}
                     />
                     <ListSelector
                         visible={empolyeeVisible}

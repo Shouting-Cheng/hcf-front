@@ -9,6 +9,7 @@ import config from 'config'
 import CustomTable from "widget/custom-table"
 
 import "styles/setting/params-setting/params-setting.scss"
+import { Object } from "core-js";
 
 
 class ParamsSetting extends Component {

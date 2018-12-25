@@ -7,7 +7,7 @@ export default {
     let info = await fetch.get('/auth/api/interface/query/' + id);
     let list = await fetch.get('/auth/api/interfaceRequest/query?page=0&size=9999&interfaceId=' + id);
 
-    let values = {};
+    let values = { data: {} };
 
     let data = list.filter(o => o.parentId == 0);
 
@@ -62,7 +62,6 @@ export default {
         }
       } else {
         if (item.parentId == 0) {
-          values.data = {};
           values.data[item.keyCode] = this.dataDel(item.defaultValue, item.reqType);
         } else {
           values[item.keyCode] = this.dataDel(item.defaultValue, item.reqType);

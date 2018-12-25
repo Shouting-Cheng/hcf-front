@@ -74,7 +74,9 @@ class LineModelChangeRulesSystem extends React.Component {
             emplyeeIcon: 'plus',
             selectedTenantList: [],
             selectedEmployeeList: [],
-            selectedTreeInfo: []
+            selectedTreeInfo: [],
+            selectedCompanyTreeInfo:[],
+            selectedDepTreeInfo:[]
         }
     }
     componentWillMount() {
@@ -248,6 +250,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     ]
                 }
                 DataAuthorityService.saveDataAuthority(params).then(res => {
+                    console.log(res)
                     if (res.status === 200) {
                         this.setState({
                             ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
@@ -284,24 +287,50 @@ class LineModelChangeRulesSystem extends React.Component {
     /**编辑单条规则 */
     editRuleItem = () => {
         let { ruleDatail } = this.state;
+        console.log(ruleDatail)
         if (ruleDatail[0].dataScope === '1004') {
+            let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderSobList: true
+                renderSobList: true,
+                sobText: `已选择${detaileValues0.length}个账套`,
+                sobIcon: null,
+                selectedTenantList: ruleDetailValueDTOs0,
+                sobValuesKeys:detaileValues0
             })
         }
         if (ruleDatail[1].dataScope === '1004') {
+            let detaileValues1=ruleDatail[1].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs1=ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderCompanyList: true
+                renderCompanyList: true,
+                companyText: `已选择${detaileValues1.length}个公司`,
+                companyIcon: null,
+                selectedCompanyTreeInfo: ruleDetailValueDTOs1,
+                companyItemsKeys:detaileValues1
             })
         }
         if (ruleDatail[2].dataScope === '1004') {
+            let detaileValues2=ruleDatail[2].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs2=ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderDepartmentList: true
+                renderDepartmentList: true,
+                departmentText: `已选择${detaileValues2.length}个部门`,
+                departmentIcon: null,
+                selectedDepTreeInfo: ruleDetailValueDTOs2,
+                departMentItemsKeys:detaileValues2
+
             })
         }
         if (ruleDatail[3].dataScope === '1004') {
+            let detaileValues3=ruleDatail[3].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs3=ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
             this.setState({
-                renderEmplyeeList: true
+                renderEmplyeeList: true,
+                employeeText: `已选择${detaileValues3.length}个员工`,
+                emplyeeIcon: null,
+                selectedEmployeeList:ruleDetailValueDTOs3,
+                employeeKeys:detaileValues3
             })
         }
         this.setState({
@@ -336,7 +365,7 @@ class LineModelChangeRulesSystem extends React.Component {
         } else {
             this.setState({
                 renderCompanyList: false,
-                selectedTreeInfo: [],
+                selectedCompanyTreeInfo: [],
                 companyText: '添加公司',
                 companyIcon: 'plus',
             })
@@ -350,7 +379,7 @@ class LineModelChangeRulesSystem extends React.Component {
         } else {
             this.setState({
                 renderDepartmentList: false,
-                selectedTreeInfo: [],
+                selectedDepTreeInfo: [],
                 departmentText: '添加部门',
                 departmentIcon: 'plus',
             })
@@ -409,6 +438,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleTenantListOk = (result) => {
+        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -457,6 +487,7 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleEmployeeListOk = (result) => {
+        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -485,7 +516,7 @@ class LineModelChangeRulesSystem extends React.Component {
     cancelCompanyList = () => {
         this.setState({
             companyVisible: false,
-            selectedTreeInfo:[]
+            // selectedTreeInfo:[]
         })
     }
     //添加部门
@@ -497,7 +528,7 @@ class LineModelChangeRulesSystem extends React.Component {
     cancelDepartMentList = () => {
         this.setState({
             departMentVisible: false,
-            selectedTreeInfo:[]
+            // selectedTreeInfo:[]
         })
     }
     //获取公司，部门选择的值
@@ -513,7 +544,7 @@ class LineModelChangeRulesSystem extends React.Component {
             companyVisible: false,
             companyText: `已选择${resultArr.length}个公司`,
             companyIcon: null,
-            selectedTreeInfo: items
+            selectedCompanyTreeInfo: items
         })
 
     }
@@ -529,7 +560,7 @@ class LineModelChangeRulesSystem extends React.Component {
             departMentVisible: false,
             departmentText: `已选择${resultArr.length}个部门`,
             departmentIcon: null,
-            selectedTreeInfo: items
+            selectedDepTreeInfo: items
         })
 
     }
@@ -564,7 +595,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     render() {
         const { getFieldDecorator } = this.props;
-        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo,
+        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo,selectedCompanyTreeInfo,selectedDepTreeInfo,
             showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail, getRulesArr, sobText, sobIcon, departmentText, employeeText, selectedTenantList, selectedEmployeeList } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
@@ -594,7 +625,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                 </FormItem>
                             </Col>
-                            <Col span={8}>
+                            <Col span={8} style={{paddingLeft:60}}>
                                 <Button type='primary' loading={saveLoading} onClick={(e) => this.saveRuleItem(e, this.props.targeKey)}>{this.$t({ id: 'common.save' })} </Button>
                                 <Button style={{ marginLeft: 10 }} onClick={() => this.removeRule(targeKey)}>{this.$t({ id: 'common.cancel' })}</Button>
                             </Col>
@@ -887,7 +918,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     onCloseTransferModal={this.cancelCompanyList}
                     isAddCompany={true}
                     transferList={this.transferCompanyList}
-                    selectedTreeInfo={selectedTreeInfo}
+                    selectedTreeInfo={selectedCompanyTreeInfo}
                 />
                 <LineAddTransferModal
                     visible={departMentVisible}
@@ -895,7 +926,7 @@ class LineModelChangeRulesSystem extends React.Component {
                     onCloseTransferModal={this.cancelDepartMentList}
                     isAddCompany={false}
                     transferList={this.transDePferList}
-                    selectedTreeInfo={selectedTreeInfo}
+                    selectedTreeInfo={selectedDepTreeInfo}
                 />
 
             </div>

@@ -7,13 +7,15 @@ import './search-form.less';
 
 import { connect } from "dva"
 
+import store from "../../index"
 
 @connect(state => state)
 
 class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
-    options: {}
+    options: {},
+    defaultValue: {}
   };
 
   componentDidMount() {
@@ -21,19 +23,53 @@ class AdvancedSearchForm extends React.Component {
     if (this.props.getRef) {
       this.props.getRef(this);
     }
+    const { formItems = [], dispatch } = this.props;
 
-    let { formItems } = this.props;
+    formItems.map((item, i) => {
+      if (!item.dataIndex) return;
 
-    formItems.map(item => {
       if (item.dataSource) {
         this.setState({ options: { ...this.state.options, [item.id]: JSON.parse(item.dataSource) } });
       } else {
-        if ((!item.options || !item.options.length) && item.url) {
+        if ((!item.options || !item.options.length) && item.url && !this.state.options[item.id]) {
           this.getOptions(item);
         }
       }
-    });
+
+      if (item.defaultValue) {
+
+        let defaultValue = {};
+        let key = "";
+        item.defaultValue.replace(/\$\{(.+)\}/g, (target, result) => {
+          key = result;
+        });
+
+        if (key) {
+          let temp = this.getValue(this.props, key);
+          if (temp && temp.length) {
+            defaultValue[item.id] = temp[0];
+          }
+        }
+
+        dispatch({
+          type: "database/setData",
+          payload: {
+            moduleName: "priview",
+            objName: this.props.code,
+            key: item.dataIndex,
+            value: defaultValue[item.id]
+          }
+        })
+
+        this.setState({ defaultValue });
+      }
+    })
+
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps);
+  // }
 
   handleSearch = e => {
     e.preventDefault();
@@ -59,7 +95,9 @@ class AdvancedSearchForm extends React.Component {
   getOptions = item => {
     commonService.getInterface(item.url).then(res => {
       if (res.data) {
-        this.setState({ options: { ...this.state.options, [item.id]: res.data } });
+        this.setState({ options: { ...this.state.options, [item.id]: res.data } }, () => {
+          this.getFields();
+        });
       }
     });
   };
@@ -67,40 +105,26 @@ class AdvancedSearchForm extends React.Component {
   // To generate mock Form.Item
   getFields() {
     const { getFieldDecorator } = this.props.form;
-    const { formItems = [] } = this.props;
+    const { formItems = [], dispatch } = this.props;
     const children = [];
     const count = this.state.expand ? formItems.length : 4;
 
-
     formItems.map((item, i) => {
-      if (item.dataIndex) {
+      if (!item.dataIndex) return;
 
-        let options = {};
+      let options = {};
 
-        if (item.defaultValue) {
-          let key = "";
-          item.defaultValue.replace(/\$\{(.+)\}/g, (target, result) => {
-            key = result;
-          });
-
-          if (key) {
-            let temp = this.getValue(this.props, key);
-            if (temp && temp.length) {
-              item.defaultValue = temp[0];
-            }
-          }
-
-          options.initialValue = item.defaultValue;
-        }
-
-        children.push(
-          <Col span={item.colSpan || 6} key={item.dataIndex} style={{ display: i < count ? 'block' : 'none' }}>
-            <FormItem label={item.label}>
-              {getFieldDecorator(item.dataIndex, options)(this.renderItem(item))}
-            </FormItem>
-          </Col>
-        );
+      if (this.state.defaultValue[item.id]) {
+        options.initialValue = this.state.defaultValue[item.id];
       }
+
+      children.push(
+        <Col span={item.colSpan || 6} key={item.dataIndex} style={{ display: i < count ? 'block' : 'none' }}>
+          <FormItem label={item.label}>
+            {getFieldDecorator(item.dataIndex, options)(this.renderItem(item))}
+          </FormItem>
+        </Col>
+      );
     });
 
     return children;
@@ -165,9 +189,32 @@ class AdvancedSearchForm extends React.Component {
   }
 }
 
+function fieldsChange(props, fields) {
+
+  console.log(fields);
+
+  if (JSON.stringify(fields) == "{}") {
+    return;
+  }
+
+  let result = Object.keys(fields).map(key => {
+    return {
+      moduleName: "priview",
+      objName: props.code,
+      key,
+      value: fields[key].value
+    }
+  })
+
+  store.dispatch({
+    type: "database/setData",
+    payload: result[0]
+  })
+
+}
 
 
-const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
+const WrappedAdvancedSearchForm = Form.create({ onFieldsChange: fieldsChange })(AdvancedSearchForm);
 
 export default WrappedAdvancedSearchForm;
 

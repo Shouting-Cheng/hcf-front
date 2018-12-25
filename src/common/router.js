@@ -1799,24 +1799,31 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/params-setting/index.js')),
       name: 'params-setting',
     },
-    // gc的练习
-    '/demo/demo-gc': {
-      component: dynamicWrapper(app, [], () => import('containers/demo-gc/index.js')),
-      name: 'demo-gc',
+    //申请类型分配公司
+    '/document-type-manage/application-type/distribution-company/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/distribution-company')),
+      name: 'distribution-company',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
     },
-    // 培训demo--lbf
-    '/demo/demo-lbf': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/demo-lbf/index.js')
-      ),
-      name: 'demo-lbf'
+    //申请类型维度设置
+    '/document-type-manage/application-type/dimension-setting/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/dimension-setting')),
+      name: 'dimension-setting',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
     },
-    //demo --wgs
-    '/demo/demo-wgs': {
+    //申请类型
+    '/document-type-manage/application-type/:setOfBooksId': {
       component: dynamicWrapper(app, [], () =>
-        import('containers/demo-wgs/index.js')
+        import('containers/application-type/index')
       ),
-      name: 'demo-wgs'
+      name: 'application-type'
+    },
+    //费用申请单
+    '/expense-application': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/index')
+      ),
+      name: 'expense-application'
     },
     //维值详情
     '/admin-setting/dimension-definition/dimension-details/:setOfBookId/:dimensionId': {
@@ -1840,10 +1847,26 @@ export const getRouterData = app => {
         import('containers/setting/dimension-definition/dimension-details/index.js')
       ),
       name: 'dimension-definition',
-    }
+    },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
+    //新建费用申请单
+    '/expense-application/new-expense-application/:typeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'new-expense-application',
+      parent: '/expense-application'
+    },
+    //编辑费用申请单
+    '/expense-application/new-expense-application/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'edit-expense-application',
+      parent: '/expense-application'
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
