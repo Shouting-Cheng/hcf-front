@@ -129,7 +129,7 @@ export default {
 
   //提交日记账(工作流)
   commitBudgetJournalWorkflow(data) {
-    return httpFetch.post(`${config.baseUrl}/api/budget/journa/reports/submit`, data);
+    return httpFetch.post(`${config.budgetUrl}//api/budget/journals/submit`, data);
   },
 
   //获取审批历史（工作流）

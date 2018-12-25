@@ -137,17 +137,17 @@ export default {
 
   //预算日记账通过（工作流）
   passJournalWorkflow(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/pass`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/pass`, params);
   },
 
   //预算日记账驳回（工作流）
   rejectJournalWorkflow(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/reject`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/reject`, params);
   },
 
   //预算日记账撤回（工作流）
   revocationJournalWorkflow(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/withdraw`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/withdraw`, params);
   },
 
   //获取审批历史（工作流）
