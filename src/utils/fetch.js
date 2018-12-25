@@ -9,6 +9,8 @@ const source = CancelToken.source();
 //过期时间  单位秒
 const InvalidTime = 60 * 60 * 2;   //2小时
 
+let requestCount = 1;
+
 
 axios.interceptors.request.use(function (config) {
 
@@ -26,6 +28,20 @@ axios.interceptors.response.use(function (response) {
 }, async function (error) {
 
   if (error.response && error.response.status == 401) {
+
+    //连续刷新三次token 就跳回登录页面
+    if(requestCount >= 3) {
+      requestCount = 0;
+      message.error("服务器出现错误，请稍后重试...");
+      store.dispatch({
+        type: 'login/logout',
+      });
+      error.response.status = 500;
+      return  Promise.reject(error);
+    };
+
+    requestCount++;
+
     await httpFetch.refreshToken();
     let config = error.config;
     return httpFetch[config.method](config.url, config.params, config.headers);
