@@ -40,6 +40,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       },
       () => {
         if (this.props.params.record&&this.props.params.record.dataRule === 'VALUE_OF_RULE') {
+          this.renderNewChangeRules(this.props.params);
           this.getChangeRules(this.props.params.record.id);
         }
       }
@@ -155,7 +156,7 @@ class NewUpDataLineModeDataRules extends React.Component {
     let renderNewChangeRules = [];
     renderNewChangeRules.push(
       <LineModelChangeRules
-        key={1}
+        key={new Date().getTime()}
         status="NEW"
         params={params}
         upDataEvent={this.changeRulesUpDataEvent}
