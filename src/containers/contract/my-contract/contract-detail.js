@@ -37,13 +37,30 @@ class ContractDetail extends React.Component {
       // 如果formOid有值，则走工作流提交
       if (this.detail.state.headerData.formOid) {
         const { headerData } = this.detail.state;
-        let params = {
+       /* let params = {
           applicantOID: headerData.applicantOid,
           userOID: this.props.user.userOID,
           formOID: headerData.formOid,
           entityOID: headerData.documentOid,
           entityType: headerData.documentType,
           countersignApproverOIDs: null,
+        };*/
+        let workFlowDocumentRef = {
+          applicantOid: header.applicantOid,
+          userOid: this.props.user.userOID,
+          formOid: header.formOid,
+          documentOid: header.documentOid,
+          documentCategory: header.documentType,
+          countersignApproverOIDs: null,
+          documentNumber: header.contractNumber,
+          remark: header.description,
+          companyId: header.companyId,
+          unitOid: header.unitOid,
+          amount: header.amount,
+          currencyCode: header.currency,
+          documentTypeId: header.contractTypeId,
+          applicantDate: header.createdDate,
+          documentId: header.id
         };
         contractService
           .submitWorkflowContract(params)

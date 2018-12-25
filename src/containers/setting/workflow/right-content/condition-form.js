@@ -1283,10 +1283,12 @@ class ConditionForm extends React.Component {
                       {String(item.symbol) === '9015' || String(item.symbol) === '9016'? '' : (
                         (item.remark === 'default_department_path' || item.remark === 'select_department' || item.remark === 'default_user_department') ? (
                           <a style={{whiteSpace: 'nowrap'}} onClick={(e)=>{
+                            console.log(this.state.condition[index])
                             this.setState({[`dept${index}`]: true})}}>
                             {'+ '}
                             <SelectDepOrPerson renderButton={false}
                                                visible={this.state[`dept${index}`]}
+                                               selected={this.state.condition[index].valueDetail}
                                                title={this.$t('common.add')}
                                                onlyDep={true}
                                                onCancel={()=>{this.setState({[`dept${index}`]: false})}}
