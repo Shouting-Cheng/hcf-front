@@ -66,7 +66,7 @@ class NewExpAdjustType extends Component {
               expenseIdList: res.data.returnExpenseIdList ? res.data.returnExpenseIdList : [],
               dimensionIdList: res.data.returnDimensionIdList ? res.data.returnDimensionIdList : [],
               departmentOrUserGroupIdList: res.data.departmentOrUserGroupIdList ? res.data.departmentOrUserGroupIdList : [],
-              form: { formOID: temp.formoid, formName: temp.formName, formType: temp.formType },
+              form: { formOid: temp.formoid, formName: temp.formName, formType: temp.formType },
               permissions: {
                 type: applyEmployeeType[temp.applyEmployee],
                 values: res.data.departmentOrUserGroupList ? res.data.departmentOrUserGroupList.map(item => {
@@ -118,7 +118,7 @@ class NewExpAdjustType extends Component {
                     expenseIdList: res.data.returnExpenseIdList ? res.data.returnExpenseIdList : [],
                     dimensionIdList: res.data.returnDimensionIdList ? res.data.returnDimensionIdList : [],
                     departmentOrUserGroupIdList: res.data.departmentOrUserGroupIdList ? res.data.departmentOrUserGroupIdList : [],
-                    form: { formOID: temp.formoid, formName: temp.formName, formType: temp.formType },
+                    form: { formOid: temp.formoid, formName: temp.formName, formType: temp.formType },
                     permissions: {
                         type: applyEmployeeType[temp.applyEmployee],
                         values: res.data.departmentOrUserGroupList ? res.data.departmentOrUserGroupList.map(item => {
@@ -194,9 +194,9 @@ class NewExpAdjustType extends Component {
                 //租户id
                 values.tenantId = this.state.tenantId;
                 //关联表单类型
-                let form = this.state.requisitionList.find(o => o.formOID === values.formOid);
+                let form = this.state.requisitionList.find(o => o.formOid === values.formOid);
                 if (form) {
-                    values.formOid = form.formOID;
+                    values.formOid = form.formOid;
                     values.formName = form.formName;
                     values.formType = form.formType;
                 } else {
@@ -379,7 +379,7 @@ class NewExpAdjustType extends Component {
                             (<Select allowClear onFocus={requisitionList.length===0 ? this.onFormFocus : ()=>{}} placeholder={this.$t({ id: 'common.please.select' })}>
                                 {
                                     requisitionList.map(item => {
-                                        return <Option key={item.formOID}>{item.formName}</Option>
+                                        return <Option key={item.formOid}>{item.formName}</Option>
                                     })
                                 }
                             </Select>)

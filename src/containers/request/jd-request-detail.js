@@ -90,7 +90,7 @@ class JDRequestDetail extends React.Component {
     httpFetch
       .get(
         `${config.baseUrl}/api/jingdong/order/applications/my/get/${
-          this.props.params.applicationOID
+          this.props.params.applicationOid
         }`
       )
       .then(res => {
@@ -170,7 +170,7 @@ class JDRequestDetail extends React.Component {
     let params = {
       entities: [
         {
-          entityOID: this.state.approvalChain.entityOID,
+          entityOid: this.state.approvalChain.entityOid,
           entityType: this.state.approvalChain.entityType,
         },
       ],

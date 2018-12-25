@@ -124,7 +124,7 @@ class CurrencySetting extends React.Component {
 
   getCurrencyByLanguage = () => {
     const {functionalCurrencyName} = this.state;
-    httpFetch.get(`${config.baseUrl}/api/Currency/Language/getCurrencyByLanguage?language=chineseName`)
+    httpFetch.get(`${config.baseUrl}/api/Currency/Language/getCurrencyByLanguage`)
       .then(res => {
           if (res.status === 200) {
             this.setState({

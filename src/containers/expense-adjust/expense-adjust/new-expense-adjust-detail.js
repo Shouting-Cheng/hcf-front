@@ -478,7 +478,7 @@ class NewExpenseAdjustDetail extends React.Component {
         this.props.params.record.attachments.map(o =>
           fileList.push({
             ...o,
-            uid: o.attachmentOID,
+            uid: o.attachmentOid,
             name: o.fileName,
           })
         );
@@ -623,7 +623,7 @@ class NewExpenseAdjustDetail extends React.Component {
           nextProps.params.record.attachments.map(o =>
             fileList.push({
               ...o,
-              uid: o.attachmentOID,
+              uid: o.attachmentOid,
               name: o.fileName,
             })
           );
@@ -723,7 +723,7 @@ class NewExpenseAdjustDetail extends React.Component {
             uploadHandle={this.handleUpload}
             wrappedComponentRef={upload => (this.upload = upload)}
             defaultFileList={this.state.fileList}
-            defaultOIDs={this.state.attachmentOid}
+            defaultOids={this.state.attachmentOid}
           />
         );
       }
@@ -994,7 +994,7 @@ class NewExpenseAdjustDetail extends React.Component {
             typeof values.expenseTypeId === 'string'
               ? lastData.form.expenseTypeId
               : values.expenseTypeId[0].id;
-          values.apportion = this.state.attachmentOID;
+          values.apportion = this.state.attachmentOid;
           let lineData = [];
           if (this.props.params.adjustLineCategory === '1001') {
             let option = {

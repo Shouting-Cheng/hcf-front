@@ -20,13 +20,13 @@ class ApproveRequestBtn extends React.Component {
       approvalChain: {}, //审批链
       showAdditionalBtn: false, //是否显示加签按钮
       showPriceViewBtn: false, //是否显示价格审核复选框
-      preApproveOIDs: [], //当前审批链中已审批用户的OID
-      signCompanyOIDs: [],
+      preApproveOids: [], //当前审批链中已审批用户的Oid
+      signCompanyOids: [],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.info.applicationOID && nextProps.approving) {
+    if (!this.state.info.applicationOid && nextProps.approving) {
       const formInfo = nextProps.formInfo;
       this.setState(
         {
@@ -37,7 +37,7 @@ class ApproveRequestBtn extends React.Component {
         },
         () => {
           this.showAdditional();
-          this.getPreApproveOID();
+          this.getPreApproveOid();
         }
       );
     }
@@ -46,12 +46,12 @@ class ApproveRequestBtn extends React.Component {
   //判断是否可以加签
   showAdditional = () => {
     let params = {
-      companyOID: this.props.company.companyOID,
-      formOID: this.state.info.formOID,
+      companyOid: this.props.company.companyOid,
+      formOid: this.state.info.formOid,
       counterSignType: 'enableAddSign',
     };
     this.props.approving &&
-      this.state.info.formOID &&
+      this.state.info.formOid &&
       approveRequestService.postAddSignEnableScope(params).then(res => {
         // this.setState({ showAdditionalBtn: res.data });
         if (res.data.enabled) {
@@ -59,34 +59,34 @@ class ApproveRequestBtn extends React.Component {
           this.setState(
             {
               showAdditionalBtn: res.data.enabled,
-              signCompanyOIDs: res.data.approvalAddSignScope.companyOIDs,
+              signCompanyOids: res.data.approvalAddSignScope.companyOids,
             },
             () => {
-              console.log(this.state.signCompanyOIDs);
+              console.log(this.state.signCompanyOids);
             }
           );
         }
       });
   };
 
-  //获取当前审批链中已审批的用户OID
-  getPreApproveOID = () => {
-    let preApproveOIDs = [];
+  //获取当前审批链中已审批的用户Oid
+  getPreApproveOid = () => {
+    let preApproveOids = [];
     (this.state.info.approvalHistorys || []).map(item => {
-      item.operation === 2001 && preApproveOIDs.push(item.operatorOID);
+      item.operation === 2001 && preApproveOids.push(item.operatorOid);
     });
-    this.setState({ preApproveOIDs });
+    this.setState({ preApproveOids });
   };
 
   //提示 当前被加签的人是否在已审批的人中
   hasRepeatApproveTip = (value, additionalItems, priceAuditor) => {
-    let additionalOIDs = [];
+    let additionalOids = [];
     let additionalHaveApprovedNames = []; //加签人中已审批的用户名
     additionalItems.map(item => {
-      additionalOIDs.push(item.userOID);
+      additionalOids.push(item.userOid);
     });
-    additionalOIDs.map((OID, index) => {
-      if (this.state.preApproveOIDs.indexOf(OID) > -1) {
+    additionalOids.map((Oid, index) => {
+      if (this.state.preApproveOids.indexOf(Oid) > -1) {
         additionalHaveApprovedNames.push(additionalItems[index].fullName);
       }
     });
@@ -95,23 +95,23 @@ class ApproveRequestBtn extends React.Component {
         title: `${additionalHaveApprovedNames.join('、')} ${
           this.$t('approve.request.has.approved') /*已经审批通过，是否继续*/
         }？`,
-        onOk: () => this.handleApprovePass(value, additionalOIDs, priceAuditor),
+        onOk: () => this.handleApprovePass(value, additionalOids, priceAuditor),
       });
     } else {
-      this.handleApprovePass(value, additionalOIDs, priceAuditor);
+      this.handleApprovePass(value, additionalOids, priceAuditor);
     }
   };
 
   //审批通过
-  handleApprovePass = (value, additionalOIDs, priceAuditor) => {
+  handleApprovePass = (value, additionalOids, priceAuditor) => {
     let params = {
       approvalTxt: value,
       entities: [
         {
-          approverOID: this.props.user.userOID,//getQueryUrlParam('approverOID'),
-          entityOID: this.state.info.applicationOID,
+          approverOid: this.props.user.userOid,//getQueryUrlParam('approverOid'),
+          entityOid: this.state.info.applicationOid,
           entityType: 1001, //申请单
-          countersignApproverOIDs: additionalOIDs,
+          countersignApproverOids: additionalOids,
           priceAuditor,
         },
       ],
@@ -128,7 +128,7 @@ class ApproveRequestBtn extends React.Component {
           this.setState({ passLoading: false });
           message.error(
             `${this.$t('common.operate.filed')}，${
-              res.data.failReason[this.state.info.applicationOID]
+              res.data.failReason[this.state.info.applicationOid]
             }`
           );
         }
@@ -141,16 +141,16 @@ class ApproveRequestBtn extends React.Component {
 
   //审批驳回
   handleApproveReject = (value, additionalItems) => {
-    let additionalOIDs = [];
+    let additionalOids = [];
     additionalItems.map(item => {
-      additionalOIDs.push(item.userOID);
+      additionalOids.push(item.userOid);
     });
     let params = {
       approvalTxt: value,
       entities: [
         {
-          approverOID: location.search.split('=')[2],
-          entityOID: this.state.info.applicationOID,
+          approverOid: location.search.split('=')[2],
+          entityOid: this.state.info.applicationOid,
           entityType: 1001, //申请单
         },
       ],
@@ -167,7 +167,7 @@ class ApproveRequestBtn extends React.Component {
           this.setState({ rejectLoading: false });
           message.error(
             `${this.$t('common.operate.filed')}，${
-              res.data.failReason[this.state.info.applicationOID]
+              res.data.failReason[this.state.info.applicationOid]
             }`
           );
         }
@@ -194,7 +194,7 @@ class ApproveRequestBtn extends React.Component {
       approveRequestList,
       showAdditionalBtn,
       showPriceViewBtn,
-      signCompanyOIDs,
+      signCompanyOids,
     } = this.state;
     let moreButtons = [];
     showAdditionalBtn && moreButtons.push('additional');
@@ -203,7 +203,7 @@ class ApproveRequestBtn extends React.Component {
         {this.props.approving ? (
           <ApproveBar
             backUrl={'/approval-management/approve-request'}
-            signCompanyOIDs={signCompanyOIDs}
+            signCompanyOids={signCompanyOids}
             moreButtons={moreButtons}
             passLoading={passLoading}
             rejectLoading={rejectLoading}

@@ -30,7 +30,7 @@ class EditReverseInfo extends React.Component{
       loading: false,
       isNew: false,
       fileList:[],
-      attachmentOID: [],
+      attachmentOid: [],
       isRefreshShareTabel:false,
       approtionData: [],
       record: {
@@ -86,7 +86,7 @@ class EditReverseInfo extends React.Component{
       let attachments = resp.data.attachmentList.map(o => {
         return {
           ...o,
-          uid: o.attachmentOID,
+          uid: o.attachmentOid,
           name: o.fileName
         };
       });
@@ -94,7 +94,7 @@ class EditReverseInfo extends React.Component{
         this.setState({
           record: resp.data,
           fileList: attachments,
-          attachmentOID: resp.data.attachmentList.map(o => o.attachmentOID),
+          attachmentOid: resp.data.attachmentList.map(o => o.attachmentOid),
           loading: false,
           invoiceOperationType: resp.data.invoiceOperationType,
           applicationData: resp.data.expenseApportionDTOList
@@ -109,7 +109,7 @@ class EditReverseInfo extends React.Component{
 
   //上传附件
   handleUpload = (values) => {
-    this.setState({ attachmentOID: values});
+    this.setState({ attachmentOid: values});
   };
 
   handleSelectExpenseType = (value)=>{
@@ -143,12 +143,12 @@ class EditReverseInfo extends React.Component{
               estateFlag: record.estateFlag ? record.estateFlag : false,
               reverseLineId: this.state.id,
             },
-            attachmentOids: this.state.attachmentOID
+            attachmentOids: this.state.attachmentOid
           }
         } else {
           bodyParams = {
             reverseInvoice: {},
-            attachmentOids: this.state.attachmentOID
+            attachmentOids: this.state.attachmentOid
           };
         }
         this.setState({saveLoading: true});
@@ -205,7 +205,7 @@ class EditReverseInfo extends React.Component{
             {/*<Col className="expense-type" span={12}>
                <ExpenseTypeSelector onSelect={this.handleSelectExpenseType}
                source="company"
-               param={this.props.company.companyOID} />
+               param={this.props.company.companyOid} />
             </Col>*/}
             <Col span={12}>
               <FormItem {...formItemLayout} label={this.$t('travel.policy.feeType' /*费用类型(*/)}>
@@ -388,7 +388,7 @@ class EditReverseInfo extends React.Component{
               wrapperCol={{ span: 20,}}
               label={this.$t('common.attachments')}>
               {
-                getFieldDecorator("attachmentOID")(
+                getFieldDecorator("attachmentOid")(
                   <Upload attachmentType="EXP_REVERSE"
                           uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
                           fileNum={9}
@@ -396,7 +396,7 @@ class EditReverseInfo extends React.Component{
                           style={{marginLeft: 10, marginTop: -8}}
                           uploadHandle={this.handleUpload}
                           defaultFileList={fileList}
-                          defaultOIDs={[]} />
+                          defaultOids={[]} />
                 )}
             </FormItem>
           }

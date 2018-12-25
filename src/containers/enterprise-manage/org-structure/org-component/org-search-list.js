@@ -29,7 +29,7 @@ class OrgSearchList extends React.Component {
 
   //选择这个
   selectedHandle = (item, index) => {
-    if (item.userOID) {
+    if (item.userOid) {
       let data = this.state.data;
       data.personList.map(item => {
         item.actived = false;
@@ -67,7 +67,7 @@ class OrgSearchList extends React.Component {
       return (
         <div
           className={item.actived ? 're-dep-item-active' : 're-dep-item'}
-          key={item.departmentOID}
+          key={item.departmentOid}
           onClick={() => {
             this.selectedHandle(item);
           }}
@@ -107,7 +107,7 @@ class OrgSearchList extends React.Component {
       return (
         <div
           className={item.actived ? 're-person-item-active' : 're-person-item'}
-          key={item.userOID}
+          key={item.userOid}
           onClick={() => {
             this.selectedHandle(item, index);
           }}

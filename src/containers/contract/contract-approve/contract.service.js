@@ -305,7 +305,7 @@ export default {
    */
   getContractHistory(id) {
     return httpFetch.get(
-      `${config.baseUrl}/api/contract/reports/history?entityType=801004&entityOID=${id}`
+      `${config.baseUrl}/api/contract/reports/history?entityType=801004&entityOid=${id}`
     );
   },
 
@@ -347,11 +347,11 @@ export default {
               "approvalTxt":null,
               "entities":[
               {
-                  "entityOID":"270e4a68-5b3c-4908-8dff-947144ba3632",
+                  "entityOid":"270e4a68-5b3c-4908-8dff-947144ba3632",
                   "entityType":801004
                   }
               ],
-            "countersignApproverOIDs":["1111","333"]
+            "countersignApproverOids":["1111","333"]
           }
   */
   contractApproveWorkflowPass(params) {
@@ -362,7 +362,7 @@ export default {
    * 合同审批驳回 走工作流
    * @param params {"approvalTxt":"测试合同审批驳回",
                     "entities":[{
-                            "entityOID":"0858f65b-95e9-4e30-a9a5-e80c10daaf52",
+                            "entityOid":"0858f65b-95e9-4e30-a9a5-e80c10daaf52",
                             "entityType":801004}
                     ]}
    */
@@ -373,7 +373,7 @@ export default {
   /**
    * 撤回合同 走工作流
    * @params {"entities":[
-                {"entityOID":"0858f65b-95e9-4e30-a9a5-e80c10daaf52",
+                {"entityOid":"0858f65b-95e9-4e30-a9a5-e80c10daaf52",
                 "entityType":801004}
               ]
             }
@@ -385,13 +385,13 @@ export default {
   /**
    * 获取合同历史 走工作流
    * @entityType   801004&
-   * @entityOID    88b29a3d-fee8-432f-a4ef-8a2fd4a9f398
+   * @entityOid    88b29a3d-fee8-432f-a4ef-8a2fd4a9f398
    */
-  getContractWorkflowHistory(entityType, entityOID) {
+  getContractWorkflowHistory(entityType, entityOid) {
     return httpFetch.get(
       `${
         config.baseUrl
-      }/api/contract/reports/history?entityType=${entityType}&entityOID=${entityOID}`
+      }/api/contract/reports/history?entityType=${entityType}&entityOid=${entityOid}`
     );
   },
 

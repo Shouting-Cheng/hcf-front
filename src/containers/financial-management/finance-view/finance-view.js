@@ -37,10 +37,10 @@ class FinanceView extends React.Component{
         {label: this.$t('supplier.management.disuse'/*已停用*/),value: '1009', state: 'default'}
       ],
       searchForm: [
-        {type: 'combobox', id: 'userOID', label: this.$t('finance.view.search.application'),
+        {type: 'combobox', id: 'userOid', label: this.$t('finance.view.search.application'),
           placeholder: this.$t('common.please.enter') + this.$t('finance.view.search.application'),
           options: [], searchUrl: `${config.baseUrl}/api/search/users/all`,
-          method: 'get', searchKey: 'keyword', labelKey: 'fullName', valueKey: 'userOID',renderOption: option => (`${option.employeeID}-${option.fullName}${(option.status != 1001 ? '(已离职)' : '')}`)}, //申请人姓名/工号
+          method: 'get', searchKey: 'keyword', labelKey: 'fullName', valueKey: 'userOid',renderOption: option => (`${option.employeeID}-${option.fullName}${(option.status != 1001 ? '(已离职)' : '')}`)}, //申请人姓名/工号
         {type: 'combobox', id: 'businessCode', label: this.$t('finance.view.search.businessCode'),
           placeholder: this.$t('common.please.enter') + this.$t('finance.view.search.businessCode'),
           options: [], searchUrl: `${config.baseUrl}/api/expense/report/loanApplication/search`, method: 'get',
@@ -65,11 +65,11 @@ class FinanceView extends React.Component{
           getUrl: `${config.baseUrl}/api/finance/role/legalEntity/query?page=0&size=100`,
           method: 'get',
           labelKey: 'entityName',
-          valueKey: 'companyReceiptedOID',
+          valueKey: 'companyReceiptedOid',
           listKey: "rows"
         },
         {
-          type: 'list', id: 'departmentOIDs', label: this.$t('request.detail.department.name'/*部门*/),
+          type: 'list', id: 'departmentOids', label: this.$t('request.detail.department.name'/*部门*/),
           listType: 'department', labelKey: 'name', valueKey: 'departmentOid'
         },
         {
@@ -94,7 +94,7 @@ class FinanceView extends React.Component{
         ]},
       ],
       checkboxListForm: [
-        {id: 'formOIDs', items: [
+        {id: 'formOids', items: [
           {label: this.$t('finance.view.search.reimbursement'/*报销单*/), key: 'expense', options: []},
           {label: this.$t('finance.view.search.borrowingDocument'/*借款单*/), key: 'loan', options: []}
         ]}
@@ -182,7 +182,7 @@ class FinanceView extends React.Component{
     financeViewService.getExpenseTypeList().then(res => {
       let options = [];
       res.data.map(list => {
-        options.push({label: list.formName, value: list.formOID})
+        options.push({label: list.formName, value: list.formOid})
       });
       checkboxListForm[0].items.map(item => {
         item.key === 'expense' && (item.options = options)
@@ -191,7 +191,7 @@ class FinanceView extends React.Component{
     financeViewService.getLoanTypeList().then(res => {
       let options = [];
       res.data.map(list => {
-        options.push({label: list.formName, value: list.formOID})
+        options.push({label: list.formName, value: list.formOid})
       });
       checkboxListForm[0].items.map(item => {
         item.key === 'loan' && (item.options = options)
@@ -240,7 +240,7 @@ class FinanceView extends React.Component{
     result.printFree === 'null' && (delete result.printFree);
     result.searchCorporations=result.legalEntity ? result.legalEntity :[];
     result.searchCostCenterCommands = searchParams.searchCostCenterCommands;
-    result.departmentOID = result.departmentOIDs ? result.departmentOIDs : [];
+    result.departmentOid = result.departmentOids ? result.departmentOids : [];
     this.setState({
       searchParams: result,
       page: 0,
@@ -328,19 +328,19 @@ class FinanceView extends React.Component{
   handleRowClick = (record) => {
     // entityType：1001（申请单）、1002（报销单）
     if (record.entityType === 1002) {
-      //  window.open('/financial-management/finance-view/expense-report-detail-view/:expenseReportOID'.replace(':expenseReportOID', record.entityOID))
+      //  window.open('/financial-management/finance-view/expense-report-detail-view/:expenseReportOid'.replace(':expenseReportOid', record.entityOid))
       this.props.dispatch(
         routerRedux.replace({
-          pathname: `/financial-management/finance-view/expense-report-detail-view/${record.entityOID}/f_view`,
+          pathname: `/financial-management/finance-view/expense-report-detail-view/${record.entityOid}/f_view`,
         })
       );
     } else {
-      //  window.open('/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID'.replace(':formOID', record.formOID).replace(':applicationOID', record.entityOID))
+      //  window.open('/financial-management/finance-view/loan-request-detail-view/:formOid/:applicationOid'.replace(':formOid', record.formOid).replace(':applicationOid', record.entityOid))
       this.props.dispatch(
         routerRedux.replace({
-          pathname: '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID/:pageFrom'
-            .replace(':formOID', record.formOID)
-            .replace(':applicationOID', record.entityOID)
+          pathname: '/financial-management/finance-view/loan-request-detail-view/:formOid/:applicationOid/:pageFrom'
+            .replace(':formOid', record.formOid)
+            .replace(':applicationOid', record.entityOid)
             .replace(':pageFrom', 'f_view')
         })
       )
@@ -353,11 +353,11 @@ class FinanceView extends React.Component{
     event.stopPropagation();
     event.cancelBubble = true;
     if (record.entityType === 1002) {
-      financeViewService.printExpenseReport(record.entityOID).then(res => {
+      financeViewService.printExpenseReport(record.entityOid).then(res => {
         window.open(res.data.fileURL, '_blank');
       })
     } else {
-      requestService.printLoanApplication(record.entityOID).then(res => {
+      requestService.printLoanApplication(record.entityOid).then(res => {
         window.open(res.data.link, '_blank')
       })
     }
@@ -441,7 +441,7 @@ class FinanceView extends React.Component{
           <div className="table-header-title">{this.$t('common.total',{total: pagination.total || 0})}</div>
           {/*共多少条数据*/}
         </div>
-        <Table rowKey={record => record.entityOID}
+        <Table rowKey={record => record.entityOid}
                columns={columns}
                dataSource={data}
                loading={loading}

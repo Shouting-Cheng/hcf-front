@@ -34,7 +34,7 @@ class PayRefundDetail extends React.Component {
             approveHistory:[],
             historyLoading:true,
             fileList:[], // 附件
-            uploadOIDs:[],//附件OIDS
+            uploadOids:[],//附件OidS
             fileShow:false
         }
     }
@@ -115,7 +115,7 @@ class PayRefundDetail extends React.Component {
             abledRefundAmount:res.data.oldCashTransactionDetail.abledRefundAmount,
             fileList:fileList,
             fileShow:true,
-            uploadOIDs:data.backlashAttachmentOID
+            uploadOids:data.backlashAttachmentOid
           });
           let values = this.props.form.getFieldsValue();
           for(let name in values){
@@ -196,10 +196,10 @@ class PayRefundDetail extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.setState({btnLoading:true});
-                const {uploadOIDs} = this.state;
-                let backlashAttachmentOID = uploadOIDs && (uploadOIDs instanceof Array)&&uploadOIDs.join(",");
+                const {uploadOids} = this.state;
+                let backlashAttachmentOid = uploadOids && (uploadOids instanceof Array)&&uploadOids.join(",");
                 let params = {...this.state.newCashTransactionDetail, ...values};
-                params["backFlashAttachmentOIDs"] = backlashAttachmentOID;
+                params["backFlashAttachmentOids"] = backlashAttachmentOid;
                 payRefundService.updateFunction(params).then(res => {
                     if (res.status === 200) {
                         this.setState({
@@ -285,8 +285,8 @@ class PayRefundDetail extends React.Component {
         return current && current.valueOf() <= moment(payDate).valueOf();
     };
     // 上传附件成功回调
-    handleUpload = (OIDs) => {
-        this.setState({ uploadOIDs: OIDs });
+    handleUpload = (Oids) => {
+        this.setState({ uploadOids: Oids });
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -477,7 +477,7 @@ class PayRefundDetail extends React.Component {
                                         fileNum={99}
                                         multiple={true}
                                         disabled={status !== "new"}
-                                        defaultOIDs={this.state.uploadOIDs}
+                                        defaultOids={this.state.uploadOids}
                                         uploadHandle={this.handleUpload}
                                         defaultFileList={fileList}
                                 />}

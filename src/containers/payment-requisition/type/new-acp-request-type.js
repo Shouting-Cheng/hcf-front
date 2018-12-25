@@ -161,7 +161,7 @@ class AcpRequestTypeDetail extends React.Component {
           ...values,
         };
         this.state.formTypeOptions.map(item => {
-          if (item.formOID === values.formOid) {
+          if (item.formOid === values.formOid) {
             values.formName = item.formName;
             values.formType = item.formType;
           }
@@ -434,7 +434,7 @@ class AcpRequestTypeDetail extends React.Component {
                 notFoundContent={fetching ? <Spin size="small" /> : '无匹配结果'}
               >
                 {formTypeOptions.map(option => {
-                  return <Option key={option.formOID}>{option.formName}</Option>;
+                  return <Option key={option.formOid}>{option.formName}</Option>;
                 })}
               </Select>
             )}

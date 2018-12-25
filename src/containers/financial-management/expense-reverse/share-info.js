@@ -64,18 +64,18 @@ class ShareInfo extends Component {
         //     if (this.state.defaultApportion.costCenterItems && this.state.defaultApportion.costCenterItems.length) {
         //         this.state.defaultApportion.costCenterItems.map(o => {
         //             cols.push({
-        //                 title: o.fieldName, dataIndex: o.costCenterOID, key: o.costCenterOID, width: 180, render: (value, record, index) => {
+        //                 title: o.fieldName, dataIndex: o.costCenterOid, key: o.costCenterOid, width: 180, render: (value, record, index) => {
         //                     return (record.status == "edit" || record.status == "new") ? (
-        //                         <Select labelInValue value={value} onChange={(val) => this.centerChange(index, val, o.costCenterOID)} onFocus={() => this.handleFocus(o.costCenterOID)} >
+        //                         <Select labelInValue value={value} onChange={(val) => this.centerChange(index, val, o.costCenterOid)} onFocus={() => this.handleFocus(o.costCenterOid)} >
         //                             {
-        //                                 this.state.costCenterData[o.costCenterOID] && this.state.costCenterData[o.costCenterOID].map(item => {
+        //                                 this.state.costCenterData[o.costCenterOid] && this.state.costCenterData[o.costCenterOid].map(item => {
         //                                     return (
         //                                         <Select.Option key={parseInt(item.id)} value={parseInt(item.id)}>{item.name}</Select.Option>
         //                                     )
         //                                 })
         //                             }
         //                         </Select>
-        //                     ) : <span>{record[o.costCenterOID].label}</span>
+        //                     ) : <span>{record[o.costCenterOid].label}</span>
         //                 }
         //             })
         //         })
@@ -117,7 +117,7 @@ class ShareInfo extends Component {
             // }
 
             // this.state.defaultApportion.costCenterItems.map(o => {
-            //     columns.push({ title: o.fieldName, dataIndex: o.costCenterOID, key: o.costCenterOID })
+            //     columns.push({ title: o.fieldName, dataIndex: o.costCenterOid, key: o.costCenterOid })
             // })
 
 

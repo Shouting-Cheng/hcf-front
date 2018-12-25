@@ -223,7 +223,7 @@ class DocumentBasicInfo extends React.Component {
                             {!this.isImage(item) ? (
                               <a
                                 href={`${config.baseUrl}/api/attachments/download/${
-                                  item.attachmentOID
+                                  item.attachmentOid
                                   }?access_token=${
                                   window.sessionStorage.getItem('token')
                                   }`}

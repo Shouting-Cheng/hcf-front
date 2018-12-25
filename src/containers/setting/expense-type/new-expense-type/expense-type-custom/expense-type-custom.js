@@ -203,7 +203,7 @@ class ExpenseTypeCustom extends React.Component {
     const { nowWidgets, nowSelectedIndex, customWidget } = this.state;
     let widgetType = nowWidgets[nowSelectedIndex].fieldType;
     let result = <Spin />;
-    if (nowWidgets[nowSelectedIndex].customEnumerationOID)
+    if (nowWidgets[nowSelectedIndex].customEnumerationOid)
       widgetType = 'CUSTOM_ENUMERATION';
     if (nowWidgets[nowSelectedIndex].messageKey === 'dateCombined')
       widgetType = 'START_DATE_AND_END_DATE';
@@ -242,7 +242,7 @@ class ExpenseTypeCustom extends React.Component {
         hasError = true;
         message.error(messages('expense.type.title.required', { index: index + 1 }));
       }
-      if (widget.fieldType === 'CUSTOM_ENUMERATION' && !widget.customEnumerationOID) {
+      if (widget.fieldType === 'CUSTOM_ENUMERATION' && !widget.customEnumerationOid) {
         hasError = true;
         message.error(messages('expense.type.list.required', { index: index + 1 }));
       }
@@ -274,7 +274,7 @@ class ExpenseTypeCustom extends React.Component {
 
   handleChangeCustomEnumeration = (value) => {
     let { nowWidgets, nowSelectedIndex } = this.state;
-    nowWidgets[nowSelectedIndex].customEnumerationOID = value;
+    nowWidgets[nowSelectedIndex].customEnumerationOid = value;
     this.setState({ nowWidgets })
   };
 
@@ -355,18 +355,18 @@ class ExpenseTypeCustom extends React.Component {
                     language: "en"
                   }]} />
                 {(nowWidget.fieldType === 'CUSTOM_ENUMERATION' ||
-                  (nowWidget.fieldType === 'TEXT' && nowWidget.customEnumerationOID)) && (
+                  (nowWidget.fieldType === 'TEXT' && nowWidget.customEnumerationOid)) && (
                     <div>
                       <div className="widget-setting-title">{messages('expense.type.custom.value.list')}</div>
                       {loading ? <Spin /> : <Select showSearch
                         style={{ width: '100%' }}
-                        value={nowWidget.customEnumerationOID}
+                        value={nowWidget.customEnumerationOid}
                         onChange={this.handleChangeCustomEnumeration}
                         filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                         disabled={!tenantMode}>
                         {customEnumeration.map(enumeration =>
-                          <Option value={enumeration.customEnumerationOID}
-                            key={enumeration.customEnumerationOID}>{enumeration.name}</Option>)}
+                          <Option value={enumeration.customEnumerationOid}
+                            key={enumeration.customEnumerationOid}>{enumeration.name}</Option>)}
                       </Select>}
                     </div>
                   )}

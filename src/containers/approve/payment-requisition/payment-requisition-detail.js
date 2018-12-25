@@ -238,7 +238,7 @@ class PaymentRequisitionDetail extends React.Component {
     this.setState({
       historyLoading: true,
     });
-    paymentRequisitionService.getLogs(this.props.match.params.entityOID).then(res => {
+    paymentRequisitionService.getLogs(this.props.match.params.entityOid).then(res => {
       if (res.status == 200) {
         this.setState({
           approveHistory: res.data,
@@ -380,12 +380,12 @@ class PaymentRequisitionDetail extends React.Component {
 
   //驳回
   handleApproveReject = (remark) => {
-    let entityOID = this.props.match.params.entityOID;
+    let entityOid = this.props.match.params.entityOid;
     let model = {
       'approvalTxt': remark,
       'entities': [
         {
-          'entityOID': entityOID,
+          'entityOid': entityOid,
           'entityType': 801005,
         }],
     };
@@ -399,7 +399,7 @@ class PaymentRequisitionDetail extends React.Component {
         message.success('操作成功！');
       } else {
         this.setState({ dLoading: false, loading: false });
-        message.error(`驳回失败!` + res.data.failReason[entityOID]);
+        message.error(`驳回失败!` + res.data.failReason[entityOid]);
       }
     }).catch(e => {
       this.setState({ dLoading: false, loading: false });
@@ -409,15 +409,15 @@ class PaymentRequisitionDetail extends React.Component {
 
   //审批通过
   handleApprovePass = (remark) => {
-    let entityOID = this.props.match.params.entityOID;
+    let entityOid = this.props.match.params.entityOid;
     let model = {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: entityOID,
+          entityOid: entityOid,
           entityType: 801005,
         }],
-      countersignApproverOIDs: [],
+      countersignApproverOids: [],
     };
 
     this.setState({ dLoading: true, loading: true });
@@ -429,7 +429,7 @@ class PaymentRequisitionDetail extends React.Component {
         message.success('操作成功！');
       } else {
         this.setState({ dLoading: false, loading: false });
-        message.error(`审核失败!` + res.data.failReason[entityOID]);
+        message.error(`审核失败!` + res.data.failReason[entityOid]);
       }
     }).catch(e => {
       this.setState({ dLoading: false, loading: false });

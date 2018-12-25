@@ -51,7 +51,7 @@ class TravelInformationElement extends React.Component {
                     header={header}
                     showArrow={!option}
                     disabled={option}
-                    key={item.itineraryOID ? item.itineraryOID : mainIndex + '-main'}
+                    key={item.itineraryOid ? item.itineraryOid : mainIndex + '-main'}
                   >
                     {showTraffics &&
                       item.travelItineraryTraffics.map((element, index) => {
@@ -74,7 +74,7 @@ class TravelInformationElement extends React.Component {
                           <Row
                             type="flex"
                             className="element-item"
-                            key={element.trafficOID ? element.trafficOID : index + '=trafficOID'}
+                            key={element.trafficOid ? element.trafficOid : index + '=trafficOid'}
                           >
                             <Col span={1}>
                               <Avatar size="small" src={imgUrl} />
@@ -97,7 +97,7 @@ class TravelInformationElement extends React.Component {
                                   return (
                                     <div
                                       className="value-item"
-                                      key={e.fieldOID ? e.fieldOID : index + '-fieldOID'}
+                                      key={e.fieldOid ? e.fieldOid : index + '-fieldOid'}
                                     >
                                       {e.fieldName}:{e.showValue}
                                     </div>
@@ -120,8 +120,8 @@ class TravelInformationElement extends React.Component {
 }
 
 TravelInformationElement.propTypes = {
-  applicationOID: PropTypes.string,
-  latestApplicationOID: PropTypes.string,
+  applicationOid: PropTypes.string,
+  latestApplicationOid: PropTypes.string,
   info: PropTypes.object,
   customFormPropertyMap: PropTypes.object,
   controlFields: PropTypes.object,

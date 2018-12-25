@@ -123,14 +123,14 @@ class NewExpense extends React.Component {
     this.props.onClose(refresh);
   };
 
-  //根据用户OID获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
-  getFpByUserOID(userOID) {
+  //根据用户Oid获取FP，用户不同用户操作同一页面。如财务操作用户费用页面，取员工FP
+  getFpByUserOid(userOid) {
     let { invoiceFp, invoiceCompany } = this.state;
-    baseService.getFpByUserOID(userOID).then(res => {
+    baseService.getFpByUserOid(userOid).then(res => {
       invoiceFp = res.data;
       this.setState({ invoiceFp })
     });
-    baseService.getCompanyByUserOID(userOID).then(res => {
+    baseService.getCompanyByUserOid(userOid).then(res => {
       invoiceCompany = res.data;
       this.setState({ invoiceCompany })
     });
@@ -148,17 +148,17 @@ class NewExpense extends React.Component {
   };
 
   componentWillMount() {
-    let userOID = this.props.user.userOID;
+    let userOid = this.props.user.userOid;
     if (this.props.params && this.props.params.audit) {
-      userOID = this.props.params.expenseReport.applicantOID;
-      this.getFpByUserOID(userOID)
+      userOid = this.props.params.expenseReport.applicantOid;
+      this.getFpByUserOid(userOid)
     };
-    baseService.getAllCurrencyByLanguage('chineseName', userOID).then(res => {
+    baseService.getAllCurrencyByLanguage('chineseName', userOid).then(res => {
       this.setState({ currencyList: res.data.filter(item => item.enable) })
     });
     this.getRateDeviation();
     Promise.all([
-      expenseService.getTitleListByEntity(userOID),
+      expenseService.getTitleListByEntity(userOid),
       expenseService.getInvoiceTypeList(),
       expenseService.getMileageMode()
     ]).then(res => {
@@ -213,7 +213,7 @@ class NewExpense extends React.Component {
       });
     }
 
-    //费用改变时  && (!this.state.nowExpense || (this.state.nowExpense.invoiceOID !== this.props.params.nowExpense.invoiceOID))
+    //费用改变时  && (!this.state.nowExpense || (this.state.nowExpense.invoiceOid !== this.props.params.nowExpense.invoiceOid))
     if (this.props.params.nowExpense && this.props.params.nowExpense.expenseTypeId) {
       let expenseDetail = this.props.params.nowExpense;
       expenseDetail.data && expenseDetail.data.sort((a, b) => a.sequence > b.sequence || -1);
@@ -244,7 +244,7 @@ class NewExpense extends React.Component {
         digitalInvoice: expenseDetail.digitalInvoice,
         isNonVat: isNonVat
       });
-      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOID).then(res => {
+      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOid).then(res => {
         this.setState({ currencyList: res.data.filter(item => item.enable) }, () => {
           this.setState({
             nowCurrency: this.getCurrencyFromList(expenseDetail.currencyCode),
@@ -279,10 +279,10 @@ class NewExpense extends React.Component {
           //替票理由，如果不提票则不set对应值
           if (expenseDetail.invoiceInstead)
             value.invoiceInsteadReason = expenseDetail.invoiceInsteadReason || '';
-          //遍历费用表单，将OID设置为表单id
+          //遍历费用表单，将Oid设置为表单id
           expenseDetail.data.map((field, index) => {
             if (field.showOnList && !(expenseDetail.paymentType === 1001 && field.messageKey == 'company.payment.type')) {
-              value[field.fieldOID] = this.getFieldValue(field.fieldType, field.value, field.showValue, field);
+              value[field.fieldOid] = this.getFieldValue(field.fieldType, field.value, field.showValue, field);
             }
           });
           !readOnly && this.props.form.setFieldsValue(value);
@@ -302,7 +302,7 @@ class NewExpense extends React.Component {
         });
       });
     } else if (!this.props.params.nowExpense) {
-      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOID).then(res => {
+      baseService.getAllCurrencyByLanguage('chineseName', this.props.user.userOid).then(res => {
         this.setState({ currencyList: res.data.filter(item => item.enable) }, () => {
           this.setState({
             nowCurrency: this.getCurrencyFromList('CNY'),
@@ -376,8 +376,8 @@ class NewExpense extends React.Component {
     }
     let fieldLength = fields.length;
     fields.map((field, index) => {
-      if (field.customEnumerationOID) {
-        baseService.getCustomEnumerationsByOID(field.customEnumerationOID).then(res => {
+      if (field.customEnumerationOid) {
+        baseService.getCustomEnumerationsByOid(field.customEnumerationOid).then(res => {
           field.list = res.data ? res.data : [];
           fieldsCount++;
           if (fieldsCount === fieldLength) {
@@ -419,7 +419,7 @@ class NewExpense extends React.Component {
       // 错误数据
       let errorMessages = [];
       //初始化对象
-      let target = nowExpense.invoiceOID ? JSON.parse(JSON.stringify(nowExpense)) : {
+      let target = nowExpense.invoiceOid ? JSON.parse(JSON.stringify(nowExpense)) : {
         attachments: attachments,
         invoiceStatus: 'INIT',
         readonly: false,
@@ -427,7 +427,7 @@ class NewExpense extends React.Component {
       };
       target.currencyCode = nowCurrency.currencyCode;
       target.expenseTypeName = expenseType.name;
-      target.expenseTypeOID = expenseType.expenseTypeOID;
+      target.expenseTypeOid = expenseType.expenseTypeOid;
       target.expenseTypeId = expenseType.id;
       target.expenseTypeIconName = expenseType.iconName;
       target.expenseTypeKey = expenseType.messageKey;
@@ -450,7 +450,7 @@ class NewExpense extends React.Component {
           }
         }
       }
-      let expenseInfo = nowExpense.invoiceOID ? nowExpense.data : expenseType.fields;
+      let expenseInfo = nowExpense.invoiceOid ? nowExpense.data : expenseType.fields;
       let targetFields;
       if (expenseInfo) {
         targetFields = JSON.parse(JSON.stringify(expenseInfo));
@@ -471,14 +471,14 @@ class NewExpense extends React.Component {
 
         //循环查找fields值填入
         targetFields && targetFields.map(field => {
-          if (key === field.fieldOID && field.editable) {
+          if (key === field.fieldOid && field.editable) {
             if (field.fieldType === 'PARTICIPANTS')
               value = JSON.stringify(value);
             if (field.fieldType === 'PARTICIPANT') {
               if (value && value.length > 0) {
                 value = JSON.stringify({
                   enabled: true,
-                  userOID: value[0].userOID
+                  userOid: value[0].userOid
                 })
               } else {
                 value = JSON.stringify({ enabled: false })
@@ -601,12 +601,12 @@ class NewExpense extends React.Component {
           } else {
             let existCostCenterItems = false;
             tempApportion.costCenterItems.map(item => {
-              if (item.required && !item.costCenterItemOID) {
+              if (item.required && !item.costCenterItemOid) {
                 /*费用分摊项不能为空*/
                 errorMessages.push(`${item.fieldName}:${this.$t('expense.apportion.item.can.not.be.null')}`);
                 itemNullTip = false;
               }
-              if (item.costCenterItemOID) {
+              if (item.costCenterItemOid) {
                 existCostCenterItems = true;
               }
             })
@@ -681,7 +681,7 @@ class NewExpense extends React.Component {
         this.validate(values).then(expense => {
           let expenseReport = this.props.params.expenseReport;
           if (expenseReport) {
-            expense.expenseReportOID = expenseReport.expenseReportOID;
+            expense.expenseReportOid = expenseReport.expenseReportOid;
           }
           // v3 前端验证之后直接调用后台保存接口
           this.saveExpense(expense);
@@ -706,8 +706,8 @@ class NewExpense extends React.Component {
   saveExpense = (expense) => {
     rejectPiwik(`我的账本/保存费用/${expense.expenseTypeName}`);
     this.setState({ saving: true });
-    if (!expense.ownerOID) {
-      expense.ownerOID = this.props.user.userOID;
+    if (!expense.ownerOid) {
+      expense.ownerOid = this.props.user.userOid;
     }
     expenseService.saveExpense(expense).then(res => {
       this.setState({ saving: false });
@@ -782,7 +782,7 @@ class NewExpense extends React.Component {
         loading: false,
         nowPage: 'form'
       };
-      if (nowExpense.invoiceOID) {
+      if (nowExpense.invoiceOid) {
         nowExpense.data = res.data.fields;
         willSet.nowExpense = nowExpense;
       }
@@ -803,7 +803,7 @@ class NewExpense extends React.Component {
     let unitPrice = 0;
     if (unitPriceMode && !isNaN(mileage)) {
       const priceFile = this.state.nowExpense.data.filter(field => field.messageKey === 'unit.price')[0];
-      priceFile && (unitPrice = getFieldValue(priceFile.fieldOID));
+      priceFile && (unitPrice = getFieldValue(priceFile.fieldOid));
       this.props.form.setFieldsValue({ amount: unitPrice * mileage });
     }
   };
@@ -814,7 +814,7 @@ class NewExpense extends React.Component {
     let mileageVal = 0;
     if (unitPriceMode && !isNaN(unitPrice)) {
       const mileageFile = this.state.nowExpense.data.filter(field => field.messageKey === 'ER_KM')[0];
-      mileageFile && (mileageVal = getFieldValue(mileageFile.fieldOID));
+      mileageFile && (mileageVal = getFieldValue(mileageFile.fieldOid));
       this.props.form.setFieldsValue({ amount: mileageVal * unitPrice });
     }
   };
@@ -844,13 +844,13 @@ class NewExpense extends React.Component {
         }
         return <CustomAmount style={{ width: '100%' }} disabled={!field.editable || field.messageKey === 'unit.price'} />;
       case 'TEXT':
-        if (field.customEnumerationOID) {
+        if (field.customEnumerationOid) {
           return field.list ? (
             <Searcher single={true}
               method={'get'}
               searcherItem={{
                 title: this.$t('expense.enter.value.type')/*值列表*/,
-                url: `${config.baseUrl}/api/custom/enumerations/${field.customEnumerationOID}/items/by/user`,
+                url: `${config.baseUrl}/api/custom/enumerations/${field.customEnumerationOid}/items/by/user`,
                 key: 'value'
               }}
               listExtraParams={{
@@ -873,7 +873,7 @@ class NewExpense extends React.Component {
             method={'get'}
             searcherItem={{
               title: this.$t('expense.enter.value.type')/*值列表*/,
-              url: `${config.baseUrl}/api/custom/enumerations/${field.customEnumerationOID}/items/by/user`,
+              url: `${config.baseUrl}/api/custom/enumerations/${field.customEnumerationOid}/items/by/user`,
               key: 'value'
             }}
             listExtraParams={{
@@ -905,14 +905,14 @@ class NewExpense extends React.Component {
           type="participants"
           newline
           labelKey="fullName"
-          valueKey="userOID"
-          listExtraParams={{ formOID: '' }} />;
+          valueKey="userOid"
+          listExtraParams={{ formOid: '' }} />;
       case 'PARTICIPANT':
         return <Chooser disabled={!field.editable}
           type="user"
           single
           labelKey="fullName"
-          valueKey="userOID" />
+          valueKey="userOid" />
     }
   };
 
@@ -1132,7 +1132,7 @@ class NewExpense extends React.Component {
       this.props.form.setFieldsValue({ vatInvoice: true });
     };
     if (this.props.params.audit || this.props.params.auditCapability) {
-      invoice.invoiceOID = this.state.nowExpense.invoiceOID;
+      invoice.invoiceOid = this.state.nowExpense.invoiceOid;
       if (!invoice.vatInvoiceCurrencyCode) {
         invoice.vatInvoiceCurrencyCode = nowExpense.invoiceCurrencyCode;
       }
@@ -1218,15 +1218,15 @@ class NewExpense extends React.Component {
     let param;
     if (expenseReport) {
       param = {
-        formOID: expenseReport.formOID,
+        formOid: expenseReport.formOid,
         setOfBooksId: expenseReport.setOfBooksId,
-        userOID: this.props.user.userOID,
+        userOid: this.props.user.userOid,
         createManually: true
       };
-      if (expenseReport.applicationOID !== this.props.user.userOID)
-        param.applicationOID = expenseReport.applicationOID;
+      if (expenseReport.applicationOid !== this.props.user.userOid)
+        param.applicationOid = expenseReport.applicationOid;
     } else {
-      param = this.props.company.companyOID
+      param = this.props.company.companyOid
     }
     switch (typeSource) {
       case 'expenseType':
@@ -1300,7 +1300,7 @@ class NewExpense extends React.Component {
       if (name) {
         let participant = JSON.parse(name);
         if (participant.enabled) {
-          return [{ fullName: participant.fullName, userOID: participant.userOID }]
+          return [{ fullName: participant.fullName, userOid: participant.userOid }]
         } else {
           return [];
         }
@@ -1312,14 +1312,14 @@ class NewExpense extends React.Component {
       return value ? { label: name, key: value } : null;
     }
     if (type === 'MONTH') {
-      if (nowExpense.invoiceOID) {
+      if (nowExpense.invoiceOid) {
         return value ? moment(value) : null;
       } else {
         return value ? moment(value) : moment(new Date());
       }
     }
     if (type === 'CUSTOM_ENUMERATION') {
-      if (field.customEnumerationOID && field.value && field.value !== '') {
+      if (field.customEnumerationOid && field.value && field.value !== '') {
         value = [{
           value: field.value,
           messageKey: field.showValue,
@@ -1333,7 +1333,7 @@ class NewExpense extends React.Component {
       return value;
     } else {
       if (field) {
-        if (field.customEnumerationOID && field.value && field.value !== '') {
+        if (field.customEnumerationOid && field.value && field.value !== '') {
           value = [{
             value: field.value,
             messageKey: field.showValue,
@@ -1489,8 +1489,8 @@ class NewExpense extends React.Component {
           originalApprovedVat: values.originalApprovedVat,
           originalActualCurrencyRate: nowExpense.originalActualCurrencyRate,
           originalAmount: nowExpense.originalAmount,
-          invoiceOID: nowExpense.invoiceOID,
-          expenseReportOID: expenseReport.expenseReportOID
+          invoiceOid: nowExpense.invoiceOid,
+          expenseReportOid: expenseReport.expenseReportOid
         };
         this.setState({ savingAuditAmount: true });
         expenseService.editAuditAmount(params).then(res => {
@@ -1529,7 +1529,7 @@ class NewExpense extends React.Component {
         let { nowExpense, invoiceTypes } = this.state;
         let target = {};
         target.cardsignType = 'HAND';
-        target.invoiceOID = nowExpense.invoiceOID;
+        target.invoiceOid = nowExpense.invoiceOid;
         target.billingNo = values.invoiceNumber;
         if (nowExpense.digitalInvoice && nowExpense.digitalInvoice.id) {
           target.id = nowExpense.digitalInvoice.id;
@@ -1648,7 +1648,7 @@ class NewExpense extends React.Component {
       }
       target.checkCode = digitalInvoice.checkCode;
     } else {
-      if (!nowExpense.invoiceOID || auditAmountEditing) {
+      if (!nowExpense.invoiceOid || auditAmountEditing) {
         target.priceTaxAmount = this.props.form.getFieldValue('amount');
         target.vatInvoiceCurrencyCode = this.props.form.getFieldValue('invoiceCurrencyCode');
       } else {
@@ -1689,7 +1689,7 @@ class NewExpense extends React.Component {
         }
       })
     }
-    if (type === 1 && nowExpense && nowExpense.invoiceOID && !showAttr) {
+    if (type === 1 && nowExpense && nowExpense.invoiceOid && !showAttr) {
       if (!(recordTaxRateConfig && itemName === 'taxRate') && !(recordNonVATinclusiveAmountConfig && itemName === 'nonVATinclusiveAmount') && !(recordTaxAmountConfig && itemName === 'taxAmount')) {
         nowExpense[itemName] = null;
       }
@@ -2086,7 +2086,7 @@ class NewExpense extends React.Component {
       message.error(this.$t('expense.fileUpload.delete')/*当前页面须至少上传1个附件，请上传其他附件后再删除*/);
       return false;
     } else {
-      baseService.attachmentDelete(nowExpense.invoiceOID, attachmentId);
+      baseService.attachmentDelete(nowExpense.invoiceOid, attachmentId);
       this.setState({ attachmentChange: true });
       return true;
     }
@@ -2131,7 +2131,7 @@ class NewExpense extends React.Component {
       <div>
         {
           renderFiles.map(renderFile =>
-            <FormItem {...formItemLayout} label={renderFile.name} key={`${renderFile.fieldOID}`}>
+            <FormItem {...formItemLayout} label={renderFile.name} key={`${renderFile.fieldOid}`}>
               <Col span={3}>
                 <FormItem style={{ margin: '0' }}>
                   {this.getFieldValue(renderFile.fieldType, renderFile.value, renderFile.showValue, renderFile)}
@@ -2148,10 +2148,10 @@ class NewExpense extends React.Component {
     ) : (
         <div>
           {renderFiles.map(renderFile =>
-            <FormItem {...formItemLayout} label={renderFile.name} key={`${renderFile.fieldOID}`}>
+            <FormItem {...formItemLayout} label={renderFile.name} key={`${renderFile.fieldOid}`}>
               <Col span={10}>
                 <FormItem>
-                  {getFieldDecorator(`${renderFile.fieldOID}`, {
+                  {getFieldDecorator(`${renderFile.fieldOid}`, {
                     rules: [{
                       required: renderFile.required,
                       message: this.$t('common.name.is.required', { name: renderFile.name })
@@ -2166,7 +2166,7 @@ class NewExpense extends React.Component {
               {renderFile.text && <Col span={12}>
                 <Alert
                   message={renderFile.text}
-                  key={renderFile.fieldOID}
+                  key={renderFile.fieldOid}
                   type={'warning'} />
               </Col>}
             </FormItem>
@@ -2197,9 +2197,9 @@ class NewExpense extends React.Component {
       wrapperCol: { span: 12, offset: 1 }
     };
     const { audit, businessCardEnabled, costCenterItemsApportion, expenseReport, user, approve } = this.props;
-    let userOID = user.userOID;
+    let userOid = user.userOid;
     if (expenseReport) {
-      userOID = expenseReport.applicationOID;
+      userOid = expenseReport.applicationOid;
     }
     //差补费用类型金额修改配置：默认是
     let amountEditConfigSubsidyType;
@@ -2307,7 +2307,7 @@ class NewExpense extends React.Component {
     let ifAssignmentCurrentInvoice = false;
     //获取上一条，下一条费用位置。
     showExpenseReportInvoices && showExpenseReportInvoices.map((item, index) => {
-      if (item.invoiceOID == nowExpense.invoiceOID) {
+      if (item.invoiceOid == nowExpense.invoiceOid) {
         invoiceSiteIndex = index;
         ifAssignmentCurrentInvoice = true;
       }
@@ -2383,7 +2383,7 @@ class NewExpense extends React.Component {
                                   <div className="card-acp">
                                     {nowBusinessCardConsumption.acpName}
                                   </div>
-                                  {!nowExpense.invoiceOID && (
+                                  {!nowExpense.invoiceOid && (
                                     <Popconfirm title={this.$t('expense.cancel.import.info')/*取消导入后，该记录将回到商务卡消费*/}
                                       onConfirm={this.deleteBusinessCardConsumption}>
                                       <a>{this.$t('expense.cancel.import')/*取消导入*/}</a>
@@ -2568,8 +2568,8 @@ class NewExpense extends React.Component {
                                   {nowExpense.paymentType === 1002 ? this.$t('common.yes') : this.$t('common.no')}
                                 </FormItem>}
                               {nowExpense.data && nowExpense.data.map(field => this.checkFunctionProfiles(['fweb.invoice.pay.by.company.disabled'], [[false, undefined]]) && field.showOnList && nowExpense.paymentType === 1002 && field.messageKey === 'company.payment.type' && (
-                                <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOID}`}>
-                                  {thirdEditField && field.editable ? getFieldDecorator(`${field.fieldOID}`, {
+                                <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOid}`}>
+                                  {thirdEditField && field.editable ? getFieldDecorator(`${field.fieldOid}`, {
                                     initialValue: this.getFieldValue(field.fieldType, field.value, field.showValue, field),
                                     rules: [{
                                       required: field.required,
@@ -2586,8 +2586,8 @@ class NewExpense extends React.Component {
                               {editingInvoice && this.renderInvoiceArea()}
 
                               {nowExpense.data && nowExpense.data.map(field => field.showOnList && field.messageKey !== 'company.payment.type' && (!unitPriceMode || (!nowExpense.mileageAllowanceExpenseDTO && unitPriceMode && !(~mileageMessageKey.indexOf(field.messageKey)))) && (
-                                <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOID}`}>
-                                  {thirdEditField && field.editable ? getFieldDecorator(`${field.fieldOID}`, {
+                                <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOid}`}>
+                                  {thirdEditField && field.editable ? getFieldDecorator(`${field.fieldOid}`, {
                                     initialValue: this.getFieldValue(field.fieldType, field.value, field.showValue, field),
                                     rules: [{
                                       required: field.required,
@@ -2604,11 +2604,11 @@ class NewExpense extends React.Component {
                                   amount={amount}
                                   amountIsNegativeNumber={amountIsNegativeNumber}
                                   readOnly={readOnly && !thirdEditField}
-                                  expenseReportOID={expenseReport.expenseReportOID}
-                                  formOID={expenseReport.formOID}
-                                  invoiceOID={nowExpense.invoiceOID}
+                                  expenseReportOid={expenseReport.expenseReportOid}
+                                  formOid={expenseReport.formOid}
+                                  invoiceOid={nowExpense.invoiceOid}
                                   expenseTypeId={expenseType.id}
-                                  userOID={userOID}
+                                  userOid={userOid}
                                   costCenterItemsApportion={costCenterItemsApportion}
                                   onChange={this.handleChangeExpenseApportion} />}
 
@@ -2619,7 +2619,7 @@ class NewExpense extends React.Component {
                                   <FileUpload defaultFileList={attachments}
                                     data={{
                                       attachmentType: "INVOICE_IMAGES",
-                                      invoiceOid: nowExpense.invoiceOID
+                                      invoiceOid: nowExpense.invoiceOid
                                     }}
                                     attachmentType="INVOICE_IMAGES"
                                     onChange={this.uploadSuccess}
@@ -2834,8 +2834,8 @@ class NewExpense extends React.Component {
                                     )}
                                   </FormItem>}
                                 {expenseType.fields ? expenseType.fields.map(field => this.checkFunctionProfiles(['fweb.invoice.pay.by.company.disabled'], [[false, undefined]]) && field.showOnList && getFieldValue('payByCompany') && field.messageKey === 'company.payment.type' && (
-                                  <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOID}`}>
-                                    {getFieldDecorator(`${field.fieldOID}`, {
+                                  <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOid}`}>
+                                    {getFieldDecorator(`${field.fieldOid}`, {
                                       initialValue: this.getFieldValue(field.fieldType, field.value, field.showValue, field),
                                       rules: [{
                                         required: field.required,
@@ -2854,8 +2854,8 @@ class NewExpense extends React.Component {
                                 {(vatInvoice && (editingInvoice || !digitalInvoice)) ? this.renderInvoiceArea() : ''}
 
                                 {expenseType.fields ? expenseType.fields.map(field => field.showOnList && field.messageKey !== 'company.payment.type' && (!unitPriceMode || (!nowExpense.mileageAllowanceExpenseDTO && unitPriceMode && !(~mileageMessageKey.indexOf(field.messageKey)))) && (
-                                  <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOID}`}>
-                                    {getFieldDecorator(`${field.fieldOID}`, {
+                                  <FormItem {...formItemLayout} label={field.name} key={`${field.fieldOid}`}>
+                                    {getFieldDecorator(`${field.fieldOid}`, {
                                       initialValue: this.getFieldValue(field.fieldType, field.defaultValueKey, field.showValue, field),
                                       rules: [{
                                         required: field.required,
@@ -2871,11 +2871,11 @@ class NewExpense extends React.Component {
                                     amount={amount}
                                     amountIsNegativeNumber={amountIsNegativeNumber}
                                     readOnly={readOnly}
-                                    expenseReportOID={expenseReport.expenseReportOID}
-                                    formOID={expenseReport.formOID}
-                                    invoiceOID={nowExpense.invoiceOID}
+                                    expenseReportOid={expenseReport.expenseReportOid}
+                                    formOid={expenseReport.formOid}
+                                    invoiceOid={nowExpense.invoiceOid}
                                     expenseTypeId={expenseType.id}
-                                    userOID={userOID}
+                                    userOid={userOid}
                                     costCenterItemsApportion={costCenterItemsApportion}
                                     onChange={this.handleChangeExpenseApportion} />}
                                 <FormItem {...formItemLayout} label={this.$t("common.attachments")/*附件*/}
@@ -2985,7 +2985,7 @@ class NewExpense extends React.Component {
                   <Button type="primary" disabled={rateDeviation > prohibitExchangeRateTol} onClick={this.handleSave}
                     loading={saving}>{this.$t("common.save")}</Button>}
                 <Button onClick={this.onCancel}>{this.$t(readOnly ? "common.back" : "common.cancel")}</Button>
-                {expenseReport && nowExpense.invoiceOID && readOnly && <div className="footer-page">
+                {expenseReport && nowExpense.invoiceOid && readOnly && <div className="footer-page">
                   <Button type="primary" disabled={typeof lastInvoiceIndex !== 'number'}
                     onClick={() => this.setState({ showExpenseDom: !showExpenseDom }, () => {
                       this.props.params.switchingInvoice(lastInvoiceIndex)

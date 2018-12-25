@@ -75,7 +75,7 @@ class BudgetItemMap extends React.Component {
             </span>)
         },
       ],
-      selectedEntityOIDs: []    //已选择的列表项的OIDs
+      selectedEntityOids: []    //已选择的列表项的Oids
     };
   }
 

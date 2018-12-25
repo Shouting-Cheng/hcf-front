@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * @params extensionName: 附件支持的扩展名
  * @params fileNum: 最大上传文件的数量
  * @params attachmentType: 附件类型
- * @params uploadHandle: 获取上传文件的OID
+ * @params uploadHandle: 获取上传文件的Oid
  */
 const customPanelStyle = {
   border: 0,
@@ -20,7 +20,7 @@ class UploadButton extends React.Component {
     super(props);
     this.state = {
       fileList: [],
-      OIDs: [],
+      Oids: [],
       previewVisible: false,
       previewImage: "",
       defaultListTag: true,
@@ -36,7 +36,7 @@ class UploadButton extends React.Component {
     if (nextProps.defaultFileList.length && this.state.defaultListTag) {
       this.setState({
         fileList: nextProps.defaultFileList,
-        OIDs: nextProps.defaultOIDs
+        Oids: nextProps.defaultOids
       }, () => {
         this.setState({ defaultListTag: false })
       })
@@ -46,7 +46,7 @@ class UploadButton extends React.Component {
   reset = () => {
     this.setState({
       fileList: [],
-      OIDs: []
+      Oids: []
     });
   }
 
@@ -72,17 +72,17 @@ class UploadButton extends React.Component {
     this.setState({ defaultListTag: false });
     const fileNum = parseInt(`-${this.props.fileNum}`);
     let fileList = info.fileList;
-    let OIDs = this.state.OIDs;
+    let Oids = this.state.Oids;
     fileList = fileList.slice(fileNum);
     this.setState({ fileList }, () => {
       const status = info.file.status;
       if (status === 'done') {
 
         message.success(`${info.file.name} ${this.$t({ id: "upload.success" }/*上传成功*/)}`);
-        OIDs.push(info.file.response.attachmentOID);
-        OIDs = OIDs.slice(fileNum);
-        this.setState({ OIDs }, () => {
-          this.props.uploadHandle(this.state.OIDs)
+        Oids.push(info.file.response.attachmentOid);
+        Oids = Oids.slice(fileNum);
+        this.setState({ Oids }, () => {
+          this.props.uploadHandle(this.state.Oids)
         })
       } else if (status === 'error') {
         message.error(`${info.file.name} ${this.$t({ id: "upload.fail" }/*上传失败*/)}`);
@@ -97,25 +97,25 @@ class UploadButton extends React.Component {
       return;
     }
     this.setState({ defaultListTag: false });
-    let OIDs = this.state.OIDs;
-    OIDs.map(OID => {
-      OID === (info.response ? info.response.attachmentOID : info.attachmentOID) && OIDs.delete(OID);
+    let Oids = this.state.Oids;
+    Oids.map(Oid => {
+      Oid === (info.response ? info.response.attachmentOid : info.attachmentOid) && Oids.delete(Oid);
     });
     let fileList = this.state.fileList;
 
     fileList.splice(index, 1);
 
-    this.setState({ fileList, OIDs }, () => {
-      this.props.uploadHandle(OIDs)
+    this.setState({ fileList, Oids }, () => {
+      this.props.uploadHandle(Oids)
     })
 
 
-    // let oid = info.response ? info.response.attachmentOID : info.attachmentOID;
+    // let oid = info.response ? info.response.attachmentOid : info.attachmentOid;
     // let url = `${config.baseUrl}/api/attachments/${oid}`;
     // httpFetch.delete(url).then(res => {
     //     if (res.status === 200) {
-    //         this.setState({ OIDs }, () => {
-    //             this.props.uploadHandle(this.state.OIDs)
+    //         this.setState({ Oids }, () => {
+    //             this.props.uploadHandle(this.state.Oids)
     //         });
     //         message.success(this.props.intl.this.$t({ id: "upload.delete.success" }/*附件删除成功*/));
     //     }
@@ -140,8 +140,8 @@ class UploadButton extends React.Component {
     };
     let fileList = this.state.fileList;
     fileList.map(item => {
-      let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
-      item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${sessionStorage.getItem('token')}`
+      let attachmentOid = item.response ? item.response.attachmentOid : item.attachmentOid;
+      item["url"] = `${config.baseUrl}/api/attachments/download/${attachmentOid}?access_token=${sessionStorage.getItem('token')}`
     });
     let fileTotal;
     if (this.props.title === undefined) {
@@ -177,7 +177,7 @@ class UploadButton extends React.Component {
         <Icon onClick={() => { this.setState({ visible: !this.state.visible }) }} type={visible ? "down" : "right"} style={{ marginRight: 10, cursor: "pointer" }} />
         {upload}
         {visible && fileList.map((item, index) => {
-          let attachmentOID = item.response ? item.response.attachmentOID : item.attachmentOID;
+          let attachmentOid = item.response ? item.response.attachmentOid : item.attachmentOid;
           let type = item.response ? item.response.fileType : item.fileType
           return (
             <Row key={item.uid} className="file-item">
@@ -185,7 +185,7 @@ class UploadButton extends React.Component {
                 <i className="anticon anticon-paper-clip" style={{ color: item.status == "error" ? "red" : "" }} />
                 {
                   type !== 'IMAGE' ?
-                    <a href={`${config.baseUrl}/api/attachments/download/${attachmentOID}?access_token=${sessionStorage.getItem('token')}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
+                    <a href={`${config.baseUrl}/api/attachments/download/${attachmentOid}?access_token=${sessionStorage.getItem('token')}`} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
                     :
                     <a onClick={() => { this.preview(item) }} style={{ marginLeft: 10, color: item.status == "error" ? "red" : "" }}>{item.fileName || item.name}</a>
                 }
@@ -210,8 +210,8 @@ UploadButton.propTypes = {
   extensionName: PropTypes.string,  //附件支持的扩展名
   fileNum: PropTypes.number,  //最大上传文件的数量
   defaultFileList: PropTypes.array,  //默认上传的文件列表，每项必须包含：uid，name
-  defaultOIDs: PropTypes.array,  //默认上传的文件列表OID
-  uploadHandle: PropTypes.func, //获取上传文件的OID
+  defaultOids: PropTypes.array,  //默认上传的文件列表Oid
+  uploadHandle: PropTypes.func, //获取上传文件的Oid
   multiple: PropTypes.bool, // 是否支持多选文件
   disabled: PropTypes.bool, // 是否禁用
   title: PropTypes.string, // Collapse 的标题
@@ -223,7 +223,7 @@ UploadButton.defaultProps = {
   extensionName: '.rar .zip .doc .docx .pdf .jpg...',
   fileNum: 0,
   defaultFileList: [],
-  defaultOIDs: [],
+  defaultOids: [],
   multiple: false,
   disabled: false,
   uploadHandle: () => { }

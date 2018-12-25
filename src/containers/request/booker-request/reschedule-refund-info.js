@@ -136,7 +136,7 @@ class RescheduleRefundInfo extends React.Component {
         })}
         {refundList.map(item => {
           return (
-            <Card key={item.travelOperationRecordOID}>
+            <Card key={item.travelOperationRecordOid}>
               <Row>
                 <Col span={8}>
                   {this.renderInfo(

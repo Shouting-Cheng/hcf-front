@@ -1015,7 +1015,7 @@ export default class Login extends React.Component {
               //后端改逻辑，用下面这种方式进行登录，之前是直接获取token
               that.setState(
                 {
-                  username: res.data.userOID,
+                  username: res.data.userOid,
                   loginType: 'app',
                   password: '', //密码说是可以不传
                 },

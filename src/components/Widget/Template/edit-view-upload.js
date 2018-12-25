@@ -32,7 +32,7 @@ class EditViewUpload extends Component {
       nextProps.defaultFileList.map(item => {
         if (!item.uid) {
           // item.response = item;
-          item.uid = item.attachmentOID;
+          item.uid = item.attachmentOid;
           item.name = item.fileName;
           item.status = 'done';
           item.type = item.fileType;
@@ -90,7 +90,7 @@ class EditViewUpload extends Component {
       });
     } else {
       this.a.href = `${config.baseUrl}/api/attachments/download/${
-        file.attachmentOID ? file.attachmentOID : file.response.attachmentOID
+        file.attachmentOid ? file.attachmentOid : file.response.attachmentOid
         }?access_token=${sessionStorage.getItem('token')}`;
       this.a.click();
     }

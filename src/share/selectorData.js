@@ -18,18 +18,18 @@ const selectorData = {
   supplier: {
     url: `${config.baseUrl}/api/suppliers`,
     label: record => record.name,
-    key: 'supplierOID',
+    key: 'supplierOid',
   },
   agent: {
     label: record => `${record.fullName}-${record.employeeID}`,
-    key: 'userOID',
+    key: 'userOid',
     offlineSearchMode: true,
     url: `${config.baseUrl}/api/bill/proxy/query/my/principals`,
   },
   proxyForm: {
     url: `${config.baseUrl}/api/custom/forms/my/available`,
     label: record => record.formName,
-    key: 'formOID',
+    key: 'formOid',
     offlineSearchMode: true,
     dynamicUrl: true,
   },
@@ -52,7 +52,7 @@ const selectorData = {
   expense_type_category: {
     url: `${config.baseUrl}/api/expense/types/category`,
     label: 'name',
-    key: 'expenseTypeCategoryOID',
+    key: 'expenseTypeCategoryOid',
   },
   setOfBooksByTenant: {
     url: `${config.baseUrl}/api/setOfBooks/by/tenant`,

@@ -31,17 +31,17 @@ class ExpenseReportApprove extends React.Component {
       rejectLoading: false,
       tab: 'approvePending',
       approvePendingCheckboxList: [{
-        id: 'formOIDs',
-        items: [{label: this.$t('myReimburse.documentName'/*单据名称*/), key: 'formOID', options: [], checkAllOption: true}]
+        id: 'formOids',
+        items: [{label: this.$t('myReimburse.documentName'/*单据名称*/), key: 'formOid', options: [], checkAllOption: true}]
       }],
       approvedCheckboxList: [{
-        id: 'formOIDs',
-        items: [{label: this.$t('myReimburse.documentName'/*单据名称*/), key: 'formOID', options: [], checkAllOption: true}]
+        id: 'formOids',
+        items: [{label: this.$t('myReimburse.documentName'/*单据名称*/), key: 'formOid', options: [], checkAllOption: true}]
       }],
       searchForm: [
         {type: 'input', id: 'businessCode', label: this.$t('finance.view.search.documentNo'/*单号*/)},
-        {type: 'list', id: 'applicantOIDs', label: this.$t('finance.view.search.applicant'/*申请人*/), listType: 'user', labelKey: 'fullName', valueKey: 'userOID',listExtraParams:{roleType: 'TENANT'}},
-        {type: 'list', id: 'departmentOIDs', label: this.$t('request.detail.department.name'/*部门*/), listType: 'department', labelKey: 'name', valueKey: 'departmentOid', single: true},
+        {type: 'list', id: 'applicantOids', label: this.$t('finance.view.search.applicant'/*申请人*/), listType: 'user', labelKey: 'fullName', valueKey: 'userOid',listExtraParams:{roleType: 'TENANT'}},
+        {type: 'list', id: 'departmentOids', label: this.$t('request.detail.department.name'/*部门*/), listType: 'department', labelKey: 'name', valueKey: 'departmentOid', single: true},
         {type: 'items', id: 'priceRange', items: [
           {type: 'inputNumber', id: 'minAmount', label: this.$t("approve.request.moneyFrom")/*金额从*/},
           {type: 'inputNumber', id: 'maxAmount', label: this.$t("approve.request.moneyTo")/*金额至*/}
@@ -88,7 +88,7 @@ class ExpenseReportApprove extends React.Component {
         current: 1
       },
       batchEnabled: false, //是否有批量审批
-      selectedDataOids: [], //选中的单据OID
+      selectedDataOids: [], //选中的单据Oid
       selectedDataNum: 0,
       // approveExpenseReportDetail: menuRoute.getRouteItem('approve-expense-report-detail','key'), //报销单审批详情页
       rowSelection: {
@@ -124,9 +124,9 @@ class ExpenseReportApprove extends React.Component {
           options.push({label: key, value: res.data[key][0]})
         });
         checkboxList.map(form => {
-          if (form.id === 'formOIDs') {
+          if (form.id === 'formOids') {
             form.items.map(item => {
-              item.key === 'formOID' && (item.options = options);
+              item.key === 'formOid' && (item.options = options);
               item.checked = form.defaultValue;
             })
           }
@@ -151,8 +151,8 @@ class ExpenseReportApprove extends React.Component {
     approveExpenseReportService.getApproveExpenseReportList(tab === 'approved', page, pageSize, tab === 'approved' ? approvedSearchParams : approvePendingSearchParams).then(res => {
       let data = [];
       res.data.map(item => {
-        item.expenseReport.entityOID = item.entityOID;
-        item.expenseReport.approverOID = item.approverOID;
+        item.expenseReport.entityOid = item.entityOid;
+        item.expenseReport.approverOid = item.approverOid;
         item.expenseReport.entityType = item.entityType;
         data.push(item.expenseReport || {})
       });
@@ -214,8 +214,8 @@ class ExpenseReportApprove extends React.Component {
       page = result.page;
       let checkboxListFormKey = tab === 'approvePending'? 'approvePendingCheckboxList': 'approvedCheckboxList';
       let checkboxListForm = tab === 'approvePending'? approvePendingCheckboxList : approvedCheckboxList;
-      checkboxListForm[0].defaultValue=result['formOIDsLable'] || [];
-      checkboxListForm[0].formOIDsExpand=result['formOIDsExpand'];
+      checkboxListForm[0].defaultValue=result['formOidsLable'] || [];
+      checkboxListForm[0].formOidsExpand=result['formOidsExpand'];
       dealCache(searchForm, result);
       this.setState({tab, defaultSearchForm,searchForm, page, [checkboxListFormKey]: checkboxListForm}, () => {
         this.search(result);
@@ -264,24 +264,24 @@ class ExpenseReportApprove extends React.Component {
 
   handleRowClick = (record) => {
     // configureStore.store.dispatch(setApproveExpenseReport(cacheSearchData));
-    // let url = this.state.approveExpenseReportDetail.url.replace(':expenseReportOID', record.entityOID);
-    // this.state.tab === 'approvePending' && (url += `?approvePending=true&approverOID=${record.approverOID}`);
+    // let url = this.state.approveExpenseReportDetail.url.replace(':expenseReportOid', record.entityOid);
+    // this.state.tab === 'approvePending' && (url += `?approvePending=true&approverOid=${record.approverOid}`);
     // this.context.router.push(url);
     // this.props.dispatch(
     //   routerRedux.push({
-    //     pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/?`
+    //     pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOid}/?`
     //   })
     // )  
     if(this.state.tab === 'approvePending'){
       this.props.dispatch(
         routerRedux.push({
-          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/${record.approverOID}`
+          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOid}/${record.approverOid}`
         })
       )
     }else{
       this.props.dispatch(
         routerRedux.push({
-          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOID}/${null}`
+          pathname: `/approval-management/approve-expense-report/approve-expense-report-detail/${record.entityOid}/${null}`
         })
       )
     }
@@ -299,13 +299,13 @@ class ExpenseReportApprove extends React.Component {
   onSelectRow = (record, selected) => {
     let {selectedDataOids, selectedDataNum, rowSelection} = this.state;
     let item = {
-      approverOID: record.approverOID,
-      entityOID: record.entityOID,
+      approverOid: record.approverOid,
+      entityOid: record.entityOid,
       entityType: record.entityType
     };
     if(!selected){
       selectedDataOids.map((select, index) => {
-        if( select.entityOID === record.entityOID ){
+        if( select.entityOid === record.entityOid ){
           selectedDataOids.splice(index, 1);
           selectedDataNum-=1;
         }
@@ -323,7 +323,7 @@ class ExpenseReportApprove extends React.Component {
     if(!selected){
       changeRows.map(record => {
         selectedDataOids.map((select, index) => {
-          if( select.entityOID === record.entityOID ){
+          if( select.entityOid === record.entityOid ){
             selectedDataOids.splice(index, 1);
             selectedDataNum-=1;
           }
@@ -332,13 +332,13 @@ class ExpenseReportApprove extends React.Component {
     } else {
       selectedRows.map(item => {
         let itemId = {
-          approverOID: item.approverOID,
-          entityOID: item.entityOID,
+          approverOid: item.approverOid,
+          entityOid: item.entityOid,
           entityType: item.entityType
         };
         let isContainer = false;
         selectedDataOids.map(select => {
-          if( select.entityOID === itemId.entityOID ){
+          if( select.entityOid === itemId.entityOid ){
             isContainer = true;
           }
         });
@@ -383,7 +383,7 @@ class ExpenseReportApprove extends React.Component {
     let nowSelectedRowKeys = [];
     selectedDataOids.map(selected => {
       data.map((item,index) => {
-        if(selected.entityOID === item.entityOID)
+        if(selected.entityOid === item.entityOid)
           nowSelectedRowKeys.push(index);
       })
     });

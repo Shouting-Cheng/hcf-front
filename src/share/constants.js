@@ -924,9 +924,9 @@ export default {
     {
       name: '报销单待审批',
       messageType: ['EXPENSE_REPORT_APPROVAL'],
-      requireParams: ['referenceId', 'approverOID'],
+      requireParams: ['referenceId', 'approverOid'],
       targetUrl:
-        '/main/approve/approve-expense-report/approve-expense-report-detail/:referenceId?approvePending=true&approverOID=:approverOID',
+        '/main/approve/approve-expense-report/approve-expense-report-detail/:referenceId?approvePending=true&approverOid=:approverOid',
     },
     {
       name: '我的账本',
@@ -945,15 +945,15 @@ export default {
         'EXPENSE_APPLICATION_APPROVAL',
         'LOAN_APPLICATION_APPROVAL',
       ],
-      requireParams: ['formOID', 'referenceId', 'approverOID'],
+      requireParams: ['formOid', 'referenceId', 'approverOid'],
       targetUrl:
-        '/main/approve/approve-request/approve-request-detail/:formOID/:referenceId?approving=true&approverOID=:approverOID',
+        '/main/approve/approve-request/approve-request-detail/:formOid/:referenceId?approving=true&approverOid=:approverOid',
     },
     {
       name: '申请单审批通过，借款单审核，待审核详情页面',
       messageType: ['TRAVEL_APPLICATION_PASS', 'EXPENSE_APPLICATION_PASS', 'LOAN_APPLICATION_PASS'],
-      requireParams: ['formOID', 'referenceId'],
-      targetUrl: '/main/request/request-detail/:formOID/:referenceId/my',
+      requireParams: ['formOid', 'referenceId'],
+      targetUrl: '/main/request/request-detail/:formOid/:referenceId/my',
     },
     {
       name: '申请单审批驳回',
@@ -962,20 +962,20 @@ export default {
         'EXPENSE_APPLICATION_REJECT',
         'LOAN_APPLICATION_REJECT',
       ],
-      requireParams: ['formOID', 'referenceId'],
-      targetUrl: '/main/request/request-edit/:formOID/:referenceId',
+      requireParams: ['formOid', 'referenceId'],
+      targetUrl: '/main/request/request-edit/:formOid/:referenceId',
     },
     {
       name: '借款单审核通知',
       messageType: ['LOAN_APPLICATION_AUDIT_NOTICE'],
-      requireParams: ['formOID', 'referenceId'],
-      targetUrl: '/main/request/request-detail/:formOID/:referenceId/my',
+      requireParams: ['formOid', 'referenceId'],
+      targetUrl: '/main/request/request-detail/:formOid/:referenceId/my',
     },
     {
       name: '申请单只读',
       messageType: ['APPLICATION_READONLY'],
-      requireParams: ['formOID', 'referenceId'],
-      targetUrl: '/main/request/request-detail/:formOID/:referenceId/my?readOnly=true',
+      requireParams: ['formOid', 'referenceId'],
+      targetUrl: '/main/request/request-detail/:formOid/:referenceId/my?readOnly=true',
     },
     {
       name: '报销单只读',

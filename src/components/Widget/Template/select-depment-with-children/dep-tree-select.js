@@ -44,8 +44,8 @@ class DepTreeSelect extends React.Component {
     SelectDepWithChildrenService.getFirstlevelDep(this.props.flagDep).then(response => {
       response.data.map(item => {
         item.title = item.name;
-        item.value = item.departmentOID;
-        item.key = item.departmentOID;
+        item.value = item.departmentOid;
+        item.key = item.departmentOid;
         item.isLeaf = !item.hasChildrenDepartments;
       });
       this.setState({
@@ -65,15 +65,15 @@ class DepTreeSelect extends React.Component {
       if (treeNode.props.dataRef.hasChildrenDepartments) {
         SelectDepWithChildrenService.getChildlevelDep(
           this.props.flagDep,
-          treeNode.props.dataRef.departmentOID
+          treeNode.props.dataRef.departmentOid
         ).then(response => {
           response.data.map(item => {
             item.title = item.name;
-            item.value = item.departmentOID;
-            item.key = item.departmentOID;
+            item.value = item.departmentOid;
+            item.key = item.departmentOid;
             item.isLeaf = !item.hasChildrenDepartments;
             //antd无法做到disableCheckbox=true后异步加载数据显示选择并禁用  所以抛弃选择根节点后禁用选择子节点的方案，改为当选择跟节点时，右侧不显示子节点
-            // if(!this.props.isIncludeChildren && (this.state.checkedKeys.indexOf(treeNode.props.dataRef.departmentOID) > -1)){
+            // if(!this.props.isIncludeChildren && (this.state.checkedKeys.indexOf(treeNode.props.dataRef.departmentOid) > -1)){
             //   item.disabled = true;
             // }else{
             //   item.disabled = false;
@@ -109,7 +109,7 @@ class DepTreeSelect extends React.Component {
         key: item.props.dataRef.value,
         label: item.props.dataRef.title,
         isLeaf: item.props.dataRef.isLeaf,
-        parentDepartmentOID: item.props.dataRef.parentDepartmentOID,
+        parentDepartmentOid: item.props.dataRef.parentDepartmentOid,
       });
     });
     if (this.props.isIncludeChildren) {
@@ -128,13 +128,13 @@ class DepTreeSelect extends React.Component {
   onCheckSearchList = item => {
     let checkedNodes = this.state.checkedNodes;
     let checkedKeys = this.state.checkedKeys;
-    if (checkedKeys.indexOf(item.departmentOID) === -1) {
-      checkedKeys.push(item.departmentOID);
+    if (checkedKeys.indexOf(item.departmentOid) === -1) {
+      checkedKeys.push(item.departmentOid);
       checkedNodes.push({
-        key: item.departmentOID,
+        key: item.departmentOid,
         label: item.name,
         isLeaf: true,
-        parentDepartmentOID: item.parent.departmentOID,
+        parentDepartmentOid: item.parent.departmentOid,
       });
       this.setState({
         checkedKeys: checkedKeys,
@@ -158,10 +158,10 @@ class DepTreeSelect extends React.Component {
     // if(this.props.isIncludeChildren && value.isLeaf){
     //   //如果是叶子节点并且是非受控模式，查找他的根节点并同时移除，否则无法联动左侧树导致数据混乱
     //   checkedKeys.splice(checkedKeys.indexOf(value.key),1);
-    //   checkedKeys.splice(checkedKeys.indexOf(value.parentDepartmentOID),1);
+    //   checkedKeys.splice(checkedKeys.indexOf(value.parentDepartmentOid),1);
     //
     //   checkedNodes = this.state.checkedNodes.filter(( item ) =>{
-    //     return item.key !== ( value.key || value.parentDepartmentOID);
+    //     return item.key !== ( value.key || value.parentDepartmentOid);
     //   });
     // }else{
     //   checkedKeys.splice(checkedKeys.indexOf(value.key),1);
@@ -189,7 +189,7 @@ class DepTreeSelect extends React.Component {
         const beforeStr = item.name.substr(0, index);
         const afterStr = item.name.substr(index + keywords.length);
         const className =
-          checkedKeys.indexOf(item.departmentOID) > -1
+          checkedKeys.indexOf(item.departmentOid) > -1
             ? 'selected-dep-item checked'
             : 'selected-dep-item';
         const title =
@@ -205,7 +205,7 @@ class DepTreeSelect extends React.Component {
         return (
           <div
             className={className}
-            key={item.departmentOID}
+            key={item.departmentOid}
             onClick={() => this.onCheckSearchList(item)}
           >
             <Icon type="team" />
@@ -242,7 +242,7 @@ class DepTreeSelect extends React.Component {
       });
       showCheckedNodes = [
         ...checkedNodes.filter(node => {
-          return parentNodes.indexOf(node.parentDepartmentOID) === -1;
+          return parentNodes.indexOf(node.parentDepartmentOid) === -1;
         }),
       ]; //第二次过滤掉二级副部门
     } else {

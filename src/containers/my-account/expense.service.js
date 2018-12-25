@@ -21,13 +21,13 @@ export default {
     return httpFetch.post(`${config.baseUrl}/invoice/api/v3/invoices`, expense);
   },
 
-  deleteExpense(invoiceOID){
-    return httpFetch.delete(`${config.baseUrl}/api/invoice/batch?invoiceOIDs=${invoiceOID}`)
+  deleteExpense(invoiceOid){
+    return httpFetch.delete(`${config.baseUrl}/api/invoice/batch?invoiceOids=${invoiceOid}`)
   },
 
-  getTitleListByEntity(userOID){
+  getTitleListByEntity(userOid){
     return httpFetch.get(`${config.baseUrl}/api/receipt/header/enable/check`, {
-      userOID
+      userOid
     })
   },
 
@@ -66,8 +66,8 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/bankcard/user/status/CMBC`)
   },
 
-  getTitleList(companyOID){
-    return httpFetch.get(`${config.baseUrl}/api/invoice/header/list`, { companyOID })
+  getTitleList(companyOid){
+    return httpFetch.get(`${config.baseUrl}/api/invoice/header/list`, { companyOid })
   },
 
   getExpenseList(page, pageSize){
@@ -83,11 +83,11 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/invoice/alipay/pdf`, params, {}, {responseType: 'arraybuffer'});
   },
   //打印微信发票
-  printInvoice(invoice, companyOID){
+  printInvoice(invoice, companyOid){
     let params = {
       timestamp: parseInt((new Date()).getTime() / 1000),
       type: invoice.cardsignType,
-      companyOID
+      companyOid
     };
     return httpFetch.post(`${config.baseUrl}/api/getCardSign`, params).then(res => {
       if(res.data && res.data.accessToken){
@@ -135,7 +135,7 @@ export default {
   },
 
   //费用模板上传
-  invoiceTemplateUpload(formData,expenseReportOID,expenseTypeOID){
+  invoiceTemplateUpload(formData,expenseReportOid,expenseTypeOid){
     return httpFetch.post(`${config.baseUrl}/api/expense/import`, formData, {"Content-type": 'multipart/form-data'})
   },
 

@@ -20,7 +20,7 @@ class BookerTicketInfo extends React.Component {
       travelOrders: [],
       modalVisible: false,
       infoIsRight: true, //信息反馈是否合适
-      travelOrderOID: '', //信息反馈的travelOrderOID
+      travelOrderOid: '', //信息反馈的travelOrderOid
     };
   }
 
@@ -98,11 +98,11 @@ class BookerTicketInfo extends React.Component {
     );
   };
 
-  handleInfoConfirm = travelOrderOID => {
+  handleInfoConfirm = travelOrderOid => {
     this.setState({
       modalVisible: true,
       infoIsRight: true,
-      travelOrderOID,
+      travelOrderOid,
     });
     this.props.form.resetFields();
   };
@@ -112,10 +112,10 @@ class BookerTicketInfo extends React.Component {
       if (!err) {
         requestService
           .handleBoardingConfirmation(
-            this.props.info.applicationOID,
+            this.props.info.applicationOid,
             value.comment,
             value.flag,
-            this.state.travelOrderOID
+            this.state.travelOrderOid
           )
           .then(() => {
             message.success(this.$t('common.operate.success'));
@@ -163,7 +163,7 @@ class BookerTicketInfo extends React.Component {
                       type="primary"
                       className="boarding-confirmation-btn"
                       onClick={() => {
-                        this.handleInfoConfirm(item.travelOrderOID);
+                        this.handleInfoConfirm(item.travelOrderOid);
                       }}
                     >
                       {this.$t('request.detail.booker.ticket.feedback') /*机票信息反馈*/}

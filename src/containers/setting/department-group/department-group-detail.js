@@ -29,7 +29,7 @@ class DepartmentGroupDetail extends React.Component {
             data: [],
             edit: false,
             selectedRowKeys: [],
-            selectedEntityOIDs: [],   //已选择的列表项的OIDs
+            selectedEntityOids: [],   //已选择的列表项的Oids
             pagination: {
                 current: 1,
                 page: 0,
@@ -74,7 +74,7 @@ class DepartmentGroupDetail extends React.Component {
     deleteItem = (e, record) => {
         this.setState({ loading: true });
         let param = [];
-        typeof record === 'undefined' ? param = this.state.selectedEntityOIDs : param.push(record.departmentDetailId);
+        typeof record === 'undefined' ? param = this.state.selectedEntityOids : param.push(record.departmentDetailId);
         console.log(param);
         deptGroupService.deleteDeptGroupById(param).then(response => {
 
@@ -83,7 +83,7 @@ class DepartmentGroupDetail extends React.Component {
             }
             this.setState({
                 selectedRowKeys: [],
-                selectedEntityOIDs: [],
+                selectedEntityOids: [],
                 batchDelete: true
             }, this.getList());
 
@@ -195,22 +195,22 @@ class DepartmentGroupDetail extends React.Component {
 
     //选择一行
     //选择逻辑：每一项设置selected属性，如果为true则为选中
-    //同时维护selectedEntityOIDs列表，记录已选择的OID，并每次分页、选择的时候根据该列表来刷新选择项
+    //同时维护selectedEntityOids列表，记录已选择的Oid，并每次分页、选择的时候根据该列表来刷新选择项
     onSelectRow = (record, selected) => {
-        let temp = this.state.selectedEntityOIDs;
+        let temp = this.state.selectedEntityOids;
         if (selected)
             temp.push(record.departmentDetailId);
         else
             temp.delete(record.departmentDetailId);
         this.setState({
-            selectedEntityOIDs: temp,
+            selectedEntityOids: temp,
             batchDelete: temp.length > 0 ? false : true
         })
     };
 
     //全选
     onSelectAllRow = (selected) => {
-        let temp = this.state.selectedEntityOIDs;
+        let temp = this.state.selectedEntityOids;
         if (selected) {
             this.state.data.map(item => {
                 temp.addIfNotExist(item.departmentDetailId)
@@ -221,17 +221,17 @@ class DepartmentGroupDetail extends React.Component {
             })
         }
         this.setState({
-            selectedEntityOIDs: temp,
+            selectedEntityOids: temp,
             batchDelete: temp.length > 0 ? false : true
         })
     };
 
-    //换页后根据OIDs刷新选择框
+    //换页后根据Oids刷新选择框
     refreshRowSelection() {
         let selectedRowKeys = [];
-        this.state.selectedEntityOIDs.map(selectedEntityOID => {
+        this.state.selectedEntityOids.map(selectedEntityOid => {
             this.state.data.map((item, index) => {
-                if (item.departmentDetailId === selectedEntityOID)
+                if (item.departmentDetailId === selectedEntityOid)
                     selectedRowKeys.push(index);
             })
         });
@@ -240,7 +240,7 @@ class DepartmentGroupDetail extends React.Component {
 
     //清空选择框
     clearRowSelection() {
-        this.setState({ selectedEntityOIDs: [], selectedRowKeys: [] });
+        this.setState({ selectedEntityOids: [], selectedRowKeys: [] });
     }
 
     //分页点击

@@ -269,9 +269,9 @@ export default {
     })
   },
   //导入自定义银行时:发生错误，循环调用：因为导入自定义银行报系统异常，接口测试ok
-  importSelfBankErr: function (transactionOID) {
+  importSelfBankErr: function (transactionOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/bank/info/' + transactionOID)
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/bank/info/' + transactionOid)
         .then((res) => {
           resolve(res)
         })
@@ -282,9 +282,9 @@ export default {
     })
   },
   //导出错误信息：因为导入自定义银行报系统异常，接口测试ok
-  exportSelfBankErr: function (transactionOID) {
+  exportSelfBankErr: function (transactionOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/bankinfo/' + transactionOID, {}, {}, { responseType: 'arraybuffer' })
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/bankinfo/' + transactionOid, {}, {}, { responseType: 'arraybuffer' })
         .then((res) => {
           resolve(res)
         })

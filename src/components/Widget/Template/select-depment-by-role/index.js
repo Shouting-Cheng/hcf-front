@@ -13,7 +13,7 @@
 //   {
 //     "name": "",
 //     "childrenDepartment":[],
-//     "departmentOID":""
+//     "departmentOid":""
 //   },
 //   {
 //     "name": "",
@@ -21,10 +21,10 @@
 //       {
 //         "name": "",
 //         "childrenDepartment":[],
-//         "departmentOID":""
+//         "departmentOid":""
 //       },
 //     ],
-//     "departmentOID":""
+//     "departmentOid":""
 //   },
 // ]
 

@@ -14,7 +14,7 @@ class AddApproveRuleModal extends React.Component {
       loading: false,
       formFieldList: null, //表单条件字段 字段类型(100默认, 101文本, 102整数, 103日期, 104浮点数, 105日期, 106值列表, 107GPS, 108布尔)
       formFieldCostCenterList: null, //审批条件为成本中心属性字段
-      chosenRuleOIDs: [],
+      chosenRuleOids: [],
     }
   }
 
@@ -23,13 +23,13 @@ class AddApproveRuleModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ chosenRuleOIDs: nextProps.defaultValue || [] })
+    this.setState({ chosenRuleOids: nextProps.defaultValue || [] })
   }
 
   getList = () => {
     if (!this.state.formFieldList) {
       this.setState({ loading: true });
-      workflowService.getFormFields(this.props.formOID).then(res => {
+      workflowService.getFormFields(this.props.formOid).then(res => {
         this.setState({ loading: false, formFieldList: res.data }, () => {
           //初始化审批条件的成本中心属性字段
           let formFieldList = this.state.formFieldList;
@@ -42,7 +42,7 @@ class AddApproveRuleModal extends React.Component {
                 if (field.messageKey === 'select_cost_center' && field.dataSource) {
                   let oneCostCenter = {};
                   oneCostCenter.name = field.fieldName;
-                  oneCostCenter.refCostCenterOID = JSON.parse(field.dataSource).costCenterOID;
+                  oneCostCenter.refCostCenterOid = JSON.parse(field.dataSource).costCenterOid;
                   costCenterList.push(oneCostCenter)
                 }
               })
@@ -55,7 +55,7 @@ class AddApproveRuleModal extends React.Component {
           costCenterList.map(costCenter => {
             costCenter.propertyList = [];
             costCenterPropertyList.map(property => {
-              if (costCenter.refCostCenterOID === property.refCostCenterOID) {
+              if (costCenter.refCostCenterOid === property.refCostCenterOid) {
                 property.costCenterName = costCenter.name;
                 costCenter.propertyList.push(property);
               }
@@ -109,7 +109,7 @@ class AddApproveRuleModal extends React.Component {
 
   //点击"确定"
   handleOK = () => {
-    const { formFieldList, chosenRuleOIDs } = this.state;
+    const { formFieldList, chosenRuleOids } = this.state;
     let list = [];
     let chosenRuleItems = [];
     Object.keys(formFieldList).map(key => {
@@ -117,21 +117,21 @@ class AddApproveRuleModal extends React.Component {
         list.push(item)
       })
     });
-    chosenRuleOIDs.map((oid, index) => {
+    chosenRuleOids.map((oid, index) => {
       list.map(item => {
-        if ((item.messageKey !== 'cust_list' && item.messageKey !== 'judge_cost_center' && item.fieldOID === oid) ||
-          (item.messageKey === 'cust_list' && item.refCostCenterOID && `${item.fieldOID}_${item.refCostCenterOID}` === oid) ||
-          (item.messageKey === 'cust_list' && !item.refCostCenterOID && item.fieldOID === oid) ||
+        if ((item.messageKey !== 'cust_list' && item.messageKey !== 'judge_cost_center' && item.fieldOid === oid) ||
+          (item.messageKey === 'cust_list' && item.refCostCenterOid && `${item.fieldOid}_${item.refCostCenterOid}` === oid) ||
+          (item.messageKey === 'cust_list' && !item.refCostCenterOid && item.fieldOid === oid) ||
           ((item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
-            && (`${item.fieldOID},${item.messageKey}` === oid)) ||
-          (item.messageKey === 'judge_cost_center' && `${item.fieldOID}_${item.messageKey}` === oid)) {
+            && (`${item.fieldOid},${item.messageKey}` === oid)) ||
+          (item.messageKey === 'judge_cost_center' && `${item.fieldOid}_${item.messageKey}` === oid)) {
           let param = {
             index,
-            entityOID: this.props.ruleApproverOID,
+            entityOid: this.props.ruleApproverOid,
             name: item.fieldName,
             remark: item.messageKey,
             field: (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend') ?
-              `${item.fieldOID},${item.messageKey}` : item.fieldOID,
+              `${item.fieldOid},${item.messageKey}` : item.fieldOid,
             isEdit: true
           };
           item.fieldContent && (param.fieldContent = item.fieldContent);
@@ -152,15 +152,15 @@ class AddApproveRuleModal extends React.Component {
             default:
               symbol = '9011'; //'long' || 'double' || 'date' (范围)
           }
-          item.messageKey === 'select_cost_center' && (param.customEnumerationOID = JSON.parse(item.dataSource || '{}').costCenterOID);
+          item.messageKey === 'select_cost_center' && (param.customEnumerationOid = JSON.parse(item.dataSource || '{}').costCenterOid);
           if (item.messageKey === 'cust_list') {
-            param.customEnumerationOID = JSON.parse(item.dataSource || '{}').customEnumerationOID;
-            param.refCostCenterOID = item.refCostCenterOID;
+            param.customEnumerationOid = JSON.parse(item.dataSource || '{}').customEnumerationOid;
+            param.refCostCenterOid = item.refCostCenterOid;
             param.costCenterName = item.costCenterName;
           }
           if (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend') {
-            param.customEnumerationOID = JSON.parse(item.dataSource || '{}').customEnumerationOID;
-            // param.customEnumerationOID = "b0a71585-1429-41ee-a7a8-2a40bda07879";
+            param.customEnumerationOid = JSON.parse(item.dataSource || '{}').customEnumerationOid;
+            // param.customEnumerationOid = "b0a71585-1429-41ee-a7a8-2a40bda07879";
           }
           symbol && (param.symbol = symbol);
           chosenRuleItems.push(param)
@@ -172,7 +172,7 @@ class AddApproveRuleModal extends React.Component {
 
   render() {
     const { visible } = this.props;
-    const { loading, formFieldList, formFieldCostCenterList, chosenRuleOIDs } = this.state;
+    const { loading, formFieldList, formFieldCostCenterList, chosenRuleOids } = this.state;
     let customFormFieldList = [];
     if (formFieldList) {
       (formFieldList['101'] || []).map(item => customFormFieldList.push(item));
@@ -199,32 +199,32 @@ class AddApproveRuleModal extends React.Component {
               <ListItem className="default-addition">
                 <div>
                   <h4>{this.$t('setting.key1286'/*申请人条线*/)}</h4>
-                  <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
+                  <TagSelect hideCheckAll={true} value={chosenRuleOids} onChange={value => { this.setState({ chosenRuleOids: value }) }}>
                     {formFieldList && (formFieldList['100'] || []).map(item => {
                       let value = (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
-                        ? `${item.fieldOID},${item.messageKey}` : item.fieldOID;
-                      return <TagSelect.Option value={value} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
+                        ? `${item.fieldOid},${item.messageKey}` : item.fieldOid;
+                      return <TagSelect.Option value={value} key={item.fieldOid}>{item.fieldName}</TagSelect.Option>
                     })}
                   </TagSelect>
                 </div>
               </ListItem>
               <ListItem>
                 <h4>{this.$t('setting.key1287'/*表单自定义条件*/)}</h4>
-                <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
+                <TagSelect hideCheckAll={true} value={chosenRuleOids} onChange={value => { this.setState({ chosenRuleOids: value }) }}>
                   {customFormFieldList.map(item => {
 
                     let value = (item.messageKey === 'default_user_department_extend' || item.messageKey === 'custom_form_department_extend')
-                      ? `${item.fieldOID},${item.messageKey}` : item.fieldOID;
-                    return <TagSelect.Option value={value} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
+                      ? `${item.fieldOid},${item.messageKey}` : item.fieldOid;
+                    return <TagSelect.Option value={value} key={item.fieldOid}>{item.fieldName}</TagSelect.Option>
                   })}
                 </TagSelect>
               </ListItem>
               {formFieldList && formFieldList['200'] && !!formFieldList['200'].length && (
                 <ListItem>
                   <h4>{this.$t('setting.key1288'/*管控条件*/)}</h4>
-                  <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
+                  <TagSelect hideCheckAll={true} value={chosenRuleOids} onChange={value => { this.setState({ chosenRuleOids: value }) }}>
                     {formFieldList['200'].map(item => {
-                      return <TagSelect.Option value={item.fieldOID} key={item.fieldOID}>{item.fieldName}</TagSelect.Option>
+                      return <TagSelect.Option value={item.fieldOid} key={item.fieldOid}>{item.fieldName}</TagSelect.Option>
                     })}
                   </TagSelect>
                 </ListItem>
@@ -234,12 +234,12 @@ class AddApproveRuleModal extends React.Component {
                   <h4>{this.$t('setting.key1289'/*成本中心属性条件*/)}</h4>
                   {formFieldCostCenterList.map(costCenter => {
                     return (
-                      <div key={costCenter.refCostCenterOID}>
+                      <div key={costCenter.refCostCenterOid}>
                         <div>{costCenter.name}</div>
-                        <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
+                        <TagSelect hideCheckAll={true} value={chosenRuleOids} onChange={value => { this.setState({ chosenRuleOids: value }) }}>
                           {costCenter.propertyList.map(item => (
-                            <TagSelect.Option value={`${item.fieldOID}_${item.refCostCenterOID}`}
-                              key={`${item.fieldOID}_${item.refCostCenterOID}`}>{item.fieldName}</TagSelect.Option>
+                            <TagSelect.Option value={`${item.fieldOid}_${item.refCostCenterOid}`}
+                              key={`${item.fieldOid}_${item.refCostCenterOid}`}>{item.fieldName}</TagSelect.Option>
                           ))}
                         </TagSelect>
                       </div>
@@ -250,11 +250,11 @@ class AddApproveRuleModal extends React.Component {
               {formFieldList && formFieldList['400'] && !!formFieldList['400'].length && (
                 <ListItem>
                   <h4>{this.$t('setting.key1290'/*申请人=成本中心经理*/)}</h4>
-                  <TagSelect hideCheckAll={true} value={chosenRuleOIDs} onChange={value => { this.setState({ chosenRuleOIDs: value }) }}>
-                    {/*由于【申请人=成本中心经理】和【表单自定义条件中的成本中心】的fieldOID一样，为了区分，在fieldOID后拼上remark*/}
+                  <TagSelect hideCheckAll={true} value={chosenRuleOids} onChange={value => { this.setState({ chosenRuleOids: value }) }}>
+                    {/*由于【申请人=成本中心经理】和【表单自定义条件中的成本中心】的fieldOid一样，为了区分，在fieldOid后拼上remark*/}
                     {formFieldList['400'].map(item => (
-                      <TagSelect.Option value={`${item.fieldOID}_${item.messageKey}`}
-                        key={`${item.fieldOID}_${item.messageKey}`}>{item.fieldName}</TagSelect.Option>
+                      <TagSelect.Option value={`${item.fieldOid}_${item.messageKey}`}
+                        key={`${item.fieldOid}_${item.messageKey}`}>{item.fieldName}</TagSelect.Option>
                     ))}
                   </TagSelect>
                 </ListItem>
@@ -269,8 +269,8 @@ class AddApproveRuleModal extends React.Component {
 
 AddApproveRuleModal.propTypes = {
   visible: PropTypes.bool,
-  formOID: PropTypes.string,
-  ruleApproverOID: PropTypes.string,
+  formOid: PropTypes.string,
+  ruleApproverOid: PropTypes.string,
   batchCode: PropTypes.number,
   defaultValue: PropTypes.array,
   onOk: PropTypes.func,

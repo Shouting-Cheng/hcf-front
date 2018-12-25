@@ -100,7 +100,7 @@ class ExpenseTypeModal extends React.Component {
         },
         {
           title: this.$t('common.operation'),
-          dataIndex: 'expenseTypeOID',
+          dataIndex: 'expenseTypeOid',
           width: '9%',
           render: (value, record, index) => (
             <Popconfirm
@@ -120,7 +120,7 @@ class ExpenseTypeModal extends React.Component {
       ],
       warnExchangeRateTol: 10, //汇率容差警告值
       prohibitExchangeRateTol: 20, //汇率容差最大值
-      applicationOID: null, //申请人OID
+      applicationOid: null, //申请人Oid
       baseCurrency: null, //申请人的本位币
     };
   }
@@ -191,9 +191,9 @@ class ExpenseTypeModal extends React.Component {
   //获取币种
   getCurrencyOptions = (open) => {
     if(open){
-      (!this.state.currencyOptions.length || this.state.applicationOID !== this.props.user.userOID) &&
+      (!this.state.currencyOptions.length || this.state.applicationOid !== this.props.user.userOid) &&
       this.service
-        .getCurrencyList(this.props.formDetail.applicantOID || this.props.user.userOID)
+        .getCurrencyList(this.props.formDetail.applicantOid || this.props.user.userOid)
         .then(res => {
           let currencyOptions = [];
           //过滤掉禁用的企业币种
@@ -203,7 +203,7 @@ class ExpenseTypeModal extends React.Component {
           this.setState({
             currencyOptions,
             currencyFetching: false,
-            applicationOID: this.props.user.userOID,
+            applicationOid: this.props.user.userOid,
           });
         });
       this.getRateDeviation();
@@ -217,7 +217,7 @@ class ExpenseTypeModal extends React.Component {
       .getCurrencyRate(
         this.state.currencyCode,
         date,
-        this.props.user.userOID,
+        this.props.user.userOid,
         this.props.company.baseCurrency
       )
       .then(res => {
@@ -299,8 +299,8 @@ class ExpenseTypeModal extends React.Component {
       if (!err) {
         let values = {
           expenseType,
-          expenseTypeOID:
-            expenseChosenInfo.expenseType.expenseTypeOID || expenseChosenInfo.expenseTypeOID,
+          expenseTypeOid:
+            expenseChosenInfo.expenseType.expenseTypeOid || expenseChosenInfo.expenseTypeOid,
           iconName: expenseChosenInfo.expenseType.iconName,
           iconURL: expenseChosenInfo.expenseType.iconURL,
           paymentType,
@@ -592,7 +592,7 @@ class ExpenseTypeModal extends React.Component {
               onSelect={this.handleSelectExpenseType}
               source="formV2"
               param={{
-                formOID: this.props.formOID,
+                formOid: this.props.formOid,
                 createManually: true,
                 setOfBooksId: this.props.formDetail.setOfBooksId,
               }}
@@ -605,8 +605,8 @@ class ExpenseTypeModal extends React.Component {
 }
 
 ExpenseTypeModal.propTypes = {
-  formOID: PropTypes.string.isRequired, //表单OID
-  formDetail: PropTypes.object.isRequired, //表单OID
+  formOid: PropTypes.string.isRequired, //表单Oid
+  formDetail: PropTypes.object.isRequired, //表单Oid
   value: PropTypes.object,
   onChange: PropTypes.func, //进行选择后的回调
 };

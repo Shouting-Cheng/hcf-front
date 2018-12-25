@@ -365,7 +365,7 @@ class PrePaymentCommon extends React.Component {
     let model = {
       entities: [
         {
-          entityOID: documentOid,
+          entityOid: documentOid,
           entityType: 801003,
         },
       ],

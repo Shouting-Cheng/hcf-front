@@ -20,7 +20,7 @@ class PriceReviewBtn extends React.Component {
   //审核操作
   handleReview = (type, comment) => {
     let params = {
-      applicationOID: this.props.applicationOID,
+      applicationOid: this.props.applicationOid,
       flag: type === 'pass', //true 通过，false 驳回
       comment,
     };
@@ -71,7 +71,7 @@ class PriceReviewBtn extends React.Component {
 
 PriceReviewBtn.propTypes = {
   approving: PropTypes.bool,
-  applicationOID: PropTypes.string,
+  applicationOid: PropTypes.string,
 };
 
 function mapStateToProps(state) {

@@ -58,9 +58,9 @@ class NodeKnow extends React.Component {
         params.code = basicInfo.code;
         params.level = basicInfo.level;
         params.level = basicInfo.level;
-        params.nextRuleApprovalNodeOID = basicInfo.nextRuleApprovalNodeOID;
-        params.ruleApprovalChainOID = basicInfo.ruleApprovalChainOID;
-        params.ruleApprovalNodeOID = basicInfo.ruleApprovalNodeOID;
+        params.nextRuleApprovalNodeOid = basicInfo.nextRuleApprovalNodeOid;
+        params.ruleApprovalChainOid = basicInfo.ruleApprovalChainOid;
+        params.ruleApprovalNodeOid = basicInfo.ruleApprovalNodeOid;
         params.type = basicInfo.type;
         this.setState({ loading: true });
         workflowService.modifyApprovalNodes(params).then(() => {

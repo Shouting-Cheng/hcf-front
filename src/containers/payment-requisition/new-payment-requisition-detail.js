@@ -600,12 +600,12 @@ class NewPaymentRequisitionDetail extends React.Component {
       return;
     } else {
       let params = {
-        applicantOID: headerData.applicantOid,
-        userOID: this.props.user.userOID,
-        formOID: headerData.formOid,
-        entityOID: headerData.documentOid,
+        applicantOid: headerData.applicantOid,
+        userOid: this.props.user.userOid,
+        formOid: headerData.formOid,
+        entityOid: headerData.documentOid,
         entityType: 801005,
-        countersignApproverOIDs: null,
+        countersignApproverOids: null,
       };
       paymentRequisitionService
         .submitHeader(params)
@@ -676,11 +676,11 @@ class NewPaymentRequisitionDetail extends React.Component {
   returnFunction = () => {
     this.setState({ loading: true, dLoading: true, pageLoading: true });
     const { headerData } = this.state;
-    let entityOID = headerData.documentOid;
+    let entityOid = headerData.documentOid;
     let params = {
       entities: [
         {
-          entityOID: entityOID,
+          entityOid: entityOid,
           entityType: 801005,
         },
       ],
@@ -697,7 +697,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           message.error(
             this.$t( 'common.operate.filed' /*操作失败*/) +
               ',' +
-              res.data.failReason[entityOID]
+              res.data.failReason[entityOid]
           );
         }
       })

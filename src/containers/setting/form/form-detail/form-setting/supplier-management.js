@@ -55,7 +55,7 @@ class SupplierManagement extends React.Component {
 
   componentWillMount() {
     const {propertyList, data} = this.props;
-    const {formOID} = this.props.params;
+    const {formOid} = this.props.params;
     propertyList.map(item => {
       if(item.propertyName === 'ca.travel.deactivatedate.enabled') {
         this.setState({
@@ -63,7 +63,7 @@ class SupplierManagement extends React.Component {
         })
       }
     })
-    formService.getSupplierOptions(formOID).then(res => {
+    formService.getSupplierOptions(formOid).then(res => {
       if (res.status ===  200) {
         this.setState({
           options: res.data,
@@ -570,7 +570,7 @@ class SupplierManagement extends React.Component {
 //点击保存
   onSaveClick = () => {
     const {propertyList} = this.props;
-    const {formOID} = this.props.params;
+    const {formOid} = this.props.params;
     const {options, fields3Options, expiryDateControl,
       fields1ThrOptions, fields2ThrOptions, fields3ThrOptions, fields4ThrOptions, fields5ThrOptions,
       controlFieldsFlight, controlFieldsHotel, controlFieldsTrain, costCenterCustom} = this.state;
@@ -802,7 +802,7 @@ class SupplierManagement extends React.Component {
             'ca.travel.deactivatedate.enabled': expiryDateControl.propertyValue,
             'ca.travel.remark.disabled': !travelRemark,
           }
-          formService.saveSupplierForm(formOID, params).then(res => {
+          formService.saveSupplierForm(formOid, params).then(res => {
             if(res.status ===  200) {
               message.success(this.$t("invoice.management.save.success")/*保存成功*/);
               this.props.saveHandle(true)

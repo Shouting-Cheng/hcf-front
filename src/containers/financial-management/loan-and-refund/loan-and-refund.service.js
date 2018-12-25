@@ -54,9 +54,9 @@ export default {
     return httpFetch.get(url);
   },
 
-  //根据还款OID获取还款信息
-  getRefundInfo(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/repayment/detail/${OID}`);
+  //根据还款Oid获取还款信息
+  getRefundInfo(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/repayment/detail/${Oid}`);
   },
 
   //获取付款银行信息
@@ -80,11 +80,11 @@ export default {
   },
 
   //获取还款用户的账户信息
-  getAccountBankInfo(applicationOID, userOID) {
+  getAccountBankInfo(applicationOid, userOid) {
     return httpFetch.get(
       `${
         config.baseUrl
-      }/api/repayment/contact/bank?applicationOID=${applicationOID}&userOID=${userOID}`
+      }/api/repayment/contact/bank?applicationOid=${applicationOid}&userOid=${userOid}`
     );
   },
 };

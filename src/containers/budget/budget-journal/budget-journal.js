@@ -157,7 +157,7 @@ class BudgetJournal extends React.Component {
       // newBudgetJournalDetailPage: menuRoute.getRouteItem('new-budget-journal', 'key'),    //新建预算日记账的页面项
       // budgetJournalDetailPage: menuRoute.getRouteItem('budget-journal-detail', 'key'),    //预算日记账详情
       // budgetJournalDetailSubmit: menuRoute.getRouteItem('budget-journal-detail-submit', 'key'),
-      selectedEntityOIDs: [], //已选择的列表项的OIDs
+      selectedEntityOids: [], //已选择的列表项的Oids
     };
   }
 

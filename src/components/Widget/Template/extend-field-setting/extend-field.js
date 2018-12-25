@@ -149,7 +149,7 @@ class ExtendFieldComponent extends React.Component {
           return false;
         }
         let dataSource = JSON.parse(field.dataSource);
-        if (!dataSource.customEnumerationOID) {
+        if (!dataSource.customEnumerationOid) {
           Modal.warning({
             title: this.$t('extend.field.tips'), //'提示',
             content: this.$t('extend.field.list.no.empty'), //'选择列表不能为空',
@@ -373,7 +373,7 @@ class ExtendFieldComponent extends React.Component {
               this.addFieldItem(item);
             }}
             type={item.messageKey}
-            key={item.guiWidgetOID}
+            key={item.guiWidgetOid}
           >
             {item.name}
           </div>

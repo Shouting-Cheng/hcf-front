@@ -15,8 +15,8 @@ class LoanRelatedApplication extends React.Component {
     let reference = this.props.info.referenceApplication;
     window.open(
       this.state.requestDetail.url
-        .replace(':formOID', reference.formOID)
-        .replace(':applicationOID', reference.applicationOID) + '?from=request'
+        .replace(':formOid', reference.formOid)
+        .replace(':applicationOid', reference.applicationOid) + '?from=request'
     );
   };
 

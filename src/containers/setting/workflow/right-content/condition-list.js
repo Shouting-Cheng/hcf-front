@@ -18,7 +18,7 @@ class NodeConditionList extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      ruleApprovalNodeOID: '',
+      ruleApprovalNodeOid: '',
       approvalAndDepLevel: [  //审批级别 部门层级
         {id: 1, name: this.$t('setting.key1309'/*本级*/), depLevel: this.$t('setting.key1291'/*一级*/)},
         {id: 2, name: this.$t('setting.key1310'/*第二级*/), depLevel: this.$t('setting.key1292'/*二级*/)},
@@ -41,10 +41,10 @@ class NodeConditionList extends React.Component {
       typeValueList:[],//自定义列表
       formFieldList: null, //表单条件字段 字段类型(100默认, 101文本, 102整数, 103日期, 104浮点数, 105日期, 106值列表, 107GPS, 108布尔)
       formFieldCostCenterList: null, //审批条件为成本中心属性字段
-      defaultAdditionOID: [], //默认审批条件的OID
+      defaultAdditionOid: [], //默认审批条件的Oid
       ruleApprovers: deepCopy(this.props.basicInfo.ruleApprovers) || [], //审批人
       symbolsType: [], //条件操作符
-      approverOIDForAddRule: '', //审批人OID，用于添加审批条件modal
+      approverOidForAddRule: '', //审批人Oid，用于添加审批条件modal
       batchCode: null, //审批条件的batchCode，用于添加审批条件modal
       isRuleInEdit: false, //是否有审批条件处于编辑状态
       deleteTagValue: {}, //审批条件中删除的值列表的值 {remark: '', value: ''}
@@ -56,7 +56,7 @@ class NodeConditionList extends React.Component {
 
   componentDidMount() {
     this.setState({
-      ruleApprovalNodeOID: this.props.basicInfo.ruleApprovalNodeOID,
+      ruleApprovalNodeOid: this.props.basicInfo.ruleApprovalNodeOid,
       loading: true
     });
     Promise.all([
@@ -76,9 +76,9 @@ class NodeConditionList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.ruleApprovalNodeOID !== nextProps.basicInfo.ruleApprovalNodeOID) { //改变节点
+    if (this.state.ruleApprovalNodeOid !== nextProps.basicInfo.ruleApprovalNodeOid) { //改变节点
       this.setState({
-        ruleApprovalNodeOID: nextProps.basicInfo.ruleApprovalNodeOID,
+        ruleApprovalNodeOid: nextProps.basicInfo.ruleApprovalNodeOid,
         ruleApprovers: deepCopy(nextProps.basicInfo.ruleApprovers) || []
       },() => {
         this.props.form.resetFields();
@@ -104,7 +104,7 @@ class NodeConditionList extends React.Component {
         } else { //修改人员或人员组
           let ruleApproverIsNotChange = true;
           this.state.ruleApprovers.map((item, index) => {
-            if (item.ruleApproverOID !== nextProps.basicInfo.ruleApprovers[index].ruleApproverOID ||
+            if (item.ruleApproverOid !== nextProps.basicInfo.ruleApprovers[index].ruleApproverOid ||
               (item.level !== nextProps.basicInfo.ruleApprovers[index].level)) //申请人等级修改
               ruleApproverIsNotChange = false
           });
@@ -129,23 +129,23 @@ class NodeConditionList extends React.Component {
   //获取费用类型列表
   getExpenseTypeList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let expenseTypeOID = [];
+    let expenseTypeOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'default_expense_type') { //费用类型
           item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            expenseTypeOID.push(oid)
+            expenseTypeOid.push(oid)
           })
         }
       })
     });
     let params = {
-      formOID: this.props.formOID,
+      formOid: this.props.formOid,
       isALL: true
     };
-    if (expenseTypeOID.length) {
+    if (expenseTypeOid.length) {
       return new Promise((resolve, reject) => {
-        baseService.getExpenseTypesByFormOIDV2(params).then(res => {
+        baseService.getExpenseTypesByFormOidV2(params).then(res => {
           this.setState({ expenseTypeList: res.data ? res.data.expenseTypes : [] });
           resolve(res)
         }).catch(e => {
@@ -158,21 +158,21 @@ class NodeConditionList extends React.Component {
   //获取部门列表
   getDepartmentList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let departmentOID = [];
+    let departmentOid = [];
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
           if (m.remark === 'select_department' || m.remark === 'default_user_department') { //部门
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
-              departmentOID.push(oid)
+              departmentOid.push(oid)
             })
           }
         });
       })
     });
-    if (departmentOID.length) {
+    if (departmentOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getDepartmentSimpleList(departmentOID).then(res => {
+        workflowService.getDepartmentSimpleList(departmentOid).then(res => {
           this.setState({ departmentList: res.data });
           resolve(res)
         }).catch(e => {
@@ -185,19 +185,19 @@ class NodeConditionList extends React.Component {
   //获取成本中心列表
   getCostCenterList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let costCenterOID = [];
+    let costCenterOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'select_cost_center') { //成本中心
           item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            costCenterOID.push(oid)
+            costCenterOid.push(oid)
           })
         }
       })
     });
-    if (costCenterOID.length) {
+    if (costCenterOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getBatchCostCenterList(costCenterOID).then(res => {
+        workflowService.getBatchCostCenterList(costCenterOid).then(res => {
           this.setState({ costCenterList: res.data });
           resolve(res)
         }).catch(e => {
@@ -210,21 +210,21 @@ class NodeConditionList extends React.Component {
   //获取公司列表
   getCompanyList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let companyOID = [];
+    let companyOid = [];
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
           if (m.remark === 'select_company' || m.remark === 'default_applicant_company') { //公司控件
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
-              companyOID.push(oid)
+              companyOid.push(oid)
             })
           }
         });
       })
     });
-    if (companyOID.length) {
+    if (companyOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getBatchCompanyItemList(companyOID).then(res => {
+        workflowService.getBatchCompanyItemList(companyOid).then(res => {
           this.setState({ companyList: res.data });
           resolve(res)
         }).catch(e => {
@@ -236,19 +236,19 @@ class NodeConditionList extends React.Component {
   //获取人员列表
   getUserList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let userOIDs = [];
+    let userOids = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'default_user_applicant' || item.remark === 'default_user_direct_leadership') { //公司控件
           item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            userOIDs.push(oid)
+            userOids.push(oid)
           })
         }
       })
     });
-    if (userOIDs.length) {
+    if (userOids.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getBatchUsers(userOIDs).then(res => {
+        workflowService.getBatchUsers(userOids).then(res => {
           this.setState({ userList: res.data });
           resolve(res)
         }).catch(e => {
@@ -261,19 +261,19 @@ class NodeConditionList extends React.Component {
   //获取法人实体列表
   getEntityList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let entityOID = [];
+    let entityOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'select_corporation_entity' || item.remark === 'default_corporation_entity') { //公司控件
           item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            entityOID.push(oid)
+            entityOid.push(oid)
           })
         }
       })
     });
-    if (entityOID.length) {
+    if (entityOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getBatchCorporationEntityList(entityOID).then(res => {
+        workflowService.getBatchCorporationEntityList(entityOid).then(res => {
           this.setState({ entityList: res.data });
           resolve(res)
         }).catch(e => {
@@ -286,7 +286,7 @@ class NodeConditionList extends React.Component {
   //获取值列表
   getValueList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let valueListOID = [];
+    let valueListOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'cust_list'
@@ -294,15 +294,15 @@ class NodeConditionList extends React.Component {
           ||item.remark==='default_user_category'
           ||item.remark==='default_user_level'
           ||item.remark==='default_user_sex') { //值列表
-          item.valueDetail && JSON.parse(item.valueDetail).valueOIDs.map(oid => {
-            valueListOID.push(oid)
+          item.valueDetail && JSON.parse(item.valueDetail).valueOids.map(oid => {
+            valueListOid.push(oid)
           })
         }
       })
     });
-    if (valueListOID.length) {
+    if (valueListOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getCustomEnumerationList(valueListOID).then(res => {
+        workflowService.getCustomEnumerationList(valueListOid).then(res => {
           this.setState({ valueList: res.data });
           resolve(res)
         }).catch(e => {
@@ -315,19 +315,19 @@ class NodeConditionList extends React.Component {
   //获取全部部门扩展字段值列表
   getDepartmentExtend = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let valueListOID = [];
+    let valueListOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend') { //值列表
-          item.valueDetail && JSON.parse(item.valueDetail).valueOIDs.map(oid => {
-            valueListOID.push(oid)
+          item.valueDetail && JSON.parse(item.valueDetail).valueOids.map(oid => {
+            valueListOid.push(oid)
           })
         }
       })
     });
-    if (valueListOID.length) {
+    if (valueListOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getCustomEnumerationList(valueListOID).then(res => {
+        workflowService.getCustomEnumerationList(valueListOid).then(res => {
           this.setState({ extendValueList: res.data });
           resolve(res)
         }).catch(e => {
@@ -340,20 +340,20 @@ class NodeConditionList extends React.Component {
   //根据type获取值列表
   getTypeValueList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let typeValueListOID = [];
+    let typeValueListOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.fieldContent === '1001'||item.fieldContent === '1007'
           ||item.fieldContent === '1008'||item.fieldContent === '1002') { //值列表
-          item.valueDetail && JSON.parse(item.valueDetail).valueOIDs.map(oid => {
-            typeValueListOID.push(oid)
+          item.valueDetail && JSON.parse(item.valueDetail).valueOids.map(oid => {
+            typeValueListOid.push(oid)
           })
         }
       })
     });
-    if (typeValueListOID.length) {
+    if (typeValueListOid.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getCustomEnumerationList(typeValueListOID).then(res => {
+        workflowService.getCustomEnumerationList(typeValueListOid).then(res => {
           this.setState({ typeValueList: res.data });
           resolve(res)
         }).catch(e => {
@@ -364,24 +364,24 @@ class NodeConditionList extends React.Component {
   };
 
   //审批条件modal
-  handleAdditionModalShow = (condition, ruleApproverOID) => {
+  handleAdditionModalShow = (condition, ruleApproverOid) => {
     if (!condition.length && this.state.isRuleInEdit) {
       message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/));
       return
     }
-    let defaultAdditionOID = [];
+    let defaultAdditionOid = [];
     condition.map(rule => {
-      if (rule.remark === 'cust_list') {  //成本中心属性条件的field可能会重复，因此加上refCostCenterOID区分
-        defaultAdditionOID.push(rule.refCostCenterOID ? `${rule.field}_${rule.refCostCenterOID}` : rule.field)
-      } else if (rule.remark === 'judge_cost_center') { //【申请人=成本中心经理】与【成本中心】的fieldOID一样，因此加上remark区分
-        defaultAdditionOID.push(`${rule.field}_${rule.remark}`)
+      if (rule.remark === 'cust_list') {  //成本中心属性条件的field可能会重复，因此加上refCostCenterOid区分
+        defaultAdditionOid.push(rule.refCostCenterOid ? `${rule.field}_${rule.refCostCenterOid}` : rule.field)
+      } else if (rule.remark === 'judge_cost_center') { //【申请人=成本中心经理】与【成本中心】的fieldOid一样，因此加上remark区分
+        defaultAdditionOid.push(`${rule.field}_${rule.remark}`)
       } else {
-        defaultAdditionOID.push(rule.field)
+        defaultAdditionOid.push(rule.field)
       }
     });
     this.setState({
-      defaultAdditionOID,
-      approverOIDForAddRule: ruleApproverOID,
+      defaultAdditionOid,
+      approverOidForAddRule: ruleApproverOid,
       batchCode: condition[0] ? condition[0].batchCode : null,
       modalVisible: true
     })
@@ -412,10 +412,10 @@ class NodeConditionList extends React.Component {
   handleDeleteApprover = (item) => {
     let ruleApprovers = [];
     this.state.ruleApprovers.map(approver => {
-      approver.ruleApproverOID !== item.ruleApproverOID && ruleApprovers.push(approver)
+      approver.ruleApproverOid !== item.ruleApproverOid && ruleApprovers.push(approver)
     });
     this.setState({ loading: true });
-    workflowService.deleteApprovers(item.ruleApproverOID).then(() => {
+    workflowService.deleteApprovers(item.ruleApproverOid).then(() => {
       this.props.onApproverChange(false);
       this.setState({ loading: false, ruleApprovers });
       message.success(this.$t('common.delete.success', {name: ''}))
@@ -427,7 +427,7 @@ class NodeConditionList extends React.Component {
     if (rules.length) {
       let ruleApprovers = this.state.ruleApprovers;
       ruleApprovers.map(approver => {
-        if (approver.ruleApproverOID === this.state.approverOIDForAddRule) {
+        if (approver.ruleApproverOid === this.state.approverOidForAddRule) {
           if (batchCode) { //编辑
             let condition = [];
             rules.map(rule => {
@@ -435,7 +435,7 @@ class NodeConditionList extends React.Component {
               approver.ruleConditions[batchCode].map(item => {
                 if (
                   (item.remark === rule.remark && item.field === rule.field) &&
-                  (rule.remark !== 'cust_list' || item.refCostCenterOID === rule.refCostCenterOID)
+                  (rule.remark !== 'cust_list' || item.refCostCenterOid === rule.refCostCenterOid)
                 ) {
                   ruleHasExist = true;
                   condition.push(item)
@@ -460,8 +460,8 @@ class NodeConditionList extends React.Component {
       let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers);
       if (batchCode) {
         ruleApprovers.map(approver => {
-          if (approver.ruleApproverOID === this.state.approverOIDForAddRule) {
-            this.handleDeleteCondition(approver.ruleConditions[batchCode], batchCode, this.state.approverOIDForAddRule)
+          if (approver.ruleApproverOid === this.state.approverOidForAddRule) {
+            this.handleDeleteCondition(approver.ruleConditions[batchCode], batchCode, this.state.approverOidForAddRule)
           }
         })
       }
@@ -470,14 +470,14 @@ class NodeConditionList extends React.Component {
   };
 
   //删除审批条件
-  handleDeleteCondition = (condition, batchCode, approverOID) => {
+  handleDeleteCondition = (condition, batchCode, approverOid) => {
     let params = [];
-    condition.map(item => item.ruleConditionOID && params.push(item.ruleConditionOID));
+    condition.map(item => item.ruleConditionOid && params.push(item.ruleConditionOid));
     this.setState({ loading: true });
     workflowService.deleteRuleCondition(params).then(() => {
       let ruleApprovers = this.state.ruleApprovers;
       ruleApprovers.map((approver, index) => {
-        if (approver.ruleApproverOID === approverOID) {
+        if (approver.ruleApproverOid === approverOid) {
           let ruleConditions = approver.ruleConditions;
           delete ruleConditions[batchCode];
           ruleApprovers[index].ruleConditions = ruleConditions;
@@ -520,17 +520,17 @@ class NodeConditionList extends React.Component {
   };
 
   //保存审批条件, type: new, update
-  handleSaveCondition = (conditions, approverOID, type) => {
+  handleSaveCondition = (conditions, approverOid, type) => {
     let ruleApprovers = this.state.ruleApprovers;
     ruleApprovers.map((approver, index) => {
-      if (approver.ruleApproverOID === approverOID) {
+      if (approver.ruleApproverOid === approverOid) {
         let ruleConditions = approver.ruleConditions;
         let batchCode = conditions[0].batchCode;
         if (type === 'update') {
           ruleConditions[batchCode][0].isEdit = false;
           conditions.map(conditionItem => {
             ruleConditions[batchCode].map((ruleItem, ruleIndex) => {
-              if (ruleItem.ruleConditionOID === conditionItem.ruleConditionOID) {
+              if (ruleItem.ruleConditionOid === conditionItem.ruleConditionOid) {
                 ruleConditions[batchCode][ruleIndex] = conditionItem
               }
             })
@@ -547,7 +547,7 @@ class NodeConditionList extends React.Component {
               }
               if (
                 (ruleItem.remark === conditionItem.remark && ruleItem.field === conditionItem.field) &&
-                (conditionItem.remark !== 'cust_list' || ruleItem.refCostCenterOID === conditionItem.refCostCenterOID)
+                (conditionItem.remark !== 'cust_list' || ruleItem.refCostCenterOid === conditionItem.refCostCenterOid)
               ) {
                 isConditionItemExist = true;
                 ruleConditions[batchCode][ruleIndex] = conditionItem
@@ -578,10 +578,10 @@ class NodeConditionList extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueItem = (e, remark, value, fieldOID) => {
+  handleDeleteValueItem = (e, remark, value, fieldOid) => {
     e.preventDefault();
     this.setState({
-      deleteTagValue: {remark, value, fieldOID}
+      deleteTagValue: {remark, value, fieldOid}
     })
   };
 
@@ -598,8 +598,8 @@ class NodeConditionList extends React.Component {
         ));
       case 'default_department_path': //部门路径
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((depName, index) => {
-          let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
-          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', depName, departmentOID) :
+          let departmentOid = JSON.parse(item.valueDetail).valueOids[index];
+          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', depName, departmentOid) :
             `${depName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_department_role': //部门角色
@@ -614,7 +614,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || [];
           return (this.state.expenseTypeList.length ? this.state.expenseTypeList : item.showValue).map(expense => {
-            if (expense.expenseTypeOID === oid)
+            if (expense.expenseTypeOid === oid)
               return isEdit ? this.renderConditionCustListTag(index, 'default_expense_type', expense.name, oid) : (
                 <span>
                   {expense.name}
@@ -631,7 +631,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || {};
           this.state.departmentList.map(department => {
-            if (department.departmentOID === oid) {
+            if (department.departmentOid === oid) {
               item.showValue[oid] = department.name
             }
           });
@@ -647,7 +647,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || {};
           this.state.costCenterList.map(costCenter => {
-            costCenter.costCenterItemOID === oid && (item.showValue[oid] = costCenter.name)
+            costCenter.costCenterItemOid === oid && (item.showValue[oid] = costCenter.name)
           });
           return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
@@ -657,7 +657,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || {};
           this.state.companyList.map(company => {
-            company.companyOID === oid && (item.showValue[oid] = company.name)
+            company.companyOid === oid && (item.showValue[oid] = company.name)
           });
           return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
@@ -667,7 +667,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           let entityName = (item.showValue || {})[oid];
           this.state.entityList.map(entity => {
-            entity.companyReceiptedOID === oid && (entityName = entity.companyName)
+            entity.companyReceiptedOid === oid && (entityName = entity.companyName)
           });
           return isEdit ? this.renderConditionCustListTag(index, item.remark, entityName, oid) :
             `${entityName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
@@ -677,45 +677,45 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
             item.showValue = item.showValue || {};
             this.state.userList.map(user => {
-              user.userOID === oid && (item.showValue[oid] = user.fullName)
+              user.userOid === oid && (item.showValue[oid] = user.fullName)
             });
             return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
               `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'cust_list':
-        return item.valueDetail && (JSON.parse(item.valueDetail).valueOIDs || []).map(oid => {
+        return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
           let custListName = item.showValue;
           this.state.valueList.map(value => {
-            value.customEnumerationItemOID === oid && (custListName = value.messageKey)
+            value.customEnumerationItemOid === oid && (custListName = value.messageKey)
           });
           return custListName
         });
       case 'default_user_post'://默认条件中的自定义列表
       case 'default_user_category':
       case 'default_user_level':
-        return item.valueDetail && (JSON.parse(item.valueDetail).valueOIDs || []).map((valueOIDs, index) => {
+        return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map((valueOids, index) => {
             item.showValue = item.showValue || {};
             this.state.typeValueList.map(value => {
-              value.customEnumerationItemOID === valueOIDs && (item.showValue[valueOIDs]  = value.messageKey)
+              value.customEnumerationItemOid === valueOids && (item.showValue[valueOids]  = value.messageKey)
             });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs) :
-              `${item.showValue[valueOIDs] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids] , valueOids) :
+              `${item.showValue[valueOids] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'default_user_department_extend'://默认条件中的部门扩展字段
       case 'custom_form_department_extend':
-        return item.valueDetail && (JSON.parse(item.valueDetail).valueOIDs || []).map((valueOIDs, index) => {
+        return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map((valueOids, index) => {
             item.showValue = item.showValue || {};
             this.state.extendValueList.map(value => {
-              value.customEnumerationItemOID === valueOIDs && (item.showValue[valueOIDs]  = value.messageKey)
+              value.customEnumerationItemOid === valueOids && (item.showValue[valueOids]  = value.messageKey)
             });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs, item.field) :
-              `${item.showValue[valueOIDs] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids] , valueOids, item.field) :
+              `${item.showValue[valueOids] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'default_user_sex':
-        return item.valueDetail && (JSON.parse(item.valueDetail).valueOIDs || []).map(oid => {
+        return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
             let custListName = item.showValue;
             this.state.valueList.map(value => {
-              value.customEnumerationItemOID === oid && (custListName = value.messageKey)
+              value.customEnumerationItemOid === oid && (custListName = value.messageKey)
             });
             return custListName
           });
@@ -723,10 +723,10 @@ class NodeConditionList extends React.Component {
   };
 
   //渲染审批条件值列表的tag值
-  //fieldOID 部门扩展字段的oid
-  renderConditionCustListTag = (index, type, name, value ,fieldOID = null) => {
+  //fieldOid 部门扩展字段的oid
+  renderConditionCustListTag = (index, type, name, value ,fieldOid = null) => {
     return (
-      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID)}>
+      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOid)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
       </Tag>
     )
@@ -738,8 +738,8 @@ class NodeConditionList extends React.Component {
       approverType: item.approverType,
       level: level,
       name: item.name,
-      ruleApprovalNodeOID: item.ruleApprovalNodeOID,
-      ruleApproverOID: item.ruleApproverOID
+      ruleApprovalNodeOid: item.ruleApprovalNodeOid,
+      ruleApproverOid: item.ruleApproverOid
     };
     workflowService.updateApprovers(params).then(res => {
       this.props.onApproverChange(false);
@@ -749,8 +749,8 @@ class NodeConditionList extends React.Component {
 
   render() {
     const { basicInfo } = this.props;
-    const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOID,
-            approverOIDForAddRule } = this.state;
+    const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOid,
+            approverOidForAddRule } = this.state;
     return (
       <div className='node-condition-list'>
         <Spin spinning={loading}>
@@ -777,7 +777,7 @@ class NodeConditionList extends React.Component {
             let extra = (
               <div className="header-right">
                 <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
-                  <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOID)}}>
+                  <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOid)}}>
                     {this.$t('setting.key1306'/*添加审批条件*/)}
                   </a>
                 </div>
@@ -798,7 +798,7 @@ class NodeConditionList extends React.Component {
                 {!ruleConditions.length ? (
                   <div className="no-rule-content">
                     {this.$t('setting.key1329'/*请先*/)}
-                    <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOID)}}>
+                    <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOid)}}>
                       【{this.$t('setting.key1306'/*添加审批条件*/)}】
                     </a>
                   </div>
@@ -817,7 +817,7 @@ class NodeConditionList extends React.Component {
                                       {this.$t('common.edit')}
                                     </a>
                                     <Popconfirm title={this.$t('common.confirm.delete')}
-                                                onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOID)}>
+                                                onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOid)}>
                                       <a>{this.$t('common.delete')}</a>
                                     </Popconfirm>
                                   </div>
@@ -827,13 +827,13 @@ class NodeConditionList extends React.Component {
                                 <ConditionForm condition={condition}
                                                symbolsType={symbolsType}
                                                batchCode={batchCode}
-                                               formOID={this.props.formOID}
+                                               formOid={this.props.formOid}
                                                approverIndex={approverIndex}
                                                deleteTagValue={deleteTagValue}
                                                afterDeleteTagValue={() => {this.setState({deleteTagValue: {}})}}
-                                               addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOID)}
-                                               saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'new')}
-                                               saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOID, 'update')}
+                                               addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOid)}
+                                               saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'new')}
+                                               saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'update')}
                                                cancelHandle={this.handleCancelEditCondition}
                                                itemValueRender={this.renderConditionItem}
                                 />
@@ -923,10 +923,10 @@ class NodeConditionList extends React.Component {
         </Spin>
 
         <AddApproveRuleModal visible={modalVisible}
-                             formOID={this.props.formOID}
-                             ruleApproverOID={approverOIDForAddRule}
+                             formOid={this.props.formOid}
+                             ruleApproverOid={approverOidForAddRule}
                              batchCode={batchCode}
-                             defaultValue={defaultAdditionOID}
+                             defaultValue={defaultAdditionOid}
                              onOk={this.handleAddCondition}
                              onCancel={() => {this.setState({modalVisible: false})}}
         />
@@ -936,7 +936,7 @@ class NodeConditionList extends React.Component {
 }
 
 NodeConditionList.propTypes = {
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
   basicInfo: PropTypes.object,
   formInfo: PropTypes.object,
   judgeRuleInEdit: PropTypes.func, //判断是否有编辑中的条件，编辑状态下不可切换节点

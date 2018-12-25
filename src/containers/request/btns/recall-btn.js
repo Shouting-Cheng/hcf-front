@@ -25,7 +25,7 @@ class RecallBtn extends React.Component {
     let params = {
       entities: [
         {
-          entityOID: this.props.info.applicationOID,
+          entityOid: this.props.info.applicationOid,
           entityType: 1001, //申请单
         },
       ],

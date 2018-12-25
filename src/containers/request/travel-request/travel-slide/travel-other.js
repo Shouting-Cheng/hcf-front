@@ -237,8 +237,8 @@ class TravelOther extends React.Component {
                 message.error(err.message);
               });
           } else {
-            values.otherItineraryOID = this.props.params.editOther.otherItineraryOID;
-            values.applicationOID = this.state.params.oid;
+            values.otherItineraryOid = this.props.params.editOther.otherItineraryOid;
+            values.applicationOid = this.state.params.oid;
             travelService.updateOther(values).then(res => {
               this.submitFinish(this.$t('itinerary.update.tip') /*已更新*/);
             });

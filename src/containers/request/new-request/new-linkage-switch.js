@@ -106,7 +106,7 @@ class NewLinkageSwitch extends React.Component {
           fieldContent &&
           fieldContent.map((item, index) => {
             let selectorItem = {
-              url: `${config.baseUrl}/api/custom/enumerations/${item.customEnumerationOID}`,
+              url: `${config.baseUrl}/api/custom/enumerations/${item.customEnumerationOid}`,
               label: record => record.messageKey,
               key: 'value',
               listKey: 'values',

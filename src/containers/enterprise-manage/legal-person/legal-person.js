@@ -220,7 +220,7 @@ class LegalPerson extends React.Component {
   handleCreateLP = () => {
      this.props.dispatch(
         routerRedux.replace({
-          pathname: `/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID`,
+          pathname: `/enterprise-manage/legal-person/new-legal-person/:legalPersonOid/:legalPersonID`,
         })
       );
     // this.context.router.push(
@@ -233,12 +233,12 @@ class LegalPerson extends React.Component {
     e.stopPropagation();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/legal-person/new-legal-person/${record.companyReceiptedOID}/${record.id}`,
+        pathname: `/enterprise-manage/legal-person/new-legal-person/${record.companyReceiptedOid}/${record.id}`,
       })
     );
     // let detailUrl = menuRoute
     //   .getMenuItemByAttr('legal-person', 'key')
-    //   .children.newLegalPerson.url.replace(':legalPersonOID', record.companyReceiptedOID);
+    //   .children.newLegalPerson.url.replace(':legalPersonOid', record.companyReceiptedOid);
     // detailUrl = detailUrl.replace(':legalPersonID', record.id);
     // this.context.router.push(detailUrl);
   };
@@ -263,12 +263,12 @@ class LegalPerson extends React.Component {
     this.setBeforePage(this.state.pagination);
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/legal-person/legal-person-detail/${record.companyReceiptedOID}/${record.id}`,
+        pathname: `/enterprise-manage/legal-person/legal-person-detail/${record.companyReceiptedOid}/${record.id}`,
       })
     );
     // let detailUrl = menuRoute
     //   .getMenuItemByAttr('legal-person', 'key')
-    //   .children.legalPersonDetail.url.replace(':legalPersonOID', record.companyReceiptedOID);
+    //   .children.legalPersonDetail.url.replace(':legalPersonOid', record.companyReceiptedOid);
     // detailUrl = detailUrl.replace(':legalPersonID', record.id);
     // this.context.router.push(detailUrl);
   };

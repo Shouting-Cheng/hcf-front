@@ -110,7 +110,7 @@ class SelectDepOrPerson extends React.Component {
     } else {
       //树节点
       for (let i = 0; i < data.length; i++) {
-        if (data[i].props.dataRef.originData.userOID) {
+        if (data[i].props.dataRef.originData.userOid) {
           //如果是人
           if (personList.length > 0) {
             let item = {};
@@ -138,7 +138,7 @@ class SelectDepOrPerson extends React.Component {
       if (this.state.selectedKeysDepDataFromSearch.length > 0) {
         var data = this.state.selectedKeysDepDataFromSearch;
         for (let i = 0; i < data.length; i++) {
-          if (data[i].userOID) {
+          if (data[i].userOid) {
             //如果是人
             if (personList.length > 0) {
               let item = {};
@@ -196,8 +196,8 @@ class SelectDepOrPerson extends React.Component {
   }
 
   // 通过部门oid查询子部门
-  getChildDepByDepOID(Dep, parentNode, resolve) {
-    SelectPersonService.getChildDepByDepOID(Dep, parentNode, this.props.flagDep).then(response => {
+  getChildDepByDepOid(Dep, parentNode, resolve) {
+    SelectPersonService.getChildDepByDepOid(Dep, parentNode, this.props.flagDep).then(response => {
       this.setState({
         treeData: response,
       });
@@ -206,25 +206,25 @@ class SelectDepOrPerson extends React.Component {
   }
 
   // 通过部门oid查询部门下面的员工:挂载到树
-  getDepTreeUserByDepOID(Dep, parentNode, resolve) {
+  getDepTreeUserByDepOid(Dep, parentNode, resolve) {
     this.setState({ loading: true });
     let params = { page: 0, size: 10000 };
     //查人需要根据是否是公司模式或者严格模式
     if (this.props.strictMode && !this.props.tenantMode) {
       params.roleType = '';
-      params.companyOID = this.props.company.companyOID;
-      if (this.props.loadCompanyOID) {
-        params.companyOID = this.props.loadCompanyOID;
+      params.companyOid = this.props.company.companyOid;
+      if (this.props.loadCompanyOid) {
+        params.companyOid = this.props.loadCompanyOid;
       }
     }
 
-    SelectPersonService.getDepTreeUserByDepOID(
+    SelectPersonService.getDepTreeUserByDepOid(
       Dep,
       params,
       parentNode,
       this.props.externalParams
     ).then(response => {
-      this.getChildDepByDepOID(Dep, parentNode);
+      this.getChildDepByDepOid(Dep, parentNode);
       this.setState({
         treeData: response,
       });
@@ -254,7 +254,7 @@ class SelectDepOrPerson extends React.Component {
     let list = this.state.selectedKeysDepDataFromSearch;
     let newList = [];
     for (let i = 0; i < list.length; i++) {
-      let oid = list[i].userOID ? list[i].userOID : list[i].departmentOID;
+      let oid = list[i].userOid ? list[i].userOid : list[i].departmentOid;
       if (oid != key) {
         newList.push(list[i]);
       }
@@ -334,9 +334,9 @@ class SelectDepOrPerson extends React.Component {
     return new Promise(resolve => {
       if (!SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
         if (this.props.onlyDep) {
-          this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
+          this.getChildDepByDepOid(node.props.dataRef.originData, node.props.dataRef, resolve);
         } else {
-          this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef, resolve);
+          this.getDepTreeUserByDepOid(node.props.dataRef.originData, node.props.dataRef, resolve);
         }
       }
     });
@@ -346,12 +346,12 @@ class SelectDepOrPerson extends React.Component {
   onExpand = (expandedKeys, { expanded, node }) => {
     // if (expanded && !SelectPersonService.checkChildHasLoad(node.props.dataRef)) {
     //   // 目前写成同步写法，先请求人，再拿子部门
-    //   // this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //   // this.getChildDepByDepOid(node.props.dataRef.originData, node.props.dataRef);
     //   //如果只展示到部门
     //   if (this.props.onlyDep) {
-    //     this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //     this.getChildDepByDepOid(node.props.dataRef.originData, node.props.dataRef);
     //   } else {
-    //     this.getDepTreeUserByDepOID(node.props.dataRef.originData, node.props.dataRef);
+    //     this.getDepTreeUserByDepOid(node.props.dataRef.originData, node.props.dataRef);
     //   }
     // }
     this.setState({
@@ -383,10 +383,10 @@ class SelectDepOrPerson extends React.Component {
   };
   //搜索结果的列表被点击
   searchListOnClicked = item => {
-    let oid = item.userOID ? item.userOID : item.departmentOID;
+    let oid = item.userOid ? item.userOid : item.departmentOid;
     //如果只能单选，直接把最后点击的加入，其他就不要
     if (!this.props.multiple) {
-      let key = item.userOID ? item.userOID : item.departmentOID;
+      let key = item.userOid ? item.userOid : item.departmentOid;
       this.setState({
         userDepName: this.props.isClickSearchHide ? '' : this.state.userDepName,
         selectedKeys: [key],
@@ -405,7 +405,7 @@ class SelectDepOrPerson extends React.Component {
       let list = this.state.selectedKeysDepDataFromSearch;
       list.push(item);
       let selectedKeys = this.state.selectedKeys;
-      let key = item.userOID ? item.userOID : item.departmentOID;
+      let key = item.userOid ? item.userOid : item.departmentOid;
       selectedKeys.push(key);
       this.setState({
         userDepName: this.props.isClickSearchHide ? '' : this.state.userDepName,
@@ -424,7 +424,7 @@ class SelectDepOrPerson extends React.Component {
     }
     for (let i = 0; i < this.state.selectedKeysDepDataFromSearch.length; i++) {
       let item = this.state.selectedKeysDepDataFromSearch[i];
-      let key = item.userOID ? item.userOID : item.departmentOID;
+      let key = item.userOid ? item.userOid : item.departmentOid;
       if (oid === key) {
         return true;
       }
@@ -447,11 +447,11 @@ class SelectDepOrPerson extends React.Component {
       return <div />;
     } else {
       return list.map(item => {
-        if (item.userOID) {
-          if (_isInSelected(this.state.selectedKeysDepData, item.userOID)) {
+        if (item.userOid) {
+          if (_isInSelected(this.state.selectedKeysDepData, item.userOid)) {
           } else {
             return (
-              <div className="selected-person-item" key={item.userOID}>
+              <div className="selected-person-item" key={item.userOid}>
                 <div className="type-icon">
                   <Icon type="user" />
                 </div>
@@ -459,7 +459,7 @@ class SelectDepOrPerson extends React.Component {
                 <div
                   className="remove-icon"
                   onClick={() => {
-                    this.unSelectFromSearch(item.userOID);
+                    this.unSelectFromSearch(item.userOid);
                   }}
                 >
                   <Icon type="close" />
@@ -469,10 +469,10 @@ class SelectDepOrPerson extends React.Component {
             );
           }
         } else {
-          if (_isInSelected(this.state.selectedKeysDepData, item.departmentOID)) {
+          if (_isInSelected(this.state.selectedKeysDepData, item.departmentOid)) {
           } else {
             return (
-              <div className="selected-person-item" key={item.departmentOID}>
+              <div className="selected-person-item" key={item.departmentOid}>
                 <div className="type-icon">
                   <Icon type="folder" />
                 </div>
@@ -480,7 +480,7 @@ class SelectDepOrPerson extends React.Component {
                 <div
                   className="remove-icon"
                   onClick={() => {
-                    this.unSelectFromSearch(item.departmentOID);
+                    this.unSelectFromSearch(item.departmentOid);
                   }}
                 >
                   <Icon type="close" />
@@ -512,14 +512,14 @@ class SelectDepOrPerson extends React.Component {
     let removedFromSearch = [];
     let list = this.state.selectedKeysDepDataFromSearch;
     for (let i = 0; i < list.length; i++) {
-      if (list[i].userOID) {
+      if (list[i].userOid) {
         //人
-        if (list[i].userOID != oid) {
+        if (list[i].userOid != oid) {
           removedFromSearch.push(list[i]);
         }
       } else {
         // 部门
-        if (list[i].departmentOID != oid) {
+        if (list[i].departmentOid != oid) {
           removedFromSearch.push(list[i]);
         }
       }
@@ -579,9 +579,9 @@ class SelectDepOrPerson extends React.Component {
       );
     }
     return list.map(item => {
-      if (item.props.dataRef.originData.userOID) {
+      if (item.props.dataRef.originData.userOid) {
         return (
-          <div className="selected-person-item" key={item.props.dataRef.originData.userOID}>
+          <div className="selected-person-item" key={item.props.dataRef.originData.userOid}>
             <div className="type-icon">
               <Icon type="user" />
             </div>
@@ -589,7 +589,7 @@ class SelectDepOrPerson extends React.Component {
             <div
               className="remove-icon"
               onClick={() => {
-                this.unSelect(item.props.dataRef.originData.userOID);
+                this.unSelect(item.props.dataRef.originData.userOid);
               }}
             >
               <Icon type="close" />
@@ -599,7 +599,7 @@ class SelectDepOrPerson extends React.Component {
         );
       } else {
         return (
-          <div className="selected-person-item" key={item.props.dataRef.originData.departmentOID}>
+          <div className="selected-person-item" key={item.props.dataRef.originData.departmentOid}>
             <div className="type-icon">
               <Icon type="folder" />
             </div>
@@ -607,7 +607,7 @@ class SelectDepOrPerson extends React.Component {
             <div
               className="remove-icon"
               onClick={() => {
-                this.unSelect(item.props.dataRef.originData.departmentOID);
+                this.unSelect(item.props.dataRef.originData.departmentOid);
               }}
             >
               <Icon type="close" />
@@ -717,8 +717,8 @@ class SelectDepOrPerson extends React.Component {
 
 SelectDepOrPerson.propTypes = {
   onConfirm: PropTypes.func.isRequired, // 点击确认之后的回调：返回结果
-  depResList: PropTypes.array, //返回的部门列表配置[id,departmentOID]，默认全部属性
-  personResList: PropTypes.array, //返回的人列表配置[id,userOID,email]等，默认全部属性
+  depResList: PropTypes.array, //返回的部门列表配置[id,departmentOid]，默认全部属性
+  personResList: PropTypes.array, //返回的人列表配置[id,userOid,email]等，默认全部属性
   onlyDep: PropTypes.bool, //是否只选部门，默认false选择部门与人
   onlyPerson: PropTypes.bool, //是否只选人，默认false选择部门与人
   multiple: PropTypes.bool, //是否多选.默认true
@@ -726,7 +726,7 @@ SelectDepOrPerson.propTypes = {
   buttonType: PropTypes.string,
   buttonDisabled: PropTypes.bool,
   strictMode: PropTypes.bool, //严格模式，公司模式只加载当前公司的人
-  loadCompanyOID: PropTypes.any, //严格模式，若是传入这个参数，就之加本公司的人
+  loadCompanyOid: PropTypes.any, //严格模式，若是传入这个参数，就之加本公司的人
   renderButton: PropTypes.bool, //是否渲染一个button,默认是,主要如果不能再外层包裹一个button，不然再ie上有兼容问题
   externalParams: PropTypes.object, //用于渲染树节点时需要的额外参数 add by mengsha.wang@huilianyi.com
   isClickSearchHide: PropTypes.bool, //点击搜索结果，是否立即清除关键字
@@ -741,7 +741,7 @@ SelectDepOrPerson.defaultProps = {
   buttonDisabled: false,
   renderButton: true,
   strictMode: false,
-  loadCompanyOID: false,
+  loadCompanyOid: false,
   externalParams: {},
   isClickSearchHide: true,
 };

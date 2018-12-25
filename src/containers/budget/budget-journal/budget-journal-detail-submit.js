@@ -157,7 +157,7 @@ class BudgetJournalDetailSubmit extends React.Component {
   getApproveHistory(headerData) {
     let params = {};
     params.entityType = headerData.documentType;
-    params.entityOID = headerData.documentOid;
+    params.entityOid = headerData.documentOid;
     budgetJournalService.getBudgetJournalApproveHistory(params).then(response => {
       this.setState({ historyData: response.data });
     });
@@ -212,10 +212,10 @@ class BudgetJournalDetailSubmit extends React.Component {
     }
   };
 
-  //根据attachmentOID，查询附件
-  getFileByAttachmentOID = value => {
+  //根据attachmentOid，查询附件
+  getFileByAttachmentOid = value => {
     budgetJournalService
-      .getFileByAttachmentOID(value)
+      .getFileByAttachmentOid(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);
@@ -238,8 +238,8 @@ class BudgetJournalDetailSubmit extends React.Component {
       let headerData = request.data;
       //获取审批历史数据
       this.getApproveHistory(headerData);
-      headerData.attachmentOID.map(item => {
-        this.getFileByAttachmentOID(item);
+      headerData.attachmentOid.map(item => {
+        this.getFileByAttachmentOid(item);
       });
       let headerAndListData = {
         dto: request.data,
@@ -407,7 +407,7 @@ class BudgetJournalDetailSubmit extends React.Component {
       const dataValue = {
         entities: [
           {
-            entityOID: this.state.headerAndListData.dto.documentOid,
+            entityOid: this.state.headerAndListData.dto.documentOid,
             entityType: this.state.headerAndListData.dto.documentType,
           },
         ],

@@ -20,7 +20,7 @@ class PrintBtn extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps)
-    if (!this.state.info.applicationOID) {
+    if (!this.state.info.applicationOid) {
       this.setState({ info: nextProps.info }, () => {
         this.showPrint();
       });
@@ -41,7 +41,7 @@ class PrintBtn extends React.Component {
           ? 'printExpenseApplication'
           : 'printLoanApplication';
     this.setState({ loading: true });
-    requestService[methodType](this.state.info.applicationOID)
+    requestService[methodType](this.state.info.applicationOid)
       .then(res => {
         this.setState({ loading: false });
         window.open(res.data.link, '_blank');

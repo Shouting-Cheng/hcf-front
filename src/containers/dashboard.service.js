@@ -8,16 +8,16 @@ export default {
    * 得到账本数据
    */
   getAccountBook() {
-    let dashboardUserOID = app.getState().user.currentUser.userOID;
-    return httpFetch.get(`${config.baseUrl}/api/dashboard/accountbook/${dashboardUserOID}`);
+    let dashboardUserOid = app.getState().user.currentUser.userOid;
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/accountbook/${dashboardUserOid}`);
   },
 
   /**ƒ
    * 得到商务卡数据
    */
   getBusinessCard() {
-    let dashboardUserOID = app.getState().user.currentUser.userOID;
-    return httpFetch.get(`${config.baseUrl}/api/dashboard/businesscard/${dashboardUserOID}`);
+    let dashboardUserOid = app.getState().user.currentUser.userOid;
+    return httpFetch.get(`${config.baseUrl}/api/dashboard/businesscard/${dashboardUserOid}`);
   },
 
   /**
@@ -46,8 +46,8 @@ export default {
   /**
    * 根据公司得到公告信息
    */
-  getCarouselsByCompany(companyOID) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/company/${companyOID}`);
+  getCarouselsByCompany(companyOid) {
+    return httpFetch.get(`${config.baseUrl}/api/carousels/company/${companyOid}`);
   },
 
   /**

@@ -16,11 +16,11 @@ class RelativeExpenseReportDetail extends React.Component{
 
   handleGoApplication = () => {
     const { info } = this.props;
-    // window.open(this.state.requestDetail.url.replace(':formOID', info.applicationFormOID).replace(':applicationOID', info.applicationOID) + '?from=expense');
+    // window.open(this.state.requestDetail.url.replace(':formOid', info.applicationFormOid).replace(':applicationOid', info.applicationOid) + '?from=expense');
   };
   handleGoLoanApplication = () => {
     const { info } = this.props;
-    // window.open(this.state.loanRequestDetailPayment.url.replace(':formOID', info.loanApplicationFormOID).replace(':applicationOID',info.loanApplicationOID));
+    // window.open(this.state.loanRequestDetailPayment.url.replace(':formOid', info.loanApplicationFormOid).replace(':applicationOid',info.loanApplicationOid));
   };
 
 

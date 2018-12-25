@@ -24,7 +24,7 @@ class AttachmentInformation extends React.Component{
     reverseService.getAttInfo(id).then(response=>{
       let option = [];
       response.data.attachments.map(item=>option.push({
-        uid: item.attachmentOID,
+        uid: item.attachmentOid,
         name: item.fileName,
         status: 'done',
         url: item.fileURL

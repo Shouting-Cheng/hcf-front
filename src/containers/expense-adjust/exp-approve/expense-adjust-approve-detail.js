@@ -51,7 +51,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.props.match.params.entityOID,
+          entityOid: this.props.match.params.entityOid,
           entityType: this.props.match.params.entityType,
         }]
     };
@@ -62,7 +62,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
         this.onCancel()
       }else {
         this.setState({passLoading: false, rejectLoading: false });
-        message.error(`${this.$t({ id: "common.operate.filed" }/*操作失败*/)}，${res.data.failReason[this.props.match.params.entityOID]}`)
+        message.error(`${this.$t({ id: "common.operate.filed" }/*操作失败*/)}，${res.data.failReason[this.props.match.params.entityOid]}`)
       }
     }).catch(err => {
       this.setState({passLoading:false,rejectLoading:false});
@@ -76,7 +76,7 @@ class ExpenseAdjustApproveDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.props.match.params.entityOID,
+          entityOid: this.props.match.params.entityOid,
           entityType: this.props.match.params.entityType,
         }]
     };

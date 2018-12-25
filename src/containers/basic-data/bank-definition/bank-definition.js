@@ -35,7 +35,7 @@ class BankDefinition extends React.Component {
       showImportBankModel: false, //导入自定义银行弹窗
       progressImportErrInfo: 1,
       showImportErrInfo: false,
-      transactionOID: null,
+      transactionOid: null,
       errorsList: [],
       fileList: [],
       flieUploading: false, //文件是否正在上传
@@ -638,11 +638,11 @@ class BankDefinition extends React.Component {
             fileList: [],
             flieUploading: false,
             showImportBankModel: false,
-            transactionOID: res.data.transactionOID, //这个transactionOID在导出错误信息的时候，需要用到
+            transactionOid: res.data.transactionOid, //这个transactionOid在导出错误信息的时候，需要用到
           },
           () => {
             this.showImportErrInfo();
-            this.showTransactionLogDialog(this.state.transactionOID); // 将参数传给dialog
+            this.showTransactionLogDialog(this.state.transactionOid); // 将参数传给dialog
           }
         );
       })
@@ -654,8 +654,8 @@ class BankDefinition extends React.Component {
       });
   };
 
-  showTransactionLogDialog = transactionOID => {
-    BSService.importSelfBankErr(transactionOID).then(res => {
+  showTransactionLogDialog = transactionOid => {
+    BSService.importSelfBankErr(transactionOid).then(res => {
       let data = res.data;
 
       if (data.totalEntities === 0) {
@@ -672,7 +672,7 @@ class BankDefinition extends React.Component {
           let gapTime = 500;
           setTimeout(() => {
             //请求频率涉及到一个算法
-            this.showTransactionLogDialog(this.state.transactionOID); // 将参数传给dialog
+            this.showTransactionLogDialog(this.state.transactionOid); // 将参数传给dialog
           }, gapTime);
         } else {
           //导入完成了
@@ -712,7 +712,7 @@ class BankDefinition extends React.Component {
   };
   //银行导入错误信息
   exportFailedLog = () => {
-    BSService.exportSelfBankErr(this.state.transactionOID)
+    BSService.exportSelfBankErr(this.state.transactionOid)
       .then(res => {
         let b = new Blob([res.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

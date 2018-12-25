@@ -70,7 +70,7 @@ class YingfuSelectApprove extends React.Component {
   //处理表单提交
   handleSubmitApprove = () => {
     let {yingfuInvoiceInfo} = this.state;
-    let usersOID = [];
+    let usersOid = [];
     if (!yingfuInvoiceInfo || yingfuInvoiceInfo.length === 0) {
       message.error(messages('common.error1')/*'获取数据失败，请稍后重试或联系管理员'*/);
     }
@@ -79,20 +79,20 @@ class YingfuSelectApprove extends React.Component {
         message.error(messages('expense-report.submit.yingfu.invoiceDataTip')/*'有费用未选择审批人'*/);
         return;
       }
-      //选择审批用户的OID处理
+      //选择审批用户的Oid处理
       yingfuInvoiceInfo[i].costCenterView.selectApproverGroups.map(item => {
-        if (item.userOIDs instanceof Array && item.userOIDs.length > 1) {
-          item.userOIDs.map(t => {
-            usersOID.push(t);
+        if (item.userOids instanceof Array && item.userOids.length > 1) {
+          item.userOids.map(t => {
+            usersOid.push(t);
           });
         }
         else {
-          usersOID.push(item.userOIDs.toString());
+          usersOid.push(item.userOids.toString());
         }
       })
     }
     //提交
-    this.props.onOk(usersOID.join(':'));
+    this.props.onOk(usersOid.join(':'));
   };
   //处理表单关闭
   handleCancelApprove = () => {

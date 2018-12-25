@@ -34,7 +34,7 @@ class CurrencySettingAdd extends React.Component {
     //获取币种名的option
     getCurrencyName = () => {
         const { baseCurrency, setOfBooksId, tenantId, } = this.props.match.params;
-        httpFetch.get(`${config.baseUrl}/api/currencyI18n/select/not/created/currency?baseCurrencyCode=${baseCurrency}&language=${this.state.language}&setOfBooksId=${setOfBooksId}&tenantId=${tenantId}`).then(res => {
+        httpFetch.get(`${config.baseUrl}/api/currencyI18n/select/not/created/currency?baseCurrencyCode=${baseCurrency}&setOfBooksId=${setOfBooksId}&tenantId=${tenantId}`).then(res => {
             if (res.status === 200) {
                 this.setState({
                     currencyOptions: res.data.rows
@@ -76,7 +76,7 @@ class CurrencySettingAdd extends React.Component {
                 values.tenantId = tenantId;
                 values.autoUpateRate = false;
                 this.setState({ saving: true });
-                httpFetch.post(`${config.baseUrl}/api/currency/rate?language=${language}`, values).then(res => {
+                httpFetch.post(`${config.baseUrl}/api/currency/rate`, values).then(res => {
                     this.setState({ saving: false });
                     if (res.status === 200) {
                         message.success(this.$t("wait.for.save.addSuc")/*新增成功*/);
@@ -133,7 +133,7 @@ class CurrencySettingAdd extends React.Component {
                         initialValue: true
                     })(
                         <Switch />
-                        )}
+                    )}
                 </FormItem>
                 <Divider dashed />
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.currency.name")/*币种名*/}>
@@ -153,7 +153,7 @@ class CurrencySettingAdd extends React.Component {
                                     {this.state.language === 'en' ? item.currencyCode : `${item.currencyCode} ${item.currencyName}`}</Option>
                             })}
                         </Select>
-                        )}
+                    )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.code")/*代码*/}>
                     {getFieldDecorator('currencyCode', {
@@ -163,7 +163,7 @@ class CurrencySettingAdd extends React.Component {
                         }]
                     })(
                         <Input disabled />
-                        )}
+                    )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.rate.apply.date")/*汇率生效日期*/}>
                     {getFieldDecorator('applyDate', {
@@ -175,7 +175,7 @@ class CurrencySettingAdd extends React.Component {
                         <DatePicker disabledDate={this.disabledEndDate}
                             style={{ width: '100%' }}
                             allowClear={false} />
-                        )}
+                    )}
                 </FormItem>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.effective.rate")/*生效汇率*/}>
                     {getFieldDecorator('rate', {
@@ -196,7 +196,7 @@ class CurrencySettingAdd extends React.Component {
                         ]
                     })(
                         <InputNumber min={0.0000001} precision={7} step={0.0000001} style={{ width: '100%' }} />
-                        )}
+                    )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.enable.auto.rate")/*启用自动汇率*/}>
@@ -205,7 +205,7 @@ class CurrencySettingAdd extends React.Component {
                         initialValue: enableAutoUpdate
                     })(
                         <Switch disabled={!enableAutoUpdate} />
-                        )}
+                    )}
                 </FormItem>
 
                 <FormItem {...formItemLayout} wrapperCol={{ offset: 5 }}>

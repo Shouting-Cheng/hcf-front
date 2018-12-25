@@ -25,7 +25,7 @@ class NodePrint extends React.Component {
         params.code = basicInfo.code;
         params.name = basicInfo.name;
         params.notifyInfo = basicInfo.notifyInfo;
-        params.ruleApprovalNodeOID = basicInfo.ruleApprovalNodeOID;
+        params.ruleApprovalNodeOid = basicInfo.ruleApprovalNodeOid;
         params.type = basicInfo.type;
         this.setState({ loading: true });
         workflowService.modifyApprovalNodes(params).then(() => {

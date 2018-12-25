@@ -29,10 +29,10 @@ class ApproveHistory extends React.Component {
     if (values.reply) {
       if (values.reply.trim() && values.reply.trim().length <= 80) {
         let params = {
-          billOID: forReplyInfo.entityOID,
+          billOid: forReplyInfo.entityOid,
           businessCode: businessCode,
-          toUserOID: forReplyInfo.operatorOID,
-          fromUserOID: user.userOID,
+          toUserOid: forReplyInfo.operatorOid,
+          fromUserOid: user.userOid,
           type: forReplyInfo.entityType,
           remark: values.reply.trim(),
         };
@@ -175,8 +175,8 @@ class ApproveHistory extends React.Component {
                         )})`}
                       {/*代理制单*/}
                       {item.operation === 1001 &&
-                        applicantInfo.userOID &&
-                        applicantInfo.userOID !== item.operator.userOID &&
+                        applicantInfo.userOid &&
+                        applicantInfo.userOid !== item.operator.userOid &&
                         ` (${this.$t('request.detail.agent') /*代理*/} ${applicantInfo.fullName} ${
                           applicantInfo.employeeID
                         })`}

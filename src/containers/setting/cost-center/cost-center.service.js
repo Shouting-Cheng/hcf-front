@@ -38,7 +38,7 @@ export default {
   createCostCenter(params) {
     //之前创建成本中心需要掉一个接口，校验名称是否唯一，这次重构希望在新增的时候校验
     // let params = {
-    //   "costCenterOID": null,
+    //   "costCenterOid": null,
     //   "name": "1111111",
     //   "setOfBooksId": "957127071024513026",
     //   "i18n": {"name": [{"language": "zh_cn", "value": "1111111"}, {"language": "en", "value": "1111111"}]},
@@ -95,10 +95,10 @@ export default {
     })
   },
   //查询成本中心详情
-  getCostCenterDetail: function (costCenterOID) {
+  getCostCenterDetail: function (costCenterOid) {
     return new Promise(function (resolve, reject) {
       //这个接口需要做成，没有传账套就查询全部
-      httpFetch.get(config.baseUrl + '/api/cost/centers/simple/' + costCenterOID)
+      httpFetch.get(config.baseUrl + '/api/cost/centers/simple/' + costCenterOid)
         .then(function (res) {
           resolve(res)
         })
@@ -111,7 +111,7 @@ export default {
 
   //获取成本中心项列表
   //搜索成本中心项
-  getCostCenterItemsAll(costCenterOID, params) {
+  getCostCenterItemsAll(costCenterOid, params) {
     // let params = {
     //   page: page,
     //   size: size,
@@ -120,7 +120,7 @@ export default {
     // }
     return new Promise(function (resolve, reject) {
       //这个接口需要做成，没有传账套就查询全部
-      httpFetch.get(config.baseUrl + '/api/cost/center/items/' + costCenterOID + '/all', params)
+      httpFetch.get(config.baseUrl + '/api/cost/center/items/' + costCenterOid + '/all', params)
         .then(function (res) {
           resolve({
             data: res.data,
@@ -161,9 +161,9 @@ export default {
     })
   },
   //导入成本中心项
-  importTemplateCostCenterOID: function (costCenterOID, file) {
+  importTemplateCostCenterOid: function (costCenterOid, file) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(config.baseUrl + '/api/cost/center/items/import/' + costCenterOID, file)
+      httpFetch.post(config.baseUrl + '/api/cost/center/items/import/' + costCenterOid, file)
         .then((res) => {
           resolve(res)
         })
@@ -174,7 +174,7 @@ export default {
     })
   },
   //导入成本中心项-人员
-  importTemplateCostCenterPersonOID: function ( file) {
+  importTemplateCostCenterPersonOid: function ( file) {
     return new Promise((resolve, reject) => {
       httpFetch.post(config.baseUrl + '/api/cost/center/items/import/with/users', file)
         .then((res) => {
@@ -186,12 +186,12 @@ export default {
         })
     })
   },
-  //成本中心项：值导入后根据transactionOID查看有无错误信息
-  //成本中心项-人员：值导入后根据transactionOID查看有无错误信息
+  //成本中心项：值导入后根据transactionOid查看有无错误信息
+  //成本中心项-人员：值导入后根据transactionOid查看有无错误信息
   //两个导入错误信息，都一样的
-  getCostCenterBatchTransactionLog: function (transactionOID) {
+  getCostCenterBatchTransactionLog: function (transactionOid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/costcenteritem/' + transactionOID)
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/costcenteritem/' + transactionOid)
         .then(function (res) {
           resolve(res);
         })
@@ -203,9 +203,9 @@ export default {
   },
 
   //成本中心项：值导入后若有错误信息，则下载该错误信息excel
-  exportCostCenterBatchTransactionLog: function (transactionOID) {
+  exportCostCenterBatchTransactionLog: function (transactionOid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/costcenteritem/' + transactionOID, {}, {},
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/costcenteritem/' + transactionOid, {}, {},
         {responseType: "arraybuffer"})
         .then(function (res) {
           resolve(res);
@@ -217,9 +217,9 @@ export default {
     })
   },
   //成本中心项-人员：值导入后若有错误信息，则下载该错误信息excel
-  exportCostCenterPersonBatchTransactionLog:function (transactionOID) {
+  exportCostCenterPersonBatchTransactionLog:function (transactionOid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/costcenteritem/with/user/' + transactionOID, {}, {},
+      httpFetch.get(config.baseUrl + '/api/batch/transaction/logs/failed/export/costcenteritem/with/user/' + transactionOid, {}, {},
         {responseType: "arraybuffer"})
         .then(function (res) {
           resolve(res);
@@ -232,14 +232,14 @@ export default {
   },
   //--------导入成本中心项----end
   //新增成本中心项
-  createCostCenterItem: function (costCenterOID, data) {
+  createCostCenterItem: function (costCenterOid, data) {
     // let data={
     //     name: data.name,
     //     code: data.code,
     //     enabled: data.enabled,
     //     public: data.public,
-    //     managerOID: data.managerOID,
-    //     parentCostCenterItemOID: data.parentCostCenterItemOID
+    //     managerOid: data.managerOid,
+    //     parentCostCenterItemOid: data.parentCostCenterItemOid
     //     secondaryDepartmentNames
     //     secondaryDepartmentIds
     //     primaryDepartmentName
@@ -247,7 +247,7 @@ export default {
     //     i18n
     // }
     return new Promise(function (resolve, reject) {
-      httpFetch.post(config.baseUrl + '/api/cost/center/items/' + costCenterOID, data)
+      httpFetch.post(config.baseUrl + '/api/cost/center/items/' + costCenterOid, data)
         .then(function (res) {
           resolve(res);
         })
@@ -273,10 +273,10 @@ export default {
   //添加成本中心项的人
   costCenterItemAssociateUsersDTO: function (params) {
     // let  params = {
-    //   userOIDs:[],
-    //   costCenterItemOIDs:[],
+    //   userOids:[],
+    //   costCenterItemOids:[],
     //   selectMode:"default",
-    //   costCenterOID:""
+    //   costCenterOid:""
     // }
     return new Promise(function (resolve, reject) {
       httpFetch.put(config.baseUrl + '/api/cost/center/items/with/users/', params)
@@ -290,9 +290,9 @@ export default {
     })
   },
   //查看成本中心项详情
-  getCostCenterItemDetail: function (CostCenterItemOID) {
+  getCostCenterItemDetail: function (CostCenterItemOid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/cost/center/item/' + CostCenterItemOID)
+      httpFetch.get(config.baseUrl + '/api/cost/center/item/' + CostCenterItemOid)
         .then(function (res) {
           resolve(res);
         })
@@ -305,14 +305,14 @@ export default {
   //搜索成本中心项的人
   //todo:keyword
   //关键字查询：姓名与工号
-  getCostCenterItemUsers: function (params, CostCenterItemOID) {
+  getCostCenterItemUsers: function (params, CostCenterItemOid) {
     // let  params = {
     //   page:[],
     //   size:[],
     //   keyword:"员工姓名与工号,
     // }
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/cost/center/item/' + CostCenterItemOID + '/users', params)
+      httpFetch.get(config.baseUrl + '/api/cost/center/item/' + CostCenterItemOid + '/users', params)
         .then(function (res) {
           resolve(res);
         })
@@ -324,9 +324,9 @@ export default {
   },
 
   //删除成本中心项的人
-  removeUserFromCostCenterItemAssociation: function (userOID, costCenterOID) {
+  removeUserFromCostCenterItemAssociation: function (userOid, costCenterOid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.delete(config.baseUrl + '/api/remove/user/' + userOID + '/cost/center/' + costCenterOID)
+      httpFetch.delete(config.baseUrl + '/api/remove/user/' + userOid + '/cost/center/' + costCenterOid)
         .then(function (res) {
           resolve(res);
         })
@@ -339,9 +339,9 @@ export default {
 
   //获取值列表：根据值列表oid
   //在扩展字段信息里面，有些字段是值列表，这个时候需要从dataSource解析值列表oid获取值列表
-  getListByCustomEnumerationOID(customEnumerationOID) {
+  getListByCustomEnumerationOid(customEnumerationOid) {
     return new Promise((resolve, reject) => {
-      valueListService.getValueListInfo(customEnumerationOID)
+      valueListService.getValueListInfo(customEnumerationOid)
         .then((res) => {
           resolve(res)
         })

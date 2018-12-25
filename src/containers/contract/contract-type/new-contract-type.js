@@ -156,7 +156,7 @@ class NewContractType extends React.Component {
       if (!err) {
         //values.enabled = this.state.enabled;
         this.state.formTypeOptions.map(item => {
-          if (item.formOID === values.formOid) {
+          if (item.formOid === values.formOid) {
             values.formName = item.formName;
             values.formType = item.formType;
           }
@@ -218,7 +218,7 @@ class NewContractType extends React.Component {
           values.formType = this.state.data.formType;
         }
         this.state.formTypeOptions.map(item => {
-          if (item.formOID === values.formOid) {
+          if (item.formOid === values.formOid) {
             values.formName = item.formName;
             values.formType = item.formType;
           }
@@ -405,7 +405,7 @@ class NewContractType extends React.Component {
               >
                 {formTypeOptions.map(option => {
                   return (
-                    <Option key={option.formOID} value={option.formOID}>
+                    <Option key={option.formOid} value={option.formOid}>
                       {option.formName}
                     </Option>
                   );

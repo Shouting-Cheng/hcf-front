@@ -39,16 +39,16 @@ class ContractWorkflowApprove extends React.Component {
         },
         {
           type: 'list',
-          listType: 'bgtUserOID',
+          listType: 'bgtUserOid',
           options: [],
-          id: 'userOID',
+          id: 'userOid',
           label: this.$t({ id: 'pay.refund.employeeName' }),
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
-          event:"userOID"
+          event:"userOid"
         },
         {
           type: 'items',
@@ -211,8 +211,8 @@ class ContractWorkflowApprove extends React.Component {
     } else {
       values.finished = false;
     }
-    if(values.userOID && values.userOID[0]){
-      values.userOID = values.userOID[0];
+    if(values.userOid && values.userOid[0]){
+      values.userOid = values.userOid[0];
     }
     //处理查询条件为弹出框时返回的数组问题
     if(values.createdBy && values.createdBy[0]){
@@ -272,7 +272,7 @@ class ContractWorkflowApprove extends React.Component {
       record.contractApprovalView.contractId
     );
     url = url
-      .replace(':entityOID', record.entityOID)
+      .replace(':entityOid', record.entityOid)
       .replace(':entityType', record.entityType)
       .replace(':status', this.state.tabValue);
     this.context.router.push(url);*/
@@ -280,7 +280,7 @@ class ContractWorkflowApprove extends React.Component {
       routerRedux.replace({
         pathname: `/approval-management/contract-approve/contract-workflow-approve-detail/${
           record.contractApprovalView.contractId
-        }/${record.entityOID}/${record.entityType}/${this.state.tabValue}`,
+        }/${record.entityOid}/${record.entityType}/${this.state.tabValue}`,
       })
     );
   };
@@ -329,11 +329,11 @@ class ContractWorkflowApprove extends React.Component {
         }
         break;
       }
-      case 'userOID': {
-        if(value[0].userOID){
-          searchParams.userOID =  value[0].userOID;
+      case 'userOid': {
+        if(value[0].userOid){
+          searchParams.userOid =  value[0].userOid;
         }else{
-          searchParams.userOID =  '';
+          searchParams.userOid =  '';
         }
         break;
       }

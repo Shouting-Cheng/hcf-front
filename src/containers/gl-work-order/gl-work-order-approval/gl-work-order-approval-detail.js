@@ -330,11 +330,11 @@ class GLWorkOrderCheckDetail extends Component {
       approvalTxt: text,
       entities: [
         {
-          entityOID: this.state.docHeadData.documentOid,
+          entityOid: this.state.docHeadData.documentOid,
           entityType: 801008,
         },
       ],
-      countersignApproverOIDs: [],
+      countersignApproverOids: [],
     };
     this.setState({passLoading:true,rejectLoading:true});
 
@@ -365,7 +365,7 @@ class GLWorkOrderCheckDetail extends Component {
       approvalTxt: text,
       entities: [
         {
-          entityOID: this.state.docHeadData.documentOid,
+          entityOid: this.state.docHeadData.documentOid,
           entityType: 801008,
         },
       ],

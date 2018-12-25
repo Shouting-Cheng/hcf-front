@@ -139,7 +139,7 @@ class BudgetJournalTypeDetail extends React.Component {
           id: item.formId,
           key: item.formName,
           label: item.formName,
-          value: item.formOID,
+          value: item.formOid,
           title: item.formName
         };
         strategyGroup.push(strategy)

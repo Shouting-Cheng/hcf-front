@@ -40,7 +40,7 @@ class ToRechecked extends React.Component {
             approvedBy:{},
             operationDetail:{},
             showChild:false,
-            uploadOIDs: [], //上传附件的OIDs
+            uploadOids: [], //上传附件的Oids
             fileList: [],
             fileShow:false,
         }
@@ -85,7 +85,7 @@ class ToRechecked extends React.Component {
                     sourceDetail: sourceDetail,
                     backDetail: backlashDetail,
                     showDetail:true,
-                    uploadOIDs:backlashDetail.backlashAttachmentOID,
+                    uploadOids:backlashDetail.backlashAttachmentOid,
                     fileList:fileList,
                   });
                 }else{//其他状态则隐藏下部4个按钮
@@ -98,7 +98,7 @@ class ToRechecked extends React.Component {
                     backlashDetail:backlashDetail,
                     showDetail:true,
                     showButtonFlag:false,
-                    uploadOIDs:backlashDetail.backlashAttachmentOID,
+                    uploadOids:backlashDetail.backlashAttachmentOid,
                     fileList:fileList,
                   });
 
@@ -149,8 +149,8 @@ class ToRechecked extends React.Component {
   };
 
   //上传附件
-  handleUpload = (OIDs) => {
-    this.setState({ uploadOIDs: OIDs })
+  handleUpload = (Oids) => {
+    this.setState({ uploadOids: Oids })
   };
 
   //不通过
@@ -556,7 +556,7 @@ class ToRechecked extends React.Component {
                                         fileNum={99}
                                         multiple={true}
                                         disabled={true}
-                                        defaultOIDs={this.state.uploadOIDs}
+                                        defaultOids={this.state.uploadOids}
                                         uploadHandle={this.handleUpload}
                                         defaultFileList={fileList}
                                 />

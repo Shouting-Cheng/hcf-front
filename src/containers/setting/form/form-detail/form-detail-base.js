@@ -59,7 +59,7 @@ class FormDetailBase extends React.Component {
     const {form, userScope, expenseTypeScope} = this.context;
     if (form) {
       if (form.associateExpenseReport) {
-        formService.getFormDetail(form.referenceOID).then(res => {
+        formService.getFormDetail(form.referenceOid).then(res => {
           this.setState({
             associateExpenseReport: {
               fetched: true,
@@ -143,12 +143,12 @@ class FormDetailBase extends React.Component {
       if (formType === 2005) {
         let loanPropertyList = [];
         let repayEnable = {};
-        repayEnable.formOID = res.data.formOID;
+        repayEnable.formOid = res.data.formOid;
         repayEnable.propertyName = 'loan.application.participation.repay.enable';
         repayEnable.propertyValue = values.associatePayExpense + '';
         loanPropertyList.push(repayEnable);
         let loanRelate = {};
-        loanRelate.formOID = res.data.formOID;
+        loanRelate.formOid = res.data.formOid;
         loanRelate.propertyName = 'loan.application.configuration';
         loanRelate.propertyValue = JSON.stringify({
           outApplicationAmount: outApplicationAmount,
@@ -161,7 +161,7 @@ class FormDetailBase extends React.Component {
         formService.saveFormProperty(loanPropertyList).then(propertyRes => {});
         //删除借款单关联申请单的表单配置
         if (!isHasLoanRelated && isExistLoanRelated) {
-          formService.removeFormProperty(res.data.formOID, ['loan.application.configuration']);
+          formService.removeFormProperty(res.data.formOid, ['loan.application.configuration']);
         }
       }
       message.success(this.$t("common.save.success", {name: res.data.formName}));
@@ -169,13 +169,13 @@ class FormDetailBase extends React.Component {
       if (booksID && booksID !== ':booksID') {
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/${booksID}`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOid}/${booksID}`,
           })
         );
       }else{
         this.props.dispatch(
           routerRedux.push({
-            pathname: `/admin-setting/form-list/form-detail/${res.data.formOID}/:booksID`,
+            pathname: `/admin-setting/form-list/form-detail/${res.data.formOid}/:booksID`,
           })
         );
       }
@@ -268,7 +268,7 @@ class FormDetailBase extends React.Component {
 
   handleSave = (e) => {
     e.preventDefault();
-    let {form, formOID, formType} = this.context;
+    let {form, formOid, formType} = this.context;
     let {userValue, expenseTypeValue, visibleCompanyScope, companySelectedList, applicationTypeCheckedList, outApplicationAmount, isReference, isHasLoanRelated, isExistLoanRelated} = this.state;
 
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -287,12 +287,12 @@ class FormDetailBase extends React.Component {
             }
             let loanPropertyList = [];
             let repayEnable = {};
-            repayEnable.formOID = form.formOID;
+            repayEnable.formOid = form.formOid;
             repayEnable.propertyName = 'loan.application.participation.repay.enable';
             repayEnable.propertyValue = values.associatePayExpense + '';
             loanPropertyList.push(repayEnable);
             let loanRelate = {};
-            loanRelate.formOID = form.formOID;
+            loanRelate.formOid = form.formOid;
             loanRelate.propertyName = 'loan.application.configuration';
             loanRelate.propertyValue = JSON.stringify({
               outApplicationAmount: outApplicationAmount,
@@ -305,7 +305,7 @@ class FormDetailBase extends React.Component {
             serviceArray.push(formService.saveFormProperty(loanPropertyList));
             //删除借款单关联申请单的表单配置
             if (!isHasLoanRelated && isExistLoanRelated) {
-              serviceArray.push(formService.removeFormProperty(form.formOID, ['loan.application.configuration']));
+              serviceArray.push(formService.removeFormProperty(form.formOid, ['loan.application.configuration']));
             }
           }
           let result = {
@@ -320,7 +320,7 @@ class FormDetailBase extends React.Component {
           Promise.all(serviceArray).then(res => {
             message.success(this.$t("common.save.success", {name: form.formName}));
             this.setState({saving: false});
-            this.props.refreshBase(form.formOID);
+            this.props.refreshBase(form.formOid);
           }).catch(e => {
             let error = e.response.data;
             if (error.validationErrors && error.validationErrors.length) {
@@ -385,7 +385,7 @@ class FormDetailBase extends React.Component {
   }
 
   render() {
-    const {formType, formOID} = this.context;
+    const {formType, formOid} = this.context;
     const {getFieldDecorator} = this.props.form;
     const {form, saving, associateExpenseReport, applicationOption, applicationTypeCheckedList, outApplicationAmount, isReference, isHasLoanRelated} = this.state;
     const formItemLayout = {
@@ -430,7 +430,7 @@ class FormDetailBase extends React.Component {
                              width={'100%'}
                              name={form.formName}
                              placeholder={this.$t('common.max.characters.length', {max: 50})}
-                             isEdit={formOID}
+                             isEdit={formOid}
                              disabled={form.fromType == 2 && !this.props.tenantMode}
                              i18nName={form.formNameI18n}/>
             )}
@@ -454,12 +454,12 @@ class FormDetailBase extends React.Component {
                              width={'100%'}
                              name={form.remark}
                              placeholder={this.$t('common.max.characters.length', {max: 50})}
-                             isEdit={formOID}
+                             isEdit={formOid}
                              disabled={form.fromType == 2 && !this.props.tenantMode}
                              i18nName={form.remarkI18n}/>
             )}
           </FormItem>
-          {(formType === 2001 || formType === 2002) && !formOID &&
+          {(formType === 2001 || formType === 2002) && !formOid &&
           <div>
             <FormItem {...formItemLayout} label={this.$t('form.setting.related.expenseForm')/*关联报销单*/}>
               {getFieldDecorator('associateExpenseReport')(
@@ -544,7 +544,7 @@ function mapStateToProps(state) {
 
 FormDetailBase.contextTypes = {
   formType:PropTypes.any,
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
   booksID: PropTypes.string,
   form: PropTypes.object,
   expenseTypeScope: PropTypes.object,

@@ -48,14 +48,14 @@ class PersonVendorInfo extends React.Component {
 
         vendorObj.confirmPassword = values.confirmPassword;
         //todo  需要做非空判断
-        vendorObj.confirmUserOID =
-          values.confirmUser.length > 0 ? values.confirmUser[0].userOID : null;
-        vendorObj.confirm2UserOID =
-          values.confirm2User.length > 0 ? values.confirm2User[0].userOID : null;
-        vendorObj.confirmCCUserOID =
-          values.confirmCCUser.length > 0 ? values.confirmCCUser[0].userOID : null;
-        vendorObj.confirm2CCUserOID =
-          values.confirm2CCUser.length > 0 ? values.confirm2CCUser[0].userOID : null;
+        vendorObj.confirmUserOid =
+          values.confirmUser.length > 0 ? values.confirmUser[0].userOid : null;
+        vendorObj.confirm2UserOid =
+          values.confirm2User.length > 0 ? values.confirm2User[0].userOid : null;
+        vendorObj.confirmCCUserOid =
+          values.confirmCCUser.length > 0 ? values.confirmCCUser[0].userOid : null;
+        vendorObj.confirm2CCUserOid =
+          values.confirm2CCUser.length > 0 ? values.confirm2CCUser[0].userOid : null;
         // vendorObj.subAccountName = values.subAccountName;
         if (vendorObj.subAccountName === values.subAccountName) {
           //前端没有边界，直接上传源值
@@ -100,8 +100,8 @@ class PersonVendorInfo extends React.Component {
   //获取供应商信息
   getSupplierInfo = () => {
     let vendorObj = this.state.vendorObj
-    let userOID = vendorObj.userOID;
-    PDService.getSupplierInfo(userOID).then(res => {
+    let userOid = vendorObj.userOid;
+    PDService.getSupplierInfo(userOid).then(res => {
       //如果有供应商信息
       if (!!res.data) {
         //后期如果供应商信息状态错误时，查看后端接口进行赋值
@@ -149,7 +149,7 @@ class PersonVendorInfo extends React.Component {
   renderNoEditing = () => {
     let vendorObj = this.state.vendorObj;
     //对象请求有延迟
-    if (vendorObj.userOID) {
+    if (vendorObj.userOid) {
       return (
         <div className="info-item-wrap">
           <div className="info-item f-left">
@@ -316,11 +316,11 @@ class PersonVendorInfo extends React.Component {
               <FormItem label={this.$t('pdc.vendor.info.s.person')} colon={true}>
                 {getFieldDecorator('confirmUser', {
                   initialValue:
-                    vendorObj.confirmUser.userOID === null
+                    vendorObj.confirmUser.userOid === null
                       ? []
                       : [
                           {
-                            userOID: vendorObj.confirmUser.userOID,
+                            userOid: vendorObj.confirmUser.userOid,
                             fullName: vendorObj.confirmUser.fullName,
                           },
                         ],
@@ -330,7 +330,7 @@ class PersonVendorInfo extends React.Component {
                     single={true}
                     type="user"
                     labelKey="fullName"
-                    valueKey="userOID"
+                    valueKey="userOid"
                     placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
                     listExtraParams={{}}
@@ -343,11 +343,11 @@ class PersonVendorInfo extends React.Component {
               <FormItem label={this.$t('pdc.vendor.info.s2.person')} colon={true}>
                 {getFieldDecorator('confirm2User', {
                   initialValue:
-                    vendorObj.confirm2User.userOID === null
+                    vendorObj.confirm2User.userOid === null
                       ? []
                       : [
                           {
-                            userOID: vendorObj.confirm2User.userOID,
+                            userOid: vendorObj.confirm2User.userOid,
                             fullName: vendorObj.confirm2User.fullName,
                           },
                         ],
@@ -356,7 +356,7 @@ class PersonVendorInfo extends React.Component {
                   <Chooser
                     single={true}
                     labelKey="fullName"
-                    valueKey="userOID"
+                    valueKey="userOid"
                     placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
                     type="user"
@@ -370,11 +370,11 @@ class PersonVendorInfo extends React.Component {
               <FormItem label={this.$t('pdc.vendor.info.cs.person')} colon={true}>
                 {getFieldDecorator('confirmCCUser', {
                   initialValue:
-                    vendorObj.confirmCCUser.userOID === null
+                    vendorObj.confirmCCUser.userOid === null
                       ? []
                       : [
                           {
-                            userOID: vendorObj.confirmCCUser.userOID,
+                            userOid: vendorObj.confirmCCUser.userOid,
                             fullName: vendorObj.confirmCCUser.fullName,
                           },
                         ],
@@ -384,7 +384,7 @@ class PersonVendorInfo extends React.Component {
                     single={true}
                     placeholder={this.$t('common.please.select')}
                     labelKey="fullName"
-                    valueKey="userOID"
+                    valueKey="userOid"
                     onChange={this.handleChange}
                     type="user"
                   />
@@ -396,11 +396,11 @@ class PersonVendorInfo extends React.Component {
               <FormItem label={this.$t('pdc.vendor.info.cs2.person')} colon={true}>
                 {getFieldDecorator('confirm2CCUser', {
                   initialValue:
-                    vendorObj.confirm2CCUser.userOID === null
+                    vendorObj.confirm2CCUser.userOid === null
                       ? []
                       : [
                           {
-                            userOID: vendorObj.confirm2CCUser.userOID,
+                            userOid: vendorObj.confirm2CCUser.userOid,
                             fullName: vendorObj.confirm2CCUser.fullName,
                           },
                         ],
@@ -410,7 +410,7 @@ class PersonVendorInfo extends React.Component {
                     single={true}
                     labelKey="fullName"
                     placeholder={this.$t('common.please.select')}
-                    valueKey="userOID"
+                    valueKey="userOid"
                     onChange={this.handleChange}
                     type="user"
                   />

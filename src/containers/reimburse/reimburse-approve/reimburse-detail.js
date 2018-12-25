@@ -120,7 +120,7 @@ class ReimburseDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.state.headerData.expenseReportOID,
+          entityOid: this.state.headerData.expenseReportOid,
           entityType: 801001,
         },
       ],
@@ -142,7 +142,7 @@ class ReimburseDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.state.headerData.expenseReportOID,
+          entityOid: this.state.headerData.expenseReportOid,
           entityType: 801001,
         },
       ],

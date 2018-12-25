@@ -273,7 +273,7 @@ class CompanyMaintain extends React.Component {
   handleCreate = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/company-maintain/new-company-maintain/create/:companyOID`,
+        pathname: `/enterprise-manage/company-maintain/new-company-maintain/create/:companyOid`,
       })
     );
     // let path = this.state.newCompanyMaintainPage.url.replace(':flag', 'create');
@@ -281,15 +281,15 @@ class CompanyMaintain extends React.Component {
   };
   //跳到新增页面，进行编辑
   editItem = (e, record) => {
-    //companyOID需要传过去的，过滤本公司需要用
+    //companyOid需要传过去的，过滤本公司需要用
     this.props.dispatch(
       routerRedux.replace({
         pathname: `/enterprise-manage/company-maintain/new-company-maintain/${record.id}/${
-          record.companyOID
+          record.companyOid
         }`,
       })
     );
-    // let path = this.state.newCompanyMaintainPage.url.replace(':companyOID', record.companyOID);
+    // let path = this.state.newCompanyMaintainPage.url.replace(':companyOid', record.companyOid);
     // path = path.replace(':flag', record.id);
     // this.context.router.push(path);
   };
@@ -298,11 +298,11 @@ class CompanyMaintain extends React.Component {
     this.props.dispatch(
       routerRedux.replace({
         pathname: `/enterprise-manage/company-maintain/company-maintain-detail/${
-          value.companyOID
+          value.companyOid
         }/${value.id}`,
       })
     );
-    // let path = this.state.companyMaintainDetailPage.url.replace(':companyOId', value.companyOID);
+    // let path = this.state.companyMaintainDetailPage.url.replace(':companyOId', value.companyOid);
     // path = path.replace(':companyId', value.id);
     // this.context.router.push(path);
   };

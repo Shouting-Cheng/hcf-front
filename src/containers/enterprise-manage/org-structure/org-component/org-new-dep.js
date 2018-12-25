@@ -51,20 +51,20 @@ class OrgNewDep extends React.Component {
     if (params) {
       if (params.c_type === 'C_CHILD') {
         dep.parentName = params.name;
-        dep.parentDepartmentOID = params.departmentOID;
+        dep.parentDepartmentOid = params.departmentOid;
         //dep.name = "";
         dep.custDeptNumber = '';
         dep.treeNode = params.treeNode;
         this.setState({ c_type: 'C_CHILD' });
       } else if (params.c_type === 'C_DEP') {
-        if (params.parentDepartmentOID || params.parentId) {
+        if (params.parentDepartmentOid || params.parentId) {
           dep.parentName = params.path.split('|')[0];
-          dep.parentDepartmentOID = params.parentDepartmentOID;
+          dep.parentDepartmentOid = params.parentDepartmentOid;
           dep.parentId = params.parentId;
         } else {
           // "无";
           dep.parentName = this.$t('org-new-dep.empty');
-          dep.parentDepartmentOID = null;
+          dep.parentDepartmentOid = null;
           dep.parentId = null;
         }
         //dep.name = "";
@@ -90,7 +90,7 @@ class OrgNewDep extends React.Component {
     if (this.state.c_type === 'C_CHILD') {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          values.parentDepartmentOID = this.state.dep.parentDepartmentOID;
+          values.parentDepartmentOid = this.state.dep.parentDepartmentOid;
           values.parentId = this.state.dep.parentId;
           values.i18n = dep.i18n;
           values.name = dep.name;
@@ -102,7 +102,7 @@ class OrgNewDep extends React.Component {
     } else if (this.state.c_type === 'C_DEP') {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          values.parentDepartmentOID = this.state.dep.parentDepartmentOID;
+          values.parentDepartmentOid = this.state.dep.parentDepartmentOid;
           values.parentId = this.state.dep.parentId;
           values.i18n = dep.i18n;
           values.name = dep.name;

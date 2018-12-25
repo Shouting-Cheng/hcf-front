@@ -77,10 +77,10 @@ export default {
   },
 
   //获取个人待还款总金额
-  getRepaymentAmount(userOID, companyOID, statusList) {
+  getRepaymentAmount(userOid, companyOid, statusList) {
     return httpFetch.get(`${config.baseUrl}/api/loan/application/user/debt/amount`, {
-      userOID: userOID,
-      companyOID: companyOID,
+      userOid: userOid,
+      companyOid: companyOid,
       statusList: statusList
     }).then((response) => {
       return response;
@@ -124,35 +124,35 @@ export default {
     })
   },
   //临时更换登录信息
-  changeLoginInfo(userOID) {
+  changeLoginInfo(userOid) {
     return Promise.all([
-      this.getTmpUser(userOID),
-      this.getTmpFp(userOID),
-      this.getTmpCompany(userOID)
+      this.getTmpUser(userOid),
+      this.getTmpFp(userOid),
+      this.getTmpCompany(userOid)
     ])
   },
-  getTmpUser(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/users/proxy/${userOID}`, {}).then((response) => {
+  getTmpUser(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/users/proxy/${userOid}`, {}).then((response) => {
       return configureStore.store.dispatch(setUser(response.data));
     })
   },
-  getTmpCompany(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOID }).then((response) => {
+  getTmpCompany(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOid }).then((response) => {
       return configureStore.store.dispatch(setCompany(response.data));
     })
   },
-  getTmpFp(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`, {}).then((response) => {
+  getTmpFp(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOid}`, {}).then((response) => {
       return configureStore.store.dispatch(setProfile(response.data));
     })
   },
-  getFpByUserOID(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOID}`, {}).then((response) => {
+  getFpByUserOid(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/function/profiles/${userOid}`, {}).then((response) => {
       return response;
     })
   },
-  getCompanyByUserOID(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOID }).then((response) => {
+  getCompanyByUserOid(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/company/user`, { useroid: userOid }).then((response) => {
       return response;
     })
   },
@@ -220,28 +220,28 @@ export default {
     return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/all/address`, params)
   },
 
-  //根据表单OID和用户OID获取费用类型
-  getExpenseTypesByFormOID(param) {
-    let formOID = param.formOID;
-    delete param.formOID;
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}/selected/expense/types`, param)
+  //根据表单Oid和用户Oid获取费用类型
+  getExpenseTypesByFormOid(param) {
+    let formOid = param.formOid;
+    delete param.formOid;
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}/selected/expense/types`, param)
   },
 
-  //根据表单OID获取费用类型
-  getExpenseTypesByFormOIDV2(param) {
-    let formOID = param.formOID;
-    delete param.formOID;
-    return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOID}/selected/expense/types`, param)
+  //根据表单Oid获取费用类型
+  getExpenseTypesByFormOidV2(param) {
+    let formOid = param.formOid;
+    delete param.formOid;
+    return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOid}/selected/expense/types`, param)
   },
 
-  //根据表单OID获取费用类型的选择历史
-  getExpenseTypesHistoryByFormOID(param) {
+  //根据表单Oid获取费用类型的选择历史
+  getExpenseTypesHistoryByFormOid(param) {
     return httpFetch.get(`${config.baseUrl}/api/application/budget/type/history`, param)
   },
 
-  //根据公司OID获取费用类型
-  getExpenseTypeByCompanyOID(companyOID) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/types?companyOID=${companyOID}`)
+  //根据公司Oid获取费用类型
+  getExpenseTypeByCompanyOid(companyOid) {
+    return httpFetch.get(`${config.baseUrl}/api/expense/types?companyOid=${companyOid}`)
   },
 
   //获取费用大类型
@@ -262,9 +262,9 @@ export default {
     })
   },
 
-  //根据费用OID获取费用类型
-  getExpenseTypeByOID(expenseTypeOID) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/types/${expenseTypeOID}`)
+  //根据费用Oid获取费用类型
+  getExpenseTypeByOid(expenseTypeOid) {
+    return httpFetch.get(`${config.baseUrl}/api/expense/types/${expenseTypeOid}`)
   },
 
   //根据费用id获取费用类型
@@ -274,12 +274,12 @@ export default {
 
   //根据语言和本位币获取货币列表
   getCurrencyList(currencyCode, language = 'chineseName') {
-    return httpFetch.get(`${config.baseUrl}/api/currencyI18n?currencyCode=${currencyCode}&language=${language}`)
+    return httpFetch.get(`${config.baseUrl}/api/currencyI18n?currencyCode=${currencyCode}`)
   },
 
   //根据语言获得货币列表
-  getAllCurrencyByLanguage(language = 'chineseName', userOID = configureStore.store.getState().login.user.userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll?language=${language}&userOID=${userOID}`)
+  getAllCurrencyByLanguage(language = 'chineseName', userOid = configureStore.store.getState().login.user.userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll?userOid=${userOid}`)
   },
 
   //根据本位币获取汇率
@@ -287,15 +287,15 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/standardCurrency/selectStandardCurrency?base=${baseCurrency}&otherCurrency=${currency}`)
   },
 
-  //根据用户OID获得用户
-  getUserByOID(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/users/oid/${userOID}`)
+  //根据用户Oid获得用户
+  getUserByOid(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/users/oid/${userOid}`)
   },
 
   //得到商务卡消费记录，分页
-  getBusinessCardConsumptionList(bankCard, used, ownerOID, page, size, currMaxID) {
+  getBusinessCardConsumptionList(bankCard, used, ownerOid, page, size, currMaxID) {
     let params = {
-      ownerOID,
+      ownerOid,
       page,
       size,
       currMaxID
@@ -309,8 +309,8 @@ export default {
   },
 
   //获取用户信息
-  getUserInfo(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/users/v2/${userOID}`)
+  getUserInfo(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/users/v2/${userOid}`)
   },
 
   //得到成本中心
@@ -328,15 +328,15 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/tenant/config/by/tenantId?tenantId=${tenantId}&setOfBooksId=${setOfBooksId}`)
   },
 
-  //根据OID获得值列表
-  getCustomEnumerationsByOID(enumOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/${enumOID}/items/v2`)
+  //根据Oid获得值列表
+  getCustomEnumerationsByOid(enumOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/${enumOid}/items/v2`)
   },
 
 
-  //根据部门OID得到部门
-  getDepartmentByOID(departmentOID) {
-    return httpFetch.get(`${config.baseUrl}/api/departments/${departmentOID}`)
+  //根据部门Oid得到部门
+  getDepartmentByOid(departmentOid) {
+    return httpFetch.get(`${config.baseUrl}/api/departments/${departmentOid}`)
   },
 
   //搜索人员
@@ -345,13 +345,13 @@ export default {
   },
 
   //打印单据
-  printApplication(applicationOID) {
-    return httpFetch.get(`${config.baseUrl}/api/loan/application/generate/pdf/${applicationOID}`)
+  printApplication(applicationOid) {
+    return httpFetch.get(`${config.baseUrl}/api/loan/application/generate/pdf/${applicationOid}`)
   },
 
   //打印单据
-  printExpense(applicationOID) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/reports/generate/pdf/${applicationOID}`)
+  printExpense(applicationOid) {
+    return httpFetch.get(`${config.baseUrl}/api/expense/reports/generate/pdf/${applicationOid}`)
   },
 
 

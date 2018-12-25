@@ -132,7 +132,7 @@ class BudgetItem extends React.Component {
         },
       ],
       showImportFrame: false,
-      selectedEntityOIDs: [], //已选择的列表项的OIDs
+      selectedEntityOids: [], //已选择的列表项的Oids
     };
   }
 
@@ -225,20 +225,20 @@ class BudgetItem extends React.Component {
 
   //选择一行
   //选择逻辑：每一项设置selected属性，如果为true则为选中
-  //同时维护selectedEntityOIDs列表，记录已选择的OID，并每次分页、选择的时候根据该列表来刷新选择项
+  //同时维护selectedEntityOids列表，记录已选择的Oid，并每次分页、选择的时候根据该列表来刷新选择项
   onSelectRow = (record, selected) => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) temp.push(record.id);
     else temp.delete(record.id);
     this.setState({
-      selectedEntityOIDs: temp,
+      selectedEntityOids: temp,
       batchCompany: temp.length > 0 ? false : true,
     });
   };
 
   //全选
   onSelectAllRow = selected => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) {
       this.state.data.map(item => {
         temp.addIfNotExist(item.id);
@@ -249,17 +249,17 @@ class BudgetItem extends React.Component {
       });
     }
     this.setState({
-      selectedEntityOIDs: temp,
+      selectedEntityOids: temp,
       batchCompany: temp.length > 0 ? false : true,
     });
   };
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection() {
     let selectedRowKeys = [];
-    this.state.selectedEntityOIDs.map(selectedEntityOID => {
+    this.state.selectedEntityOids.map(selectedEntityOid => {
       this.state.data.map((item, index) => {
-        if (item.id === selectedEntityOID) selectedRowKeys.push(index);
+        if (item.id === selectedEntityOid) selectedRowKeys.push(index);
       });
     });
     this.setState({ selectedRowKeys });
@@ -267,7 +267,7 @@ class BudgetItem extends React.Component {
 
   //清空选择框
   clearRowSelection() {
-    this.setState({ selectedEntityOIDs: [], selectedRowKeys: [] });
+    this.setState({ selectedEntityOids: [], selectedRowKeys: [] });
   }
 
   //新建
@@ -296,7 +296,7 @@ class BudgetItem extends React.Component {
         companyIds.push(item.id);
       });
       let param = [];
-      param.push({ companyIds: companyIds, resourceIds: this.state.selectedEntityOIDs });
+      param.push({ companyIds: companyIds, resourceIds: this.state.selectedEntityOids });
       budgetService
         .batchAddCompanyToItem(param)
         .then(response => {

@@ -21,9 +21,7 @@ export default {
     return httpFetch.get(
       `${
       config.localUrl
-      }/api/location/search?keyWord=${keyWord}&vendorType=${vendorType}&language=${
-      head.language
-      }&country=${head.country}&size=10`
+      }/api/location/search?keyWord=${keyWord}&vendorType=${vendorType}&country=${head.country}&size=10`
     );
   },
 
@@ -33,7 +31,7 @@ export default {
    */
   travelOtherSubmit(appOid, params) {
     return httpFetch.post(
-      `${config.baseUrl}/api/travel/other/itinerary?applicationOID=${appOid}`,
+      `${config.baseUrl}/api/travel/other/itinerary?applicationOid=${appOid}`,
       params
     );
   },
@@ -44,7 +42,7 @@ export default {
    */
   travelTrainSubmit(appOid, params) {
     return httpFetch.post(
-      `${config.baseUrl}/api/travel/train/itinerary?applicationOID=${appOid}`,
+      `${config.baseUrl}/api/travel/train/itinerary?applicationOid=${appOid}`,
       params
     );
   },
@@ -55,7 +53,7 @@ export default {
    */
   travelPlaneSubmit(appOid, params) {
     return httpFetch.post(
-      `${config.baseUrl}/api/travel/flight/itinerary?applicationOID=${appOid}`,
+      `${config.baseUrl}/api/travel/flight/itinerary?applicationOid=${appOid}`,
       params
     );
   },
@@ -66,7 +64,7 @@ export default {
    */
   travelHotelSubmit(appOid, params) {
     return httpFetch.post(
-      `${config.baseUrl}/api/travel/hotel/itinerary?applicationOID=${appOid}`,
+      `${config.baseUrl}/api/travel/hotel/itinerary?applicationOid=${appOid}`,
       params
     );
   },
@@ -102,7 +100,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/applications/itinerarys?applicationOID=${appOid}&itineraryShowDetails=true&withItemDetail=true&withRequestDetail=true`
+      }/api/travel/applications/itinerarys?applicationOid=${appOid}&itineraryShowDetails=true&withItemDetail=true&withRequestDetail=true`
     );
   },
 
@@ -126,7 +124,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/remark/itinerary/generate?applicationOID=${oid}&endDate=${end}&startDate=${start}`
+      }/api/travel/remark/itinerary/generate?applicationOid=${oid}&endDate=${end}&startDate=${start}`
     );
   },
 
@@ -140,7 +138,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/applications/itinerarys?applicationOID=${oid}&itineraryShowDetails=true&remarkDate=${date}`
+      }/api/travel/applications/itinerarys?applicationOid=${oid}&itineraryShowDetails=true&remarkDate=${date}`
     );
   },
 
@@ -152,7 +150,7 @@ export default {
    */
   remarkSubmit(oid, params) {
     return httpFetch.post(
-      `${config.baseUrl}/api/travel/itinerary/remark?applicationOID=${oid}`,
+      `${config.baseUrl}/api/travel/itinerary/remark?applicationOid=${oid}`,
       params
     );
   },
@@ -164,7 +162,7 @@ export default {
    */
   clearRemark(remarkId) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/remark/itinerary/clear?remarkItineraryOID=${remarkId}`
+      `${config.baseUrl}/api/travel/remark/itinerary/clear?remarkItineraryOid=${remarkId}`
     );
   },
 
@@ -175,51 +173,51 @@ export default {
    */
   deleteRemark(remarkId) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/remark/itinerary?remarkItineraryOID=${remarkId}`
+      `${config.baseUrl}/api/travel/remark/itinerary?remarkItineraryOid=${remarkId}`
     );
   },
 
   /**
    * 删除飞机行程
-   * @param flightItineraryOID  飞机行程id
+   * @param flightItineraryOid  飞机行程id
    * @returns {*}
    */
-  deletePlane(flightItineraryOID) {
+  deletePlane(flightItineraryOid) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/flight/itinerary?flightItineraryOID=${flightItineraryOID}`
+      `${config.baseUrl}/api/travel/flight/itinerary?flightItineraryOid=${flightItineraryOid}`
     );
   },
 
   /**
    * 删除火车行程
-   * @param trainItineraryOID  火车行程id
+   * @param trainItineraryOid  火车行程id
    * @returns {*}
    */
-  deleteTrain(trainItineraryOID) {
+  deleteTrain(trainItineraryOid) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/train/itinerary?trainItineraryOID=${trainItineraryOID}`
+      `${config.baseUrl}/api/travel/train/itinerary?trainItineraryOid=${trainItineraryOid}`
     );
   },
 
   /**
    * 删除其他行程
-   * @param otherItineraryOID  其他行程id
+   * @param otherItineraryOid  其他行程id
    * @returns {*}
    */
-  deleteOther(otherItineraryOID) {
+  deleteOther(otherItineraryOid) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/other/itinerary?otherItineraryOID=${otherItineraryOID}`
+      `${config.baseUrl}/api/travel/other/itinerary?otherItineraryOid=${otherItineraryOid}`
     );
   },
 
   /**
    * 删除酒店行程
-   * @param otherItineraryOID  酒店行程id
+   * @param otherItineraryOid  酒店行程id
    * @returns {*}
    */
-  deleteHotel(hotelItineraryOID) {
+  deleteHotel(hotelItineraryOid) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/travel/hotel/itinerary?hotelItineraryOID=${hotelItineraryOID}`
+      `${config.baseUrl}/api/travel/hotel/itinerary?hotelItineraryOid=${hotelItineraryOid}`
     );
   },
 
@@ -297,7 +295,7 @@ export default {
     let participant = [];
     outNum = outNum ? outNum : 0;
     select_participant.map(item => {
-      participant.push(item.participantOID);
+      participant.push(item.participantOid);
     });
     return httpFetch.post(
       `${
@@ -316,7 +314,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/application/itinerary/ctrip/exist?applicationOID=${applicationOid}`
+      }/api/travel/application/itinerary/ctrip/exist?applicationOid=${applicationOid}`
     );
   },
 
@@ -331,14 +329,14 @@ export default {
 
   /**
    * 删除申请单下所有差补
-   * @param applicationOID
+   * @param applicationOid
    * @returns {*}
    */
-  deleteAllSubsidy(applicationOID) {
+  deleteAllSubsidy(applicationOid) {
     return httpFetch.delete(
       `${
       config.baseUrl
-      }/api/travel/subsidies/request/applicationOID?applicationOID=${applicationOID}`
+      }/api/travel/subsidies/request/applicationOid?applicationOid=${applicationOid}`
     );
   },
 
@@ -348,11 +346,11 @@ export default {
    */
   travelValidate(params, language, formInfo) {
     let isHaveApplicant = false;
-    let urlParams = `formOID=${params.formOID}`; //必填
-    let participantsOID = ''; //参与人oids 必填
-    let proposerOID = ''; //申请人oid
-    let departOID = ''; //部门oid
-    let costCentreOID = ''; //成本中心oids
+    let urlParams = `formOid=${params.formOid}`; //必填
+    let participantsOid = ''; //参与人oids 必填
+    let proposerOid = ''; //申请人oid
+    let departOid = ''; //部门oid
+    let costCentreOid = ''; //成本中心oids
     let isSetCostCenter = false; // 成本中心是否设置的是非必填
     let editEnable = false; // 非任意值
     formInfo.customFormFields.map(item => {
@@ -363,23 +361,23 @@ export default {
     params.custFormValues.map(res => {
       switch (res.messageKey) {
         case 'select_department':
-          departOID = departOID + (res.value ? `&departmentOID=${res.value}` : '');
+          departOid = departOid + (res.value ? `&departmentOid=${res.value}` : '');
           break;
         case 'select_participant':
           let parts = JSON.parse(res.value ? res.value : '[]');
           parts.map(item => {
-            participantsOID = participantsOID + `&participantsOID=${item.participantOID}`;
+            participantsOid = participantsOid + `&participantsOid=${item.participantOid}`;
           });
           break;
         case 'applicant':
-          proposerOID = res.value ? `&proposerOID=${res.value}` : '';
+          proposerOid = res.value ? `&proposerOid=${res.value}` : '';
           isHaveApplicant = true;
           break;
         case 'select_cost_center':
           if (!res.required) {
             isSetCostCenter = true;
           }
-          costCentreOID = costCentreOID + (res.value ? `&costCentreOID=${res.value}` : '');
+          costCentreOid = costCentreOid + (res.value ? `&costCentreOid=${res.value}` : '');
           break;
         default:
           break;
@@ -387,7 +385,7 @@ export default {
     });
     if (!isHaveApplicant) {
       let user = app.getState().user.currentUser;
-      proposerOID = `&proposerOID=${user.userOID}`;
+      proposerOid = `&proposerOid=${user.userOid}`;
     }
     if (!editEnable) {
       // 如果配置了是参与人同申请人，则不再检验参与人权限
@@ -396,7 +394,7 @@ export default {
       });
       return promise;
     }
-    if (!participantsOID) {
+    if (!participantsOid) {
       let promise = new Promise((resolve, reject) => {
         reject({
           response: {
@@ -411,7 +409,7 @@ export default {
       });
       return promise;
     }
-    urlParams = urlParams + participantsOID + proposerOID + departOID + costCentreOID;
+    urlParams = urlParams + participantsOid + proposerOid + departOid + costCentreOid;
     return httpFetch.get(`${config.baseUrl}/api/application/participant?${urlParams}`);
   },
 
@@ -444,26 +442,26 @@ export default {
 
   /**
    * 获取成本中心默认值
-   * @param applicationOID 申请人oid
-   * @param costCenterOID  成本中心oid；新建时，如果配置了成本中心项，则会在customFormFields中的成本中心项中有DataSource，
-   *                        costCenterOID就在里面。如果没有dataSource说明配置有错
-   * @returns {*} 返回数据data中costCenterItemOID字段为获取成本具体中心的oid.
+   * @param applicationOid 申请人oid
+   * @param costCenterOid  成本中心oid；新建时，如果配置了成本中心项，则会在customFormFields中的成本中心项中有DataSource，
+   *                        costCenterOid就在里面。如果没有dataSource说明配置有错
+   * @returns {*} 返回数据data中costCenterItemOid字段为获取成本具体中心的oid.
    */
-  getDefaultCostCenter(applicationOID, costCenterOID) {
+  getDefaultCostCenter(applicationOid, costCenterOid) {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/bills/default/cost/center/item?applicantOID=${applicationOID}&costCenterOID=${costCenterOID}`
+      }/api/bills/default/cost/center/item?applicantOid=${applicationOid}&costCenterOid=${costCenterOid}`
     );
   },
 
   /**
    * 获取成本中心默认值详情
-   * @param costCenterItemOID 默认成本中心oid
+   * @param costCenterItemOid 默认成本中心oid
    * @returns {*}
    */
-  getDefaultCostCenterItem(costCenterItemOID) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costCenterItemOID}`);
+  getDefaultCostCenterItem(costCenterItemOid) {
+    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costCenterItemOid}`);
   },
 
   /**
@@ -476,7 +474,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/flight/itinerary/disable?disable=${disable}&flightItineraryOID=${id}`
+      }/api/travel/flight/itinerary/disable?disable=${disable}&flightItineraryOid=${id}`
     );
   },
 
@@ -490,7 +488,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/train/itinerary/disable?disable=${disable}&trainItineraryOID=${id}`
+      }/api/travel/train/itinerary/disable?disable=${disable}&trainItineraryOid=${id}`
     );
   },
 
@@ -504,7 +502,7 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/hotel/itinerary/disable?disable=${disable}&hotelItineraryOID=${id}`
+      }/api/travel/hotel/itinerary/disable?disable=${disable}&hotelItineraryOid=${id}`
     );
   },
 
@@ -518,17 +516,17 @@ export default {
     return httpFetch.get(
       `${
       config.baseUrl
-      }/api/travel/other/itinerary/disable?disable=${disable}&otherItineraryOID=${id}`
+      }/api/travel/other/itinerary/disable?disable=${disable}&otherItineraryOid=${id}`
     );
   },
 
   /**
    * 获取申请人列表
-   * @param formOID 表单id
+   * @param formOid 表单id
    * @returns {*}
    */
-  getPrincipals(formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/bill/proxy/my/principals/${formOID}`);
+  getPrincipals(formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/bill/proxy/my/principals/${formOid}`);
   },
 
   /**
@@ -537,7 +535,7 @@ export default {
    * @returns {*}
    */
   getPrincipalsInfo(userId) {
-    return httpFetch.get(`${config.baseUrl}/api/company/configurations/user?userOID=${userId}`);
+    return httpFetch.get(`${config.baseUrl}/api/company/configurations/user?userOid=${userId}`);
   },
 
   /**
@@ -549,11 +547,11 @@ export default {
   },
 
   //获取差旅要素
-  getTravelElementsList(formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/travel/elements/${formOID}`);
+  getTravelElementsList(formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/travel/elements/${formOid}`);
   },
 
-  getCostItem(costItemOID) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costItemOID}`);
+  getCostItem(costItemOid) {
+    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costItemOid}`);
   },
 };

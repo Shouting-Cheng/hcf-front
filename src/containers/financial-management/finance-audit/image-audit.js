@@ -53,7 +53,7 @@ class ImageAudit extends React.Component {
       });
       result.map((invoice, invoiceIndex) => {
         invoice.attachments.map((attachment, attachmentIndex) => {
-          if (defaultImage && defaultImage.attachmentOID === attachment.attachmentOID) {
+          if (defaultImage && defaultImage.attachmentOid === attachment.attachmentOid) {
             nowInvoiceIndex = invoiceIndex;
             nowAttachmentIndex = attachmentIndex;
           }
@@ -173,21 +173,21 @@ class ImageAudit extends React.Component {
     this.setState({ checking: true });
     financeAuditService
       .checkAttachment({
-        attachmentOID: invoices[invoiceIndex].attachments[attachmentIndex].attachmentOID,
+        attachmentOid: invoices[invoiceIndex].attachments[attachmentIndex].attachmentOid,
         checked,
-        invoiceOID: invoices[invoiceIndex].invoiceOID,
+        invoiceOid: invoices[invoiceIndex].invoiceOid,
       })
       .then(res => {
         invoices[invoiceIndex].attachments[attachmentIndex].checked = checked;
         currentInvoices &&
           currentInvoices.map(item => {
-            if (item.invoiceOID === invoices[invoiceIndex].invoiceOID) {
+            if (item.invoiceOid === invoices[invoiceIndex].invoiceOid) {
               let target = item.invoiceView;
               target.attachments &&
                 target.attachments.map(i => {
                   if (
-                    i.attachmentOID ===
-                    invoices[invoiceIndex].attachments[attachmentIndex].attachmentOID
+                    i.attachmentOid ===
+                    invoices[invoiceIndex].attachments[attachmentIndex].attachmentOid
                   ) {
                     i.checked = checked;
                   }
@@ -308,7 +308,7 @@ class ImageAudit extends React.Component {
             <div className="invoice-container">
               {invoices.map((invoice, index) => (
                 <Row
-                  key={invoice.invoiceOID}
+                  key={invoice.invoiceOid}
                   className={`invoice-item ${nowInvoiceIndex === index && 'selected-invoice'}`}
                   onClick={() => this.handleSelectInvoice(index)}
                 >

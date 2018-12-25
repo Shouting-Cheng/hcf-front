@@ -36,7 +36,7 @@ class ExpenseTypeSelector extends React.Component {
   getExpenseTypeHistory = props => {
     const { source, param } = props;
     if (source === 'formV2') {
-      baseService.getExpenseTypesHistoryByFormOID({ formOID: param.formOID }).then(res => {
+      baseService.getExpenseTypesHistoryByFormOid({ formOid: param.formOid }).then(res => {
         this.setState({
           historyExpenseType: res.data,
         });
@@ -69,14 +69,14 @@ class ExpenseTypeSelector extends React.Component {
       let request;
       switch (source) {
         case 'company':
-          request = baseService.getExpenseTypeByCompanyOID;
+          request = baseService.getExpenseTypeByCompanyOid;
           break;
         case 'form':
-          request = baseService.getExpenseTypesByFormOID;
+          request = baseService.getExpenseTypesByFormOid;
           listKey = 'expenseTypes';
           break;
         case 'formV2':
-          request = baseService.getExpenseTypesByFormOIDV2;
+          request = baseService.getExpenseTypesByFormOidV2;
           listKey = 'expenseTypes';
           break;
       }
@@ -88,29 +88,29 @@ class ExpenseTypeSelector extends React.Component {
           if (source !== 'formV2')
             target = target.filter(expenseType => expenseType.isAbleToCreatedManually);
           target.map(expenseType => {
-            if (expenseType.expenseTypeCategoryOID) {
+            if (expenseType.expenseTypeCategoryOid) {
               sourceCategory.map(item => {
-                if (item.expenseTypeCategoryOID === expenseType.expenseTypeCategoryOID) {
+                if (item.expenseTypeCategoryOid === expenseType.expenseTypeCategoryOid) {
                   if (!item.expenseType) item.expenseType = [];
                   item.expenseType.push(expenseType);
                   return item;
                 }
               });
             } else {
-              //费用类型的expenseTypeCategoryOID为null时, add by mengsha.wang@huilianyi.com
+              //费用类型的expenseTypeCategoryOid为null时, add by mengsha.wang@huilianyi.com
               let nullCategoryItem;
-              let nullCategoryOIDExist = false;
+              let nullCategoryOidExist = false;
               sourceCategory.map(item => {
-                if (item.expenseTypeCategoryOID === '0000-0000-0000-0000-0000') {
+                if (item.expenseTypeCategoryOid === '0000-0000-0000-0000-0000') {
                   nullCategoryItem = item;
-                  nullCategoryOIDExist = true;
+                  nullCategoryOidExist = true;
                   item.expenseType.push(expenseType);
                   return item;
                 }
               });
-              if (!nullCategoryOIDExist) {
+              if (!nullCategoryOidExist) {
                 nullCategoryItem = {
-                  expenseTypeCategoryOID: '0000-0000-0000-0000-0000',
+                  expenseTypeCategoryOid: '0000-0000-0000-0000-0000',
                   name: this.$t('common.other'),
                   expenseType: [expenseType],
                 };
@@ -168,7 +168,7 @@ class ExpenseTypeSelector extends React.Component {
       this.setState(
         {
           selectedExpenseType:
-            expenseType.expenseTypeOID === this.state.selectedExpenseType.expenseTypeOID
+            expenseType.expenseTypeOid === this.state.selectedExpenseType.expenseTypeOid
               ? {}
               : expenseType,
         },
@@ -180,7 +180,7 @@ class ExpenseTypeSelector extends React.Component {
       let selectedExpenseTypeArr = this.state.selectedExpenseTypeArr;
       let expenseIndex = -1;
       selectedExpenseTypeArr.map((item, index) => {
-        item.expenseTypeOID === expenseType.expenseTypeOID && (expenseIndex = index);
+        item.expenseTypeOid === expenseType.expenseTypeOid && (expenseIndex = index);
       });
       expenseIndex !== -1
         ? selectedExpenseTypeArr.splice(expenseIndex, 1)
@@ -220,18 +220,18 @@ class ExpenseTypeSelector extends React.Component {
                   {historyExpenseType.map(expenseType => {
                     let className = '';
                     if (this.props.single) {
-                      expenseType.expenseTypeOID === selectedExpenseType.expenseTypeOID &&
+                      expenseType.expenseTypeOid === selectedExpenseType.expenseTypeOid &&
                         (className = 'selected');
                     } else {
                       selectedExpenseTypeArr.map(expenseTypeItem => {
-                        expenseTypeItem.expenseTypeOID === expenseType.expenseTypeOID &&
+                        expenseTypeItem.expenseTypeOid === expenseType.expenseTypeOid &&
                           (className = 'selected');
                       });
                     }
                     return (
                       <Col
                         span={8}
-                        key={expenseType.expenseTypeOID}
+                        key={expenseType.expenseTypeOid}
                         onClick={() => {
                           this.handleSelect(expenseType);
                         }}
@@ -262,24 +262,24 @@ class ExpenseTypeSelector extends React.Component {
               }
               return expenseTypeCategory.expenseType &&
                 expenseTypeCategory.expenseType.length > 0 ? (
-                <div className="category-area" key={expenseTypeCategory.expenseTypeCategoryOID}>
+                <div className="category-area" key={expenseTypeCategory.expenseTypeCategoryOid}>
                   <div className="category-name">{expenseTypeCategory.name}</div>
                   <Row gutter={10}>
                     {expenseTypeCategory.expenseType.map(expenseType => {
                       let className = '';
                       if (this.props.single) {
-                        expenseType.expenseTypeOID === selectedExpenseType.expenseTypeOID &&
+                        expenseType.expenseTypeOid === selectedExpenseType.expenseTypeOid &&
                           (className = 'selected');
                       } else {
                         selectedExpenseTypeArr.map(expenseTypeItem => {
-                          expenseTypeItem.expenseTypeOID === expenseType.expenseTypeOID &&
+                          expenseTypeItem.expenseTypeOid === expenseType.expenseTypeOid &&
                             (className = 'selected');
                         });
                       }
                       return (
                         <Col
                           span={8}
-                          key={expenseType.expenseTypeOID}
+                          key={expenseType.expenseTypeOid}
                           onClick={() => {
                             this.handleSelect(expenseType);
                           }}

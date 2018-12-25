@@ -212,13 +212,13 @@ export default {
   },
 
   //获取partnerOid获取收款账号
-  getReceiveAccount(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/getContactBankByUserOid?userOid=${OID}`)
+  getReceiveAccount(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/DepartmentGroup/getContactBankByUserOid?userOid=${Oid}`)
   },
 
-  //根据userOID获取付款账户
-  getPayAccount(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/companyBankAuth/selectAuthBank?empId=${OID}`)
+  //根据userOid获取付款账户
+  getPayAccount(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/companyBankAuth/selectAuthBank?empId=${Oid}`)
   },
 
   getDefaultCompany(userOid,defaultId){

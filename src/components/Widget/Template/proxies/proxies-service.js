@@ -3,10 +3,10 @@ import config from 'config';
 
 export default {
   //查询我的代理表单101申请单，102报销单，103所有
-  getProxyMyForms(formType, userOID) {
+  getProxyMyForms(formType, userOid) {
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/my/available`, {
       formType: formType,
-      userOID: userOID,
+      userOid: userOid,
     });
   },
   //查询我是否有代理单据,101申请单，102报销单，103所有

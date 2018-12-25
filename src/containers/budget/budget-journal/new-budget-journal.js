@@ -76,7 +76,7 @@ class NewBudgetJournalFrom extends React.Component {
       periodStrategyFlag: true,
       journalTypeIdFlag: true,
       file: {},
-      attachmentOID: [],
+      attachmentOid: [],
       formOid: null,
       documentOid: null,
     };
@@ -179,7 +179,7 @@ class NewBudgetJournalFrom extends React.Component {
             journalTypeName: value.journalTypeName[0].journalTypeName,
             periodStrategy: value.periodStrategy,
             versionNumber: '1',
-            attachmentOID: this.state.attachmentOID,
+            attachmentOid: this.state.attachmentOid,
             formOid: this.state.formOid,
             documentType: this.state.documentOid,
           },
@@ -300,10 +300,10 @@ class NewBudgetJournalFrom extends React.Component {
     }
   };
 
-  //上传附件，获取OID
+  //上传附件，获取Oid
   uploadHandle = value => {
     this.setState({
-      attachmentOID: value,
+      attachmentOid: value,
     });
   };
 

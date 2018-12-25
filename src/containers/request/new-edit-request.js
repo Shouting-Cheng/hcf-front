@@ -91,10 +91,10 @@ class NewRequest extends React.Component {
       haveClear: false, //是否清空差补
       isHaveRoute: false, //是否有行程存在
       defaultRelativeApplication: undefined, //默认关联申请单
-      referenceApplicationOID: '', //关联申请单OID
+      referenceApplicationOid: '', //关联申请单Oid
       approvalHistory: [], //审批历史
       isHaveSubsidyRules: false, //是否设置了差补规则
-      subsidyRulesFieldOID: [], //设置了差补规则的fieldOID
+      subsidyRulesFieldOid: [], //设置了差补规则的fieldOid
       signEnable: false, //是否可以加签
       formIsChange: false, //表单是否已经改动且未保存
       currentCodeType: this.props.company.baseCurrency, //当前总金额币种
@@ -104,13 +104,13 @@ class NewRequest extends React.Component {
       travelItinerarys: [],
       manageType: false,
       dateChage: true,
-      signCompanyOIDs: [], //加签人公司范围
+      signCompanyOids: [], //加签人公司范围
     };
     this.state.copyDefaultValues.checkedChange = this.checkedChange;
     this.state.copyDefaultValues.expectStopDate = this.expectStopDate;
   }
 
-  //formValueOID 编辑状态表单的key值设置
+  //formValueOid 编辑状态表单的key值设置
 
   /**
    * 预计停用日期的回调函数
@@ -133,7 +133,7 @@ class NewRequest extends React.Component {
     copy.map(res => {
       if (
         res.messageKey === field.messageKey &&
-        res.fieldOID === field.fieldOID &&
+        res.fieldOid === field.fieldOid &&
         (field.messageKey === 'select_cost_center' || field.messageKey === 'select_department')
       ) {
         res.showName = allValue;
@@ -157,11 +157,11 @@ class NewRequest extends React.Component {
 
   componentWillMount() {
     if (
-      this.props.match.params.applicantOID &&
-      this.props.match.params.applicantOID !== ':applicantOID'
+      this.props.match.params.applicantOid &&
+      this.props.match.params.applicantOid !== ':applicantOid'
     ) {
       baseService
-        .changeLoginInfo(this.props.match.params.applicantOID)
+        .changeLoginInfo(this.props.match.params.applicantOid)
         .then(() => { })
         .catch(() => {
           message.error(this.$t('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
@@ -240,7 +240,7 @@ class NewRequest extends React.Component {
   //日期连选控件打开或者关闭的时候的回调
   checkedOk = (field, value) => {
     this.canGo = false;
-    let formInfo = this.props.match.params.applicationOID ? this.state.info : this.state.formInfo;
+    let formInfo = this.props.match.params.applicationOid ? this.state.info : this.state.formInfo;
     let copy = this.state.copyDefaultValues;
     let startDate = null;
     let endDate = null;
@@ -268,7 +268,7 @@ class NewRequest extends React.Component {
         }
 
         //赋值到start_date,end_date控件
-        if (this.props.match.params.applicationOID) {
+        if (this.props.match.params.applicationOid) {
           this.refreshRangeDate(formInfo.custFormValues, startDate, endDate);
           this.setState(
             {
@@ -297,7 +297,7 @@ class NewRequest extends React.Component {
     let formInfo = this.state.info;
     let isChange = false; //日期是否变化
     let isShowModal = false; //是否需要弹框提示
-    if (this.props.match.params.applicationOID) {
+    if (this.props.match.params.applicationOid) {
       formInfo.custFormValues.map((item, index) => {
         if (item.messageKey === 'start_date' || item.messageKey === 'end_date') {
           let baseStartData = this.state.copyDefaultValues[index];
@@ -383,10 +383,10 @@ class NewRequest extends React.Component {
       ? JSON.parse(maps['travel.subsidies.dimension'])
       : false;
     if (subsidyDimension) {
-      if (subsidyDimension.formFieldOIDs && subsidyDimension.formFieldOIDs.length > 0) {
+      if (subsidyDimension.formFieldOids && subsidyDimension.formFieldOids.length > 0) {
         this.setState({
           isHaveSubsidyRules: true,
-          subsidyRulesFieldOID: subsidyDimension.formFieldOIDs,
+          subsidyRulesFieldOid: subsidyDimension.formFieldOids,
         });
       }
     }
@@ -400,8 +400,8 @@ class NewRequest extends React.Component {
   subsidyRulesListener = (cust, isEditing) => {
     if (this.state.isHaveSubsidyRules) {
       cust.map((item, index) => {
-        this.state.subsidyRulesFieldOID.map(oid => {
-          if (item.fieldOID === oid) {
+        this.state.subsidyRulesFieldOid.map(oid => {
+          if (item.fieldOid === oid) {
             let baseStartData = this.state.copyDefaultValues[index];
             if (
               isEditing &&
@@ -412,7 +412,7 @@ class NewRequest extends React.Component {
             ) {
               if (this.state.isHaveRoute && this.state.total > 0) {
                 this.canGo = false;
-                let currentKey = item.formValueOID;
+                let currentKey = item.formValueOid;
                 this.baseModalShow(
                   this.$t('itinerary.form.change.about.subsidy.field.tip', {
                     fieldName: item.fieldName,
@@ -435,7 +435,7 @@ class NewRequest extends React.Component {
   };
 
   componentWillReceiveProps() {
-    let isEditing = !!this.props.match.params.applicationOID;
+    let isEditing = !!this.props.match.params.applicationOid;
     let values = this.props.form.getFieldsValue();
     let cust = [];
     let custFormValues = isEditing
@@ -462,7 +462,7 @@ class NewRequest extends React.Component {
           if (isEditing && baseStartData && baseStartData.value !== item.value && this.canGo) {
             if (this.state.isHaveRoute) {
               this.canGo = false;
-              let currentKey = item.formValueOID;
+              let currentKey = item.formValueOid;
               let isHaveSubsidy = this.state.total > 0 ? true : false;
               let mesStr = this.$t('itinerary.form.change.about.travel.field.tip', {
                 fieldName: item.fieldName,
@@ -491,7 +491,7 @@ class NewRequest extends React.Component {
           if (isEditing && baseStartData && baseStartData.value !== item.value && this.canGo) {
             if (this.state.isHaveRoute) {
               this.canGo = false;
-              let currentKey = item.formValueOID;
+              let currentKey = item.formValueOid;
               let isHaveSubsidy = this.state.total > 0 ? true : false;
               let mesStr = this.$t('itinerary.form.change.about.travel.field.tip', {
                 fieldName: item.fieldName,
@@ -521,7 +521,7 @@ class NewRequest extends React.Component {
             } else {
               if (this.state.isHaveRoute && this.state.total > 0) {
                 this.canGo = false;
-                let currentKey = item.formValueOID;
+                let currentKey = item.formValueOid;
                 this.baseModalShow(
                   this.$t(
                     'itinerary.form.change.participant.tip'
@@ -547,14 +547,14 @@ class NewRequest extends React.Component {
             if (participant) {
               participant.map(p => {
                 //遍历参与人看原申请人是否在其中
-                if (baseStartData.value === p.userOID) {
+                if (baseStartData.value === p.userOid) {
                   isInParticipant = true;
                 }
               });
             }
             if (isInParticipant) {
               //原申请人在参与人员中-->弹框提示
-              let currentKey = isEditing ? item.formValueOID : item.fieldOID;
+              let currentKey = isEditing ? item.formValueOid : item.fieldOid;
               let tipMessage =
                 isEditing && this.state.total > 0
                   ? this.$t(
@@ -583,13 +583,13 @@ class NewRequest extends React.Component {
   }
 
   //修改申请人
-  handleApplicantChange = (field, applicantOID) => {
+  handleApplicantChange = (field, applicantOid) => {
     this.setState({ loading: true });
     baseService
-      .changeLoginInfo(applicantOID)
+      .changeLoginInfo(applicantOid)
       .then(() => {
         requestService
-          .getFormValue(this.props.user.userOID, this.props.match.params.formOID)
+          .getFormValue(this.props.user.userOid, this.props.match.params.formOid)
           .then(res => {
             this.setState(
               {
@@ -618,15 +618,15 @@ class NewRequest extends React.Component {
         this.noChangePar = false;
       }
     });
-    let status = this.props.match.params.applicationOID ? 'edit' : 'create';
+    let status = this.props.match.params.applicationOid ? 'edit' : 'create';
     let custFormValues =
       status === 'edit' ? this.state.info.custFormValues : this.state.formInfo.customFormFields;
-    let formOID = status === 'edit' ? this.props.match.params.formOID : this.state.formInfo.formOID;
+    let formOid = status === 'edit' ? this.props.match.params.formOid : this.state.formInfo.formOid;
     travelUtil.setDefaultFormUtil(
       status,
       custFormValues,
       newField,
-      formOID,
+      formOid,
       data,
       this.executeCall,
       isReplace
@@ -681,7 +681,7 @@ class NewRequest extends React.Component {
         } else {
           setData[currentKey] = travelUtil.changeValueUtil(data);
         }
-        if (!!this.props.match.params.applicationOID) {
+        if (!!this.props.match.params.applicationOid) {
           defaultValues[index].value = this.state.copyDefaultValues[index].value;
         }
         formInfo['customFormFields'][index].value = this.state.copyDefaultValues[index].value;
@@ -771,7 +771,7 @@ class NewRequest extends React.Component {
     if (applicationData.formType === 2001) {
       let rangePicker = {
         messageKey: 'range_picker',
-        fieldOID: travelUtil.generateUid(),
+        fieldOid: travelUtil.generateUid(),
         fieldName: this.$t('itinerary.form.component.range.picker') /*'出差往返日期'*/,
         fieldType: 'TEXT',
         enableTime: false,
@@ -827,7 +827,7 @@ class NewRequest extends React.Component {
           if (enableStartDateTime && enableEndDateTime) {
             rangePicker.enableTime = true;
           }
-          rangePicker.formValueOID = 'virtual_range_picker';
+          rangePicker.formValueOid = 'virtual_range_picker';
           rangePicker.showValue = [moment(startDate), moment(endDate)];
           applicationData.custFormValues.push(rangePicker);
           this.setState({ isShowRangePicker: true }, () => {
@@ -899,15 +899,15 @@ class NewRequest extends React.Component {
   //获取表单配置
   getFormInfo = () => {
     this.setState({ loading: true });
-    requestService.getCustomForm(this.props.match.params.formOID).then(res => {
+    requestService.getCustomForm(this.props.match.params.formOid).then(res => {
       this.customFormFieldsOrigin = JSON.parse(JSON.stringify(res.data));
       this.setApplicantDisable(res.data.customFormFields);
       res.data.customFormFields.sort((a, b) => a.sequence > b.sequence || -1); //wjk add 180523
-      !this.props.match.params.applicationOID && this.copyDefaultCust(res, 'create');
+      !this.props.match.params.applicationOid && this.copyDefaultCust(res, 'create');
       this.checkedIsSetSubsidyRule(res); //wjk add 18 06 01
       this.setState(
         {
-          loading: !!this.props.match.params.applicationOID,
+          loading: !!this.props.match.params.applicationOid,
           formInfo: res.data,
           formType: res.data.formType,
           currentCodeTyp: this.props.company.baseCurrency,
@@ -915,7 +915,7 @@ class NewRequest extends React.Component {
         },
         () => {
           const { formType, formInfo } = this.state;
-          if (this.props.match.params.applicationOID) {
+          if (this.props.match.params.applicationOid) {
             this.getInfo(formType);
           } else {
             this.getFormDefaultValue();
@@ -927,14 +927,14 @@ class NewRequest extends React.Component {
 
   //获取表单默认值
   getFormDefaultValue = () => {
-    let userOID = this.props.user.userOID;
+    let userOid = this.props.user.userOid;
     if (
-      this.props.match.params.applicantOID &&
-      this.props.match.params.applicantOID !== ':applicantOID'
+      this.props.match.params.applicantOid &&
+      this.props.match.params.applicantOid !== ':applicantOid'
     ) {
-      userOID = this.props.match.params.applicantOID;
+      userOid = this.props.match.params.applicantOid;
     }
-    requestService.getFormValue(userOID, this.props.match.params.formOID).then(res => {
+    requestService.getFormValue(userOid, this.props.match.params.formOid).then(res => {
       this.setState({
         loading: false,
         formDefaultValue: res.data,
@@ -954,11 +954,11 @@ class NewRequest extends React.Component {
   //获取申请单详情
   getInfo = () => {
     //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
-    const { applicationOID } = this.props.match.params;
-    requestService.getRequestDetail(applicationOID).then(res => {
+    const { applicationOid } = this.props.match.params;
+    requestService.getRequestDetail(applicationOid).then(res => {
       //代提逻辑
-      if (this.props.user.userOID !== res.data.applicantOID) {
-        baseService.changeLoginInfo(res.data.applicantOID);
+      if (this.props.user.userOid !== res.data.applicantOid) {
+        baseService.changeLoginInfo(res.data.applicantOid);
       }
       this.setApplicantDisable(res.data.custFormValues);
       //wjk add 排序只需拿到数据之后排一次，render函数中排序，会排序多次，同等优先级项排序结果会不同
@@ -971,7 +971,7 @@ class NewRequest extends React.Component {
         currentCodeType: res.data.currencyCode
           ? res.data.currencyCode
           : this.props.company.baseCurrency,
-        referenceApplicationOID: res.data.referenceApplicationOID,
+        referenceApplicationOid: res.data.referenceApplicationOid,
         travelItinerarys:
           res.data.travelApplication && (res.data.travelApplication.travelItinerarys || []),
       });
@@ -982,8 +982,8 @@ class NewRequest extends React.Component {
   //判断是否可以加签
   isCounterSignEnable = () => {
     let params = {
-      companyOID: this.props.company.companyOID,
-      formOID: this.props.match.params.formOID,
+      companyOid: this.props.company.companyOid,
+      formOid: this.props.match.params.formOid,
       counterSignType: 'enableAddSignForSubmitter',
     };
     approveRequestService.postAddSignEnableScope(params).then(res => {
@@ -993,7 +993,7 @@ class NewRequest extends React.Component {
         this.setState(
           {
             signEnable: res.data.enabled,
-            signCompanyOIDs: res.data.approvalAddSignScope.companyOIDs,
+            signCompanyOids: res.data.approvalAddSignScope.companyOids,
           },
           () => { }
         );
@@ -1012,15 +1012,15 @@ class NewRequest extends React.Component {
     dev.expectStopDate = this.expectStopDate; //设置监听
     dev.applicationData = res.data; //差旅、费用申请单需要根据配置设置预计停用日期
     //添加更改状态单子不可编辑 部门，成本中心，申请人，参与人
-    if (res.data.sourceApplicationOID) {
+    if (res.data.sourceApplicationOid) {
       res.data.custFormValues = travelUtil.setDisabledValues(res.data.custFormValues);
     }
-    if (!this.props.match.params.applicationOID && status === 'create') {
+    if (!this.props.match.params.applicationOid && status === 'create') {
       res.data.customFormFields.map(m => {
         dev.push({
           value: m.value,
           messageKey: m.messageKey,
-          fieldOID: m.fieldOID,
+          fieldOid: m.fieldOid,
           fieldName: m.fieldName,
           required: m.required,
           formType: this.state.formType,
@@ -1034,8 +1034,8 @@ class NewRequest extends React.Component {
         dev.push({
           value: m.value,
           messageKey: m.messageKey,
-          formValueOID: m.formValueOID,
-          fieldOID: m.fieldOID,
+          formValueOid: m.formValueOid,
+          fieldOid: m.fieldOid,
           fieldName: m.fieldName,
           required: m.required,
           formType: this.state.formType,
@@ -1051,12 +1051,12 @@ class NewRequest extends React.Component {
 
   //获取保存、提交申请单时的custFormValues
   getCustFormValues = values => {
-    let custFormValues = this.props.match.params.applicationOID
+    let custFormValues = this.props.match.params.applicationOid
       ? this.state.info.custFormValues
       : this.state.formInfo.customFormFields;
     custFormValues.map(item => {
       Object.keys(values).map(key => {
-        if (key === item.fieldOID || key === item.formValueOID) {
+        if (key === item.fieldOid || key === item.formValueOid) {
           item = customField.formatFormValue(item, values[key]);
         }
       });
@@ -1067,14 +1067,14 @@ class NewRequest extends React.Component {
   //保存／提交前处理单据数据
   processValues = params => {
     //新建的时候的特殊处理
-    if (!this.props.match.params.applicationOID) {
+    if (!this.props.match.params.applicationOid) {
       params.remark = ''; //新建时要把表单带出的remark清空，这不是单据的remark
     }
   };
 
   //提交前检查组合控件的表单值验证,异步方法
   submitSaveValidateCombinationForm() {
-    let customFormFields = this.props.match.params.applicationOID
+    let customFormFields = this.props.match.params.applicationOid
       ? this.state.info.custFormValues
       : this.state.formInfo.customFormFields;
     let isHaveValidate = false;
@@ -1082,10 +1082,10 @@ class NewRequest extends React.Component {
     customFormFields &&
       customFormFields.map(item => {
         if (~needValidateForms.indexOf(item.messageKey)) {
-          let info = this.props.form.getFieldValue(!isEdit ? item.fieldOID : item.formValueOID);
+          let info = this.props.form.getFieldValue(!isEdit ? item.fieldOid : item.formValueOid);
           if (info) {
             info.callBackSubmit = !info.callBackSubmit;
-            this.props.form.setFieldsValue({ [!isEdit ? item.fieldOID : item.formValueOID]: info });
+            this.props.form.setFieldsValue({ [!isEdit ? item.fieldOid : item.formValueOid]: info });
             isHaveValidate = true;
           }
         }
@@ -1094,7 +1094,7 @@ class NewRequest extends React.Component {
   }
   //组合表单验证结果
   combinationFormValidateResult() {
-    let customFormFields = this.props.match.params.applicationOID
+    let customFormFields = this.props.match.params.applicationOid
       ? this.state.info.custFormValues
       : this.state.formInfo.customFormFields;
     let isPassValid = true;
@@ -1102,7 +1102,7 @@ class NewRequest extends React.Component {
     customFormFields &&
       customFormFields.map(item => {
         if (~needValidateForms.indexOf(item.messageKey)) {
-          let info = this.props.form.getFieldValue(!isEdit ? item.fieldOID : item.formValueOID);
+          let info = this.props.form.getFieldValue(!isEdit ? item.fieldOid : item.formValueOid);
           if (info) {
             isPassValid = !isPassValid || info.isPassValid;
           }
@@ -1148,8 +1148,8 @@ class NewRequest extends React.Component {
       }
       if (!err) {
         //formType：2001（差旅申请）、2002（费用申请）、2003（订票申请）、2004（京东申请）、2005（借款申请）
-        const { info, formInfo, formType, referenceApplicationOID, travelItinerarys } = this.state;
-        let params = this.props.match.params.applicationOID
+        const { info, formInfo, formType, referenceApplicationOid, travelItinerarys } = this.state;
+        let params = this.props.match.params.applicationOid
           ? JSON.parse(JSON.stringify(info))
           : JSON.parse(JSON.stringify(formInfo));
         params.custFormValues = this.getCustFormValues(values, true);
@@ -1157,8 +1157,8 @@ class NewRequest extends React.Component {
           return;
         }
         params.applicant = null;
-        params.referenceApplicationOID = referenceApplicationOID;
-        params.countersignApproverOIDs = this.props.form.getFieldsValue().addSign;
+        params.referenceApplicationOid = referenceApplicationOid;
+        params.countersignApproverOids = this.props.form.getFieldsValue().addSign;
         this.processValues(params);
 
         this.setState({ saveLoading: true });
@@ -1205,16 +1205,16 @@ class NewRequest extends React.Component {
     let partiOid = '';
     let indexOf = 0;
     let formVs = params.custFormValues;
-    let currentStatus = this.props.match.params.applicationOID ? 'edit' : 'create';
+    let currentStatus = this.props.match.params.applicationOid ? 'edit' : 'create';
     let isCanSubmit = travelUtil.customFormChecked(formVs);
     if (!isCanSubmit) {
       this.setState({ loading: false, saveLoading: false, submitLoading: false });
       return;
     }
     formVs.map((cus, index) => {
-      //通过messageKey拿到对应表单的key，applicationOID存在为编辑状态
+      //通过messageKey拿到对应表单的key，applicationOid存在为编辑状态
       if (cus.messageKey === 'select_participant') {
-        partiOid = this.props.match.params.applicationOID ? cus.formValueOID : cus.fieldOID;
+        partiOid = this.props.match.params.applicationOid ? cus.formValueOid : cus.fieldOid;
         indexOf = index;
       }
     });
@@ -1244,7 +1244,7 @@ class NewRequest extends React.Component {
           });
           if (showName) {
             //弹框提示是否删除不在权限内的参与人
-            if (this.state.info.sourceApplicationOID) {
+            if (this.state.info.sourceApplicationOid) {
               this.setState({ saveLoading: false, loading: false, submitLoading: false });
               Modal.warn({
                 title: this.$t('itinerary.form.tips') /*'提示'*/,
@@ -1355,10 +1355,10 @@ class NewRequest extends React.Component {
         .saveTravelRequest(params)
         .then(res => {
           this.setState({ loading: false, saveLoading: false });
-          this.props.match.params.applicationOID = res.data.applicationOID;
+          this.props.match.params.applicationOid = res.data.applicationOid;
           message.success(this.$t('itinerary.save.tip') /*'已保存'*/);
           if (status === 'create') {
-            requestService.getRequestDetail(res.data.applicationOID).then(res => {
+            requestService.getRequestDetail(res.data.applicationOid).then(res => {
               this.setApplicantDisable(res.data.custFormValues);
               res.data.custFormValues.sort((a, b) => a.sequence > b.sequence || -1);
               res.data.custFormValues.map(item => {
@@ -1366,9 +1366,9 @@ class NewRequest extends React.Component {
                   let arr = [];
                   JSON.parse(item.value).map(detail => {
                     let newItem = {
-                      userOID: detail.userOID,
+                      userOid: detail.userOid,
                       fullName: detail.fullName,
-                      participantOID: detail.participantOID,
+                      participantOid: detail.participantOid,
                     };
                     arr.push(newItem);
                   });
@@ -1471,13 +1471,13 @@ class NewRequest extends React.Component {
 
   //检查行程数据，是否需要显示统一订票等操作
   checkedItinerary = params => {
-    travelService.getItinerary(this.props.match.params.applicationOID).then(res => {
+    travelService.getItinerary(this.props.match.params.applicationOid).then(res => {
       let it = res.data;
       let sub = this.state.subsidyCtrl;
       if (it['FLIGHT'] && it['FLIGHT'].length > 0) {
         sub.flight = true;
         //获取最大机票数
-        travelService.getMaxFlight(this.props.match.params.applicationOID).then(f => {
+        travelService.getMaxFlight(this.props.match.params.applicationOid).then(f => {
           this.setState({ maxFlight: f.data });
         });
       }
@@ -1514,7 +1514,7 @@ class NewRequest extends React.Component {
       if (
         this.state.formInfo &&
         this.state.formInfo.customFormPropertyMap &&
-        !this.state.info.sourceApplicationOID
+        !this.state.info.sourceApplicationOid
       ) {
         let maps = this.state.formInfo.customFormPropertyMap;
         let isBookingPreference = true; //是否优先统一订票
@@ -1561,14 +1561,14 @@ class NewRequest extends React.Component {
 
       sub.selectPerson.push({ name: params.createdName, oid: params.createdBy }); //添加创建人
       travelUtil.getFormHeadValue(params.custFormValues, 'select_participant').map(v => {
-        sub.selectPerson.push({ name: v.fullName, oid: v.participantOID }); //添加参与人
+        sub.selectPerson.push({ name: v.fullName, oid: v.participantOid }); //添加参与人
       });
       let applicant = travelUtil.getFormHeadValue(params.custFormValues, 'applicant');
       if (applicant) {
         //配置申请人存在
-        travelService.getPrincipals(params.formOID).then(res => {
+        travelService.getPrincipals(params.formOid).then(res => {
           res.data.map(item => {
-            if (applicant.value === item.userOID) {
+            if (applicant.value === item.userOid) {
               applicant = { name: item.fullName, oid: applicant.value };
             }
           });
@@ -1576,7 +1576,7 @@ class NewRequest extends React.Component {
           this.setState({ subsidyCtrl: sub });
         });
       } else {
-        applicant = { name: params.applicantName, oid: params.applicantOID };
+        applicant = { name: params.applicantName, oid: params.applicantOid };
         sub.selectPerson.unshift(applicant); //添加申请人
         this.setState({ subsidyCtrl: sub });
       }
@@ -1592,7 +1592,7 @@ class NewRequest extends React.Component {
     res.data.map(item => {
       if (item.errorDetail) {
         partis.map((p, ind) => {
-          if (p.userOID === item.userOID) {
+          if (p.userOid === item.userOid) {
             partis.splice(ind, 1);
           }
         });
@@ -1610,7 +1610,7 @@ class NewRequest extends React.Component {
   clearSubsidy = () => {
     this.setState({ haveClear: true });
     travelService
-      .deleteAllSubsidy(this.props.match.params.applicationOID)
+      .deleteAllSubsidy(this.props.match.params.applicationOid)
       .then(res => {
         message.success(this.$t('itinerary.form.submit.clear.subsidy.tip') /*'已清空差补'*/);
         this.setState({ total: 0, haveClear: true, totalBudget: this.state.amount });
@@ -1633,16 +1633,16 @@ class NewRequest extends React.Component {
       //需要处理统一订票字段，处理以后提交
       if (this.state.isFlight) {
         this.travelParams.travelApplication.uniformBooking = true;
-        this.travelParams.travelApplication.bookingClerkOID = this.props.form.getFieldValue(
-          'bookingClerkOID'
+        this.travelParams.travelApplication.bookingClerkOid = this.props.form.getFieldValue(
+          'bookingClerkOid'
         );
       } else {
         this.travelParams.travelApplication.uniformBooking = false;
       }
       if (this.state.isHotel) {
         this.travelParams.travelApplication.hotelUniformBooking = true;
-        this.travelParams.travelApplication.hotelBookingClerkOID = this.props.form.getFieldValue(
-          'hotelBookingClerkOID'
+        this.travelParams.travelApplication.hotelBookingClerkOid = this.props.form.getFieldValue(
+          'hotelBookingClerkOid'
         );
       } else {
         //非同一定酒店 需设置合租人信息
@@ -1672,8 +1672,8 @@ class NewRequest extends React.Component {
       }
       if (this.state.isTrain) {
         this.travelParams.travelApplication.trainUniformBooking = true;
-        this.travelParams.travelApplication.trainBookingClerkOID = this.props.form.getFieldValue(
-          'trainBookingClerkOID'
+        this.travelParams.travelApplication.trainBookingClerkOid = this.props.form.getFieldValue(
+          'trainBookingClerkOid'
         );
       } else {
         this.travelParams.travelApplication.trainUniformBooking = false;
@@ -1688,11 +1688,11 @@ class NewRequest extends React.Component {
   //提交时加签人校验
   judgeSubmitSign = params => {
     let duplicateNameList = [];
-    let duplicateOIDList = []; //去重逻辑
+    let duplicateOidList = []; //去重逻辑
     let duplicateName = '';
     if (
-      params.countersignApproverOIDs &&
-      params.countersignApproverOIDs.length &&
+      params.countersignApproverOids &&
+      params.countersignApproverOids.length &&
       params.approvalHistorys &&
       params.approvalHistorys.length
     ) {
@@ -1700,12 +1700,12 @@ class NewRequest extends React.Component {
         if (
           history.operation === 2001 &&
           history.operator &&
-          params.countersignApproverOIDs.indexOf(history.operator.userOID) !== -1 &&
+          params.countersignApproverOids.indexOf(history.operator.userOid) !== -1 &&
           history.operator.fullName &&
-          duplicateOIDList.indexOf(history.operator.userOID) === -1
+          duplicateOidList.indexOf(history.operator.userOid) === -1
         ) {
           duplicateNameList.push(history.operator.fullName);
-          duplicateOIDList.push(history.operator.userOID);
+          duplicateOidList.push(history.operator.userOid);
         }
       });
     }
@@ -1775,10 +1775,10 @@ class NewRequest extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let params = this.props.match.params.applicationOID ? this.state.info : this.state.formInfo;
+        let params = this.props.match.params.applicationOid ? this.state.info : this.state.formInfo;
         params.custFormValues = this.getCustFormValues(values);
-        params.referenceApplicationOID = this.state.referenceApplicationOID;
-        params.countersignApproverOIDs = this.props.form.getFieldsValue().addSign;
+        params.referenceApplicationOid = this.state.referenceApplicationOid;
+        params.countersignApproverOids = this.props.form.getFieldsValue().addSign;
         this.processValues(params);
 
         this.setState({ submitLoading: true });
@@ -1838,7 +1838,7 @@ class NewRequest extends React.Component {
   handleDelete = () => {
     this.setState({ deleteLoading: true });
     requestService
-      .deleteRequest(this.props.match.params.applicationOID)
+      .deleteRequest(this.props.match.params.applicationOid)
       .then(res => {
         this.setState({ deleteLoading: false });
         message.success(this.$t('common.delete.success', { name: '' }));
@@ -1859,10 +1859,10 @@ class NewRequest extends React.Component {
   };
   formItemChange(value) {
     let { formInfo, defaultValues } = this.state;
-    let custForm = this.props.match.params.applicationOID
+    let custForm = this.props.match.params.applicationOid
       ? defaultValues || []
       : formInfo.customFormFields || [];
-    let id = this.props.match.params.applicationOID ? 'formValueOID' : 'fieldOID';
+    let id = this.props.match.params.applicationOid ? 'formValueOid' : 'fieldOid';
     custForm.map(item => {
       //参与人部门权限控件
       //差旅单参与人权限校验不走这里，在提交处校验
@@ -1894,23 +1894,23 @@ class NewRequest extends React.Component {
         item.messageKey === 'payee' &&
         value &&
         Object.prototype.toString.call(value) === '[object Object]' &&
-        item.fieldOID in value &&
-        value[item.fieldOID] &&
-        typeof value[item.fieldOID] == 'object'
+        item.fieldOid in value &&
+        value[item.fieldOid] &&
+        typeof value[item.fieldOid] == 'object'
       ) {
-        item.value = value[item.fieldOID]['key'];
+        item.value = value[item.fieldOid]['key'];
         custForm.map(i => {
           if (i.messageKey === 'contact_bank_account') {
             let param = {
-              userOID: value[item.fieldOID]['key'],
+              userOid: value[item.fieldOid]['key'],
               page: 0,
               size: 20,
             };
             let bank = {
-              [i.fieldOID]: [
+              [i.fieldOid]: [
                 {
                   bankAccountNo: null,
-                  contactBankAccountOID: null,
+                  contactBankAccountOid: null,
                 },
               ],
             };
@@ -1922,10 +1922,10 @@ class NewRequest extends React.Component {
                   data.map(item => {
                     if (item.isPrimary) {
                       bank = {
-                        [i.fieldOID]: [
+                        [i.fieldOid]: [
                           {
                             bankAccountNo: item.bankAccountNo,
-                            contactBankAccountOID: item.contactBankAccountOID,
+                            contactBankAccountOid: item.contactBankAccountOid,
                           },
                         ],
                       };
@@ -1948,8 +1948,8 @@ class NewRequest extends React.Component {
     travelService
       .randomCreateHotelPeople(this.state.maxHotel)
       .then(res => {
-        this.props.form.setFieldsValue({ travelHotelBookingMaleClerks: res.data.maleUserOIDs });
-        this.props.form.setFieldsValue({ travelHotelBookingFemaleClerks: res.data.femaleUserOIDs });
+        this.props.form.setFieldsValue({ travelHotelBookingMaleClerks: res.data.maleUserOids });
+        this.props.form.setFieldsValue({ travelHotelBookingFemaleClerks: res.data.femaleUserOids });
         this.setState({ randomHotel: false });
       })
       .catch(err => {
@@ -1975,7 +1975,7 @@ class NewRequest extends React.Component {
       isShowRangePicker,
       travelItinerarys,
       dateChage,
-      signCompanyOIDs,
+      signCompanyOids,
     } = this.state;
     const {
       maxHotel,
@@ -2009,12 +2009,12 @@ class NewRequest extends React.Component {
     let signPerson = [];
     info.countersignApproverNames &&
       info.countersignApproverNames.map(item => {
-        signPerson.push({ userOID: item.userOID, fullName: item.fullName });
+        signPerson.push({ userOid: item.userOid, fullName: item.fullName });
       });
     let formDetailValues = formInfo;
-    if (this.props.match.params.applicationOID) {
+    if (this.props.match.params.applicationOid) {
       formDetailValues.currencyCode = info.currencyCode;
-      formDetailValues.applicantOID = info.applicant && info.applicant.userOID;
+      formDetailValues.applicantOid = info.applicant && info.applicant.userOid;
       formDetailValues.customFormFields = defaultValues;
     }
     let chooserItem = {
@@ -2061,17 +2061,17 @@ class NewRequest extends React.Component {
           render: value => value || '-',
         },
       ],
-      key: 'userOID',
+      key: 'userOid',
     };
-    if (signCompanyOIDs.length > 0) {
-      chooserItem.url = `${config.baseUrl}/api/users/v3/search?corporationOID=${signCompanyOIDs}`;
+    if (signCompanyOids.length > 0) {
+      chooserItem.url = `${config.baseUrl}/api/users/v3/search?corporationOid=${signCompanyOids}`;
     }
 
     let requestInfo = (
       <div>
         <h3 className="header-title">{formInfo.formName}</h3>
         <Form className="form-container">
-          {info.sourceApplicationOID && (
+          {info.sourceApplicationOid && (
             <FormItem
               {...formItemLayout}
               label={
@@ -2093,7 +2093,7 @@ class NewRequest extends React.Component {
             copyValue={copyDefaultValues}
             callFun={(boo, date) => this.expectStopDate(boo, date)}
           />
-          {this.props.match.params.applicationOID
+          {this.props.match.params.applicationOid
             ? defaultValues.map((field, index) => {
               //label
               let label = field.fieldName;
@@ -2149,22 +2149,22 @@ class NewRequest extends React.Component {
                   {index === 0 &&
                     field.messageKey !== 'applicant' && (
                       <RelatedApplication
-                        formOID={this.props.match.params.formOID}
+                        formOid={this.props.match.params.formOid}
                         formInfo={formInfo}
-                        applicantOID={this.props.user.userOID}
-                        applicationOID={this.props.match.params.applicationOID}
+                        applicantOid={this.props.user.userOid}
+                        applicationOid={this.props.match.params.applicationOid}
                         info={info}
                         changeHandle={value => {
-                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                          this.setState({ referenceApplicationOid: value[0].applicationOid });
                         }}
                       />
                     )}
-                  <FormItem {...formItemLayout} label={label} key={field.formValueOID}>
+                  <FormItem {...formItemLayout} label={label} key={field.formValueOid}>
                     {((field.messageKey === 'total_budget' && formType != 2005) ||
                       field.messageKey === 'average_budget') && (
                         <span>{this.props.company.baseCurrency}</span>
                       )}
-                    {getFieldDecorator(field.formValueOID, {
+                    {getFieldDecorator(field.formValueOid, {
                       rules,
                       valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
                       initialValue: customField.getInitialValue(field),
@@ -2181,13 +2181,13 @@ class NewRequest extends React.Component {
                   {index === 0 &&
                     field.messageKey === 'applicant' && (
                       <RelatedApplication
-                        formOID={this.props.match.params.formOID}
+                        formOid={this.props.match.params.formOid}
                         formInfo={formInfo}
-                        applicantOID={this.props.user.userOID}
-                        applicationOID={this.props.match.params.applicationOID}
+                        applicantOid={this.props.user.userOid}
+                        applicationOid={this.props.match.params.applicationOid}
                         info={info}
                         changeHandle={value => {
-                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                          this.setState({ referenceApplicationOid: value[0].applicationOid });
                         }}
                       />
                     )}
@@ -2252,7 +2252,7 @@ class NewRequest extends React.Component {
               //initialValue
               let fieldDefaultValue = {};
               formDefaultValue.map(item => {
-                item.fieldOID === field.fieldOID && (fieldDefaultValue = item);
+                item.fieldOid === field.fieldOid && (fieldDefaultValue = item);
               });
 
               return (
@@ -2260,21 +2260,21 @@ class NewRequest extends React.Component {
                   {index === 0 &&
                     field.messageKey !== 'applicant' && (
                       <RelatedApplication
-                        formOID={this.props.match.params.formOID}
+                        formOid={this.props.match.params.formOid}
                         formInfo={formInfo}
-                        applicantOID={this.props.user.userOID}
-                        applicationOID={this.props.match.params.applicationOID}
+                        applicantOid={this.props.user.userOid}
+                        applicationOid={this.props.match.params.applicationOid}
                         changeHandle={value => {
-                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                          this.setState({ referenceApplicationOid: value[0].applicationOid });
                         }}
                       />
                     )}
-                  <FormItem {...formItemLayout} label={label} key={field.fieldOID}>
+                  <FormItem {...formItemLayout} label={label} key={field.fieldOid}>
                     {((field.messageKey === 'total_budget' && formType != 2005) ||
                       field.messageKey === 'average_budget') && (
                         <span>{this.props.company.baseCurrency}</span>
                       )}
-                    {getFieldDecorator(field.fieldOID, {
+                    {getFieldDecorator(field.fieldOid, {
                       rules,
                       valuePropName: field.messageKey === 'switch' ? 'checked' : 'value',
                       initialValue: customField.getDefaultValue(field, fieldDefaultValue),
@@ -2292,12 +2292,12 @@ class NewRequest extends React.Component {
                   {index === 0 &&
                     field.messageKey === 'applicant' && (
                       <RelatedApplication
-                        formOID={this.props.match.params.formOID}
+                        formOid={this.props.match.params.formOid}
                         formInfo={formInfo}
-                        applicantOID={this.props.user.userOID}
-                        applicationOID={this.props.match.params.applicationOID}
+                        applicantOid={this.props.user.userOid}
+                        applicationOid={this.props.match.params.applicationOid}
                         changeHandle={value => {
-                          this.setState({ referenceApplicationOID: value[0].applicationOID });
+                          this.setState({ referenceApplicationOid: value[0].applicationOid });
                         }}
                       />
                     )}
@@ -2315,9 +2315,9 @@ class NewRequest extends React.Component {
               })(
                 <Chooser
                   selectorItem={chooserItem}
-                  valueKey="userOID"
+                  valueKey="userOid"
                   labelKey="fullName"
-                  onlyNeed="userOID"
+                  onlyNeed="userOid"
                   listExtraParams={{ roleType: 'TENANT' }}
                   showArrow={
                     formInfo.customFormPropertyMap &&
@@ -2332,7 +2332,7 @@ class NewRequest extends React.Component {
         {formType === 2001 &&
           this.state.manageType &&
           formInfo.customFormPropertyMap &&
-          this.props.match.params.applicationOID &&
+          this.props.match.params.applicationOid &&
           defaultValues.length > 0 && (
             <TravelType
               updateTotalBudget={(total, clear, isHaveRoute, isRepeatSubsidy) =>
@@ -2342,11 +2342,11 @@ class NewRequest extends React.Component {
               infoDetail={info}
               formIsChange={formIsChange}
               setInfo={{
-                oid: this.props.match.params.applicationOID,
+                oid: this.props.match.params.applicationOid,
                 travelInfo: formInfo,
                 defaultValue: defaultValues,
                 clearSubsidy: haveClear,
-                formOID: this.props.match.params.formOID,
+                formOid: this.props.match.params.formOid,
               }}
             />
           )}
@@ -2354,7 +2354,7 @@ class NewRequest extends React.Component {
         {formType === 2001 &&
           !this.state.manageType &&
           dateChage &&
-          this.props.match.params.applicationOID &&
+          this.props.match.params.applicationOid &&
           !loading && (
             <TravelElementType
               updateTotalBudget={(total, clear, isHaveRoute, isRepeatSubsidy) =>
@@ -2367,11 +2367,11 @@ class NewRequest extends React.Component {
               infoDetail={info}
               formIsChange={formIsChange}
               setInfo={{
-                oid: this.props.match.params.applicationOID,
+                oid: this.props.match.params.applicationOid,
                 travelInfo: formInfo,
                 defaultValue: defaultValues,
                 clearSubsidy: haveClear,
-                formOID: this.props.match.params.formOID,
+                formOid: this.props.match.params.formOid,
                 travelElement: !this.state.manageType,
                 travelItinerarys,
               }}
@@ -2444,7 +2444,7 @@ class NewRequest extends React.Component {
               </span>
             </Row>
           )}
-          {this.props.match.params.applicationOID && (
+          {this.props.match.params.applicationOid && (
             <Popconfirm
               title={this.$t('common.confirm.delete')}
               placement="topRight"
@@ -2475,7 +2475,7 @@ class NewRequest extends React.Component {
                 </Col>
                 <Col span={4} style={{ marginTop: 7 }}>
                   <Switch
-                    disabled={info.sourceApplicationOID ? true : false}
+                    disabled={info.sourceApplicationOid ? true : false}
                     checked={
                       info.travelApplication.hasOwnProperty('uniformBooking')
                         ? info.travelApplication.uniformBooking
@@ -2495,14 +2495,14 @@ class NewRequest extends React.Component {
                         {...formItemLayoutModal}
                         label={this.$t('itinerary.form.submit.booking.flight.peo') /*机票订票人*/}
                       >
-                        {getFieldDecorator('bookingClerkOID', {
-                          initialValue: info.travelApplication.bookingClerkOID
-                            ? info.travelApplication.bookingClerkOID
+                        {getFieldDecorator('bookingClerkOid', {
+                          initialValue: info.travelApplication.bookingClerkOid
+                            ? info.travelApplication.bookingClerkOid
                             : subsidyCtrl.selectPerson[0]
                               ? subsidyCtrl.selectPerson[0].oid
                               : '',
                         })(
-                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                          <Select disabled={info.sourceApplicationOid ? true : false}>
                             {subsidyCtrl.selectPerson.map(p => {
                               return (
                                 <Option opt={p} key={p.oid}>
@@ -2532,7 +2532,7 @@ class NewRequest extends React.Component {
                 </Col>
                 <Col span={4} style={{ marginTop: 7 }}>
                   <Switch
-                    disabled={info.sourceApplicationOID ? true : false}
+                    disabled={info.sourceApplicationOid ? true : false}
                     checked={
                       info.travelApplication.hasOwnProperty('trainUniformBooking')
                         ? info.travelApplication.trainUniformBooking
@@ -2552,14 +2552,14 @@ class NewRequest extends React.Component {
                         {...formItemLayoutModal}
                         label={this.$t('itinerary.form.submit.booking.train.peo') /*火车订票人*/}
                       >
-                        {getFieldDecorator('trainBookingClerkOID', {
-                          initialValue: info.travelApplication.trainBookingClerkOID
-                            ? info.travelApplication.trainBookingClerkOID
+                        {getFieldDecorator('trainBookingClerkOid', {
+                          initialValue: info.travelApplication.trainBookingClerkOid
+                            ? info.travelApplication.trainBookingClerkOid
                             : subsidyCtrl.selectPerson[0]
                               ? subsidyCtrl.selectPerson[0].oid
                               : '',
                         })(
-                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                          <Select disabled={info.sourceApplicationOid ? true : false}>
                             {subsidyCtrl.selectPerson.map(p => {
                               return (
                                 <Option opt={p} key={p.oid}>
@@ -2589,7 +2589,7 @@ class NewRequest extends React.Component {
                 </Col>
                 <Col span={4} style={{ marginTop: 7 }}>
                   <Switch
-                    disabled={info.sourceApplicationOID ? true : false}
+                    disabled={info.sourceApplicationOid ? true : false}
                     checked={
                       info.travelApplication.hasOwnProperty('hotelUniformBooking')
                         ? info.travelApplication.hotelUniformBooking
@@ -2609,14 +2609,14 @@ class NewRequest extends React.Component {
                         {...formItemLayoutModal}
                         label={this.$t('itinerary.form.submit.booking.hotel.peo') /*酒店预订人*/}
                       >
-                        {getFieldDecorator('hotelBookingClerkOID', {
-                          initialValue: info.travelApplication.hotelBookingClerkOID
-                            ? info.travelApplication.hotelBookingClerkOID
+                        {getFieldDecorator('hotelBookingClerkOid', {
+                          initialValue: info.travelApplication.hotelBookingClerkOid
+                            ? info.travelApplication.hotelBookingClerkOid
                             : subsidyCtrl.selectPerson[0]
                               ? subsidyCtrl.selectPerson[0].oid
                               : '',
                         })(
-                          <Select disabled={info.sourceApplicationOID ? true : false}>
+                          <Select disabled={info.sourceApplicationOid ? true : false}>
                             {subsidyCtrl.selectPerson.map(p => {
                               return (
                                 <Option opt={p} key={p.oid}>
@@ -2648,7 +2648,7 @@ class NewRequest extends React.Component {
                                 type="primary"
                                 loading={randomHotel}
                                 ghost
-                                disabled={info.sourceApplicationOID ? true : false}
+                                disabled={info.sourceApplicationOid ? true : false}
                                 onClick={this.createHotelPeople}
                               >
                                 {this.$t(
@@ -2666,18 +2666,18 @@ class NewRequest extends React.Component {
                             {getFieldDecorator('travelHotelBookingMaleClerks', {
                               initialValue:
                                 info.travelApplication.travelHotelBookingMaleClerks &&
-                                  info.sourceApplicationOID
+                                  info.sourceApplicationOid
                                   ? info.travelApplication.travelHotelBookingMaleClerks
                                   : [],
                             })(
                               <Select
-                                disabled={info.sourceApplicationOID ? true : false}
+                                disabled={info.sourceApplicationOid ? true : false}
                                 mode="multiple"
                                 optionFilterProp="children"
                               >
                                 {maxHotel.maleUsers.map(p => {
                                   return (
-                                    <Option opt={p} key={p.userOID}>
+                                    <Option opt={p} key={p.userOid}>
                                       {p.fullName}
                                     </Option>
                                   );
@@ -2694,18 +2694,18 @@ class NewRequest extends React.Component {
                             {getFieldDecorator('travelHotelBookingFemaleClerks', {
                               initialValue:
                                 info.travelApplication.travelHotelBookingFemaleClerks &&
-                                  info.sourceApplicationOID
+                                  info.sourceApplicationOid
                                   ? info.travelApplication.travelHotelBookingFemaleClerks
                                   : [],
                             })(
                               <Select
-                                disabled={info.sourceApplicationOID ? true : false}
+                                disabled={info.sourceApplicationOid ? true : false}
                                 mode="multiple"
                                 optionFilterProp="children"
                               >
                                 {maxHotel.femaleUsers.map(p => {
                                   return (
-                                    <Option opt={p} key={p.userOID}>
+                                    <Option opt={p} key={p.userOid}>
                                       {p.fullName}
                                     </Option>
                                   );

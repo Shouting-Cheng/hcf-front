@@ -44,10 +44,10 @@ export default {
   },
   /**
    * 获取走工作流的审批历史
-   * @param {*} entityOID
+   * @param {*} entityOid
    */
-  getApproveHistoryWorkflow(entityOID) {
-    let url = `${config.baseUrl}/api/prepayment/reports/history?entityType=801003&entityOID=${entityOID}`;
+  getApproveHistoryWorkflow(entityOid) {
+    let url = `${config.baseUrl}/api/prepayment/reports/history?entityType=801003&entityOid=${entityOid}`;
     return httpFetch.get(url);
   },
   /**

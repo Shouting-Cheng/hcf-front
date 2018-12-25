@@ -152,11 +152,11 @@ class ValueList extends React.Component {
         },
         {
           title: messages('value.list.default' /*默认*/),
-          dataIndex: 'customEnumerationItemOID',
+          dataIndex: 'customEnumerationItemOid',
           width: '10%',
           render: (value, record) => (
             <Checkbox
-              checked={value === this.state.defaultCustomEnumerationItemOID}
+              checked={value === this.state.defaultCustomEnumerationItemOid}
               onChange={e => this.setDefault(e, record)}
             />
           ),
@@ -200,8 +200,8 @@ class ValueList extends React.Component {
         i18n: {},
       },
       edit: true,
-      customEnumerationOID: null,
-      defaultCustomEnumerationItemOID: null,
+      customEnumerationOid: null,
+      defaultCustomEnumerationItemOid: null,
       isCustom: 'SYSTEM',
       slideFrameParams: {}, //侧滑参数
       selectedRowKeys: [],
@@ -229,11 +229,11 @@ class ValueList extends React.Component {
       let columnsSystem = this.state.columnsSystem;
       let col0 = {
         title: messages('value.list.default' /*默认*/),
-        dataIndex: 'customEnumerationItemOID',
+        dataIndex: 'customEnumerationItemOid',
         width: '10%',
         render: (value, record) => (
           <Checkbox
-            checked={value === this.state.defaultCustomEnumerationItemOID}
+            checked={value === this.state.defaultCustomEnumerationItemOid}
             onChange={e => this.setDefault(e, record)}
           />
         ),
@@ -251,11 +251,11 @@ class ValueList extends React.Component {
       columnsSystem.push(col1);
       this.setState({ columnsSystem });
     }
-    if (this.props.match.params.customEnumerationOID) {
+    if (this.props.match.params.customEnumerationOid) {
       //编辑
       this.setState(
         {
-          customEnumerationOID: this.props.match.params.customEnumerationOID,
+          customEnumerationOid: this.props.match.params.customEnumerationOid,
           edit: false,
         },
         () => {
@@ -276,13 +276,13 @@ class ValueList extends React.Component {
 
   //获取基本信息
   getInfo = () => {
-    valueListService.getValueListInfo(this.state.customEnumerationOID).then(res => {
+    valueListService.getValueListInfo(this.state.customEnumerationOid).then(res => {
       let data = res.data;
       data.i18n = data.i18n || {};
       let form = { ...this.state.form, ...data };
       this.setState({
         isCustom: res.data.isCustom,
-        defaultCustomEnumerationItemOID: res.data.defaultCustomEnumerationItemOID,
+        defaultCustomEnumerationItemOid: res.data.defaultCustomEnumerationItemOid,
         form,
         _form: { ...form,i18n: {...form.i18n} },
       });
@@ -294,7 +294,7 @@ class ValueList extends React.Component {
     const { page, pageSize, keyWords } = this.state;
     this.setState({ tableLoading: true });
     valueListService
-      .getValueList(page, pageSize, this.state.customEnumerationOID, keyWords)
+      .getValueList(page, pageSize, this.state.customEnumerationOid, keyWords)
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -315,9 +315,9 @@ class ValueList extends React.Component {
 
   //获取公司列表
   getCompanyList = () => {
-    const { companyPage, companySize, customEnumerationOID } = this.state;
+    const { companyPage, companySize, customEnumerationOid } = this.state;
     this.setState({ companyLoading: true });
-    valueListService.getCompanyList(companyPage, companySize, customEnumerationOID).then(res => {
+    valueListService.getCompanyList(companyPage, companySize, customEnumerationOid).then(res => {
       if (res.status === 200) {
         this.setState({
           companyData: res.data,
@@ -353,11 +353,11 @@ class ValueList extends React.Component {
     data.map(item => {
       if (e.target.checked) {
         item.isDefault = item.id === record.id;
-        form.defaultCustomEnumerationItemOID = record.customEnumerationItemOID;
+        form.defaultCustomEnumerationItemOid = record.customEnumerationItemOid;
         form.defaultCustomEnumerationItemValue = record.value;
       } else {
         item.isDefault = false;
-        form.defaultCustomEnumerationItemOID = null;
+        form.defaultCustomEnumerationItemOid = null;
         form.defaultCustomEnumerationItemValue = null;
       }
     });
@@ -437,18 +437,18 @@ class ValueList extends React.Component {
     if (this.validataNameLengthErr(this.state.form.name)) {
       return;
     }
-    if (this.state.customEnumerationOID) {
-      params.customEnumerationOID = this.state.customEnumerationOID;
+    if (this.state.customEnumerationOid) {
+      params.customEnumerationOid = this.state.customEnumerationOid;
     }
     this.setState({ loading: true });
-    valueListService[this.state.customEnumerationOID ? 'uploadValueList' : 'newValueList'](params)
+    valueListService[this.state.customEnumerationOid ? 'uploadValueList' : 'newValueList'](params)
       .then(res => {
         if (res.status === 200) {
           this.setState(
             {
               loading: false,
               edit: false,
-              customEnumerationOID: res.data.customEnumerationOID,
+              customEnumerationOid: res.data.customEnumerationOid,
             },
             () => {
               this.getInfo();
@@ -471,7 +471,7 @@ class ValueList extends React.Component {
   };
 
   handleCancel = () => {
-    if (this.state.customEnumerationOID) {
+    if (this.state.customEnumerationOid) {
       //编辑
       this.setState({ edit: false, form: { ...this.state._form, i18n: {...this.state._form.i18n} } });
     } else {
@@ -535,9 +535,9 @@ class ValueList extends React.Component {
   export = result => {
     let hide = message.loading('正在生成文件，请等待......');
 
-    const { customEnumerationOID, isCustom } = this.state;
+    const { customEnumerationOid, isCustom } = this.state;
     valueListService
-      .exportValues(result, customEnumerationOID, isCustom)
+      .exportValues(result, customEnumerationOid, isCustom)
       .then(res => {
         if (res.status === 200) {
           message.success('操作成功');
@@ -626,10 +626,10 @@ class ValueList extends React.Component {
   }
 
   newValueList = () => {
-    let customEnumerationOID = this.state.customEnumerationOID;
+    let customEnumerationOid = this.state.customEnumerationOid;
     this.setState(
       {
-        slideFrameParams: { customEnumerationOID, isCustom: this.state.isCustom, hasInit: false },
+        slideFrameParams: { customEnumerationOid, isCustom: this.state.isCustom, hasInit: false },
       },
       () => {
         this.showSlide(true);
@@ -639,11 +639,11 @@ class ValueList extends React.Component {
 
   //编辑值内容
   handleRowClick = record => {
-    let customEnumerationOID = this.state.customEnumerationOID;
+    let customEnumerationOid = this.state.customEnumerationOid;
     this.setState(
       {
         slideFrameParams: {
-          customEnumerationOID,
+          customEnumerationOid,
           record,
           isCustom: this.state.isCustom,
           systemInit: record.systeminit,
@@ -671,10 +671,10 @@ class ValueList extends React.Component {
       this.state.dBtnDisabled = true;
       let companies = [];
       values.result.map(item => {
-        companies.push(item.companyOID);
+        companies.push(item.companyOid);
       });
       valueListService
-        .distributeCompany(companies, [this.state.customEnumerationOID])
+        .distributeCompany(companies, [this.state.customEnumerationOid])
         .then(res => {
           this.state.dBtnDisabled = false;
           if (res.status === 200) {
@@ -703,10 +703,10 @@ class ValueList extends React.Component {
 
   //值导出
   exportValues = () => {
-    const { customEnumerationOID, isCustom } = this.state;
+    const { customEnumerationOid, isCustom } = this.state;
     let hide = message.loading(messages('importer.spanned.file' /*正在生成文件..*/));
     valueListService
-      .exportValues(customEnumerationOID, isCustom)
+      .exportValues(customEnumerationOid, isCustom)
       .then(res => {
         let b = new Blob([res.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -758,7 +758,7 @@ class ValueList extends React.Component {
       pagination,
       showImportFrame,
       form,
-      customEnumerationOID,
+      customEnumerationOid,
       slideFrameParams,
       companyColumns,
       companyData,
@@ -776,7 +776,7 @@ class ValueList extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
     return (
       <div style={{ paddingBottom: 20 }} className="new-value-list">
-        {customEnumerationOID &&
+        {customEnumerationOid &&
           isCustom === 'CUSTOM' &&
           this.props.tenantMode && (
             <Tabs defaultActiveKey="valueListDetailPage" onChange={this.handleTabsChange}>
@@ -811,7 +811,7 @@ class ValueList extends React.Component {
               <div className="common-top-area-content form-title-area">{this.renderForm()}</div>
             </div>
 
-            {customEnumerationOID && (
+            {customEnumerationOid && (
               <div>
                 <div className="table-header">
                   <div className="table-header-title">
@@ -870,7 +870,7 @@ class ValueList extends React.Component {
                   </div>
                 </div>
                 <Table
-                  rowKey="customEnumerationItemOID"
+                  rowKey="customEnumerationItemOid"
                   columns={isCustom === 'SYSTEM' ? columnsSystem : columnsCustom}
                   dataSource={data}
                   pagination={pagination}
@@ -937,7 +937,7 @@ class ValueList extends React.Component {
         <ImporterNew visible={showImportFrame}
           title={messages('value.list.value.import' /*值导入*/)}
           templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOID=${customEnumerationOID}
+          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}
           &isCustom=${isCustom ==='CUSTOM'}`}
           errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
           errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}

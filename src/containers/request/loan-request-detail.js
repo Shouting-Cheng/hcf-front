@@ -85,7 +85,7 @@ class LoanRequestDetail extends React.Component{
 
   getInfo = () => {
     this.setState({ loading: true });
-    httpFetch.get(`${config.baseUrl}/api/loan/application/${this.props.params.applicationOID}`).then(res => {
+    httpFetch.get(`${config.baseUrl}/api/loan/application/${this.props.params.applicationOid}`).then(res => {
       this.setState({
         loading: false,
         info: res.data,
@@ -101,7 +101,7 @@ class LoanRequestDetail extends React.Component{
   //还款记录
   getRepayment = () => {
     this.setState({ repaymentLoading: true });
-    httpFetch.get(`${config.baseUrl}/api/repayment/list?page=0&size=10&loanApplicationOid=${this.props.params.applicationOID}`).then(res => {
+    httpFetch.get(`${config.baseUrl}/api/repayment/list?page=0&size=10&loanApplicationOid=${this.props.params.applicationOid}`).then(res => {
       this.setState({
         repaymentLoading: false,
         repaymentData: res.data
@@ -183,7 +183,7 @@ class LoanRequestDetail extends React.Component{
           ++count === fields.length && this.setState({ bottomLoading: false, fields });
           break;
         case 'select_approver':
-          field.value && httpFetch.get(`${config.baseUrl}/api/users/oids?userOIDs=${field.value}`).then(res => {
+          field.value && httpFetch.get(`${config.baseUrl}/api/users/oids?userOids=${field.value}`).then(res => {
             field.text = res.data.length ? res.data[0].fullName : '';
             ++count === fields.length && this.setState({ bottomLoading: false, fields });
           });

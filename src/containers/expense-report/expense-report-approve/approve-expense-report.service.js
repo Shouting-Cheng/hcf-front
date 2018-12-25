@@ -12,9 +12,9 @@ export default {
   getApproveExpenseReportList(finished, page, size, searchParams) {
     let url = `${config.baseUrl}/api/approvals/batchfilters?entityType=1002&finished=${finished}&page=${page}&size=${size}`;
     for(let searchName in searchParams) {
-      if (searchName === 'formOIDs') {
-        searchParams.formOIDs && searchParams.formOIDs.length > 0 && searchParams.formOIDs.map(oid => {
-          url += `&formOIDs=${oid}`
+      if (searchName === 'formOids') {
+        searchParams.formOids && searchParams.formOids.length > 0 && searchParams.formOids.map(oid => {
+          url += `&formOids=${oid}`
         })
       } else {
         url += searchParams[searchName] ? `&${searchName}=${searchParams[searchName]}` : ''
@@ -34,9 +34,9 @@ export default {
   },
 
   //是否可以加签 counterSignType：enableAddSignForSubmitter（验证提交人是否可加签，单据为编辑状态）、enableAddSign（验证审批人审批单据时是否可加签）
-  isCounterSignEnable(companyOID, formOID, counterSignType) {
+  isCounterSignEnable(companyOid, formOid, counterSignType) {
     let params = {
-      companyOID, formOID, counterSignType
+      companyOid, formOid, counterSignType
     };
     return httpFetch.post(`${config.baseUrl}/api/countersign/addSign/enable/and/scope`, params)
   },

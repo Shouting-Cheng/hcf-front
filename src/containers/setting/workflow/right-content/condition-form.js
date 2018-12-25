@@ -64,11 +64,11 @@ class ConditionForm extends React.Component {
         {id: 9, name: this.$t('setting.key1299'/*九级*/)}, //九级
         {id: 10, name: this.$t('setting.key1300'/*十级*/)} //十级
       ],
-      deleteConditionOID: [], //删除的条件OID
+      deleteConditionOid: [], //删除的条件Oid
       custListRemark: '', //选择值列表的remark
       valueList:[],
       remarkCurrent:'',//当前remark
-      currentFieldOID:'',//当前的FieldOID 部门扩展字段中会有相同的fieldOID
+      currentFieldOid:'',//当前的FieldOid 部门扩展字段中会有相同的fieldOid
       currentValue:[],//当前的选择值
       allCustomFormFields:[],//所有部门扩展字段
       departmentExtendVisible: false,
@@ -83,15 +83,15 @@ class ConditionForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //条件在编辑状态下，添加审批条件，remark为cust_list时需要field和refCostCenterOID同时区分
+    //条件在编辑状态下，添加审批条件，remark为cust_list时需要field和refCostCenterOid同时区分
     //条件在编辑状态下，添加审批条件，remark为judge_cost_center时需要field和remark同时区分
     let condition = this.state.condition;
     let currConditionField = [];
     let nextConditionField = [];
-    let deleteConditionOID = this.state.deleteConditionOID;
+    let deleteConditionOid = this.state.deleteConditionOid;
     condition.map(item => {
       if (item.remark === 'cust_list') {
-        currConditionField.push(`${item.field}_${item.refCostCenterOID}`)
+        currConditionField.push(`${item.field}_${item.refCostCenterOid}`)
       } else if (item.remark === 'judge_cost_center') {
         currConditionField.push(`${item.field}_${item.remark}`)
       } else {
@@ -100,7 +100,7 @@ class ConditionForm extends React.Component {
     });
     nextProps.condition.map(item => {
       if (item.remark === 'cust_list') {
-        nextConditionField.push(`${item.field}_${item.refCostCenterOID}`)
+        nextConditionField.push(`${item.field}_${item.refCostCenterOid}`)
       } else if (item.remark === 'judge_cost_center') {
         nextConditionField.push(`${item.field}_${item.remark}`)
       } else {
@@ -109,7 +109,7 @@ class ConditionForm extends React.Component {
     });
     for(let i = 0; i < currConditionField.length; i++) {
       if (nextConditionField.indexOf(currConditionField[i]) === -1) {
-        condition[i].ruleConditionOID && deleteConditionOID.push(condition[i].ruleConditionOID);
+        condition[i].ruleConditionOid && deleteConditionOid.push(condition[i].ruleConditionOid);
         currConditionField.delete(currConditionField[i]);
         condition.splice(i, 1);
         i--
@@ -118,10 +118,10 @@ class ConditionForm extends React.Component {
     nextConditionField.map((field, index) => {
       currConditionField.indexOf(field) === -1 && condition.push(nextProps.condition[index])
     });
-    this.setState({ condition, deleteConditionOID });
+    this.setState({ condition, deleteConditionOid });
     //删除值列表的值
     if (nextProps.deleteTagValue.value && nextProps.deleteTagValue.value !== this.props.deleteTagValue.value) {
-      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOID)
+      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOid)
     }
   }
 
@@ -140,7 +140,7 @@ class ConditionForm extends React.Component {
     let currentValue = [];
     let currentExtendValue = [];
     condition.map(item => {
-      if (ruleItem && (ruleItem.ruleConditionOID ?item.ruleConditionOID === ruleItem.ruleConditionOID : item.field === ruleItem.field)) {
+      if (ruleItem && (ruleItem.ruleConditionOid ?item.ruleConditionOid === ruleItem.ruleConditionOid : item.field === ruleItem.field)) {
         switch(item.remark) {
           case 'default_department_level':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
@@ -163,8 +163,8 @@ class ConditionForm extends React.Component {
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
                 (item.showValue || []).map(showItem => {
-                  if (showItem.expenseTypeOID === oid)
-                    expenseTypeValue.push({ expenseTypeOID: oid, name: showItem.name, enable: showItem.enable })
+                  if (showItem.expenseTypeOid === oid)
+                    expenseTypeValue.push({ expenseTypeOid: oid, name: showItem.name, enable: showItem.enable })
                 })
               })
             }
@@ -172,7 +172,7 @@ class ConditionForm extends React.Component {
           case 'select_cost_center':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
-                costCenterValue.push({ costCenterItemOID: oid, name: item.showValue[oid] })
+                costCenterValue.push({ costCenterItemOid: oid, name: item.showValue[oid] })
               })
             }
             break;
@@ -190,7 +190,7 @@ class ConditionForm extends React.Component {
           case 'default_applicant_company':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
-                companyValue.push({ companyOID: oid, name: item.showValue[oid] })
+                companyValue.push({ companyOid: oid, name: item.showValue[oid] })
               })
             }
             break;
@@ -198,21 +198,21 @@ class ConditionForm extends React.Component {
           case 'default_corporation_entity':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
-                entityValue.push({ companyReceiptedOID: oid })
+                entityValue.push({ companyReceiptedOid: oid })
               })
             }
             break;
           case 'default_user_applicant':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
-                userApplicationValue.push({ userOID: oid, fullName: item.showValue[oid] })
+                userApplicationValue.push({ userOid: oid, fullName: item.showValue[oid] })
               })
             }
             break;
           case 'default_user_direct_leadership':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(oid => {
-                userValue.push({ userOID: oid, fullName: item.showValue[oid] })
+                userValue.push({ userOid: oid, fullName: item.showValue[oid] })
               })
             }
             break;
@@ -220,7 +220,7 @@ class ConditionForm extends React.Component {
           case 'default_user_category':
           case 'default_user_level':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
-              (JSON.parse(item.valueDetail).valueOIDs || []).map(oid => {
+              (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
                 currentValue.push(oid)
               })
             }
@@ -228,7 +228,7 @@ class ConditionForm extends React.Component {
           case 'default_user_department_extend':
           case 'custom_form_department_extend':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
-              (JSON.parse(item.valueDetail).valueOIDs || []).map(oid => {
+              (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
                 currentExtendValue.push(oid)
               })
             }
@@ -356,13 +356,13 @@ class ConditionForm extends React.Component {
       departmentExtendLoading: true,
       departmentExtendVisible: true,
     },()=>{
-      workflowService.getValueListInfo(item.customEnumerationOID)
+      workflowService.getValueListInfo(item.customEnumerationOid)
         .then((res) => {
           this.setState({
             departmentExtendLoading: false,
             allCustomFormFields: res.data.values,
             remarkCurrent:item.remark,
-            currentFieldOID: item.field,
+            currentFieldOid: item.field,
           })
         })
     });
@@ -372,7 +372,7 @@ class ConditionForm extends React.Component {
   //添加值列表
   handleAddTypeValue = () => {
     let condition = this.state.condition;
-    let valueOIDs =[];
+    let valueOids =[];
     let values =[];
     let showValue = {}; //用于编辑状态下值列表的值
     condition.map((item, index) => {
@@ -380,15 +380,15 @@ class ConditionForm extends React.Component {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         this.state.currentValue.map(type => {
           this.state.valueList.map((value)=>{
-            if(value.customEnumerationItemOID === type){
-              valueOIDs.push(type)
+            if(value.customEnumerationItemOid === type){
+              valueOids.push(type)
               values.push(value.value);
-              showValue[value.customEnumerationItemOID] = value.messageKey
+              showValue[value.customEnumerationItemOid] = value.messageKey
             }
           })
         })
 
-        valueDetail.valueOIDs = valueOIDs;
+        valueDetail.valueOids = valueOids;
         valueDetail.value = values;
         condition[index].showValue = showValue;
         condition[index].valueDetail = JSON.stringify(valueDetail)
@@ -403,23 +403,23 @@ class ConditionForm extends React.Component {
   //添加部门扩展字段
   handleAddExtendField= () => {
     let condition = this.state.condition;
-    let valueOIDs =[];
+    let valueOids =[];
     let values =[];
     let showValue = {}; //用于编辑状态下值列表的值
     condition.map((item, index) => {
       if ((item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend')
-        && item.remark === this.state.remarkCurrent && item.field === this.state.currentFieldOID) {
+        && item.remark === this.state.remarkCurrent && item.field === this.state.currentFieldOid) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         this.state.currentExtendValue.map(extend => {
           this.state.allCustomFormFields.map((value) => {
-            if (value.customEnumerationItemOID === extend) {
-              valueOIDs.push(extend);
+            if (value.customEnumerationItemOid === extend) {
+              valueOids.push(extend);
               values.push(value.value);
-              showValue[value.customEnumerationItemOID] = value.messageKey
+              showValue[value.customEnumerationItemOid] = value.messageKey
             }
           })
         })
-        valueDetail.valueOIDs = valueOIDs;
+        valueDetail.valueOids = valueOids;
         valueDetail.value = values;
         condition[index].showValue = showValue;
         condition[index].valueDetail = JSON.stringify(valueDetail);
@@ -453,7 +453,7 @@ class ConditionForm extends React.Component {
         break;
       case 'select_cost_center':
         let costCenterSelectorItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
-        costCenterSelectorItem.url = `${config.baseUrl}/api/cost/center/items/${item.customEnumerationOID}/all`;
+        costCenterSelectorItem.url = `${config.baseUrl}/api/cost/center/items/${item.customEnumerationOid}/all`;
         if (costCenterSelectorItem.searchForm && costCenterSelectorItem.searchForm.length) {
           costCenterSelectorItem.searchForm[0].id = 'keyword';
         }
@@ -461,7 +461,7 @@ class ConditionForm extends React.Component {
           costCenterSelectorItem,
           currCostCenter: {
             field: item.field,
-            refCostCenterOID: item.refCostCenterOID
+            refCostCenterOid: item.refCostCenterOid
           }
         }, () => {
           this.setState({ costCenterVisible: true })
@@ -533,7 +533,7 @@ class ConditionForm extends React.Component {
   //添加部门路径/部门
   handleAddDepPath = (values, remark) => {
     let condition = this.state.condition;
-    let valueOIDs = [];
+    let valueOids = [];
     let value = [];
     let showValue = {}; //用于编辑状态下显示部门，避免请求接口去获取显示值
     condition.map(item => {
@@ -541,24 +541,24 @@ class ConditionForm extends React.Component {
         showValue = item.showValue || {}
     });
     values.map(item => {
-      valueOIDs.push(item.departmentOID);
+      valueOids.push(item.departmentOid);
       value.push(item.path);
-      (remark === 'select_department'||remark === 'default_user_department') && (showValue[item.departmentOID] = item.name)
+      (remark === 'select_department'||remark === 'default_user_department') && (showValue[item.departmentOid] = item.name)
     });
     condition.map((item, index) => {
       if (item.remark === remark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         if (valueDetail.value && valueDetail.value.length) {
-          valueOIDs.map((oid, oidIndex) => {
-            if (remark === 'default_department_path' && valueDetail.valueOIDs.indexOf(oid) === -1) {
-              valueDetail.valueOIDs.push(oid);
+          valueOids.map((oid, oidIndex) => {
+            if (remark === 'default_department_path' && valueDetail.valueOids.indexOf(oid) === -1) {
+              valueDetail.valueOids.push(oid);
               valueDetail.value.push(value[oidIndex]);
             } else if ((remark === 'select_department'||remark === 'default_user_department') && valueDetail.value.indexOf(oid) === -1) {
               valueDetail.value.push(oid);
             }
           })
         } else {
-          valueDetail = remark === 'default_department_path' ? {value, valueOIDs} : {value: valueOIDs}
+          valueDetail = remark === 'default_department_path' ? {value, valueOids} : {value: valueOids}
         }
         (remark === 'select_department' || remark === 'default_user_department') && (condition[index].showValue = showValue);
         condition[index].valueDetail = JSON.stringify(valueDetail)
@@ -573,8 +573,8 @@ class ConditionForm extends React.Component {
     let oid = [];
     let showValue = []; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     this.state.expenseTypeValue.map(item => {
-      oid.push(item.expenseTypeOID);
-      showValue.push({expenseTypeOID: item.expenseTypeOID, name: item.name, enable: item.enable || item.enabled})
+      oid.push(item.expenseTypeOid);
+      showValue.push({expenseTypeOid: item.expenseTypeOid, name: item.name, enable: item.enable || item.enabled})
     });
     condition.map((item, index) => {
       if (item.remark === 'default_expense_type') {
@@ -595,12 +595,12 @@ class ConditionForm extends React.Component {
     let costCenterValue = [];
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
-      oid.push(item.costCenterItemOID);
-      costCenterValue.push({costCenterItemOID: item.costCenterItemOID});
-      showValue[item.costCenterItemOID] = item.name
+      oid.push(item.costCenterItemOid);
+      costCenterValue.push({costCenterItemOid: item.costCenterItemOid});
+      showValue[item.costCenterItemOid] = item.name
     });
     condition.map((item, index) => {
-      if (item.remark === 'select_cost_center' && item.field === currCostCenter.field && item.refCostCenterOID === currCostCenter.refCostCenterOID) {
+      if (item.remark === 'select_cost_center' && item.field === currCostCenter.field && item.refCostCenterOid === currCostCenter.refCostCenterOid) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         valueDetail.value = oid;
         condition[index].showValue = showValue;
@@ -617,9 +617,9 @@ class ConditionForm extends React.Component {
     let entityValue = [];
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
-      oid.push(item.companyReceiptedOID);
-      entityValue.push({companyReceiptedOID: item.companyReceiptedOID});
-      showValue[item.companyReceiptedOID] = item.companyName
+      oid.push(item.companyReceiptedOid);
+      entityValue.push({companyReceiptedOid: item.companyReceiptedOid});
+      showValue[item.companyReceiptedOid] = item.companyName
     });
     condition.map((item, index) => {
       if ((item.remark === 'select_corporation_entity' || item.remark === 'default_corporation_entity') && item.remark === this.state.custListRemark) {
@@ -656,9 +656,9 @@ class ConditionForm extends React.Component {
     let companyValue = [];
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
-      oid.push(item.companyOID);
-      companyValue.push({companyOID: item.companyOID});
-      showValue[item.companyOID] = item.name
+      oid.push(item.companyOid);
+      companyValue.push({companyOid: item.companyOid});
+      showValue[item.companyOid] = item.name
     });
     condition.map((item, index) => {
       if ((item.remark === 'select_company' || item.remark === 'default_applicant_company') && item.remark === this.state.custListRemark) {
@@ -681,13 +681,13 @@ class ConditionForm extends React.Component {
     values.result.map(item => {
       if(userDirectVisible){
         userValue.push(item);
-        oid.push(item.userOID);
+        oid.push(item.userOid);
       }else{
         userApplicationValue.push(item);
-        oid.push(item.userOID);
+        oid.push(item.userOid);
       }
       userValue.push(item);
-      showValue[item.userOID] = item.fullName
+      showValue[item.userOid] = item.fullName
     });
     condition.map((item, index) => {
       if (( item.remark === 'default_user_direct_leadership'||item.remark ==='default_user_applicant') && item.remark === this.state.custListRemark ) {
@@ -706,19 +706,19 @@ class ConditionForm extends React.Component {
   }
 
   //修改值列表的值
-  handleCustListValueChange = (value, customEnumerationOID, refCostCenterOID) => {
+  handleCustListValueChange = (value, customEnumerationOid, refCostCenterOid) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
-      if (item.remark === 'cust_list' && item.customEnumerationOID === customEnumerationOID &&
-        (!refCostCenterOID || item.refCostCenterOID === refCostCenterOID)) {
-        if (!refCostCenterOID) { //普通值列表
+      if (item.remark === 'cust_list' && item.customEnumerationOid === customEnumerationOid &&
+        (!refCostCenterOid || item.refCostCenterOid === refCostCenterOid)) {
+        if (!refCostCenterOid) { //普通值列表
           let valueDetail = item.valueDetail ? JSON.parse(item.valueDetail) : {};
           valueDetail.value = [value.code];
-          valueDetail.valueOIDs = [value.customEnumerationItemOID];
+          valueDetail.valueOids = [value.customEnumerationItemOid];
           condition[index].valueDetail = JSON.stringify(valueDetail);
           condition[index].showValue = value.messageKey
         }
-        if (refCostCenterOID && item.refCostCenterOID === refCostCenterOID) { //成本中心值列表
+        if (refCostCenterOid && item.refCostCenterOid === refCostCenterOid) { //成本中心值列表
           condition[index].value = value.messageKey
         }
       }
@@ -727,19 +727,19 @@ class ConditionForm extends React.Component {
   };
 
   //修改值列表的值
-  handleCustomValueChange = (value, customEnumerationOID, refCostCenterOID,field) => {
+  handleCustomValueChange = (value, customEnumerationOid, refCostCenterOid,field) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
       if (item.field === field &&
-        (!refCostCenterOID || item.refCostCenterOID === refCostCenterOID)) {
-        if (!refCostCenterOID) { //普通值列表
+        (!refCostCenterOid || item.refCostCenterOid === refCostCenterOid)) {
+        if (!refCostCenterOid) { //普通值列表
           let valueDetail = item.valueDetail ? JSON.parse(item.valueDetail) : {};
           valueDetail.value = [value.code];
-          valueDetail.valueOIDs = [value.customEnumerationItemOID];
+          valueDetail.valueOids = [value.customEnumerationItemOid];
           condition[index].valueDetail = JSON.stringify(valueDetail);
           condition[index].showValue = value.messageKey
         }
-        if (refCostCenterOID && item.refCostCenterOID === refCostCenterOID) { //成本中心值列表
+        if (refCostCenterOid && item.refCostCenterOid === refCostCenterOid) { //成本中心值列表
           condition[index].value = value.messageKey
         }
       }
@@ -748,7 +748,7 @@ class ConditionForm extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueDetail = (remark, value, fieldOID) => {
+  handleDeleteValueDetail = (remark, value, fieldOid) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
       if (item.remark === remark && remark === 'default_department_level') {
@@ -759,10 +759,10 @@ class ConditionForm extends React.Component {
       }
       if (item.remark === remark && remark === 'default_department_path') {
         let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
+        valueDetail.valueOids.map((oid, oidIndex) => {
           if (oid === value) {
             valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
+            valueDetail.valueOids.splice(oidIndex, 1)
           }
         });
         condition[index].valueDetail = JSON.stringify(valueDetail)
@@ -778,7 +778,7 @@ class ConditionForm extends React.Component {
       if (item.remark === remark && remark === 'default_expense_type') {
         let expenseTypeValue = this.state.expenseTypeValue;
         expenseTypeValue.map((expenseItem, expenseIndex) => {
-          expenseItem.expenseTypeOID === value && expenseTypeValue.splice(expenseIndex, 1)
+          expenseItem.expenseTypeOid === value && expenseTypeValue.splice(expenseIndex, 1)
         });
         this.setState({ expenseTypeValue });
         this.updateConditionByDeleteValue(value, index)
@@ -797,15 +797,15 @@ class ConditionForm extends React.Component {
       if (item.remark === remark && remark === 'select_cost_center') {
         let costCenterValue = this.state.costCenterValue;
         costCenterValue.map((costCenterItem, costCenterIndex) => {
-          costCenterItem.costCenterItemOID === value && costCenterValue.splice(costCenterIndex, 1)
+          costCenterItem.costCenterItemOid === value && costCenterValue.splice(costCenterIndex, 1)
         });
         this.setState({ costCenterValue });
-        this.updateConditionByDeleteValue(value, index, 'costCenterItemOID')
+        this.updateConditionByDeleteValue(value, index, 'costCenterItemOid')
       }
       if (item.remark === remark && (remark === 'select_company' || remark === 'default_applicant_company')) {
         let companyValue = this.state.companyValue;
         companyValue.map((companyItem, companyIndex) => {
-          companyItem.companyOID === value && companyValue.splice(companyIndex, 1)
+          companyItem.companyOid === value && companyValue.splice(companyIndex, 1)
         });
         this.setState({ companyValue });
         this.updateConditionByDeleteValue(value, index)
@@ -813,7 +813,7 @@ class ConditionForm extends React.Component {
       if (item.remark === remark && (remark === 'select_corporation_entity' || remark === 'default_corporation_entity')) {
         let entityValue = this.state.entityValue;
         entityValue.map((entityItem, entityIndex) => {
-          entityItem.companyReceiptedOID === value && entityValue.splice(entityIndex, 1)
+          entityItem.companyReceiptedOid === value && entityValue.splice(entityIndex, 1)
         });
         this.setState({ entityValue });
         this.updateConditionByDeleteValue(value, index)
@@ -822,10 +822,10 @@ class ConditionForm extends React.Component {
         let currentValue = this.state.currentValue;
         currentValue.delete(value);
         let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
+        valueDetail.valueOids.map((oid, oidIndex) => {
           if (oid === value) {
             valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
+            valueDetail.valueOids.splice(oidIndex, 1)
           }
         });
         condition[index].valueDetail = JSON.stringify(valueDetail)
@@ -843,15 +843,15 @@ class ConditionForm extends React.Component {
         condition[index].valueDetail = JSON.stringify(valueDetail)
         this.setState({userValue});
       }
-      if (item.remark === remark && item.field === fieldOID
+      if (item.remark === remark && item.field === fieldOid
         && (remark === 'default_user_department_extend' || remark === 'custom_form_department_extend')) {
         let currentExtendValue = this.state.currentExtendValue;
         currentExtendValue.delete(value);
         let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
+        valueDetail.valueOids.map((oid, oidIndex) => {
           if (oid === value) {
             valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
+            valueDetail.valueOids.splice(oidIndex, 1)
           }
         });
         condition[index].valueDetail = JSON.stringify(valueDetail)
@@ -883,13 +883,13 @@ class ConditionForm extends React.Component {
   };
 
   //修改运算符
-  handleSymbolChange = (item, symbol, customEnumerationOID, refCostCenterOID) => {
+  handleSymbolChange = (item, symbol, customEnumerationOid, refCostCenterOid) => {
     let condition = this.state.condition;
     condition.map((conditionItem, index) => {
       if (
         (conditionItem.remark === item.remark && conditionItem.field === item.field) &&
-        (item.remark !== 'cust_list' || (conditionItem.customEnumerationOID === customEnumerationOID &&
-          (!refCostCenterOID || conditionItem.refCostCenterOID === refCostCenterOID)))
+        (item.remark !== 'cust_list' || (conditionItem.customEnumerationOid === customEnumerationOid &&
+          (!refCostCenterOid || conditionItem.refCostCenterOid === refCostCenterOid)))
       ) {
         condition[index].symbol = symbol;
         if (String(symbol) === '9015' || String(symbol) === '9016') {
@@ -990,7 +990,7 @@ class ConditionForm extends React.Component {
       if (saveAble && !!Number(item.fieldContent) && (!item.valueDetail ||
         (!JSON.parse(item.valueDetail).value || !JSON.parse(item.valueDetail).value.length))
         && (!item.valueDetail ||
-        (!JSON.parse(item.valueDetail).valueOIDs || !JSON.parse(item.valueDetail).valueOIDs.length))) {
+        (!JSON.parse(item.valueDetail).valueOids || !JSON.parse(item.valueDetail).valueOids.length))) {
         message.error(this.$t('setting.key1473',{arg1: item.name}/*请输入{arg1}的条件值*/));
         saveAble = false
       }
@@ -1045,11 +1045,11 @@ class ConditionForm extends React.Component {
         if(item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend'){
           item.field =  item.field.split(',')[0];
         }
-        item.ruleConditionOID ? updateParams.push(item) : newParams.push(item);
+        item.ruleConditionOid ? updateParams.push(item) : newParams.push(item);
       });
       newParams.length && this.handelSaveNewParams(newParams);
       updateParams.length && this.handelSaveUpdateParams(updateParams);
-      this.state.deleteConditionOID.length && workflowService.deleteRuleCondition(this.state.deleteConditionOID)
+      this.state.deleteConditionOid.length && workflowService.deleteRuleCondition(this.state.deleteConditionOid)
     }
   };
 
@@ -1080,7 +1080,7 @@ class ConditionForm extends React.Component {
         default:
           fieldTypeId = null;
       }
-      item.refCostCenterOID && (fieldTypeId = 101);
+      item.refCostCenterOid && (fieldTypeId = 101);
       params[index].entityType = 7002; //场景关联类型, 固定值
       params[index].batchCode = this.props.batchCode;
       params[index].fieldTypeId = fieldTypeId;
@@ -1101,7 +1101,7 @@ class ConditionForm extends React.Component {
           }
           if (
             (conditionItem.remark === item.remark && conditionItem.field === item.field) &&
-            (item.remark !== 'cust_list' || conditionItem.customEnumerationOID === item.customEnumerationOID)
+            (item.remark !== 'cust_list' || conditionItem.customEnumerationOid === item.customEnumerationOid)
           ) {
             condition[index].showValue = conditionItem.showValue //用于非编辑状态下显示成本中心值，避免请求接口去获取显示值
           }
@@ -1129,7 +1129,7 @@ class ConditionForm extends React.Component {
       let condition = res.data;
       condition.map((item, index) => {
         this.state.condition.map(conditionItem => {
-          if (item.ruleConditionOID === conditionItem.ruleConditionOID)
+          if (item.ruleConditionOid === conditionItem.ruleConditionOid)
             condition[index].showValue = conditionItem.showValue //用于非编辑状态下显示成本中心值，避免请求接口去获取显示值
         })
       });
@@ -1247,7 +1247,7 @@ class ConditionForm extends React.Component {
               }
               if (type === 'custList') {
                 let custListSelectorItem = {
-                  url: `${config.baseUrl}/api/custom/enumerations/${item.customEnumerationOID}`,
+                  url: `${config.baseUrl}/api/custom/enumerations/${item.customEnumerationOid}`,
                   label: 'messageKey',
                   key: 'messageKey',
                   listKey: 'values'
@@ -1272,7 +1272,7 @@ class ConditionForm extends React.Component {
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
                               value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOID, item.refCostCenterOID)}}>
+                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid)}}>
                         {optionList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
@@ -1300,7 +1300,7 @@ class ConditionForm extends React.Component {
                                         value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
                                         placeholder={this.$t('common.please.select')}
                                         entity
-                                        onChange={value => this.handleCustListValueChange(value, item.customEnumerationOID, item.refCostCenterOID)}
+                                        onChange={value => this.handleCustListValueChange(value, item.customEnumerationOid, item.refCostCenterOid)}
                               />
                             </div>
                           ) : <a style={{whiteSpace: 'nowrap'}} onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>
@@ -1320,7 +1320,7 @@ class ConditionForm extends React.Component {
                 let departmentExtend = {
                   url: `${config.baseUrl}/api/custom/forms/${this.props.profile['department.custom.form']}/simple`,
                   label: 'fieldName',
-                  key: 'fieldOID',
+                  key: 'fieldOid',
                   listKey: 'customFormFields'
                 };
                 let optionList = [];
@@ -1335,7 +1335,7 @@ class ConditionForm extends React.Component {
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
                               value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOID, item.refCostCenterOID)}}>
+                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid)}}>
                         {optionList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
@@ -1352,7 +1352,7 @@ class ConditionForm extends React.Component {
                                     value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
                                     placeholder={this.$t('common.please.select')}
                                     entity
-                                    onChange={value => this.handleCustomValueChange(value, item.customEnumerationOID, item.refCostCenterOID, item.field)}
+                                    onChange={value => this.handleCustomValueChange(value, item.customEnumerationOid, item.refCostCenterOid, item.field)}
                           /> : <a style={{whiteSpace: 'nowrap'}}
                                   onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>}
                       </div>
@@ -1392,8 +1392,8 @@ class ConditionForm extends React.Component {
             <div style={{minHeight: '80px',}}>
               <TagSelect value={currentValue} onChange={value => {this.setState({currentValue: value})}}>
                 {valueList.map(item => {
-                  return <TagSelect.Option value={item.customEnumerationItemOID}
-                                           key={item.customEnumerationItemOID}>{item.messageKey}</TagSelect.Option>
+                  return <TagSelect.Option value={item.customEnumerationItemOid}
+                                           key={item.customEnumerationItemOid}>{item.messageKey}</TagSelect.Option>
                 })}
               </TagSelect>
             </div>}
@@ -1409,7 +1409,7 @@ class ConditionForm extends React.Component {
               <div style={{minHeight: '80px',}}>
                 <TagSelect value={currentExtendValue} onChange={value => {this.setState({currentExtendValue: value})}}>
                   {allCustomFormFields.map(item => {
-                    return <TagSelect.Option value={item.customEnumerationItemOID}
+                    return <TagSelect.Option value={item.customEnumerationItemOid}
                                              key={item.id}>{item.messageKey}</TagSelect.Option>
                   })}
                 </TagSelect>
@@ -1435,19 +1435,19 @@ class ConditionForm extends React.Component {
           <ExpenseTypeSelector source="formV2"
                                single={false}
                                value={expenseTypeValue}
-                               param={{formOID: this.props.formOID, isALL: true, setOfBooksId: company.setOfBooksId}}
+                               param={{formOid: this.props.formOid, isALL: true, setOfBooksId: company.setOfBooksId}}
                                onSelect={values => this.setState({ expenseTypeValue: values })}/>
         </Modal>
         <ListSelector type='available_company'
                       visible={companyVisible}
-                      valueKey='companyOID'
+                      valueKey='companyOid'
                       selectedData={companyValue}
                       onOk={this.handleAddCompany}
                       onCancel={() => this.setState({companyVisible: false})}
         />
         <ListSelector type='corporation_entity_all'
                       visible={entityVisible}
-                      valueKey="companyReceiptedOID"
+                      valueKey="companyReceiptedOid"
                       labelKey="companyName"
                       selectedData={entityValue}
                       onOk={this.handleAddEntity}
@@ -1455,7 +1455,7 @@ class ConditionForm extends React.Component {
         />
         <ListSelector selectorItem={costCenterSelectorItem}
                       visible={costCenterVisible}
-                      valueKey="costCenterItemOID"
+                      valueKey="costCenterItemOid"
                       labelKey="name"
                       selectedData={costCenterValue}
                       onOk={this.handleAddCostCenter}
@@ -1466,13 +1466,13 @@ class ConditionForm extends React.Component {
                       labelKey='fullName'
                       showDetail
                       selectedData={currencyValue}
-                      extraParams={{companyOID: company.companyOID}}
+                      extraParams={{companyOid: company.companyOid}}
                       onOk={this.handleAddCurrency}
                       onCancel={() => {this.setState({currencyVisible: false})}}
         />
         <ListSelector type='user_all'
                       visible={userDirectVisible || userVisible}
-                      valueKey='userOID'
+                      valueKey='userOid'
                       selectedData={userDirectVisible ? userValue : userApplicationValue}
                       onOk={this.handleAddUser}
                       onCancel={() => this.setState({userDirectVisible: false,userVisible:false})}
@@ -1485,7 +1485,7 @@ class ConditionForm extends React.Component {
 ConditionForm.propTypes = {
   batchCode: PropTypes.number,
   approverIndex: PropTypes.number,
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
   condition: PropTypes.array,
   symbolsType: PropTypes.array,
   deleteTagValue: PropTypes.object, //审批条件中删除的值列表的值 {remark: '', value: ''}

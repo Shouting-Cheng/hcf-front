@@ -92,7 +92,7 @@ class BookerRefundBtn extends React.Component {
         },
       ],
       selectedRowKeys: [],
-      selectedTravelOrderOID: [],
+      selectedTravelOrderOid: [],
     };
   }
 
@@ -119,7 +119,7 @@ class BookerRefundBtn extends React.Component {
       isPersonalReason: false,
       isAdditionalRecord: false,
       selectedRowKeys: [],
-      selectedTravelOrderOID: [],
+      selectedTravelOrderOid: [],
     });
     this.props.form.resetFields();
   };
@@ -131,35 +131,35 @@ class BookerRefundBtn extends React.Component {
 
   //选择/取消选择某行的回调
   handleSelectRow = (record, selected) => {
-    let selectedTravelOrderOID = this.state.selectedTravelOrderOID;
+    let selectedTravelOrderOid = this.state.selectedTravelOrderOid;
     if (selected) {
-      selectedTravelOrderOID.push(record.travelOrderOID);
+      selectedTravelOrderOid.push(record.travelOrderOid);
     } else {
-      selectedTravelOrderOID.delete(record.travelOrderOID);
+      selectedTravelOrderOid.delete(record.travelOrderOid);
     }
-    this.setState({ selectedTravelOrderOID });
+    this.setState({ selectedTravelOrderOid });
   };
 
   //选择/取消选择所有行的回调
   handleSelectAllRow = (selected, selectedRows, changeRows) => {
-    let selectedTravelOrderOID = this.state.selectedTravelOrderOID;
+    let selectedTravelOrderOid = this.state.selectedTravelOrderOid;
     if (selected) {
       changeRows.map(item => {
-        selectedTravelOrderOID.push(item.travelOrderOID);
+        selectedTravelOrderOid.push(item.travelOrderOid);
       });
     } else {
       changeRows.map(item => {
-        selectedTravelOrderOID.delete(item.travelOrderOID);
+        selectedTravelOrderOid.delete(item.travelOrderOid);
       });
     }
-    this.setState({ selectedTravelOrderOID });
+    this.setState({ selectedTravelOrderOid });
   };
 
   //退票
   handleRefund = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        if (!this.state.selectedTravelOrderOID.length) {
+        if (!this.state.selectedTravelOrderOid.length) {
           message.warning(this.$t('request.detail.btn.endorse.please.chose.ticket' /*请选择机票*/));
           return;
         }
@@ -168,8 +168,8 @@ class BookerRefundBtn extends React.Component {
           : values.isAdditionalRecord
             ? false
             : values.skipWorkflow;
-        values.travelOrderOIDs = this.state.selectedTravelOrderOID;
-        values.applicationOID = this.props.info.applicationOID;
+        values.travelOrderOids = this.state.selectedTravelOrderOid;
+        values.applicationOid = this.props.info.applicationOid;
         requestService
           .submitRefundApplication(values)
           .then(() => {
@@ -329,7 +329,7 @@ class BookerRefundBtn extends React.Component {
               </div>
             </div>
             <Table
-              rowKey="travelOrderOID"
+              rowKey="travelOrderOid"
               columns={columns}
               dataSource={travelOrders}
               pagination={false}

@@ -54,7 +54,7 @@ class OrgSearchList extends React.Component {
     return list.map(item => {
       if (item.nodeDisabled) {
         return (
-          <div className="re-dep-item-disabled" key={item.departmentOID}>
+          <div className="re-dep-item-disabled" key={item.departmentOid}>
             <div className="type-icon">
               <Icon type="folder" />
             </div>
@@ -66,7 +66,7 @@ class OrgSearchList extends React.Component {
         return (
           <div
             className={item.actived ? 're-dep-item-active' : 're-dep-item'}
-            key={item.departmentOID}
+            key={item.departmentOid}
             onClick={() => {
               this.selectedHandle(item);
             }}
@@ -106,7 +106,7 @@ class OrgSearchList extends React.Component {
     return list.map(item => {
       if (item.nodeDisabled) {
         return (
-          <div className="re-person-item-disabled" key={item.userOID}>
+          <div className="re-person-item-disabled" key={item.userOid}>
             <div className="type-icon">
               <Icon type="user" />
             </div>
@@ -118,7 +118,7 @@ class OrgSearchList extends React.Component {
         return (
           <div
             className={item.actived ? 're-person-item-active' : 're-person-item'}
-            key={item.userOID}
+            key={item.userOid}
             onClick={() => {
               this.selectedHandle(item);
             }}

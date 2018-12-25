@@ -52,11 +52,11 @@ class PrePaymentDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: documentOid,
+          entityOid: documentOid,
           entityType: 801003,
         },
       ],
-      countersignApproverOIDs: [],
+      countersignApproverOids: [],
     };
 
     this.setState({ loading: true });
@@ -86,7 +86,7 @@ class PrePaymentDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: documentOid,
+          entityOid: documentOid,
           entityType: 801003,
         },
       ],

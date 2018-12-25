@@ -227,8 +227,8 @@ class CostCenterItemDetail extends React.Component {
         for (let i = 0; i < customFormValues.length; i++) {
             if (customFormValues[i].messageKey === "cust_list") {
                 let dataSource = JSON.parse(customFormValues[i].dataSource);
-                if (dataSource && dataSource.customEnumerationOID) {
-                    VlService.getValueListInfo(dataSource.customEnumerationOID)
+                if (dataSource && dataSource.customEnumerationOid) {
+                    VlService.getValueListInfo(dataSource.customEnumerationOid)
                         .then((res) => {
                             this.setPersonDetailEnumerationList(res.data, customFormValues[i])
                         })
@@ -245,7 +245,7 @@ class CostCenterItemDetail extends React.Component {
         let infoData = deepCopy(this.state.infoData);
         let customFormValues = infoData.customFormValues;
         for (let i = 0; i < customFormValues.length; i++) {
-            if (customFormValues[i].fieldOID === filed.fieldOID) {
+            if (customFormValues[i].fieldOid === filed.fieldOid) {
                 customFormValues[i].customEnumerationList = customEnumerationList;
                 //每设置一次，都需要更新一下
                 //后端可能返回的是值列表值对应的code（value），不是messageKey，需要找一下
@@ -375,7 +375,7 @@ class CostCenterItemDetail extends React.Component {
             }
         }
         return (
-            <div className="info-item f-left" key={field.fieldOID}>
+            <div className="info-item f-left" key={field.fieldOid}>
                 <div className="info-item-title">{field.fieldName}</div>
                 <div className="info-item-text">
                     {
@@ -406,15 +406,15 @@ class CostCenterItemDetail extends React.Component {
             message.warn(this.$t("cost.center.item.detail.please.select"));
             return;
         }
-        let userOIDs = [];
+        let userOids = [];
         arr.map((item) => {
-            userOIDs.push(item.userOID);
+            userOids.push(item.userOid);
         })
         let params = {
-            userOIDs: userOIDs,
-            costCenterItemOIDs: [this.props.match.params.itemId],
+            userOids: userOids,
+            costCenterItemOids: [this.props.match.params.itemId],
             selectMode: "default",
-            costCenterOID: this.props.match.params.id
+            costCenterOid: this.props.match.params.id
         }
         CCService.costCenterItemAssociateUsersDTO(params)
             .then((res) => {
@@ -447,7 +447,7 @@ class CostCenterItemDetail extends React.Component {
 
     //删除人
     removeUserFromCostCenterItemAssociation = (e, record) => {
-        CCService.removeUserFromCostCenterItemAssociation(record.userOID, this.props.match.params.itemId)
+        CCService.removeUserFromCostCenterItemAssociation(record.userOid, this.props.match.params.itemId)
             .then(res => {
                 //操作成功
                 this.getUserList();

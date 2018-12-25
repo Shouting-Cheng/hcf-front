@@ -89,7 +89,7 @@ class NewPaymentFrame extends React.Component{
   getUploadImageOId = (values) => {
     let repayAttchment = [];
     values.map(item => {
-      repayAttchment.push({attachmentOID: item.attachmentOID})
+      repayAttchment.push({attachmentOid: item.attachmentOid})
     });
     this.setState({ repayAttchment })
   };
@@ -98,7 +98,7 @@ class NewPaymentFrame extends React.Component{
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err) {
-        values.loanApplicationOid = this.state.info.applicationOID;
+        values.loanApplicationOid = this.state.info.applicationOid;
         values.repayAttchment = this.state.repayAttchment;
         this.setState({ loading: true });
         httpFetch.post(`${config.baseUrl}/api/repayment/submit`, values).then(() => {

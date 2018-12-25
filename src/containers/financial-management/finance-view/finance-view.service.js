@@ -23,8 +23,8 @@ export default {
     return httpFetch.post(url, searchParams, {}, {responseType: 'arraybuffer'});
   },
 
-  printExpenseReport(expenseReportOID){
-    return httpFetch.get(`${config.baseUrl}/api/expense/reports/generate/pdf/${expenseReportOID}`);
+  printExpenseReport(expenseReportOid){
+    return httpFetch.get(`${config.baseUrl}/api/expense/reports/generate/pdf/${expenseReportOid}`);
   }
 
 }

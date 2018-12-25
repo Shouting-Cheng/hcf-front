@@ -42,7 +42,7 @@ class ImageUpload extends React.Component {
     let fileList = [];
     defaultFileList.map(attachment => {
       fileList.push({
-        uid: attachment.attachmentOID,
+        uid: attachment.attachmentOid,
         name: attachment.fileName,
         status: 'done',
         url: attachment.thumbnailUrl
@@ -98,9 +98,9 @@ class ImageUpload extends React.Component {
       } else if (status === 'removed') {
         result.map((item, index) => {
           if (
-            item.attachmentOID ===
-            (info.file.response ? info.file.response.attachmentOID : info.file.attachmentOID) ||
-            item.attachmentOID === info.file.uid
+            item.attachmentOid ===
+            (info.file.response ? info.file.response.attachmentOid : info.file.attachmentOid) ||
+            item.attachmentOid === info.file.uid
           )
             result.splice(index, 1);
         });
@@ -202,7 +202,7 @@ function mapStateToProps(state) {
 }
 // 注意
 // defaultFileList里面的对象属性要有
-//   attachmentOID,
+//   attachmentOid,
 //   fileName,
 //   fileURL
 

@@ -261,10 +261,10 @@ class FormList extends React.Component {
   handleFormList = (formList) => {
     let i = formList.length - 1;
     while (i >= 0){
-      if (formList[i] && formList[i].referenceOID && this.isApplicationReport(formList[i].formType)){
+      if (formList[i] && formList[i].referenceOid && this.isApplicationReport(formList[i].formType)){
         //判断是否是申请单
         //然后找到申请单关联的报销单
-        let referenceFormIndex = this.checkFormInList(formList[i].referenceOID, formList);
+        let referenceFormIndex = this.checkFormInList(formList[i].referenceOid, formList);
         if (referenceFormIndex != null) {
           //现在把这个报销单拿出，插入申请单的前面。
           // 第一步，拿出，
@@ -298,10 +298,10 @@ class FormList extends React.Component {
     }
   };
 
-  //检查referenceOID是否存在list里面
-  checkFormInList = (referenceOID, list) => {
+  //检查referenceOid是否存在list里面
+  checkFormInList = (referenceOid, list) => {
     for(let i = 0; i < list.length; i++){
-      if (list[i].formOID == referenceOID){
+      if (list[i].formOid == referenceOid){
         return i
       }
     }
@@ -330,14 +330,14 @@ class FormList extends React.Component {
   rowClick = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOID}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
       })
     )  
   };
   rowClickForSob = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOID}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
       })
     )  
   };
@@ -413,7 +413,7 @@ class FormList extends React.Component {
                dataSource={formList}
                size="middle"
                bordered
-               rowKey="formOID"
+               rowKey="formOid"
                pagination={false}
                onRow={record => ({
                  onClick: () => this.rowClick(record)
@@ -443,7 +443,7 @@ class FormList extends React.Component {
                dataSource={formListForSob}
                size="middle"
                bordered
-               rowKey="formOID"
+               rowKey="formOid"
                pagination={false}
                onRow={record => ({
                  onClick: () => this.rowClickForSob(record)

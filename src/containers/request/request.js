@@ -112,12 +112,12 @@ class ApplicationList extends React.Component {
           ],
         },
         {
-          id: 'formOID',
+          id: 'formOid',
           single: true,
           items: [
             {
               label: this.$t('request.bill.name' /*单据名称*/),
-              key: 'formOID',
+              key: 'formOid',
               options: [{ label: this.$t('request.all' /*全部*/), value: 'all' }],
               checked: ['all'],
             },
@@ -261,9 +261,9 @@ class ApplicationList extends React.Component {
       cacheSearchData: {}, //缓存筛选的数据
       proxyVisible: false, //代提申请单modal
       applicantList: [], //代理的申请人列表
-      proxyApplicantOID: null,
+      proxyApplicantOid: null,
       proxyFormList: [], //代理的表单列表
-      proxyFormOID: null,
+      proxyFormOid: null,
       isShowProxy: false, //是否有代理关系
     };
     this.handleSearch = debounce(this.handleSearch, 250);
@@ -350,12 +350,12 @@ class ApplicationList extends React.Component {
     requestService.getMyDocumentType(101).then(res => {
       let options = [{ label: this.$t('request.all' /*全部*/), value: 'all' }];
       res.data.map(item => {
-        options.push({ label: item.formName, value: item.formOID });
+        options.push({ label: item.formName, value: item.formOid });
       });
       checkboxListForm.map(form => {
-        if (form.id === 'formOID') {
+        if (form.id === 'formOid') {
           form.items.map(item => {
-            item.key === 'formOID' && (item.options = options);
+            item.key === 'formOid' && (item.options = options);
           });
         }
       });
@@ -400,7 +400,7 @@ class ApplicationList extends React.Component {
   search = values => {
     this.setCache({ ...values });
     let { searchParams } = this.state;
-    values.formOID === 'all' && (values.formOID = '');
+    values.formOid === 'all' && (values.formOid = '');
     values.startDate && (values.startDate = moment(values.startDate).format('YYYY-MM-DD'));
     values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD'));
     this.setState(
@@ -542,27 +542,27 @@ class ApplicationList extends React.Component {
       ) {
         this.props.dispatch(
           routerRedux.push({
-            pathname: '/request/request-edit/:formOID/:applicationOID'
-              .replace(':formOID', record.formOID)
-              .replace(':applicationOID', record.applicationOID),
+            pathname: '/request/request-edit/:formOid/:applicationOid'
+              .replace(':formOid', record.formOid)
+              .replace(':applicationOid', record.applicationOid),
           })
         );
       }
       if (record.formType === 2004) {
         this.props.dispatch(
           routerRedux.push({
-            pathname: '/request/jd-request-edit/:formOID/:applicationOID'
-              .replace(':formOID', record.formOID)
-              .replace(':applicationOID', record.applicationOID),
+            pathname: '/request/jd-request-edit/:formOid/:applicationOid'
+              .replace(':formOid', record.formOid)
+              .replace(':applicationOid', record.applicationOid),
           })
         );
       }
     } else {
       this.props.dispatch(
         routerRedux.push({
-          pathname: '/request/request-detail/:formOID/:applicationOID/:pageFrom'
-            .replace(':formOID', record.formOID)
-            .replace(':applicationOID', record.applicationOID)
+          pathname: '/request/request-detail/:formOid/:applicationOid/:pageFrom'
+            .replace(':formOid', record.formOid)
+            .replace(':applicationOid', record.applicationOid)
             .replace(':pageFrom', 'my'),
         })
       );
@@ -573,7 +573,7 @@ class ApplicationList extends React.Component {
   handleNewRequest = e => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: '/request/new-request/:formOID/:applicantOID'.replace(':formOID', e.key),
+        pathname: '/request/new-request/:formOid/:applicantOid'.replace(':formOid', e.key),
       })
     );
   };
@@ -589,30 +589,30 @@ class ApplicationList extends React.Component {
   closeProxyModal = () => {
     this.setState({
       proxyVisible: false,
-      proxyApplicantOID: null,
-      proxyFormOID: null,
+      proxyApplicantOid: null,
+      proxyFormOid: null,
     });
   };
 
   //新建代提的申请单
   handleNewRequestProxy = () => {
     let redirect_url = this.state.newRequest.url
-      .replace(':formOID', this.state.proxyFormOID)
-      .replace(':applicantOID', this.state.proxyApplicantOID);
+      .replace(':formOid', this.state.proxyFormOid)
+      .replace(':applicantOid', this.state.proxyApplicantOid);
     this.context.router.push(redirect_url);
   };
 
   handleSelectApplicant = value => {
     this.setState({
-      proxyApplicantOID: value,
-      proxyFormOID: '',
+      proxyApplicantOid: value,
+      proxyFormOid: '',
     });
     this.getProxyFormList(value);
   };
 
   //获取申请人可代理的单据列表
-  getProxyFormList = userOID => {
-    requestService.getMyDocumentType(101, userOID).then(res => {
+  getProxyFormList = userOid => {
+    requestService.getMyDocumentType(101, userOid).then(res => {
       if (res.data && res.data.length) {
         this.setState({
           proxyFormList: res.data,
@@ -623,7 +623,7 @@ class ApplicationList extends React.Component {
 
   handleSelectForm = (value, e) => {
     this.setState({
-      proxyFormOID: value,
+      proxyFormOid: value,
     });
   };
 
@@ -640,16 +640,16 @@ class ApplicationList extends React.Component {
     const {
       proxyVisible,
       applicantList,
-      proxyApplicantOID,
+      proxyApplicantOid,
       proxyFormList,
-      proxyFormOID,
+      proxyFormOid,
       isShowProxy,
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const menu = (
       <Menu onClick={this.handleNewRequest} style={{ maxHeight: 250, overflow: 'auto' }}>
         {requestTypes.map(item => {
-          return <Menu.Item key={item.formOID}>{item.formName}</Menu.Item>;
+          return <Menu.Item key={item.formOid}>{item.formName}</Menu.Item>;
         })}
       </Menu>
     );
@@ -693,7 +693,7 @@ class ApplicationList extends React.Component {
           </div>
         </div>
         <Table
-          rowKey="applicationOID"
+          rowKey="applicationOid"
           columns={columns}
           dataSource={data}
           pagination={pagination}
@@ -726,7 +726,7 @@ class ApplicationList extends React.Component {
             <Button
               key="submit"
               type="primary"
-              disabled={!proxyApplicantOID || !proxyFormOID}
+              disabled={!proxyApplicantOid || !proxyFormOid}
               onClick={this.handleNewRequestProxy}
             >
               {this.$t('common.ok') /*确定*/}
@@ -745,18 +745,18 @@ class ApplicationList extends React.Component {
                 }
               >
                 {applicantList.map(item => (
-                  <Option value={item.userOID} key={item.userOID}>{`${item.fullName}  ${
+                  <Option value={item.userOid} key={item.userOid}>{`${item.fullName}  ${
                     item.employeeID
                   }`}</Option>
                 ))}
               </Select>
             </FormItem>
-            {!!proxyApplicantOID && (
+            {!!proxyApplicantOid && (
               <FormItem {...formItemLayout} label={this.$t('request.bill.name') /*单据名称*/}>
                 <Select
                   showSearch
                   placeholder={this.$t('common.please.select') /*请选择*/}
-                  value={proxyFormOID ? proxyFormOID : undefined}
+                  value={proxyFormOid ? proxyFormOid : undefined}
                   onChange={this.handleSelectForm}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
@@ -764,7 +764,7 @@ class ApplicationList extends React.Component {
                   }
                 >
                   {proxyFormList.map(item => (
-                    <Option value={item.formOID} key={item.formOID}>
+                    <Option value={item.formOid} key={item.formOid}>
                       {item.formName}
                     </Option>
                   ))}

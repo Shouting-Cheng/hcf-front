@@ -490,7 +490,7 @@ class NewGLWorkOrderType extends Component {
               <Select placeholder="请选择">
                 {relatedFormTypeList.map(item => {
                   return (
-                    <Option value={item.formOID + '$$' + item.formName}>{item.formName}</Option>
+                    <Option value={item.formOid + '$$' + item.formName}>{item.formName}</Option>
                   );
                 })}
               </Select>

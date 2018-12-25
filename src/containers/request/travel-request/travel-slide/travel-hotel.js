@@ -77,7 +77,7 @@ class TravelHotel extends React.Component {
         let num = 0;
         let supId = 0;
         this.state.supplies.map((item, index) => {
-          if (item.supplierOID == editData.supplierOID) {
+          if (item.supplierOid == editData.supplierOid) {
             num = index;
             supId = item.supplierServiceName;
             this.supply = item;
@@ -101,7 +101,7 @@ class TravelHotel extends React.Component {
         );
       }
       this.props.params.hotel.map(h => {
-        if (h.hotelItineraryOID !== editData.hotelItineraryOID) {
+        if (h.hotelItineraryOid !== editData.hotelItineraryOid) {
           hotelRecord.push(h);
         }
       });
@@ -280,7 +280,7 @@ class TravelHotel extends React.Component {
         return;
       }
       if (!err) {
-        values.supplierOID = this.supply.supplierOID ? this.supply.supplierOID : null;
+        values.supplierOid = this.supply.supplierOid ? this.supply.supplierOid : null;
         values.fromDate = values.fromDate.utc().format();
         values.leaveDate = values.leaveDate.utc().format();
         if (values.fromDate > values.leaveDate) {
@@ -323,8 +323,8 @@ class TravelHotel extends React.Component {
               this.setState({ isLoading: false });
             });
         } else {
-          values.applicationOID = this.state.params.oid;
-          values.hotelItineraryOID = this.props.params.editHotel.hotelItineraryOID;
+          values.applicationOid = this.state.params.oid;
+          values.hotelItineraryOid = this.props.params.editHotel.hotelItineraryOid;
           travelService
             .updateHotel(values)
             .then(res => {

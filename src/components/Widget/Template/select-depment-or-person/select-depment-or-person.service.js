@@ -21,7 +21,7 @@ export default {
       const dep = {};
       dep.type = 'DEP';
       dep.title = data[i].name;
-      dep.key = data[i].departmentOID;
+      dep.key = data[i].departmentOid;
       dep.originData = data[i];
       //如果要加载人
       if (isLoadingPerson) {
@@ -44,13 +44,13 @@ export default {
     }
   },
   //把子节点挂在父节点上：部门
-  setLeafByParentOID(childNodes, parentNode) {
+  setLeafByParentOid(childNodes, parentNode) {
     let children = parentNode.children;
     for (let i = 0; i < childNodes.length; i++) {
       const dep = {};
       dep.type = 'DEP';
       dep.title = childNodes[i].name;
-      dep.key = childNodes[i].departmentOID;
+      dep.key = childNodes[i].departmentOid;
       dep.originData = childNodes[i];
       //如果要加载人
       if (isLoadingPerson) {
@@ -74,13 +74,13 @@ export default {
     parentNode.children = children;
   },
   //把人的子节点挂在父节点上：人
-  setPersonLeafByParentOID(childNodes, parentNode, externalParams) {
+  setPersonLeafByParentOid(childNodes, parentNode, externalParams) {
     let children = parentNode.children;
     for (let i = 0; i < childNodes.length; i++) {
       const dep = {};
       dep.type = 'PERSON';
       dep.title = childNodes[i].fullName;
-      dep.key = childNodes[i].userOID;
+      dep.key = childNodes[i].userOid;
       dep.originData = childNodes[i];
       dep.isLeaf = true;
 
@@ -88,9 +88,9 @@ export default {
       //add by mengsha.wang@huilianyi.com
       if (
         externalParams &&
-        externalParams.financeRoleOID &&
+        externalParams.financeRoleOid &&
         dep.originData.financeRoleOid &&
-        dep.originData.financeRoleOid !== externalParams.financeRoleOID
+        dep.originData.financeRoleOid !== externalParams.financeRoleOid
       ) {
         dep.nodeDisabled = true;
         dep.title = childNodes[i].fullName + '（' + messages('sdp.has.assigned' /*已分配*/) + '）';
@@ -101,7 +101,7 @@ export default {
       externalParams &&
         externalParams.bookingRoleList &&
         externalParams.bookingRoleList.map(item => {
-          if (item.userOID === dep.originData.userOID) {
+          if (item.userOid === dep.originData.userOid) {
             dep.nodeDisabled = true;
             dep.title = childNodes[i].fullName + '（' + messages('sdp.has.added' /*已添加*/) + '）';
           }
@@ -138,11 +138,11 @@ export default {
     });
   },
   // 通过部门oid查询子部门
-  getChildDepByDepOID(Dep, parentNode, flag) {
+  getChildDepByDepOid(Dep, parentNode, flag) {
     return new Promise((resolve, reject) => {
-      OrgService.getChildDepByDepOIDRes(Dep, flag)
+      OrgService.getChildDepByDepOidRes(Dep, flag)
         .then(res => {
-          this.setLeafByParentOID(res.data, parentNode);
+          this.setLeafByParentOid(res.data, parentNode);
           resolve(this.getTreeData());
         })
         .catch(err => {
@@ -151,11 +151,11 @@ export default {
     });
   },
   // 通过部门oid查询部门下面的员工:所有员工，并且要挂载到部门树上
-  getDepTreeUserByDepOID(Dep, params, parentNode, externalParams) {
+  getDepTreeUserByDepOid(Dep, params, parentNode, externalParams) {
     return new Promise((resolve, reject) => {
-      OrgService.getDepUserByDepOID(Dep, params)
+      OrgService.getDepUserByDepOid(Dep, params)
         .then(res => {
-          this.setPersonLeafByParentOID(res.data, parentNode, externalParams);
+          this.setPersonLeafByParentOid(res.data, parentNode, externalParams);
           resolve(this.getTreeData());
           resolve(res);
         })
@@ -190,9 +190,9 @@ export default {
               //add by mengsha.wang@huilianyi.com
               if (
                 externalParams &&
-                externalParams.financeRoleOID &&
+                externalParams.financeRoleOid &&
                 person.financeRoleOid &&
-                person.financeRoleOid !== externalParams.financeRoleOID
+                person.financeRoleOid !== externalParams.financeRoleOid
               ) {
                 person.nodeDisabled = true;
                 person.fullName =
@@ -203,7 +203,7 @@ export default {
               //add by mengsha.wang@huilianyi.com
               externalParams.bookingRoleList &&
                 externalParams.bookingRoleList.map(item => {
-                  if (item.userOID === person.userOID) {
+                  if (item.userOid === person.userOid) {
                     person.nodeDisabled = true;
                     person.fullName =
                       person.fullName + '（' + messages('sdp.has.added' /*已添加*/) + '）';

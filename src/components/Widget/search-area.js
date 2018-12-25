@@ -572,7 +572,7 @@ class SearchArea extends React.Component {
    * <SearchArea wrappedComponentRef={(inst) => this.formRef = inst} {...props} />
    *
    * this.formRef.setValues({
-      listId: [{user: '', userOID: ''}, ...],
+      listId: [{user: '', userOid: ''}, ...],
       selectId: {label: '', value: ''},
       inputId: 'value',
       value_listId: {label: '', value: ''}

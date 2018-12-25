@@ -50,7 +50,7 @@ class ValueList extends React.Component {
       },
       selectedRowKeys: [],
       selectedRowIds: [],
-      customEnumerationOIDs: [],
+      customEnumerationOids: [],
       showListSelector: false,
       // valueListPage: menuRoute.getRouteItem('new-value-list', 'key'),   //新建值列表的页面项
       // valueListDetail: menuRoute.getRouteItem('value-list-detail', 'key')   //值列表详情的页面项
@@ -125,33 +125,33 @@ class ValueList extends React.Component {
   //选择/取消选择某行的回调
   handleSelectRow = (record, selected) => {
     let selectedRowIds = this.state.selectedRowIds;
-    let customEnumerationOIDs = this.state.customEnumerationOIDs;
+    let customEnumerationOids = this.state.customEnumerationOids;
     if (selected) {
       selectedRowIds.push(record.id);
-      customEnumerationOIDs.push(record.customEnumerationOID)
+      customEnumerationOids.push(record.customEnumerationOid)
     } else {
       selectedRowIds.delete(record.id);
-      customEnumerationOIDs.delete(record.customEnumerationOID)
+      customEnumerationOids.delete(record.customEnumerationOid)
     }
-    this.setState({ selectedRowIds, customEnumerationOIDs })
+    this.setState({ selectedRowIds, customEnumerationOids })
   };
 
   //选择/取消选择所有行的回调
   handleSelectAllRow = (selected, selectedRows, changeRows) => {
     let selectedRowIds = this.state.selectedRowIds;
-    let customEnumerationOIDs = this.state.customEnumerationOIDs;
+    let customEnumerationOids = this.state.customEnumerationOids;
     if (selected) {
       changeRows.map(item => {
         selectedRowIds.push(item.id);
-        customEnumerationOIDs.push(item.customEnumerationOID)
+        customEnumerationOids.push(item.customEnumerationOid)
       })
     } else {
       changeRows.map(item => {
         selectedRowIds.delete(item.id);
-        customEnumerationOIDs.delete(item.customEnumerationOID)
+        customEnumerationOids.delete(item.customEnumerationOid)
       })
     }
-    this.setState({ selectedRowIds, customEnumerationOIDs })
+    this.setState({ selectedRowIds, customEnumerationOids })
   };
 
   handleListShow = (flag) => {
@@ -163,9 +163,9 @@ class ValueList extends React.Component {
       this.state.dBtnDisabled = true;
       let companies = [];
       values.result.map((item) => {
-        companies.push(item.companyOID)
+        companies.push(item.companyOid)
       })
-      valueListService.distributeCompany(companies, this.state.customEnumerationOIDs)
+      valueListService.distributeCompany(companies, this.state.customEnumerationOids)
         .then(res => {
           this.state.dBtnDisabled = false;
           if (res.status === 200) {
@@ -175,7 +175,7 @@ class ValueList extends React.Component {
             this.setState({
               selectedRowKeys: [],
               selectedRowIds: [],
-              customEnumerationOIDs: []
+              customEnumerationOids: []
             })
           }
         }).catch(err => {
@@ -187,12 +187,12 @@ class ValueList extends React.Component {
 
   handleRowClick = (record) => {
     this.setBeforePage(this.state.pagination);
-    // let path = "/admin-setting/value-list-detail/:customEnumerationOID/:id".replace(':customEnumerationOID', record.customEnumerationOID);
+    // let path = "/admin-setting/value-list-detail/:customEnumerationOid/:id".replace(':customEnumerationOid', record.customEnumerationOid);
     // path = path.replace(':id', record.id);
     // this.context.router.push(path);
 
     this.props.dispatch(routerRedux.push({
-      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOID}/${record.id}/:tab`.replace(':tab',this.state.status)
+      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOid}/${record.id}/:tab`.replace(':tab',this.state.status)
     }))
 
   };

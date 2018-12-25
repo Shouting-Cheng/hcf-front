@@ -30,7 +30,7 @@ class MyNewPrePayment extends React.Component {
       currencyOptions: [], //币种
       companyIdOptions: [], //公司
       contractCategoryOptions: [], //合同大类选项
-      uploadOIDs: [], //上传附件的OIDs
+      uploadOids: [], //上传附件的Oids
       employeeOptions: [], //员工选项
       venderOptions: [], //供应商选项
       employeeIdOptions: [], //申请人
@@ -52,7 +52,7 @@ class MyNewPrePayment extends React.Component {
           res.data.attachments.map(item => {
             fileList.push({
               ...item,
-              uid: item.attachmentOID,
+              uid: item.attachmentOid,
               name: item.fileName,
               status: 'done',
             });
@@ -66,7 +66,7 @@ class MyNewPrePayment extends React.Component {
       });
     } else {
       httpFetch
-        .get(`${config.baseUrl}/api/departments/${this.props.user.departmentOID}`)
+        .get(`${config.baseUrl}/api/departments/${this.props.user.departmentOid}`)
         .then(res => {
           this.setState({
             departmentId: res.data.id,
@@ -75,10 +75,10 @@ class MyNewPrePayment extends React.Component {
     }
   }
   //上传附件
-  handleUpload = OIDs => {
-    console.log(OIDs);
+  handleUpload = Oids => {
+    console.log(Oids);
     this.setState({
-      uploadOIDs: OIDs,
+      uploadOids: Oids,
     });
   };
   //保存
@@ -119,8 +119,8 @@ class MyNewPrePayment extends React.Component {
           };
         }
 
-        //ådataValue.attachmentOid = this.state.uploadOIDs.toString();
-        dataValue.attachmentOids = this.state.uploadOIDs;
+        //ådataValue.attachmentOid = this.state.uploadOids.toString();
+        dataValue.attachmentOids = this.state.uploadOids;
         prePaymentService
           .addPrepaymentHead(dataValue)
           .then(res => {
@@ -250,7 +250,7 @@ class MyNewPrePayment extends React.Component {
                     initialValue:isNew
                       ? [
                           {
-                            departmentOid: this.props.user.departmentOID,
+                            departmentOid: this.props.user.departmentOid,
                             departmentId: departmentId,
                             path: this.props.user.departmentName,
                           },
@@ -293,14 +293,14 @@ class MyNewPrePayment extends React.Component {
             <Row {...rowLayout} style={{ marginBottom: 40 }}>
               <Col span={10}>
                 <FormItem label="附件信息" {...formItemLayout}>
-                  {getFieldDecorator('attachmentOID')(
+                  {getFieldDecorator('attachmentOid')(
                     <Upload
                       attachmentType="BUDGET_JOURNAL"
                       uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={model.attachmentOids}
+                      defaultOids={model.attachmentOids}
                     />
                   )}
                 </FormItem>

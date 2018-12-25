@@ -353,7 +353,7 @@ class CustomExpenseType extends React.Component {
               className={`expense-type-category${
                 typeSorting && typeSortingIndex === index ? ' sorting-category' : ''
                 }`}
-              id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+              id={'' + expenseTypeCategory.expenseTypeCategoryOid}
               key={expenseTypeCategory.id}
             >
               <div className="expense-type-category-title">
@@ -426,7 +426,7 @@ class CustomExpenseType extends React.Component {
               className={`expense-type-category${
                 typeSorting && typeSortingIndex === index ? ' sorting-category' : ''
                 }`}
-              id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+              id={'' + expenseTypeCategory.expenseTypeCategoryOid}
               key={expenseTypeCategory.id}
             >
               <div className="expense-type-category-title">
@@ -569,7 +569,7 @@ class CustomExpenseType extends React.Component {
                       return (
                         <div
                           className="expense-type-category"
-                          id={'' + expenseTypeCategory.expenseTypeCategoryOID}
+                          id={'' + expenseTypeCategory.expenseTypeCategoryOid}
                           key={expenseTypeCategory.id}
                         >
                           <div className="expense-type-category-title" style={{ cursor: 'move' }}>

@@ -24,11 +24,11 @@ class ApproveRequest extends React.Component {
       tab: 'approving',
       approvePendingCheckboxList: [
         {
-          id: 'formOIDs',
+          id: 'formOids',
           items: [
             {
               label: this.$t('request.bill.name' /*单据名称*/),
-              key: 'formOID',
+              key: 'formOid',
               options: [],
               checkAllOption: true,
             },
@@ -37,11 +37,11 @@ class ApproveRequest extends React.Component {
       ],
       approvedCheckboxList: [
         {
-          id: 'formOIDs',
+          id: 'formOids',
           items: [
             {
               label: this.$t('request.bill.name' /*单据名称*/),
-              key: 'formOID',
+              key: 'formOid',
               options: [],
               checkAllOption: true,
             },
@@ -56,16 +56,16 @@ class ApproveRequest extends React.Component {
         },
         {
           type: 'list',
-          id: 'applicantOIDs',
+          id: 'applicantOids',
           label: this.$t('finance.view.search.applicant' /*申请人*/),
           listType: 'user',
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           listExtraParams: { roleType: 'TENANT' },
         },
         {
           type: 'list',
-          id: 'departmentOIDs',
+          id: 'departmentOids',
           label: this.$t('request.detail.department.name' /*部门*/),
           listType: 'department',
           labelKey: 'name',
@@ -168,9 +168,9 @@ class ApproveRequest extends React.Component {
             index +
             1 +
             this.state.pageSize * this.state.page +
-            (record.approverOID &&
-            record.currentUserOID &&
-            record.approverOID !== record.currentUserOID
+            (record.approverOid &&
+            record.currentUserOid &&
+            record.approverOid !== record.currentUserOid
               ? `(${this.$t('approve.request.proxy') /*代理*/})`
               : ''),
         },
@@ -301,9 +301,9 @@ class ApproveRequest extends React.Component {
       },
       batchEnabled: false, //是否有批量审批
       selectedRowKeys: [],
-      selectedRows: [], //选中的单据OID
+      selectedRows: [], //选中的单据Oid
       cacheSearchData: {}, //缓存筛选的数据
-      approveRequestDetail: '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom', //申请单审批详情页
+      approveRequestDetail: '/approval-management/approve-request/approve-request-detail/:formOid/:applicationOid/:pageFrom', //申请单审批详情页
     };
   }
 
@@ -333,9 +333,9 @@ class ApproveRequest extends React.Component {
     let { tab, approvePendingCheckboxList, approvedCheckboxList } = this.state;
     if (result && JSON.stringify(result) !== '{}') {
       if (tab === 'approving') {
-        approvePendingCheckboxList[0].items[0].checked = result['formOIDsLable'] || [];
+        approvePendingCheckboxList[0].items[0].checked = result['formOidsLable'] || [];
       } else {
-        approvedCheckboxList[0].items[0].checked = result['formOIDsLable'] || [];
+        approvedCheckboxList[0].items[0].checked = result['formOidsLable'] || [];
       }
       this.setState(
         { cacheSearchData: result, approvePendingCheckboxList, approvedCheckboxList },
@@ -384,9 +384,9 @@ class ApproveRequest extends React.Component {
           options.push({ label: key, value: res.data[key][0] });
         });
         checkboxList.map(form => {
-          if (form.id === 'formOIDs') {
+          if (form.id === 'formOids') {
             form.items.map(item => {
-              item.key === 'formOID' && (item.options = options);
+              item.key === 'formOid' && (item.options = options);
             });
           }
         });
@@ -432,7 +432,7 @@ class ApproveRequest extends React.Component {
         let data = [];
         res.data.map(item => {
           if (item.application) {
-            item.application.entityOID = item.entityOID;
+            item.application.entityOid = item.entityOid;
             data.push(item.application || {});
           }
         });
@@ -532,9 +532,9 @@ class ApproveRequest extends React.Component {
       payload: { approveRequest: this.state.cacheSearchData },
     });
     let url = this.state.approveRequestDetail
-      .replace(':formOID', record.formOID)
+      .replace(':formOid', record.formOid)
       .replace(':pageFrom', this.state.tab)
-      .replace(':applicationOID', record.applicationOID);
+      .replace(':applicationOid', record.applicationOid);
     this.props.dispatch(
       routerRedux.push({
         pathname: url,
@@ -556,8 +556,8 @@ class ApproveRequest extends React.Component {
   onSelectRow = (record, selected) => {
     let selectedRows = deepFullCopy(this.state.selectedRows);
     let item = JSON.stringify({
-      approverOID: record.approverOID,
-      entityOID: record.entityOID,
+      approverOid: record.approverOid,
+      entityOid: record.entityOid,
       entityType: 1001, //申请单
     });
     selected ? selectedRows.push(item) : selectedRows.delete(item);
@@ -569,8 +569,8 @@ class ApproveRequest extends React.Component {
     let selectedRows = deepFullCopy(this.state.selectedRows);
     this.state.data.map(item => {
       let row = JSON.stringify({
-        approverOID: item.approverOID,
-        entityOID: item.entityOID,
+        approverOid: item.approverOid,
+        entityOid: item.entityOid,
         entityType: 1001, //申请单
       });
       selected ? selectedRows.addIfNotExist(row) : selectedRows.delete(row);
@@ -690,7 +690,7 @@ class ApproveRequest extends React.Component {
           </div>
         </div>
         <Table
-          rowKey="applicationOID"
+          rowKey="applicationOid"
           loading={loading}
           columns={columns}
           dataSource={data}

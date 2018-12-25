@@ -161,7 +161,7 @@ class IsVenMaster extends React.Component {
                               this.dealMessageFieldContent('contact_bank_account').showValue
                             ).bankAccountNo
                           : this.dealMessageFieldContent('contact_bank_account').showValue,
-                      contactBankAccountOID: this.dealMessageFieldContent('contact_bank_account')
+                      contactBankAccountOid: this.dealMessageFieldContent('contact_bank_account')
                         .value,
                     },
                   ]
@@ -169,11 +169,11 @@ class IsVenMaster extends React.Component {
             })(
               <Chooser
                 type="bank_card"
-                valueKey="contactBankAccountOID"
+                valueKey="contactBankAccountOid"
                 labelKey="bankAccountNo"
-                onlyNeed="contactBankAccountOID"
+                onlyNeed="contactBankAccountOid"
                 onChange={this.handleContentChange}
-                listExtraParams={{ userOID: this.props.user.userOID }}
+                listExtraParams={{ userOid: this.props.user.userOid }}
                 single
               />
             )}

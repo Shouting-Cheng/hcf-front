@@ -24,7 +24,7 @@ class TraveRestartBtn extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.formType || !this.state.info.applicationOID) {
+    if (!this.state.formType || !this.state.info.applicationOid) {
       this.setState(
         {
           formType: nextProps.formType,
@@ -70,8 +70,8 @@ class TraveRestartBtn extends React.Component {
     this.setState({ loading: true });
     requestService
       .restartApplication(
-        info.applicationOID,
-        info.applicationParticipant.participantOID,
+        info.applicationOid,
+        info.applicationParticipant.participantOid,
         restartCloseDay
       )
       .then(res => {

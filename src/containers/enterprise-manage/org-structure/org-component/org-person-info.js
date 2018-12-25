@@ -35,12 +35,12 @@ class OrgStructurePersonInfo extends React.Component {
   goToPersonDetail = () => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/setting/employee/person-detail/person-detail/${this.state.user.userOID}`,
+        pathname: `/setting/employee/person-detail/person-detail/${this.state.user.userOid}`,
       })
     );
     // let path = menuRoute
     //   .getRouteItem('person-detail', 'key')
-    //   .url.replace(':userOID', this.state.user.userOID);
+    //   .url.replace(':userOid', this.state.user.userOid);
     // this.context.router.push(path);
   };
 

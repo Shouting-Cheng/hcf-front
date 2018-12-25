@@ -18,7 +18,7 @@ class Widget extends React.Component{
       case 'LONG':
       case 'DOUBLE':
       case 'POSITIVE_INTEGER':
-        if(widget.customEnumerationOID){
+        if(widget.customEnumerationOid){
           return (
             <div className="widget-input widget-select">
               <div className="widget-title">{widget.name}</div>

@@ -64,7 +64,7 @@ class NewPayee extends React.Component {
         >
           {options.map(option => {
             return (
-              <Option value={option.userOID} key={option.userOID}>
+              <Option value={option.userOid} key={option.userOid}>
                 {option.employeeID} | {option.fullName} |{' '}
                 {option.department
                   ? option.department.name

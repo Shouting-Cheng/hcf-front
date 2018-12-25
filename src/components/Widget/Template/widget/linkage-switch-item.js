@@ -14,7 +14,7 @@ class LinkageSwitchItem extends React.Component {
       fieldNameI18n: [],
       promptInfo: '',
       promptInfoI18n: [],
-      customEnumerationOID: '',
+      customEnumerationOid: '',
       fieldType: 'TEXT',
       required: false,
     };
@@ -27,7 +27,7 @@ class LinkageSwitchItem extends React.Component {
       fieldType,
       fieldNameI18n,
       promptInfoI18n,
-      customEnumerationOID,
+      customEnumerationOid,
       required,
     } = this.props.item;
 
@@ -54,7 +54,7 @@ class LinkageSwitchItem extends React.Component {
       fieldType,
       fieldNameI18n: tempFieldNameI18n,
       promptInfoI18n: tempPromptInfoI18n,
-      customEnumerationOID,
+      customEnumerationOid,
       required,
     });
   }
@@ -70,7 +70,7 @@ class LinkageSwitchItem extends React.Component {
   };
 
   handleChangeEnumeration = value => {
-    this.setState({ customEnumerationOID: value }, this.onChange);
+    this.setState({ customEnumerationOid: value }, this.onChange);
   };
 
   handleChangeFieldType = e => {
@@ -78,7 +78,7 @@ class LinkageSwitchItem extends React.Component {
     this.setState(
       {
         fieldType: value,
-        customEnumerationOID: value === 'TEXT' ? '' : this.state.customEnumerationOID,
+        customEnumerationOid: value === 'TEXT' ? '' : this.state.customEnumerationOid,
       },
       this.onChange
     );
@@ -97,7 +97,7 @@ class LinkageSwitchItem extends React.Component {
       fieldType,
       fieldNameI18n,
       promptInfoI18n,
-      customEnumerationOID,
+      customEnumerationOid,
       required,
     } = this.state;
     item.fieldName = fieldName;
@@ -105,7 +105,7 @@ class LinkageSwitchItem extends React.Component {
     item.fieldType = fieldType;
     item.fieldNameI18n = fieldNameI18n;
     item.promptInfoI18n = promptInfoI18n;
-    item.customEnumerationOID = customEnumerationOID;
+    item.customEnumerationOid = customEnumerationOid;
     item.required = required;
     this.props.onChange(item);
   };
@@ -117,7 +117,7 @@ class LinkageSwitchItem extends React.Component {
       fieldNameI18n,
       promptInfo,
       promptInfoI18n,
-      customEnumerationOID,
+      customEnumerationOid,
       fieldType,
       required,
     } = this.state;
@@ -142,9 +142,9 @@ class LinkageSwitchItem extends React.Component {
         {fieldType === 'TEXT' ? null : (
           <div>
             <div className="form-title">{this.$t('widget.select.list')}</div>
-            <Select onChange={this.handleChangeEnumeration} value={customEnumerationOID}>
+            <Select onChange={this.handleChangeEnumeration} value={customEnumerationOid}>
               {enumerations.data.map(item => (
-                <Option key={item.customEnumerationOID}>{item.name}</Option>
+                <Option key={item.customEnumerationOid}>{item.name}</Option>
               ))}
             </Select>
           </div>

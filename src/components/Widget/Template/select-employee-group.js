@@ -48,7 +48,7 @@ class SelectEmployeeGroup extends React.Component {
   };
 
   getList = () => {
-    let isOID = this.props.mode == 'oid';
+    let isOid = this.props.mode == 'oid';
 
     let url = `${config.baseUrl}/api/user/groups/company?page=0&size=10000`;
 
@@ -58,7 +58,7 @@ class SelectEmployeeGroup extends React.Component {
         let list = [];
         let tempSelect = [];
         res.data.map(item => {
-          let valueItem = isOID ? item.userGroupOID : item.id;
+          let valueItem = isOid ? item.userGroupOid : item.id;
           if (this.state.selectedData.findIndex(o => o.value == valueItem) >= 0) {
             let labelShow = this.renderLabel(item);
             list.push({ label: labelShow, value: valueItem });
@@ -79,7 +79,7 @@ class SelectEmployeeGroup extends React.Component {
       } else {
         let temp = [];
         res.data.map(item => {
-          let valueItem = isOID ? item.userGroupOID : item.id;
+          let valueItem = isOid ? item.userGroupOid : item.id;
           let labelShow = this.renderLabel(item);
           temp.push({ label: labelShow, value: valueItem });
         });
@@ -201,7 +201,7 @@ class SelectEmployeeGroup extends React.Component {
       let temp = [];
       this.state.useData.map(o => {
         this.state.userUserGroupEntity.map(u => {
-          if (o.value == (this.props.mode == 'oid' ? u.userGroupOID : u.id)) {
+          if (o.value == (this.props.mode == 'oid' ? u.userGroupOid : u.id)) {
             temp.push(u);
           }
         });

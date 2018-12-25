@@ -291,7 +291,7 @@ class UpdateBudgetRulesDetail extends React.Component {
     budgetService.getCostCenter(params).then((response) => {
       response.data.map((item) => {
         let option = {
-          id: item.code + "+" + item.costCenterOID + "+" + item.id,
+          id: item.code + "+" + item.costCenterOid + "+" + item.id,
           value: item.name,
         };
         array.addIfNotExist(option);
@@ -316,11 +316,11 @@ class UpdateBudgetRulesDetail extends React.Component {
 
       if (ruleParamDetail.ruleParameterDescription === values.ruleParameter) {
         values.ruleParameter = ruleParamDetail.ruleParameter;
-        values.ruleParameterOID = ruleParamDetail.ruleParameterOID
+        values.ruleParameterOid = ruleParamDetail.ruleParameterOid
       } else {
         let str = values.ruleParameter.split("+");
         values.ruleParameter = str[0];
-        values.ruleParameterOID = str[1];
+        values.ruleParameterOid = str[1];
       }
       if (!err) {
         this.setState({loading: true});

@@ -50,11 +50,11 @@ class NewReverse extends React.Component {
     if (this.props.match.params.isNew) {
       this.setState({
         deparmentSelectedData: [{
-          oid: user.departmentOID,
+          oid: user.departmentOid,
           name: user.departmentName
         }],
         companySelectedData: [{
-          companyOID: this.props.user.companyOID,
+          companyOid: this.props.user.companyOid,
           name: this.props.user.companyName,
           id: this.props.user.companyId
         }]
@@ -136,7 +136,7 @@ getCurrencyOptions = () => {
       this.setState({
         showCompanySelector: false,
         companySelectedData: [{
-          companyOID: result.result[0].companyOID,
+          companyOid: result.result[0].companyOid,
           name: result.result[0].name,
           id: result.result[0].id
         }]

@@ -957,12 +957,12 @@ class MyGLWorkOrderDetail extends Component {
     }
     let { docHeadData } = this.state;
     let params = {
-      applicantOID: docHeadData.applicationOid,
-      userOID: docHeadData.empOid,
-      formOID: docHeadData.formOid,
-      entityOID: docHeadData.documentOid,
+      applicantOid: docHeadData.applicationOid,
+      userOid: docHeadData.empOid,
+      formOid: docHeadData.formOid,
+      entityOid: docHeadData.documentOid,
       entityType: 801008,
-      countersignApproverOIDs: [],
+      countersignApproverOids: [],
     };
     myGlWorkOrderService
       .submitDocument(params)
@@ -999,7 +999,7 @@ class MyGLWorkOrderDetail extends Component {
     let params = {
       entities: [
         {
-          entityOID: this.state.docHeadData.documentOid,
+          entityOid: this.state.docHeadData.documentOid,
           entityType: 801008,
         },
       ],

@@ -182,7 +182,7 @@ class ReimburseReview extends React.Component {
         {key: 'audit_pass', name: '已审核'}],
       searchParams: {
         applicationId: null,
-        corporationOIDs: [],
+        corporationOids: [],
         dateTo: undefined,
         dateFrom: undefined,
         formId:null,
@@ -265,7 +265,7 @@ class ReimburseReview extends React.Component {
     ]).then(res => {
       let expenseForms = [];
       res[0].data.map(item => {
-        expenseForms.push({label: item.formName, value: item.formOID})
+        expenseForms.push({label: item.formName, value: item.formOid})
       });
       this.setState({ expenseForms })
     })
@@ -309,7 +309,7 @@ class ReimburseReview extends React.Component {
     let searchParams = {
       applicationId: result.applicationId,
       formId: result.formId,
-      corporationOIDs: result.legalEntity,
+      corporationOids: result.legalEntity,
       dateTo: result.dateTo,
       dateFrom: result.dateFrom,
       businessCode: result.businessCode || this.state.searchParams.businessCode
@@ -346,7 +346,7 @@ class ReimburseReview extends React.Component {
         applicationId: "",
         businessCode: "",
         formId: '',
-        corporationOIDs: [],
+        corporationOids: [],
         dateTo: null,
         dateFrom: null
       }
@@ -435,7 +435,7 @@ class ReimburseReview extends React.Component {
                loading={loading}
                size="middle"
                rowKey={record => record.expenseReportId}
-               /* rowKey={nowType === 'NOT_AUDITED' ? 'expenseReportOID' : 'applicationOID'} */
+               /* rowKey={nowType === 'NOT_AUDITED' ? 'expenseReportOid' : 'applicationOid'} */
                />
       </div>
     )

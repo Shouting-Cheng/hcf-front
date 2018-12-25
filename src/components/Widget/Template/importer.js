@@ -77,7 +77,7 @@ class Importer extends React.Component {
             });
             this.props.onOk(
               res.data.transactionID ||
-              res.data.transactionOID ||
+              res.data.transactionOid ||
               res.data.transactionUUID ||
               res.data
             );
@@ -87,7 +87,7 @@ class Importer extends React.Component {
               {
                 transactionID:
                   res.data.transactionID ||
-                  res.data.transactionOID ||
+                  res.data.transactionOid ||
                   res.data.transactionUUID ||
                   res.data,
               },

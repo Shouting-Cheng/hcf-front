@@ -99,11 +99,11 @@ class ExpenseAllocateForm extends React.Component {
    */
   departmentChange = (v, index, count, type) => {
     this.value[index].costCenterItems[count].name = v[0] ? v[0].name : undefined;
-    this.value[index].costCenterItems[count].costCenterOID = v[0] ? v[0][type] : undefined;
+    this.value[index].costCenterItems[count].costCenterOid = v[0] ? v[0][type] : undefined;
     this.value[index].hashStr = '';
     this.value[index].costCenterItems.map((item, num) => {
-      if (item.costCenterOID) {
-        this.value[index].hashStr = this.value[index].hashStr + item.costCenterOID;
+      if (item.costCenterOid) {
+        this.value[index].hashStr = this.value[index].hashStr + item.costCenterOid;
       }
     });
     this.updateTable(this.value);
@@ -150,7 +150,7 @@ class ExpenseAllocateForm extends React.Component {
         fieldName: item.fieldName,
         required: item.required,
         selected: null,
-        costCenterOID: item.value,
+        costCenterOid: item.value,
       };
       if (item.messageKey === 'select_department') {
         centerItem.name = item.showName ? item.showName.name : null;
@@ -158,7 +158,7 @@ class ExpenseAllocateForm extends React.Component {
       } else if (item.messageKey === 'select_cost_center') {
         centerItem.name = item.showName ? item.showName.name : null;
         centerItem.type = 0;
-        centerItem.costCenter = JSON.parse(item.dataSource ? item.dataSource : '{}').costCenterOID;
+        centerItem.costCenter = JSON.parse(item.dataSource ? item.dataSource : '{}').costCenterOid;
         defaultItem.costCenterItems.push(centerItem);
       }
     });
@@ -202,7 +202,7 @@ class ExpenseAllocateForm extends React.Component {
       item.costCenterItems.map((cost, count) => {
         tableItem['type' + count] = cost.type;
         tableItem['name' + count] = cost.name;
-        tableItem['costCenterOID' + count] = cost.costCenterOID;
+        tableItem['costCenterOid' + count] = cost.costCenterOid;
         if (cost.type === 0) tableItem['costCenter' + count] = cost.costCenter;
         if (item.defaultApportion) {
           columns.push({
@@ -283,7 +283,7 @@ class ExpenseAllocateForm extends React.Component {
     if (type === 1) {
       //部门
       let defaultValue = [
-        { name: record['name' + count], departmentOid: record['costCenterOID' + count] },
+        { name: record['name' + count], departmentOid: record['costCenterOid' + count] },
       ];
       return (
         <Chooser
@@ -300,7 +300,7 @@ class ExpenseAllocateForm extends React.Component {
       //成本中心
       let defaultValue = JSON.parse(
         JSON.stringify([
-          { name: record['name' + count], costCenterItemOID: record['costCenterOID' + count] },
+          { name: record['name' + count], costCenterItemOid: record['costCenterOid' + count] },
         ])
       );
       const chooserItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
@@ -310,9 +310,9 @@ class ExpenseAllocateForm extends React.Component {
       return (
         <Chooser
           selectorItem={chooserItem}
-          valueKey="costCenterItemOID"
+          valueKey="costCenterItemOid"
           labelKey="name"
-          onChange={v => this.departmentChange(v, index, count, 'costCenterItemOID')}
+          onChange={v => this.departmentChange(v, index, count, 'costCenterItemOid')}
           value={record['name' + count] ? defaultValue : null}
           disabled={record.defaultApportion ? true : false}
           single
@@ -356,7 +356,7 @@ class ExpenseAllocateForm extends React.Component {
           required: cost.required,
           selected: null,
           name: undefined,
-          costCenterOID: undefined,
+          costCenterOid: undefined,
         };
         if (cost.type === 0) {
           costItem.costCenter = cost.costCenter;
@@ -388,7 +388,7 @@ class ExpenseAllocateForm extends React.Component {
       item.costCenterItems.map((cost, count) => {
         tableItem['type' + count] = cost.type;
         tableItem['name' + count] = cost.name;
-        tableItem['costCenterOID' + count] = cost.costCenterOID;
+        tableItem['costCenterOid' + count] = cost.costCenterOid;
         if (cost.type === 0) tableItem['costCenter' + count] = cost.costCenter;
       });
       values.push(tableItem);

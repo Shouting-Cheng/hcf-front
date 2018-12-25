@@ -8,11 +8,11 @@ export default {
       config.baseUrl
     }/api/approvals/book/task/filters?finished=${finished}&page=${page}&size=${size}`;
     for (let searchName in searchParams) {
-      if (searchName === 'formOIDs') {
-        searchParams.formOIDs &&
-          searchParams.formOIDs.length > 0 &&
-          searchParams.formOIDs.map(oid => {
-            url += `&formOIDs=${oid}`;
+      if (searchName === 'formOids') {
+        searchParams.formOids &&
+          searchParams.formOids.length > 0 &&
+          searchParams.formOids.map(oid => {
+            url += `&formOids=${oid}`;
           });
       } else {
         url += searchParams[searchName] ? `&${searchName}=${searchParams[searchName]}` : '';

@@ -39,7 +39,7 @@ export default {
   getSelectListParentCompany(params) {
     // let params = {
     //   legalEntityId:"legalEntityId",
-    //   filterCompanyOIDs:"filterCompanyOIDs"
+    //   filterCompanyOids:"filterCompanyOids"
     // }
     return new Promise((resolve, reject) => {
       httpFetch
@@ -147,9 +147,9 @@ export default {
   //员工一到另一个公司
   //todo
   //这个接口需要重构,才能跑通：已经通知周宗云
-  //   let path = `${config.baseUrl}/api/users/move?companyOIDFrom=${companyOIDFrom}&companyOIDTo=${companyOIDTo}&selectMode=default?`
+  //   let path = `${config.baseUrl}/api/users/move?companyOidFrom=${companyOidFrom}&companyOidTo=${companyOidTo}&selectMode=default?`
   //   selectedRowKeys.map((item) => {
-  //   path = `${path}&userOIDs=${item}`
+  //   path = `${path}&userOids=${item}`
   // });
   movePersonToCompany(params) {
     return new Promise((resolve, reject) => {

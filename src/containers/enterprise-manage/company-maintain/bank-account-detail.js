@@ -347,20 +347,20 @@ class BankAccountDetail extends React.Component {
 
   //提交表单
   submitHandle = value => {
-    const companyOIDTo = value.result[0].companyOID;
-    const companyOIDFrom = this.props.params.companyOId;
+    const companyOidTo = value.result[0].companyOid;
+    const companyOidFrom = this.props.params.companyOId;
     const selectedRowKeys = this.state.selectedRowKeys;
     let path = `${
       config.baseUrl
-    }/api/users/move?companyOIDFrom=${companyOIDFrom}&companyOIDTo=${companyOIDTo}&selectMode=default?`;
+    }/api/users/move?companyOidFrom=${companyOidFrom}&companyOidTo=${companyOidTo}&selectMode=default?`;
     selectedRowKeys.map(item => {
-      path = `${path}&userOIDs=${item}`;
+      path = `${path}&userOids=${item}`;
     });
     httpFetch
       .put(path)
       .then(req => {
         message.success(messages('common.operate.success'));
-        this.getCompanyByCompanyOID(companyOIDFrom);
+        this.getCompanyByCompanyOid(companyOidFrom);
         this.setState({
           selectedRowKeys: [],
         });

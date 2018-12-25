@@ -210,7 +210,7 @@ class NewBudgetRulesDetail extends React.Component {
     budgetService.getCostCenter(params).then((response) => {
       response.data.map((item) => {
         let option = {
-          id: item.code + "+" + item.costCenterOID + "+" + item.id,
+          id: item.code + "+" + item.costCenterOid + "+" + item.id,
           value: item.name,
         };
         array.addIfNotExist(option);
@@ -251,7 +251,7 @@ class NewBudgetRulesDetail extends React.Component {
         values.controlRuleId = this.props.params.ruleId;
         let str = values.ruleParameter.split("+");
         values.ruleParameter = str[0];
-        values.ruleParameterOID = str[1];
+        values.ruleParameterOid = str[1];
         budgetService.addRuleDetail(values).then((res) => {
           this.setState({
             loading: false,

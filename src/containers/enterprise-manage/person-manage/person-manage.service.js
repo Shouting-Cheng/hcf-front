@@ -50,10 +50,10 @@ export default {
   },
 
   //邀请没有激活的用户使用
-  inviteUser(userOIDS) {
+  inviteUser(userOidS) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .post(config.baseUrl + '/api/refactor/users/invite', userOIDS)
+        .post(config.baseUrl + '/api/refactor/users/invite', userOidS)
         .then(res => {
           resolve(res);
         })
@@ -71,8 +71,8 @@ export default {
   //   roleType:"TENANT",
   //   keyword: keyword,
   //   status: status,
-  //   departmentOIDs: departmentOIDs,
-  //   corporationOIDs: entityOIDs
+  //   departmentOids: departmentOids,
+  //   corporationOids: entityOids
   // }
   //   return new Promise((resolve, reject) => {
   //     httpFetch.get(config.baseUrl + '/api/users/v2/search/full/export', params, {}, {responseType: 'arraybuffer'})
@@ -93,8 +93,8 @@ export default {
   //   roleType:"TENANT",
   //   keyword: keyword,
   //   status: status,
-  //   departmentOIDs: departmentOIDs,
-  //   corporationOIDs: entityOIDs
+  //   departmentOids: departmentOids,
+  //   corporationOids: entityOids
   // }
   //   return new Promise((resolve, reject) => {
   //     httpFetch.get(config.baseUrl + '/api/users/v2/search/contact/card/export', params, {}, {responseType: 'arraybuffer'})
@@ -115,8 +115,8 @@ export default {
   //   roleType:"TENANT",
   //   keyword: keyword,
   //   status: status,
-  //   departmentOIDs: departmentOIDs,
-  //   corporationOIDs: entityOIDs
+  //   departmentOids: departmentOids,
+  //   corporationOids: entityOids
   // }
   // return new Promise((resolve, reject) => {
   //   httpFetch.get(config.baseUrl + '/api/users/v2/search/contact/bank/account/export', params, {}, {responseType: 'arraybuffer'})
@@ -137,8 +137,8 @@ export default {
   //   roleType:"TENANT",
   //   keyword: keyword,
   //   status: status,
-  //   departmentOIDs: departmentOIDs,
-  //   corporationOIDs: entityOIDs
+  //   departmentOids: departmentOids,
+  //   corporationOids: entityOids
   // }
   // return new Promise((resolve, reject) => {
   //   httpFetch.get(config.baseUrl + '/api/users/v2/search/contact/supplier/ctrip/export', params, {}, {responseType: 'arraybuffer'})
@@ -245,10 +245,10 @@ export default {
     });
   },
   //导入监听返回:人员信息导入之后监听
-  getBatchTransactionLogNew: function (transactionOID) {
+  getBatchTransactionLogNew: function (transactionOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(config.baseUrl + '/api/batch/transaction/logs/v2/' + transactionOID)
+        .get(config.baseUrl + '/api/batch/transaction/logs/v2/' + transactionOid)
         .then(res => {
           resolve(res);
         })
@@ -259,11 +259,11 @@ export default {
     });
   },
   //导出错误记录：人员信息
-  exportFailedLog: function (transactionOID) {
+  exportFailedLog: function (transactionOid) {
     return new Promise((resolve, reject) => {
       httpFetch
         .get(
-          config.baseUrl + '/api/batch/transaction/logs/failed/export/' + transactionOID,
+          config.baseUrl + '/api/batch/transaction/logs/failed/export/' + transactionOid,
           {},
           {},
           { responseType: 'arraybuffer' }

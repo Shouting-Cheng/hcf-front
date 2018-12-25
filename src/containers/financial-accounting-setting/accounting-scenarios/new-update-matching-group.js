@@ -42,7 +42,7 @@ class NewUpdateMatchingGroup extends React.Component {
           title: this.$t({id:"accounting.match.field"}),key: 'mappingGroupCode', dataIndex: 'mappingGroupCode',
         },
       ],
-      selectedEntityOIDs: []    //已选择的列表项的OIDs
+      selectedEntityOids: []    //已选择的列表项的Oids
     };
   }
 
@@ -52,21 +52,21 @@ class NewUpdateMatchingGroup extends React.Component {
 
   componentWillMount(){
     if(this.props.params.id){
-      let selectedEntityOIDs = [];
+      let selectedEntityOids = [];
       let selectedRowKeys = [];
       if(typeof this.props.params.lines !== 'undefined'){
         this.props.params.lines.map(item=>{
-          selectedEntityOIDs.push(item)
+          selectedEntityOids.push(item)
         })
       }
       this.setState({
         matchGroup:this.props.params,
         enabled: this.props.params.enabled,
         firstRender: false,
-        selectedEntityOIDs
+        selectedEntityOids
       },this.getList);
     }else{
-      this.setState({selectedEntityOIDs: [],firstRender: true})
+      this.setState({selectedEntityOids: [],firstRender: true})
     }
   }
 
@@ -93,7 +93,7 @@ class NewUpdateMatchingGroup extends React.Component {
         firstRender: true,
         loading: false,
         enabled: true,
-        selectedEntityOIDs: [],
+        selectedEntityOids: [],
         selectedRowKeys:[]
       });
       this.props.form.resetFields();
@@ -115,7 +115,7 @@ class NewUpdateMatchingGroup extends React.Component {
       response.data.map((item)=> {
         item.key = item.id;
         //点击页码时，之前选择的数据还是要勾选
-        this.state.selectedEntityOIDs.map(option => {
+        this.state.selectedEntityOids.map(option => {
           if (typeof this.state.matchGroup.id !== 'undefined') {
             if (item.id == option.sceneElementId) {
               data.push(item)
@@ -162,8 +162,8 @@ class NewUpdateMatchingGroup extends React.Component {
         }
         let line = [];
         let selectedRowKeys = this.state.selectedRowKeys;
-        let selectedEntityOIDs = this.state.selectedEntityOIDs;
-        selectedEntityOIDs.map(item=>{
+        let selectedEntityOids = this.state.selectedEntityOids;
+        selectedEntityOids.map(item=>{
           let option = {
             mappingGrpHdId: this.state.matchGroup.id,
             elementNature: item.elementNature,
@@ -218,43 +218,43 @@ class NewUpdateMatchingGroup extends React.Component {
 
   //选择一行
   //选择逻辑：每一项设置selected属性，如果为true则为选中
-  //同时维护selectedEntityOIDs列表，记录已选择的OID，并每次分页、选择的时候根据该列表来刷新选择项
+  //同时维护selectedEntityOids列表，记录已选择的Oid，并每次分页、选择的时候根据该列表来刷新选择项
   onSelectRow = (record, selected) => {
-    let selectedEntityOIDs = this.state.selectedEntityOIDs;
+    let selectedEntityOids = this.state.selectedEntityOids;
     let selectedRowKeys = this.state.selectedRowKeys;
     if(selected){
-      selectedEntityOIDs.push(record);
+      selectedEntityOids.push(record);
       selectedRowKeys.push(record.id)
     }else {
       selectedRowKeys.delete(record.id);
-      selectedEntityOIDs.map(item=>{
+      selectedEntityOids.map(item=>{
         if(record.id === item.id){
-          selectedEntityOIDs.delete(item)
+          selectedEntityOids.delete(item)
         }
       })
     }
     this.setState({
-      selectedEntityOIDs,
+      selectedEntityOids,
       selectedRowKeys
     })
   };
 
   //全选
   onSelectAllRow = (selected) => {
-    let selectedEntityOIDs = this.state.selectedEntityOIDs;
+    let selectedEntityOids = this.state.selectedEntityOids;
 
     this.state.data.map(item=>{
       let flag = true;
-      selectedEntityOIDs.map(children=>{
+      selectedEntityOids.map(children=>{
         if(item.id === children.id){
           flag = false;
         }
       });
-      selected && flag&& selectedEntityOIDs.push(item);
-      !selected && !flag && selectedEntityOIDs.delete(item)
+      selected && flag&& selectedEntityOids.push(item);
+      !selected && !flag && selectedEntityOids.delete(item)
     });
     this.setState({
-      selectedEntityOIDs,
+      selectedEntityOids,
     })
   };
 
@@ -338,9 +338,9 @@ class NewUpdateMatchingGroup extends React.Component {
           typeof this.state.matchGroup.id !== 'undefined' ? null :
             <div className="accounting-matching-table-head">
               <Icon type="info-circle" style={{color: '#1890ff'}} className="head-icon"/>
-              {this.$t({id: "accounting.total"}, {total: pagination.total}) + this.$t({id: "accounting.selected"}, {count: this.state.selectedEntityOIDs.length})}
+              {this.$t({id: "accounting.total"}, {total: pagination.total}) + this.$t({id: "accounting.selected"}, {count: this.state.selectedEntityOids.length})}
               <a className="info-clear" onClick={() => {
-                this.setState({selectedEntityOIDs: [], selectedRowKeys: []})
+                this.setState({selectedEntityOids: [], selectedRowKeys: []})
               }}>{this.$t({id: "common.clear"})}</a>
             </div>
         }

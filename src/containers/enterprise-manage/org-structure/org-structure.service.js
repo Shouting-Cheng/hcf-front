@@ -37,12 +37,12 @@ export default {
     for (let i = 0; i < data.length; i++) {
       const dep = {};
       dep.title = data[i].name;
-      dep.key = data[i].departmentOID;
+      dep.key = data[i].departmentOid;
       dep.originData = data[i];
       if (data[i].hasChildrenDepartments) {
         dep.isLeaf = false;
         let list = this._getDepChildrenFromTreelist(data[i].id, TREELIST);
-        this.setLeafByParentOID(list, dep);
+        this.setLeafByParentOid(list, dep);
         // dep.children =[]
       } else {
         dep.isLeaf = true;
@@ -51,17 +51,17 @@ export default {
     }
   },
   //把子节点挂在父节点上
-  setLeafByParentOID(childNodes, parentNode) {
+  setLeafByParentOid(childNodes, parentNode) {
     let children = [];
     for (let i = 0; i < childNodes.length; i++) {
       const dep = {};
       dep.title = childNodes[i].name;
-      dep.key = childNodes[i].departmentOID;
+      dep.key = childNodes[i].departmentOid;
       dep.originData = childNodes[i];
       if (childNodes[i].hasChildrenDepartments) {
         dep.isLeaf = false;
         let list = this._getDepChildrenFromTreelist(childNodes[i].id, TREELIST);
-        this.setLeafByParentOID(list, dep);
+        this.setLeafByParentOid(list, dep);
         // dep.children = [];
       } else {
         dep.isLeaf = true;
@@ -103,7 +103,7 @@ export default {
     });
   },
   // 通过部门oid查询子部门
-  getChildDepByDepOIDRes(Dep, flag) {
+  getChildDepByDepOidRes(Dep, flag) {
     //为了不影响之前的功能
     let _flag = 1001;
     if (flag) {
@@ -111,7 +111,7 @@ export default {
     }
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(config.baseUrl + '/api/department/child/' + Dep.departmentOID + '/?flag=' + _flag)
+        .get(config.baseUrl + '/api/department/child/' + Dep.departmentOid + '/?flag=' + _flag)
         .then(res => {
           resolve(res);
           //不在这里写逻辑，其他地方服务复用
@@ -123,11 +123,11 @@ export default {
     });
   },
   // 通过部门oid查询子部门:设置节点
-  getChildDepByDepOID(Dep, parentNode) {
+  getChildDepByDepOid(Dep, parentNode) {
     return new Promise((resolve, reject) => {
-      this.getChildDepByDepOIDRes(Dep)
+      this.getChildDepByDepOidRes(Dep)
         .then(res => {
-          this.setLeafByParentOID(res.data, parentNode);
+          this.setLeafByParentOid(res.data, parentNode);
           resolve(this.getTreeData());
         })
         .catch(err => {
@@ -184,14 +184,14 @@ export default {
   },
   //设置顶层部门节点，平级部门节点：传入兄弟节点，
   setNodeByBrotherNode(node, brotherNode) {
-    if (brotherNode.originData.parentDepartmentOID) {
+    if (brotherNode.originData.parentDepartmentOid) {
       //让node成为brotherNode的兄弟节点，在TREEDATA部门树上
       this.deepSearchTREEDATA(node, brotherNode, TREEDATA);
     } else {
       //顶层部门
       const dep = {};
       dep.title = node.name;
-      dep.key = node.departmentOID;
+      dep.key = node.departmentOid;
       dep.originData = node;
       dep.isLeaf = true;
       TREEDATA.push(dep);
@@ -199,7 +199,7 @@ export default {
   },
 
   //设置单个子节点：用于创建子部门之后
-  setOneLeafByParentOID(childNode, parentNode) {
+  setOneLeafByParentOid(childNode, parentNode) {
     if (parentNode) {
       //有节点：更快
       let children = [];
@@ -208,7 +208,7 @@ export default {
       }
       let dep = {};
       dep.title = childNode.name;
-      dep.key = childNode.departmentOID;
+      dep.key = childNode.departmentOid;
       dep.originData = childNode;
       dep.isLeaf = true;
       children.push(dep);
@@ -223,10 +223,10 @@ export default {
   deepSearchTREEDATA(node, brotherNode, treeData) {
     for (let i = 0; i < treeData.length; i++) {
       //看看本级部门有没有
-      if (treeData[i].key === brotherNode.originData.parentDepartmentOID) {
+      if (treeData[i].key === brotherNode.originData.parentDepartmentOid) {
         const dep = {};
         dep.title = node.name;
-        dep.key = node.departmentOID;
+        dep.key = node.departmentOid;
         dep.originData = node;
         dep.isLeaf = true;
         treeData[i].children.push(dep);
@@ -243,7 +243,7 @@ export default {
   deepSetOneLeafByNode(node, treeData) {
     for (let i = 0; i < treeData.length; i++) {
       //看看本级部门有没有
-      if (treeData[i].key === node.parentDepartmentOID) {
+      if (treeData[i].key === node.parentDepartmentOid) {
         let parentNode = treeData[i];
         let children = [];
         if (parentNode.children) {
@@ -251,7 +251,7 @@ export default {
         }
         let dep = {};
         dep.title = node.name;
-        dep.key = node.departmentOID;
+        dep.key = node.departmentOid;
         dep.originData = node;
         dep.isLeaf = true;
         children.push(dep);
@@ -291,10 +291,10 @@ export default {
     return roleList;
   },
   // 通过部门oid查询部门详情
-  getDepDetailByDepOID(Dep) {
+  getDepDetailByDepOid(Dep) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(config.baseUrl + '/api/departments/' + Dep.departmentOID)
+        .get(config.baseUrl + '/api/departments/' + Dep.departmentOid)
         .then(res => {
           resolve(res);
         })
@@ -306,9 +306,9 @@ export default {
   },
   // 通过部门oid查询部门下面的员工
   //todo  前面的参数Dep要消灭掉才行
-  getDepUserByDepOID(Dep, params) {
+  getDepUserByDepOid(Dep, params) {
     let _params = {
-      departmentOID: Dep.departmentOID,
+      departmentOid: Dep.departmentOid,
       page: params.page,
       size: params.size,
       roleType: 'TENANT',
@@ -328,7 +328,7 @@ export default {
     //这接口慢，用上面新的
     // params = {page,size}
     // return new Promise((resolve, reject) => {
-    //   httpFetch.get(config.baseUrl + '/api/departments/users/' + Dep.departmentOID, params)
+    //   httpFetch.get(config.baseUrl + '/api/departments/users/' + Dep.departmentOid, params)
     //     .then((res) => {
     //       resolve(res)
     //     })
@@ -396,12 +396,12 @@ export default {
 
   // 针对部门的操作curd-------start
   //停用该部门
-  disabledDep(depOID) {
+  disabledDep(depOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .put(config.baseUrl + '/api/department/disable/' + depOID)
+        .put(config.baseUrl + '/api/department/disable/' + depOid)
         .then(res => {
-          this._disabledDep(depOID);
+          this._disabledDep(depOid);
           resolve(res);
         })
         .catch(err => {
@@ -410,12 +410,12 @@ export default {
     });
   },
   //启用该部门
-  enabledDep(depOID) {
+  enabledDep(depOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .put(config.baseUrl + '/api/department/enable/' + depOID)
+        .put(config.baseUrl + '/api/department/enable/' + depOid)
         .then(res => {
-          this._enabledDep(depOID);
+          this._enabledDep(depOid);
           resolve(res);
         })
         .catch(err => {
@@ -425,12 +425,12 @@ export default {
     });
   },
   //删除部门
-  deleteDep(depOID) {
+  deleteDep(depOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .delete(config.baseUrl + '/api/department/delete/' + depOID)
+        .delete(config.baseUrl + '/api/department/delete/' + depOid)
         .then(res => {
-          this._deleteDep(depOID);
+          this._deleteDep(depOid);
           resolve(res);
         })
         .catch(err => {
@@ -441,7 +441,7 @@ export default {
   //创建子部门
   //第二个参数是当前部门树节点，创建成功后，需要在节点上添加子部门
   createChildDep(data, treeNode) {
-    // let data = {"parentDepartmentOID":"f789179f-1102-4791-b84d-186e53f6c0fa","name":"111","path":"cciae|111","companyOID":null}
+    // let data = {"parentDepartmentOid":"f789179f-1102-4791-b84d-186e53f6c0fa","name":"111","path":"cciae|111","companyOid":null}
     return new Promise((resolve, reject) => {
       httpFetch
         .post(config.baseUrl + '/api/departments/', data)
@@ -458,7 +458,7 @@ export default {
   //创建顶层部门，平级部门
   //第二个参数是当前部门树节点，创建成功后，需要在节点上添加子部门
   createTopDep(data, treeNode) {
-    // let data={"companyOID":"1af2a30d-9719-419b-a7ef-68078462baed","name":"as12","path":"as12","i18n":{"name":[{"language":"zh_cn","value":"as12"},{"language":"en","value":"as12"}]}}
+    // let data={"companyOid":"1af2a30d-9719-419b-a7ef-68078462baed","name":"as12","path":"as12","i18n":{"name":[{"language":"zh_cn","value":"as12"},{"language":"en","value":"as12"}]}}
     return new Promise((resolve, reject) => {
       httpFetch
         .post(config.baseUrl + '/api/departments/', data)
@@ -493,8 +493,8 @@ export default {
   //批量移动：批量部门oid与人员oid移动到目标部门
   batchMovePerson(params) {
     // let params = {
-    //   "departmentOID":"37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
-    //   "userOIDs":["8b01870e-438e-4cb3-b46a-6dbc70533e56"],
+    //   "departmentOid":"37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
+    //   "userOids":["8b01870e-438e-4cb3-b46a-6dbc70533e56"],
     //   "oldDepartmentList":["c07cc878-8165-4fe4-a1c0-269e154f4841"]
     // }
     return new Promise((resolve, reject) => {
@@ -524,9 +524,9 @@ export default {
   //如果改动，必须谨慎
   searchPersonInDep(params) {
     // let params = {
-    //   companyOID:"37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
-    //   departmentOID: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
-    //   corporationOID: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
+    //   companyOid:"37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
+    //   departmentOid: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
+    //   corporationOid: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",// 可以传数组
     //   page: 0,
     //   size: 10,
     //   status: 1001,//不传代表只查询在职，1001也是在职，1002待离职员工，1003离职员工，all代表查询全部
@@ -599,7 +599,7 @@ export default {
         if (item.name.match(keyword)) {
           const dep = {};
           dep.title = item.name;
-          dep.key = item.departmentOID;
+          dep.key = item.departmentOid;
           dep.originData = item;
           //搜索的结果还可以搞成一个部门树的形式
           res.push(dep);
@@ -610,29 +610,29 @@ export default {
   },
 
   //删除部门
-  _deleteDep(depOID) {
+  _deleteDep(depOid) {
     for (let i = 0; i < TREELIST.length; i++) {
-      if (TREELIST[i].departmentOID === depOID) {
+      if (TREELIST[i].departmentOid === depOid) {
         TREELIST.splice(i, 1);
         break;
       }
     }
   },
   //禁用部门
-  _disabledDep(depOID) {
+  _disabledDep(depOid) {
     //把列表中的数据改掉
     for (let i = 0; i < TREELIST.length; i++) {
-      if (TREELIST[i].departmentOID === depOID) {
+      if (TREELIST[i].departmentOid === depOid) {
         TREELIST[i].status = '102';
         break;
       }
     }
   },
   //启用部门
-  _enabledDep(depOID) {
+  _enabledDep(depOid) {
     //把列表中的数据改掉
     for (let i = 0; i < TREELIST.length; i++) {
-      if (TREELIST[i].departmentOID === depOID) {
+      if (TREELIST[i].departmentOid === depOid) {
         TREELIST[i].status = '101';
         break;
       }
@@ -649,16 +649,16 @@ export default {
   _updateDep(node) {
     //把列表中的数据改掉
     for (let i = 0; i < TREELIST.length; i++) {
-      if (TREELIST[i].departmentOID === node.departmentOID) {
+      if (TREELIST[i].departmentOid === node.departmentOid) {
         TREELIST[i] = node;
         break;
       }
     }
   },
-  _getChildDepByDepOID(Dep, parentNode) {
+  _getChildDepByDepOid(Dep, parentNode) {
     return new Promise((resolve, reject) => {
       let list = this._getDepChildrenFromTreelist(Dep.id, TREELIST);
-      this.setLeafByParentOID(list, parentNode);
+      this.setLeafByParentOid(list, parentNode);
       resolve(this.getTreeData());
     });
   },
@@ -681,8 +681,8 @@ export default {
   _getTopDepFromList(list) {
     let arr = [];
     for (let i = 0; i < list.length; i++) {
-      //没有parentId或者parentDepartmentOID
-      if (!list[i].parentId && !list[i].parentDepartmentOID) {
+      //没有parentId或者parentDepartmentOid
+      if (!list[i].parentId && !list[i].parentDepartmentOid) {
         if (this._checkDepHasChildren(list[i], list)) {
           list[i].hasChildrenDepartments = true;
         } else {

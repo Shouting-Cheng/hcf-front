@@ -42,7 +42,7 @@ class PayResverCheckDetail extends React.Component {
             modalVisible:false,
             passModalVisible:false,
             rejectRemark:{},
-            uploadOIDs: [], //上传附件的OIDs
+            uploadOids: [], //上传附件的Oids
             fileList: [],
             fileShow:false,
         }
@@ -89,7 +89,7 @@ class PayResverCheckDetail extends React.Component {
                    backDetail: backlashDetail,
                    showDetail:true,
                    fileShow:true,
-                   uploadOIDs:backlashDetail.backlashAttachmentOID,
+                   uploadOids:backlashDetail.backlashAttachmentOid,
                    fileList:fileList,
                  });
                }else{//其他状态则隐藏下部4个按钮
@@ -101,7 +101,7 @@ class PayResverCheckDetail extends React.Component {
                    backlashDetail:backlashDetail,
                    showDetail:true,
                    showButtonFlag:false,
-                   uploadOIDs:backlashDetail.backlashAttachmentOID,
+                   uploadOids:backlashDetail.backlashAttachmentOid,
                    fileList:fileList,
                  });
 
@@ -128,8 +128,8 @@ class PayResverCheckDetail extends React.Component {
    }
 
   //上传附件
-  handleUpload = (OIDs) => {
-    this.setState({ uploadOIDs: OIDs })
+  handleUpload = (Oids) => {
+    this.setState({ uploadOids: Oids })
   };
 
   //通过
@@ -580,7 +580,7 @@ class PayResverCheckDetail extends React.Component {
                                                                 fileNum={99}
                                                                 multiple={true}
                                                                 disabled={true}
-                                                                defaultOIDs={this.state.uploadOIDs}
+                                                                defaultOids={this.state.uploadOids}
                                                                 uploadHandle={this.handleUpload}
                                                                 defaultFileList={fileList}
                                 />

@@ -242,16 +242,16 @@ class ShareForm extends Component {
                         {
                             typeList && typeList.map(item => {
                                 return (
-                                    <FormItem key={item.costCenterOID} {...formItemLayout}
+                                    <FormItem key={item.costCenterOid} {...formItemLayout}
                                         label={item.fieldName}>
-                                        {getFieldDecorator(item.costCenterOID, {
+                                        {getFieldDecorator(item.costCenterOid, {
                                             initialValue: isNew ? { key: item.costCenterItemId, label: item.costCenterItemName } : {
-                                                key: model[item.costCenterOID].key, label: model[item.costCenterOID].label
+                                                key: model[item.costCenterOid].key, label: model[item.costCenterOid].label
                                             }
                                         })(
-                                            <Select labelInValue onFocus={() => this.handleFocus(item.costCenterOID)}>
+                                            <Select labelInValue onFocus={() => this.handleFocus(item.costCenterOid)}>
                                                 {
-                                                    data[item.costCenterOID] && data[item.costCenterOID].map(o => {
+                                                    data[item.costCenterOid] && data[item.costCenterOid].map(o => {
                                                         return (
                                                             <Select.Option key={parseInt(o.id)} value={parseInt(o.id)}>{o.name}</Select.Option>
                                                         )

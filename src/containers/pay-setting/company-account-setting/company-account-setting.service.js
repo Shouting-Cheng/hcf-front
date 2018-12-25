@@ -70,10 +70,10 @@ export default {
     /**
      * bank-account-detail 提交表单
      */
-    submitHandle(companyOIDFrom, companyOIDTo, selectedRowKeys) {
-        let url = `${config.baseUrl}/api/users/move?companyOIDFrom=${companyOIDFrom}&companyOIDTo=${companyOIDTo}&selectMode=default?`;
+    submitHandle(companyOidFrom, companyOidTo, selectedRowKeys) {
+        let url = `${config.baseUrl}/api/users/move?companyOidFrom=${companyOidFrom}&companyOidTo=${companyOidTo}&selectMode=default?`;
         selectedRowKeys.map((item) => {
-            url = `${url}&userOIDs=${item}`
+            url = `${url}&userOids=${item}`
         });
         return httpFetch.put(url);
     }

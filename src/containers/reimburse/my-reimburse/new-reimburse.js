@@ -43,12 +43,12 @@ class NewReimburse extends React.Component {
       companySelectedData: [],
       deparmentSelectedData: [],
       // costCenterSelectedData:[{
-      //   costCenterItemOID:'',
+      //   costCenterItemOid:'',
       //   name:'请选择'
       // }],
       principals: true,
       applyer: [],
-      currentApplyerOID: '',
+      currentApplyerOid: '',
       currnetApplyerId: '',
       setOfBooksId: '',
       customFormFields: [],
@@ -109,25 +109,25 @@ class NewReimburse extends React.Component {
     this.setState({
       companySelectedData: [
         {
-          companyOID: company.companyOID,
+          companyOid: company.companyOid,
           name: company.name,
           id: company.id,
         },
       ],
       deparmentSelectedData: [
         {
-          departmentOid: user.departmentOID,
+          departmentOid: user.departmentOid,
           departmentName: user.departmentName,
         },
       ],
       applyer: [
         {
           id: user.id,
-          userOID: user.userOID,
+          userOid: user.userOid,
           fullName: user.fullName,
         },
       ],
-      currentApplyerOID: user.userOID,
+      currentApplyerOid: user.userOid,
       currnetApplyerId: user.id,
       setOfBooksId: company.setOfBooksId,
       baseCurrency: company.baseCurrency,
@@ -155,7 +155,7 @@ class NewReimburse extends React.Component {
       showCompanySelector: false,
       companySelectedData: [
         {
-          companyOID: result.result[0].companyOID,
+          companyOid: result.result[0].companyOid,
           name: result.result[0].name,
           id: result.result[0].id,
         },
@@ -178,13 +178,13 @@ class NewReimburse extends React.Component {
   // handleCostCenterListOk = (result) => {
   //   this.setState({
   //     costCenterSelectedData:[{
-  //       costCenterItemOID:result.result[0].costCenterItemOID,
+  //       costCenterItemOid:result.result[0].costCenterItemOid,
   //       name:result.result[0].name
   //     }],
   //     showCostCenterSelector:false
   //   });
   //   this.props.form.setFieldsValue({
-  //     select_cost_center: result.result[0].costCenterItemOID,
+  //     select_cost_center: result.result[0].costCenterItemOid,
   //   });
   //   console.log(result);
   // }
@@ -224,7 +224,7 @@ class NewReimburse extends React.Component {
           let data = this.state.applyer;
           for (var i of res.data) {
             data.push({
-              userOID: i.principalOID,
+              userOid: i.principalOid,
               fullName: i.userName,
             });
           }
@@ -255,17 +255,17 @@ class NewReimburse extends React.Component {
         this.setState({
           companySelectedData: [
             {
-              companyOID: res.data.companyOID,
+              companyOid: res.data.companyOid,
               name: res.data.companyName,
             },
           ],
           deparmentSelectedData: [
             {
-              departmentOid: res.data.departmentOID,
+              departmentOid: res.data.departmentOid,
               departmentName: res.data.departmentName,
             },
           ],
-          currentApplyerOID: value,
+          currentApplyerOid: value,
           currnetApplyerId: res.data.id,
         });
       })
@@ -312,9 +312,9 @@ class NewReimburse extends React.Component {
   //   return current && current.valueOf() < Date.now();
   // }
   //获得自定义列表
-  getCustomList = customEnumerationOID => {
+  getCustomList = customEnumerationOid => {
     reimburseService
-      .getCustomEnumeration(customEnumerationOID)
+      .getCustomEnumeration(customEnumerationOid)
       .then(res => {})
       .catch(err => {
         message.error('网络错误！请稍后重试');
@@ -325,7 +325,7 @@ class NewReimburse extends React.Component {
   getCustomFormFields() {
     this.setState({ loading: true });
     reimburseService
-      .getFormSet(this.props.match.params.formOID)
+      .getFormSet(this.props.match.params.formOid)
       .then(res => {
         this.setState({
           customFormFields: res.data.customFormFields,
@@ -376,15 +376,15 @@ class NewReimburse extends React.Component {
 
         customFormFields.map(o => {
           if (o.messageKey == 'select_cost_center') {
-            o.value = values[o.fieldOID].key;
+            o.value = values[o.fieldOid].key;
             o.showValue = '';
           } else {
-            o.value = values[o.fieldOID];
+            o.value = values[o.fieldOid];
             o.showValue = '';
           }
         });
         let data = {
-          formOid: this.props.match.params.formOID,
+          formOid: this.props.match.params.formOid,
           formId: this.props.match.params.formId,
           applicationId: this.props.user.id,
           type: '801001',

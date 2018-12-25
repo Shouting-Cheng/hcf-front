@@ -18,9 +18,9 @@ class RelatedApplication extends React.Component {
     this.state = {
       selectorItem: {
         title: this.$t('chooser.data.my.relativeApplication') /*'请选择关联的申请单'*/,
-        url: `${config.baseUrl}/api/loan/reference/my/application?formOID=${
-          this.props.formOID
-        }&applicantOID=${this.props.applicantOID}&loanApplicationOID=${this.props.applicationOID}`,
+        url: `${config.baseUrl}/api/loan/reference/my/application?formOid=${
+          this.props.formOid
+        }&applicantOid=${this.props.applicantOid}&loanApplicationOid=${this.props.applicationOid}`,
         searchForm: [
           {
             type: 'input',
@@ -47,7 +47,7 @@ class RelatedApplication extends React.Component {
             render: (value, record) => {
               let participants = [record.applicantName];
               value.map(item => {
-                item.participantOID !== record.applicantOID && participants.push(item.fullName);
+                item.participantOid !== record.applicantOid && participants.push(item.fullName);
               });
               return <Popover content={participants.join(', ')}>{participants.join(', ')}</Popover>;
             },
@@ -91,7 +91,7 @@ class RelatedApplication extends React.Component {
         relativeApplicationProperties.applicationType === '1003'
       ) {
         this.setState({ visible: true }, () => {
-          !this.props.info.applicationOID && this.getDefaultRelativeApplication();
+          !this.props.info.applicationOid && this.getDefaultRelativeApplication();
         });
       }
     }
@@ -99,7 +99,7 @@ class RelatedApplication extends React.Component {
 
   //获取默认关联申请单
   getDefaultRelativeApplication = () => {
-    requestService.getLoanDefaultRelativeApplication(this.props.formOID).then(res => {
+    requestService.getLoanDefaultRelativeApplication(this.props.formOid).then(res => {
       this.setState({ defaultRelativeApplication: res.data });
     });
   };
@@ -119,16 +119,16 @@ class RelatedApplication extends React.Component {
 
     //初始值
     let initialValue = undefined;
-    if (info.applicationOID && info.referenceApplication) {
+    if (info.applicationOid && info.referenceApplication) {
       let referenceInfo = info.referenceApplication;
       initialValue = [
-        { businessCode: referenceInfo.businessCode, applicationOID: referenceInfo.applicationOID },
+        { businessCode: referenceInfo.businessCode, applicationOid: referenceInfo.applicationOid },
       ];
-    } else if (!info.applicationOID && defaultRelativeApplication) {
+    } else if (!info.applicationOid && defaultRelativeApplication) {
       initialValue = [
         {
           businessCode: defaultRelativeApplication.businessCode,
-          applicationOID: defaultRelativeApplication.applicationOID,
+          applicationOid: defaultRelativeApplication.applicationOid,
         },
       ];
     }
@@ -157,7 +157,7 @@ class RelatedApplication extends React.Component {
               <Chooser
                 selectorItem={selectorItem}
                 listExtraParams={listExtraParams}
-                valueKey="applicationOID"
+                valueKey="applicationOid"
                 labelKey="businessCode"
                 method="post"
                 onChange={this.handleChange}
@@ -172,17 +172,17 @@ class RelatedApplication extends React.Component {
 }
 
 RelatedApplication.propTypes = {
-  formOID: PropTypes.string.isRequired,
+  formOid: PropTypes.string.isRequired,
   formInfo: PropTypes.object.isRequired,
   info: PropTypes.object,
-  applicantOID: PropTypes.string,
-  applicationOID: PropTypes.string,
+  applicantOid: PropTypes.string,
+  applicationOid: PropTypes.string,
   changeHandle: PropTypes.func,
 };
 
 RelatedApplication.defaultProps = {
   info: {},
-  applicationOID: '',
+  applicationOid: '',
 };
 
 function mapStateToProps(state) {

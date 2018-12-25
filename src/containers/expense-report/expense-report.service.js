@@ -8,9 +8,9 @@ export default {
   },
 
   //获取表单默认值
-  getFormValue(userOID, formOID) {
+  getFormValue(userOid, formOid) {
     return httpFetch.get(
-      `${config.baseUrl}/api/custom/form/user/default/values?userOID=${userOID}&formOID=${formOID}`
+      `${config.baseUrl}/api/custom/form/user/default/values?userOid=${userOid}&formOid=${formOid}`
     );
   },
 
@@ -45,13 +45,13 @@ export default {
 
   //得到报销单详情 /api/expense/reports/custom/
   // /api/claims/
-  getExpenseReportDetail(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/v2/expenses/${OID}`);
+  getExpenseReportDetail(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/v2/expenses/${Oid}`);
   },
 
   //删除报销单
-  deleteExpenseReport(OID) {
-    return httpFetch.delete(`${config.baseUrl}/api/expense/reports/${OID}`);
+  deleteExpenseReport(Oid) {
+    return httpFetch.delete(`${config.baseUrl}/api/expense/reports/${Oid}`);
   },
 
   //撤回报销单
@@ -60,11 +60,11 @@ export default {
   },
 
   //得到我的借款单
-  getLoanRequestList(applicantOID, currencyCode, venMasterId, companyOID) {
+  getLoanRequestList(applicantOid, currencyCode, venMasterId, companyOid) {
     let params = {
-      applicantOID,
+      applicantOid,
       currencyCode,
-      companyOID,
+      companyOid,
       page: 0,
       size: 100,
       status: [1005, 1006],
@@ -74,18 +74,18 @@ export default {
   },
 
   //导入费用
-  importExpense(expenseReportOID, invoiceOIDs) {
+  importExpense(expenseReportOid, invoiceOids) {
     let params = {
-      expenseReportOID,
-      invoiceOIDs,
+      expenseReportOid,
+      invoiceOids,
     };
     return httpFetch.post(`${config.baseUrl}/api/expense/report/invoices/import`, params);
   },
 
   //删除费用
-  removeExpense(expenseReportOID, invoiceOID) {
+  removeExpense(expenseReportOid, invoiceOid) {
     return httpFetch.delete(
-      `${config.baseUrl}/api/expense/reports/remove/invoice/${expenseReportOID}/${invoiceOID}`
+      `${config.baseUrl}/api/expense/reports/remove/invoice/${expenseReportOid}/${invoiceOid}`
     );
   },
 
@@ -111,34 +111,34 @@ export default {
   },
 
   //获取默认借款单
-  getDefaultLoanRequest(applicationOID, applicantOID) {
+  getDefaultLoanRequest(applicationOid, applicantOid) {
     let params = {
-      applicationOID,
-      applicantOID,
+      applicationOid,
+      applicantOid,
     };
     return httpFetch.get(`${config.baseUrl}/api/loan/application/verification/my/default`, params);
   },
 
-  //根据费用OID计算报销单下费用列表的个人支付金额总和
-  getTotalPersonalPaymentAmount(invoiceOIDs) {
-    return httpFetch.post(`${config.baseUrl}/api/invoices/summary/`, invoiceOIDs);
+  //根据费用Oid计算报销单下费用列表的个人支付金额总和
+  getTotalPersonalPaymentAmount(invoiceOids) {
+    return httpFetch.post(`${config.baseUrl}/api/invoices/summary/`, invoiceOids);
   },
 
   //得到报销单内费用类型的默认分摊项
-  getDefaultApportionment(expenseReportOID, expenseTypeId) {
+  getDefaultApportionment(expenseReportOid, expenseTypeId) {
     return httpFetch.get(
       `${
         config.baseUrl
-      }/api/v2/expense/default/apportionment?expenseReportOID=${expenseReportOID}&expenseTypeId=${expenseTypeId}`
+      }/api/v2/expense/default/apportionment?expenseReportOid=${expenseReportOid}&expenseTypeId=${expenseTypeId}`
     );
   },
 
   /**
    * 得到报销单可导入费用
    * invoiceStatus: 'INIT',
-   * applicantOID: applicant.userOID,
-   * expenseReportOID: info.expenseReportOID,
-   * expenseTypeOIDStr
+   * applicantOid: applicant.userOid,
+   * expenseReportOid: info.expenseReportOid,
+   * expenseTypeOidStr
    * @return {*|AxiosPromise}
    */
   getAllExpenseByExpenseReport(params) {
@@ -153,18 +153,18 @@ export default {
   },
 
   //获得差补统计
-  getTravelSubsidy(expenseReportOID, userOID, subsidyType) {
+  getTravelSubsidy(expenseReportOid, userOid, subsidyType) {
     return httpFetch.get(`${config.baseUrl}/api/expense/report/invoices/statistics`, {
-      expenseReportOID,
-      userOID,
+      expenseReportOid,
+      userOid,
       subsidyType,
     });
   },
 
   //检查费用
-  checkExpense(invoiceOIDs) {
+  checkExpense(invoiceOids) {
     let data = '';
-    invoiceOIDs.map(invoiceOID => (data += `invoiceOIDs=${invoiceOID}&`));
+    invoiceOids.map(invoiceOid => (data += `invoiceOids=${invoiceOid}&`));
     data.substr(0, data.length - 1);
     return httpFetch.post(`${config.baseUrl}/api/travel/standard/results`, data, {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -173,19 +173,19 @@ export default {
   },
 
   //检查发票
-  checkInvoice(expenseReportOID) {
+  checkInvoice(expenseReportOid) {
     return httpFetch.get(
-      `${config.receiptUrl}/api/receipt/pjj/checked/failed?expenseReportOID=${expenseReportOID}`
+      `${config.receiptUrl}/api/receipt/pjj/checked/failed?expenseReportOid=${expenseReportOid}`
     );
   },
 
   //获取申请单信息(默认差旅申请单)
-  getApplicationInfo(applicationOID, isShowValue = false) {
+  getApplicationInfo(applicationOid, isShowValue = false) {
     let url = '/api/application/';
     let params = {
       showValue: isShowValue,
     };
-    return httpFetch.get(`${config.baseUrl}${url}${applicationOID}`, { showValue: true });
+    return httpFetch.get(`${config.baseUrl}${url}${applicationOid}`, { showValue: true });
   },
 
   //获取英孚费用,带费用审批组
@@ -193,10 +193,10 @@ export default {
     return httpFetch.post(`${config.baseUrl}/api/expense/report/yingfu/select/user`, data);
   },
   //是否可以加签 counterSignType：enableAddSignForSubmitter（验证提交人是否可加签，单据为编辑状态）、enableAddSign（验证审批人审批单据时是否可加签）
-  isCounterSignEnable(companyOID, formOID, counterSignType) {
+  isCounterSignEnable(companyOid, formOid, counterSignType) {
     let params = {
-      companyOID,
-      formOID,
+      companyOid,
+      formOid,
       counterSignType,
     };
     return httpFetch.post(`${config.baseUrl}/api/countersign/addSign/enable/and/scope`, params);

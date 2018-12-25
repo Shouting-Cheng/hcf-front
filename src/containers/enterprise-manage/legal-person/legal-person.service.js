@@ -106,7 +106,7 @@ export default {
   //针对老集团，查询法人下面的人
   getLegalPersonPersons(params) {
     // let _params = {
-    //   corporationOID:  params.corporationOID,
+    //   corporationOid:  params.corporationOid,
     //   page: params.page,
     //   size: params.size,
     // }
@@ -123,12 +123,12 @@ export default {
   },
 
   //导入员工到法人实体
-  importPersonsToLegalPerson(companyReceiptedOID, userOIDs) {
+  importPersonsToLegalPerson(companyReceiptedOid, userOids) {
     return new Promise((resolve, reject) => {
       httpFetch
         .post(
-          config.baseUrl + '/api/company/receipted/invoice/associate/' + companyReceiptedOID,
-          userOIDs
+          config.baseUrl + '/api/company/receipted/invoice/associate/' + companyReceiptedOid,
+          userOids
         )
         .then(res => {
           resolve(res);
@@ -143,9 +143,9 @@ export default {
   //移动员工到法人实体
   movePersonsToLegalPerson(params) {
     // let params = {
-    //   companyReceiptedOIDFrom:"",
-    //   companyReceiptedOIDTo:"",
-    //   userOIDs:"",
+    //   companyReceiptedOidFrom:"",
+    //   companyReceiptedOidTo:"",
+    //   userOids:"",
     //   selectMode:"",
     // }
     return new Promise((resolve, reject) => {

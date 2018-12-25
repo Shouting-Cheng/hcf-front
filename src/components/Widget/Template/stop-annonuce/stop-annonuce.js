@@ -76,13 +76,13 @@ class StopAnnounceModal extends React.Component {
   getStopAnnounce = () => {
     //停机公告之后，同步调用运维公告
     let account = this.props.user.mobile || this.props.user.email;
-    let userOID = this.props.user.userOID;
+    let userOid = this.props.user.userOid;
     let tenantId = this.props.user.tenantId;
     let language = this.props.user.language;
     if (language) {
       language = this.props.user.language.toLowerCase();
     }
-    StopAnnounceService.getOperationAnnouncements(tenantId, userOID, account, language)
+    StopAnnounceService.getOperationAnnouncements(tenantId, userOid, account, language)
       .then(res => {
         let data = res.data;
         if (data && data.title) {

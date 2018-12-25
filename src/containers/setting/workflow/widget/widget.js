@@ -41,7 +41,7 @@ class Widget extends React.Component{
       message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/));
     } else {
       this.props.deleteHandle();
-      workflowService.deleteApprovalNode(widget.ruleApprovalNodeOID).then(() => {
+      workflowService.deleteApprovalNode(widget.ruleApprovalNodeOid).then(() => {
         message.success(this.$t('common.delete.success', {name: ''}));
         this.props.deleteHandle(true)
       })

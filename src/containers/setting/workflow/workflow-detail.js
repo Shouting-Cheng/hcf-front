@@ -37,7 +37,7 @@ class WorkflowDetail extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    workflowService.getFormFields(this.props.match.params.formOID).then(res => {
+    workflowService.getFormFields(this.props.match.params.formOid).then(res => {
       this.setState({formFieldList: res.data}, ()=>{
         Promise.all([
           this.getForm(),
@@ -55,7 +55,7 @@ class WorkflowDetail extends React.Component {
   //获取表单信息
   getForm = () => {
     return new Promise((resolve, reject) => {
-      workflowService.getCustomForm(this.props.match.params.formOID).then(res => {
+      workflowService.getCustomForm(this.props.match.params.formOid).then(res => {
         this.setState({formInfo: res.data});
         resolve(res)
       }).catch(e => {
@@ -67,7 +67,7 @@ class WorkflowDetail extends React.Component {
   //获取审批链详情
   getApprovalChain = () => {
     return new Promise((resolve, reject) => {
-      workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+      workflowService.getApprovalChainDetail(this.props.match.params.formOid).then(res => {
         res.data = this.refreshName(res.data);
         this.setState({
           chainInfo: res.data,
@@ -96,7 +96,7 @@ class WorkflowDetail extends React.Component {
               let ruleConditionList = approver.ruleConditionList;
               ruleConditionList.length && ruleConditionList.map(condition => {
                 condition.remark === 'judge_cost_center' && judgeCostCenterList.map(judgeCostCenter => {
-                  if (condition.field === judgeCostCenter.fieldOID && condition.remark === judgeCostCenter.messageKey) {
+                  if (condition.field === judgeCostCenter.fieldOid && condition.remark === judgeCostCenter.messageKey) {
                     condition.name = judgeCostCenter.fieldName;
                   }
                 });
@@ -104,7 +104,7 @@ class WorkflowDetail extends React.Component {
                   judgeCostCenterBatchCode = condition.batchCode.toString();
                 }
                 condition.remark === 'select_cost_center' && selectCostCenterList.map(selectCostCenter => {
-                  if (condition.field === selectCostCenter.fieldOID && condition.remark === selectCostCenter.messageKey) {
+                  if (condition.field === selectCostCenter.fieldOid && condition.remark === selectCostCenter.messageKey) {
                     condition.name = selectCostCenter.fieldName;
                   }
                 });
@@ -116,7 +116,7 @@ class WorkflowDetail extends React.Component {
               if (ruleConditions[judgeCostCenterBatchCode] && ruleConditions[judgeCostCenterBatchCode].length) {
                 ruleConditions[judgeCostCenterBatchCode].map(condition => {
                   condition.remark === 'judge_cost_center' && judgeCostCenterList.map(judgeCostCenter => {
-                    if (condition.field === judgeCostCenter.fieldOID && condition.remark === judgeCostCenter.messageKey) {
+                    if (condition.field === judgeCostCenter.fieldOid && condition.remark === judgeCostCenter.messageKey) {
                       condition.name = judgeCostCenter.fieldName;
                     }
                   });
@@ -125,7 +125,7 @@ class WorkflowDetail extends React.Component {
               if (ruleConditions[selectCostCenterBatchCode] && ruleConditions[selectCostCenterBatchCode].length) {
                 ruleConditions[selectCostCenterBatchCode].map(condition => {
                   condition.remark === 'select_cost_center' && selectCostCenterList.map(selectCostCenter => {
-                    if (condition.field === selectCostCenter.fieldOID && condition.remark === selectCostCenter.messageKey) {
+                    if (condition.field === selectCostCenter.fieldOid && condition.remark === selectCostCenter.messageKey) {
                       condition.name = selectCostCenter.fieldName;
                     }
                   });
@@ -150,7 +150,7 @@ class WorkflowDetail extends React.Component {
 
   //选择节点
   handleNodeSelect = (nodeType, widget, index) => {
-    if (this.state.chosenNodeWidget.ruleApprovalNodeOID === widget.ruleApprovalNodeOID) {
+    if (this.state.chosenNodeWidget.ruleApprovalNodeOid === widget.ruleApprovalNodeOid) {
       this.setState({ showFormSetting: false })
     } else {
       if (this.state.isRuleInEdit) {
@@ -178,7 +178,7 @@ class WorkflowDetail extends React.Component {
 
   //保存基本信息
   handleBasicInfoSave = () => {
-    workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+    workflowService.getApprovalChainDetail(this.props.match.params.formOid).then(res => {
       res.data = this.refreshName(res.data);
       this.setState({ saving: true, chainInfo: res.data }, () => {
         this.setState({ saving: false })
@@ -200,7 +200,7 @@ class WorkflowDetail extends React.Component {
     this.setState({ addPersonModalVisible: false }, () => {
       if (!approverNotChange) {
         this.setState({ loading : true });
-        workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
+        workflowService.getApprovalChainDetail(this.props.match.params.formOid).then(res => {
           res.data = this.refreshName(res.data);
           this.setState({
             loading: false,
@@ -217,7 +217,7 @@ class WorkflowDetail extends React.Component {
   handleConditionSave = (widget) => {
     let chainInfo = this.state.chainInfo;
     chainInfo.ruleApprovalNodes.map((item, index) => {
-      if (item.ruleApprovalNodeOID === widget.ruleApprovalNodeOID)
+      if (item.ruleApprovalNodeOid === widget.ruleApprovalNodeOid)
         chainInfo.ruleApprovalNodes[index] = widget
     });
     this.setState({ chainInfo })
@@ -233,7 +233,7 @@ class WorkflowDetail extends React.Component {
 
   //删除审批人
   handleDeleteApprover = (item) => {
-    workflowService.deleteApprovers(item.ruleApproverOID)
+    workflowService.deleteApprovers(item.ruleApproverOid)
   };
 
   //返回
@@ -298,9 +298,9 @@ class WorkflowDetail extends React.Component {
               )}
               {approvalMode === 1005 && (
                 <CustomApproveNode ruleApprovalNodes={chainInfo.ruleApprovalNodes}
-                                   ruleApprovalChainOID={chainInfo.ruleApprovalChainOID}
+                                   ruleApprovalChainOid={chainInfo.ruleApprovalChainOid}
                                    formInfo={formInfo}
-                                   formOID={this.props.match.params.formOID}
+                                   formOid={this.props.match.params.formOid}
                                    isRuleInEdit={isRuleInEdit}
                                    onSelect={this.handleNodeSelect}
                                    onChange={this.handleNodeChange}
@@ -311,7 +311,7 @@ class WorkflowDetail extends React.Component {
             </Col>
             {/*div.right-content-cover 是为了操作节点的时候右边的内容区域不可编辑*/}
             {saving && <Col span={18} className="right-content-cover"/>}
-            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOID={this.props.match.params.formOID}/></Col>}
+            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOid={this.props.match.params.formOid}/></Col>}
             {!showFormSetting && (
               <Col span={18} className="right-content">
                 {approvalMode === 1002 && (
@@ -371,7 +371,7 @@ class WorkflowDetail extends React.Component {
                                      basicInfoSaveHandle={this.handleBasicInfoSave}
                       />
                     )}
-                    <NodeConditionList formOID={this.props.match.params.formOID}
+                    <NodeConditionList formOid={this.props.match.params.formOid}
                                        basicInfo={chosenNodeWidget}
                                        formInfo={formInfo}
                                        onApproverChange={this.handleApproverChange}
@@ -381,7 +381,7 @@ class WorkflowDetail extends React.Component {
                     <AddPersonModal visible={addPersonModalVisible}
                                     personType={chosenNodeType === 1001 ? 1 : 2}
                                     ruleApprovers={chosenNodeWidget.ruleApprovers || []}
-                                    ruleApprovalNodeOID={chosenNodeWidget.ruleApprovalNodeOID}
+                                    ruleApprovalNodeOid={chosenNodeWidget.ruleApprovalNodeOid}
                                     formInfo={formInfo}
                                     onCancel={()=>this.setState({addPersonModalVisible: false})}
                                     onSelect={this.handleApproverChange}

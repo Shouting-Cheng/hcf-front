@@ -28,7 +28,7 @@ class RescheduleRefundBtn extends React.Component {
       approvalTxt: value,
       entities: [
         {
-          entityOID: this.props.bookTaskOID,
+          entityOid: this.props.bookTaskOid,
           entityType: 2002, //订票任务
         },
       ],
@@ -55,7 +55,7 @@ class RescheduleRefundBtn extends React.Component {
       approvalTxt: value,
       entities: [
         {
-          entityOID: this.props.bookTaskOID,
+          entityOid: this.props.bookTaskOid,
           entityType: 2002, //订票任务
         },
       ],
@@ -100,7 +100,7 @@ class RescheduleRefundBtn extends React.Component {
 
 RescheduleRefundBtn.propTypes = {
   approving: PropTypes.bool,
-  bookTaskOID: PropTypes.string,
+  bookTaskOid: PropTypes.string,
 };
 
 function mapStateToProps(state) {

@@ -51,7 +51,7 @@ class Payment extends React.Component {
           id: 'userOid',
           label: this.$t({ id: 'common.applicant' }),
           labelKey: "fullName",
-          valueKey: "userOID",
+          valueKey: "userOid",
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
@@ -92,7 +92,7 @@ class Payment extends React.Component {
           id: 'userOid',
           label: this.$t({ id: 'common.applicant' }),
           labelKey: "fullName",
-          valueKey: "userOID",
+          valueKey: "userOid",
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId }
@@ -227,7 +227,7 @@ class Payment extends React.Component {
       }
       case 'userOid': {
         if (value && value[0]) {
-          unApproveSearchParams.userOid = value[0].userOID;
+          unApproveSearchParams.userOid = value[0].userOid;
         } else {
           unApproveSearchParams.userOid = '';
         }
@@ -260,7 +260,7 @@ class Payment extends React.Component {
       }
       case 'userOid': {
         if (value && value[0]) {
-          approveSearchParams.userOid = value[0].userOID;
+          approveSearchParams.userOid = value[0].userOid;
         } else {
           approveSearchParams.userOid = '';
         }
@@ -318,16 +318,16 @@ class Payment extends React.Component {
 
   //进入预付款情页
   handleRowClick = (record) => {
-    //this.context.router.push(this.state.PrePaymentDetail.url.replace(':id', record.id).replace(":entityOID", record.entityOID).replace(":flag", this.state.tabValue))
+    //this.context.router.push(this.state.PrePaymentDetail.url.replace(':id', record.id).replace(":entityOid", record.entityOid).replace(":flag", this.state.tabValue))
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/approval-management/pre-payment-approve/pre-payment-approve-detail/${record.id}/${record.entityOID}/${this.state.tabValue}`,
+        pathname: `/approval-management/pre-payment-approve/pre-payment-approve-detail/${record.id}/${record.entityOid}/${this.state.tabValue}`,
       })
     );
   };
   filterData = (data) => {
     return data.map(item => {
-      return { ...item.prepaymentApprovalView, entityOID: item.entityOID }
+      return { ...item.prepaymentApprovalView, entityOid: item.entityOid }
     });
   }
   /**未审批根据单据编号查询 */
@@ -409,7 +409,7 @@ class Payment extends React.Component {
                   ref={ref => this.unApprovedtable = ref}
                   params={{ finished: 'false' }}
                   columns={columns}
-                  tableKey="entityOID"
+                  tableKey="entityOid"
                   filterData={this.filterData}
                   onClick={this.handleRowClick}
                 />
@@ -444,7 +444,7 @@ class Payment extends React.Component {
                   ref={ref => this.approvedtable = ref}
                   params={{ finished: 'true' }}
                   columns={columns}
-                  tableKey="entityOID"
+                  tableKey="entityOid"
                   filterData={this.filterData}
                   onClick={this.handleRowClick}
                 />

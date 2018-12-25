@@ -24,7 +24,7 @@ class PayPaying extends React.Component {
         {
           type: 'list', colSpan: 6, event: 'COMPANY', isRequired:true,selectorItem:{
           title: messages('pay.select.pay.company'), //选择付款公司
-          url: `${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${this.props.user.userOID}`,
+          url: `${config.baseUrl}/api/companyBankAuth/get/own/info/lov/${this.props.user.userOid}`,
           searchForm: [
             { type: 'input', id: 'companyCode', label: messages('chooser.data.companyCode'/*公司代码*/)},
             { type: 'input', id: 'companyName', label: messages('chooser.data.companyName'/*公司名称*/) }
@@ -161,7 +161,7 @@ class PayPaying extends React.Component {
   componentWillMount() {
     let {searchForm} = this.state;
     this.props.subTab && this.setState({ radioValue: this.props.subTab });
-    searchForm[0].defaultValue = paymentService.getDefaultCompany(this.props.user.userOID,this.props.company.id);
+    searchForm[0].defaultValue = paymentService.getDefaultCompany(this.props.user.userOid,this.props.company.id);
     this.setState({searchForm});
     this.getList()
   }

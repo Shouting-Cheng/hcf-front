@@ -202,8 +202,8 @@ class OverallSubList extends React.Component {
     configureStore.store.dispatch(setOverallSubList(cacheSearchData));
     this.context.router.push(
       this.state.requestDetail.url
-        .replace(':formOID', record.formOid)
-        .replace(':applicationOID', record.oid)
+        .replace(':formOid', record.formOid)
+        .replace(':applicationOid', record.oid)
     );
   };
 

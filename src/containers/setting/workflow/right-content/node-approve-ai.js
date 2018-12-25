@@ -29,7 +29,7 @@ class NodeApproveAi extends React.Component {
         params.name = basicInfo.name;
         params.nullableRule = basicInfo.nullableRule;
         params.repeatRule = basicInfo.repeatRule;
-        params.ruleApprovalNodeOID = basicInfo.ruleApprovalNodeOID;
+        params.ruleApprovalNodeOid = basicInfo.ruleApprovalNodeOid;
         params.status = basicInfo.status;
         params.type = basicInfo.type;
         this.setState({ loading: true });

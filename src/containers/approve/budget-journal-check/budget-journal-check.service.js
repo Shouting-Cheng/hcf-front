@@ -89,9 +89,9 @@ export default {
     );
   },
 
-  //根据attachmentOID，查询附件
-  getFileByAttachmentOID(attachmentOID) {
-    return httpFetch.get(`${config.baseUrl}/api/attachments/${attachmentOID}`);
+  //根据attachmentOid，查询附件
+  getFileByAttachmentOid(attachmentOid) {
+    return httpFetch.get(`${config.baseUrl}/api/attachments/${attachmentOid}`);
   },
 
   //根据维度Id,获取维值{costCenterId:""}

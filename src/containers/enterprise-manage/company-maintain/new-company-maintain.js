@@ -17,7 +17,7 @@ class WrappedNewCompanyMaintain extends React.Component {
     super(props);
     this.state = {
       companyDetail: {
-        companyOID: null,
+        companyOid: null,
         companyCode: null, //公司代码
         name: '', //公司名称
         companyTypeId: '4993798', //类型后端已经默认：业务实体
@@ -56,9 +56,9 @@ class WrappedNewCompanyMaintain extends React.Component {
           config.baseUrl +
           '/api/company/by/tenant?setOfBooksId=' +
           this.props.company.setOfBooksId +
-          (this.props.match.params.companyOID === ':companyOID'
+          (this.props.match.params.companyOid === ':companyOid'
             ? ''
-            : '&filterCompanyOIDs=' + this.props.match.params.companyOID),
+            : '&filterCompanyOids=' + this.props.match.params.companyOid),
         label: record => `${record.name}`,
         key: 'id',
       },
@@ -89,17 +89,17 @@ class WrappedNewCompanyMaintain extends React.Component {
         () => {
           this.getSelectListParentCompany(
             this.state.companyDetail.legalEntityId,
-            this.props.match.params.companyOID
+            this.props.match.params.companyOid
           );
         }
       );
     });
   };
 
-  getSelectListParentCompany = (legalEntityId, companyOID) => {
+  getSelectListParentCompany = (legalEntityId, companyOid) => {
     let params = {
       legalEntityId: legalEntityId ? legalEntityId : 0,
-      // filterCompanyOIDs: companyOID ? companyOID : null,
+      // filterCompanyOids: companyOid ? companyOid : null,
     };
     companyMaintainService.getSelectListParentCompany(params).then(res => {
       let selectListParentCompany = this.state.selectListParentCompany;
@@ -143,7 +143,7 @@ class WrappedNewCompanyMaintain extends React.Component {
           _company.parentCompanyId = values.parentCompanyId;
         }
 
-        if (_company.id && _company.companyOID) {
+        if (_company.id && _company.companyOid) {
           //当删除某一个字段的时候，values 为null，导致没有覆盖原有属性
           let company = Object.assign(_company, values);
           if (company.companyLevelId === null || company.companyLevelId === undefined) {

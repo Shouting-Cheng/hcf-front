@@ -22,7 +22,7 @@ class TravelExpireBtn extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.formType || !this.state.info.applicationOID) {
+    if (!this.state.formType || !this.state.info.applicationOid) {
       this.setState(
         {
           formType: nextProps.formType,
@@ -58,8 +58,8 @@ class TravelExpireBtn extends React.Component {
     this.setState({ loading: true });
     requestService
       .expireApplication(
-        this.state.info.applicationOID,
-        this.state.info.applicationParticipant.participantOID
+        this.state.info.applicationOid,
+        this.state.info.applicationParticipant.participantOid
       )
       .then(res => {
         this.setState({ loading: false });

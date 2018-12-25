@@ -35,7 +35,7 @@ class CostCenterDetail extends React.Component {
             showImportErrInfoForPerson: false,
 
             progressImportErrInfo: 1,
-            transactionOID: null,
+            transactionOid: null,
             errorsList: [],
             fileList: [],
             flieUploading: false,//文件是否正在上传
@@ -242,11 +242,11 @@ class CostCenterDetail extends React.Component {
     editCostCenterItem = (e, record) => {
         // this.setBeforePage(this.state.pagination);
         // let path = this.state.newCostCenterItem.url.replace(":id", this.props.params.id);
-        // path = path.replace(':itemId', record.costCenterItemOID);
+        // path = path.replace(':itemId', record.costCenterItemOid);
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/new-cost-center-item/${this.props.match.params.id}/${record.costCenterItemOid}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -254,11 +254,11 @@ class CostCenterDetail extends React.Component {
     detailCostCenterItem = (e, record) => {
         // this.setBeforePage(this.state.pagination);
         // let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.match.params.id);
-        // path = path.replace(":itemId", record.costCenterItemOID);
+        // path = path.replace(":itemId", record.costCenterItemOid);
         // this.context.router.push(path);
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${this.props.match.params.id}/${record.costCenterItemOid}/${this.props.match.params.setOfBooksId}`,
             })
         );
     };
@@ -270,16 +270,16 @@ class CostCenterDetail extends React.Component {
             message.warn(this.$t("cost.center.detail.please.selecy"));
             return;
         }
-        let userOIDs = [];
+        let userOids = [];
         arr.map((item) => {
-            userOIDs.push(item.userOID)
+            userOids.push(item.userOid)
         })
 
         let params = {
-            userOIDs: userOIDs,
-            costCenterItemOIDs: this.state.selectedRowKeys,
+            userOids: userOids,
+            costCenterItemOids: this.state.selectedRowKeys,
             selectMode: "default",
-            costCenterOID: this.props.match.params.id
+            costCenterOid: this.props.match.params.id
         }
         CCService.costCenterItemAssociateUsersDTO(params)
             .then((res) => {
@@ -301,8 +301,8 @@ class CostCenterDetail extends React.Component {
         }
         
         let params = {
-            costCenterOID : this.props.match.params.id,
-            costCenterItemOIDs : this.state.selectedRowKeys,
+            costCenterOid : this.props.match.params.id,
+            costCenterItemOids : this.state.selectedRowKeys,
             enable,
             selectMode : this.state.selectMode
         }
@@ -317,12 +317,12 @@ class CostCenterDetail extends React.Component {
     handleSelectRow = (record, selected) => {
         let depNeedMoveOut = this.state.depNeedMoveOut;
         if (selected) {
-            depNeedMoveOut.push(record.costCenterItemOID)
+            depNeedMoveOut.push(record.costCenterItemOid)
             this.setState({
                 selectMode : "current_page"
             })
         } else {
-            depNeedMoveOut.delete(record.costCenterItemOID)
+            depNeedMoveOut.delete(record.costCenterItemOid)
         }
         this.setState({ depNeedMoveOut })
     };
@@ -331,25 +331,25 @@ class CostCenterDetail extends React.Component {
         let depNeedMoveOut = this.state.depNeedMoveOut;
         if (selected) {
             changeRows.map(item => {
-                depNeedMoveOut.push(item.costCenterItemOID)
+                depNeedMoveOut.push(item.costCenterItemOid)
             })
             this.setState({
                 selectMode : "all_page"
             })
         } else {
             changeRows.map(item => {
-                depNeedMoveOut.delete(item.costCenterItemOID)
+                depNeedMoveOut.delete(item.costCenterItemOid)
             })
         }
         this.setState({ depNeedMoveOut })
     };
 
-    //换页后根据OIDs刷新选择框
+    //换页后根据Oids刷新选择框
     refreshRowSelection() {
         let selectedRowKeys = [];
-        this.state.depNeedMoveOut.map(costCenterItemOID => {
+        this.state.depNeedMoveOut.map(costCenterItemOid => {
             this.state.data.map((item, index) => {
-                if (item.costCenterItemOID === costCenterItemOID)
+                if (item.costCenterItemOid === costCenterItemOid)
                     selectedRowKeys.push(index);
             })
         });
@@ -451,17 +451,17 @@ class CostCenterDetail extends React.Component {
             flieUploading: true,
         });
 
-        CCService.importTemplateCostCenterOID(this.props.match.params.id, formData)
+        CCService.importTemplateCostCenterOid(this.props.match.params.id, formData)
             .then((res) => {
                 this.setState({
                     fileList: [],
                     uploading: false,
                     flieUploading: false,
                     showImportBankModel: false,
-                    transactionOID: res.data.transactionOID//这个transactionOID在导出错误信息的时候，需要用到
+                    transactionOid: res.data.transactionOid//这个transactionOid在导出错误信息的时候，需要用到
                 }, () => {
                     this.showImportErrInfo();
-                    this.showTransactionLogDialog(this.state.transactionOID);   // 将参数传给dialog
+                    this.showTransactionLogDialog(this.state.transactionOid);   // 将参数传给dialog
                 });
             })
             .catch((res) => {
@@ -485,17 +485,17 @@ class CostCenterDetail extends React.Component {
             flieUploading: true,
         });
 
-        CCService.importTemplateCostCenterPersonOID(formData)
+        CCService.importTemplateCostCenterPersonOid(formData)
             .then((res) => {
                 this.setState({
                     fileList: [],
                     uploading: false,
                     flieUploading: false,
                     showImportBankModelForPerson: false,
-                    transactionOID: res.data.transactionOID//这个transactionOID在导出错误信息的时候，需要用到
+                    transactionOid: res.data.transactionOid//这个transactionOid在导出错误信息的时候，需要用到
                 }, () => {
                     this.showImportErrInfoForPerson();
-                    this.showTransactionLogDialog(this.state.transactionOID);   // 将参数传给dialog
+                    this.showTransactionLogDialog(this.state.transactionOid);   // 将参数传给dialog
                 });
             })
             .catch((res) => {
@@ -506,8 +506,8 @@ class CostCenterDetail extends React.Component {
             })
     }
 
-    showTransactionLogDialog = (transactionOID) => {
-        CCService.getCostCenterBatchTransactionLog(transactionOID)
+    showTransactionLogDialog = (transactionOid) => {
+        CCService.getCostCenterBatchTransactionLog(transactionOid)
             .then((res) => {
                 let data = res.data;
                 if (data.totalEntities === 0) {
@@ -524,7 +524,7 @@ class CostCenterDetail extends React.Component {
                         let gapTime = 500;
                         setTimeout(() => {
                             //请求频率涉及到一个算法
-                            this.showTransactionLogDialog(this.state.transactionOID);   // 将参数传给dialog
+                            this.showTransactionLogDialog(this.state.transactionOid);   // 将参数传给dialog
                         }, gapTime)
                     } else {
                         //导入完成了
@@ -589,7 +589,7 @@ class CostCenterDetail extends React.Component {
     }
     //成本中心项导入错误信息
     exportFailedLog = () => {
-        CCService.exportCostCenterBatchTransactionLog(this.state.transactionOID)
+        CCService.exportCostCenterBatchTransactionLog(this.state.transactionOid)
             .then((res) => {
                 let b = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
                 // 成本中心项导入错误信息
@@ -601,7 +601,7 @@ class CostCenterDetail extends React.Component {
     }
     //成本中心项-人员导入错误信息
     exportFailedLogForPerson = () => {
-        CCService.exportCostCenterPersonBatchTransactionLog(this.state.transactionOID)
+        CCService.exportCostCenterPersonBatchTransactionLog(this.state.transactionOid)
             .then((res) => {
                 let b = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
                 // 成本中心项-人员导入错误信息
@@ -747,7 +747,7 @@ class CostCenterDetail extends React.Component {
                     dataSource={data}
                     pagination={pagination}
                     loading={loading}
-                    rowKey="costCenterItemOID"
+                    rowKey="costCenterItemOid"
                     bordered
                     onChange={this.onChangePager}
                     rowSelection={rowSelection}

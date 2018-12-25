@@ -29,8 +29,8 @@ class PaymentRequisitionApprove extends React.Component {
             SearchForm1: [
                 { type: 'select', colSpan: "6", id: 'typeId', label: '单据类型', options: [], getUrl: `${config.payUrl}/api/acp/request/type/query/${this.props.company.setOfBooksId}/${this.props.company.id}`, method: 'get', labelKey: 'description', valueKey: 'id', },
                 {
-                    type: 'list', listType: "bgtUserOID", options: [],
-                    id: 'userOID', label: this.$t({id:'pay.refund.employeeName'}), labelKey: "fullName", valueKey: "userOID",colSpan: 6,single:true,
+                    type: 'list', listType: "bgtUserOid", options: [],
+                    id: 'userOid', label: this.$t({id:'pay.refund.employeeName'}), labelKey: "fullName", valueKey: "userOid",colSpan: 6,single:true,
                     listExtraParams:{setOfBooksId: this.props.company.setOfBooksId}
                 },
                 {
@@ -53,8 +53,8 @@ class PaymentRequisitionApprove extends React.Component {
             SearchForm2: [
                 { type: 'select', colSpan: "6", id: 'typeId', label: '单据类型', options: [], getUrl: `${config.payUrl}/api/acp/request/type/query/${this.props.company.setOfBooksId}/${this.props.company.id}`, method: 'get', labelKey: 'description', valueKey: 'id', },
                 {
-                    type: 'list', listType: "bgtUserOID", options: [],
-                    id: 'userOID', label: this.$t({id:'pay.refund.employeeName'}), labelKey: "fullName", valueKey: "userOID",colSpan: 6,single:true,
+                    type: 'list', listType: "bgtUserOid", options: [],
+                    id: 'userOid', label: this.$t({id:'pay.refund.employeeName'}), labelKey: "fullName", valueKey: "userOid",colSpan: 6,single:true,
                     listExtraParams:{setOfBooksId: this.props.company.setOfBooksId}
                 },
                 {
@@ -118,7 +118,7 @@ class PaymentRequisitionApprove extends React.Component {
             unapprovedPageSize: 10,
             approvedPage: 0,
             approvedPageSize: 10,
-            paymentRequisitionDetail: '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag', //
+            paymentRequisitionDetail: '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOid/:flag', //
         }
     }
 
@@ -151,7 +151,7 @@ class PaymentRequisitionApprove extends React.Component {
                     unapprovedData: res.data.map(item => {
                         return {
                             ...item.acpPaymentApprovalView,
-                            entityOID: item.entityOID
+                            entityOid: item.entityOid
                         }
                     }) || [],
                     loading1: false,
@@ -190,7 +190,7 @@ class PaymentRequisitionApprove extends React.Component {
                     approvedData: res.data.map(item => {
                         return {
                             ...item.acpPaymentApprovalView,
-                            entityOID: item.entityOID
+                            entityOid: item.entityOid
                         }
                     }) || [],
                     loading2: false,
@@ -260,7 +260,7 @@ class PaymentRequisitionApprove extends React.Component {
 
     //进入详情页
     handleRowClick = (record, flag) => {
-      let path = this.state.paymentRequisitionDetail.replace(':id', record.id).replace(":entityOID", record.entityOID).replace(":flag", flag);
+      let path = this.state.paymentRequisitionDetail.replace(':id', record.id).replace(":entityOid", record.entityOid).replace(":flag", flag);
       this.props.dispatch(
         routerRedux.push({
           pathname: path,

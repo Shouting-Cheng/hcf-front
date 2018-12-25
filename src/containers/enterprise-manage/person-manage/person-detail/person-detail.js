@@ -42,7 +42,7 @@ class PersonDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.initPage(this.props.match.params.userOID);
+    this.initPage(this.props.match.params.userOid);
   }
 
   initPage(oid) {
@@ -56,8 +56,8 @@ class PersonDetail extends React.Component {
         BasicInfoEditing: true,
       });
     } else {
-      bankAccountDefault.userOID = this.props.match.params.userOID;
-      contactCardDefault.userOID = this.props.match.params.userOID;
+      bankAccountDefault.userOid = this.props.match.params.userOid;
+      contactCardDefault.userOid = this.props.match.params.userOid;
 
       this.getPersonDetail();
 
@@ -89,13 +89,13 @@ class PersonDetail extends React.Component {
   };
 
   //获取人员信息
-  getPersonDetail = userOID => {
-    let _userOID = this.props.match.params.userOID;
-    if (userOID) {
-      _userOID = userOID;
+  getPersonDetail = userOid => {
+    let _userOid = this.props.match.params.userOid;
+    if (userOid) {
+      _userOid = userOid;
     }
     //编辑更新
-    PDService.getPersonDetail(_userOID).then(res => {
+    PDService.getPersonDetail(_userOid).then(res => {
       let data = res.data;
       if (data.gender === 0) {
         data.genderName = this.$t('pdc.basic.info.male');
@@ -130,8 +130,8 @@ class PersonDetail extends React.Component {
     for (let i = 0; i < customFormValues.length; i++) {
       if (customFormValues[i].messageKey === 'cust_list') {
         let dataSource = JSON.parse(customFormValues[i].dataSource);
-        if (dataSource && dataSource.customEnumerationOID) {
-          PDService.getListByCustomEnumerationOID(dataSource.customEnumerationOID)
+        if (dataSource && dataSource.customEnumerationOid) {
+          PDService.getListByCustomEnumerationOid(dataSource.customEnumerationOid)
             .then(res => {
               this.setPersonDetailEnumerationList(res.data, customFormValues[i]);
             })
@@ -147,7 +147,7 @@ class PersonDetail extends React.Component {
     let personObj = deepCopy(this.state.personObj);
     let customFormValues = personObj.customFormValues;
     for (let i = 0; i < customFormValues.length; i++) {
-      if (customFormValues[i].fieldOID === filed.fieldOID) {
+      if (customFormValues[i].fieldOid === filed.fieldOid) {
         customFormValues[i].customEnumerationList = customEnumerationList;
         //每设置一次，都需要更新一下
         //后端可能返回的是值列表值对应的code（value），不是messageKey，需要找一下
@@ -162,7 +162,7 @@ class PersonDetail extends React.Component {
   //获取银行信息
   getBankCards = () => {
     //编辑更新
-    PDService.getBankCards(this.props.match.params.userOID).then(res => {
+    PDService.getBankCards(this.props.match.params.userOid).then(res => {
       this.setState({
         bankCards: res.data,
       });
@@ -172,7 +172,7 @@ class PersonDetail extends React.Component {
   //获取证件信息
   getContactCards = () => {
     //编辑更新
-    PDService.getContactCards(this.props.match.params.userOID).then(res => {
+    PDService.getContactCards(this.props.match.params.userOid).then(res => {
       this.setState({
         contactCards: res.data,
       });
@@ -181,10 +181,10 @@ class PersonDetail extends React.Component {
 
   //获取供应商信息
   getSupplierInfo = () => {
-    PDService.getSupplierInfo(this.props.match.params.userOID).then(res => {
+    PDService.getSupplierInfo(this.props.match.params.userOid).then(res => {
       //需要用deepCopy，不然有对象引用导致的缓存
       let _vendorInfo = deepCopy(vendorInfoDefaultWithPerson);
-      _vendorInfo.userOID = this.props.match.params.userOID;
+      _vendorInfo.userOid = this.props.match.params.userOid;
       let vendorInfo = null;
       //如果有供应商信息
       if (!!res.data) {
@@ -203,9 +203,9 @@ class PersonDetail extends React.Component {
 
   //保存基本信息
   savedBasicInfoData = person => {
-    this.props.match.params.userOID = person.userOID;
+    this.props.match.params.userOid = person.userOid;
     //更新了人员信息，重新初始化页面
-    this.initPage(person.userOID);
+    this.initPage(person.userOid);
     this.BasicInfoToNoEditing();
   };
   //个人基本信息:编辑
@@ -254,7 +254,7 @@ class PersonDetail extends React.Component {
     let date = this.state.hireTime;
     if (date) {
       date = moment(date).format('YYYY-MM-DD');
-      PDService.setResignDate(this.props.match.params.userOID, date)
+      PDService.setResignDate(this.props.match.params.userOid, date)
         .then(res => {
           //操作成功
           message.success(this.$t('pm.detail.person.operation.ok'));
@@ -272,7 +272,7 @@ class PersonDetail extends React.Component {
   };
   //撤销离职
   cancelResign = () => {
-    PDService.cancelResign(this.props.match.params.userOID)
+    PDService.cancelResign(this.props.match.params.userOid)
       .then(res => {
         //操作成功
         message.success(this.$t('pm.detail.person.operation.ok'));
@@ -282,7 +282,7 @@ class PersonDetail extends React.Component {
   };
   //重新入职
   rehire = () => {
-    PDService.rehire(this.props.match.params.userOID)
+    PDService.rehire(this.props.match.params.userOid)
       .then(res => {
         //操作成功
         message.success(this.$t('pm.detail.person.operation.ok'));
@@ -310,7 +310,7 @@ class PersonDetail extends React.Component {
   //根据员工状态渲染顶部按钮
   //   status: 1001,//不传代表只查询在职，1001也是在职，1002待离职员工，1003离职员工
   renderTopBtnByStatus = user => {
-    if (user.userOID && this.props.tenantMode) {
+    if (user.userOid && this.props.tenantMode) {
       if (user.status === 1002) {
         return (
           <div>
@@ -539,7 +539,7 @@ class PersonDetail extends React.Component {
   };
 
   renderInfoByUseIsNew = user => {
-    if (user.userOID) {
+    if (user.userOid) {
       return (
         <div>
           <div className="pd-card-wrap">

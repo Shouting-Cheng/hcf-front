@@ -389,7 +389,7 @@ class LoanAndRefund extends React.Component {
   confirmRefund = (oid, record) => {
     if (record.expenseReportOid) {
       window.open(
-        this.state.expenseDetailView.url.replace(':expenseReportOID', record.expenseReportOid)
+        this.state.expenseDetailView.url.replace(':expenseReportOid', record.expenseReportOid)
       );
     } else {
       this.setState({ refundDetailParams: { oid, loanRefund: 'true' } }, () => {
@@ -429,8 +429,8 @@ class LoanAndRefund extends React.Component {
     });
     this.context.router.push(
       this.state.requestDetail.url
-        .replace(':formOID', record.formOid)
-        .replace(':applicationOID', record.oid) + '?tab=loan'
+        .replace(':formOid', record.formOid)
+        .replace(':applicationOid', record.oid) + '?tab=loan'
     );
   };
 

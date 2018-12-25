@@ -30,7 +30,7 @@ class Workflow extends React.Component {
       data: [],
       setOfBooksId: this.props.match.params.setOfBooksId || this.props.company.setOfBooksId,
       setOfBooksName: this.props.company.setOfBooksName,
-      sourceFormOID: null, //复制的表单OID
+      sourceFormOid: null, //复制的表单Oid
       showEnableList: true, //显示启用的单据
       params: {}
     }
@@ -84,18 +84,18 @@ class Workflow extends React.Component {
   };
 
   //显示粘贴确认框
-  showConfirmModal = (targetFormOID) => {
+  showConfirmModal = (targetFormOid) => {
     Modal.confirm({
       title: this.$t('setting.key1426'/*是否确认更改*/), //是否确认更改
       content: this.$t('setting.key1427'/*粘贴后将覆盖原审批流*/), //粘贴后将覆盖原审批流
-      onOk: () => this.handleFormCopy(targetFormOID)
+      onOk: () => this.handleFormCopy(targetFormOid)
     })
   };
 
   //粘贴审批链
-  handleFormCopy = (targetFormOID) => {
+  handleFormCopy = (targetFormOid) => {
     this.setState({ pasteLoading: true });
-    workflowService.copyApproveChains(this.state.sourceFormOID, targetFormOID).then(() => {
+    workflowService.copyApproveChains(this.state.sourceFormOid, targetFormOid).then(() => {
       workflowService.getWorkflowList(this.props.tenantMode ? this.state.setOfBooksId : '').then(res => {
         this.setState({
           pasteLoading: false,
@@ -112,8 +112,8 @@ class Workflow extends React.Component {
   goDetail = (record) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID'
-          .replace(':formOID', record.formOID)
+        pathname: '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOid'
+          .replace(':formOid', record.formOid)
           .replace(':setOfBooksId', this.state.setOfBooksId)
       })
     );
@@ -139,7 +139,7 @@ class Workflow extends React.Component {
 
   render() {
     const { tenantMode, language } = this.props;
-    const { loading, data, setOfBooksName, setOfBooksId, sourceFormOID, showEnableList, pasteLoading } = this.state;
+    const { loading, data, setOfBooksName, setOfBooksId, sourceFormOid, showEnableList, pasteLoading } = this.state;
     let enabledData = [];
     let disabledData = [];
     data.map(item => {
@@ -189,7 +189,7 @@ class Workflow extends React.Component {
               </RadioGroup>
               {(showEnableList ? enabledData : disabledData).map(item => {
                 return (
-                  <Card key={item.formOID} className="card-list" type="inner"
+                  <Card key={item.formOid} className="card-list" type="inner"
                     title={(
                       <div>
                         <span>{item.formName}</span>
@@ -200,9 +200,9 @@ class Workflow extends React.Component {
                             {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 && (
                               <div style={{ display: 'inline-block' }}>
                                 <span className="ant-divider" />
-                                <a onClick={() => { this.setState({ sourceFormOID: item.formOID }) }}>{this.$t('setting.key1430'/*复制*/)}</a>
-                                {sourceFormOID && <span className="ant-divider" />}
-                                {sourceFormOID && <a onClick={() => { this.showConfirmModal(item.formOID) }}>{this.$t('setting.key1431'/*粘贴*/)}</a>}
+                                <a onClick={() => { this.setState({ sourceFormOid: item.formOid }) }}>{this.$t('setting.key1430'/*复制*/)}</a>
+                                {sourceFormOid && <span className="ant-divider" />}
+                                {sourceFormOid && <a onClick={() => { this.showConfirmModal(item.formOid) }}>{this.$t('setting.key1431'/*粘贴*/)}</a>}
                               </div>
                             )}
                           </div>
@@ -214,7 +214,7 @@ class Workflow extends React.Component {
                       {item.ruleApprovalChain && item.ruleApprovalChain.approvalMode === 1005 &&
                         (item.ruleApprovalChain.ruleApprovalNodes || []).map((node, index) => {
                           return (
-                            <div key={node.ruleApprovalNodeOID} className="node-container">
+                            <div key={node.ruleApprovalNodeOid} className="node-container">
                               <div>
                                 {this.getNodeImg(node.type)}
                                 {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow" />}

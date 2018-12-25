@@ -43,7 +43,7 @@ class AnnouncementInformation extends React.Component {
       page: 0,
       pageSize: 10,
       selectedRowIDs: [],    //已选择列表项的ID
-      selectedCarouselOIDs: [],    //已选择的列表项OID
+      selectedCarouselOids: [],    //已选择的列表项Oid
       extraParams: {},
     }
   }
@@ -77,7 +77,7 @@ class AnnouncementInformation extends React.Component {
 
   //删除公告信息
   deleteItem = (e, record) => {
-    announcementService.deleteAnnouncement(record.carouselOID).then(res => {
+    announcementService.deleteAnnouncement(record.carouselOid).then(res => {
       if (res.status === 200) {
         message.success(this.$t('common.delete.success', {name: ''})); // name删除成功
         this.getList()
@@ -92,41 +92,41 @@ class AnnouncementInformation extends React.Component {
 
   //选择一行
   //选择逻辑：每一项设置selected属性，如果为true则为选中
-  //同时维护selectedEntityOIDs列表，记录已选择的OID，并每次分页、选择的时候根据该列表来刷新选择项
+  //同时维护selectedEntityOids列表，记录已选择的Oid，并每次分页、选择的时候根据该列表来刷新选择项
   onSelectRow = (record, selected) => {
     let temp = this.state.selectedRowIDs;
-    let temp_oid = this.state.selectedCarouselOIDs;
+    let temp_oid = this.state.selectedCarouselOids;
     if (selected) {
       temp.push(record.id);
-      temp_oid.push(record.carouselOID);
+      temp_oid.push(record.carouselOid);
     } else {
       temp.delete(record.id);
-      temp_oid.delete(record.carouselOID);
+      temp_oid.delete(record.carouselOid);
     }
     this.setState({
       selectedRowIDs: temp,
-      selectedCarouselOIDs: temp_oid
+      selectedCarouselOids: temp_oid
     })
   };
 
   //全选
   onSelectAllRow = (selected) => {
     let temp = this.state.selectedRowIDs;
-    let temp_oid = this.state.selectedCarouselOIDs;
+    let temp_oid = this.state.selectedCarouselOids;
     if (selected) {
       this.state.data.map(item => {
         temp.addIfNotExist(item.id);
-        temp_oid.addIfNotExist(item.carouselOID)
+        temp_oid.addIfNotExist(item.carouselOid)
       })
     } else {
       this.state.data.map(item => {
         temp.delete(item.id);
-        temp_oid.delete(item.carouselOID)
+        temp_oid.delete(item.carouselOid)
       })
     }
     this.setState({
       selectedRowIDs: temp,
-      selectedCarouselOIDs: temp_oid
+      selectedCarouselOids: temp_oid
     })
   };
 
@@ -143,16 +143,16 @@ class AnnouncementInformation extends React.Component {
   handleListOk = (result) => {
     let companyList = [];
     result.result.map(item => {
-      companyList.push(item.companyOID)
+      companyList.push(item.companyOid)
     });
     if (!companyList.length) {
       message.warning(this.$t('announcement.info.please.choose.company'/*请选择公司*/))
     } else {
-      announcementService.handleCompanyDistribute(this.state.selectedCarouselOIDs, companyList).then(() => {
+      announcementService.handleCompanyDistribute(this.state.selectedCarouselOids, companyList).then(() => {
         this.setState({
           selectedRowKeys: [],
           selectedRowIDs: [],
-          selectedCarouselOIDs: [],
+          selectedCarouselOids: [],
         });
         this.showCompanySelector(false);
         message.success(this.$t('announcement.info.company.distribute.success')/*公司分配成功*/)
@@ -175,7 +175,7 @@ class AnnouncementInformation extends React.Component {
   handleRowClick = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/announcement-information/announcement-information-detail/${record.carouselOID}/${record.id}`,
+        pathname: `/admin-setting/announcement-information/announcement-information-detail/${record.carouselOid}/${record.id}`,
       })
     );
   };

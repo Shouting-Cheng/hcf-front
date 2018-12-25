@@ -34,10 +34,10 @@ class TravelInformation extends React.Component {
 
   getItinerary = () => {
     //FLIGHT(机票)、TRAIN(火车)、SUBSIDIES(差补)、REMARK(行程备注)、OTHER(其他交通)、HOTEL(酒店)
-    const { applicationOID, latestApplicationOID } = this.props;
+    const { applicationOid, latestApplicationOid } = this.props;
     requestService[
-      latestApplicationOID ? 'getLastItineraryByApplicationOID' : 'getItineraryByApplicationOID'
-    ](applicationOID, latestApplicationOID).then(res => {
+      latestApplicationOid ? 'getLastItineraryByApplicationOid' : 'getItineraryByApplicationOid'
+    ](applicationOid, latestApplicationOid).then(res => {
       if (this.state.subsidyVersion === 2) {
         const info = this.props.info;
         res.data.SUBSIDIES = JSON.parse(
@@ -112,10 +112,10 @@ class TravelInformation extends React.Component {
   };
 
   //展示差补详情列表
-  handleSubsidyItemShow = (travelSubsidiesRequestOID, itemIndex, showItem) => {
+  handleSubsidyItemShow = (travelSubsidiesRequestOid, itemIndex, showItem) => {
     let itinerary = this.state.itinerary;
     itinerary['SUBSIDIES'].map(item => {
-      if (item.travelSubsidiesRequestOID === travelSubsidiesRequestOID) {
+      if (item.travelSubsidiesRequestOid === travelSubsidiesRequestOid) {
         item.travelSubsidiesRequestItemDTOs[itemIndex].showItem = showItem;
       }
     });
@@ -408,7 +408,7 @@ class TravelInformation extends React.Component {
               {item.expenseType && item.expenseType.length ? (
                 item.expenseType.map(expense => {
                   return (
-                    <div key={expense.expenseTypeOID} className="expense-item">
+                    <div key={expense.expenseTypeOid} className="expense-item">
                       <div>
                         {expense.expenseTypeName} {this.props.company.baseCurrency} {expense.amount}
                         {this.$t('request.detail.travel.people.day') /*/人/天*/},
@@ -520,7 +520,7 @@ class TravelInformation extends React.Component {
                           type={subsidy.showItem ? 'up-circle-o' : 'down-circle-o'}
                           onClick={() =>
                             this.handleSubsidyItemShow(
-                              item.travelSubsidiesRequestOID,
+                              item.travelSubsidiesRequestOid,
                               itemIndex,
                               !subsidy.showItem
                             )
@@ -538,7 +538,7 @@ class TravelInformation extends React.Component {
                                 className={`subsidy-item ${
                                   subsidyItemIndex % 2 ? 'subsidy-item-bg' : ''
                                 }`}
-                                key={subsidyItem.travelSubsidiesDetailsOID}
+                                key={subsidyItem.travelSubsidiesDetailsOid}
                               >
                                 <Row>
                                   <Col span={3}>
@@ -553,8 +553,8 @@ class TravelInformation extends React.Component {
                                         {subsidyItem.expenseTypeName}
                                       </span>
                                     </Tooltip>
-                                    {(subsidy.duplicateSubsidiesOIDs || []).map(duplicateOID => {
-                                      if (duplicateOID === subsidyItem.travelSubsidiesDetailsOID) {
+                                    {(subsidy.duplicateSubsidiesOids || []).map(duplicateOid => {
+                                      if (duplicateOid === subsidyItem.travelSubsidiesDetailsOid) {
                                         return (
                                           <Tag color="#bababa" style={{ verticalAlign: 'top' }}>
                                             {this.$t('request.detail.travel.repeat') /*重复*/}
@@ -892,8 +892,8 @@ class TravelInformation extends React.Component {
 }
 
 TravelInformation.propTypes = {
-  applicationOID: PropTypes.string,
-  latestApplicationOID: PropTypes.string,
+  applicationOid: PropTypes.string,
+  latestApplicationOid: PropTypes.string,
   info: PropTypes.object,
   customFormPropertyMap: PropTypes.object,
   controlFields: PropTypes.object,

@@ -72,7 +72,7 @@ class OrgStructureRoles extends React.Component {
   handleListOk = result => {
     const arr = result.result;
     let currentRole = this.state.currentRole;
-    currentRole.userOID = arr[0].userOID;
+    currentRole.userOid = arr[0].userOid;
     currentRole.userName = arr[0].fullName;
     this.setCurrentRoleToOriginDep(currentRole);
     //关闭弹窗
@@ -104,7 +104,7 @@ class OrgStructureRoles extends React.Component {
   };
   //移除角色
   removeRoleUser = item => {
-    item.userOID = '';
+    item.userOid = '';
     item.userName = '';
     this.setCurrentRoleToOriginDep(item);
   };
@@ -142,9 +142,9 @@ class OrgStructureRoles extends React.Component {
       for (let i = 0; i < roleList.length; i++) {
         if (roleList[i].positionCode === '6101') {
           if (
-            roleList[i].userOID === null ||
-            roleList[i].userOID === '' ||
-            roleList[i].userOID === undefined
+            roleList[i].userOid === null ||
+            roleList[i].userOid === '' ||
+            roleList[i].userOid === undefined
           ) {
             return false;
           }

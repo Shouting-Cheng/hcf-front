@@ -74,10 +74,10 @@ class NewPersonGroup extends React.Component {
                             if (response) {
                                 this.setState({ loading: false });
                                 // this.context.router.push(menuRoute.getMenuItemByAttr('person-group', 'key')
-                                //   .children.personGroupDetail.url.replace(':id', response.data.userGroupOID));
+                                //   .children.personGroupDetail.url.replace(':id', response.data.userGroupOid));
                                 this.props.dispatch(
                                     routerRedux.push({
-                                        pathname: `/admin-setting/person-group/person-group-detail/${response.data.userGroupOID}`,
+                                        pathname: `/admin-setting/person-group/person-group-detail/${response.data.userGroupOid}`,
                                     })
                                 );
 
@@ -93,10 +93,10 @@ class NewPersonGroup extends React.Component {
                             if (response) {
                                 this.setState({ loading: false });
                                 // this.context.router.push(menuRoute.getMenuItemByAttr('person-group', 'key')
-                                //     .children.personGroupDetail.url.replace(':id', response.data.userGroupOID));
+                                //     .children.personGroupDetail.url.replace(':id', response.data.userGroupOid));
                                 this.props.dispatch(
                                     routerRedux.push({
-                                        pathname: `/admin-setting/person-group/person-group-detail/${response.data.userGroupOID}`,
+                                        pathname: `/admin-setting/person-group/person-group-detail/${response.data.userGroupOid}`,
                                     })
                                 );
                             }

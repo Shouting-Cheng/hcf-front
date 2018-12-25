@@ -65,7 +65,7 @@ class NewExpense extends React.Component {
       againLoading: false,
       copyLoading: false,
       applicationList: [],
-      attachmentOID: [],
+      attachmentOid: [],
       isRefreshShareTabel: false,
       shareParams: {
         defaultApportion: {},
@@ -192,7 +192,7 @@ class NewExpense extends React.Component {
             let attachments = res.data.attachments.map(o => {
               return {
                 ...o,
-                uid: o.attachmentOID,
+                uid: o.attachmentOid,
                 name: o.fileName,
               };
             });
@@ -201,12 +201,12 @@ class NewExpense extends React.Component {
                 editModel: res.data,
                 loading: false,
                 fileList: attachments,
-                attachmentOID: res.data.attachments.map(o => o.attachmentOID),
+                attachmentOid: res.data.attachments.map(o => o.attachmentOid),
                 expenseType: {
                   name: res.data.expenseTypeName,
                   iconURL: res.data.expenseTypeIconURL,
                   id: res.data.expenseTypeId,
-                  expenseTypeOID: res.data.expenseTypeOID,
+                  expenseTypeOid: res.data.expenseTypeOid,
                 },
               },
               () => {
@@ -236,7 +236,7 @@ class NewExpense extends React.Component {
     var editModel = this.state.editModel.id
       ? {
           id: this.state.editModel.id,
-          invoiceOID: this.state.editModel.invoiceOID,
+          invoiceOid: this.state.editModel.invoiceOid,
           receiptGoodsID: this.state.editModel.receiptGoodsID,
           receiptID: this.state.editModel.receiptID,
         }
@@ -251,7 +251,7 @@ class NewExpense extends React.Component {
       currentRate: '',
       isRefreshShareTabel: !this.state.isRefreshShareTabel,
       invoiceData: {},
-      attachmentOID: [],
+      attachmentOid: [],
       fileList: [],
     });
   };
@@ -276,7 +276,7 @@ class NewExpense extends React.Component {
 
         defaultApportion.costCenterItems &&
           defaultApportion.costCenterItems.map((item, i) => {
-            obj[item.costCenterOID] = {
+            obj[item.costCenterOid] = {
               key: o.costCenterItems[i].costCenterItemId,
               label: o.costCenterItems[i].costCenterItemName,
             };
@@ -327,7 +327,7 @@ class NewExpense extends React.Component {
     };
     defaultApportion.costCenterItems &&
       defaultApportion.costCenterItems.map(o => {
-        obj[o.costCenterOID] = {
+        obj[o.costCenterOid] = {
           key: o.costCenterItemId,
           label: o.costCenterItemName,
         };
@@ -436,14 +436,14 @@ class NewExpense extends React.Component {
 
         if (this.state.defaultApportion && this.state.defaultApportion.costCenterItems) {
           costCenterItems = this.state.defaultApportion.costCenterItems.map(item => {
-            if (!o[item.costCenterOID] || !o[item.costCenterOID].key) {
+            if (!o[item.costCenterOid] || !o[item.costCenterOid].key) {
               message.error('成本中心不能为空！');
               this.setState({ saveLoading: false, copyLoading: false, againLoading: false });
               isError = true;
             } else {
               return {
-                costCenterItemId: o[item.costCenterOID].key,
-                costCenterItemName: o[item.costCenterOID].label,
+                costCenterItemId: o[item.costCenterOid].key,
+                costCenterItemName: o[item.costCenterOid].label,
               };
             }
           });
@@ -486,19 +486,19 @@ class NewExpense extends React.Component {
         ...data,
         expenseTypeId: this.state.expenseType.id,
         expenseTypeCategoryDTO: {},
-        expenseTypeOID: this.state.expenseType.expenseTypeOID,
+        expenseTypeOid: this.state.expenseType.expenseTypeOid,
         expenseApportionDTOList: applicationData,
-        expenseReportOID: this.state.headerData.expenseReportOID,
-        attachments: this.state.attachmentOID.map(item => {
+        expenseReportOid: this.state.headerData.expenseReportOid,
+        attachments: this.state.attachmentOid.map(item => {
           return {
-            attachmentOID: item,
+            attachmentOid: item,
           };
         }),
       };
 
       if (this.state.isCopy) {
         delete data.id;
-        delete data.invoiceOID;
+        delete data.invoiceOid;
         delete data.receiptGoodsID;
         delete data.receiptID;
       }
@@ -609,7 +609,7 @@ class NewExpense extends React.Component {
 
       if (this.state.headerData.defaultApportionInfo.costCenterItems) {
         this.state.headerData.defaultApportionInfo.costCenterItems.map(o => {
-          values[o.costCenterOID] = { key: o.costCenterItemId, label: o.costCenterItemName };
+          values[o.costCenterOid] = { key: o.costCenterItemId, label: o.costCenterItemName };
         });
       }
     } else {
@@ -623,7 +623,7 @@ class NewExpense extends React.Component {
 
       if (this.state.headerData.defaultApportionInfo.costCenterItems) {
         this.state.headerData.defaultApportionInfo.costCenterItems.map(o => {
-          values[o.costCenterOID] = { key: o.costCenterItemId, label: o.costCenterItemName };
+          values[o.costCenterOid] = { key: o.costCenterItemId, label: o.costCenterItemName };
         });
       }
     }
@@ -747,7 +747,7 @@ class NewExpense extends React.Component {
 
   //上传附件
   handleUpload = values => {
-    this.setState({ attachmentOID: values });
+    this.setState({ attachmentOid: values });
   };
 
   //检查金额
@@ -824,7 +824,7 @@ class NewExpense extends React.Component {
                 <Col span={12}>
                   {/* <ExpenseTypeSelector onSelect={this.handleSelectExpenseType}
                                     source="company"
-                                    param={this.props.company.companyOID} /> */}
+                                    param={this.props.company.companyOid} /> */}
                 </Col>
                 <Col span={12} style={{ padding: '20px 40px' }}>
                   <Spin spinning={loading}>

@@ -250,7 +250,7 @@ class SecuritySetting extends React.Component {
       enableMobileModify: this.state.securitySetting.defaultEnableMobileModify,
       enableEmailModify: this.state.securitySetting.defaultEnableEmailModify,
       createDataType: this.state.securitySetting.createDataType,
-      companyOID: this.state.securitySetting.companyOid,
+      companyOid: this.state.securitySetting.companyOid,
       name: this.state.securitySetting.name,
       taxId: this.state.securitySetting.taxId
     };

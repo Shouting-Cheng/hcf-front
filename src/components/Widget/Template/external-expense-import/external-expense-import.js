@@ -24,7 +24,7 @@ class ExternalExpenseImport extends React.Component {
       tabKey: 'UPDATE',
       result: {},
       transactionID: null,
-      formOID: null,
+      formOid: null,
       expenseTypeId: undefined,
       expenseTypeName: '',
       errorColumns: [
@@ -62,9 +62,9 @@ class ExternalExpenseImport extends React.Component {
       fileList.forEach(file => {
         formData.append('file', file);
       });
-      formData.append('claimOID', this.props.expenseReportOID);
+      formData.append('claimOid', this.props.expenseReportOid);
       formData.append('expenseTypeId', this.state.expenseTypeId);
-      formData.append('ownerOID', this.props.userOID);
+      formData.append('ownerOid', this.props.userOid);
       this.setState({
         uploading: true,
       });
@@ -184,7 +184,7 @@ class ExternalExpenseImport extends React.Component {
   };
 
   render() {
-    const { title, uploadUrlKey, expenseReportOID, formOID, userOID, applicationOID } = this.props;
+    const { title, uploadUrlKey, expenseReportOid, formOid, userOid, applicationOid } = this.props;
 
     const {
       visible,
@@ -246,7 +246,7 @@ class ExternalExpenseImport extends React.Component {
                   onChange={this.selectExpenseTypeCallBack}
                   type="externalExpense"
                   placeholder={this.$t('expense-report.ex.expense.import.select') /*'请输入选择'*/}
-                  params={{ formOID: formOID, userOID: userOID, applicationOID: applicationOID }}
+                  params={{ formOid: formOid, userOid: userOid, applicationOid: applicationOid }}
                 />
               </div>
             }
@@ -304,9 +304,9 @@ ExternalExpenseImport.propTypes = {
   fileName: PropTypes.string, //下载文件名
   onOk: PropTypes.func, //导入成功回调
   afterClose: PropTypes.func, //关闭后的回调
-  expenseReportOID: PropTypes.string, //报销单oid
-  formOID: PropTypes.string, //表单oid
-  userOID: PropTypes.string, //用户OID
+  expenseReportOid: PropTypes.string, //报销单oid
+  formOid: PropTypes.string, //表单oid
+  userOid: PropTypes.string, //用户Oid
 };
 
 ExternalExpenseImport.defaultProps = {
@@ -315,9 +315,9 @@ ExternalExpenseImport.defaultProps = {
   listenUrl: '',
   createTableShow: true, //创建表格示例是否显示
   listentSwitch: true, //上传文件后直接回调
-  expenseReportOID: null,
-  formOID: null,
-  userOID: null,
+  expenseReportOid: null,
+  formOid: null,
+  userOid: null,
   onOk: () => {},
   afterClose: () => {},
 };

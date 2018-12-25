@@ -58,13 +58,13 @@ class AnnouncementInformationDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.props.match.params.OID && this.getInfo();
+    this.props.match.params.Oid && this.getInfo();
     this.getAnnouncementTemp();
   }
 
   getInfo = () => {
     this.setState({ pageLoading: true });
-    announcementService.getAnnouncementDetail(this.props.match.params.OID).then(res => {
+    announcementService.getAnnouncementDetail(this.props.match.params.Oid).then(res => {
       this.setState({
         pageLoading: false,
         info: res.data,
@@ -138,13 +138,13 @@ class AnnouncementInformationDetail extends React.Component {
     content = content.replace(/<em>/g, '<em style="font-style: italic">');
     content = content.replace(/<i>/g, '<i style="font-style: italic">');
     values.enable = this.state.isEnabled;
-    values.attachmentOID = this.state.imageList[0].attachmentOID;
-    !this.props.tenantMode && (values.companyOID = this.props.company.companyOID);
+    values.attachmentOid = this.state.imageList[0].attachmentOid;
+    !this.props.tenantMode && (values.companyOid = this.props.company.companyOid);
     values.content = content;
     values.preferredDate = moment(new Date());
-    this.props.match.params.OID && (values.carouselOID = this.props.match.params.OID);
+    this.props.match.params.Oid && (values.carouselOid = this.props.match.params.Oid);
     this.setState({ loading: true });
-    announcementService[this.props.match.params.OID ? 'updateAnnouncement' : 'newAnnouncement'](
+    announcementService[this.props.match.params.Oid ? 'updateAnnouncement' : 'newAnnouncement'](
       values
     )
       .then(res => {
@@ -177,7 +177,7 @@ class AnnouncementInformationDetail extends React.Component {
   getCompanyList = () => {
     const { page, size } = this.state;
     this.setState({ tableLoading: true });
-    announcementService.getCompanyList(page, size, this.props.match.params.OID).then(res => {
+    announcementService.getCompanyList(page, size, this.props.match.params.Oid).then(res => {
       this.setState({
         tableLoading: false,
         data: res.data,
@@ -202,13 +202,13 @@ class AnnouncementInformationDetail extends React.Component {
   handleListOk = result => {
     let companyList = [];
     result.result.map(item => {
-      companyList.push(item.companyOID);
+      companyList.push(item.companyOid);
     });
     if (!companyList.length) {
       message.warning(this.$t('announcement.info.please.choose.company' /*请选择公司*/));
     } else {
       announcementService
-        .handleCompanyDistribute([this.props.match.params.OID], companyList)
+        .handleCompanyDistribute([this.props.match.params.Oid], companyList)
         .then(() => {
           this.showCompanySelector(false);
           this.getCompanyList();
@@ -436,7 +436,7 @@ class AnnouncementInformationDetail extends React.Component {
                         'announcement.info.to.outer.link.notice' /*勾选该选项，则直接按正文中第一个链接跳转到链接页面*/
                       )}
                     </Checkbox>
-                    )}
+                  )}
                 </FormItem>
 
                 <FormItem
@@ -490,7 +490,6 @@ class AnnouncementInformationDetail extends React.Component {
                   <BraftEditor
                     height={200}
                     controls={controls}
-                    language={this.props.language.locale}
                     contentFormat="html"
                     initialContent={content}
                     contentId={contentId}
@@ -521,7 +520,7 @@ class AnnouncementInformationDetail extends React.Component {
               </Form>
             </Spin>
           </TabPane>
-          {this.props.match.params.OID &&
+          {this.props.match.params.Oid &&
             this.props.tenantMode && (
               <TabPane tab={this.$t('announcement.company.distribute' /*公司分配*/)} key="company">
                 <div className="table-header">

@@ -85,7 +85,7 @@ class PersonBasicInfo extends React.Component {
       let customFormValues = this.state.personObj.customFormValues;
       for (let key in values) {
         for (let i = 0; i < customFormValues.length; i++) {
-          if (customFormValues[i].fieldOID === key) {
+          if (customFormValues[i].fieldOid === key) {
             if (customFormValues[i].messageKey === 'common.date') {
               customFormValues[i].value = values[key]
                 ? new Date(moment(values[key]).format('YYYY-MM-DD'))
@@ -106,7 +106,7 @@ class PersonBasicInfo extends React.Component {
               if (customFormValues[i].attachments) {
                 let _values = [];
                 for (let j = 0; j < customFormValues[i].attachments.length; j++) {
-                  _values.push(customFormValues[i].attachments[j].attachmentOID);
+                  _values.push(customFormValues[i].attachments[j].attachmentOid);
                 }
                 customFormValues[i].value = JSON.stringify(_values);
               }
@@ -136,28 +136,28 @@ class PersonBasicInfo extends React.Component {
         let originPersonObj = deepCopy(this.state.personObj);
         console.log(originPersonObj);
         console.log(values);
-        if (this.state.personObj.userOID) {
+        if (this.state.personObj.userOid) {
           //更新用户信息
           let personObj = Object.assign(
             {},
             {
-              userOID: this.state.personObj.userOID,
+              userOid: this.state.personObj.userOid,
 
-              companyOID: values.companyOID[0]
-                ? values.companyOID[0].companyOID
-                : this.state.personObj.companyOID,
-              companyName: values.companyOID[0]
-                ? values.companyOID[0].name
+              companyOid: values.companyOid[0]
+                ? values.companyOid[0].companyOid
+                : this.state.personObj.companyOid,
+              companyName: values.companyOid[0]
+                ? values.companyOid[0].name
                 : this.state.personObj.companyName,
               //
-              departmentOID: values.departmentName[0]
+              departmentOid: values.departmentName[0]
                 ? values.departmentName[0].departmentOid
-                : this.state.personObj.departmentOID,
+                : this.state.personObj.departmentOid,
               departmentName: values.departmentName[0]
                 ? values.departmentName[0].name
                 : this.state.personObj.departmentName,
               //
-              directManager: values.directManager[0] ? values.directManager[0].userOID : '',
+              directManager: values.directManager[0] ? values.directManager[0].userOid : '',
               //
               // duty: values.duty[0] ? values.duty[0].messageKey : this.state.personObj.duty,
               dutyCode: values.duty[0] ? values.duty[0].value : null,
@@ -204,21 +204,21 @@ class PersonBasicInfo extends React.Component {
           });
         } else {
           let personObj = Object.assign(personObjDefaultWithoutExtend, {
-            companyOID: values.companyOID[0]
-              ? values.companyOID[0].companyOID
-              : this.state.personObj.companyOID,
-            companyName: values.companyOID[0]
-              ? values.companyOID[0].name
+            companyOid: values.companyOid[0]
+              ? values.companyOid[0].companyOid
+              : this.state.personObj.companyOid,
+            companyName: values.companyOid[0]
+              ? values.companyOid[0].name
               : this.state.personObj.companyName,
             //
-            departmentOID: values.departmentName[0]
+            departmentOid: values.departmentName[0]
               ? values.departmentName[0].departmentOid
-              : this.state.personObj.departmentOID,
+              : this.state.personObj.departmentOid,
             departmentName: values.departmentName[0]
               ? values.departmentName[0].name
               : this.state.personObj.departmentName,
             //
-            directManager: values.directManager[0] ? values.directManager[0].userOID : '',
+            directManager: values.directManager[0] ? values.directManager[0].userOid : '',
             //
             // duty: values.duty[0] ? values.duty[0].messageKey : this.state.personObj.duty,
             dutyCode: values.duty[0] ? values.duty[0].value : this.state.personObj.dutyCode,
@@ -264,7 +264,7 @@ class PersonBasicInfo extends React.Component {
             let record = res.data;
             this.props.dispatch(
               routerRedux.push({
-                pathname: `/setting/employee/person-detail/person-detail/${record.userOID}`,
+                pathname: `/setting/employee/person-detail/person-detail/${record.userOid}`,
               })
             );
           });
@@ -537,7 +537,7 @@ class PersonBasicInfo extends React.Component {
     }
 
     return (
-      <div className="info-item f-left" key={field.fieldOID}>
+      <div className="info-item f-left" key={field.fieldOid}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{this.renderNoEditingText(field.value)}</div>
       </div>
@@ -552,7 +552,7 @@ class PersonBasicInfo extends React.Component {
   renderFiled_date = field => {
     let date = field.value ? new Date(field.value).format('yyyy-MM-dd') : '';
     return (
-      <div className="info-item f-left" key={field.fieldOID}>
+      <div className="info-item f-left" key={field.fieldOid}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{date}</div>
       </div>
@@ -565,7 +565,7 @@ class PersonBasicInfo extends React.Component {
       field.unit = content.unit;
     }
     return (
-      <div className="info-item f-left" key={field.fieldOID}>
+      <div className="info-item f-left" key={field.fieldOid}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">
           {field.value}&nbsp;{field.value ? field.unit : ''}
@@ -583,7 +583,7 @@ class PersonBasicInfo extends React.Component {
       val = moment(field.value).format('HH:mm');
     }
     return (
-      <div className="info-item f-left" key={field.fieldOID}>
+      <div className="info-item f-left" key={field.fieldOid}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{val}</div>
       </div>
@@ -608,7 +608,7 @@ class PersonBasicInfo extends React.Component {
     }
 
     return (
-      <div className="info-item f-left" key={field.fieldOID}>
+      <div className="info-item f-left" key={field.fieldOid}>
         <div className="info-item-title">{field.fieldName}：</div>
         <div className="info-item-text">{_getTooltipImages(field.attachmentImages)}</div>
       </div>
@@ -666,8 +666,8 @@ class PersonBasicInfo extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: field.value,
           rules: [
             {
@@ -687,8 +687,8 @@ class PersonBasicInfo extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: field.value,
           rules: [
             {
@@ -710,8 +710,8 @@ class PersonBasicInfo extends React.Component {
     //如果是值列表类型，在返回的数据上，前端多挂了一个customEnumerationList属性，
     //这个选择列表就从这个属性上拿了
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: field.value,
           rules: [
             {
@@ -749,8 +749,8 @@ class PersonBasicInfo extends React.Component {
 
     let val = field.value ? moment(field.value).format('YYYY-MM-DD') : new Date();
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: moment(val, 'YYYY-MM-DD'),
           rules: [
             {
@@ -788,8 +788,8 @@ class PersonBasicInfo extends React.Component {
     }
 
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName + field.unit} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName + field.unit} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: field.value,
           rules: [
             {
@@ -845,8 +845,8 @@ class PersonBasicInfo extends React.Component {
       val = moment(val, 'HH:mm');
     }
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: val,
           rules: [
             {
@@ -866,8 +866,8 @@ class PersonBasicInfo extends React.Component {
     function handleUploadImageChange(fileList) {}
 
     return (
-      <FormItem key={field.fieldOID} label={field.fieldName} colon={true}>
-        {getFieldDecorator(field.fieldOID, {
+      <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
+        {getFieldDecorator(field.fieldOid, {
           initialValue: fileList,
           rules: [{ required: field.required, message: this.$t('common.please.enter') }],
         })(
@@ -962,12 +962,12 @@ class PersonBasicInfo extends React.Component {
                 label={this.$t('pdc.basic.info.company')} //公司
                 colon={true}
               >
-                {getFieldDecorator('companyOID', {
-                  initialValue: personObj.companyOID
+                {getFieldDecorator('companyOid', {
+                  initialValue: personObj.companyOid
                     ? [
                         {
                           companyName: personObj.companyName,
-                          companyOID: personObj.companyOID,
+                          companyOid: personObj.companyOid,
                         },
                       ]
                     : [],
@@ -982,7 +982,7 @@ class PersonBasicInfo extends React.Component {
                     single={true}
                     type="all_company_with_legal_entity"
                     labelKey="companyName"
-                    valueKey="companyOID"
+                    valueKey="companyOid"
                     onChange={this.handleChange}
                     listExtraParams={{}}
                   />
@@ -997,11 +997,11 @@ class PersonBasicInfo extends React.Component {
                 colon={true}
               >
                 {getFieldDecorator('departmentName', {
-                  initialValue: personObj.departmentOID
+                  initialValue: personObj.departmentOid
                     ? [
                         {
                           name: personObj.departmentName,
-                          departmentOid: personObj.departmentOID,
+                          departmentOid: personObj.departmentOid,
                         },
                       ]
                     : [],
@@ -1093,7 +1093,7 @@ class PersonBasicInfo extends React.Component {
                     ? [
                         {
                           fullName: personObj.directManagerName,
-                          userOID: personObj.directManager,
+                          userOid: personObj.directManager,
                         },
                       ]
                     : [],
@@ -1103,7 +1103,7 @@ class PersonBasicInfo extends React.Component {
                     single={true}
                     placeholder={this.$t('common.please.select')}
                     labelKey="fullName"
-                    valueKey="userOID"
+                    valueKey="userOid"
                     onChange={this.handleChange}
                     type="user"
                   />

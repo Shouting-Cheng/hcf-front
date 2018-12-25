@@ -124,24 +124,24 @@ class FormList extends React.Component {
     this.setState({
       companySelectedData: [
         {
-          companyOID: company.companyOID,
+          companyOid: company.companyOid,
           name: company.name,
           id: company.id,
         },
       ],
       deparmentSelectedData: [
         {
-          departmentOid: user.departmentOID,
+          departmentOid: user.departmentOid,
           departmentName: user.departmentName,
         },
       ],
       applyer: [
         {
-          userOID: user.userOID,
+          userOid: user.userOid,
           fullName: user.fullName,
         },
       ],
-      currentApplyerOID: user.userOID,
+      currentApplyerOid: user.userOid,
       currnetApplyerId: user.id,
       setOfBooksId: company.setOfBooksId,
       baseCurrency: company.baseCurrency,
@@ -433,20 +433,20 @@ class FormList extends React.Component {
       switch (i.messageKey) {
         case 'select_company':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: isNew
                   ? [
                     {
-                      companyOID: this.props.user.companyOID,
+                      companyOid: this.props.user.companyOid,
                       name: this.props.user.companyName,
                       id: this.state.companyId,
                     },
                   ]
                   : [
                     {
-                      companyOID: formSetings.companyOid,
+                      companyOid: formSetings.companyOid,
                       name: formSetings.companyName,
                       id: formSetings.companyId,
                     },
@@ -456,8 +456,8 @@ class FormList extends React.Component {
                   placeholder={this.$t({id: 'common.please.select'})}
                   type="select_company_reimburse"
                   labelKey="name"
-                  valueKey="companyOID"
-                  onlyNeed="companyOID"
+                  valueKey="companyOid"
+                  onlyNeed="companyOid"
                   handleOk={this.companyChange}
                   listExtraParams={{
                     tenantId: this.props.user.tenantId,
@@ -472,11 +472,11 @@ class FormList extends React.Component {
           break;
         case 'select_department':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: isNew
-                  ? [{departmentOid: user.departmentOID, path: user.departmentName}]
+                  ? [{departmentOid: user.departmentOid, path: user.departmentName}]
                   : [{departmentOid: i.value, path: i.showValue}],
               })(
                 <Chooser
@@ -495,8 +495,8 @@ class FormList extends React.Component {
         // case "text_area":
         case 'select_cost_center':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: {key: i.value, label: i.showValue} || '',
               })(
@@ -504,12 +504,12 @@ class FormList extends React.Component {
                   labelInValue
                   placeholder={i.promptInfo ? i.promptInfo : '请选择'}
                   disabled={i.readonly}
-                  onDropdownVisibleChange={() => this.handleFocus(i, 'costCenterOID', i.fieldOID)}
+                  onDropdownVisibleChange={() => this.handleFocus(i, 'costCenterOid', i.fieldOid)}
                 >
-                  {this.state.costData[i.fieldOID] &&
-                  this.state.costData[i.fieldOID].map(o => {
+                  {this.state.costData[i.fieldOid] &&
+                  this.state.costData[i.fieldOid].map(o => {
                     return (
-                      <Option key={o.costCenterItemOID} value={o.costCenterItemOID}>
+                      <Option key={o.costCenterItemOid} value={o.costCenterItemOid}>
                         {o.name}
                       </Option>
                     );
@@ -521,8 +521,8 @@ class FormList extends React.Component {
           break;
         case 'destination':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(<Input placeholder={i.promptInfo ? i.promptInfo : '请输入'}/>)}
@@ -533,8 +533,8 @@ class FormList extends React.Component {
           var options = JSON.parse(i.fieldContent);
           var multiple = JSON.stringify(JSON.parse(i.fieldConstraint.replace(/\\/g,"")));
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(
@@ -556,8 +556,8 @@ class FormList extends React.Component {
           break;
         case 'dateTime':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: moment(i.value) || moment(),
               })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" placeholder="选择日期和时间"/>)}
@@ -569,8 +569,8 @@ class FormList extends React.Component {
           //若有多个 加载select 并默认设置为当前用户的币种
           var {currencyCodeList} = this.state;
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || "CNY",
               })(
@@ -593,8 +593,8 @@ class FormList extends React.Component {
           break;
         case 'cust_list':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(<Input placeholder={i.promptInfo ? i.promptInfo : '请输入'}/>)}
@@ -603,8 +603,8 @@ class FormList extends React.Component {
           break;
         case 'contact_bank_account':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(<Input placeholder={i.promptInfo ? i.promptInfo : '请输入'}/>)}
@@ -613,8 +613,8 @@ class FormList extends React.Component {
           break;
         case 'select_approver':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(
@@ -633,8 +633,8 @@ class FormList extends React.Component {
           break;
         case 'attachment':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
               })(
                 <Upload
@@ -643,7 +643,7 @@ class FormList extends React.Component {
                   fileNum={9}
                   uploadHandle={this.handleUpload}
                   defaultFileList={[]}
-                  defaultOIDs={[]}
+                  defaultOids={[]}
                 />
               )}
             </FormItem>
@@ -651,8 +651,8 @@ class FormList extends React.Component {
           break;
         case 'remark':
           form.push(
-            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOID}>
-              {getFieldDecorator(i.fieldOID, {
+            <FormItem {...formItemLayout} label={i.fieldName} key={i.fieldOid}>
+              {getFieldDecorator(i.fieldOid, {
                 rules: [{required: i.required, message: i.promptInfo}],
                 initialValue: i.value || '',
               })(
@@ -785,17 +785,17 @@ class FormList extends React.Component {
     });
   };
 
-  handleFocus = (value, key, fieldOID) => {
+  handleFocus = (value, key, fieldOid) => {
     let costData = this.state.costData;
 
-    if (costData[fieldOID] && costData[fieldOID].length) return;
+    if (costData[fieldOid] && costData[fieldOid].length) return;
     if (value.dataSource) {
       let dataSource = JSON.parse(value.dataSource);
       reimburseService.getCostList(dataSource[key]).then(res => {
-        costData[fieldOID] = res.data;
+        costData[fieldOid] = res.data;
         this.setState({costData}, () => {
           if (value.value) {
-            this.props.form.setFieldsValue({[fieldOID]: value.value});
+            this.props.form.setFieldsValue({[fieldOid]: value.value});
           }
         });
       });

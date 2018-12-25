@@ -367,7 +367,7 @@ class BudgetJournalDetail extends React.Component {
   getApproveHistory(headerData) {
     let params = {};
     params.entityType = headerData.documentType;
-    params.entityOID = headerData.documentOid;
+    params.entityOid = headerData.documentOid;
     budgetJournalService.getBudgetJournalApproveHistory(params).then(response => {
       this.setState({ historyData: response.data });
     });
@@ -444,10 +444,10 @@ class BudgetJournalDetail extends React.Component {
       });
   };
 
-  //根据attachmentOID，查询附件
+  //根据attachmentOid，查询附件
   getFile = value => {
     budgetJournalService
-      .getFileByAttachmentOID(value)
+      .getFileByAttachmentOid(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);
@@ -546,7 +546,7 @@ class BudgetJournalDetail extends React.Component {
         if (this.state.columnsSetFlag) {
           this.getDimensionByStructureId(headerData.structureId);
         }
-        headerData.attachmentOID.map(item => {
+        headerData.attachmentOid.map(item => {
           this.getFile(item);
         });
         const journalType = [];
@@ -812,13 +812,13 @@ class BudgetJournalDetail extends React.Component {
       });
       let header = this.state.headerAndListData.dto;
       let data = {
-        applicantOID: header.applicatOiD,
-        userOID: this.props.user.userOID,
-        formOID: header.formOid,
-        entityOID: header.documentOid,
+        applicantOid: header.applicatOiD,
+        userOid: this.props.user.userOid,
+        formOid: header.formOid,
+        entityOid: header.documentOid,
         entityType: header.documentType,
         amount: 0,
-        countersignApproverOIDs: null,
+        countersignApproverOids: null,
       };
 
       if (this.state.commitFlag) {

@@ -136,8 +136,8 @@ class PriceReview extends React.Component {
 
   handleRowClick = record => {
     let url = this.state.reviewDetail.url
-      .replace(':formOID', record.formOID)
-      .replace(':applicationOID', record.applicationOID);
+      .replace(':formOid', record.formOid)
+      .replace(':applicationOid', record.applicationOid);
     this.state.tab === 'approving' && (url += `?approving=true`);
     this.context.router.push(url);
   };

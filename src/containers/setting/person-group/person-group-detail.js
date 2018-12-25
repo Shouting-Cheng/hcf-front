@@ -172,7 +172,7 @@ class PersonGroupDetail extends React.Component {
             },
             selectorItem: chooserData['personTypeModel'], //弹窗显示配置
             showListSelector: false, //弹窗是否显示
-            userGroupOID: '', //人员组oid
+            userGroupOid: '', //人员组oid
             userGroupId: ''
         };
         // 正在编辑条件
@@ -185,7 +185,7 @@ class PersonGroupDetail extends React.Component {
 
     componentDidMount() {
         this.setState({
-            userGroupOID: this.props.match.params.id,
+            userGroupOid: this.props.match.params.id,
         });
         this.getGroupDetail();
         //加载人员组下面的人
@@ -194,8 +194,8 @@ class PersonGroupDetail extends React.Component {
 
     deleteUserFromGroup = (e, record) => {
         let param = {
-            userGroupOID: this.state.userGroupOID,
-            userOIDs: [record.userOID],
+            userGroupOid: this.state.userGroupOid,
+            userOids: [record.userOid],
         };
         PGService.deletePersonGroupPerson(param).then(() => {
             this.getList(this.state.nowStatus);
@@ -465,11 +465,11 @@ class PersonGroupDetail extends React.Component {
     addUserToGroup(arr) {
         const users = [];
         arr.map(function (item) {
-            users.push(item.userOID);
+            users.push(item.userOid);
         });
         let param = {
-            userGroupOID: this.state.userGroupOID,
-            userOIDs: users,
+            userGroupOid: this.state.userGroupOid,
+            userOids: users,
         };
         PGService.addPersonGroupPerson(param).then(() => {
             this.getList(this.state.nowStatus);
@@ -688,7 +688,7 @@ class PersonGroupDetail extends React.Component {
                             bordered
                             size="middle"
                             rowKey={reCode => {
-                                return reCode.userOID;
+                                return reCode.userOid;
                             }}
                         />
                     </TabPane>
@@ -799,7 +799,7 @@ class PersonGroupDetail extends React.Component {
     handleUpdate = value => {
         const { infoData } = this.state;
         value.id = infoData.id;
-        value.userGroupOID = infoData.userGroupOID;
+        value.userGroupOid = infoData.userGroupOid;
         PGService.UpdatePersonGroup(value).then(response => {
             this.setState({
                 infoData: response.data,

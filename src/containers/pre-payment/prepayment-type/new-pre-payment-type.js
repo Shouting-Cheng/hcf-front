@@ -91,7 +91,7 @@ class NewPrePaymentType extends React.Component {
             requisitionTypeIdList: res.data.requisitionTypeIdList
               ? res.data.requisitionTypeIdList
               : [],
-            form: { formOID: temp.formOid, formName: temp.formName, formType: temp.formType },
+            form: { formOid: temp.formOid, formName: temp.formName, formType: temp.formType },
             permissions: {
               type: type[temp.applyEmployee],
               values: res.data.departmentOrUserGroupList
@@ -170,10 +170,10 @@ class NewPrePaymentType extends React.Component {
         values.allClass = this.state.allClass;
         values.applyEmployee = permissionsType[values.selectEmployeeList.type];
 
-        let form = this.state.requisitionList.find(o => o.formOID == values.formOID);
+        let form = this.state.requisitionList.find(o => o.formOid == values.formOid);
 
         if (form) {
-          values.formOid = form.formOID;
+          values.formOid = form.formOid;
           values.formName = form.formName;
           values.formType = form.formType;
         } else {
@@ -183,7 +183,7 @@ class NewPrePaymentType extends React.Component {
         }
 
         delete values.form;
-        delete values.formOID;
+        delete values.formOid;
 
         if (values.id) {
           delete values.typeCode;
@@ -462,7 +462,7 @@ class NewPrePaymentType extends React.Component {
               </span>
             }
           >
-            {getFieldDecorator('formOID', {
+            {getFieldDecorator('formOid', {
               rules: [
                 {
                   required: false,
@@ -472,7 +472,7 @@ class NewPrePaymentType extends React.Component {
             })(
               <Select allowClear onFocus={this.onFormFocus}>
                 {requisitionList.map(item => {
-                  return <Option key={item.formOID}>{item.formName}</Option>;
+                  return <Option key={item.formOid}>{item.formName}</Option>;
                 })}
               </Select>
             )}

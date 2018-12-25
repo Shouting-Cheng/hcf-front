@@ -46,11 +46,11 @@ export default {
         })
     })
   },
-  //根据公司OID及值列表OID分配公司
-  distributeCompany(companies, customOIDs) {
+  //根据公司Oid及值列表Oid分配公司
+  distributeCompany(companies, customOids) {
     let params = {
-      customEnumerationOIDs: customOIDs,
-      companyOIDs: companies
+      customEnumerationOids: customOids,
+      companyOids: companies
     }
     return new Promise(function (resolve, reject) {
       httpFetch.put(config.baseUrl + '/api/custom/enumeration/relevance/company', params)
@@ -63,10 +63,10 @@ export default {
         })
     })
   },
-  //根据值列表OID获取值列表信息
-  getValueListInfo(OID) {
+  //根据值列表Oid获取值列表信息
+  getValueListInfo(Oid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + OID)
+      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + Oid)
         .then(function (res) {
           resolve(res)
         })
@@ -78,9 +78,9 @@ export default {
   },
   //获取值列表项:包括系统值列表项与自定义值列表项
   //主要用于读取多语言
-  getValue(customEnumerationItemOID){
+  getValue(customEnumerationItemOid){
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/custom/enumerations/items/'+customEnumerationItemOID)
+      httpFetch.get(config.baseUrl + '/api/custom/enumerations/items/'+customEnumerationItemOid)
         .then(function (res) {
           resolve(res)
         })
@@ -93,7 +93,7 @@ export default {
   //根据值列表oid与value，查询值列表的messageKey
   getMessageKeyByValue(params){
     // let params = {
-    //   customEnumerationOID:"",
+    //   customEnumerationOid:"",
     //   messageKey:""//注意一下，刚才与后端陈良钦，确认过，这个参数要传value，
     // }
     //整个接口返回的结果是messageKey
@@ -134,15 +134,15 @@ export default {
         })
     })
   },
-  //根据值列表OID获取值内容列表
-  getValueList(page, size, OID, keyWords) {
+  //根据值列表Oid获取值内容列表
+  getValueList(page, size, Oid, keyWords) {
     let params = {
       page,
       size,
       keyword: keyWords
     }
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + OID + '/items', params)
+      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + Oid + '/items', params)
         .then(function (res) {
           resolve(res)
         })
@@ -152,12 +152,12 @@ export default {
         })
     })
   },
-  //根据值列表OID获取已分配的公司列表
-  getCompanyList(page, size, OID) {
+  //根据值列表Oid获取已分配的公司列表
+  getCompanyList(page, size, Oid) {
     let params = {
       page,
       size,
-      customEnumerationOID:OID
+      customEnumerationOid:Oid
     }
     return new Promise(function (resolve, reject) {
       httpFetch.get(config.baseUrl + '/api/custom/enumeration/find/distribution', params)
@@ -170,18 +170,18 @@ export default {
         })
     })
   },
-  //根据值列表OID导出值,isCustom: CUSTOM(自定义值列表)、SYSTEM(系统值列表)
-  exportValues(params, OID, isCustom) {
+  //根据值列表Oid导出值,isCustom: CUSTOM(自定义值列表)、SYSTEM(系统值列表)
+  exportValues(params, Oid, isCustom) {
     //isCustom传false就是系统值列表
-    let url = `${config.baseUrl}/api/custom/enumerations/items/export?customEnumerationOID=${OID}&isCustom=${isCustom === 'CUSTOM'}`;
+    let url = `${config.baseUrl}/api/custom/enumerations/items/export?customEnumerationOid=${Oid}&isCustom=${isCustom === 'CUSTOM'}`;
     return httpFetch.post(url, params, {}, { responseType: 'arraybuffer' });
   },
-  //根据值OID获取员工列表
-  getEmployeeList(page, size, OID) {
+  //根据值Oid获取员工列表
+  getEmployeeList(page, size, Oid) {
     let params = {
       page,
       size,
-      customEnumerationItemOID:OID
+      customEnumerationItemOid:Oid
     }
     return new Promise(function (resolve, reject) {
       httpFetch.get(config.baseUrl + '/api/custom/enumerations/items/users', params)
@@ -234,9 +234,9 @@ export default {
     })
   },
   //批量启用／禁用值列表项
-  batchUpdate(customEnumerationItemOIDs, enable) {
+  batchUpdate(customEnumerationItemOids, enable) {
     return new Promise(function (resolve, reject) {
-      httpFetch.post(config.baseUrl + `/api/custom/enumeration/items/batch/enable/or/disable?customEnumerationItemOIDs=${customEnumerationItemOIDs}&enable=${enable}`)
+      httpFetch.post(config.baseUrl + `/api/custom/enumeration/items/batch/enable/or/disable?customEnumerationItemOids=${customEnumerationItemOids}&enable=${enable}`)
         .then(function (res) {
           resolve(res)
         })

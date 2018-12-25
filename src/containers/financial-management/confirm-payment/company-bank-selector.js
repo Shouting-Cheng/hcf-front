@@ -20,7 +20,7 @@ class CompanyBankSelector extends React.Component {
       paymentChequeNoDisable: true,
       selectorItem: {
         title: messages('payment.batch.company.bankAccount'),
-        url: `${config.baseUrl}/api/companyBankAuth/get/own/info/${this.props.user.userOID}`,
+        url: `${config.baseUrl}/api/companyBankAuth/get/own/info/${this.props.user.userOid}`,
         searchForm: [],
         columns: [
           { title: messages('payment.batch.company.accountName'), dataIndex: 'bankAccountName' },
@@ -152,7 +152,7 @@ class CompanyBankSelector extends React.Component {
               <Chooser
                 listExtraParams={{
                   setOfBooksId: this.props.company.setOfBooksId,
-                  userOID: this.props.user.userOID,
+                  userOid: this.props.user.userOid,
                 }}
                 valueKey="bankAccountNumber"
                 selectorItem={selectorItem}

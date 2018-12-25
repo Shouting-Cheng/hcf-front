@@ -59,12 +59,12 @@ class PrePaymentDetail extends React.Component {
   onSubmit = () => {
     const {applicationOid, empOid, formOid, documentOid, createdDate, id, requisitionNumber, description, companyId, unitOid, advancePaymentAmount, currency, paymentReqTypeId} = this.state.headerData;
     /*let model = {
-      applicantOID: applicationOid,
-      userOID: empOid,
-      formOID: formOid,
-      entityOID: documentOid,
+      applicantOid: applicationOid,
+      userOid: empOid,
+      formOid: formOid,
+      entityOid: documentOid,
       entityType: 801003,
-      countersignApproverOIDs: null,
+      countersignApproverOids: null,
     };*/
     let workFlowDocumentRef = {
       applicantOid: applicationOid,
@@ -72,7 +72,7 @@ class PrePaymentDetail extends React.Component {
       formOid: formOid,
       documentOid: documentOid,
       documentCategory: 801003,
-      countersignApproverOIDs: null,
+      countersignApproverOids: null,
       documentNumber: requisitionNumber,
       remark: description,
       companyId: companyId,

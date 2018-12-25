@@ -172,22 +172,22 @@ class CostCenter extends React.Component {
 
     //编辑成本中心
     editCostCenter(e, record) {
-        // this.context.router.push(this.state.newCostCenter.url.replace(':id', record.costCenterOID));
+        // this.context.router.push(this.state.newCostCenter.url.replace(':id', record.costCenterOid));
         let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/new-cost-center/${record.costCenterOID}/${searchParams.setOfBook}`,
+                pathname: `/admin-setting/cost-center/new-cost-center/${record.costCenterOid}/${searchParams.setOfBook}`,
             })
         );
     }
 
     //成本中心详情
     detailCostCenter(e, record) {
-        // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOID));
+        // this.context.router.push(this.state.CostCenterDetail.url.replace(':id', record.costCenterOid));
         let { searchParams } = this.state;
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOID}/${searchParams.setOfBook}`,
+                pathname: `/admin-setting/cost-center/cost-center-detail/${record.costCenterOid}/${searchParams.setOfBook}`,
             })
         );
     }

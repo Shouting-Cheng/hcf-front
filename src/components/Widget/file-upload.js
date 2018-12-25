@@ -52,7 +52,7 @@ class FileUpload extends React.Component {
     let fileList = [];
     defaultFileList.map(attachment => {
       fileList.push({
-        uid: attachment.attachmentOID,
+        uid: attachment.attachmentOid,
         name: attachment.fileName,
         status: 'done',
         url: attachment.thumbnailUrl,
@@ -134,7 +134,7 @@ class FileUpload extends React.Component {
       });
     } else {
       httpFetch
-        .get(`${config.baseUrl}/api/attachments/download/${file.attachmentOID}?access_token=${sessionStorage.getItem('token')}`, {}, {}, { responseType: 'arraybuffer' })
+        .get(`${config.baseUrl}/api/attachments/download/${file.attachmentOid}?access_token=${sessionStorage.getItem('token')}`, {}, {}, { responseType: 'arraybuffer' })
         .then(res => {
           let b = new Blob([res.data], {
             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -181,12 +181,12 @@ class FileUpload extends React.Component {
     let { result, info, fileList } = this.state;
     let required = false;
     let attachmentOid = info.response
-      ? info.response.attachmentOID
-        ? info.response.attachmentOID
-        : info.response.attachmentDTO.attachmentOID
-      : info.attachmentOID;
+      ? info.response.attachmentOid
+        ? info.response.attachmentOid
+        : info.response.attachmentDTO.attachmentOid
+      : info.attachmentOid;
     result.map((item, index) => {
-      if (item.attachmentOID === attachmentOid || item.attachmentOID === info.uid) {
+      if (item.attachmentOid === attachmentOid || item.attachmentOid === info.uid) {
         required = this.props.handleDelete(item.id);
         required && result.splice(index, 1);
       }
@@ -268,7 +268,7 @@ class FileUpload extends React.Component {
             defaultIndex={previewIndex}
             onCancel={() => this.setState({ previewVisible: false })}
             urlKey="thumbnailUrl"
-            valueKey="attachmentOID"
+            valueKey="attachmentOid"
           />
         )}
         <Modal
@@ -331,7 +331,7 @@ function mapStateToProps(state) {
 }
 // 注意
 // defaultFileList里面的对象属性要有
-//   attachmentOID,
+//   attachmentOid,
 //   fileName,
 //   fileURL
 

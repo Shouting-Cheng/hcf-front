@@ -41,7 +41,7 @@ class BusinessCardConsumptionSelector extends React.Component {
     let { page, pageSize } = this.state;
     this.setState({ loading: true });
     baseService
-      .getBusinessCardConsumptionList('CMBC', false, this.props.user.userOID, page, pageSize)
+      .getBusinessCardConsumptionList('CMBC', false, this.props.user.userOid, page, pageSize)
       .then(res => {
         if (res.data.success) {
           let records = res.data.rows.sort((a, b) => a.bilMon < b.bilMon || -1);

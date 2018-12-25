@@ -18,8 +18,8 @@ class BudgetJournalCheck extends React.Component {
       tabValue: 'unapproved',
       searchForm: [
         {
-          type: 'list', listType: "bgtUserOID", options: [],
-          id: 'userOID', label: this.$t({ id: 'pay.refund.employeeName' }), labelKey: "fullName", valueKey: "userOID", colSpan: 6, single: true,
+          type: 'list', listType: "bgtUserOid", options: [],
+          id: 'userOid', label: this.$t({ id: 'pay.refund.employeeName' }), labelKey: "fullName", valueKey: "userOid", colSpan: 6, single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId }
         },
         {

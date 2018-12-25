@@ -23,16 +23,16 @@ class ApproveExpenseReportDetail extends React.Component{
       showAdditional: false,
       invoiceNumber: 0,//查验的发票数量
       invoice: [],//查验的发票数组信息
-      companyOIDs: [], //加签人列表
+      companyOids: [], //加签人列表
     }
   }
 
   componentDidMount(){
     //判断是否可以加签
-    ApproveExpenseReportService.isCounterSignEnable(this.props.company.companyOID, this.props.info.formOID, 'enableAddSign').then(res =>{
-      this.setState({ showAdditional: res.data.enabled, companyOIDs: res.data.approvalAddSignScope.companyOIDs })
+    ApproveExpenseReportService.isCounterSignEnable(this.props.company.companyOid, this.props.info.formOid, 'enableAddSign').then(res =>{
+      this.setState({ showAdditional: res.data.enabled, companyOids: res.data.approvalAddSignScope.companyOids })
     })
-    this.props.auditCapability && expenseReportService.checkInvoice(this.props.info.expenseReportOID).then(res => {
+    this.props.auditCapability && expenseReportService.checkInvoice(this.props.info.expenseReportOid).then(res => {
       this.setState({
         invoiceNumber:res.data.length,
         invoice: res.data,
@@ -52,40 +52,40 @@ class ApproveExpenseReportDetail extends React.Component{
 
   hasRepeatApproveTip = (value, additionalItems) => {
     const { info } = this.props;
-    let additionalOIDs = [];
+    let additionalOids = [];
     let additionalHaveApprovedNames = [];  //加签人中已审批的用户名
     additionalItems.map(item => {
-      additionalOIDs.push(item.userOID)
+      additionalOids.push(item.userOid)
     });
-    let preApproveOIDs = [];
+    let preApproveOids = [];
     info.approvalHistoryDTOs.map(item => {
-      item.operation === 2001 && (preApproveOIDs.push(item.operatorOID))
+      item.operation === 2001 && (preApproveOids.push(item.operatorOid))
     });
-    additionalOIDs.map((OID, index) => {
-      if (preApproveOIDs.indexOf(OID) > -1) {
+    additionalOids.map((Oid, index) => {
+      if (preApproveOids.indexOf(Oid) > -1) {
         additionalHaveApprovedNames.push(additionalItems[index].fullName)
       }
     });
     if (additionalHaveApprovedNames.length) {
       Modal.confirm({
         title: `${additionalHaveApprovedNames.join('、')} 已经审批通过，是否继续？`,
-        onOk: () => this.handleApprovePass(value, additionalOIDs)
+        onOk: () => this.handleApprovePass(value, additionalOids)
       });
     } else {
-      this.handleApprovePass(value, additionalOIDs)
+      this.handleApprovePass(value, additionalOids)
     }
   };
 
   //审批通过
-  handleApprovePass = (value, additionalOIDs) => {
+  handleApprovePass = (value, additionalOids) => {
     const { info } = this.props;
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: info.approvalChain.approverOID,
-        entityOID: info.expenseReportOID,
+        approverOid: info.approvalChain.approverOid,
+        entityOid: info.expenseReportOid,
         entityType: 1002,
-        countersignApproverOIDs: additionalOIDs
+        countersignApproverOids: additionalOids
       }]
     };
     this.setState({ passLoading: true });
@@ -96,7 +96,7 @@ class ApproveExpenseReportDetail extends React.Component{
         this.goBack()
       } else {
         this.setState({ passLoading: false });
-        message.error(`${this.$t('common.operate.filed')}，${res.data.failReason[info.expenseReportOID]}`)
+        message.error(`${this.$t('common.operate.filed')}，${res.data.failReason[info.expenseReportOid]}`)
       }
     }).catch(e => {
       this.setState({ passLoading: false });
@@ -106,30 +106,30 @@ class ApproveExpenseReportDetail extends React.Component{
 
   //审批驳回
   handleApproveReject = (value, additionalItems, direct) => {
-    let additionalOIDs = [];
+    let additionalOids = [];
     additionalItems.map(item => {
-      additionalOIDs.push(item.userOID)
+      additionalOids.push(item.userOid)
     });
     const { info, selectedExpense } = this.props;
     let params = {
       approvalTxt: value,
       entities: [{
-        approverOID: info.approvalChain.approverOID,
-        entityOID: info.expenseReportOID,
+        approverOid: info.approvalChain.approverOid,
+        entityOid: info.expenseReportOid,
         entityType: 1002,
       }]
     };
-    additionalOIDs && (params.entities[0].countersignApproverOIDs = additionalOIDs);
+    additionalOids && (params.entities[0].countersignApproverOids = additionalOids);
     this.setState({ rejectLoading: true });
     if(selectedExpense.length > 0 && !direct){
       params = {
         approvalTxt: value,
-        expenseOID: info.expenseReportOID,
-        invoiceOIDs: selectedExpense
+        expenseOid: info.expenseReportOid,
+        invoiceOids: selectedExpense
       };
       let allReject = true;
       info.expenseReportInvoices.map(invoice => {
-        allReject = allReject && (selectedExpense.indexOf(invoice.invoiceOID) > -1 || invoice.status === 1002);
+        allReject = allReject && (selectedExpense.indexOf(invoice.invoiceOid) > -1 || invoice.status === 1002);
       });
       if(allReject){
         Modal.confirm({
@@ -150,7 +150,7 @@ class ApproveExpenseReportDetail extends React.Component{
     service(params).then(res => {
       if (res.status === 200) {
         if(isHandleService){
-          message.error(`${this.$t('common.operate.filed')}，${res.data.failReason[this.props.info.expenseReportOID]}`)
+          message.error(`${this.$t('common.operate.filed')}，${res.data.failReason[this.props.info.expenseReportOid]}`)
         }else {
           message.success('操作成功');
         }
@@ -170,7 +170,7 @@ class ApproveExpenseReportDetail extends React.Component{
   handleAuditNotice = (value) => {
     const { info } = this.props;
     let params = {
-      entityOID:info.expenseReportOID,
+      entityOid:info.expenseReportOid,
       entityType:1002,
       notice: value
     };
@@ -190,7 +190,7 @@ class ApproveExpenseReportDetail extends React.Component{
   handlePrint = () => {
     const {info} = this.props;
     this.setState({printLoading: true});
-    baseService.printExpense(info.expenseReportOID).then(res => {
+    baseService.printExpense(info.expenseReportOid).then(res => {
       this.setState({printLoading: false});
       window.open(res.data.link, "_blank")
     });
@@ -216,7 +216,7 @@ class ApproveExpenseReportDetail extends React.Component{
   };
 
   render() {
-    const { approveExpenseReportList, passLoading ,rejectLoading, showAdditional, noticeLoading, printLoading, checkLoading, invoiceNumber, companyOIDs } = this.state;
+    const { approveExpenseReportList, passLoading ,rejectLoading, showAdditional, noticeLoading, printLoading, checkLoading, invoiceNumber, companyOids } = this.state;
     const { profile }=this.props;
     let moreButtons = [];
     showAdditional && moreButtons.push('additional');
@@ -225,16 +225,16 @@ class ApproveExpenseReportDetail extends React.Component{
     let approvalChains = [];
     if (info.approvalChains && info.approvalChains.length > 0) {
       info.approvalChains.map(item => {
-        approvalChains.push(item.approverOID)
+        approvalChains.push(item.approverOid)
       })
     }
-    return  info.status === 1002 && ~approvalChains.indexOf(info.approvalChain.approverOID)  ? (
+    return  info.status === 1002 && ~approvalChains.indexOf(info.approvalChain.approverOid)  ? (
       <Affix style={{paddingLeft : 20}} offsetBottom={0} className="bottom-bar bottom-bar-approve">
         <ApproveBar backUrl={'/approval-management/approve-expense-report'}
                     passLoading={passLoading}
                     moreButtons={moreButtons}
                     rejectLoading={rejectLoading}
-                    signCompanyOIDs={companyOIDs}
+                    signCompanyOids={companyOids}
                     customFormPropertyMap={customFormPropertyMap}
                     handleApprovePass={this.hasRepeatApproveTip}
                     handleApproveReject={this.handleApproveReject}

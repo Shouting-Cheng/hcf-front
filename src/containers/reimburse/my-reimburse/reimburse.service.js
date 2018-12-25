@@ -3,12 +3,12 @@ import httpFetch from 'share/httpFetch'
 
 export default {
   //根据用户查询帐套信息
-  getSetOfBooks(userOID) {
-    return httpFetch.get(`${config.baseUrl}/api/setOfBooks/selectSetOfBooksByUserOid?userOid=${userOID}`)
+  getSetOfBooks(userOid) {
+    return httpFetch.get(`${config.baseUrl}/api/setOfBooks/selectSetOfBooksByUserOid?userOid=${userOid}`)
   },
   //查询表单设置信息
-  getFormSet(formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}`)
+  getFormSet(formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}`)
   },
   //根据用户id查询用户信息
   getUserInfo(userOid) {
@@ -19,8 +19,8 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/getAll`);
   },
   //获得自定义列表
-  getCustomEnumeration(customEnumerationOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/${customEnumerationOID}/simple`);
+  getCustomEnumeration(customEnumerationOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/${customEnumerationOid}/simple`);
   },
   //得到用户的银行账号信息
   getBankData(name) {
@@ -260,8 +260,8 @@ export default {
    * 获取审批历史
    * @param {*} params
    */
-  getReportsHistory(entityOID) {
-    let url = `${config.baseUrl}/api/budget/journa/reports/history?entityType=801001&entityOID=${entityOID}`;
+  getReportsHistory(entityOid) {
+    let url = `${config.baseUrl}/api/budget/journa/reports/history?entityType=801001&entityOid=${entityOid}`;
     return httpFetch.get(url);
   },
 

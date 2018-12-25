@@ -25,7 +25,7 @@ class DataStructure extends React.Component {
           title: this.$t({id: "data.structure.name"}), key: "description", dataIndex: 'description',
         },
       ],
-      selectedEntityOIDs: []    //已选择的列表项的OIDs
+      selectedEntityOids: []    //已选择的列表项的Oids
     };
   }
 

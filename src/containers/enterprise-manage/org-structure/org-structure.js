@@ -170,12 +170,12 @@ class OrgStructure extends React.Component {
   useDetail = (e, record) => {
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/org-structure/person-detail/${record.userOID}`,
+        pathname: `/enterprise-manage/org-structure/person-detail/${record.userOid}`,
       })
     );
     // let path = menuRoute
     //   .getRouteItem('person-detail', 'key')
-    //   .url.replace(':userOID', record.userOID);
+    //   .url.replace(':userOid', record.userOid);
     // this.context.router.push(path);
   };
   //角色设置页面
@@ -221,8 +221,8 @@ class OrgStructure extends React.Component {
           //如果删除了激活的节点，重新激活第一个节点
           if (
             isDelete &&
-            this.state.selectedKeysDepData.departmentOID ===
-              this.state.selectedKeysDepDataByApi.departmentOID
+            this.state.selectedKeysDepData.departmentOid ===
+              this.state.selectedKeysDepDataByApi.departmentOid
           ) {
             this.setState(
               {
@@ -231,19 +231,19 @@ class OrgStructure extends React.Component {
                 selectedKeys: [response[0].key],
               },
               () => {
-                this.getDepDetailByDepOID(this.state.selectedKeysDepData);
-                this.getDepUserByDepOID(this.state.selectedKeysDepData);
+                this.getDepDetailByDepOid(this.state.selectedKeysDepData);
+                this.getDepUserByDepOid(this.state.selectedKeysDepData);
               }
             );
           } else {
             if (
-              this.state.selectedKeysDepData.departmentOID ===
-              this.state.selectedKeysDepDataByApi.departmentOID
+              this.state.selectedKeysDepData.departmentOid ===
+              this.state.selectedKeysDepDataByApi.departmentOid
             ) {
               //如果已经查询了，就不用查询了
             } else {
-              this.getDepDetailByDepOID(this.state.selectedKeysDepData);
-              this.getDepUserByDepOID(this.state.selectedKeysDepData);
+              this.getDepDetailByDepOid(this.state.selectedKeysDepData);
+              this.getDepUserByDepOid(this.state.selectedKeysDepData);
             }
           }
         }
@@ -252,8 +252,8 @@ class OrgStructure extends React.Component {
   }
 
   // 通过部门oid查询子部门
-  _getChildDepByDepOID(Dep, parentNode) {
-    OrgService._getChildDepByDepOID(Dep, parentNode).then(response => {
+  _getChildDepByDepOid(Dep, parentNode) {
+    OrgService._getChildDepByDepOid(Dep, parentNode).then(response => {
       this.setState({
         treeData: response,
       });
@@ -261,8 +261,8 @@ class OrgStructure extends React.Component {
   }
 
   // 通过部门oid查询部门详情
-  getDepDetailByDepOID(Dep) {
-    OrgService.getDepDetailByDepOID(Dep).then(response => {
+  getDepDetailByDepOid(Dep) {
+    OrgService.getDepDetailByDepOid(Dep).then(response => {
       let data = response.data;
       data.departmentPositionDTOList = OrgService.sortDepartmentPositionDTOList(
         data.departmentPositionDTOList
@@ -274,11 +274,11 @@ class OrgStructure extends React.Component {
   }
 
   // 通过部门oid查询部门下面的员工
-  getDepUserByDepOID(Dep) {
+  getDepUserByDepOid(Dep) {
     this.setState({ loading: true });
     const { pagination } = this.state;
     let params = {
-      departmentOID: Dep.departmentOID,
+      departmentOid: Dep.departmentOid,
       size: this.state.pagination.pageSize,
       page: this.state.pagination.page,
       // status: 1001,
@@ -346,8 +346,8 @@ class OrgStructure extends React.Component {
       });
       //这个东西可以查询一次就缓存起来
       // todo
-      this.getDepDetailByDepOID(selectedKeysDepData);
-      this.getDepUserByDepOID(selectedKeysDepData);
+      this.getDepDetailByDepOid(selectedKeysDepData);
+      this.getDepUserByDepOid(selectedKeysDepData);
     }
   };
   // 点击展开的时候
@@ -358,11 +358,11 @@ class OrgStructure extends React.Component {
     // 如果没有被加载才去加载，或者创建了新的子节点才去加载
     // if (expanded && !OrgService.checkChildHasLoad(node.props.dataRef)) {
     //  这是通过接口获取
-    //   this.getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef)
+    //   this.getChildDepByDepOid(node.props.dataRef.originData, node.props.dataRef)
     // }
     //这是从前端获取
     //部门树已经构建好，所以不比每次去请求
-    //this._getChildDepByDepOID(node.props.dataRef.originData, node.props.dataRef)
+    //this._getChildDepByDepOid(node.props.dataRef.originData, node.props.dataRef)
     this.setState({
       expandedKeys,
       autoExpandParent: false,
@@ -414,7 +414,7 @@ class OrgStructure extends React.Component {
   };
   // 停用该部门
   disabledDep = item => {
-    let oid = item.departmentOID;
+    let oid = item.departmentOid;
     OrgService.disabledDep(oid)
       .then(res => {
         this.getTenantAllDep();
@@ -430,7 +430,7 @@ class OrgStructure extends React.Component {
   };
   // 启用该部门
   enabledDep = (item, node) => {
-    let oid = item.departmentOID;
+    let oid = item.departmentOid;
     OrgService.enabledDep(oid).then(res => {
       this.getTenantAllDep();
     });
@@ -465,7 +465,7 @@ class OrgStructure extends React.Component {
   };
   //删除部门
   clickMeunDeleteDep = item => {
-    let oid = item.departmentOID;
+    let oid = item.departmentOid;
     OrgService.deleteDep(oid)
       .then(res => {
         //删除成功
@@ -493,18 +493,18 @@ class OrgStructure extends React.Component {
   }
 
   handleBatchAdjustmentOk = () => {
-    let userOIDs = [];
+    let userOids = [];
     let oldDepartmentList = [];
     for (let i = 0; i < this.state.batchAdjustmentFrom.length; i++) {
-      if (this.state.batchAdjustmentFrom[i].userOID) {
-        userOIDs.push(this.state.batchAdjustmentFrom[i].userOID);
+      if (this.state.batchAdjustmentFrom[i].userOid) {
+        userOids.push(this.state.batchAdjustmentFrom[i].userOid);
       } else {
-        oldDepartmentList.push(this.state.batchAdjustmentFrom[i].departmentOID);
+        oldDepartmentList.push(this.state.batchAdjustmentFrom[i].departmentOid);
       }
     }
     let params = {
-      departmentOID: this.state.batchAdjustmentTo[0].departmentOID,
-      userOIDs: userOIDs,
+      departmentOid: this.state.batchAdjustmentTo[0].departmentOid,
+      userOids: userOids,
       oldDepartmentList: oldDepartmentList,
     };
     this.setState({ loadingBatchAdjustment: true });
@@ -517,8 +517,8 @@ class OrgStructure extends React.Component {
         this.callbackBatchAdjustmentFrom([]);
         this.callbackBatchAdjustmentTo([]);
         //批量调整之后查询
-        this.getDepDetailByDepOID(this.state.selectedKeysDepData);
-        this.getDepUserByDepOID(this.state.selectedKeysDepData);
+        this.getDepDetailByDepOid(this.state.selectedKeysDepData);
+        this.getDepUserByDepOid(this.state.selectedKeysDepData);
       })
       .catch(() => {
         this.setState({ loadingBatchAdjustment: false });
@@ -581,38 +581,38 @@ class OrgStructure extends React.Component {
   // 当前部门人员------start------
   // 部门：移入员工
   moveInPerson = arr => {
-    let userOIDs = [];
+    let userOids = [];
     let oldDepartmentList = [];
     //这个地方原则上只有移动员工，但是不排除以后加上部门下的员工
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].userOID) {
-        userOIDs.push(arr[i].userOID);
+      if (arr[i].userOid) {
+        userOids.push(arr[i].userOid);
       } else {
-        oldDepartmentList.push(arr[i].departmentOID);
+        oldDepartmentList.push(arr[i].departmentOid);
       }
     }
     let params = {
-      departmentOID: this.state.selectedKeysDepData.departmentOID,
-      userOIDs: userOIDs,
+      departmentOid: this.state.selectedKeysDepData.departmentOid,
+      userOids: userOids,
       oldDepartmentList: oldDepartmentList,
     };
     OrgService.batchMovePerson(params).then(response => {
       this.setState({ visibleBatchAdjustment: false });
-      this.getDepDetailByDepOID(this.state.selectedKeysDepData);
-      this.getDepUserByDepOID(this.state.selectedKeysDepData);
+      this.getDepDetailByDepOid(this.state.selectedKeysDepData);
+      this.getDepUserByDepOid(this.state.selectedKeysDepData);
     });
   };
   // 部门：移除员工
   moveOutPerson = arr => {
     let params = {
-      departmentOID: arr[0].departmentOID,
-      userOIDs: this.state.depNeedMoveOut,
+      departmentOid: arr[0].departmentOid,
+      userOids: this.state.depNeedMoveOut,
       oldDepartmentList: [],
     };
     OrgService.batchMovePerson(params).then(response => {
       this.clearRowSelection();
-      this.getDepUserByDepOID(this.state.selectedKeysDepData);
-      this.getDepDetailByDepOID(this.state.selectedKeysDepData);
+      this.getDepUserByDepOid(this.state.selectedKeysDepData);
+      this.getDepDetailByDepOid(this.state.selectedKeysDepData);
     });
   };
   // 部门人员翻页
@@ -627,7 +627,7 @@ class OrgStructure extends React.Component {
         },
       },
       () => {
-        this.getDepUserByDepOID(this.state.selectedKeysDepData);
+        this.getDepUserByDepOid(this.state.selectedKeysDepData);
       }
     );
   };
@@ -639,9 +639,9 @@ class OrgStructure extends React.Component {
   handleSelectRow = (record, selected) => {
     let depNeedMoveOut = this.state.depNeedMoveOut;
     if (selected) {
-      depNeedMoveOut.push(record.userOID);
+      depNeedMoveOut.push(record.userOid);
     } else {
-      depNeedMoveOut.delete(record.userOID);
+      depNeedMoveOut.delete(record.userOid);
     }
     this.setState({ depNeedMoveOut });
   };
@@ -650,22 +650,22 @@ class OrgStructure extends React.Component {
     let depNeedMoveOut = this.state.depNeedMoveOut;
     if (selected) {
       changeRows.map(item => {
-        depNeedMoveOut.push(item.userOID);
+        depNeedMoveOut.push(item.userOid);
       });
     } else {
       changeRows.map(item => {
-        depNeedMoveOut.delete(item.userOID);
+        depNeedMoveOut.delete(item.userOid);
       });
     }
     this.setState({ depNeedMoveOut });
   };
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection() {
     let selectedRowKeys = [];
-    this.state.depNeedMoveOut.map(userOID => {
+    this.state.depNeedMoveOut.map(userOid => {
       this.state.depUserData.map((item, index) => {
-        if (item.userOID === userOID) selectedRowKeys.push(index);
+        if (item.userOid === userOid) selectedRowKeys.push(index);
       });
     });
     this.setState({ selectedRowKeys });
@@ -698,7 +698,7 @@ class OrgStructure extends React.Component {
       },
       () => {
         let params = {
-          departmentOID: this.state.selectedKeysDepData.departmentOID,
+          departmentOid: this.state.selectedKeysDepData.departmentOid,
           size: this.state.pagination.pageSize,
           page: this.state.pagination.page,
           // status: 1001,
@@ -758,7 +758,7 @@ class OrgStructure extends React.Component {
 
   //部门树搜索结果点击目标
   selectItemHandle = item => {
-    if (item.userOID) {
+    if (item.userOid) {
       this.setState({
         searchActiveUser: item,
       });
@@ -766,12 +766,12 @@ class OrgStructure extends React.Component {
       this.setState({
         searchActiveUser: item,
         // userDepName: '',
-        selectedKeys: [item.departmentOID],
+        selectedKeys: [item.departmentOid],
         selectedKeysDepData: item,
       });
 
-      this.getDepDetailByDepOID(item);
-      this.getDepUserByDepOID(item);
+      this.getDepDetailByDepOid(item);
+      this.getDepUserByDepOid(item);
     }
   };
   //渲染部门树或者搜索结果
@@ -818,8 +818,8 @@ class OrgStructure extends React.Component {
     this.setState({
       roleIsEdit: isEdit,
     });
-    if (obj && obj.departmentOID) {
-      this.getDepDetailByDepOID(obj);
+    if (obj && obj.departmentOid) {
+      this.getDepDetailByDepOid(obj);
     }
   };
 
@@ -837,7 +837,7 @@ class OrgStructure extends React.Component {
       rowSelection = {};
     }
     //如果是搜索结果还有选择的人员，如果选择的部门也需要展示部门详情
-    if (this.state.userDepName.length > 0 && this.state.searchActiveUser.userOID) {
+    if (this.state.userDepName.length > 0 && this.state.searchActiveUser.userOid) {
       return <OrgPersonInfo user={this.state.searchActiveUser} />;
     } else {
       //TODO
@@ -1035,8 +1035,8 @@ class OrgStructure extends React.Component {
             <div className="f-left batch-adjustment-from">
               <div>
                 <SelectDepOrPerson
-                  // depResList={['departmentOID']}
-                  // personResList={['userOID']}
+                  // depResList={['departmentOid']}
+                  // personResList={['userOid']}
                   title={this.$t('org.select-dep-or-person')} //选择部门或人
                   onConfirm={this.callbackBatchAdjustmentFrom}
                 />

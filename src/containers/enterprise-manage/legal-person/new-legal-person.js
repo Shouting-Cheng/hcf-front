@@ -82,14 +82,14 @@ class NewLegalPerson extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.legalPersonOID === ':legalPersonOID') {
+    if (this.props.match.params.legalPersonOid === ':legalPersonOid') {
     } else {
       this.getLegalPersonDetail();
     }
   }
 
   getLegalPersonDetail = () => {
-    LPService.getLegalPersonDetail(this.props.match.params.legalPersonOID).then(res => {
+    LPService.getLegalPersonDetail(this.props.match.params.legalPersonOid).then(res => {
       let data = res.data;
       let uploadedImages = [];
       let uploadedImage = this.getUploadedImage(data);
@@ -120,7 +120,7 @@ class NewLegalPerson extends React.Component {
       uploadedImage.thumbnailUrl = data.thumbnailUrl;
     }
     if (data.attachmentId) {
-      uploadedImage.attachmentOID = data.attachmentId;
+      uploadedImage.attachmentOid = data.attachmentId;
       uploadedImage.fileName = data.fileName;
     }
     return uploadedImage;
@@ -164,7 +164,7 @@ class NewLegalPerson extends React.Component {
     if (this.validateI18n(_legalPerson)) {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          if (this.props.match.params.legalPersonOID === ':legalPersonOID') {
+          if (this.props.match.params.legalPersonOid === ':legalPersonOid') {
             //创建法人实体
             let legalPerson = Object.assign({}, values, {
               attachmentId: values['attachmentId'][0] ? values['attachmentId'][0].id : '',

@@ -61,7 +61,7 @@ class TravelElement extends React.Component {
       formCtrl: obj,
       standardEnable: isStandard,
     });
-    // this.getFormDefaultValue(this.props.params.elementFormOID);
+    // this.getFormDefaultValue(this.props.params.elementFormOid);
     this.currentStartDate = travelUtil.getFormHeadValue(
       this.props.params.defaultValue,
       'start_date'
@@ -80,7 +80,7 @@ class TravelElement extends React.Component {
 
   //获取表单配置
   getFormInfo = () => {
-    requestService.getCustomForm(this.props.params.elementFormOID).then(res => {
+    requestService.getCustomForm(this.props.params.elementFormOid).then(res => {
       this.setState(
         {
           travelElementCustomField: res.data,
@@ -104,12 +104,12 @@ class TravelElement extends React.Component {
       if (!err) {
         Object.keys(values).map(key => {
           travelElementCustomField.customFormFields.map(field => {
-            if (key === field.fieldOID) {
+            if (key === field.fieldOid) {
               if (Array.isArray(values[key])) {
-                field.value = values[key][0].costCenterItemOID;
+                field.value = values[key][0].costCenterItemOid;
                 field.showValue = values[key][0].name;
               } else if (travelUtil.isObj(values[key])) {
-                field.value = values[key].costCenterItemOID;
+                field.value = values[key].costCenterItemOid;
                 field.showValue = values[key].name;
               } else {
                 field.value = values[key];
@@ -159,7 +159,7 @@ class TravelElement extends React.Component {
         let supId = 0;
         let isD = false;
         this.state.supplies.map((item, index) => {
-          if (item.supplierOID === editData.supplierOID) {
+          if (item.supplierOid === editData.supplierOid) {
             num = index;
             supId = item.serviceName;
             this.supply = item;
@@ -256,15 +256,15 @@ class TravelElement extends React.Component {
               travelElementCustomField.customFormFields.map(item => {
                 let selectorItem = {
                   url: `${config.baseUrl}/api/my/cost/center/items/${item.dataSource &&
-                    JSON.parse(item.dataSource || '{}').costCenterOID}?page=0&size=1000`,
+                    JSON.parse(item.dataSource || '{}').costCenterOid}?page=0&size=1000`,
                   label: 'name',
-                  key: 'costCenterItemOID',
+                  key: 'costCenterItemOid',
                   offlineSearchMode: true,
                 };
                 let chooseItem = {
                   title: item.fieldName,
                   url: `${config.baseUrl}/api/my/cost/center/items/${item.dataSource &&
-                    JSON.parse(item.dataSource || '{}').costCenterOID}`,
+                    JSON.parse(item.dataSource || '{}').costCenterOid}`,
                   searchForm: [
                     {
                       type: 'input',
@@ -278,11 +278,11 @@ class TravelElement extends React.Component {
                       dataIndex: 'name',
                     },
                   ],
-                  key: 'costCenterItemOID',
+                  key: 'costCenterItemOid',
                 };
                 return (
-                  <FormItem {...formItemLayout} label={item.fieldName} key={item.fieldOID}>
-                    {getFieldDecorator(item.fieldOID, {
+                  <FormItem {...formItemLayout} label={item.fieldName} key={item.fieldOid}>
+                    {getFieldDecorator(item.fieldOid, {
                       rules: [
                         {
                           required: item.required,
@@ -307,7 +307,7 @@ class TravelElement extends React.Component {
                             placeholder={this.$t('common.please.select') /* 请选择 */}
                             showSearch={true}
                             entity
-                            key={item.formOID}
+                            key={item.formOid}
                           />
                         )
                       ) : (

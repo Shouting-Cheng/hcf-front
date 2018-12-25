@@ -77,7 +77,7 @@ class FormDetailCustom extends React.Component {
       participantsWidget.outFieldName = outWidget.fieldName;
       participantsWidget.outPromptInfo = outWidget.promptInfo;
       participantsWidget.outRequired = outWidget.required;
-      participantsWidget.outFieldOID = outWidget.fieldOID;
+      participantsWidget.outFieldOid = outWidget.fieldOid;
       participantsWidget.outID = outWidget.id;
       participantsWidget.outMessageKey = outWidget.messageKey;
       participantsWidget.outCustomFormFieldI18nDTOS = outWidget.customFormFieldI18nDTOS;
@@ -100,7 +100,7 @@ class FormDetailCustom extends React.Component {
       let bankAccountWidget = nowWidget[bankAccountIndex];
       payeeWidget.bankFieldName = bankAccountWidget.fieldName;
       payeeWidget.bankPromptInfo = bankAccountWidget.promptInfo;
-      payeeWidget.bankFieldOID = bankAccountWidget.fieldOID;
+      payeeWidget.bankFieldOid = bankAccountWidget.fieldOid;
       payeeWidget.bankID = bankAccountWidget.id;
       payeeWidget.bankCustomFormFieldI18nDTOS = bankAccountWidget.customFormFieldI18nDTOS;
       nowWidget.splice(bankAccountIndex, 1);
@@ -361,7 +361,7 @@ class FormDetailCustom extends React.Component {
     const macthFormData = this.props.matchFormData;
     //组装说明文字
     let formDescriptionData = {};
-    formDescriptionData.formOID = form.formOID;
+    formDescriptionData.formOid = form.formOid;
     formDescriptionData.propertyName = 'form.description';
     let descriptionValue = {};
     descriptionValue.enable = formDescriptionWidget.enable;
@@ -385,7 +385,7 @@ class FormDetailCustom extends React.Component {
         newWidget.isReadOnly = widget.outIsReadOnly;
         newWidget.isPDFShow = widget.outIsPDFShow;
         newWidget.id = widget.outID;
-        newWidget.fieldOID = widget.outFieldOID;
+        newWidget.fieldOid = widget.outFieldOid;
         newWidget.fieldConstraint = "";
         newWidget.i18n = {};
         newWidget.valid = true;
@@ -405,7 +405,7 @@ class FormDetailCustom extends React.Component {
         newWidget.isReadOnly = widget.isReadOnly;
         newWidget.isPDFShow = widget.isPDFShow;
         newWidget.id = widget.bankID;
-        newWidget.fieldOID = widget.bankFieldOID;
+        newWidget.fieldOid = widget.bankFieldOid;
         newWidget.fieldConstraint = "";
         newWidget.i18n = {};
         newWidget.valid = true;
@@ -420,7 +420,7 @@ class FormDetailCustom extends React.Component {
     targetWidgets.map((widget, index) => {
       if (widget.messageKey === 'select_participant') {
         participantsImportScopeData = {
-          formOID: form.formOID,
+          formOid: form.formOid,
           propertyName: 'application.participants.import.scope',
           propertyOther: null,
           propertyValue: widget.participantsImportScope
@@ -690,7 +690,7 @@ class FormDetailCustom extends React.Component {
                 <WidgetSetting widget={selectedWidget}
                                isFormDesign={true}
                                formType={this.context.formType}
-                               formOID={this.context.formOID}
+                               formOid={this.context.formOid}
                                booksID={this.context.booksID}
                                needType
                                nowWidgetList={nowWidget}
@@ -739,7 +739,7 @@ function mapStateToProps(state) {
 
 FormDetailCustom.contextTypes = {
   formType: PropTypes.any,
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
   booksID: PropTypes.string,
   form: PropTypes.object,
   propertyList: PropTypes.array

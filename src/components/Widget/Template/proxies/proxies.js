@@ -39,8 +39,8 @@ class Proxies extends React.Component {
 
   //申请人改变
   changeAgent = value => {
-    this.setState({ userOID: value }, () => {
-      this.props.form.resetFields(['formOID']);
+    this.setState({ userOid: value }, () => {
+      this.props.form.resetFields(['formOid']);
     });
   };
   //取消弹框
@@ -58,9 +58,9 @@ class Proxies extends React.Component {
         // this.context.router.push(
         //   menuRoute
         //     .getRouteItem(menuKey)
-        //     .url.replace(':formId', getFieldValue('formOID'))
-        //     .replace(':userOID', getFieldValue('agent'))
-        //     .replace(':formOID', getFieldValue('formOID'))
+        //     .url.replace(':formId', getFieldValue('formOid'))
+        //     .replace(':userOid', getFieldValue('agent'))
+        //     .replace(':formOid', getFieldValue('formOid'))
         // );
         this.modalControl(false);
       }
@@ -70,12 +70,12 @@ class Proxies extends React.Component {
   render() {
     const { formType } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
-    const { isShowProxyButton, isShowProxyModal, userOID } = this.state;
+    const { isShowProxyButton, isShowProxyModal, userOid } = this.state;
     let formParam = {
       formType: formType,
     };
     if (isShowProxyModal) {
-      formParam.userOID = userOID;
+      formParam.userOid = userOid;
     }
     let buttonContentKey = this.isExpenseReport()
       ? 'components.template.proxies-proxy-exportButton'
@@ -114,9 +114,9 @@ class Proxies extends React.Component {
                 />
               )}
             </FormItem>
-            {formParam.userOID && (
+            {formParam.userOid && (
               <FormItem {...formItemLayout} label={this.$t('common.document.name') /*单据名称*/}>
-                {getFieldDecorator('formOID', {
+                {getFieldDecorator('formOid', {
                   rules: [
                     {
                       required: true,

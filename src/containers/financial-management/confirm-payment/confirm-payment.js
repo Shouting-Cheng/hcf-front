@@ -64,7 +64,7 @@ class ConfirmPayment extends React.Component{
           method: 'get',
           searchKey: 'keyword',
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           renderOption: option => (`${option.employeeID}-${option.fullName}${(option.status != 1001 ? '(已离职)' : '')}`)
         },
         {
@@ -75,11 +75,11 @@ class ConfirmPayment extends React.Component{
           getUrl: `${config.baseUrl}/api/v2/my/company/receipted/invoices?page=0&size=100`,
           method: 'get',
           labelKey: 'companyName',
-          valueKey: 'companyReceiptedOID'
+          valueKey: 'companyReceiptedOid'
         }
       ],
       checkboxListForm:{
-        id: 'formOIDs',
+        id: 'formOids',
         items: [],
         defaultValue: []
       },
@@ -147,9 +147,9 @@ class ConfirmPayment extends React.Component{
       ],
       status: 'prending_pay',   //当前状态
       searchParams: {
-        applicantOID: "",
+        applicantOid: "",
         businessCode: "",
-        corporationOIDs: [],
+        corporationOids: [],
         endDate: null,
         startDate: null,
         status: "prending_pay"
@@ -324,7 +324,7 @@ class ConfirmPayment extends React.Component{
     financeViewService.getExpenseTypeList().then(res => {
       let expenseForms=[];
       res.data.map(item => {
-        expenseForms.push({label: item.formName, value: item.formOID})
+        expenseForms.push({label: item.formName, value: item.formOid})
       });
       if(this.state.nowType === 'INVOICE')
       checkboxListForm.items= [{label: messages('finance.audit.formType'/*表单类型*/), key: 'form', options:  expenseForms , checked: checkboxListForm.defaultValue}]
@@ -333,7 +333,7 @@ class ConfirmPayment extends React.Component{
     financeViewService.getLoanTypeList().then(res => {
       let loanForms=[];
       res.data.map(item => {
-        loanForms.push({label: item.formName, value: item.formOID})
+        loanForms.push({label: item.formName, value: item.formOid})
       });
       if(this.state.nowType !== 'INVOICE')
         checkboxListForm.items= [{label: messages('finance.audit.formType'/*表单类型*/), key: 'form', options:  loanForms , checked: checkboxListForm.defaultValue}]
@@ -348,13 +348,13 @@ class ConfirmPayment extends React.Component{
     result.dateFromTrans = result.dateFrom ? result.dateFrom.format('YYYY-MM-DD 00:00:00') : undefined;
     result.dateToTrans = result.dateTo ? result.dateTo.format('YYYY-MM-DD 23:59:59') : undefined;
     let searchParams = {
-      applicantOID: result.user,
+      applicantOid: result.user,
       businessCode: result.formID,
-      corporationOIDs: result.legalEntity,
+      corporationOids: result.legalEntity,
       endDate: result.dateToTrans,
       startDate: result.dateFromTrans,
       status: this.state.status,
-      formOIDs: result.formOIDs
+      formOids: result.formOids
     };
     this.setState({
       searchParams: searchParams,
@@ -400,8 +400,8 @@ class ConfirmPayment extends React.Component{
       status = result.tabsStatus;
       nowType = result.type;
       page = result.page;
-      checkboxListForm.defaultValue=result['formOIDsLable'] || [];
-      checkboxListForm.formOIDsExpand=result['formOIDsExpand'];
+      checkboxListForm.defaultValue=result['formOidsLable'] || [];
+      checkboxListForm.formOidsExpand=result['formOidsExpand'];
       dealCache(searchForm, result);
       this.setState({status, nowType, searchForm, page}, () => {
         this.search(result);
@@ -428,9 +428,9 @@ class ConfirmPayment extends React.Component{
     this.setState({
       searchForm:defaultSearchForm,
       searchParams: {
-        applicantOID: "",
+        applicantOid: "",
         businessCode: "",
-        corporationOIDs: [],
+        corporationOids: [],
         endDate: null,
         startDate: null,
         status: this.state.status
@@ -487,9 +487,9 @@ class ConfirmPayment extends React.Component{
     const { nowType, status, expenseDetailRuter, loadDetailRuter } = this.state;
     let url = '';
     if(nowType === 'INVOICE')
-      url = expenseDetailRuter.url.replace(':expenseReportOID', record.expenseReportOID).replace(':backType','history');
+      url = expenseDetailRuter.url.replace(':expenseReportOid', record.expenseReportOid).replace(':backType','history');
     else
-      url = loadDetailRuter.url.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':backType','history');
+      url = loadDetailRuter.url.replace(':formOid', record.formOid).replace(':applicationOid', record.applicationOid).replace(':backType','history');
     status === 'prending_pay' && (url += `?prending_pay=true`);
     status === 'pay_in_process' && (url += `?pay_in_process=true`);
     this.props.dispatch({
@@ -515,17 +515,17 @@ class ConfirmPayment extends React.Component{
     let { selectedDataOids,dropDownSelectedKeys,selectedDataNum,rowSelection,selectedDataItems } = this.state;
     if(dropDownSelectedKeys !== '1'){
         if(!selected){
-          selectedDataOids.push(record.expenseReportOID||record.applicationOID);
+          selectedDataOids.push(record.expenseReportOid||record.applicationOid);
           selectedDataItems.push(record);
           selectedDataNum-=1;
         } else {
           selectedDataOids.map((selected, index) => {
-            if(selected === (record.expenseReportOID||record.applicationOID)){
+            if(selected === (record.expenseReportOid||record.applicationOid)){
               selectedDataOids.splice(index, 1);
             }
           })
           selectedDataItems.map((selected, index) => {
-            if(record.expenseReportOID ? selected.expenseReportOID === record.expenseReportOID : selected.applicationOID === record.expenseReportOID){
+            if(record.expenseReportOid ? selected.expenseReportOid === record.expenseReportOid : selected.applicationOid === record.expenseReportOid){
               selectedDataItems.splice(index, 1);
             }
           });
@@ -535,18 +535,18 @@ class ConfirmPayment extends React.Component{
     else{
         if(!selected){
           selectedDataOids.map((selected, index) => {
-            if(selected === (record.expenseReportOID||record.applicationOID)){
+            if(selected === (record.expenseReportOid||record.applicationOid)){
               selectedDataOids.splice(index, 1);
               selectedDataNum-=1;
             }
           })
           selectedDataItems.map((selected, index) => {
-            if(record.expenseReportOID ? selected.expenseReportOID === record.expenseReportOID : selected.applicationOID === record.expenseReportOID){
+            if(record.expenseReportOid ? selected.expenseReportOid === record.expenseReportOid : selected.applicationOid === record.expenseReportOid){
               selectedDataItems.splice(index, 1);
             }
           });
         } else {
-          selectedDataOids.push(record.expenseReportOID||record.applicationOID);
+          selectedDataOids.push(record.expenseReportOid||record.applicationOid);
           selectedDataItems.push(record);
           selectedDataNum+=1;
         }
@@ -560,13 +560,13 @@ class ConfirmPayment extends React.Component{
     if(dropDownSelectedKeys !== '1'){
       if(!selected){
         changeRows.map(item => {
-          selectedDataOids.addIfNotExist(item.expenseReportOID||item.applicationOID);
+          selectedDataOids.addIfNotExist(item.expenseReportOid||item.applicationOid);
           selectedDataItems.addIfNotExist(item);
         });
         selectedDataNum=selectedDataNum-changeRows.length;
       } else {
         changeRows.map(item => {
-          selectedDataOids.delete(item.expenseReportOID||item.applicationOID);
+          selectedDataOids.delete(item.expenseReportOid||item.applicationOid);
           selectedDataItems.delete(item);
         });
         selectedDataNum=selectedDataNum+changeRows.length;
@@ -575,13 +575,13 @@ class ConfirmPayment extends React.Component{
     else{
       if(!selected){
         changeRows.map(item => {
-          selectedDataOids.delete(item.expenseReportOID||item.applicationOID);
+          selectedDataOids.delete(item.expenseReportOid||item.applicationOid);
           selectedDataItems.delete(item);
         });
 
       } else {
         selectedRows.map(item => {
-          selectedDataOids.addIfNotExist(item.expenseReportOID||item.applicationOID);
+          selectedDataOids.addIfNotExist(item.expenseReportOid||item.applicationOid);
           selectedDataItems.addIfNotExist(item);
         });
       }
@@ -622,13 +622,13 @@ class ConfirmPayment extends React.Component{
   };
 
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection(){
     let { selectedDataOids, data, rowSelection ,dropDownSelectedKeys,allSelectedStatus} = this.state;
     let nowSelectedRowKeys = [];
     if(dropDownSelectedKeys !== '1'){
         data.map(item => {
-          rowSelection.selectedRowKeys.addIfNotExist(item.expenseReportOID||item.applicationOID);
+          rowSelection.selectedRowKeys.addIfNotExist(item.expenseReportOid||item.applicationOid);
         });
         selectedDataOids.map(selected => {
           rowSelection.selectedRowKeys.delete(selected);
@@ -637,8 +637,8 @@ class ConfirmPayment extends React.Component{
     else{
       selectedDataOids.map(selected => {
         data.map(item => {
-          if(selected === item.expenseReportOID || selected === item.applicationOID)
-            nowSelectedRowKeys.push(item.expenseReportOID||item.applicationOID)
+          if(selected === item.expenseReportOid || selected === item.applicationOid)
+            nowSelectedRowKeys.push(item.expenseReportOid||item.applicationOid)
         })
       });
       rowSelection.selectedRowKeys = nowSelectedRowKeys;
@@ -667,18 +667,18 @@ class ConfirmPayment extends React.Component{
     let selectedDataNum=0;
     if(item.key !== '1'){
       selectedDataNum = this.state.pagination.total;
-      rowSelection.selectedRowKeys = this.getSelectOID(data);
+      rowSelection.selectedRowKeys = this.getSelectOid(data);
       selectedDataItems = this.getSelectItem(data);
     };
     this.setState({selectedDataOids: [], selectedDataItems, selectedDataNum:selectedDataNum, dropDownSelectedKeys: item.key, rowSelection: rowSelection});
   };
-  //分页时将单据都push到tempoOID,用于判断分页时单据是否为选中状态
-  getSelectOID=(data)=>{
-    var tempOID = [];
-    tempOID = data.map(item => {
-      return item.expenseReportOID || item.applicationOID;
+  //分页时将单据都push到tempoOid,用于判断分页时单据是否为选中状态
+  getSelectOid=(data)=>{
+    var tempOid = [];
+    tempOid = data.map(item => {
+      return item.expenseReportOid || item.applicationOid;
     });
-    return tempOID;
+    return tempOid;
   };
 
   getSelectItem = (data) => {
@@ -715,17 +715,17 @@ class ConfirmPayment extends React.Component{
   }
 
   getSubmitData = () => {
-    let selectedEntityOIDs = [];
-    let excludedEntityOIDs = [];
+    let selectedEntityOids = [];
+    let excludedEntityOids = [];
     let { selectedDataOids, searchParams }=this.state;
     let pageType='current_page';
     let entityType=1001;
     /*当页全选和全部全选*/
     if(this.state.dropDownSelectedKeys==='1'){
-      selectedEntityOIDs=selectedDataOids;
+      selectedEntityOids=selectedDataOids;
     }
     else{
-      excludedEntityOIDs=selectedDataOids;
+      excludedEntityOids=selectedDataOids;
       pageType='all_page';
     }
     if(this.state.nowType!='INVOICE')
@@ -735,16 +735,16 @@ class ConfirmPayment extends React.Component{
     return {
       businessCode: searchParams.businessCode ? searchParams.businessCode : null,
       comment: null,
-      corporationOIDs: searchParams.corporationOIDs ? searchParams.corporationOIDs : [],
+      corporationOids: searchParams.corporationOids ? searchParams.corporationOids : [],
       endDate: searchParams.endDate ? searchParams.endDate : null,
-      entityOIDs: selectedEntityOIDs,
+      entityOids: selectedEntityOids,
       entityType: entityType,
-      excludedEntityOIDs: excludedEntityOIDs,
-      formOIDs: searchParams.formOIDs ? searchParams.formOIDs : [],
+      excludedEntityOids: excludedEntityOids,
+      formOids: searchParams.formOids ? searchParams.formOids : [],
       selectMode: pageType,
       startDate: searchParams.startDate ? searchParams.startDate : null,
       status: this.state.status,
-      applicantOID: searchParams.applicantOID ? searchParams.applicantOID : null
+      applicantOid: searchParams.applicantOid ? searchParams.applicantOid : null
     }
   };
 
@@ -884,7 +884,7 @@ class ConfirmPayment extends React.Component{
                onChange={this.handleTableChange}
                expandedRowRender = { this.renderAllExpandedRow }
                rowClassName = {record => record.printFree ||  record.warningList ? '' :'finance-payment-reject' }
-               rowKey={nowType === 'INVOICE' ? 'expenseReportOID' : 'applicationOID'}
+               rowKey={nowType === 'INVOICE' ? 'expenseReportOid' : 'applicationOid'}
                size="middle"/>
 
         <Importer

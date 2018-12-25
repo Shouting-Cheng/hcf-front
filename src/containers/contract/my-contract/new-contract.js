@@ -73,7 +73,7 @@ class NewContract extends React.Component {
         key: 'id',
       },
       contractCategoryOptions: [], //合同大类选项
-      uploadOIDs: [], //上传附件的OIDs
+      uploadOids: [], //上传附件的Oids
       employeeOptions: [], //员工选项
       venderOptions: [], //供应商选项
       contractCategoryValue: 'EMPLOYEE',
@@ -145,7 +145,7 @@ class NewContract extends React.Component {
         res.data.attachments.map(item => {
           fileList.push({
             ...item,
-            uid: item.attachmentOID,
+            uid: item.attachmentOid,
             name: item.fileName,
             status: 'done',
           });
@@ -155,7 +155,7 @@ class NewContract extends React.Component {
       this.setState({
         record: res.data,
         isNew: false,
-        uploadOIDs: res.data.attachmentOIDs,
+        uploadOids: res.data.attachmentOids,
         fileList,
         pageLoading: false,
         contractCategoryValue: res.data.partnerCategory,
@@ -178,9 +178,9 @@ class NewContract extends React.Component {
   };
 
   //上传附件
-  handleUpload = OIDs => {
-    let uploadOIDs = OIDs.join(',');
-    this.setState({ uploadOIDs: uploadOIDs });
+  handleUpload = Oids => {
+    let uploadOids = Oids.join(',');
+    this.setState({ uploadOids: uploadOids });
   };
 
   //保存
@@ -188,12 +188,12 @@ class NewContract extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.attachmentOIDs = this.state.uploadOIDs.toString();
+        values.attachmentOids = this.state.uploadOids.toString();
         values.contractTypeId = this.props.match.params.contractTypeId;
         values.contractCategory = this.state.contractType.contractCategory;
         values.unitId = this.state.departmentId;
         values.employeeId = this.props.user.employeeId;
-        values.applicantOid = this.props.user.userOID;
+        values.applicantOid = this.props.user.userOid;
         values.companyId = values.companyId && values.companyId[0].companyId;
         values.currency = values.currency && values.currency.key;
         let nowCurrencyObj =  this.state.currencyOptions.find(item => item.currency === values.currency);
@@ -230,12 +230,12 @@ class NewContract extends React.Component {
           id: this.state.record.id,
           versionNumber: this.state.record.versionNumber,
           companyId: values.companyId[0].companyId,
-          attachmentOIDs: this.state.uploadOIDs.toString(),
+          attachmentOids: this.state.uploadOids.toString(),
           remark: values.remark,
           contractTypeId: this.props.match.params.contractTypeId,
         };
-        //console.log(this.state.uploadOIDs.toString())
-        //values.attachmentOIDs = this.state.uploadOIDs.toString();
+        //console.log(this.state.uploadOids.toString())
+        //values.attachmentOids = this.state.uploadOids.toString();
         //values.signDate && (values.signDate = values.signDate.format('YYYY-MM-DD'));
         //values.startDate && (values.startDate = values.startDate.format('YYYY-MM-DD'));
         //values.endDate && (values.endDate = values.endDate.format('YYYY-MM-DD'));
@@ -338,7 +338,7 @@ class NewContract extends React.Component {
     this.setState({ departmentId: value[0].departmentId });
     // this.state.unitIdOptions.map(option => {
     //   if (option.id === value[0].departmentId) {
-    //     httpFetch.get(`${config.baseUrl}/api/departments/users/${option.departmentOID}`).then(res => {
+    //     httpFetch.get(`${config.baseUrl}/api/departments/users/${option.departmentOid}`).then(res => {
     //       this.setState({ employeeIdOptions: res.data })
     //     })
     //   }
@@ -528,14 +528,14 @@ class NewContract extends React.Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label={this.$t({ id: 'acp.fileInfo' })} {...formItemLayout}>
-                  {getFieldDecorator('attachmentOIDs')(
+                  {getFieldDecorator('attachmentOids')(
                     <Upload
                       attachmentType="CONTRACT"
                       uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={this.state.uploadOIDs}
+                      defaultOids={this.state.uploadOids}
                     />
                   )}
                 </FormItem>

@@ -254,7 +254,7 @@ class TravelPlane extends React.Component {
           return;
         }
         if (!err) {
-          values.supplierOID = this.supply.supplierOID ? this.supply.supplierOID : null;
+          values.supplierOid = this.supply.supplierOid ? this.supply.supplierOid : null;
           let takeOffBeginTime = moment(this.props.form.getFieldValue('takeOffBeginTime')).format(
             `HH:mm`
           );
@@ -315,8 +315,8 @@ class TravelPlane extends React.Component {
                 this.setState({ isLoading: false });
               });
           } else {
-            values.applicationOID = this.state.params.oid;
-            values.flightItineraryOID = this.props.params.editPlane.flightItineraryOID;
+            values.applicationOid = this.state.params.oid;
+            values.flightItineraryOid = this.props.params.editPlane.flightItineraryOid;
             travelService
               .updatePlane(values)
               .then(res => {
@@ -418,7 +418,7 @@ class TravelPlane extends React.Component {
         let supId = 0;
         let isD = false;
         this.state.supplies.map((item, index) => {
-          if (item.supplierOID === editData.supplierOID) {
+          if (item.supplierOid === editData.supplierOid) {
             num = index;
             supId = item.serviceName;
             this.supply = item;

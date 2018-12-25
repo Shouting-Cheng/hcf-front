@@ -41,7 +41,7 @@ class NewPaymentRequisition extends React.Component {
       headerData: {},
       myPaymentRequisitionDetail:
         '/payment-requisition/my-payment-requisition/payment-requisition-detail/:id', //付款申请单详情
-      uploadOIDs: [], //上传附件的OIDs
+      uploadOids: [], //上传附件的Oids
       fileList: [],
     };
   }
@@ -50,7 +50,7 @@ class NewPaymentRequisition extends React.Component {
     if (this.props.match.params.id === '0') {
       this.setState({ pageLoading: true });
       httpFetch
-        .get(`${config.baseUrl}/api/departments/${this.props.user.departmentOID}`)
+        .get(`${config.baseUrl}/api/departments/${this.props.user.departmentOid}`)
         .then(res => {
           this.setState({
             unitId: res.data.id,
@@ -120,9 +120,9 @@ class NewPaymentRequisition extends React.Component {
     );
   };
   //上传附件
-  handleUpload = OIDs => {
+  handleUpload = Oids => {
     this.setState({
-      uploadOIDs: OIDs.join(','),
+      uploadOids: Oids.join(','),
     });
   };
   // 确定
@@ -142,7 +142,7 @@ class NewPaymentRequisition extends React.Component {
             requisitionDate: moment(new Date()),
             description: values.description,
             functionAmount: 0,
-            attachmentOid: this.state.uploadOIDs.length > 0 ? this.state.uploadOIDs : '',
+            attachmentOid: this.state.uploadOids.length > 0 ? this.state.uploadOids : '',
           };
           http = paymentRequisitionService.createHeader(params);
         } else {
@@ -152,7 +152,7 @@ class NewPaymentRequisition extends React.Component {
           params['unitId'] = values.unitId[0].departmentId;
           params['unitOid'] = values.unitId[0].departmentOid;
           params['companyId'] = values.companyId[0].id;
-          params['attachmentOid'] = this.state.uploadOIDs.length > 0 ? this.state.uploadOIDs : '';
+          params['attachmentOid'] = this.state.uploadOids.length > 0 ? this.state.uploadOids : '';
           http = paymentRequisitionService.saveFunc(params);
         }
         http
@@ -255,7 +255,7 @@ class NewPaymentRequisition extends React.Component {
                     initialValue: isNew
                       ? [
                           {
-                            departmentOid: this.props.user.departmentOID,
+                            departmentOid: this.props.user.departmentOid,
                             departmentId: unitId,
                             name: this.props.user.departmentName,
                           },
@@ -301,13 +301,13 @@ class NewPaymentRequisition extends React.Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label={this.$t( 'acp.fileInfo'  /*附件信息*/)} {...formItemLayout}>
-                  {getFieldDecorator('attachmentOID')(
+                  {getFieldDecorator('attachmentOid')(
                     <Upload
                       attachmentType="PAYMENT"
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={headerData.listAttachmentOid}
+                      defaultOids={headerData.listAttachmentOid}
                     />
                   )}
                 </FormItem>

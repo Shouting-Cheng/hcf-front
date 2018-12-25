@@ -92,7 +92,7 @@ class TravelType extends React.Component {
     this.setState({
       setInfo: this.props.setInfo,
       startDate: start,
-      isChangeVersion: this.props.infoDetail['sourceApplicationOID'] ? true : false,
+      isChangeVersion: this.props.infoDetail['sourceApplicationOid'] ? true : false,
       isShowTip: isShowTip,
       tipContent: tipContent,
     });
@@ -371,7 +371,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.plane.collapse.title') /*机票*/:
         itinerary['FLIGHT'][index].loading = true;
         travelService
-          .deletePlane(item.flightItineraryOID)
+          .deletePlane(item.flightItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(this.$t('itinerary.type.delete.tip') /*已删除*/);
@@ -383,7 +383,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.train.collapse.title') /*火车*/:
         itinerary['TRAIN'][index].loading = true;
         travelService
-          .deleteTrain(item.trainItineraryOID)
+          .deleteTrain(item.trainItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(this.$t('itinerary.type.delete.tip') /*已删除*/);
@@ -395,7 +395,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.remark.collapse.title') /*备注*/:
         itinerary['REMARK'][index].loading = true;
         travelService
-          .deleteRemark(item.itineraryRemarkOID)
+          .deleteRemark(item.itineraryRemarkOid)
           .then(res => {
             this.refreshItinerary();
             message.success(this.$t('itinerary.type.delete.tip') /*已删除*/);
@@ -407,7 +407,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.other.collapse.title') /*其他*/:
         itinerary['OTHER'][index].loading = true;
         travelService
-          .deleteOther(item.otherItineraryOID)
+          .deleteOther(item.otherItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(this.$t('itinerary.type.delete.tip') /*已删除*/);
@@ -419,7 +419,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.hotel.collapse.title') /*酒店*/:
         itinerary['HOTEL'][index].loading = true;
         travelService
-          .deleteHotel(item.hotelItineraryOID)
+          .deleteHotel(item.hotelItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(this.$t('itinerary.type.delete.tip') /*已删除*/);
@@ -589,11 +589,11 @@ class TravelType extends React.Component {
     let obj = this.state.subCtrlObj;
     obj.isEditSubsidyItem = true;
     let detail = {
-      travelSubsidiesDetailsOID: detailItem.travelSubsidiesDetailsOID,
-      applicationOID: detailItem.applicationOID,
-      expenseTypeOID: detailItem.expenseTypeOID,
+      travelSubsidiesDetailsOid: detailItem.travelSubsidiesDetailsOid,
+      applicationOid: detailItem.applicationOid,
+      expenseTypeOid: detailItem.expenseTypeOid,
       expenseTypeName: detailItem.expenseTypeName,
-      userOID: detailItem.userOID,
+      userOid: detailItem.userOid,
       amount: detailItem.amount,
       currencyCode: detailItem.currencyCode,
       baseCurrencyAmount: detailItem.baseCurrencyAmount,
@@ -642,7 +642,7 @@ class TravelType extends React.Component {
     let itinerary = this.state.itinerary;
     itinerary['REMARK'][index].loading = true;
     travelService
-      .clearRemark(res.itineraryRemarkOID)
+      .clearRemark(res.itineraryRemarkOid)
       .then(data => {
         this.refreshItinerary();
         message.success(this.$t('itinerary.remark.clear.tip') /*清空成功*/);
@@ -743,7 +743,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.plane.collapse.title') /*机票*/:
         itinerary['FLIGHT'][index].loading = true;
         travelService
-          .stopPlane(!item.disabled, item.flightItineraryOID)
+          .stopPlane(!item.disabled, item.flightItineraryOid)
           .then(res => {
             //'恢复成功' : '停用成功'
             message.success(
@@ -760,7 +760,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.other.collapse.title') /*其他*/:
         itinerary['OTHER'][index].loading = true;
         travelService
-          .stopOther(!item.disabled, item.otherItineraryOID)
+          .stopOther(!item.disabled, item.otherItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(
@@ -776,7 +776,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.train.collapse.title') /*火车*/:
         itinerary['TRAIN'][index].loading = true;
         travelService
-          .stopTrain(!item.disabled, item.trainItineraryOID)
+          .stopTrain(!item.disabled, item.trainItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(
@@ -792,7 +792,7 @@ class TravelType extends React.Component {
       case this.$t('itinerary.hotel.collapse.title') /*酒店*/:
         itinerary['HOTEL'][index].loading = true;
         travelService
-          .stopHotel(!item.disabled, item.hotelItineraryOID)
+          .stopHotel(!item.disabled, item.hotelItineraryOid)
           .then(res => {
             this.refreshItinerary();
             message.success(

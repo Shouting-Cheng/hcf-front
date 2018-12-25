@@ -34,8 +34,8 @@ export default {
   /**
    * 根据oid获取id-部门
    */
-  getDepartmentId(departmentOID) {
-    return httpFetch.get(`${config.baseUrl}/api/departments/${departmentOID}`);
+  getDepartmentId(departmentOid) {
+    return httpFetch.get(`${config.baseUrl}/api/departments/${departmentOid}`);
   },
   /**
    * 核算工单新增更新
@@ -73,7 +73,7 @@ export default {
    */
   getHistory(documentOid) {
     return httpFetch.get(
-      `${config.baseUrl}/api/accounting/reports/history?entityType=801008&entityOID=${documentOid}`
+      `${config.baseUrl}/api/accounting/reports/history?entityType=801008&entityOid=${documentOid}`
     );
   },
   /**

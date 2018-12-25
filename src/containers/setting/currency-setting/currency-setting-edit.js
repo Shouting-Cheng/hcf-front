@@ -47,11 +47,11 @@ class CurrencySettingEdit extends React.Component {
                     align: 'center',
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD')) }
                 },
-                { title: this.$t("currency.setting.add.foreign.currency")/*外币*/, dataIndex: 'currencyCode',align: 'center' },
-                { title: this.$t("common.currency.rate")/*汇率*/, dataIndex: 'rate',align: 'center' },
-                { title: this.$t("currency.setting.add.currency")/*本币*/, dataIndex: 'baseCurrencyCode',align: 'center' },
+                { title: this.$t("currency.setting.add.foreign.currency")/*外币*/, dataIndex: 'currencyCode', align: 'center' },
+                { title: this.$t("common.currency.rate")/*汇率*/, dataIndex: 'rate', align: 'center' },
+                { title: this.$t("currency.setting.add.currency")/*本币*/, dataIndex: 'baseCurrencyCode', align: 'center' },
                 {
-                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastModifiedDate',align: 'center',
+                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastModifiedDate', align: 'center',
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD HH:mm:ss')) }
                 },
                 {
@@ -108,11 +108,11 @@ class CurrencySettingEdit extends React.Component {
     //获取表格数据
     getRateHistory = () => {
         const { record, page, pageSize, language } = this.state;
-        httpFetch.get(`${config.baseUrl}/api/currency/rate/history/list?currencyRateOid=${record.currencyRateOid}&language=${language}&page=${page}&size=${pageSize}`).then(
+        httpFetch.get(`${config.baseUrl}/api/currency/rate/history/list?currencyRateOid=${record.currencyRateOid}&page=${page}&size=${pageSize}`).then(
             res => {
                 if (res.status === 200) {
                     this.setState({
-                        indexAdd : page * pageSize,
+                        indexAdd: page * pageSize,
                         data: res.data.rows,
                         pagination: {
                             total: res.data.total,
@@ -156,9 +156,9 @@ class CurrencySettingEdit extends React.Component {
                                 message.success(this.$t("common.operate.success")/*操作成功*/)
                             }
                         }
-                    ) .catch(e => {
-                      this.setState({ loading: false });
-                      message.error(`{e.response.data.message}`);
+                    ).catch(e => {
+                        this.setState({ loading: false });
+                        message.error(`{e.response.data.message}`);
                     });
                 },
                 onCancel: () => {
@@ -182,9 +182,9 @@ class CurrencySettingEdit extends React.Component {
                                 message.success(this.$t("common.operate.success")/*操作成功*/)
                             }
                         }
-                    ) .catch(e => {
-                      this.setState({ loading: false });
-                      message.error(`{e.response.data.message}`);
+                    ).catch(e => {
+                        this.setState({ loading: false });
+                        message.error(`{e.response.data.message}`);
                     });
                 },
                 onCancel: () => {
@@ -287,7 +287,7 @@ class CurrencySettingEdit extends React.Component {
         Modal.confirm({
             content: this.$t("currency.setting.add.edit.confirm")/*是否确认修改*/,
             onOk: () => {
-                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?language=${this.props.language.local}&tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.match.params.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
+                httpFetch.put(`${config.baseUrl}/api/currency/status/enable/auto/update?tenantId=${this.props.company.tenantId}&setOfBooksId=${this.props.match.params.setOfBooksId}&enableAutoUpdate=${e.target.checked}&currencyCode=${record.currencyCode}`).then(res => {
                     if (res.data) {
                         record.enableAutoUpdate = e.target.checked;
                         this.setState({
@@ -297,9 +297,9 @@ class CurrencySettingEdit extends React.Component {
                             this.getRateHistory();
                         })
                     }
-                }) .catch(e => {
-                  this.setState({ loading: false });
-                  message.error(`${e.response.data.message}`);
+                }).catch(e => {
+                    this.setState({ loading: false });
+                    message.error(`${e.response.data.message}`);
                 });;
             },
             onCancel: () => {
@@ -439,7 +439,7 @@ class CurrencySettingEdit extends React.Component {
     };
     //返回
     back = () => {
-        let{setOfBooksId,functionalCurrencyCode,functionalCurrencyName}=this.props.match.params;
+        let { setOfBooksId, functionalCurrencyCode, functionalCurrencyName } = this.props.match.params;
         this.props.dispatch(
             routerRedux.push({
                 // pathname: `/admin-setting/currency-setting`
@@ -454,7 +454,7 @@ class CurrencySettingEdit extends React.Component {
         const { record, isBaseCurrency, columns, data, pagination, visible, operatedRecord, outEditRate,
             startDate, endDate, originalRate, loading } = this.state;
         const { enableAutoUpdate } = this.props.match.params;
-       
+
         return (
             isBaseCurrency ?
                 <div className='currency-edit-base'>
@@ -506,7 +506,7 @@ class CurrencySettingEdit extends React.Component {
                 {
                                     <Checkbox checked={record.enableAutoUpdate}
                                         onChange={this.onEnableAutoUpdate}
-                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate||!this.props.tenantMode }
+                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate || !this.props.tenantMode}
                                     />
                                 }
                             </Col>

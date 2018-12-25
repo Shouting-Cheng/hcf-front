@@ -270,7 +270,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
     let params = {
       page: pagination.page,
       size: pagination.pageSize,
-      corporationOID: this.props.match.params.companyOId,
+      corporationOid: this.props.match.params.companyOId,
     };
     companyMaintainService.getUserInfo(params).then(response => {
       response.data.map((item, index) => {
@@ -414,13 +414,13 @@ class WrappedCompanyMaintainDetail extends React.Component {
 
   //确认移动员工
   submitHandle = value => {
-    const companyOIDTo = value.result[0].companyOID;
-    const companyOIDFrom = this.props.match.params.companyOId;
+    const companyOidTo = value.result[0].companyOid;
+    const companyOidFrom = this.props.match.params.companyOId;
     const selectedRowKeys = this.state.selectedRowKeys;
     let params = {
-      companyOIDFrom: companyOIDFrom,
-      companyOIDTo: companyOIDTo,
-      userOIDs: selectedRowKeys,
+      companyOidFrom: companyOidFrom,
+      companyOidTo: companyOidTo,
+      userOids: selectedRowKeys,
       selectMode: 'default',
     };
     companyMaintainService.movePersonToCompany(params).then(res => {
@@ -466,7 +466,7 @@ class WrappedCompanyMaintainDetail extends React.Component {
           bordered
           size="middle"
           rowKey={reCode => {
-            return reCode.userOID;
+            return reCode.userOid;
           }}
           rowSelection={tabsData[nowStatus].rowSelection}
         />

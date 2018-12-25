@@ -28,10 +28,10 @@ class CheckCostApplication extends React.Component {
       ],
       searchForm: [
         {
-          type: 'combobox', id: 'userOID', label: this.$t('finance.view.search.application'),
+          type: 'combobox', id: 'userOid', label: this.$t('finance.view.search.application'),
           placeholder: this.$t('common.please.enter') + this.$t('finance.view.search.application'),
           options: [], searchUrl: `${config.baseUrl}/api/search/users/all`,
-          method: 'get', searchKey: 'keyword', labelKey: 'fullName', valueKey: 'userOID',
+          method: 'get', searchKey: 'keyword', labelKey: 'fullName', valueKey: 'userOid',
           renderOption: option => (`${option.employeeID}-${option.fullName}${(option.status != 1001 ? `(${this.$t('check.cost.application.search.leaved')})` : '')}`)
         }, //申请人姓名/工号
         { type: 'input', id: 'businessCode', label: this.$t('check.cost.application.search.businessCode'/*单号*/) },
@@ -49,7 +49,7 @@ class CheckCostApplication extends React.Component {
           getUrl: `${config.baseUrl}/api/finance/role/legalEntity/query?page=0&size=100`,
           method: 'get',
           labelKey: 'entityName',
-          valueKey: 'companyReceiptedOID',
+          valueKey: 'companyReceiptedOid',
           listKey: "rows"
         },
         {
@@ -67,7 +67,7 @@ class CheckCostApplication extends React.Component {
       ],
       checkboxListForm: [
         {
-          id: 'formOIDs', items: [
+          id: 'formOids', items: [
             { label: this.$t('documentType.expense.request'/*费用申请单*/), key: 'cost', options: [] }
           ]
         }
@@ -160,7 +160,7 @@ class CheckCostApplication extends React.Component {
     costApplicationService.getCostTypeList(params).then(res => {
       let options = [];
       res.data.map(list => {
-        options.push({ label: list.formName, value: list.formOID })
+        options.push({ label: list.formName, value: list.formOid })
       });
       checkboxListForm[0].items.map(item => {
         item.key === 'cost' && (item.options = options)
@@ -285,9 +285,9 @@ class CheckCostApplication extends React.Component {
     // entityType：1001（申请单
     this.props.dispatch(
       routerRedux.push({
-        pathname: "/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID/:pageFrom"
-          .replace(':formOID', record.formOID)
-          .replace(':applicationOID', record.entityOID)
+        pathname: "/financial-management/check-cost-application/cost-application-detail/:formOid/:applicationOid/:pageFrom"
+          .replace(':formOid', record.formOid)
+          .replace(':applicationOid', record.entityOid)
           .replace(':pageFrom', 'checkCost')
       })
     );
@@ -299,11 +299,11 @@ class CheckCostApplication extends React.Component {
     event.stopPropagation();
     event.cancelBubble = true;
     if (record.entityType === 1002) {
-      costApplicationService.printExpenseReport(record.entityOID).then(res => {
+      costApplicationService.printExpenseReport(record.entityOid).then(res => {
         window.open(res.data.fileURL, '_blank');
       })
     } else {
-      requestService.printLoanApplication(record.entityOID).then(res => {
+      requestService.printLoanApplication(record.entityOid).then(res => {
         window.open(res.data.link, '_blank')
       })
     }
@@ -389,7 +389,7 @@ class CheckCostApplication extends React.Component {
           <div className="table-header-title">{this.$t('common.total', { total: pagination.total || 0 })}</div>
           {/*共多少条数据*/}
         </div>
-        <Table rowKey={record => record.entityOID}
+        <Table rowKey={record => record.entityOid}
           columns={columns}
           dataSource={data}
           loading={loading}

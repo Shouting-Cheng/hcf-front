@@ -53,14 +53,14 @@ class WidgetSetting extends React.Component {
     this.updateWidget(widget, widgetList);
 
     if (this.props.isFormDesign) {
-      let formOID = this.props.formOID;
+      let formOid = this.props.formOid;
       if (this.props.profile['company.contact.custom.form']) {
-        formOID = this.props.profile['company.contact.custom.form'];
+        formOid = this.props.profile['company.contact.custom.form'];
       }
       let companyFields = {
         fetched: false,
         data: [],
-        service: formService.getFormDetail(formOID),
+        service: formService.getFormDetail(formOid),
         listKey: 'customFormFields',
       };
       let booksID = '';
@@ -117,20 +117,20 @@ class WidgetSetting extends React.Component {
     const { widget, companyFields } = this.state;
     const { nowWidgetList } = this.props;
     //处理个人扩展字段
-    let selectedOIDList = [];
-    let currentOID = this.getInitialValue('dataSource', 'fieldOID');
+    let selectedOidList = [];
+    let currentOid = this.getInitialValue('dataSource', 'fieldOid');
     nowWidgetList.map(singleWidget => {
       if (singleWidget.messageKey === 'employee_expand' && singleWidget.dataSource) {
-        selectedOIDList.push(JSON.parse(singleWidget.dataSource).fieldOID);
+        selectedOidList.push(JSON.parse(singleWidget.dataSource).fieldOid);
       }
     });
     let companyFieldData = [];
-    let isHasCurrentOID = false; //之前选择的扩展字段是否还存在，如果不存在了，则要清除
+    let isHasCurrentOid = false; //之前选择的扩展字段是否还存在，如果不存在了，则要清除
     companyFields.data &&
       companyFields.data.map(singleCompanyField => {
         if (
-          selectedOIDList.indexOf(singleCompanyField.fieldOID) == -1 ||
-          singleCompanyField.fieldOID === currentOID
+          selectedOidList.indexOf(singleCompanyField.fieldOid) == -1 ||
+          singleCompanyField.fieldOid === currentOid
         ) {
           companyFieldData.push(singleCompanyField);
         }
@@ -141,12 +141,12 @@ class WidgetSetting extends React.Component {
         <Select
           disabled={this.props.disabled}
           onChange={value =>
-            this.handleChangeAttr(value, 'dataSource', 'fieldOID', 'employee_expand')
+            this.handleChangeAttr(value, 'dataSource', 'fieldOid', 'employee_expand')
           }
           getPopupContainer={triggerNode => triggerNode.parentNode}
-          value={this.getInitialValue('dataSource', 'fieldOID')}
+          value={this.getInitialValue('dataSource', 'fieldOid')}
         >
-          {companyFieldData.map(item => <Option key={item.fieldOID}>{item.fieldName}</Option>)}
+          {companyFieldData.map(item => <Option key={item.fieldOid}>{item.fieldName}</Option>)}
         </Select>
       </div>
     );
@@ -156,18 +156,18 @@ class WidgetSetting extends React.Component {
     const { widget, costCenters } = this.state;
     const { nowWidgetList } = this.props;
     //处理成本中心
-    let selectedOIDList = [];
-    let currentOID = this.getInitialValue('dataSource', 'costCenterOID');
+    let selectedOidList = [];
+    let currentOid = this.getInitialValue('dataSource', 'costCenterOid');
     nowWidgetList.map(singleWidget => {
       if (singleWidget.messageKey === 'select_cost_center' && singleWidget.dataSource) {
-        selectedOIDList.push(JSON.parse(singleWidget.dataSource).costCenterOID);
+        selectedOidList.push(JSON.parse(singleWidget.dataSource).costCenterOid);
       }
     });
     let costCenterData = [];
     costCenters.data.map(singleCostCenterField => {
       if (
-        selectedOIDList.indexOf(singleCostCenterField.costCenterOID) == -1 ||
-        singleCostCenterField.costCenterOID === currentOID
+        selectedOidList.indexOf(singleCostCenterField.costCenterOid) == -1 ||
+        singleCostCenterField.costCenterOid === currentOid
       ) {
         costCenterData.push(singleCostCenterField);
       }
@@ -177,11 +177,11 @@ class WidgetSetting extends React.Component {
         <div className="form-title">{this.$t('widget.field.cost.center') /*选择成本中心*/}</div>
         <Select
           disabled={this.props.disabled}
-          onChange={value => this.handleChangeAttr(value, 'dataSource', 'costCenterOID')}
+          onChange={value => this.handleChangeAttr(value, 'dataSource', 'costCenterOid')}
           getPopupContainer={triggerNode => triggerNode.parentNode}
-          value={this.getInitialValue('dataSource', 'costCenterOID')}
+          value={this.getInitialValue('dataSource', 'costCenterOid')}
         >
-          {costCenterData.map(item => <Option key={item.costCenterOID}>{item.name}</Option>)}
+          {costCenterData.map(item => <Option key={item.costCenterOid}>{item.name}</Option>)}
         </Select>
       </div>
     );
@@ -437,11 +437,11 @@ class WidgetSetting extends React.Component {
             <div className="form-title">{this.$t('widget.select.list')}</div>
             <Select
               disabled={this.props.disabled}
-              onChange={value => this.handleChangeAttr(value, 'dataSource', 'customEnumerationOID')}
-              value={this.getInitialValue('dataSource', 'customEnumerationOID')}
+              onChange={value => this.handleChangeAttr(value, 'dataSource', 'customEnumerationOid')}
+              value={this.getInitialValue('dataSource', 'customEnumerationOid')}
             >
               {enumerations.data.map(item => (
-                <Option key={item.customEnumerationOID}>{item.name}</Option>
+                <Option key={item.customEnumerationOid}>{item.name}</Option>
               ))}
             </Select>
           </div>
@@ -1103,7 +1103,7 @@ class WidgetSetting extends React.Component {
       let valueMessageKey = '';
       let valueDataSource = '';
       companyFields.data.map(companyField => {
-        if (companyField.fieldOID === value) {
+        if (companyField.fieldOid === value) {
           valueMessageKey = companyField.messageKey;
           if (companyField.dataSource) {
             valueDataSource = companyField.dataSource;
@@ -1115,7 +1115,7 @@ class WidgetSetting extends React.Component {
         dataSource: valueDataSource,
       });
     }
-    if (attrName === 'customEnumerationOID') widget.customEnumerationOID = value;
+    if (attrName === 'customEnumerationOid') widget.customEnumerationOid = value;
     if (attrName === 'out') {
       if (value && !widget.outCustomFormFieldI18nDTOS) {
         widget.outFieldName = widget.fieldName + '1';
@@ -1382,7 +1382,7 @@ WidgetSetting.propTypes = {
   formType: PropTypes.number,
   booksID: PropTypes.string, //集团模式下，当前账套id
   nowWidgetList: PropTypes.array, //当前所选的所有控件
-  formOID: PropTypes.string, //表单管理处对应的表单
+  formOid: PropTypes.string, //表单管理处对应的表单
   widget: PropTypes.object, //控件对象
   onChange: PropTypes.func, //更改属性时的回调
   widgetList: PropTypes.array, //控件列表，如果需要显示控件类型则必填

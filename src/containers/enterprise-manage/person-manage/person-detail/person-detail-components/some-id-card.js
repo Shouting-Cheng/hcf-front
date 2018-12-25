@@ -129,7 +129,7 @@ class PersonSomeIdCard extends React.Component {
     this.setState({
       loading: true,
     });
-    if (card.contactCardOID) {
+    if (card.contactCardOid) {
       PDService.updateContactCard(card)
         .then(res => {
           this.props.createCardOver();
@@ -404,7 +404,7 @@ class PersonSomeIdCard extends React.Component {
           className="create-update-modal"
           //? '编辑证件信息' : '新增证件信息'
           title={
-            card.contactCardOID ? this.$t('pdc.id.card.edit.card') : this.$t('pdc.id.card.new.card')
+            card.contactCardOid ? this.$t('pdc.id.card.edit.card') : this.$t('pdc.id.card.new.card')
           }
           visible={this.state.showCreatModel}
           footer={null}

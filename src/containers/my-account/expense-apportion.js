@@ -24,7 +24,7 @@ class ExpenseApportion extends React.Component{
     this.state = {
       loading: false,
       heights : [],
-      costCenterOID: '00000000-0000-0000-0000-000000000000',
+      costCenterOid: '00000000-0000-0000-0000-000000000000',
       columns: [{
         title: this.$t('expense.apportion.amount')/*分摊金额*/,
         dataIndex: 'amount',
@@ -116,11 +116,11 @@ class ExpenseApportion extends React.Component{
     const { amount, value, onChange } = props;
     let { defaultExpenseApportion, loading } = this.state;
     if(!value || value.length === 0){
-      let expenseReportOID = props.expenseReportOID;
+      let expenseReportOid = props.expenseReportOid;
       let expenseTypeId = props.expenseTypeId;
-      if(expenseReportOID && expenseTypeId && !defaultExpenseApportion && !loading){
+      if(expenseReportOid && expenseTypeId && !defaultExpenseApportion && !loading){
         this.setState({ loading: true });
-        expenseReportService.getDefaultApportionment(expenseReportOID, expenseTypeId).then(res => {
+        expenseReportService.getDefaultApportionment(expenseReportOid, expenseTypeId).then(res => {
           res.data[0].amount = amount * res.data[0].proportion;
           this.setState({ defaultExpenseApportion: res.data[0], loading: false, expenseApportion: res.data }, () => {afterSetState();onChange(res.data)})
         })
@@ -149,10 +149,10 @@ class ExpenseApportion extends React.Component{
       let {expenseApportion} = this.state;
       let costCenterItems = expenseApportion[index].costCenterItems[costCenterIndex];
       if (costCenterItems) {
-        if (costCenterItems.costCenterOID === '00000000-0000-0000-0000-000000000000') {
-          result[0].costCenterItemOID = result[0].departmentOid;
+        if (costCenterItems.costCenterOid === '00000000-0000-0000-0000-000000000000') {
+          result[0].costCenterItemOid = result[0].departmentOid;
         }
-        costCenterItems.costCenterItemOID = result[0].costCenterItemOID;
+        costCenterItems.costCenterItemOid = result[0].costCenterItemOid;
         costCenterItems.costCenterItemName = result[0].name;
         costCenterItems.name = result[0].name;
         expenseApportion[index].costCenterItems[costCenterIndex] = costCenterItems;
@@ -184,7 +184,7 @@ class ExpenseApportion extends React.Component{
   handleChangePerson = (result, index) => {
     if(result){
       let { expenseApportion } = this.state;
-      expenseApportion[index].relevantPerson = result[0].userOID;
+      expenseApportion[index].relevantPerson = result[0].userOid;
       expenseApportion[index].personName = result[0].fullName;
       this.props.onChange(expenseApportion);
     }
@@ -206,13 +206,13 @@ class ExpenseApportion extends React.Component{
                 let isHaveItem = false;
                 let costCenterItemIndex;
                 record.costCenterItems && record.costCenterItems.map((item, indexCostCenterItems) => {
-                  if (item.costCenterOID === costCenterItem.costCenterOID) {
+                  if (item.costCenterOid === costCenterItem.costCenterOid) {
                     isHaveItem = true;
                     costCenterItemIndex=indexCostCenterItems;
                   }
                 })
                 if (isHaveItem) {
-                  let isDepartment = (costCenterItem.costCenterOID === '00000000-0000-0000-0000-000000000000');
+                  let isDepartment = (costCenterItem.costCenterOid === '00000000-0000-0000-0000-000000000000');
                   let card = (<InputGroup style={{margin: '5px 0px', display: 'block',height: 'auto', overflow: 'auto'}}>
                   <Input defaultValue={`${costCenterItem.fieldName}:`} style={{ width: '30%',borderRight: '0px' }} disabled={true}/>
                     {
@@ -251,11 +251,11 @@ class ExpenseApportion extends React.Component{
       case 'personName':
         let user = [{
           fullName: record.personName,
-          userOID: record.relevantPerson
+          userOid: record.relevantPerson
         }];
         return (readOnly || !isEditable) ? user[0].fullName : <Chooser type="user"
                                                       value={user}
-                                                      valueKey="userOID"
+                                                      valueKey="userOid"
                                                       labelKey="fullName"
                                                       listExtraParams={{roleType: 'TENANT'}}
                                                       single
@@ -283,11 +283,11 @@ class ExpenseApportion extends React.Component{
     if(isDepartment) {
       let departmentValue = {};
       record.costCenterItems.map(item => {
-        if (item.costCenterOID === constraint.costCenterOID) {
+        if (item.costCenterOid === constraint.costCenterOid) {
           departmentValue = item;
         }
       })
-      departmentValue.departmentOid = departmentValue.costCenterItemOID;
+      departmentValue.departmentOid = departmentValue.costCenterItemOid;
       departmentValue.name = departmentValue.costCenterItemName;
       departmentItem = (readOnly || !isEditable) ?
         <Input defaultValue={departmentValue.costCenterItemName ? departmentValue.costCenterItemName : ''} style={{borderLeft: '0px',width: '70%' }} disabled={true}/> :
@@ -298,15 +298,15 @@ class ExpenseApportion extends React.Component{
                  single
                  showClear={true}
                  onChange={department => this.handleChangeCostCenter(department, index, costCenterIndex)}
-                 value={departmentValue.costCenterItemOID ? [departmentValue] : []}
+                 value={departmentValue.costCenterItemOid ? [departmentValue] : []}
                  listExtraParams={{leafEnable: profile['department.leaf.selection.required']}}/>;
     } else {
       let chooserItem = JSON.parse(JSON.stringify(chooserData['expense_cost_center_item']));
-      chooserItem.key = 'costCenterItemOID';
-      chooserItem.url = `${config.baseUrl}/api/my/cost/center/items?costCenterOID=${constraint.costCenterOID}&expenseTypeId=${expenseTypeId}&userOID=${user.userOID}`;
+      chooserItem.key = 'costCenterItemOid';
+      chooserItem.url = `${config.baseUrl}/api/my/cost/center/items?costCenterOid=${constraint.costCenterOid}&expenseTypeId=${expenseTypeId}&userOid=${user.userOid}`;
       let value = {};
       record.costCenterItems.map(item => {
-        if (item.costCenterOID === constraint.costCenterOID) {
+        if (item.costCenterOid === constraint.costCenterOid) {
           value = item;
         }
       })
@@ -314,12 +314,12 @@ class ExpenseApportion extends React.Component{
       costCenterItems = (readOnly || !isEditable) ?
         <Input defaultValue={value.costCenterItemName ? value.costCenterItemName : ''} style={{borderLeft: '0px',width: '70%' }} disabled={true}/> :
         <Chooser selectorItem={chooserItem}
-                 valueKey="costCenterItemOID"
+                 valueKey="costCenterItemOid"
                  labelKey="name"
                  single
                  showClear={true}
                  onChange={costCenterItem => this.handleChangeCostCenter(costCenterItem, index, costCenterIndex)}
-                 value={value.costCenterItemOID ? [value] : []}/>;
+                 value={value.costCenterItemOid ? [value] : []}/>;
     }
     return isDepartment ? departmentItem : costCenterItems;
   }
@@ -331,11 +331,11 @@ class ExpenseApportion extends React.Component{
     defaultExpense.proportion = 0;
     defaultExpense.defaultApportion = false;
     defaultExpense.costCenterItems.map(item => {
-      item.costCenterItemOID = null;
+      item.costCenterItemOid = null;
       item.departmentOid = null;
       item.costCenterItemName = null;
     });
-    defaultExpense.apportionmentOID = null;
+    defaultExpense.apportionmentOid = null;
     expenseApportion.push(defaultExpense);
     this.props.onChange(expenseApportion);
   };
@@ -355,9 +355,9 @@ class ExpenseApportion extends React.Component{
     let target = JSON.parse(JSON.stringify(record));
     target.amount = 0;
     target.proportion = 0;
-    target.apportionmentOID = null;
+    target.apportionmentOid = null;
     target.defaultApportion = false;
-    target.apportionmentOID=null;
+    target.apportionmentOid=null;
     expenseApportion.push(target);
     this.props.onChange(expenseApportion);
   };
@@ -380,11 +380,11 @@ class ExpenseApportion extends React.Component{
     let resultData = {};
     if (result.success) {
       let { expenseApportion } = this.state;
-      let {amount,invoiceOID} = this.props;
+      let {amount,invoiceOid} = this.props;
       if(result.result.length>0){
         result.result.map((item)=>{
           item.proportion=item.amount/amount;
-          item.expenseOID=invoiceOID;
+          item.expenseOid=invoiceOid;
           expenseApportion.push(item);
         })
         this.props.onChange(expenseApportion);
@@ -432,7 +432,7 @@ class ExpenseApportion extends React.Component{
   }
   render() {
     const { loading, columns, expenseApportion, defaultExpenseApportion, scrollX, showImportFrame,tabKey } = this.state;
-    const { readOnly, expenseReportOID, expenseTypeId } = this.props;
+    const { readOnly, expenseReportOid, expenseTypeId } = this.props;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 10, offset: 1 },
@@ -518,8 +518,8 @@ class ExpenseApportion extends React.Component{
           </div>
         )}
         <Importer visible={showImportFrame}
-                  templateUrl={`${config.baseUrl}/api/apportion/template?expenseReportOID=${expenseReportOID}`}
-                  uploadUrl={`${config.baseUrl}/api/apportion/import?expenseReportOID=${expenseReportOID}&expenseTypeID=${expenseTypeId}`}
+                  templateUrl={`${config.baseUrl}/api/apportion/template?expenseReportOid=${expenseReportOid}`}
+                  uploadUrl={`${config.baseUrl}/api/apportion/import?expenseReportOid=${expenseReportOid}&expenseTypeID=${expenseTypeId}`}
                   accept={'.csv'}
                   downFileExtension={'.csv'}
                   isImporterResultDom={true}
@@ -538,13 +538,13 @@ class ExpenseApportion extends React.Component{
 ExpenseApportion.propTypes = {
   value: PropTypes.array,
   amount: PropTypes.number,
-  expenseReportOID: PropTypes.string,
+  expenseReportOid: PropTypes.string,
   expenseTypeId: PropTypes.any,
   onChange: PropTypes.func,
   readOnly: PropTypes.bool,
   amountIsNegativeNumber: PropTypes.bool,//分摊金额是否为负数模式
   costCenterItemsApportion: PropTypes.array,
-  userOID: PropTypes.string
+  userOid: PropTypes.string
 };
 
 ExpenseApportion.defaultProps = {

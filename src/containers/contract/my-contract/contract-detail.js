@@ -38,12 +38,12 @@ class ContractDetail extends React.Component {
       if (this.detail.state.headerData.formOid) {
         const { headerData } = this.detail.state;
         let params = {
-          applicantOID: headerData.applicantOid,
-          userOID: this.props.user.userOID,
-          formOID: headerData.formOid,
-          entityOID: headerData.documentOid,
+          applicantOid: headerData.applicantOid,
+          userOid: this.props.user.userOid,
+          formOid: headerData.formOid,
+          entityOid: headerData.documentOid,
           entityType: headerData.documentType,
-          countersignApproverOIDs: null,
+          countersignApproverOids: null,
         };
         contractService
           .submitWorkflowContract(params)

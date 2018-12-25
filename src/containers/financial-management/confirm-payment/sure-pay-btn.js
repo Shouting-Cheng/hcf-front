@@ -23,15 +23,15 @@ class SurePayBtn extends React.Component {
       let params = {
         comment: null,
         endDate: null,
-        entityOIDs: [applicantInfo.applicationOID],
+        entityOids: [applicantInfo.applicationOid],
         entityType: 1002,
-        excludedEntityOIDs: [],
-        formOIDs: [],
+        excludedEntityOids: [],
+        formOids: [],
         selectMode: 'default',
         startDate: null,
         status: 'pay_in_process',
         businessCode: applicantInfo.businessCode,
-        applicantOID: applicantInfo.applicantOID,
+        applicantOid: applicantInfo.applicantOid,
       };
       confirmPaymentService
         .confirmPayment('processing', params)

@@ -6,10 +6,10 @@ import { deepCopy } from 'utils/extend';
 
 //默认的人员信息
 const personObjDefaultWithoutExtend = {
-  companyOID: null,
+  companyOid: null,
   companyName: '',
 
-  departmentOID: null,
+  departmentOid: null,
   departmentName: '',
   departmentPath: '',
 
@@ -31,7 +31,7 @@ const personObjDefaultWithoutExtend = {
   employeeTypeCode: null, //员工类型编码
   rankCode: null, //级别编码
 
-  userOID: null,
+  userOid: null,
   employeeID: '',
   fullName: '',
   status: 1001, //不传代表只查询在职，1001也是在职，1002待离职员工，1003离职员工
@@ -48,8 +48,8 @@ const personObjDefault = deepCopy(personObjDefaultWithoutExtend);
 personObjDefault.customFormValues = []; //自定义值列表
 //默认的银行卡信息
 const bankAccountDefault = {
-  contactBankAccountOID: null,
-  userOID: null, //这个userOID在创建的时候必须的，
+  contactBankAccountOid: null,
+  userOid: null, //这个userOid在创建的时候必须的，
   bankAccountNo: null, //卡号
   bankAccountName: null, //开户名
   bankName: null, //银行名称
@@ -63,7 +63,7 @@ const bankAccountDefault = {
 const contactCardDefault = {
   cardType: 101, //证件类型:默认身份证
   cardTypeName: '', //证件名称：护照，身份证
-  contactCardOID: null, //证件oid
+  contactCardOid: null, //证件oid
   firstName: null, //名
   lastName: null, //姓
   nationality: null, //国家
@@ -73,56 +73,56 @@ const contactCardDefault = {
   cardNo: '', //证件号加密显示的,上传的时候，也要上传这个字段
   cardExpiredTime: '', //过期时间
   originalCardNo: '', //证件号没加密
-  userOID: null, //这个userOID在创建的时候必须的，
+  userOid: null, //这个userOid在创建的时候必须的，
 };
 //默认的供应商信息
 const vendorInfoDefault = {
   enable: false, //默认不启用
   subAccountName: '',
-  userOID: '',
+  userOid: '',
 };
 //默认的供应商信息
 const vendorInfoDefaultWithPerson = {
   //授权人
   confirmUser: {
-    userOID: null,
+    userOid: null,
     fullName: '',
     email: '',
     employeeID: '',
   },
-  confirmUserOID: '',
+  confirmUserOid: '',
 
   //二次授权人
   confirm2User: {
-    userOID: null,
+    userOid: null,
     fullName: '',
     email: '',
     employeeID: '',
   },
-  confirm2UserOID: '',
+  confirm2UserOid: '',
 
   //抄送授权人
   confirmCCUser: {
-    userOID: null,
+    userOid: null,
     fullName: '',
     email: '',
     employeeID: '',
   },
-  confirmCCUserOID: '',
+  confirmCCUserOid: '',
 
   //二次抄送授权人
   confirm2CCUser: {
-    userOID: null,
+    userOid: null,
     fullName: '',
     email: '',
     employeeID: '',
   },
-  confirm2CCUserOID: '',
+  confirm2CCUserOid: '',
 
   enable: false, //默认不启用
   subAccountName: '',
   subAccountCode: '',
-  userOID: '',
+  userOid: '',
   confirmPassword: '', //授权密码加密的
   confirmPasswordView: '', //授权密码没加密，用来显示
 };

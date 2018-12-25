@@ -77,13 +77,13 @@ class TravelElementType extends React.Component {
         tipContent = isSetTipes.tips;
       }
     }
-    this.getTravelElementsList(this.props.setInfo.formOID);
+    this.getTravelElementsList(this.props.setInfo.formOid);
     this._isMounted = true;
     this.setState({
       setInfo: this.props.setInfo,
       travelElement: this.props.setInfo.travelElement,
       startDate: start,
-      isChangeVersion: this.props.infoDetail['sourceApplicationOID'] ? true : false,
+      isChangeVersion: this.props.infoDetail['sourceApplicationOid'] ? true : false,
       isShowTip: isShowTip,
       tipContent: tipContent,
     });
@@ -105,8 +105,8 @@ class TravelElementType extends React.Component {
   }
 
   //获取差旅要素
-  getTravelElementsList = formOID => {
-    travelService.getTravelElementsList(formOID).then(res => {
+  getTravelElementsList = formOid => {
+    travelService.getTravelElementsList(formOid).then(res => {
       if (res.data.length > 0) {
         this.setState({
           travelElementsList: res.data,
@@ -131,7 +131,7 @@ class TravelElementType extends React.Component {
    * @param flag 标记打开哪一个侧滑
    */
   showBaseSlide = (flag, item) => {
-    let elementFormOID = '';
+    let elementFormOid = '';
     switch (flag) {
       case 'plane':
         this.setState({ isShowPlaneSlide: true, setInfo: this.props.setInfo }, () => {
@@ -154,9 +154,9 @@ class TravelElementType extends React.Component {
             elementTitle: item.formName,
           },
           () => {
-            elementFormOID = item.formOID;
+            elementFormOid = item.formOid;
             let setInfo = this.props.setInfo;
-            setInfo.elementFormOID = elementFormOID;
+            setInfo.elementFormOid = elementFormOid;
             this.setState({ isShowElementSlide: true, setInfo: setInfo }, () => {
               this.setState({ isShowElementSlide: true });
             });
@@ -371,7 +371,7 @@ class TravelElementType extends React.Component {
                     type="dashed"
                     icon="plus"
                     onClick={() => this.showBaseSlide('element', item)}
-                    key={item.formOID}
+                    key={item.formOid}
                   >
                     {item.formName}
                   </Button>
@@ -411,7 +411,7 @@ class TravelElementType extends React.Component {
                       className="type-plane"
                       showArrow={!option}
                       disabled={option}
-                      key={item.itineraryOID ? item.itineraryOID : mainIndex + '-main'}
+                      key={item.itineraryOid ? item.itineraryOid : mainIndex + '-main'}
                     >
                       {showTraffics &&
                         item.travelItineraryTraffics.map((element, index) => {
@@ -435,7 +435,7 @@ class TravelElementType extends React.Component {
                               type="flex"
                               className="type-line-box"
                               onClick={() => this.toEditRecord(element, element.trafficType)}
-                              key={element.trafficOID ? element.trafficOID : index + '=trafficOID'}
+                              key={element.trafficOid ? element.trafficOid : index + '=trafficOid'}
                             >
                               <Col span={1}>
                                 <Avatar size="small" src={imgUrl} />
@@ -479,7 +479,7 @@ class TravelElementType extends React.Component {
                                     return (
                                       <div
                                         style={{ padding: '5px 0' }}
-                                        key={e.fieldOID ? e.fieldOID : index + '-fieldOID'}
+                                        key={e.fieldOid ? e.fieldOid : index + '-fieldOid'}
                                       >
                                         {e.fieldName}:{e.showValue}
                                       </div>

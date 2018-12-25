@@ -1630,7 +1630,7 @@ const chooserData = {
   //这个包含新老集团的：老集团是法人实体，新集团是公司，但是后端返回的结构都是一样，前端统一按照公司处理
   //todo
   //后端还在做功能keyword关键字查询公司
-  //目前返回的列表每一个对象只有两个字段，companyOID与companyName
+  //目前返回的列表每一个对象只有两个字段，companyOid与companyName
   //后端还在重构添加companyCode,companyID等字段，如果法人实体没有这个字段，就返回null
   'all_company_with_legal_entity': {
     title: messages("chooser.data.company"),//选择公司
@@ -2017,7 +2017,7 @@ const chooserData = {
     ],
     key: 'costCenterItemId'
   },
-  'bgtUserOID': {
+  'bgtUserOid': {
     title: messages('chooser.data.selectPerson'),
     url: `${config.baseUrl}/api/select/user/by/name/or/code`,
     searchForm: [
@@ -2340,7 +2340,7 @@ const chooserData = {
       { title: messages('bookingManagement.bookingDetails.maintain.chooser.dep')/*"部门"*/, dataIndex: 'departmentName' },
       { title: messages('bookingManagement.bookingDetails.maintain.chooser.title')/*"职位"*/, dataIndex: 'title' }
     ],
-    key: 'userOID'
+    key: 'userOid'
   },
   'select_setOfBooks_accounts': {
     title: '选择科目',

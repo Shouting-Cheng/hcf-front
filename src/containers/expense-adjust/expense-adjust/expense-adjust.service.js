@@ -166,12 +166,12 @@ export default {
 
   /**
    * 获取走工作流的审批历史
-   * @param {*} entityOID
+   * @param {*} entityOid
    */
-  getApproveHistoryWorkflow(entityOID) {
+  getApproveHistoryWorkflow(entityOid) {
     let url = `${
       config.baseUrl
-    }/api/expense/adjust/headers/history?entityType=801006&entityOID=${entityOID}`;
+    }/api/expense/adjust/headers/history?entityType=801006&entityOid=${entityOid}`;
 
     return httpFetch.get(url);
   },

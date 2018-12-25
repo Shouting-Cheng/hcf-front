@@ -112,7 +112,7 @@ export default {
           })
           item.renderValue = <NewVenMaster value={value} onlyShow={true}/>;
           cols.push(
-            <Col span={8} key={item.formValueOID} className="field-container">
+            <Col span={8} key={item.formValueOid} className="field-container">
               <div className="field-name">{item.fieldName}</div>
               <div
                 className="field-content">{item.value === 'true' ? messages('common.yes') : messages('common.no')}</div>
@@ -230,9 +230,9 @@ export default {
       if (['budget_detail', 'exp_allocate', 'attachment', 'image', 'contact_bank_account', 'venMasterSwitch'].indexOf(item.messageKey) === -1 &&
         !(item.messageKey === 'employee_expand' && item.attachmentImages && item.attachmentImages.length)) {
         cols.push(
-          <Col span={8} key={item.formValueOID} className="field-container">
+          <Col span={8} key={item.formValueOid} className="field-container">
             <div className="field-name">{item.fieldName}</div>
-            {applicant && applicant.departmentOID ? <div className="field-content" style={item.messageKey === 'select_department' && applicant && item.value !== applicant.departmentOID ? {color: '#f50'} : {}}>
+            {applicant && applicant.departmentOid ? <div className="field-content" style={item.messageKey === 'select_department' && applicant && item.value !== applicant.departmentOid ? {color: '#f50'} : {}}>
               {item.renderValue || item.showValue || '-'}
             </div> : '-'}
           </Col>
@@ -262,7 +262,7 @@ export default {
   //处理特别的控件显示
   dealSpecialFormShow(cols, item, info, messageKey = item.messageKey) {
     if (messageKey === 'contact_bank_account') {
-      let isExpenseReport = info.expenseReportOID;
+      let isExpenseReport = info.expenseReportOid;
       let showValue = item.showValue && isExpenseReport ? JSON.parse(item.showValue) : isExpenseReport ? {} : {bankAccountNo: item.showValue};
       if (item.messageKey === 'venMasterSwitch' && !isExpenseReport) {
         showValue = JSON.parse(item.showValue);
@@ -309,7 +309,7 @@ export default {
         <div>
           {otherFields.map((i, index) => {
             cols.push(
-              <Col span={8} key={`${item.formValueOID}${index}`} className="field-container">
+              <Col span={8} key={`${item.formValueOid}${index}`} className="field-container">
                 <div className="field-name">{i.fieldName}</div>
                 <div className="field-content">{i.renderValue || '-'}</div>
               </Col>)
@@ -350,7 +350,7 @@ export default {
       case 'currency_code':
         let params = {
           language: 'chineseName',
-          userOID: app.getState().user.currentUser.userOID
+          userOid: app.getState().user.currentUser.userOid
         };
         return (
           <Selector type={'currency'} params={params} filter={item => item.enable}
@@ -366,13 +366,13 @@ export default {
         return <TextArea rows={4} placeholder={field.promptInfo} style={{resize: 'none'}}/>;
       case 'select_cost_center':
         chooserItem = deepFullCopy(chooserData['cost_center_item']);
-        chooserItem.url = `${config.baseUrl}/api/my/cost/center/items/${field.dataSource && JSON.parse(field.dataSource || '{}').costCenterOID}`;
+        chooserItem.url = `${config.baseUrl}/api/my/cost/center/items/${field.dataSource && JSON.parse(field.dataSource || '{}').costCenterOid}`;
         return <Chooser selectorItem={chooserItem}
                         placeholder={field.promptInfo}
-                        valueKey="costCenterItemOID"
+                        valueKey="costCenterItemOid"
                         labelKey="name"
-                        listExtraParams={{applicantOID: app.getState().user.currentUser.userOID}}
-                        onlyNeed="costCenterItemOID"
+                        listExtraParams={{applicantOid: app.getState().user.currentUser.userOid}}
+                        onlyNeed="costCenterItemOid"
                         onChange={(e, all) => {
                           copyValue && copyValue.checkedChange && copyValue.checkedChange(field, e, all)
                         }}
@@ -414,7 +414,7 @@ export default {
         return <Chooser selectorItem={chooserItem}
                         valueKey="userOid"
                         labelKey="fullName"
-                        listExtraParams={{formOID: field.formOid}}
+                        listExtraParams={{formOid: field.formOid}}
                         disabled={field.isReadOnly || !fieldContent.editable}
                         newline/>;
       case 'select_approver':
@@ -475,7 +475,7 @@ export default {
         let selectorItem = {
           url: `${config.baseUrl}/api/custom/enumerations/${oid}/items/v2?&page=0&size=1000`,
           label: record => record.messageKey,
-          key: 'value', //报销单和申请单保存时存的都是code，不要再改成OID了～～
+          key: 'value', //报销单和申请单保存时存的都是code，不要再改成Oid了～～
           offlineSearchMode: true,
         };
         return (
@@ -890,7 +890,7 @@ export default {
       case 'applicant':
         return {label: `${user.fullName} - ${user.employeeID}`, key: user.userOid};
       case 'payee':
-        return {label: `${user.employeeID} | ${user.fullName} | ${user.departmentName ? user.departmentName: messages('expense.invoice.type.unknown')/*"未知"*/} | ${user.title || messages('expense.invoice.type.unknown')/*"未知"*/}`, key: user.userOID};
+        return {label: `${user.employeeID} | ${user.fullName} | ${user.departmentName ? user.departmentName: messages('expense.invoice.type.unknown')/*"未知"*/} | ${user.title || messages('expense.invoice.type.unknown')/*"未知"*/}`, key: user.userOid};
       case 'select_participant':
         let initValue = (field.clearDefault) ? [] : [{userOid: user.userOid, fullName: user.fullName}];
         field.clearDefault = false;
@@ -947,7 +947,7 @@ export default {
         field.attachmentImages.map(item => {
           tempEmployeeExpandValue.push(item.attachmentOid)
         });
-        value = tempEmployeeExpandValue.join(',') //保存提交时和老中控统一为 attachmentOID,attachmentOID,... 的格式
+        value = tempEmployeeExpandValue.join(',') //保存提交时和老中控统一为 attachmentOid,attachmentOid,... 的格式
       }
       try {
         if (field.fieldContent && (JSON.parse(field.fieldContent) || {}).messageKey === 'cust_list') {

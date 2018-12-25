@@ -49,12 +49,12 @@ class AuditApplicationDetail extends React.Component {
 
   handleApprovePass = value => {
     value = value ? (typeof value !== 'string' ? this.state.approvalTxtString : value) : value;
-    const { entityOID, entityType } = this.props;
+    const { entityOid, entityType } = this.props;
     let params = {
       approvalTxt: value ? value.trim() : value,
       entities: [
         {
-          entityOID,
+          entityOid,
           entityType,
         },
       ],
@@ -69,8 +69,8 @@ class AuditApplicationDetail extends React.Component {
           this.goBack();
         } else {
           this.setState({ passLoading: false });
-          if (res.data.failReason && res.data.failReason[entityOID]) {
-            message.error(res.data.failReason[entityOID]); //'的报销单审核失败'
+          if (res.data.failReason && res.data.failReason[entityOid]) {
+            message.error(res.data.failReason[entityOid]); //'的报销单审核失败'
             return !1;
           }
           message.error(this.$t('common.operate.filed') /*操作失败*/);
@@ -91,12 +91,12 @@ class AuditApplicationDetail extends React.Component {
   };
 
   handleApproveReject = value => {
-    const { entityOID, entityType } = this.props;
+    const { entityOid, entityType } = this.props;
     let params = {
       approvalTxt: value,
       entities: [
         {
-          entityOID,
+          entityOid,
           entityType,
         },
       ],
@@ -112,7 +112,7 @@ class AuditApplicationDetail extends React.Component {
         } else {
           this.setState({ rejectLoading: false });
           this.setState({ paperReject: false, paperLoading: false });
-          let errorMessage = res.data.failReason[params.entities[0].entityOID];
+          let errorMessage = res.data.failReason[params.entities[0].entityOid];
           message.error(errorMessage);
         }
       })
@@ -124,9 +124,9 @@ class AuditApplicationDetail extends React.Component {
   };
 
   handleAuditNotice = value => {
-    const { entityOID, entityType } = this.props;
+    const { entityOid, entityType } = this.props;
     let params = {
-      entityOID,
+      entityOid,
       entityType,
       notice: value,
     };
@@ -147,15 +147,15 @@ class AuditApplicationDetail extends React.Component {
   };
 
   handlePrint = () => {
-    const { entityOID } = this.props;
+    const { entityOid } = this.props;
     this.setState({ printLoading: true });
     if (this.props.entityType === 1002) {
-      baseService.printExpense(entityOID).then(res => {
+      baseService.printExpense(entityOid).then(res => {
         this.setState({ printLoading: false });
         window.open(res.data.link, '_blank');
       });
     } else {
-      baseService.printApplication(entityOID).then(res => {
+      baseService.printApplication(entityOid).then(res => {
         this.setState({ printLoading: false });
         window.open(res.data.link, '_blank');
       });
@@ -275,7 +275,7 @@ class AuditApplicationDetail extends React.Component {
 }
 
 AuditApplicationDetail.propTypes = {
-  entityOID: PropTypes.string,
+  entityOid: PropTypes.string,
   entityType: PropTypes.number,
   status: PropTypes.number, //单据状态
   expenseOid: PropTypes.string,

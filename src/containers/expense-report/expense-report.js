@@ -169,11 +169,11 @@ class ExpenseReport extends React.Component {
       let formCheckBoxItem = {};
       let options = [{ label: this.$t('common.all'), value: 'all' }];
       res.data.map(item => {
-        options.push({ label: item.formName, value: item.formOID })
+        options.push({ label: item.formName, value: item.formOid })
       });
-      formCheckBoxItem.id = 'formOID';
+      formCheckBoxItem.id = 'formOid';
       formCheckBoxItem.single = true;
-      formCheckBoxItem.items = [{ label: this.$t('common.document.name'), key: 'formOID', options, checked: ['all'] }];
+      formCheckBoxItem.items = [{ label: this.$t('common.document.name'), key: 'formOid', options, checked: ['all'] }];
       checkboxListForm.push(formCheckBoxItem);
       this.setState({ checkboxListForm, expenseReportTypes: res.data })
     });
@@ -237,7 +237,7 @@ class ExpenseReport extends React.Component {
 
   search = (values) => {
     this.setCache({ ...values });
-    values.formOID === 'all' && (values.formOID = '');
+    values.formOid === 'all' && (values.formOid = '');
     values.startDate && (values.startDate = moment(values.startDate).format('YYYY-MM-DD+00:00:00'));
     values.endDate && (values.endDate = moment(values.endDate).format('YYYY-MM-DD+23:59:59'));
     this.setState({ searchParams: values, page: 0 }, () => {
@@ -279,10 +279,10 @@ class ExpenseReport extends React.Component {
       type: 'cache/setExpenseReport',
       expenseReport: null
     });*/
-    // this.context.router.push(this.state.expenseReportDetail.url.replace(':expenseReportOID', record.expenseReportOID).replace(':pageFrom', 'my'));
+    // this.context.router.push(this.state.expenseReportDetail.url.replace(':expenseReportOid', record.expenseReportOid).replace(':pageFrom', 'my'));
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/expense-report/expense-report-detail/${record.expenseReportOID}/my`
+        pathname: `/expense-report/expense-report-detail/${record.expenseReportOid}/my`
       })
     )  
   };
@@ -291,7 +291,7 @@ class ExpenseReport extends React.Component {
   handleNewExpenseReport = (e) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/expense-report/new-expense-report/${e.key}/:userOID`
+        pathname: `/expense-report/new-expense-report/${e.key}/:userOid`
       })
     )  
   };
@@ -301,7 +301,7 @@ class ExpenseReport extends React.Component {
     const menu = (
       <Menu onClick={this.handleNewExpenseReport} style={{ maxHeight: 250, overflow: 'auto' }}>
         {expenseReportTypes.map(item => {
-          return <Menu.Item key={item.formOID}>{item.formName}</Menu.Item>
+          return <Menu.Item key={item.formOid}>{item.formName}</Menu.Item>
         })}
       </Menu>
     );
@@ -328,7 +328,7 @@ class ExpenseReport extends React.Component {
               onChange={(e) => this.handleSearch(e.target.value)} />
           </div>
         </div>
-        <Table rowKey="expenseReportOID"
+        <Table rowKey="expenseReportOid"
           columns={columns}
           expandedRowRender={this.renderAllExpandedRow}
           dataSource={data}

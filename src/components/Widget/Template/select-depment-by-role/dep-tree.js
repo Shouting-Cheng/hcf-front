@@ -37,7 +37,7 @@ class DepTree extends React.Component {
         return (
           <TreeNode
             title={this.renderTreeNodesTitle(item)}
-            key={item.departmentOID}
+            key={item.departmentOid}
             dataRef={item}
             className="org-dep-node"
           >
@@ -49,7 +49,7 @@ class DepTree extends React.Component {
         <TreeNode
           className="org-dep-node"
           title={this.renderTreeNodesTitle(item)}
-          key={item.departmentOID}
+          key={item.departmentOid}
           dataRef={item}
         />
       );

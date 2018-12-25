@@ -15,9 +15,9 @@ class TravelPreviousVersion extends React.Component {
     const { info } = this.props;
     window.open(
       this.state.requestDetail.url
-        .replace(':formOID', info.formOID)
-        .replace(':applicationOID', info.sourceApplicationOID) +
-        `?readOnly=true&isPreVersion=true&latestApplicationOID=${info.applicationOID}`
+        .replace(':formOid', info.formOid)
+        .replace(':applicationOid', info.sourceApplicationOid) +
+        `?readOnly=true&isPreVersion=true&latestApplicationOid=${info.applicationOid}`
     );
   };
 

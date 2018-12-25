@@ -2420,7 +2420,7 @@ const chooserData = {
     ],
     key: 'costCenterItemId',
   },
-  bgtUserOID: {
+  bgtUserOid: {
     title: messages('chooser.data.selectPerson'),
     url: `${config.baseUrl}/api/select/user/by/name/or/code`,
     searchForm: [

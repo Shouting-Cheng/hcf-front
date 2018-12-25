@@ -147,7 +147,7 @@ class NewUpdateBankAccount extends React.Component {
         values.venInfoId = this.props.params.vendorId;
         values.bankCode = values.venBankAccountBeans[0].bankCode;
         values.bankName = values.venBankAccountBeans[0].bankBranchName;
-        values.companyOid = this.props.company.companyOID;
+        values.companyOid = this.props.company.companyOid;
         values.venType = values.enabled ? 1001 : 1002;
         values.venOperatorNumber = this.props.user.employeeID;
         values.venOperatorName = this.props.user.fullName;

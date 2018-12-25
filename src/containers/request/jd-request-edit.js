@@ -55,7 +55,7 @@ class JDRequestEdit extends React.Component {
 
   getInfo = () => {
     this.setState({ loading: true });
-    requestService.getRequestDetail(this.props.params.applicationOID).then(res => {
+    requestService.getRequestDetail(this.props.params.applicationOid).then(res => {
       if (res.status === 200) {
         this.setState(
           {
@@ -171,7 +171,7 @@ class JDRequestEdit extends React.Component {
   handleDelete = () => {
     this.setState({ deleteLoading: true });
     requestService
-      .deleteRequest(this.props.params.applicationOID)
+      .deleteRequest(this.props.params.applicationOid)
       .then(() => {
         this.setState({ deleteLoading: false });
         message.success(this.$t('common.operate.success'));
@@ -201,7 +201,7 @@ class JDRequestEdit extends React.Component {
         if (item.messageKey === 'select_approver') {
           item.showValue &&
             item.showValue.split(',').map((name, index) => {
-              approveValue.push({ fullName: name, userOID: item.value.split(':')[index] });
+              approveValue.push({ fullName: name, userOid: item.value.split(':')[index] });
             });
         }
       });
@@ -272,9 +272,9 @@ class JDRequestEdit extends React.Component {
               })(
                 <Chooser
                   type="user"
-                  valueKey="userOID"
+                  valueKey="userOid"
                   labelKey="fullName"
-                  onlyNeed="userOID"
+                  onlyNeed="userOid"
                   newline
                 />
               )}

@@ -264,7 +264,7 @@ class LegalPersonDetail extends React.Component {
       companyName: '', //搜索新公司
 
       selectedRowKeys: [], ///已选择的列表项的key，这个用来记住翻页的
-      selectedEntityOIDs: [], //已选择的列表项的OIDs
+      selectedEntityOids: [], //已选择的列表项的Oids
 
       legalPersonList: false, //选择法人实体的列表弹窗,是否显示
       legalPersonSelectorItem: {
@@ -273,7 +273,7 @@ class LegalPersonDetail extends React.Component {
         url:
           config.baseUrl +
           '/api/all/company/receipted/invoices/exclude/' +
-          this.props.match.params.legalPersonOID,
+          this.props.match.params.legalPersonOid,
         searchForm: [
           {
             type: 'input',
@@ -314,7 +314,7 @@ class LegalPersonDetail extends React.Component {
     }
   };
   getLegalPersonDetail = () => {
-    LPService.getLegalPersonDetail(this.props.match.params.legalPersonOID).then(res => {
+    LPService.getLegalPersonDetail(this.props.match.params.legalPersonOid).then(res => {
       let data = res.data;
       data.mainLanguageName = getLanguageName(data.mainLanguage, this.props.languageList);
 
@@ -327,7 +327,7 @@ class LegalPersonDetail extends React.Component {
   //获取法人下面的人，这是老集团
   getPersonList() {
     let params = {
-      corporationOID: this.props.match.params.legalPersonOID,
+      corporationOid: this.props.match.params.legalPersonOid,
       page: this.state.pagination.page,
       size: this.state.pagination.pageSize,
     };
@@ -335,9 +335,9 @@ class LegalPersonDetail extends React.Component {
       loading: true,
     });
     // let params = {
-    //   companyOID:
-    //   departmentOID: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
-    //   corporationOID: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
+    //   companyOid:
+    //   departmentOid: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
+    //   corporationOid: "37f0c85b-1f1a-4694-b9da-eecb125e2fbf",
     //   page: 0,
     //   size: 10,
     //   status: 1001,
@@ -409,11 +409,11 @@ class LegalPersonDetail extends React.Component {
   //针对老集团的逻辑--start
   //点击弹框ok，选择了目标法人
   selectTargetLegalPerson = data => {
-    let targetLegal = data.result[0].companyReceiptedOID;
+    let targetLegal = data.result[0].companyReceiptedOid;
     let params = {
-      companyReceiptedOIDFrom: this.props.match.params.legalPersonOID,
-      companyReceiptedOIDTo: targetLegal, //目标法人的oid
-      userOIDs: this.state.selectedEntityOIDs, //要移动的员工数组
+      companyReceiptedOidFrom: this.props.match.params.legalPersonOid,
+      companyReceiptedOidTo: targetLegal, //目标法人的oid
+      userOids: this.state.selectedEntityOids, //要移动的员工数组
       selectMode: 'default',
     };
     LPService.movePersonsToLegalPerson(params).then(res => {
@@ -433,15 +433,15 @@ class LegalPersonDetail extends React.Component {
   };
 
   onSelectRow = (record, selected) => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) {
-      temp.push(record.userOID);
+      temp.push(record.userOid);
     } else {
-      temp.delete(record.userOID);
+      temp.delete(record.userOid);
     }
     this.setState(
       {
-        selectedEntityOIDs: temp,
+        selectedEntityOids: temp,
       },
       () => { }
     );
@@ -449,30 +449,30 @@ class LegalPersonDetail extends React.Component {
 
   //全选
   onSelectAllRow = selected => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) {
       this.state.data.map(item => {
-        temp.addIfNotExist(item.userOID);
+        temp.addIfNotExist(item.userOid);
       });
     } else {
       this.state.data.map(item => {
-        temp.delete(item.userOID);
+        temp.delete(item.userOid);
       });
     }
     this.setState(
       {
-        selectedEntityOIDs: temp,
+        selectedEntityOids: temp,
       },
       () => { }
     );
   };
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection() {
     let selectedRowKeys = [];
-    this.state.selectedEntityOIDs.map(selectedEntityOID => {
+    this.state.selectedEntityOids.map(selectedEntityOid => {
       this.state.data.map((item, index) => {
-        if (item.userOID === selectedEntityOID) selectedRowKeys.push(index);
+        if (item.userOid === selectedEntityOid) selectedRowKeys.push(index);
       });
     });
     this.setState({ selectedRowKeys });
@@ -480,16 +480,16 @@ class LegalPersonDetail extends React.Component {
 
   //清空选择框
   clearRowSelection() {
-    this.setState({ selectedEntityOIDs: [], selectedRowKeys: [] });
+    this.setState({ selectedEntityOids: [], selectedRowKeys: [] });
   }
 
   //移入员工
   moveInPerson = arr => {
     let oids = [];
     arr.map(data => {
-      oids.push(data.userOID);
+      oids.push(data.userOid);
     });
-    LPService.importPersonsToLegalPerson(this.props.match.params.legalPersonOID, oids).then(res => {
+    LPService.importPersonsToLegalPerson(this.props.match.params.legalPersonOid, oids).then(res => {
       // 员工导入成功
       message.success(this.$t('legal.entity.detail.im.success'));
       this.getTable();
@@ -503,9 +503,9 @@ class LegalPersonDetail extends React.Component {
   };
   //单个移动
   moveToItem = (e, record) => {
-    let selectedEntityOIDs = [record.userOID];
+    let selectedEntityOids = [record.userOid];
     this.setState({
-      selectedEntityOIDs,
+      selectedEntityOids,
       legalPersonList: true,
     });
   };
@@ -569,7 +569,7 @@ class LegalPersonDetail extends React.Component {
           <div className="table-header-buttons">
             <div className="f-left">
               <SelectDepOrPerson
-                buttonDisabled={this.state.selectedEntityOIDs.length > 0}
+                buttonDisabled={this.state.selectedEntityOids.length > 0}
                 buttonType={'primary'}
                 title={this.$t('legal.entity.detail.select.person')} //移入人员
                 onlyPerson={true}
@@ -579,7 +579,7 @@ class LegalPersonDetail extends React.Component {
             <div className="f-left">
               <Button
                 type="primary"
-                disabled={this.state.selectedEntityOIDs.length < 1}
+                disabled={this.state.selectedEntityOids.length < 1}
                 onClick={this.batchMoveItems}
               >
                 {this.$t('legal.entity.detail.move.to')}

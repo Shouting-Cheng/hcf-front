@@ -29,7 +29,7 @@ class NewGLWorkOrder extends Component {
        * 附件信息
        */
       defaultFileList: [],
-      uploadOIDs: [],
+      uploadOids: [],
       //是否新建
       isNew : true,
     };
@@ -55,7 +55,7 @@ class NewGLWorkOrder extends Component {
             let defaultFileList = [];
             res.data.head.attachments.map(item => {
               if (!item.uid) {
-                item.uid = item.attachmentOID;
+                item.uid = item.attachmentOid;
                 item.name = item.fileName;
                 item.status = 'done';
                 item.type = item.fileType;
@@ -69,7 +69,7 @@ class NewGLWorkOrder extends Component {
             this.setState({
               orderData,
               defaultFileList,
-              uploadOIDs: res.data.head.attachmentOids,
+              uploadOids: res.data.head.attachmentOids,
               isNew : false,
             });
             //由于initialValue只处理一次，它可能比接口处理的快，所以针对这种情况要单独处理一下
@@ -91,18 +91,18 @@ class NewGLWorkOrder extends Component {
     }
   };
   /**
-   * 根据departmentOID获取departmentId
+   * 根据departmentOid获取departmentId
    */
   getDepartmentId = () => {
     myGLWorkOrderService
-      .getDepartmentId(this.props.user.departmentOID)
+      .getDepartmentId(this.props.user.departmentOid)
       .then(res => {
         if (res.status === 200) {
           let departmentId = res.data.id;
           this.props.form.setFieldsValue({
             unitId: [
               {
-                departmentOid: this.props.user.departmentOID,
+                departmentOid: this.props.user.departmentOid,
                 departmentId: departmentId,
                 path: this.props.user.departmentName,
               },
@@ -136,10 +136,10 @@ class NewGLWorkOrder extends Component {
   /**
    * 上传附件
    */
-  handleUpload = OIDs => {
-    console.log(OIDs);
+  handleUpload = Oids => {
+    console.log(Oids);
     this.setState({
-      uploadOIDs: OIDs,
+      uploadOids: Oids,
     });
   };
   /**
@@ -150,7 +150,7 @@ class NewGLWorkOrder extends Component {
     this.setState({ loading: true });
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let { currencyList, uploadOIDs, orderData } = this.state;
+        let { currencyList, uploadOids, orderData } = this.state;
         let nowCurrencyObj = currencyList.find(item => item.currencyCode === values.currency.key);
         let params = {
           ...orderData,
@@ -164,7 +164,7 @@ class NewGLWorkOrder extends Component {
               ? false
               : true,
           formOid: orderData.id ? orderData.formOid : this.props.match.params.formOid,
-          attachmentOids: uploadOIDs,
+          attachmentOids: uploadOids,
           companyId: values.companyId[0].id,
           unitId: values.unitId[0].departmentId,
           employeeId: this.props.user.id,
@@ -365,14 +365,14 @@ class NewGLWorkOrder extends Component {
           <Row {...rowLayout} style={{ marginBottom: '40px' }}>
             <Col span={10}>
               <FormItem {...formItemLayout} label="附件信息">
-                {getFieldDecorator('attachmentOID')(
+                {getFieldDecorator('attachmentOid')(
                   <Upload
                     attachmentType="GL_WORK_ORDER"
                     uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
                     fileNum={9}
                     uploadHandle={this.handleUpload}
                     defaultFileList={defaultFileList}
-                    defaultOIDs={orderData.attachmentOids}
+                    defaultOids={orderData.attachmentOids}
                   />
                 )}
               </FormItem>

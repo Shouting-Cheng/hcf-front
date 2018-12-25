@@ -24,15 +24,15 @@ class FormSetting extends React.Component {
   }
 
   componentWillMount() {
-    const {formOID} = this.props;
-    this.getFields(formOID);
-    this.getPropertyList(formOID)
+    const {formOid} = this.props;
+    this.getFields(formOid);
+    this.getPropertyList(formOid)
   }
 
   //获取表单字段
-  getFields = (formOID) => {
+  getFields = (formOid) => {
     let field = [];
-    formService.getFormField(formOID).then(res => {
+    formService.getFormField(formOid).then(res => {
         if (res.status === 200) {
           field.controlFieldsHotel = JSON.parse(res.data.controlFieldsHotel)
           field.controlFieldsFlight = JSON.parse(res.data.controlFieldsFlight);
@@ -47,8 +47,8 @@ class FormSetting extends React.Component {
     )
   }
   //获取propertyList
-  getPropertyList = (formOID) => {
-    formService.getPropertyList(formOID).then(res => {
+  getPropertyList = (formOid) => {
+    formService.getPropertyList(formOid).then(res => {
       if (res.status === 200) {
         this.setState({
           propertyList: res.data,
@@ -72,9 +72,9 @@ class FormSetting extends React.Component {
 
   render() {
     const {mode, data, activeKey, propertyList, isTabing} = this.state;
-    const {formOID} = this.props;
+    const {formOid} = this.props;
     let params = {
-      formOID,
+      formOid,
       activeKey
     }
     return (

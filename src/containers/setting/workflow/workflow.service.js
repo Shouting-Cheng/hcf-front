@@ -10,10 +10,10 @@ export default {
   },
 
   //复制审批链
-  copyApproveChains(sourceFormOID, targetFormOID) {
+  copyApproveChains(sourceFormOid, targetFormOid) {
     let params = {
-      sourceFormOID,
-      targetFormOID
+      sourceFormOid,
+      targetFormOid
     };
     return new Promise((resolve, reject) => {
       httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/chains/copy/v2`, params).then(res => {
@@ -26,14 +26,14 @@ export default {
   },
 
   //获取表单信息
- /* getCustomForm(formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}`)
+ /* getCustomForm(formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}`)
   },
 */
   //获取审批链详情
-  getApprovalChainDetail(formOID) {
+  getApprovalChainDetail(formOid) {
     let params = {
-      formOID,
+      formOid,
       cascadeApprovalNode: true,
       cascadeApprover: true,
       cascadeCondition: true
@@ -42,9 +42,9 @@ export default {
   },
 
   //删除节点
-  deleteApprovalNode(ruleApprovalNodeOID) {
+  deleteApprovalNode(ruleApprovalNodeOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approval/nodes/${ruleApprovalNodeOID}`).then(res => {
+      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approval/nodes/${ruleApprovalNodeOid}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -54,8 +54,8 @@ export default {
   },
 
   //获取表单配置
-  getCustomFormProperty(formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/customForm/property/${formOID}`)
+  getCustomFormProperty(formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/customForm/property/${formOid}`)
   },
 
   //保存表单配置
@@ -95,9 +95,9 @@ export default {
   },
 
   //移动审批节点
-  moveApprovalNode(ruleApprovalNodeOID, nextRuleApprovalNodeOID) {
+  moveApprovalNode(ruleApprovalNodeOid, nextRuleApprovalNodeOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/nodes/move?ruleApprovalNodeOID=${ruleApprovalNodeOID}&nextRuleApprovalNodeOID=${nextRuleApprovalNodeOID || ''}`).then(res => {
+      httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/nodes/move?ruleApprovalNodeOid=${ruleApprovalNodeOid}&nextRuleApprovalNodeOid=${nextRuleApprovalNodeOid || ''}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -123,9 +123,9 @@ export default {
 
   //批量获取公司控件
   getBatchCompanyItemList(params) {
-    let url = `${config.baseUrl}/api/company/by/companyOIDs`;
+    let url = `${config.baseUrl}/api/company/by/companyOids`;
     params && params.map((oid, index) => {
-      url += index === 0 ? `?companyOIDs=${oid}` : `&companyOIDs=${oid}`
+      url += index === 0 ? `?companyOids=${oid}` : `&companyOids=${oid}`
     });
     return httpFetch.get(url)
   },
@@ -146,9 +146,9 @@ export default {
   },
 
   //表单字段获取(审批条件)
-  getFormFields(formOID) {
+  getFormFields(formOid) {
     let params = {
-      formOID
+      formOid
     };
     return httpFetch.get(`${config.baseUrl}/brms/api/rule/custom/form/fields`, params)
   },
@@ -178,9 +178,9 @@ export default {
   },
 
   //移除审批者
-  deleteApprovers(ruleApproverOID) {
+  deleteApprovers(ruleApproverOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approvers/${ruleApproverOID}`).then(res => {
+      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approvers/${ruleApproverOid}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -218,7 +218,7 @@ export default {
     })
   },
 
-  //批量删除审批者条件, params ruleConditionOID数组
+  //批量删除审批者条件, params ruleConditionOid数组
   deleteRuleCondition(params) {
     return new Promise((resolve, reject) => {
       httpFetch.delete(`${config.baseUrl}/brms/api/rule/conditions/batch`, params).then(res => {
@@ -243,7 +243,7 @@ export default {
 
     let url = `${config.baseUrl}/api/users/oids`;
     params && params.map((oid, index) => {
-      url += index === 0 ? `?userOIDs=${oid}` : `&userOIDs=${oid}`
+      url += index === 0 ? `?userOids=${oid}` : `&userOids=${oid}`
     });
     return httpFetch.get(url);
   },
@@ -262,10 +262,10 @@ export default {
     })
   },
 
-  //根据值列表OID获取值列表信息
-  getValueListInfo(OID) {
+  //根据值列表Oid获取值列表信息
+  getValueListInfo(Oid) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + OID)
+      httpFetch.get(config.baseUrl + '/api/custom/enumerations/' + Oid)
         .then(function (res) {
           resolve(res)
         })

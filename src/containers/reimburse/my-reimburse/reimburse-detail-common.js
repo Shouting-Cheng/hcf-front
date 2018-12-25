@@ -140,9 +140,9 @@ class ContractDetailCommon extends React.Component {
       });
     }
 
-    if (nextProps.headerData.expenseReportOID && !this.props.headerData.expenseReportOID) {
+    if (nextProps.headerData.expenseReportOid && !this.props.headerData.expenseReportOid) {
       this.setState({ historyLoading: true });
-      reimburseService.getReportsHistory(nextProps.headerData.expenseReportOID).then(res => {
+      reimburseService.getReportsHistory(nextProps.headerData.expenseReportOid).then(res => {
         this.setState({ approveHistory: res.data, historyLoading: false });
       }).catch(err => {
         message.error("获取审批历史失败！");
@@ -310,7 +310,7 @@ class ContractDetailCommon extends React.Component {
       };
 
       values.result && values.result.map(item => {
-        data.invoices.push(item.invoiceOID);
+        data.invoices.push(item.invoiceOid);
       });
 
       reimburseService.import(data).then(res => {
@@ -330,7 +330,7 @@ class ContractDetailCommon extends React.Component {
     let params =
       {
         entities: [{
-          entityOID: this.props.headerData.expenseReportOID,
+          entityOid: this.props.headerData.expenseReportOid,
           entityType: 801001
         }]
       };

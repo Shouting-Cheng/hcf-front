@@ -224,7 +224,7 @@ class MyReimburse extends React.Component {
       .get(`${config.baseUrl}/api/custom/forms/company/my/available/all/?formType=105`)
       .then(res => {
         res.data.map(o => {
-          menu.push({ key: o.formId, text: o.formName, formOID: o.formOID });
+          menu.push({ key: o.formId, text: o.formName, formOid: o.formOid });
         });
 
         this.setState({ menu });
@@ -305,25 +305,25 @@ class MyReimburse extends React.Component {
   newReimburseForm = value => {
     var formId = value.key;
     var formName = '';
-    var formOID = '';
+    var formOid = '';
     for (var i of this.state.menu) {
       if (i.key === formId) {
         formName = i.text;
-        formOID = i.formOID;
+        formOid = i.formOid;
         break;
       }
     }
-    //传递参数/:formOID/:formName
+    //传递参数/:formOid/:formName
     // let path = this.state.newReimburePage.url.replace(/:\w+/g, function (a, b, c, d) {
     //   if (a === ":formId")
     //     return formId;
-    //   if (a === ":formOID")
-    //     return formOID;
+    //   if (a === ":formOid")
+    //     return formOid;
     // })
     // this.context.router.push(path);
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/my-reimburse/new-reimburse/${formId}/${formOID}`,
+        pathname: `/my-reimburse/new-reimburse/${formId}/${formOid}`,
       })
     );
   };

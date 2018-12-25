@@ -89,8 +89,8 @@ class FormPermission extends React.Component {
             userScope.departments.map(department => {
                 userSelectedList.push({
                     label: department.path,
-                    key: department.departmentOID,
-                    value: department.departmentOID
+                    key: department.departmentOid,
+                    value: department.departmentOid
                 })
             });
             userValue.values = userSelectedList;
@@ -99,8 +99,8 @@ class FormPermission extends React.Component {
             userScope.userGroups.map(userGroup => {
                 userSelectedList.push({
                     label: userGroup.name,
-                    key: userGroup.userGroupOID,
-                    value: userGroup.userGroupOID
+                    key: userGroup.userGroupOid,
+                    value: userGroup.userGroupOid
                 })
             });
             userValue.values = userSelectedList;
@@ -111,7 +111,7 @@ class FormPermission extends React.Component {
     //初始化是否可分配费用
     initEditExpense = () => {
         const { form } = this.context;
-        if ((form.formType === 3001 || form.formType === 3002 || form.formType === 3003) && form.referenceOID) {
+        if ((form.formType === 3001 || form.formType === 3002 || form.formType === 3003) && form.referenceOid) {
             this.setState({
                 canEditExpense: false
             });
@@ -207,12 +207,12 @@ class FormPermission extends React.Component {
                 return
             }
             let permissionData = {};
-            permissionData.customFormOID = form.formOID;
+            permissionData.customFormOid = form.formOid;
             permissionData.visibleCompanyScope = this.state.visibleCompanyScope;
-            permissionData.companyOIDList = [];
+            permissionData.companyOidList = [];
             if (permissionData.visibleCompanyScope === 2) {
                 this.state.companySelectedList.map((item) => {
-                    permissionData.companyOIDList.push(item.companyOID);
+                    permissionData.companyOidList.push(item.companyOid);
                 });
             }
             this.setState({ loading1: true });
@@ -237,31 +237,31 @@ class FormPermission extends React.Component {
                 return
             }
             let permissionData = {};
-            permissionData.formOID = form.formOID;
+            permissionData.formOid = form.formOid;
             switch (this.state.userValue.type) {
                 case 'all':
                     permissionData.visibleScope = 1001;
                     break;
                 case 'group':
                     permissionData.visibleScope = 1002;
-                    permissionData.userGroupOIDs = [];
+                    permissionData.userGroupOids = [];
                     permissionData.userGroups = [];
                     this.state.userValue.values.map(group => {
-                        permissionData.userGroupOIDs.push(group.key);
+                        permissionData.userGroupOids.push(group.key);
                         permissionData.userGroups.push({
-                            userGroupOID: group.key,
+                            userGroupOid: group.key,
                             name: group.label
                         })
                     });
                     break;
                 case 'department':
                     permissionData.visibleScope = 1003;
-                    permissionData.departmentOIDs = [];
+                    permissionData.departmentOids = [];
                     permissionData.departments = [];
                     this.state.userValue.values.map(department => {
-                        permissionData.departmentOIDs.push(department.value);
+                        permissionData.departmentOids.push(department.value);
                         permissionData.departments.push({
-                            departmentOID: department.key,
+                            departmentOid: department.key,
                             path: department.label
                         })
                     });
@@ -289,7 +289,7 @@ class FormPermission extends React.Component {
                 return
             }
             this.setState({ loading3: true });
-            formService.updateExpenseTypeScope(form.formOID, this.state.expenseSelectedList, this.state.visibleExpenseScope).then(res => {
+            formService.updateExpenseTypeScope(form.formOid, this.state.expenseSelectedList, this.state.visibleExpenseScope).then(res => {
                 message.success(this.$t("common.save.success", { name: '' }));
                 this.setState({ loading3: false });
                 this.handleChangeStatus('expense');
@@ -382,7 +382,7 @@ class FormPermission extends React.Component {
                             <Chooser placeholder={this.$t('common.please.select')}
                                 type='available_expense'
                                 labelKey='name'
-                                valueKey='expenseTypeOID'
+                                valueKey='expenseTypeOid'
                                 listExtraParams={{ setOfBooksId: this.props.tenantMode ? this.context.booksID : this.props.company.setOfBooksId }}
                                 disabled={!isEdit3}
                                 onChange={this.handleSelectExpense}
@@ -571,7 +571,7 @@ function mapStateToProps(state) {
 
 FormPermission.contextTypes = {
     formType: PropTypes.any,
-    formOID: PropTypes.string,
+    formOid: PropTypes.string,
     booksID: PropTypes.string,
     form: PropTypes.object,
     expenseTypeScope: PropTypes.object,

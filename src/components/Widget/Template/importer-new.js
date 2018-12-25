@@ -90,7 +90,7 @@ class ImporterNew extends React.Component {
             tabKey: 'SUCCESS',
             uploading: false,
             result: { successEntities: 0 },
-            transactionID: res.data.transactionID || res.data.transactionOID || res.data.transactionUUID || res.data
+            transactionID: res.data.transactionID || res.data.transactionOid || res.data.transactionUUID || res.data
           }, () => {
             this.getErrorList();
           })

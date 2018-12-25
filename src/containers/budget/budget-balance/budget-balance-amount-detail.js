@@ -109,7 +109,7 @@ class BudgetBalanceAmountDetail extends React.Component {
         if(res.data.length === 0){
           message.error(this.$t('budget.balance.cannot.find.expense.report'))
         } else {
-          window.open(menuRoute.getRouteItem('expense-report-detail-view').url.replace(':expenseReportOID', res.data[0].entityOID))
+          window.open(menuRoute.getRouteItem('expense-report-detail-view').url.replace(':expenseReportOid', res.data[0].entityOid))
         }
       })
     }

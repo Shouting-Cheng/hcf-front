@@ -54,7 +54,7 @@ class ApproveBar extends React.Component {
     this.setState({ loading: true });
     let url = '/api/quick/reply';
     if (this.props.audit) {
-      url = `/api/dudit/quick/reply?userOid=${this.props.user.userOID}`;
+      url = `/api/dudit/quick/reply?userOid=${this.props.user.userOid}`;
     }
     httpFetch.get(`${config.baseUrl}${url}`).then(res => {
       if (res.status === 200) {
@@ -141,13 +141,13 @@ class ApproveBar extends React.Component {
     e.stopPropagation();
     this.setState({ loading: true });
     let url = '/api/quick/reply';
-    let param = { quickReplyOIDs: item.quickReplyOID };
+    let param = { quickReplyOids: item.quickReplyOid };
     if (this.props.audit) {
       url = '/api/dudit/quick/reply';
       param = { id: item.id };
     }
     httpFetch
-      .delete(`${config.baseUrl}${url}?quickReplyOIDs=${item.quickReplyOID}`)
+      .delete(`${config.baseUrl}${url}?quickReplyOids=${item.quickReplyOid}`)
       .then(res => {
         let isSuccess = this.props.audit ? res.data.rows : true;
         if (res.status === 200 && isSuccess) {

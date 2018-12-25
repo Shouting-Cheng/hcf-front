@@ -10,8 +10,8 @@ export default {
     return httpFetch.get(url);
   },
 
-  getChildlevelDep(flagDep, departmentOID) {
-    let url = `${config.baseUrl}/api/department/child/${departmentOID}?flag=${flagDep}`;
+  getChildlevelDep(flagDep, departmentOid) {
+    let url = `${config.baseUrl}/api/department/child/${departmentOid}?flag=${flagDep}`;
     return new Promise(function(resolve) {
       httpFetch
         .get(url)

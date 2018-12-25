@@ -146,9 +146,9 @@ class ApproveRescheduleRefund extends React.Component {
 
   handleRowClick = record => {
     let url = this.state.approveDetail.url
-      .replace(':formOID', record.formOID)
-      .replace(':applicationOID', record.applicationOID)
-      .replace(':bookTaskOID', record.bookTaskOID);
+      .replace(':formOid', record.formOid)
+      .replace(':applicationOid', record.applicationOid)
+      .replace(':bookTaskOid', record.bookTaskOid);
     this.state.tab === 'approving' && (url += `?approving=true`);
     this.context.router.push(url);
   };

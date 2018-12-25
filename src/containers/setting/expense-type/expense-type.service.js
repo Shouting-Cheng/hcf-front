@@ -35,10 +35,10 @@ export default {
 
   /**
    * 删除大类
-   * @param expenseTypeCategoryOID
+   * @param expenseTypeCategoryOid
    */
-  deleteCategory(expenseTypeCategoryOID) {
-    return httpFetch.delete(`${config.expenseUrl}/api/expense/types/category?id=${expenseTypeCategoryOID}`)
+  deleteCategory(expenseTypeCategoryOid) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/types/category?id=${expenseTypeCategoryOid}`)
   },
 
   /**

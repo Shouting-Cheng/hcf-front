@@ -20,8 +20,8 @@ class InvitePersonModal extends React.Component {
       invating: false,
       params: {
         keyword: '',
-        departmentOIDs: '',
-        corporationOIDs: '',
+        departmentOids: '',
+        corporationOids: '',
         status: 'all',
       },
       //条件下，没有激活的人
@@ -32,7 +32,7 @@ class InvitePersonModal extends React.Component {
       },
       dataNoActived: [], //条件下，没有激活的人
       selectedRowKeys: [], ///已选择的列表项的key，这个用来记住翻页的
-      selectedUserOIDs: [], //已选择的列表项的OIDs
+      selectedUserOids: [], //已选择的列表项的Oids
       columnsNoActived: [
         {
           title: this.$t('invite.person.companyName'), //公司
@@ -152,8 +152,8 @@ class InvitePersonModal extends React.Component {
       page: this.state.paginationNoActived.page,
       size: this.state.paginationNoActived.pageSize,
       keyword: this.state.params.keyword,
-      departmentOID: this.state.params.departmentOIDs,
-      corporationOID: this.state.params.corporationOIDs,
+      departmentOid: this.state.params.departmentOids,
+      corporationOid: this.state.params.corporationOids,
       status: this.state.params.status || 'all',
       isInactiveSearch: true,
     };
@@ -207,10 +207,10 @@ class InvitePersonModal extends React.Component {
     this.setState({
       invating: true,
     });
-    let selectedUserOIDs = this.state.selectedUserOIDs;
+    let selectedUserOids = this.state.selectedUserOids;
     let selectedRowKeys = this.state.selectedRowKeys;
-    if (selectedUserOIDs.length > 0) {
-      PMService.inviteUser(selectedUserOIDs).then(res => {
+    if (selectedUserOids.length > 0) {
+      PMService.inviteUser(selectedUserOids).then(res => {
         // 邀请成功
         message.success(this.$t('invite.person.invite.success'));
         this.clearRowSelection();
@@ -230,15 +230,15 @@ class InvitePersonModal extends React.Component {
   };
 
   onSelectRow = (record, selected) => {
-    let temp = this.state.selectedUserOIDs;
+    let temp = this.state.selectedUserOids;
     if (selected) {
-      temp.push(record.userOID);
+      temp.push(record.userOid);
     } else {
-      temp.delete(record.userOID);
+      temp.delete(record.userOid);
     }
     this.setState(
       {
-        selectedUserOIDs: temp,
+        selectedUserOids: temp,
       },
       () => {}
     );
@@ -246,30 +246,30 @@ class InvitePersonModal extends React.Component {
 
   //全选
   onSelectAllRow = selected => {
-    let temp = this.state.selectedUserOIDs;
+    let temp = this.state.selectedUserOids;
     if (selected) {
       this.state.dataNoActived.map(item => {
-        temp.addIfNotExist(item.userOID);
+        temp.addIfNotExist(item.userOid);
       });
     } else {
       this.state.dataNoActived.map(item => {
-        temp.delete(item.userOID);
+        temp.delete(item.userOid);
       });
     }
     this.setState(
       {
-        selectedUserOIDs: temp,
+        selectedUserOids: temp,
       },
       () => {}
     );
   };
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection() {
     let selectedRowKeys = [];
-    this.state.selectedUserOIDs.map(selectedUserOID => {
+    this.state.selectedUserOids.map(selectedUserOid => {
       this.state.dataNoActived.map((item, index) => {
-        if (item.userOID === selectedUserOID) selectedRowKeys.push(index);
+        if (item.userOid === selectedUserOid) selectedRowKeys.push(index);
       });
     });
     this.setState({ selectedRowKeys });
@@ -277,7 +277,7 @@ class InvitePersonModal extends React.Component {
 
   //清空选择框
   clearRowSelection() {
-    this.setState({ selectedUserOIDs: [], selectedRowKeys: [] });
+    this.setState({ selectedUserOids: [], selectedRowKeys: [] });
   }
 
   //要求使用的弹窗--end

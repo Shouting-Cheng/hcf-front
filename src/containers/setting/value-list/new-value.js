@@ -32,7 +32,7 @@ class ValueList extends React.Component {
       //编辑时的信息
       record: defaultVauleItem,
       common: true, //全员可见
-      customEnumerationItemOID: '',
+      customEnumerationItemOid: '',
       columns: [
         {
           title: messages('common.sequence' /*序号*/),
@@ -67,8 +67,8 @@ class ValueList extends React.Component {
       page: 0,
       pageSize: 10,
       pagination: { total: 0 },
-      userOIDs: [],
-      deleteUserOIDs: [],
+      userOids: [],
+      deleteUserOids: [],
       showListSelector: false,
       systemInit: null, //是否为系统初始化的值
     };
@@ -78,7 +78,7 @@ class ValueList extends React.Component {
     if (this.props.params.record) {
       //编辑
       //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
-      this.getValue(this.props.params.record.customEnumerationItemOID);
+      this.getValue(this.props.params.record.customEnumerationItemOid);
       this.setState({
         systemInit: this.props.params.systemInit,
       });
@@ -87,9 +87,9 @@ class ValueList extends React.Component {
       this.setState({
         record: deepCopy(defaultVauleItem),
         common: true,
-        customEnumerationItemOID: '',
+        customEnumerationItemOid: '',
         data: [],
-        deleteUserOIDs: [],
+        deleteUserOids: [],
       });
     }
   }
@@ -98,7 +98,7 @@ class ValueList extends React.Component {
     // if (nextProps.params.record && !nextProps.params.hasInit) {
     //   //编辑
     //   //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
-    //   this.getValue(nextProps.params.record.customEnumerationItemOID);
+    //   this.getValue(nextProps.params.record.customEnumerationItemOid);
     //   nextProps.params.hasInit = true;
     //   this.setState({
     //     systemInit: nextProps.params.systemInit
@@ -108,17 +108,17 @@ class ValueList extends React.Component {
     //   this.setState({
     //     record: deepCopy(defaultVauleItem),
     //     common: true,
-    //     customEnumerationItemOID: "",
+    //     customEnumerationItemOid: "",
     //     data: [],
-    //     deleteUserOIDs: []
+    //     deleteUserOids: []
     //   }, () => {
     //     this.props.form.resetFields()
     //   })
     // }
   }
 
-  getValue(customEnumerationItemOID) {
-    valueListService.getValue(customEnumerationItemOID).then(res => {
+  getValue(customEnumerationItemOid) {
+    valueListService.getValue(customEnumerationItemOid).then(res => {
       let data = res.data;
       if (data.i18n) {
       } else {
@@ -128,8 +128,8 @@ class ValueList extends React.Component {
         {
           record: data,
           common: data.common,
-          customEnumerationItemOID: customEnumerationItemOID,
-          deleteUserOIDs: [],
+          customEnumerationItemOid: customEnumerationItemOid,
+          deleteUserOids: [],
         },
         () => {
           this.props.form.resetFields();
@@ -141,10 +141,10 @@ class ValueList extends React.Component {
 
   //获取员工列表
   getList = () => {
-    const { page, pageSize, customEnumerationItemOID } = this.state;
+    const { page, pageSize, customEnumerationItemOid } = this.state;
     this.setState({ tableLoading: true });
     valueListService
-      .getEmployeeList(page, pageSize, customEnumerationItemOID)
+      .getEmployeeList(page, pageSize, customEnumerationItemOid)
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -190,18 +190,18 @@ class ValueList extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         values.common = !!values.common;
-        const { customEnumerationItemOID } = this.state;
-        values.customEnumerationOID = this.props.params.customEnumerationOID;
-        values.userOIDs = this.state.userOIDs;
+        const { customEnumerationItemOid } = this.state;
+        values.customEnumerationOid = this.props.params.customEnumerationOid;
+        values.userOids = this.state.userOids;
         //多语言
         values.i18n = this.state.record.i18n;
         values.messageKey = this.state.record.messageKey;
-        if (customEnumerationItemOID) {
+        if (customEnumerationItemOid) {
           //更新
-          values.customEnumerationItemOID = customEnumerationItemOID;
+          values.customEnumerationItemOid = customEnumerationItemOid;
           values.id = this.state.id || this.state.record.id;
         }
-        if (customEnumerationItemOID) {
+        if (customEnumerationItemOid) {
           this.updateValue(values);
         } else {
           this.newValue(values);
@@ -247,16 +247,16 @@ class ValueList extends React.Component {
   };
   //全员是否可见修改
   handleRightChange = checked => {
-    this.setState({ common: checked, deleteUserOIDs: [] });
+    this.setState({ common: checked, deleteUserOids: [] });
   };
 
   //添加员工
-  addEmployee = userOIDs => {
+  addEmployee = userOids => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.customEnumerationOID = this.props.params.customEnumerationOID;
-      values.userOIDs = userOIDs;
-      const { customEnumerationItemOID } = this.state;
-      if (!customEnumerationItemOID) {
+      values.customEnumerationOid = this.props.params.customEnumerationOid;
+      values.userOids = userOids;
+      const { customEnumerationItemOid } = this.state;
+      if (!customEnumerationItemOid) {
         //新建值内容时首次添加员工
         valueListService.newAddEmployees(values).then(res => {
           if (res.status === 200) {
@@ -265,7 +265,7 @@ class ValueList extends React.Component {
               {
                 id: res.data.id,
                 showListSelector: false,
-                customEnumerationItemOID: res.data.customEnumerationItemOID,
+                customEnumerationItemOid: res.data.customEnumerationItemOid,
               },
               () => {
                 this.getList();
@@ -275,7 +275,7 @@ class ValueList extends React.Component {
         });
       } else {
         //新建值内容时非首次添加员工 或 编辑内容时添加员工
-        values.customEnumerationItemOID = customEnumerationItemOID;
+        values.customEnumerationItemOid = customEnumerationItemOid;
         valueListService.updateAddEmployees(values).then(res => {
           if (res.status === 200) {
             message.success(messages('common.operate.success'));
@@ -295,25 +295,25 @@ class ValueList extends React.Component {
 
   //按条件添加员工
   addEmployeesByCondition = values => {
-    let userOIDs = [];
+    let userOids = [];
     values.result.map(item => {
-      userOIDs.push(item.userOID);
+      userOids.push(item.userOid);
     });
-    this.addEmployee(userOIDs);
+    this.addEmployee(userOids);
   };
 
   //删除员工
   deleteEmployees = () => {
     let params = {
-      userOIDs: this.state.deleteUserOIDs,
-      customEnumerationItemOID: this.state.customEnumerationItemOID,
+      userOids: this.state.deleteUserOids,
+      customEnumerationItemOid: this.state.customEnumerationItemOid,
     };
     this.setState({ deleteLoading: true });
     valueListService
       .deleteEmployees(params)
       .then(res => {
         if (res.status === 200) {
-          this.setState({ deleteLoading: false, deleteUserOIDs: [] });
+          this.setState({ deleteLoading: false, deleteUserOids: [] });
           this.getList();
           message.success(messages('common.delete.success', { name: '' }));
         }
@@ -325,28 +325,28 @@ class ValueList extends React.Component {
 
   //选择/取消选择某行的回调
   handleSelectRow = (record, selected) => {
-    let deleteUserOIDs = this.state.deleteUserOIDs;
+    let deleteUserOids = this.state.deleteUserOids;
     if (selected) {
-      deleteUserOIDs.push(record.userOID);
+      deleteUserOids.push(record.userOid);
     } else {
-      deleteUserOIDs.delete(record.userOID);
+      deleteUserOids.delete(record.userOid);
     }
-    this.setState({ deleteUserOIDs });
+    this.setState({ deleteUserOids });
   };
 
   //选择/取消选择所有行的回调
   handleSelectAllRow = (selected, selectedRows, changeRows) => {
-    let deleteUserOIDs = this.state.deleteUserOIDs;
+    let deleteUserOids = this.state.deleteUserOids;
     if (selected) {
       changeRows.map(item => {
-        deleteUserOIDs.push(item.userOID);
+        deleteUserOids.push(item.userOid);
       });
     } else {
       changeRows.map(item => {
-        deleteUserOIDs.delete(item.userOID);
+        deleteUserOids.delete(item.userOid);
       });
     }
-    this.setState({ deleteUserOIDs });
+    this.setState({ deleteUserOids });
   };
 
   showListSelector = flag => {
@@ -358,11 +358,11 @@ class ValueList extends React.Component {
     this.state.record.i18n.messageKey = i18nName;
   };
   moveInPerson = res => {
-    let userOIDs = [];
+    let userOids = [];
     res.personList.map(item => {
-      userOIDs.push(item.userOID);
+      userOids.push(item.userOid);
     });
-    this.addEmployee(userOIDs);
+    this.addEmployee(userOids);
   };
 
   render() {
@@ -376,9 +376,9 @@ class ValueList extends React.Component {
       common,
       pagination,
       record,
-      deleteUserOIDs,
+      deleteUserOids,
       showListSelector,
-      customEnumerationItemOID,
+      customEnumerationItemOid,
       systemInit,
     } = this.state;
     const formItemLayout = {
@@ -518,7 +518,7 @@ class ValueList extends React.Component {
                             'value.list.add.employee.by.organization' /*按组织添加员工*/
                           )}
                           onlyPerson={true}
-                          personResList={['userOID']}
+                          personResList={['userOid']}
                           onConfirm={this.moveInPerson}
                         />
                       </div>
@@ -531,7 +531,7 @@ class ValueList extends React.Component {
                       </Button>
                       <Button
                         type="primary"
-                        disabled={!deleteUserOIDs.length}
+                        disabled={!deleteUserOids.length}
                         loading={deleteLoading}
                         onClick={this.deleteEmployees}
                       >
@@ -544,7 +544,7 @@ class ValueList extends React.Component {
                     </div>
                   </div>
                   <Table
-                    rowKey="userOID"
+                    rowKey="userOid"
                     dataSource={data}
                     columns={columns}
                     loading={tableLoading}
@@ -570,7 +570,7 @@ class ValueList extends React.Component {
           visible={showListSelector}
           onCancel={() => this.showListSelector(false)}
           type="add_employee"
-          extraParams={{ customEnumerationItemOID: customEnumerationItemOID }}
+          extraParams={{ customEnumerationItemOid: customEnumerationItemOid }}
           onOk={this.addEmployeesByCondition}
         />
       </div>

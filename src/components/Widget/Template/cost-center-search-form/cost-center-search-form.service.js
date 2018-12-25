@@ -18,10 +18,10 @@ export default {
     });
   },
   //获取租户下成本中心项
-  getCostCenterItems(costCenterOID, params) {
+  getCostCenterItems(costCenterOid, params) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(`${config.baseUrl}/api/cost/center/${costCenterOID}/item/search`, params)
+        .get(`${config.baseUrl}/api/cost/center/${costCenterOid}/item/search`, params)
         .then(res => {
           resolve(res);
         })

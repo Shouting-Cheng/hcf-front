@@ -37,16 +37,16 @@ class GLWorkOrderCheck extends Component {
         },
         {
           type: 'list',
-          listType: 'bgtUserOID',
+          listType: 'bgtUserOid',
           options: [],
-          id: 'userOID',
+          id: 'userOid',
           label: this.$t({ id: 'pay.refund.employeeName' }),
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
-          event:"userOID1"
+          event:"userOid1"
         },
         {
           type: 'items',
@@ -113,16 +113,16 @@ class GLWorkOrderCheck extends Component {
         },
         {
           type: 'list',
-          listType: 'bgtUserOID',
+          listType: 'bgtUserOid',
           options: [],
-          id: 'userOID',
+          id: 'userOid',
           label: this.$t({ id: 'pay.refund.employeeName' }),
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           colSpan: 6,
           single: true,
           listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
-          event:"userOID2"
+          event:"userOid2"
         },
         {
           type: 'items',
@@ -345,7 +345,7 @@ class GLWorkOrderCheck extends Component {
       size: pageSize1,
       finished: false,
       typeId: searchParams1.typeId ? searchParams1.typeId : '',
-      userOID: searchParams1.userOID ? searchParams1.userOID : '',
+      userOid: searchParams1.userOid ? searchParams1.userOid : '',
       beginDate: searchParams1.beginDate
         ? moment(searchParams1.beginDate).format('YYYY-MM-DD')
         : '',
@@ -366,7 +366,7 @@ class GLWorkOrderCheck extends Component {
               res.data.map(item => {
                 return {
                   ...item.accountingApprovalView,
-                  entityOID: item.entityOID,
+                  entityOid: item.entityOid,
                 };
               }) || [],
             pagination1: {
@@ -484,7 +484,7 @@ class GLWorkOrderCheck extends Component {
       size: pageSize2,
       finished: true,
       typeId: searchParams2.typeId ? searchParams2.typeId : '',
-      userOID: searchParams2.userOID ? searchParams2.userOID : '',
+      userOid: searchParams2.userOid ? searchParams2.userOid : '',
       beginDate: searchParams2.beginDate
         ? moment(searchParams2.beginDate).format('YYYY-MM-DD')
         : '',
@@ -505,7 +505,7 @@ class GLWorkOrderCheck extends Component {
               res.data.map(item => {
                 return {
                   ...item.accountingApprovalView,
-                  entityOID: item.entityOID,
+                  entityOid: item.entityOid,
                 };
               }) || [],
             pagination2: {
@@ -613,10 +613,10 @@ class GLWorkOrderCheck extends Component {
    * 表格的行点击事件
    */
   onTableRowClick = record => {
-    // this.context.router.push(menuRoute.getRouteItem('gl-work-order-check-detail', 'key').url.replace(':id', record.id).replace(':oid', record.entityOID).replace(':status', record.status));
+    // this.context.router.push(menuRoute.getRouteItem('gl-work-order-check-detail', 'key').url.replace(':id', record.id).replace(':oid', record.entityOid).replace(':status', record.status));
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/approval-management/gl-work-order-approval/gl-work-order-approval-detail/${record.id}/${record.entityOID}/${record.status}`,
+        pathname: `/approval-management/gl-work-order-approval/gl-work-order-approval-detail/${record.id}/${record.entityOid}/${record.status}`,
       })
     );
   };
@@ -627,11 +627,11 @@ class GLWorkOrderCheck extends Component {
         searchParams1.typeId = value;
         break;
       }
-      case 'userOID1': {
+      case 'userOid1': {
         if(value && value[0]){
-          searchParams1.userOID = value[0].userOID;
+          searchParams1.userOid = value[0].userOid;
         }else{
-          searchParams1.userOID = '';
+          searchParams1.userOid = '';
         }
         break;
       }
@@ -677,11 +677,11 @@ class GLWorkOrderCheck extends Component {
         searchParams2.typeId = value;
         break;
       }
-      case 'userOID2': {
+      case 'userOid2': {
         if(value && value[0]){
-          searchParams2.userOID = value[0].userOID;
+          searchParams2.userOid = value[0].userOid;
         }else{
-          searchParams2.userOID = '';
+          searchParams2.userOid = '';
         }
         break;
       }

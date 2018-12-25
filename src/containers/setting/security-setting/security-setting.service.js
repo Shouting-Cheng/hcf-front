@@ -8,9 +8,9 @@ import errorMessage from 'share/errorMessage';
 
 export default {
   //获取公司安全设置
-  getCompanySecuritySetting(companyOID){
+  getCompanySecuritySetting(companyOid){
     return new Promise( (resolve, reject) => {
-      httpFetch.get(config.baseUrl + '/api/refactor/companies/' + companyOID)
+      httpFetch.get(config.baseUrl + '/api/refactor/companies/' + companyOid)
         .then( (res) =>{
           resolve(res)
         })

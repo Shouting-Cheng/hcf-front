@@ -29,8 +29,8 @@ class PersonManage extends React.Component {
     this.state = {
       cacheObj: {
         keyword: '', //关键字
-        departmentOIDs: [], //部门
-        corporationOIDs: [], //公司
+        departmentOids: [], //部门
+        corporationOids: [], //公司
         status: 'all', //员工状态
       }, //缓存变量
       CREATE_DATA_TYPE: true,
@@ -38,7 +38,7 @@ class PersonManage extends React.Component {
       showImportPersonModel: false,
       progressImportErrInfo: 1,
       showImportErrInfo: false,
-      transactionOID: null,
+      transactionOid: null,
       errorsList: [
         {
           line: '',
@@ -108,8 +108,8 @@ class PersonManage extends React.Component {
 
       params: {
         keyword: '',
-        departmentOIDs: [],
-        corporationOIDs: [],
+        departmentOids: [],
+        corporationOids: [],
         status: 'all',
       },
       extraDep: {
@@ -130,13 +130,13 @@ class PersonManage extends React.Component {
         },
         {
           type: 'list',
-          id: 'corporationOIDs',
+          id: 'corporationOids',
           label: this.$t('person.manage.company'), //'公司',
           listType: 'all_company_with_legal_entity',
           labelKey: 'companyName',
-          valueKey: 'companyOID',
+          valueKey: 'companyOid',
           placeholder: this.$t('person.manage.select'), //"请选择",
-          event: 'companyOIDChange',
+          event: 'companyOidChange',
         },
         {
           type: 'select',
@@ -353,33 +353,33 @@ class PersonManage extends React.Component {
     }
     const { params, searchForm, extraDep } = this.state;
     searchForm[0].defaultValue = defaultVal.keyword;
-    searchForm[1].defaultValue = defaultVal.corporationOIDs;
+    searchForm[1].defaultValue = defaultVal.corporationOids;
     searchForm[2].defaultValue = defaultVal.status || 'all';
 
     //部门的稍微麻烦一点
     let deps = [];
-    extraDep.res = defaultVal.departmentOIDs || [];
+    extraDep.res = defaultVal.departmentOids || [];
     if (extraDep.res.length > 0) {
       extraDep.depClassName = extraDep.className[1];
     } else {
       extraDep.depClassName = extraDep.className[0];
     }
     for (let i = 0; i < extraDep.res.length; i++) {
-      deps.push(extraDep.res[i].departmentOID);
+      deps.push(extraDep.res[i].departmentOid);
     }
     extraDep.title = this.renderButtonTitle(extraDep.res);
 
     //查询参数，重新设置
     params.keyword = defaultVal.keyword;
-    let corporationOIDs = [];
-    if (defaultVal && defaultVal.corporationOIDs && defaultVal.corporationOIDs.map) {
-      corporationOIDs = defaultVal.corporationOIDs.map(data => {
-        return data.companyOID;
+    let corporationOids = [];
+    if (defaultVal && defaultVal.corporationOids && defaultVal.corporationOids.map) {
+      corporationOids = defaultVal.corporationOids.map(data => {
+        return data.companyOid;
       });
     }
-    params.corporationOIDs = corporationOIDs;
+    params.corporationOids = corporationOids;
     params.status = defaultVal.status || 'all';
-    params.departmentOIDs = deps;
+    params.departmentOids = deps;
     this.setState(
       {
         extraDep,
@@ -402,8 +402,8 @@ class PersonManage extends React.Component {
       page: pagination.page,
       size: pagination.pageSize,
       keyword: this.state.params.keyword,
-      departmentOID: this.state.params.departmentOIDs,
-      corporationOID: this.state.params.corporationOIDs,
+      departmentOid: this.state.params.departmentOids,
+      corporationOid: this.state.params.corporationOids,
       status: this.state.params.status,
     };
 
@@ -511,7 +511,7 @@ class PersonManage extends React.Component {
   handleSearch = values => {
     const { params } = this.state;
     params.keyword = values.keyword;
-    params.corporationOIDs = values.corporationOIDs;
+    params.corporationOids = values.corporationOids;
     params.status = values.status;
     let pagination = this.state.pagination;
     pagination.page = 0;
@@ -552,12 +552,12 @@ class PersonManage extends React.Component {
         }
       );
     }
-    if (e === 'companyOIDChange') {
-      cacheObj.corporationOIDs = deepCopy(item);
-      let corporationOIDs = item.map(data => {
-        return data.companyOID;
+    if (e === 'companyOidChange') {
+      cacheObj.corporationOids = deepCopy(item);
+      let corporationOids = item.map(data => {
+        return data.companyOid;
       });
-      params.corporationOIDs = corporationOIDs;
+      params.corporationOids = corporationOids;
       this.state.cacheObj = cacheObj;
       this.state.pagination = pagination;
       this.state.params = deepCopy(params);
@@ -590,13 +590,13 @@ class PersonManage extends React.Component {
     pagination.pageSize = 10;
 
     params.keyword = '';
-    params.departmentOIDs = '';
-    params.corporationOIDs = '';
+    params.departmentOids = '';
+    params.corporationOids = '';
     params.status = 'all';
 
     cacheObj.keyword = '';
-    cacheObj.departmentOIDs = '';
-    cacheObj.corporationOIDs = '';
+    cacheObj.departmentOids = '';
+    cacheObj.corporationOids = '';
     cacheObj.status = 'all';
 
     this.setState(
@@ -624,7 +624,7 @@ class PersonManage extends React.Component {
         pathname: `/enterprise-manage/person-manage/person-detail/person-detail/NEW`,
       })
     );
-    // let path = menuRoute.getRouteItem('person-detail', 'key').url.replace(":userOID", "NEW");
+    // let path = menuRoute.getRouteItem('person-detail', 'key').url.replace(":userOid", "NEW");
     // this.context.router.push(path);
   };
   //编辑员工
@@ -635,10 +635,10 @@ class PersonManage extends React.Component {
     localStorage.setItem('person-manage-cache', cacheObjStr);
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${record.userOID}`,
+        pathname: `/enterprise-manage/person-manage/person-detail/person-detail/${record.userOid}`,
       })
     );
-    // let path = menuRoute.getRouteItem('person-detail', 'key').url.replace(":userOID", record.userOID);
+    // let path = menuRoute.getRouteItem('person-detail', 'key').url.replace(":userOid", record.userOid);
     // this.context.router.push(path);
   };
   //分页点击
@@ -674,8 +674,8 @@ class PersonManage extends React.Component {
   //   let params = {
   //     keyword: this.state.params.keyword,
   //     status: this.state.params.status,
-  //     departmentOIDs:  this.state.params.departmentOIDs,
-  //     corporationOIDs: this.state.params.corporationOIDs,
+  //     departmentOids:  this.state.params.departmentOids,
+  //     corporationOids: this.state.params.corporationOids,
   //   }
   //   switch (type) {
   //     case 1001: {
@@ -829,7 +829,7 @@ class PersonManage extends React.Component {
   selectDepSearchArea = res => {
     //翻页的时候，缓存数据
     let cacheObj = this.state.cacheObj;
-    cacheObj.departmentOIDs = deepCopy(res);
+    cacheObj.departmentOids = deepCopy(res);
     let extraDep = this.state.extraDep;
     let params = this.state.params;
     let deps = [];
@@ -840,9 +840,9 @@ class PersonManage extends React.Component {
       extraDep.depClassName = extraDep.className[0];
     }
     for (let i = 0; i < extraDep.res.length; i++) {
-      deps.push(extraDep.res[i].departmentOID);
+      deps.push(extraDep.res[i].departmentOid);
     }
-    params.departmentOIDs = deps;
+    params.departmentOids = deps;
     extraDep.title = this.renderButtonTitle(extraDep.res);
     this.setState({
       extraDep,
@@ -877,8 +877,8 @@ class PersonManage extends React.Component {
             exportCondition={{
               sort: 'status',
               keyword: this.state.params.keyword,
-              departmentOIDs: this.state.params.departmentOIDs,
-              corporationOIDs: this.state.params.corporationOIDs,
+              departmentOids: this.state.params.departmentOids,
+              corporationOids: this.state.params.corporationOids,
               status: this.state.params.status,
             }}
             exportCommand={data.command}
@@ -912,11 +912,11 @@ class PersonManage extends React.Component {
             uploading: false,
             flieUploading: false,
             showImportPersonModel: false,
-            transactionOID: res.data.transactionOID,
+            transactionOid: res.data.transactionOid,
           },
           () => {
             this.showImportErrInfo();
-            this.showTransactionLogDialog(this.state.transactionOID); // 将参数传给dialog
+            this.showTransactionLogDialog(this.state.transactionOid); // 将参数传给dialog
           }
         );
       })
@@ -928,8 +928,8 @@ class PersonManage extends React.Component {
       });
   };
 
-  showTransactionLogDialog = transactionOID => {
-    PMService.getBatchTransactionLogNew(transactionOID).then(res => {
+  showTransactionLogDialog = transactionOid => {
+    PMService.getBatchTransactionLogNew(transactionOid).then(res => {
       let data = res.data;
       if (data.totalEntities === 0) {
         return;
@@ -945,7 +945,7 @@ class PersonManage extends React.Component {
           let gapTime = 500;
           setTimeout(() => {
             //请求频率涉及到一个算法
-            this.showTransactionLogDialog(this.state.transactionOID); // 将参数传给dialog
+            this.showTransactionLogDialog(this.state.transactionOid); // 将参数传给dialog
           }, gapTime);
         } else {
           this.getPersonList();
@@ -984,7 +984,7 @@ class PersonManage extends React.Component {
   };
   //人员导入错误信息
   exportFailedLog = () => {
-    PMService.exportFailedLog(this.state.transactionOID)
+    PMService.exportFailedLog(this.state.transactionOid)
       .then(res => {
         let b = new Blob([res.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -1104,8 +1104,8 @@ class PersonManage extends React.Component {
                   exportCondition={{
                     sort: 'status',
                     keyword: this.state.params.keyword,
-                    departmentOIDs: this.state.params.departmentOIDs,
-                    corporationOIDs: this.state.params.corporationOIDs,
+                    departmentOids: this.state.params.departmentOids,
+                    corporationOids: this.state.params.corporationOids,
                     status: this.state.params.status,
                   }}
                   exportCommand={'user_full_info'}

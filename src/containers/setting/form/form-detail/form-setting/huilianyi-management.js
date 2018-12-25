@@ -92,11 +92,11 @@ class HuilianyiManagement extends React.Component {
     componentDidMount() {
         const { travelApplypolicy, versionChange, autoStop, employeeAutoStop, autoStopDays, employeeRestartUse,
             employeeRestartDays, bookingPreference } = this.state;
-        const { formOID } = this.props.params;
+        const { formOid } = this.props.params;
         if (!travelApplypolicy.hasOwnProperty('propertyName')) {
             this.setState({
                 travelApplypolicy: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'ca.travel.applypolicy.enable',
                     propertyValue: null,
                 }
@@ -105,7 +105,7 @@ class HuilianyiManagement extends React.Component {
         if (!versionChange.hasOwnProperty('propertyName')) {
             this.setState({
                 versionChange: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.change.enable',
                     propertyValue: null,
                 }
@@ -114,7 +114,7 @@ class HuilianyiManagement extends React.Component {
         if (!autoStop.hasOwnProperty('propertyName')) {
             this.setState({
                 autoStop: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.close.enabled',
                     propertyValue: null,
                 }
@@ -123,7 +123,7 @@ class HuilianyiManagement extends React.Component {
         if (!autoStopDays.hasOwnProperty('propertyName')) {
             this.setState({
                 autoStopDays: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.close.closeDay',
                     propertyValue: null,
                 }
@@ -132,7 +132,7 @@ class HuilianyiManagement extends React.Component {
         if (!employeeAutoStop.hasOwnProperty('propertyName')) {
             this.setState({
                 employeeAutoStop: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.close.participant.enabled',
                     propertyValue: null,
                 }
@@ -141,7 +141,7 @@ class HuilianyiManagement extends React.Component {
         if (!employeeRestartUse.hasOwnProperty('propertyName')) {
             this.setState({
                 employeeRestartUse: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.close.restart.enabled',
                     propertyValue: null,
                 }
@@ -150,7 +150,7 @@ class HuilianyiManagement extends React.Component {
         if (!employeeRestartDays.hasOwnProperty('propertyName')) {
             this.setState({
                 employeeRestartDays: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'application.close.restart.closeDay',
                     propertyValue: null,
                 }
@@ -159,7 +159,7 @@ class HuilianyiManagement extends React.Component {
         if (!bookingPreference.hasOwnProperty('propertyName')) {
             this.setState({
                 bookingPreference: {
-                    formOID: formOID,
+                    formOid: formOid,
                     propertyName: 'ca.travel.bookingpreference',
                     propertyValue: null,
                 }

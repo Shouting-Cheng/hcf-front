@@ -32,10 +32,10 @@ export default {
 
   /**
    * 得到表单详情
-   * @param formOID
+   * @param formOid
    */
-  getFormDetail(formOID){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}/simple`)
+  getFormDetail(formOid){
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}/simple`)
   },
 
   /**
@@ -80,11 +80,11 @@ export default {
 
   /**
    * 得到表单可见费用类型
-   * @param formOID  表单OID
+   * @param formOid  表单Oid
    * @param subsidyType  新差补费用的展示
    */
-  getExpenseTypeScope(formOID, subsidyType){
-    return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOID}/selected/expense/types`, {isAll: true, subsidyType: subsidyType})
+  getExpenseTypeScope(formOid, subsidyType){
+    return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOid}/selected/expense/types`, {isAll: true, subsidyType: subsidyType})
   },
 
   /**
@@ -98,33 +98,33 @@ export default {
 
   /**
    * 更新表单可见费用类型
-   * @param entityOID  表单OID
+   * @param entityOid  表单Oid
    * @param expenseTypeList  费用列表
    * @param visibleScope  费用可见类型
    * @return {*|AxiosPromise}
    */
-  updateExpenseTypeScope(entityOID, expenseTypeList, visibleScope){
-    let expenseTypeOIDs = [];
+  updateExpenseTypeScope(entityOid, expenseTypeList, visibleScope){
+    let expenseTypeOids = [];
     expenseTypeList.map(item => {
-      expenseTypeOIDs.push(item.expenseTypeOID)
+      expenseTypeOids.push(item.expenseTypeOid)
     });
-    let params = { entityOID, expenseTypeOIDs, visibleScope  };
+    let params = { entityOid, expenseTypeOids, visibleScope  };
     return httpFetch.post(`${config.baseUrl}/api/custom/forms/associate/expense/types`, params)
   },
 
   /**
    * 得到表单适用人员
-   * @param formOID  表单OID
+   * @param formOid  表单Oid
    */
-  getUserScope(formOID){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}/user/scope`)
+  getUserScope(formOid){
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}/user/scope`)
   },
 
   /**
    * 更新表单适用人员
-   * @param formOID  表单OID
-   * @param departmentOIDs 部门OID数组
-   * @param userGroupOIDs 人员组OID数组
+   * @param formOid  表单Oid
+   * @param departmentOids 部门Oid数组
+   * @param userGroupOids 人员组Oid数组
    * @param visibleScope  适用人员类型
    * @return {*|AxiosPromise}
    */
@@ -134,10 +134,10 @@ export default {
 
   /**
    * 得到表单属性列表
-   * @param formOID
+   * @param formOid
    */
-  getFormPropertyList(formOID){
-    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOID}`)
+  getFormPropertyList(formOid){
+    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOid}`)
   },
 
   /**
@@ -154,8 +154,8 @@ export default {
    * @param propertyNames 需要删除的表单属性名数组
    * @return {*|AxiosPromise}
    */
-  removeFormProperty(formOID, propertyNames){
-    return httpFetch.delete(`${config.baseUrl}/api/custom/forms/property?formOID=${formOID}&propertyNames=${propertyNames}`)
+  removeFormProperty(formOid, propertyNames){
+    return httpFetch.delete(`${config.baseUrl}/api/custom/forms/property?formOid=${formOid}&propertyNames=${propertyNames}`)
   },
 
   /**
@@ -174,24 +174,24 @@ export default {
 
   /**
    * 得到表单配置页面里所需数据
-   * @param formOID
+   * @param formOid
    */
-  getFormField (formOID){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOID}`)
+  getFormField (formOid){
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOid}`)
   },
   /**
    * 得到表单配置页面里的表单字段propertyList
-   * @param formOID
+   * @param formOid
    */
-  getPropertyList (formOID){
-    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOID}`)
+  getPropertyList (formOid){
+    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOid}`)
   },
   /**
    * 点击供应商管控页面,行程表单页面的保存,二者调用的接口一样
-   * @param formOID
+   * @param formOid
    */
-  saveSupplierForm (formOID, params){
-    return httpFetch.post(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOID}`, params)
+  saveSupplierForm (formOid, params){
+    return httpFetch.post(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOid}`, params)
   },
   /**
    * 点击供应商管控页面,行程表单页面的保存,二者调用的接口一样
@@ -202,9 +202,9 @@ export default {
   },
   /**
    * 获取供应商管控页面select里面options的值
-   * @param formOID
+   * @param formOid
    */
-  getSupplierOptions (formOID){
-    return httpFetch.get(`${config.baseUrl}/api/ctrip/cost/center/form/value/${formOID}`)
+  getSupplierOptions (formOid){
+    return httpFetch.get(`${config.baseUrl}/api/ctrip/cost/center/form/value/${formOid}`)
   },
 }

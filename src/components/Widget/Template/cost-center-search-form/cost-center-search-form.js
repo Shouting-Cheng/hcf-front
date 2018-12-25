@@ -90,7 +90,7 @@ class CostCenterSearchForm extends React.Component {
         data[index].isAll = !val.costCenterItemCodeFrom && !val.costCenterItemCodeTo;
         data[index].costCenterItemCodeFrom = val.costCenterItemCodeFrom;
         data[index].costCenterItemCodeTo = val.costCenterItemCodeTo;
-        data[index].options = costCenters.filter(item => item.costCenterOID === val.costCenterOid);
+        data[index].options = costCenters.filter(item => item.costCenterOid === val.costCenterOid);
       });
     this.setState({ data });
   };
@@ -216,8 +216,8 @@ class CostCenterSearchForm extends React.Component {
     let options = [];
     costCenters.forEach(costCenter => {
       if (
-        !data.some(val => val.costCenterOid === costCenter.costCenterOID) ||
-        costCenter.costCenterOID === item.costCenterOid
+        !data.some(val => val.costCenterOid === costCenter.costCenterOid) ||
+        costCenter.costCenterOid === item.costCenterOid
       ) {
         options.push(costCenter);
       }
@@ -247,7 +247,7 @@ class CostCenterSearchForm extends React.Component {
         getPopupContainer={triggerNode => triggerNode.parentNode}
       >
         {item.options.map(option => {
-          return <Select.Option key={option.costCenterOID}>{option.name}</Select.Option>;
+          return <Select.Option key={option.costCenterOid}>{option.name}</Select.Option>;
         })}
       </Select>
     );

@@ -8,10 +8,10 @@ import errorMessage from 'share/errorMessage';
 import valueListService from 'containers/setting/value-list/value-list.service';
 export default {
   //撤销离职
-  cancelResign: function(userOID) {
+  cancelResign: function(userOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .post(config.baseUrl + '/api/users/set/cancel/leaved/' + userOID)
+        .post(config.baseUrl + '/api/users/set/cancel/leaved/' + userOid)
         .then(res => {
           resolve(res);
         })
@@ -22,10 +22,10 @@ export default {
     });
   },
   //设置离职时间：点击离职：都是一个接口
-  setResignDate: function(userOID, date) {
+  setResignDate: function(userOid, date) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .post(config.baseUrl + '/api/users/' + userOID + '/set/leaving/date/' + date)
+        .post(config.baseUrl + '/api/users/' + userOid + '/set/leaving/date/' + date)
         .then(res => {
           resolve(res);
         })
@@ -37,10 +37,10 @@ export default {
   },
 
   //重新入职
-  rehire: function(userOID) {
+  rehire: function(userOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .post(config.baseUrl + '/api/refactor/users/rehire/' + userOID)
+        .post(config.baseUrl + '/api/refactor/users/rehire/' + userOid)
         .then(res => {
           resolve(res);
         })
@@ -81,10 +81,10 @@ export default {
     });
   },
   //获取个人基本信息
-  getPersonDetail(userOID) {
+  getPersonDetail(userOid) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(config.baseUrl + '/api/users/v2/' + userOID)
+        .get(config.baseUrl + '/api/users/v2/' + userOid)
         .then(res => {
           resolve(res);
         })
@@ -110,10 +110,10 @@ export default {
   },
   //获取值列表：根据值列表oid
   //在扩展字段信息里面，有些字段是值列表，这个时候需要从dataSource解析值列表oid获取值列表
-  getListByCustomEnumerationOID(customEnumerationOID) {
+  getListByCustomEnumerationOid(customEnumerationOid) {
     return new Promise((resolve, reject) => {
       valueListService
-        .getValueListInfo(customEnumerationOID)
+        .getValueListInfo(customEnumerationOid)
         .then(res => {
           resolve(res);
         })
@@ -125,9 +125,9 @@ export default {
   },
 
   //获取银行卡:马磊完成：返回禁用与禁用的银行卡
-  getBankCards(userOID) {
+  getBankCards(userOid) {
     let param = {
-      userOID: userOID,
+      userOid: userOid,
       enable: null, //新加参数enable ，启用 true，禁用 false，全部 空
     };
     return new Promise((resolve, reject) => {
@@ -173,9 +173,9 @@ export default {
   },
 
   //获取证件信息:马磊完成：返回禁用与禁用的证件
-  getContactCards(userOID) {
+  getContactCards(userOid) {
     let param = {
-      userOID: userOID,
+      userOid: userOid,
       enable: null, //新加参数enable ，启用 true，禁用 false，全部 空
     };
     return new Promise((resolve, reject) => {
@@ -221,9 +221,9 @@ export default {
   },
 
   //获取供应商信息
-  getSupplierInfo: function(userOID) {
+  getSupplierInfo: function(userOid) {
     let param = {
-      userOID: userOID,
+      userOid: userOid,
       enable: null, //新加参数enable ，启用 true，禁用 false，全部 空
     };
     return new Promise((resolve, reject) => {
@@ -242,15 +242,15 @@ export default {
   //更新携程子账户
   updateSupplierInfo: function(data) {
     // let data = {
-    //   userOID: "",
+    //   userOid: "",
     //   enable: true,
     //   subAccountName: "testtest",
-    //   userOID: "3caee0f8-7424-4a21-acc5-f8f3a2910d14",
+    //   userOid: "3caee0f8-7424-4a21-acc5-f8f3a2910d14",
     //   ...
     // }
     return new Promise((resolve, reject) => {
       httpFetch
-        .post(config.baseUrl + '/api/contact/supplier/ctrip?userOID' + data.userOID, data)
+        .post(config.baseUrl + '/api/contact/supplier/ctrip?userOid' + data.userOid, data)
         .then(res => {
           resolve(res);
         })

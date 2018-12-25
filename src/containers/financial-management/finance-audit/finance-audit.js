@@ -30,8 +30,8 @@ class FinanceAudit extends React.Component {
       pageSize: 10,
       data: [],
       hasConfirm: false,
-      expenseDetailAudit: '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOID/:backType',
-      loanDetailAudit: '/financial-management/finance-audit/loan-request-detail-audit/:formOID/:applicationOID/:backType',
+      expenseDetailAudit: '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOid/:backType',
+      loanDetailAudit: '/financial-management/finance-audit/loan-request-detail-audit/:formOid/:applicationOid/:backType',
       scanAudit: '/financial-management/finance-audit/scan-audit',
       scanGunAudit: '/financial-management/finance-audit/scan-gun-audi',
       pagination: {
@@ -103,9 +103,9 @@ class FinanceAudit extends React.Component {
         { key: 'prending_audit', name: this.$t('finance.audit.dueAudit'/*待审核*/) },
         { key: 'audit_pass', name: this.$t('finance.audit.audited'/*已审核*/) }],
       searchParams: {
-        applicantOID: null,
+        applicantOid: null,
         businessCode: null,
-        corporationOIDs: [],
+        corporationOids: [],
         endDate: null,
         startDate: null
       },
@@ -154,7 +154,7 @@ class FinanceAudit extends React.Component {
           method: 'get',
           searchKey: 'keyword',
           labelKey: 'fullName',
-          valueKey: 'userOID',
+          valueKey: 'userOid',
           renderOption: option => (`${option.employeeID}-${option.fullName}${(option.status != 1001 ? '(已离职)' : '')}`)
         },
         {
@@ -165,7 +165,7 @@ class FinanceAudit extends React.Component {
           getUrl: `${config.baseUrl}/api/v2/my/company/receipted/invoices?page=0&size=100`,
           method: 'get',
           labelKey: 'companyName',
-          valueKey: 'companyReceiptedOID'
+          valueKey: 'companyReceiptedOid'
         }
       ],
       printFreeForm: {
@@ -179,7 +179,7 @@ class FinanceAudit extends React.Component {
       },
       expenseForms: [],
       loanForms: [],
-      checkboxListForm: { id: 'formOIDs', items: [] },
+      checkboxListForm: { id: 'formOids', items: [] },
       sort: '',
       isPrintFreeSearch: false,
     };
@@ -236,7 +236,7 @@ class FinanceAudit extends React.Component {
 
   onOpen = () => {
     let body = {
-      userOID: this.props.user.userOID,
+      userOid: this.props.user.userOid,
       token: sessionStorage.getItem('token')
     };
     let dict = {
@@ -302,7 +302,7 @@ class FinanceAudit extends React.Component {
       this.setState({ connectStatus: true });
     } else if ('EXPENSE_REPORT_REVIEW' === expense.body.type) {
       let { status, expenseDetailAudit } = this.state;
-      let url = expenseDetailAudit.replace(':expenseReportOID', content[0]).replace(':backType', 'history');
+      let url = expenseDetailAudit.replace(':expenseReportOid', content[0]).replace(':backType', 'history');
       url += `?prending_audit=true`;
       this.props.dispatch({
         type: 'cache/setFinanceAudit',
@@ -379,10 +379,10 @@ class FinanceAudit extends React.Component {
       let expenseForms = [];
       let loanForms = [];
       res[0].data.map(item => {
-        expenseForms.push({ label: item.formName, value: item.formOID })
+        expenseForms.push({ label: item.formName, value: item.formOid })
       });
       res[1].data.map(item => {
-        loanForms.push({ label: item.formName, value: item.formOID })
+        loanForms.push({ label: item.formName, value: item.formOid })
       });
       checkboxListForm.items = [{ label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue }];
       defaultCheckboxListForm.items = [{ label: this.$t('finance.audit.formType'/*表单类型*/), key: 'form', options: this.state.nowType === 'INVOICE' ? expenseForms : loanForms, checked: checkboxListForm.defaultValue }];
@@ -476,12 +476,12 @@ class FinanceAudit extends React.Component {
     result.approvalStartDateTrans = result.approvalStartDate ? result.approvalStartDate.format('YYYY-MM-DD 00:00:00') : undefined;
     result.approvalEndDateTrans = result.approvalEndDate ? result.approvalEndDate.format('YYYY-MM-DD 23:59:59') : undefined;
     let searchParams = {
-      applicantOID: result.user,
+      applicantOid: result.user,
       businessCode: result.formID,
-      corporationOIDs: result.legalEntity,
+      corporationOids: result.legalEntity,
       endDate: result.dateToTrans,
       startDate: result.dateFromTrans,
-      formOIDs: result.formOIDs,
+      formOids: result.formOids,
       approvalStartDate: result.approvalStartDateTrans,
       approvalEndDate: result.approvalEndDateTrans,
       printFree: result.printFree
@@ -529,8 +529,8 @@ class FinanceAudit extends React.Component {
       status = result.tabsStatus;
       nowType = result.type;
       page = result.page;
-      checkboxListForm.defaultValue = result['formOIDsLable'] || [];
-      checkboxListForm.formOIDsExpand = result['formOIDsExpand'];
+      checkboxListForm.defaultValue = result['formOidsLable'] || [];
+      checkboxListForm.formOidsExpand = result['formOidsExpand'];
       dealCache(searchForm, result);
       this.setState({ status, nowType, searchForm, page }, () => {
         this.handleData();
@@ -547,9 +547,9 @@ class FinanceAudit extends React.Component {
       searchForm: defaultSearchForm,
       nowType: 'INVOICE',
       searchParams: {
-        applicantOID: "",
+        applicantOid: "",
         businessCode: "",
-        corporationOIDs: [],
+        corporationOids: [],
         endDate: null,
         startDate: null
       }
@@ -595,9 +595,9 @@ class FinanceAudit extends React.Component {
     let url = '';
 
     if (nowType === 'INVOICE')
-      url = expenseDetailAudit.replace(':expenseReportOID', record.expenseReportOID).replace(':backType', 'history');
+      url = expenseDetailAudit.replace(':expenseReportOid', record.expenseReportOid).replace(':backType', 'history');
     else
-      url = loanDetailAudit.replace(':formOID', record.formOID).replace(':applicationOID', record.applicationOID).replace(':backType', 'history');
+      url = loanDetailAudit.replace(':formOid', record.formOid).replace(':applicationOid', record.applicationOid).replace(':backType', 'history');
     status === 'prending_audit' && (url += `?prending_audit=true`);
     this.props.dispatch({
       type: 'cache/setFinanceAudit',
@@ -682,7 +682,7 @@ class FinanceAudit extends React.Component {
           expandedRowRender={this.renderAllExpandedRow}
           rowClassName={record => (record.printFree || record.noticeFlag || record.warningList) ? '' : 'finance-audit-reject'}
           size="middle"
-          rowKey={nowType === 'INVOICE' ? 'expenseReportOID' : 'applicationOID'} />
+          rowKey={nowType === 'INVOICE' ? 'expenseReportOid' : 'applicationOid'} />
       </div>
     )
   }

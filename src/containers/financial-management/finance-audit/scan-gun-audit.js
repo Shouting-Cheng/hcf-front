@@ -23,7 +23,7 @@ class ScanGunAudit extends React.Component {
       if (res.data.expenseReport) {
         this.context.router.push(
           this.state.expenseDetailAudit.url
-            .replace(':expenseReportOID', res.data.expenseReport.expenseReportOID)
+            .replace(':expenseReportOid', res.data.expenseReport.expenseReportOid)
             .replace(':backType', 'history') +
             (res.data.expenseReport.status === 1003 ? '?prending_audit=true' : '')
         );

@@ -5,27 +5,27 @@ import errorMessage from 'share/errorMessage'
 export default {
 
   //获取表单配置
-  getCustomForm(formOID){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOID}`)
+  getCustomForm(formOid){
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}`)
   },
 
   //获取表单默认值
-  getFormValue(userOID, formOID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/form/user/default/values?userOID=${userOID}&formOID=${formOID}`)
+  getFormValue(userOid, formOid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/form/user/default/values?userOid=${userOid}&formOid=${formOid}`)
   },
 
   /**
    * 获取汇率
    * @param currency 要算汇率的币种
    * @param currencyDate (YYYY-MM-DD HH:mm:ss)
-   * @param userOID 后台判断优先级2 如果有传userOID，则算的汇率是基于userOID所在公司的本位币的汇率 非必填字段
+   * @param userOid 后台判断优先级2 如果有传userOid，则算的汇率是基于userOid所在公司的本位币的汇率 非必填字段
    * @param baseCode 后台判断优先级1 如果有传baseCode，则算的汇率是基于baseCode的汇率 非必填字段
    */
-  getCurrencyRate(currency, currencyDate, userOID, baseCode) {
+  getCurrencyRate(currency, currencyDate, userOid, baseCode) {
     let params = {
       currency,
       currencyDate,
-      userOID,
+      userOid,
       baseCode
     };
     return httpFetch.get(`${config.baseUrl}/api/company/standard/currency/get`, params)
@@ -66,13 +66,13 @@ export default {
   },
 
   //获取申请单详情接口 (借款、差旅、费用、订票、京东申请单详情全部合并成了该接口)
-  getRequestDetail(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/application/${OID}`)
+  getRequestDetail(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/application/${Oid}`)
   },
 
-  //根据申请单OID及订票任务OID获取订票申请单详情(用于退改签审批页面)
-  getBookerTaskRequestDetail(OID, bookTaskOID) {
-    return httpFetch.get(`${config.baseUrl}/api/book/task/my/get/${OID}?travelOperationRecordOID=${bookTaskOID}`)
+  //根据申请单Oid及订票任务Oid获取订票申请单详情(用于退改签审批页面)
+  getBookerTaskRequestDetail(Oid, bookTaskOid) {
+    return httpFetch.get(`${config.baseUrl}/api/book/task/my/get/${Oid}?travelOperationRecordOid=${bookTaskOid}`)
   },
 
   //申请单撤回
@@ -80,9 +80,9 @@ export default {
     return httpFetch.post(`${config.baseUrl}/api/approvals/withdraw`, params)
   },
 
-  //根据申请单OID获取借款单的还款进度
-  getLoanRepayment(page, size, OID) {
-    return httpFetch.get(`${config.baseUrl}/api/repayment/list?page=${page}&size=${size}&loanApplicationOid=${OID}`)
+  //根据申请单Oid获取借款单的还款进度
+  getLoanRepayment(page, size, Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/repayment/list?page=${page}&size=${size}&loanApplicationOid=${Oid}`)
   },
   // 新增供应商
   addData(data) {
@@ -92,9 +92,9 @@ export default {
   addNewAccount (data) {
     return httpFetch.post(`${config.vendorUrl}/api/ven/bank/insert`,data)
   },
-  //根据表单OID获取申请单类型
-  getFormType(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${OID}`)
+  //根据表单Oid获取申请单类型
+  getFormType(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${Oid}`)
   },
 
   //获取收款人信息
@@ -135,8 +135,8 @@ export default {
   },
 
   //删除申请单
-  deleteRequest(applicationOID) {
-    return httpFetch.delete(`${config.baseUrl}/api/applications/all/${applicationOID}`)
+  deleteRequest(applicationOid) {
+    return httpFetch.delete(`${config.baseUrl}/api/applications/all/${applicationOid}`)
   },
 
   //提交借款申请单
@@ -172,15 +172,15 @@ export default {
   },
 
   /**
-   * 根据申请单OID获取行程信息
-   * @param applicationOID 申请单OID
+   * 根据申请单Oid获取行程信息
+   * @param applicationOid 申请单Oid
    * itineraryShowDetails 行程备注中展示的行程样式是否需要返回统一的格式 REMARK中itineraryDetails表示标准行程格式，itineraryShowDetails
    * withRequestDetail 是否查询差补行程的详细信息（每条差补行程的费用类型、参与人姓名、币种和金额）
    * withItemDetail 是否查询差补行程下的每个人的差补详情
    */
-  getItineraryByApplicationOID(applicationOID) {
+  getItineraryByApplicationOid(applicationOid) {
     let params = {
-      applicationOID,
+      applicationOid,
       // itineraryShowDetails: true,
       withRequestDetail: true,
       withItemDetail: true
@@ -189,17 +189,17 @@ export default {
   },
 
   /**
-   * 根据申请单OID和最新版申请单OID获取行程信息
-   * @param applicationOID 申请单OID
-   * @param latestApplicationOID 最新版申请单OID
+   * 根据申请单Oid和最新版申请单Oid获取行程信息
+   * @param applicationOid 申请单Oid
+   * @param latestApplicationOid 最新版申请单Oid
    * itineraryShowDetails 行程备注中展示的行程样式是否需要返回统一的格式
    * withRequestDetail 是否查询差补行程的详细信息（每条差补行程的费用类型、参与人姓名、币种和金额）
    * withItemDetail 是否查询差补行程下的每个人的差补详情
    */
-  getLastItineraryByApplicationOID(applicationOID, latestApplicationOID) {
+  getLastItineraryByApplicationOid(applicationOid, latestApplicationOid) {
     let params = {
-      applicationOID: applicationOID,
-      newApplicationOID: latestApplicationOID,
+      applicationOid: applicationOid,
+      newApplicationOid: latestApplicationOid,
       // itineraryShowDetails: true,
       withRequestDetail: true,
       withItemDetail: true
@@ -208,20 +208,20 @@ export default {
   },
 
   //机票反馈信息是否合适
-  handleBoardingConfirmation(applicationOID, comment, flag, travelOrderOIDs) {
-    let url = `${config.baseUrl}/api/travel/operation/confirm?applicationOID=${applicationOID}&flag=${flag}&travelOrderOIDs=${travelOrderOIDs}`;
+  handleBoardingConfirmation(applicationOid, comment, flag, travelOrderOids) {
+    let url = `${config.baseUrl}/api/travel/operation/confirm?applicationOid=${applicationOid}&flag=${flag}&travelOrderOids=${travelOrderOids}`;
     comment && (url += `&comment=${comment}`);
     return httpFetch.get(url)
   },
 
   //判断审批通过的差旅申请单能否进行更改操作
-  judgeEnableChange(applicationOID) {
-    return httpFetch.get(`${config.baseUrl}/api/travel/application/change/enable?lastApplicationOID=${applicationOID}`)
+  judgeEnableChange(applicationOid) {
+    return httpFetch.get(`${config.baseUrl}/api/travel/application/change/enable?lastApplicationOid=${applicationOid}`)
   },
 
   //差旅申请单更改
-  handleApplicationUpload(applicationOID, params) {
-    return httpFetch.post(`${config.baseUrl}/api/travel/applications/draft/${applicationOID}`, params)
+  handleApplicationUpload(applicationOid, params) {
+    return httpFetch.post(`${config.baseUrl}/api/travel/applications/draft/${applicationOid}`, params)
   },
 
   //订票申请单退票
@@ -235,9 +235,9 @@ export default {
   },
 
   //打印差旅申请单
-  printTravelApplication(applicationOID) {
+  printTravelApplication(applicationOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(`${config.baseUrl}/api/travel/application/generate/pdf/${applicationOID}`).then(res => {
+      httpFetch.get(`${config.baseUrl}/api/travel/application/generate/pdf/${applicationOid}`).then(res => {
         resolve(res)
       }).catch(err => {
         errorMessage(err.response);
@@ -247,9 +247,9 @@ export default {
   },
 
   //打印借款申请单
-  printLoanApplication(applicationOID) {
+  printLoanApplication(applicationOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(`${config.baseUrl}/api/loan/application/generate/pdf/${applicationOID}`).then(res => {
+      httpFetch.get(`${config.baseUrl}/api/loan/application/generate/pdf/${applicationOid}`).then(res => {
         resolve(res)
       }).catch(err => {
         errorMessage(err.response);
@@ -259,9 +259,9 @@ export default {
   },
 
   //打印费用申请单
-  printExpenseApplication(applicationOID) {
+  printExpenseApplication(applicationOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.get(`${config.baseUrl}/api/expense/application/generate/pdf/${applicationOID}`).then(res => {
+      httpFetch.get(`${config.baseUrl}/api/expense/application/generate/pdf/${applicationOid}`).then(res => {
         resolve(res)
       }).catch(err => {
         errorMessage(err.response);
@@ -271,9 +271,9 @@ export default {
   },
 
   //申请单停用
-  expireApplication(applicationOID, participantOID) {
+  expireApplication(applicationOid, participantOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(`${config.baseUrl}/api/applications/close?applicationOID=${applicationOID}&participantOID=${participantOID}`).then(res => {
+      httpFetch.post(`${config.baseUrl}/api/applications/close?applicationOid=${applicationOid}&participantOid=${participantOid}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -283,9 +283,9 @@ export default {
   },
 
   //申请单重新启用
-  restartApplication(applicationOID, participantOID, closeDay) {
+  restartApplication(applicationOid, participantOid, closeDay) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(`${config.baseUrl}/api/applications/restart?applicationOID=${applicationOID}&participantOID=${participantOID}&closeDay=${closeDay}`).then(res => {
+      httpFetch.post(`${config.baseUrl}/api/applications/restart?applicationOid=${applicationOid}&participantOid=${participantOid}&closeDay=${closeDay}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -295,7 +295,7 @@ export default {
   },
 
   //获取借款单的默认关联申请单
-  getLoanDefaultRelativeApplication(formOID) {
+  getLoanDefaultRelativeApplication(formOid) {
     let params = {
       "withTravelApplication": true,
       "withExpenseApplication": true,
@@ -305,7 +305,7 @@ export default {
       "withParticipant": true,
       "withCustomFormValue": true
     };
-    return httpFetch.post(`${config.baseUrl}/api/loan/reference/my/application/default?formOID=${formOID}`, params)
+    return httpFetch.post(`${config.baseUrl}/api/loan/reference/my/application/default?formOid=${formOid}`, params)
   },
 
   //免打印查询
@@ -319,11 +319,11 @@ export default {
   },
 
   //获取无代理关系的单据列表，formType：101（申请单）、102（报销单）、103（全部）
-  //传userOID则获取该用户下可代理的单据
-  getMyDocumentType(formType, userOID) {
+  //传userOid则获取该用户下可代理的单据
+  getMyDocumentType(formType, userOid) {
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/my/available`, {
       formType: formType,
-      userOID: userOID
+      userOid: userOid
     });
   },
 

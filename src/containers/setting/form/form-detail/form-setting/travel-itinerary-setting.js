@@ -66,7 +66,7 @@ class TravelItinerarySetting extends React.Component{
   //type为cancelEdit操作取消修改的特殊逻辑
   initProperty = (type) => {
     const {propertyList} = this.props;
-    const {formOID} = this.props.params;
+    const {formOid} = this.props.params;
     let isTicketShow0 = true,
       isHotelShow0 = false,
       isTrainShow0 = true,
@@ -929,7 +929,7 @@ class TravelItinerarySetting extends React.Component{
   }
   //点击保存时调用的函数
    saveTravelForm = () => {
-    const {formOID} = this.props.params;
+    const {formOid} = this.props.params;
     const {controlFieldsFlight, controlFieldsHotel, controlFieldsTrain, costCenterCustom, manageType,
       isTicketShow, isHotelShow, isTrainShow, otherTransport, travelAllowances,
       travelDeactivatedate, travelRemark} = this.state
@@ -956,7 +956,7 @@ class TravelItinerarySetting extends React.Component{
            'ca.travel.deactivatedate.enabled': travelDeactivatedate,
            'ca.travel.remark.disabled': !travelRemark,
          }
-         formService.saveSupplierForm(formOID, params).then(res => {
+         formService.saveSupplierForm(formOid, params).then(res => {
            if (res.status === 200) {
              message.success(this.$t("invoice.management.save.success")/*保存成功*/);
              this.setState({

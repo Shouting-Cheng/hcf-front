@@ -35,7 +35,7 @@ class CompanyGroupDetail extends React.Component {
         listSelectedData: {},
       },
       selectedRowKeys: [],
-      selectedEntityOIDs: [], //已选择的列表项的OIDs
+      selectedEntityOids: [], //已选择的列表项的Oids
       pagination: {
         current: 1,
         page: 0,
@@ -161,7 +161,7 @@ class CompanyGroupDetail extends React.Component {
             dataIndex: 'companyTypeName',
           },
         ],
-        key: 'companyOID',
+        key: 'companyOid',
       },
     };
   }
@@ -169,7 +169,7 @@ class CompanyGroupDetail extends React.Component {
   deleteItem = (e, record) => {
     this.setState({ loading: true });
     let param = [];
-    typeof record === 'undefined' ? (param = this.state.selectedEntityOIDs) : param.push(record.id);
+    typeof record === 'undefined' ? (param = this.state.selectedEntityOids) : param.push(record.id);
     companyGroupService
       .deleteCompany(param)
       .then(response => {
@@ -182,7 +182,7 @@ class CompanyGroupDetail extends React.Component {
         this.setState(
           {
             selectedRowKeys: [],
-            selectedEntityOIDs: [],
+            selectedEntityOids: [],
             batchCompany: true
 
           },
@@ -282,20 +282,20 @@ class CompanyGroupDetail extends React.Component {
 
   //选择一行
   //选择逻辑：每一项设置selected属性，如果为true则为选中
-  //同时维护selectedEntityOIDs列表，记录已选择的OID，并每次分页、选择的时候根据该列表来刷新选择项
+  //同时维护selectedEntityOids列表，记录已选择的Oid，并每次分页、选择的时候根据该列表来刷新选择项
   onSelectRow = (record, selected) => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) temp.push(record.id);
     else temp.delete(record.id);
     this.setState({
-      selectedEntityOIDs: temp,
+      selectedEntityOids: temp,
       batchCompany: temp.length > 0 ? false : true,
     });
   };
 
   //全选
   onSelectAllRow = selected => {
-    let temp = this.state.selectedEntityOIDs;
+    let temp = this.state.selectedEntityOids;
     if (selected) {
       this.state.data.map(item => {
         temp.addIfNotExist(item.id);
@@ -306,17 +306,17 @@ class CompanyGroupDetail extends React.Component {
       });
     }
     this.setState({
-      selectedEntityOIDs: temp,
+      selectedEntityOids: temp,
       batchCompany: temp.length > 0 ? false : true,
     });
   };
 
-  //换页后根据OIDs刷新选择框
+  //换页后根据Oids刷新选择框
   refreshRowSelection() {
     let selectedRowKeys = [];
-    this.state.selectedEntityOIDs.map(selectedEntityOID => {
+    this.state.selectedEntityOids.map(selectedEntityOid => {
       this.state.data.map((item, index) => {
-        if (item.id === selectedEntityOID) selectedRowKeys.push(index);
+        if (item.id === selectedEntityOid) selectedRowKeys.push(index);
       });
     });
     this.setState({ selectedRowKeys });
@@ -324,7 +324,7 @@ class CompanyGroupDetail extends React.Component {
 
   //清空选择框
   clearRowSelection() {
-    this.setState({ selectedEntityOIDs: [], selectedRowKeys: [] });
+    this.setState({ selectedEntityOids: [], selectedRowKeys: [] });
   }
 
   //处理公司弹框点击ok,添加公司

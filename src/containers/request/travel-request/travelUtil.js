@@ -888,7 +888,7 @@ export default {
                     expenseTypeAmountMapChiled.length - 2
                   );
                   let detailMaps = req.travelSubsidiesItemMap; //travelSubsidiesRequestItemDTOs.travelSubsidiesItemMap
-                  let relativeRepeat = req.duplicateSubsidiesOIDs ? req.duplicateSubsidiesOIDs : [];
+                  let relativeRepeat = req.duplicateSubsidiesOids ? req.duplicateSubsidiesOids : [];
                   return (
                     <div className="second-box" key={title + index + reqIndex}>
                       {req.status == 1002 && (
@@ -950,7 +950,7 @@ export default {
                             let isRepeat = false;
                             relativeRepeat.map(repeat => {
                               //检验是否重复
-                              if (detail.travelSubsidiesDetailsOID == repeat) {
+                              if (detail.travelSubsidiesDetailsOid == repeat) {
                                 isRepeat = true;
                               }
                             });
@@ -974,7 +974,7 @@ export default {
                             return (
                               <div
                                 className="subsidy-detail"
-                                key={detail.travelSubsidiesDetailsOID}
+                                key={detail.travelSubsidiesDetailsOid}
                               >
                                 {detail.status == 1002 && (
                                   <div className="to-hiden">
@@ -1270,29 +1270,29 @@ export default {
    * @param status       当前单子状态 eidt 编辑，create 新建
    * @param custValues   表单配置项数据
    * @param newValue     新申请人信息
-   * @param formOID      表单OID
+   * @param formOid      表单Oid
    * @param base         原申请人信息
    * @param executeCall  回调函数
    * @param isReplace  是否替换参与人
    */
-  setDefaultFormUtil(status, custValues, newValue, formOID, base, executeCall, isReplace) {
+  setDefaultFormUtil(status, custValues, newValue, formOid, base, executeCall, isReplace) {
     let budgetDetailKey = false;
     let count = 0;
     let currentUpdate = []; //现在需要更新的默认值 [{formkey:value},...]格式
     custValues.map(item => {
       if (item.messageKey === 'budget_detail' && item.value) {
-        budgetDetailKey = status === 'edit' ? item.formValueOID : item.fieldOID;
+        budgetDetailKey = status === 'edit' ? item.formValueOid : item.fieldOid;
       }
     });
     baseService
       .changeLoginInfo(newValue.value)
       .then(() => {
-        requestService.getFormValue(newValue.value, formOID).then(res => {
+        requestService.getFormValue(newValue.value, formOid).then(res => {
           if (res.data && res.data.length > 0) {
             res.data.map(item => {
               custValues.map(field => {
-                if (field.fieldOID === item.fieldOID && field.value !== item.value) {
-                  let key = status === 'edit' ? field.formValueOID : field.fieldOID;
+                if (field.fieldOid === item.fieldOid && field.value !== item.value) {
+                  let key = status === 'edit' ? field.formValueOid : field.fieldOid;
                   let setUpdateItem = {};
                   setUpdateItem[key] = customField.getDefaultValue(field, item);
                   if (setUpdateItem[key]) currentUpdate.push(setUpdateItem);
@@ -1310,28 +1310,28 @@ export default {
         message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
       });
     if (isReplace) {
-      travelService.getPrincipals(formOID).then(res => {
+      travelService.getPrincipals(formOid).then(res => {
         let tempReuqestPeople = ''; //新申请人临时变量
         let newJoinPeople = []; //参与人
         let isNewValueHave = false; //是否新的申请人也在参与人之内
         let key = ''; //表单设置值的标志
         let updateItem = {};
         res.data.map(item => {
-          if (newValue.value === item.userOID) {
+          if (newValue.value === item.userOid) {
             tempReuqestPeople = item;
           }
         });
         custValues.map(field => {
           if (field.messageKey === 'select_participant') {
             //参与人员
-            key = status === 'edit' ? field.formValueOID : field.fieldOID;
+            key = status === 'edit' ? field.formValueOid : field.fieldOid;
             JSON.parse(field.value || '[]').map(v => {
               //遍历参与人员
-              if (v.userOID !== base.value) {
+              if (v.userOid !== base.value) {
                 //参与人员的oid是否不等于原申请人oid
-                newJoinPeople.push({ userOID: v.userOID, fullName: v.fullName });
+                newJoinPeople.push({ userOid: v.userOid, fullName: v.fullName });
               }
-              if (v.userOID === newValue.value) {
+              if (v.userOid === newValue.value) {
                 //是否新的申请人也在参与人之内
                 isNewValueHave = true; //新的申请人也在参与人之内
               }
@@ -1341,7 +1341,7 @@ export default {
         if (!isNewValueHave) {
           //新的申请人不在参与人之内，新的申请人要替换掉原来参与人中与原申请人相同的人
           newJoinPeople.push({
-            userOID: tempReuqestPeople.userOID,
+            userOid: tempReuqestPeople.userOid,
             fullName: tempReuqestPeople.fullName,
           });
         }
@@ -1369,7 +1369,7 @@ export default {
     switch (field.messageKey) {
       case 'select_participant': //参与人
         JSON.parse(field.value || '[]').map(item => {
-          values.push({ userOID: item.userOID, fullName: item.fullName });
+          values.push({ userOid: item.userOid, fullName: item.fullName });
         });
         return values;
       case 'start_date': //开始日期

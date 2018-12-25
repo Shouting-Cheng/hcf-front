@@ -108,7 +108,7 @@ export default {
   getLogs(params) {
     let url = `${
       config.baseUrl
-    }/api/acpRequisition/reports/history?entityType=801005&entityOID=${params}`;
+    }/api/acpRequisition/reports/history?entityType=801005&entityOid=${params}`;
     return httpFetch.get(url);
   },
 

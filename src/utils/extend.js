@@ -34,7 +34,7 @@ React.Component.prototype.$t = (id, values = {}) => {
  * @param item  被删的元素
  * @return 被删的下标
  */
-Array.prototype.delete = function(item) {
+Array.prototype.delete = function (item) {
   for (let i = 0; i < this.length; i++) {
     if (this[i] === item) {
       this.splice(i, 1);
@@ -44,14 +44,14 @@ Array.prototype.delete = function(item) {
   return -1;
 };
 
-Array.prototype.has = function(item, func = (a, b) => a === b) {
+Array.prototype.has = function (item, func = (a, b) => a === b) {
   for (let i = 0; i < this.length; i++) {
     if (func(item, this[i])) return true;
   }
   return false;
 };
 
-Array.prototype.addIfNotExist = function(item) {
+Array.prototype.addIfNotExist = function (item) {
   for (let i = 0; i < this.length; i++) {
     if (this[i] === item) return;
   }
@@ -60,12 +60,12 @@ Array.prototype.addIfNotExist = function(item) {
 
 //给String类型添加 '_self' 的getter， 使得 typeof a === 'string' && a['_self'] === a 成立
 if (String.prototype.__defineGetter__)
-  String.prototype.__defineGetter__('_self', function() {
+  String.prototype.__defineGetter__('_self', function () {
     return this.toString();
   });
 else
   Object.defineProperty(String.prototype, '_self', {
-    get: function() {
+    get: function () {
       return this.toString();
     },
   });
@@ -123,7 +123,7 @@ React.Component.prototype.formatMoney = (number, decimals = 2, isString = false)
     sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
     dec = typeof dec_point === 'undefined' ? '.' : dec_point,
     s = '',
-    toFixedFix = function(n, prec) {
+    toFixedFix = function (n, prec) {
       var k = Math.pow(10, prec);
       return '' + Math.ceil(n * k) / k;
     };
@@ -204,7 +204,7 @@ React.Component.prototype.checkPageShowRole = pageName => {
 * this.clearBeforePage('myKey')
 * */
 //翻页前缓存页码
-React.Component.prototype.setBeforePage = function(pagination, key) {
+React.Component.prototype.setBeforePage = function (pagination, key) {
   let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
@@ -212,7 +212,7 @@ React.Component.prototype.setBeforePage = function(pagination, key) {
   sessionStorage.setItem(_key, JSON.stringify(pagination));
 };
 //回来后获取页码
-React.Component.prototype.getBeforePage = function(key) {
+React.Component.prototype.getBeforePage = function (key) {
   let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
@@ -231,7 +231,7 @@ React.Component.prototype.getBeforePage = function(key) {
   return pagination;
 };
 //清除设置的页面
-React.Component.prototype.clearBeforePage = function(key) {
+React.Component.prototype.clearBeforePage = function (key) {
   let _key = this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase();
   if (key) {
     _key = key;
@@ -300,7 +300,7 @@ React.Component.prototype.hasAnyAuthorities = auth => {
 };
 
 // 格式化时间yyyy-MM-dd hh:mm:ss.S
-Date.prototype.format = function(fmt) {
+Date.prototype.format = function (fmt) {
   let o = {
     'M+': this.getMonth() + 1, //月份
     'd+': this.getDate(), //日
@@ -324,7 +324,7 @@ Date.prototype.format = function(fmt) {
 };
 
 //根据传入的月数计算时间，可计算*月后/前的时间,month可为负数
-Date.prototype.calcMonth = function(month) {
+Date.prototype.calcMonth = function (month) {
   let nowYear = this.getFullYear();
   let nowMonth = this.getMonth() + 1;
   let monthSum = nowMonth + month;
@@ -436,11 +436,11 @@ React.Component.prototype.getSystemValueList = code => {
  * @param duration 动画持续时间
  * @param hoverDom hover所需要的dom
  */
-window.spriteAnimation = function(dom, img, height, width, total, duration = 500, hoverDom = dom) {
+window.spriteAnimation = function (dom, img, height, width, total, duration = 500, hoverDom = dom) {
   dom.style.backgroundImage = `url('${img}')`;
   dom.style.backgroundSize = `${width}px`;
   dom.frames = total;
-  hoverDom.onmouseenter = function() {
+  hoverDom.onmouseenter = function () {
     let enterInterval = setInterval(() => {
       clearInterval(dom.leaveInterval);
       dom.enterInterval = enterInterval;
@@ -449,7 +449,7 @@ window.spriteAnimation = function(dom, img, height, width, total, duration = 500
       if (dom.frames === 0) clearInterval(enterInterval);
     }, duration / total);
   };
-  hoverDom.onmouseleave = function() {
+  hoverDom.onmouseleave = function () {
     let leaveInterval = setInterval(() => {
       clearInterval(dom.enterInterval);
       dom.leaveInterval = leaveInterval;
@@ -463,10 +463,10 @@ window.spriteAnimation = function(dom, img, height, width, total, duration = 500
 //公用接口
 React.Component.prototype.service = {
   //获取货币
-  getCurrencyList: userOID => {
+  getCurrencyList: userOid => {
     return httpFetch.get(
-      `${config.baseUrl}/api/company/standard/currency/getAll?language=chineseName${
-        userOID ? `&userOID=${userOID}` : ''
+      `${config.baseUrl}/api/company/standard/currency/getAll/${
+      userOid ? `?userOid=${userOid}` : ''
       }`
     );
   },
@@ -476,7 +476,7 @@ React.Component.prototype.service = {
 export function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
-let utilDeepCopy = (function() {
+let utilDeepCopy = (function () {
   let class2type = {};
   [
     'Null',
@@ -489,7 +489,7 @@ let utilDeepCopy = (function() {
     'Array',
     'RegExp',
     'Date',
-  ].forEach(function(item) {
+  ].forEach(function (item) {
     class2type['[object ' + item + ']'] = item.toLowerCase();
   });
   function isType(obj, type) {
@@ -545,7 +545,7 @@ export function uniquelizeArray(t, index) {
 export function superThrottle(fn, delay, mustRunDelay) {
   let timer = null;
   let t_start;
-  return function() {
+  return function () {
     let context = this;
     let args = arguments;
     let t_curr = +new Date();
@@ -557,7 +557,7 @@ export function superThrottle(fn, delay, mustRunDelay) {
       fn.apply(context, args);
       t_start = t_curr;
     } else {
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         fn.apply(context, args);
       }, delay);
     }
@@ -860,10 +860,10 @@ export function mulCalculate(a, b) {
     e = b.toString();
   try {
     c += d.split('.')[1].length;
-  } catch (f) {}
+  } catch (f) { }
   try {
     c += e.split('.')[1].length;
-  } catch (f) {}
+  } catch (f) { }
   return (Number(d.replace('.', '')) * Number(e.replace('.', ''))) / Math.pow(10, c);
 }
 
@@ -874,10 +874,10 @@ export function divCalculate(a, b) {
     f = 0;
   try {
     e = a.toString().split('.')[1].length;
-  } catch (g) {}
+  } catch (g) { }
   try {
     f = b.toString().split('.')[1].length;
-  } catch (g) {}
+  } catch (g) { }
   return (
     (c = Number(a.toString().replace('.', ''))),
     (d = Number(b.toString().replace('.', ''))),

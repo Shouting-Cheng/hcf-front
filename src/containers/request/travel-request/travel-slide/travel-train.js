@@ -85,7 +85,7 @@ class TravelTrain extends React.Component {
     if (!editData.isEmpty && !this.state.editing) {
       let num = 0;
       this.state.supplies.map((m, index) => {
-        if (m.supplierOID === editData.supplierOID) {
+        if (m.supplierOid === editData.supplierOid) {
           num = index;
           this.supply = m;
         }
@@ -192,7 +192,7 @@ class TravelTrain extends React.Component {
           return;
         }
         if (!err) {
-          values.supplierOID = this.supply.supplierOID ? this.supply.supplierOID : null;
+          values.supplierOid = this.supply.supplierOid ? this.supply.supplierOid : null;
           values.startDate = values.startDate.utc().format();
           if (this.state.formCtrl.fromCity.required && !this.state.selectFromCity.vendorAlias) {
             message.error(
@@ -222,7 +222,7 @@ class TravelTrain extends React.Component {
                 this.setState({ isLoading: false });
               });
           } else {
-            values.trainItineraryOID = this.props.params.editTrain.trainItineraryOID;
+            values.trainItineraryOid = this.props.params.editTrain.trainItineraryOid;
             travelService
               .updateTrain(values)
               .then(res => {

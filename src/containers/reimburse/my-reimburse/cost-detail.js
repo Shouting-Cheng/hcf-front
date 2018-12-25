@@ -356,7 +356,7 @@ class CostDetail extends React.Component {
                       {item.fileType !== 'IMAGE' ? (
                         <a
                           href={`${config.baseUrl}/api/attachments/download/${
-                            item.attachmentOID
+                            item.attachmentOid
                             }?access_token=${
                             sessionStorage.getItem('token')
                             }`}

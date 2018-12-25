@@ -106,7 +106,7 @@ class TravelSubsidy extends React.Component {
       this.setState({ isGetType: true });
       let days = travelUtil.calculateDate(editData.startDate, editData.endDate);
       let values = {};
-      values.applicationOID = this.props.params.oid;
+      values.applicationOid = this.props.params.oid;
       values.cityCode = editData.cityCode;
       values.cityName = editData.cityName;
       values.startDate = editData.startDate;
@@ -192,13 +192,13 @@ class TravelSubsidy extends React.Component {
           travelUtil.getAfterDate(-1, values.startDate.local().format('YYYY-MM-DD')) + 'T16:00Z';
         values.endDate =
           travelUtil.getAfterDate(-1, values.endDate.local().format('YYYY-MM-DD')) + 'T16:00Z';
-        let expenseTypeOIDs = [];
+        let expenseTypeOids = [];
         this.state.subsidyTypeData.map(item => {
           if (item.isChecked) {
-            expenseTypeOIDs.push(item.expenseTypeOID);
+            expenseTypeOids.push(item.expenseTypeOid);
           }
         });
-        if (!expenseTypeOIDs.length) {
+        if (!expenseTypeOids.length) {
           if (this.state.subsidyTypeData.length) {
             message.error(
               this.$t('itinerary.subsidy.slide.select.expenseType.tip') /*请选择差补类型*/
@@ -211,9 +211,9 @@ class TravelSubsidy extends React.Component {
           return;
         }
         this.setState({ isLoading: true });
-        values.expenseTypeOIDs = expenseTypeOIDs; //设置所添加差补类型的oid
-        values.applicationOID = this.props.params.oid; //设置申请单oid
-        values.travelSubsidiesRequestOID = this.state.allSubsidyData.travelSubsidiesRequestOID; //设置差补id
+        values.expenseTypeOids = expenseTypeOids; //设置所添加差补类型的oid
+        values.applicationOid = this.props.params.oid; //设置申请单oid
+        values.travelSubsidiesRequestOid = this.state.allSubsidyData.travelSubsidiesRequestOid; //设置差补id
         values.id = this.state.allSubsidyData.id; //设置id
         values.status = this.state.allSubsidyData.status; //设置状态 1001:初始状态 ，1002:已确认，并生成明细
         values.deleted = this.state.allSubsidyData.deleted; // false or true 表示啥文档没写？
@@ -280,7 +280,7 @@ class TravelSubsidy extends React.Component {
       if (!err) {
         if (!this.currentCity.vendorAlias) {
           this.setState({ isGetType: true });
-          values.applicationOID = this.props.params.oid;
+          values.applicationOid = this.props.params.oid;
           values.cityCode = opt.props['data-city'].code;
           values.cityName = opt.props['data-city'].vendorAlias;
           if (this.state.isEditing) {
@@ -578,7 +578,7 @@ class TravelSubsidy extends React.Component {
         this.currentCity.isChange = false;
         this.setState({ isGetType: true });
         this.setHavedCity();
-        values.applicationOID = this.props.params.oid;
+        values.applicationOid = this.props.params.oid;
         values.cityCode = opt.props['data-city'].code;
         values.cityName = opt.props['data-city'].vendorAlias;
         travelService

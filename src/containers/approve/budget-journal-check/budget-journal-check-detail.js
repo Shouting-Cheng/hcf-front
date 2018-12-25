@@ -210,8 +210,8 @@ class BudgetJournalCheckDetail extends React.Component {
       this.getDimensionByStructureId(request.data.structureId);
       let headerData = request.data;
       // this.getApproveHistory(headerData);
-      headerData.attachmentOID.map(item => {
-        this.getFileByAttachmentOID(item);
+      headerData.attachmentOid.map(item => {
+        this.getFileByAttachmentOid(item);
       });
       let headerAndListData = {
         dto: request.data,
@@ -282,10 +282,10 @@ class BudgetJournalCheckDetail extends React.Component {
       );
   };
 
-  //根据attachmentOID，查询附件
-  getFileByAttachmentOID = value => {
+  //根据attachmentOid，查询附件
+  getFileByAttachmentOid = value => {
     budgetJournalService
-      .getFileByAttachmentOID(value)
+      .getFileByAttachmentOid(value)
       .then(resp => {
         let fileList = this.state.fileList;
         fileList.addIfNotExist(resp.data);
@@ -338,7 +338,7 @@ class BudgetJournalCheckDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.state.headerAndListData.dto.documentOid,
+          entityOid: this.state.headerAndListData.dto.documentOid,
           entityType: this.state.headerAndListData.dto.documentType,
         },
       ],
@@ -373,7 +373,7 @@ class BudgetJournalCheckDetail extends React.Component {
       approvalTxt: remark,
       entities: [
         {
-          entityOID: this.state.headerAndListData.dto.documentOid,
+          entityOid: this.state.headerAndListData.dto.documentOid,
           entityType: this.state.headerAndListData.dto.documentType,
         },
       ],

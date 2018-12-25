@@ -35,8 +35,8 @@ class NewExpenseReport extends React.Component{
     }
   }
   //处理代理单据逻辑
-  dealProxies(usersOID){
-    baseService.changeLoginInfo(usersOID).then(() => {
+  dealProxies(usersOid){
+    baseService.changeLoginInfo(usersOid).then(() => {
     }).catch(err => {
       location.href = '/';
       message.error(this.$t('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
@@ -45,16 +45,16 @@ class NewExpenseReport extends React.Component{
   componentWillMount(){
     isClearStatus=false;
     console.log(this.props)
-    this.isCounterSignEnable(this.props.params?this.props.params.formDetail.formOID:this.props.match.params.formId);
-    // if(this.props.match.params.formId && this.props.match.params.userOID && this.props.match.params.userOID!=':userOID'){
-    //   this.dealProxies(this.props.match.params.userOID);
+    this.isCounterSignEnable(this.props.params?this.props.params.formDetail.formOid:this.props.match.params.formId);
+    // if(this.props.match.params.formId && this.props.match.params.userOid && this.props.match.params.userOid!=':userOid'){
+    //   this.dealProxies(this.props.match.params.userOid);
     // }
     if(this.props.params){
       rejectPiwik(`报销单/创建报销单/${this.props.params.formDetail.formName}`);
       this.setState({formDetail: this.props.params.formDetail, loading: false})
     }
     if(this.props.match){
-     // this.dealProxies(this.props.match.params.userOID);
+     // this.dealProxies(this.props.match.params.userOid);
       this.setState({ loading: true });
       baseService.getFormDetail(this.props.match.params.formId).then(res => {
         rejectPiwik(`报销单/创建报销单/${res.data.formName}`);
@@ -74,8 +74,8 @@ class NewExpenseReport extends React.Component{
   }
 
   //获取表单默认值
-  getFormDefaultValue = (userOID=this.props.user.userOID,type) => {
-    expenseReportService.getFormValue(userOID, this.props.match.params.formId).then(res => {
+  getFormDefaultValue = (userOid=this.props.user.userOid,type) => {
+    expenseReportService.getFormValue(userOid, this.props.match.params.formId).then(res => {
       this.setState({
         loading: false,
         formDefaultValue: res.data
@@ -90,30 +90,30 @@ class NewExpenseReport extends React.Component{
   dealFormReset(){
     let {formDetail, formDefaultValue}=this.state;
     let customFormFields = formDetail.customFormFields || [];
-    let fieldOIDs=[];
+    let fieldOids=[];
     let noChangeMessageKey=[];
     customFormFields.map(item => {
       item.value = null;
       formDefaultValue && formDefaultValue.map(i=>{
-        if(item.fieldOID === i.fieldOID){
+        if(item.fieldOid === i.fieldOid){
           item.value=i.value;
         }
-        if(this.props.form.getFieldsValue()[i.fieldOID] === i.value){
-          noChangeMessageKey.push(i.fieldOID);
+        if(this.props.form.getFieldsValue()[i.fieldOid] === i.value){
+          noChangeMessageKey.push(i.fieldOid);
         }
       })
-      if(item.fieldOID && !~noChangeMessageKey.indexOf(item.fieldOID)){
-        fieldOIDs.push(item.fieldOID)
+      if(item.fieldOid && !~noChangeMessageKey.indexOf(item.fieldOid)){
+        fieldOids.push(item.fieldOid)
       }
     })
-    this.props.form.resetFields(fieldOIDs);
+    this.props.form.resetFields(fieldOids);
   }
   //自定组件，关联组件处理逻辑(相关人),Type：1.创建2.编辑
   dealRelactiveFormRender(item, change, field, customFormFields, type = 1) {
     let interactive = ['select_department', 'select_cost_center'];
-    if (item.fieldOID && item.fieldOID === field.fieldOID && !change && ~interactive.indexOf(field.messageKey)) {
+    if (item.fieldOid && item.fieldOid === field.fieldOid && !change && ~interactive.indexOf(field.messageKey)) {
       let isInitStatus = true;
-      let value = this.props.form.getFieldValue(item.fieldOID);
+      let value = this.props.form.getFieldValue(item.fieldOid);
       if (!value && field.value) {
         isInitStatus = false;
       }
@@ -129,7 +129,7 @@ class NewExpenseReport extends React.Component{
             }else{
               field.value =null;
             }
-            this.props.form.resetFields(item.fieldOID);
+            this.props.form.resetFields(item.fieldOid);
 
           }
         })
@@ -179,7 +179,7 @@ class NewExpenseReport extends React.Component{
       //表单默认值
       let fieldDefaultValue = {};
       formDefaultValue.map(item => {
-        item.fieldOID === field.fieldOID && (fieldDefaultValue = item)
+        item.fieldOid === field.fieldOid && (fieldDefaultValue = item)
         //this.dealRelactiveFormRender(item, change, field, customFormFields)
       });
       if(expenseReport){
@@ -225,9 +225,9 @@ class NewExpenseReport extends React.Component{
           fieldNameHelp=fieldContentObject.unit?`(${fieldContentObject.unit})`:'';
         }
       }
-      return field.fieldOID && field.messageKey!='ying_fu_select_approver' && (
-        <FormItem {...formItemLayout} label={`${field.fieldName}${fieldNameHelp}`} key={field.fieldOID} >
-          {getFieldDecorator(field.fieldOID, option)(
+      return field.fieldOid && field.messageKey!='ying_fu_select_approver' && (
+        <FormItem {...formItemLayout} label={`${field.fieldName}${fieldNameHelp}`} key={field.fieldOid} >
+          {getFieldDecorator(field.fieldOid, option)(
             customField.renderForm({field, fieldDefaultValue, formDetail, copyValue: null, type:2, getPopupContainer: this.getPopupContainer })
           )}
         </FormItem>
@@ -239,8 +239,8 @@ class NewExpenseReport extends React.Component{
     let customFormFields = formDetail.customFormFields || [];
     customFormFields.map(item =>{
       //参与人部门权限控件
-      if ((item.messageKey === 'select_department' || item.messageKey === 'select_cost_center') && value && Object.prototype.toString.call(value) === '[object Object]' && item.fieldOID in value) {
-        item.value=value[item.fieldOID];
+      if ((item.messageKey === 'select_department' || item.messageKey === 'select_cost_center') && value && Object.prototype.toString.call(value) === '[object Object]' && item.fieldOid in value) {
+        item.value=value[item.fieldOid];
         customFormFields.map(i =>{
           if(i.messageKey === 'select_participant'){
             setTimeout(()=>{
@@ -251,25 +251,25 @@ class NewExpenseReport extends React.Component{
             }
             let fieldContent=i.fieldContent?JSON.parse(i.fieldContent):{editable:true};
             if (!i.isReadOnly && fieldContent.editable) {
-              this.props.form.resetFields(i.fieldOID);
+              this.props.form.resetFields(i.fieldOid);
             }
           }
         });
       }
       //收款人银行关联控件
-      if (item.messageKey === 'payee' && value && Object.prototype.toString.call(value) === '[object Object]' &&  item.fieldOID in value && value[item.fieldOID] &&  typeof value[item.fieldOID] == 'object') {
-        item.value = value[item.fieldOID]['key'];
+      if (item.messageKey === 'payee' && value && Object.prototype.toString.call(value) === '[object Object]' &&  item.fieldOid in value && value[item.fieldOid] &&  typeof value[item.fieldOid] == 'object') {
+        item.value = value[item.fieldOid]['key'];
         customFormFields.map(i => {
           if (i.messageKey === 'contact_bank_account') {
             let param = {
-              userOID: value[item.fieldOID]['key'],
+              userOid: value[item.fieldOid]['key'],
               page: 0,
               size: 20
             };
             let bank = {
-              [i.fieldOID]: [{
+              [i.fieldOid]: [{
                 bankAccountNo: null,
-                contactBankAccountOID: null
+                contactBankAccountOid: null
               }]
             };
             baseService.getUserBanks(param).then(res => {
@@ -278,9 +278,9 @@ class NewExpenseReport extends React.Component{
                 data.map(item => {
                   if (item.isPrimary) {
                     bank = {
-                      [i.fieldOID]: [{
+                      [i.fieldOid]: [{
                         bankAccountNo: item.bankAccountNo,
-                        contactBankAccountOID: item.contactBankAccountOID
+                        contactBankAccountOid: item.contactBankAccountOid
                       }]
                     };
                   }
@@ -303,10 +303,10 @@ class NewExpenseReport extends React.Component{
     let needValidateForms = ['venMasterSwitch', 'linkage_switch'];
     customFormFields.map(item=>{
       if(~needValidateForms.indexOf(item.messageKey)){
-        let info=this.props.form.getFieldValue(item.fieldOID);
+        let info=this.props.form.getFieldValue(item.fieldOid);
         if(info){
           info.callBackSubmit=!info.callBackSubmit;
-          this.props.form.setFieldsValue({[item.fieldOID]:info});
+          this.props.form.setFieldsValue({[item.fieldOid]:info});
           isHaveValidate=true;
         }
       }
@@ -321,7 +321,7 @@ class NewExpenseReport extends React.Component{
     let needValidateForms = ['venMasterSwitch', 'linkage_switch'];
     customFormFields.map(item=>{
       if(~needValidateForms.indexOf(item.messageKey)){
-        let info=this.props.form.getFieldValue(item.fieldOID);
+        let info=this.props.form.getFieldValue(item.fieldOid);
         isPassValid= !isPassValid || info.isPassValid;
       }
     });
@@ -351,7 +351,7 @@ class NewExpenseReport extends React.Component{
         target.currencySame=false;
       }
       if(values.application){
-        target.applicationOID = values.application[0].applicationOID;
+        target.applicationOid = values.application[0].applicationOid;
       }
       let customFormFields = formDetail.customFormFields || [];
       if(expenseReport) {
@@ -364,12 +364,12 @@ class NewExpenseReport extends React.Component{
         let custFormValues = [];
         Object.keys(values).map(key => {
           customFormFields.map(field => {
-            if(key === field.fieldOID){
+            if(key === field.fieldOid){
               custFormValues.push(customField.formatFormValue(field, values[key]));
             }
           })
         });
-        target.countersignApproverOIDs = this.props.form.getFieldsValue().addSign;
+        target.countersignApproverOids = this.props.form.getFieldsValue().addSign;
         target.custFormValues = custFormValues;
         this.setState({ submitting: true });
         expenseReportService.saveExpenseReport(target).then(res => {
@@ -380,7 +380,7 @@ class NewExpenseReport extends React.Component{
           } else {
             this.props.dispatch(
               routerRedux.push({
-                pathname: `/expense-report/expense-report-detail/${res.data.expenseReportOID}/my`
+                pathname: `/expense-report/expense-report-detail/${res.data.expenseReportOid}/my`
               })
             )  
           }
@@ -394,7 +394,7 @@ class NewExpenseReport extends React.Component{
         Object.keys(values).map(key => {
           customFormFields.map(fields => {
             if(fields.messageKey === 'select_cost_center' && fields.isReadOnly){
-              if(key === fields.fieldOID){
+              if(key === fields.fieldOid){
                 if(!values[key]){
                   costCenterFalse = true;
                 }
@@ -409,11 +409,11 @@ class NewExpenseReport extends React.Component{
     })
   }
   //是否可以审批加签
-  isCounterSignEnable = (formOID) => {
-    expenseReportService.isCounterSignEnable(this.props.company.companyOID, formOID, 'enableAddSignForSubmitter').then(res => {
+  isCounterSignEnable = (formOid) => {
+    expenseReportService.isCounterSignEnable(this.props.company.companyOid, formOid, 'enableAddSignForSubmitter').then(res => {
       this.setState({
         signEnable: res.data.enabled,
-        approvalAddSignScope: res.data.approvalAddSignScope.companyOIDs
+        approvalAddSignScope: res.data.approvalAddSignScope.companyOids
       })
     })
   };
@@ -423,7 +423,7 @@ class NewExpenseReport extends React.Component{
     this.setState({loading:true,change:true});
     //处理申请单自定义表单值带入报销单自定义表单值
     if (result && result.length > 0) {
-      expenseReportService.getApplicationInfo(result[0].applicationOID, true).then((res) => {
+      expenseReportService.getApplicationInfo(result[0].applicationOid, true).then((res) => {
         this.setState({loading:false},()=>{
           let applicationFieldDefaultValues = res.data.custFormValues;
           let customFormFields = formDetail.customFormFields || [];
@@ -434,8 +434,8 @@ class NewExpenseReport extends React.Component{
                 let applicationDefaultCustom=item;
                 applicationDefaultCustom.name = applicationDefaultCustom.showValue;
                 let defaultValue = customField.getDefaultValue(field, applicationDefaultCustom);
-                updateFormsOId[field.fieldOID]=defaultValue;
-                defaultValue&&this.props.form.setFieldsValue({[field.fieldOID]: defaultValue})
+                updateFormsOId[field.fieldOid]=defaultValue;
+                defaultValue&&this.props.form.setFieldsValue({[field.fieldOid]: defaultValue})
               }
             })
           });
@@ -466,7 +466,7 @@ class NewExpenseReport extends React.Component{
     let expenseReport = this.props.params?this.props.params.expenseReport:null;
     let signPerson = [];
     expenseReport && expenseReport.countersignApproverNames && expenseReport.countersignApproverNames.map(item => {
-      signPerson.push({userOID: item.userOID, fullName: item.fullName})
+      signPerson.push({userOid: item.userOid, fullName: item.fullName})
     });
     let companyDTOS = approvalAddSignScope.length ? approvalAddSignScope : null;
     return (
@@ -483,9 +483,9 @@ class NewExpenseReport extends React.Component{
                 }]
               })(
                 <Chooser type="my_request"
-                         listExtraParams={{ formOID: this.props.match?this.props.match.params.formId:null, userOID:this.props.user.userOID }}
+                         listExtraParams={{ formOid: this.props.match?this.props.match.params.formId:null, userOid:this.props.user.userOid }}
                          labelKey="title"
-                         valueKey="applicationOID"
+                         valueKey="applicationOid"
                          single
                          onChange={this.handleChangeApplication}/>
               )}
@@ -498,10 +498,10 @@ class NewExpenseReport extends React.Component{
                 initialValue: signPerson
               })(
                 <Chooser type="user"
-                         valueKey="userOID"
+                         valueKey="userOid"
                          labelKey="fullName"
-                         onlyNeed="userOID"
-                         listExtraParams={{corporationOID: companyDTOS,roleType: 'TENANT'}}
+                         onlyNeed="userOid"
+                         listExtraParams={{corporationOid: companyDTOS,roleType: 'TENANT'}}
                          showArrow={formDetail.customFormPropertyMap && formDetail.customFormPropertyMap.countersignType === '2'}
                          newline/>
               )}

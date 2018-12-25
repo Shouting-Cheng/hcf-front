@@ -89,17 +89,17 @@ class NewCostCenterItem extends React.Component {
     if (data && data.length && data.length > 0) {
       for (let i = 0; i < data.length; i++) {
         let custom = JSON.parse(data[i].dataSource);
-        if (custom.customEnumerationOID) {
-          this._getCustomValues(i, custom.customEnumerationOID);
+        if (custom.customEnumerationOid) {
+          this._getCustomValues(i, custom.customEnumerationOid);
         }
       }
     }
   };
   //获取自定义值列表
-  _getCustomValues = (index, customEnumerationOID) => {
+  _getCustomValues = (index, customEnumerationOid) => {
     let costCenterItemDetail = this.state.costCenterItemDetail;
     //值列表，循环所有expense field，找到值列表，提前获取值列表的所有值，放在数组内
-    CCService.getListByCustomEnumerationOID(customEnumerationOID).then(res => {
+    CCService.getListByCustomEnumerationOid(customEnumerationOid).then(res => {
       costCenterItemDetail.customFormValues[index].selectList = res.data;
       this.setState({
         costCenterItemDetail: costCenterItemDetail,
@@ -153,7 +153,7 @@ class NewCostCenterItem extends React.Component {
         //名称涉及到多语言，就不用values
         values.name = costCenterItemDetail.name;
         costCenterItemDetail = Object.assign(costCenterItemDetail, values, {
-          managerOID: values.managerOID[0] ? values.managerOID[0].userOID : null,
+          managerOid: values.managerOid[0] ? values.managerOid[0].userOid : null,
         });
         if (this.validateNameLengthErr(costCenterItemDetail.name)) {
           return;
@@ -191,13 +191,13 @@ class NewCostCenterItem extends React.Component {
   //成本中心项详情
   detailCostCenterItem = record => {
     // let path = this.state.CostCenterItemDetail.url.replace(":id", this.props.match.params.id);
-    // path = path.replace(":itemId", record.costCenterItemOID);
+    // path = path.replace(":itemId", record.costCenterItemOid);
     // this.context.router.push(path);
     this.props.dispatch(
       routerRedux.push({
         pathname: `/admin-setting/cost-center/cost-center-detail/cost-center-item/cost-center-item-detail/${
           this.props.match.params.id
-          }/${record.costCenterItemOID}/${this.props.match.params.setOfBooksId}`,
+          }/${record.costCenterItemOid}/${this.props.match.params.setOfBooksId}`,
       })
     );
   };
@@ -357,7 +357,7 @@ class NewCostCenterItem extends React.Component {
     return (
       <Col span={8} className="cost-center-form-row">
         <FormItem
-          key={field.fieldOID}
+          key={field.fieldOid}
           label={
             field.fieldName && field.fieldName.length && field.fieldName.length > 0 ? (
               field.fieldName
@@ -367,7 +367,7 @@ class NewCostCenterItem extends React.Component {
           }
           colon={true}
         >
-          {getFieldDecorator(field.fieldOID, {
+          {getFieldDecorator(field.fieldOid, {
             initialValue: field.value,
             rules: [
               {
@@ -410,7 +410,7 @@ class NewCostCenterItem extends React.Component {
     }
     for (let key in values) {
       for (let i = 0; i < customFormValues.length; i++) {
-        if (customFormValues[i].fieldOID === key) {
+        if (customFormValues[i].fieldOid === key) {
           customFormValues[i].value = values[key];
         }
       }
@@ -602,12 +602,12 @@ class NewCostCenterItem extends React.Component {
                 label={this.$t('new.cost.center.item.manager')} //经理
                 colon={true}
               >
-                {getFieldDecorator('managerOID', {
+                {getFieldDecorator('managerOid', {
                   initialValue: costCenterItemDetail.managerFullName
                     ? [
                       {
                         fullName: costCenterItemDetail.managerFullName,
-                        userOID: costCenterItemDetail.managerOID,
+                        userOid: costCenterItemDetail.managerOid,
                       },
                     ]
                     : [],
@@ -624,7 +624,7 @@ class NewCostCenterItem extends React.Component {
                     disabled={!this.props.tenantMode}
                     placeholder={this.$t('common.please.select')}
                     labelKey="fullName"
-                    valueKey="userOID"
+                    valueKey="userOid"
                     onChange={this.handleChange}
                     type="user"
                   />

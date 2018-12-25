@@ -36,7 +36,7 @@ class ToBacklash extends React.Component {
             btnLoading: false,//按钮加载
             showButtonFlag:true,
             historyLoading:false,
-            uploadOIDs: [], //上传附件的OIDs
+            uploadOids: [], //上传附件的Oids
             fileList: [],
             fileShow:false,
             backlashDetailRemark:true,
@@ -100,7 +100,7 @@ class ToBacklash extends React.Component {
                     alert_warning:false,
                     alert_seccuss:false,
                     fileShow:true,
-                    uploadOIDs:backlashDetail.backlashAttachmentOID
+                    uploadOids:backlashDetail.backlashAttachmentOid
                   });
 
                   this.getApproveHistory();
@@ -119,7 +119,7 @@ class ToBacklash extends React.Component {
                     alert_warning:true,
                     alert_seccuss:false,
                     fileShow:true,
-                    uploadOIDs:backlashDetail.backlashAttachmentOID
+                    uploadOids:backlashDetail.backlashAttachmentOid
                   });
 
                   this.getApproveHistory();
@@ -139,7 +139,7 @@ class ToBacklash extends React.Component {
                     alert_seccuss:true,
                     alert_warning:false,
                     fileShow:true,
-                    uploadOIDs:backlashDetail.backlashAttachmentOID
+                    uploadOids:backlashDetail.backlashAttachmentOid
                   });
 
                   this.getApproveHistory();
@@ -235,7 +235,7 @@ class ToBacklash extends React.Component {
           let updateParam = {
               "id": data.backDetail.id,
               "remarks": remarks || "",
-              "attachmentOIDS": this.state.uploadOIDs
+              "attachmentOidS": this.state.uploadOids
           }
 
           backlashService.updateByDetailId(updateParam).then(
@@ -311,8 +311,8 @@ class ToBacklash extends React.Component {
   };
 
   //上传附件
-  handleUpload = (OIDs) => {
-    this.setState({ uploadOIDs: OIDs })
+  handleUpload = (Oids) => {
+    this.setState({ uploadOids: Oids })
   };
 
 
@@ -367,8 +367,8 @@ class ToBacklash extends React.Component {
     })
   };
   // 上传附件成功回调
-  handleUpload = (OIDs) => {
-    this.setState({ uploadOIDs: OIDs });
+  handleUpload = (Oids) => {
+    this.setState({ uploadOids: Oids });
   };
 
     //点击删除
@@ -648,7 +648,7 @@ class ToBacklash extends React.Component {
                                                                 noDelete={this.props.type}
                                                                 multiple={true}
                                                                 disabled={!backlashDetailRemark}
-                                                                defaultOIDs={this.state.uploadOIDs}
+                                                                defaultOids={this.state.uploadOids}
                                                                 uploadHandle={this.handleUpload}
                                                                 defaultFileList={fileList}
                                 />}

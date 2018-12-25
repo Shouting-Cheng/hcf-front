@@ -59,7 +59,7 @@ class SelectDepWithChildren extends React.Component {
       });
       showCheckedNodes = [
         ...checkedNodes.filter(node => {
-          return parentNodes.indexOf(node.parentDepartmentOID) === -1;
+          return parentNodes.indexOf(node.parentDepartmentOid) === -1;
         }),
       ]; //第二次过滤掉二级副部门
     } else {

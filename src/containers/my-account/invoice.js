@@ -163,7 +163,7 @@ class Invoice extends React.Component {
       return !1
     }
     // 微信打印
-    expenseService.printInvoice(invoice, company.companyOID)
+    expenseService.printInvoice(invoice, company.companyOid)
   };
   // 支付宝打印
   downAlipayInvoice = () => {

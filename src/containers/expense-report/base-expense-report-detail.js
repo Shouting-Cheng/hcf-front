@@ -139,7 +139,7 @@ class ExpenseReportDetail extends React.Component {
       showExpenseReportInvoices: [],
       expenseReportInvoices: [],
       showImportExpense: false,
-      expenseTypeOIDStr: '',
+      expenseTypeOidStr: '',
       showNewExpense: false,
       showNewExpenseReport: false,
       nowEditExpense: {},
@@ -210,7 +210,7 @@ class ExpenseReportDetail extends React.Component {
     }
     // 微信打印
     const { company } = this.props;
-    expenseService.printInvoice(invoice, company.companyOID)
+    expenseService.printInvoice(invoice, company.companyOid)
   };
   // 支付宝打印
   downAlipayInvoice = (invoice) => {
@@ -300,19 +300,19 @@ class ExpenseReportDetail extends React.Component {
   };
   // 删除中的费用
   deletingRecord = (record) => {
-    return this.state.deleteRecords.some(item => item === record.invoiceOID);
+    return this.state.deleteRecords.some(item => item === record.invoiceOid);
   };
   /**
    * 得到页面信息
    * @param baseOnly 是否只需要报销单详情
    */
   getInfo = (baseOnly) => {
-    const { expenseReportOID, pageFrom } = this.props.match.params;
+    const { expenseReportOid, pageFrom } = this.props.match.params;
     let { auditCapability } = this.state;
     this.setState({ loading: true });
     let noPrint = this.state.noPrint;
     let isWaitForAudit = this.state.isWaitForAudit;
-    expenseReportService.getExpenseReportDetail(expenseReportOID).then(expenseReportRes => {
+    expenseReportService.getExpenseReportDetail(expenseReportOid).then(expenseReportRes => {
       noPrint = expenseReportRes.data.printFree;
       expenseReportRes.data.status === 1003 && (isWaitForAudit = true);
       if (window.location.href.indexOf('approve-expense-report-detail') > -1 && expenseReportRes.data.approvalChains && expenseReportRes.data.approvalChains.length > 0) {
@@ -320,7 +320,7 @@ class ExpenseReportDetail extends React.Component {
       }
       this.setState({ noPrint, isWaitForAudit, auditCapability });
       let expenseReportInvoices = [];
-      let expenseReportInvoiceOIDs = [];
+      let expenseReportInvoiceOids = [];
       let invoiceDatas = [];
       let { children } = this.state;
       if (pageFrom === 'my' && expenseReportRes.data.children && expenseReportRes.data.children.length > 0) {
@@ -361,7 +361,7 @@ class ExpenseReportDetail extends React.Component {
         invoice.invoiceView.rejectReason = invoice.rejectReason;
         expenseReportInvoices.push(invoice.invoiceView);
         if (invoice.status !== 1002)
-          expenseReportInvoiceOIDs.push(invoice.invoiceOID);
+          expenseReportInvoiceOids.push(invoice.invoiceOid);
       });
       if (this.props.profile['web.invoice.keep.consistent.with.expense']) {
         expenseReportRes.data.currencySame = true;
@@ -376,10 +376,10 @@ class ExpenseReportDetail extends React.Component {
         if (field.messageKey === 'select_cost_center') {
           costCenterItemsApportion.push({
             fieldName: field.fieldName,
-            costCenterOID: JSON.parse(field.dataSource || '{}').costCenterOID,
+            costCenterOid: JSON.parse(field.dataSource || '{}').costCenterOid,
             costCenterItemName: field.showValue,
             name: field.showValue,
-            costCenterItemOID: field.value,
+            costCenterItemOid: field.value,
             required: field.required
           })
         }
@@ -387,10 +387,10 @@ class ExpenseReportDetail extends React.Component {
           if (JSON.parse(field.fieldConstraint || '{}').isApportionItem) {
             costCenterItemsApportion.push({
               fieldName: field.fieldName,
-              costCenterOID: '00000000-0000-0000-0000-000000000000',
+              costCenterOid: '00000000-0000-0000-0000-000000000000',
               costCenterItemName: field.showValue,
               name: field.showValue,
-              costCenterItemOID: field.value,
+              costCenterItemOid: field.value,
               required: field.required
             })
           }
@@ -399,13 +399,13 @@ class ExpenseReportDetail extends React.Component {
       //查询费用是否可用于还款
       //接口优化，去除冗余接口，by-hyl-180827
       /*Promise.all([
-        expenseReportService.checkExpense(expenseReportInvoiceOIDs), //检查费用警告
-        expenseReportService.getTotalPersonalPaymentAmount(expenseReportInvoiceOIDs)  //个人支付金额
+        expenseReportService.checkExpense(expenseReportInvoiceOids), //检查费用警告
+        expenseReportService.getTotalPersonalPaymentAmount(expenseReportInvoiceOids)  //个人支付金额
       ]).then(expenseRes => {*/
       /* let checkResult = expenseRes[0].data;
        checkResult.length > 0 && checkResult.map(result => {
          result.actionType !== 'OK' && expenseReportInvoices.map(invoice => {
-           if (invoice.invoiceOID === result.invoiceOID) {
+           if (invoice.invoiceOid === result.invoiceOid) {
              invoice.checkResultStatus = result.actionType;
              invoice.checkResultMessage = result.message;
              return invoice;
@@ -441,12 +441,12 @@ class ExpenseReportDetail extends React.Component {
         let expenseReportStatus = this.getStatus();
         //代替逻辑
         if (expenseReportStatus.operate === 'edit') {
-          if (this.props.loginUser.userOID !== expenseReportRes.data.applicantOID) {
-            baseService.changeLoginInfo(expenseReportRes.data.applicantOID);
+          if (this.props.loginUser.userOid !== expenseReportRes.data.applicantOid) {
+            baseService.changeLoginInfo(expenseReportRes.data.applicantOid);
           }
         }
         this.setState({ readOnly: expenseReportStatus.operate !== 'edit' || this.state.approve || this.state.audit || this.state.view || this.state.pay || this.state.loanRefund }, () => {
-          this.getThirdInterface(baseOnly, expenseReportRes, expenseReportOID)
+          this.getThirdInterface(baseOnly, expenseReportRes, expenseReportOid)
         });
       })
     });
@@ -455,21 +455,21 @@ class ExpenseReportDetail extends React.Component {
      });*/
   };
 
-  getThirdInterface = (baseOnly, expenseReportRes, expenseReportOID) => {
+  getThirdInterface = (baseOnly, expenseReportRes, expenseReportOid) => {
     const { readOnly } = this.state;
     !baseOnly && Promise.all([
-      baseService.getFormDetail(expenseReportRes.data.formOID),  //表单详情
-      baseService.getUserByOID(expenseReportRes.data.applicantOID),  //申请人详情
+      baseService.getFormDetail(expenseReportRes.data.formOid),  //表单详情
+      baseService.getUserByOid(expenseReportRes.data.applicantOid),  //申请人详情
       // wcl 修改
-      baseService.getBusinessCardConsumptionList('CMBC', false, this.props.loginUser.userOID, 0, 10), //是否有商务卡消费记录
-      // 查询费用类型 添加关联申请单id applicationOID
-      expenseService.getTitleList(this.props.company.companyOID),  //是否有发票查验抬头
-      expenseReportService.getTravelSubsidy(expenseReportOID, expenseReportRes.data.applicantOID, 1),
+      baseService.getBusinessCardConsumptionList('CMBC', false, this.props.loginUser.userOid, 0, 10), //是否有商务卡消费记录
+      // 查询费用类型 添加关联申请单id applicationOid
+      expenseService.getTitleList(this.props.company.companyOid),  //是否有发票查验抬头
+      expenseReportService.getTravelSubsidy(expenseReportOid, expenseReportRes.data.applicantOid, 1),
       expenseService.getBusinessCardStatus(),  //商务卡权限
-      !readOnly && baseService.getExpenseTypesByFormOID({
-        formOID: expenseReportRes.data.formOID,
-        userOID: expenseReportRes.data.applicantOID,
-        applicationOID: expenseReportRes.data.applicationOID
+      !readOnly && baseService.getExpenseTypesByFormOid({
+        formOid: expenseReportRes.data.formOid,
+        userOid: expenseReportRes.data.applicantOid,
+        applicationOid: expenseReportRes.data.applicationOid
       }),  //费用类型
     ]).then(res => {
       let formType = '';
@@ -486,13 +486,13 @@ class ExpenseReportDetail extends React.Component {
           formType = 'base';
           break;
       }
-      let expenseTypeOIDStr = !readOnly ? res[6].data.expenseTypeOIDs.join(',') : '';
+      let expenseTypeOidStr = !readOnly ? res[6].data.expenseTypeOids.join(',') : '';
       this.setState({
         loading: false,
         formType,
         form: res[0].data,
         applicant: res[1].data,
-        expenseTypeOIDStr,
+        expenseTypeOidStr,
         invoiceEnabled: res[3].data.length > 0,
         travelSubsidy: res[4].data.rows,
         businessCardEnabled: res[5].data.rows && res[2].data.success && res[2].data.rows.length > 0,
@@ -502,7 +502,7 @@ class ExpenseReportDetail extends React.Component {
 
   //获取待还款总金额
   getRepaymentAmount = () => {
-    baseService.getRepaymentAmount(this.state.info.applicantOID, this.state.info.companyOID, [1005, 1006]).then(resp => {
+    baseService.getRepaymentAmount(this.state.info.applicantOid, this.state.info.companyOid, [1005, 1006]).then(resp => {
       if (resp.status === 200 && resp.data) {
         this.setState({ repaymentInfo: resp.data });
       }
@@ -523,14 +523,14 @@ class ExpenseReportDetail extends React.Component {
         this.setState({ withdrawing: true });
         let params = {
           entities: [{
-            entityOID: info.expenseReportOID,
+            entityOid: info.expenseReportOid,
             entityType: 1002
           }]
         };
         expenseReportService.withdraw(params).then(res => {
           if (res.data.failNum > 0) {
-            if (res.data.failReason[info.expenseReportOID]) {
-              message.error(`${this.$t("common.operate.filed")/*操作失败*/}，${res.data.failReason[info.expenseReportOID]}`)
+            if (res.data.failReason[info.expenseReportOid]) {
+              message.error(`${this.$t("common.operate.filed")/*操作失败*/}，${res.data.failReason[info.expenseReportOid]}`)
             } else {
               message.error(this.$t("common.operate.filed")/*操作失败*/)
             }
@@ -602,23 +602,23 @@ class ExpenseReportDetail extends React.Component {
     info.custFormValues.map((item) => {
       item.messageKey === 'venMaster' && (venMasterId = item.value)
     });
-    let expenseReportCompanyOID = this.props.company.companyOID;
+    let expenseReportCompanyOid = this.props.company.companyOid;
     if (info.custFormValues && info.custFormValues.length > 0) {
       let expenseReportCompanyInfo = info.custFormValues.filter(item => item.messageKey === 'select_company')[0];
       if (expenseReportCompanyInfo && expenseReportCompanyInfo.value) {
-        expenseReportCompanyOID = expenseReportCompanyInfo.value
+        expenseReportCompanyOid = expenseReportCompanyInfo.value
       }
     }
-    expenseReportService.getLoanRequestList(applicant.userOID, info.currencyCode, venMasterId, expenseReportCompanyOID).then(loanListRes => {
-      expenseReportService.getDefaultLoanRequest(info.applicationOID, applicant.userOID).then(defaultLoanRes => {
-        let defaultLoanApplicationOID = defaultLoanRes.data || null;
+    expenseReportService.getLoanRequestList(applicant.userOid, info.currencyCode, venMasterId, expenseReportCompanyOid).then(loanListRes => {
+      expenseReportService.getDefaultLoanRequest(info.applicationOid, applicant.userOid).then(defaultLoanRes => {
+        let defaultLoanApplicationOid = defaultLoanRes.data || null;
         let loanRequestList = [];
         loanListRes.data.map(item => {
           //只需要待还款金额 > 0 且币种相同的还款呢
           if (item.writeoffArtificialDTO.stayWriteoffAmount > 0 && item.originCurrencyCode === info.currencyCode) {
             //强制默认借款单，列表内只有一个
-            if (this.props.profile['ALL.ER.DefaultLoan.Forcible'] && defaultLoanApplicationOID) {
-              if (item.applicationOID === defaultLoanApplicationOID)
+            if (this.props.profile['ALL.ER.DefaultLoan.Forcible'] && defaultLoanApplicationOid) {
+              if (item.applicationOid === defaultLoanApplicationOid)
                 loanRequestList.push(item);
             } else {
               loanRequestList.push(item);
@@ -662,7 +662,7 @@ class ExpenseReportDetail extends React.Component {
               if (result.actionType === 'WARNING')
                 warningNum++;
               expenseReportInvoices.map(invoice => {
-                if (invoice.invoiceOID === result.invoiceOID) {
+                if (invoice.invoiceOid === result.invoiceOid) {
                   invoice.warningFlag = false;
                   invoice.rejectFlag = true;
                   invoice.rejectMesage = result.message;
@@ -767,11 +767,11 @@ class ExpenseReportDetail extends React.Component {
     return yingFuApproveFlow;
   }
   //提交英孚审批
-  submitYingfuApprove = (usersOID) => {
+  submitYingfuApprove = (usersOid) => {
     let { info } = this.state;
     info.custFormValues && info.custFormValues.map(item => {
       if (item.messageKey === 'ying_fu_select_approver') {
-        item.value = usersOID;
+        item.value = usersOid;
       }
     })
     this.setState({ info }, () => {
@@ -824,7 +824,7 @@ class ExpenseReportDetail extends React.Component {
       okType: 'danger',
       onOk: () => {
         this.setState({ deleting: true });
-        expenseReportService.deleteExpenseReport(this.props.match.params.expenseReportOID).then(res => {
+        expenseReportService.deleteExpenseReport(this.props.match.params.expenseReportOid).then(res => {
           if (res.status === 200) {
             message.success(this.$t("common.operate.success")/*操作成功*/);
             this.goBack()
@@ -889,17 +889,17 @@ class ExpenseReportDetail extends React.Component {
 
   handleSelectExpense = (data) => {
     const { expenseReportInvoices } = this.state;
-    const { expenseReportOID } = this.props.match.params;
-    let invoiceOIDs = [];
+    const { expenseReportOid } = this.props.match.params;
+    let invoiceOids = [];
     if (data.result.length + expenseReportInvoices.length > 200) {
       message.error(this.$t('expense-report.expense.max')); //同一报销单内最多存在200个费用
       return;
     }
     if (data && data.result && data.result.length > 0) {
       data.result.map(invoice => {
-        invoiceOIDs.push(invoice.invoiceOID)
+        invoiceOids.push(invoice.invoiceOid)
       });
-      expenseReportService.importExpense(expenseReportOID, invoiceOIDs).then(res => {
+      expenseReportService.importExpense(expenseReportOid, invoiceOids).then(res => {
         this.setState({ showImportExpense: false });
         message.success(this.$t('expense-report.expense.import.success'));  //费用导入成功
         this.getInfo(true);
@@ -910,13 +910,13 @@ class ExpenseReportDetail extends React.Component {
   };
 
   handleSelectAllExpense = () => {
-    const { applicant, info, expenseTypeOIDStr } = this.state;
+    const { applicant, info, expenseTypeOidStr } = this.state;
     this.setState({ selectAllLoading: true });
     expenseReportService.getAllExpenseByExpenseReport({
       invoiceStatus: 'INIT',
-      applicantOID: applicant.userOID,
-      expenseReportOID: info.expenseReportOID,
-      expenseTypeOIDStr
+      applicantOid: applicant.userOid,
+      expenseReportOid: info.expenseReportOid,
+      expenseTypeOidStr
     }).then(res => {
       this.setState({ selectAllLoading: false });
       this.handleSelectExpense({ result: res.data });
@@ -924,13 +924,13 @@ class ExpenseReportDetail extends React.Component {
   };
 
   handleDeleteExpense = (record) => {
-    const { expenseReportOID } = this.props.match.params;
+    const { expenseReportOid } = this.props.match.params;
     const { deleteRecords } = this.state;
-    deleteRecords.push(record.invoiceOID);
+    deleteRecords.push(record.invoiceOid);
     this.setState({ deleteRecords });
-    expenseReportService.removeExpense(expenseReportOID, record.invoiceOID).then(res => {
+    expenseReportService.removeExpense(expenseReportOid, record.invoiceOid).then(res => {
       message.success(this.$t('expense-report.expense.delete.success'));  //费用删除成功
-      removeArryItem(deleteRecords, record.invoiceOID);
+      removeArryItem(deleteRecords, record.invoiceOid);
       this.setState({ deleteRecords });
       this.getInfo(true);
     })
@@ -953,7 +953,7 @@ class ExpenseReportDetail extends React.Component {
         message.error(this.$t('expense-report.select.loan.more.expenseAmount.help')); //报销单金额不能小于借款单金额
         return;
       }*/
-    info.loanApplicationOID = null;
+    info.loanApplicationOid = null;
     this.setState({
       showLoanModal: false,
       info,
@@ -971,7 +971,7 @@ class ExpenseReportDetail extends React.Component {
         message.error(this.$t('expense-report.select.loan.more.expenseAmount.help')); //报销单金额不能小于借款单金额
         return;
       }
-      info.loanApplicationOID = selectedLoanRequest.applicationOID;
+      info.loanApplicationOid = selectedLoanRequest.applicationOid;
       this.setState({ info, showLoanModal: false }, () => {
         this.handleCheckTravelStandard();
       })
@@ -982,7 +982,7 @@ class ExpenseReportDetail extends React.Component {
 
   handleCancelLoan = () => {
     let { info } = this.state;
-    info.loanApplicationOID = null;
+    info.loanApplicationOid = null;
     this.setState({
       submitting: false,
       showLoanModal: false,
@@ -995,7 +995,7 @@ class ExpenseReportDetail extends React.Component {
   handlePrint = () => {
     const { info } = this.state;
     this.setState({ printLoading: true });
-    baseService.printExpense(info.expenseReportOID).then(res => {
+    baseService.printExpense(info.expenseReportOid).then(res => {
       this.setState({ printLoading: false });
       window.open(res.data.link, "_blank")
     });
@@ -1165,7 +1165,7 @@ class ExpenseReportDetail extends React.Component {
     let showExpenseReportInvoicesIncludeAllTab = [];
     if (travelSubsidyUser !== 'all') {
       expenseReportInvoices.map(invoice => {
-        invoice.userOID === travelSubsidyUser && showExpenseReportInvoices.push(invoice);
+        invoice.userOid === travelSubsidyUser && showExpenseReportInvoices.push(invoice);
       });
     } else {
       showExpenseReportInvoices = expenseReportInvoices;
@@ -1197,15 +1197,15 @@ class ExpenseReportDetail extends React.Component {
       let params = {
         comment: null,
         endDate: null,
-        entityOIDs: [info.expenseReportOID],
+        entityOids: [info.expenseReportOid],
         entityType: 1001,
-        excludedEntityOIDs: [],
-        formOIDs: [],
+        excludedEntityOids: [],
+        formOids: [],
         selectMode: 'default',
         startDate: null,
         status: 'pay_in_process',
         businessCode: info.businessCode,
-        applicantOID: info.applicantOID
+        applicantOid: info.applicantOid
       }
       confirmPaymentService.confirmPayment('processing', params).then(() => {
         this.setState({ submitting: false });
@@ -1337,7 +1337,7 @@ class ExpenseReportDetail extends React.Component {
   };
   render() {
     const {
-      loading, info, approvalHistory, applicant, expenseTypeOIDStr, auditTabs,
+      loading, info, approvalHistory, applicant, expenseTypeOidStr, auditTabs,
       showNewExpense, nowEditExpense, expenseSource, showNewExpenseReport, form,
       auditCapability, children, showExpenseReportInvoices, showImportExpense,
       showLoanModal, checkingText, showChecking, submitting, showCheckResult, checkResult,
@@ -1376,7 +1376,7 @@ class ExpenseReportDetail extends React.Component {
               <span className="ant-divider" />{this.$t('common.user.company')/*员工公司*/}：{applicant.companyName}
               <span className="ant-divider" />{this.$t('common.currency')/*币种*/}：{info.baseCurrency}
               <span
-                className="ant-divider" />{this.$t('expense-report.repayment.amount')/*还款金额*/}：{(info.status >= 1004 || !info.loanApplicationOID) ? `${info.currencyCode} ${this.filterMoney(info.reimbursementAmount, 2, true)}` : this.$t('expense-report.calculating.after.audit')/*审核通过后计算*/}
+                className="ant-divider" />{this.$t('expense-report.repayment.amount')/*还款金额*/}：{(info.status >= 1004 || !info.loanApplicationOid) ? `${info.currencyCode} ${this.filterMoney(info.reimbursementAmount, 2, true)}` : this.$t('expense-report.calculating.after.audit')/*审核通过后计算*/}
               {info.createdName != info.applicantName && <span
                 className="ant-divider" />}{info.createdName != info.applicantName && `${this.$t('expense-report.create.user')}：${info.createdName} ${moment(info.createdDate).format('YYYY-MM-DD')}`}
             </span>
@@ -1386,7 +1386,7 @@ class ExpenseReportDetail extends React.Component {
               className="detail-info detail-info-first">{info.formName}：{info.parentBusinessCode ? `${info.parentBusinessCode}-` : ''}{info.businessCode}</span>
             <span className="detail-info">
               {this.$t('common.submit.date')/*提交日期*/}：{info.lastSubmittedDate ? moment(info.lastSubmittedDate).format('YYYY-MM-DD') : moment(info.createdDate).format('YYYY-MM-DD')}
-              {info.submittedBy && info.submittedBy !== applicant.userOID && `，${this.$t('expense-report.submitted.by', { name: info.submittedName })}`/*由 name 代提*/}
+              {info.submittedBy && info.submittedBy !== applicant.userOid && `，${this.$t('expense-report.submitted.by', { name: info.submittedName })}`/*由 name 代提*/}
             </span>
             <span className="detail-info">{this.$t('common.column.status')/*状态*/}：{this.$t(expenseReportStatus.text)}</span>
           </Row>
@@ -1421,8 +1421,8 @@ class ExpenseReportDetail extends React.Component {
     showExpenseReportInvoices.map((invoice, index) => {
       invoice.index = index + 1;
       if (hasSelectedInvoice) {
-        expenseRowSelection.selectedRowKeys.map(OID => {
-          if (invoice.invoiceOID === OID) {
+        expenseRowSelection.selectedRowKeys.map(Oid => {
+          if (invoice.invoiceOid === Oid) {
             showExpenseReportInvoiceSum += invoice.baseAmount;
           }
         })
@@ -1497,8 +1497,8 @@ class ExpenseReportDetail extends React.Component {
             {this.$t('expense-report.subsidy.employee')/*补贴人员*/}: &nbsp;&nbsp;
             <RadioGroup value={travelSubsidyUser} onChange={this.handleChangeTravelSubsidyUser}>
               <Radio value="all">{this.$t('common.all')/*全部*/}</Radio>
-              {travelSubsidy.users.map(user => <Radio value={user.userOID}
-                key={user.userOID}>{user.fullName}</Radio>)}
+              {travelSubsidy.users.map(user => <Radio value={user.userOid}
+                key={user.userOid}>{user.fullName}</Radio>)}
             </RadioGroup>
             <br />
             {travelSubsidyType === 'travel' && !readOnly &&
@@ -1517,7 +1517,7 @@ class ExpenseReportDetail extends React.Component {
         <Table columns={this.dealInvoiceColumnsRender()}
           loading={loading}
           bordered
-          rowKey="invoiceOID"
+          rowKey="invoiceOid"
           dataSource={showExpenseReportInvoices}
           size="middle"
           //  onRow={(record) => ({
@@ -1541,7 +1541,7 @@ class ExpenseReportDetail extends React.Component {
       budgetError = budgetError || item.type === 1;
     });
     const loanRowSelection = {
-      selectedRowKeys: selectedLoanRequest ? selectedLoanRequest.applicationOID : null,
+      selectedRowKeys: selectedLoanRequest ? selectedLoanRequest.applicationOid : null,
       onChange: this.handleSelectLoan,
       type: 'radio'
     };
@@ -1570,7 +1570,7 @@ class ExpenseReportDetail extends React.Component {
             customFormPropertyMap={form.customFormPropertyMap}
             auditCapability={auditCapability}
             emitRefresh={() => this.getInfo(true)} />}
-        {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOID={info.expenseReportOID} status={info.status} entityType={1002} expenseOid={this.props.match.params.expenseReportOID} afterClose={this.handleAfterClose} /> :
+        {audit && (buttonRoleSwitch ? <AuditApplicationDetail entityOid={info.expenseReportOid} status={info.status} entityType={1002} expenseOid={this.props.match.params.expenseReportOid} afterClose={this.handleAfterClose} /> :
           <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve"style={{
             width:'124%',
             height: '50px',
@@ -1632,10 +1632,10 @@ class ExpenseReportDetail extends React.Component {
           onOk={this.handleSelectExpense}
           extraParams={{
             invoiceStatus: 'INIT',
-            applicantOID: applicant.userOID,
-            expenseReportOID: info.expenseReportOID,
+            applicantOid: applicant.userOid,
+            expenseReportOid: info.expenseReportOid,
             currencyCode: this.checkFunctionProfiles('web.invoice.keep.consistent.with.expense', [true]) ? info.currencyCode : null,
-            expenseTypeOIDStr
+            expenseTypeOidStr
           }}
           selectAll
           onSelectAll={this.handleSelectAllExpense}
@@ -1725,12 +1725,12 @@ class ExpenseReportDetail extends React.Component {
             ]}
             dataSource={loanRequestList}
             rowSelection={loanRowSelection}
-            rowKey="applicationOID"
+            rowKey="applicationOid"
             pagination={false}
             rowClassName="selectable-row"
             onRow={(record) => {
               return {
-                onClick: () => this.handleSelectLoan([record.applicationOID], [record])
+                onClick: () => this.handleSelectLoan([record.applicationOid], [record])
               };
             }}
           />
@@ -1770,15 +1770,15 @@ class ExpenseReportDetail extends React.Component {
         <ExternalExpenseImport
           visible={this.state.showExternalExpenseImportModal}
           title={this.$t('expense-report.ex.expense.import')/*外部费用导入*/}
-          expenseReportOID={info.expenseReportOID}
-          formOID={info.formOID}
-          userOID={info.applicantOID}
-          applicationOID={info.applicationOID}
+          expenseReportOid={info.expenseReportOid}
+          formOid={info.formOid}
+          userOid={info.applicantOid}
+          applicationOid={info.applicationOid}
           createTableShow={false}
           onOk={this.importExternalExpense}
           afterClose={() => this.openExternalExpenseImport(false)}
         />
-        {info.expenseReportOID && this.state.showYingfuSelectApproveModal && <YingfuSelectApprove visible={this.state.showYingfuSelectApproveModal}
+        {info.expenseReportOid && this.state.showYingfuSelectApproveModal && <YingfuSelectApprove visible={this.state.showYingfuSelectApproveModal}
           expenseReport={info}
           onOk={this.submitYingfuApprove}
           afterClose={() => this.openYingfuSelectApprove(false)}

@@ -65,11 +65,11 @@ class NewPaymentFrame extends React.Component {
     let { info, isEditBankInfo } = this.state;
     this.state.info.applicant &&
       loanAndRefundService
-        .getAccountBankInfo(info.applicationOID, info.applicant.userOID)
+        .getAccountBankInfo(info.applicationOid, info.applicant.userOid)
         .then(res => {
           res.data.map(item => {
             if (item.isPrimary) {
-              isEditBankInfo = !!item.userOID;
+              isEditBankInfo = !!item.userOid;
               this.setState({ myBankInfo: item || {}, isEditBankInfo });
             }
           });
@@ -135,7 +135,7 @@ class NewPaymentFrame extends React.Component {
   getUploadImageOId = values => {
     let repayAttchment = [];
     values.map(item => {
-      repayAttchment.push({ attachmentOID: item.attachmentOID });
+      repayAttchment.push({ attachmentOid: item.attachmentOid });
     });
     this.setState({ repayAttchment, repayAttchmentImages: values });
   };
@@ -145,7 +145,7 @@ class NewPaymentFrame extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { info, repayAttchment, paymentType, loanRefund } = this.state;
-        values.loanApplicationOid = info.applicationOID;
+        values.loanApplicationOid = info.applicationOid;
         values.repayAttchment = repayAttchment;
         loanRefund && (values.isFinance = true);
         values.payBankName && (values.payBankName = values.payBankName[0].bankBranchName);

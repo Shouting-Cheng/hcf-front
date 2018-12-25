@@ -669,7 +669,7 @@ class ExpenseAdjustDetail extends React.Component {
     let params = {
       entities: [
         {
-          entityOID: this.state.headerData.documentOid,
+          entityOid: this.state.headerData.documentOid,
           entityType: 801006,
         },
       ],
@@ -722,7 +722,7 @@ class ExpenseAdjustDetail extends React.Component {
                       {item.fileType !== 'IMAGE' ? (
                         <a
                           href={`${config.baseUrl}/api/attachments/download/${
-                            item.attachmentOID
+                            item.attachmentOid
                             }?access_token=${
                             sessionStorage.getItem('token')
                             }`}

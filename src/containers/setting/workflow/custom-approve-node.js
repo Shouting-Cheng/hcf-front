@@ -25,9 +25,9 @@ class CustomApproveNode extends React.Component {
           remark: this.$t('setting.key1248'/*审批*/),
           code: null,
           level: 1,
-          ruleApprovalChainOID: this.props.ruleApprovalChainOID,
-          ruleApprovalNodeOID: null,
-          nextRuleApprovalNodeOID: null
+          ruleApprovalChainOid: this.props.ruleApprovalChainOid,
+          ruleApprovalNodeOid: null,
+          nextRuleApprovalNodeOid: null
         },
         {
           type: 1003,
@@ -35,9 +35,9 @@ class CustomApproveNode extends React.Component {
           remark: this.$t('setting.key1249'/*机器人*/),
           code: null,
           level: 1,
-          ruleApprovalChainOID: this.props.ruleApprovalChainOID,
-          ruleApprovalNodeOID: null,
-          nextRuleApprovalNodeOID: null,
+          ruleApprovalChainOid: this.props.ruleApprovalChainOid,
+          ruleApprovalNodeOid: null,
+          nextRuleApprovalNodeOid: null,
           approvalActions: "8001" //8001 通过 8002 驳回
         },
         {
@@ -46,9 +46,9 @@ class CustomApproveNode extends React.Component {
           remark: this.$t('setting.key1250'/*知会*/),
           code: null,
           level: 1,
-          ruleApprovalChainOID: this.props.ruleApprovalChainOID,
-          ruleApprovalNodeOID: null,
-          nextRuleApprovalNodeOID: null,
+          ruleApprovalChainOid: this.props.ruleApprovalChainOid,
+          ruleApprovalNodeOid: null,
+          nextRuleApprovalNodeOid: null,
           notifyInfo: {
             "isApp": true,
             "isWeChat": true,
@@ -98,9 +98,9 @@ class CustomApproveNode extends React.Component {
         remark: this.$t('setting.key1251'/*打印*/),
         code: null,
         level: 1,
-        ruleApprovalChainOID: this.props.ruleApprovalChainOID,
-        ruleApprovalNodeOID: null,
-        nextRuleApprovalNodeOID: null,
+        ruleApprovalChainOid: this.props.ruleApprovalChainOid,
+        ruleApprovalNodeOid: null,
+        nextRuleApprovalNodeOid: null,
       })
     }
 
@@ -137,8 +137,8 @@ class CustomApproveNode extends React.Component {
     let { nowWidget, nowSelectedIndex } = this.state;
     //记录当前选择的counterFlag
     let nowSelectWidgetCounter = nowWidget[nowSelectedIndex].counterFlag;
-    let nodeOID = nowWidget[nowSelectedIndex].ruleApprovalNodeOID;
-    let nextNodeOID = '';
+    let nodeOid = nowWidget[nowSelectedIndex].ruleApprovalNodeOid;
+    let nextNodeOid = '';
     let targetIndex = -1;
     let tempWidget = [];
     //根据排序后的key值排序
@@ -151,10 +151,10 @@ class CustomApproveNode extends React.Component {
     tempWidget.map((item, index) => {
       if (item.counterFlag === nowSelectWidgetCounter)
         targetIndex = index;
-      if (item.ruleApprovalNodeOID === nodeOID)
-        nextNodeOID = tempWidget[index + 1] ? tempWidget[index + 1].ruleApprovalNodeOID : this.state.endNodeWidget.ruleApprovalNodeOID
+      if (item.ruleApprovalNodeOid === nodeOid)
+        nextNodeOid = tempWidget[index + 1] ? tempWidget[index + 1].ruleApprovalNodeOid : this.state.endNodeWidget.ruleApprovalNodeOid
     });
-    workflowService.moveApprovalNode(nodeOID, nextNodeOID).then(() => {
+    workflowService.moveApprovalNode(nodeOid, nextNodeOid).then(() => {
       this.setState({ nowWidget: tempWidget, nowSelectedIndex: targetIndex });
       message.success(this.$t('common.operate.success'))
     })
@@ -167,7 +167,7 @@ class CustomApproveNode extends React.Component {
    */
   handleDrop = (widget, index) => {
     let { nowWidget, counter, endNodeWidget } = this.state;
-    widget.nextRuleApprovalNodeOID = nowWidget[index] ? nowWidget[index].ruleApprovalNodeOID : endNodeWidget.ruleApprovalNodeOID;
+    widget.nextRuleApprovalNodeOid = nowWidget[index] ? nowWidget[index].ruleApprovalNodeOid : endNodeWidget.ruleApprovalNodeOid;
     workflowService.createApprovalNodes(widget).then(res => {
       let tempWidget = JSON.parse(JSON.stringify(res.data));
       //因为ListSort根据key值排序，key值不能改变和重复，所以此处给每一个拖拽进入的组件一个counter计数为counterFlag
@@ -188,7 +188,7 @@ class CustomApproveNode extends React.Component {
   handleDelete = (hasDelete) => {
     this.setState({ loading: true });
     this.props.onSaving(true);
-    hasDelete && workflowService.getApprovalChainDetail(this.props.formOID).then(res => {
+    hasDelete && workflowService.getApprovalChainDetail(this.props.formOid).then(res => {
       this.props.onSaving(false);
       let nowWidget = res.data.ruleApprovalNodes;
       nowWidget.map((item, index) => {
@@ -246,9 +246,9 @@ class CustomApproveNode extends React.Component {
 
 CustomApproveNode.propTypes = {
   ruleApprovalNodes: PropTypes.array,
-  ruleApprovalChainOID: PropTypes.string,
+  ruleApprovalChainOid: PropTypes.string,
   formInfo: PropTypes.object,
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
   isRuleInEdit: PropTypes.bool, //是否有审批条件处于编辑状态
   onSelect: PropTypes.func,
   onChange: PropTypes.func,

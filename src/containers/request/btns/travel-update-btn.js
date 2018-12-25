@@ -21,7 +21,7 @@ class TravelUpdateBtn extends React.Component {
   //判断是否可以更改
   judgeEnable = () => {
     this.setState({ loading: true });
-    requestService.judgeEnableChange(this.props.info.applicationOID).then(res => {
+    requestService.judgeEnableChange(this.props.info.applicationOid).then(res => {
       if (res.data.success) {
         this.handleUpload();
       } else {
@@ -33,16 +33,16 @@ class TravelUpdateBtn extends React.Component {
 
   //更改
   handleUpload = () => {
-    const { formOID, applicationOID } = this.props.info;
+    const { formOid, applicationOid } = this.props.info;
     let info = this.props.info;
-    info.applicationOID = '';
+    info.applicationOid = '';
     requestService
-      .handleApplicationUpload(applicationOID, info)
+      .handleApplicationUpload(applicationOid, info)
       .then(res => {
         this.context.router.replace(
           this.state.requestEdit.url
-            .replace(':formOID', formOID)
-            .replace(':applicationOID', res.data.applicationOID)
+            .replace(':formOid', formOid)
+            .replace(':applicationOid', res.data.applicationOid)
         );
       })
       .catch(e => {

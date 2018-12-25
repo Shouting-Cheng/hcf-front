@@ -135,7 +135,7 @@ class NewBudgetJournalType extends React.Component {
                   })(
                     <Select allowClear onFocus={this.onFormFocus} placeholder={ this.$t("common.please.select")}>
                       {this.state.linkForm.map((option)=>{
-                        return <Option key={option.formOID+'?'+option.formType+'?'+option.formName}>{option.formName}</Option>
+                        return <Option key={option.formOid+'?'+option.formType+'?'+option.formName}>{option.formName}</Option>
                       })}
                     </Select>
                   )}

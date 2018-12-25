@@ -33,15 +33,15 @@ class Payment extends React.Component {
                 2003: { label: '支付中', state: 'processing' },
             },
             SearchForm1: [
-                { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105&available=1`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
+                { type: 'select', id: 'formOid', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105&available=1`, options: [], method: "get", valueKey: "formOid", labelKey: "formName", colSpan: '6' },
                 {
                     type: 'list',
-                    listType: 'bgtUserOID',
+                    listType: 'bgtUserOid',
                     options: [],
                     id: 'fullName',
                     label: this.$t({ id: 'pay.refund.employeeName' }),
                     labelKey: 'fullName',
-                    valueKey: 'userOID',
+                    valueKey: 'userOid',
                     colSpan: 6,
                     single: true,
                     listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
@@ -65,17 +65,17 @@ class Payment extends React.Component {
                 { type: 'input', id: 'description', label: "备注", colSpan: '6' },
             ],
             SearchForm2: [
-                { type: 'select', id: 'formOID', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105`, options: [], method: "get", valueKey: "formOID", labelKey: "formName", colSpan: '6' },
+                { type: 'select', id: 'formOid', label: '单据类型', getUrl: `${config.baseUrl}/api/custom/forms/company/my/available/all?formType=105`, options: [], method: "get", valueKey: "formOid", labelKey: "formName", colSpan: '6' },
                 // { type: 'input', id: 'businessCode', label: "单据编号" /*预付款编号*/,colSpan:'6' },
                 //  { type: 'input', id: 'fullName', label: "申请人", colSpan: '6' },
                 {
                     type: 'list',
-                    listType: 'bgtUserOID',
+                    listType: 'bgtUserOid',
                     options: [],
                     id: 'fullName',
                     label: this.$t({ id: 'pay.refund.employeeName' }),
                     labelKey: 'fullName',
-                    valueKey: 'userOID',
+                    valueKey: 'userOid',
                     colSpan: 6,
                     single: true,
                     listExtraParams: { setOfBooksId: this.props.company.setOfBooksId },
@@ -185,14 +185,14 @@ class Payment extends React.Component {
     handleRowClick = (record) => {
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/approval-management/approve-my-reimburse/approve-reimburse-detail/${record.expenseReportId}/${record.entityOID}/${this.state.tabValue}`,
+                pathname: `/approval-management/approve-my-reimburse/approve-reimburse-detail/${record.expenseReportId}/${record.entityOid}/${this.state.tabValue}`,
             })
         );
     };
 
     filterData = (data) => {
         return data.map(item => {
-            return { ...item.publicExpenseReportApprovalView, entityOID: item.entityOID }
+            return { ...item.publicExpenseReportApprovalView, entityOid: item.entityOid }
         });
     }
     /**未审批根据单据编号查询 */
@@ -250,7 +250,7 @@ class Payment extends React.Component {
                                     params={{ finished: 'false' }}
                                     columns={columns}
                                     filterData={this.filterData}
-                                    tableKey='entityOID'
+                                    tableKey='entityOid'
                                     onClick={this.handleRowClick}
                                 />
                             </div>
@@ -285,7 +285,7 @@ class Payment extends React.Component {
                                     params={{ finished: 'true' }}
                                     columns={columns}
                                     filterData={this.filterData}
-                                    tableKey='entityOID'
+                                    tableKey='entityOid'
                                     onClick={this.handleRowClick}
                                 />
                             </div>

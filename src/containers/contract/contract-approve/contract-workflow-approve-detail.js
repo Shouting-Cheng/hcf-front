@@ -49,10 +49,10 @@ class ContractWorkflowApproveDetail extends React.Component {
   handleApprove = (reason, additionalItems, priceAuditor) => {
     let params = {
       approvalTxt: reason,
-      countersignApproverOIDs: '',
+      countersignApproverOids: '',
       entities: [
         {
-          entityOID: this.props.match.params.entityOID,
+          entityOid: this.props.match.params.entityOid,
           entityType: this.props.match.params.entityType,
         },
       ],
@@ -68,7 +68,7 @@ class ContractWorkflowApproveDetail extends React.Component {
           this.setState({ passLoading: false });
           message.error(
             `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              res.data.failReason[this.props.match.params.entityOID]
+              res.data.failReason[this.props.match.params.entityOid]
             }`
           );
         }
@@ -86,10 +86,10 @@ class ContractWorkflowApproveDetail extends React.Component {
   handleApproveReject = (reason, additionalItems, priceAuditor) => {
     let params = {
       approvalTxt: reason,
-      countersignApproverOIDs: '',
+      countersignApproverOids: '',
       entities: [
         {
-          entityOID: this.props.match.params.entityOID,
+          entityOid: this.props.match.params.entityOid,
           entityType: this.props.match.params.entityType,
         },
       ],
@@ -105,7 +105,7 @@ class ContractWorkflowApproveDetail extends React.Component {
           this.setState({ rejectLoading: false });
           message.error(
             `${this.$t({ id: 'common.operate.filed' } /*操作失败*/)}，${
-              res.data.failReason[this.props.match.params.entityOID]
+              res.data.failReason[this.props.match.params.entityOid]
             }`
           );
         }

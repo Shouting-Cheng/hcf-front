@@ -34,7 +34,7 @@ class ApproveHistoryWorkFlow extends React.Component {
   getApproveHistory(headerData) {
     let params = {};
     params.entityType = headerData.documentType;
-    params.entityOID = headerData.documentOid;
+    params.entityOid = headerData.documentOid;
     budgetJournalService.getBudgetJournalApproveHistory(params).then(response => {
       this.setState({ historyData: response.data });
     });

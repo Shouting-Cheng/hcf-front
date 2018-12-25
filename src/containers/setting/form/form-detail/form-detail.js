@@ -19,7 +19,7 @@ class FormDetail extends React.Component {
     this.state = {
       nowTab: 'base',
       formType: null,
-      formOID: null,
+      formOid: null,
       booksID: null, //账套id
       loading: false,
       form: null,
@@ -32,34 +32,34 @@ class FormDetail extends React.Component {
 
   componentWillMount() {
       console.log(this.props)
-    const { formType, formOID, booksID } = this.props.match.params;
+    const { formType, formOid, booksID } = this.props.match.params;
     if (formType) {
       this.setState({
         formType,
-        formOID: null,
+        formOid: null,
         nowTab: 'base'
       });
     }
     if (booksID) {
       this.setState({ booksID });
     }
-    if (formOID) {
-      this.setDetailByFormOID(formOID);
+    if (formOid) {
+      this.setDetailByFormOid(formOid);
     }
   }
 
-  setDetailByFormOID = (formOID) => {
+  setDetailByFormOid = (formOid) => {
     this.setState({ loading: true }, () => {
       Promise.all([
-        formService.getFormDetail(formOID),
-        formService.getExpenseTypeScope(formOID, 99),
-        formService.getUserScope(formOID),
-        formService.getFormPropertyList(formOID)
+        formService.getFormDetail(formOid),
+        formService.getExpenseTypeScope(formOid, 99),
+        formService.getUserScope(formOid),
+        formService.getFormPropertyList(formOid)
       ]).then(res => {
         this.setState({
           nowTab: 'custom',
           loading: false,
-          formOID,
+          formOid,
           form: res[0].data,
           formType: res[0].data.formType,
           expenseTypeScope: res[1].data,
@@ -71,12 +71,12 @@ class FormDetail extends React.Component {
   };
 
   //刷新基本信息
-  refreshBase = (formOID) => {
-    if (formOID) {
+  refreshBase = (formOid) => {
+    if (formOid) {
       this.setState({loading: true}, () => {
         Promise.all([
-          formService.getFormDetail(formOID),
-          formService.getFormPropertyList(formOID)
+          formService.getFormDetail(formOid),
+          formService.getFormPropertyList(formOid)
         ]).then(res => {
           this.setState({
             loading: false,
@@ -104,8 +104,8 @@ class FormDetail extends React.Component {
     let tabs = [
       { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ }
     ];
-    this.props.match.params.formOID && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
-    this.props.match.params.formOID && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
+    this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
+    this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
     this.state.formType === 2001 && tabs.push({ key: 'form', name: this.$t('form.setting.properties.setting')/*表单配置*/ });
     this.state.formType === 801001 && tabs.push({ key: 'match', name: this.$t('form.setting.match')/*表单设置*/ })
     return (
@@ -116,16 +116,16 @@ class FormDetail extends React.Component {
   }
 
   handleNew = (form) => {
-    this.setDetailByFormOID(form.formOID)
+    this.setDetailByFormOid(form.formOid)
   };
 
   //刷新分配公司，人员，费用的数据
   refreshData = (type) => {
-    const { formOID } = this.props.match.params;
-    if (type === 'company' && formOID) {
+    const { formOid } = this.props.match.params;
+    if (type === 'company' && formOid) {
       this.setState({ loading: true }, () => {
         Promise.all([
-          formService.getFormDetail(formOID)
+          formService.getFormDetail(formOid)
         ]).then(res => {
           this.setState({
             loading: false,
@@ -134,10 +134,10 @@ class FormDetail extends React.Component {
         })
       })
     }
-    if (type === 'user' && formOID) {
+    if (type === 'user' && formOid) {
       this.setState({ loading: true }, () => {
         Promise.all([
-          formService.getUserScope(formOID)
+          formService.getUserScope(formOid)
         ]).then(res => {
           this.setState({
             loading: false,
@@ -146,10 +146,10 @@ class FormDetail extends React.Component {
         })
       })
     }
-    if (type === 'expense' && formOID) {
+    if (type === 'expense' && formOid) {
       this.setState({ loading: true }, () => {
         Promise.all([
-          formService.getExpenseTypeScope(formOID, 99)
+          formService.getExpenseTypeScope(formOid, 99)
         ]).then(res => {
           this.setState({
             loading: false,
@@ -163,7 +163,7 @@ class FormDetail extends React.Component {
   getChildContext() {
     return {
       formType: Number(this.state.formType),
-      formOID: this.state.formOID,
+      formOid: this.state.formOid,
       booksID: this.state.booksID,
       form: this.state.form,
       propertyList: this.state.propertyList,
@@ -180,7 +180,7 @@ class FormDetail extends React.Component {
 
   render() {
     const { nowTab, loading ,matchFormData} = this.state;
-    const { formOID } = this.props.match.params;
+    const { formOid } = this.props.match.params;
     return (
       <div className="form-detail" style={{paddingBottom: 40}}>
         {loading ? <Spin /> : (
@@ -191,7 +191,7 @@ class FormDetail extends React.Component {
             {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase}/>}
             {nowTab === 'custom' && <FormDetailCustom/>}
             {nowTab === 'permission' && <FormPermission refreshData={this.refreshData}/>}
-            {nowTab === 'form' && <FormSetting formOID={formOID} handlePageJump={this.pageJump}/>}
+            {nowTab === 'form' && <FormSetting formOid={formOid} handlePageJump={this.pageJump}/>}
             {nowTab === 'match' && <FormMatch refreshMacthData={this.refreshMacthData} />}
           </div>
         )}
@@ -202,7 +202,7 @@ class FormDetail extends React.Component {
 
 FormDetail.childContextTypes = {
     formType: PropTypes.any,
-    formOID: PropTypes.string,
+    formOid: PropTypes.string,
     booksID: PropTypes.string,
     form: PropTypes.object,
     propertyList: PropTypes.array,

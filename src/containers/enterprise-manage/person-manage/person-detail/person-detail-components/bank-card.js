@@ -62,7 +62,7 @@ class PersonBankCard extends React.Component {
     let modalKey = this.state.modalKey;
     modalKey++;
     const { card } = this.state;
-    card.contactBankAccountOID = null;
+    card.contactBankAccountOid = null;
     card.bankAccountNo = null;
     card.bankAccountName = null;
 
@@ -129,7 +129,7 @@ class PersonBankCard extends React.Component {
   };
   createUpdateCard = card => {
     this.setState({ loading: true });
-    if (card.contactBankAccountOID) {
+    if (card.contactBankAccountOid) {
       PDService.updateBankCard(card)
         .then(res => {
           this.props.createCardOver();
@@ -321,7 +321,7 @@ class PersonBankCard extends React.Component {
           className="create-update-modal person-bank-card-wrap-modal"
           // ? '编辑银行卡信息' : '新增银行卡信息'
           title={
-            card.contactBankAccountOID
+            card.contactBankAccountOid
               ? this.$t('pdc.bank.card.edit.bank.card')
               : this.$t('pdc.bank.card.new')
           }

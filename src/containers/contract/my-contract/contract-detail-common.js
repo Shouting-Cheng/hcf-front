@@ -692,7 +692,7 @@ class ContractDetailCommon extends React.Component {
       let params = {
         entities: [
           {
-            entityOID: headerData.documentOid,
+            entityOid: headerData.documentOid,
             entityType: headerData.documentType,
           },
         ],

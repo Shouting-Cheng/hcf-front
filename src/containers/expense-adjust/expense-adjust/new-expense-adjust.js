@@ -39,7 +39,7 @@ class NewExpenseAdjust extends React.Component {
       data: [], //编辑的费用维护信息
       currencyOptions: [], //币种
       companyIdOptions: [], //公司
-      uploadOIDs: [], //上传附件的OIDs
+      uploadOids: [], //上传附件的Oids
       employeeOptions: [], //员工选项
       employeeIdOptions: [], //申请人
       unitIdOptions: [], //部门
@@ -62,7 +62,7 @@ class NewExpenseAdjust extends React.Component {
   }
 
  /* getDept() {
-    expenseAdjustService.getDeptByOid(this.props.user.departmentOID).then(response => {
+    expenseAdjustService.getDeptByOid(this.props.user.departmentOid).then(response => {
       this.setState({ deptId: [{ departmentId: response.data.id, name: response.data.name }] });
     });
   }
@@ -110,7 +110,7 @@ class NewExpenseAdjust extends React.Component {
         this.setState({ loading: true });
         let dataValue = {
           ...values,
-          attachmentOidList: this.state.uploadOIDs,
+          attachmentOidList: this.state.uploadOids,
           companyId: values.companyId[0].id,
           unitId: values.unitId[0].departmentId,
         };
@@ -160,8 +160,8 @@ class NewExpenseAdjust extends React.Component {
     this.props.dispatch(routerRedux.push({ pathname: '/expense-adjust/my-expense-adjust' }));
   };
   //上传附件
-  handleUpload = OIDs => {
-    this.setState({ uploadOIDs: OIDs });
+  handleUpload = Oids => {
+    this.setState({ uploadOids: Oids });
   };
 
   render() {
@@ -277,7 +277,7 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentOID }] :
+                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentOid }] :
                     model.id ? model.unitId : [],
                   })(
                     <Chooser
@@ -341,14 +341,14 @@ class NewExpenseAdjust extends React.Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label={this.$t('exp.attachment.info')} {...formItemLayout}>
-                  {getFieldDecorator('attachmentOID')(
+                  {getFieldDecorator('attachmentOid')(
                     <Upload
                       attachmentType="EXP_ADJUST"
                       uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={model.attachmentOid}
+                      defaultOids={model.attachmentOid}
                     />
                   )}
                 </FormItem>

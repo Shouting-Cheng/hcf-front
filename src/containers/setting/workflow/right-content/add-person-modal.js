@@ -33,8 +33,8 @@ class AddPersonModal extends React.Component {
       apiReturnApprover: false,
       approveUser: [], //指定人员审批
       approveUserGroup: [], //指定人员组审批
-      defaultApproveUserOID: [], //默认审批人员OID
-      defaultApproveUserGroupOID: [], //默认审批人员组OID
+      defaultApproveUserOid: [], //默认审批人员Oid
+      defaultApproveUserGroupOid: [], //默认审批人员组Oid
       approverNotChange: true, //审批人没有发生改变
       departmentByLeader: [], //按申请人所在的组织架构审批的审批人
       departmentByBill: [],  //按单据上的组织架构审批的审批人
@@ -120,15 +120,15 @@ class AddPersonModal extends React.Component {
           name: null,
           key: 6002,
           remark: this.$t('setting.key1261'/*按单据上的成本中心经理审批*/),
-          ruleApprovalNodeOID: null,
-          approverEntityOID: null,
+          ruleApprovalNodeOid: null,
+          approverEntityOid: null,
           value: item.fieldName
         };
         if (item.dataSource && JSON.parse(item.dataSource)) {
-          costCenterItem.approverEntityOID = JSON.parse(item.dataSource).costCenterOID;
-          if (costCenterItem.approverEntityOID) {
+          costCenterItem.approverEntityOid = JSON.parse(item.dataSource).costCenterOid;
+          if (costCenterItem.approverEntityOid) {
             return new Promise((resolve, reject) => {
-              CCService.getCostCenterDetail(costCenterItem.approverEntityOID).then(res => {
+              CCService.getCostCenterDetail(costCenterItem.approverEntityOid).then(res => {
                 costCenterItem.value = res.data.name;
                 resolve(costCenterItem)
               }).catch(e => {
@@ -154,21 +154,21 @@ class AddPersonModal extends React.Component {
   setDefaultUserAndGroup = (ruleApprovers) => {
     let approveUser = [];
     let approveUserGroup = [];
-    let defaultApproveUserOID = [];
-    let defaultApproveUserGroupOID = [];
+    let defaultApproveUserOid = [];
+    let defaultApproveUserGroupOid = [];
     ruleApprovers.map(item => {
       if (item.approverType === 6001) {
-        item.userOID = item.approverEntityOID;
+        item.userOid = item.approverEntityOid;
         item.fullName = item.name;
         approveUser.push(item);
-        defaultApproveUserOID.push(item.approverEntityOID)
+        defaultApproveUserOid.push(item.approverEntityOid)
       } else if (item.approverType === 6003) {
-        item.userGroupOID = item.approverEntityOID;
+        item.userGroupOid = item.approverEntityOid;
         approveUserGroup.push(item);
-        defaultApproveUserGroupOID.push(item.approverEntityOID)
+        defaultApproveUserGroupOid.push(item.approverEntityOid)
       }
     });
-    this.setState({ approveUser, approveUserGroup, defaultApproveUserOID, defaultApproveUserGroupOID })
+    this.setState({ approveUser, approveUserGroup, defaultApproveUserOid, defaultApproveUserGroupOid })
   };
 
   //新增指定人员审批
@@ -180,17 +180,17 @@ class AddPersonModal extends React.Component {
   };
 
   //删除指定人员审批
-  handleDeleteUser = (userOID) => {
+  handleDeleteUser = (userOid) => {
     let approveUser = this.state.approveUser;
-    let defaultApproveUserOID = this.state.defaultApproveUserOID;
-    defaultApproveUserOID.delete(userOID);
+    let defaultApproveUserOid = this.state.defaultApproveUserOid;
+    defaultApproveUserOid.delete(userOid);
     approveUser && approveUser.map((item, index) => {
-      if (item.userOID === userOID) {
+      if (item.userOid === userOid) {
         approveUser.splice(index, 1);
-        item.ruleApproverOID && this.props.onDelete(item)
+        item.ruleApproverOid && this.props.onDelete(item)
       }
     });
-    this.setState({ approveUser, defaultApproveUserOID, approverNotChange: false })
+    this.setState({ approveUser, defaultApproveUserOid, approverNotChange: false })
   };
 
   //新增指定人员组审批
@@ -204,24 +204,24 @@ class AddPersonModal extends React.Component {
   //删除指定人员组审批
   handleDeleteUserGroup = (oid) => {
     let approveUserGroup = this.state.approveUserGroup;
-    let defaultApproveUserGroupOID = this.state.defaultApproveUserGroupOID;
-    defaultApproveUserGroupOID.delete(oid);
+    let defaultApproveUserGroupOid = this.state.defaultApproveUserGroupOid;
+    defaultApproveUserGroupOid.delete(oid);
     approveUserGroup && approveUserGroup.map((item, index) => {
-      if (item.userGroupOID === oid) {
+      if (item.userGroupOid === oid) {
         approveUserGroup.splice(index, 1);
-        item.ruleApproverOID && this.props.onDelete(item)
+        item.ruleApproverOid && this.props.onDelete(item)
       }
     });
-    this.setState({ approveUserGroup, defaultApproveUserGroupOID, approverNotChange: false })
+    this.setState({ approveUserGroup, defaultApproveUserGroupOid, approverNotChange: false })
   };
 
   //点击"确定"
   handleOK = () => {
-    const { ruleApprovalNodeOID } = this.props;
+    const { ruleApprovalNodeOid } = this.props;
     const { allApproverType, costCenterApprover, costCenterDeptApprover, depByApplicantKeys, depByDeptKeys, costCenterKeys,
       costCenterDeptKeys, directManager, apiReturnApprover, containsApportionmentDepartmentManager,
       containsApportionmentCostCenterManager, containsApportionmentCostCenterPrimaryDepartmentManager,
-      approveUser, approveUserGroup, defaultApproveUserOID, defaultApproveUserGroupOID } = this.state;
+      approveUser, approveUserGroup, defaultApproveUserOid, defaultApproveUserGroupOid } = this.state;
     this.setState({ loadingAddPerson: true });
     let params = [];
     depByApplicantKeys.map(key => {
@@ -234,7 +234,7 @@ class AddPersonModal extends React.Component {
             remark: item.remark,
             approverType: key,
             level: 1,
-            ruleApprovalNodeOID
+            ruleApprovalNodeOid
           })
         }
       })
@@ -249,7 +249,7 @@ class AddPersonModal extends React.Component {
             remark: item.remark,
             approverType: key,
             level: 1,
-            ruleApprovalNodeOID,
+            ruleApprovalNodeOid,
             containsApportionmentDepartmentManager
           })
         }
@@ -257,14 +257,14 @@ class AddPersonModal extends React.Component {
     });
     costCenterKeys.map(oid => {
       costCenterApprover.map(item => {
-        if (item.approverEntityOID === oid) {
+        if (item.approverEntityOid === oid) {
           params.push({
             code: item.code,
             remark: item.remark,
             name: item.value,
             approverType: 6002,
-            approverEntityOID: oid,
-            ruleApprovalNodeOID,
+            approverEntityOid: oid,
+            ruleApprovalNodeOid,
             containsApportionmentCostCenterManager
           })
         }
@@ -272,14 +272,14 @@ class AddPersonModal extends React.Component {
     });
     costCenterDeptKeys.map(oid => {
       costCenterDeptApprover.map(item => {
-        if (item.approverEntityOID === oid) {
+        if (item.approverEntityOid === oid) {
           params.push({
             code: item.code,
             remark: item.remark,
             name: item.value,
             approverType: 6004,
-            approverEntityOID: oid,
-            ruleApprovalNodeOID,
+            approverEntityOid: oid,
+            ruleApprovalNodeOid,
             level: 1,
             containsApportionmentCostCenterPrimaryDepartmentManager
           })
@@ -288,38 +288,38 @@ class AddPersonModal extends React.Component {
     });
     directManager && params.push({
       approverType: 6100,
-      ruleApprovalNodeOID,
+      ruleApprovalNodeOid,
       departmentType: 1,
       name: this.$t('setting.key1269'/*直属领导*/),
       level: 1,
     });
     apiReturnApprover && params.push({
       approverType: 1004,
-      ruleApprovalNodeOID,
+      ruleApprovalNodeOid,
       name: "__外部接口__"
     });
     approveUser && approveUser.map(item => {
       let itemHasExist = false;
-      defaultApproveUserOID.map(oid => {
-        item.userOID === oid && (itemHasExist = true)
+      defaultApproveUserOid.map(oid => {
+        item.userOid === oid && (itemHasExist = true)
       });
       !itemHasExist && params.push({
         approverType: 6001,
-        ruleApprovalNodeOID,
+        ruleApprovalNodeOid,
         name: item.fullName,
-        approverEntityOID: item.userOID
+        approverEntityOid: item.userOid
       })
     });
     approveUserGroup && approveUserGroup.map(item => {
       let itemHasExist = false;
-      defaultApproveUserGroupOID.map(oid => {
-        item.userGroupOID === oid && (itemHasExist = true)
+      defaultApproveUserGroupOid.map(oid => {
+        item.userGroupOid === oid && (itemHasExist = true)
       });
       !itemHasExist && params.push({
         approverType: 6003,
-        ruleApprovalNodeOID,
+        ruleApprovalNodeOid,
         name: item.name,
-        approverEntityOID: item.userGroupOID
+        approverEntityOid: item.userGroupOid
       })
     });
     this.handleAddApprover(params)
@@ -327,24 +327,24 @@ class AddPersonModal extends React.Component {
 
   //添加审批人
   handleAddApprover = (params) => {
-    let { approveUser, approveUserGroup, defaultApproveUserOID, defaultApproveUserGroupOID } = this.state;
+    let { approveUser, approveUserGroup, defaultApproveUserOid, defaultApproveUserGroupOid } = this.state;
     if (params.length) {
       workflowService.createApprovers(params).then(res => {
         res.data && res.data.map(item => {
           if (item.approverType === 6001) {
             approveUser.map((userItem, index) => {
-              userItem.userOID === item.approverEntityOID && (approveUser[index].ruleApproverOID = item.ruleApproverOID)
+              userItem.userOid === item.approverEntityOid && (approveUser[index].ruleApproverOid = item.ruleApproverOid)
             });
-            defaultApproveUserOID.push(item.approverEntityOID)
+            defaultApproveUserOid.push(item.approverEntityOid)
           }
           if (item.approverType === 6003) {
             approveUserGroup.map((groupItem, index) => {
-              groupItem.userGroupOID === item.approverEntityOID && (approveUserGroup[index].ruleApproverOID = item.ruleApproverOID)
+              groupItem.userGroupOid === item.approverEntityOid && (approveUserGroup[index].ruleApproverOid = item.ruleApproverOid)
             });
-            defaultApproveUserGroupOID.push(item.approverEntityOID)
+            defaultApproveUserGroupOid.push(item.approverEntityOid)
           }
         });
-        this.setState({ defaultApproveUserOID, defaultApproveUserGroupOID });
+        this.setState({ defaultApproveUserOid, defaultApproveUserGroupOid });
         message.success(this.$t('common.operate.success'));
         this.setState({ loadingAddPerson: false });
         this.props.onSelect()
@@ -419,7 +419,7 @@ class AddPersonModal extends React.Component {
                   </div>
                   <TagSelect hideCheckAll value={costCenterKeys} onChange={values => this.setState({ costCenterKeys: values })}>
                     {costCenterApprover.map(item => (
-                      <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
+                      <TagSelect.Option value={item.approverEntityOid} key={item.approverEntityOid}>{item.value}</TagSelect.Option>
                     ))}
                   </TagSelect>
                 </ListItem>
@@ -439,7 +439,7 @@ class AddPersonModal extends React.Component {
                   </div>
                   <TagSelect hideCheckAll value={costCenterDeptKeys} onChange={values => this.setState({ costCenterDeptKeys: values })}>
                     {costCenterDeptApprover.map(item => (
-                      <TagSelect.Option value={item.approverEntityOID} key={item.approverEntityOID}>{item.value}</TagSelect.Option>
+                      <TagSelect.Option value={item.approverEntityOid} key={item.approverEntityOid}>{item.value}</TagSelect.Option>
                     ))}
                   </TagSelect>
                 </ListItem>
@@ -464,7 +464,7 @@ class AddPersonModal extends React.Component {
                   </a>
                 </div>
                 {approveUser && approveUser.map(item =>
-                  <Tag key={item.userOID} closable onClose={() => this.handleDeleteUser(item.userOID)}>{item.fullName}</Tag>
+                  <Tag key={item.userOid} closable onClose={() => this.handleDeleteUser(item.userOid)}>{item.fullName}</Tag>
                 )}
               </ListItem>
               <ListItem className="user-group-approver">
@@ -479,7 +479,7 @@ class AddPersonModal extends React.Component {
                 </div>
                 <div style={{ marginBottom: 5 }}>{this.$t('setting.key1279'/*只能引用到人员组中*/)}</div>
                 {approveUserGroup && approveUserGroup.map(item =>
-                  <Tag key={item.userGroupOID} closable onClose={() => this.handleDeleteUserGroup(item.userGroupOID)}>{item.name}</Tag>
+                  <Tag key={item.userGroupOid} closable onClose={() => this.handleDeleteUserGroup(item.userGroupOid)}>{item.name}</Tag>
                 )}
               </ListItem>
               {/*<ListItem className="api-return-approver">
@@ -498,9 +498,9 @@ class AddPersonModal extends React.Component {
 
         <ListSelector visible={userVisible}
           type="user"
-          valueKey="userOID"
+          valueKey="userOid"
           labelKey="fullName"
-          onlyNeed="userOID"
+          onlyNeed="userOid"
           showDetail
           extraParams={{ roleType: 'TENANT' }}
           selectedData={approveUser}
@@ -509,7 +509,7 @@ class AddPersonModal extends React.Component {
         />
         <ListSelector visible={userGroupVisible}
           type="user_group"
-          valueKey="userGroupOID"
+          valueKey="userGroupOid"
           labelKey="name"
           selectedData={approveUserGroup}
           onOk={this.handleAddUserGroup}
@@ -524,7 +524,7 @@ AddPersonModal.propTypes = {
   visible: PropTypes.bool,
   personType: PropTypes.number, //1 审批，2 知会
   ruleApprovers: PropTypes.array,
-  ruleApprovalNodeOID: PropTypes.string,
+  ruleApprovalNodeOid: PropTypes.string,
   formInfo: PropTypes.object,
   onSelect: PropTypes.func,
   onDelete: PropTypes.func,

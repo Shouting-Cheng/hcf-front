@@ -36,7 +36,7 @@ class WrappedNewBankAccount extends React.Component {
       },
       //币种下拉单
       selectListCurrencyCode: {
-        url: config.baseUrl + '/api/company/standard/currency/getAll/companyOID?',
+        url: config.baseUrl + '/api/company/standard/currency/getAll/companyOid?',
         label: record => record.currency + '-' + record.currencyName,
         key: 'currency',
       },
@@ -179,8 +179,8 @@ class WrappedNewBankAccount extends React.Component {
     const { getFieldDecorator } = this.props.form;
     let params = {
       language: 'chineseName',
-      companyOID: this.props.match.params.companyOId,
-      // userOID: configureStore.store.getState().login.user.userOID,
+      companyOid: this.props.match.params.companyOId,
+      // userOid: configureStore.store.getState().login.user.userOid,
     };
     return (
       <Form

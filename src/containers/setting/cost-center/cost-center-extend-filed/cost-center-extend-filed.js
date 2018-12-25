@@ -23,11 +23,11 @@ const extendFieldDefault = {
     "formCode": "cost_center_item_form",
     "asSystem": false,
     "valid": true,
-    "parentOID": null,
+    "parentOid": null,
     "associateExpenseReport": false,
     "customFormFields": [],
     "remark": "成本中心项附加信息",//成本中心项附加信息
-    "referenceOID": null,
+    "referenceOid": null,
     "visibleExpenseTypeScope": 1001,
     "visibleUserScope": 1001
 };

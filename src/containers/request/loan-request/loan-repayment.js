@@ -82,7 +82,7 @@ class LoanRepayment extends React.Component {
   }
 
   componentDidMount() {
-    const { info, applicationOID, showNewSlide } = this.props;
+    const { info, applicationOid, showNewSlide } = this.props;
     this.setState({
       showNewSlide: showNewSlide,
       newParams: {
@@ -95,7 +95,7 @@ class LoanRepayment extends React.Component {
         loanRefund: this.props.loanRefund,
       },
     });
-    !this.state.data.length && this.getList(applicationOID);
+    !this.state.data.length && this.getList(applicationOid);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,10 +113,10 @@ class LoanRepayment extends React.Component {
     });
   }
 
-  getList = OID => {
+  getList = Oid => {
     const { page, pageSize } = this.state;
     this.setState({ loading: true });
-    requestService.getLoanRepayment(page, pageSize, OID).then(res => {
+    requestService.getLoanRepayment(page, pageSize, Oid).then(res => {
       this.setState({
         loading: false,
         data: res.data,
@@ -132,7 +132,7 @@ class LoanRepayment extends React.Component {
   onChangePaper = page => {
     if (page - 1 !== this.state.page) {
       this.setState({ page: page - 1 }, () => {
-        this.getList(this.props.applicationOID);
+        this.getList(this.props.applicationOid);
       });
     }
   };
@@ -165,7 +165,7 @@ class LoanRepayment extends React.Component {
     if (record.type === '2') {
       //type===2(报销单还款)
       window.open(
-        this.state.expenseDetail.url.replace(':expenseReportOID', record.expenseReportOid)
+        this.state.expenseDetail.url.replace(':expenseReportOid', record.expenseReportOid)
       );
     } else {
       let repaymentInfo = this.props.info.writeoffArtificialDTO || {}; //还款信息
@@ -184,7 +184,7 @@ class LoanRepayment extends React.Component {
     this.setState({ showNewSlide: false, showDetailSlide: false }, () => {
       this.props.handleClose();
       if (params) {
-        this.getList(this.props.applicationOID);
+        this.getList(this.props.applicationOid);
         this.props.handleSave();
       }
     });
@@ -266,7 +266,7 @@ LoanRepayment.propTypes = {
   info: PropTypes.object,
   loanRefund: PropTypes.bool, //是否是借还款管理页面的详情
   showNewSlide: PropTypes.bool,
-  applicationOID: PropTypes.string.isRequired,
+  applicationOid: PropTypes.string.isRequired,
   isOwner: PropTypes.bool, //是否为登录人控件，涉及权限
   handleSave: PropTypes.func,
   handleClose: PropTypes.func,

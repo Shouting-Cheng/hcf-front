@@ -10,7 +10,7 @@ import config from 'config'
  * @params extensionName: 附件支持的扩展名
  * @params fileNum: 最大上传文件的数量
  * @params attachmentType: 附件类型
- * @params uploadHandle: 获取上传文件的OID
+ * @params uploadHandle: 获取上传文件的Oid
  */
 
 class UploadFile extends React.Component {
@@ -18,7 +18,7 @@ class UploadFile extends React.Component {
     super(props);
     this.state = {
       fileList: [],
-      OIDs: [],
+      Oids: [],
       defaultListTag: true,
     }
   }
@@ -31,7 +31,7 @@ class UploadFile extends React.Component {
     if (nextProps.defaultFileList != this.state.defaultFileList) {
       this.setState({
         fileList: nextProps.defaultFileList,
-        OIDs: nextProps.defaultOIDs
+        Oids: nextProps.defaultOids
       }, () => {
         this.setState({ defaultListTag: false })
       })
@@ -57,16 +57,16 @@ class UploadFile extends React.Component {
     this.setState({ defaultListTag: false });
     const fileNum = parseInt(`-${this.props.fileNum}`);
     let fileList = info.fileList;
-    let OIDs = this.state.OIDs;
+    let Oids = this.state.Oids;
     fileList = fileList.slice(fileNum);
     this.setState({ fileList }, () => {
       const status = info.file.status;
       if (status === 'done') {
         message.success(`${info.file.name} ${this.$t({ id: "upload.success" }/*上传成功*/)}`);
-        OIDs.push(info.file.response.attachmentOID);
-        OIDs = OIDs.slice(fileNum);
-        this.setState({ OIDs }, () => {
-          this.props.uploadHandle(this.state.OIDs)
+        Oids.push(info.file.response.attachmentOid);
+        Oids = Oids.slice(fileNum);
+        this.setState({ Oids }, () => {
+          this.props.uploadHandle(this.state.Oids)
         })
       } else if (status === 'error') {
         message.error(`${info.file.name} ${this.$t({ id: "upload.fail" }/*上传失败*/)}`);
@@ -77,13 +77,13 @@ class UploadFile extends React.Component {
   handleRemove = (info) => {
 
     this.setState({ defaultListTag: false });
-    let OIDs = this.state.OIDs;
+    let Oids = this.state.Oids;
 
-    OIDs.map(OID => {
-      OID === (info.response ? info.response.attachmentOID : info.attachmentOID) && OIDs.delete(OID);
+    Oids.map(Oid => {
+      Oid === (info.response ? info.response.attachmentOid : info.attachmentOid) && Oids.delete(Oid);
     });
-    this.setState({ OIDs }, () => {
-      this.props.uploadHandle(this.state.OIDs)
+    this.setState({ Oids }, () => {
+      this.props.uploadHandle(this.state.Oids)
     })
   };
 
@@ -120,8 +120,8 @@ UploadFile.propTypes = {
   extensionName: React.PropTypes.string,  //附件支持的扩展名
   fileNum: React.PropTypes.number,  //最大上传文件的数量
   defaultFileList: React.PropTypes.array,  //默认上传的文件列表，每项必须包含：uid，name
-  defaultOIDs: React.PropTypes.array,  //默认上传的文件列表OID
-  uploadHandle: React.PropTypes.func, //获取上传文件的OID
+  defaultOids: React.PropTypes.array,  //默认上传的文件列表Oid
+  uploadHandle: React.PropTypes.func, //获取上传文件的Oid
 };
 
 UploadFile.defaultProps = {
@@ -129,7 +129,7 @@ UploadFile.defaultProps = {
   extensionName: '.rar .zip .doc .docx .pdf .jpg...',
   fileNum: 0,
   defaultFileList: [],
-  defaultOIDs: [],
+  defaultOids: [],
   uploadHandle: () => { }
 };
 

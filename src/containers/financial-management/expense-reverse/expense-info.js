@@ -48,7 +48,7 @@ class ExpenseInfo extends React.Component {
       againLoading: false,
       copyLoading: false,
       applicationList: [],
-      attachmentOID: [],
+      attachmentOid: [],
       isRefreshShareTabel: false,
       shareParams: {
         defaultApportion: {}
@@ -109,7 +109,7 @@ class ExpenseInfo extends React.Component {
           let attachments = res.data.attachments.map(o => {
             return {
               ...o,
-              uid: o.attachmentOID,
+              uid: o.attachmentOid,
               name: o.fileName
             };
           });
@@ -123,7 +123,7 @@ class ExpenseInfo extends React.Component {
                 name: res.data.expenseTypeName,
                 iconURL: res.data.expenseTypeIconURL,
                 id: res.data.expenseTypeId,
-                expenseTypeOID: res.data.expenseTypeOID
+                expenseTypeOid: res.data.expenseTypeOid
               }
           }, () => {
             this.setShareTableData();
@@ -162,7 +162,7 @@ class ExpenseInfo extends React.Component {
           let attachments = res.data.attachments.map(o => {
             return {
               ...o,
-              uid: o.attachmentOID,
+              uid: o.attachmentOid,
               name: o.fileName
             };
           });
@@ -176,7 +176,7 @@ class ExpenseInfo extends React.Component {
                 name: res.data.expenseTypeName,
                 iconURL: res.data.expenseTypeIconURL,
                 id: res.data.expenseTypeId,
-                expenseTypeOID: res.data.expenseTypeOID
+                expenseTypeOid: res.data.expenseTypeOid
               }
           }, () => {
             this.setShareTableData();
@@ -221,8 +221,8 @@ class ExpenseInfo extends React.Component {
       };
 
       defaultApportion.costCenterItems && defaultApportion.costCenterItems.map((item, i) => {
-        data[item.costCenterOID] = o.costCenterItems[i].costCenterItemName;
-        obj[item.costCenterOID] = {
+        data[item.costCenterOid] = o.costCenterItems[i].costCenterItemName;
+        obj[item.costCenterOid] = {
           key: o.costCenterItems[i].costCenterItemId,
           label: o.costCenterItems[i].costCenterItemName
         }
@@ -283,8 +283,8 @@ class ExpenseInfo extends React.Component {
       }
     };
     defaultApportion.costCenterItems && defaultApportion.costCenterItems.map(o => {
-      data[o.costCenterOID] = o.costCenterItemName;
-      obj[o.costCenterOID] = {
+      data[o.costCenterOid] = o.costCenterItemName;
+      obj[o.costCenterOid] = {
         key: o.costCenterItemId,
         label: o.costCenterItemName
       }
@@ -497,7 +497,7 @@ class ExpenseInfo extends React.Component {
 
   //上传附件
   handleUpload = (values) => {
-    this.setState({ attachmentOID: values });
+    this.setState({ attachmentOid: values });
   };
 
   //检查金额

@@ -618,7 +618,7 @@ class CshWriteOffBacklash extends Component {
           colSpan: '6',
           id: 'applicantId',
           label: '申请人',
-          listType: 'bgtUserOID',
+          listType: 'bgtUserOid',
           valueKey: 'id',
           labelKey: 'fullName',
           single: true,
@@ -628,7 +628,7 @@ class CshWriteOffBacklash extends Component {
           colSpan: '6',
           id: 'approvalId',
           label: '复核人',
-          listType: 'bgtUserOID',
+          listType: 'bgtUserOid',
           valueKey: 'id',
           labelKey: 'fullName',
           single: true,
@@ -1208,13 +1208,13 @@ class CshWriteOffBacklash extends Component {
    * 附件弹窗确定事件
    */
   onEditViewUploadOk = info => {
-    //临时用来存储返回的fileList数组里的attachmentOID集合
+    //临时用来存储返回的fileList数组里的attachmentOid集合
     let attachmentOidArray = [];
     //得到当前的data,index,record
     let { nowData, nowIndex, nowRecord } = this.state;
     let { data1, data2 } = this.state;
     info.fileList.map(item => {
-      attachmentOidArray.push(item.response.attachmentOID);
+      attachmentOidArray.push(item.response.attachmentOid);
     });
     if (nowData === 'data1') {
       data1[nowIndex].attachmentOid = attachmentOidArray.join(',');

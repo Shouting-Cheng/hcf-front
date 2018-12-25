@@ -20,7 +20,7 @@ class NewRequest extends React.Component {
 
   //获取表单配置
   getFormInfo = () => {
-    requestService.getCustomForm(this.props.params.formOID).then(res => {
+    requestService.getCustomForm(this.props.params.formOid).then(res => {
       this.setState({ formInfo: res.data });
     });
   };

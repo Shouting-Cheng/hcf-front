@@ -347,7 +347,7 @@ class Dashboard extends React.Component {
 
 
   getCarousels = () => {
-    service.getCarouselsByCompany(this.props.company.companyOID).then(res => {
+    service.getCarouselsByCompany(this.props.company.companyOid).then(res => {
       this.setState({ carousels: res.data });
     })
   }
@@ -520,12 +520,12 @@ class Dashboard extends React.Component {
 
 
   goCarouselDetail = (item) => {
-    if (!!item.carouselOID) {
+    if (!!item.carouselOid) {
       if (item.outLinkUrl) {
         window.open(item.outLinkUrl, '_blank');
       }
       else {
-        service.getCatouselsContent(item.carouselOID).then((res) => {
+        service.getCatouselsContent(item.carouselOid).then((res) => {
           if (res.status === 200) {
             item.content = res.data.content;
             item.localDate = moment(res.data.createdDate).format('YYYY-MM-DD');

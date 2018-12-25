@@ -230,7 +230,7 @@ export const getRouterData = app => {
       parent: '/my-reimburse',
     },
     //新建报账单
-    '/my-reimburse/new-reimburse/:formId/:formOID': {
+    '/my-reimburse/new-reimburse/:formId/:formOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/my-reimburse/new-reimburse.js')
       ),
@@ -264,7 +264,7 @@ export const getRouterData = app => {
       ),
       name: 'approve-expense-adjust',
     },
-    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOID/:flag/:entityType': {
+    '/approval-management/approve-expense-adjust/expense-adjust-approve-detail/:expenseAdjustTypeId/:id/:entityOid/:flag/:entityType': {
       //费用调整单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-adjust/exp-approve/expense-adjust-approve-detail')
@@ -314,7 +314,7 @@ export const getRouterData = app => {
       ),
       name: 'pre-payment-approve',
     },
-    '/approval-management/pre-payment-approve/pre-payment-approve-detail/:id/:entityOID/:status': {
+    '/approval-management/pre-payment-approve/pre-payment-approve-detail/:id/:entityOid/:status': {
       //预付款工作流审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/pre-payment/pre-payment-approve/pre-payment-detail.js')
@@ -365,7 +365,7 @@ export const getRouterData = app => {
       ),
       name: 'contract-approve',
     },
-    '/approval-management/contract-approve/contract-workflow-approve-detail/:id/:entityOID/:entityType/:status': {
+    '/approval-management/contract-approve/contract-workflow-approve-detail/:id/:entityOid/:entityType/:status': {
       //合同工作流审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/contract/contract-approve/contract-workflow-approve-detail.js')
@@ -402,24 +402,24 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/request/request.js')),
       name: 'request',
     },
-    '/request/jd-request-edit/:formOID/:applicationOID': {
+    '/request/jd-request-edit/:formOid/:applicationOid': {
       //京东申请单编辑页
       component: dynamicWrapper(app, [], () => import('containers/request/jd-request-edit')),
       name: 'jd-request-edit',
     },
-    '/request/new-request/:formOID/:applicantOID': {
+    '/request/new-request/:formOid/:applicantOid': {
       //新建申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'new-request',
       parent: '/request',
     },
-    '/request/request-edit/:formOID/:applicationOID': {
+    '/request/request-edit/:formOid/:applicationOid': {
       //编辑申请单
       component: dynamicWrapper(app, [], () => import('containers/request/new-edit-request')),
       name: 'request-edit',
       parent: '/request',
     },
-    '/request/request-detail/:formOID/:applicationOID/:pageFrom': {
+    '/request/request-detail/:formOid/:applicationOid/:pageFrom': {
       //申请单详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
@@ -430,7 +430,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/approve/request/request')),
       name: 'request-approve',
     },
-    '/approval-management/approve-request/approve-request-detail/:formOID/:applicationOID/:pageFrom': {
+    '/approval-management/approve-request/approve-request-detail/:formOid/:applicationOid/:pageFrom': {
       //申请单审批详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'request-detail',
@@ -663,7 +663,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/value-list/:tab',
     },
     //值列表详情
-    '/admin-setting/value-list-detail/:customEnumerationOID/:id/:tab': {
+    '/admin-setting/value-list-detail/:customEnumerationOid/:id/:tab': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/value-list/new-value-list.js')
       ),
@@ -738,7 +738,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/form-list',
     },
     //表单详情
-    '/admin-setting/form-list/form-detail/:formOID/:booksID': {
+    '/admin-setting/form-list/form-detail/:formOid/:booksID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/form/form-detail/form-detail.js')
       ),
@@ -901,7 +901,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/setting/workflow/workflow')),
       name: 'workflow',
     },
-    '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOID': {
+    '/admin-setting/workflow/workflow-setting/:setOfBooksId/:formOid': {
       //审批流设置
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/workflow/workflow-detail')
@@ -1217,7 +1217,7 @@ export const getRouterData = app => {
       ),
       name: 'approval-my-reimburse',
     },
-    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOID/:flag': {
+    '/approval-management/approve-my-reimburse/approve-reimburse-detail/:id/:entityOid/:flag': {
       //报账单审批详情
       component: dynamicWrapper(app, [], () =>
         import('containers/reimburse/reimburse-approve/reimburse-detail.js')
@@ -1334,7 +1334,7 @@ export const getRouterData = app => {
       name: 'legal-person',
     },
     //实体法人详情
-    '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOID/:legalPersonID': {
+    '/enterprise-manage/legal-person/legal-person-detail/:legalPersonOid/:legalPersonID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/legal-person/legal-person-detail.js')
       ),
@@ -1342,7 +1342,7 @@ export const getRouterData = app => {
       parent: '/enterprise-manage/legal-person',
     },
     //编辑实体法人
-    '/enterprise-manage/legal-person/new-legal-person/:legalPersonOID/:legalPersonID': {
+    '/enterprise-manage/legal-person/new-legal-person/:legalPersonOid/:legalPersonID': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/legal-person/new-legal-person.js')
       ),
@@ -1379,7 +1379,7 @@ export const getRouterData = app => {
       name: 'company-maintain',
     },
     //企业管理-公司维护-新建编辑公司
-    '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOID': {
+    '/enterprise-manage/company-maintain/new-company-maintain/:flag/:companyOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/company-maintain/new-company-maintain.js')
       ),
@@ -1424,7 +1424,7 @@ export const getRouterData = app => {
       name: 'new-announcement-information',
     },
     //设置-公告信息-详情
-    '/admin-setting/announcement-information/announcement-information-detail/:OID/:id': {
+    '/admin-setting/announcement-information/announcement-information-detail/:Oid/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/announcement-information/announcement-information-detail.js')
       ),
@@ -1439,7 +1439,7 @@ export const getRouterData = app => {
       name: 'org-structure',
     },
     //员工管理
-    '/enterprise-manage/org-structure/person-detail/:userOID': {
+    '/enterprise-manage/org-structure/person-detail/:userOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
       ),
@@ -1570,7 +1570,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/expense-type',
     },
     //员工管理
-    '/setting/employee/person-detail/person-detail/:userOID': {
+    '/setting/employee/person-detail/person-detail/:userOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
       ),
@@ -1631,7 +1631,7 @@ export const getRouterData = app => {
       name: 'expense-report',
     },
     //新建报销单
-    '/expense-report/new-expense-report/:formId/:userOID': {
+    '/expense-report/new-expense-report/:formId/:userOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/new-expense-report.js')
       ),
@@ -1639,7 +1639,7 @@ export const getRouterData = app => {
       parent: '/expense-report',
     },
     //报销单详情
-    '/expense-report/expense-report-detail/:expenseReportOID/:pageFrom': {
+    '/expense-report/expense-report-detail/:expenseReportOid/:pageFrom': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/base-expense-report-detail.js')
       ),
@@ -1655,7 +1655,7 @@ export const getRouterData = app => {
       name: 'approve-expense-report',
     },
     //审批报销单审批详情
-    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOID/:approverOID': {
+    '/approval-management/approve-expense-report/approve-expense-report-detail/:expenseReportOid/:approverOid': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/base-expense-report-detail.js')
       ),
@@ -1670,13 +1670,13 @@ export const getRouterData = app => {
       name: 'finance-view',
     },
     //借款单详情
-    '/financial-management/finance-view/loan-request-detail-view/:formOID/:applicationOID/:pageFrom': {
+    '/financial-management/finance-view/loan-request-detail-view/:formOid/:applicationOid/:pageFrom': {
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'loan-request-detail-audit',
       parent: '/financial-management/finance-view',
     },
     //查看单据-报销单详情
-    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOID/:pageFrom': {
+    '/financial-management/finance-view/expense-report-detail-view/:expenseReportOid/:pageFrom': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/base-expense-report-detail.js')
       ),
@@ -1696,7 +1696,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/my-account/my-account.js')),
       name: 'my-account',
     },
-    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOID/:flag': {
+    '/approval-management/approve-payment-requisition/payment-requisition-detail/:id/:entityOid/:flag': {
       component: dynamicWrapper(app, [], () =>
         import('containers/approve/payment-requisition/payment-requisition-detail.js')
       ),
@@ -1757,7 +1757,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/expense-type',
     },
     //报销单详情
-    '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOID/:backType': {
+    '/financial-management/finance-audit/expense-report-detail-audit/:expenseReportOid/:backType': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-report/base-expense-report-detail.js')
       ),
@@ -1765,13 +1765,13 @@ export const getRouterData = app => {
       parent: '/financial-management/finance-audit',
     },
     //借款单详情
-    '/financial-management/finance-audit/loan-request-detail-audit/:formOID/:applicationOID/:backType': {
+    '/financial-management/finance-audit/loan-request-detail-audit/:formOid/:applicationOid/:backType': {
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail.js')),
       name: 'loan-request-detail-audit',
       parent: '/financial-management/finance-audit',
     },
 
-    '/financial-management/check-cost-application/cost-application-detail/:formOID/:applicationOID/:pageFrom': {
+    '/financial-management/check-cost-application/cost-application-detail/:formOid/:applicationOid/:pageFrom': {
       //费用申请单详情
       component: dynamicWrapper(app, [], () => import('containers/request/base-request-detail')),
       name: 'cost-application-detail',

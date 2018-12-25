@@ -27,7 +27,7 @@ class FormSetting extends React.Component {
       selectorItem: chooserData['deploy_company_by_carousel'],
       selectedCompany: [],
       companyLoading: false,
-      companyOID: [],
+      companyOid: [],
       rightSelectedCompany:[]
     }
   }
@@ -40,8 +40,8 @@ class FormSetting extends React.Component {
 
   getProperty = () => {
     this.setState({ loading: true });
-    workflowService.getCustomFormProperty(this.props.formOID).then(res => {
-      let companyOID = (res.data.approvalAddSignScope || {}).companyOIDs || [];
+    workflowService.getCustomFormProperty(this.props.formOid).then(res => {
+      let companyOid = (res.data.approvalAddSignScope || {}).companyOids || [];
       this.setState({
         loading: false,
         enableCounterSign: res.data.enableCounterSign,
@@ -57,16 +57,16 @@ class FormSetting extends React.Component {
         rejectSendEmail: res.data.rejectSendEmail,
         printSendEmail: res.data.printSendEmail,
         endSendEmail: res.data.endSendEmail,
-        companyOID: companyOID
+        companyOid: companyOid
 
       })
     })
   };
 
   获取选择的公司
-  getSelectedCompany = (companyOID) => {
+  getSelectedCompany = (companyOid) => {
     this.setState({ companyLoading: true });
-    workflowService.getBatchCompanyItemList(companyOID).then(res => {
+    workflowService.getBatchCompanyItemList(companyOid).then(res => {
       this.setState({
         selectedCompany: res.data,
         companyLoading: false
@@ -141,9 +141,9 @@ class FormSetting extends React.Component {
       default:
         chainHistoryFirstRule = '';
     }
-    let companyOIDs = [];
+    let companyOids = [];
     this.state.rightSelectedCompany.map(item => {
-      companyOIDs.push(item.companyOID)
+      companyOids.push(item.companyOid)
     });
     let params = {
       chainHistoryFirstRule,
@@ -157,12 +157,12 @@ class FormSetting extends React.Component {
       enableAmountFilter,
       enableExpenseTypeFilter,
       proxyStrategy,
-      formOid: this.props.formOID,
+      formOid: this.props.formOid,
       rejectSendEmail,
       endSendEmail,
       printSendEmail,
       approvalAddSignScope: {
-        companyOIDs
+        companyOids
       }
     };
     this.setState({ saveLoading: true });
@@ -174,10 +174,10 @@ class FormSetting extends React.Component {
     })
   };
   handleSelectCompany = () => {
-    let companyOID = this.state.companyOID;
+    let companyOid = this.state.companyOid;
     this.setState({ companyLoading: true });
-    if (companyOID.length) {
-      workflowService.getBatchCompanyItemList(companyOID).then(res => {
+    if (companyOid.length) {
+      workflowService.getBatchCompanyItemList(companyOid).then(res => {
         this.setState({
           selectedCompany: res.data,
           companyLoading: false,
@@ -382,7 +382,7 @@ class FormSetting extends React.Component {
 }
 
 FormSetting.propTypes = {
-  formOID: PropTypes.string,
+  formOid: PropTypes.string,
 };
 
 

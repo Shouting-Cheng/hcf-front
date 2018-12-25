@@ -208,7 +208,7 @@ class NewApplicationType extends React.Component {
             })(
               <Select allowClear>
                 {formList.map(item => {
-                  return <Option key={item.formOID}>{item.formName}</Option>;
+                  return <Option key={item.formOid}>{item.formName}</Option>;
                 })}
               </Select>
             )}

@@ -139,11 +139,11 @@ class PersonGroup extends React.Component {
     // 点击行，进入该行详情页面
     handleRowClick = (record) => {
         // this.context.router.push(menuRoute.getMenuItemByAttr('person-group', 'key')
-        //     .children.personGroupDetail.url.replace(':id', record.userGroupOID));
+        //     .children.personGroupDetail.url.replace(':id', record.userGroupOid));
 
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/person-group/person-group-detail/${record.userGroupOID}`,
+                pathname: `/admin-setting/person-group/person-group-detail/${record.userGroupOid}`,
             })
         );
     };
@@ -160,11 +160,11 @@ class PersonGroup extends React.Component {
     //编辑人员组
     editItemUserGroup = (record) => {
         // this.context.router.push(menuRoute.getMenuItemByAttr('person-group', 'key')
-        //     .children.editPersonGroup.url.replace(':id', record.userGroupOID));
+        //     .children.editPersonGroup.url.replace(':id', record.userGroupOid));
 
         this.props.dispatch(
             routerRedux.push({
-                pathname: `/admin-setting/person-group/edit-person-group/${record.userGroupOID}`,
+                pathname: `/admin-setting/person-group/edit-person-group/${record.userGroupOid}`,
             })
         );
     };

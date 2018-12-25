@@ -9,9 +9,9 @@ import { routerRedux } from 'dva/router';
 const costCenterDefault = {
     code: "",
     companyName: "",
-    companyOID: null,
+    companyOid: null,
     costCenterItems: [],
-    costCenterOID: null,
+    costCenterOid: null,
     enabled: true,
     i18n: {},
     name: "",
@@ -22,11 +22,11 @@ const costCenterDefault = {
 }
 //默认的成本中心项对象
 const costCenterItemDefault = {
-    "costCenterItemOID": null,
-    "parentCostCenterItemOID": null,
+    "costCenterItemOid": null,
+    "parentCostCenterItemOid": null,
     "name": "",
     "code": "",
-    "managerOID": null,
+    "managerOid": null,
     "managerFullName": null,
     "enabled": true,
     "category": null,

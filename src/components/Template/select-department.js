@@ -84,7 +84,7 @@ class SelectDepartment extends React.Component {
         url = `${config.baseUrl}/api/department/child/${model.id}?flag=1001`;
       }
       if (this.props.entity) {
-        url = `${config.baseUrl}/api/department/child/${model.departmentOID}?flag=1001`;
+        url = `${config.baseUrl}/api/department/child/${model.departmentOid}?flag=1001`;
       }
 
       httpFetch.get(url).then(res => {
@@ -104,7 +104,7 @@ class SelectDepartment extends React.Component {
             obj = {
               name: item.name,
               path: item.path,
-              id: item.departmentOID,
+              id: item.departmentOid,
             };
           }
           if (this.props.entity) {
@@ -113,7 +113,7 @@ class SelectDepartment extends React.Component {
           let jsonStr = JSON.stringify(obj);
 
           if (this.props.mode == 'oid') {
-            if (this.state.useData.findIndex(o => o.value == item.departmentOID) >= 0) {
+            if (this.state.useData.findIndex(o => o.value == item.departmentOid) >= 0) {
               selected.push(jsonStr);
             }
           } else {
@@ -164,7 +164,7 @@ class SelectDepartment extends React.Component {
               obj = {
                 name: item.name,
                 path: item.path,
-                id: item.departmentOID,
+                id: item.departmentOid,
               };
             }
             if (this.props.entity) {
@@ -219,7 +219,7 @@ class SelectDepartment extends React.Component {
       if (this.props.entity) {
         let o = {
           departmentId: model.id,
-          departmentOid: model.departmentOID,
+          departmentOid: model.departmentOid,
           name: model.name,
           path: model.path,
           status: model.status,
@@ -300,7 +300,7 @@ class SelectDepartment extends React.Component {
             obj = {
               name: item.name,
               path: item.path,
-              id: item.departmentOID,
+              id: item.departmentOid,
             };
           }
           let jsonStr;
@@ -311,7 +311,7 @@ class SelectDepartment extends React.Component {
           }
 
           if (this.props.mode == 'oid') {
-            if (this.state.useData.findIndex(o => o.value == item.departmentOID) >= 0) {
+            if (this.state.useData.findIndex(o => o.value == item.departmentOid) >= 0) {
               selected.push(jsonStr);
             }
           } else {

@@ -35,7 +35,7 @@ class PayRefundCheckDetail extends React.Component {
             modalLoading:false,
             okModalVisible:false,
             fileList:[], // 附件
-            uploadOIDs:[],//附件OIDS
+            uploadOids:[],//附件OidS
             fileShow:false
         }
     }
@@ -102,7 +102,7 @@ class PayRefundCheckDetail extends React.Component {
               oldCashTransactionDetail:res.data.oldCashTransactionDetail,
               abledRefundAmount:res.data.oldCashTransactionDetail.abledRefundAmount,
               fileList:fileList,
-              uploadOIDs:data.backlashAttachmentOID,
+              uploadOids:data.backlashAttachmentOid,
               fileShow:true
             });
             let values = this.props.form.getFieldsValue();
@@ -460,7 +460,7 @@ class PayRefundCheckDetail extends React.Component {
                                         multiple={true}
                                         disabled={status !== "new"}
                                         uploadHandle={this.handleUpload}
-                                        defaultOIDs={this.state.uploadOIDs}
+                                        defaultOids={this.state.uploadOids}
                                         defaultFileList={this.state.fileList}
                                 />}
                         </Col>

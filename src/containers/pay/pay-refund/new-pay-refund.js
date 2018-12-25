@@ -30,7 +30,7 @@ class NewPayRefund extends React.Component {
             saveFlag: false,//是否已经保存
             btnLoading: false,//按钮加载
             fileList: [], // 附件
-            uploadOIDs: [],//附件OIDS
+            uploadOids: [],//附件OidS
             fileShow: false
         }
     }
@@ -162,14 +162,14 @@ class NewPayRefund extends React.Component {
     saveFunction = (e) => {
         e.preventDefault()
         this.props.form.validateFieldsAndScroll((err, values) => {
-            const { uploadOIDs } = this.state;
-            let backlashAttachmentOID = uploadOIDs.join(",");
+            const { uploadOids } = this.state;
+            let backlashAttachmentOid = uploadOids.join(",");
             if (!err) {
                 //第一次新建
                 if (!this.state.saveFlag) {
                     this.setState({ btnLoading: true });
                     let params = { ...this.state.data, ...values };
-                    params["backFlashAttachmentOIDs"] = backlashAttachmentOID;
+                    params["backFlashAttachmentOids"] = backlashAttachmentOid;
                     payRefundService.saveFunction(params).then(res => {
                         if (res.status === 200) {
                             this.setState({
@@ -192,7 +192,7 @@ class NewPayRefund extends React.Component {
                 } else {//反之更新刚刚新建的
                     this.setState({ btnLoading: true });
                     let params = { ...this.state.saveData, ...values };
-                    params["backFlashAttachmentOIDs"] = backlashAttachmentOID;
+                    params["backFlashAttachmentOids"] = backlashAttachmentOid;
                     payRefundService.updateFunction(params).then(res => {
                         if (res.status === 200) {
                             this.setState({
@@ -279,8 +279,8 @@ class NewPayRefund extends React.Component {
         return current && current.valueOf() <= moment(payDate).valueOf();
     };
     // 上传附件成功回调
-    handleUpload = (OIDs) => {
-        this.setState({ uploadOIDs: OIDs })
+    handleUpload = (Oids) => {
+        this.setState({ uploadOids: Oids })
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -443,7 +443,7 @@ class NewPayRefund extends React.Component {
                                     multiple={true}
                                     uploadHandle={this.handleUpload}
                                     defaultFileList={this.state.fileList}
-                                    defaultOIDs={this.state.uploadOIDs}
+                                    defaultOids={this.state.uploadOids}
                                 />}
                             </FormItem>
                         </Col>

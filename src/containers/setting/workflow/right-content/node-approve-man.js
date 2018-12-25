@@ -14,7 +14,7 @@ class NodeApproveMan extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      ruleApprovalNodeOID: '',
+      ruleApprovalNodeOid: '',
       selectApprovalRule: 5005,
       showDepManager: false, //【包含申请人】是否选择部门经理
       formFieldList: null, //表单条件字段 字段类型(100默认, 101文本, 102整数, 103日期, 104浮点数, 105日期, 106值列表, 107GPS, 108布尔)
@@ -25,17 +25,17 @@ class NodeApproveMan extends React.Component {
 
   componentDidMount() {
     this.setState({
-      ruleApprovalNodeOID: this.props.basicInfo.ruleApprovalNodeOID,
+      ruleApprovalNodeOid: this.props.basicInfo.ruleApprovalNodeOid,
       selectApprovalRule: this.props.basicInfo.selfApprovalRule,
       showDepManager: !(this.props.basicInfo.selfApprovalRule === 5001 || this.props.basicInfo.selfApprovalRule === 5002)
     })
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.ruleApprovalNodeOID !== nextProps.basicInfo.ruleApprovalNodeOID) {
+    if (this.state.ruleApprovalNodeOid !== nextProps.basicInfo.ruleApprovalNodeOid) {
       let selfApprovalRuleFlag = (nextProps.basicInfo.selfApprovalRule === 5001 || nextProps.basicInfo.selfApprovalRule === 5002);
       this.setState({
-        ruleApprovalNodeOID: nextProps.basicInfo.ruleApprovalNodeOID,
+        ruleApprovalNodeOid: nextProps.basicInfo.ruleApprovalNodeOid,
         selectApprovalRule: selfApprovalRuleFlag ? 5005 :nextProps.basicInfo.selfApprovalRule,
         showDepManager: !selfApprovalRuleFlag,
       },() => {
@@ -59,7 +59,7 @@ class NodeApproveMan extends React.Component {
         params.name = basicInfo.name;
         params.notifyInfo = basicInfo.notifyInfo;
         params.repeatRule = basicInfo.repeatRule;
-        params.ruleApprovalNodeOID = basicInfo.ruleApprovalNodeOID;
+        params.ruleApprovalNodeOid = basicInfo.ruleApprovalNodeOid;
         params.status = basicInfo.status;
         params.type = basicInfo.type;
         this.setState({ loading: true });

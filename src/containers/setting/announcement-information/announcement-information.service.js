@@ -8,9 +8,9 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/carousels/all`)
   },
 
-  //根据公告信息OID删除公告信息
-  deleteAnnouncement(carouselOID) {
-    return httpFetch.delete(`${config.baseUrl}/api/carousels/${carouselOID}`)
+  //根据公告信息Oid删除公告信息
+  deleteAnnouncement(carouselOid) {
+    return httpFetch.delete(`${config.baseUrl}/api/carousels/${carouselOid}`)
   },
 
   //新建公告信息
@@ -24,30 +24,30 @@ export default {
   },
 
   //获取公告信息详情
-  getAnnouncementDetail(OID) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/${OID}`)
+  getAnnouncementDetail(Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/carousels/${Oid}`)
   },
   //获取公告图片模板
   getAnnouncementTemp() {
     return httpFetch.get(`${config.baseUrl}/api/carousel/template?type=TEMPLATE&page=0&size=1000`)
   },
   //获取分配公司列表
-  getCompanyList(page, size, OID) {
-    return httpFetch.get(`${config.baseUrl}/api/carousels/company/find/distribution?page=${page}&size=${size}&carouselOid=${OID}`)
+  getCompanyList(page, size, Oid) {
+    return httpFetch.get(`${config.baseUrl}/api/carousels/company/find/distribution?page=${page}&size=${size}&carouselOid=${Oid}`)
   },
 
-  //分配公司，carouselOIDs 和 companyOIDs 都是数组格式
-  handleCompanyDistribute(carouselOIDs, companyOIDs) {
+  //分配公司，carouselOids 和 companyOids 都是数组格式
+  handleCompanyDistribute(carouselOids, companyOids) {
     let url = `${config.baseUrl}/api/carousels/relevance/company`;
-    carouselOIDs.map((OID, index) => {
+    carouselOids.map((Oid, index) => {
       if (index === 0) {
-        url += `?carouselOIDs=${OID}`
+        url += `?carouselOids=${Oid}`
       } else {
-        url += `&carouselOIDs=${OID}`
+        url += `&carouselOids=${Oid}`
       }
     });
-    companyOIDs.map(OID => {
-      url += `&companyOIDs=${OID}`
+    companyOids.map(Oid => {
+      url += `&companyOids=${Oid}`
     });
     return httpFetch.put(url)
   },

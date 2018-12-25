@@ -43,7 +43,7 @@ class MyAccount extends React.Component {
   deleteExpense = (record) => {
     rejectPiwik(`我的账本/删除账本`);
     this.setState({ loading: true });
-    expenseService.deleteExpense(record.invoiceOID).then(res => {
+    expenseService.deleteExpense(record.invoiceOid).then(res => {
       message.success(this.$t('common.operate.success'));
       if (this.state.data.length === 1) {
         this.setState({ page: 0 }, this.getList)
@@ -60,7 +60,7 @@ class MyAccount extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     event.cancelBubble = true;
-    expenseService.printInvoice(record.digitalInvoice, this.props.company.companyOID);
+    expenseService.printInvoice(record.digitalInvoice, this.props.company.companyOid);
   };
 
   renderOperate = (text, record) => {
@@ -96,12 +96,12 @@ class MyAccount extends React.Component {
     rejectPiwik('我的账本/进入账本');
     this.getList();
     Promise.all([
-      baseService.getBusinessCardConsumptionList('CMBC', false, this.props.user.userOID, 0, 10),
+      baseService.getBusinessCardConsumptionList('CMBC', false, this.props.user.userOid, 0, 10),
       expenseService.getBusinessCardStatus()
     ]).then(res => {
       this.setState({ businessCardEnabled: res[0].data.success && res[0].data.rows.length > 0 && res[1].data.rows })
     });
-    expenseService.getTitleList(this.props.company.companyOID).then(res => {
+    expenseService.getTitleList(this.props.company.companyOid).then(res => {
       this.setState({ invoiceEnabled: res.data.length > 0 })
     })
   }
@@ -224,7 +224,7 @@ class MyAccount extends React.Component {
           size="middle"
           bordered
           expandedRowRender={this.renderAllExpandedRow}
-          rowKey="invoiceOID"
+          rowKey="invoiceOid"
           rowClassName={this.renderClass}
           loading={loading}
           columns={columns}

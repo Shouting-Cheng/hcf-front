@@ -255,7 +255,7 @@ class AddAuthorization extends React.Component {
                 },
               ],
               initialValue: params.employeeOid
-                ? [{ userOID: params.employeeOid, userCode: params.employee }]
+                ? [{ userOid: params.employeeOid, userCode: params.employee }]
                 : [],
             })(
               <Chooser
@@ -263,7 +263,7 @@ class AddAuthorization extends React.Component {
                 type="select_authorization_user"
                 onChange={this.employeeChange}
                 labelKey="userCode"
-                valueKey="userOID"
+                valueKey="userOid"
                 single={true}
                 listExtraParams={extraParams}
                 disabled={

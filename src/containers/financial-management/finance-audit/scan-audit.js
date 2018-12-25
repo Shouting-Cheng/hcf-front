@@ -62,7 +62,7 @@ class ScanAudit extends React.Component {
 
   onOpen = () => {
     let body = {
-      userOID: this.props.user.userOID,
+      userOid: this.props.user.userOid,
       token: this.props.authToken.access_token,
     };
     let dict = {
@@ -128,7 +128,7 @@ class ScanAudit extends React.Component {
     } else if (expense.body.type === 'EXPENSE_REPORT_PASS') {
       entityList.unshift({
         type: expense.body.type,
-        entityOID: content[0] || '',
+        entityOid: content[0] || '',
         businessCode: content[1] || '',
         name: content[2] || '',
         pass: true,
@@ -143,7 +143,7 @@ class ScanAudit extends React.Component {
     } else if (expense.body.type === 'EXPENSE_REPORT_APPROVAL') {
       let rejectEntity = {
         type: expense.body.type,
-        entityOID: content[0] || '',
+        entityOid: content[0] || '',
         businessCode: content[1] || '',
         name: content[2] || '',
         pass: false,
@@ -161,7 +161,7 @@ class ScanAudit extends React.Component {
           approvalTxt: values.approvalTxt,
           entities: [
             {
-              entityOID: rejectEntity.entityOID,
+              entityOid: rejectEntity.entityOid,
               entityType: 1002,
             },
           ],
@@ -270,7 +270,7 @@ class ScanAudit extends React.Component {
           </h4>
           <div className="pass-audit-result">
             {entityList.map(entity => (
-              <Tag color={entity.pass ? 'geekblue' : 'magenta'} key={entity.entityOID}>
+              <Tag color={entity.pass ? 'geekblue' : 'magenta'} key={entity.entityOid}>
                 {entity.businessCode}
               </Tag>
             ))}

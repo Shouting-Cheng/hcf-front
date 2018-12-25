@@ -152,19 +152,19 @@ class NewShare extends Component {
           this.state.defaultApportion.costCenterItems.map(o => {
             cols.push({
               title: o.fieldName,
-              dataIndex: o.costCenterOID,
-              key: o.costCenterOID,
+              dataIndex: o.costCenterOid,
+              key: o.costCenterOid,
               width: 180,
               render: (value, record, index) => {
                 return record.status == 'edit' || record.status == 'new' ? (
                   <Select
                     labelInValue
                     value={value}
-                    onChange={val => this.centerChange(index, val, o.costCenterOID)}
-                    onFocus={() => this.handleFocus(o.costCenterOID)}
+                    onChange={val => this.centerChange(index, val, o.costCenterOid)}
+                    onFocus={() => this.handleFocus(o.costCenterOid)}
                   >
-                    {this.state.costCenterData[o.costCenterOID] &&
-                      this.state.costCenterData[o.costCenterOID].map(item => {
+                    {this.state.costCenterData[o.costCenterOid] &&
+                      this.state.costCenterData[o.costCenterOid].map(item => {
                         return (
                           <Select.Option key={parseInt(item.id)} value={parseInt(item.id)}>
                             {item.name}
@@ -173,7 +173,7 @@ class NewShare extends Component {
                       })}
                   </Select>
                 ) : (
-                  <span>{record[o.costCenterOID].label}</span>
+                  <span>{record[o.costCenterOid].label}</span>
                 );
               },
             });
@@ -216,7 +216,7 @@ class NewShare extends Component {
         // }
 
         // this.state.defaultApportion.costCenterItems.map(o => {
-        //     columns.push({ title: o.fieldName, dataIndex: o.costCenterOID, key: o.costCenterOID })
+        //     columns.push({ title: o.fieldName, dataIndex: o.costCenterOid, key: o.costCenterOid })
         // })
         let optionCol = this.state.optionCol;
 
@@ -303,7 +303,7 @@ class NewShare extends Component {
       this.state.defaultApportion.costCenterItems.length
     ) {
       this.state.defaultApportion.costCenterItems.map(o => {
-        if (!record[o.costCenterOID] || !record[o.costCenterOID].key) {
+        if (!record[o.costCenterOid] || !record[o.costCenterOid].key) {
           message.error('成本中心不能为空！');
           error = true;
         }
