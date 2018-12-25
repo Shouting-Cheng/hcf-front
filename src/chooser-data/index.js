@@ -2816,8 +2816,6 @@ const chooserData = {
         title: messages('chooser.data.dep'), //部门名称
         dataIndex: 'name',
         render: (value, record) => {
-          //之前洪阳林这么加了一句：record.name = record.path && React.Component.prototype.checkFunctionProfiles('department.full.path.disabled', [undefined, false]) ? 。。。。。
-          //我实在看不懂，我就先去掉 record.name = record.path，解决部门列表选择bug
           return (
             <Popover placement="topLeft" content={record.path}>
               {record.path}
@@ -2826,7 +2824,7 @@ const chooserData = {
         },
       },
     ],
-    key: 'departmentOid',
+    key: 'departmentId'
   },
   select_setOfBooks_accounts: {
     title: '选择科目',
@@ -2889,7 +2887,7 @@ const chooserData = {
   },
   application_type: {
     title: "选择申请类型",
-    url: `${config.expenseUrl}/api/expense/types/query`,
+    url: `${config.expenseUrl}/api/expense/types/chooser/query`,
     searchForm: [
       {
         type: 'input',

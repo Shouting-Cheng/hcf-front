@@ -155,7 +155,6 @@ class DataAuthority extends React.Component {
                         close={this.handleCloseSlide}
                         params={{ ...updateParams }}
                     />
-
                 </SlideFrame>
             </div>
         )
@@ -164,7 +163,6 @@ class DataAuthority extends React.Component {
 }
 
 function mapStateToProps(state) {
-
 }
 
 export default connect(mapStateToProps, null, null, { withRef: true })(DataAuthority);

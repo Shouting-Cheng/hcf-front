@@ -124,11 +124,11 @@ class ParamsSetting extends Component {
 
     this.setState({ loading: true });
     service
-      .getParamsSettingList({ ...searchParams, size })
+      .getParamsSettingList({ ...searchParams,size})
       .then(res => {
         pagination.total = Number(res.headers['x-total-count']);
         pagination.current = page + 1;
-        pagination.pageSize = 4;
+        pagination.pageSize = 5;
         pagination.showTotal = () => {
           return `共${Number(res.headers['x-total-count'])}条`;
         };
@@ -199,8 +199,9 @@ class ParamsSetting extends Component {
   };
 
   // 分页
-  handleTableChange = pagination => {
-    page = pagination.current - 1;
+  handleTableChange = (pagination) => {
+    let { page} = this.state;
+    page = pagination.current -1;
     this.setState(
       {
         size: pagination.pageSize || 10,
@@ -236,7 +237,7 @@ class ParamsSetting extends Component {
           type="primary"
           onClick={this.createBtn}
         >
-          新增
+          新建
         </Button>
         <Table
           rowKey={record => record.id}
