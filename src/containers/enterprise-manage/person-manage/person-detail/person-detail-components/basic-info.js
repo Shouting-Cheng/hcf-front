@@ -1263,7 +1263,7 @@ class PersonBasicInfo extends React.Component {
             </Col>
           </Row>
 
-          <div>{this.renderExtendTitle()}</div>
+          {/*<div>{this.renderExtendTitle()}</div>*/}
           <div style={{ width: 500 }}>{this.renderEditingField(fields)}</div>
           <Button type="primary" loading={loading} htmlType="submit">
             {this.$t('common.save') /*保存*/}

@@ -92,42 +92,53 @@ class ExpenseApplicationForm extends React.Component {
       columns: [{
         title: "单号",
         dataIndex: "documentNumber",
-        align: "center"
+        align: "center",
+        width: 150,
+        tooltips: true
       }, {
         title: "单据类型",
         dataIndex: "typeName",
-        align: "center"
+        align: "center",
+        width: 150,
+        tooltips: true
       }, {
         title: "申请人",
         dataIndex: "employeeName",
-        align: "center"
+        align: "center",
+        width: 100,
       }, {
         title: "申请日期",
         dataIndex: "requisitionDate",
         align: "center",
+        width: 120,
         render: value => moment(value).format("YYYY-DD-MM")
       }, {
         title: "币种",
         dataIndex: "currencyCode",
-        align: "center"
+        align: "center",
+        width: 90,
       }, {
         title: "金额",
         dataIndex: "amount",
         align: "center",
+        width: 150,
         render: value => this.formatMoney(value)
       }, {
         title: "本币金额",
         dataIndex: "functionalAmount",
         align: "center",
+        width: 150,
         render: value => this.formatMoney(value)
       }, {
         title: "备注",
         dataIndex: "remarks",
-        align: "center"
+        align: "center",
+        tooltips: true
       }, {
         title: "状态",
         dataIndex: "status",
         align: "center",
+        width: 110,
         render: value => <Badge
           status={this.state.status[value].state}
           text={this.state.status[value].label}
@@ -141,7 +152,6 @@ class ExpenseApplicationForm extends React.Component {
   componentDidMount() {
     this.getApplicationTypeList();
   }
-
 
   //获取申请单类型
   getApplicationTypeList = () => {
@@ -187,7 +197,9 @@ class ExpenseApplicationForm extends React.Component {
 
   //跳转到新建页面
   newReimburseForm = value => {
-
+    this.props.dispatch(routerRedux.push({
+      pathname: '/expense-application/new-expense-application/' + value.key
+    }));
   };
 
   //跳转到详情
