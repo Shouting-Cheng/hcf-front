@@ -178,8 +178,9 @@ class DataRulesForm extends React.Component {
             this.props.form.resetFields();
             this.props.upDataHandle(res.data);
           }).catch((e) => {
+            console.log(e)
             this.setState({ loading: false });
-            message.error(e.response.data.message);
+            e.response&message.error(e.response.data.message);
           })
 
         } else {

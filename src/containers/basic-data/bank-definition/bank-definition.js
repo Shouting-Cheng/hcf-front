@@ -309,8 +309,17 @@ class BankDefinition extends React.Component {
 
   deleteItem = (e, record) => {
     this.setState({ loading: true });
+    let pagination = this.state.pagination;
     BSService.deleteSelfBank(record.id)
       .then(response => {
+        this.setState({
+          pagination: {
+            ...pagination,
+            total: pagination.total - 1,
+            page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
+            current: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) + 1 : pagination.page + 1
+          }
+        })
         this.getList();
       })
       .catch(e => {

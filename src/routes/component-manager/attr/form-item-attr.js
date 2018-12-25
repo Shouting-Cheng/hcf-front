@@ -3,23 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import CommonAttrForm from './common-attr-form';
 
-const types = [
-  { label: '日期', value: 'date' },
-  { label: '金额', value: 'money' },
-  { label: '币种', value: 'currency' },
-  { label: '姓名', value: 'name' },
-  { label: '单据状态', value: 'progress' },
-];
-
-const aligns = [
-  { label: '居中', value: 'center' },
-  { label: '左对齐', value: 'left' },
-  { label: '右对齐', value: 'right' },
-];
 
 @connect(({ components }) => ({
   components,
 }))
+
 class FormItemAttrForm extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +27,12 @@ class FormItemAttrForm extends Component {
         },
         {
           type: 'input',
+          key: 'visible',
+          label: 'visible',
+          tooltip: '显示或隐藏',
+        },
+        {
+          type: 'input',
           key: 'defaultValue',
           label: 'defaultValue',
           tooltip: '默认值',
@@ -48,6 +42,12 @@ class FormItemAttrForm extends Component {
           key: 'required',
           label: 'required',
           tooltip: '是否必填',
+        },
+        {
+          type: 'input',
+          key: 'disabled',
+          label: 'disabled',
+          tooltip: '是否禁用',
         },
         {
           type: 'input',
@@ -87,6 +87,32 @@ class FormItemAttrForm extends Component {
           label: 'valueKey',
           tooltip: '绑定选中的字段',
         },
+        {
+          type: 'json',
+          key: 'dataSource',
+          label: 'dataSource',
+          tooltip: '默认下拉框数据源，当配置了这个属性，url就不会生效。',
+        }
+      ],
+      customChooserItems: [
+        {
+          type: 'input',
+          key: 'chooserType',
+          label: 'chooserType',
+          tooltip: 'chooserdata里面的key',
+        },
+        {
+          type: 'input',
+          key: 'labelKey',
+          label: 'labelKey',
+          tooltip: '绑定显示的字段',
+        },
+        {
+          type: 'input',
+          key: 'valueKey',
+          label: 'valueKey',
+          tooltip: '绑定选中的字段',
+        },
       ],
       formItems: [],
     };
@@ -98,10 +124,12 @@ class FormItemAttrForm extends Component {
         o => o.id == nextProps.components.selectedId
       );
 
-      const { commonFormItems, selectFormItems } = this.state;
+      const { commonFormItems, selectFormItems, customChooserItems } = this.state;
       let formItems = [...commonFormItems];
       if (selected.text == 'select') {
         formItems = [...formItems, ...selectFormItems];
+      } else if (selected.text == 'custom-chooser' || selected.text == 'permissions-allocation') {
+        formItems = [...formItems, ...customChooserItems];
       }
 
       this.setState({ formItems });
@@ -111,17 +139,20 @@ class FormItemAttrForm extends Component {
   componentDidMount() {
     const {
       components: { selectedId },
-      components: { components },
-      dispatch,
+      components: { components }
     } = this.props;
 
     let selected = components.find(o => o.id == selectedId);
 
-    const { commonFormItems, selectFormItems } = this.state;
+    const { commonFormItems, selectFormItems, customChooserItems } = this.state;
     let formItems = [...commonFormItems];
+
     if (selected.text == 'select') {
       formItems = [...formItems, ...selectFormItems];
+    } else if (selected.text == 'custom-chooser' || selected.text == 'permissions-allocation') {
+      formItems = [...formItems, ...customChooserItems];
     }
+
     this.setState({ formItems });
   }
 

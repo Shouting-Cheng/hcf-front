@@ -106,7 +106,7 @@ class Role extends React.Component {
         <Alert
           style={{ marginBottom: 10 }}
           closable
-          message="操作后，刷新当前页面，或则重新登录才能生效！"
+          message="操作后，刷新当前页面，或者重新登录才能生效！"
           type="info"
         />
         <SearchForm formItems={formItems} search={this.search} />

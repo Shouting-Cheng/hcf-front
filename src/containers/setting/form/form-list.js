@@ -4,7 +4,7 @@ import {connect} from 'dva';
 
 import {
   Button, Popover, message, Col, Row, Dropdown,
-  Icon, Menu, Tabs, Badge
+  Icon, Menu, Tabs, Badge, Select, Input
 } from 'antd';
 import Table from 'widget/table'
 
@@ -13,9 +13,12 @@ const TabPane = Tabs.TabPane;
 import formService from 'containers/setting/form/form.service';
 import constants from 'share/constants';
 import BaseService from 'share/base.service';
+import Selector from 'widget/selector'
 
 import 'styles/setting/form/form-list.scss';
 import { routerRedux } from 'dva/router';
+const Option = Select.Option;
+
 
 class FormList extends React.Component {
   constructor(props) {
@@ -24,9 +27,10 @@ class FormList extends React.Component {
       formList: [],
       formListForSob: [],
       setOfBooks: [], //账套list
-      currentSetOfBooksID: '', //当前查询的账套的id
-      currentSetOfBooksName: '', //当前查询的账套的名字
+      currentSetOfBooksID: this.props.company.setOfBooksId||'', //当前查询的账套的id
+      currentSetOfBooksName:this.props.company.setOfBooksName|| '', //当前查询的账套的名字
       loading: true,
+      params:{},
       columnsForSobFrom: [
         {
           title: this.$t('common.sequence'/*序号*/),
@@ -185,22 +189,22 @@ class FormList extends React.Component {
     );
   };
 
-  handleSearchList = (e) => {
-    if (e.key !== this.state.currentSetOfBooksID) {
-      this.setState({
-        loading: true,
-        currentSetOfBooksID: e.key,
-        currentSetOfBooksName: this.getCurrentSetOfBooksName(e.key)
-      });
-      this.getFormList(e.key);
-    }
+  handleSetOfBooksChange = (value) => {
+    this.setState({
+      currentSetOfBooksID: value.id,
+      currentSetOfBooksName: value.setOfBooksName,
+    }, () => {
+      this.getFormList(value.id)
+    })
   };
 
   getFormList = (id) => {
-    let params = {};
-    if (id) {
-      params.booksID = id;
-    }
+    this.setState({loading: true})
+    let params = {
+      booksID: id || this.props.company.setOfBooksId,
+      ...this.state.params
+    };
+
     if (!this.props.tenantMode) {
       //公司模式
       params.fromType = 1;
@@ -231,6 +235,24 @@ class FormList extends React.Component {
           loading: false
         });
       })
+  };
+
+  handleCatType = (value)=>{
+    this.setState({
+      params: {
+        ...this.state.params,
+        formTypeId: value
+      }
+    },()=>this.getFormList())
+  };
+
+  handleDocType = (e)=>{
+    this.setState({
+      params: {
+        ...this.state.params,
+        formName: e.target.value
+      }
+    },()=>this.getFormList())
   };
 
   /*
@@ -334,19 +356,48 @@ class FormList extends React.Component {
         {constants.documentType.map(item => <Menu.Item key={item.value}>{item.text}</Menu.Item>)}
       </Menu>
     );
-    const menuSetOfBooks = (
+   /* const menuSetOfBooks = (
       <Menu onClick={this.handleSearchList} >
         {this.state.setOfBooks.map(item => <Menu.Item key={item.id}>{item.setOfBooksName}</Menu.Item>)}
       </Menu>
-    );
+    );*/
+    const { tenantMode, language } = this.props;
     return (
       <div>
         {this.props.tenantMode && (
-          <div id="form-list1-drop" style={{marginBottom: 20,position : "relative"}}>
-            <span>{this.$t('form.setting.set.of.books')/*帐套*/}：</span>
-            <Dropdown getPopupContainer={ () => document.getElementById('form-list1-drop')} overlay={menuSetOfBooks} trigger={['click']}>
-              <span style={{color: '#0092da'}}>{currentSetOfBooksName} <Icon type="down"/></span>
-            </Dropdown>
+          <div className="setOfBooks-container" style={{
+            borderBottom: '1px solid #e8e8e8',
+            marginBottom: 20,
+            width: '100%', height: 53}}>
+            <Row className="setOfBooks-select">
+              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{lineHeight: 2, width: 43}} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={3}>
+                <Selector type="setOfBooksByTenant"
+                          allowClear={false}
+                          entity
+                          value={{ label: this.state.currentSetOfBooksName, key: this.state.currentSetOfBooksID }}
+                          onChange={this.handleSetOfBooksChange}
+                />
+              </Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{lineHeight: 2,width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={3}>
+                <Select
+                  allowClear
+                  onChange={this.handleCatType}
+                  style={{width: '100%'}}
+                  placeholder={this.$t('common.please.select')}>
+                  {
+                    constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
+                  }
+                </Select>
+              </Col>
+              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight: 2,width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+              <Col span={3} >
+                <Input
+                  onBlur={this.handleDocType}
+                  placeholder={this.$t('common.please.enter')}/>
+              </Col>
+            </Row>
           </div>
         )}
         <div id="form-list2-drop" style={{position : "relative"}}>
@@ -437,7 +488,8 @@ class FormList extends React.Component {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
-    tenantMode:true
+    tenantMode:true,
+    language: state.languages,
   }
 }
 

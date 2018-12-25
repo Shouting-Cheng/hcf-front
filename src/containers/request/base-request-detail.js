@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import constants from 'share/constants';
-import { getApprovelHistory } from 'utils/extend';
 import { Form, Tabs, Affix, Spin, Row, message, Col, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 
@@ -22,22 +21,11 @@ import TravelPreviousVersion from 'containers/request/travel-request/travel-prev
 import RecallBtn from 'containers/request/btns/recall-btn';
 import GoBackBtn from 'containers/request/btns/go-back-btn';
 import PrintBtn from 'containers/request/btns/print-btn';
-import TravelUpdateBtn from 'containers/request/btns/travel-update-btn';
-import ExpireBtn from 'containers/request/btns/expire-btn';
-import RestartBtn from 'containers/request/btns/restart-btn';
-import BookerRefundBtn from 'containers/request/btns/booker-refund-btn';
-import BookerEndorseBtn from 'containers/request/btns/booker-endorse-btn';
 import ApproveRequestBtn from 'containers/approve/request/approve-request-btn';
-import RescheduleRefundBtn from 'containers/approve/reschedule-refund/reschedule-refund-btns';
-import PriceReviewBtn from 'containers/approve/price-review/price-review-btn';
-import AuditApplicationDetail from 'containers/financial-management/finance-audit/audit-application-detail';
-import LoanAndRefundBack from 'containers/financial-management/loan-and-refund/loan-and-refund-back';
-import SurePayBtn from 'containers/financial-management/confirm-payment/sure-pay-btn';
 import ApproveHistory from 'widget/Template/approve-history';
 import customField from 'share/customField';
 import requestService from 'containers/request/request.service';
 import baseService from 'share/base.service';
-import approveRequestService from 'containers/approve/request/request.service';
 import 'styles/request/base-request-detail.scss';
 import 'styles/components/template/approve-bar.scss';
 import 'styles/reimburse/reimburse-common.scss';
@@ -265,28 +253,28 @@ class BaseRequestDetail extends React.Component {
     return numberString;
   };
 
-  renderFooter(){
-    const {info,view, formInfo, showApproveBottom,formType} = this.state;
+  renderFooter() {
+    const { info, view, formInfo, showApproveBottom, formType } = this.state;
     switch (this.props.match.params.pageFrom) {
       case 'my':
-        if(info.status === 1003){
+        if (info.status === 1003) {
           //已通过
           return <Row gutter={24}>
-            <Col span={1} style={{marginLeft: 20}}>
+            <Col span={1} style={{ marginLeft: 20 }}>
               <PrintBtn info={info} printFlag={view} />
             </Col>
-            <Col span={1} style={{marginLeft: 15}}>
+            <Col span={1} style={{ marginLeft: 15 }}>
               <GoBackBtn backType={this.props.match.params.pageFrom} />
             </Col>
           </Row>
         }
-        if(info.status === 1002){
+        if (info.status === 1002) {
           //审批中
           return <Row gutter={24}>
-            <Col span={1} style={{marginLeft: 20}}>
+            <Col span={1} style={{ marginLeft: 20 }}>
               <RecallBtn info={info} />
             </Col>
-            <Col span={1} style={{marginLeft: 15}}>
+            <Col span={1} style={{ marginLeft: 15 }}>
               <GoBackBtn backType={this.props.match.params.pageFrom} />
             </Col>
           </Row>
@@ -307,18 +295,18 @@ class BaseRequestDetail extends React.Component {
             formType={Number(formType)}
             info={info}
             approving={showApproveBottom}
-            formInfo={formInfo}/>
+            formInfo={formInfo} />
         </Row>
       case 'approved':
       case 'checkCost':
-        return<Row gutter={24}>
-          <Col span={1} style={{marginLeft: 20}}>
+        return <Row gutter={24}>
+          <Col span={1} style={{ marginLeft: 20 }}>
             <GoBackBtn backType={this.props.match.params.pageFrom} />
           </Col>
         </Row>
-      case 'f_view':{
+      case 'f_view': {
         return (
-          <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={()=>{
+          <a style={{ fontSize: '14px', paddingBottom: '20px', paddingLeft: '20px' }} onClick={() => {
             this.props.dispatch(
               routerRedux.push({
                 pathname: '/financial-management/finance-view',
@@ -461,17 +449,17 @@ class BaseRequestDetail extends React.Component {
             <span className="detail-info">
               {this.$t('request.detail.status' /*当前状态*/)}：
               {info.closed ||
-              (info.applicationParticipant && info.applicationParticipant.closed === 1)
+                (info.applicationParticipant && info.applicationParticipant.closed === 1)
                 ? this.$t('constants.documentStatus.yet.disable' /*已停用*/)
                 : constants.getTextByValue(
-                    String(info.status + '' + info.type),
-                    'documentStatus'
-                  ) ||
-                  constants.getTextByValue(
-                    String(info.status + '' + info.rejectType),
-                    'documentStatus'
-                  ) ||
-                  constants.getTextByValue(String(info.status), 'documentStatus')}
+                  String(info.status + '' + info.type),
+                  'documentStatus'
+                ) ||
+                constants.getTextByValue(
+                  String(info.status + '' + info.rejectType),
+                  'documentStatus'
+                ) ||
+                constants.getTextByValue(String(info.status), 'documentStatus')}
             </span>
             <TravelPreviousVersion info={info} isPreVersion={isPreVersion} />
           </Row>
@@ -637,7 +625,7 @@ class BaseRequestDetail extends React.Component {
         >
           {this.renderFooter()}
         </Affix>
-       {/* {audit &&
+        {/* {audit &&
           (buttonRoleSwitch ? (
             <AuditApplicationDetail
               status={info.status}

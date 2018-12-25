@@ -64,7 +64,6 @@ class TableAttrForm extends Component {
   urlChange = async (key, value) => {
     const {
       components: { selectedId },
-      components: { components },
       dispatch,
     } = this.props;
 
@@ -79,7 +78,7 @@ class TableAttrForm extends Component {
 
           if (item.respType == "date") {
             typeCode = "date";
-          } 
+          }
 
           let box = {
             type: 'column',

@@ -1,6 +1,7 @@
 export default {
-  print: value => {
-    console.log('hello');
+  print: (value, callback) => {
+    console.log(value);
+    callback(true);
   },
   test: value => {
     console.log('test');

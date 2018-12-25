@@ -7,6 +7,16 @@ cat >> /etc/nginx/conf.d/hly-admin.conf <<EOF
 server {
     listen      80;
     server_name   $SERVER_NAME;
+
+    gzip on;
+    gzip_min_length 1k;
+    gzip_buffers 4 16k;
+    #gzip_http_version 1.0;
+    gzip_comp_level 2;
+    gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    gzip_vary off;
+    gzip_disable "MSIE [1-6]\.";
+
     location / {
         try_files \$uri /index.html;
         root /app/www/;

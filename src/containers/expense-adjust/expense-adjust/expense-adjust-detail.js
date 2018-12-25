@@ -337,6 +337,14 @@ class ExpenseAdjustDetail extends React.Component {
       .then(response => {
         message.success(this.$t('common.delete.success', { name: '' }));
         this.getHeaderInfo();
+        let { pagination } = this.state;
+        this.setState({
+          pagination: {
+          ...pagination,
+          total: pagination.total - 1,
+          page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
+        }
+        })
         this.getList();
       })
       .catch(e => {
@@ -636,12 +644,15 @@ class ExpenseAdjustDetail extends React.Component {
         console.log(res);
         if (res.status === 200) {
           if (res.data !== 0){
-            const {documentParams} = this.state;
+            const {documentParams,headerData} = this.state;
+            headerData.totalAmount = res.data
             this.setState({
               documentParams:{
                 ...documentParams,
-                totalAmount: res.data
-              } },()=>{
+                totalAmount: res.data,
+              },
+              headerData
+             },()=>{
               this.renderContent();
             })
           }
@@ -691,7 +702,7 @@ class ExpenseAdjustDetail extends React.Component {
         <Col style={{ textAlign: 'right' }} span={2}>
           <h3>{this.$t('my.contract.enclosure.information')}：</h3>
         </Col>
-        <Col span={20}>
+        <Col span={20} style={{marginTop: 2}}>
           <Row>
             {record.attachments &&
               record.attachments.map(item => {
@@ -817,26 +828,31 @@ class ExpenseAdjustDetail extends React.Component {
     return (
       <div className="adjust-content" style={{ marginBottom: 50, paddingBottom: 20 }}>
         <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
-          <DocumentBasicInfo params={documentParams}>
-            {headerData.status &&
-              (headerData.status == 1001 ||
-                headerData.status == 1003 ||
-                headerData.status == 1005) && (
-                <Button
-                  loading={widthDrawLoading}
-                  onClick={this.handleHeadEdit}
-                  type="primary"
-                  style={{ float: 'right', top: -4 }}
-                >
-                  {this.$t('common.edit')}
-                </Button>
-              )}
-            {headerData.status === 1002 && (
-              <Button type="primary" onClick={this.withdraw} style={{ float: 'right', top: -4 }}>
-                {this.$t('common.withdraw')}
-              </Button>
-            )}
-          </DocumentBasicInfo>
+          <Tabs forceRender defaultActiveKey="1" >
+            <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
+              <DocumentBasicInfo params={documentParams}>
+                {headerData.status &&
+                  (headerData.status == 1001 ||
+                    headerData.status == 1003 ||
+                    headerData.status == 1005) && (
+                    <Button
+                      loading={widthDrawLoading}
+                      onClick={this.handleHeadEdit}
+                      type="primary"
+                      style={{ float: 'right', top: -4 }}
+                    >
+                      {this.$t('common.edit')}
+                    </Button>
+                  )}
+                {headerData.status === 1002 && (
+                  <Button type="primary" onClick={this.withdraw} style={{ float: 'right', top: -4 }}>
+                    {this.$t('common.withdraw')}
+                  </Button>
+                )}
+              </DocumentBasicInfo>
+            </TabPane>
+          </Tabs>
+
         </Card>
         <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} className='expense-adjust-detail-center'>
           <div className="center-title">{this.$t('exp.adjust.info')}</div>

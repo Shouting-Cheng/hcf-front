@@ -68,6 +68,7 @@ class RuleDetailItem extends React.Component {
     }
     componentWillMount = () => {
         let params = this.props.params;
+        console.log(params.ruleDatail)
         this.setState({
             ruleName: params.name,
             ruleDatail: params.ruleDatail,
@@ -85,6 +86,7 @@ class RuleDetailItem extends React.Component {
     }
     editRuleItem = () => {
         let {ruleDatail}=this.state;
+        console.log(ruleDatail)
         if(ruleDatail[0].dataScope==='1004'){
             this.setState({
                 renderSobList:true
@@ -242,6 +244,7 @@ class RuleDetailItem extends React.Component {
                         })
                     }
                 }) .catch(e => {
+                    console.log(e.response)
                     message.error(e.response.data.message)
                 })
             }

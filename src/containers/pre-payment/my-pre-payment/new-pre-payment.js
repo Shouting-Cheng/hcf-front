@@ -4,7 +4,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {Form,Card,Input,Row,Col,Affix,Button,DatePicker,Select,InputNumber,message,Spin,} from 'antd';
+import { Form, Card, Input, Row, Col, Affix, Button, DatePicker, Select, InputNumber, message, Spin, } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 // import menuRoute from 'routes/menuRoute'
@@ -221,9 +221,10 @@ class MyNewPrePayment extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id===0
+
+                    initialValue: isNew
                       ? [{ id: this.props.user.companyId, name: this.props.user.companyName }]
-                      : model.id?[{ id: model.companyId, name: model.companyName }]:[],
+                      : model.id ? [{ id: model.companyId, name: model.companyName }] : [],
                   })(
                     <Chooser
                       type="company"
@@ -246,21 +247,21 @@ class MyNewPrePayment extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id===0
+                    initialValue: isNew
                       ? [
-                          {
-                            departmentOid: this.props.user.departmentOID,
-                            departmentId: departmentId,
-                            path: this.props.user.departmentName,
-                          },
-                        ]
-                      : model.id?[
-                          {
-                            departmentOid: model.unitOid,
-                            departmentId: model.unitId,
-                            path: model.path,
-                          },
-                        ]:[],
+                        {
+                          departmentOid: this.props.user.departmentOID,
+                          departmentId: departmentId,
+                          path: this.props.user.departmentName,
+                        },
+                      ]
+                      : model.id ? [
+                        {
+                          departmentOid: model.unitOid,
+                          departmentId: model.unitId,
+                          path: model.path,
+                        },
+                      ] : [],
                   })(
                     <Chooser
                       type="department_document"
@@ -329,9 +330,9 @@ class MyNewPrePayment extends React.Component {
                 loading={loading}
                 style={{ margin: '0 20px' }}
               >
-                {this.props.match.params.id === '0'? '下一步' : '确定'}
+                {this.props.match.params.id === '0' ? '下一步' : '确定'}
               </Button>
-              {this.props.match.params.id === '0' ? <Button onClick={this.onCancel}>取消</Button>:<Button onClick={this.onBack}>返回</Button>}
+              {this.props.match.params.id === '0' ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
             </Affix>
           </Form>
         </Spin>

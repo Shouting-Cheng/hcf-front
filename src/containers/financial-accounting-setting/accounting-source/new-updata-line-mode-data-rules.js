@@ -28,7 +28,6 @@ class NewUpDataLineModeDataRules extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
     let buttonRender;
     if(this.props.params.record)
       buttonRender = this.props.params.record.dataRule === 'VALUE_OF_RULE' ? true : false;
@@ -41,7 +40,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       },
       () => {
         if (this.props.params.record&&this.props.params.record.dataRule === 'VALUE_OF_RULE') {
-          this.getChangeRules();
+          this.getChangeRules(this.props.params.record.id);
         }
       }
     );
@@ -108,7 +107,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       spinningLoading: true,
     });
     let params = {};
-    params.modelDataRuleId = modelDataRuleId;
+    params.modelDataRuleId = modelDataRuleId || this.props.params.record.id;
     accountingService
       .getSourceLineModelChangeRules(params)
       .then(response => {
@@ -194,7 +193,7 @@ class NewUpDataLineModeDataRules extends React.Component {
       this.setState({
         saveCount: this.state.saveCount + 1,
       });
-      this.props.setParams({ value: value, saveCount: this.state.saveCount });
+      this.props.onClose({ value: value, saveCount: this.state.saveCount });
     } else {
       this.props.onClose({ value: value, saveCount: this.state.saveCount });
     }
@@ -230,7 +229,6 @@ class NewUpDataLineModeDataRules extends React.Component {
       changeDataParams,
       renderNewChangeRules,
     } = this.state;
-console.log(params)
     return (
       <div className="new-updata-line-mode-data-rules">
           <DataRulesForm
@@ -255,6 +253,8 @@ console.log(params)
           </div>
           {changeRulesRender ? (
             <div>
+              {console.log(newChangeRulesRender && this.props.params.timestamp)}
+              {console.log(renderNewChangeRules)}
               <div style={{ marginTop: '24px' }}>
                 {newChangeRulesRender && this.props.params.timestamp ? renderNewChangeRules : ''}
               </div>

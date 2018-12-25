@@ -4,21 +4,18 @@ import { Layout, Icon, message, Spin, Tabs } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import config from 'config';
-import { Route, Redirect, Switch, routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import GlobalHeader from '../components/GlobalHeader';
-import GlobalFooter from '../components/GlobalFooter';
+
 import SiderMenu from '../components/SiderMenu';
-import NotFound from '../routes/Exception/404';
-import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import { getMenuData } from '../common/menu';
 import logo from '../assets/logo.png';
 import fetch from '../utils/fetch';
-import View from '../routes/View/index';
 
 import zh_CN from '../i18n/zh_CN/index';
 import en_US from '../i18n/en_US/index';
@@ -27,11 +24,10 @@ import { isUrl } from '../utils/utils';
 
 import 'styles/common.scss';
 
-import Error from 'widget/error';
 
 const TabPane = Tabs.TabPane;
-const { Content, Header, Footer } = Layout;
-const { AuthorizedRoute, check } = Authorized;
+const { Content, Header } = Layout;
+const { check } = Authorized;
 
 /**
  * 根据菜单取得重定向地址.
@@ -130,6 +126,7 @@ class BasicLayout extends React.Component {
     selectKey: '',
     error: false,
     errorContent: {},
+    menuList: []
   };
 
   getChildContext() {
@@ -291,7 +288,8 @@ class BasicLayout extends React.Component {
 
     return new Promise((resolve, reject) => {
       fetch.get('/auth/api/userRole/query/user/menuList').then(response => {
-        let result = response || [];
+
+        let result = JSON.parse(JSON.stringify(response || []));
         let group = {};
 
         result.map(item => {
@@ -317,7 +315,6 @@ class BasicLayout extends React.Component {
 
         resolve();
 
-        //this.redirect();
       });
     });
   };
@@ -328,6 +325,7 @@ class BasicLayout extends React.Component {
       item.level = level;
       item.name = item.menuName;
       item.icon = level > 1 ? '' : item.menuIcon;
+      item.parentKey = parent.path;
 
       if (item.fromSource == 'FILE') {
         item.path = item.menuUrl;
@@ -720,7 +718,7 @@ class BasicLayout extends React.Component {
       menu,
     } = this.props;
 
-    const { isMobile: mb, loading, panes, selectKey } = this.state;
+    const { isMobile: mb, loading, panes, selectKey, menuList } = this.state;
 
     const layout = (
       <Layout>
@@ -733,6 +731,7 @@ class BasicLayout extends React.Component {
           isMobile={mb}
           onCollapse={this.handleMenuCollapse}
           activeKey={selectKey}
+          menuList={menuList}
         />
         <Layout>
           <Header style={{ padding: 0 }}>

@@ -1438,6 +1438,14 @@ export const getRouterData = app => {
       ),
       name: 'org-structure',
     },
+    //员工管理
+    '/enterprise-manage/org-structure/person-detail/:userOID': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/person-manage/person-detail/person-detail.js')
+      ),
+      name: 'person-detail',
+      parent: '/enterprise-manage/org-structure',
+    },
     //部门角色
     '/enterprise-manage/org-structure/org-roles-list': {
       component: dynamicWrapper(app, [], () =>
@@ -1791,20 +1799,17 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, [], () => import('containers/params-setting/index.js')),
       name: 'params-setting',
     },
-    // gc的练习
-    '/demo/demo-gc': {
-      component: dynamicWrapper(app, [], () => import('containers/demo-gc/index.js')),
-      name: 'demo-gc',
+    //申请类型分配公司
+    '/document-type-manage/application-type/distribution-company/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/distribution-company')),
+      name: 'distribution-company',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
     },
-    // 培训demo--lbf
-    '/demo/demo-lbf': {
-      component: dynamicWrapper(app, [], () => import('containers/demo-lbf/index.js')),
-      name: 'demo-lbf',
-    },
-    //demo --wgs
-    '/demo/demo-wgs': {
-      component: dynamicWrapper(app, [], () => import('containers/demo-wgs/index.js')),
-      name: 'demo-wgs',
+    //申请类型维度设置
+    '/document-type-manage/application-type/dimension-setting/:id': {
+      component: dynamicWrapper(app, [], () => import('containers/application-type/dimension-setting')),
+      name: 'dimension-setting',
+      parent: "/document-type-manage/application-type/:setOfBooksId"
     },
     //维度定义
     '/admin-setting/dimension-definition': {
@@ -1829,9 +1834,37 @@ export const getRouterData = app => {
       name: 'distribution-dimension-value',
       parent: '/admin-setting/dimension-definition',
     },
-    // '/user/:id': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-    // },
+    //申请类型
+    '/document-type-manage/application-type/:setOfBooksId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/application-type/index')
+      ),
+      name: 'application-type'
+    },
+    //费用申请单
+    '/expense-application': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/index')
+      ),
+      name: 'expense-application'
+    },
+    //新建费用申请单
+    '/expense-application/new-expense-application/:typeId': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'new-expense-application',
+      parent: '/expense-application'
+    },
+    //编辑费用申请单
+    '/expense-application/new-expense-application/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/new')
+      ),
+      name: 'edit-expense-application',
+      parent: '/expense-application'
+    },
+
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

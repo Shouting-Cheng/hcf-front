@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 
 import { DragSource, DropTarget } from 'react-dnd';
 import styles from './component-container.less';
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker, Row } from 'antd';
 import { connect } from 'dva';
 
 import CustomTable from 'components/Common/custom-table';
 import SearchForm from 'components/Common/search-form';
 import SlideFrame from 'components/Common/slide-frame';
 import CustomForm from 'components/Common/custom-form';
+import CustomRow from 'components/Common/custom-row';
 
 import uuid from '../../utils/uuid';
 
@@ -22,6 +23,7 @@ const componentList = {
   form: CustomForm,
   'date-picker': DatePicker,
   'range-picker': RangePicker,
+  row: CustomRow
 };
 
 /**
@@ -125,6 +127,7 @@ class ComponentContainer extends Component {
               display: item.isInline ? 'inline-block' : 'block',
               height: item.isHeight ? '100%' : 'auto',
               overflow: 'auto',
+
             }}
             key={item.id}
             onClick={e => this.selected(e, item)}
