@@ -109,6 +109,15 @@ class NewPaymentRequisition extends React.Component {
       })
     );
   };
+  //返回
+  onBack=()=>{
+    let path = this.state.myPaymentRequisitionDetail.replace(':id', this.props.match.params.id);
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: path,
+      })
+    );
+  }
   // 跳转到我的付款申请单详情
   onSuccess = () => {
     let headerData = this.state.headerData;
@@ -336,9 +345,7 @@ class NewPaymentRequisition extends React.Component {
                   ? this.$t( 'acp.next' /*下一步*/)
                   : this.$t( 'common.ok'  /*确定*/)}
               </Button>
-              <Button onClick={this.onCancel} loading={loading}>
-                {this.$t( 'common.cancel'  /*取消*/)}
-              </Button>
+              {isNew ? <Button onClick={this.onCancel} loading={loading}> {this.$t( 'common.cancel'  /*取消*/)}</Button> : <Button onClick={this.onBack}>返回</Button>}
             </Affix>
           </Form>
         </Spin>
