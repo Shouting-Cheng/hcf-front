@@ -1811,21 +1811,21 @@ export const getRouterData = app => {
       name: 'dimension-setting',
       parent: "/document-type-manage/application-type/:setOfBooksId"
     },
-    //维度定义
-    '/admin-setting/dimension-definition': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/dimension-definition/dimension-definition.js')
-      ),
-      name: 'dimension-definition',
-    },
-    //维度详情
-    '/admin-setting/dimension-definition/dimension-details': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
-      ),
-      name: 'dimension-details',
-      parent: '/admin-setting/dimension-definition',
-    },
+    // //维度定义
+    // '/admin-setting/dimension-definition': {
+    //   component: dynamicWrapper(app, [], () =>
+    //     import('containers/setting/dimension-definition/dimension-definition.js')
+    //   ),
+    //   name: 'dimension-definition',
+    // },
+    // //维度详情
+    // '/admin-setting/dimension-definition/dimension-details': {
+    //   component: dynamicWrapper(app, [], () =>
+    //     import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
+    //   ),
+    //   name: 'dimension-details',
+    //   parent: '/admin-setting/dimension-definition',
+    // },
     //分配子维值
     '/admin-setting/dimension-definition/dimension-details/:id': {
       component: dynamicWrapper(app, [], () =>
@@ -1850,7 +1850,7 @@ export const getRouterData = app => {
     },
 
     //维值详情
-    '/admin-setting/dimension-definition/dimension-details/:setOfBookId/:dimensionId': {
+    '/admin-setting/dimension-definition/dimension-details/:dimensionId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
       ),
@@ -1866,13 +1866,13 @@ export const getRouterData = app => {
       name: 'batch-company',
       parent: 'admin-setting/dimension-definition'
     },
-    //维度
-    '/admin-setting/dimension-definition': {
-      component: dynamicWrapper(app, [], () =>
-        import('containers/setting/dimension-definition/dimension-details/index.js')
-      ),
-      name: 'dimension-definition',
-    },
+    // //维度
+    // '/admin-setting/dimension-definition': {
+    //   component: dynamicWrapper(app, [], () =>
+    //     import('containers/setting/dimension-definition/dimension-details/index.js')
+    //   ),
+    //   name: 'dimension-definition',
+    // },
     // 维度定义
     '/admin-setting/dimension-definition': {
       component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),

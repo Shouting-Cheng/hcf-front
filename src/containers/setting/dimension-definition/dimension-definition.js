@@ -5,6 +5,7 @@ import { Button, Divider, message, Popconfirm,Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
+import { routerRedux } from 'dva/router';
 import NewBuilt from './date-setting';
 import service from './dimension-definition.service';
 import 'styles/setting/params-setting/params-setting.scss';
@@ -98,7 +99,7 @@ class Dfinition extends Component {
                   okText="确定"
                   cancelText="取消"
                 >
-                  <a>删除</a>
+                  <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
                 </Popconfirm>
               </span>
             );
@@ -107,9 +108,11 @@ class Dfinition extends Component {
       ],
       SearchParams: {},
       showSlideFrame:false,
+      data:[],
       updateParams: {},
     };
   }
+
 
   // 新建维度
   createDimension = () => {
@@ -129,19 +132,19 @@ class Dfinition extends Component {
   });
   };
   // 删除
-  delete = id => {
-    service
-      .deleteParamsSetting(id)
-      .then(res => {
-        message.success('删除成功');
-        this.setState({ page: 0 }, () => {
-          this.getList();
-        });
-      })
-      .catch(err => {
-        message.error(err.response.data.message);
-      });
-  };
+  // delete = id => {
+  //   service
+  //     .deleteParamsSetting(id)
+  //     .then(res => {
+  //       message.success('删除成功');
+  //       this.setState({ page: 0 }, () => {
+  //         this.getList();
+  //       });
+  //     })
+  //     .catch(err => {
+  //       message.error(err.response.data.message);
+  //     });
+  // };
   // 搜索
   search = (values) => {
     Object.keys(values).forEach(i=>values[i]=values[i]?values[i]:undefined);
@@ -155,6 +158,15 @@ class Dfinition extends Component {
   //清除
   clear = () => {
     this.setState({ searchParams: {} })
+}
+// 详情
+detailClick = (e,record) => {
+ this.props.dispatch(
+   routerRedux.replace({
+     //账套id,recordid
+     pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
+   })
+ );
 }
   handleCloseSlide = () => {
     this.setState({
@@ -179,7 +191,7 @@ class Dfinition extends Component {
 
         <CustomTable
           columns={columns}
-          url={`${config.authUrl}/api/data/auth/table/properties/query`}
+          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=1`}
           ref={ref => (this.table = ref)}
         />
         <SlideFrame

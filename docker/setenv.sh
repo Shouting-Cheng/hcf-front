@@ -66,12 +66,12 @@ server {
     }
 
     location /location/ {
-        proxy_pass http://$IP:$PORT/location/;
+        proxy_pass http://$IP:$PORT/base/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 
     location /brms/ {
-        proxy_pass http://$IP:$PORT/brms/;
+        proxy_pass http://$IP:$PORT/base/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 

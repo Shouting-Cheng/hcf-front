@@ -6,7 +6,7 @@ export default {
 
   //获取审批流列表，booksID：帐套id
   getWorkflowList(params) {
-    return httpFetch.get(`${config.baseUrl}/brms/api/rule/custom/forms`, params)
+    return httpFetch.get(`${config.baseUrl}/api/rule/custom/forms`, params)
   },
 
   //复制审批链
@@ -16,7 +16,7 @@ export default {
       targetFormOid
     };
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/chains/copy/v2`, params).then(res => {
+      httpFetch.put(`${config.baseUrl}/api/rule/approval/chains/copy/v2`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -26,10 +26,10 @@ export default {
   },
 
   //获取表单信息
- /* getCustomForm(formOid) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}`)
-  },
-*/
+  /* getCustomForm(formOid) {
+     return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}`)
+   },
+ */
   //获取审批链详情
   getApprovalChainDetail(formOid) {
     let params = {
@@ -38,13 +38,13 @@ export default {
       cascadeApprover: true,
       cascadeCondition: true
     };
-    return httpFetch.get(`${config.baseUrl}/brms/api/rule/approval/chains/form`, params)
+    return httpFetch.get(`${config.baseUrl}/api/rule/approval/chains/form`, params)
   },
 
   //删除节点
   deleteApprovalNode(ruleApprovalNodeOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approval/nodes/${ruleApprovalNodeOid}`).then(res => {
+      httpFetch.delete(`${config.baseUrl}/api/rule/approval/nodes/${ruleApprovalNodeOid}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -73,7 +73,7 @@ export default {
   //创建审批节点
   createApprovalNodes(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(`${config.baseUrl}/brms/api/rule/approval/nodes`, params).then(res => {
+      httpFetch.post(`${config.baseUrl}/api/rule/approval/nodes`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -85,7 +85,7 @@ export default {
   //修改审批节点
   modifyApprovalNodes(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/nodes`, params).then(res => {
+      httpFetch.put(`${config.baseUrl}/api/rule/approval/nodes`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -97,7 +97,7 @@ export default {
   //移动审批节点
   moveApprovalNode(ruleApprovalNodeOid, nextRuleApprovalNodeOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/approval/nodes/move?ruleApprovalNodeOid=${ruleApprovalNodeOid}&nextRuleApprovalNodeOid=${nextRuleApprovalNodeOid || ''}`).then(res => {
+      httpFetch.put(`${config.baseUrl}/api/rule/approval/nodes/move?ruleApprovalNodeOid=${ruleApprovalNodeOid}&nextRuleApprovalNodeOid=${nextRuleApprovalNodeOid || ''}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -108,7 +108,7 @@ export default {
 
   //获取审批者类型
   getApproverType() {
-    return httpFetch.get(`${config.baseUrl}/brms/api/rule/approver/types`);
+    return httpFetch.get(`${config.baseUrl}/api/rule/approver/types`);
   },
 
   //批量获取部门
@@ -150,13 +150,13 @@ export default {
     let params = {
       formOid
     };
-    return httpFetch.get(`${config.baseUrl}/brms/api/rule/custom/form/fields`, params)
+    return httpFetch.get(`${config.baseUrl}/api/rule/custom/form/fields`, params)
   },
 
   //创建审批者
   createApprovers(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(`${config.baseUrl}/brms/api/rule/approvers/batch`, params).then(res => {
+      httpFetch.post(`${config.baseUrl}/api/rule/approvers/batch`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -168,7 +168,7 @@ export default {
   //修改审批者
   updateApprovers: function (params) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/approvers`, params).then(res => {
+      httpFetch.put(`${config.baseUrl}/api/rule/approvers`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -180,7 +180,7 @@ export default {
   //移除审批者
   deleteApprovers(ruleApproverOid) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(`${config.baseUrl}/brms/api/rule/approvers/${ruleApproverOid}`).then(res => {
+      httpFetch.delete(`${config.baseUrl}/api/rule/approvers/${ruleApproverOid}`).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -191,13 +191,13 @@ export default {
 
   //所有的条件操作符
   getSymbolsType() {
-    return httpFetch.get(`${config.baseUrl}/brms/api/rule/approval/symbols`)
+    return httpFetch.get(`${config.baseUrl}/api/rule/approval/symbols`)
   },
 
   //批量创建审批者条件
   createRuleCondition(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.post(`${config.baseUrl}/brms/api/rule/conditions/batch`, params).then(res => {
+      httpFetch.post(`${config.baseUrl}/api/rule/conditions/batch`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -209,7 +209,7 @@ export default {
   //批量修改审批者条件
   updateRuleCondition(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.put(`${config.baseUrl}/brms/api/rule/conditions/batch`, params).then(res => {
+      httpFetch.put(`${config.baseUrl}/api/rule/conditions/batch`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -221,7 +221,7 @@ export default {
   //批量删除审批者条件, params ruleConditionOid数组
   deleteRuleCondition(params) {
     return new Promise((resolve, reject) => {
-      httpFetch.delete(`${config.baseUrl}/brms/api/rule/conditions/batch`, params).then(res => {
+      httpFetch.delete(`${config.baseUrl}/api/rule/conditions/batch`, params).then(res => {
         resolve(res)
       }).catch(e => {
         errorMessage(e.response);
@@ -237,7 +237,7 @@ export default {
 
   //获取自钉子列表的值列表
   getBatchTypeList(params) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/enumeration/system/by/type`,params)
+    return httpFetch.get(`${config.baseUrl}/api/custom/enumeration/system/by/type`, params)
   },
   getBatchUsers(params) {
 

@@ -52,19 +52,19 @@ class FormDetail extends React.Component {
     this.setState({ loading: true }, () => {
       Promise.all([
         formService.getFormDetail(formOid),
-        formService.getExpenseTypeScope(formOid, 99),
-        formService.getUserScope(formOid),
-        formService.getFormPropertyList(formOid)
+        // formService.getExpenseTypeScope(formOid, 99),
+        // formService.getUserScope(formOid),
+        // formService.getFormPropertyList(formOid)
       ]).then(res => {
         this.setState({
-          nowTab: 'custom',
+          nowTab: 'base',
           loading: false,
           formOid,
           form: res[0].data,
           formType: res[0].data.formType,
-          expenseTypeScope: res[1].data,
-          userScope: res[2].data,
-          propertyList: res[3].data
+          // expenseTypeScope: res[1].data,
+          // userScope: res[2].data,
+          // propertyList: res[3].data
         })
       })
     })
@@ -76,12 +76,12 @@ class FormDetail extends React.Component {
       this.setState({loading: true}, () => {
         Promise.all([
           formService.getFormDetail(formOid),
-          formService.getFormPropertyList(formOid)
+          // formService.getFormPropertyList(formOid)
         ]).then(res => {
           this.setState({
             loading: false,
             form: res[0].data,
-            propertyList: res[1].data
+            // propertyList: res[1].data
           })
         })
       })
@@ -104,7 +104,7 @@ class FormDetail extends React.Component {
     let tabs = [
       { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ }
     ];
-    this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
+    // this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
     this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
     this.state.formType === 2001 && tabs.push({ key: 'form', name: this.$t('form.setting.properties.setting')/*表单配置*/ });
     this.state.formType === 801001 && tabs.push({ key: 'match', name: this.$t('form.setting.match')/*表单设置*/ })
@@ -134,30 +134,30 @@ class FormDetail extends React.Component {
         })
       })
     }
-    if (type === 'user' && formOid) {
-      this.setState({ loading: true }, () => {
-        Promise.all([
-          formService.getUserScope(formOid)
-        ]).then(res => {
-          this.setState({
-            loading: false,
-            userScope: res[0].data
-          })
-        })
-      })
-    }
-    if (type === 'expense' && formOid) {
-      this.setState({ loading: true }, () => {
-        Promise.all([
-          formService.getExpenseTypeScope(formOid, 99)
-        ]).then(res => {
-          this.setState({
-            loading: false,
-            expenseTypeScope: res[0].data
-          })
-        })
-      })
-    }
+    // if (type === 'user' && formOid) {
+    //   this.setState({ loading: true }, () => {
+    //     Promise.all([
+    //       formService.getUserScope(formOid)
+    //     ]).then(res => {
+    //       this.setState({
+    //         loading: false,
+    //         userScope: res[0].data
+    //       })
+    //     })
+    //   })
+    // }
+    // if (type === 'expense' && formOid) {
+    //   this.setState({ loading: true }, () => {
+    //     Promise.all([
+    //       formService.getExpenseTypeScope(formOid, 99)
+    //     ]).then(res => {
+    //       this.setState({
+    //         loading: false,
+    //         expenseTypeScope: res[0].data
+    //       })
+    //     })
+    //   })
+    // }
   };
 
   getChildContext() {
@@ -189,7 +189,7 @@ class FormDetail extends React.Component {
               {this.renderTabs()}
             </Tabs>
             {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase}/>}
-            {nowTab === 'custom' && <FormDetailCustom/>}
+            {/* {nowTab === 'custom' && <FormDetailCustom/>} */}
             {nowTab === 'permission' && <FormPermission refreshData={this.refreshData}/>}
             {nowTab === 'form' && <FormSetting formOid={formOid} handlePageJump={this.pageJump}/>}
             {nowTab === 'match' && <FormMatch refreshMacthData={this.refreshMacthData} />}
