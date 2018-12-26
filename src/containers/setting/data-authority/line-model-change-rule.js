@@ -536,7 +536,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if(resultArr[i].valueKey){
+                arr.push(resultArr[i].valueKey);
+            }else{
+                arr.push(resultArr[i].id);
+            }
+           
         }
         this.props.handleCompanyListOk(arr)
         this.setState({
@@ -552,7 +557,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if(resultArr[i].valueKey){
+                arr.push(resultArr[i].valueKey);
+            }else{
+                arr.push(resultArr[i].id);
+            }
+           
         }
         this.props.handleDePListOk(arr)
         this.setState({
