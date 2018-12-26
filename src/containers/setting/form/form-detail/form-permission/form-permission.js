@@ -517,26 +517,6 @@ class FormPermission extends React.Component {
                         </Col>
                     </Row>
                 )}
-                <div className="info-title">
-                    {this.$t('form.setting.form.tip08')/*可见费用类型*/}&nbsp;&nbsp;&nbsp;
-          {this.props.tenantMode &&
-                        <span style={{ color: '#989898', fontSize: 14 }}>{this.$t('form.setting.form.tip07')/*当前账套下启用的费用类型*/}</span>
-                    }
-                </div>
-                {canEditExpense && (
-                    <div>
-                        {this.props.tenantMode || this.context.form.fromType != 2 ? this.renderTenantExpenseTypeScope() : this.renderSobExpenseTypeScope()}
-                    </div>
-                )}
-                {!canEditExpense && (
-                    <Row>
-                        <Col span={8} offset={3}>
-                            <div>
-                                {this.$t('form.setting.form.tip06')/*注：关联报销单的费用类型与申请单一致，如需更改请在申请单页面操作*/}
-                            </div>
-                        </Col>
-                    </Row>
-                )}
                 <div style={{ paddingLeft: '20px' }}>
                     <Affix offsetBottom={0} style={{
                         position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
