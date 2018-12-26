@@ -23,5 +23,11 @@
   "subject.sheet.new": "新建科目表",
   "subject.sheet.edit": "编辑科目表",
   "subject.sheet.new.subject": "新建科目",
-  "subject.sheet.edit.subject": "编辑科目"
+  "subject.sheet.edit.subject": "编辑科目",
+  "parameter.definition.model": "模块",
+  "parameter.level": "参数层级",
+  "parameter.definition": "参数定义",
+  "parameter.definition.teat":"租户级",
+  "parameter.definition.sob":"帐套级",
+  "parameter.definition.comp":"公司级"
 }
