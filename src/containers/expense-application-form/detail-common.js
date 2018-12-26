@@ -136,15 +136,8 @@ class PrePaymentCommon extends React.Component {
         this.setState({
           amount: res.data.CNY,
         });
-        let temp = '';
-        for (let key in res.data) {
-          if (key != 'totalFunctionAmount') {
-            temp += ` ${key} ${this.filterMoney(res.data[key], 2, true)} `;
-          }
-        }
+      
         this.setState({
-          amountText: temp,
-          functionAmount: res.data.totalFunctionAmount,
           headerInfo,
         });
       })
@@ -543,12 +536,7 @@ class PrePaymentCommon extends React.Component {
     subContent = (
       <div>
         <Spin spinning={false}>
-          <Card
-            style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
-            bodyStyle={{ padding: "24px 32px", paddingTop: 0 }}
-          >
-            <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
-          </Card>
+        
           <Card
             style={{
               marginTop: 20,
@@ -608,7 +596,61 @@ class PrePaymentCommon extends React.Component {
     );
     return (
       <div className="pre-payment-common">
-        {subContent}
+        <Card style={{ 
+             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' 
+            }} 
+           bodyStyle={{ padding: "24px 32px", paddingTop: 0 }} >
+          <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
+        </Card>
+    
+        <Card style={{
+            marginTop: 20,
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+          }}
+          title="申请信息"
+        >
+          <div className="table-header">
+            <div className="table-header-buttons" style={{ float: 'left' }}>
+              {(headerData.status === 1001 ||
+                headerData.status === 1003 ||
+                headerData.status === 1005) && (
+                  <Button type="primary" onClick={this.addItem}>
+                    新建申请信息
+                  </Button>
+                )}
+            </div>
+            {amountText !== '' ? (
+              <div style={{ float: 'right' }}>
+                <Breadcrumb style={{ marginBottom: '10px' }}>
+                  <Breadcrumb.Item>
+                    金额:<span style={{ color: 'Green' }}>{amountText}</span>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    本币金额:<span style={{ color: 'Green' }}>
+                      {' '}
+                      {this.props.company.baseCurrency} {this.filterMoney(functionAmount)}
+                    </span>
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
+            ) : null}
+          </div>
+          <Table
+            style={{ clear: 'both' }}
+            rowKey={record => record.id}
+            columns={columns}
+            dataSource={data}
+            bordered
+            loading={planLoading}
+            size="middle"
+            pagination={pagination}
+            expandedRowRender={this.expandedRow}
+          />
+        </Card>
+
+
+
+
         <SlideFrame
           title={slideFrameTitle}
           show={showSlideFrame}

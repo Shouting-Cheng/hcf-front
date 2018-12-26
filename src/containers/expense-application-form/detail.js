@@ -48,28 +48,26 @@ class ExpenseApplicationDetail extends React.Component {
   onDelete = () => {
     confirm({
       title: '删除',
-      content: '确认删除该预付款单？',
+      content: '确认删除该申请单？',
       onOk: () => {
         this.setState({ dLoading: true });
+        service.deleteExpenseApplication(this.props.match.params.id).then(res => {
+          message.success("删除成功！");
+          this.onCancel();
+        }).catch(err => {
+          message.error(err.response.data.message);
+        })
       }
     });
   };
+
   //取消
   onCancel = () => {
-    if (this.props.match.params.flag === 'prePayment' || this.props.match.params.flag === ':flag') {
-      this.props.dispatch(
-        routerRedux.push({
-          pathname: `/pre-payment/my-pre-payment`,
-        })
-      );
-    } else {
-      // this.context.router.push(this.state.paymentDetail.url.replace(':id', this.props.params.flag).replace(':flag', 'me-pre-payment'));
-      this.props.dispatch(
-        routerRedux.push({
-          pathname: `/financial-view/pre-payment-view`,
-        })
-      );
-    }
+    this.props.dispatch(
+      routerRedux.push({
+        pathname: "/expense-application"
+      })
+    );
   };
 
   render() {
