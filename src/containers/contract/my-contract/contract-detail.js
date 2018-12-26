@@ -46,24 +46,24 @@ class ContractDetail extends React.Component {
           countersignApproverOIDs: null,
         };*/
         let workFlowDocumentRef = {
-          applicantOid: header.applicantOid,
+          applicantOid: headerData.applicantOid,
           userOid: this.props.user.userOID,
-          formOid: header.formOid,
-          documentOid: header.documentOid,
-          documentCategory: header.documentType,
+          formOid: headerData.formOid,
+          documentOid: headerData.documentOid,
+          documentCategory: headerData.documentType,
           countersignApproverOIDs: null,
-          documentNumber: header.contractNumber,
-          remark: header.description,
-          companyId: header.companyId,
-          unitOid: header.unitOid,
-          amount: header.amount,
-          currencyCode: header.currency,
-          documentTypeId: header.contractTypeId,
-          applicantDate: header.createdDate,
-          documentId: header.id
+          documentNumber: headerData.contractNumber,
+          remark: headerData.remark,
+          companyId: headerData.companyId,
+          unitOid: headerData.unitOid,
+          amount: headerData.amount,
+          currencyCode: headerData.currency,
+          documentTypeId: headerData.contractTypeId,
+          applicantDate: headerData.createdDate,
+          documentId: headerData.id
         };
         contractService
-          .submitWorkflowContract(params)
+          .submitWorkflowContract(workFlowDocumentRef)
           .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
