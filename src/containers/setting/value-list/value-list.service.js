@@ -5,7 +5,7 @@ export default {
   //新建值列表
   newValueList(params) {
     return new Promise(function (resolve, reject) {
-      httpFetch.post(config.baseUrl + '/api/v2/custom/enumerations', params)
+      httpFetch.post(config.baseUrl + '/api/custom/enumerations', params)
         .then(function (res) {
           resolve(res)
         })
@@ -18,7 +18,7 @@ export default {
   //编辑值列表
   uploadValueList(params) {
     return new Promise(function (resolve, reject) {
-      httpFetch.put(config.baseUrl + '/api/v2/custom/enumerations', params)
+      httpFetch.put(config.baseUrl + '/api/custom/enumerations', params)
         .then(function (res) {
           resolve(res)
         })
@@ -36,7 +36,7 @@ export default {
       size: size
     }
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/v2/custom/enumerations', params)
+      httpFetch.get(config.baseUrl + '/api/custom/enumerations', params)
         .then(function (res) {
           resolve(res)
         })
