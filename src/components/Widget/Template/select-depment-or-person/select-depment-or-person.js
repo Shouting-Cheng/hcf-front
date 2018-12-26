@@ -188,15 +188,12 @@ class SelectDepOrPerson extends React.Component {
   // 查询所有集团部门
   getTenantAllDep(nextProps) {
     SelectPersonService.getTenantAllDep().then(response => {
-      console.log(nextProps)
-      console.log(response)
       let selectedKeys = [];
       let selectedKeysDepData = [];
       nextProps.selected&&response.map(item=>{
-        console.log(item)
         if(nextProps.selected.indexOf(item.key) > -1){
-          selectedKeys.push(item.key)
-          //selectedKeysDepData.push(item);
+          selectedKeys.push(item.key);
+          selectedKeysDepData.push(item);
         }
       });
       this.setState({
@@ -298,7 +295,6 @@ class SelectDepOrPerson extends React.Component {
     }
   };
   onSelectAfter = (selectedKeys, info) => {
-    console.log(selectedKeys,info)
     // 如果搜索结果列表中有，需要把搜索结果列表中删除
     this.removeSelectedKeysDepDataFromSearch(info.node);
     if (this.props.onlyPerson) {
@@ -592,9 +588,9 @@ class SelectDepOrPerson extends React.Component {
       );
     }
     return list.map(item => {
-      if (item.props.dataRef.originData.userOID) {
+      if (item.props&&item.props.dataRef.originData.userOID) {
         return (
-          <div className="selected-person-item" key={item.props.dataRef.originData.userOID}>
+          <div className="selected-person-item" key={item.props.dataRef.originData.userOID }>
             <div className="type-icon">
               <Icon type="user" />
             </div>
@@ -612,15 +608,15 @@ class SelectDepOrPerson extends React.Component {
         );
       } else {
         return (
-          <div className="selected-person-item" key={item.props.dataRef.originData.departmentOID}>
+          <div className="selected-person-item" key={item.props ?  item.props.dataRef.originData.departmentOID : item.originData.departmentOID}>
             <div className="type-icon">
               <Icon type="folder" />
             </div>
-            <div className="name">{item.props.dataRef.originData.name}</div>
+            <div className="name">{item.props ? item.props.dataRef.originData.name : item.title}</div>
             <div
               className="remove-icon"
               onClick={() => {
-                this.unSelect(item.props.dataRef.originData.departmentOID);
+                this.unSelect(item.props ? item.props.dataRef.originData.departmentOID : item.originData.departmentOID);
               }}
             >
               <Icon type="close" />
@@ -717,7 +713,6 @@ class SelectDepOrPerson extends React.Component {
               {this.renderSelectTitle()}
               <div className="selected-person-wrap">
                 {this.renderSelectedFromSearch(this.state.selectedKeysDepDataFromSearch)}
-                {console.log(this.state.selectedKeysDepData)}
                 {this.renderSelected(this.state.selectedKeysDepData)}
               </div>
             </div>
