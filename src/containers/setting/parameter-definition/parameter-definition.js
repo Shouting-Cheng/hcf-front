@@ -45,9 +45,9 @@ class ParameterDefinition extends React.Component {
           labelKey: 'itemTypeName',
           valueKey: 'id',
           listExtraParams: { organizationId: this.props.id },
-          getUrl: `${config.budgetUrl}/api/budget/itemType/query/all`,
+          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
-          getParams: { organizationId: this.props.id },
+          getParams: { roleType:'TENANT' },
         },
         {type: 'input', id: 'structureCode1', label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'structureName', label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
@@ -195,6 +195,7 @@ class ParameterDefinition extends React.Component {
 
   renderContent(){
     const { searchForm, loading, data, columns, nowTab } = this.state;
+
     return(<div style={{marginTop: 15}}>
       <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
       <div className="table-header" style={{marginTop: 15}}>
@@ -215,7 +216,46 @@ class ParameterDefinition extends React.Component {
   }
 
   handleTab = (key)=>{
-    this.setState({nowTab: key})
+    const {searchForm, columns} = this.state;
+
+    switch(key){
+      case 1: {
+        searchForm.slice(0,columns.length === 7 ? 0 : 1,{
+          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+          options: [],
+          labelKey: 'itemTypeName',
+          valueKey: 'id',
+          listExtraParams: { organizationId: this.props.id },
+          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+          method: 'get',
+          getParams: { roleType:'TENANT',enabled: true },
+        });
+        columns.slice(0,columns.length === 7 ? 0 : 1,{
+          title: this.$t({id:"form.setting.set.of.books"}), key: "sob", dataIndex: 'structureCode',align:'center',
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
+        });
+        break;
+      }
+      case 2: {
+        searchForm.slice(0,columns.length === 7 ? 0 : 1,{
+          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+          options: [],
+          labelKey: 'itemTypeName',
+          valueKey: 'id',
+          listExtraParams: { organizationId: this.props.id },
+          getUrl: `${config.baseUrl}/api/company/dto/by/tenant`,
+          method: 'get',
+          getParams: { roleType:'TENANT',enabled: true },
+        });
+        columns.slice(0,columns.length === 7 ? 0 : 1,{
+          title: this.$t({id:"form.setting.set.of.books"}), key: "com", dataIndex: 'structureCode',align:'center',
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
+        });
+        break;
+      }
+    }
+
+    this.setState({searchForm,nowTab: key})
   };
 
   render(){
@@ -242,6 +282,7 @@ class ParameterDefinition extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    company: state.user.company
   }
 }
 
