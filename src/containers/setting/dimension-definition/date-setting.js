@@ -19,7 +19,6 @@ class NewBuilt extends Component {
   }
   // 生命周期
   componentWillMount() {
-
   }
 
   //保存&&编辑
@@ -99,7 +98,7 @@ class NewBuilt extends Component {
               ],
               initialValue: params.setOfBooksId || '',
             })(
-              <Input disabled placeholder={this.$t({ id: 'common.please.enter' })} />
+              <Input disabled placeholder={this.$t({setOfBooksId:'1' })} />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="序号" hasFeedback>
