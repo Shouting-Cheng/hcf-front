@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { messages } from 'utils/utils';
 import { deepCopy } from 'utils/extend';
 import { Form, Input, Switch, Button, Icon, message } from 'antd';
-import Table from 'widget/table';
+import Table from 'widget/table'
 
 const FormItem = Form.Item;
 import { LanguageInput } from 'widget/index';
@@ -70,7 +70,7 @@ class ValueList extends React.Component {
       userOids: [],
       deleteUserOids: [],
       showListSelector: false,
-      systemInit: null, //是否为系统初始化的值
+      isCustom: "", //是否为系统初始化的值
     };
   }
 
@@ -80,7 +80,7 @@ class ValueList extends React.Component {
       //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
       this.getValue(this.props.params.record.customEnumerationItemOid);
       this.setState({
-        systemInit: this.props.params.systemInit,
+        isCustom: this.props.params.isCustom,
       });
     } else if (!this.props.params.record) {
       //新建
@@ -133,42 +133,12 @@ class ValueList extends React.Component {
         },
         () => {
           this.props.form.resetFields();
-          this.getList();
         }
       );
     });
   }
 
-  //获取员工列表
-  getList = () => {
-    const { page, pageSize, customEnumerationItemOid } = this.state;
-    this.setState({ tableLoading: true });
-    valueListService
-      .getEmployeeList(page, pageSize, customEnumerationItemOid)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            data: res.data,
-            tableLoading: false,
-            pagination: {
-              total: Number(res.headers['x-total-count']),
-              current: this.state.page + 1,
-              onChange: this.onChangePager,
-            },
-          });
-        }
-      })
-      .catch(() => {
-        this.setState({ tableLoading: false });
-      });
-  };
 
-  onChangePager = page => {
-    if (page - 1 !== this.state.page)
-      this.setState({ page: page - 1 }, () => {
-        this.getList();
-      });
-  };
   validateMessageKeyLengthErr = messageKey => {
     if (messageKey === null || messageKey === undefined || messageKey === '') {
       // 请填写名称
@@ -245,83 +215,8 @@ class ValueList extends React.Component {
   onCancel = () => {
     this.props.close();
   };
-  //全员是否可见修改
-  handleRightChange = checked => {
-    this.setState({ common: checked, deleteUserOids: [] });
-  };
 
-  //添加员工
-  addEmployee = userOids => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      values.customEnumerationOid = this.props.params.customEnumerationOid;
-      values.userOids = userOids;
-      const { customEnumerationItemOid } = this.state;
-      if (!customEnumerationItemOid) {
-        //新建值内容时首次添加员工
-        valueListService.newAddEmployees(values).then(res => {
-          if (res.status === 200) {
-            message.success(messages('common.operate.success'));
-            this.setState(
-              {
-                id: res.data.id,
-                showListSelector: false,
-                customEnumerationItemOid: res.data.customEnumerationItemOid,
-              },
-              () => {
-                this.getList();
-              }
-            );
-          }
-        });
-      } else {
-        //新建值内容时非首次添加员工 或 编辑内容时添加员工
-        values.customEnumerationItemOid = customEnumerationItemOid;
-        valueListService.updateAddEmployees(values).then(res => {
-          if (res.status === 200) {
-            message.success(messages('common.operate.success'));
-            this.setState(
-              {
-                showListSelector: false,
-              },
-              () => {
-                this.getList();
-              }
-            );
-          }
-        });
-      }
-    });
-  };
 
-  //按条件添加员工
-  addEmployeesByCondition = values => {
-    let userOids = [];
-    values.result.map(item => {
-      userOids.push(item.userOid);
-    });
-    this.addEmployee(userOids);
-  };
-
-  //删除员工
-  deleteEmployees = () => {
-    let params = {
-      userOids: this.state.deleteUserOids,
-      customEnumerationItemOid: this.state.customEnumerationItemOid,
-    };
-    this.setState({ deleteLoading: true });
-    valueListService
-      .deleteEmployees(params)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({ deleteLoading: false, deleteUserOids: [] });
-          this.getList();
-          message.success(messages('common.delete.success', { name: '' }));
-        }
-      })
-      .catch(e => {
-        this.setState({ deleteLoading: false });
-      });
-  };
 
   //选择/取消选择某行的回调
   handleSelectRow = (record, selected) => {
@@ -379,7 +274,7 @@ class ValueList extends React.Component {
       deleteUserOids,
       showListSelector,
       customEnumerationItemOid,
-      systemInit,
+      isCustom,
     } = this.state;
     const formItemLayout = {
       labelCol: { span: 6 },
@@ -406,7 +301,7 @@ class ValueList extends React.Component {
             })(
               <div>
                 <LanguageInput
-                  disabled={!!record.id}
+                  //disabled={!!record.id}
                   name={record ? record.messageKey : ''}
                   i18nName={
                     record && record.i18n && record.i18n.messageKey ? record.i18n.messageKey : null
@@ -438,34 +333,6 @@ class ValueList extends React.Component {
               initialValue: record ? record.value : '',
             })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id} />)}
           </FormItem>
-
-          <FormItem {...formItemLayout} label={'序号'}>
-            {getFieldDecorator('sequenceNumber', {
-              initialValue: record ? record.sequenceNumber : '',
-              rules: [
-                {
-                  message: messages('new.cost.center.item.index_tip1'),
-                  validator: (rule, value, cb) => {
-                    if (value === null || value === undefined || value === '') {
-                      cb();
-                      return;
-                    }
-                    //去掉空格
-                    value = value.replace(/ /g, '');
-                    if (value.split('.').length > 1) {
-                      cb(false);
-                    } else {
-                      cb();
-                    }
-                  },
-                },
-              ],
-            })(<Input placeholder={messages('common.please.enter')} />)}
-            <div className="form-index-tips">
-              {/*序号之间尽量保持一定的步长，便于后续调整，如首位10，间隔10*/}
-              {messages('new.cost.center.item.index_tip')}
-            </div>
-          </FormItem>
           <FormItem {...formItemLayout} label={messages('common.remark')}>
             {getFieldDecorator('remark', {
               rules: [
@@ -483,81 +350,12 @@ class ValueList extends React.Component {
               initialValue: record ? record.enabled : true,
             })(
               <Switch
+                disabled={isCustom === 'SYSTEM'}
                 checkedChildren={<Icon type="check" />}
                 unCheckedChildren={<Icon type="cross" />}
               />
             )}
           </FormItem>
-          {this.props.params.custom === 'CUSTOM' && (
-            <div>
-              <div className="common-item-title">{messages('value.list.limit' /*数据权限*/)}</div>
-              <FormItem
-                {...formItemLayout}
-                label={messages('value.list.limit.all.see' /*全员可见*/)}
-              >
-                {getFieldDecorator('common', {
-                  valuePropName: 'checked',
-                  initialValue: record ? record.common : true,
-                })(
-                  <Switch
-                    checkedChildren={<Icon type="check" />}
-                    unCheckedChildren={<Icon type="cross" />}
-                    onChange={this.handleRightChange}
-                  />
-                )}
-              </FormItem>
-              {!common && (
-                <div>
-                  <div className="table-header">
-                    <div className="table-header-buttons">
-                      <div className="f-left">
-                        <SelectDepOrPerson
-                          buttonType={'primary'}
-                          buttonDisabled={!getFieldsValue().messageKey || !getFieldsValue().value}
-                          title={messages(
-                            'value.list.add.employee.by.organization' /*按组织添加员工*/
-                          )}
-                          onlyPerson={true}
-                          personResList={['userOid']}
-                          onConfirm={this.moveInPerson}
-                        />
-                      </div>
-                      <Button
-                        type="primary"
-                        disabled={!getFieldsValue().messageKey || !getFieldsValue().value}
-                        onClick={() => this.showListSelector(true)}
-                      >
-                        {messages('value.list.add.employee.by.limit' /*按条件添加员工*/)}
-                      </Button>
-                      <Button
-                        type="primary"
-                        disabled={!deleteUserOids.length}
-                        loading={deleteLoading}
-                        onClick={this.deleteEmployees}
-                      >
-                        {messages('common.delete')}
-                      </Button>
-                      <div className="tip">
-                        {/*填写【值名称】及【编码】后才可添加员工*/}
-                        {messages('value.list.add.employee.notice')}
-                      </div>
-                    </div>
-                  </div>
-                  <Table
-                    rowKey="userOid"
-                    dataSource={data}
-                    columns={columns}
-                    loading={tableLoading}
-                    pagination={pagination}
-                    scroll={{ x: true }}
-                    rowSelection={rowSelection}
-                    bordered
-                    size="middle"
-                  />
-                </div>
-              )}
-            </div>
-          )}
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={loading}>
               {messages('common.save')}
@@ -565,14 +363,6 @@ class ValueList extends React.Component {
             <Button onClick={this.onCancel}>{messages('common.cancel')}</Button>
           </div>
         </Form>
-
-        <ListSelector
-          visible={showListSelector}
-          onCancel={() => this.showListSelector(false)}
-          type="add_employee"
-          extraParams={{ customEnumerationItemOid: customEnumerationItemOid }}
-          onOk={this.addEmployeesByCondition}
-        />
       </div>
     );
   }

@@ -235,12 +235,6 @@ class ValueList extends React.Component {
                 {/*新增值列表*/}
                 {messages('value.list.new')}
               </Button>
-              {this.props.tenantMode && <Button type="primary"
-                disabled={!selectedRowKeys.length}
-                onClick={() => this.handleListShow(true)}>
-                {/*分配公司*/}
-                {messages('value.list.distribute.company')}
-              </Button>}
             </div> : null}
         </div>
 
