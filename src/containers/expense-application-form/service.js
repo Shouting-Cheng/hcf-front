@@ -50,11 +50,11 @@ export default {
   },
 
   /**
-  * 获取可关联表单类型
-  * @param {*} setOfBooksId
+  * 删除申请单
+  * @param {*} id
   */
-  getFormList(setOfBooksId) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801009&setOfBooksId=${setOfBooksId}`);
+  deleteExpenseApplication(id) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/application/header/` + id);
   },
 
   /**
