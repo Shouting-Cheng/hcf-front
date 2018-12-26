@@ -4,6 +4,7 @@ import { Form, Input, Button, message, Switch, Radio} from 'antd'
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 import PermissionsAllocation from 'widget/Template/permissions-allocation';
+import dimensionValueService from './dimension-value-service';
 
 class ValueForm extends Component {
    constructor(props) {
@@ -11,15 +12,42 @@ class ValueForm extends Component {
       this.state = {
         saveLoading: false,
         useOrNot: false,
-        applyEmployee: '1001',
         departmentOrUserGroupIdList: [],
+        visibleUserScope: '1001',
         permissions: {
             type: 'all',
             values: []
         },
-        nowType: {},
+        // 维度id
+        // dimensionId: this.props.match.params.dimensionId,
       };
    }
+
+  componentDidMount = () => {
+     let idList = this.props.params.departmentOrUserGroupIdList;
+     if(idList){
+        this.setState({
+          departmentOrUserGroupIdList: idList
+        })
+     };
+     if(this.props.params.id){
+         this.setState({
+           permissions: {
+              type: this.props.params['visibleUserScope'] == '1001'
+              ? 'all' : (this.props.params['visibleUserScope'] == '1002' ? 'department' : 'group'),
+              values:  this.props.params['departmentOrUserGroupList']
+              ? this.props.params['departmentOrUserGroupList'].map(item => {
+              return {
+                label: item.pathOrName,
+                value: item.id,
+                key: item.id,
+              };
+              })
+              : [],
+           }
+         })
+     }
+  }
 
   //解禁确认按钮
   liftBan = () => {
@@ -34,15 +62,51 @@ class ValueForm extends Component {
   //保存
   handleSubmit = e => {
       e.preventDefault();
+      const {visibleUserScope, departmentOrUserGroupIdList} = this.state;
       this.props.form.validateFields((err,value) => {
          if(err) {
            this.setState({useOrNot: true});
            return
          }
           //维值代码不允许重复
-
-         console.log(value);
-         this.props.close();
+         this.setState({saveLoading: true});
+         let dimensionId =  '1077473797370626050';
+         let temp = {...value,dimensionId,visibleUserScope:parseFloat(visibleUserScope,10)};
+         delete temp['departmentOrUserGroupIdList'];
+         let params = {
+           dimensionItem: temp,
+           departmentOrUserGroupIdList: departmentOrUserGroupIdList
+         }
+         if(!this.props.params.id) {
+            dimensionValueService.addNewDimensionValue(params)
+              .then(res => {
+                message.success('success:新增维值成功');
+                this.setState({saveLoading: false},() => {
+                    this.props.close(true);
+                });
+              })
+              .catch(err => {
+                message.error(`failure:${err.response.data.message}`);
+                this.setState({saveLoading: false},() => {
+                  this.props.close();
+                });
+              });
+         } else {
+            params['dimensionItem']['id'] = this.props.params.id;
+            dimensionValueService.upDateDimensionValue(params)
+              .then(res => {
+                message.success('success: 修改维值成功');
+                this.setState({saveLoading: false},() => {
+                  this.props.close(true);
+                });
+              })
+              .catch(err => {
+                message.error(`failure:${err.response.data.message}`);
+                this.setState({saveLoading: false},() => {
+                  this.props.close();
+                });
+              })
+         }
       })
   }
 
@@ -61,17 +125,18 @@ class ValueForm extends Component {
           nowDepartOrUserIdList.push(value['value']);
       });
       this.setState({
-          applyEmployee: nowApplyEmployee,
+          visibleUserScope: nowApplyEmployee,
           departmentOrUserGroupIdList: nowDepartOrUserIdList
       });
   };
 
   render() {
-      const {saveLoading,
-             useOrNot,
-             permissions,
-             departmentOrUserGroupIdList,
-             applyEmployee,nowType} = this.state;
+      const {
+        saveLoading,
+        useOrNot,
+        permissions,
+        departmentOrUserGroupIdList,
+        visibleUserScope} = this.state;
       const {getFieldProps,getFieldDecorator} = this.props.form;
       const formItemLayout = {
         labelCol: { span: 6 },
