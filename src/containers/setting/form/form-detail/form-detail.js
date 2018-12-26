@@ -31,7 +31,6 @@ class FormDetail extends React.Component {
   };
 
   componentWillMount() {
-      console.log(this.props)
     const { formType, formOID, booksID } = this.props.match.params;
     if (formType) {
       this.setState({

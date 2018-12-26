@@ -25,7 +25,6 @@ class DepartmentSelector extends React.Component {
   };
 
   handleListOk = values => {
-    console.log(values);
     let value = values.checkedKeys.map(item => {
       return {
         label: item.label,

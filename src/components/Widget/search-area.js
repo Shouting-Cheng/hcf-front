@@ -251,7 +251,6 @@ class SearchArea extends React.Component {
         if (this.props.isReturnLabel) values['expand'] = this.state.expand;
         this.props.submitHandle(values)
       } else {
-        console.log(err)
         err.name && this.setState({ validateStatus: true })
       }
     })

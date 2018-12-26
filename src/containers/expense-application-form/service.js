@@ -66,12 +66,20 @@ export default {
   },
 
   /**
-  * 更新申请单类型
+  * 申请单行创建时查询维度信息默认值
   * @param {*} params
   */
-  updateApplicationType(params) {
-    return httpFetch.put(`${config.expenseUrl}/api/expense/application/type`, params);
-  }
+  getNewInfo(params) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/info`, params);
+  },
+
+  /**
+  * 新增申请单行
+  * @param {*} params
+  */
+  addApplicationLine(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/line`, params);
+  },
 
 }
 

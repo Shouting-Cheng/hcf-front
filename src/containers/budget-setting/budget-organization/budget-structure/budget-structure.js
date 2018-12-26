@@ -147,7 +147,6 @@ class BudgetStructure extends React.Component {
 
   //点击行，进入该行详情页面
   handleRowClick = (record, index, event) =>{
-    console.log(this.props)
     this.props.dispatch(
       routerRedux.push({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/orgId/:setOfBooksId/:id'

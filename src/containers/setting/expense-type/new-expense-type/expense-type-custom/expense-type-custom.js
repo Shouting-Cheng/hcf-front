@@ -207,10 +207,7 @@ class ExpenseTypeCustom extends React.Component {
       widgetType = 'CUSTOM_ENUMERATION';
     if (nowWidgets[nowSelectedIndex].messageKey === 'dateCombined')
       widgetType = 'START_DATE_AND_END_DATE';
-    console.log(widgetType)
-    console.log(customWidget)
     customWidget.map(item => {
-      console.log(item)
       if (widgetType === item.fieldType)
         result = item.name;
     });

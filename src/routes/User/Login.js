@@ -204,7 +204,6 @@ export default class Login extends React.Component {
           });
         },
         err => {
-          console.log(err);
           //单点登录，用code登录失败
           message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
         }
@@ -225,7 +224,6 @@ export default class Login extends React.Component {
         })
         .catch(e => {
           this.setState({ loading: false });
-          console.log(e);
           errorMessage(e, messages('login.error'));
         });
     } else {
@@ -256,7 +254,6 @@ export default class Login extends React.Component {
                   });
                 },
                 err => {
-                  console.log(e);
                   //单点登录，用code登录失败
                   message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
                 }
@@ -414,7 +411,6 @@ export default class Login extends React.Component {
         message.error(messages('login.user.corp.connection.fail'));
         return;
       } else {
-        console.log(e);
         //呼，服务器出了点问题，请联系管理员或稍后再试:(
         message.error(messages('login.error'));
       }

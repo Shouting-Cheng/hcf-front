@@ -10,14 +10,15 @@ class SelectApplcationType extends Component {
     this.state = {
       visible: false,
       applicationTypes: [],
-      selectedId: 0
+      selected: {},
+      result: {}
     }
   }
 
   componentDidMount() {
 
-    let parmas = { setOfBooksId: this.props.company.setOfBooksId };
-    httpFetch.get(`${config.expenseUrl}/api/expense/types/chooser/query`, parmas).then(res => {
+    let parmas = { applicationTypeId: this.props.applicationTypeId };
+    httpFetch.get(`${config.expenseUrl}/api/expense/application/type/query/expense/type`, parmas).then(res => {
 
       let applicationTypes = [];
 
@@ -36,23 +37,24 @@ class SelectApplcationType extends Component {
 
   //确定
   handleOk = () => {
-     
+     this.props.onChange && this.props.onChange(this.state.selected);
+     this.setState({ visible: false });
   }
 
   //取消
   handleCancel = () => {
-
+    this.setState({ visible: false, selected: {} });
   }
 
   select = (item) => {
-    this.setState({selectedId: item.id});
+    this.setState({selected: item});
   }
 
   render() {
-    const { visible, applicationTypes } = this.state;
+    const { visible, applicationTypes, selected } = this.state;
     return (
       <div>
-        <Select onDropdownVisibleChange={this.onDropdownVisibleChange}></Select>
+        <Select value={this.props.value.name} onDropdownVisibleChange={this.onDropdownVisibleChange}></Select>
         <Modal
           title="申请类型"
           visible={visible}
@@ -74,7 +76,8 @@ class SelectApplcationType extends Component {
                 {applicationTypes.map((item, index) => {
                   return (
                     <Col onClick={() => this.select(item)} key={index} span={6}>
-                      <div style={{ border: "1px solid #ccc", padding: "10px 20px", margin: "10px 0", display: "flex", overflow: "hidden", height: 60, boxSizing: "border-box" }}>
+                      <div style={{ border: "1px solid #ccc", padding: "10px 12px", margin: "10px 0", display: "flex", overflow: "hidden", height: 60, boxSizing: "border-box",
+                          backgroundColor: item.id == selected.id ? "rgba(204, 235, 248, 1)" : "#fff" }}>
                         <img src={item.iconUrl} style={{ width: 40, height: 40, marginRight: 10, flex: "0 0 40px" }} />
                         <span style={{flex: "1", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{item.name}</span>
                       </div>

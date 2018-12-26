@@ -34,7 +34,6 @@ class NewBudgetStrategyDetail extends React.Component {
 
   handleSave = (e) =>{
     e.preventDefault();
-    console.log(this.props)
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         values.controlStrategyId = this.props.match.params.id;
@@ -60,7 +59,6 @@ class NewBudgetStrategyDetail extends React.Component {
   };
 
   handleCancel = () => {
-    console.log(this.props)
     this.props.dispatch(
       routerRedux.replace({
         pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-strategy/budget-strategy-detail/:setOfBooksId/:orgId/:id'

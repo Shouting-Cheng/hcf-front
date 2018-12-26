@@ -202,7 +202,6 @@ class ExpenseTypeSelector extends React.Component {
     } = this.state;
     let resultLength = 0;
     let typeLength = filterCategory.length - 1;
-    console.log(this.state.sourceCategory);
     return (
       <div className="expense-type-selector">
         <Spin spinning={loading}>
