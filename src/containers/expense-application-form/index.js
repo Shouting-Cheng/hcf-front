@@ -111,7 +111,7 @@ class ExpenseApplicationForm extends React.Component {
         dataIndex: "requisitionDate",
         align: "center",
         width: 120,
-        render: value => moment(value).format("YYYY-DD-MM")
+        render: value => moment(value).format("YYYY-MM-DD")
       }, {
         title: "币种",
         dataIndex: "currencyCode",
@@ -204,7 +204,9 @@ class ExpenseApplicationForm extends React.Component {
 
   //跳转到详情
   handleRowClick = recode => {
-
+    this.props.dispatch(routerRedux.push({
+      pathname: '/expense-application/expense-application-detail/' + recode.id
+    }));
   };
 
   render() {
@@ -247,6 +249,8 @@ class ExpenseApplicationForm extends React.Component {
           ref={ref => this.table = ref}
           columns={columns}
           url={`${config.expenseUrl}/api/expense/application/header/query/condition`}
+          params={{ employeeId: this.props.user.id }}
+          onRowClick={this.handleRowClick}
         />
       </div>
     );
@@ -256,6 +260,7 @@ class ExpenseApplicationForm extends React.Component {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
+    user: state.user.currentUser
   };
 }
 

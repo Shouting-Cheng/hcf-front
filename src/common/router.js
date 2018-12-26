@@ -1886,11 +1886,19 @@ export const getRouterData = app => {
       parent: '/expense-application'
     },
     //编辑费用申请单
-    '/expense-application/new-expense-application/:id': {
+    '/expense-application/new-expense-application/:typeId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-application-form/new')
       ),
       name: 'edit-expense-application',
+      parent: '/expense-application'
+    },
+    //费用申请单详情
+    '/expense-application/expense-application-detail/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/expense-application-form/detail')
+      ),
+      name: 'expense-application-detail',
       parent: '/expense-application'
     },
   };

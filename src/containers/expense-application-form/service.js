@@ -34,11 +34,19 @@ export default {
   },
 
   /**
-  * 获取维度列表
+  * 创建一个费用申请单头
+  * @param {*} params
+  */
+  addExpenseApplictionForm(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/header`, params);
+  },
+
+  /**
+  * 根据单据头ID查询单据头详情
   * @param {*} id 
   */
-  getDimensionById(id, params = {}) {
-    return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/${id}/dimension/query`, params);
+  getApplicationDetail(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/header/` + id);
   },
 
   /**
