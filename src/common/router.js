@@ -1858,7 +1858,8 @@ export const getRouterData = app => {
       parent: 'admin-setting/dimension-definition'
     },
     //维值下的分配公司
-    '/admin-setting/dimension-definition/batch-company/:dimensionCodeId': {
+    // '/admin-setting/dimension-definition/batch-company/:dimensionItemId'
+    '/admin-setting/dimension-definition/batch-company/:dimensionItemId': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/dimension-definition/dimension-details/batch-company.js')
       ),

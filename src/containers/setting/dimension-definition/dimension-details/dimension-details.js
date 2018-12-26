@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Row, Col, Badge, Icon, Tabs } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import DimensionGroup from './dimension-group';
+import DimensionDeValue from './dimension-details-value';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { messages } from 'utils/utils';
@@ -94,7 +95,7 @@ class DimensionDetails extends Component {
           <TabPane tab="维值组定义" key="2" />
         </Tabs>
 
-        { tabKey === "1" && "维值定义" }
+        { tabKey === "1" && <DimensionDeValue /> }
 
         { tabKey === "2" && <DimensionGroup />}
 
