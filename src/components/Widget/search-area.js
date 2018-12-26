@@ -684,7 +684,7 @@ class SearchArea extends React.Component {
         return (
           <Select placeholder={item.placeholder || messages('common.please.select')}
             onChange={handle}
-            allowClear={item.allowClear}
+            allowClear={item.allowClear == undefined ? true : item.allowClear}
             disabled={item.disabled}
             labelInValue={!!item.entity}
             onFocus={item.getUrl ? () => this.getOptions(item) : () => {
@@ -1133,7 +1133,7 @@ class SearchArea extends React.Component {
           listKey: '',  //可选，getUrl接口返回值内的变量名，如果接口直接返回数组则置空
           childrenMultipleKey: '' //可选，是否递归遍历子对象
           showTime: false, //可选，当type为date时，控制是否需要选择时间
-          allowClear: false //可选，是否允许清除
+          allowClear: true //可选，是否允许清除
         }
  */
 

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 
 import httpFetch from 'share/httpFetch'
 import Table from "widget/table"
+import { Popover, message } from "antd"
 
 
 class CustomTable extends Component {
@@ -10,7 +11,7 @@ class CustomTable extends Component {
 
     this.state = {
       dataSource: [],
-      columns: [],
+      tableColumns: [],
       pagination: {
         total: 0,
         showTotal: (total, range) => this.$t("common.show.total", { range0: `${range[0]}`, range1: `${range[1]}`, total: total }),
@@ -37,7 +38,21 @@ class CustomTable extends Component {
 
   componentDidMount() {
     const params = this.props.params || {};
-    this.setState({ params }, () => {
+
+    this.props.columns && this.props.columns.map(item => {
+      if (item.tooltips) {
+        item.render = value => <Popover content={value}>
+          {value}
+        </Popover>
+      }
+    })
+
+    let tableColumns = [...this.props.columns];
+    if (this.props.showNumber) {
+      tableColumns = [sortColumn, ...this.props.columns]
+    }
+
+    this.setState({ params, tableColumns }, () => {
       this.getList();
     })
   }
@@ -95,6 +110,8 @@ class CustomTable extends Component {
       this.setState({ dataSource: data, loading: false, pagination }, () => {
         this.props.onLoadData && this.props.onLoadData(res.data, pagination)
       });
+    }).catch(err => {
+      message.error(err.response.data.message);
     });
   }
 
@@ -112,14 +129,8 @@ class CustomTable extends Component {
   }
 
   render() {
-    const { dataSource, pagination, loading, sortColumn, } = this.state;
-    const { columns, onClick, tableKey } = this.props;
-
-    let tableColumns = [...columns];
-
-    if (this.props.showNumber) {
-      tableColumns = [sortColumn, ...tableColumns]
-    }
+    const { dataSource, pagination, loading, tableColumns } = this.state;
+    const { onClick, tableKey } = this.props;
 
     return (
       <Table

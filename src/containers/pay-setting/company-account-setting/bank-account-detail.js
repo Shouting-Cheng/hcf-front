@@ -240,7 +240,7 @@ class BankAccountDetail extends React.Component {
     companyAccountSettingService.deletePayWay(record.id).then(res => {
       message.success(messages('common.operate.success'));
       this.setState({
-        page: Number((this.state.pagination.total-2)/this.state.pageSize),
+        page: parseInt((this.state.pagination.total-2)/this.state.pageSize),
         pagination:{
           ...this.state.pagination,
           total: this.state.pagination.total-1,

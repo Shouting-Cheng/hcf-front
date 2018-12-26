@@ -332,6 +332,7 @@ class NewShare extends Component {
   edit = index => {
     let { data, dataCache } = this.state;
     let record = data[index];
+    console.log(dataCache)
     dataCache.push({ ...record });
 
     console.log({ ...record });
@@ -359,7 +360,7 @@ class NewShare extends Component {
       data.splice(index, 1);
       this.props.handleOk && this.props.handleOk(data, true);
       this.setState({
-        data, dataCache: null, pagination: {
+        data, dataCache: [], pagination: {
           ...pagination,
           total: pagination.total - 1,
           page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,

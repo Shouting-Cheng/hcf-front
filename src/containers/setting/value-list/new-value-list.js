@@ -868,8 +868,7 @@ class ValueList extends React.Component {
         <ImporterNew visible={showImportFrame}
           title={messages('value.list.value.import' /*值导入*/)}
           templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}
-          &isCustom=${isCustom ==='CUSTOM'}`}
+          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}`}
           errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
           errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
           deleteDataUrl ={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
