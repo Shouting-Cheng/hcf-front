@@ -17,7 +17,7 @@ class Dfinition extends Component {
       searchForm: [
         {
           type: 'value_list',
-          options: [],
+          options: [{value:props.company.setOfBooksId,label:props.company.setOfBooksId}],
           id: 'setOfBooksId',
           placeholder: '请选择',
           label: '账套',
@@ -39,11 +39,15 @@ class Dfinition extends Component {
         },
         {
           type: 'value_list',
-          options: [],
           id: 'enabled',
-          placeholder: '请选择',
           label: '状态',
-          colSpan: 6,
+          colSpan: '6',
+          options: [
+            { value: 1001, label: '禁用' },
+            { value: 1002, label: '启用' },
+          ],
+          valueKey: 'value',
+          labelkey: 'label',
         },
       ],
       columns: [
@@ -90,6 +94,8 @@ class Dfinition extends Component {
                   编辑
                 </a>
                 <Divider type="vertical" />
+                <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
+                <Divider type="vertical" />
                 <Popconfirm
                   placement="topLeft"
                   title="确定删除?"
@@ -99,14 +105,14 @@ class Dfinition extends Component {
                   okText="确定"
                   cancelText="取消"
                 >
-                  <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
+                   <a>删除</a>
                 </Popconfirm>
               </span>
             );
           },
         },
       ],
-      SearchParams: {},
+      searchParams: {},
       showSlideFrame:false,
       data:[],
       updateParams: {},
@@ -114,6 +120,48 @@ class Dfinition extends Component {
   }
 
 
+ // 生命周期
+  componentDidMount() {
+
+    // const {dataSource}=this.NewBuilt.state;
+     console.log(this.props.company,'888888');
+    // console.log('2222222222',this.NewBuilt.state);
+  }
+  // 获取账套
+  getSetOfBooks(){
+    let setOfBooksOption = [];
+    paymentCompanySettingService.getSetOfBooksByTenant().then((res)=>{
+        res.data.map(data =>{
+          setOfBooksOption.push({"label":data.setOfBooksCode+" - "+data.setOfBooksName,"value":String(data.id)})
+        })
+        this.setState({
+          setOfBooksOption
+        })
+      }
+    )
+  }
+  // 获取数据
+  getList = ()=>{
+    // let params = {
+    //   setOfBooksId: this.props.company.setOfBooksId
+    // }
+    // this.setState({ loading: true });
+    // service
+    // .queryDimensionSetting(params)
+    //   .then(res => {
+    //     console.log(res)
+    //     this.setState({
+    //       data: res.data,
+    //       loading: false,
+    //     });
+    //   })
+    //   .catch(err => {
+    //     message.error(err.response.data.message);
+    //     this.setState({ loading: false });
+    //   });
+    let { searchParams } = this.state;
+    this.table.search(searchParams);
+  }
   // 新建维度
   createDimension = () => {
     this.setState({
@@ -132,51 +180,51 @@ class Dfinition extends Component {
   });
   };
   // 删除
-  // delete = id => {
-  //   service
-  //     .deleteParamsSetting(id)
-  //     .then(res => {
-  //       message.success('删除成功');
-  //       this.setState({ page: 0 }, () => {
-  //         this.getList();
-  //       });
-  //     })
-  //     .catch(err => {
-  //       message.error(err.response.data.message);
-  //     });
-  // };
+  delete = id => {
+    service
+      .deleteDimensionSetting(id)
+      .then(res => {
+        message.success('删除成功');
+        this.table.search({setOfBooksId: this.props.company.setOfBooksId});
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
+      });
+  };
+
   // 搜索
   search = (values) => {
     Object.keys(values).forEach(i=>values[i]=values[i]?values[i]:undefined);
     this.setState({
         searchParams: values
     }, () => {
-      console.log(this.state.searchParams,'搜索条件');
-        this.table.search(this.state.searchParams)
+      // console.log(this.state.searchParams,'搜索条件');
+      //   this.table.search(this.state.searchParams)
+      this.getList();
     })
   };
   //清除
   clear = () => {
     this.setState({ searchParams: {} })
-}
+  }
 // 详情
-detailClick = (e,record) => {
- this.props.dispatch(
-   routerRedux.replace({
-     //账套id,recordid
-     pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
-   })
- );
-}
-  handleCloseSlide = () => {
+  detailClick = (e,record) => {
+  this.props.dispatch(
+    routerRedux.replace({
+      //账套id,recordid
+      pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
+    })
+  );
+  }
+  handleCloseSlide = (flag) => {
     this.setState({
         showSlideFrame: false
     }, () => {
-        this.table.search(this.state.searchParams)
+      this.table.search(searchParams);
     })
 }
   render() {
-    const { searchForm, columns,updateParams,showSlideFrame } = this.state;
+    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId} = this.state;
     return (
       <div>
         <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear}/>
@@ -191,15 +239,15 @@ detailClick = (e,record) => {
 
         <CustomTable
           columns={columns}
-          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=1`}
+          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${this.props.company.setOfBooksId}`}
           ref={ref => (this.table = ref)}
         />
         <SlideFrame
-          title={JSON.stringify(updateParams) === "{}" ? '编辑维度' : '新建维度'}
+          title={JSON.stringify(updateParams) === "{}" ? '新建维度' : '编辑维度'}
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-          <NewBuilt params={{ ...updateParams }} close={this.handleCloseSlide} />
+          <NewBuilt params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}/>
         </SlideFrame>
       </div>
     );
@@ -209,6 +257,7 @@ function mapStateToProps(state) {
   console.log(state);
 
   return{
+    company: state.user.company
   }
 }
 
