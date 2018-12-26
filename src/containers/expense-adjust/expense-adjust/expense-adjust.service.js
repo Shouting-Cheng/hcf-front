@@ -130,11 +130,11 @@ export default {
 
   //提交费用调整单单据（走工作流）
   submitOnWorkflow(id, ignoreBudgetWarningFlag) {
-    return httpFetch.get(`${config.baseUrl}/api/expense/adjust/headers/preSubmit?headerId=${id}`);
+    return httpFetch.get(`${config.expenseUrl}/api/expense/adjust/headers/preSubmit?headerId=${id}`);
   },
   //提交费用调整单单据（走工作流）
   forceSubmitOnWorkflow(params) {
-    return httpFetch.post(`${config.baseUrl}/api/expense/adjust/headers/forceSubmit`, params);
+    return httpFetch.post(`${config.expenseUrl}/api/expense/adjust/headers/submit`, params);
   },
 
   /**
@@ -142,7 +142,7 @@ export default {
    * @param {*} params
    */
   withdraw(params) {
-    let url = `${config.baseUrl}/api/approvals/withdraw`;
+    let url = `${config.baseUrl}/api/workflow/withdraw`;
     return httpFetch.post(url, params);
   },
 
@@ -151,7 +151,7 @@ export default {
    * @param {*} params
    */
   reject(params) {
-    let url = `${config.baseUrl}/api/approvals/reject`;
+    let url = `${config.baseUrl}/api/workflow/reject`;
     return httpFetch.post(url, params);
   },
 
@@ -160,7 +160,7 @@ export default {
    * @param {*} params
    */
   pass(params) {
-    let url = `${config.baseUrl}/api/approvals/pass`;
+    let url = `${config.baseUrl}/api/workflow/pass`;
     return httpFetch.post(url, params);
   },
 
