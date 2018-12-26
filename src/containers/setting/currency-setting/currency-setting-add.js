@@ -37,7 +37,7 @@ class CurrencySettingAdd extends React.Component {
         httpFetch.get(`${config.baseUrl}/api/currencyI18n/select/not/created/currency?baseCurrencyCode=${baseCurrency}&setOfBooksId=${setOfBooksId}&tenantId=${tenantId}`).then(res => {
             if (res.status === 200) {
                 this.setState({
-                    currencyOptions: res.data.rows
+                    currencyOptions: res.data
                 })
             }
         }
@@ -151,7 +151,7 @@ class CurrencySettingAdd extends React.Component {
                             {currencyOptions.map((item, index) => {
                                 return <Option key={`${item.currencyCode}+${item.currencyName}`}>
                                     {this.state.language === 'en' ? item.currencyCode : `${item.currencyCode} ${item.currencyName}`}</Option>
-                            })}
+                            })} 
                         </Select>
                     )}
                 </FormItem>
