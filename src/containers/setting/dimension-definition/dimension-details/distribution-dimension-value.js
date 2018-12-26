@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Input, Icon, Badge, Card, Row, Col, Modal, Popconfirm, message } from 'antd';
+import { Button, Input, Icon, Badge, Modal, Popconfirm, message } from 'antd';
 import CustomTable from 'widget/table';
 import BasicInfo from 'widget/basic-info';
 import ModalDimension from './modal-dimension';
 import { messages } from 'utils/utils';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+import service from './dimension-group-service';
 
 const Search = Input.Search;
 
@@ -17,13 +18,13 @@ class DistributionDimension extends Component {
       infoList: [
         {
           type: 'input',
-          id: 'code',
+          id: 'dimensionItemCode',
           isRequired: true,
           label: '维值组代码',
         },
         {
           type: 'input',
-          id: 'name',
+          id: 'dimensionItemName',
           isRequired: true,
           label: '维值组名称',
         },
@@ -38,17 +39,17 @@ class DistributionDimension extends Component {
       columns: [
         {
           title: '维值代码',
-          dataIndex: 'tableName',
+          dataIndex: 'dimensionItemCode',
           align: 'center',
         },
         {
           title: '维值名称',
-          dataIndex: 'tableName1',
+          dataIndex: 'dimensionItemName',
           align: 'center',
         },
         {
           title: '状态',
-          dataIndex: 'tableName2',
+          dataIndex: 'enabled',
           align: 'center',
           render: (value, record, index) => {
             return <Badge status={value ? 'success' : 'error'} text={value ? '启用' : '禁用'} />;
@@ -85,62 +86,52 @@ class DistributionDimension extends Component {
       visible: false,
       selectedKey: [],
       loading: false,
+      dimensionItemGroupId: '',
+      searchParams: {},
+      dimensionItemIds: [],
     };
   }
 
   // 生命周期获取数据
   componentDidMount() {
-    console.log(this.props);
-    this.getList();
-    setTimeout(() => {
-      this.setState({
-        infoData: {
-          code: 'demo',
-          name: 'demo',
-          enable: false,
-        }
-      })
-    }, 1500)
+    const id = this.props.match.params.id;
+    console.log(id);
+    this.setState({ dimensionItemGroupId: id }, this.getList)
   }
 
   // 获取数据
   getList = () => {
-    let data = [
-      {
-        id: 101,
-        tableName: 'demo',
-        tableName1: 'demo',
-        tableName2: 'demo',
-        tableName3: 'demo',
-      },
-      {
-        id: 102,
-        tableName: 'demo',
-        tableName1: 'demo',
-        tableName2: 'demo',
-        tableName3: 'demo',
-      },
-      {
-        id: 103,
-        tableName: 'demo',
-        tableName1: 'demo',
-        tableName2: 'demo',
-        tableName3: false,
-      },
-    ];
-    this.setState({ data: data });
+    let { dimensionItemGroupId, page, size, searchParams, loading, pagination } = this.state;
+    let params = { dimensionItemGroupId, page, size, ...searchParams };
+    this.setState({ loading: true });
+    service.getDimensionItem(params).then((res) => {
+      let total = Number(res.headers['x-total-count']);
+      this.setState({ data: res.data, loading: false, pagination: { ...pagination, total } });
+    })
   };
 
   // 删除
   delete = id => {
-    console.log(id);
+    let { dimensionItemGroupId } = this.state;
+    service.deleteDimensionItem({ dimensionItemGroupId, dimensionItemId: id }).then(() => {
+      message.success('删除成功');
+      this.mySetState();
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
   };
 
   // 批量删除
   batchDelete = () => {
-    let selectedKey = this.state.selectedKey;
+    let { selectedKey, dimensionItemGroupId } = this.state;
+    let params = { dimensionItemGroupId, dimensionItemIds: selectedKey };
     if(selectedKey.length) {
-      console.log(selectedKey);
+      service.batchDeleteDimensionItem(params).then(() => {
+        message.success('批量删除成功');
+        this.mySetState();
+      }).catch(err => {
+        message.error(err.response.data.message);
+      })
     } else {
       message.warning('请选择你要删除的内容')
     }
@@ -148,7 +139,13 @@ class DistributionDimension extends Component {
 
   // 搜索
   search = value => {
-    console.log(value);
+    this.mySetState({ searchParams: { dimensionItemCode: value }});
+  }
+
+  // 设置state
+  mySetState = (params) => {
+    let pagination = this.state.pagination;
+    this.setState({ page: 0, pagination: { ...pagination, current: 1 }, ...params }, this.getList)
   }
 
   // 表格选择
@@ -173,10 +170,12 @@ class DistributionDimension extends Component {
 
   //返回
   onBackClick = e => {
+    console.log(this.props);
+    let id = this.props.match.params.id;
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition/dimension-details/`,
+        pathname: `/admin-setting/dimension-definition/dimension-details/${id}`,
       })
     );
   };
@@ -186,8 +185,27 @@ class DistributionDimension extends Component {
     this.setState({ visible: false });
   };
 
+  // 分配子维值
+  onDimensionOk = () => {
+    let { dimensionItemIds, dimensionItemGroupId } = this.state;
+    let params = { dimensionItemGroupId, dimensionItemIds };
+    console.log(params);
+    service.distributeDimensionItem().then(() => {
+      this.getList();
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
+  }
+
+  // 获取模态框选择的维值
+  getModalDimensionItem = (ids) => {
+    this.setState({ dimensionItemIds: ids });
+  }
+
   render() {
-    const { infoList, infoData, columns, data, pagination, visible, loading } = this.state;
+    const {
+      infoList, infoData, columns, data, pagination, visible, loading, dimensionItemGroupId
+    } = this.state;
     const rowSelection = {
       onChange: this.selectChange,
     };
@@ -209,7 +227,14 @@ class DistributionDimension extends Component {
           >
             分配子维值
           </Button>
-          <Button onClick={this.batchDelete}>删除</Button>
+          <Popconfirm
+            title="你确定删除？"
+            onConfirm={this.batchDelete}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button>删除</Button>
+          </Popconfirm>
           <Search
             placeholder="请输入维值代码"
             onSearch={this.search}
@@ -237,7 +262,7 @@ class DistributionDimension extends Component {
           width={800}
           onOk={this.onDimensionOk}
         >
-          <ModalDimension />
+          <ModalDimension ids={this.getModalDimensionItem} groupId={dimensionItemGroupId} />
         </Modal>
       </div>
     );
