@@ -12,12 +12,12 @@ export default {
    * 审批通过
    */
   pass(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/pass`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/pass`, params);
   },
   /**
    * 审批驳回
    */
   reject(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/reject`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/reject`, params);
   },
 };
