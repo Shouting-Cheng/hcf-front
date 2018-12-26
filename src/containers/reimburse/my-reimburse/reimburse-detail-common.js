@@ -190,7 +190,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取费用列表
   getCostList = (flag) => {
-    this.setState({ visible: false,detailVisible: false }, () => {
+    this.setState({ visible: false, detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -302,7 +302,7 @@ class ContractDetailCommon extends React.Component {
 
   //选取报账单后
   handleListOk = (values) => {
-    if(values.result && values.result.length){
+    if (values.result && values.result.length) {
       this.setState({ invoicesLoading: true });
       let data = {
         expenseReportId: this.props.id,
@@ -320,7 +320,7 @@ class ContractDetailCommon extends React.Component {
       }).catch(res => {
         message.error("导入失败！");
       })
-    }else {
+    } else {
       message.warn('请选择费用')
     }
   };
@@ -328,12 +328,12 @@ class ContractDetailCommon extends React.Component {
   //撤回
   withdraw = () => {
     let params =
-      {
-        entities: [{
-          entityOID: this.props.headerData.expenseReportOID,
-          entityType: 801001
-        }]
-      };
+    {
+      entities: [{
+        entityOID: this.props.headerData.expenseReportOID,
+        entityType: 801001
+      }]
+    };
     reimburseService.withdraw(params).then(res => {
       message.success("撤回成功！");
       this.onCancel();
@@ -436,7 +436,7 @@ class ContractDetailCommon extends React.Component {
               <TabPane tab="单据信息" key="1" style={{ border: 'none' }}>
                 <DocumentBasicInfo params={this.state.remburseInfo} values={{}}>
                   {isEdit &&
-                    <Button type="primary" style={{ marginBottom: '14px',float:'right' }} onClick={this.edit}>编辑</Button>}
+                    <Button type="primary" style={{ marginBottom: '14px', float: 'right' }} onClick={this.edit}>编辑</Button>}
                   {headerData.reportStatus === 1002 &&
                     <Button type="primary" style={{ marginBottom: '14px', float: 'right' }}
                       onClick={this.withdraw}>撤回</Button>}
@@ -450,7 +450,6 @@ class ContractDetailCommon extends React.Component {
           <div style={{ display: this.state.tabIndex == "1" ? "block" : "none" }}>
             {subContent["DETAIL"]}
           </div>
-
         </Spin>
 
         <SlideFrame
@@ -473,7 +472,7 @@ class ContractDetailCommon extends React.Component {
         </SlideFrame>
 
         <SlideFrame show={visible}
-          title={this.state.costRecord.id ?'编辑费用' :"新建费用"}
+          title={this.state.costRecord.id ? '编辑费用' : "新建费用"}
           width="900px"
           onClose={() => this.setState({ visible: false })}>
           <NewExpense

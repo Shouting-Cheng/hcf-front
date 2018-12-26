@@ -1,10 +1,17 @@
 import React, { Component } from "react"
 import { Form, Card, Input, Row, Col, Affix, Button, DatePicker, Select, InputNumber, message, Spin, } from 'antd';
 import { connect } from "dva";
+import { routerRedux } from "dva/router"
 import Chooser from "widget/chooser"
+import Upload from 'widget/upload';
+
+
 import service from "./service"
+import config from "config"
 
 const FormItem = Form.Item;
+
+import moment from "moment"
 
 
 class NewExpenseApplicationFrom extends Component {
@@ -17,7 +24,9 @@ class NewExpenseApplicationFrom extends Component {
       model: {},
       currencyList: [],
       dimensionList: [],
-      applicationTypeInfo: {}
+      applicationTypeInfo: {},
+      typeId: "",
+      uploadOIDs: []
     }
   }
 
@@ -38,7 +47,6 @@ class NewExpenseApplicationFrom extends Component {
   }
 
   getApplicationTypeInfo = (typeId) => {
-
     //获取申请单类型
     service.getApplicationTypeById(typeId).then(res => {
       this.setState({ applicationTypeInfo: res.data.applicationType });
@@ -52,7 +60,54 @@ class NewExpenseApplicationFrom extends Component {
     }).catch(err => {
       message.error(err.response.data.message);
     });
+
+
+    this.setState({ typeId });
   }
+
+  //返回
+  onBack = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: "/expense-application"
+    }));
+  }
+
+  //上传附件
+  handleUpload = OIDs => {
+    this.setState({
+      uploadOIDs: OIDs,
+    });
+  };
+
+  //表单提交
+  handleSave = () => {
+    this.props.form.validateFields((err, values) => {
+      if (err) return;
+
+      let { typeId, uploadOIDs } = this.state;
+
+      values = {
+        typeId,
+        employeeId: this.props.user.id,
+        remarks: values.remarks,
+        currencyCode: values.currencyCode,
+        companyId: values.company[0].id,
+        departmentId: values.department[0].departmentId,
+        dimensions: [],
+        attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
+        requisitionDate: moment().format()
+      };
+
+      service.addExpenseApplictionForm(values).then(res => {
+        message.success("新增成功！");
+        this.onBack();
+      }).catch(err => {
+        message.error(err.response.data.message);
+      });
+
+    });
+  }
+
 
   render() {
 
@@ -70,7 +125,7 @@ class NewExpenseApplicationFrom extends Component {
       },
     };
 
-    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo } = this.state;
+    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo, fileList } = this.state;
 
     return (
       <div className="new-contract" style={{ marginBottom: 60, marginTop: 10 }}>
@@ -82,14 +137,14 @@ class NewExpenseApplicationFrom extends Component {
                   {getFieldDecorator('employeeId', {
                     rules: [{ required: true, message: '请选择' }],
                     initialValue: this.props.user.fullName,
-                  })(<Input />)}
+                  })(<Input disabled />)}
                 </FormItem>
               </Col>
             </Row>
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="公司" {...formItemLayout}>
-                  {getFieldDecorator('companyId', {
+                  {getFieldDecorator('company', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
                     initialValue: isNew
                       ? [{ id: this.props.user.companyId, name: this.props.user.companyName }]
@@ -109,11 +164,13 @@ class NewExpenseApplicationFrom extends Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="部门" {...formItemLayout}>
-                  {getFieldDecorator('unitId', {
+                  {getFieldDecorator('department', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? []
+                    initialValue: isNew ? [{
+                      departmentId: this.props.user.departmentID,
+                      path: this.props.user.departmentName,
+                    }]
                       : model.id ? [{
-                        departmentOid: model.unitOid,
                         departmentId: model.unitId,
                         path: model.path,
                       }] : []
@@ -132,7 +189,7 @@ class NewExpenseApplicationFrom extends Component {
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="币种" {...formItemLayout}>
-                  {getFieldDecorator('unitId', {
+                  {getFieldDecorator('currencyCode', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
                     initialValue: isNew ? this.props.company.baseCurrency : model.currency
                   })(
@@ -180,6 +237,33 @@ class NewExpenseApplicationFrom extends Component {
                 </FormItem>
               </Col>
             </Row>}
+            <Row {...rowLayout}>
+              <Col span={10}>
+                <FormItem label="备注" {...formItemLayout}>
+                  {getFieldDecorator('remarks', {
+                    initialValue: isNew ? "" : model.remarks
+                  })(
+                    <Input.TextArea autosize={{ minRows: 3 }} />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row {...rowLayout} style={{ marginBottom: 40 }}>
+              <Col span={10}>
+                <FormItem label="附件信息" {...formItemLayout}>
+                  {getFieldDecorator('attachmentOID')(
+                    <Upload
+                      attachmentType="BUDGET_JOURNAL"
+                      uploadUrl={`${config.baseUrl}/api/upload/static/attachment`}
+                      fileNum={9}
+                      uploadHandle={this.handleUpload}
+                      defaultFileList={fileList}
+                      defaultOIDs={isNew ? [] : model.attachmentOids}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
             <div
               style={{
                 position: 'fixed',

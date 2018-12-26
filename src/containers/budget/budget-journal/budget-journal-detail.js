@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import {connect} from 'dva';
+import {routerRedux} from 'dva/router';
 import {
   Affix,
   Popover,
@@ -143,54 +143,54 @@ class BudgetJournalDetail extends React.Component {
           columnLabel: 'currency',
           columnValue: 'currency',
         }, //币种
-        { type: 'input', id: 'rate', valueKey: 'rate' }, //汇率
-        { type: 'inputNumber', id: 'amount', valueKey: 'amount' }, //金额
-        { type: 'inputNumber', id: 'functionalAmount', valueKey: 'functionalAmount' }, //本位金额
-        { type: 'inputNumber', id: 'quantity', valueKey: 'quantity' }, //数量
-        { type: 'input', id: 'remark', valueKey: 'remark' }, //备注
+        {type: 'input', id: 'rate', valueKey: 'rate'}, //汇率
+        {type: 'inputNumber', id: 'amount', valueKey: 'amount'}, //金额
+        {type: 'inputNumber', id: 'functionalAmount', valueKey: 'functionalAmount'}, //本位金额
+        {type: 'inputNumber', id: 'quantity', valueKey: 'quantity'}, //数量
+        {type: 'input', id: 'remark', valueKey: 'remark'}, //备注
       ],
       infoList: [
         /*状态*/
-        { type: 'badge', label: this.$t({ id: 'budgetJournal.status' }), id: 'status' },
+        {type: 'badge', label: this.$t({id: 'budgetJournal.status'}), id: 'status'},
         /*预算日记账编号*/
         {
           type: 'input',
-          label: this.$t({ id: 'budgetJournal.journalCode' }),
+          label: this.$t({id: 'budgetJournal.journalCode'}),
           id: 'journalCode',
           disabled: true,
         },
         /*总金额*/
         {
           type: 'input',
-          label: this.$t({ id: 'budgetJournal.total.amount' }),
+          label: this.$t({id: 'budgetJournal.total.amount'}),
           id: 'totalAmount',
           disabled: true,
         },
         /*申请人*/
         {
           type: 'input',
-          label: this.$t({ id: 'budgetJournal.employeeId' }),
+          label: this.$t({id: 'budgetJournal.employeeId'}),
           id: 'employeeName',
           disabled: true,
         },
         /*公司*/
         {
           type: 'input',
-          label: this.$t({ id: 'budgetJournal.companyId' }),
+          label: this.$t({id: 'budgetJournal.companyId'}),
           id: 'companyName',
           disabled: true,
         },
         /*部门*/
         {
           type: 'input',
-          label: this.$t({ id: 'budgetJournal.unitId' }),
+          label: this.$t({id: 'budgetJournal.unitId'}),
           id: 'unitName',
           disabled: true,
         },
         /*创建时间*/
         {
           type: 'date',
-          label: this.$t({ id: 'budgetJournal.createdDate' }),
+          label: this.$t({id: 'budgetJournal.createdDate'}),
           id: 'createdDate',
           disabled: true,
         },
@@ -201,20 +201,20 @@ class BudgetJournalDetail extends React.Component {
           listType: 'budget_journal_type',
           labelKey: 'journalTypeName',
           valueKey: 'journalTypeId',
-          label: this.$t({ id: 'budgetJournal.journalTypeId' }),
-          listExtraParams: { organizationId: this.props.organization.id },
+          label: this.$t({id: 'budgetJournal.journalTypeId'}),
+          listExtraParams: {organizationId: this.props.organization.id},
           disabled: true,
         },
         /*预算表*/
         {
           type: 'select',
           id: 'budgetStructure',
-          label: this.$t({ id: 'budgetJournal.structureId' }),
+          label: this.$t({id: 'budgetJournal.structureId'}),
           options: [],
           method: 'get',
           disabled: true,
           getUrl: `${config.budgetUrl}/api/budget/structures/queryAll`,
-          getParams: { organizationId: this.props.organization.id },
+          getParams: {organizationId: this.props.organization.id},
           labelKey: 'structureName',
           valueKey: 'id',
         },
@@ -226,8 +226,8 @@ class BudgetJournalDetail extends React.Component {
           labelKey: 'versionName',
           valueKey: 'id',
           single: true,
-          label: this.$t({ id: 'budgetJournal.versionId' }),
-          listExtraParams: { organizationId: this.props.organization.id, enabled: true },
+          label: this.$t({id: 'budgetJournal.versionId'}),
+          listExtraParams: {organizationId: this.props.organization.id, enabled: true},
         },
         /*预算场景*/
         {
@@ -237,14 +237,14 @@ class BudgetJournalDetail extends React.Component {
           labelKey: 'scenarioName',
           valueKey: 'id',
           single: true,
-          label: this.$t({ id: 'budgetJournal.scenarios' }) /*预算场景*/,
-          listExtraParams: { organizationId: this.props.organization.id, enabled: true },
+          label: this.$t({id: 'budgetJournal.scenarios'}) /*预算场景*/,
+          listExtraParams: {organizationId: this.props.organization.id, enabled: true},
         },
         /*编辑期段*/
         {
           type: 'value_list',
           id: 'periodStrategy',
-          label: this.$t({ id: 'budgetJournal.periodStrategy' }),
+          label: this.$t({id: 'budgetJournal.periodStrategy'}),
           options: [],
           valueListCode: 2002,
           disabled: true,
@@ -252,7 +252,7 @@ class BudgetJournalDetail extends React.Component {
         /*附件*/
         {
           type: 'file',
-          label: this.$t({ id: 'budgetJournal.attachment' }),
+          label: this.$t({id: 'budgetJournal.attachment'}),
           id: 'file',
           disabled: true,
         },
@@ -262,7 +262,7 @@ class BudgetJournalDetail extends React.Component {
       columns: [
         {
           /*公司*/
-          title: this.$t({ id: 'budgetJournal.companyId' }),
+          title: this.$t({id: 'budgetJournal.companyId'}),
           key: 'companyName',
           dataIndex: 'companyName',
           width: '5%',
@@ -270,7 +270,7 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*部门*/
-          title: this.$t({ id: 'budgetJournal.unitId' }),
+          title: this.$t({id: 'budgetJournal.unitId'}),
           key: 'departmentName',
           dataIndex: 'departmentName',
           width: '5%',
@@ -278,7 +278,7 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*员工*/
-          title: this.$t({ id: 'budgetJournal.employee' }),
+          title: this.$t({id: 'budgetJournal.employee'}),
           key: 'employeeName',
           dataIndex: 'employeeName',
           width: '5%',
@@ -286,7 +286,7 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*预算项目*/
-          title: this.$t({ id: 'budgetJournal.item' }),
+          title: this.$t({id: 'budgetJournal.item'}),
           key: 'itemName',
           dataIndex: 'itemName',
           width: '10%',
@@ -294,38 +294,38 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*期间*/
-          title: this.$t({ id: 'budgetJournal.periodName' }),
+          title: this.$t({id: 'budgetJournal.periodName'}),
           key: 'periodName',
           dataIndex: 'periodName',
         },
         {
           /*季度*/
-          title: this.$t({ id: 'budgetJournal.periodQuarter' }),
+          title: this.$t({id: 'budgetJournal.periodQuarter'}),
           key: 'periodQuarterName',
           dataIndex: 'periodQuarterName',
         },
         {
           /*年度*/
-          title: this.$t({ id: 'budgetJournal.periodYear' }),
+          title: this.$t({id: 'budgetJournal.periodYear'}),
           key: 'periodYear',
           dataIndex: 'periodYear',
         },
         {
           /*币种*/
-          title: this.$t({ id: 'budgetJournal.currency' }),
+          title: this.$t({id: 'budgetJournal.currency'}),
           key: 'currency',
           dataIndex: 'currency',
         },
         {
           /*汇率*/
-          title: this.$t({ id: 'budgetJournal.rate' }),
+          title: this.$t({id: 'budgetJournal.rate'}),
           key: 'rate',
           dataIndex: 'rate',
           render: rate => <Popover content={rate}>{rate}</Popover>,
         },
         {
           /*金额*/
-          title: this.$t({ id: 'budgetJournal.amount' }),
+          title: this.$t({id: 'budgetJournal.amount'}),
           key: 'amount',
           dataIndex: 'amount',
 
@@ -336,7 +336,7 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*本币今额*/
-          title: this.$t({ id: 'budgetJournal.functionalAmount' }),
+          title: this.$t({id: 'budgetJournal.functionalAmount'}),
           key: 'functionalAmount',
           dataIndex: 'functionalAmount',
           width: 180,
@@ -346,13 +346,13 @@ class BudgetJournalDetail extends React.Component {
         },
         {
           /*数字*/
-          title: this.$t({ id: 'budgetJournal.quantity' }),
+          title: this.$t({id: 'budgetJournal.quantity'}),
           key: 'quantity',
           dataIndex: 'quantity',
         },
         {
           /*备注*/
-          title: this.$t({ id: 'budgetJournal.remark' }),
+          title: this.$t({id: 'budgetJournal.remark'}),
           key: 'remark',
           dataIndex: 'remark',
           render: remark => <Popover content={remark}>{remark}</Popover>,
@@ -363,13 +363,14 @@ class BudgetJournalDetail extends React.Component {
       // budgetJournalPage: menuRoute.getRouteItem('budget-journal', 'key'),    //预算日记账
     };
   }
+
   //获取审批历史数据
   getApproveHistory(headerData) {
     let params = {};
     params.entityType = headerData.documentType;
     params.entityOID = headerData.documentOid;
     budgetJournalService.getBudgetJournalApproveHistory(params).then(response => {
-      this.setState({ historyData: response.data });
+      this.setState({historyData: response.data});
     });
   }
 
@@ -380,7 +381,7 @@ class BudgetJournalDetail extends React.Component {
       sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
       dec = typeof dec_point === 'undefined' ? '.' : dec_point,
       s = '',
-      toFixedFix = function(n, prec) {
+      toFixedFix = function (n, prec) {
         var k = Math.pow(10, prec);
         return '' + Math.ceil(n * k) / k;
       };
@@ -410,7 +411,7 @@ class BudgetJournalDetail extends React.Component {
 
   //选项改变时的回调，重置selection
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    let { rowSelection } = this.state;
+    let {rowSelection} = this.state;
     rowSelection.selectedRowKeys = selectedRowKeys;
     this.setState({
       rowSelection,
@@ -425,7 +426,7 @@ class BudgetJournalDetail extends React.Component {
     let selectedRowKeys = [];
     data.map(item => {
       if (item) {
-        let id = { id: item };
+        let id = {id: item};
         selectedRowKeys.addIfNotExist(id);
       }
     });
@@ -434,13 +435,13 @@ class BudgetJournalDetail extends React.Component {
       .then(req => {
         this.getBudgetJournalLine();
         this.getToleAmount();
-        message.success(`${this.$t({ id: 'common.operate.success' })}`);
+        message.success(`${this.$t({id: 'common.operate.success'})}`);
         this.setState({
           selectedRowKeys: [],
         });
       })
       .catch(e => {
-        message.error(`${this.$t({ id: 'common.operate.filed' })}`);
+        message.error(`${this.$t({id: 'common.operate.filed'})}`);
       });
   };
 
@@ -457,7 +458,7 @@ class BudgetJournalDetail extends React.Component {
       })
       .catch(e => {
         message.error(
-          `${this.$t({ id: 'budgetJournal.getAttachmentFail' })},${e.response.data.message}`
+          `${this.$t({id: 'budgetJournal.getAttachmentFail'})},${e.response.data.message}`
         );
       });
   };
@@ -482,7 +483,7 @@ class BudgetJournalDetail extends React.Component {
       })
       .catch(e => {
         message.error(
-          `${this.$t({ id: 'budgetJournal.getDimensionFail' })},${e.response.data.message}`
+          `${this.$t({id: 'budgetJournal.getDimensionFail'})},${e.response.data.message}`
         );
       });
   };
@@ -583,23 +584,23 @@ class BudgetJournalDetail extends React.Component {
         const periodStrategy = {
           label:
             period == 'YEAR'
-              ? this.$t({ id: 'budgetJournal.year' })
+              ? this.$t({id: 'budgetJournal.year'})
               : period == 'QUARTER'
-                ? this.$t({ id: 'budgetJournal.quarter' })
-                : this.$t({ id: 'budgetJournal.month' }),
+              ? this.$t({id: 'budgetJournal.quarter'})
+              : this.$t({id: 'budgetJournal.month'}),
           value: period,
         };
 
         //状态
         let statusData = {};
         if (headerData.status === 1001) {
-          statusData = { status: 'processing', value: '编辑中' };
+          statusData = {status: 'processing', value: '编辑中'};
         } else if (headerData.status === 1003) {
-          statusData = { status: 'default', value: '撤回' };
+          statusData = {status: 'default', value: '撤回'};
         } else if (headerData.status === 1005) {
-          statusData = { status: 'error', value: '审批驳回' };
+          statusData = {status: 'error', value: '审批驳回'};
         } else {
-          statusData = { status: 'default', value: headerData.statusName };
+          statusData = {status: 'default', value: headerData.statusName};
         }
 
         //获取总金额
@@ -615,13 +616,13 @@ class BudgetJournalDetail extends React.Component {
         };
         const templateUrl = `${
           config.budgetUrl
-        }/api/budget/journals/export/template?budgetJournalHeadId=${headerData.id}`;
+          }/api/budget/journals/export/template?budgetJournalHeadId=${headerData.id}`;
         const uploadUrl = `${config.budgetUrl}/api/budget/journals/import?budgetJournalHeadId=${
           headerData.id
-        }`;
+          }`;
         const errorUrl = `${
           config.budgetUrl
-        }/api/budget/batch/transaction/logs/failed/export/budgetJournal/${headerData.id}`;
+          }/api/budget/batch/transaction/logs/failed/export/budgetJournal/${headerData.id}`;
         let headerAndListData = {
           dto: response.data,
           list: [],
@@ -716,7 +717,7 @@ class BudgetJournalDetail extends React.Component {
     budgetJournalService
       .addBudgetJournalHeaderLine(headerAndListData)
       .then(req => {
-        message.success(`${this.$t({ id: 'common.operate.success' })}`);
+        message.success(`${this.$t({id: 'common.operate.success'})}`);
         this.getBudgetJournalHead();
         this.getToleAmount();
       })
@@ -770,7 +771,7 @@ class BudgetJournalDetail extends React.Component {
       budgetJournalService
         .addBudgetJournalLine(data)
         .then(req => {
-          message.success(`${this.$t({ id: 'common.operate.success' })}`);
+          message.success(`${this.$t({id: 'common.operate.success'})}`);
           this.getBudgetJournalLine();
           this.getToleAmount();
         })
@@ -786,7 +787,7 @@ class BudgetJournalDetail extends React.Component {
     budgetJournalService
       .deleteBudgetJournal(id)
       .then(req => {
-        message.success(`${this.$t({ id: 'common.operate.success' })}`);
+        message.success(`${this.$t({id: 'common.operate.success'})}`);
         //删除完该预算日记账，跳转
         // let path = this.state.budgetJournalPage.url;
         // this.context.router.push(path);
@@ -797,7 +798,7 @@ class BudgetJournalDetail extends React.Component {
         );
       })
       .catch(e => {
-        message.error(`${this.$t({ id: 'common.operate.filed' })}`);
+        message.error(`${this.$t({id: 'common.operate.filed'})}`);
       });
   };
 
@@ -811,7 +812,7 @@ class BudgetJournalDetail extends React.Component {
         commitLoading: true,
       });
       let header = this.state.headerAndListData.dto;
-      let data = {
+      /*let data = {
         applicantOID: header.applicatOiD,
         userOID: this.props.user.userOID,
         formOID: header.formOid,
@@ -820,10 +821,27 @@ class BudgetJournalDetail extends React.Component {
         amount: 0,
         countersignApproverOIDs: null,
       };
-
+  */
+      let workFlowDocumentRef = {
+        applicantOid: header.applicatOid,
+        userOid: this.props.user.userOID,
+        formOid: header.formOid,
+        documentOid: header.documentOid,
+        documentCategory: header.documentType,
+        countersignApproverOIDs: null,
+        documentNumber: header.journalCode,
+        remark: header.description,
+        companyId: header.companyId,
+        unitOid: header.unitOid,
+        amount: header.amount,
+        currencyCode: header.currency,
+        documentTypeId: header.journalTypeId,
+        applicantDate: header.createdDate,
+        documentId: header.id
+      };
       if (this.state.commitFlag) {
         budgetJournalService
-          .commitBudgetJournalWorkflow(data)
+          .commitBudgetJournalWorkflow(workFlowDocumentRef)
           .then(req => {
             message.success('提交成功');
             this.setState({
@@ -848,7 +866,7 @@ class BudgetJournalDetail extends React.Component {
         notification.open({
           message: '行信息不能为空！',
           description: '请添加或导入预算日记账行信息',
-          icon: <Icon type="frown-circle" style={{ color: '#e93652' }} />,
+          icon: <Icon type="frown-circle" style={{color: '#e93652'}}/>,
         });
       }
     } else {
@@ -859,7 +877,7 @@ class BudgetJournalDetail extends React.Component {
         budgetJournalService
           .commitBudgetJournal(header.id)
           .then(res => {
-            message.success(`${this.$t({ id: 'common.operate.success' })}`);
+            message.success(`${this.$t({id: 'common.operate.success'})}`);
             this.setState({
               listData: [],
             });
@@ -876,9 +894,9 @@ class BudgetJournalDetail extends React.Component {
           });
       } else {
         notification.open({
-          message: this.$t({ id: 'budgetJournal.notEmpty' }),
-          description: this.$t({ id: 'budgetJournal.andOrLead' }),
-          icon: <Icon type="frown-circle" style={{ color: '#e93652' }} />,
+          message: this.$t({id: 'budgetJournal.notEmpty'}),
+          description: this.$t({id: 'budgetJournal.andOrLead'}),
+          icon: <Icon type="frown-circle" style={{color: '#e93652'}}/>,
         });
       }
     }
@@ -951,7 +969,7 @@ class BudgetJournalDetail extends React.Component {
   };
 
   showImport = flag => {
-    this.setState({ showImportFrame: flag });
+    this.setState({showImportFrame: flag});
   };
 
   render() {
@@ -988,40 +1006,40 @@ class BudgetJournalDetail extends React.Component {
 
             <div className="table-header">
               <div className="table-header-title">
-                {this.$t({ id: 'common.total' }, { total: `${this.state.pagination.total}` })}/{this.$t(
-                  { id: 'common.total' },
-                  { total: `${this.state.total}` }
-                )}
+                {this.$t({id: 'common.total'}, {total: `${this.state.pagination.total}`})}/{this.$t(
+                {id: 'common.total'},
+                {total: `${this.state.total}`}
+              )}
               </div>
               <div className="table-header-buttons">
                 <Button type="primary" onClick={this.showSlideFrameNewData}>
-                  {this.$t({ id: 'common.add' })}
+                  {this.$t({id: 'common.add'})}
                 </Button>
                 <Button type="primary" onClick={() => this.showImport(true)}>
-                  {this.$t({ id: 'importer.import' } /*导入*/)}
+                  {this.$t({id: 'importer.import'} /*导入*/)}
                 </Button>
-                <ImporterNew 
+                <ImporterNew
                   visible={showImportFrame}
-                  title={this.$t({ id: 'budgetJournal.leading' })}
+                  title={this.$t({id: 'budgetJournal.leading'})}
                   templateUrl={templateUrl}
                   uploadUrl={`${config.budgetUrl}/api/budget/journals/import?budgetJournalHeadId=${
                     this.props.match.params.journalCode
-                  }`}
+                    }`}
                   errorUrl={`${config.budgetUrl}/api/budget/journals/import/error/export`}
                   errorDataQueryUrl={`${config.budgetUrl}/api/budget/journals/import/query/result`}
-                  deleteDataUrl ={`${config.budgetUrl}/api/budget/journals/import/delete`}
-                  fileName={this.$t({ id: 'budgetJournal.budgetJournalLeading' })}
+                  deleteDataUrl={`${config.budgetUrl}/api/budget/journals/import/delete`}
+                  fileName={this.$t({id: 'budgetJournal.budgetJournalLeading'})}
                   onOk={this.onLoadOk}
                   afterClose={() => this.showImport(false)}/>
                 <Popconfirm
                   placement="topLeft"
-                  title={this.$t({ id: 'common.delete' })}
+                  title={this.$t({id: 'common.delete'})}
                   onConfirm={this.handleDeleteLine}
-                  okText={this.$t({ id: 'common.ok' })}
-                  cancelText={this.$t({ id: 'common.cancel' })}
+                  okText={this.$t({id: 'common.ok'})}
+                  cancelText={this.$t({id: 'common.cancel'})}
                 >
                   <Button className="delete" disabled={this.state.selectedRowKeys.length === 0}>
-                    {this.$t({ id: 'common.delete' })}
+                    {this.$t({id: 'common.delete'})}
                   </Button>
                 </Popconfirm>
               </div>
@@ -1032,7 +1050,7 @@ class BudgetJournalDetail extends React.Component {
               rowKey={record => record.id}
               bordered
               size="middle"
-              scroll={{ x: '200%' }}
+              scroll={{x: '200%'}}
               onRow={record => ({
                 onClick: () => this.handlePutData(record),
               })}
@@ -1042,10 +1060,10 @@ class BudgetJournalDetail extends React.Component {
             />
           </div>
           <div className="collapse">
-            <ApproveHistory infoData={historyData} loading={false} />
+            <ApproveHistory infoData={historyData} loading={false}/>
           </div>
           <SlideFrame
-            title={this.$t({ id: 'budgetJournal.journal' })}
+            title={this.$t({id: 'budgetJournal.journal'})}
             show={showSlideFrameNew}
             onClose={() => this.showSlideFrameNew(false)}
           >
@@ -1054,7 +1072,7 @@ class BudgetJournalDetail extends React.Component {
               params={this.state.params}
             />
           </SlideFrame>
-          <div className="divider"> </div>
+          <div className="divider"></div>
           <Affix
             offsetBottom={0}
             style={{
@@ -1070,29 +1088,29 @@ class BudgetJournalDetail extends React.Component {
             }}
           >
             <Popconfirm
-              style={{ width: 200 }}
+              style={{width: 200}}
               placement="topLeft"
-              title={this.$t({ id: 'budgetJournal.commit' })}
+              title={this.$t({id: 'budgetJournal.commit'})}
               onConfirm={this.handlePut}
-              okText={this.$t({ id: 'common.ok' })}
-              cancelText={this.$t({ id: 'common.cancel' })}
+              okText={this.$t({id: 'common.ok'})}
+              cancelText={this.$t({id: 'common.cancel'})}
             >
-              <Button type="primary" style={{ marginLeft: '20px', marginRight: '8px' }}>
-                {this.$t({ id: 'budgetJournal.commit' })}
+              <Button type="primary" style={{marginLeft: '20px', marginRight: '8px'}}>
+                {this.$t({id: 'budgetJournal.commit'})}
               </Button>
             </Popconfirm>
             <Popconfirm
               placement="topLeft"
-              title={this.$t({ id: 'budgetJournal.delete.journal' })}
+              title={this.$t({id: 'budgetJournal.delete.journal'})}
               onConfirm={this.handleDeleteJournal}
-              okText={this.$t({ id: 'common.ok' })}
-              cancelText={this.$t({ id: 'common.cancel' })}
+              okText={this.$t({id: 'common.ok'})}
+              cancelText={this.$t({id: 'common.cancel'})}
             >
-              <Button className="delete" style={{ marginRight: '8px' }}>
-                {this.$t({ id: 'budgetJournal.delete.journal' })}
+              <Button className="delete" style={{marginRight: '8px'}}>
+                {this.$t({id: 'budgetJournal.delete.journal'})}
               </Button>
             </Popconfirm>
-            <Button onClick={this.handleReturn}>{this.$t({ id: 'budgetJournal.return' })}</Button>
+            <Button onClick={this.handleReturn}>{this.$t({id: 'budgetJournal.return'})}</Button>
           </Affix>
         </Spin>
       </div>
@@ -1111,5 +1129,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  {withRef: true}
 )(BudgetJournalDetail);
