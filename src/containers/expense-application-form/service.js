@@ -58,11 +58,11 @@ export default {
   },
 
   /**
-  * 新建申请单类型
+  * 根据单据头ID分页查询单据行信息
   * @param {*} params
   */
-  addApplicationType(params) {
-    return httpFetch.post(`${config.expenseUrl}/api/expense/application/type`, params);
+  getApplicationLines(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/` + id);
   },
 
   /**

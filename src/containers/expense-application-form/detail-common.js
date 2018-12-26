@@ -1,20 +1,22 @@
 import React from 'react';
 import config from 'config';
 import httpFetch from 'share/httpFetch';
-import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
+import { Form, Icon, Tag, Button, Row, Col, Spin, Breadcrumb, message, Popover, Divider, Card } from 'antd';
 import Table from 'widget/table'
-const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
-import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';
 
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
+
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
 import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+
+import NewApplicationLine from "./new-application-line"
+
+import service from "./service"
 
 class PrePaymentCommon extends React.Component {
   constructor(props) {
@@ -63,6 +65,13 @@ class PrePaymentCommon extends React.Component {
 
     this.setState({ headerInfo });
 
+    service.getApplicationLines(headerData.id).then(res => {
+      let { headerInfo } = this.state;
+      headerInfo.totalAmount = res.data.currencyAmount ? res.data.currencyAmount.amount : "0.00";
+      this.setState({
+        headerInfo
+      })
+    })
   }
 
   /**
@@ -136,7 +145,7 @@ class PrePaymentCommon extends React.Component {
         this.setState({
           amount: res.data.CNY,
         });
-      
+
         this.setState({
           headerInfo,
         });
@@ -532,81 +541,21 @@ class PrePaymentCommon extends React.Component {
     } else {
       status = <h3 className="header-title" />;
     }
-    let subContent = {};
-    subContent = (
-      <div>
-        <Spin spinning={false}>
-        
-          <Card
-            style={{
-              marginTop: 20,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-            }}
-            title="付款信息"
-          >
-            <div className="table-header">
-              <div className="table-header-buttons" style={{ float: 'left' }}>
-                {(headerData.status === 1001 ||
-                  headerData.status === 1003 ||
-                  headerData.status === 1005) && (
-                    <Button type="primary" onClick={this.addItem}>
-                      新建付款信息
-                  </Button>
-                  )}
-              </div>
-              {amountText !== '' ? (
-                <div style={{ float: 'right' }}>
-                  <Breadcrumb style={{ marginBottom: '10px' }}>
-                    <Breadcrumb.Item>
-                      金额:<span style={{ color: 'Green' }}>{amountText}</span>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                      本币金额:<span style={{ color: 'Green' }}>
-                        {' '}
-                        {this.props.company.baseCurrency} {this.filterMoney(functionAmount)}
-                      </span>
-                    </Breadcrumb.Item>
-                  </Breadcrumb>
-                </div>
-              ) : null}
-            </div>
-            <Table
-              style={{ clear: 'both' }}
-              rowKey={record => record.id}
-              columns={columns}
-              dataSource={data}
-              bordered
-              loading={planLoading}
-              size="middle"
-              pagination={pagination}
-              expandedRowRender={this.expandedRow}
-            />
-          </Card>
-          <div
-            style={{
-              marginTop: 20,
-              marginBottom: 0,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-            }}
-          >
-            <ApproveHistory loading={historyLoading} infoData={approveHistory} />
-          </div>
-        </Spin>
-      </div>
-    );
+
+
     return (
       <div className="pre-payment-common">
-        <Card style={{ 
-             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' 
-            }} 
-           bodyStyle={{ padding: "24px 32px", paddingTop: 0 }} >
+        <Card style={{
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+        }}
+          bodyStyle={{ padding: "24px 32px", paddingTop: 0 }} >
           <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
         </Card>
-    
+
         <Card style={{
-            marginTop: 20,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-          }}
+          marginTop: 20,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        }}
           title="申请信息"
         >
           <div className="table-header">
@@ -648,15 +597,12 @@ class PrePaymentCommon extends React.Component {
           />
         </Card>
 
-
-
-
         <SlideFrame
           title={slideFrameTitle}
           show={showSlideFrame}
           onClose={() => this.showSlide(false)}
         >
-          <NewPrePaymentDetail
+          <NewApplicationLine
             onClose={this.handleCloseSlide}
             params={{
               id: this.state.id,

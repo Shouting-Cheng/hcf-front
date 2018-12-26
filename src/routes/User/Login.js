@@ -1711,7 +1711,7 @@ export default class Login extends React.Component {
           {/*{this.renderAccountAndQcodeLogin()}*/}
         </div>
         <div id="scene">
-          <img src={logo} className="img-logo" />
+          <img style={{ left: -120 }} src={logo} className="img-logo" />
           <div data-depth="0.2">
             <img src={layer1} />
           </div>

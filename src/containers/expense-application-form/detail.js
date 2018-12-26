@@ -10,8 +10,6 @@ const confirm = Modal.confirm;
 
 import Common from "./detail-common"
 
-
-
 class ExpenseApplicationDetail extends React.Component {
   constructor(props) {
     super(props);
