@@ -595,16 +595,34 @@ class NewPaymentRequisitionDetail extends React.Component {
       this.setState({ loading: false, dLoading: false, pageLoading: false });
       return;
     } else {
-      let params = {
-        applicantOID: headerData.applicantOid,
-        userOID: this.props.user.userOID,
-        formOID: headerData.formOid,
-        entityOID: headerData.documentOid,
-        entityType: 801005,
+      // let params = {
+      //   applicantOID: headerData.applicantOid,
+      //   userOID: this.props.user.userOID,
+      //   formOID: headerData.formOid,
+      //   entityOID: headerData.documentOid,
+      //   entityType: 801005,
+      //   countersignApproverOIDs: null,
+      // };
+      console.log(headerData)
+      let workFlowDocumentRef = {
+        applicantOid: headerData.applicantOid,
+        userOid: this.props.user.userOID,
+        formOid: headerData.formOid,
+        documentOid: headerData.documentOid,
+        documentCategory: 801005,
         countersignApproverOIDs: null,
+        documentNumber: headerData.requisitionNumber,
+        remark: headerData.description,
+        companyId: headerData.companyId,
+        unitOid: headerData.unitOid,
+        amount: headerData.functionAmount,
+        currencyCode: headerData.currency,
+        documentTypeId: headerData.acpReqTypeId,
+        applicantDate: headerData.createdDate,
+        documentId: headerData.id
       };
       paymentRequisitionService
-        .submitHeader(params)
+        .submitHeader(workFlowDocumentRef)
         .then(res => {
           if (res.status === 200) {
             this.setState({ loading: false, dLoading: false, pageLoading: false });

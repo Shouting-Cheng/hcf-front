@@ -14,13 +14,6 @@ const FormItem = Form.Item;
 
 import moment from "moment"
 
-// <Option value="day">天</Option>
-//   <Option value="week">周</Option>
-//   <Option value="month">月</Option>
-//   <Option value="month">人</Option>
-//   <Option value="ge">个</Option>
-//   <Option value="time">次</Option>
-
 const priceUnitMap = {
   day: "天",
   week: "周",
@@ -80,7 +73,8 @@ class NewExpenseApplicationFromLine extends Component {
   };
 
   //表单提交
-  handleSave = () => {
+  handleSave = (e) => {
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (err) return;
 

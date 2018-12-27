@@ -61,8 +61,8 @@ export default {
   * 根据单据头ID分页查询单据行信息
   * @param {*} params
   */
-  getApplicationLines(id) {
-    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/` + id);
+  getApplicationLines(id, params) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/` + id, params);
   },
 
   /**
@@ -80,6 +80,40 @@ export default {
   addApplicationLine(params) {
     return httpFetch.post(`${config.expenseUrl}/api/expense/application/line`, params);
   },
+
+  /**
+  * 获取审批历史
+  * @param {*} oid
+  */
+  getHistory(oid) {
+    return httpFetch.get(`${config.baseUrl}/api/prepayment/reports/history?entityType=801009&entityOID=` + oid);
+  },
+
+  /**
+  * 校验预算
+  * @param {*} oid
+  */
+  checkBudget(id) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/header/submit/check/budget?id=` + id);
+  },
+
+  /**
+   * 
+   * @param {*} params 
+   */
+  submit(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/submit`, params);
+  },
+
+  /**
+   * 删除行数据
+   * @param {*} id 
+   */
+  deleteLine(id) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/application/line/` + id);
+  }
+
+
 
 }
 
