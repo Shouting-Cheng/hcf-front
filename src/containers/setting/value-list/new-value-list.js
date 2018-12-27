@@ -6,7 +6,7 @@ import { messages } from 'utils/utils';
  * 2.值列表详情：包括自定义值列表详情与系统值列表详情
  */
 import React from 'react';
-import ExcelExporter from 'widget/excel-exporter';
+import ExcelExporter from 'widget/excel-exporter'
 import config from 'config';
 import { connect } from 'dva';
 import ImporterNew from 'widget/Template/importer-new';
@@ -29,7 +29,7 @@ import {
   Checkbox,
   Tabs,
 } from 'antd';
-import Table from 'widget/table';
+import Table from 'widget/table'
 const FormItem = Form.Item;
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -74,6 +74,7 @@ class ValueList extends React.Component {
           title: messages('common.sequence' /*序号*/),
           dataIndex: 'sequenceNumber',
           width: '10%',
+          render: (value, record, index) => (index + 1 + (this.state.page)  * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -115,14 +116,7 @@ class ValueList extends React.Component {
           title: messages('common.sequence' /*序号*/),
           dataIndex: 'sequenceNumber',
           width: '10%',
-        },
-        {
-          title: messages('value.list.limit' /*数据权限*/),
-          dataIndex: 'common',
-          render: common =>
-            common
-              ? messages('value.list.limit.all' /*全员*/)
-              : messages('value.list.limit.part' /*部分*/),
+          render: (value, record, index) => (index + 1 + (this.state.page)  * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -147,17 +141,6 @@ class ValueList extends React.Component {
             <Badge
               status={enabled ? 'success' : 'error'}
               text={enabled ? messages('common.status.enable') : messages('common.status.disable')}
-            />
-          ),
-        },
-        {
-          title: messages('value.list.default' /*默认*/),
-          dataIndex: 'customEnumerationItemOid',
-          width: '10%',
-          render: (value, record) => (
-            <Checkbox
-              checked={value === this.state.defaultCustomEnumerationItemOid}
-              onChange={e => this.setDefault(e, record)}
             />
           ),
         },
@@ -212,13 +195,11 @@ class ValueList extends React.Component {
       excelVisible: false,
       btLoading: false,
       exportColumns: [
-        { title: '值名称', dataIndex: 'messageKey' },
+        { title: '值名称', dataIndex: 'messageKey'},
         { title: '编码', dataIndex: 'code' },
-        { title: '序号', dataIndex: 'sequenceNumber' },
-        { title: '是否全员可见', dataIndex: 'commonStr' },
+        { title: '序号', dataIndex: 'sequenceNumber'},
         { title: '备注', dataIndex: 'remark' },
-        { title: '是否启用', dataIndex: 'enabledStr' },
-        { title: '是否默认值', dataIndex: 'patientiaStr' },
+        { title: '是否启用', dataIndex: 'enabledStr'},
       ],
     };
     this.handleSearch = debounce(this.handleSearch, 250);
@@ -247,7 +228,7 @@ class ValueList extends React.Component {
         ),
       };
 
-      columnsSystem.push(col0);
+      //columnsSystem.push(col0);
       columnsSystem.push(col1);
       this.setState({ columnsSystem });
     }
@@ -284,7 +265,7 @@ class ValueList extends React.Component {
         isCustom: res.data.isCustom,
         defaultCustomEnumerationItemOid: res.data.defaultCustomEnumerationItemOid,
         form,
-        _form: { ...form, i18n: { ...form.i18n } },
+        _form: { ...form,i18n: {...form.i18n} },
       });
     });
   };
@@ -352,21 +333,18 @@ class ValueList extends React.Component {
     console.log(record);
     data.map(item => {
       if (e.target.checked) {
-        item.defaultFlag = item.id === record.id;
+        item.isDefault = item.id === record.id;
         form.defaultCustomEnumerationItemOid = record.customEnumerationItemOid;
         form.defaultCustomEnumerationItemValue = record.value;
       } else {
-        item.defaultFlag = false;
+        item.isDefault = false;
         form.defaultCustomEnumerationItemOid = null;
         form.defaultCustomEnumerationItemValue = null;
       }
     });
-    this.setState(
-      { data, form, _form: { ...form, i18n: { ...form.i18n } }, tableLoading: true },
-      () => {
-        this.handleSave();
-      }
-    );
+    this.setState({ data, form, _form: {...form, i18n: {...form.i18n}}, tableLoading: true }, () => {
+      this.handleSave();
+    });
   };
 
   handleSearch = value => {
@@ -409,7 +387,7 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
-    console.log(name);
+    console.log(name)
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -424,9 +402,7 @@ class ValueList extends React.Component {
   handleSave = () => {
     let params = {
       isCustom: this.state.isCustom,
-      fieldType: 'TEXT',
       values: [],
-      dataFrom: '101',
     };
     Object.keys(this.state.form).map(key => {
       params[key] = this.state.form[key];
@@ -461,7 +437,6 @@ class ValueList extends React.Component {
           !res.data.values[0].enabled
             ? message.warning(messages('common.operate.value.disabled'))
             : message.success(messages('common.operate.success'));
-          // message.success(messages('common.operate.success'));
         }
       })
       .catch(e => {
@@ -476,10 +451,7 @@ class ValueList extends React.Component {
   handleCancel = () => {
     if (this.state.customEnumerationOid) {
       //编辑
-      this.setState({
-        edit: false,
-        form: { ...this.state._form, i18n: { ...this.state._form.i18n } },
-      });
+      this.setState({ edit: false, form: { ...this.state._form, i18n: {...this.state._form.i18n} } });
     } else {
       //新增
       this.props.dispatch(
@@ -514,16 +486,16 @@ class ValueList extends React.Component {
     const form = this.state.form;
     form.name = name;
     form.i18n.name = i18nName;
-    this.setState({ form });
+    this.setState({ form, });
   };
 
-  /**
+    /**
    * 点击导出按钮
    */
   onExportClick = () => {
     this.setState({
-      btLoading: true,
-      excelVisible: true,
+        btLoading: true,
+        excelVisible: true
     });
   };
   /**
@@ -652,7 +624,6 @@ class ValueList extends React.Component {
           customEnumerationOid,
           record,
           isCustom: this.state.isCustom,
-          systemInit: record.systeminit,
           hasInit: false,
         },
       },
@@ -696,17 +667,14 @@ class ValueList extends React.Component {
   };
 
   //导入成功回调
-  handleImportOk = transactionID => {
-    httpFetch
-      .post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`)
-      .then(res => {
-        if (res.status === 200) {
-          this.getList();
-        }
-      })
-      .catch(() => {
-        message.error(this.$t('importer.import.error.info') /*导入失败，请重试*/);
-      });
+  handleImportOk = (transactionID) => {
+    httpFetch.post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`).then(res => {
+      if (res.status === 200){
+        this.getList()
+      }
+    }).catch(() => {
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
+    })
     this.showImport(false);
   };
 
@@ -785,20 +753,7 @@ class ValueList extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
     return (
       <div style={{ paddingBottom: 20 }} className="new-value-list">
-        {customEnumerationOid &&
-          isCustom === 'CUSTOM' &&
-          this.props.tenantMode && (
-            <Tabs defaultActiveKey="valueListDetailPage" onChange={this.handleTabsChange}>
-              <TabPane
-                tab={messages('value.list.detail' /*值列表详情*/)}
-                key="valueListDetailPage"
-              />
-              <TabPane
-                tab={messages('value.list.distribute.company' /*分配公司*/)}
-                key="distributeCompanyPage"
-              />
-            </Tabs>
-          )}
+
 
         {tabValue === 'valueListDetailPage' && (
           <div>
@@ -838,9 +793,9 @@ class ValueList extends React.Component {
                     )}
 
                     <Button loading={btLoading} onClick={this.onExportClick}>
-                      {messages('value.list.value.export' /*值导出*/)}
+                     {messages('value.list.value.export' /*值导出*/)}
                     </Button>
-                    {(this.props.tenantMode || isCustom === 'CUSTOM') && (
+                    {(isCustom === 'CUSTOM') && (
                       <div style={{ display: 'inline-block' }}>
                         <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
                           {messages('common.enabled' /*启用*/)}
@@ -910,63 +865,25 @@ class ValueList extends React.Component {
             )}
           </div>
         )}
-
-        {tabValue === 'distributeCompanyPage' && (
-          <div>
-            <div className="table-header">
-              <div className="table-header-buttons">
-                {/*分配公司*/}
-                <Button type="primary" onClick={() => this.showListSelector(true)}>
-                  {messages('value.list.distribute.company')}
-                </Button>
-              </div>
-            </div>
-            <Table
-              rowKey="id"
-              columns={companyColumns}
-              dataSource={companyData}
-              pagination={companyPagination}
-              loading={companyLoading}
-              bordered
-              size="middle"
-            />
-            <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
-              <Icon type="rollback" style={{ marginRight: '5px' }} />
-              {messages('common.back')}
-            </a>
-            <ListSelector
-              visible={showListSelector}
-              onCancel={() => this.showListSelector(false)}
-              type="deploy_company"
-              extraParams={{ source: this.props.match.params.id }}
-              onOk={this.distributeCompany}
-            />
-          </div>
-        )}
-        <ImporterNew
-          visible={showImportFrame}
+        <ImporterNew visible={showImportFrame}
           title={messages('value.list.value.import' /*值导入*/)}
           templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${
-            config.baseUrl
-          }/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}
-          &isCustom=${isCustom === 'CUSTOM'}`}
+          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}`}
           errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
           errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
-          deleteDataUrl={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
+          deleteDataUrl ={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
           fileName={messages('value.list.value.import' /*值导入*/)}
           onOk={this.handleImportOk}
-          afterClose={() => this.showImport(false)}
-        />
+          afterClose={() => this.showImport(false)} />
         {/* 导出 */}
         <ExcelExporter
-          visible={excelVisible}
-          onOk={this.export}
-          columns={exportColumns}
-          canCheckVersion={false}
-          fileName={'值列表'}
-          onCancel={this.onExportCancel}
-          excelItem={'PREPAYMENT_FINANCIAL_QUERY'}
+            visible={excelVisible}
+            onOk={this.export}
+            columns={exportColumns}
+            canCheckVersion={false}
+            fileName={"值列表"}
+            onCancel={this.onExportCancel}
+            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
         />
       </div>
     );

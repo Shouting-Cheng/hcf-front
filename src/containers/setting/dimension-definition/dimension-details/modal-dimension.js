@@ -12,21 +12,21 @@ class ModalDimension extends Component {
       searchForm: [
         {
           type: 'input',
-          id: 'tableName1',
+          id: 'dimensionItemCode',
           placeholder: '请输入',
           label: '维值代码',
           colSpan: 8,
         },
         {
           type: 'input',
-          id: 'tableName2',
+          id: 'dimensionItemName',
           placeholder: '请输入',
           label: '维值名称',
           colSpan: 8,
         },
         {
           type: 'value_list',
-          id: 'tableName3',
+          id: 'enabled',
           placeholder: '请选择',
           label: '状态',
           colSpan: 8,
@@ -39,12 +39,12 @@ class ModalDimension extends Component {
       modalColumns: [
         {
           title: '维值代码',
-          dataIndex: 'code',
+          dataIndex: 'dimensionItemCode',
           align: 'center',
         },
         {
           title: '维值名称',
-          dataIndex: 'name',
+          dataIndex: 'dimensionItemName',
           align: 'center',
         },
         {
@@ -68,30 +68,38 @@ class ModalDimension extends Component {
         onShowSizeChange: this.sizeChange,
       },
       loading: false,
+      searchParams: {},
     }
   }
 
   // 生命周期获取数据
   componentDidMount() {
-    this.setState({ loading: true }, this.getList)
+    let { groupId } = this.props;
+    this.setState({
+      dimensionItemGroupId: groupId,
+    }, this.getList)
   }
 
   // 获取数据
   getList = () => {
-    service.getDimension({id: 1029}).then(res => {
-      this.setState({ modalData: res.data, loading: false })
+    let { dimensionItemGroupId, page, size, searchParams, pagination } = this.state;
+    let params = { dimensionItemGroupId, page, size, ...searchParams };
+    this.setState({ loading: true });
+    service.getDistributeDimensionItem(params).then(res => {
+      let total = Number(res.headers['x-total-count']);
+      this.setState({ modalData: res.data, loading: false, pagination: { ...pagination, total } });
     })
   }
 
   // 搜索
   modalSearch = (value) => {
-    console.log(value)
+    let pagination = this.state.pagination;
+    this.setState({ searchParams: value, page: 0, pagination: { ...pagination, current: 1 }}, this.getList)
   }
 
   // 表格选择
-  selectChange = (key) => {
-    console.log(key);
-    this.setState({ selectedKey: key });
+  selectChange = (keys) => {
+    this.props.ids && this.props.ids(keys);
   };
 
   // 跳转到某页

@@ -1894,6 +1894,14 @@ export const getRouterData = app => {
       name: 'edit-expense-application',
       parent: '/expense-application'
     },
+
+    //参数定义
+    '/admin-setting/parameter-pefinition':{
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/parameter-definition/parameter-definition')
+      ),
+      name: 'parameter-pefinition',
+    }
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

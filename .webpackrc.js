@@ -31,6 +31,7 @@ export default {
     //   minChunks: Infinity
     // })
   ],
+  // extraBabelIncludes: ['node_modules/@antv'],
   ignoreMomentLocale: true,
   theme: './src/theme.js',
   html: {

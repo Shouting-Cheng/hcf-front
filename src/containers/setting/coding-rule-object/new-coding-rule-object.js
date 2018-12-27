@@ -80,10 +80,10 @@ class NewCodingRuleObject extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {documentCategoryOptions.map(option => {
-                  return <Option key={option.code}>{option.messageKey}</Option>
+                  return <Option key={option.value}>{option.messageKey}</Option>
                 })}
               </Select>
-              )}
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('code.rule.apply.company')/*应用公司*/}>
             {getFieldDecorator('company')(
@@ -96,7 +96,7 @@ class NewCodingRuleObject extends React.Component {
               valuePropName: 'checked'
             })(
               <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
-              )}
+            )}
           </FormItem>
           <FormItem wrapperCol={{ offset: 7 }}>
             <Row gutter={1}>
