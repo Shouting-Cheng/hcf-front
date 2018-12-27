@@ -807,7 +807,6 @@ class Employee extends React.Component {
   //点击搜搜索
   handleSearch = values => {
     const { params } = this.state;
-    console.log(values)
     if (values.corporationOIDs && values.corporationOIDs[0]) {
       values.corporationOIDs = values.corporationOIDs[0];
     }

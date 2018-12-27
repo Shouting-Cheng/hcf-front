@@ -1157,7 +1157,6 @@ class ConditionForm extends React.Component {
             condition.map((item, index) => {
               let type = this.checkConditionType(item.remark);
               if (type === 'long' || type === 'double' || type === 'date') {
-                console.log(item);
                 let leftCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list || [])[0] || {} : {};
                 let rightCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list || [])[1] || {} : {};
                 return (
@@ -1283,7 +1282,6 @@ class ConditionForm extends React.Component {
                       {String(item.symbol) === '9015' || String(item.symbol) === '9016'? '' : (
                         (item.remark === 'default_department_path' || item.remark === 'select_department' || item.remark === 'default_user_department') ? (
                           <a style={{whiteSpace: 'nowrap'}} onClick={(e)=>{
-                            console.log(this.state.condition[index])
                             this.setState({[`dept${index}`]: true})}}>
                             {'+ '}
                             <SelectDepOrPerson renderButton={false}

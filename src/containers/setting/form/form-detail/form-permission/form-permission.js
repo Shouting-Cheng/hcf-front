@@ -144,7 +144,6 @@ class FormPermission extends React.Component {
     };
 
     handleSelectCompany = (value) => {
-        console.log(value)
         this.setState({
             companySelectedList: value
         });
@@ -410,7 +409,6 @@ class FormPermission extends React.Component {
     }
 
     renderExpenseTypeScope = (expenseType) => {
-        console.log(expenseType)
         if (expenseType.visibleScope === 1001) {
             return (
                 <div>{this.$t('form.setting.form.allExpense')/*全部费用*/}</div>
@@ -429,7 +427,6 @@ class FormPermission extends React.Component {
     }
 
     renderUser = (users) => {
-        console.log(users)
         if (users.visibleScope === 1001) {
             return (
                 <div>{this.$t('form.setting.form.allCompany')/*全公司人员*/}</div>

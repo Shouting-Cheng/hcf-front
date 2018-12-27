@@ -90,7 +90,6 @@ class DistributionDimension extends Component {
 
   // 生命周期获取数据
   componentDidMount() {
-    console.log(this.props);
     this.getList();
     setTimeout(() => {
       this.setState({
@@ -133,14 +132,12 @@ class DistributionDimension extends Component {
 
   // 删除
   delete = id => {
-    console.log(id);
   };
 
   // 批量删除
   batchDelete = () => {
     let selectedKey = this.state.selectedKey;
     if(selectedKey.length) {
-      console.log(selectedKey);
     } else {
       message.warning('请选择你要删除的内容')
     }
@@ -148,7 +145,6 @@ class DistributionDimension extends Component {
 
   // 搜索
   search = value => {
-    console.log(value);
   }
 
   // 表格选择

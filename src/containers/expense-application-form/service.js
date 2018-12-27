@@ -50,28 +50,36 @@ export default {
   },
 
   /**
-  * 获取可关联表单类型
-  * @param {*} setOfBooksId
+  * 删除申请单
+  * @param {*} id
   */
-  getFormList(setOfBooksId) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801009&setOfBooksId=${setOfBooksId}`);
+  deleteExpenseApplication(id) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/application/header/` + id);
   },
 
   /**
-  * 新建申请单类型
+  * 根据单据头ID分页查询单据行信息
   * @param {*} params
   */
-  addApplicationType(params) {
-    return httpFetch.post(`${config.expenseUrl}/api/expense/application/type`, params);
+  getApplicationLines(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/` + id);
   },
 
   /**
-  * 更新申请单类型
+  * 申请单行创建时查询维度信息默认值
   * @param {*} params
   */
-  updateApplicationType(params) {
-    return httpFetch.put(`${config.expenseUrl}/api/expense/application/type`, params);
-  }
+  getNewInfo(params) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/info`, params);
+  },
+
+  /**
+  * 新增申请单行
+  * @param {*} params
+  */
+  addApplicationLine(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/line`, params);
+  },
 
 }
 

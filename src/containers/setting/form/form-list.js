@@ -345,7 +345,6 @@ class FormList extends React.Component {
   };
   //Tabs点击
   onChangeTabs = (key) => {
-    console.log(key)
   };
   renderCompanyTab = () => {
     const {

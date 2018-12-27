@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Badge, Tooltip } from 'antd';
+import { Badge, Tooltip } from 'antd';
 import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
@@ -124,8 +124,7 @@ class CustomTable extends Component {
   };
 
   test = params => {
-    console.log(params);
-    console.log('hello world!');
+    (params);
   };
 
   getList = () => {

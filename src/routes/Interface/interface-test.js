@@ -100,7 +100,6 @@ class InterfaceTest extends React.Component {
         });
       })
       .catch(error => {
-        console.log(JSON.stringify(error));
         var end = new Date();
         this.setState({
           result: '',

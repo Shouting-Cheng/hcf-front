@@ -39,7 +39,6 @@ class NewApplicationType extends React.Component {
     this.getInfoById();
   }
 
-
   //获取详情
   getInfoById = () => {
     if (this.props.params.id) {

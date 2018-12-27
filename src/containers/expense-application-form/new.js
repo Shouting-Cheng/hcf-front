@@ -80,7 +80,10 @@ class NewExpenseApplicationFrom extends Component {
   };
 
   //表单提交
-  handleSave = () => {
+  handleSave = (e) => {
+
+    e.preventDefault();
+
     this.props.form.validateFields((err, values) => {
       if (err) return;
 
@@ -264,17 +267,16 @@ class NewExpenseApplicationFrom extends Component {
                 </FormItem>
               </Col>
             </Row>
-            <div
-              style={{
-                position: 'fixed',
-                bottom: 0,
-                marginLeft: '-35px',
-                width: '100%',
-                height: '50px',
-                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-                background: '#fff',
-                lineHeight: '50px',
-              }}
+            <div style={{
+              position: 'fixed',
+              bottom: 0,
+              marginLeft: '-35px',
+              width: '100%',
+              height: '50px',
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+              background: '#fff',
+              lineHeight: '50px',
+            }}
             >
               <Button
                 type="primary"

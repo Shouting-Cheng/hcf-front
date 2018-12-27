@@ -1,20 +1,22 @@
 import React from 'react';
 import config from 'config';
 import httpFetch from 'share/httpFetch';
-import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
+import { Form, Icon, Tag, Button, Row, Col, Spin, Breadcrumb, message, Popover, Divider, Card } from 'antd';
 import Table from 'widget/table'
-const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
-import NewPrePaymentDetail from 'containers/pre-payment/my-pre-payment/new-pre-payment-detail';
 
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
+
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
 import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+
+import NewApplicationLine from "./new-application-line"
+
+import service from "./service"
 
 class PrePaymentCommon extends React.Component {
   constructor(props) {
@@ -25,7 +27,35 @@ class PrePaymentCommon extends React.Component {
       amountText: '',
       functionAmount: '',
       historyLoading: false, //控制审批历史记录是否loading
-      columns: [],
+      columns: [{
+        title: "序号",
+        dataIndex: "number",
+        align: "center",
+        width: 90,
+        render: (value, record, index) => (index + 1)
+      }, {
+        title: "申请类型",
+        dataIndex: "expenseTypeName",
+        align: "center",
+        width: 150,
+      }, {
+        title: "申请金额",
+        dataIndex: "amount",
+        align: "center",
+        width: 120,
+        render: value => this.formatMoney(value)
+      }, {
+        title: "本位币金额",
+        dataIndex: "functionalAmount",
+        align: "center",
+        width: 120,
+        render: value => this.formatMoney(value)
+      },
+      {
+        title: "备注",
+        dataIndex: "remarks",
+        align: "center"
+      }],
       showSlideFrame: false,
       slideFrameTitle: '',
       record: {},
@@ -35,7 +65,8 @@ class PrePaymentCommon extends React.Component {
       flag: false,
       //传给单据信息组件的单据头数据参数
       headerInfo: {},
-      backLoadding: false
+      backLoadding: false,
+      lineInfo: {}
     };
   }
 
@@ -63,23 +94,24 @@ class PrePaymentCommon extends React.Component {
 
     this.setState({ headerInfo });
 
+
+    this.getLineInfo();
   }
 
-  /**
-   * 获取预付款头信息
-   */
-  getInfo = () => {
-    prePaymentService
-      .getHeadById(this.props.params.id)
-      .then(res => {
-        this.setState({
-          headerData: res.data,
-        });
+
+  //获取行数据
+  getLineInfo = () => {
+    const { headerData } = this.props;
+    service.getApplicationLines(headerData.id).then(res => {
+      let { headerInfo } = this.state;
+      headerInfo.totalAmount = res.data.currencyAmount ? res.data.currencyAmount.amount : "0.00";
+      this.setState({
+        headerInfo,
+        lineInfo: res.data
       })
-      .catch(e => {
-        message.error('预付款单据信息数据加载失败，请重试');
-      });
-  };
+    });
+  }
+
   /**
    * 获取审批历史数据
    */
@@ -94,66 +126,12 @@ class PrePaymentCommon extends React.Component {
         this.setState({ historyLoading: false, approveHistory: res.data });
       })
       .catch(error => {
-        console.log(error);
         message.error('审批历史数据加载失败，请重试');
         this.setState({ historyLoading: false });
       });
   };
-  //跳转到合同详情
-  toContractDetail = contractId => {
-    let url = this.state.ContractDetail.url
-      .replace(':id', contractId)
-      .replace(':from', 'pre-payment');
-    window.open(url, '_blank');
-  };
-  //获取单据总金额
-  getAmountByHeadId = () => {
-    prePaymentService
-      .getAmountByHeadId(this.props.id)
-      .then(res => {
-        //每次获取单据总金额时判断当前headerInfo是否有数据，没有的话就从headerData里面获取，有的话就直接更新它的总金额
-        let { headerData, headerInfo } = this.state;
-        if (!headerInfo.businessCode) {
-          headerInfo = {
-            businessCode: headerData.requisitionNumber,
-            createdDate: headerData.requisitionDate,
-            formName: headerData.typeName,
-            createByName: headerData.createByName + "-" + headerData.createdByCode,
-            currencyCode: headerData.currency,
-            totalAmount: res.data.totalFunctionAmount,
-            statusCode: headerData.status,
-            remark: headerData.description,
-            infoList: [
-              { label: '申请人', value: headerData.employeeName + "-" + headerData.employeeCode },
-              { label: '公司', value: headerData.companyName },
-              { label: '部门', value: headerData.path },
-            ],
-            attachments: headerData.attachments,
-          };
-        } else {
-          headerInfo.totalAmount = res.data.totalFunctionAmount;
-        }
-        this.setState({
-          amount: res.data.CNY,
-        });
-        let temp = '';
-        for (let key in res.data) {
-          if (key != 'totalFunctionAmount') {
-            temp += ` ${key} ${this.filterMoney(res.data[key], 2, true)} `;
-          }
-        }
-        this.setState({
-          amountText: temp,
-          functionAmount: res.data.totalFunctionAmount,
-          headerInfo,
-        });
-      })
-      .catch(e => {
-        console.log(e);
-        message.error('单据金额数据加载失败，请重试');
-        this.setState({ historyLoading: false });
-      });
-  };
+
+
   /**
    * 获取行数据
    */
@@ -245,20 +223,12 @@ class PrePaymentCommon extends React.Component {
     );
   };
   //关闭侧滑
-  handleCloseSlide = params => {
-    this.setState(
-      {
-        showSlideFrame: false,
-        flag: false,
-      },
-      () => {
-        if (params) {
-          this.getList();
-          this.getInfo();
-          this.getAmountByHeadId();
-        }
+  handleCloseSlide = flag => {
+    this.setState({ showSlideFrame: false }, () => {
+      if (flag) {
+        this.getLineInfo();
       }
-    );
+    });
   };
   //编辑
   edit = () => {
@@ -515,7 +485,7 @@ class PrePaymentCommon extends React.Component {
    * 渲染函数
    */
   render() {
-    const { record, amountText, functionAmount, columns, data, planLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
+    const { lineInfo, functionAmount, columns, data, planLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
     const { headerData } = this.props;
 
     /**根据单据状态确定该显示什么按钮 */
@@ -539,92 +509,68 @@ class PrePaymentCommon extends React.Component {
     } else {
       status = <h3 className="header-title" />;
     }
-    let subContent = {};
-    subContent = (
-      <div>
-        <Spin spinning={false}>
-          <Card
-            style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
-            bodyStyle={{ padding: "24px 32px", paddingTop: 0 }}
-          >
-            <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
-          </Card>
-          <Card
-            style={{
-              marginTop: 20,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-            }}
-            title="付款信息"
-          >
-            <div className="table-header">
-              <div className="table-header-buttons" style={{ float: 'left' }}>
-                {(headerData.status === 1001 ||
-                  headerData.status === 1003 ||
-                  headerData.status === 1005) && (
-                    <Button type="primary" onClick={this.addItem}>
-                      新建付款信息
-                  </Button>
-                  )}
-              </div>
-              {amountText !== '' ? (
-                <div style={{ float: 'right' }}>
-                  <Breadcrumb style={{ marginBottom: '10px' }}>
-                    <Breadcrumb.Item>
-                      金额:<span style={{ color: 'Green' }}>{amountText}</span>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                      本币金额:<span style={{ color: 'Green' }}>
-                        {' '}
-                        {this.props.company.baseCurrency} {this.filterMoney(functionAmount)}
-                      </span>
-                    </Breadcrumb.Item>
-                  </Breadcrumb>
-                </div>
-              ) : null}
-            </div>
-            <Table
-              style={{ clear: 'both' }}
-              rowKey={record => record.id}
-              columns={columns}
-              dataSource={data}
-              bordered
-              loading={planLoading}
-              size="middle"
-              pagination={pagination}
-              expandedRowRender={this.expandedRow}
-            />
-          </Card>
-          <div
-            style={{
-              marginTop: 20,
-              marginBottom: 0,
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-            }}
-          >
-            <ApproveHistory loading={historyLoading} infoData={approveHistory} />
-          </div>
-        </Spin>
-      </div>
-    );
+
     return (
       <div className="pre-payment-common">
-        {subContent}
+        <Card style={{
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+        }}
+          bodyStyle={{ padding: "24px 32px", paddingTop: 0 }} >
+          <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
+        </Card>
+
+        <Card style={{
+          marginTop: 20,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        }}
+          title="申请信息"
+        >
+          <div className="table-header">
+            <div className="table-header-buttons" style={{ float: 'left' }}>
+              {(headerData.status === 1001 ||
+                headerData.status === 1003 ||
+                headerData.status === 1005) && (
+                  <Button type="primary" onClick={this.addItem}>
+                    新建申请信息
+                  </Button>
+                )}
+            </div>
+            {lineInfo.currencyAmount && (<div style={{ float: 'right' }}>
+              <Breadcrumb style={{ marginBottom: '10px', lineHeight: "32px" }}>
+                <Breadcrumb.Item>
+                  申请金额:
+                  <span style={{ color: 'green' }}>{" " + lineInfo.currencyAmount.currencyCode} {this.filterMoney(lineInfo.currencyAmount.amount)}</span>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  本币金额:<span style={{ color: 'green' }}>
+                    {' ' + lineInfo.currencyAmount.currencyCode} {this.filterMoney(lineInfo.currencyAmount.functionalAmount)}
+                  </span>
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>)}
+          </div>
+          <Table
+            style={{ clear: 'both' }}
+            rowKey={record => record.id}
+            columns={columns}
+            dataSource={lineInfo.lines || []}
+            bordered
+            loading={planLoading}
+            size="middle"
+            pagination={pagination}
+            expandedRowRender={this.expandedRow}
+          />
+        </Card>
+
         <SlideFrame
           title={slideFrameTitle}
           show={showSlideFrame}
           onClose={() => this.showSlide(false)}
         >
-          <NewPrePaymentDetail
-            onClose={this.handleCloseSlide}
-            params={{
-              id: this.state.id,
-              paymentReqTypeId: this.state.paymentReqTypeId,
-              companyId: this.state.companyId,
-              flag: this.state.flag,
-              remark: this.state.headerData.description,
-              record,
-              headerData: this.state.headerData,
-            }}
+          <NewApplicationLine
+            close={this.handleCloseSlide}
+            params={{}}
+            headerData={this.props.headerData}
           />
         </SlideFrame>
       </div>

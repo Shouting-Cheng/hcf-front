@@ -177,7 +177,6 @@ export default {
 
   //得到公司的functionProfile并存储在redux内
   getProfile() {
-    console.log(app)
     return httpFetch.get(`${config.baseUrl}/api/function/profiles`).then((response) => {
       app.dispatch({ type: 'user', profile: response.data });
       return response;

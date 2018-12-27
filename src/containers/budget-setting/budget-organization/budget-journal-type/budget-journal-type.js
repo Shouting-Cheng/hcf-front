@@ -74,7 +74,6 @@ class BudgetJournalType extends React.Component {
   };
 
   search = (result) => {
-    console.log(result);
     this.setState({
       page: 0,
       searchParams: {

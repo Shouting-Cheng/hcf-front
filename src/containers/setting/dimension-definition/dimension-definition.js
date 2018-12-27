@@ -148,7 +148,6 @@ class Dfinition extends Component {
     this.setState({
         searchParams: values
     }, () => {
-      console.log(this.state.searchParams,'搜索条件');
         this.table.search(this.state.searchParams)
     })
   };
@@ -194,8 +193,6 @@ class Dfinition extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state);
-
   return{
   }
 }

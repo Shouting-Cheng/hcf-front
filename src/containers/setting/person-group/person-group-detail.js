@@ -736,7 +736,6 @@ class PersonGroupDetail extends React.Component {
 
     //添加人员
     handleNew = () => {
-        console.log(this.state.userGroupId);
         this.editingRule.name = 'user';
         let selectorItem = chooserData['user'];
         this.setState({

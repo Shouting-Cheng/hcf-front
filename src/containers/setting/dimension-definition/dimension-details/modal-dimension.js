@@ -85,12 +85,10 @@ class ModalDimension extends Component {
 
   // 搜索
   modalSearch = (value) => {
-    console.log(value)
   }
 
   // 表格选择
   selectChange = (key) => {
-    console.log(key);
     this.setState({ selectedKey: key });
   };
 

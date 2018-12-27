@@ -41,7 +41,6 @@ class ValueForm extends Component {
          }
           //维值代码不允许重复
 
-         console.log(value);
          this.props.close();
       })
   }

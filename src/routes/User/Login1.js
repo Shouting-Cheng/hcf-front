@@ -42,7 +42,6 @@ export default class LoginPage extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
   }
 
   handleSubmit = (err, values) => {
@@ -167,7 +166,6 @@ export default class LoginPage extends Component {
 
     this.setState({ submitting: false });
 
-    console.log(redirect);
 
     if (redirect.indexOf('/user/login') >= 0) {
       redirect = '/';

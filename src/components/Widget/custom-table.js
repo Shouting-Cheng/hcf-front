@@ -49,7 +49,7 @@ class CustomTable extends Component {
 
     let tableColumns = [...this.props.columns];
     if (this.props.showNumber) {
-      tableColumns = [sortColumn, ...this.props.columns]
+      tableColumns = [this.state.sortColumn, ...this.props.columns]
     }
 
     this.setState({ params, tableColumns }, () => {

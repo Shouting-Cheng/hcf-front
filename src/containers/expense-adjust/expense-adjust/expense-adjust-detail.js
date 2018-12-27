@@ -641,11 +641,10 @@ class ExpenseAdjustDetail extends React.Component {
   getImportDetailData = (transactionId) => {
     let id = this.props.match.params.id;
     adjustService.importData(transactionId, id).then(res => {
-        console.log(res);
         if (res.status === 200) {
           if (res.data !== 0){
             const {documentParams,headerData} = this.state;
-            headerData.totalAmount = res.data
+            headerData.totalAmount = res.data;
             this.setState({
               documentParams:{
                 ...documentParams,

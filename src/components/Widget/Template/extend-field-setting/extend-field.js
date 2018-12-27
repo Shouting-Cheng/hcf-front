@@ -260,7 +260,6 @@ class ExtendFieldComponent extends React.Component {
   //渲染 激活的表单字段  详情
   renderFiledItemDetail = () => {
     let customFrom = this.state.customFrom;
-    console.log(customFrom)
     let item = {};
     if (customFrom.customFormFields && customFrom.customFormFields.length > 0) {
       customFrom.customFormFields.map(data => {
@@ -292,7 +291,6 @@ class ExtendFieldComponent extends React.Component {
   //渲染表单
   renderFiledItem = () => {
     let form = this.state.customFrom;
-    console.log(form)
     
     let fields = form.customFormFields ? form.customFormFields : [];
     if (fields.length > 0) {

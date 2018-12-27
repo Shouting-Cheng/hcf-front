@@ -68,28 +68,27 @@ class NewExpenseAdjust extends React.Component {
   }
 */
   componentDidMount() {
-      console.log(this.props)
-      this.getExpenseAdjustTypeById();
-      //this.getDept();
-      this.getCurrencyOptions();
-      this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
-        let fileList = [];
-        if (res.data.attachments) {
-          res.data.attachments.map(item => {
-            fileList.push({
-              ...item,
-              uid: item.id,
-              name: item.fileName,
-              status: 'done',
-            });
+    this.getExpenseAdjustTypeById();
+    //this.getDept();
+    this.getCurrencyOptions();
+    this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
+      let fileList = [];
+      if (res.data.attachments) {
+        res.data.attachments.map(item => {
+          fileList.push({
+            ...item,
+            uid: item.id,
+            name: item.fileName,
+            status: 'done',
           });
-        }
-        let model = res.data;
-        model.companyId = [{ id: model.companyId, name: model.companyName }];
-        model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
-        this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
-        this.setState({ model, fileList });
-      })
+        });
+      }
+      let model = res.data;
+      model.companyId = [{ id: model.companyId, name: model.companyName }];
+      model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
+      this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
+      this.setState({ model, fileList });
+    })
   }
 
   //获取币种
@@ -157,7 +156,11 @@ class NewExpenseAdjust extends React.Component {
 
   //取消
   onCancel = () => {
-    this.props.dispatch(routerRedux.push({ pathname: '/expense-adjust/my-expense-adjust' }));
+    this.props.dispatch(routerRedux.push({
+      pathname: this.props.match.params.id === 'new' ?
+        '/expense-adjust/my-expense-adjust' :
+        `/expense-adjust/my-expense-adjust/expense-adjust-detail/${this.props.match.params.id}/${this.props.match.params.expenseAdjustTypeId}/${this.state.model.adjustTypeCategory}`
+    }));
   };
   //上传附件
   handleUpload = OIDs => {

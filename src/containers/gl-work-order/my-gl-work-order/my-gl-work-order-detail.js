@@ -956,13 +956,30 @@ class MyGLWorkOrderDetail extends Component {
       return;
     }
     let { docHeadData } = this.state;
-    let params = {
+    /*let params = {
       applicantOID: docHeadData.applicationOid,
       userOID: docHeadData.empOid,
       formOID: docHeadData.formOid,
       entityOID: docHeadData.documentOid,
       entityType: 801008,
       countersignApproverOIDs: [],
+    };*/
+    let params = {
+      applicantOid: docHeadData.applicationOid,
+      userOid: this.props.user.userOID,
+      formOid: docHeadData.formOid,
+      documentOid: docHeadData.documentOid,
+      documentCategory: docHeadData.documentType,
+      countersignApproverOIDs: null,
+      documentNumber: header.workOrderNumber,
+      remark: docHeadData.remark,
+      companyId: docHeadData.companyId,
+      unitOid: docHeadData.unitOid,
+      amount: docHeadData.amount,
+      currencyCode: docHeadData.currency,
+      documentTypeId: docHeadData.workOrderTypeId,
+      applicantDate: docHeadData.createdDate,
+      documentId: docHeadData.id
     };
     myGlWorkOrderService
       .submitDocument(params)

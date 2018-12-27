@@ -50,7 +50,6 @@ class NewDimension extends React.Component{
   }
 
   componentDidMount(){
-    console.log(this.props)
     let dimension = this.props.params;
     let extraParams = this.state.extraParams;
     let value = {
@@ -131,10 +130,8 @@ class NewDimension extends React.Component{
         values.versionNumber = this.state.dimension.versionNumber;
         budgetService.structureUpdateDimension(values).then(res=>{
           this.setState({loading: false});
-          console.log(res.status === 200)
           if(res.status === 200){
             this.props.onClose(true);
-            console.log(res.status)
             message.success(this.$t({id:"common.operate.success"}));
           }
         }).catch((e)=>{
