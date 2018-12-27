@@ -16,7 +16,6 @@ import baseService from 'share/base.service'
 class NodeConditionList extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.basicInfo.ruleApprovers)
     this.state = {
       loading: false,
       ruleApprovalNodeOID: '',
@@ -82,7 +81,6 @@ class NodeConditionList extends React.Component {
         ruleApprovalNodeOID: nextProps.basicInfo.ruleApprovalNodeOID,
         ruleApprovers: deepCopy(nextProps.basicInfo.ruleApprovers) || []
       },() => {
-        console.log(this.state.ruleApprovers)
         this.props.form.resetFields();
         this.setState({ loading: true });
         Promise.all([
@@ -164,9 +162,9 @@ class NodeConditionList extends React.Component {
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
-          if (m.remark === 'select_department' || m.remark === 'default_user_department') { //部门
+          if (m.remark === 'select_department' || m.remark === 'default_user_department' ||m.remark === 'default_department_path') { //部门
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
-              departmentOID.push(oid)
+              departmentOID.push(m.remark === 'default_department_path' ? oid.replace('|','') : oid )
             })
           }
         });
@@ -599,10 +597,15 @@ class NodeConditionList extends React.Component {
           })
         ));
       case 'default_department_path': //部门路径
-        console.log(item)
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((depName, index) => {
+          item.showValue = item.showValue || {};
+          this.state.departmentList.map(department => {
+            if (department.departmentOID === depName.replace('|',"")) {
+              item.showValue[depName.replace('|',"")] = department.name
+            }
+          });
           let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
-          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName], departmentOID) :
+          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName.replace('|',"")], departmentOID) :
             `${item.showValue&&item.showValue[depName.replace('|',"")]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_department_role': //部门角色
@@ -631,7 +634,6 @@ class NodeConditionList extends React.Component {
         });
       case 'select_department': //部门
       case 'default_user_department': //默认条件部门
-        //console.log(item)
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || {};
           this.state.departmentList.map(department => {
@@ -755,7 +757,6 @@ class NodeConditionList extends React.Component {
     const { basicInfo } = this.props;
     const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOID,
             approverOIDForAddRule } = this.state;
-    //console.log(ruleApprovers)
     return (
       <div className='node-condition-list'>
         <Spin spinning={loading}>

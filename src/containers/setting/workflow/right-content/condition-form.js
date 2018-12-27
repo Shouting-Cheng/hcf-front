@@ -532,8 +532,6 @@ class ConditionForm extends React.Component {
 
   //添加部门路径/部门
   handleAddDepPath = (values, remark,i) => {
-    console.log(values)
-    console.log(remark)
     let condition = this.state.condition;
     let valueOIDs = [];
     let value = [];
@@ -570,7 +568,6 @@ class ConditionForm extends React.Component {
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
-    console.log(condition)
     this.setState({ condition,deptVisible: false })
   };
 

@@ -68,7 +68,6 @@ class WorkflowDetail extends React.Component {
   getApprovalChain = () => {
     return new Promise((resolve, reject) => {
       workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
-        console.log(res)
         res.data = this.refreshName(res.data);
         this.setState({
           chainInfo: res.data,
@@ -202,7 +201,6 @@ class WorkflowDetail extends React.Component {
       if (!approverNotChange) {
         this.setState({ loading : true });
         workflowService.getApprovalChainDetail(this.props.match.params.formOID).then(res => {
-          console.log(res)
           res.data = this.refreshName(res.data);
           this.setState({
             loading: false,
@@ -373,7 +371,6 @@ class WorkflowDetail extends React.Component {
                                      basicInfoSaveHandle={this.handleBasicInfoSave}
                       />
                     )}
-                    {console.log(chosenNodeWidget)}
                     <NodeConditionList formOID={this.props.match.params.formOID}
                                        basicInfo={chosenNodeWidget}
                                        formInfo={formInfo}
