@@ -39,8 +39,41 @@ class ExpenseApplicationDetail extends React.Component {
 
   //提交
   onSubmit = () => {
-
+    let { headerData } = this.state;
+    if (headerData.budgetFlag) {
+      service.checkBudget(headerData.id).then(res => {
+        if (res.data.code == "SUCCESS") {
+          this.submit();
+        }
+      }).catch(err => {
+        message.error(err.response.data.message);
+      })
+    } else {
+      this.submit();
+    }
   };
+
+  submit = (flag) => {
+    let { headerData } = this.state;
+    this.setState({ loading: true });
+    let params = {
+      applicantOID: headerData.applicationOid,
+      userOID: "",
+      formOID: headerData.formOid,
+      entityOID: headerData.documentOid,
+      entityType: 801009,
+      ignoreWarningFlag: !!flag,
+      countersignApproverOIDs: null
+    }
+    service.submit(params).then(res => {
+      message.success("提交成功！");
+      this.setState({ loading: false });
+      this.onCancel();
+    }).catch(err => {
+      message.error(err.response.data.message);
+      this.setState({ loading: false });
+    })
+  }
 
   //删除预付款单
   onDelete = () => {

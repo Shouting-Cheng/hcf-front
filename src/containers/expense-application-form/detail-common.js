@@ -9,12 +9,13 @@ import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
-import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
 import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import NewApplicationLine from "./new-application-line"
+
+import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 
 import service from "./service"
 
@@ -22,10 +23,7 @@ class PrePaymentCommon extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      planLoading: false,
-      headerData: {},
-      amountText: '',
-      functionAmount: '',
+      lineLoading: false,
       historyLoading: false, //控制审批历史记录是否loading
       columns: [{
         title: "序号",
@@ -50,23 +48,36 @@ class PrePaymentCommon extends React.Component {
         align: "center",
         width: 120,
         render: value => this.formatMoney(value)
-      },
-      {
+      }, {
         title: "备注",
         dataIndex: "remarks",
         align: "center"
+      }, {
+        title: "操作",
+        dataIndex: "options",
+        width: 120,
+        align: "center",
+        render: (value, record) =>
+          (<span>
+            <a onClick={() => this.edit(record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => this.deleteLine(record)}>删除</a>
+          </span>)
       }],
       showSlideFrame: false,
       slideFrameTitle: '',
       record: {},
       approveHistory: [],
-      id: '',
-      companyId: '',
-      flag: false,
-      //传给单据信息组件的单据头数据参数
       headerInfo: {},
       backLoadding: false,
-      lineInfo: {}
+      lineInfo: {},
+      pagination: {
+        current: 1,
+        showSizeChanger: true,
+        pageSize: 5,
+        pageSizeOptions: ["5", "10", "20", "50", "100"],
+        showTotal: total => `共${total}条数据`
+      }
     };
   }
 
@@ -92,136 +103,66 @@ class PrePaymentCommon extends React.Component {
       attachments: headerData.attachments,
     };
 
-    this.setState({ headerInfo });
+    this.setState({ headerInfo }, () => {
+      this.getLineInfo();
+    });
 
 
-    this.getLineInfo();
+    this.getApproveHistory();
   }
-
 
   //获取行数据
   getLineInfo = () => {
     const { headerData } = this.props;
-    service.getApplicationLines(headerData.id).then(res => {
+    const { pagination: { pageSize, current }, pagination } = this.state;
+    this.setState({ lineLoading: true });
+    service.getApplicationLines(headerData.id, { size: pageSize, page: current - 1 }).then(res => {
       let { headerInfo } = this.state;
       headerInfo.totalAmount = res.data.currencyAmount ? res.data.currencyAmount.amount : "0.00";
       this.setState({
         headerInfo,
-        lineInfo: res.data
+        lineInfo: res.data,
+        lineLoading: false,
+        pagination: { ...pagination, total: Number(res.headers["x-total-count"]) }
       })
-    });
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
   }
 
   /**
    * 获取审批历史数据
    */
   getApproveHistory = () => {
-    this.setState({
-      historyLoading: true,
-    });
-    let oid = this.state.headerData.documentOid ? this.state.headerData.documentOid : '';
-    prePaymentService
-      .getApproveHistoryWorkflow(oid)
-      .then(res => {
-        this.setState({ historyLoading: false, approveHistory: res.data });
+    this.setState({ historyLoading: true });
+    service.getHistory(this.props.headerData.applicationOid).then(res => {
+      this.setState({ approveHistory: res.data, historyLoading: false });
+    }).catch(err => {
+      message.error(err.response.data.message);
+      this.setState({ historyLoading: false });
+    })
+  };
+
+
+  //删除行数据
+  deleteLine = ({ id }) => {
+    service.deleteLine(id).then(res => {
+      message.success("删除成功！");
+      let { pagination } = this.state;
+      pagination.current = 1;
+      this.setState({ pagination }, () => {
+        this.getLineInfo();
       })
-      .catch(error => {
-        message.error('审批历史数据加载失败，请重试');
-        this.setState({ historyLoading: false });
-      });
-  };
-
-
-  /**
-   * 获取行数据
-   */
-  getList = () => {
-    const { page, pageSize } = this.state;
-    this.setState({ planLoading: true });
-    let params = {
-      headId: this.props.id,
-      size: pageSize,
-      page: page,
-    };
-    prePaymentService
-      .getLineByHeadId(params)
-      .then(res => {
-        let headerData = this.state.headerData;
-        // let columns = this.state.columns;
-        // console.log
-        // if (!(headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005)) {
-        //   columns.splice(columns.length - 1, 1);
-        // }
-        this.setState({
-          data: res.data,
-          planLoading: false,
-          indexAdd: page * pageSize,
-          pagination: {
-            total: Number(res.headers['x-total-count']) ? Number(res.headers['x-total-count']) : 0,
-            current: page + 1,
-            onChange: this.onChangePaper,
-            onShowSizeChange: this.onShowSizeChange,
-            pageSize: pageSize,
-            showTotal: (total, range) =>
-              this.$t('common.show.total', {
-                range0: `${range[0]}`,
-                range1: `${range[1]}`,
-                total: total,
-              }),
-            showQuickJumper: true,
-            showSizeChanger: true,
-            pageSizeOptions: ['5', '10', '20', '30', '40'],
-          },
-          // columns
-        });
-      })
-      .catch(e => {
-        console.log(e);
-        message.error('付款信息数据加载失败，请重试');
-        this.setState({ historyLoading: false });
-      });
-  };
-
-  onChangePaper = page => {
-    let pagination = this.state.pagination;
-    pagination.current = page;
-    this.setState({ page: page - 1, pagination }, this.getList);
-  };
-
-  /**
-   * 切换每页显示的条数
-   */
-  onShowSizeChange = (current, pageSize) => {
-    let pagination = this.state.pagination;
-    pagination.current = 1;
-    pagination.pageSize = pageSize;
-    this.setState(
-      {
-        page: 0,
-        pageSize: pageSize,
-        pagination,
-      },
-      () => {
-        this.getList();
-      }
-    );
-  };
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
+  }
 
   //侧滑
   showSlide = flag => {
     this.setState({ showSlideFrame: flag, flag: flag });
   };
 
-  renderList = (title, value) => {
-    return (
-      <Row className="list-info">
-        <Col span={6}>{title}：</Col>
-        <Col className="content" span={18}>
-          {value}
-        </Col>
-      </Row>
-    );
-  };
   //关闭侧滑
   handleCloseSlide = flag => {
     this.setState({ showSlideFrame: false }, () => {
@@ -248,103 +189,25 @@ class PrePaymentCommon extends React.Component {
   };
   //撤销
   back = () => {
-    const { applicationOid, empOid, formOid, documentOid, id } = this.state.headerData;
-    this.setState({ backLoadding: true });
-    let model = {
-      entities: [
-        {
-          entityOID: documentOid,
-          entityType: 801003,
-        },
-      ],
-    };
-    if (!formOid) {
-      prePaymentService
-        .back(id, this.props.user.id)
-        .then(res => {
-          if (res.status === 200) {
-            message.success('撤回成功！');
-            this.onCancel();
-            this.setState({ backLoadding: false });
-          }
-        })
-        .catch(e => {
-          message.error(`撤回失败，${e.response.data.message}`);
-          this.setState({ backLoadding: false });
-        });
-    } else {
-      prePaymentService
-        .backFromWorkflow(model)
-        .then(res => {
-          if (res.status === 200) {
-            message.success('撤回成功！');
-            this.onCancel();
-            this.setState({ backLoadding: false });
-          }
-        })
-        .catch(e => {
-          message.error(`撤回失败，${e.response.data.message}`);
-          this.setState({ backLoadding: false });
-        });
-    }
+
   };
+
   //添加预付款行信息
   addItem = () => {
-    this.setState({
-      record: {
-        payMethodsType: this.state.headerData.paymentMethod,
-        isApply: this.state.headerData.ifApplication,
-        paymentMethodCode: this.state.headerData.paymentMethodCode,
-      },
-      slideFrameTitle: '新增付款计划',
-      id: this.props.id,
-      companyId: this.state.headerData.companyId,
-      paymentReqTypeId: this.state.headerData.paymentReqTypeId,
-      flag: true,
-      showSlideFrame: true,
-    });
+    this.setState({ showSlideFrame: true, slideFrameTitle: "新建申请单行" });
   };
+
   //编辑预付款行信息
   editItem = (e, record) => {
     e.preventDefault();
-    this.setState({
-      record: {
-        ...record,
-        payMethodsType: this.state.headerData.paymentMethod,
-        isApply: this.state.headerData.ifApplication,
-        paymentMethodCode: this.state.headerData.paymentMethodCode,
-      },
-      slideFrameTitle: '编辑付款计划',
-      id: this.props.id,
-      companyId: this.state.headerData.companyId,
-      paymentReqTypeId: this.state.headerData.paymentReqTypeId,
-      flag: true,
-      showSlideFrame: true,
-    });
+
   };
   //删除预付款行信息
   deleteItem = (e, record) => {
     e.preventDefault();
-    let url = `${config.prePaymentUrl}/api/cash/prepayment/requisitionHead/deleteLineById?lineId=${
-      record.id
-      }`;
-    this.setState({ planLoading: true });
-    httpFetch
-      .delete(url)
-      .then(() => {
-        message.success(`删除成功`);
-        this.getList();
-        this.getInfo();
-        this.getAmountByHeadId();
-      })
-      .catch(e => {
-        this.setState({ planLoading: false });
-        message.error(`删除失败，${e.response.data.message}`);
-      });
   };
-  /**
-   * 扩展行
-   */
+
+  //扩展行
   expandedRow = record => {
     return (
       <div>
@@ -481,11 +344,15 @@ class PrePaymentCommon extends React.Component {
       </div>
     );
   };
-  /**
-   * 渲染函数
-   */
+
+  tableChange = (pagination) => {
+    this.setState({ pagination }, () => {
+      this.getLineInfo();
+    });
+  }
+
   render() {
-    const { lineInfo, functionAmount, columns, data, planLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
+    const { lineInfo, columns, lineLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
     const { headerData } = this.props;
 
     /**根据单据状态确定该显示什么按钮 */
@@ -555,12 +422,22 @@ class PrePaymentCommon extends React.Component {
             columns={columns}
             dataSource={lineInfo.lines || []}
             bordered
-            loading={planLoading}
+            loading={lineLoading}
             size="middle"
             pagination={pagination}
             expandedRowRender={this.expandedRow}
+            onChange={this.tableChange}
           />
         </Card>
+
+        <div
+          style={{
+            marginTop: 20,
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+          }}
+        >
+          <ApproveHistory loading={historyLoading} infoData={approveHistory} />
+        </div>
 
         <SlideFrame
           title={slideFrameTitle}
