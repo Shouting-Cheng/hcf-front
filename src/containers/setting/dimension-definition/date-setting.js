@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
 import 'styles/setting/params-setting/params-setting.scss';
-const FormItem = Form.Item;
-
 import service from './dimension-definition.service';
+
+const FormItem = Form.Item;
 
 class NewBuilt extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class NewBuilt extends Component {
       section: {},
     };
   }
+
   // 生命周期
   componentDidMount() {
     this.getNumber();
@@ -37,11 +38,14 @@ class NewBuilt extends Component {
 
 
   //保存&&编辑
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     let { params } = this.props;
 
     this.props.form.validateFields((err, values, record) => {
       let data = Object.assign({}, params, values);
+      console.log(data,'33456');
+
       if (err) return;
       this.setState({
         saveLoading: true,
@@ -60,7 +64,7 @@ class NewBuilt extends Component {
             this.setState({ saveLoading: false });
           });
       } else {
-        console.log(data);
+        console.log(values);
         service
           .editDimensionSetting(data)
           .then(res => {
@@ -120,7 +124,7 @@ class NewBuilt extends Component {
               ],
               initialValue:this.props.company.setOfBooksId || '',
             })(
-              <Input disabled placeholder={this.$t({setOfBooksId:'1' })} />
+              <Input disabled placeholder={this.$t({setOfBooksId:'this.props.company.setOfBooksId' })} />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="序号" hasFeedback>
@@ -167,11 +171,12 @@ class NewBuilt extends Component {
           </FormItem>
           <FormItem {...formItemLayout} label="状态">
             {getFieldDecorator('enabled',{
-                initialValue: params.enabled,
-                valuePropName: 'checked'
+                valuePropName: 'checked',
+                initialValue: typeof params.id=== 'undefined' ? true: params.enabled,
+
             })(
 
-             <Switch />
+             <Switch  />
 
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
