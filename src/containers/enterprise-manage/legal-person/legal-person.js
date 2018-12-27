@@ -40,8 +40,8 @@ class LegalPerson extends React.Component {
         },
         {
           title: this.$t('legal.person.name'), // "法人实体名称",
-          key: 'companyName',
-          dataIndex: 'companyName',
+          key: 'entityName',
+          dataIndex: 'entityName',
           render: text => (
             <span>
               {text ? (
@@ -61,12 +61,12 @@ class LegalPerson extends React.Component {
         },
         {
           title: this.$t('legal.person.status'), //'状态',
-          dataIndex: 'enable',
+          dataIndex: 'enabled',
           width: '15%',
-          render: enable => (
+          render: enabled => (
             <Badge
-              status={enable ? 'success' : 'error'}
-              text={enable ? this.$t('common.enabled') : this.$t('common.disabled')}
+              status={enabled ? 'success' : 'error'}
+              text={enabled ? this.$t('common.enabled') : this.$t('common.disabled')}
             />
           ),
         },
@@ -101,17 +101,17 @@ class LegalPerson extends React.Component {
         },
         {
           title: this.$t('legal.person.name'), // "法人实体名称",
-          key: 'companyName',
-          dataIndex: 'companyName',
+          key: 'entityName',
+          dataIndex: 'entityName',
         },
         {
           title: this.$t('legal.person.status'), //'状态',
-          dataIndex: 'enable',
+          dataIndex: 'enabled',
           width: '15%',
-          render: enable => (
+          render: enabled => (
             <Badge
-              status={enable ? 'success' : 'error'}
-              text={enable ? this.$t('common.enabled') : this.$t('common.disabled')}
+              status={enabled ? 'success' : 'error'}
+              text={enabled ? this.$t('common.enabled') : this.$t('common.disabled')}
             />
           ),
         },
