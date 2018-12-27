@@ -80,7 +80,8 @@ class NewExpenseApplicationFromLine extends Component {
   };
 
   //表单提交
-  handleSave = () => {
+  handleSave = (e) => {
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (err) return;
 
