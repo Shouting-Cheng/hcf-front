@@ -20,10 +20,7 @@ class ParameterDefinition extends React.Component {
     this.state = {
       loading: false,
       data: [{id:1}],
-      searchParams: {
-        structureCode: "",
-        structureName: ""
-      },
+      searchParams: {},
       record: {},
       visible: false,
       nowTab: 0,
@@ -44,13 +41,14 @@ class ParameterDefinition extends React.Component {
           options: [],
           labelKey: 'itemTypeName',
           valueKey: 'id',
+          colSpan: 6,
           listExtraParams: { organizationId: this.props.id },
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
           getParams: { roleType:'TENANT' },
         },
-        {type: 'input', id: 'structureCode1', label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
-        {type: 'input', id: 'structureName', label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
+        {type: 'input', id: 'structureCode1',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
+        {type: 'input', id: 'structureName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {          /*模块*/
@@ -143,15 +141,12 @@ class ParameterDefinition extends React.Component {
   };
 
   handleSearch = (values) =>{
-    let searchParams = {
-      structureName: values.structureName,
-      structureCode: values.structureCode
-    };
+    console.log(values)
+    values.setOfBooksId&&values.setOfBooksId===this.props.company.setOfBooksName&&(values.setOfBooksId=this.props.company.setOfBooksId);
     this.setState({
-      searchParams:searchParams,
-      page: 1
+
     }, ()=>{
-      this.getList();
+      //this.getList();
     })
   };
 
@@ -197,7 +192,7 @@ class ParameterDefinition extends React.Component {
     const { searchForm, loading, data, columns, nowTab } = this.state;
 
     return(<div style={{marginTop: 15}}>
-      <SearchArea searchForm={searchForm} submitHandle={this.handleSearch}/>
+      <SearchArea searchForm={searchForm} maxLength={4} submitHandle={this.handleSearch}/>
       <div className="table-header" style={{marginTop: 15}}>
         {
           nowTab.toString()!=='0'&&
@@ -216,39 +211,53 @@ class ParameterDefinition extends React.Component {
   }
 
   handleTab = (key)=>{
-    const {searchForm, columns} = this.state;
+    let {searchForm, columns, searchParams} = this.state;
 
     switch(key){
-      case 1: {
-        searchForm.slice(0,columns.length === 7 ? 0 : 1,{
-          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+      case '0':{
+        if(columns.length === 8){
+          searchForm.splice(0,1);
+          columns.splice(0,1);
+          searchParams = {}
+        }
+        break;
+      }
+      case '1': {
+        searchParams = {
+          setOfBooksId: this.props.company.setOfBooksId
+        };
+        searchForm.splice(0,columns.length === 7 ? 0 : 1,{
+          type: 'select', id: 'structureCode123', label: this.$t({id: 'form.setting.set.of.books'}),
           options: [],
-          labelKey: 'itemTypeName',
+          labelKey: 'setOfBooksName',
           valueKey: 'id',
-          listExtraParams: { organizationId: this.props.id },
+          colSpan: 6,
+          defaultValue: this.props.company.setOfBooksName,
+          renderOption: option=> option.setOfBooksCode+'-'+option.setOfBooksName,
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
           getParams: { roleType:'TENANT',enabled: true },
         });
-        columns.slice(0,columns.length === 7 ? 0 : 1,{
+        columns.splice(0,columns.length === 7 ? 0 : 1,{
           title: this.$t({id:"form.setting.set.of.books"}), key: "sob", dataIndex: 'structureCode',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         });
         break;
       }
-      case 2: {
-        searchForm.slice(0,columns.length === 7 ? 0 : 1,{
-          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+      case '2': {
+        searchForm.splice(0,columns.length === 7 ? 0 : 1,{
+          type: 'list', id: 'structureCode', label: this.$t({id: 'exp.company'}),
+          listType: 'company',
           options: [],
           labelKey: 'itemTypeName',
           valueKey: 'id',
-          listExtraParams: { organizationId: this.props.id },
-          getUrl: `${config.baseUrl}/api/company/dto/by/tenant`,
-          method: 'get',
-          getParams: { roleType:'TENANT',enabled: true },
+          colSpan: 6,
+          single: true,
+          listExtraParams: { roleType:'TENANT',enabled: true},
+          //getUrl: `${config.baseUrl}/api/company/dto/by/tenant`,
         });
-        columns.slice(0,columns.length === 7 ? 0 : 1,{
-          title: this.$t({id:"form.setting.set.of.books"}), key: "com", dataIndex: 'structureCode',align:'center',
+        columns.splice(0,columns.length === 7 ? 0 : 1,{
+          title: this.$t({id:"exp.company"}), key: "com", dataIndex: 'structureCode',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         });
         break;

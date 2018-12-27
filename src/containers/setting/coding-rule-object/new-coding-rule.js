@@ -46,6 +46,7 @@ class NewCodingRule extends React.Component {
 
   componentWillMount() {
     this.getSystemValueList(2024).then(res => {
+      console.log(res)
       this.setState({ resetFrequenceOptions: res.data.values })
     });
   }
@@ -96,7 +97,7 @@ class NewCodingRule extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {resetFrequenceOptions.map((option) => {
-                  return <Option key={option.code}>{option.messageKey}</Option>
+                  return <Option key={option.id}>{option.messageKey}</Option>
                 })}
               </Select>
               )}
