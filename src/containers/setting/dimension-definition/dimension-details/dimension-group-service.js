@@ -45,7 +45,7 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/dimension/item/group/subDimensionItem/query`, params);
   },
   /**
-   * 获取分配子维值
+   * 弹窗获取分配子维值
    * @param params
    */
   getDistributeDimensionItem(params) {
@@ -55,21 +55,35 @@ export default {
    * 删除子维值
    * @param params
    */
-  deleteDimensionItem(params) {
-    return httpFetch.delete(`${config.baseUrl}/api/dimension/item/group/subDimensionItem`, params);
+  deleteDimensionItem(groupId, id) {
+    return httpFetch.delete(`${config.baseUrl}/api/dimension/item/group/subDimensionItem?dimensionItemGroupId=${groupId}&dimensionItemId=${id}`);
   },
   /**
    * 批量删除子维值
    * @param params
    */
-  batchDeleteDimensionItem(params) {
-    return httpFetch.delete(`${config.baseUrl}/api/dimension/item/group/subDimensionItem/batch`, params);
+  batchDeleteDimensionItem(groupId, ids) {
+    return httpFetch.delete(`${config.baseUrl}/api/dimension/item/group/subDimensionItem/batch?dimensionItemGroupId=${groupId}`, ids);
   },
   /**
    * 批量分配子维值
    * @param params
    */
-  distributeDimensionItem(params) {
-    return httpFetch.post(`${config.baseUrl}/api/dimension/item/group/subDimensionItem/batch`, params);
+  distributeDimensionItem(groupId,ids) {
+    return httpFetch.post(`${config.baseUrl}/api/dimension/item/group/subDimensionItem/batch?dimensionItemGroupId=${groupId}`, ids);
+  },
+  /**
+   * 维度详情
+   * @param {*} id
+   */
+  getDimensionDetail(id) {
+    return httpFetch.get(`${config.baseUrl}/api/dimension/${id}`);
+  },
+  /**
+   * 维值组详情
+   * @param {*} id
+   */
+  getDimensionGroupDetail(id) {
+    return httpFetch.get(`${config.baseUrl}/api/dimension/item/group/${id}`);
   },
 }

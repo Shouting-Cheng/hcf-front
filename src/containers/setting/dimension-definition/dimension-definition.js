@@ -124,7 +124,7 @@ class Dfinition extends Component {
   componentDidMount() {
 
     // const {dataSource}=this.NewBuilt.state;
-     console.log(this.props.company,'888888');
+    //  console.log(this.props.company,'888888');
     // console.log('2222222222',this.NewBuilt.state);
   }
   // 获取账套
@@ -254,7 +254,7 @@ class Dfinition extends Component {
   }
 }
 function mapStateToProps(state) {
-  console.log(state);
+  // console.log(state);
 
   return{
     company: state.user.company

@@ -69,7 +69,7 @@ class DimensionGroup extends Component {
       visible: false,
       loading: false,
       model: {},
-      dimensionId: '',
+      dimensionId: this.props.dimensionId,
       selectedKey: [],
       searchParams: {},
     }
@@ -79,16 +79,14 @@ class DimensionGroup extends Component {
   distribution = (e, id) => {
     e.preventDefault();
     this.props.dispatch(
-      routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition/dimension-details/distribution-dimension-value/${id}`,
+      routerRedux.push({
+        pathname: `/admin-setting/dimension-definition/distribution-dimension-value/${this.state.dimensionId}/${id}`,
       })
     );
   }
 
   componentDidMount() {
-    this.setState({ dimensionId: '1077180095153627137' }, () => {
-      this.getList();
-    })
+    this.getList();
   }
 
   // 获取数据

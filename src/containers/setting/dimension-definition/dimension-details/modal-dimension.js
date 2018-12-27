@@ -69,15 +69,13 @@ class ModalDimension extends Component {
       },
       loading: false,
       searchParams: {},
+      dimensionItemGroupId: this.props.groupId,
     }
   }
 
   // 生命周期获取数据
   componentDidMount() {
-    let { groupId } = this.props;
-    this.setState({
-      dimensionItemGroupId: groupId,
-    }, this.getList)
+    this.getList();
   }
 
   // 获取数据
