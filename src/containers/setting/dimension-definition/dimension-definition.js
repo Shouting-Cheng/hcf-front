@@ -43,8 +43,8 @@ class Dfinition extends Component {
           label: '状态',
           colSpan: '6',
           options: [
-            { value: 1001, label: '禁用' },
-            { value: 1002, label: '启用' },
+            { value:false, label: '禁用' },
+            { value:true, label: '启用' },
           ],
           valueKey: 'value',
           labelkey: 'label',
@@ -95,8 +95,8 @@ class Dfinition extends Component {
                 </a>
                 <Divider type="vertical" />
                 <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
-                <Divider type="vertical" />
-                <Popconfirm
+                {/* <Divider type="vertical" /> */}
+                {/* <Popconfirm
                   placement="topLeft"
                   title="确定删除?"
                   onConfirm={() => {
@@ -106,7 +106,7 @@ class Dfinition extends Component {
                   cancelText="取消"
                 >
                    <a>删除</a>
-                </Popconfirm>
+                </Popconfirm> */}
               </span>
             );
           },
@@ -119,49 +119,19 @@ class Dfinition extends Component {
     };
   }
 
-
- // 生命周期
-  componentDidMount() {
-
-    // const {dataSource}=this.NewBuilt.state;
-     console.log(this.props.company,'888888');
-    // console.log('2222222222',this.NewBuilt.state);
-  }
   // 获取账套
-  getSetOfBooks(){
-    let setOfBooksOption = [];
-    paymentCompanySettingService.getSetOfBooksByTenant().then((res)=>{
-        res.data.map(data =>{
-          setOfBooksOption.push({"label":data.setOfBooksCode+" - "+data.setOfBooksName,"value":String(data.id)})
-        })
-        this.setState({
-          setOfBooksOption
-        })
-      }
-    )
-  }
-  // 获取数据
-  getList = ()=>{
-    // let params = {
-    //   setOfBooksId: this.props.company.setOfBooksId
-    // }
-    // this.setState({ loading: true });
-    // service
-    // .queryDimensionSetting(params)
-    //   .then(res => {
-    //     console.log(res)
-    //     this.setState({
-    //       data: res.data,
-    //       loading: false,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     message.error(err.response.data.message);
-    //     this.setState({ loading: false });
-    //   });
-    let { searchParams } = this.state;
-    this.table.search(searchParams);
-  }
+  // getSetOfBooks(){
+  //   let setOfBooksOption = [];
+  //   paymentCompanySettingService.getSetOfBooksByTenant().then((res)=>{
+  //       res.data.map(data =>{
+  //         setOfBooksOption.push({"label":data.setOfBooksCode+" - "+data.setOfBooksName,"value":String(data.id)})
+  //       })
+  //       this.setState({
+  //         setOfBooksOption
+  //       })
+  //     }
+  //   )
+  // }
   // 新建维度
   createDimension = () => {
     this.setState({
@@ -180,32 +150,28 @@ class Dfinition extends Component {
   });
   };
   // 删除
-  delete = id => {
-    service
-      .deleteDimensionSetting(id)
-      .then(res => {
-        message.success('删除成功');
-        this.table.search({setOfBooksId: this.props.company.setOfBooksId});
-      })
-      .catch(err => {
-        message.error(err.response.data.message);
-      });
-  };
+  // delete = id => {
+  //   service
+  //     .deleteDimensionSetting(id)
+  //     .then(res => {
+  //       message.success('删除成功');
+  //       this.table.search({setOfBooksId: this.props.company.setOfBooksId});
+  //     })
+  //     .catch(err => {
+  //       message.error(err.response.data.message);
+  //     });
+  // };
 
   // 搜索
   search = (values) => {
-    Object.keys(values).forEach(i=>values[i]=values[i]?values[i]:undefined);
-    this.setState({
-        searchParams: values
-    }, () => {
-      // console.log(this.state.searchParams,'搜索条件');
-      //   this.table.search(this.state.searchParams)
-      this.getList();
-    })
+    this.table.search(values);
+    console.log(this.state.searchParams,'搜索条件');
+
   };
   //清除
-  clear = () => {
+  clear = (values) => {
     this.setState({ searchParams: {} })
+    this.table.search(values);
   }
 // 详情
   detailClick = (e,record) => {
@@ -220,7 +186,7 @@ class Dfinition extends Component {
     this.setState({
         showSlideFrame: false
     }, () => {
-      this.table.search(searchParams);
+      flag&&this.table.search(this.state.searchParams);
     })
 }
   render() {
@@ -257,6 +223,7 @@ function mapStateToProps(state) {
   console.log(state);
 
   return{
+
     company: state.user.company
   }
 }
