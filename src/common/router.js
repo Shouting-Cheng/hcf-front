@@ -1827,7 +1827,7 @@ export const getRouterData = app => {
     //   parent: '/admin-setting/dimension-definition',
     // },
     //分配子维值
-    '/admin-setting/dimension-definition/dimension-details/:id': {
+    '/admin-setting/dimension-definition/dimension-details/:dimensionId/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/setting/dimension-definition/dimension-details/distribution-dimension-value.js')
       ),
