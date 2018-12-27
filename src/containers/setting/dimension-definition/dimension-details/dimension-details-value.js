@@ -3,11 +3,15 @@ import React, { Component } from 'react';
 import { Button, Badge, Input, Divider, message, Popconfirm } from 'antd';
 import ListSelector from 'components/Widget/list-selector';
 import Table from 'widget/table';
+import Importer from 'components/Widget/Template/importer.js'
+import ImporterNew from 'widget/Template/importer-new';
+import ExcelExporter from 'widget/excel-exporter';
 import SlideFrame from 'widget/slide-frame';
 import ValueForm from './new-dimevalue-form.js';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import config from 'config';
+import FileSaver from 'file-saver';
 import dimensionValueService from './dimension-value-service';
 
 
@@ -66,9 +70,12 @@ class DimensionDeValue extends Component {
          ],
          //列表所需数据
          dataArr: [],
+         //当前账套Id
+         setOfBooksId: 1,
          //维度id
         //  dimensionId: this.props.match.params.dimensionId,
-         dimensionId: '1077473797370626050',
+        //  dimensionId: '1077473797370626050',
+         dimensionId: '1078181910153961473',
          //被选中的维值数据的id
          selectedRowKeys: [],
          isLoading: false,
@@ -101,12 +108,21 @@ class DimensionDeValue extends Component {
               { title: '公司类型', dataIndex: 'companyTypeName', render: value => value ? value : '-' },
             ],
             key: 'id'
-         }
+         },
+         importerVisible: false,
+         excelVisible: false,
+         exportColumns: [
+          { title: '维值代码', dataIndex: 'dimensionItemCode' },
+          { title: '维值名称', dataIndex: 'dimensionItemName' },
+          { title: '权限', dataIndex: 'visibleUserScope' },
+          { title: '状态', dataIndex: 'enabled' },
+        ],
        }
     }
 
     componentDidMount = () => {
        this.getDetailsValue();
+       console.log(this.props);
     }
     //获取维值数据
     getDetailsValue = () => {
@@ -133,7 +149,7 @@ class DimensionDeValue extends Component {
         })
         .catch(err => {
            console.log(err);
-           message.error('失败:'+err);
+           message.error('失败:'+err.response.data.message);
            this.setState({isLoading: false});
         })
     }
@@ -142,7 +158,6 @@ class DimensionDeValue extends Component {
       this.setState({
           searchForm: {dimensionItemCode: value}
       },() => {
-        console.log(this.state.searchForm);
         this.getDetailsValue();
         this.setState({
           searchForm: {}
@@ -195,7 +210,6 @@ class DimensionDeValue extends Component {
 
     //分配公司--跳转
     onCompanyClick = (e,record) => {
-      console.log(record);
       this.props.dispatch(
         routerRedux.replace({
           pathname: `/admin-setting/dimension-definition/batch-company/${record.id}`,
@@ -237,17 +251,19 @@ class DimensionDeValue extends Component {
           .addNewCompanyData(temp)
           .then(res => {
               this.getDetailsValue();
-              message.success('创建成功');
+              message.success('分配成功');
               this.setState({
                 companyVisible: false,
-                selectedRowKeys: []
+                selectedRowKeys: [],
+                ableToAllocate: true
               });
           })
           .catch(err => {
               message.error(err.response.data.message);
               this.setState({
                 companyVisible: false,
-                selectedRowKeys: []
+                selectedRowKeys: [],
+                ableToAllocate: true
               });
           })
     }
@@ -264,6 +280,57 @@ class DimensionDeValue extends Component {
        });
     }
 
+    //导入--可视化导入模态框
+    handelImport = () => {
+       this.setState({importerVisible: true});
+    }
+    //确认导入
+    onConfirmImport = transactionID => {
+        console.log(transactionID);
+        dimensionValueService
+           .confirmImporter(transactionID)
+           .then(res => {
+              this.setState({importerVisible: false});
+              this.getDetailsValue();
+              message.success('导入成功');
+           })
+           .catch(err => {
+              message.error(err.response.data.message);
+              this.setState({importerVisible: false});
+           });
+    }
+    //导出维值--可视化导出模态框
+    handleExport = () => {
+      this.setState({excelVisible: true});
+    }
+    //确认导出
+    confirmExport = result => {
+      let hide = message.loading('正在生成文件，请等待......');
+      const {dimensionId} = this.state;
+      console.log(dimensionId);
+      dimensionValueService
+        .exportDimensionValue(result,dimensionId)
+        .then(res => {
+           console.log(res);
+           if (res.status === 200) {
+            message.success('导出成功');
+            let fileName = res.headers['content-disposition'].split('filename=')[1];
+            let f = new Blob([res.data]);
+            FileSaver.saveAs(f, decodeURIComponent(fileName));
+            hide();
+          }
+        })
+        .catch(err => {
+           console.log(err);
+          //  message.error(err.response.data.message);
+           message.error('下载失败，请重试!');
+           hide();
+        });
+    }
+    onExportCancel = () => {
+       this.setState({excelVisible: false});
+    }
+
     render() {
       const {
         ableToAllocate,
@@ -276,7 +343,12 @@ class DimensionDeValue extends Component {
         dataArr,
         searchForm,
         companyVisible,
-        selectorItem} = this.state;
+        selectorItem,
+        importerVisible,
+        dimensionId,
+        excelVisible,
+        exportColumns,
+        setOfBooksId} = this.state;
 
       const rowSelection = {
         selectedRowKeys,
@@ -291,8 +363,13 @@ class DimensionDeValue extends Component {
                 type='primary'
                 style={{marginRight: '20px'}}
                 onClick={this.addNewDimValue}>新建维值</Button>
-              <Button style={{marginRight: '20px'}}>导入维值</Button>
-              <Button style={{marginRight: '20px'}}>导出维值</Button>
+              <Button
+                style={{marginRight: '20px'}}
+                onClick={this.handelImport}>导入维值</Button>
+              <Button
+                style={{marginRight: '20px'}}
+                onClick={this.handleExport}
+              >导出维值</Button>
               <Button
                 disabled={ableToAllocate}
                 style={{marginRight: '20px'}}
@@ -304,6 +381,7 @@ class DimensionDeValue extends Component {
                 onSearch={value => {
                   this.getSearchData(value);
                 }}
+                ref='searchRef'
                 style={{width: '100%'}} />
             </div>
           </div>
@@ -327,16 +405,37 @@ class DimensionDeValue extends Component {
           }}>
               <ValueForm
                 params={modelData}
-                close={this.closeFormModal}/>
+                close={this.closeFormModal}
+                dimensionId={dimensionId}/>
           </SlideFrame>
           <ListSelector
               visible={companyVisible}
               onCancel={this.onCompanyCancel}
               onOk={this.onCompanyOk}
               selectorItem={selectorItem}
-              extraParams={{setOfBooksId:1,page: 0,size: 10}}
+              extraParams={{setOfBooksId,page: 0,size: 10}}
               single={false}
             />
+            {/*导入 */}
+          <ImporterNew
+            visible={importerVisible}
+            templateUrl={`${config.baseUrl}/api/dimension/item/template`}
+            deleteDataUrl={`${config.baseUrl}/api/dimension/item/import/delete`}
+            errorUrl={`${config.baseUrl}/api/dimension/item/import/error/export`}
+            errorDataQueryUrl={`${config.baseUrl}/api/dimension/item/import/query/result`}
+            uploadUrl={`${config.baseUrl}/api/dimension/item/import?dimensionId=${dimensionId}`}
+            fileName='维值导入模板'
+            afterClose={() => {this.setState({importerVisible: false})}}
+            onOk={this.onConfirmImport} />
+           {/* 导出 */}
+           <ExcelExporter
+            visible={excelVisible}
+            onOk={this.confirmExport}
+            columns={exportColumns}
+            canCheckVersion={false}
+            fileName={'维值'}
+            onCancel={this.onExportCancel}
+            excelItem={'PREPAYMENT_FINANCIAL_QUERY'} />
         </div>
       )
     }

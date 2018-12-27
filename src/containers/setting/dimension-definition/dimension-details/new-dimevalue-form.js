@@ -19,7 +19,7 @@ class ValueForm extends Component {
             values: []
         },
         // 维度id
-        // dimensionId: this.props.match.params.dimensionId,
+        dimensionId : this.props.dimensionId
       };
    }
 
@@ -62,7 +62,7 @@ class ValueForm extends Component {
   //保存
   handleSubmit = e => {
       e.preventDefault();
-      const {visibleUserScope, departmentOrUserGroupIdList} = this.state;
+      const {visibleUserScope, departmentOrUserGroupIdList,dimensionId} = this.state;
       this.props.form.validateFields((err,value) => {
          if(err) {
            this.setState({useOrNot: true});
@@ -70,7 +70,6 @@ class ValueForm extends Component {
          }
           //维值代码不允许重复
          this.setState({saveLoading: true});
-         let dimensionId =  '1077473797370626050';
          let temp = {...value,dimensionId,visibleUserScope:parseFloat(visibleUserScope,10)};
          delete temp['departmentOrUserGroupIdList'];
          let params = {
