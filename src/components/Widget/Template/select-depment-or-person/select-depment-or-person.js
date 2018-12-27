@@ -85,14 +85,12 @@ class SelectDepOrPerson extends React.Component {
 
   //获取对象的列表
   getResArrObjData(data) {
-    var arr = [];
+    let arr = [];
     if (data.length < 1) {
       arr = arr.concat(this.state.selectedKeysDepDataFromSearch);
       return arr;
     } else {
-      for (let i = 0; i < data.length; i++) {
-        arr.push(data[i].props.dataRef.originData);
-      }
+      data.map(item=>arr.push(item.props ? item.props.dataRef.originData : item.originData));
       arr = arr.concat(this.state.selectedKeysDepDataFromSearch);
       return arr;
     }

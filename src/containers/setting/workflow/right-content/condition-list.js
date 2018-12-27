@@ -16,6 +16,7 @@ import baseService from 'share/base.service'
 class NodeConditionList extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.basicInfo.ruleApprovers)
     this.state = {
       loading: false,
       ruleApprovalNodeOID: '',
@@ -81,6 +82,7 @@ class NodeConditionList extends React.Component {
         ruleApprovalNodeOID: nextProps.basicInfo.ruleApprovalNodeOID,
         ruleApprovers: deepCopy(nextProps.basicInfo.ruleApprovers) || []
       },() => {
+        console.log(this.state.ruleApprovers)
         this.props.form.resetFields();
         this.setState({ loading: true });
         Promise.all([
@@ -597,10 +599,11 @@ class NodeConditionList extends React.Component {
           })
         ));
       case 'default_department_path': //部门路径
+        console.log(item)
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((depName, index) => {
           let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
-          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', depName, departmentOID) :
-            `${depName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName], departmentOID) :
+            `${item.showValue&&item.showValue[depName.replace('|',"")]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_department_role': //部门角色
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((id, index) => (
@@ -628,6 +631,7 @@ class NodeConditionList extends React.Component {
         });
       case 'select_department': //部门
       case 'default_user_department': //默认条件部门
+        //console.log(item)
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
           item.showValue = item.showValue || {};
           this.state.departmentList.map(department => {
@@ -751,6 +755,7 @@ class NodeConditionList extends React.Component {
     const { basicInfo } = this.props;
     const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOID,
             approverOIDForAddRule } = this.state;
+    //console.log(ruleApprovers)
     return (
       <div className='node-condition-list'>
         <Spin spinning={loading}>
