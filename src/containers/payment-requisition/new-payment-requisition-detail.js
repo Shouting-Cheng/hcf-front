@@ -595,14 +595,14 @@ class NewPaymentRequisitionDetail extends React.Component {
       this.setState({ loading: false, dLoading: false, pageLoading: false });
       return;
     } else {
-      let params = {
-        applicantOID: headerData.applicantOid,
-        userOID: this.props.user.userOID,
-        formOID: headerData.formOid,
-        entityOID: headerData.documentOid,
-        entityType: 801005,
-        countersignApproverOIDs: null,
-      };
+      // let params = {
+      //   applicantOID: headerData.applicantOid,
+      //   userOID: this.props.user.userOID,
+      //   formOID: headerData.formOid,
+      //   entityOID: headerData.documentOid,
+      //   entityType: 801005,
+      //   countersignApproverOIDs: null,
+      // };
       console.log(headerData)
       let workFlowDocumentRef = {
         applicantOid: headerData.applicantOid,
