@@ -531,14 +531,14 @@ class ExpenseAdjustDetail extends React.Component {
   };
 
   //提交
-  onSubmit = () => {
+  /*onSubmit = () => {
     this.setState({ loading: true });
     adjustService
       .checkBudgetAndSubmit(this.props.match.params.id)
       .then(res => {
         if (res.data.passFlag) {
           //this.submit(true);
-          message.success(this.$t('common.operate.success' /*操作成功*/));
+          message.success(this.$t('common.operate.success' /!*操作成功*!/));
           this.setState({ loading: false });
           this.onCancel();
           return;
@@ -558,21 +558,35 @@ class ExpenseAdjustDetail extends React.Component {
           message.error(res.data.message);
           this.setState({ loading: false });
         }
-        /*  else if (res.data.code && res.data.code == "BUD_000") {
+        /!*  else if (res.data.code && res.data.code == "BUD_000") {
         this.submit(false);
-      } */
+      } *!/
       })
       .catch(err => {
         this.setState({ loading: false });
         message.error(this.$t('exp.summit.failed') + err.response.data.message);
       });
-  };
+  };*/
 
   //提交
-  forceSubmit = flag => {
+  onSubmit = () => {
     let params = {
-      id: this.state.headerData.id,
-      ignoreBudgetWarningFlag: flag,
+      applicantOid: this.state.headerData.applicationOid,
+      userOid: this.props.user.userOID,
+      formOid: this.state.headerData.formOid,
+      documentOid: this.state.headerData.documentOid,
+      documentCategory: 801006,
+      countersignApproverOIDs: null,
+      documentNumber: this.state.headerData.documentNumber,
+      remark: this.state.headerData.description,
+      companyId: this.state.headerData.companyId,
+      unitOid: this.state.headerData.unitOid,
+      amount: this.state.headerData.totalAmount,
+      currencyCode: this.state.headerData.currencyCode,
+      documentTypeId: this.state.headerData.expAdjustTypeId,
+      applicantDate: this.state.headerData.adjustDate,
+      documentId: this.state.headerData.id,
+
     };
     adjustService
       .forceSubmitOnWorkflow(params)
