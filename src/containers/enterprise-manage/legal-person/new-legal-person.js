@@ -54,14 +54,14 @@ class NewLegalPerson extends React.Component {
       legalPerson: {
         accountBank: '', //开户行
         address: '', //地址
-        companyName: '', //名称
+        entityName: '', //名称
 
-        cardNumber: '', //银行卡号
-        enable: false, //状态
+        accountNumber: '', //银行卡号
+        enabled: false, //状态
         i18n: {}, //包含开户行，地址，名称
 
         setOfBooksId: null, //账套
-        telephone: '', //电话
+        telePhone: '', //电话
         taxpayerNumber: '', //税号
 
         parentLegalEntityId: '', //上级法人
@@ -129,9 +129,9 @@ class NewLegalPerson extends React.Component {
   //校验多语言
   validateI18n = legalPerson => {
     if (
-      legalPerson.companyName === '' ||
-      legalPerson.companyName === undefined ||
-      legalPerson.companyName === null
+      legalPerson.entityName === '' ||
+      legalPerson.entityName === undefined ||
+      legalPerson.entityName === null
     ) {
       // 请填写法人实体名称
       message.error(this.$t('legal.person.new.title.p'));
@@ -169,7 +169,7 @@ class NewLegalPerson extends React.Component {
             let legalPerson = Object.assign({}, values, {
               attachmentId: values['attachmentId'][0] ? values['attachmentId'][0].id : '',
               i18n: _legalPerson.i18n,
-              companyName: _legalPerson.companyName,
+              entityName: _legalPerson.entityName,
               accountBank: _legalPerson.accountBank,
               address: _legalPerson.address,
               mainLanguage: _legalPerson.mainLanguage,
@@ -194,7 +194,7 @@ class NewLegalPerson extends React.Component {
             }
             let legalPerson = Object.assign(_legalPerson, values, {
               i18n: _legalPerson.i18n,
-              companyName: _legalPerson.companyName,
+              entityName: _legalPerson.entityName,
               accountBank: _legalPerson.accountBank,
               address: _legalPerson.address,
               mainLanguage: _legalPerson.mainLanguage,
@@ -281,7 +281,7 @@ class NewLegalPerson extends React.Component {
   //法人实体名称：多语言
   i18nCompanyNameChange = (name, i18nName) => {
     const legalPerson = this.state.legalPerson;
-    legalPerson.companyName = name;
+    legalPerson.entityName = name;
     legalPerson.i18n.entityName = i18nName;
   };
   //渲染语言
@@ -330,7 +330,7 @@ class NewLegalPerson extends React.Component {
               </div>
               <LanguageInput
                 key={1}
-                name={legalPerson.companyName}
+                name={legalPerson.entityName}
                 i18nName={legalPerson.i18n.entityName ? legalPerson.i18n.entityName : null}
                 isEdit={legalPerson.id}
                 nameChange={this.i18nCompanyNameChange}
@@ -372,8 +372,8 @@ class NewLegalPerson extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <FormItem label={this.$t('legal.person.new.mobile')} /* 电话*/ colon={true}>
-                {getFieldDecorator('telephone', {
-                  initialValue: legalPerson.telephone,
+                {getFieldDecorator('telePhone', {
+                  initialValue: legalPerson.telePhone,
                   rules: [
                     {
                       required: true,
@@ -438,8 +438,8 @@ class NewLegalPerson extends React.Component {
               {/*todo*/}
               {/*必须是数字或者减号*/}
               <FormItem label={this.$t('legal.person.new.bank.card')} /* 银行账号*/ colon={true}>
-                {getFieldDecorator('cardNumber', {
-                  initialValue: legalPerson.cardNumber,
+                {getFieldDecorator('accountNumber', {
+                  initialValue: legalPerson.accountNumber,
                   rules: [
                     { required: true, message: this.$t('common.please.enter') },
                     {
@@ -503,8 +503,8 @@ class NewLegalPerson extends React.Component {
             <Col span={8}>
               {/*状态*/}
               <FormItem label={this.$t('common.status', { status: '' })} colon={true}>
-                {getFieldDecorator('enable', {
-                  initialValue: legalPerson.enable,
+                {getFieldDecorator('enabled', {
+                  initialValue: legalPerson.enabled,
                   valuePropName: 'checked',
                 })(
                   <Switch
