@@ -315,7 +315,7 @@ class NewReimburse extends React.Component {
   getCustomList = customEnumerationOid => {
     reimburseService
       .getCustomEnumeration(customEnumerationOid)
-      .then(res => {})
+      .then(res => { })
       .catch(err => {
         message.error('网络错误！请稍后重试');
       });
@@ -490,8 +490,6 @@ class NewReimburse extends React.Component {
                 </Select>
               )}
             </FormItem>
-            {console.log(this.state.isNew)}
-            {console.log(this.state.formSetings)}
             <Spin spinning={this.state.loading}>
               <FormList
                 isNew={this.state.isNew}

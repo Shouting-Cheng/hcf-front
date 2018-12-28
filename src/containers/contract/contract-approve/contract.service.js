@@ -105,7 +105,7 @@ export default {
    * @param id = 合同id
    */
   submitWorkflowContract(params) {
-    return httpFetch.post(`${config.baseUrl}/api/contract/reports/submit`, params);
+    return httpFetch.post(`${config.contractUrl}/api/contract/header/submit`, params);
   },
 
   /**
@@ -355,7 +355,7 @@ export default {
           }
   */
   contractApproveWorkflowPass(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/pass`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/pass`, params);
   },
 
   /**
@@ -367,7 +367,7 @@ export default {
                     ]}
    */
   contractApproveWorkflowReject(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/reject`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/reject`, params);
   },
 
   /**
@@ -379,7 +379,7 @@ export default {
             }
    */
   recallWorkflowContract(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/withdraw`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/withdraw`, params);
   },
 
   /**

@@ -47,22 +47,20 @@ class SelectDepOrPerson extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     //外面控制弹出
     if(!this.state.visible&&nextProps.visible)
-     this.showModal()
+     this.showModal(nextProps)
   }
 
-  showModal = () => {
+  showModal = (nextProps) => {
     SelectPersonService.setIsLoadingPerson(!this.props.onlyDep);
     //显示模态框的时候再加载
-    this.getTenantAllDep();
     this.setState({
       selectedKeys: [],
       selectedKeysDepData: [],
       selectedKeysDepDataFromSearch: [],
       visible: true,
-    });
+    },()=>this.getTenantAllDep(nextProps));
   };
   handleOk = e => {
     if (!this.props.depResList && !this.props.personResList) {
@@ -87,14 +85,12 @@ class SelectDepOrPerson extends React.Component {
 
   //获取对象的列表
   getResArrObjData(data) {
-    var arr = [];
+    let arr = [];
     if (data.length < 1) {
       arr = arr.concat(this.state.selectedKeysDepDataFromSearch);
       return arr;
     } else {
-      for (let i = 0; i < data.length; i++) {
-        arr.push(data[i].props.dataRef.originData);
-      }
+      data.map(item=>arr.push(item.props ? item.props.dataRef.originData : item.originData));
       arr = arr.concat(this.state.selectedKeysDepDataFromSearch);
       return arr;
     }
@@ -188,10 +184,20 @@ class SelectDepOrPerson extends React.Component {
   };
 
   // 查询所有集团部门
-  getTenantAllDep() {
+  getTenantAllDep(nextProps) {
     SelectPersonService.getTenantAllDep().then(response => {
+      let selectedKeys = [];
+      let selectedKeysDepData = [];
+      nextProps.selected&&response.map(item=>{
+        if(nextProps.selected.indexOf(item.key) > -1){
+          selectedKeys.push(item.key);
+          selectedKeysDepData.push(item);
+        }
+      });
       this.setState({
         treeData: response,
+        selectedKeys,
+        selectedKeysDepData
       });
     });
   }
@@ -580,7 +586,7 @@ class SelectDepOrPerson extends React.Component {
       );
     }
     return list.map(item => {
-      if (item.props.dataRef.originData.userOid) {
+      if (item.props && item.props.dataRef.originData.userOid) {
         return (
           <div className="selected-person-item" key={item.props.dataRef.originData.userOid}>
             <div className="type-icon">
@@ -600,15 +606,15 @@ class SelectDepOrPerson extends React.Component {
         );
       } else {
         return (
-          <div className="selected-person-item" key={item.props.dataRef.originData.departmentOid}>
+          <div className="selected-person-item" key={item.props ? item.props.dataRef.originData.departmentOid : item.originData.departmentOid}>
             <div className="type-icon">
               <Icon type="folder" />
             </div>
-            <div className="name">{item.props.dataRef.originData.name}</div>
+            <div className="name">{item.props ? item.props.dataRef.originData.name : item.title}</div>
             <div
               className="remove-icon"
               onClick={() => {
-                this.unSelect(item.props.dataRef.originData.departmentOid);
+                this.unSelect(item.props ? item.props.dataRef.originData.departmentOid : item.originData.departmentOid);
               }}
             >
               <Icon type="close" />

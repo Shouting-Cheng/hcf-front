@@ -19,7 +19,7 @@ class NewDimensionGroup extends Component {
       if(!err) {
         this.setState({ saveLoading: true });
         let data, mess, handelMethods;
-        if(model.id) {
+        if (model.id) {
           mess = '修改维值组信息成功';
           handelMethods = service.updateDimensionGroup;
           data = { id: model.id, ...values, dimensionId };
@@ -59,7 +59,7 @@ class NewDimensionGroup extends Component {
     };
 
     return (
-      <div style={{marginTop: '50px'}}>
+      <div style={{ marginTop: '50px' }}>
         <Form onSubmit={this.handleSubmit}>
           <FormItem {...formItemLayout} label="维值组代码">
             {getFieldDecorator('dimensionItemGroupCode', {
@@ -88,7 +88,7 @@ class NewDimensionGroup extends Component {
               valuePropName: 'checked',
               initialValue: model.id ? model.enabled : true,
             })(<Switch />)}
-            <span style={{paddingLeft: "10px"}}>
+            <span style={{ paddingLeft: "10px" }}>
               {this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}
             </span>
           </FormItem>

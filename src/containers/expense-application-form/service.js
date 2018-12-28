@@ -34,35 +34,99 @@ export default {
   },
 
   /**
-  * 获取维度列表
+  * 创建一个费用申请单头
+  * @param {*} params
+  */
+  addExpenseApplictionForm(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/header`, params);
+  },
+
+  /**
+  * 根据单据头ID查询单据头详情
   * @param {*} id 
   */
-  getDimensionById(id, params = {}) {
-    return httpFetch.get(`${config.expenseUrl}/api/expense/application/type/${id}/dimension/query`, params);
+  getApplicationDetail(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/header/` + id);
   },
 
   /**
-  * 获取可关联表单类型
-  * @param {*} setOfBooksId
+  * 删除申请单
+  * @param {*} id
   */
-  getFormList(setOfBooksId) {
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801009&setOfBooksId=${setOfBooksId}`);
+  deleteExpenseApplication(id) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/application/header/` + id);
   },
 
   /**
-  * 新建申请单类型
+  * 根据单据头ID分页查询单据行信息
   * @param {*} params
   */
-  addApplicationType(params) {
-    return httpFetch.post(`${config.expenseUrl}/api/expense/application/type`, params);
+  getApplicationLines(id, params) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/` + id, params);
   },
 
   /**
-  * 更新申请单类型
+  * 申请单行创建时查询维度信息默认值
   * @param {*} params
   */
-  updateApplicationType(params) {
-    return httpFetch.put(`${config.expenseUrl}/api/expense/application/type`, params);
+  getNewInfo(params) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/line/query/info`, params);
+  },
+
+  /**
+  * 新增申请单行
+  * @param {*} params
+  */
+  addApplicationLine(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/line`, params);
+  },
+
+  /**
+  * 获取审批历史
+  * @param {*} oid
+  */
+  getHistory(oid) {
+    return httpFetch.get(`${config.baseUrl}/api/prepayment/reports/history?entityType=801009&entityOID=` + oid);
+  },
+
+  /**
+  * 校验预算
+  * @param {*} oid
+  */
+  checkBudget(id) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/header/submit/check/budget?id=` + id);
+  },
+
+  /**
+   * 
+   * @param {*} params 
+   */
+  submit(params) {
+    return httpFetch.post(`${config.expenseUrl}/api/expense/application/submit`, params);
+  },
+
+  /**
+   * 删除行数据
+   * @param {*} id 
+   */
+  deleteLine(id) {
+    return httpFetch.delete(`${config.expenseUrl}/api/expense/application/line/` + id);
+  },
+
+  /**
+   * 根据ID查询申请单头信息(编辑申请单头时调用)
+   * @param {*} id 
+   */
+  getEditInfo(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/header/query?id=` + id);
+  },
+
+  /**
+   * 更新申请单头
+   * @param {*} params 
+   */
+  updateHeaderData(params) {
+    return httpFetch.put(`${config.expenseUrl}/api/expense/application/header`, params);
   }
 
 }

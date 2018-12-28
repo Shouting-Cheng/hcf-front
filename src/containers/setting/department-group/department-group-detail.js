@@ -3,7 +3,7 @@ import { connect } from 'dva'
 
 import config from 'config'
 
-import { Form, Button, Select, Checkbox, Input, Switch, Icon, Alert, Tabs,message, Popconfirm } from 'antd'
+import { Form, Button, Select, Checkbox, Input, Switch, Icon, Alert, Tabs, message, Popconfirm } from 'antd'
 import Table from 'widget/table'
 import ListSelector from 'components/Widget/list-selector'
 import BasicInfo from 'components/Widget/basic-info'
@@ -75,7 +75,6 @@ class DepartmentGroupDetail extends React.Component {
         this.setState({ loading: true });
         let param = [];
         typeof record === 'undefined' ? param = this.state.selectedEntityOids : param.push(record.departmentDetailId);
-        console.log(param);
         deptGroupService.deleteDeptGroupById(param).then(response => {
 
             if (typeof record !== 'undefined') {
@@ -108,7 +107,6 @@ class DepartmentGroupDetail extends React.Component {
 
     //保存所做的详情修改
     handleUpdate = (value) => {
-      console.log(value)
         value.id = this.props.match.params.id;
         deptGroupService.addOrUpdateDeptGroup(value).then((response) => {
             if (response) {

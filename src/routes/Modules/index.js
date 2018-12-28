@@ -121,7 +121,6 @@ class Module extends Component {
   };
 
   search = values => {
-    console.log(this.table);
     this.table.search(values);
   };
 

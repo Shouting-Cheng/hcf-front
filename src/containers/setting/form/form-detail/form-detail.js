@@ -26,12 +26,12 @@ class FormDetail extends React.Component {
       propertyList: [],
       expenseTypeScope: {},
       userScope: {},
-      matchFormData:{}
+      matchFormData: {}
     }
   };
 
   componentWillMount() {
-      console.log(this.props)
+    console.log(this.props)
     const { formType, formOid, booksID } = this.props.match.params;
     if (formType) {
       this.setState({
@@ -73,7 +73,7 @@ class FormDetail extends React.Component {
   //刷新基本信息
   refreshBase = (formOid) => {
     if (formOid) {
-      this.setState({loading: true}, () => {
+      this.setState({ loading: true }, () => {
         Promise.all([
           formService.getFormDetail(formOid),
           // formService.getFormPropertyList(formOid)
@@ -95,9 +95,9 @@ class FormDetail extends React.Component {
   /**
    * 获取表单设置页面的数据
    */
-  refreshMacthData=(data)=>{
+  refreshMacthData = (data) => {
     this.setState({
-      matchFormData:data
+      matchFormData: data
     })
   }
   renderTabs() {
@@ -179,19 +179,19 @@ class FormDetail extends React.Component {
   };
 
   render() {
-    const { nowTab, loading ,matchFormData} = this.state;
+    const { nowTab, loading, matchFormData } = this.state;
     const { formOid } = this.props.match.params;
     return (
-      <div className="form-detail" style={{paddingBottom: 40}}>
+      <div className="form-detail" style={{ paddingBottom: 40 }}>
         {loading ? <Spin /> : (
           <div>
             <Tabs onChange={this.onChangeTabs} activeKey={nowTab}>
               {this.renderTabs()}
             </Tabs>
-            {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase}/>}
+            {nowTab === 'base' && <FormDetailBase handleNew={this.handleNew} refreshBase={this.refreshBase} />}
             {/* {nowTab === 'custom' && <FormDetailCustom/>} */}
-            {nowTab === 'permission' && <FormPermission refreshData={this.refreshData}/>}
-            {nowTab === 'form' && <FormSetting formOid={formOid} handlePageJump={this.pageJump}/>}
+            {nowTab === 'permission' && <FormPermission refreshData={this.refreshData} />}
+            {nowTab === 'form' && <FormSetting formOid={formOid} handlePageJump={this.pageJump} />}
             {nowTab === 'match' && <FormMatch refreshMacthData={this.refreshMacthData} />}
           </div>
         )}
@@ -201,14 +201,14 @@ class FormDetail extends React.Component {
 }
 
 FormDetail.childContextTypes = {
-    formType: PropTypes.any,
-    formOid: PropTypes.string,
-    booksID: PropTypes.string,
-    form: PropTypes.object,
-    propertyList: PropTypes.array,
-    expenseTypeScope: PropTypes.object,
-    userScope: PropTypes.object,
-    handlePageJump: PropTypes.func
+  formType: PropTypes.any,
+  formOid: PropTypes.string,
+  booksID: PropTypes.string,
+  form: PropTypes.object,
+  propertyList: PropTypes.array,
+  expenseTypeScope: PropTypes.object,
+  userScope: PropTypes.object,
+  handlePageJump: PropTypes.func
 };
 
 function mapStateToProps(state) {
