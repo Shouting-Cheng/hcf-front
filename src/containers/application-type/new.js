@@ -133,14 +133,25 @@ class NewApplicationType extends React.Component {
       }
 
       method(values).then(res => {
+        this.setState({ saveLoading: false });
         message.success(record.id ? "更新成功！" : "新增成功！");
         this.props.close && this.props.close(true);
       }).catch(err => {
+        this.setState({ saveLoading: false });
         message.error(err.response.data.message);
       });
 
     });
   };
+
+  //可用申请类型校验
+  applicationTypeValidator = (rule, value, callback) => {
+    if (value.radioValue || (!value.radioValue && value.chooserValue.length > 0)) {
+      callback();
+      return;
+    }
+    callback("请选择申请类型");
+  }
 
 
   render() {
@@ -246,7 +257,7 @@ class NewApplicationType extends React.Component {
             {...formItemLayout}
             label="可用申请类型">
             {getFieldDecorator('applicationType', {
-              rules: [{ required: true }],
+              rules: [{ validator: this.applicationTypeValidator }],
               initialValue: record.applicationType || { radioValue: true, chooserValue: [] }
             })(
               <CustomChooser params={{ setOfBooksId: record.id ? record.setOfBooksId : params.setOfBooksId }} type="application_type" valueKey="id" labelKey="name" />
