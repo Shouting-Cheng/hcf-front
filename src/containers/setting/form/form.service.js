@@ -61,7 +61,7 @@ export default {
    * @return {AxiosPromise}
    */
   saveForm(form){
-    return httpFetch.put(`${config.baseUrl}/api/v2/custom/forms`, form)
+    return httpFetch.put(`${config.baseUrl}/api/custom/forms/all`, form)
   },
 
   /**

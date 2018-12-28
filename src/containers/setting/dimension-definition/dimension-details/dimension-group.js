@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Input, Badge, Divider, Popconfirm } from 'antd';
+import { Button, Input, Badge, Divider, Popconfirm, message } from 'antd';
 import CustomTable from 'widget/table';
 import SlideFrame from 'widget/slide-frame';
 import NewDimensionGroup from './new-dimension-group';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
+import service from './dimension-group-service';
 
 const Search = Input.Search;
 
@@ -15,17 +16,17 @@ class DimensionGroup extends Component {
       columns: [
         {
           title: '维值组代码',
-          dataIndex: 'tableName',
+          dataIndex: 'dimensionItemGroupCode',
           align: 'center',
         },
         {
           title: '维值组名称',
-          dataIndex: 'tableName1',
+          dataIndex: 'dimensionItemGroupName',
           align: 'center',
         },
         {
           title: '状态',
-          dataIndex: 'switch',
+          dataIndex: 'enabled',
           align: 'center',
           render: (value, record, index) => {
             return <Badge status={value ? 'success' : 'error'} text={value ? '启用' : '禁用'} />;
@@ -68,6 +69,9 @@ class DimensionGroup extends Component {
       visible: false,
       loading: false,
       model: {},
+      dimensionId: this.props.dimensionId,
+      selectedKey: [],
+      searchParams: {},
     }
   }
 
@@ -75,8 +79,8 @@ class DimensionGroup extends Component {
   distribution = (e, id) => {
     e.preventDefault();
     this.props.dispatch(
-      routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition/dimension-details/${id}`,
+      routerRedux.push({
+        pathname: `/admin-setting/dimension-definition/distribution-dimension-value/${this.state.dimensionId}/${id}`,
       })
     );
   }
@@ -87,15 +91,16 @@ class DimensionGroup extends Component {
 
   // 获取数据
   getList = () => {
-    let data = [
-      {
-        id: 120,
-        tableName: '000',
-        tableName1: '111',
-        switch: false,
-      }
-    ];
-    this.setState({ data: data });
+    let { dimensionId, page, size, searchParams, pagination } = this.state;
+    this.setState({ loading: true });
+    let params = { dimensionId,  page, size, ...searchParams };
+    service.getDimensionGroup(params).then((res) => {
+      let total = Number(res.headers['x-total-count']);
+      this.setState({ data: res.data, loading: false, pagination: { ...pagination, total } });
+    }).catch((err) => {
+      message.error(err.response.data.message);
+    })
+
   }
 
   // 编辑
@@ -109,19 +114,49 @@ class DimensionGroup extends Component {
 
   // 删除
   delete = (id) => {
-    console.log(id);
+    service.deleteDimensionGroup(id).then((res) => {
+      message.success('删除成功');
+      this.mySetState();
+    }).catch((err) => {
+      message.error(err.response.data.message);
+    })
   }
+
+  // 批量删除
+  batchDelete = () => {
+    let ids = this.state.selectedKey;
+    if(ids.length) {
+      service.batchDeleteDimensionGroup(ids).then((res) => {
+        this.mySetState();
+      }).catch((err) => {
+        message.error(err.response.data.message);
+      })
+    } else {
+      message.warning('请选择你要删除的内容')
+    }
+  }
+
+  // 表格选择
+  selectChange = key => {
+    this.setState({ selectedKey: key });
+  };
 
   // 搜索
   search = (value) => {
-    console.log(value)
+    this.mySetState({ searchParams: { dimensionItemGroupCode: value } })
+  }
+
+  // 设置state
+  mySetState = (params) => {
+    let pagination = this.state.pagination;
+    this.setState({ page: 0, pagination: { ...pagination, current: 1 }, ...params }, this.getList)
   }
 
   // 关闭侧拉框的回调
   close = flag => {
     this.setState({ visible: false, model: {} }, () => {
       if (flag) {
-        // this.getList();
+        this.getList();
       }
     });
   };
@@ -142,10 +177,10 @@ class DimensionGroup extends Component {
   };
 
   render() {
-    const { data, columns, pagination, model, visible, loading } = this.state;
+    const { data, columns, pagination, model, visible, loading, dimensionId } = this.state;
     const rowSelection = {
-
-    }
+      onChange: this.selectChange,
+    };
 
     return (
       <div>
@@ -159,7 +194,14 @@ class DimensionGroup extends Component {
           >
             新建维值组
           </Button>
-          <Button>删除</Button>
+          <Popconfirm
+            title="你确定删除？"
+            onConfirm={this.batchDelete}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button>删除</Button>
+          </Popconfirm>
           <Search
             placeholder="请输入维值组代码"
             onSearch={this.search}
@@ -185,7 +227,7 @@ class DimensionGroup extends Component {
             });
           }}
         >
-          <NewDimensionGroup model={model} close={this.close} />
+          <NewDimensionGroup model={model} close={this.close} dimensionId={dimensionId} />
         </SlideFrame>
       </div>
     )

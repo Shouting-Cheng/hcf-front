@@ -20,16 +20,16 @@ class NodeConditionList extends React.Component {
       loading: false,
       ruleApprovalNodeOid: '',
       approvalAndDepLevel: [  //审批级别 部门层级
-        {id: 1, name: this.$t('setting.key1309'/*本级*/), depLevel: this.$t('setting.key1291'/*一级*/)},
-        {id: 2, name: this.$t('setting.key1310'/*第二级*/), depLevel: this.$t('setting.key1292'/*二级*/)},
-        {id: 3, name: this.$t('setting.key1311'/*第三级*/), depLevel: this.$t('setting.key1293'/*三级*/)},
-        {id: 4, name: this.$t('setting.key1312'/*第四级*/), depLevel: this.$t('setting.key1294'/*四级*/)},
-        {id: 5, name: this.$t('setting.key1313'/*第五级*/), depLevel: this.$t('setting.key1295'/*五级*/)},
-        {id: 6, name: this.$t('setting.key1314'/*第六级*/), depLevel: this.$t('setting.key1296'/*六级*/)},
-        {id: 7, name: this.$t('setting.key1315'/*第七级*/), depLevel: this.$t('setting.key1297'/*七级*/)},
-        {id: 8, name: this.$t('setting.key1316'/*第八级*/), depLevel: this.$t('setting.key1298'/*八级*/)},
-        {id: 9, name: this.$t('setting.key1317'/*第九级*/), depLevel: this.$t('setting.key1299'/*九级*/)},
-        {id: 10, name: this.$t('setting.key1318'/*第十级*/), depLevel: this.$t('setting.key1300'/*十级*/)}
+        { id: 1, name: this.$t('setting.key1309'/*本级*/), depLevel: this.$t('setting.key1291'/*一级*/) },
+        { id: 2, name: this.$t('setting.key1310'/*第二级*/), depLevel: this.$t('setting.key1292'/*二级*/) },
+        { id: 3, name: this.$t('setting.key1311'/*第三级*/), depLevel: this.$t('setting.key1293'/*三级*/) },
+        { id: 4, name: this.$t('setting.key1312'/*第四级*/), depLevel: this.$t('setting.key1294'/*四级*/) },
+        { id: 5, name: this.$t('setting.key1313'/*第五级*/), depLevel: this.$t('setting.key1295'/*五级*/) },
+        { id: 6, name: this.$t('setting.key1314'/*第六级*/), depLevel: this.$t('setting.key1296'/*六级*/) },
+        { id: 7, name: this.$t('setting.key1315'/*第七级*/), depLevel: this.$t('setting.key1297'/*七级*/) },
+        { id: 8, name: this.$t('setting.key1316'/*第八级*/), depLevel: this.$t('setting.key1298'/*八级*/) },
+        { id: 9, name: this.$t('setting.key1317'/*第九级*/), depLevel: this.$t('setting.key1299'/*九级*/) },
+        { id: 10, name: this.$t('setting.key1318'/*第十级*/), depLevel: this.$t('setting.key1300'/*十级*/) }
       ],
       expenseTypeList: [], //费用类型
       departmentList: [], //部门
@@ -38,7 +38,7 @@ class NodeConditionList extends React.Component {
       entityList: [], //法人实体
       valueList: [], //值列表
       userList: [],//人员列表
-      typeValueList:[],//自定义列表
+      typeValueList: [],//自定义列表
       formFieldList: null, //表单条件字段 字段类型(100默认, 101文本, 102整数, 103日期, 104浮点数, 105日期, 106值列表, 107GPS, 108布尔)
       formFieldCostCenterList: null, //审批条件为成本中心属性字段
       defaultAdditionOid: [], //默认审批条件的Oid
@@ -49,8 +49,8 @@ class NodeConditionList extends React.Component {
       isRuleInEdit: false, //是否有审批条件处于编辑状态
       deleteTagValue: {}, //审批条件中删除的值列表的值 {remark: '', value: ''}
       modalVisible: false,
-      allCustomFormFields:[],//所有部门扩展字段
-      extendValueList:[],
+      allCustomFormFields: [],//所有部门扩展字段
+      extendValueList: [],
     }
   }
 
@@ -80,7 +80,7 @@ class NodeConditionList extends React.Component {
       this.setState({
         ruleApprovalNodeOid: nextProps.basicInfo.ruleApprovalNodeOid,
         ruleApprovers: deepCopy(nextProps.basicInfo.ruleApprovers) || []
-      },() => {
+      }, () => {
         this.props.form.resetFields();
         this.setState({ loading: true });
         Promise.all([
@@ -162,7 +162,7 @@ class NodeConditionList extends React.Component {
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
-          if (m.remark === 'select_department' || m.remark === 'default_user_department') { //部门
+          if (m.remark === 'select_department' || m.remark === 'default_user_department' || m.remark === 'default_department_path') { //部门
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
               departmentOid.push(oid)
             })
@@ -290,10 +290,10 @@ class NodeConditionList extends React.Component {
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'cust_list'
-          ||item.remark==='default_user_post'
-          ||item.remark==='default_user_category'
-          ||item.remark==='default_user_level'
-          ||item.remark==='default_user_sex') { //值列表
+          || item.remark === 'default_user_post'
+          || item.remark === 'default_user_category'
+          || item.remark === 'default_user_level'
+          || item.remark === 'default_user_sex') { //值列表
           item.valueDetail && JSON.parse(item.valueDetail).valueOids.map(oid => {
             valueListOid.push(oid)
           })
@@ -343,8 +343,8 @@ class NodeConditionList extends React.Component {
     let typeValueListOid = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
-        if (item.fieldContent === '1001'||item.fieldContent === '1007'
-          ||item.fieldContent === '1008'||item.fieldContent === '1002') { //值列表
+        if (item.fieldContent === '1001' || item.fieldContent === '1007'
+          || item.fieldContent === '1008' || item.fieldContent === '1002') { //值列表
           item.valueDetail && JSON.parse(item.valueDetail).valueOids.map(oid => {
             typeValueListOid.push(oid)
           })
@@ -394,7 +394,7 @@ class NodeConditionList extends React.Component {
     } else if (item.departmentType === 2) {
       return this.$t('setting.key1321'/*单据上组织架构*/)
     } else {
-      switch(item.approverType) {
+      switch (item.approverType) {
         case 6001:
           return this.$t('setting.key1322'/*人员审批*/);
         case 6002:
@@ -418,7 +418,7 @@ class NodeConditionList extends React.Component {
     workflowService.deleteApprovers(item.ruleApproverOid).then(() => {
       this.props.onApproverChange(false);
       this.setState({ loading: false, ruleApprovers });
-      message.success(this.$t('common.delete.success', {name: ''}))
+      message.success(this.$t('common.delete.success', { name: '' }))
     })
   };
 
@@ -486,7 +486,7 @@ class NodeConditionList extends React.Component {
       this.setState({ loading: false, ruleApprovers }, () => {
         this.props.basicInfo.ruleApprovers = deepCopy(this.state.ruleApprovers)
       });
-      message.success(this.$t('common.delete.success', {name: ''}))
+      message.success(this.$t('common.delete.success', { name: '' }))
     }).catch(() => {
       this.setState({ loading: false })
     })
@@ -505,7 +505,7 @@ class NodeConditionList extends React.Component {
           ruleApprovers[approverIndex].ruleConditions[key][conditionItemIndex].isEdit = true;
           let item = ruleApprovers[approverIndex].ruleConditions[key][conditionItemIndex];
           if (item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend') {
-            item.field =`${item.field},${item.remark}`
+            item.field = `${item.field},${item.remark}`
           }
         })
       }
@@ -542,8 +542,8 @@ class NodeConditionList extends React.Component {
             let isConditionItemExist = false;
             ruleConditions[batchCode].map((ruleItem, ruleIndex) => {
               //部门扩展字段fieldoid需要处理一下
-              if(ruleItem.remark === 'default_user_department_extend' || ruleItem.remark === 'custom_form_department_extend'){
-                ruleItem.field =  ruleItem.field.split(',')[0];
+              if (ruleItem.remark === 'default_user_department_extend' || ruleItem.remark === 'custom_form_department_extend') {
+                ruleItem.field = ruleItem.field.split(',')[0];
               }
               if (
                 (ruleItem.remark === conditionItem.remark && ruleItem.field === conditionItem.field) &&
@@ -581,13 +581,13 @@ class NodeConditionList extends React.Component {
   handleDeleteValueItem = (e, remark, value, fieldOid) => {
     e.preventDefault();
     this.setState({
-      deleteTagValue: {remark, value, fieldOid}
+      deleteTagValue: { remark, value, fieldOid }
     })
   };
 
   //渲染审批条件的值
   renderConditionItem = (item, isEdit) => {
-    switch(item.remark) {
+    switch (item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
           this.state.approvalAndDepLevel.map(level => {
@@ -618,7 +618,7 @@ class NodeConditionList extends React.Component {
               return isEdit ? this.renderConditionCustListTag(index, 'default_expense_type', expense.name, oid) : (
                 <span>
                   {expense.name}
-                  <span style={{color:'#aaa'}}>
+                  <span style={{ color: '#aaa' }}>
                     {(expense.enable || expense.enabled) ? '' : `（${this.$t('setting.key1326'/*禁*/)}）`}
                   </span>
                   {index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}
@@ -675,13 +675,13 @@ class NodeConditionList extends React.Component {
       case 'default_user_applicant':
       case 'default_user_direct_leadership'://直属领导
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
-            item.showValue = item.showValue || {};
-            this.state.userList.map(user => {
-              user.userOid === oid && (item.showValue[oid] = user.fullName)
-            });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
-              `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+          item.showValue = item.showValue || {};
+          this.state.userList.map(user => {
+            user.userOid === oid && (item.showValue[oid] = user.fullName)
           });
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
+            `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+        });
       case 'cust_list':
         return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
           let custListName = item.showValue;
@@ -694,39 +694,39 @@ class NodeConditionList extends React.Component {
       case 'default_user_category':
       case 'default_user_level':
         return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map((valueOids, index) => {
-            item.showValue = item.showValue || {};
-            this.state.typeValueList.map(value => {
-              value.customEnumerationItemOid === valueOids && (item.showValue[valueOids]  = value.messageKey)
-            });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids] , valueOids) :
-              `${item.showValue[valueOids] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+          item.showValue = item.showValue || {};
+          this.state.typeValueList.map(value => {
+            value.customEnumerationItemOid === valueOids && (item.showValue[valueOids] = value.messageKey)
           });
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids], valueOids) :
+            `${item.showValue[valueOids]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+        });
       case 'default_user_department_extend'://默认条件中的部门扩展字段
       case 'custom_form_department_extend':
         return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map((valueOids, index) => {
-            item.showValue = item.showValue || {};
-            this.state.extendValueList.map(value => {
-              value.customEnumerationItemOid === valueOids && (item.showValue[valueOids]  = value.messageKey)
-            });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids] , valueOids, item.field) :
-              `${item.showValue[valueOids] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+          item.showValue = item.showValue || {};
+          this.state.extendValueList.map(value => {
+            value.customEnumerationItemOid === valueOids && (item.showValue[valueOids] = value.messageKey)
           });
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOids], valueOids, item.field) :
+            `${item.showValue[valueOids]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+        });
       case 'default_user_sex':
         return item.valueDetail && (JSON.parse(item.valueDetail).valueOids || []).map(oid => {
-            let custListName = item.showValue;
-            this.state.valueList.map(value => {
-              value.customEnumerationItemOid === oid && (custListName = value.messageKey)
-            });
-            return custListName
+          let custListName = item.showValue;
+          this.state.valueList.map(value => {
+            value.customEnumerationItemOid === oid && (custListName = value.messageKey)
           });
+          return custListName
+        });
     }
   };
 
   //渲染审批条件值列表的tag值
   //fieldOid 部门扩展字段的oid
-  renderConditionCustListTag = (index, type, name, value ,fieldOid = null) => {
+  renderConditionCustListTag = (index, type, name, value, fieldOid = null) => {
     return (
-      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOid)}>
+      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value, fieldOid)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
       </Tag>
     )
@@ -750,22 +750,22 @@ class NodeConditionList extends React.Component {
   render() {
     const { basicInfo } = this.props;
     const { loading, approvalAndDepLevel, ruleApprovers, symbolsType, batchCode, deleteTagValue, modalVisible, defaultAdditionOid,
-            approverOidForAddRule } = this.state;
+      approverOidForAddRule } = this.state;
     return (
       <div className='node-condition-list'>
         <Spin spinning={loading}>
           {ruleApprovers.map((item, approverIndex) => {
             let ruleConditions = []; //条件列表
-            Object.keys(item.ruleConditions || {}).map(key => {ruleConditions.push(item.ruleConditions[key])});
+            Object.keys(item.ruleConditions || {}).map(key => { ruleConditions.push(item.ruleConditions[key]) });
             let title = (
               <div className="collapse-header">
                 {basicInfo.type !== 1003 ? item.name : this.$t('setting.key1327'/*机器人*/)}
                 {this.getApplicantType(item) && <span>【{this.getApplicantType(item)}】</span>}
                 {basicInfo.type !== 1003 && item.level && (
-                  <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
+                  <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
                     <Select size="small" className={this.props.language.code === 'zh_cn' ? 'approve-level' : 'approve-level-en'}
-                            value={item.level}
-                            onChange={level => this.handleApproverLevelChange(item, level)}>
+                      value={item.level}
+                      onChange={level => this.handleApproverLevelChange(item, level)}>
                       {approvalAndDepLevel.map(level => <Option value={level.id} key={level.id}>{level.name}</Option>)}
                     </Select>
                   </div>
@@ -776,17 +776,17 @@ class NodeConditionList extends React.Component {
             );
             let extra = (
               <div className="header-right">
-                <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
-                  <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOid)}}>
+                <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
+                  <a onClick={() => { this.handleAdditionModalShow([], item.ruleApproverOid) }}>
                     {this.$t('setting.key1306'/*添加审批条件*/)}
                   </a>
                 </div>
-                {basicInfo.type !== 1003 && <span className="ant-divider"/>}
+                {basicInfo.type !== 1003 && <span className="ant-divider" />}
                 {basicInfo.type !== 1003 && (
-                  <div onClick={e => {e.preventDefault();e.stopPropagation()}} style={{display: 'inline-block'}}>
+                  <div onClick={e => { e.preventDefault(); e.stopPropagation() }} style={{ display: 'inline-block' }}>
                     <Popconfirm title={this.$t('common.confirm.delete')}
-                                overlayStyle={{minWidth: 160}}
-                                onConfirm={() => this.handleDeleteApprover(item)}>
+                      overlayStyle={{ minWidth: 160 }}
+                      onConfirm={() => this.handleDeleteApprover(item)}>
                       <a>{this.$t('common.delete')}</a>
                     </Popconfirm>
                   </div>
@@ -794,50 +794,50 @@ class NodeConditionList extends React.Component {
               </div>
             );
             return (
-              <Card key={approverIndex} title={title} extra={extra} className="condition-list-card" bodyStyle={{padding: '0 20px'}}>
+              <Card key={approverIndex} title={title} extra={extra} className="condition-list-card" bodyStyle={{ padding: '0 20px' }}>
                 {!ruleConditions.length ? (
                   <div className="no-rule-content">
                     {this.$t('setting.key1329'/*请先*/)}
-                    <a onClick={() => {this.handleAdditionModalShow([], item.ruleApproverOid)}}>
+                    <a onClick={() => { this.handleAdditionModalShow([], item.ruleApproverOid) }}>
                       【{this.$t('setting.key1306'/*添加审批条件*/)}】
                     </a>
                   </div>
                 ) : (
-                  <List itemLayout="horizontal"
-                        dataSource={ruleConditions}
-                        renderItem={(condition, conditionIndex) => {
-                          let isEdit = condition && condition.length && condition[0].isEdit;
-                          return (
-                            <ListItem key={conditionIndex}>
-                              <div className="condition-title">
-                                <h4>{this.$t('setting.key1330'/*条件*/)}{conditionIndex + 1}</h4>
-                                {!isEdit && (
-                                  <div className="edit-and-delete">
-                                    <a className="edit" onClick={() => this.handleEditCondition(condition, approverIndex, conditionIndex)}>
-                                      {this.$t('common.edit')}
-                                    </a>
-                                    <Popconfirm title={this.$t('common.confirm.delete')}
-                                                onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOid)}>
-                                      <a>{this.$t('common.delete')}</a>
-                                    </Popconfirm>
-                                  </div>
-                                )}
-                              </div>
-                              {!!isEdit ? (
-                                <ConditionForm condition={condition}
-                                               symbolsType={symbolsType}
-                                               batchCode={batchCode}
-                                               formOid={this.props.formOid}
-                                               approverIndex={approverIndex}
-                                               deleteTagValue={deleteTagValue}
-                                               afterDeleteTagValue={() => {this.setState({deleteTagValue: {}})}}
-                                               addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOid)}
-                                               saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'new')}
-                                               saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'update')}
-                                               cancelHandle={this.handleCancelEditCondition}
-                                               itemValueRender={this.renderConditionItem}
-                                />
-                              ) : (
+                    <List itemLayout="horizontal"
+                      dataSource={ruleConditions}
+                      renderItem={(condition, conditionIndex) => {
+                        let isEdit = condition && condition.length && condition[0].isEdit;
+                        return (
+                          <ListItem key={conditionIndex}>
+                            <div className="condition-title">
+                              <h4>{this.$t('setting.key1330'/*条件*/)}{conditionIndex + 1}</h4>
+                              {!isEdit && (
+                                <div className="edit-and-delete">
+                                  <a className="edit" onClick={() => this.handleEditCondition(condition, approverIndex, conditionIndex)}>
+                                    {this.$t('common.edit')}
+                                  </a>
+                                  <Popconfirm title={this.$t('common.confirm.delete')}
+                                    onConfirm={() => this.handleDeleteCondition(condition, condition[0].batchCode, item.ruleApproverOid)}>
+                                    <a>{this.$t('common.delete')}</a>
+                                  </Popconfirm>
+                                </div>
+                              )}
+                            </div>
+                            {!!isEdit ? (
+                              <ConditionForm condition={condition}
+                                symbolsType={symbolsType}
+                                batchCode={batchCode}
+                                formOid={this.props.formOid}
+                                approverIndex={approverIndex}
+                                deleteTagValue={deleteTagValue}
+                                afterDeleteTagValue={() => { this.setState({ deleteTagValue: {} }) }}
+                                addCondition={() => this.handleAdditionModalShow(condition, item.ruleApproverOid)}
+                                saveNewHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'new')}
+                                saveUpdateHandle={condition => this.handleSaveCondition(condition, item.ruleApproverOid, 'update')}
+                                cancelHandle={this.handleCancelEditCondition}
+                                itemValueRender={this.renderConditionItem}
+                              />
+                            ) : (
                                 condition.map((item, i) => {
                                   if (item.symbol === 9011) {
                                     let leftCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list[0] || {}) : {};
@@ -880,10 +880,10 @@ class NodeConditionList extends React.Component {
                                   } else if (!!Number(item.fieldContent)) {
                                     return (
                                       <div key={i} className="condition-container">
-                                      <span className="name">{item.name}</span>
-                                      &nbsp;&nbsp;【<span className="symbol">{constants.getTextByValue(item.symbol, 'symbolFilter')}</span>】&nbsp;&nbsp;
+                                        <span className="name">{item.name}</span>
+                                        &nbsp;&nbsp;【<span className="symbol">{constants.getTextByValue(item.symbol, 'symbolFilter')}</span>】&nbsp;&nbsp;
                                         {!loading && this.renderConditionItem(item)}
-                                    </div>
+                                      </div>
                                     )
                                   } else if (item.value) {
                                     return (
@@ -893,10 +893,10 @@ class NodeConditionList extends React.Component {
                                         <span>{item.value}</span>
                                       </div>
                                     )
-                                  } else if(item.remark === 'default_user_department_extend'||item.remark === 'custom_form_department_extend'){
+                                  } else if (item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend') {
                                     return (
                                       <div key={i} className="condition-container">
-                                        <span className="name">{item.remark === 'default_user_department_extend'? this.$t('setting.key1304'/*【申请人】*/): this.$t('setting.key1305'/*【表单】*/)}{item.name}</span>
+                                        <span className="name">{item.remark === 'default_user_department_extend' ? this.$t('setting.key1304'/*【申请人】*/) : this.$t('setting.key1305'/*【表单】*/)}{item.name}</span>
                                         &nbsp;&nbsp;【<span className="symbol">{constants.getTextByValue(item.symbol, 'symbolFilter')}</span>】&nbsp;&nbsp;
                                         {!loading && this.renderConditionItem(item)}
                                       </div>
@@ -904,7 +904,7 @@ class NodeConditionList extends React.Component {
                                   } else {
                                     return (
                                       <div key={i} className="condition-container">
-                                        <span className="name">{item.remark === 'default_user_department'? this.$t('setting.key1304'/*【申请人】*/): (item.remark === 'select_department' ? this.$t('setting.key1305'/*【表单】*/):'')}{item.name}</span>
+                                        <span className="name">{item.remark === 'default_user_department' ? this.$t('setting.key1304'/*【申请人】*/) : (item.remark === 'select_department' ? this.$t('setting.key1305'/*【表单】*/) : '')}{item.name}</span>
                                         &nbsp;&nbsp;【<span className="symbol">{constants.getTextByValue(item.symbol, 'symbolFilter')}</span>】&nbsp;&nbsp;
                                         {!loading && this.renderConditionItem(item)}
                                       </div>
@@ -912,23 +912,23 @@ class NodeConditionList extends React.Component {
                                   }
                                 })
                               )}
-                            </ListItem>
-                          )
-                        }}
-                  />
-                )}
+                          </ListItem>
+                        )
+                      }}
+                    />
+                  )}
               </Card>
             )
           })}
         </Spin>
 
         <AddApproveRuleModal visible={modalVisible}
-                             formOid={this.props.formOid}
-                             ruleApproverOid={approverOidForAddRule}
-                             batchCode={batchCode}
-                             defaultValue={defaultAdditionOid}
-                             onOk={this.handleAddCondition}
-                             onCancel={() => {this.setState({modalVisible: false})}}
+          formOid={this.props.formOid}
+          ruleApproverOid={approverOidForAddRule}
+          batchCode={batchCode}
+          defaultValue={defaultAdditionOid}
+          onOk={this.handleAddCondition}
+          onCancel={() => { this.setState({ modalVisible: false }) }}
         />
       </div>
     )

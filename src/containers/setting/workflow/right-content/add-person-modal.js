@@ -532,7 +532,6 @@ AddPersonModal.propTypes = {
 
 
 function mapStateToProps(state) {
-  console.log(state)
   return {
     language: state.languages,
   }

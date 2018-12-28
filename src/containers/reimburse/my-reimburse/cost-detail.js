@@ -334,7 +334,7 @@ class CostDetail extends React.Component {
   expandedRowRender = record => {
     return (
       <Row>
-        <Col style={{ textAlign: 'right' }} span={2}>
+        <Col style={{ textAlign: 'right', width: 100 }} span={2} >
           <h3>{this.$t('my.contract.enclosure.information')}：</h3>
         </Col>
         <Col span={20}>

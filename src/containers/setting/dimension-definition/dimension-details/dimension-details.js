@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Row, Col, Badge, Icon, Tabs } from 'antd';
+import { message, Icon, Tabs } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import DimensionGroup from './dimension-group';
+import DimensionDeValue from './dimension-details-value';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { messages } from 'utils/utils';
+import service from './dimension-group-service';
 
 const TabPane = Tabs.TabPane;
 class DimensionDetails extends Component {
@@ -14,46 +16,47 @@ class DimensionDetails extends Component {
       infoList: [
         {
           type: 'input',
-          id: 'code',
+          id: 'dimensionCode',
           isRequired: true,
           label: '维度代码',
         },
         {
           type: 'input',
-          id: 'name',
+          id: 'dimensionName',
           isRequired: true,
           label: '维度名称',
         },
         {
           type: 'input',
-          id: 'account',
+          id: 'setOfBooksId',
           isRequired: true,
           label: '维度账套',
         },
         {
           type: 'switch',
-          id: 'enable',
+          id: 'enabled',
           isRequired: true,
           label: '状态',
         },
       ],
       infoData: {},
-      tabKey: "1"
+      tabKey: "1",
+      dimensionId: this.props.match.params.dimensionId,
     }
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        infoData: {
-          id: 12344,
-          code: 123,
-          name: '维度',
-          account: 'demo',
-          enable: false
-        }
-      })
-    }, 1500)
+    this.getDimension()
+  }
+
+  // 获取维度基本信息
+  getDimension = () => {
+    const id = this.state.dimensionId;
+    service.getDimensionDetail(id).then(res => {
+      this.setState({ infoData: res.data });
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
   }
 
    //返回到维度定义
@@ -68,14 +71,11 @@ class DimensionDetails extends Component {
 
   // tab选项卡切换
   tabChange = (key) => {
-    console.log(typeof(key))
-    this.setState({ tabKey: key }, () => {
-
-    });
+    this.setState({ tabKey: key });
   }
 
   render() {
-    const { infoList, infoData, tabKey } = this.state;
+    const { infoList, infoData, tabKey, dimensionId } = this.state;
 
     return (
       <div>
@@ -90,14 +90,13 @@ class DimensionDetails extends Component {
           onChange={this.tabChange}
           style={{margin: "20px 0"}}
         >
-          <TabPane tab="维值定义" key="1" />
-          <TabPane tab="维值组定义" key="2" />
+          <TabPane tab="维值定义" key="1" >
+            <DimensionDeValue dimensionId={dimensionId} />
+          </TabPane>
+          <TabPane tab="维值组定义" key="2" >
+            <DimensionGroup dimensionId={dimensionId} />
+          </TabPane>
         </Tabs>
-
-        { tabKey === "1" && "维值定义" }
-
-        { tabKey === "2" && <DimensionGroup />}
-
         <p style={{ marginBottom: '20px' }}>
           <a onClick={this.onBackClick}>
             <Icon type="rollback" />返回
@@ -108,13 +107,8 @@ class DimensionDetails extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    dimensionValue: 123,
-  };
-}
 export default connect(
-  mapStateToProps,
+  null,
   null,
   null,
   { withRef: true }

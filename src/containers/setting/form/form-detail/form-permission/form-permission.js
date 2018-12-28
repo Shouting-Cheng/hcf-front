@@ -144,7 +144,6 @@ class FormPermission extends React.Component {
     };
 
     handleSelectCompany = (value) => {
-        console.log(value)
         this.setState({
             companySelectedList: value
         });
@@ -410,7 +409,6 @@ class FormPermission extends React.Component {
     }
 
     renderExpenseTypeScope = (expenseType) => {
-        console.log(expenseType)
         if (expenseType.visibleScope === 1001) {
             return (
                 <div>{this.$t('form.setting.form.allExpense')/*全部费用*/}</div>
@@ -429,7 +427,6 @@ class FormPermission extends React.Component {
     }
 
     renderUser = (users) => {
-        console.log(users)
         if (users.visibleScope === 1001) {
             return (
                 <div>{this.$t('form.setting.form.allCompany')/*全公司人员*/}</div>
@@ -513,26 +510,6 @@ class FormPermission extends React.Component {
                         <Col span={8} offset={3}>
                             <div>
                                 {this.$t('form.setting.form.tip05')/*注：关联报销单的分配人员与申请单一致，如需更改请在申请单页面操作*/}
-                            </div>
-                        </Col>
-                    </Row>
-                )}
-                <div className="info-title">
-                    {this.$t('form.setting.form.tip08')/*可见费用类型*/}&nbsp;&nbsp;&nbsp;
-          {this.props.tenantMode &&
-                        <span style={{ color: '#989898', fontSize: 14 }}>{this.$t('form.setting.form.tip07')/*当前账套下启用的费用类型*/}</span>
-                    }
-                </div>
-                {canEditExpense && (
-                    <div>
-                        {this.props.tenantMode || this.context.form.fromType != 2 ? this.renderTenantExpenseTypeScope() : this.renderSobExpenseTypeScope()}
-                    </div>
-                )}
-                {!canEditExpense && (
-                    <Row>
-                        <Col span={8} offset={3}>
-                            <div>
-                                {this.$t('form.setting.form.tip06')/*注：关联报销单的费用类型与申请单一致，如需更改请在申请单页面操作*/}
                             </div>
                         </Col>
                     </Row>

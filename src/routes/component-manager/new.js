@@ -57,9 +57,6 @@ class NewComponent extends React.Component {
       if (!error) {
         let buttonList = [];
 
-        console.log(this.props.components);
-
-
         this.props.components.components.map(item => {
           if (item.type == 'button' && item.code) {
             buttonList.push({

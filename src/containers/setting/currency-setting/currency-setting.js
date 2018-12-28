@@ -205,7 +205,6 @@ class CurrencySetting extends React.Component {
     this.setState({loading: true});
     let params = {
       baseCurrencyCode: functionalCurrencyCode,
-      language: this.props.language.local,
       page: pagination.page,
       size: pagination.pageSize,
       setOfBooksId: setOfBooksId,
@@ -216,10 +215,10 @@ class CurrencySetting extends React.Component {
           if (res.status === 200) {
             pagination.total = res.data.total;
             this.setState({
-              data: res.data.rows,
-              copyData: JSON.parse(JSON.stringify(res.data.rows)),
-              enableAutoUpdate: res.data.rows.length > 0 && res.data.rows[0].enableAutoUpdate,
-              functionalCurrencyName: res.data.rows[0].baseCurrencyName,
+              data: res.data.records,
+              copyData: JSON.parse(JSON.stringify(res.data.records)),
+              enableAutoUpdate: res.data.records.length > 0 && res.data.records[0].enableAutoUpdate,
+              functionalCurrencyName: res.data.records.length > 0 && res.data.records[0].baseCurrencyName,
               loading: false,
               pagination
             })

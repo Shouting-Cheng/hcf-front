@@ -95,7 +95,8 @@ export default {
    * @Modified by
    */
   submitHeader(param) {
-    let url = `${config.baseUrl}/api/acpRequisition/submit`;
+ //   let url = `${config.baseUrl}/api/acpRequisition/submit`;
+    let url = `${config.payUrl}/api/acp/requisition/header/acpRequisition/submit`;
     return httpFetch.post(url, param);
   },
 

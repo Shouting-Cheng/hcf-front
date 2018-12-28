@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
 import { Form, Input, Switch, Button, message, } from 'antd';
+import service from './dimension-group-service';
 const FormItem = Form.Item;
 
 class NewDimensionGroup extends Component {
   constructor(props) {
     super(props);
-     this.state = {
+    this.state = {
       saveLoading: false,
-     }
+    }
   }
 
   // 提交
   handleSubmit = (e) => {
-    const { form, close } = this.props;
+    const { form, close, dimensionId, model } = this.props;
+    this.setState({ saveLoading: true });
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err) {
-        console.log(values)
-
+    form.validateFields((err, values) => {
+      if (!err) {
+        let data, mess, handelMethods;
+        if (model.id) {
+          mess = '修改维值组信息成功';
+          handelMethods = service.updateDimensionGroup;
+          data = { id: model.id, ...values, dimensionId };
+        } else {
+          mess = '新建维值组信息成功';
+          handelMethods = service.saveDimensionGroup;
+          data = { ...values, dimensionId };
+        }
+        handelMethods(data).then((res) => {
+          message.success(mess);
+          this.setState({ saveLoading: false });
+          close && close(true);
+        }).catch((err) => {
+          message.error(err.response.data.message);
+          this.setState({ saveLoading: false });
+        })
       }
     })
   }
@@ -41,37 +59,37 @@ class NewDimensionGroup extends Component {
     };
 
     return (
-      <div style={{marginTop: '50px'}}>
+      <div style={{ marginTop: '50px' }}>
         <Form onSubmit={this.handleSubmit}>
           <FormItem {...formItemLayout} label="维值组代码">
-            {getFieldDecorator('tableName', {
+            {getFieldDecorator('dimensionItemGroupCode', {
               rules: [
                 {
                   required: true,
                   message: '请输入',
                 },
               ],
-              initialValue: model.tableName || '',
+              initialValue: model.dimensionItemGroupCode || '',
             })(<Input disabled={model.id ? true : false} />)}
           </FormItem>
           <FormItem {...formItemLayout} label="维值组名称">
-            {getFieldDecorator('tableName2', {
+            {getFieldDecorator('dimensionItemGroupName', {
               rules: [
                 {
                   required: true,
                   message: '请输入',
                 },
               ],
-              initialValue: model.tableName1 || '',
+              initialValue: model.dimensionItemGroupName || '',
             })(<Input />)}
           </FormItem>
           <FormItem {...formItemLayout} label="状态">
-            {getFieldDecorator('switch', {
+            {getFieldDecorator('enabled', {
               valuePropName: 'checked',
-              initialValue: model.switch ? Boolean(model.switch) : true,
+              initialValue: model.enabled ? Boolean(model.enabled) : true,
             })(<Switch />)}
-            <span style={{paddingLeft: "10px"}}>
-              {this.props.form.getFieldValue('switch') ? '启用' : '禁用'}
+            <span style={{ paddingLeft: "10px" }}>
+              {this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}
             </span>
           </FormItem>
           <div className="slide-footer">

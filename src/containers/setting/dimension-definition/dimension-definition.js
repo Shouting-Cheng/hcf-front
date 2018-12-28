@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import SearchArea from 'widget/search-area';
-import { Button, Divider, message, Popconfirm,Badge } from 'antd';
+import { Button, Divider, message, Popconfirm, Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
@@ -24,15 +24,10 @@ class Dfinition extends Component {
           label: '账套',
           labelKey: 'setOfBooksName',
           valueKey: 'id',
-          // entity:true,
           colSpan: 6,
-          // getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
-          // method: 'get',
-          // getParams: { roleType:'TENANT' },
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
-          // renderOption: item=> item.setOfBooksCode + '-'+item.setOfBooksName,
           defaultValue: props.company.setOfBooksId ,
           colSpan: 6,
         },
@@ -56,8 +51,8 @@ class Dfinition extends Component {
           label: '状态',
           colSpan: '6',
           options: [
-            { value:false, label: '禁用' },
-            { value:true, label: '启用' },
+            { value: false, label: '禁用' },
+            { value: true, label: '启用' },
           ],
           valueKey: 'value',
           labelkey: 'label',
@@ -90,7 +85,7 @@ class Dfinition extends Component {
           align: 'center',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")} />)
+              text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")} />)
         },
         {
           title: '操作',
@@ -107,29 +102,16 @@ class Dfinition extends Component {
                   编辑
                 </a>
                 <Divider type="vertical" />
-                <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
-                {/* <Divider type="vertical" /> */}
-                {/* <Popconfirm
-                  placement="topLeft"
-                  title="确定删除?"
-                  onConfirm={() => {
-                    this.delete(record.id);
-                  }}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                   <a>删除</a>
-                </Popconfirm> */}
+                <a onClick={(e) => this.detailClick(e, record)}>详情</a>
               </span>
             );
           },
         },
       ],
       searchParams: {},
-      showSlideFrame:false,
-      data:[],
+      showSlideFrame: false,
+      data: [],
       updateParams: {},
-      // options:[],
       setOfBooksId: props.company.setOfBooksId,
     };
   }
@@ -141,9 +123,9 @@ class Dfinition extends Component {
   // 新建维度
   createDimension = () => {
     this.setState({
-      updateParams:{},
+      updateParams: {},
       showSlideFrame: true
-    },()=>{
+    }, () => {
       this.setState({ showSlideFrame: true })
     });
   };
@@ -153,20 +135,8 @@ class Dfinition extends Component {
       updateParams: JSON.parse(JSON.stringify(record)),
     }, () => {
       this.setState({ showSlideFrame: true })
-  });
+    });
   };
-  // 删除
-  // delete = id => {
-  //   service
-  //     .deleteDimensionSetting(id)
-  //     .then(res => {
-  //       message.success('删除成功');
-  //       this.table.search({setOfBooksId: this.props.company.setOfBooksId});
-  //     })
-  //     .catch(err => {
-  //       message.error(err.response.data.message);
-  //     });
-  // };
 
   // 搜索
   search = (values) => {
@@ -220,22 +190,22 @@ class Dfinition extends Component {
     this.setState({ searchParams: {} })
     this.table.search(values);
   }
-// 详情
-  detailClick = (e,record) => {
-  this.props.dispatch(
-    routerRedux.replace({
-      //账套id,recordid
-      pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
-    })
-  );
+  // 详情
+  detailClick = (e, record) => {
+    this.props.dispatch(
+      routerRedux.replace({
+        //账套id,recordid
+        pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
+      })
+    );
   }
   handleCloseSlide = (flag) => {
     this.setState({
-        showSlideFrame: false
+      showSlideFrame: false
     }, () => {
-      flag&&this.table.search(this.state.searchParams);
+      flag && this.table.search(this.state.searchParams);
     })
-}
+  }
   render() {
     const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options} = this.state;
     return (
@@ -269,7 +239,7 @@ class Dfinition extends Component {
 function mapStateToProps(state) {
  (state);
 
-  return{
+  return {
 
     company: state.user.company
   }
