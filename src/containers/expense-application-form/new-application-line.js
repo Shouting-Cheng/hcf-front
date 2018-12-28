@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Form, Input, Row, Col, Button, DatePicker, Select, InputNumber, message, Spin } from 'antd';
+import { Form, Input, Row, Col, Button, DatePicker, Select, InputNumber, message, Spin, TimePicker } from 'antd';
 import { connect } from "dva";
 import { routerRedux } from "dva/router"
 import Chooser from "widget/chooser"
@@ -32,7 +32,6 @@ class NewExpenseApplicationFromLine extends Component {
       model: {},
       currencyList: [],
       dimensionList: [],
-      applicationTypeInfo: {},
       typeId: "",
       uploadOIDs: [],
       expenseTypeInfo: {}
@@ -148,6 +147,7 @@ class NewExpenseApplicationFromLine extends Component {
   }
 
 
+  //渲染动态组件
   renderFields = (field) => {
 
     const formItemLayout = {
@@ -192,6 +192,21 @@ class NewExpenseApplicationFromLine extends Component {
             </Col>
           </Row>
         );
+      case "DATETIME":
+        return (
+          <Row key={field.id} {...rowLayout}>
+            <Col span={24}>
+              <FormItem label={field.name} {...formItemLayout}>
+                {getFieldDecorator("field-" + field.id, {
+                  rules: [{ required: true, message: this.$t('common.please.select') }],
+                  initialValue: isNew ? field.value : model.defaultValue
+                })(
+                  <TimePicker />
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+        );
     }
   }
 
@@ -207,23 +222,14 @@ class NewExpenseApplicationFromLine extends Component {
 
 
   render() {
-
     const { getFieldDecorator } = this.props.form;
-
     const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
-
-    const formItemLayout = {
-      labelCol: {
-        span: 8
-      },
-      wrapperCol: {
-        span: 10
-      },
-    };
-
-    const { pageLoading, model, isNew, currencyList, dimensionList, applicationTypeInfo, loading, expenseTypeInfo } = this.state;
+    const { pageLoading, model, isNew, currencyList, dimensionList, loading, expenseTypeInfo } = this.state;
     const { lineId } = this.props;
-
+    const formItemLayout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 10 },
+    };
     return (
       <div style={{ marginBottom: 60, marginTop: 10 }}>
         {pageLoading ? <Spin /> :

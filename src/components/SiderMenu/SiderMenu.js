@@ -332,7 +332,7 @@ export default class SiderMenu extends React.Component {
         <div className={styles.logo} key="logo">
           <Link to="/dashboard">
             <img src={logo} alt="logo" />
-            <h1>汉得融晶</h1>
+            <h1>融智汇</h1>
           </Link>
         </div>
         <div className="menu-container">

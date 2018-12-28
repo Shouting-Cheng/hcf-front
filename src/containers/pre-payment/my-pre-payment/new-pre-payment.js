@@ -169,17 +169,7 @@ class MyNewPrePayment extends React.Component {
       fileList,
       departmentId,
       pageLoading,
-      user,
-      contractTypeDisabled,
-      isNew,
-      data,
-      unitIdOptions,
-      partnerCategoryOptions,
-      currencyOptions,
-      companyIdOptions,
-      contractCategoryOptions,
-      selectorItem,
-      extraParams,
+      isNew
     } = this.state;
     const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
     const formItemLayout = {

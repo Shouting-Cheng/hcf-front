@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { routerRedux } from "dva/router";
-import { Form, Tabs, Button, Badge, Menu, Modal, Radio, Dropdown, Row, Col, Spin,  Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
+import { Form, Tabs, Button, Badge, Menu, Modal, Radio, Dropdown, Row, Col, Spin, Timeline, message, Popover, Popconfirm, Icon, Select } from 'antd'
 import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import SearchArea from 'components/Widget/search-area'
@@ -22,13 +22,13 @@ import reimburseService from '../../reimburse/my-reimburse/reimburse.service'
 import reverseService from 'containers/financial-management/expense-reverse/expense-reverse.service'
 import Invoice from "containers/reimburse/my-reimburse/invoice"
 import 'styles/financial-management/expense-reverse/reverse-detail.scss'
-import DocumentBasicInfo from "components/Widget/document-basic-info";
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import CostDetail from 'containers/financial-management/expense-reverse/cost-detail'
 import PayInfo from 'containers/financial-management/expense-reverse/pay-info'
 import ApprotionInfo from 'containers/financial-management/expense-reverse/approtion-info'
 import AttachmentInformation from 'containers/financial-management/expense-reverse/attachment-information'
 import { connect } from 'dva';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 class ReverseDetailCommon extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +41,7 @@ class ReverseDetailCommon extends React.Component {
         reverseHeader: {},
         documentHeader: {}
       },
-      modalData:[],
+      modalData: [],
       lineDtos: [],
       dataChange: false,
       addLoading: true,
@@ -56,9 +56,9 @@ class ReverseDetailCommon extends React.Component {
         1005: { label: this.$t({ id: "my.contract.state.rejected" }/*已驳回*/), state: 'error' },
         1004: { label: this.$t({ id: "my.contract.state.confirm" }/*已通过*/), state: 'success' },
         1003: { label: this.$t({ id: "my.contract.state.withdrawal" }/*已撤回*/), state: 'warning' },
-        2004: { label: this.$t({id:'exp.pay.success'} /*支付成功*/), state: 'success' },
-        2003: { label: this.$t({id:'exp.pay.paying'} /*支付中*/) , state: 'processing' },
-        2002: { label: this.$t({id:'constants.approvelHistory.auditPass'}), state: 'success' },
+        2004: { label: this.$t({ id: 'exp.pay.success' } /*支付成功*/), state: 'success' },
+        2003: { label: this.$t({ id: 'exp.pay.paying' } /*支付中*/), state: 'processing' },
+        2002: { label: this.$t({ id: 'constants.approvelHistory.auditPass' }), state: 'success' },
       },
       data: [],
       page: 0,
@@ -67,63 +67,65 @@ class ReverseDetailCommon extends React.Component {
         total: 0
       },
       visible: false,
-      addExpensePagination:{
+      addExpensePagination: {
         page: 0,
         size: 10,
       },
       modalColumns: [
-        { title: this.$t({id:'common.sequence'}), align: "center", dataIndex: "index", key: "index", width: 60,
+        {
+          title: this.$t({ id: 'common.sequence' }), align: "center", dataIndex: "index", key: "index", width: 60,
           render: (value, record, index) => index + 1
         },
         {      //费用类型
-          title: this.$t({id:'common.expense.type'}), dataIndex: 'expenseTypeName', key: 'expenseTypeName', width: 100
+          title: this.$t({ id: 'common.expense.type' }), dataIndex: 'expenseTypeName', key: 'expenseTypeName', width: 100
         },    //发生日期
-        {title: this.$t({id:'common.happened.date'}), dataIndex: 'createdDate', key:'createdDate', width: 110, render: desc =>
-          <span>{moment(desc).format('YYYY-MM-DD')}</span>
+        {
+          title: this.$t({ id: 'common.happened.date' }), dataIndex: 'createdDate', key: 'createdDate', width: 110, render: desc =>
+            <span>{moment(desc).format('YYYY-MM-DD')}</span>
         },
         {     //金额
-          title: this.$t({id:'common.amount'}), dataIndex: 'amount', key: 'amount', width: 90, render: this.filterMoney
+          title: this.$t({ id: 'common.amount' }), dataIndex: 'amount', key: 'amount', width: 90, render: this.filterMoney
         },
         {     //本位币金额
-          title: this.$t({id:'common.base.currency.amount'}), dataIndex: 'baseAmount', key: 'baseAmount' ,width: 100, render: this.filterMoney
+          title: this.$t({ id: 'common.base.currency.amount' }), dataIndex: 'baseAmount', key: 'baseAmount', width: 100, render: this.filterMoney
         },
         {
-          title: this.$t({id:'common.comment'}), dataIndex: 'comment', key:'comment'
+          title: this.$t({ id: 'common.comment' }), dataIndex: 'comment', key: 'comment'
         },
         {      //'查看信息'
-          title: this.$t({id:'exp.dir.info'}), dataIndex: 'checkInfo',render: (value, record) => {
-          return (
-            <div>
-              {record.vatInvoice && <a onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.showInvoiceDetail(record)
-              }}>{this.$t({id:'exp.invoice.info'}/*发票信息*/)}</a>}
-              {record.vatInvoice && <span className="ant-divider" />}
-              <a onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.showApprotion(record)
-              }}>{this.$t({id:'exp.detail.info'})}</a>
-              <span className="ant-divider" />
-              <a onClick={e=>{
-                e.preventDefault();
-                e.stopPropagation();
-                this.showAttInfo(record)
-              }}>{this.$t({id:'common.attachments'})}</a>
-            </div>
-          )
-        }
+          title: this.$t({ id: 'exp.dir.info' }), dataIndex: 'checkInfo', render: (value, record) => {
+            return (
+              <div>
+                {record.vatInvoice && <a onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.showInvoiceDetail(record)
+                }}>{this.$t({ id: 'exp.invoice.info' }/*发票信息*/)}</a>}
+                {record.vatInvoice && <span className="ant-divider" />}
+                <a onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.showApprotion(record)
+                }}>{this.$t({ id: 'exp.detail.info' })}</a>
+                <span className="ant-divider" />
+                <a onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this.showAttInfo(record)
+                }}>{this.$t({ id: 'common.attachments' })}</a>
+              </div>
+            )
+          }
         }
       ],
       searchForm: [
         {
           type: 'list',
           id: 'expenseType',
-          label: this.$t({id:'common.expense.type'}), //费用类型
+          label: this.$t({ id: 'common.expense.type' }), //费用类型
           getUrl: `${config.baseUrl}/api/expense/adjust/types/getExpenseType`,
           //getUrl: '',
-          selectorItem:{
+          selectorItem: {
             title: this.$t({ id: "itemMap.expenseType" }),
             url: `${config.baseUrl}/api/report/reverse/get/expense/type/by/reverse/id`,
             searchForm: [
@@ -141,18 +143,18 @@ class ReverseDetailCommon extends React.Component {
                 title: this.$t({ id: "common.column.status" }), dataIndex: 'enabled',
                 render: isEnabled => (
                   <Badge status={isEnabled ? 'success' : 'error'}
-                         text={isEnabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
+                    text={isEnabled ? this.$t({ id: "common.status.enable" }) : this.$t({ id: "common.status.disable" })} />
                 )
               },
             ],
             //listKey: 'expenseTypes',
             key: 'id'
           },
-          listExtraParams:{reverseHeaderId: this.props.id, },
+          listExtraParams: { reverseHeaderId: this.props.id, },
           single: true,
           itemMap: true,
-          labelKey:'name',
-          valueKey:'id'
+          labelKey: 'name',
+          valueKey: 'id'
         },
         /*{
          type: 'datePicker',
@@ -163,16 +165,16 @@ class ReverseDetailCommon extends React.Component {
           type: 'items',
           id: 'applyDate',
           items: [                                   //发生日期从
-            { type: 'date', id: 'applyDateFrom', label: this.$t({id:'exp.happen.date.from'}),event: 'DATE_FROM'},
-            { type: 'date', id: 'applyDateTo', label: this.$t({id:'exp.happen.date.to'}),event:'DATE_TO' }
+            { type: 'date', id: 'applyDateFrom', label: this.$t({ id: 'exp.happen.date.from' }), event: 'DATE_FROM' },
+            { type: 'date', id: 'applyDateTo', label: this.$t({ id: 'exp.happen.date.to' }), event: 'DATE_TO' }
           ],
         },
         {
           type: 'items',
           id: 'amountRange',
           items: [
-            { type: 'input', id: 'amountFrom', label: this.$t({id:'approve.request.moneyFrom'}) },
-            { type: 'input', id: 'amountTo', label: this.$t({id:'approve.request.moneyTo'}) }
+            { type: 'input', id: 'amountFrom', label: this.$t({ id: 'approve.request.moneyFrom' }) },
+            { type: 'input', id: 'amountTo', label: this.$t({ id: 'approve.request.moneyTo' }) }
           ]
         }
       ],
@@ -201,8 +203,8 @@ class ReverseDetailCommon extends React.Component {
   }
 
   //显示附件信息
-  showAttInfo = (record)=>{
-    this.setState({showAttInfo: true,modalRecord: record})
+  showAttInfo = (record) => {
+    this.setState({ showAttInfo: true, modalRecord: record })
   };
 
   //显示分摊行
@@ -213,101 +215,101 @@ class ReverseDetailCommon extends React.Component {
     })
   };
 
-  componentDidMount(){
-    if (this.state.flag && this.props.headerData.documentHeader){
+  componentDidMount() {
+    if (this.state.flag && this.props.headerData.documentHeader) {
       this.setState({ flag: false }, () => {
         reimburseService.getDefaultApportion(this.props.headerData.documentHeader.documentId).then(res => {
           this.setState({ defaultApportion: res.data });
         }).catch(err => {
-          message.error(this.$t({id:"exp.get.info.failed"}));
+          message.error(this.$t({ id: "exp.get.info.failed" }));
         });
       });
     }
 
     if (this.state.historyFlag && this.props.id) {
       this.setState({ historyFlag: false }, () => {
-        this.setState({historyLoading: true});
+        this.setState({ historyLoading: true });
         reverseService.getApproveHistory(this.props.id).then(res => {
           this.setState({ approveHistory: res.data, historyLoading: false });
         }).catch(err => {
-          this.setState({historyLoading: false});
-          message.error(this.$t({id:'exp.get.approve.history.failed'}));
+          this.setState({ historyLoading: false });
+          message.error(this.$t({ id: 'exp.get.approve.history.failed' }));
         });
       });
 
     }
 
-    if (this.props.headerData.reverseHeader){
+    if (this.props.headerData.reverseHeader) {
       let documentParams = {
         businessCode: this.props.headerData.reverseHeader.reportReverseNumber,
         createdDate: moment(this.props.headerData.reverseHeader.creatDate).format('YYYY-MM-DD'),
-        formName: this.$t({id:'detail.expense.reverse'}),
+        formName: this.$t({ id: 'detail.expense.reverse' }),
         createByName: this.props.headerData.documentHeader.applyName,
         totalAmount: this.props.headerData.reverseHeader.amount,
         statusCode: this.props.headerData.reverseHeader.status,
         currencyCode: this.props.headerData.reverseHeader.currencyCode,
         remark: this.props.headerData.reverseHeader.description,
         infoList: [
-          { label: this.$t({id:'common.applicant'}), value: this.props.headerData.reverseHeader.employeeName },
-          { label: this.$t({id:'exp.company'}), value: this.props.headerData.reverseHeader.companyName },
-          { label: this.$t({id:'common.department'}), value: this.props.headerData.reverseHeader.departmentName },
-          { label: this.$t({id:'ye.wu.da.lei'}), value: this.props.headerData.reverseHeader.businessClassName },
-          { label: this.$t({id:'detail.source.report.number'}), value: this.props.headerData.reverseHeader.sourceReportHeaderCode },
-          { label: this.$t({id:"exp.reserve.money"}), value: this.props.headerData.documentHeader.reverseAmount }
+          { label: this.$t({ id: 'common.applicant' }), value: this.props.headerData.reverseHeader.employeeName },
+          { label: this.$t({ id: 'exp.company' }), value: this.props.headerData.reverseHeader.companyName },
+          { label: this.$t({ id: 'common.department' }), value: this.props.headerData.reverseHeader.departmentName },
+          { label: this.$t({ id: 'ye.wu.da.lei' }), value: this.props.headerData.reverseHeader.businessClassName },
+          { label: this.$t({ id: 'detail.source.report.number' }), value: this.props.headerData.reverseHeader.sourceReportHeaderCode },
+          { label: this.$t({ id: "exp.reserve.money" }), value: this.props.headerData.documentHeader.reverseAmount }
         ],
         attachments: []
       };
       documentParams.statusCode === 1002 && (documentParams.statusCode = 2002);
-      this.setState({headerData: this.props.headerData,documentParams})
+      this.setState({ headerData: this.props.headerData, documentParams })
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.flag && nextProps.headerData.documentHeader){
+    if (this.state.flag && nextProps.headerData.documentHeader) {
       this.setState({ flag: false }, () => {
         reimburseService.getDefaultApportion(nextProps.headerData.documentHeader.documentId).then(res => {
           this.setState({ defaultApportion: res.data });
         }).catch(err => {
-          message.error(this.$t({id:"exp.get.info.failed"}));
+          message.error(this.$t({ id: "exp.get.info.failed" }));
         });
       });
     }
 
     if (this.state.historyFlag && nextProps.id) {
       this.setState({ historyFlag: false }, () => {
-        this.setState({historyLoading: true});
+        this.setState({ historyLoading: true });
         reverseService.getApproveHistory(nextProps.id).then(res => {
           this.setState({ approveHistory: res.data, historyLoading: false });
         }).catch(err => {
-          this.setState({historyLoading: false});
-          message.error(this.$t({id:'exp.get.approve.history.failed'}));
+          this.setState({ historyLoading: false });
+          message.error(this.$t({ id: 'exp.get.approve.history.failed' }));
         });
       });
 
     }
 
-    if (nextProps.headerData.reverseHeader){
+    if (nextProps.headerData.reverseHeader) {
       let documentParams = {
         businessCode: nextProps.headerData.reverseHeader.reportReverseNumber,
         createdDate: moment(nextProps.headerData.reverseHeader.creatDate).format('YYYY-MM-DD'),
-        formName: this.$t({id:'detail.expense.reverse'}),
+        formName: this.$t({ id: 'detail.expense.reverse' }),
         createByName: nextProps.headerData.documentHeader.applyName,
         totalAmount: nextProps.headerData.reverseHeader.amount,
         statusCode: nextProps.headerData.reverseHeader.status,
         currencyCode: nextProps.headerData.reverseHeader.currencyCode,
         remark: nextProps.headerData.reverseHeader.description,
         infoList: [
-          { label: this.$t({id:'common.applicant'}), value: nextProps.headerData.reverseHeader.employeeName },
-          { label: this.$t({id:'exp.company'}), value: nextProps.headerData.reverseHeader.companyName },
-          { label: this.$t({id:'common.department'}), value: nextProps.headerData.reverseHeader.departmentName },
-          { label: this.$t({id:'ye.wu.da.lei'}), value: nextProps.headerData.reverseHeader.businessClassName },
-          { label: this.$t({id:'detail.source.report.number'}), value: nextProps.headerData.reverseHeader.sourceReportHeaderCode },
-          { label: this.$t({id:"exp.reserve.money"}), value: nextProps.headerData.documentHeader.reverseAmount }
+          { label: this.$t({ id: 'common.applicant' }), value: nextProps.headerData.reverseHeader.employeeName },
+          { label: this.$t({ id: 'exp.company' }), value: nextProps.headerData.reverseHeader.companyName },
+          { label: this.$t({ id: 'common.department' }), value: nextProps.headerData.reverseHeader.departmentName },
+          { label: this.$t({ id: 'ye.wu.da.lei' }), value: nextProps.headerData.reverseHeader.businessClassName },
+          { label: this.$t({ id: 'detail.source.report.number' }), value: nextProps.headerData.reverseHeader.sourceReportHeaderCode },
+          { label: this.$t({ id: "exp.reserve.money" }), value: nextProps.headerData.documentHeader.reverseAmount }
         ],
         attachments: []
       };
       documentParams.statusCode === 1002 && (documentParams.statusCode = 2002);
-      this.setState({headerData: nextProps.headerData,documentParams})
+      this.setState({ headerData: nextProps.headerData, documentParams })
     }
   }
 
@@ -318,8 +320,8 @@ class ReverseDetailCommon extends React.Component {
       editReverseVisible: false,
       detailVisible: false,
     }, () => {
-      if (flag){
-        this.setState({isLoadExpenseLineData: !this.state.isLoadExpenseLineData});
+      if (flag) {
+        this.setState({ isLoadExpenseLineData: !this.state.isLoadExpenseLineData });
       }
     })
   };
@@ -330,8 +332,8 @@ class ReverseDetailCommon extends React.Component {
       payInfoVisible: false,
       editUnpaidVisible: false
     }, () => {
-      if (flag){
-        this.setState({isLoadPayData: !this.state.isLoadPayData})
+      if (flag) {
+        this.setState({ isLoadPayData: !this.state.isLoadPayData })
       }
     })
   };
@@ -348,27 +350,27 @@ class ReverseDetailCommon extends React.Component {
 
   //添加费用冲销行
   addReverseInfo = () => {                         //'添加费用'
-    this.setState({reverseInfoVisible: true, slideFrameTitle: this.$t({id:'exp.add.expense'}), listType: 'reverseLine'})
+    this.setState({ reverseInfoVisible: true, slideFrameTitle: this.$t({ id: 'exp.add.expense' }), listType: 'reverseLine' })
   };
 
   //编辑费用冲销行
   editReverseInfo = (record) => {                            //编辑费用反冲信息
-    this.setState({editReverseVisible: true, slideFrameTitle: this.$t({id:'exp.edit.reserve.info'}), reverseRecord: record})
+    this.setState({ editReverseVisible: true, slideFrameTitle: this.$t({ id: 'exp.edit.reserve.info' }), reverseRecord: record })
   };
 
   //查看原费用
   checkReverseInfo = (record) => {                       //查看费用
-    this.setState({detailVisible: true, slideFrameTitle: this.$t({id:'expense.view'}), costRecord: record})
+    this.setState({ detailVisible: true, slideFrameTitle: this.$t({ id: 'expense.view' }), costRecord: record })
   };
 
   //添加未支付冲销行
   addUnpaidLine = () => {                                //金额变动
-    this.setState({payInfoVisible: true, slideFrameTitle: this.$t({id:'exp.amount.change'}), listType: 'unpaidLine'})
+    this.setState({ payInfoVisible: true, slideFrameTitle: this.$t({ id: 'exp.amount.change' }), listType: 'unpaidLine' })
   };
 
   //编辑待付款冲销行
   editUnpaidInfo = (record) => {                                //编辑待支付反冲信息
-    this.setState({editUnpaidVisible: true, slideFrameTitle: this.$t({id:'exp.edit.unReserve.info'}), unpaidRecord: record})
+    this.setState({ editUnpaidVisible: true, slideFrameTitle: this.$t({ id: 'exp.edit.unReserve.info' }), unpaidRecord: record })
   };
 
   //新增费用行slide关闭后的操作
@@ -396,7 +398,7 @@ class ReverseDetailCommon extends React.Component {
     this.props.dispatch(
       routerRedux.replace({
         pathname: `/financial-management/expense-reverse/new-reverse/${headerData.documentHeader.documentId}/${headerData.reverseHeader.businessClass}/${this.state.isNew}/${headerData.reverseHeader.currencyCode}`,
-        state: {isNew: false, id: headerData.reverseHeader.id}
+        state: { isNew: false, id: headerData.reverseHeader.id }
       })
     );
     // this.context.router.push({
@@ -408,9 +410,9 @@ class ReverseDetailCommon extends React.Component {
 
   //撤回
   handleRecall = () => {
-    reverseService.recallReverseDocument(this.props.id,this.props.userId).then(resp => {
-      if (resp.status === 200){
-        message.success(this.$t({id:'exp.withDraw.success'})); //撤回成功
+    reverseService.recallReverseDocument(this.props.id, this.props.userId).then(resp => {
+      if (resp.status === 200) {
+        message.success(this.$t({ id: 'exp.withDraw.success' })); //撤回成功
         this.props.dispatch(
           routerRedux.replace({
             pathname: `/financial-management/expense-reverse`,
@@ -419,22 +421,22 @@ class ReverseDetailCommon extends React.Component {
         // this.context.router.push(this.state.expenseReverse.url);
       }
     }).catch(e => {
-      message.error(e.response.data ? e.response.data.message : this.$t({id:'exp.withDraw.failed'}))//撤回失败
+      message.error(e.response.data ? e.response.data.message : this.$t({ id: 'exp.withDraw.failed' }))//撤回失败
     })
   };
 
-   //显示发票
-   showInvoiceDetail = (record) => {
+  //显示发票
+  showInvoiceDetail = (record) => {
     this.setState({ showInvoiceDetail: true, invoiceData: record.digitalInvoice });
   };
 
   //删除费用行
   deleteCost = (record) => {
     reimburseService.deleteCostDetail(record.id).then(res => {
-      message.success(this.$t({id:'common.delete.success'},{name:''}));
+      message.success(this.$t({ id: 'common.delete.success' }, { name: '' }));
       this.getCostList(true);
     }).catch(err => {
-      message.error(this.$t({id:'common.delete.failed'}));
+      message.error(this.$t({ id: 'common.delete.failed' }));
     })
   };
 
@@ -446,10 +448,10 @@ class ReverseDetailCommon extends React.Component {
   //删除付款行
   deletePay = (record) => {
     reimburseService.deletePayDetail(record.id).then(res => {
-      message.success(this.$t({id:'common.delete.success'},{name:''}));
+      message.success(this.$t({ id: 'common.delete.success' }, { name: '' }));
       this.getPayList(true);
     }).catch(err => {
-      message.error(this.$t({id:'common.delete.failed'}));
+      message.error(this.$t({ id: 'common.delete.failed' }));
     })
   };
 
@@ -461,16 +463,16 @@ class ReverseDetailCommon extends React.Component {
     }
   };
 
-  getReverseLineList = ()=>{
+  getReverseLineList = () => {
     const { page, pageSize, searchParams } = this.state;
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let params = {
       ...searchParams,
       headerId: this.props.id,
       selectIds: []
     };
     reverseService.getExpenseLine(page, pageSize, params).then(resp => {
-      if (resp.status === 200){
+      if (resp.status === 200) {
         this.setState({
           addLoading: false,
           modalLoading: false,
@@ -483,13 +485,13 @@ class ReverseDetailCommon extends React.Component {
         });
       }
     }).catch((e) => {
-      this.setState({loading: false});
-      if(e.response)
+      this.setState({ loading: false });
+      if (e.response)
         message.error(e.response.data.message);
     })
   };
 
-  addExpense=()=>{
+  addExpense = () => {
     this.setState({
       newExpenseVisible: true,
       modalLoading: true,
@@ -499,18 +501,18 @@ class ReverseDetailCommon extends React.Component {
 
   handleSave = () => {
     const { id, lineDtos } = this.state;
-    if (lineDtos.length === 0){
-      message.error(this.$t({id:'exp.add.tips'}));
+    if (lineDtos.length === 0) {
+      message.error(this.$t({ id: 'exp.add.tips' }));
       return false;
     }
-    let params  = {
+    let params = {
       lineDtos: lineDtos,
       reverseInvoice: {}
     };
-    this.setState({addLoading: true,selectedRowKeys:[]});
-    reverseService.saveExpenseLine(this.props.id,params).then(resp => {
-      if (resp.status === 200){
-        message.success(this.$t({id:'common.save.success'},{name:''}));
+    this.setState({ addLoading: true, selectedRowKeys: [] });
+    reverseService.saveExpenseLine(this.props.id, params).then(resp => {
+      if (resp.status === 200) {
+        message.success(this.$t({ id: 'common.save.success' }, { name: '' }));
         this.setState({
           addLoading: false,
           newExpenseVisible: false,
@@ -521,8 +523,8 @@ class ReverseDetailCommon extends React.Component {
 
       }
     }).catch(e => {
-      this.setState({addLoading: false});
-      if(e.response)
+      this.setState({ addLoading: false });
+      if (e.response)
         message.error(e.response.data.message);
     })
   };
@@ -533,12 +535,12 @@ class ReverseDetailCommon extends React.Component {
     let lineDtos = [];
     selectedRowKeys.map(selectItem => {
       modalData.map(item => {
-        if (item.id === selectItem){
-          amount += item.actualAmount ;
-          if (item.digitalInvoice && item.digitalInvoice.invoiceTypeNo === '01'){
-            lineDtos.push({id: selectItem, invoiceOperationType: 'DELETE'})
-          } else{
-            lineDtos.push({id: selectItem, invoiceOperationType: 'NO_TICKET'})
+        if (item.id === selectItem) {
+          amount += item.actualAmount;
+          if (item.digitalInvoice && item.digitalInvoice.invoiceTypeNo === '01') {
+            lineDtos.push({ id: selectItem, invoiceOperationType: 'DELETE' })
+          } else {
+            lineDtos.push({ id: selectItem, invoiceOperationType: 'NO_TICKET' })
           }
         }
       })
@@ -550,7 +552,7 @@ class ReverseDetailCommon extends React.Component {
     result.dateFrom = result.applyDateFrom ? result.applyDateFrom.format('YYYY-MM-DD') : undefined;
     result.dateTo = result.applyDateTo ? result.applyDateTo.format('YYYY-MM-DD') : undefined;
     let searchParams = {
-      expenseTypeId: result.expenseType&&result.expenseType[0],
+      expenseTypeId: result.expenseType && result.expenseType[0],
       dateFrom: result.dateFrom,
       dateTo: result.dateTo,
       amountFrom: result.amountFrom,
@@ -571,12 +573,12 @@ class ReverseDetailCommon extends React.Component {
 
 
   render() {
-    const { detailLoading, dataChange, addExpensePagination, modalColumns,  modalLoading, modalData,selectedRowKeys, searchForm, addLoading, reverseInfoVisible,newExpenseVisible, isLoadCostData, documentParams, editReverseVisible, payInfoVisible, editUnpaidVisible, isLoadExpenseLineData, isLoadPayData, descriptionLoading, detailVisible, listType, slideFrameTitle, headerData, contractStatus } = this.state;
+    const { detailLoading, dataChange, addExpensePagination, modalColumns, modalLoading, modalData, selectedRowKeys, searchForm, addLoading, reverseInfoVisible, newExpenseVisible, isLoadCostData, documentParams, editReverseVisible, payInfoVisible, editUnpaidVisible, isLoadExpenseLineData, isLoadPayData, descriptionLoading, detailVisible, listType, slideFrameTitle, headerData, contractStatus } = this.state;
     const status = headerData.reverseHeader.status;
     let isEdit = null;
-    if (status === 1001 || status === 1003 || status === 1005){
+    if (status === 1001 || status === 1003 || status === 1005) {
       isEdit = true;
-    }else if (status === 1002 || status ===1004){
+    } else if (status === 1002 || status === 1004) {
       isEdit = false
     }
 
@@ -587,20 +589,20 @@ class ReverseDetailCommon extends React.Component {
       onChange: this.onSelectChange,
     };
     return (
-      <div className="contract-detail-common reimburse" style={{marginBottom: 20}}>
-        <div className="top-info" style={{ padding: '24px 15px 20px',marginLeft: -20, marginTop: -20, background: 'white' }}>
-         {/* {contractInfo}*/}
+      <div className="contract-detail-common reimburse" style={{ marginBottom: 20 }}>
+        <div className="top-info" style={{ padding: '24px 15px 20px', marginLeft: -20, marginTop: -20, background: 'white' }}>
+          {/* {contractInfo}*/}
           <DocumentBasicInfo params={documentParams}>
             {isEdit && (
-              <div style={{float: 'right', paddingBottom: 5}}>
+              <div style={{ float: 'right', paddingBottom: 5 }}>
                 <Button type="primary" onClick={this.handleEdit}>
                   {this.$t({ id: 'my.contract.edit' }/*编 辑*/)}</Button>
               </div>
             )}
             {status === 1002 && (
-              <div style={{float: 'right', marginBottom: 8}}>
+              <div style={{ float: 'right', marginBottom: 8 }}>
                 <Button type="primary"
-                        onClick={this.handleRecall}>{this.$t({ id: "my.contract.withdrawal" }/*撤 回*/)}</Button>
+                  onClick={this.handleRecall}>{this.$t({ id: "my.contract.withdrawal" }/*撤 回*/)}</Button>
               </div>
             )}
           </DocumentBasicInfo>
@@ -608,21 +610,21 @@ class ReverseDetailCommon extends React.Component {
 
         <div>
           <div className="tab-container" style={{ marginBottom: 20 }}>
-            <h3 style={{ padding: "0 0 10px", margin: 0 }} className="sub-header-title">{this.$t({id:'exp.expense.info'})}</h3>
+            <h3 style={{ padding: "0 0 10px", margin: 0 }} className="sub-header-title">{this.$t({ id: 'exp.expense.info' })}</h3>
             <Row gutter={24}>
               <Col span={18} style={{ lineHeight: "60px", height: "32px" }}>
-              {
-                isEdit && <Button onClick={this.addExpense} type="primary">{this.$t({id:'expense.new'})}</Button>
-              }
+                {
+                  isEdit && <Button onClick={this.addExpense} type="primary">{this.$t({ id: 'expense.new' })}</Button>
+                }
               </Col>
-              <Col span={6}  style={{textAlign: 'right', paddingTop: 27, marginLeft: -12}}>
-                <span>{this.$t({id:'exp.amount.total'})}：<span style={{ color: "green" }}>{headerData.reverseHeader.currencyCode} {this.filterMoney(headerData.reverseHeader.amount)}</span></span>
+              <Col span={6} style={{ textAlign: 'right', paddingTop: 27, marginLeft: -12 }}>
+                <span>{this.$t({ id: 'exp.amount.total' })}：<span style={{ color: "green" }}>{headerData.reverseHeader.currencyCode} {this.filterMoney(headerData.reverseHeader.amount)}</span></span>
               </Col>
             </Row>
             <CostDetail
               ref="costInfo"
               editReverseInfo={this.editReverseInfo}
-              checkReverseInfo= { this.checkReverseInfo}
+              checkReverseInfo={this.checkReverseInfo}
               showInvoiceDetail={this.showInvoiceDetail}
               //costDetail={this.costDetail}
               disabled={isEdit === false}
@@ -640,7 +642,7 @@ class ReverseDetailCommon extends React.Component {
             ref="payInfo"
             flag={isLoadPayData}
             headerData={headerData}
-            id = {this.props.id}
+            id={this.props.id}
             deletePay={this.deletePay}
             addPayPlan={this.addPayPlan}
             editUnpaidInfo={this.editUnpaidInfo}
@@ -654,108 +656,109 @@ class ReverseDetailCommon extends React.Component {
           </div>
         </div>
 
-        <Modal visible={newExpenseVisible} title={this.$t({id:'exp.add.expense'})} onOk={this.handleSave}
-               onCancel={() => this.setState({ newExpenseVisible: false })}
-               footer={[
-                 <Button key="submit" type="primary"
-                         loading={addLoading} style={{ margin: '0 20px' }} onClick={this.handleSave}>
-                   {this.$t({id: 'common.ok'}/*确定*/)}
-                 </Button>,
-                 <Button key="back" onClick={() => this.setState({ newExpenseVisible: false,searchParams:{},modalData: [] })}>
-                   {this.$t({id: 'common.back'}/*返回*/)}
-                 </Button>
-               ]}
-               width="70%"
+        <Modal visible={newExpenseVisible} title={this.$t({ id: 'exp.add.expense' })} onOk={this.handleSave}
+          onCancel={() => this.setState({ newExpenseVisible: false })}
+          footer={[
+            <Button key="submit" type="primary"
+              loading={addLoading} style={{ margin: '0 20px' }} onClick={this.handleSave}>
+              {this.$t({ id: 'common.ok' }/*确定*/)}
+            </Button>,
+            <Button key="back" onClick={() => this.setState({ newExpenseVisible: false, searchParams: {}, modalData: [] })}>
+              {this.$t({ id: 'common.back' }/*返回*/)}
+            </Button>
+          ]}
+          width="70%"
         >
           <SearchArea
             searchForm={searchForm}
             submitHandle={this.handleSearch}
-            clearHandle={this.handleClear}/>
+            clearHandle={this.handleClear} />
           <div className="table-header">
             <div className="table-header-title">
               {/*{this.$t({id: "common.total"}, {total: linePagination.total})} 共 total 条数据 */}
-             {/* &nbsp;<span>/</span>&nbsp;*/}
-              {this.$t({id: "common.total.selected"}, {total: selectedRowKeys.length === 0 ? '0' : selectedRowKeys.length})}{/* 已选 total 条 */}
+              {/* &nbsp;<span>/</span>&nbsp;*/}
+              {this.$t({ id: "common.total.selected" }, { total: selectedRowKeys.length === 0 ? '0' : selectedRowKeys.length })}{/* 已选 total 条 */}
             </div>
           </div>
           <Table rowKey={record => record.id}
-                 columns={modalColumns}
-                 dataSource={modalData}
-                 loading={modalLoading}
-                 scroll={{ x: true, y: false }}
-                 bordered
-                 rowSelection={rowSelection}
-                 pagination={addExpensePagination}
-                 size="middle" />
-          <ApprotionInfo close={() => { this.setState({ showApprotion: false }) }} headerData={this.state.headerData} visible={this.state.showApprotion} id={this.state.modalRecord.id}  z-index={1001}></ApprotionInfo>
-          <AttachmentInformation sourceReportLineId={this.state.modalRecord.id} visible={this.state.showAttInfo} close={()=>{this.setState({showAttInfo: false})}}/>
+            columns={modalColumns}
+            dataSource={modalData}
+            loading={modalLoading}
+            scroll={{ x: true, y: false }}
+            bordered
+            rowSelection={rowSelection}
+            pagination={addExpensePagination}
+            size="middle" />
+          <ApprotionInfo close={() => { this.setState({ showApprotion: false }) }} headerData={this.state.headerData} visible={this.state.showApprotion} id={this.state.modalRecord.id} z-index={1001}></ApprotionInfo>
+          <AttachmentInformation sourceReportLineId={this.state.modalRecord.id} visible={this.state.showAttInfo} close={() => { this.setState({ showAttInfo: false }) }} />
         </Modal>
         <SlideFrame title={slideFrameTitle}
-                    show={editReverseVisible}
-                    // content={EditReverseInfo}
+          show={editReverseVisible}
+          // content={EditReverseInfo}
 
-                    onClose={() => this.setState({editReverseVisible: false})}
-                    >
-                    <EditReverseInfo
-                    onClose={this.handleCloseReverse}
-                    params={{
-                      id: this.state.reverseRecord.id,
-                      lineFlag: editReverseVisible,
-                      headerData: this.props.headerData,
-                      defaultApportion: this.state.defaultApportion,
-                      isNew: false,
-                      visible: editReverseVisible
-                    }}/>
-          </SlideFrame>
-
-        <SlideFrame title={slideFrameTitle}
-                    show={detailVisible}
-                    width="900px"
-                    // content={ExpenseInfo}
-
-                    onClose={() => this.setState({ detailVisible: false })}
-                    >
-                    <ExpenseInfo
-                    onClose = {this.handleCloseReverse}
-                    params={{
-                      visible: this.state.detailVisible,
-                      defaultApportion: this.state.defaultApportion,
-                      isShowInvoice: this.state.costRecord.invoiceOperationType === 'BACK_LASE',
-                      record: this.state.costRecord,
-                      headerId: this.props.id,
-                      headerData: this.props.headerData,
-                    }}/>
-          </SlideFrame>
-
-        <SlideFrame title={slideFrameTitle}
-                    show={payInfoVisible}
-                    // content={NewPayInfo}
-
-                    onClose={() => this.setState({payInfoVisible: false})}
-                    >
-                    <NewPayInfo
-                    onClose={this.handleClosePayInfo}
-                    params={{
-                      id: headerData.documentHeader.documentId,
-                      reverseId: headerData.reverseHeader.id,
-                      lineFlag: payInfoVisible,
-                      listType: listType}}/>
+          onClose={() => this.setState({ editReverseVisible: false })}
+        >
+          <EditReverseInfo
+            onClose={this.handleCloseReverse}
+            params={{
+              id: this.state.reverseRecord.id,
+              lineFlag: editReverseVisible,
+              headerData: this.props.headerData,
+              defaultApportion: this.state.defaultApportion,
+              isNew: false,
+              visible: editReverseVisible
+            }} />
         </SlideFrame>
 
         <SlideFrame title={slideFrameTitle}
-                    show={editUnpaidVisible}
-                    // content={EditUnpaidInfo}
+          show={detailVisible}
+          width="900px"
+          // content={ExpenseInfo}
 
-                    onClose={() => this.setState({editUnpaidVisible: false})}
-                    >
-                    <EditUnpaidInfo
-                    onClose={this.handleClosePayInfo}
-                    params={{
-                      lineFlag: editUnpaidVisible,
-                      isNew: false,
-                      record: this.state.unpaidRecord
-                    }}/>
-          </SlideFrame>
+          onClose={() => this.setState({ detailVisible: false })}
+        >
+          <ExpenseInfo
+            onClose={this.handleCloseReverse}
+            params={{
+              visible: this.state.detailVisible,
+              defaultApportion: this.state.defaultApportion,
+              isShowInvoice: this.state.costRecord.invoiceOperationType === 'BACK_LASE',
+              record: this.state.costRecord,
+              headerId: this.props.id,
+              headerData: this.props.headerData,
+            }} />
+        </SlideFrame>
+
+        <SlideFrame title={slideFrameTitle}
+          show={payInfoVisible}
+          // content={NewPayInfo}
+
+          onClose={() => this.setState({ payInfoVisible: false })}
+        >
+          <NewPayInfo
+            onClose={this.handleClosePayInfo}
+            params={{
+              id: headerData.documentHeader.documentId,
+              reverseId: headerData.reverseHeader.id,
+              lineFlag: payInfoVisible,
+              listType: listType
+            }} />
+        </SlideFrame>
+
+        <SlideFrame title={slideFrameTitle}
+          show={editUnpaidVisible}
+          // content={EditUnpaidInfo}
+
+          onClose={() => this.setState({ editUnpaidVisible: false })}
+        >
+          <EditUnpaidInfo
+            onClose={this.handleClosePayInfo}
+            params={{
+              lineFlag: editUnpaidVisible,
+              isNew: false,
+              record: this.state.unpaidRecord
+            }} />
+        </SlideFrame>
         <Invoice cancel={() => { this.setState({ showInvoiceDetail: false }) }} invoice={this.state.invoiceData || {}} visible={this.state.showInvoiceDetail}></Invoice>
 
       </div>

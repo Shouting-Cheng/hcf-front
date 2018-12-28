@@ -12,7 +12,6 @@ const FormItem = Form.Item;
 
 import moment from "moment"
 
-import axios from "axios"
 
 class NewExpenseApplicationFrom extends Component {
   constructor(props) {
@@ -26,7 +25,8 @@ class NewExpenseApplicationFrom extends Component {
       dimensionList: [],
       applicationTypeInfo: {},
       typeId: "",
-      uploadOIDs: []
+      uploadOIDs: [],
+      contractParams: { companyId: props.user.companyId, currency: props.company.baseCurrency, documentType: "PREPAYMENT_REQUISITION" }
     }
   }
 
@@ -34,7 +34,25 @@ class NewExpenseApplicationFrom extends Component {
 
     if (this.props.match.params.id) {
       service.getEditInfo(this.props.match.params.id).then(res => {
-        this.setState({ isNew: false, model: res.data, pageLoading: false });
+
+        let fileList = res.data.attachments ? res.data.attachments.map(o => ({
+          ...o,
+          uid: o.attachmentOID,
+          name: o.fileName,
+          status: 'done'
+        })) : [];
+
+        this.setState({
+          isNew: false,
+          model: res.data,
+          fileList,
+          pageLoading: false,
+          contractParams: {
+            companyId: res.data.companyId,
+            currency: res.data.currencyCode,
+            documentType: "PREPAYMENT_REQUISITION"
+          }
+        });
       }).catch(err => {
         message.error(err.response.data.message);
       });
@@ -89,6 +107,7 @@ class NewExpenseApplicationFrom extends Component {
 
       let { typeId, uploadOIDs, isNew, model } = this.state;
 
+
       if (isNew) {
         values = {
           typeId,
@@ -98,8 +117,9 @@ class NewExpenseApplicationFrom extends Component {
           companyId: values.company[0].id,
           departmentId: values.department[0].departmentId,
           dimensions: [],
-          attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
-          requisitionDate: moment().format()
+          attachmentOid: uploadOIDs.length ? uploadOIDs.join(",") : null,
+          requisitionDate: moment().format(),
+          contractHeaderId: (values.contract && values.contract.length) ? values.contract[0].contractHeaderId : ""
         };
       } else {
         values = {
@@ -112,9 +132,10 @@ class NewExpenseApplicationFrom extends Component {
           companyId: values.company[0].id,
           departmentId: values.department[0].departmentId,
           dimensions: [],
-          attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
+          attachmentOid: uploadOIDs.length ? uploadOIDs.join(",") : null,
           requisitionDate: model.requisitionDate,
-          versionNumber: model.versionNumber
+          versionNumber: model.versionNumber,
+          contractHeaderId: (values.contract && values.contract.length) ? values.contract[0].contractHeaderId : ""
         };
       }
 
@@ -130,6 +151,16 @@ class NewExpenseApplicationFrom extends Component {
       });
 
     });
+  }
+
+  currencyChange = (value) => {
+    this.props.form.setFieldsValue({ contract: [] });
+    this.setState({ contractParams: { ...this.state.contractParams, currency: value } });
+  }
+
+  companyChange = (value) => {
+    this.props.form.setFieldsValue({ contract: [] });
+    this.setState({ contractParams: { ...this.state.contractParams, companyId: value[0].id } });
   }
 
 
@@ -149,7 +180,7 @@ class NewExpenseApplicationFrom extends Component {
       },
     };
 
-    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo, fileList, model } = this.state;
+    const { pageLoading, loading, isNew, currencyList, contractParams, dimensionList, applicationTypeInfo, fileList, model } = this.state;
 
     return (
       <div className="new-contract" style={{ marginBottom: 60, marginTop: 10 }}>
@@ -179,6 +210,8 @@ class NewExpenseApplicationFrom extends Component {
                       valueKey="id"
                       single={true}
                       listExtraParams={{ setOfBooksId: this.props.company.setOfBooksId }}
+                      onChange={this.companyChange}
+                      showClear={false}
                     />
                   )}
                 </FormItem>
@@ -202,6 +235,7 @@ class NewExpenseApplicationFrom extends Component {
                       labelKey="path"
                       valueKey="departmentId"
                       single={true}
+                      showClear={false}
                       listExtraParams={{ tenantId: this.props.user.tenantId }}
                     />
                   )}
@@ -215,7 +249,7 @@ class NewExpenseApplicationFrom extends Component {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
                     initialValue: isNew ? this.props.company.baseCurrency : model.currencyCode
                   })(
-                    <Select>
+                    <Select onChange={this.currencyChange}>
                       {currencyList.map(item => {
                         return <Select.Option key={item.currency} value={item.currency}>{item.currency}-{item.currencyName}</Select.Option>
                       })}
@@ -242,18 +276,19 @@ class NewExpenseApplicationFrom extends Component {
                 </Col>
               </Row>)
             })}
-            {applicationTypeInfo.associateContract && <Row {...rowLayout}>
+            {(applicationTypeInfo.associateContract || (!isNew && model.associateContract)) && <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="关联合同" {...formItemLayout}>
-                  {getFieldDecorator('unitId', {
-                    rules: [{ required: applicationTypeInfo.requireInput, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? this.props.company.baseCurrency : model.currency
+                  {getFieldDecorator('contract', {
+                    rules: [{ required: isNew ? applicationTypeInfo.requireInput : model.requireInput, message: this.$t('common.please.select') }],
+                    initialValue: isNew ? [] : [{ contractNumber: model.contractNumber, contractHeaderId: model.contractHeaderId }]
                   })(
                     <Chooser
                       type="select_contract"
-                      labelKey="name"
+                      labelKey="contractNumber"
                       valueKey="contractHeaderId"
                       single={true}
+                      listExtraParams={contractParams}
                     />
                   )}
                 </FormItem>
@@ -280,7 +315,7 @@ class NewExpenseApplicationFrom extends Component {
                       fileNum={9}
                       uploadHandle={this.handleUpload}
                       defaultFileList={fileList}
-                      defaultOIDs={isNew ? [] : model.attachmentOids}
+                      defaultOIDs={isNew ? [] : model.attachmentOidList}
                     />
                   )}
                 </FormItem>
