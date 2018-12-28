@@ -327,9 +327,12 @@ class MyGLWorkOrderDetail extends Component {
       .delLineData(record.id)
       .then(res => {
         if (res.status === 200) {
-          this.setState({ loading: true });
+          this.setState({
+            loading: true,
+            page: parseInt((this.state.pagination.total-2)/this.state.pageSize)
+          },()=>this.getDocInfoById());
           message.success('删除成功');
-          this.getDocInfoById();
+
         }
       })
       .catch(e => {
@@ -969,9 +972,9 @@ class MyGLWorkOrderDetail extends Component {
       userOid: this.props.user.userOID,
       formOid: docHeadData.formOid,
       documentOid: docHeadData.documentOid,
-      documentCategory: docHeadData.documentType,
+      documentCategory: 801008,
       countersignApproverOIDs: null,
-      documentNumber: header.workOrderNumber,
+      documentNumber: docHeadData.workOrderNumber,
       remark: docHeadData.remark,
       companyId: docHeadData.companyId,
       unitOid: docHeadData.unitOid,

@@ -531,7 +531,7 @@ class ConditionForm extends React.Component {
   };
 
   //添加部门路径/部门
-  handleAddDepPath = (values, remark) => {
+  handleAddDepPath = (values, remark,i) => {
     let condition = this.state.condition;
     let valueOIDs = [];
     let value = [];
@@ -543,11 +543,15 @@ class ConditionForm extends React.Component {
     values.map(item => {
       valueOIDs.push(item.departmentOID);
       value.push(item.path);
-      (remark === 'select_department'||remark === 'default_user_department') && (showValue[item.departmentOID] = item.name)
+      (remark === 'select_department'||remark === 'default_user_department'|| remark === 'default_department_path') && (showValue[item.departmentOID] = item.name)
     });
     condition.map((item, index) => {
       if (item.remark === remark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
+        if(i===index) {
+          valueDetail.value = valueOIDs;
+          valueDetail.valueOIDs && (valueDetail.valueOIDs = valueOIDs);
+        }
         if (valueDetail.value && valueDetail.value.length) {
           valueOIDs.map((oid, oidIndex) => {
             if (remark === 'default_department_path' && valueDetail.valueOIDs.indexOf(oid) === -1) {
@@ -560,7 +564,7 @@ class ConditionForm extends React.Component {
         } else {
           valueDetail = remark === 'default_department_path' ? {value, valueOIDs} : {value: valueOIDs}
         }
-        (remark === 'select_department' || remark === 'default_user_department') && (condition[index].showValue = showValue);
+        (remark === 'select_department' || remark === 'default_user_department'|| remark === 'default_department_path') && (condition[index].showValue = showValue);
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
@@ -1290,7 +1294,7 @@ class ConditionForm extends React.Component {
                                                title={this.$t('common.add')}
                                                onlyDep={true}
                                                onCancel={()=>{this.setState({[`dept${index}`]: false})}}
-                                               onConfirm={values => this.handleAddDepPath(values, item.remark)}/>
+                                               onConfirm={values => this.handleAddDepPath(values, item.remark,index)}/>
                           </a>
                         ) : (
                             item.remark === 'cust_list' ? (
