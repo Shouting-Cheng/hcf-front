@@ -26,7 +26,8 @@ class NewExpenseApplicationFrom extends Component {
       dimensionList: [],
       applicationTypeInfo: {},
       typeId: "",
-      uploadOIDs: []
+      uploadOIDs: [],
+      contractParams: { companyId: props.user.companyId, currency: props.company.baseCurrency, documentType: "PREPAYMENT_REQUISITION" }
     }
   }
 
@@ -149,7 +150,7 @@ class NewExpenseApplicationFrom extends Component {
       },
     };
 
-    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo, fileList, model } = this.state;
+    const { pageLoading, loading, isNew, currencyList, contractParams, dimensionList, applicationTypeInfo, fileList, model } = this.state;
 
     return (
       <div className="new-contract" style={{ marginBottom: 60, marginTop: 10 }}>
@@ -247,13 +248,14 @@ class NewExpenseApplicationFrom extends Component {
                 <FormItem label="关联合同" {...formItemLayout}>
                   {getFieldDecorator('unitId', {
                     rules: [{ required: applicationTypeInfo.requireInput, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? this.props.company.baseCurrency : model.currency
+                    initialValue: []
                   })(
                     <Chooser
                       type="select_contract"
-                      labelKey="name"
+                      labelKey="contractNumber"
                       valueKey="contractHeaderId"
                       single={true}
+                      listExtraParams={contractParams}
                     />
                   )}
                 </FormItem>

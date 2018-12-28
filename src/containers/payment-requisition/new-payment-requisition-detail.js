@@ -826,7 +826,6 @@ class NewPaymentRequisitionDetail extends React.Component {
             size="middle"
           />
         </Card>
-
         <div style={{ marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
           {!(headerData.status === 1001) && (
             <ApproveHistory
@@ -864,7 +863,6 @@ class NewPaymentRequisitionDetail extends React.Component {
       </div>
     );
     //添加付款信息侧滑
-
     return (
       <div style={{ paddingBottom: 100 }} className="pre-payment-common">
         <Spin spinning={false}>
@@ -965,7 +963,7 @@ class NewPaymentRequisitionDetail extends React.Component {
             footer={[
               <Button key="back" onClick={this.onCloseContract}>
                 {this.$t({ id: 'common.back' } /* 返回*/)}
-              </Button>,
+              </Button>
             ]}
             width={1200}
             destroyOnClose={true}
