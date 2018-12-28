@@ -336,7 +336,7 @@ class NewExpenseApplicationFrom extends Component {
               >
                 {isNew ? '下一步' : '确定'}
               </Button>
-              {isNew ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
+              {isNew ? <Button onClick={this.onBack}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
             </div>
           </Form>}
         </Spin>
