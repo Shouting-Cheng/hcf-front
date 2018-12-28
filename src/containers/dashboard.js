@@ -836,7 +836,7 @@ class Dashboard extends React.Component {
                 </TabPane>
                 <TabPane forceRender key="2" tab={`未完成的单据(${doingList.length})`}>
                   <div style={{ height: "100%", overflowY: "auto" }}>
-                    {doingList.map((item, index) => {
+                    {doingList && doingList.map((item, index) => {
                       return (
                         <Card
                           title={<span style={{ fontSize: 14 }}>{item.code}</span>}
