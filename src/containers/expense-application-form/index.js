@@ -52,12 +52,14 @@ class ExpenseApplicationForm extends React.Component {
           ],
           colSpan: 6,
         }, {
-          type: 'list', listType: 'select_authorization_user', options: [], id: 'applicationId',
+          type: 'list', listType: 'select_authorization_user', options: [], id: 'employeeId',
           label: '申请人',
           labelKey: 'userName',
           valueKey: 'userId',
           single: true,
           colSpan: 6,
+          defaultValue: [{ userName: props.user.fullName, userId: props.user.id }],
+          disabled: true
         },
         { type: 'select', id: 'status', label: '状态', options: statusList, colSpan: 6 },
         {
@@ -84,7 +86,7 @@ class ExpenseApplicationForm extends React.Component {
         },
         {
           type: 'input',
-          id: 'remark',
+          id: 'remarks',
           colSpan: 12,
           label: '备注',
         },

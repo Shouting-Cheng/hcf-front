@@ -14,10 +14,10 @@ class NewDimensionGroup extends Component {
   // 提交
   handleSubmit = (e) => {
     const { form, close, dimensionId, model } = this.props;
-    this.setState({ saveLoading: true });
     e.preventDefault();
     form.validateFields((err, values) => {
-      if (!err) {
+      if(!err) {
+        this.setState({ saveLoading: true });
         let data, mess, handelMethods;
         if (model.id) {
           mess = '修改维值组信息成功';
@@ -86,7 +86,7 @@ class NewDimensionGroup extends Component {
           <FormItem {...formItemLayout} label="状态">
             {getFieldDecorator('enabled', {
               valuePropName: 'checked',
-              initialValue: model.enabled ? Boolean(model.enabled) : true,
+              initialValue: model.id ? model.enabled : true,
             })(<Switch />)}
             <span style={{ paddingLeft: "10px" }}>
               {this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}
