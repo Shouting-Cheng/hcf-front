@@ -33,7 +33,7 @@ import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail'
 import ContractDetail from 'containers/contract/my-contract/contract-detail';
 //import ApproveHistory from './approve-history-work-flow';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
@@ -768,21 +768,21 @@ class NewPaymentRequisitionDetail extends React.Component {
             </span>
           </div>
         ) : (
-          headerData.paymentRequisitionNumberDTO.map((item, index) => {
-            return (
-              <div key={index} style={{ display: 'inline-block' }}>
-                {item.currencyCode === 'EUR' ? (
-                  <span>&nbsp;&nbsp;</span>
-                ) : (
-                  <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
-                )}
-                <span className="num-style" style={{ color: 'green' }}>
-                  {item.currencyCode} {this.filterMoney(item.amount)}
-                </span>
-              </div>
-            );
-          })
-        )}
+            headerData.paymentRequisitionNumberDTO.map((item, index) => {
+              return (
+                <div key={index} style={{ display: 'inline-block' }}>
+                  {item.currencyCode === 'EUR' ? (
+                    <span>&nbsp;&nbsp;</span>
+                  ) : (
+                      <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
+                    )}
+                  <span className="num-style" style={{ color: 'green' }}>
+                    {item.currencyCode} {this.filterMoney(item.amount)}
+                  </span>
+                </div>
+              );
+            })
+          )}
         <span>
           &nbsp;&nbsp;&nbsp;&nbsp;{this.$t({ id: 'acp.function.amount' } /* 本币金额：*/)}
           <span className="num-style" style={{ color: 'green' }}>
@@ -803,10 +803,10 @@ class NewPaymentRequisitionDetail extends React.Component {
               {(headerData.status === 1001 ||
                 headerData.status === 1003 ||
                 headerData.status === 1005) && (
-                <Button type="primary" onClick={this.addItem} loading={loading}>
-                  {this.$t({ id: 'acp.add.payment.info' } /* 添加*/)}
-                </Button>
-              )}
+                  <Button type="primary" onClick={this.addItem} loading={loading}>
+                    {this.$t({ id: 'acp.add.payment.info' } /* 添加*/)}
+                  </Button>
+                )}
             </div>
             <div style={{ float: 'right' }}>
               <Breadcrumb style={{ marginBottom: '10px' }}>
@@ -877,28 +877,28 @@ class NewPaymentRequisitionDetail extends React.Component {
           {this.props.params && this.props.params.refund ? (
             ''
           ) : (
-            <Affix
-              offsetBottom={0}
-              style={{
-                position: 'fixed',
-                bottom: 0,
-                marginLeft: '-35px',
-                width: '100%',
-                height: '50px',
-                boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-                background: '#fff',
-                lineHeight: '50px',
-                zIndex: 1,
-              }}
-            >
-              {headerData.status &&
-              (headerData.status === 1001 ||
-                headerData.status === 1003 ||
-                headerData.status === 1005)
-                ? newState
-                : otherState}
-            </Affix>
-          )}
+              <Affix
+                offsetBottom={0}
+                style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  marginLeft: '-35px',
+                  width: '100%',
+                  height: '50px',
+                  boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                  background: '#fff',
+                  lineHeight: '50px',
+                  zIndex: 1,
+                }}
+              >
+                {headerData.status &&
+                  (headerData.status === 1001 ||
+                    headerData.status === 1003 ||
+                    headerData.status === 1005)
+                  ? newState
+                  : otherState}
+              </Affix>
+            )}
           <SlideFrame
             title={slideFrameTitle}
             show={addShowSlideFrame}

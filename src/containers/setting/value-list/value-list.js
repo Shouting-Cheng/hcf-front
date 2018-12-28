@@ -226,7 +226,7 @@ class ValueList extends React.Component {
 
         <div className="table-header">
           {status === 'SYSTEM' ? <div className="table-header-title">
-            {/*汉得融晶系统正常工作所必要的值列表*/}
+            {/*融智汇系统正常工作所必要的值列表*/}
             {messages('value.list.system.notice')}
           </div> : null}
           {status === 'CUSTOM' ?

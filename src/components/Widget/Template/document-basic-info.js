@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Spin, Modal, Popover } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import moment from 'moment';
 import config from 'config';
 import ImageViewer from 'widget/image-viewer';
 
-class DocumentBasicInfo extends React.Component {
+class DocumentBasicInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,16 +12,22 @@ class DocumentBasicInfo extends React.Component {
       detailLoading: true,
       //图片附件预览
       previewVisible: false,
-      previewImage: '',
+      imageIndex: 0,
+      imageList: []
+
     };
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.businessCode) {
       this.setState({ detailLoading: false });
     }
-    this.setState({
-      data: nextProps.params,
-    });
+
+    if (nextProps.params.attachments && nextProps.params.attachments.length) {
+      let imageList = nextProps.params.attachments.filter(o => this.isImage(o));
+      this.setState({ imageList });
+    }
+
+    this.setState({ data: nextProps.params });
   }
   renderList = (title, value, linkId) => {
     return (
@@ -65,11 +71,14 @@ class DocumentBasicInfo extends React.Component {
   /**
    * 点击链接 图片预览
    */
-  onPreviewClick = (e, src) => {
+  onPreviewClick = (e, file) => {
     e.preventDefault();
+
+    let { imageList } = this.state;
+
     this.setState({
       previewVisible: true,
-      previewImage: src,
+      imageIndex: imageList.findIndex(o => o.attachmentOID == file.attachmentOID)
     });
   };
 
@@ -88,10 +97,10 @@ class DocumentBasicInfo extends React.Component {
       previewVisible: false,
     });
   };
+
   render() {
-    const { data, detailLoading } = this.state;
-    //图片预览
-    const { previewImage, previewVisible } = this.state;
+    const { data, detailLoading, imageList, previewVisible, imageIndex } = this.state;
+
     return (
       <Spin spinning={detailLoading}>
         <div style={{ marginBottom: '14px', marginTop: 16 }} className="header-title">
@@ -231,7 +240,7 @@ class DocumentBasicInfo extends React.Component {
                                 {item.fileName}
                               </a>
                             ) : (
-                                <a onClick={e => this.onPreviewClick(e, item.thumbnailUrl)}>
+                                <a onClick={e => this.onPreviewClick(e, item)}>
                                   {item.fileName}
                                 </a>
                               )}
@@ -265,12 +274,13 @@ class DocumentBasicInfo extends React.Component {
             </div>
           </Col>
         </Row>
-        <ImageViewer
+        {(imageList && imageList.length) && <ImageViewer
+          valueKey="attachmentOID"
+          defaultIndex={imageIndex}
           visible={previewVisible}
-          url={previewImage}
-          type={true}
-          onCancel={() => this.setState({ previewVisible: false })} />
-
+          attachments={imageList}
+          urlKey="thumbnailUrl"
+          onCancel={() => this.setState({ previewVisible: false })} />}
       </Spin>
     );
   }

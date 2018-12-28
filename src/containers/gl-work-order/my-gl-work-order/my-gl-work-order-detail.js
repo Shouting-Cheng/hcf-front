@@ -22,7 +22,7 @@ const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';
 import moment from 'moment';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import Chooser from 'widget/chooser';
@@ -329,8 +329,8 @@ class MyGLWorkOrderDetail extends Component {
         if (res.status === 200) {
           this.setState({
             loading: true,
-            page: parseInt((this.state.pagination.total-2)/this.state.pageSize)
-          },()=>this.getDocInfoById());
+            page: parseInt((this.state.pagination.total - 2) / this.state.pageSize)
+          }, () => this.getDocInfoById());
           message.success('删除成功');
 
         }
@@ -1139,7 +1139,7 @@ class MyGLWorkOrderDetail extends Component {
     } else if (docHeadData.status === 1002) {
       status = (
         <h3 className="header-title">
-          <Button style={{ marginBottom: '14px',float:'right' }} loading={operationLoading} type="primary" onClick={this.back}>
+          <Button style={{ marginBottom: '14px', float: 'right' }} loading={operationLoading} type="primary" onClick={this.back}>
             撤 回
           </Button>
         </h3>

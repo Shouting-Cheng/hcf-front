@@ -23,7 +23,7 @@ const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';
 import moment from 'moment';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import glWorkOrderCheckService from 'containers/gl-work-order/gl-work-order-approval/gl-work-order-approval.service';
@@ -300,7 +300,7 @@ class GLWorkOrderCheckDetail extends Component {
       });
       this.setState({
         columns,
-        tableWidth: dimensionData.length*130+1000
+        tableWidth: dimensionData.length * 130 + 1000
       });
     }
   };
@@ -324,7 +324,7 @@ class GLWorkOrderCheckDetail extends Component {
   /**
    * 审批通过
    */
-  onPassClick = (text,value) => {
+  onPassClick = (text, value) => {
     this.setState({ operateLoading: true });
     let params = {
       approvalTxt: text,
@@ -336,30 +336,30 @@ class GLWorkOrderCheckDetail extends Component {
       ],
       countersignApproverOIDs: [],
     };
-    this.setState({passLoading:true,rejectLoading:true});
+    this.setState({ passLoading: true, rejectLoading: true });
 
     glWorkOrderCheckService.pass(params).then(res => {
-        if (res.status === 200) {
-          message.success('操作成功');
-          this.setState({passLoading: false, rejectLoading: false });
+      if (res.status === 200) {
+        message.success('操作成功');
+        this.setState({ passLoading: false, rejectLoading: false });
 
-          this.setState({ operateLoading: false });
-          this.onBack();
-        }
-      })
+        this.setState({ operateLoading: false });
+        this.onBack();
+      }
+    })
       .catch(e => {
         console.log(`审批通过失败：${e}`);
         if (e.response) {
           message.error(`操作失败：${e.response.data.message}`);
         }
-        this.setState({passLoading: false, rejectLoading: false });
+        this.setState({ passLoading: false, rejectLoading: false });
         this.setState({ operateLoading: false });
       });
   };
   /**
    * 审批驳回
    */
-  onRejectClick = (text,value) => {
+  onRejectClick = (text, value) => {
     this.setState({ operateLoading: true });
     let params = {
       approvalTxt: text,
@@ -396,7 +396,7 @@ class GLWorkOrderCheckDetail extends Component {
     //头行数据
     const { docHeadData } = this.state;
     //审批历史
-    const { approveHistory, historyLoading , passLoading, rejectLoading} = this.state;
+    const { approveHistory, historyLoading, passLoading, rejectLoading } = this.state;
     //表格
     let { columns, loading, pagination, data, tableWidth } = this.state;
     //审批
@@ -408,7 +408,8 @@ class GLWorkOrderCheckDetail extends Component {
       <div className="gl-work-order-detail" style={{
         background: 'white',
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
-        marginBottom: 15, padding: '0px 15px 20px 15px'}}>
+        marginBottom: 15, padding: '0px 15px 20px 15px'
+      }}>
         <div style={{
           padding: '24px 32px',
           borderRadius: 4,
@@ -426,7 +427,7 @@ class GLWorkOrderCheckDetail extends Component {
         </div>
         <div className="tab-container">
           <h3 className="sub-header-title" style={{
-            height:40,
+            height: 40,
             paddingLeft: 20,
             marginLeft: -20,
             marginRight: -20
@@ -443,25 +444,25 @@ class GLWorkOrderCheckDetail extends Component {
             scroll={{ x: tableWidth }}
           />
         </div>
-        <div style={{ paddingBottom: 10,marginBottom:60 }}>
+        <div style={{ paddingBottom: 10, marginBottom: 60 }}>
           <ApproveHistory loading={historyLoading} infoData={approveHistory} />
         </div>
         {(docStatus &&
           docStatus === '1002' && (
             <Affix offsetBottom={0} className="bottom-bar-approve">
               <ApproveBar
-                style={{paddingLeft: 20}}
+                style={{ paddingLeft: 20 }}
                 passLoading={passLoading}
                 backUrl={'/approval-management/gl-work-order-approval'}
                 rejectLoading={rejectLoading}
                 handleApprovePass={this.onPassClick}
-              handleApproveReject={this.onRejectClick} />
+                handleApproveReject={this.onRejectClick} />
             </Affix>
           )) ||
           (docStatus &&
             docStatus === '1004' && (
               <Affix className="bottom-bar bottom-bar-approve" offsetBottom="0" style={{
-                width:'124%',
+                width: '124%',
                 height: '50px',
                 boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
                 background: '#fff',
@@ -470,7 +471,7 @@ class GLWorkOrderCheckDetail extends Component {
 
               }}>
                 <Row gutter={12} type="flex" justify="start">
-                  <Col span={3} style={{marginLeft: 38}}>
+                  <Col span={3} style={{ marginLeft: 38 }}>
                     <Button onClick={this.onBack}> {this.$t({ id: "common.back" }/*返回*/)}</Button>
                   </Col>
                 </Row>
