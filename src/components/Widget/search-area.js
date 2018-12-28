@@ -949,7 +949,7 @@ class SearchArea extends React.Component {
   }
 
   getDefaultValue = item => {
-    if (item.type === 'select' && item.defaultValue && item.defaultValue.key)
+    if (item.type === 'select' && item.defaultValue &&!item.entity &&item.defaultValue.key)
       return item.defaultValue.key;
     else
       return item.defaultValue;
