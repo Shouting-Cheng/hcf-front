@@ -707,13 +707,9 @@ class NewPaymentRequisitionDetail extends React.Component {
         } else {
           this.setState({ dLoading: false, loading: false, pageLoading: false });
           message.error(
-<<<<<<< HEAD
             this.$t('common.operate.filed' /*操作失败*/) +
             ',' +
             res.data.failReason[entityOid]
-=======
-            this.$t('common.operate.filed' /*操作失败*/) + ',' + res.data.failReason[entityOID]
->>>>>>> develop
           );
         }
       })
