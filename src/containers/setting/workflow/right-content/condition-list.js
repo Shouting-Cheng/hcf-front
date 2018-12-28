@@ -162,10 +162,17 @@ class NodeConditionList extends React.Component {
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
-          if (m.remark === 'select_department' || m.remark === 'default_user_department' ||m.remark === 'default_department_path') { //部门
+          if (m.remark === 'select_department' || m.remark === 'default_user_department' ) { //部门
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
-              departmentOID.push(m.remark === 'default_department_path' ? oid.replace('|','') : oid )
+              departmentOID.push( oid )
             })
+          }
+          if(m.remark === 'default_department_path'){
+            if(m.valuesOIDs){
+              JSON.parse(m.valuesOIDs).value.map(oid => {departmentOID.push( oid )})
+            }else {
+              m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {departmentOID.push( oid.replace('|',""))})
+            }
           }
         });
       })
@@ -601,7 +608,7 @@ class NodeConditionList extends React.Component {
           item.showValue = item.showValue || {};
           this.state.departmentList.map(department => {
             if (department.departmentOID === depName.replace('|',"")) {
-              item.showValue[depName.replace('|',"")] = department.name
+              item.showValue[depName.replace('|',"")] = department.name.replace('|',"")
             }
           });
           let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
