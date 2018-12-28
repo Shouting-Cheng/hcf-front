@@ -63,25 +63,30 @@ class Dfinition extends Component {
           title: '序号',
           dataIndex: 'dimensionSequence',
           align: 'center',
+          width:15,
         },
         {
           title: '维度代码',
           dataIndex: 'dimensionCode',
           align: 'center',
+          width:25,
         },
         {
           title: '维度名称',
           dataIndex: 'dimensionName',
           align: 'center',
+          width:25,
         },
         {
           title: '账套',
-          dataIndex: 'setOfBooksId',
+          dataIndex: 'setOfBooksName',
           align: 'center',
+          width:25,
         },
         {
           title: '状态',
           dataIndex: 'enabled',
+          width:15,
           align: 'center',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
@@ -91,6 +96,7 @@ class Dfinition extends Component {
           title: '操作',
           dataIndex: 'id',
           align: 'center',
+          width:15,
           render: (value, record, index) => {
             return (
               <span>
@@ -158,32 +164,19 @@ class Dfinition extends Component {
   }
   // 搜索框事件
   handleEvent = (event, value) => {
-    switch(event){
-      case 'setOfBooksId':{
-        this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
-          this.table.search(this.state.searchParams);
-        });
-      break;
-    }
-    case 'enabled':{
+      if (event == "setOfBooksId") {
+      this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
+        this.table.search(this.state.searchParams);
+      });
+    } else if (event == "enabled") {
       this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
         this.table.search(this.state.searchParams);
       });
-      break;
     }
   }
-}
 
-  //   if (event == "setOfBooksId") {
-  //     this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
-  //       this.table.search(this.state.searchParams);
-  //     });
-  //   } else if (event == "enabled") {
-  //     this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
-  //       this.table.search(this.state.searchParams);
-  //     });
-  //   }
-  // }
+
+
 
   //清除
   clear = (values) => {
@@ -207,12 +200,12 @@ class Dfinition extends Component {
     })
   }
   render() {
-    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options} = this.state;
+    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options,setOfBooksName} = this.state;
     return (
       <div>
         <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} eventHandle={this.handleEvent}/>
         <Button
-          style={{ margin: '20px 0' }}
+          style={{ margin: '15px 0' }}
           className="create-btn"
           type="primary"
           onClick={this.createDimension}
@@ -230,7 +223,8 @@ class Dfinition extends Component {
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-          <NewBuilt setOfBooks={ searchForm[0].options } params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}/>
+          <NewBuilt setOfBooks={ searchForm[0].options } params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}
+          />
         </SlideFrame>
       </div>
     );
