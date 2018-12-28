@@ -34,6 +34,7 @@ class NewDimensionGroup extends Component {
           close && close(true);
         }).catch((err) => {
           message.error(err.response.data.message);
+          this.setState({ saveLoading: false });
         })
       }
     })
