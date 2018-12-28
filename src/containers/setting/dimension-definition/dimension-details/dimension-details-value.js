@@ -71,11 +71,9 @@ class DimensionDeValue extends Component {
          //列表所需数据
          dataArr: [],
          //当前账套Id
-         setOfBooksId: 1,
+         setOfBooksId: null,
          //维度id
-        //  dimensionId: this.props.match.params.dimensionId,
-        //  dimensionId: '1077473797370626050',
-         dimensionId: '1078181910153961473',
+         dimensionId: this.props.dimensionId,
          //被选中的维值数据的id
          selectedRowKeys: [],
          isLoading: false,
@@ -95,7 +93,7 @@ class DimensionDeValue extends Component {
          //公司模态框样式
          selectorItem: {
             title: "批量分配公司",
-            url: `${config.baseUrl}/api/refactor/companies/user/setOfBooks`,
+            url: `${config.baseUrl}/api/dimension/item/assign/company/filter/by/setOfBooksId`,
             searchForm: [
               { type: 'input', id: 'companyCode', label: '公司代码' },
               { type: 'input', id: 'name', label: '公司名称' },
@@ -122,13 +120,17 @@ class DimensionDeValue extends Component {
 
     componentDidMount = () => {
        this.getDetailsValue();
-       console.log(this.props);
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({setOfBooksId:nextProps.setOfBooksId});
     }
     //获取维值数据
     getDetailsValue = () => {
       let { searchForm, page, size, pagination, dimensionId } = this.state;
       this.setState({isLoading: true})
-      dimensionValueService.getDimensionList({ ...searchForm, page, size, dimensionId })
+      dimensionValueService
+        .getDimensionList({ ...searchForm, page, size, dimensionId })
         .then(res => {
             const temp = [];
             res.data.forEach(item => {
@@ -148,7 +150,6 @@ class DimensionDeValue extends Component {
             });
         })
         .catch(err => {
-           console.log(err);
            message.error('失败:'+err.response.data.message);
            this.setState({isLoading: false});
         })
@@ -210,9 +211,10 @@ class DimensionDeValue extends Component {
 
     //分配公司--跳转
     onCompanyClick = (e,record) => {
+      const {dimensionId,setOfBooksId} = this.state;
       this.props.dispatch(
         routerRedux.replace({
-          pathname: `/admin-setting/dimension-definition/batch-company/${record.id}`,
+          pathname: `/admin-setting/dimension-definition/batch-company/${setOfBooksId}/${dimensionId}/${record.id}`,
         })
       );
     }
@@ -229,7 +231,11 @@ class DimensionDeValue extends Component {
       this.setState({companyVisible: true});
     }
     onCompanyCancel = () => {
-      this.setState({companyVisible: false});
+      this.setState({
+        companyVisible: false,
+        selectedRowKeys: [],
+        ableToAllocate: true
+      });
     }
     onCompanyOk = value => {
         const params = [];
@@ -237,7 +243,7 @@ class DimensionDeValue extends Component {
         value.result.map( item => {
             params.push({
               companyId: item.id,
-              companyCode: item.code,
+              companyCode: item.companyCode,
               enabled: item.enabled,
             });
         });
@@ -246,7 +252,7 @@ class DimensionDeValue extends Component {
            selectedRowKeys.forEach(selectedId => {
               temp.push({...company,dimensionItemId: selectedId})
            });
-        })
+        });
         dimensionValueService
           .addNewCompanyData(temp)
           .then(res => {
@@ -285,10 +291,9 @@ class DimensionDeValue extends Component {
        this.setState({importerVisible: true});
     }
     //确认导入
-    onConfirmImport = transactionID => {
-        console.log(transactionID);
+    onConfirmImport = transactionId => {
         dimensionValueService
-           .confirmImporter(transactionID)
+           .confirmImporter(transactionId)
            .then(res => {
               this.setState({importerVisible: false});
               this.getDetailsValue();
@@ -307,11 +312,9 @@ class DimensionDeValue extends Component {
     confirmExport = result => {
       let hide = message.loading('正在生成文件，请等待......');
       const {dimensionId} = this.state;
-      console.log(dimensionId);
       dimensionValueService
         .exportDimensionValue(result,dimensionId)
         .then(res => {
-           console.log(res);
            if (res.status === 200) {
             message.success('导出成功');
             let fileName = res.headers['content-disposition'].split('filename=')[1];
@@ -321,7 +324,6 @@ class DimensionDeValue extends Component {
           }
         })
         .catch(err => {
-           console.log(err);
           //  message.error(err.response.data.message);
            message.error('下载失败，请重试!');
            hide();
@@ -341,7 +343,6 @@ class DimensionDeValue extends Component {
         modelData,
         pagination,
         dataArr,
-        searchForm,
         companyVisible,
         selectorItem,
         importerVisible,
@@ -413,8 +414,9 @@ class DimensionDeValue extends Component {
               onCancel={this.onCompanyCancel}
               onOk={this.onCompanyOk}
               selectorItem={selectorItem}
-              extraParams={{setOfBooksId,page: 0,size: 10}}
+              extraParams={{setOfBooksId}}
               single={false}
+              showSelectTotal={true}
             />
             {/*导入 */}
           <ImporterNew

@@ -63,18 +63,30 @@ class ValueForm extends Component {
   handleSubmit = e => {
       e.preventDefault();
       const {visibleUserScope, departmentOrUserGroupIdList,dimensionId} = this.state;
+      const listLen = departmentOrUserGroupIdList.length;
       this.props.form.validateFields((err,value) => {
          if(err) {
            this.setState({useOrNot: true});
            return
          }
-          //维值代码不允许重复
+
          this.setState({saveLoading: true});
          let temp = {...value,dimensionId,visibleUserScope:parseFloat(visibleUserScope,10)};
          delete temp['departmentOrUserGroupIdList'];
          let params = {
            dimensionItem: temp,
            departmentOrUserGroupIdList: departmentOrUserGroupIdList
+         }
+         //校验权限
+         if(params['dimensionItem']['visibleUserScope'] === 1002 && listLen == 0) {
+            message.error('请选择至少一个关于部门的权限');
+            this.setState({saveLoading: false});
+            return;
+         }
+         if(params['dimensionItem']['visibleUserScope'] === 1003 && listLen == 0) {
+            message.error('请选择至少一个关于人员的权限');
+            this.setState({saveLoading: false});
+            return;
          }
          if(!this.props.params.id) {
             dimensionValueService.addNewDimensionValue(params)
@@ -90,7 +102,7 @@ class ValueForm extends Component {
                   this.props.close();
                 });
               });
-         } else {
+          } else {
             params['dimensionItem']['id'] = this.props.params.id;
             dimensionValueService.upDateDimensionValue(params)
               .then(res => {
@@ -105,7 +117,7 @@ class ValueForm extends Component {
                   this.props.close();
                 });
               })
-         }
+          }
       })
   }
 
@@ -133,9 +145,7 @@ class ValueForm extends Component {
       const {
         saveLoading,
         useOrNot,
-        permissions,
-        departmentOrUserGroupIdList,
-        visibleUserScope} = this.state;
+        permissions} = this.state;
       const {getFieldProps,getFieldDecorator} = this.props.form;
       const formItemLayout = {
         labelCol: { span: 6 },
@@ -188,7 +198,7 @@ class ValueForm extends Component {
                 {...formItemLayout}
                 label='状态'
             >
-                 {getFieldDecorator('enabled', {
+                {getFieldDecorator('enabled', {
                   initialValue: this.props.params.id ? this.props.params.enabled : true,
                   valuePropName: 'checked',
                 })(<Switch />)}
@@ -206,7 +216,6 @@ class ValueForm extends Component {
               })
                   (
                   <PermissionsAllocation
-                    // params={{setOfBooksId: nowType.setOfBooksId}}
                     onChange={this.onPermissionChange}>
                   </PermissionsAllocation>
                   )}
