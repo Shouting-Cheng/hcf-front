@@ -116,7 +116,7 @@ class DistributionDimension extends Component {
     this.setState({ loading: true });
     service.getDimensionItem(params).then((res) => {
       let total = Number(res.headers['x-total-count']);
-      this.setState({ data: res.data, loading: false, pagination: { ...pagination, total } });
+      this.setState({ data: res.data, loading: false, pagination: { ...pagination, total }, selectedKey: [] });
     })
   };
 
@@ -218,10 +218,11 @@ class DistributionDimension extends Component {
 
   render() {
     const {
-      infoList, infoData, columns, data, pagination, visible, loading, dimensionItemGroupId, confirmLoading
+      infoList, infoData, columns, data, pagination, visible, loading, dimensionItemGroupId, confirmLoading, selectedKey
     } = this.state;
     const rowSelection = {
       onChange: this.selectChange,
+      selectedRowKeys: selectedKey,
     };
 
     return (
