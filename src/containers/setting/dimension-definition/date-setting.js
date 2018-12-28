@@ -24,7 +24,7 @@ class NewBuilt extends Component {
   // 生命周期
   componentDidMount() {
     this.getNumber();
-    this.getSetOfBookList();
+    // this.getSetOfBookList();
   }
   // 获取序号
   getNumber = ()=>{
@@ -94,7 +94,7 @@ class NewBuilt extends Component {
 
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { params,setOfBooks } = this.props;
+    const { params,setOfBooks,set} = this.props;
     const { saveLoading, paramsTypeList, section } = this.state;
     const formItemLayout = {
       labelCol: {
@@ -109,7 +109,7 @@ class NewBuilt extends Component {
         <Form onSubmit={this.handleSubmit}>
         <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
-            {getFieldDecorator('setOfBooksId', {
+            {getFieldDecorator('setOfBooksName', {
               ///initialValue:,
               rules: [
                 {
@@ -117,7 +117,7 @@ class NewBuilt extends Component {
 
                 },
               ],
-              initialValue:this.props.set||"",
+              initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksName,
             })(
               // <Input disabled />
               <Select disabled>
