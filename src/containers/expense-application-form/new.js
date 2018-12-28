@@ -5,7 +5,6 @@ import { routerRedux } from "dva/router"
 import Chooser from "widget/chooser"
 import Upload from 'widget/upload';
 
-
 import service from "./service"
 import config from "config"
 
@@ -13,13 +12,14 @@ const FormItem = Form.Item;
 
 import moment from "moment"
 
+import axios from "axios"
 
 class NewExpenseApplicationFrom extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      pageLoading: false,
+      pageLoading: true,
       isNew: true,
       model: {},
       currencyList: [],
@@ -31,14 +31,19 @@ class NewExpenseApplicationFrom extends Component {
   }
 
   componentDidMount() {
+
     if (this.props.match.params.id) {
-      this.setState({ isNew: false });
+      service.getEditInfo(this.props.match.params.id).then(res => {
+        this.setState({ isNew: false, model: res.data, pageLoading: false });
+      }).catch(err => {
+        message.error(err.response.data.message);
+      });
     }
 
     //获取币种列表
     service.getCurrencyList().then(res => {
       this.setState({ currencyList: res.data });
-    })
+    });
 
     if (this.props.match.params.typeId) {
       this.getApplicationTypeInfo(this.props.match.params.typeId);
@@ -48,19 +53,14 @@ class NewExpenseApplicationFrom extends Component {
 
   getApplicationTypeInfo = (typeId) => {
     //获取申请单类型
-    service.getApplicationTypeById(typeId).then(res => {
-      this.setState({ applicationTypeInfo: res.data.applicationType });
-    }).catch(err => {
-      message.error(err.response.data.message);
-    });
-
+    const getApplicationTypeById = service.getApplicationTypeById(typeId);
     //获取维度
-    service.getDimension(this.props.match.params.typeId).then(res => {
-      this.setState({ dimensionList: res.data });
+    const getDimension = service.getDimension(this.props.match.params.typeId);
+    Promise.all([getApplicationTypeById, getDimension]).then(res => {
+      this.setState({ applicationTypeInfo: res[0].data.applicationType, dimensionList: res[1].data, pageLoading: false });
     }).catch(err => {
-      message.error(err.response.data.message);
-    });
-
+      message.error("请求失败，请稍后重试...");
+    })
 
     this.setState({ typeId });
   }
@@ -87,22 +87,43 @@ class NewExpenseApplicationFrom extends Component {
     this.props.form.validateFields((err, values) => {
       if (err) return;
 
-      let { typeId, uploadOIDs } = this.state;
+      let { typeId, uploadOIDs, isNew, model } = this.state;
 
-      values = {
-        typeId,
-        employeeId: this.props.user.id,
-        remarks: values.remarks,
-        currencyCode: values.currencyCode,
-        companyId: values.company[0].id,
-        departmentId: values.department[0].departmentId,
-        dimensions: [],
-        attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
-        requisitionDate: moment().format()
-      };
+      if (isNew) {
+        values = {
+          typeId,
+          employeeId: this.props.user.id,
+          remarks: values.remarks,
+          currencyCode: values.currencyCode,
+          companyId: values.company[0].id,
+          departmentId: values.department[0].departmentId,
+          dimensions: [],
+          attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
+          requisitionDate: moment().format()
+        };
+      } else {
+        values = {
+          ...model,
+          id: model.id,
+          typeId: model.typeId,
+          employeeId: this.props.user.id,
+          remarks: values.remarks,
+          currencyCode: values.currencyCode,
+          companyId: values.company[0].id,
+          departmentId: values.department[0].departmentId,
+          dimensions: [],
+          attachmentOid: uploadOIDs.length ? uploadOIDs[0] : null,
+          requisitionDate: model.requisitionDate,
+          versionNumber: model.versionNumber
+        };
+      }
 
-      service.addExpenseApplictionForm(values).then(res => {
-        message.success("新增成功！");
+      let method = service.addExpenseApplictionForm;
+      if (!isNew) {
+        method = service.updateHeaderData;
+      }
+      method(values).then(res => {
+        message.success(isNew ? "新增成功！" : "编辑成功！");
         this.onBack();
       }).catch(err => {
         message.error(err.response.data.message);
@@ -128,12 +149,12 @@ class NewExpenseApplicationFrom extends Component {
       },
     };
 
-    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo, fileList } = this.state;
+    const { pageLoading, loading, isNew, currencyList, dimensionList, applicationTypeInfo, fileList, model } = this.state;
 
     return (
       <div className="new-contract" style={{ marginBottom: 60, marginTop: 10 }}>
         <Spin spinning={pageLoading}>
-          <Form onSubmit={this.handleSave}>
+          {!pageLoading && <Form onSubmit={this.handleSave}>
             <Row {...rowLayout}>
               <Col span={10}>
                 <FormItem label="申请人" {...formItemLayout}>
@@ -149,9 +170,8 @@ class NewExpenseApplicationFrom extends Component {
                 <FormItem label="公司" {...formItemLayout}>
                   {getFieldDecorator('company', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew
-                      ? [{ id: this.props.user.companyId, name: this.props.user.companyName }]
-                      : model.id ? [{ id: model.companyId, name: model.companyName }] : [],
+                    initialValue: isNew ? [{ id: this.props.user.companyId, name: this.props.user.companyName }]
+                      : [{ id: model.companyId, name: model.companyName }],
                   })(
                     <Chooser
                       type="company"
@@ -172,11 +192,10 @@ class NewExpenseApplicationFrom extends Component {
                     initialValue: isNew ? [{
                       departmentId: this.props.user.departmentID,
                       path: this.props.user.departmentName,
+                    }] : [{
+                      departmentId: model.departmentId,
+                      path: model.departmentName,
                     }]
-                      : model.id ? [{
-                        departmentId: model.unitId,
-                        path: model.path,
-                      }] : []
                   })(
                     <Chooser
                       type="department_document"
@@ -194,7 +213,7 @@ class NewExpenseApplicationFrom extends Component {
                 <FormItem label="币种" {...formItemLayout}>
                   {getFieldDecorator('currencyCode', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? this.props.company.baseCurrency : model.currency
+                    initialValue: isNew ? this.props.company.baseCurrency : model.currencyCode
                   })(
                     <Select>
                       {currencyList.map(item => {
@@ -288,7 +307,7 @@ class NewExpenseApplicationFrom extends Component {
               </Button>
               {this.props.match.params.id === '0' ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
             </div>
-          </Form>
+          </Form>}
         </Spin>
       </div>
     )

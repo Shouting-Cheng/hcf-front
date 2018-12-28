@@ -6,9 +6,9 @@ import { routerRedux } from 'dva/router';
 
 import service from "./service"
 
-const confirm = Modal.confirm;
-
 import Common from "./detail-common"
+
+const confirm = Modal.confirm;
 
 class ExpenseApplicationDetail extends React.Component {
   constructor(props) {

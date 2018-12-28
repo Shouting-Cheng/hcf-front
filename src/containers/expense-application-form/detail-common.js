@@ -59,7 +59,7 @@ class PrePaymentCommon extends React.Component {
         align: "center",
         render: (value, record) =>
           (<span>
-            <a onClick={() => this.edit(record)}>编辑</a>
+            <a onClick={() => this.editItem(record)}>编辑</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteLine(record)}>删除</a>
           </span>)
@@ -160,12 +160,12 @@ class PrePaymentCommon extends React.Component {
 
   //侧滑
   showSlide = flag => {
-    this.setState({ showSlideFrame: flag, flag: flag });
+    this.setState({ showSlideFrame: flag, record: {} });
   };
 
   //关闭侧滑
   handleCloseSlide = flag => {
-    this.setState({ showSlideFrame: false }, () => {
+    this.setState({ showSlideFrame: false, record: {} }, () => {
       if (flag) {
         this.getLineInfo();
       }
@@ -175,7 +175,7 @@ class PrePaymentCommon extends React.Component {
   edit = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/pre-payment/my-pre-payment/edit-pre-payment/${this.props.id}/${0}/${0}`,
+        pathname: `/expense-application/edit-expense-application/` + this.props.headerData.id,
       })
     );
   };
@@ -192,15 +192,16 @@ class PrePaymentCommon extends React.Component {
 
   };
 
-  //添加预付款行信息
+  //添加行信息
   addItem = () => {
     this.setState({ showSlideFrame: true, slideFrameTitle: "新建申请单行" });
   };
 
-  //编辑预付款行信息
-  editItem = (e, record) => {
-    e.preventDefault();
-
+  //编辑行信息
+  editItem = (record) => {
+    this.setState({ record }, () => {
+      this.setState({ showSlideFrame: true, slideFrameTitle: "编辑申请单行" });
+    });
   };
   //删除预付款行信息
   deleteItem = (e, record) => {
@@ -352,7 +353,7 @@ class PrePaymentCommon extends React.Component {
   }
 
   render() {
-    const { lineInfo, columns, lineLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
+    const { lineInfo, columns, record, lineLoading, pagination, slideFrameTitle, showSlideFrame, headerInfo, historyLoading, approveHistory, backLoadding } = this.state;
     const { headerData } = this.props;
 
     /**根据单据状态确定该显示什么按钮 */
@@ -448,6 +449,7 @@ class PrePaymentCommon extends React.Component {
             close={this.handleCloseSlide}
             params={{}}
             headerData={this.props.headerData}
+            lineId={record.id}
           />
         </SlideFrame>
       </div>
