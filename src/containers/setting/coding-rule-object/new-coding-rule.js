@@ -112,7 +112,7 @@ class NewCodingRule extends React.Component {
               initialValue: false,
               valuePropName: 'checked'
             })(
-              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} disabled />
+              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
               )}
           </FormItem>
           <FormItem wrapperCol={{ offset: 7 }}>
