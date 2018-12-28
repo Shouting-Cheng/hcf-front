@@ -1,20 +1,18 @@
 :global {
-  .params-setting {
-    .create-btn {
-      margin: 20px 0;
+        .params-setting {
+            .create-btn {
+                margin: 20px 0;
+            }
+        }
+        .footer-button{
+          width: 350px;
+          height: 100px;
+          margin: 100px 330px;
+          .btn{
+            margin:0px 20px;
+            // padding: 0 40px;
+            border-radius: 8px;
+          }
+        }
+
     }
-  }
-  .footer-button {
-    width: 350px;
-    height: 100px;
-    margin: 100px 330px;
-    .btn {
-      margin: 0px 20px; // padding: 0 40px;
-      border-radius: 8px;
-    }
-  }
-  a {
-    font-size: 15px;
-    color: black;
-  }
-}
