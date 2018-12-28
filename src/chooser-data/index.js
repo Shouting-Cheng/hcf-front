@@ -28,8 +28,6 @@ const formatMoney = (number, decimals = 2, isString = false) => {
     s[1] += new Array(prec - s[1].length + 1).join('0');
   }
 
-  //console.log(s.join(dec));
-
   if (isString === true) {
     return s.join(dec);
   } else {

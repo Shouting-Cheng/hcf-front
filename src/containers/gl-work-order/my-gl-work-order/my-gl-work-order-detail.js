@@ -327,9 +327,12 @@ class MyGLWorkOrderDetail extends Component {
       .delLineData(record.id)
       .then(res => {
         if (res.status === 200) {
-          this.setState({ loading: true });
+          this.setState({
+            loading: true,
+            page: parseInt((this.state.pagination.total - 2) / this.state.pageSize)
+          }, () => this.getDocInfoById());
           message.success('删除成功');
-          this.getDocInfoById();
+
         }
       })
       .catch(e => {
@@ -956,13 +959,30 @@ class MyGLWorkOrderDetail extends Component {
       return;
     }
     let { docHeadData } = this.state;
+    /*let params = {
+      applicantOID: docHeadData.applicationOid,
+      userOID: docHeadData.empOid,
+      formOID: docHeadData.formOid,
+      entityOID: docHeadData.documentOid,
+      entityType: 801008,
+      countersignApproverOIDs: [],
+    };*/
     let params = {
       applicantOid: docHeadData.applicationOid,
-      userOid: docHeadData.empOid,
+      userOid: this.props.user.userOid,
       formOid: docHeadData.formOid,
-      entityOid: docHeadData.documentOid,
-      entityType: 801008,
-      countersignApproverOids: [],
+      documentOid: docHeadData.documentOid,
+      documentCategory: 801008,
+      countersignApproverOIDs: null,
+      documentNumber: docHeadData.workOrderNumber,
+      remark: docHeadData.remark,
+      companyId: docHeadData.companyId,
+      unitOid: docHeadData.unitOid,
+      amount: docHeadData.amount,
+      currencyCode: docHeadData.currency,
+      documentTypeId: docHeadData.workOrderTypeId,
+      applicantDate: docHeadData.createdDate,
+      documentId: docHeadData.id
     };
     myGlWorkOrderService
       .submitDocument(params)
@@ -1119,7 +1139,7 @@ class MyGLWorkOrderDetail extends Component {
     } else if (docHeadData.status === 1002) {
       status = (
         <h3 className="header-title">
-          <Button style={{ marginBottom: '14px',float:'right' }} loading={operationLoading} type="primary" onClick={this.back}>
+          <Button style={{ marginBottom: '14px', float: 'right' }} loading={operationLoading} type="primary" onClick={this.back}>
             撤 回
           </Button>
         </h3>

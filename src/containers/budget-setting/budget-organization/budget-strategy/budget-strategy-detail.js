@@ -76,7 +76,6 @@ class BudgetStrategyDetail extends React.Component {
   }
 
   getList() {
-    console.log(this.props)
     let url = `${config.budgetUrl}/api/budget/control/strategy/details/query?size=${this.state.pageSize}&page=${this.state.page}&controlStrategyId=${this.props.match.params.id }&organizationId=${this.props.match.params.orgId}`;
     url += this.state.keyWords ? `&keyWords=${this.state.keyWords}` : '';
     this.setState({ loading: true });

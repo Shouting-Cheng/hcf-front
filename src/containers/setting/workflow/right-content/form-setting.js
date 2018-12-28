@@ -35,7 +35,6 @@ class FormSetting extends React.Component {
   componentDidMount() {
     this.getProperty();
     this.getSelectedCompany();
-    console.log(this.props)
   }
 
   getProperty = () => {

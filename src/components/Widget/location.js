@@ -43,7 +43,6 @@ class Location extends React.Component {
           });
         }
       } catch(e) {
-        console.log(e);
       }
     }else {
     /*  this.setState({

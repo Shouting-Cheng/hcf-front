@@ -17,15 +17,16 @@ import {
   Popconfirm,
   Affix,
   Divider,
-  Modal, Card,
+  Modal,
+  Card,
 } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
 const TabPane = Tabs.TabPane;
 import paymentRequisitionService from './paymentRequisitionService.service';
 import NewPaymentRequisitionLine from './new-payment-requisition-line';
 import AddPaymentRequsition from './add-payment-requisition';
 import SlideFrame from 'widget/slide-frame';
-import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
+import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import httpFetch from 'share/httpFetch';
 import config from 'config';
 import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail';
@@ -35,7 +36,7 @@ import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-histor
 import DocumentBasicInfo from 'widget/document-basic-info';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
+import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 
 class NewPaymentRequisitionDetail extends React.Component {
   constructor(props) {
@@ -55,14 +56,15 @@ class NewPaymentRequisitionDetail extends React.Component {
       detailId: undefined, //合同或者报账单ID
       columns: [
         {
-          title: this.$t( 'acp.index'  /*序号*/),
+          title: this.$t('acp.index' /*序号*/),
           dataIndex: 'index',
           align: 'center',
           width: 60,
-          render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1)  * this.state.pagination.pageSize),
+          render: (value, record, index) =>
+            index + 1 + (this.state.pagination.current - 1) * this.state.pagination.pageSize,
         },
         {
-          title: this.$t( 'acp.requisition.amount'  /*本次申请金额*/),
+          title: this.$t('acp.requisition.amount' /*本次申请金额*/),
           dataIndex: 'amount',
           width: 120,
           render: (value, record) => {
@@ -76,7 +78,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           },
         },
         {
-          title: this.$t( 'acp.partnerCategory'  /*收款方*/),
+          title: this.$t('acp.partnerCategory' /*收款方*/),
           dataIndex: 'partnerCategory',
           width: 120,
           render: (value, record) => {
@@ -85,8 +87,8 @@ class NewPaymentRequisitionDetail extends React.Component {
                 <div>
                   <Tag color="#000">
                     {record.partnerCategory === 'EMPLOYEE'
-                      ? this.$t( 'acp.employee'  /*员工*/)
-                      : this.$t('acp.vendor'  /*供应商*/)}
+                      ? this.$t('acp.employee' /*员工*/)
+                      : this.$t('acp.vendor' /*供应商*/)}
                   </Tag>
                 </div>
                 <div>{record.partnerName}</div>
@@ -95,7 +97,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           },
         },
         {
-          title: this.$t( 'acp.accountName'  /*收款账号*/),
+          title: this.$t('acp.accountName' /*收款账号*/),
           dataIndex: 'accountName',
           width: 180,
           render: (value, record) => {
@@ -108,7 +110,7 @@ class NewPaymentRequisitionDetail extends React.Component {
                       {record.accountNumber}
                     </div>
                     <div>
-                      {this.$t( 'acp.account.name'  /*户名*/)}
+                      {this.$t('acp.account.name' /*户名*/)}
                       {value}
                     </div>
                   </div>
@@ -118,13 +120,13 @@ class NewPaymentRequisitionDetail extends React.Component {
                   <div
                     style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   >
-                    {this.$t( 'acp.account'  /*账户：*/)}
+                    {this.$t('acp.account' /*账户：*/)}
                     {record.accountNumber}
                   </div>
                   <div
                     style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   >
-                    {this.$t( 'acp.account.name'  /*户名*/)}
+                    {this.$t('acp.account.name' /*户名*/)}
                     {value}
                   </div>
                 </div>
@@ -163,7 +165,7 @@ class NewPaymentRequisitionDetail extends React.Component {
           },
         },
         {
-          title: this.$t( 'acp.schedulePaymentDate'  /*计划付款日期*/),
+          title: this.$t('acp.schedulePaymentDate' /*计划付款日期*/),
           dataIndex: 'schedulePaymentDate',
           render: value => moment(value).format('YYYY-MM-DD'),
         },
@@ -176,19 +178,17 @@ class NewPaymentRequisitionDetail extends React.Component {
           },
         },
         {
-          title: this.$t('acp.operator'  /*操作*/),
+          title: this.$t('acp.operator' /*操作*/),
           dataIndex: 'id',
           render: (text, record) => (
             <span>
-              <a onClick={e => this.editItem(e, record)}>
-                {this.$t( 'common.edit'  /*编辑*/)}
-              </a>
+              <a onClick={e => this.editItem(e, record)}>{this.$t('common.edit' /*编辑*/)}</a>
               <span className="ant-divider" />
               <Popconfirm
-                title={this.$t( 'common.confirm.delete' /*确定要删除吗？*/)}
+                title={this.$t('common.confirm.delete' /*确定要删除吗？*/)}
                 onConfirm={e => this.deleteItem(e, record)}
               >
-                <a>{this.$t( 'common.delete'  /*删除*/)}</a>
+                <a>{this.$t('common.delete' /*删除*/)}</a>
               </Popconfirm>
             </span>
           ),
@@ -290,44 +290,48 @@ class NewPaymentRequisitionDetail extends React.Component {
           } else {
             headerInfo.totalAmount = res.data.functionAmount;
           }
-          this.setState({
-            headerData: res.data,
-            pageLoading: false,
-            pagination: {
-              total: res.data.paymentRequisitionLineDTO.length,
-              current: 1,
-              pageSize: 5,
-              onChange: this.onChangePaper,
-              onShowSizeChange: this.onShowSizeChange,
-              showSizeChanger: true,
-              showQuickJumper: true,
-              showTotal: (total, range) => this.$t({ id: 'common.show.total' }, {
-                range0: `${range[0]}`,
-                range1: `${range[1]}`,
-                total: total,
-              }),
-              pageSizeOptions: ['5', '10', '20', '30', '40'],
+          this.setState(
+            {
+              headerData: res.data,
+              pageLoading: false,
+              pagination: {
+                total: res.data.paymentRequisitionLineDTO.length,
+                current: 1,
+                pageSize: 5,
+                onChange: this.onChangePaper,
+                onShowSizeChange: this.onShowSizeChange,
+                showSizeChanger: true,
+                showQuickJumper: true,
+                showTotal: (total, range) =>
+                  this.$t(
+                    { id: 'common.show.total' },
+                    {
+                      range0: `${range[0]}`,
+                      range1: `${range[1]}`,
+                      total: total,
+                    }
+                  ),
+                pageSizeOptions: ['5', '10', '20', '30', '40'],
+              },
+              columns: columns,
+              headerInfo,
             },
-            columns: columns,
-            headerInfo,
-          },() =>{
-            if (
-              this.state.typeDeatilParams.applicationId === null &&
-              (res.data.status === 1001 || res.data.status === 1003 || res.data.status === 1005)
-            ) {
-              this.getTypeDetail();
+            () => {
+              if (
+                this.state.typeDeatilParams.applicationId === null &&
+                (res.data.status === 1001 || res.data.status === 1003 || res.data.status === 1005)
+              ) {
+                this.getTypeDetail();
+              }
             }
-          });
-
+          );
         }
       })
       .catch(e => {
         this.setState({
           pageLoading: false,
         });
-        message.error(
-          this.$t( 'common.error'  /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
-        );
+        message.error(this.$t('common.error' /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/));
       });
   };
   getLogs = documentOid => {
@@ -348,33 +352,31 @@ class NewPaymentRequisitionDetail extends React.Component {
         this.setState({
           historyLoading: false,
         });
-        message.error(
-          this.$t( 'common.error'  /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/)
-        );
+        message.error(this.$t('common.error' /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/));
       });
   };
   //翻页
-  onChangePaper = (page) => {
-    const pagination =  this.state.pagination;
+  onChangePaper = page => {
+    const pagination = this.state.pagination;
     if (page !== this.state.pagination.current) {
       this.setState({
         pagination: {
           ...pagination,
-          current: page
-        }
+          current: page,
+        },
       });
     }
   };
 
   //改变每页显示条数
   onShowSizeChange = (current, pageSize) => {
-    const pagination =  this.state.pagination
+    const pagination = this.state.pagination;
     this.setState({
       pagination: {
         ...pagination,
         current: current,
-        pageSize: pageSize
-      }
+        pageSize: pageSize,
+      },
     });
   };
   renderList = (title, value) => {
@@ -393,7 +395,7 @@ class NewPaymentRequisitionDetail extends React.Component {
     path = path.replace(':typeId', this.state.headerData.acpReqTypeId);
     this.props.dispatch(
       routerRedux.push({
-        pathname: path
+        pathname: path,
       })
     );
   };
@@ -402,7 +404,7 @@ class NewPaymentRequisitionDetail extends React.Component {
     this.setState(
       {
         record: {},
-        slideFrameTitle: this.$t( 'acp.new.payment'  /*新增付款信息*/),
+        slideFrameTitle: this.$t('acp.new.payment' /*新增付款信息*/),
         isAdd: true,
       },
       () => {
@@ -412,30 +414,30 @@ class NewPaymentRequisitionDetail extends React.Component {
   };
 
   // 侧滑
-  showSlide = (flag) => {
+  showSlide = flag => {
     this.setState({ showSlideFrame: flag, flag: false });
   };
   //新增侧滑框
-  addShowSlide = (flag) => {
+  addShowSlide = flag => {
     this.setState({ addShowSlideFrame: flag, flag: false });
   };
   //新增侧滑框关闭
-  addCloseFunc = (e) => {
+  addCloseFunc = e => {
     this.addShowSlide(false);
     e && this.getList();
   };
   // 侧滑关闭
-  closeFunc = (e) => {
+  closeFunc = e => {
     this.showSlide(false);
     e && this.getList();
   };
   //新增侧滑框完全关闭
-  addHandleCloseSlide = (flag) => {
+  addHandleCloseSlide = flag => {
     this.addShowSlide(false);
     flag && this.getList();
   };
   // 侧滑完全关闭后回调
-  handleCloseSlide = (flag) => {
+  handleCloseSlide = flag => {
     this.showSlide(false);
     flag && this.getList();
   };
@@ -450,26 +452,25 @@ class NewPaymentRequisitionDetail extends React.Component {
     this.setState({
       record,
       showSlideFrame: true,
-      slideFrameTitle: this.$t('acp.edit.payment'  /*编辑付款信息*/),
+      slideFrameTitle: this.$t('acp.edit.payment' /*编辑付款信息*/),
       isAdd: false,
     });
   };
 
   // 扩展行
-  expandedRowRender = record => {debugger;
+  expandedRowRender = record => {
+    debugger;
     return (
       <div>
         <Row>
           <Col span={2}>
-            <span style={{ float: 'right' }}>
-              {this.$t( 'acp.amount.attribute'  /*金额属性*/)}
-            </span>
+            <span style={{ float: 'right' }}>{this.$t('acp.amount.attribute' /*金额属性*/)}</span>
           </Col>
           <Col span={6} offset={1}>
-            {this.$t( 'acp.rate.date' /*汇率日期*/)}：
+            {this.$t('acp.rate.date' /*汇率日期*/)}：
           </Col>
           <Col span={6}>
-            {this.$t( 'acp.rate' /*汇率*/)}：{record.exchangeRate}
+            {this.$t('acp.rate' /*汇率*/)}：{record.exchangeRate}
           </Col>
           <Col span={5}>
             本币金额：{record.currencyCode}&nbsp; {this.filterMoney(record.functionAmount, 2, true)}
@@ -478,12 +479,10 @@ class NewPaymentRequisitionDetail extends React.Component {
         <Divider />
         <Row>
           <Col span={2}>
-            <span style={{ float: 'right' }}>
-              {this.$t( 'acp.relation.document'  /*关联单据*/)}
-            </span>
+            <span style={{ float: 'right' }}>{this.$t('acp.relation.document' /*关联单据*/)}</span>
           </Col>
           <Col span={6} offset={1}>
-            <span>{this.$t('acp.public.document'  /*报账单*/)}：</span>
+            <span>{this.$t('acp.public.document' /*报账单*/)}：</span>
             <a
               onClick={() => {
                 this.onViewExpreportDetail(record.refDocumentId);
@@ -493,20 +492,20 @@ class NewPaymentRequisitionDetail extends React.Component {
             </a>
           </Col>
           <Col span={6}>
-            {this.$t( 'acp.delay.amount'  /*延迟支付金额*/)}
+            {this.$t('acp.delay.amount' /*延迟支付金额*/)}
             {this.filterMoney(record.freezeAmount, 2, true)}
           </Col>
           <Col span={5}>
             <span>
-              {this.$t( 'acp.enabled.amount' /*可申请金额*/)}
+              {this.$t('acp.enabled.amount' /*可申请金额*/)}
               {this.filterMoney(record.availableAmount, 2, true)}
             </span>
           </Col>
         </Row>
 
-        {record.contractHeaderId &&
+        {record.contractHeaderId && (
           <div>
-            <Divider/>
+            <Divider />
             <Row>
               <Col span={2}>
                 <span style={{ float: 'right' }}>
@@ -516,7 +515,7 @@ class NewPaymentRequisitionDetail extends React.Component {
               </Col>
               <Col span={6} offset={1}>
                 <span>
-                  {this.$t('acp.contract.name'  /*合同名称*/)}：{record.contractName}
+                  {this.$t('acp.contract.name' /*合同名称*/)}：{record.contractName}
                 </span>
               </Col>
               <Col span={6}>
@@ -534,42 +533,41 @@ class NewPaymentRequisitionDetail extends React.Component {
                 <span>{record.contractLineNumber ? record.contractLineNumber : '-'}</span>
               </Col>
               <Col span={4}>
-                <span>{this.$t('acp.schedulePaymentDate'  /*计划付款日期*/)}：</span>
+                <span>{this.$t('acp.schedulePaymentDate' /*计划付款日期*/)}：</span>
                 <span>{record.contractDueDate ? record.contractDueDate : '-'}</span>
               </Col>
             </Row>
           </div>
-        }
-        {(record.payAmount !== 0 && record.payAmount !== null) &&
-        <div>
-          <Divider/>
-          <Row>
-            <Col span={2}>
-                <span style={{ float: 'right' }}>
-                  {this.$t('acp.payment.log'  /*付款日志*/)}
-                </span>
-            </Col>
-            <Col span={6} offset={1}>
-                <span>
-                  {this.$t('acp.payment.amount'  /*已付款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(
-                  record.payAmount,
-                  2,
-                  true
-                )}
-                </span>
-            </Col>
-            <Col span={6}>
-                <span>
-                  {this.$t('acp.return.amount'  /*退款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(
-                  record.returnAmount,
-                  2,
-                  true
-                )}
-                </span>
-            </Col>
-          </Row>
-        </div>
-        }
+        )}
+        {record.payAmount !== 0 &&
+          record.payAmount !== null && (
+            <div>
+              <Divider />
+              <Row>
+                <Col span={2}>
+                  <span style={{ float: 'right' }}>{this.$t('acp.payment.log' /*付款日志*/)}</span>
+                </Col>
+                <Col span={6} offset={1}>
+                  <span>
+                    {this.$t('acp.payment.amount' /*已付款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(
+                      record.payAmount,
+                      2,
+                      true
+                    )}
+                  </span>
+                </Col>
+                <Col span={6}>
+                  <span>
+                    {this.$t('acp.return.amount' /*退款总金额*/)}： {record.currencyCode}&nbsp;{this.filterMoney(
+                      record.returnAmount,
+                      2,
+                      true
+                    )}
+                  </span>
+                </Col>
+              </Row>
+            </div>
+          )}
       </div>
     );
   };
@@ -585,9 +583,7 @@ class NewPaymentRequisitionDetail extends React.Component {
         }
       })
       .catch(e => {
-        message.error(
-          this.$t( 'common.operate.filed'  /*操作失败*/) + e.response.data.message
-        );
+        message.error(this.$t('common.operate.filed' /*操作失败*/) + e.response.data.message);
       });
   };
   // 提交
@@ -595,31 +591,49 @@ class NewPaymentRequisitionDetail extends React.Component {
     this.setState({ loading: true, dLoading: true, pageLoading: true });
     const { headerData } = this.state;
     if (headerData.paymentRequisitionLineDTO.length === 0) {
-      message.warn(this.$t('acp.line.data.isNull'  /*付款申请单行信息不能为空！*/));
+      message.warn(this.$t('acp.line.data.isNull' /*付款申请单行信息不能为空！*/));
       this.setState({ loading: false, dLoading: false, pageLoading: false });
       return;
     } else {
-      let params = {
+      // let params = {
+      //   applicantOID: headerData.applicantOid,
+      //   userOID: this.props.user.userOID,
+      //   formOID: headerData.formOid,
+      //   entityOID: headerData.documentOid,
+      //   entityType: 801005,
+      //   countersignApproverOIDs: null,
+      // };
+      console.log(headerData)
+      let workFlowDocumentRef = {
         applicantOid: headerData.applicantOid,
         userOid: this.props.user.userOid,
         formOid: headerData.formOid,
-        entityOid: headerData.documentOid,
-        entityType: 801005,
-        countersignApproverOids: null,
+        documentOid: headerData.documentOid,
+        documentCategory: 801005,
+        countersignApproverOIDs: null,
+        documentNumber: headerData.requisitionNumber,
+        remark: headerData.description,
+        companyId: headerData.companyId,
+        unitOid: headerData.unitOid,
+        amount: headerData.functionAmount,
+        currencyCode: headerData.currency,
+        documentTypeId: headerData.acpReqTypeId,
+        applicantDate: headerData.createdDate,
+        documentId: headerData.id
       };
       paymentRequisitionService
-        .submitHeader(params)
+        .submitHeader(workFlowDocumentRef)
         .then(res => {
           if (res.status === 200) {
             this.setState({ loading: false, dLoading: false, pageLoading: false });
-            message.success(this.$t( 'common.operate.success'  /*操作成功*/));
+            message.success(this.$t('common.operate.success' /*操作成功*/));
             this.onCancel();
           }
         })
         .catch(e => {
           this.setState({ loading: false, dLoading: false, pageLoading: false });
           message.error(
-            this.$t('common.operate.filed'  /*操作失败*/) + ',' + e.response.data.message
+            this.$t('common.operate.filed' /*操作失败*/) + ',' + e.response.data.message
           );
         });
     }
@@ -632,15 +646,13 @@ class NewPaymentRequisitionDetail extends React.Component {
       .then(res => {
         if (res.status === 200) {
           this.setState({ dLoading: false, loading: false });
-          message.success(this.$t( 'common.delete.success'  /*删除成功*/, { name: '' }));
+          message.success(this.$t('common.delete.success' /*删除成功*/, { name: '' }));
           this.onCancel();
         }
       })
       .catch(e => {
         this.setState({ dLoading: false, loading: false });
-        message.error(
-          this.$t( 'common.operate.filed'  /*操作失败*/) + e.response.data.message
-        );
+        message.error(this.$t('common.operate.filed' /*操作失败*/) + e.response.data.message);
       });
   };
   // 返回
@@ -691,21 +703,23 @@ class NewPaymentRequisitionDetail extends React.Component {
         if (res.status === 200 && res.data.failNum === 0) {
           this.setState({ dLoading: false, loading: false, pageLoading: false });
           this.onCancel();
-          message.success(this.$t( 'common.operate.success' /*操作成功*/));
+          message.success(this.$t('common.operate.success' /*操作成功*/));
         } else {
           this.setState({ dLoading: false, loading: false, pageLoading: false });
           message.error(
-            this.$t( 'common.operate.filed' /*操作失败*/) +
-              ',' +
-              res.data.failReason[entityOid]
+<<<<<<< HEAD
+            this.$t('common.operate.filed' /*操作失败*/) +
+            ',' +
+            res.data.failReason[entityOid]
+=======
+            this.$t('common.operate.filed' /*操作失败*/) + ',' + res.data.failReason[entityOID]
+>>>>>>> develop
           );
         }
       })
       .catch(e => {
         this.setState({ dLoading: false, loading: false, pageLoading: false });
-        message.error(
-          this.$t( 'common.operate.filed'  /*操作失败*/) + ',' + e.response.data.message
-        );
+        message.error(this.$t('common.operate.filed' /*操作失败*/) + ',' + e.response.data.message);
       });
   };
   //关闭添加付款第一个侧滑框
@@ -733,9 +747,9 @@ class NewPaymentRequisitionDetail extends React.Component {
     let status = null;
     if (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005) {
       status = (
-        <h3 className="header-title">
+        <h3 className="header-title" style={{ textAlign: 'right' }}>
           <Button type="primary" onClick={this.edit} loading={loading}>
-            {this.$t('common.edit'  /* 编辑 */)}
+            {this.$t('common.edit' /* 编辑 */)}
           </Button>
         </h3>
       );
@@ -743,7 +757,7 @@ class NewPaymentRequisitionDetail extends React.Component {
       status = (
         <h3>
           <Button type="primary" onClick={this.returnFunction} loading={loading}>
-            {this.$t( 'acp.return'  /* 撤回 */)}
+            {this.$t('acp.return' /* 撤回 */)}
           </Button>
         </h3>
       );
@@ -760,21 +774,21 @@ class NewPaymentRequisitionDetail extends React.Component {
             </span>
           </div>
         ) : (
-          headerData.paymentRequisitionNumberDTO.map((item, index) => {
-            return (
-              <div key={index} style={{ display: 'inline-block' }}>
-                {item.currencyCode === 'EUR' ? (
-                  <span>&nbsp;&nbsp;</span>
-                ) : (
-                  <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
-                )}
-                <span className="num-style" style={{ color: 'green' }}>
-                  {item.currencyCode} {this.filterMoney(item.amount)}
-                </span>
-              </div>
-            );
-          })
-        )}
+            headerData.paymentRequisitionNumberDTO.map((item, index) => {
+              return (
+                <div key={index} style={{ display: 'inline-block' }}>
+                  {item.currencyCode === 'EUR' ? (
+                    <span>&nbsp;&nbsp;</span>
+                  ) : (
+                      <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
+                    )}
+                  <span className="num-style" style={{ color: 'green' }}>
+                    {item.currencyCode} {this.filterMoney(item.amount)}
+                  </span>
+                </div>
+              );
+            })
+          )}
         <span>
           &nbsp;&nbsp;&nbsp;&nbsp;{this.$t({ id: 'acp.function.amount' } /* 本币金额：*/)}
           <span className="num-style" style={{ color: 'green' }}>
@@ -786,44 +800,47 @@ class NewPaymentRequisitionDetail extends React.Component {
 
     let subContent = (
       <div>
-          <Card style={{ marginTop: 20, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }} title="付款信息">
-            <div className="table-header">
-              <div className="table-header-buttons" style={{ float: 'left' }}>
-                {(headerData.status === 1001 ||
-                  headerData.status === 1003 ||
-                  headerData.status === 1005) && (
+        <Card
+          style={{ marginTop: 20, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
+          title="付款信息"
+        >
+          <div className="table-header">
+            <div className="table-header-buttons" style={{ float: 'left' }}>
+              {(headerData.status === 1001 ||
+                headerData.status === 1003 ||
+                headerData.status === 1005) && (
                   <Button type="primary" onClick={this.addItem} loading={loading}>
                     {this.$t({ id: 'acp.add.payment.info' } /* 添加*/)}
                   </Button>
                 )}
-              </div>
-              <div style={{ float: 'right' }}>
-                <Breadcrumb style={{ marginBottom: '10px' }}>
-                  <Breadcrumb.Item>{tableTitle}</Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
             </div>
-            <Table
-              style={{ clear: 'both' }}
-              rowKey={record => record.id}
-              columns={columns}
-              expandedRowRender={this.expandedRowRender}
-              dataSource={headerData.paymentRequisitionLineDTO}
-              bordered
-              pagination={pagination}
-              loading={pageLoading}
-              size="middle"
-            />
-          </Card>
-
-          <div style={{ marginTop: 20, marginBottom: 0, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
-            {!(headerData.status === 1001) && (
-              <ApproveHistory
-                loading={this.state.historyLoading}
-                infoData={this.state.approveHistory}
-              />
-            )}
+            <div style={{ float: 'right' }}>
+              <Breadcrumb style={{ marginBottom: '10px' }}>
+                <Breadcrumb.Item>{tableTitle}</Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
           </div>
+          <Table
+            style={{ clear: 'both' }}
+            rowKey={record => record.id}
+            columns={columns}
+            expandedRowRender={this.expandedRowRender}
+            dataSource={headerData.paymentRequisitionLineDTO}
+            bordered
+            pagination={pagination}
+            loading={pageLoading}
+            size="middle"
+          />
+        </Card>
+
+        <div style={{ marginTop: 20, marginBottom: 0, boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+          {!(headerData.status === 1001) && (
+            <ApproveHistory
+              loading={this.state.historyLoading}
+              infoData={this.state.approveHistory}
+            />
+          )}
+        </div>
       </div>
     );
     const newState = (
@@ -857,31 +874,39 @@ class NewPaymentRequisitionDetail extends React.Component {
     return (
       <div style={{ paddingBottom: 100 }} className="pre-payment-common">
         <Spin spinning={false}>
-          <Card style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)" }}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
             <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
               <TabPane tab={this.$t({ id: 'acp.document.info' } /* 单据信息*/)} key="detailInfo">
-                <DocumentBasicInfo params={headerInfo}>
-                  {status}
-                </DocumentBasicInfo>
+                <DocumentBasicInfo params={headerInfo}>{status}</DocumentBasicInfo>
               </TabPane>
             </Tabs>
           </Card>
           <div>{subContent}</div>
-          {this.props.params && this.props.params.refund  ? (
+          {this.props.params && this.props.params.refund ? (
             ''
           ) : (
-            <Affix offsetBottom={0} style={{
-              position: 'fixed', bottom: 0, marginLeft: '-35px', width: '100%', height: '50px',
-              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)', background: '#fff', lineHeight: '50px', zIndex: 1
-            }}>
-              {headerData.status &&
-              (headerData.status === 1001 ||
-                headerData.status === 1003 ||
-                headerData.status === 1005)
-                ? newState
-                : otherState}
-            </Affix>
-          )}
+              <Affix
+                offsetBottom={0}
+                style={{
+                  position: 'fixed',
+                  bottom: 0,
+                  marginLeft: '-35px',
+                  width: '100%',
+                  height: '50px',
+                  boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+                  background: '#fff',
+                  lineHeight: '50px',
+                  zIndex: 1,
+                }}
+              >
+                {headerData.status &&
+                  (headerData.status === 1001 ||
+                    headerData.status === 1003 ||
+                    headerData.status === 1005)
+                  ? newState
+                  : otherState}
+              </Affix>
+            )}
           <SlideFrame
             title={slideFrameTitle}
             show={addShowSlideFrame}
@@ -890,30 +915,41 @@ class NewPaymentRequisitionDetail extends React.Component {
             width="800px"
             hasFooter={false}
           >
-            <AddPaymentRequsition params={{
-              id: this.props.id,
-              headerData: headerData,
-              record,
-              typeDeatilParams,
-              flag: addShowSlideFrame,
-            }} onClose={(e) => {this.addCloseFunc(e)}}></AddPaymentRequsition>
+            <AddPaymentRequsition
+              params={{
+                id: this.props.id,
+                headerData: headerData,
+                record,
+                typeDeatilParams,
+                flag: addShowSlideFrame,
+              }}
+              onClose={e => {
+                this.addCloseFunc(e);
+              }}
+            />
           </SlideFrame>
           <SlideFrame
             title={slideFrameTitle}
             show={showSlideFrame}
             afterClose={this.handleCloseSlide}
             width="800px"
-            onClose={(e) => {this.closeFunc(false)}}
+            onClose={e => {
+              this.closeFunc(false);
+            }}
             hasFooter={false}
           >
-            <NewPaymentRequisitionLine params={{
-              id: this.props.id,
-              headerData: headerData,
-              record,
-              typeDeatilParams,
-              flag: showSlideFrame,
-            }}
-            onClose={(e) => {this.closeFunc(e)}}/>
+            <NewPaymentRequisitionLine
+              params={{
+                id: this.props.id,
+                headerData: headerData,
+                record,
+                typeDeatilParams,
+                flag: showSlideFrame,
+              }}
+              onClose={e => {
+                this.closeFunc(e);
+              }}
+            />
           </SlideFrame>
           <Modal
             visible={this.state.showExpreportDetail}
@@ -949,8 +985,6 @@ class NewPaymentRequisitionDetail extends React.Component {
     );
   }
 }
-
-
 
 const wrappedNewPaymentRequisitionDetail = Form.create()(NewPaymentRequisitionDetail);
 

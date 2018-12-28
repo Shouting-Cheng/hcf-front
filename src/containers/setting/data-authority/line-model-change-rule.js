@@ -250,7 +250,6 @@ class LineModelChangeRulesSystem extends React.Component {
                     ]
                 }
                 DataAuthorityService.saveDataAuthority(params).then(res => {
-                    console.log(res)
                     if (res.status === 200) {
                         this.setState({
                             ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
@@ -287,7 +286,6 @@ class LineModelChangeRulesSystem extends React.Component {
     /**编辑单条规则 */
     editRuleItem = () => {
         let { ruleDatail } = this.state;
-        console.log(ruleDatail)
         if (ruleDatail[0].dataScope === '1004') {
             let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
             let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
@@ -438,7 +436,6 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleTenantListOk = (result) => {
-        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -487,7 +484,6 @@ class LineModelChangeRulesSystem extends React.Component {
         })
     }
     handleEmployeeListOk = (result) => {
-        console.log(result)
         let resultArr = result.result;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
@@ -536,7 +532,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if(resultArr[i].valueKey){
+                arr.push(resultArr[i].valueKey);
+            }else{
+                arr.push(resultArr[i].id);
+            }
+           
         }
         this.props.handleCompanyListOk(arr)
         this.setState({
@@ -552,7 +553,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if(resultArr[i].valueKey){
+                arr.push(resultArr[i].valueKey);
+            }else{
+                arr.push(resultArr[i].id);
+            }
+           
         }
         this.props.handleDePListOk(arr)
         this.setState({

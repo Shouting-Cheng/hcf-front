@@ -90,7 +90,6 @@ class NewBuilt extends Component {
   };
   // 状态开关
   onChange = checked => {
-    console.log(checked, '---------------');
     this.setState({
       s: checked,
     });

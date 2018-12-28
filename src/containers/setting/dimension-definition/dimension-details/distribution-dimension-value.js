@@ -134,7 +134,7 @@ class DistributionDimension extends Component {
   // 批量删除
   batchDelete = () => {
     let { selectedKey, dimensionItemGroupId } = this.state;
-    if(selectedKey.length) {
+    if (selectedKey.length) {
       service.batchDeleteDimensionItem(dimensionItemGroupId, selectedKey).then(() => {
         message.success('批量删除成功');
         this.mySetState();
@@ -148,7 +148,7 @@ class DistributionDimension extends Component {
 
   // 搜索
   search = value => {
-    this.mySetState({ searchParams: { dimensionItemCode: value }});
+    this.mySetState({ searchParams: { dimensionItemCode: value } });
   }
 
   // 设置state
@@ -196,7 +196,7 @@ class DistributionDimension extends Component {
   // 分配子维值
   onDimensionOk = () => {
     let { dimensionItemIds, dimensionItemGroupId } = this.state;
-    if(dimensionItemIds.length) {
+    if (dimensionItemIds.length) {
       this.setState({ confirmLoading: true });
       service.distributeDimensionItem(dimensionItemGroupId, dimensionItemIds).then(() => {
         message.success('分配子维值成功');

@@ -88,13 +88,13 @@ export default {
    * 核算工单整单提交
    */
   submitDocument(params) {
-    return httpFetch.post(`${config.baseUrl}/api/accounting/submit`, params);
+    return httpFetch.post(`${config.accountingUrl}/api/general/ledger/work/order/head/submit`, params);
   },
   /**
    *工作流撤回
    */
   approvalsWithdraw(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/withdraw`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/withdraw`, params);
   },
   /**
    * 导入确定

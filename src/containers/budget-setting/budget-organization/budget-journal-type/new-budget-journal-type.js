@@ -158,7 +158,6 @@ class NewBudgetJournalType extends React.Component {
                 <Button htmlType="submit" type="primary">保存</Button>
                 <Button style={{ marginLeft: 8 }}
                         onClick={() => {
-                          console.log(this.props);
                           this.props.dispatch(
                             routerRedux.push({
                               pathname: '/budget-setting/budget-organization/budget-organization-detail/:setOfBooksId/:id/:tab'

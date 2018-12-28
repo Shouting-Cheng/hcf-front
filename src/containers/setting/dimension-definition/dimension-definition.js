@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import SearchArea from 'widget/search-area';
-import { Button, Divider, message, Popconfirm,Badge } from 'antd';
+import { Button, Divider, message, Popconfirm, Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
@@ -17,7 +17,7 @@ class Dfinition extends Component {
       searchForm: [
         {
           type: 'value_list',
-          options: [{value:props.company.setOfBooksId,label:props.company.setOfBooksId}],
+          options: [{ value: props.company.setOfBooksId, label: props.company.setOfBooksId }],
           id: 'setOfBooksId',
           placeholder: '请选择',
           label: '账套',
@@ -43,8 +43,8 @@ class Dfinition extends Component {
           label: '状态',
           colSpan: '6',
           options: [
-            { value:false, label: '禁用' },
-            { value:true, label: '启用' },
+            { value: false, label: '禁用' },
+            { value: true, label: '启用' },
           ],
           valueKey: 'value',
           labelkey: 'label',
@@ -77,7 +77,7 @@ class Dfinition extends Component {
           align: 'center',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
-                text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")} />)
+              text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")} />)
         },
         {
           title: '操作',
@@ -94,7 +94,7 @@ class Dfinition extends Component {
                   编辑
                 </a>
                 <Divider type="vertical" />
-                <a onClick={(e )=> this.detailClick(e, record)}>详情</a>
+                <a onClick={(e) => this.detailClick(e, record)}>详情</a>
                 {/* <Divider type="vertical" /> */}
                 {/* <Popconfirm
                   placement="topLeft"
@@ -113,8 +113,8 @@ class Dfinition extends Component {
         },
       ],
       searchParams: {},
-      showSlideFrame:false,
-      data:[],
+      showSlideFrame: false,
+      data: [],
       updateParams: {},
     };
   }
@@ -135,9 +135,9 @@ class Dfinition extends Component {
   // 新建维度
   createDimension = () => {
     this.setState({
-      updateParams:{},
+      updateParams: {},
       showSlideFrame: true
-    },()=>{
+    }, () => {
       this.setState({ showSlideFrame: true })
     });
   };
@@ -147,7 +147,7 @@ class Dfinition extends Component {
       updateParams: JSON.parse(JSON.stringify(record)),
     }, () => {
       this.setState({ showSlideFrame: true })
-  });
+    });
   };
   // 删除
   // delete = id => {
@@ -165,7 +165,7 @@ class Dfinition extends Component {
   // 搜索
   search = (values) => {
     this.table.search(values);
-    console.log(this.state.searchParams,'搜索条件');
+    console.log(this.state.searchParams, '搜索条件');
 
   };
   //清除
@@ -173,27 +173,27 @@ class Dfinition extends Component {
     this.setState({ searchParams: {} })
     this.table.search(values);
   }
-// 详情
-  detailClick = (e,record) => {
-  this.props.dispatch(
-    routerRedux.replace({
-      //账套id,recordid
-      pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
-    })
-  );
+  // 详情
+  detailClick = (e, record) => {
+    this.props.dispatch(
+      routerRedux.replace({
+        //账套id,recordid
+        pathname: `/admin-setting/dimension-definition/dimension-details/${record.id}`,
+      })
+    );
   }
   handleCloseSlide = (flag) => {
     this.setState({
-        showSlideFrame: false
+      showSlideFrame: false
     }, () => {
-      flag&&this.table.search(this.state.searchParams);
+      flag && this.table.search(this.state.searchParams);
     })
-}
+  }
   render() {
-    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId} = this.state;
+    const { searchForm, columns, updateParams, showSlideFrame, setOfBooksId } = this.state;
     return (
       <div>
-        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear}/>
+        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} />
         <Button
           style={{ margin: '20px 0' }}
           className="create-btn"
@@ -213,7 +213,7 @@ class Dfinition extends Component {
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-          <NewBuilt params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}/>
+          <NewBuilt params={{ ...updateParams }} close={this.handleCloseSlide} set={setOfBooksId} />
         </SlideFrame>
       </div>
     );
@@ -222,7 +222,7 @@ class Dfinition extends Component {
 function mapStateToProps(state) {
   // console.log(state);
 
-  return{
+  return {
 
     company: state.user.company
   }

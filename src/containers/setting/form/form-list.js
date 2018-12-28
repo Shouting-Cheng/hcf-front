@@ -19,6 +19,7 @@ import 'styles/setting/form/form-list.scss';
 import { routerRedux } from 'dva/router';
 const Option = Select.Option;
 
+import debounce from 'lodash.debounce';
 
 class FormList extends React.Component {
   constructor(props) {
@@ -153,6 +154,7 @@ class FormList extends React.Component {
         )}*/
       ] //集团模式下columns
     };
+    this.handleDocType = debounce(this.handleDocType, 500);
   }
 
   componentDidMount() {
@@ -246,11 +248,11 @@ class FormList extends React.Component {
     },()=>this.getFormList())
   };
 
-  handleDocType = (e)=>{
+  handleDocType = (value)=>{
     this.setState({
       params: {
         ...this.state.params,
-        formName: e.target.value
+        formName: value
       }
     },()=>this.getFormList())
   };
@@ -343,7 +345,6 @@ class FormList extends React.Component {
   };
   //Tabs点击
   onChangeTabs = (key) => {
-    console.log(key)
   };
   renderCompanyTab = () => {
     const {
@@ -394,7 +395,7 @@ class FormList extends React.Component {
               <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight: 2,width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <Input
-                  onBlur={this.handleDocType}
+                  onChange={(e=>this.handleDocType(e.target.value))}
                   placeholder={this.$t('common.please.enter')}/>
               </Col>
             </Row>
