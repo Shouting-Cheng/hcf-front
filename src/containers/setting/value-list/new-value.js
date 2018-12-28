@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { messages } from 'utils/utils';
 import { deepCopy } from 'utils/extend';
 import { Form, Input, Switch, Button, Icon, message } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
 
 const FormItem = Form.Item;
 import { LanguageInput } from 'widget/index';
@@ -70,7 +70,7 @@ class ValueList extends React.Component {
       userOids: [],
       deleteUserOids: [],
       showListSelector: false,
-      isCustom: "", //是否为系统初始化的值
+      isCustom: '', //是否为系统初始化的值
     };
   }
 
@@ -133,7 +133,7 @@ class ValueList extends React.Component {
         },
         () => {
           this.props.form.resetFields();
-        }
+        },
       );
     });
   }
@@ -179,43 +179,44 @@ class ValueList extends React.Component {
       }
     });
   };
+
   //新增
   newValue(value) {
     this.setState({ loading: true });
     valueListService
-      .newValue(value)
-      .then(res => {
-        if (res.status === 200) {
-          message.success(messages('common.save.success', { name: '' }));
-          this.setState({ loading: false });
-          this.props.close(true);
-        }
-      })
-      .catch(e => {
+    .newValue(value)
+    .then(res => {
+      if (res.status === 200) {
+        message.success(messages('common.save.success', { name: '' }));
         this.setState({ loading: false });
-      });
+        this.props.close(true);
+      }
+    })
+    .catch(e => {
+      this.setState({ loading: false });
+    });
   }
+
   //更新
   updateValue(value) {
     this.setState({ loading: true });
     valueListService
-      .updateValue(value)
-      .then(res => {
-        if (res.status === 200) {
-          message.success(messages('common.save.success', { name: '' }));
-          this.setState({ loading: false });
-          this.props.close(true);
-        }
-      })
-      .catch(e => {
+    .updateValue(value)
+    .then(res => {
+      if (res.status === 200) {
+        message.success(messages('common.save.success', { name: '' }));
         this.setState({ loading: false });
-      });
+        this.props.close(true);
+      }
+    })
+    .catch(e => {
+      this.setState({ loading: false });
+    });
   }
 
   onCancel = () => {
     this.props.close();
   };
-
 
 
   //选择/取消选择某行的回调
@@ -309,7 +310,7 @@ class ValueList extends React.Component {
                   isEdit={record && record.id}
                   nameChange={this.i18nNameChange}
                 />
-              </div>
+              </div>,
             )}
           </FormItem>
 
@@ -331,7 +332,7 @@ class ValueList extends React.Component {
                 // }
               ],
               initialValue: record ? record.value : '',
-            })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id} />)}
+            })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id}/>)}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('common.remark')}>
             {getFieldDecorator('remark', {
@@ -342,7 +343,7 @@ class ValueList extends React.Component {
                 },
               ],
               initialValue: record ? record.remark : '',
-            })(<Input placeholder={messages('value.list.input.max.200' /*最多输入200个字符*/)} />)}
+            })(<Input placeholder={messages('value.list.input.max.200' /*最多输入200个字符*/)}/>)}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('common.column.status')}>
             {getFieldDecorator('enabled', {
@@ -351,9 +352,9 @@ class ValueList extends React.Component {
             })(
               <Switch
                 disabled={isCustom === 'SYSTEM'}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="cross" />}
-              />
+                checkedChildren={<Icon type="check"/>}
+                unCheckedChildren={<Icon type="cross"/>}
+              />,
             )}
           </FormItem>
           <div className="slide-footer">
@@ -378,5 +379,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { withRef: true },
 )(WrappedValueList);

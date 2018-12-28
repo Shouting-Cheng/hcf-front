@@ -6,14 +6,14 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Tabs, Button, Badge, message } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
 
 const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute';
 import valueListService from 'containers/setting/value-list/value-list.service';
 import ListSelector from 'widget/list-selector';
 import 'styles/setting/value-list/value-list.scss';
-import { messages } from "utils/utils";
+import { messages } from 'utils/utils';
 import { routerRedux } from 'dva/router';
 
 
@@ -29,19 +29,19 @@ class ValueList extends React.Component {
         {
           title: messages('common.sequence'/*序号*/),
           dataIndex: 'index',
-          width: '8%'
+          width: '8%',
         },
         {
           title: messages('value.list.information'/*值列表名称*/),
-          dataIndex: 'name'
+          dataIndex: 'name',
         },
         {
           title: messages('common.column.status'/*状态*/),
           dataIndex: 'enabled', width: '15%',
           render: enabled =>
             <Badge status={enabled ? 'success' : 'error'}
-              text={enabled ? messages('common.status.enable') : messages('common.status.disable')} />
-        }
+                   text={enabled ? messages('common.status.enable') : messages('common.status.disable')}/>,
+        },
       ],
       pagination: {
         page: 0,
@@ -66,11 +66,11 @@ class ValueList extends React.Component {
     this.setState({
 
       pagination,
-      status: this.props.match.params.tab || 'SYSTEM'
+      status: this.props.match.params.tab || 'SYSTEM',
     }, () => {
       this.clearBeforePage();
       this.getList();
-    })
+    });
   }
 
   //得到值列表数据
@@ -78,18 +78,18 @@ class ValueList extends React.Component {
     const { status, pagination } = this.state;
     this.setState({ loading: true });
     valueListService.getValueListList(pagination.page, pagination.pageSize, status)
-      .then(res => {
-        res.data.map((item, index) => {
-          item.index = pagination.page * pagination.pageSize + index + 1;
-          item.key = item.index;
-        });
-        pagination.total = Number(res.headers['x-total-count']) || 0;
-        this.setState({
-          data: res.data,
-          loading: false,
-          pagination
-        })
+    .then(res => {
+      res.data.map((item, index) => {
+        item.index = pagination.page * pagination.pageSize + index + 1;
+        item.key = item.index;
       });
+      pagination.total = Number(res.headers['x-total-count']) || 0;
+      this.setState({
+        data: res.data,
+        loading: false,
+        pagination,
+      });
+    });
   }
 
   //分页点击
@@ -98,10 +98,10 @@ class ValueList extends React.Component {
     pagination.page = p.current - 1;
     pagination.current = p.current;
     this.setState({
-      pagination
+      pagination,
     }, () => {
       this.getList();
-    })
+    });
   };
 
   //Tabs点击
@@ -111,15 +111,15 @@ class ValueList extends React.Component {
     pagination.current = 1;
     this.setState({
       pagination,
-      status: key
+      status: key,
     }, () => {
-      this.getList()
+      this.getList();
     });
   };
 
   //选中项发生变化的时的回调
   onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys })
+    this.setState({ selectedRowKeys });
   };
 
   //选择/取消选择某行的回调
@@ -128,12 +128,12 @@ class ValueList extends React.Component {
     let customEnumerationOids = this.state.customEnumerationOids;
     if (selected) {
       selectedRowIds.push(record.id);
-      customEnumerationOids.push(record.customEnumerationOid)
+      customEnumerationOids.push(record.customEnumerationOid);
     } else {
       selectedRowIds.delete(record.id);
-      customEnumerationOids.delete(record.customEnumerationOid)
+      customEnumerationOids.delete(record.customEnumerationOid);
     }
-    this.setState({ selectedRowIds, customEnumerationOids })
+    this.setState({ selectedRowIds, customEnumerationOids });
   };
 
   //选择/取消选择所有行的回调
@@ -143,19 +143,19 @@ class ValueList extends React.Component {
     if (selected) {
       changeRows.map(item => {
         selectedRowIds.push(item.id);
-        customEnumerationOids.push(item.customEnumerationOid)
-      })
+        customEnumerationOids.push(item.customEnumerationOid);
+      });
     } else {
       changeRows.map(item => {
         selectedRowIds.delete(item.id);
-        customEnumerationOids.delete(item.customEnumerationOid)
-      })
+        customEnumerationOids.delete(item.customEnumerationOid);
+      });
     }
-    this.setState({ selectedRowIds, customEnumerationOids })
+    this.setState({ selectedRowIds, customEnumerationOids });
   };
 
   handleListShow = (flag) => {
-    this.setState({ showListSelector: flag })
+    this.setState({ showListSelector: flag });
   };
 
   handleListOk = (values) => {
@@ -163,24 +163,24 @@ class ValueList extends React.Component {
       this.state.dBtnDisabled = true;
       let companies = [];
       values.result.map((item) => {
-        companies.push(item.companyOid)
-      })
+        companies.push(item.companyOid);
+      });
       valueListService.distributeCompany(companies, this.state.customEnumerationOids)
-        .then(res => {
-          this.state.dBtnDisabled = false;
-          if (res.status === 200) {
-            message.success(messages('common.operate.success'/*操作成功*/));
-            this.handleListShow(false);
-            this.getList();
-            this.setState({
-              selectedRowKeys: [],
-              selectedRowIds: [],
-              customEnumerationOids: []
-            })
-          }
-        }).catch(err => {
-          this.state.dBtnDisabled = false;
-        })
+      .then(res => {
+        this.state.dBtnDisabled = false;
+        if (res.status === 200) {
+          message.success(messages('common.operate.success'/*操作成功*/));
+          this.handleListShow(false);
+          this.getList();
+          this.setState({
+            selectedRowKeys: [],
+            selectedRowIds: [],
+            customEnumerationOids: [],
+          });
+        }
+      }).catch(err => {
+        this.state.dBtnDisabled = false;
+      });
     }
 
   };
@@ -192,36 +192,36 @@ class ValueList extends React.Component {
     // this.context.router.push(path);
 
     this.props.dispatch(routerRedux.push({
-      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOid}/${record.id}/:tab`.replace(':tab',this.state.status)
-    }))
+      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOid}/${record.id}/:tab`.replace(':tab', this.state.status),
+    }));
 
   };
 
   goValueListPage = () => {
     const { valueListPage } = this.state;
     this.props.dispatch(routerRedux.push({
-      pathname: "/admin-setting/new-value-list/:tab".replace(':tab',this.state.status)
-    }))
+      pathname: '/admin-setting/new-value-list/:tab'.replace(':tab', this.state.status),
+    }));
   };
 
   render() {
     const {
       columns, data, loading, pagination, status,
-      selectedRowKeys, selectedRowIds, showListSelector
+      selectedRowKeys, selectedRowIds, showListSelector,
     } = this.state;
     const rowSelection = {
       selectedRowKeys: selectedRowKeys,
       onChange: this.onSelectChange,
       onSelect: this.handleSelectRow,
-      onSelectAll: this.handleSelectAllRow
+      onSelectAll: this.handleSelectAllRow,
     };
     return (
       <div style={{ paddingBottom: 20 }} className="value-list">
         <Tabs type="card" activeKey={status} onChange={this.onChangeTabs}>
           {/*系统值列表*/}
-          <TabPane tab={messages('value.list.system.level')} key='SYSTEM' />
+          <TabPane tab={messages('value.list.system.level')} key='SYSTEM'/>
           {/*自定义值列表*/}
-          <TabPane tab={messages('value.list.custom.level')} key='CUSTOM' />
+          <TabPane tab={messages('value.list.custom.level')} key='CUSTOM'/>
         </Tabs>
 
         <div className="table-header">
@@ -230,8 +230,8 @@ class ValueList extends React.Component {
             {messages('value.list.system.notice')}
           </div> : null}
           {status === 'CUSTOM' ?
-            <div className="table-header-buttons" style={{paddingTop: 15}}>
-              <Button type="primary" onClick={this.goValueListPage} style={{marginRight: 15}}>
+            <div className="table-header-buttons" style={{ paddingTop: 15 }}>
+              <Button type="primary" onClick={this.goValueListPage} style={{ marginRight: 15 }}>
                 {/*新增值列表*/}
                 {messages('value.list.new')}
               </Button>
@@ -239,33 +239,32 @@ class ValueList extends React.Component {
         </div>
 
         <Table columns={columns}
-          dataSource={data}
-          pagination={pagination}
-          onChange={this.onChangePager}
-          loading={loading}
-          onRow={record => ({
-            onClick: () => this.handleRowClick(record)
-          })}
-          scroll={{ x: true, y: false }}
-          rowSelection={(status === 'CUSTOM' && this.props.tenantMode) ? rowSelection : null}
-          bordered
-          size="middle" />
+               dataSource={data}
+               pagination={pagination}
+               onChange={this.onChangePager}
+               loading={loading}
+               onRow={record => ({
+                 onClick: () => this.handleRowClick(record),
+               })}
+               scroll={{ x: true, y: false }}
+               bordered
+               size="middle"/>
 
         <ListSelector visible={showListSelector}
-          onCancel={() => this.handleListShow(false)}
-          type="batch_deploy_company"
-          extraParams={{sources: selectedRowIds} }
-          onOk={this.handleListOk} />
+                      onCancel={() => this.handleListShow(false)}
+                      type="batch_deploy_company"
+                      extraParams={{ sources: selectedRowIds }}
+                      onOk={this.handleListOk}/>
       </div>
-    )
+    );
   }
 }
 
 
 function mapStateToProps(state) {
   return {
-    tenantMode: true
-  }
+    tenantMode: true,
+  };
 }
 
 export default connect(mapStateToProps, null, null, { withRef: true })(ValueList);

@@ -6,7 +6,7 @@ import { messages } from 'utils/utils';
  * 2.值列表详情：包括自定义值列表详情与系统值列表详情
  */
 import React from 'react';
-import ExcelExporter from 'widget/excel-exporter'
+import ExcelExporter from 'widget/excel-exporter';
 import config from 'config';
 import { connect } from 'dva';
 import ImporterNew from 'widget/Template/importer-new';
@@ -29,7 +29,8 @@ import {
   Checkbox,
   Tabs,
 } from 'antd';
-import Table from 'widget/table'
+import Table from 'widget/table';
+
 const FormItem = Form.Item;
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -74,7 +75,7 @@ class ValueList extends React.Component {
           title: messages('common.sequence' /*序号*/),
           dataIndex: 'sequenceNumber',
           width: '10%',
-          render: (value, record, index) => (index + 1 + (this.state.page)  * this.state.pageSize),
+          render: (value, record, index) => (index + 1 + (this.state.page) * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -116,7 +117,7 @@ class ValueList extends React.Component {
           title: messages('common.sequence' /*序号*/),
           dataIndex: 'sequenceNumber',
           width: '10%',
-          render: (value, record, index) => (index + 1 + (this.state.page)  * this.state.pageSize),
+          render: (value, record, index) => (index + 1 + (this.state.page) * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -195,11 +196,11 @@ class ValueList extends React.Component {
       excelVisible: false,
       btLoading: false,
       exportColumns: [
-        { title: '值名称', dataIndex: 'messageKey'},
+        { title: '值名称', dataIndex: 'messageKey' },
         { title: '编码', dataIndex: 'code' },
-        { title: '序号', dataIndex: 'sequenceNumber'},
+        { title: '序号', dataIndex: 'sequenceNumber' },
         { title: '备注', dataIndex: 'remark' },
-        { title: '是否启用', dataIndex: 'enabledStr'},
+        { title: '是否启用', dataIndex: 'enabledStr' },
       ],
     };
     this.handleSearch = debounce(this.handleSearch, 250);
@@ -229,7 +230,7 @@ class ValueList extends React.Component {
       };
 
       //columnsSystem.push(col0);
-      columnsSystem.push(col1);
+      //columnsSystem.push(col1);
       this.setState({ columnsSystem });
     }
     if (this.props.match.params.customEnumerationOid) {
@@ -242,7 +243,7 @@ class ValueList extends React.Component {
         () => {
           this.getInfo();
           this.getList();
-        }
+        },
       );
     } else {
       //新增
@@ -265,7 +266,7 @@ class ValueList extends React.Component {
         isCustom: res.data.isCustom,
         defaultCustomEnumerationItemOid: res.data.defaultCustomEnumerationItemOid,
         form,
-        _form: { ...form,i18n: {...form.i18n} },
+        _form: { ...form, i18n: { ...form.i18n } },
       });
     });
   };
@@ -275,23 +276,23 @@ class ValueList extends React.Component {
     const { page, pageSize, keyWords } = this.state;
     this.setState({ tableLoading: true });
     valueListService
-      .getValueList(page, pageSize, this.state.customEnumerationOid, keyWords)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            tableLoading: false,
-            data: res.data,
-            pagination: {
-              total: Number(res.headers['x-total-count']),
-              current: page + 1,
-              onChange: this.onChangePager,
-            },
-          });
-        }
-      })
-      .catch(() => {
-        this.setState({ tableLoading: false });
-      });
+    .getValueList(page, pageSize, this.state.customEnumerationOid, keyWords)
+    .then(res => {
+      if (res.status === 200) {
+        this.setState({
+          tableLoading: false,
+          data: res.data,
+          pagination: {
+            total: Number(res.headers['x-total-count']),
+            current: page + 1,
+            onChange: this.onChangePager,
+          },
+        });
+      }
+    })
+    .catch(() => {
+      this.setState({ tableLoading: false });
+    });
   };
 
   //获取公司列表
@@ -342,7 +343,7 @@ class ValueList extends React.Component {
         form.defaultCustomEnumerationItemValue = null;
       }
     });
-    this.setState({ data, form, _form: {...form, i18n: {...form.i18n}}, tableLoading: true }, () => {
+    this.setState({ data, form, _form: { ...form, i18n: { ...form.i18n } }, tableLoading: true }, () => {
       this.handleSave();
     });
   };
@@ -357,7 +358,7 @@ class ValueList extends React.Component {
       () => {
         this.setState({ selectedRowKeys: [] });
         this.getList();
-      }
+      },
     );
   };
 
@@ -387,7 +388,7 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
-    console.log(name)
+    console.log(name);
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -421,27 +422,27 @@ class ValueList extends React.Component {
     }
     this.setState({ loading: true });
     valueListService[this.state.customEnumerationOid ? 'uploadValueList' : 'newValueList'](params)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState(
-            {
-              loading: false,
-              edit: false,
-              customEnumerationOid: res.data.customEnumerationOid,
-            },
-            () => {
-              this.getInfo();
-              this.getList();
-            }
-          );
-          !res.data.values[0].enabled
-            ? message.warning(messages('common.operate.value.disabled'))
-            : message.success(messages('common.operate.success'));
-        }
-      })
-      .catch(e => {
-        this.setState({ loading: false, tableLoading: false });
-      });
+    .then(res => {
+      if (res.status === 200) {
+        this.setState(
+          {
+            loading: false,
+            edit: false,
+            customEnumerationOid: res.data.customEnumerationOid,
+          },
+          () => {
+            this.getInfo();
+            this.getList();
+          },
+        );
+        !res.data.values[0].enabled
+          ? message.warning(messages('common.operate.value.disabled'))
+          : message.success(messages('common.operate.success'));
+      }
+    })
+    .catch(e => {
+      this.setState({ loading: false, tableLoading: false });
+    });
   };
 
   handleEdit = () => {
@@ -451,13 +452,13 @@ class ValueList extends React.Component {
   handleCancel = () => {
     if (this.state.customEnumerationOid) {
       //编辑
-      this.setState({ edit: false, form: { ...this.state._form, i18n: {...this.state._form.i18n} } });
+      this.setState({ edit: false, form: { ...this.state._form, i18n: { ...this.state._form.i18n } } });
     } else {
       //新增
       this.props.dispatch(
         routerRedux.push({
           pathname: '/admin-setting/value-list/:tab'.replace(':tab', this.props.match.params.tab),
-        })
+        }),
       );
 
       // this.context.router.push(`${this.state.valueList.url}?tab=CUSTOM`)
@@ -478,7 +479,7 @@ class ValueList extends React.Component {
       },
       () => {
         params && this.getList();
-      }
+      },
     );
   };
   //名称：自定义值列表多语言
@@ -486,16 +487,16 @@ class ValueList extends React.Component {
     const form = this.state.form;
     form.name = name;
     form.i18n.name = i18nName;
-    this.setState({ form, });
+    this.setState({ form });
   };
 
-    /**
+  /**
    * 点击导出按钮
    */
   onExportClick = () => {
     this.setState({
-        btLoading: true,
-        excelVisible: true
+      btLoading: true,
+      excelVisible: true,
     });
   };
   /**
@@ -515,26 +516,26 @@ class ValueList extends React.Component {
 
     const { customEnumerationOid, isCustom } = this.state;
     valueListService
-      .exportValues(result, customEnumerationOid, isCustom)
-      .then(res => {
-        if (res.status === 200) {
-          message.success('操作成功');
-          let fileName = res.headers['content-disposition'].split('filename=')[1];
-          let f = new Blob([res.data]);
-          FileSaver.saveAs(f, decodeURIComponent(fileName));
-          this.setState({
-            btLoading: false,
-          });
-          hide();
-        }
-      })
-      .catch(e => {
-        message.error('下载失败，请重试!');
+    .exportValues(result, customEnumerationOid, isCustom)
+    .then(res => {
+      if (res.status === 200) {
+        message.success('操作成功');
+        let fileName = res.headers['content-disposition'].split('filename=')[1];
+        let f = new Blob([res.data]);
+        FileSaver.saveAs(f, decodeURIComponent(fileName));
         this.setState({
           btLoading: false,
         });
         hide();
+      }
+    })
+    .catch(e => {
+      message.error('下载失败，请重试!');
+      this.setState({
+        btLoading: false,
       });
+      hide();
+    });
   };
 
   renderForm() {
@@ -564,8 +565,8 @@ class ValueList extends React.Component {
               <Switch
                 defaultChecked={this.state.form.enabled}
                 onChange={this.handleEnabled}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="cross" />}
+                checkedChildren={<Icon type="check"/>}
+                unCheckedChildren={<Icon type="cross"/>}
               />
             </FormItem>
           </Col>
@@ -611,7 +612,7 @@ class ValueList extends React.Component {
       },
       () => {
         this.showSlide(true);
-      }
+      },
     );
   };
 
@@ -629,7 +630,7 @@ class ValueList extends React.Component {
       },
       () => {
         this.showSlide(true);
-      }
+      },
     );
   };
 
@@ -651,30 +652,30 @@ class ValueList extends React.Component {
         companies.push(item.companyOid);
       });
       valueListService
-        .distributeCompany(companies, [this.state.customEnumerationOid])
-        .then(res => {
-          this.state.dBtnDisabled = false;
-          if (res.status === 200) {
-            message.success(messages('common.operate.success'));
-            this.showListSelector(false);
-            this.getCompanyList();
-          }
-        })
-        .catch(err => {
-          this.state.dBtnDisabled = false;
-        });
+      .distributeCompany(companies, [this.state.customEnumerationOid])
+      .then(res => {
+        this.state.dBtnDisabled = false;
+        if (res.status === 200) {
+          message.success(messages('common.operate.success'));
+          this.showListSelector(false);
+          this.getCompanyList();
+        }
+      })
+      .catch(err => {
+        this.state.dBtnDisabled = false;
+      });
     }
   };
 
   //导入成功回调
   handleImportOk = (transactionID) => {
     httpFetch.post(`${config.baseUrl}/api/custom/enumerations/items/import/confirm/${transactionID}`).then(res => {
-      if (res.status === 200){
-        this.getList()
+      if (res.status === 200) {
+        this.getList();
       }
     }).catch(() => {
-      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/)
-    })
+      message.error(this.$t('importer.import.error.info')/*导入失败，请重试*/);
+    });
     this.showImport(false);
   };
 
@@ -683,19 +684,19 @@ class ValueList extends React.Component {
     const { customEnumerationOid, isCustom } = this.state;
     let hide = message.loading(messages('importer.spanned.file' /*正在生成文件..*/));
     valueListService
-      .exportValues(customEnumerationOid, isCustom)
-      .then(res => {
-        let b = new Blob([res.data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-        let name = messages('value.list' /*值列表*/);
-        FileSaver.saveAs(b, `${name}.xlsx`);
-        hide();
-      })
-      .catch(() => {
-        message.error(messages('importer.download.error.info' /*下载失败，请重试*/));
-        hide();
+    .exportValues(customEnumerationOid, isCustom)
+    .then(res => {
+      let b = new Blob([res.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
+      let name = messages('value.list' /*值列表*/);
+      FileSaver.saveAs(b, `${name}.xlsx`);
+      hide();
+    })
+    .catch(() => {
+      message.error(messages('importer.download.error.info' /*下载失败，请重试*/));
+      hide();
+    });
   };
 
   //批量启用禁用
@@ -718,7 +719,7 @@ class ValueList extends React.Component {
     this.props.dispatch(
       routerRedux.push({
         pathname: '/admin-setting/value-list/:tab'.replace(':tab', this.props.match.params.tab),
-      })
+      }),
     );
   };
 
@@ -782,51 +783,51 @@ class ValueList extends React.Component {
                     {messages('common.total1', { total: pagination.total || 0 })}
                   </div>
                   <div className="table-header-buttons">
-                    {(this.props.tenantMode || isCustom === 'CUSTOM') && (
-                      <Dropdown.Button
-                        overlay={this.renderDropDown()}
-                        type="primary"
-                        onClick={this.newValueList}
-                      >
-                        {messages('value.list.new.value' /*新建值内容*/)}
-                      </Dropdown.Button>
-                    )}
+                    {isCustom === 'CUSTOM' && (
+                      <div>
+                        <Dropdown.Button
+                          overlay={this.renderDropDown()}
+                          type="primary"
+                          onClick={this.newValueList}
+                        >
+                          {messages('value.list.new.value' /*新建值内容*/)}
+                        </Dropdown.Button>
 
-                    <Button loading={btLoading} onClick={this.onExportClick}>
-                     {messages('value.list.value.export' /*值导出*/)}
-                    </Button>
-                    {(isCustom === 'CUSTOM') && (
-                      <div style={{ display: 'inline-block' }}>
-                        <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
-                          {messages('common.enabled' /*启用*/)}
+                        <Button loading={btLoading} onClick={this.onExportClick}>
+                          {messages('value.list.value.export' /*值导出*/)}
                         </Button>
-                        <Button
-                          onClick={() => this.handleBatch('disabled')}
-                          disabled={!hasSelected}
-                        >
-                          {messages('common.disabled' /*禁用*/)}
-                        </Button>
-                        <div
-                          style={{
-                            display: 'inline-block',
-                            padding: '4px 8px 4px 20px',
-                            border: '1px solid #91d5ff',
-                            backgroundColor: '#e6f7ff',
-                            borderRadius: 4,
-                          }}
-                        >
-                          <Icon type="info-circle" style={{ color: '#1890ff' }} />
-                          <span>
+                        <div style={{ display: 'inline-block' }}>
+                          <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
+                            {messages('common.enabled' /*启用*/)}
+                          </Button>
+                          <Button
+                            onClick={() => this.handleBatch('disabled')}
+                            disabled={!hasSelected}
+                          >
+                            {messages('common.disabled' /*禁用*/)}
+                          </Button>
+                          <div
+                            style={{
+                              display: 'inline-block',
+                              padding: '4px 8px 4px 20px',
+                              border: '1px solid #91d5ff',
+                              backgroundColor: '#e6f7ff',
+                              borderRadius: 4,
+                            }}
+                          >
+                            <Icon type="info-circle" style={{ color: '#1890ff' }}/>
+                            <span>
                             &nbsp;{messages('common.total.selected2', {
                               total: selectedRowKeys.length,
                             })}
                           </span>
+                          </div>
                         </div>
                       </div>
                     )}
                     <Search
                       placeholder={messages(
-                        'value.list.search.name.code.remark' /*请输入值名称/编码/备注*/
+                        'value.list.search.name.code.remark', /*请输入值名称/编码/备注*/
                       )}
                       style={{ width: 300, position: 'absolute', right: 0, bottom: 0 }}
                       onChange={e => this.handleSearch(e.target.value)}
@@ -841,12 +842,12 @@ class ValueList extends React.Component {
                   loading={tableLoading}
                   size="middle"
                   rowSelection={
-                    this.props.tenantMode || isCustom === 'CUSTOM' ? rowSelection : null
+                    isCustom === 'CUSTOM' ? rowSelection : null
                   }
                   bordered
                 />
                 <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
-                  <Icon type="rollback" style={{ marginRight: '5px' }} />
+                  <Icon type="rollback" style={{ marginRight: '5px' }}/>
                   {messages('common.back')}
                 </a>
                 <SlideFrame
@@ -859,31 +860,31 @@ class ValueList extends React.Component {
                   show={showSlideFrame}
                   onClose={() => this.showSlide(false)}
                 >
-                  <NewValue close={this.handleCloseSlide} params={slideFrameParams} />
+                  <NewValue close={this.handleCloseSlide} params={slideFrameParams}/>
                 </SlideFrame>
               </div>
             )}
           </div>
         )}
         <ImporterNew visible={showImportFrame}
-          title={messages('value.list.value.import' /*值导入*/)}
-          templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-          uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}`}
-          errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
-          errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
-          deleteDataUrl ={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
-          fileName={messages('value.list.value.import' /*值导入*/)}
-          onOk={this.handleImportOk}
-          afterClose={() => this.showImport(false)} />
+                     title={messages('value.list.value.import' /*值导入*/)}
+                     templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
+                     uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}`}
+                     errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
+                     errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
+                     deleteDataUrl={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
+                     fileName={messages('value.list.value.import' /*值导入*/)}
+                     onOk={this.handleImportOk}
+                     afterClose={() => this.showImport(false)}/>
         {/* 导出 */}
         <ExcelExporter
-            visible={excelVisible}
-            onOk={this.export}
-            columns={exportColumns}
-            canCheckVersion={false}
-            fileName={"值列表"}
-            onCancel={this.onExportCancel}
-            excelItem={"PREPAYMENT_FINANCIAL_QUERY"}
+          visible={excelVisible}
+          onOk={this.export}
+          columns={exportColumns}
+          canCheckVersion={false}
+          fileName={'值列表'}
+          onCancel={this.onExportCancel}
+          excelItem={'PREPAYMENT_FINANCIAL_QUERY'}
         />
       </div>
     );
@@ -900,5 +901,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { withRef: true },
 )(ValueList);
