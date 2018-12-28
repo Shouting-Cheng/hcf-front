@@ -363,6 +363,7 @@ class BudgetJournalDetail extends React.Component {
       // budgetJournalPage: menuRoute.getRouteItem('budget-journal', 'key'),    //预算日记账
     };
   }
+
   //获取审批历史数据
   getApproveHistory(headerData) {
     let params = {};
@@ -380,7 +381,7 @@ class BudgetJournalDetail extends React.Component {
       sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
       dec = typeof dec_point === 'undefined' ? '.' : dec_point,
       s = '',
-      toFixedFix = function(n, prec) {
+      toFixedFix = function (n, prec) {
         var k = Math.pow(10, prec);
         return '' + Math.ceil(n * k) / k;
       };
@@ -615,13 +616,13 @@ class BudgetJournalDetail extends React.Component {
         };
         const templateUrl = `${
           config.budgetUrl
-        }/api/budget/journals/export/template?budgetJournalHeadId=${headerData.id}`;
+          }/api/budget/journals/export/template?budgetJournalHeadId=${headerData.id}`;
         const uploadUrl = `${config.budgetUrl}/api/budget/journals/import?budgetJournalHeadId=${
           headerData.id
-        }`;
+          }`;
         const errorUrl = `${
           config.budgetUrl
-        }/api/budget/batch/transaction/logs/failed/export/budgetJournal/${headerData.id}`;
+          }/api/budget/batch/transaction/logs/failed/export/budgetJournal/${headerData.id}`;
         let headerAndListData = {
           dto: response.data,
           list: [],
@@ -811,19 +812,36 @@ class BudgetJournalDetail extends React.Component {
         commitLoading: true,
       });
       let header = this.state.headerAndListData.dto;
-      let data = {
-        applicantOid: header.applicatOiD,
-        userOid: this.props.user.userOid,
-        formOid: header.formOid,
-        entityOid: header.documentOid,
+      /*let data = {
+        applicantOID: header.applicatOiD,
+        userOID: this.props.user.userOID,
+        formOID: header.formOid,
+        entityOID: header.documentOid,
         entityType: header.documentType,
         amount: 0,
         countersignApproverOids: null,
       };
-
+  */
+      let workFlowDocumentRef = {
+        applicantOid: header.applicatOid,
+        userOid: this.props.user.userOid,
+        formOid: header.formOid,
+        documentOid: header.documentOid,
+        documentCategory: header.documentType,
+        countersignApproverOIDs: null,
+        documentNumber: header.journalCode,
+        remark: header.description,
+        companyId: header.companyId,
+        unitOid: header.unitOid,
+        amount: header.amount,
+        currencyCode: header.currency,
+        documentTypeId: header.journalTypeId,
+        applicantDate: header.createdDate,
+        documentId: header.id
+      };
       if (this.state.commitFlag) {
         budgetJournalService
-          .commitBudgetJournalWorkflow(data)
+          .commitBudgetJournalWorkflow(workFlowDocumentRef)
           .then(req => {
             message.success('提交成功');
             this.setState({
@@ -1000,19 +1018,19 @@ class BudgetJournalDetail extends React.Component {
                 <Button type="primary" onClick={() => this.showImport(true)}>
                   {this.$t({ id: 'importer.import' } /*导入*/)}
                 </Button>
-                <ImporterNew 
+                <ImporterNew
                   visible={showImportFrame}
                   title={this.$t({ id: 'budgetJournal.leading' })}
                   templateUrl={templateUrl}
                   uploadUrl={`${config.budgetUrl}/api/budget/journals/import?budgetJournalHeadId=${
                     this.props.match.params.journalCode
-                  }`}
+                    }`}
                   errorUrl={`${config.budgetUrl}/api/budget/journals/import/error/export`}
                   errorDataQueryUrl={`${config.budgetUrl}/api/budget/journals/import/query/result`}
-                  deleteDataUrl ={`${config.budgetUrl}/api/budget/journals/import/delete`}
+                  deleteDataUrl={`${config.budgetUrl}/api/budget/journals/import/delete`}
                   fileName={this.$t({ id: 'budgetJournal.budgetJournalLeading' })}
                   onOk={this.onLoadOk}
-                  afterClose={() => this.showImport(false)}/>
+                  afterClose={() => this.showImport(false)} />
                 <Popconfirm
                   placement="topLeft"
                   title={this.$t({ id: 'common.delete' })}
@@ -1054,7 +1072,7 @@ class BudgetJournalDetail extends React.Component {
               params={this.state.params}
             />
           </SlideFrame>
-          <div className="divider"> </div>
+          <div className="divider"></div>
           <Affix
             offsetBottom={0}
             style={{

@@ -150,7 +150,7 @@ class UnpaidReverseInfo extends React.Component {
           title: this.$t({id:'exp.reserve.remark'}), dataIndex: 'description', align:'center',
           render: (value,record,index) => {
             return (
-              <Input defaultValue={record.description ? record.description : ''}
+              <Input //defaultValue={record.description ? record.description : ''}
                      onChange={e => this.changeRemark(e, index, record)}></Input>
             )
           }
@@ -585,6 +585,7 @@ class UnpaidReverseInfo extends React.Component {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
+
     return (
       <div className="tab-container reimburse-container">
         <h3 style={{ padding: "0 0 10px", margin: 0 }} className="sub-header-title">{this.$t({id:'exp.unPay.reserve.info'})}</h3>

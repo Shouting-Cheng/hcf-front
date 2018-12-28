@@ -163,7 +163,6 @@ class BudgetOrganization extends React.Component {
   };
 
   searchEventHandle = (event, value) => {
-    console.log(event, value)
   };
 
   handleNew = () => {

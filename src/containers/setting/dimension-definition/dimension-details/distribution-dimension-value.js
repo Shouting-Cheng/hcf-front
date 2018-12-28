@@ -18,19 +18,19 @@ class DistributionDimension extends Component {
       infoList: [
         {
           type: 'input',
-          id: 'dimensionItemCode',
+          id: 'dimensionItemGroupCode',
           isRequired: true,
           label: '维值组代码',
         },
         {
           type: 'input',
-          id: 'dimensionItemName',
+          id: 'dimensionItemGroupName',
           isRequired: true,
           label: '维值组名称',
         },
         {
           type: 'switch',
-          id: 'enable',
+          id: 'enabled',
           isRequired: true,
           label: '状态',
         },
@@ -86,22 +86,32 @@ class DistributionDimension extends Component {
       visible: false,
       selectedKey: [],
       loading: false,
-      dimensionItemGroupId: '',
+      dimensionItemGroupId: this.props.match.params.id,
       searchParams: {},
       dimensionItemIds: [],
+      confirmLoading: false,
     };
   }
 
   // 生命周期获取数据
   componentDidMount() {
-    const id = this.props.match.params.id;
-    console.log(id);
-    this.setState({ dimensionItemGroupId: id }, this.getList)
+    this.getList();
+    this.getDimensionGroup();
+  }
+
+  // 维值组详情
+  getDimensionGroup = () => {
+    const id = this.state.dimensionItemGroupId;
+    service.getDimensionGroupDetail(id).then(res => {
+      this.setState({ infoData: res.data });
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
   }
 
   // 获取数据
   getList = () => {
-    let { dimensionItemGroupId, page, size, searchParams, loading, pagination } = this.state;
+    let { dimensionItemGroupId, page, size, searchParams, pagination } = this.state;
     let params = { dimensionItemGroupId, page, size, ...searchParams };
     this.setState({ loading: true });
     service.getDimensionItem(params).then((res) => {
@@ -113,7 +123,7 @@ class DistributionDimension extends Component {
   // 删除
   delete = id => {
     let { dimensionItemGroupId } = this.state;
-    service.deleteDimensionItem({ dimensionItemGroupId, dimensionItemId: id }).then(() => {
+    service.deleteDimensionItem(dimensionItemGroupId, id).then(() => {
       message.success('删除成功');
       this.mySetState();
     }).catch(err => {
@@ -124,9 +134,8 @@ class DistributionDimension extends Component {
   // 批量删除
   batchDelete = () => {
     let { selectedKey, dimensionItemGroupId } = this.state;
-    let params = { dimensionItemGroupId, dimensionItemIds: selectedKey };
-    if(selectedKey.length) {
-      service.batchDeleteDimensionItem(params).then(() => {
+    if (selectedKey.length) {
+      service.batchDeleteDimensionItem(dimensionItemGroupId, selectedKey).then(() => {
         message.success('批量删除成功');
         this.mySetState();
       }).catch(err => {
@@ -139,7 +148,7 @@ class DistributionDimension extends Component {
 
   // 搜索
   search = value => {
-    this.mySetState({ searchParams: { dimensionItemCode: value }});
+    this.mySetState({ searchParams: { dimensionItemCode: value } });
   }
 
   // 设置state
@@ -170,12 +179,11 @@ class DistributionDimension extends Component {
 
   //返回
   onBackClick = e => {
-    console.log(this.props);
-    let id = this.props.match.params.id;
+    let dimensionId = this.props.match.params.dimensionId;
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition/dimension-details/${id}`,
+        pathname: `/admin-setting/dimension-definition/dimension-details/${dimensionId}`,
       })
     );
   };
@@ -188,13 +196,19 @@ class DistributionDimension extends Component {
   // 分配子维值
   onDimensionOk = () => {
     let { dimensionItemIds, dimensionItemGroupId } = this.state;
-    let params = { dimensionItemGroupId, dimensionItemIds };
-    console.log(params);
-    service.distributeDimensionItem().then(() => {
-      this.getList();
-    }).catch(err => {
-      message.error(err.response.data.message);
-    })
+    if (dimensionItemIds.length) {
+      this.setState({ confirmLoading: true });
+      service.distributeDimensionItem(dimensionItemGroupId, dimensionItemIds).then(() => {
+        message.success('分配子维值成功');
+        this.setState({ visible: false, confirmLoading: false })
+        this.getList();
+      }).catch(err => {
+        message.error(err.response.data.message);
+        this.setState({ confirmLoading: false });
+      })
+    } else {
+      message.warning('请选择要分配的值');
+    }
   }
 
   // 获取模态框选择的维值
@@ -204,7 +218,7 @@ class DistributionDimension extends Component {
 
   render() {
     const {
-      infoList, infoData, columns, data, pagination, visible, loading, dimensionItemGroupId
+      infoList, infoData, columns, data, pagination, visible, loading, dimensionItemGroupId, confirmLoading
     } = this.state;
     const rowSelection = {
       onChange: this.selectChange,
@@ -261,6 +275,8 @@ class DistributionDimension extends Component {
           onCancel={this.onDimensionCancel}
           width={800}
           onOk={this.onDimensionOk}
+          destroyOnClose={true}
+          confirmLoading={confirmLoading}
         >
           <ModalDimension ids={this.getModalDimensionItem} groupId={dimensionItemGroupId} />
         </Modal>

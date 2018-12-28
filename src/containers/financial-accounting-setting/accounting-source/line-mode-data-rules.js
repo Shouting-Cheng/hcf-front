@@ -162,7 +162,6 @@ class LineModeDataRules extends React.Component {
   };
 
   handleAfterClose = valueRecord => {
-    console.log(valueRecord)
     if (valueRecord && JSON.stringify(valueRecord) != '{}') {
       let value = valueRecord.value;
       let saveCount = valueRecord.saveCount;
@@ -183,7 +182,7 @@ class LineModeDataRules extends React.Component {
             };
             let lov = {
               title: this.$t({ id: 'accounting.source.editDataRules' }),
-              visible: false,
+              visible: true,
               params: params,
             };
             this.setState(

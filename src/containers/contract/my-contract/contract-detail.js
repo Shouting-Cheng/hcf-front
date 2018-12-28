@@ -37,16 +37,33 @@ class ContractDetail extends React.Component {
       // 如果formOid有值，则走工作流提交
       if (this.detail.state.headerData.formOid) {
         const { headerData } = this.detail.state;
-        let params = {
+        /* let params = {
+           applicantOID: headerData.applicantOid,
+           userOID: this.props.user.userOID,
+           formOID: headerData.formOid,
+           entityOID: headerData.documentOid,
+           entityType: headerData.documentType,
+           countersignApproverOIDs: null,
+         };*/
+        let workFlowDocumentRef = {
           applicantOid: headerData.applicantOid,
           userOid: this.props.user.userOid,
           formOid: headerData.formOid,
-          entityOid: headerData.documentOid,
-          entityType: headerData.documentType,
-          countersignApproverOids: null,
+          documentOid: headerData.documentOid,
+          documentCategory: headerData.documentType,
+          countersignApproverOIDs: null,
+          documentNumber: headerData.contractNumber,
+          remark: headerData.remark,
+          companyId: headerData.companyId,
+          unitOid: headerData.unitOid,
+          amount: headerData.amount,
+          currencyCode: headerData.currency,
+          documentTypeId: headerData.contractTypeId,
+          applicantDate: headerData.createdDate,
+          documentId: headerData.id
         };
         contractService
-          .submitWorkflowContract(params)
+          .submitWorkflowContract(workFlowDocumentRef)
           .then(res => {
             if (res.status === 200) {
               this.setState({ loading: false });
@@ -82,7 +99,7 @@ class ContractDetail extends React.Component {
       this.setState({ loading: false });
     }
   };
-  componentWillMount () {
+  componentWillMount() {
     // 该判断是支付模块查看合同详情时判断，因为支付模块使用的是弹出框
     let paramsId = 0;
     if (this.props.params && this.props.params.refund) {
@@ -91,7 +108,7 @@ class ContractDetail extends React.Component {
       paramsId = this.props.match.params.id;
     }
     this.setState({
-      paramsId : paramsId
+      paramsId: paramsId
     })
   }
   //删除
@@ -125,7 +142,7 @@ class ContractDetail extends React.Component {
   };
 
   render() {
-    const { loading, dLoading, submitAble,paramsId} = this.state;
+    const { loading, dLoading, submitAble, paramsId } = this.state;
     return (
       <div className="contract-detail" style={{ margin: '-12px -14px' }}>
         <ContractDetailCommon
@@ -155,12 +172,12 @@ class ContractDetail extends React.Component {
         {this.props.params && this.props.params.refund
           ? ''
           : !submitAble && (
-              <Affix offsetBottom={0} className="bottom-bar-jsq">
-                <Button style={{ marginLeft: '30px' }} onClick={this.onCancel}>
-                  {this.$t({ id: 'common.back' } /*返回*/)}
-                </Button>
-              </Affix>
-            )}
+            <Affix offsetBottom={0} className="bottom-bar-jsq">
+              <Button style={{ marginLeft: '30px' }} onClick={this.onCancel}>
+                {this.$t({ id: 'common.back' } /*返回*/)}
+              </Button>
+            </Affix>
+          )}
       </div>
     );
   }

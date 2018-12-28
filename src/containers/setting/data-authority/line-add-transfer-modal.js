@@ -71,7 +71,7 @@ class LineAddTransferModal extends React.Component {
             selectedTreeInfo: nextProps.selectedTreeInfo,
             treeData,
             isShowTreeNode: true,
-            rightList:[]
+            rightList: []
         })
     }
     /**
@@ -127,7 +127,7 @@ class LineAddTransferModal extends React.Component {
             selectedTreeInfo.splice(selectedTreeInfo.findIndex(o => o.id == info.node.props.dataRef.id), 1);
         }
 
-        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo,rightList });
+        this.setState({ selectTreeNodes: selectedKeys, selectedTreeInfo, rightList });
 
 
     }
@@ -240,25 +240,34 @@ class LineAddTransferModal extends React.Component {
     }
     /**删除右边数据 */
     deleteListItem = (listItem) => {
+        console.log(listItem);
         const { selectedTreeInfo, treeData } = this.state;
-        const rightSlectList = selectedTreeInfo.filter(item => item.id !== listItem.id);
+        let rightSlectList = [];
+        if (listItem.valueKey) {
+            rightSlectList = selectedTreeInfo.filter(item => item.valueKey !== listItem.valueKey);
+            this.setState({
+                selectedTreeInfo:rightSlectList
+            })
+        } else {
+            rightSlectList = selectedTreeInfo.filter(item => item.id !== listItem.id);
+            let parentId = listItem.parentId;
 
-        let parentId = listItem.parentId;
+            let temp = this.getItemById(treeData, listItem.id);
+            temp.isSelectAll = false;
 
-        let temp = this.getItemById(treeData, listItem.id);
-        temp.isSelectAll = false;
+            while (parentId) {
+                let obj = this.getItemById(treeData, parentId);
+                obj.isSelectAll = false;
+                parentId = obj.parentId;
+            }
 
-        while (parentId) {
-            let obj = this.getItemById(treeData, parentId);
-            obj.isSelectAll = false;
-            parentId = obj.parentId;
+            this.setState({
+                selectTreeNodes: rightSlectList.map(o => o.id),
+                selectedTreeInfo: rightSlectList,
+                treeData
+            })
         }
 
-        this.setState({
-            selectTreeNodes: rightSlectList.map(o => o.id),
-            selectedTreeInfo: rightSlectList,
-            treeData
-        })
     }
     ok = () => {
         let { selectedTreeInfo } = this.state;
@@ -269,8 +278,8 @@ class LineAddTransferModal extends React.Component {
     */
     renderItems = (selectedTreeInfo) => {
         return selectedTreeInfo.map((item) => {
-            return <Row key={item.valueKey?item.valueKey:item.id} style={{ marginTop: 5 }}>
-                <Col span={22} style={{ fontSize: 13 }}>{item.valueKey?`${item.valueKeyCode}-${item.valueKeyDesc}`:`${item.code}-${item.name}`}</Col>
+            return <Row key={item.valueKey ? item.valueKey : item.id} style={{ marginTop: 5 }}>
+                <Col span={22} style={{ fontSize: 13 }}>{item.valueKey ? `${item.valueKeyCode}-${item.valueKeyDesc}` : `${item.code}-${item.name}`}</Col>
                 <Col span={2} onClick={(e) => { this.deleteListItem(item) }} style={{ cursor: 'pointer' }}><Icon type="close" /></Col>
             </Row>;
         })

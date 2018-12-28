@@ -41,14 +41,14 @@ class LegalPersonDetail extends React.Component {
       legalPerson: {
         accountBank: '', //开户行
         address: '', //地址
-        companyName: '', //名称
+        entityName: '', //名称
 
-        cardNumber: '', //银行卡号
-        enable: '', //状态
+        accountNumber: '', //银行卡号
+        enabled: '', //状态
         i18n: {}, //包含开户行，地址，名称
 
         setOfBooksId: '', //账套
-        telephone: '', //电话
+        telePhone: '', //电话
         taxpayerNumber: '', //税号
 
         parentLegalEntityId: '', //上级法人
@@ -60,7 +60,7 @@ class LegalPersonDetail extends React.Component {
         //名称
         {
           type: 'input',
-          id: 'companyName',
+          id: 'entityName',
           isRequired: true,
           label: this.$t('legal.entity.detail.name'), //"名称"
         },
@@ -81,14 +81,14 @@ class LegalPersonDetail extends React.Component {
         //银行卡号
         {
           type: 'input',
-          id: 'cardNumber',
+          id: 'accountNumber',
           isRequired: true,
           label: this.$t('legal.entity.detail.bank.card'), // "银行卡号"
         },
         // 电话
         {
           type: 'input',
-          id: 'telephone',
+          id: 'telePhone',
           isRequired: true,
           label: this.$t('legal.entity.detail.mobile'), // "电话"
         },
@@ -115,7 +115,7 @@ class LegalPersonDetail extends React.Component {
         // 状态
         {
           type: 'switch',
-          id: 'enable',
+          id: 'enabled',
           label: this.$t('common.column.status') /*状态*/,
         },
         // 开票显示语言
@@ -285,8 +285,8 @@ class LegalPersonDetail extends React.Component {
         columns: [
           {
             title: this.$t('legal.entity.detail.name'),
-            dataIndex: 'companyName',
-            key: 'companyName',
+            dataIndex: 'entityName',
+            key: 'entityName',
           },
           {
             title: this.$t('legal.entity.detail.tax'),

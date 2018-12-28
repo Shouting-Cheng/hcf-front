@@ -38,7 +38,7 @@ class WorkflowDetail extends React.Component {
   componentDidMount() {
     this.setState({ loading: true });
     workflowService.getFormFields(this.props.match.params.formOid).then(res => {
-      this.setState({formFieldList: res.data}, ()=>{
+      this.setState({ formFieldList: res.data }, () => {
         Promise.all([
           this.getForm(),
           this.getApprovalChain()
@@ -56,7 +56,7 @@ class WorkflowDetail extends React.Component {
   getForm = () => {
     return new Promise((resolve, reject) => {
       workflowService.getCustomForm(this.props.match.params.formOid).then(res => {
-        this.setState({formInfo: res.data});
+        this.setState({ formInfo: res.data });
         resolve(res)
       }).catch(e => {
         reject(e)
@@ -72,7 +72,7 @@ class WorkflowDetail extends React.Component {
         this.setState({
           chainInfo: res.data,
           chosenNodeType: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[0].type,
-          chosenNodeWidget: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[0]
+          chosenNodeWidget: res.data.ruleApprovalNodes ? res.data.ruleApprovalNodes[0] : {}
         });
         resolve(res)
       }).catch(e => {
@@ -191,7 +191,7 @@ class WorkflowDetail extends React.Component {
     if (this.state.isRuleInEdit) {
       message.warning(this.$t('setting.key1319'/*你有一个编辑中的审批条件未保存*/))
     } else {
-      this.setState({addPersonModalVisible: visible})
+      this.setState({ addPersonModalVisible: visible })
     }
   };
 
@@ -199,14 +199,14 @@ class WorkflowDetail extends React.Component {
   handleApproverChange = (approverNotChange) => {
     this.setState({ addPersonModalVisible: false }, () => {
       if (!approverNotChange) {
-        this.setState({ loading : true });
+        this.setState({ loading: true });
         workflowService.getApprovalChainDetail(this.props.match.params.formOid).then(res => {
           res.data = this.refreshName(res.data);
           this.setState({
             loading: false,
             chainInfo: res.data,
             chosenNodeType: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[this.state.choseNodeIndex].type,
-            chosenNodeWidget: res.data.ruleApprovalNodes && res.data.ruleApprovalNodes[this.state.choseNodeIndex]
+            chosenNodeWidget: res.data.ruleApprovalNodes ? res.data.ruleApprovalNodes[this.state.choseNodeIndex] : {}
           })
         })
       }
@@ -258,18 +258,18 @@ class WorkflowDetail extends React.Component {
               {(approvalMode === 1002 || approvalMode === 1003 || approvalMode === 1006) ? (
                 <Tooltip title={formInfo.formName} placement="topLeft" className="form-name-tooltip">{formInfo.formName}</Tooltip>
               ) : (
-                <Row>
-                  <Col span={language.code === 'zh_cn' ? 15 : 12} className="form-name">
-                    <Tooltip title={formInfo.formName} placement="topLeft" className="form-name-tooltip">{formInfo.formName}</Tooltip>
-                  </Col>
-                  <Col span={9}>
-                    <Button type="primary"
-                            onClick={this.handleFormSettingVisible}>
-                      {this.$t('setting.key1412'/*表单配置*/)}
-                    </Button>
-                  </Col>
-                </Row>
-              )}
+                  <Row>
+                    <Col span={language.code === 'zh_cn' ? 15 : 12} className="form-name">
+                      <Tooltip title={formInfo.formName} placement="topLeft" className="form-name-tooltip">{formInfo.formName}</Tooltip>
+                    </Col>
+                    <Col span={9}>
+                      <Button type="primary"
+                        onClick={this.handleFormSettingVisible}>
+                        {this.$t('setting.key1412'/*表单配置*/)}
+                      </Button>
+                    </Col>
+                  </Row>
+                )}
               <div className="approve-type">
                 <div>
                   {approvalMode === 1002 && this.$t('setting.key1413'/*部门经理*/)}
@@ -278,7 +278,7 @@ class WorkflowDetail extends React.Component {
                   {approvalMode === 1006 && this.$t('setting.key1416'/*英孚*/)}
                   {this.$t('setting.key1248'/*审批*/)}
                   <Popover placement="bottom" content={language.code === 'zh_cn' ? <img src={flowTipsImg} /> : <img src={flowTipsEnImg} />}>
-                    <Icon type="question-circle-o" className="question-icon"/>
+                    <Icon type="question-circle-o" className="question-icon" />
                   </Popover>
                 </div>
                 <p>
@@ -298,20 +298,20 @@ class WorkflowDetail extends React.Component {
               )}
               {approvalMode === 1005 && (
                 <CustomApproveNode ruleApprovalNodes={chainInfo.ruleApprovalNodes}
-                                   ruleApprovalChainOid={chainInfo.ruleApprovalChainOid}
-                                   formInfo={formInfo}
-                                   formOid={this.props.match.params.formOid}
-                                   isRuleInEdit={isRuleInEdit}
-                                   onSelect={this.handleNodeSelect}
-                                   onChange={this.handleNodeChange}
-                                   onSaving={saving => this.setState({saving})}
-                                   saving={saving}
+                  ruleApprovalChainOid={chainInfo.ruleApprovalChainOid}
+                  formInfo={formInfo}
+                  formOid={this.props.match.params.formOid}
+                  isRuleInEdit={isRuleInEdit}
+                  onSelect={this.handleNodeSelect}
+                  onChange={this.handleNodeChange}
+                  onSaving={saving => this.setState({ saving })}
+                  saving={saving}
                 />
               )}
             </Col>
             {/*div.right-content-cover 是为了操作节点的时候右边的内容区域不可编辑*/}
-            {saving && <Col span={18} className="right-content-cover"/>}
-            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOid={this.props.match.params.formOid}/></Col>}
+            {saving && <Col span={18} className="right-content-cover" />}
+            {showFormSetting && <Col span={18} className="right-content"><FormSetting formOid={this.props.match.params.formOid} /></Col>}
             {!showFormSetting && (
               <Col span={18} className="right-content">
                 {approvalMode === 1002 && (
@@ -353,45 +353,49 @@ class WorkflowDetail extends React.Component {
                 {approvalMode === 1005 && (
                   <div className="node-detail">
                     {chosenNodeType === 1001 && (
-                      <NodeApproveMan basicInfo={chosenNodeWidget}
-                                      formInfo={formInfo}
-                                      basicInfoSaveHandle={this.handleBasicInfoSave}
-                                      modalVisibleHandle={this.handlePersonModalShow}
+                      <NodeApproveMan
+                        basicInfo={chosenNodeWidget.ruleApprovers ? chosenNodeWidget : { ...chosenNodeWidget, ruleApprovers: [] }}
+                        formInfo={formInfo}
+                        basicInfoSaveHandle={this.handleBasicInfoSave}
+                        modalVisibleHandle={this.handlePersonModalShow}
                       />
                     )}
                     {chosenNodeType === 1002 && (
-                      <NodeKnow basicInfo={chosenNodeWidget}
-                                formInfo={formInfo}
-                                basicInfoSaveHandle={this.handleBasicInfoSave}
-                                modalVisibleHandle={this.handlePersonModalShow}
+                      <NodeKnow
+                        basicInfo={chosenNodeWidget.ruleApprovers ? chosenNodeWidget : { ...chosenNodeWidget, ruleApprovers: [] }}
+                        formInfo={formInfo}
+                        basicInfoSaveHandle={this.handleBasicInfoSave}
+                        modalVisibleHandle={this.handlePersonModalShow}
                       />
                     )}
                     {chosenNodeType === 1003 && (
-                      <NodeApproveAi basicInfo={chosenNodeWidget}
-                                     basicInfoSaveHandle={this.handleBasicInfoSave}
+                      <NodeApproveAi
+                        basicInfo={chosenNodeWidget.ruleApprovers ? chosenNodeWidget : { ...chosenNodeWidget, ruleApprovers: [] }}
+                        basicInfoSaveHandle={this.handleBasicInfoSave}
                       />
                     )}
                     <NodeConditionList formOid={this.props.match.params.formOid}
-                                       basicInfo={chosenNodeWidget}
-                                       formInfo={formInfo}
-                                       onApproverChange={this.handleApproverChange}
-                                       judgeRuleInEdit={isRuleInEdit => this.setState({isRuleInEdit})}
-                                       conditionSaveHandle={this.handleConditionSave}
+                      basicInfo={chosenNodeWidget.ruleApprovers ? chosenNodeWidget : { ...chosenNodeWidget, ruleApprovers: [] }}
+                      formInfo={formInfo}
+                      onApproverChange={this.handleApproverChange}
+                      judgeRuleInEdit={isRuleInEdit => this.setState({ isRuleInEdit })}
+                      conditionSaveHandle={this.handleConditionSave}
                     />
                     <AddPersonModal visible={addPersonModalVisible}
-                                    personType={chosenNodeType === 1001 ? 1 : 2}
-                                    ruleApprovers={chosenNodeWidget.ruleApprovers || []}
-                                    ruleApprovalNodeOid={chosenNodeWidget.ruleApprovalNodeOid}
-                                    formInfo={formInfo}
-                                    onCancel={()=>this.setState({addPersonModalVisible: false})}
-                                    onSelect={this.handleApproverChange}
-                                    onDelete={this.handleDeleteApprover}
+                      personType={chosenNodeType === 1001 ? 1 : 2}
+                      ruleApprovers={chosenNodeWidget.ruleApprovers || []}
+                      ruleApprovalNodeOid={chosenNodeWidget.ruleApprovalNodeOid}
+                      formInfo={formInfo}
+                      onCancel={() => this.setState({ addPersonModalVisible: false })}
+                      onSelect={this.handleApproverChange}
+                      onDelete={this.handleDeleteApprover}
                     />
                   </div>
                 )}
                 {approvalMode === 1005 && chosenNodeType === 1004 && (
-                  <NodePrint basicInfo={chosenNodeWidget}
-                             basicInfoSaveHandle={this.handleBasicInfoSave}
+                  <NodePrint
+                    basicInfo={chosenNodeWidget.ruleApprovers ? chosenNodeWidget : { ...chosenNodeWidget, ruleApprovers: [] }}
+                    basicInfoSaveHandle={this.handleBasicInfoSave}
                   />
                 )}
                 {approvalMode === 1005 && chosenNodeType === 1005 && (
@@ -402,11 +406,11 @@ class WorkflowDetail extends React.Component {
                     </Row>
                     {/*报销单的formType以3开头，只有报销单和借款单才有打印配置*/}
                     {formInfo.formType && (String(formInfo.formType).charAt(0) === '3' || formInfo.formType === 2005) && (
-                      <Row style={{marginTop: 15}}>
+                      <Row style={{ marginTop: 15 }}>
                         <Col span={3}>{this.$t('setting.key1425'/*是否打印*/)}</Col>
                         <Col span={3}>
                           <Checkbox defaultChecked={chosenNodeWidget.isPrint}
-                                    onChange={e => this.handleEndNodePrint(e, chosenNodeWidget)}/>
+                            onChange={e => this.handleEndNodePrint(e, chosenNodeWidget)} />
                         </Col>
                       </Row>
                     )}

@@ -158,7 +158,6 @@ class ApplicationType extends Component {
 
   render() {
     let { columns, searchForm, visible, record, setOfBooksId } = this.state;
-    let { company } = this.props;
     return (
       <div>
         <SearchArea submitHandle={this.search} searchForm={searchForm} clearHandle={this.clear} eventHandle={this.formChange} />
