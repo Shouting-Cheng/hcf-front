@@ -69,6 +69,7 @@ class BatchSingleCompany extends Component {
     componentDidMount = () => {
        this.getCompanyData();
        this.getCurDimensionValue();
+       console.log(this.state.dimensionItemId);
     }
 
     //获取当前维值详情
@@ -76,13 +77,14 @@ class BatchSingleCompany extends Component {
       dimensionValueService
         .getCurrentDimensionValue(this.state.dimensionItemId)
         .then(res => {
+            console.log(res);
             this.setState({
               curTypeList: {...res.data['dimensionItem']},
             });
         })
         .catch(err => {
            console.log(err);
-           message.error('查询详情失败:'+err);
+           message.error('查询详情失败:'+err.response.data.message);
         });
     }
     //获取公司数据
@@ -181,6 +183,7 @@ class BatchSingleCompany extends Component {
                dimensionItemId: this.state.dimensionItemId
             });
         });
+        console.log(params);
         dimensionValueService
           .addNewCompanyData(params)
           .then(res => {

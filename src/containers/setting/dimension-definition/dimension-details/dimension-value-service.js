@@ -28,14 +28,12 @@ export default {
    },
    /**
     * 删除维值
-    * @param {*} params
     */
    delDimensionValue(dimensionItemId) {
       return httpFetch.delete(`/api/dimension/item/${dimensionItemId}`)
    },
    /**
     * 查询维值详情
-    * @param {*} params
     */
    getCurrentDimensionValue(dimensionItemId) {
        const url = `${config.baseUrl}/api/dimension/item/${dimensionItemId}`;
@@ -65,4 +63,20 @@ export default {
        const url = `${config.baseUrl}/api/dimension/item/assign/company/batch`;
        return httpFetch.put(url, params);
    },
+   /**
+    * 导出维值
+    */
+   exportDimensionValue(params,dimensionId) {
+       const url = `${config.baseUrl}/api/dimension/item/export?dimensionId=${dimensionId}`;
+       return httpFetch.post(url,params,{}, { responseType: 'arraybuffer' });
+   },
+   /**
+    * 确认导入
+    */
+   confirmImporter(transactionID) {
+     console.log(transactionID);
+     const url = `${config.baseUrl}/api/dimension/item/import/confirm/${transactionID}`;
+     return httpFetch.post(url);
+   },
+
 }
