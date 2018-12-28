@@ -72,8 +72,9 @@ class NewSetOfBooks extends React.Component {
       });
   };
 
-  getCurrencyList = (open) => {
-    open&&this.state.currencyOptions.length === 0 &&
+  getCurrencyList = open => {
+    open &&
+      this.state.currencyOptions.length === 0 &&
       baseService.getCurrencyList('', this.props.language.local).then(res => {
         this.setState({ currencyOptions: res.data, currencyFetched: true });
       });
@@ -210,8 +211,8 @@ class NewSetOfBooks extends React.Component {
                 {currencyOptions.map(item => {
                   return (
                     <Option value={item.currencyCode} key={item.currencyCode}>
-                      {item.currencyCode+' - '+ item.currencyName}
-{/*
+                      {item.currencyCode + ' - ' + item.currencyName}
+                      {/*
                       {this.props.language.local === 'zh_Cn' ? ` ${item.currencyCode+' - '+item.currencyName}` : ''}
 */}
                     </Option>
@@ -222,7 +223,7 @@ class NewSetOfBooks extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t('common.column.status') /* 状态 */}>
             {getFieldDecorator('enabled', {
-              initialValue: params.isEnabled !== undefined ? params.enabled : false,
+              initialValue: params.enabled !== undefined ? params.enabled : false,
               valuePropName: 'checked',
             })(
               <Switch
