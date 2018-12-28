@@ -115,10 +115,6 @@ class CustomTable extends Component {
     }
   }
 
-  test = () => {
-    console.log('hello');
-  };
-
   indexChange = (page, size) => {
     let pagination = this.state.pagination;
     pagination.current = page;

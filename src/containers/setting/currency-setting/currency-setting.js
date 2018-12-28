@@ -645,7 +645,7 @@ class CurrencySetting extends React.Component {
           </span>
             <br/>
             {enableAutoUpdate && <span className='currency-setting-note'>
-            {/*该自动汇率信息仅供参考，对使用该汇率数据所导致的结果，汉得融晶不承担任何责任。*/}
+            {/*该自动汇率信息仅供参考，对使用该汇率数据所导致的结果，融智汇不承担任何责任。*/}
               {this.$t("currency.setting.without.duty")/*免责声明*/}
           </span>}
           </div>
@@ -697,10 +697,10 @@ class CurrencySetting extends React.Component {
                      return document.getElementsByClassName("currency-setting-modal")[0]
                    }}>
               <h3 className='modal-title'>
-                {this.$t("currency.setting.enable.agreement")/*汉得融晶启用自动汇率服务协议*/}
+                {this.$t("currency.setting.enable.agreement")/*融智汇启用自动汇率服务协议*/}
               </h3>
               <div>
-                {/*汉得融晶自动汇率服务协议（以下简称协议）是用户与汉得融晶所有者之间就自动汇率服务等相关事宜所订立的契约，请用户管理者仔细阅读本启用协议，点击*/}
+                {/*融智汇自动汇率服务协议（以下简称协议）是用户与融智汇所有者之间就自动汇率服务等相关事宜所订立的契约，请用户管理者仔细阅读本启用协议，点击*/}
                 {this.$t("currency.setting.agreement.click")/*说明*/}
                 <span className='currency-setting-blue' onClick={this.handleModalOK} style={{cursor: 'pointer'}}>
                 {this.$t("currency.setting.agree.continue")/*'同意并继续'*/}"
@@ -710,7 +710,7 @@ class CurrencySetting extends React.Component {
               <h4>{this.$t("currency.setting.agreement.1")/*第1条 对协议条款的确认和接纳*/}</h4>
               <div className='modal-paragraph'>
                 <div>
-                  {/*1.1 本协议的所有权和运作权归汉得融晶所有。*/}
+                  {/*1.1 本协议的所有权和运作权归融智汇所有。*/}
                   {this.$t("currency.setting.agreement.1.1")/*1.1*/}
                 </div>
                 <div>
@@ -718,29 +718,29 @@ class CurrencySetting extends React.Component {
                   {this.$t("currency.setting.agreement.1.2")/*1.2*/}
                 </div>
                 <div>
-                  {/*1.3 汉得融晶保留本产品特殊情况下拒绝服务的权利。*/}
+                  {/*1.3 融智汇保留本产品特殊情况下拒绝服务的权利。*/}
                   {this.$t("currency.setting.agreement.1.3")/*1.3*/}
                 </div>
                 <div>
-                  {/*1.4 用户使用汉得融晶提供的此服务时，应同时接受适用于本服务的准则。*/}
+                  {/*1.4 用户使用融智汇提供的此服务时，应同时接受适用于本服务的准则。*/}
                   {this.$t("currency.setting.agreement.1.4")/*1.4*/}
                 </div>
               </div>
               <h4>{this.$t("currency.setting.agreement.2")/*第2条 本协议服务*/}</h4>
               <div className='modal-paragraph'>
                 <div className='currency-setting-bold'>
-                  {this.$t("currency.setting.agreement.2.1")/*2.1 汉得融晶自动汇率数据的来源为*/}
+                  {this.$t("currency.setting.agreement.2.1")/*2.1 融智汇自动汇率数据的来源为*/}
                   <span className='currency-setting-blue'>
                   {this.$t("currency.setting.third.party")/*第三方统计*/}
                   </span>
                   {this.$t("currency.setting.europe.data")/*的欧洲央行提供的汇率数据。*/}
                 </div>
                 <div className='currency-setting-bold'>
-                  {/*2.2 汉得融晶自动汇率的数据有效性及准确性以欧洲央行接口提供数据为准。*/}
+                  {/*2.2 融智汇自动汇率的数据有效性及准确性以欧洲央行接口提供数据为准。*/}
                   {this.$t("currency.setting.agreement.2.2")/*2.2*/}
                 </div>
                 <div className='currency-setting-bold'>
-                  {/*2.3 汉得融晶汇率的服务受限于欧洲央行自动汇率的服务。*/}
+                  {/*2.3 融智汇汇率的服务受限于欧洲央行自动汇率的服务。*/}
                   {this.$t("currency.setting.agreement.2.3")/*2.3*/}
                 </div>
                 <div>
@@ -748,7 +748,7 @@ class CurrencySetting extends React.Component {
                   {this.$t("currency.setting.agreement.2.4")/*2.4*/}
                 </div>
                 <div className='currency-setting-bold'>
-                  {/*2.5 汉得融晶的自动汇率可以参与用户日常经营活动，但仅限于参考。*/}
+                  {/*2.5 融智汇的自动汇率可以参与用户日常经营活动，但仅限于参考。*/}
                   {this.$t("currency.setting.agreement.2.5")/*2.5*/}
                 </div>
               </div>
@@ -769,16 +769,16 @@ class CurrencySetting extends React.Component {
                   {this.$t("currency.setting.agreement.4.1")/*4.1*/}
                 </div>
                 <div className='currency-setting-bold'>
-                  {/*4.2 除非另有明确的书面说明,汉得融晶不对自动汇率数据作任何形式的、明示或默示的声明或担保（根据中华人民共和国法律另有规定的以外）。*/}
+                  {/*4.2 除非另有明确的书面说明,融智汇不对自动汇率数据作任何形式的、明示或默示的声明或担保（根据中华人民共和国法律另有规定的以外）。*/}
                   {this.$t("currency.setting.agreement.4.2")/*4.2*/}
                 </div>
                 <div>
-                  {/*4.3 如因不可抗力或其他汉得融晶无法控制的原因使自动汇率无法正常使用或更新时，汉得融晶不承担相应责任，但允许用户关闭自动汇率接口并自行维护汇率。*/}
+                  {/*4.3 如因不可抗力或其他融智汇无法控制的原因使自动汇率无法正常使用或更新时，融智汇不承担相应责任，但允许用户关闭自动汇率接口并自行维护汇率。*/}
                   {this.$t("currency.setting.agreement.4.3")/*4.3*/}
                 </div>
                 <div>
                 <span className='currency-setting-blue'>
-                  {/*4.4 汉得融晶自动汇率数据仅供参考，对客户使用该汇率数据所导致的结果，汉得融晶不承担任何责任。*/}
+                  {/*4.4 融智汇自动汇率数据仅供参考，对客户使用该汇率数据所导致的结果，融智汇不承担任何责任。*/}
                   {this.$t("currency.setting.agreement.4.4")/*4.4*/}
                 </span>
                 </div>
@@ -786,15 +786,15 @@ class CurrencySetting extends React.Component {
               <h4>{this.$t("currency.setting.agreement.5")/*第5条 协议更新及用户关注义务*/}</h4>
               <div className='modal-paragraph'>
                 <div>
-                  {/*5.1 根据国家法律法规变化及运营需要，汉得融晶有权对本协议条款不时地进行修改，修改后的协议一旦被张贴在本站上即生效，并代替原来的协议。*/}
+                  {/*5.1 根据国家法律法规变化及运营需要，融智汇有权对本协议条款不时地进行修改，修改后的协议一旦被张贴在本站上即生效，并代替原来的协议。*/}
                   {this.$t("currency.setting.agreement.5.1")/*5.1*/}
                 </div>
                 <div>
-                  {/*5.2 用户可随时登陆查阅最新协议；用户有义务不时关注并阅读最新版的协议、其他条款及公告。如用户不同意更新后的协议，可以且应立即停止接受汉得融晶自动汇率的服务；*/}
+                  {/*5.2 用户可随时登陆查阅最新协议；用户有义务不时关注并阅读最新版的协议、其他条款及公告。如用户不同意更新后的协议，可以且应立即停止接受融智汇自动汇率的服务；*/}
                   {this.$t("currency.setting.agreement.5.2")/*5.2*/}
                 </div>
                 <div>
-                  {/*5.3 如用户继续使用自动汇率服务的，即视为同意更新后的协议。汉得融晶建议用户在使用自动汇率服务之前阅读本协议及公告。如果本协议中任何一条被视为废止、无效或因任何理由不可执行，*/}
+                  {/*5.3 如用户继续使用自动汇率服务的，即视为同意更新后的协议。融智汇建议用户在使用自动汇率服务之前阅读本协议及公告。如果本协议中任何一条被视为废止、无效或因任何理由不可执行，*/}
                   {/*该条应视为可分的且并不影响任何其余条款的有效性和可执行性。*/}
                   {this.$t("currency.setting.agreement.5.3")/*5.3*/}
                 </div>
@@ -812,7 +812,7 @@ class CurrencySetting extends React.Component {
               <h4>{this.$t("currency.setting.agreement.7")/*第7条 其他*/}</h4>
               <div className='modal-paragraph'>
                 <div>
-                  {/*7.1 汉得融晶所有者是指在政府部门依法许可或备案的汉得融晶网站经营主体。*/}
+                  {/*7.1 融智汇所有者是指在政府部门依法许可或备案的融智汇网站经营主体。*/}
                   {this.$t("currency.setting.agreement.7.1")/*7.1*/}
                 </div>
                 <div>

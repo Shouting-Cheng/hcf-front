@@ -31,8 +31,8 @@ class ModalDimension extends Component {
           label: '状态',
           colSpan: 8,
           options: [
-            {label: '启用',  value: true },
-            {label: '禁用',  value: false },
+            { label: '启用', value: true },
+            { label: '禁用', value: false },
           ]
         }
       ],
@@ -92,7 +92,7 @@ class ModalDimension extends Component {
   // 搜索
   modalSearch = (value) => {
     let pagination = this.state.pagination;
-    this.setState({ searchParams: value, page: 0, pagination: { ...pagination, current: 1 }}, this.getList)
+    this.setState({ searchParams: value, page: 0, pagination: { ...pagination, current: 1 } }, this.getList)
   }
 
   // 表格选择

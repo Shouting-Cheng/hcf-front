@@ -124,8 +124,7 @@ class CustomTable extends Component {
   };
 
   test = params => {
-    console.log(params);
-    console.log('hello world!');
+    (params);
   };
 
   getList = () => {

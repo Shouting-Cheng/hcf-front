@@ -531,7 +531,7 @@ class ConditionForm extends React.Component {
   };
 
   //添加部门路径/部门
-  handleAddDepPath = (values, remark) => {
+  handleAddDepPath = (values, remark,i) => {
     let condition = this.state.condition;
     let valueOids = [];
     let value = [];
@@ -548,6 +548,10 @@ class ConditionForm extends React.Component {
     condition.map((item, index) => {
       if (item.remark === remark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
+        if(i===index) {
+          valueDetail.value = valueOIDs;
+          valueDetail.valueOIDs && (valueDetail.valueOIDs = valueOIDs);
+        }
         if (valueDetail.value && valueDetail.value.length) {
           valueOids.map((oid, oidIndex) => {
             if (remark === 'default_department_path' && valueDetail.valueOids.indexOf(oid) === -1) {
@@ -560,7 +564,7 @@ class ConditionForm extends React.Component {
         } else {
           valueDetail = remark === 'default_department_path' ? {value, valueOids} : {value: valueOids}
         }
-        (remark === 'select_department' || remark === 'default_user_department') && (condition[index].showValue = showValue);
+        (remark === 'select_department' || remark === 'default_user_department'|| remark === 'default_department_path') && (condition[index].showValue = showValue);
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
@@ -1157,7 +1161,6 @@ class ConditionForm extends React.Component {
             condition.map((item, index) => {
               let type = this.checkConditionType(item.remark);
               if (type === 'long' || type === 'double' || type === 'date') {
-                console.log(item);
                 let leftCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list || [])[0] || {} : {};
                 let rightCondition = item.valueDetail ? (JSON.parse(item.valueDetail).list || [])[1] || {} : {};
                 return (
@@ -1287,10 +1290,11 @@ class ConditionForm extends React.Component {
                             {'+ '}
                             <SelectDepOrPerson renderButton={false}
                                                visible={this.state[`dept${index}`]}
+                                               selected={this.state.condition[index].valueDetail}
                                                title={this.$t('common.add')}
                                                onlyDep={true}
                                                onCancel={()=>{this.setState({[`dept${index}`]: false})}}
-                                               onConfirm={values => this.handleAddDepPath(values, item.remark)}/>
+                                               onConfirm={values => this.handleAddDepPath(values, item.remark,index)}/>
                           </a>
                         ) : (
                             item.remark === 'cust_list' ? (

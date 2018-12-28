@@ -52,12 +52,14 @@ class ExpenseApplicationForm extends React.Component {
           ],
           colSpan: 6,
         }, {
-          type: 'list', listType: 'select_authorization_user', options: [], id: 'applicationId',
+          type: 'list', listType: 'select_authorization_user', options: [], id: 'employeeId',
           label: '申请人',
           labelKey: 'userName',
           valueKey: 'userId',
           single: true,
           colSpan: 6,
+          defaultValue: [{ userName: props.user.fullName, userId: props.user.id }],
+          disabled: true
         },
         { type: 'select', id: 'status', label: '状态', options: statusList, colSpan: 6 },
         {
@@ -84,7 +86,7 @@ class ExpenseApplicationForm extends React.Component {
         },
         {
           type: 'input',
-          id: 'remark',
+          id: 'remarks',
           colSpan: 12,
           label: '备注',
         },
@@ -111,7 +113,7 @@ class ExpenseApplicationForm extends React.Component {
         dataIndex: "requisitionDate",
         align: "center",
         width: 120,
-        render: value => moment(value).format("YYYY-DD-MM")
+        render: value => moment(value).format("YYYY-MM-DD")
       }, {
         title: "币种",
         dataIndex: "currencyCode",
@@ -204,7 +206,9 @@ class ExpenseApplicationForm extends React.Component {
 
   //跳转到详情
   handleRowClick = recode => {
-
+    this.props.dispatch(routerRedux.push({
+      pathname: '/expense-application/expense-application-detail/' + recode.id
+    }));
   };
 
   render() {
@@ -247,6 +251,8 @@ class ExpenseApplicationForm extends React.Component {
           ref={ref => this.table = ref}
           columns={columns}
           url={`${config.expenseUrl}/api/expense/application/header/query/condition`}
+          params={{ employeeId: this.props.user.id }}
+          onRowClick={this.handleRowClick}
         />
       </div>
     );
@@ -256,6 +262,7 @@ class ExpenseApplicationForm extends React.Component {
 function mapStateToProps(state) {
   return {
     company: state.user.company,
+    user: state.user.currentUser
   };
 }
 

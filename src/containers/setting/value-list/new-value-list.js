@@ -330,7 +330,6 @@ class ValueList extends React.Component {
   //设置默认的值内容
   setDefault = (e, record) => {
     let { data, form } = this.state;
-    console.log(record);
     data.map(item => {
       if (e.target.checked) {
         item.isDefault = item.id === record.id;
@@ -387,7 +386,6 @@ class ValueList extends React.Component {
   };
 
   validataNameLengthErr = name => {
-    console.log(name)
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));

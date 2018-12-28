@@ -83,7 +83,7 @@ class FormSetting extends React.Component {
           <TabPane tab={this.$t("form.setting.supplier")/*供应商管控*/} key="SupplierManagement">
             {data.manageType && <SupplierManagement data={data} params={params} propertyList={propertyList}
                                                     saveHandle={this.handleSave}/>}</TabPane>
-          <TabPane tab={this.$t("form.setting.huilianyi")/*汉得融晶管控*/} key="HuilianyiManagement">
+          <TabPane tab={this.$t("form.setting.huilianyi")/*融智汇管控*/} key="HuilianyiManagement">
             {data.manageType && <HuilianyiManagement data={data} params={params} propertyList={propertyList}
                                                      saveHandle={this.handleSave}/>}</TabPane>
           <TabPane tab={this.$t("form.setting.travel.form")/*行程表单设置*/} key="TravelItinerarySetting">

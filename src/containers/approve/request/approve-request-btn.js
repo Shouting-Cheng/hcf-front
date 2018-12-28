@@ -60,9 +60,6 @@ class ApproveRequestBtn extends React.Component {
             {
               showAdditionalBtn: res.data.enabled,
               signCompanyOids: res.data.approvalAddSignScope.companyOids,
-            },
-            () => {
-              console.log(this.state.signCompanyOids);
             }
           );
         }
@@ -94,7 +91,7 @@ class ApproveRequestBtn extends React.Component {
       Modal.confirm({
         title: `${additionalHaveApprovedNames.join('、')} ${
           this.$t('approve.request.has.approved') /*已经审批通过，是否继续*/
-        }？`,
+          }？`,
         onOk: () => this.handleApprovePass(value, additionalOids, priceAuditor),
       });
     } else {
@@ -128,7 +125,7 @@ class ApproveRequestBtn extends React.Component {
           this.setState({ passLoading: false });
           message.error(
             `${this.$t('common.operate.filed')}，${
-              res.data.failReason[this.state.info.applicationOid]
+            res.data.failReason[this.state.info.applicationOid]
             }`
           );
         }
@@ -167,7 +164,7 @@ class ApproveRequestBtn extends React.Component {
           this.setState({ rejectLoading: false });
           message.error(
             `${this.$t('common.operate.filed')}，${
-              res.data.failReason[this.state.info.applicationOid]
+            res.data.failReason[this.state.info.applicationOid]
             }`
           );
         }
@@ -215,10 +212,10 @@ class ApproveRequestBtn extends React.Component {
             handleApproveReject={this.handleApproveReject}
           />
         ) : (
-          <Button type="primary" className="back-btn" onClick={this.goBack}>
-            {this.$t('common.back')}
-          </Button>
-        )}
+            <Button type="primary" className="back-btn" onClick={this.goBack}>
+              {this.$t('common.back')}
+            </Button>
+          )}
       </div>
     );
   }

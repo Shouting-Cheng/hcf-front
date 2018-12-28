@@ -382,7 +382,7 @@ class BudgetJournalCheckDetail extends React.Component {
       spinLoading: true,
     });
     httpFetch
-      .post(`${config.baseUrl}/api/approvals/reject`, dataValue)
+      .post(`${config.baseUrl}/api/workflow/reject`, dataValue)
       .then(request => {
         message.success(this.$t('common.operate.success'));
 

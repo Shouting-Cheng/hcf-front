@@ -11,8 +11,6 @@ import baseService from 'share/base.service'
 
 import { routerRedux } from "dva/router"
 
-
-
 class ApplicationType extends Component {
   constructor(props) {
     super(props);
@@ -158,7 +156,6 @@ class ApplicationType extends Component {
 
   render() {
     let { columns, searchForm, visible, record, setOfBooksId } = this.state;
-    let { company } = this.props;
     return (
       <div>
         <SearchArea submitHandle={this.search} searchForm={searchForm} clearHandle={this.clear} eventHandle={this.formChange} />
@@ -173,7 +170,7 @@ class ApplicationType extends Component {
           size="middle"
         />
         <SlideFrame title={record.id ? "编辑" : "新建"} show={visible} onClose={() => { this.setState({ visible: false, record: {} }) }} >
-          <NewApplicationType close={this.close} params={{ id: record.id, setOfBooksId: setOfBooksId }}></NewApplicationType>
+          <NewApplicationType setOfBooks={searchForm[0].options} close={this.close} params={{ id: record.id, setOfBooksId: setOfBooksId }}></NewApplicationType>
         </SlideFrame>
       </div>
     )

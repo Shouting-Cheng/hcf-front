@@ -168,7 +168,6 @@ class ListSelector extends React.Component {
         this.refreshSelected();  //刷新当页选择器
       })
     }).catch(e => {
-      console.log(e)
       let pagination = {
         total: 0,
         onChange: this.onChangePager,

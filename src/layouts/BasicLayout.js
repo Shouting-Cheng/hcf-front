@@ -536,7 +536,7 @@ class BasicLayout extends React.Component {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = '汉得融晶';
+    let title = '融智汇';
     let currRouterData = null;
     // match params path
     Object.keys(routerData).forEach(key => {
@@ -545,7 +545,7 @@ class BasicLayout extends React.Component {
       }
     });
     if (currRouterData && currRouterData.name) {
-      title = `${this.$t(currRouterData.name)} - 汉得融晶`;
+      title = `${this.$t(currRouterData.name)} - 融智汇`;
     }
     return title;
   }

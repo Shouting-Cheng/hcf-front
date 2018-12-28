@@ -28,8 +28,6 @@ const formatMoney = (number, decimals = 2, isString = false) => {
     s[1] += new Array(prec - s[1].length + 1).join('0');
   }
 
-  //console.log(s.join(dec));
-
   if (isString === true) {
     return s.join(dec);
   } else {
@@ -2544,7 +2542,11 @@ const chooserData = {
   select_contract: {
     title: '选择合同',
     url: `${config.contractUrl}/api/contract/document/relations/associate/header/query`,
-    searchForm: [],
+    searchForm: [{
+      type: 'input',
+      label: "合同编号",
+      id: "contractNumber"
+    }],
     columns: [
       { title: '合同编号', dataIndex: 'contractNumber' },
       { title: '合同类型', dataIndex: 'contractTypeName' },

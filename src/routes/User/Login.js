@@ -204,7 +204,6 @@ export default class Login extends React.Component {
           });
         },
         err => {
-          console.log(err);
           //单点登录，用code登录失败
           message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
         }
@@ -225,7 +224,6 @@ export default class Login extends React.Component {
         })
         .catch(e => {
           this.setState({ loading: false });
-          console.log(e);
           errorMessage(e, messages('login.error'));
         });
     } else {
@@ -256,7 +254,6 @@ export default class Login extends React.Component {
                   });
                 },
                 err => {
-                  console.log(e);
                   //单点登录，用code登录失败
                   message.error(messages('login.error')); //呼，服务器出了点问题，请联系管理员或稍后再试:(
                 }
@@ -414,7 +411,6 @@ export default class Login extends React.Component {
         message.error(messages('login.user.corp.connection.fail'));
         return;
       } else {
-        console.log(e);
         //呼，服务器出了点问题，请联系管理员或稍后再试:(
         message.error(messages('login.error'));
       }
@@ -969,7 +965,7 @@ export default class Login extends React.Component {
     if (this.state.qcodeValue && !this.state.scanSuccess) {
       return (
         <div className="qcode-bottom-tips">
-          {/*请使用汉得融晶APP扫描登录*/}
+          {/*请使用融智汇APP扫描登录*/}
           {messages('login.qcode.please.scan')}
         </div>
       );
@@ -1698,7 +1694,7 @@ export default class Login extends React.Component {
         <img src={BG} className="background-img" />
         <div className="login-area">
           <div className="login-logo-text">
-            {/*汉得融晶管理系统*/}
+            {/*融智汇管理系统*/}
             {this.$t('login.helios.management.system')}
           </div>
 
@@ -1712,7 +1708,7 @@ export default class Login extends React.Component {
           {/*{this.renderAccountAndQcodeLogin()}*/}
         </div>
         <div id="scene">
-          <img src={logo} className="img-logo" />
+          <img style={{ left: -120 }} src={logo} className="img-logo" />
           <div data-depth="0.2">
             <img src={layer1} />
           </div>
@@ -1731,7 +1727,7 @@ export default class Login extends React.Component {
             {messages('login.slogan2')}
           </div>
         </div>
-        <div className="footer">CopyRight 汉得融晶 | 沪ICP备16047366号</div>
+        <div className="footer">CopyRight 融智汇 | 沪ICP备16047366号</div>
         {/* <StopAnnonuce></StopAnnonuce> */}
 
         <div className="stop-annonuce-modal-wrap" />

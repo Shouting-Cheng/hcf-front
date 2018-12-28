@@ -112,8 +112,6 @@ class SubjectSheet extends React.Component {
     }
 
     editItem = (record) => {
-
-        console.log(record)
         this.setState({
             updateParams: JSON.parse(JSON.stringify(record)),
             showSlideFrame: true
@@ -198,9 +196,6 @@ class SubjectSheet extends React.Component {
     };
 
     handleCloseNewSlide = (params) => {
-
-        console.log(this.state.updateParams)
-
         if (params) {
             this.getList();
         }

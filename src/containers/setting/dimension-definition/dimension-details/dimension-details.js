@@ -28,7 +28,7 @@ class DimensionDetails extends Component {
         },
         {
           type: 'input',
-          id: 'setOfBooksId',
+          id: 'setOfBooksName',
           isRequired: true,
           label: '维度账套',
         },

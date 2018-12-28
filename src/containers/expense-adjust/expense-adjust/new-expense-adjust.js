@@ -61,35 +61,34 @@ class NewExpenseAdjust extends React.Component {
       });
   }
 
- /* getDept() {
-    expenseAdjustService.getDeptByOid(this.props.user.departmentOid).then(response => {
-      this.setState({ deptId: [{ departmentId: response.data.id, name: response.data.name }] });
-    });
-  }
-*/
+  /* getDept() {
+     expenseAdjustService.getDeptByOid(this.props.user.departmentOid).then(response => {
+       this.setState({ deptId: [{ departmentId: response.data.id, name: response.data.name }] });
+     });
+   }
+ */
   componentDidMount() {
-      console.log(this.props)
-      this.getExpenseAdjustTypeById();
-      //this.getDept();
-      this.getCurrencyOptions();
-      this.props.match.params.id!=='new'&&expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
-        let fileList = [];
-        if (res.data.attachments) {
-          res.data.attachments.map(item => {
-            fileList.push({
-              ...item,
-              uid: item.id,
-              name: item.fileName,
-              status: 'done',
-            });
+    this.getExpenseAdjustTypeById();
+    //this.getDept();
+    this.getCurrencyOptions();
+    this.props.match.params.id !== 'new' && expenseAdjustService.getExpenseAdjustHeadById(this.props.match.params.id).then(res => {
+      let fileList = [];
+      if (res.data.attachments) {
+        res.data.attachments.map(item => {
+          fileList.push({
+            ...item,
+            uid: item.id,
+            name: item.fileName,
+            status: 'done',
           });
-        }
-        let model = res.data;
-        model.companyId = [{ id: model.companyId, name: model.companyName }];
-        model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
-        this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
-        this.setState({ model, fileList });
-      })
+        });
+      }
+      let model = res.data;
+      model.companyId = [{ id: model.companyId, name: model.companyName }];
+      model.unitId = [{ departmentId: model.unitId, name: model.unitName }];
+      this.props.form.setFieldsValue({ ...model, employeeId: model.employeeName });
+      this.setState({ model, fileList });
+    })
   }
 
   //获取币种
@@ -115,7 +114,7 @@ class NewExpenseAdjust extends React.Component {
           unitId: values.unitId[0].departmentId,
         };
         let method = null;
-        if (this.props.match.params.id!=='new') {
+        if (this.props.match.params.id !== 'new') {
           method = expenseAdjustService.upExpenseAdjustHead;
           dataValue.expAdjustTypeId = this.props.match.params.expenseAdjustTypeId;
           dataValue.id = this.props.match.params.id;
@@ -157,7 +156,11 @@ class NewExpenseAdjust extends React.Component {
 
   //取消
   onCancel = () => {
-    this.props.dispatch(routerRedux.push({ pathname: '/expense-adjust/my-expense-adjust' }));
+    this.props.dispatch(routerRedux.push({
+      pathname: this.props.match.params.id === 'new' ?
+        '/expense-adjust/my-expense-adjust' :
+        `/expense-adjust/my-expense-adjust/expense-adjust-detail/${this.props.match.params.id}/${this.props.match.params.expenseAdjustTypeId}/${this.state.model.adjustTypeCategory}`
+    }));
   };
   //上传附件
   handleUpload = Oids => {
@@ -251,10 +254,10 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id ==='new' ? [{ id: this.props.user.companyId, name: this.props.user.companyName }] :
+                    initialValue: this.props.match.params.id === 'new' ? [{ id: this.props.user.companyId, name: this.props.user.companyName }] :
                       model.id
-                      ? model.companyId
-                      : [],
+                        ? model.companyId
+                        : [],
                   })(
                     <Chooser
                       type="company"
@@ -277,8 +280,8 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentOid }] :
-                    model.id ? model.unitId : [],
+                    initialValue: this.props.match.params.id === 'new' ? [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentId }] :
+                      model.id ? model.unitId : [],
                   })(
                     <Chooser
                       type="department"
@@ -311,8 +314,8 @@ class NewExpenseAdjust extends React.Component {
                         currencyLoading ? (
                           <Spin size="small" />
                         ) : (
-                          this.$t('my.contract.no.result' /*无匹配结果*/)
-                        )
+                            this.$t('my.contract.no.result' /*无匹配结果*/)
+                          )
                       }
                     >
                       {currencyOptions.map(option => {
