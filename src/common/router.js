@@ -1886,7 +1886,7 @@ export const getRouterData = app => {
       parent: '/expense-application'
     },
     //编辑费用申请单
-    '/expense-application/new-expense-application/:typeId/:id': {
+    '/expense-application/edit-expense-application/:id': {
       component: dynamicWrapper(app, [], () =>
         import('containers/expense-application-form/new')
       ),

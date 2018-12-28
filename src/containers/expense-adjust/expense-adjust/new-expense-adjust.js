@@ -280,7 +280,7 @@ class NewExpenseAdjust extends React.Component {
                         message: this.$t('common.please.select'),
                       },
                     ],
-                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentOID }] :
+                    initialValue: this.props.match.params.id ==='new' ?  [{ name: this.props.user.departmentName, departmentId: this.props.user.departmentID }] :
                     model.id ? model.unitId : [],
                   })(
                     <Chooser

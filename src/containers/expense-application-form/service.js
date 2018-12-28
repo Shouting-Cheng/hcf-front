@@ -111,9 +111,23 @@ export default {
    */
   deleteLine(id) {
     return httpFetch.delete(`${config.expenseUrl}/api/expense/application/line/` + id);
+  },
+
+  /**
+   * 根据ID查询申请单头信息(编辑申请单头时调用)
+   * @param {*} id 
+   */
+  getEditInfo(id) {
+    return httpFetch.get(`${config.expenseUrl}/api/expense/application/header/query?id=` + id);
+  },
+
+  /**
+   * 更新申请单头
+   * @param {*} params 
+   */
+  updateHeaderData(params) {
+    return httpFetch.put(`${config.expenseUrl}/api/expense/application/header`, params);
   }
-
-
 
 }
 

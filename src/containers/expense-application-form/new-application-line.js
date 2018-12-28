@@ -1,10 +1,9 @@
 import React, { Component } from "react"
-import { Form, Card, Input, Row, Col, Affix, Button, DatePicker, Select, InputNumber, message, Spin } from 'antd';
+import { Form, Input, Row, Col, Button, DatePicker, Select, InputNumber, message, Spin } from 'antd';
 import { connect } from "dva";
 import { routerRedux } from "dva/router"
 import Chooser from "widget/chooser"
 import SelectApplicationType from "widget/select-application-type"
-import Upload from 'widget/upload';
 import CustomAmount from "widget/custom-amount"
 
 import service from "./service"
@@ -41,11 +40,11 @@ class NewExpenseApplicationFromLine extends Component {
   }
 
   componentDidMount() {
-    this.getNewInfo();
-  }
-
-  getApplicationTypeInfo = (typeId) => {
-
+    if (this.props.lineId) {
+      this.getEditInfo();
+    } else {
+      this.getNewInfo();
+    }
   }
 
   //获取默认数据
@@ -53,6 +52,19 @@ class NewExpenseApplicationFromLine extends Component {
     service.getNewInfo({ headerId: this.props.headerData.id, lineId: "", isNew: true }).then(res => {
       this.setState({ model: res.data, pageLoading: false });
     }).catch(err => {
+      message.error(err.response.data.message);
+      this.setState({ pageLoading: false });
+    })
+  }
+
+  //获取编辑默认数据
+  getEditInfo = () => {
+    const { lineId } = this.props;
+    service.getNewInfo({ headerId: this.props.headerData.id, lineId: lineId, isNew: false }).then(res => {
+      res.data.applicationType = { id: res.data.expenseTypeId, name: res.data.expenseTypeName };
+      this.setState({ model: res.data, pageLoading: false });
+    }).catch(err => {
+      console.log(err);
       message.error(err.response.data.message);
       this.setState({ pageLoading: false });
     })
@@ -120,7 +132,14 @@ class NewExpenseApplicationFromLine extends Component {
 
   //选择申请单
   selectApplicationType = (item) => {
-    this.setState({ expenseTypeInfo: item });
+
+    this.setState({ expenseTypeInfo: item }, () => {
+      if (item.entryMode) {
+        this.props.form.setFieldsValue({ price: 0, quantity: 0 });
+      } else {
+        this.props.form.setFieldsValue({ amount: 0 });
+      }
+    });
   }
 
   //取消
@@ -176,6 +195,16 @@ class NewExpenseApplicationFromLine extends Component {
     }
   }
 
+  //校验金额
+  checkPrice = (rule, value, callback) => {
+    console.log(value);
+    if (value > 0) {
+      callback();
+      return;
+    }
+    callback('金额不能小于等于0！');
+  };
+
 
   render() {
 
@@ -193,6 +222,7 @@ class NewExpenseApplicationFromLine extends Component {
     };
 
     const { pageLoading, model, isNew, currencyList, dimensionList, applicationTypeInfo, loading, expenseTypeInfo } = this.state;
+    const { lineId } = this.props;
 
     return (
       <div style={{ marginBottom: 60, marginTop: 10 }}>
@@ -203,9 +233,7 @@ class NewExpenseApplicationFromLine extends Component {
                 <FormItem label="公司" {...formItemLayout}>
                   {getFieldDecorator('company', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew
-                      ? [{ id: model.companyId, name: model.companyName }]
-                      : model.id ? [{ id: model.companyId, name: model.companyName }] : [],
+                    initialValue: [{ id: model.companyId, name: model.companyName }]
                   })(
                     <Chooser
                       type="company"
@@ -223,14 +251,10 @@ class NewExpenseApplicationFromLine extends Component {
                 <FormItem label="部门" {...formItemLayout}>
                   {getFieldDecorator('department', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? [{
+                    initialValue: [{
                       departmentId: model.departmentId,
                       path: model.departmentName,
                     }]
-                      : model.id ? [{
-                        departmentId: model.unitId,
-                        path: model.path,
-                      }] : []
                   })(
                     <Chooser
                       type="department_document"
@@ -248,7 +272,7 @@ class NewExpenseApplicationFromLine extends Component {
                 <FormItem label="申请类型" {...formItemLayout}>
                   {getFieldDecorator('applicationType', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? this.props.company.baseCurrency : model.currency
+                    initialValue: lineId ? model.applicationType : {}
                   })(
                     <SelectApplicationType onChange={this.selectApplicationType} applicationTypeId={this.props.headerData.typeId} />
                   )}
@@ -260,32 +284,32 @@ class NewExpenseApplicationFromLine extends Component {
                 <FormItem label="申请时间" {...formItemLayout}>
                   {getFieldDecorator('requisitionDate', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? moment() : model.currency
+                    initialValue: lineId ? moment(model.requisitionDate) : moment()
                   })(
                     <DatePicker />
                   )}
                 </FormItem>
               </Col>
             </Row>
-            {!expenseTypeInfo.entryMode && (<Row {...rowLayout}>
+            {(expenseTypeInfo.entryMode === false && !(lineId && model.priceUnit)) && (<Row {...rowLayout}>
               <Col span={24}>
                 <FormItem label="申请金额" {...formItemLayout}>
                   {getFieldDecorator('amount', {
-                    rules: [{ required: true, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? 0 : model.currency
+                    rules: [{ validator: this.checkPrice }],
+                    initialValue: model.amount
                   })(
                     <CustomAmount />
                   )}
                 </FormItem>
               </Col>
             </Row>)}
-            {expenseTypeInfo.entryMode &&
+            {(expenseTypeInfo.entryMode || (lineId && model.priceUnit)) &&
               (<Row {...rowLayout}>
                 <Col span={24}>
                   <FormItem label="单价" {...formItemLayout}>
                     {getFieldDecorator('price', {
-                      rules: [{ required: true, message: this.$t('common.please.select') }],
-                      initialValue: isNew ? 0 : model.currency
+                      rules: [{ validator: this.checkPrice }],
+                      initialValue: model.price
                     })(
                       <CustomAmount />
                     )}
@@ -293,13 +317,13 @@ class NewExpenseApplicationFromLine extends Component {
                 </Col>
               </Row>)
             }
-            {expenseTypeInfo.entryMode &&
+            {(expenseTypeInfo.entryMode || (lineId && model.priceUnit)) &&
               (<Row {...rowLayout}>
                 <Col span={24}>
-                  <FormItem label={priceUnitMap[expenseTypeInfo.priceUnit]} {...formItemLayout}>
+                  <FormItem label={priceUnitMap[lineId ? model.priceUnit : expenseTypeInfo.priceUnit]} {...formItemLayout}>
                     {getFieldDecorator('quantity', {
                       rules: [{ required: true, message: this.$t('common.please.select') }],
-                      initialValue: isNew ? 0 : model.currency
+                      initialValue: model.quantity
                     })(
                       <InputNumber precision={0} />
                     )}
@@ -339,28 +363,11 @@ class NewExpenseApplicationFromLine extends Component {
                 </Col>
               </Row>)
             })}
-            {applicationTypeInfo.associateContract && <Row {...rowLayout}>
-              <Col span={24}>
-                <FormItem label="关联合同" {...formItemLayout}>
-                  {getFieldDecorator('unitId', {
-                    rules: [{ required: applicationTypeInfo.requireInput, message: this.$t('common.please.select') }],
-                    initialValue: isNew ? this.props.company.baseCurrency : model.currency
-                  })(
-                    <Chooser
-                      type="select_contract"
-                      labelKey="name"
-                      valueKey="contractHeaderId"
-                      single={true}
-                    />
-                  )}
-                </FormItem>
-              </Col>
-            </Row>}
             <Row {...rowLayout}>
               <Col span={24}>
                 <FormItem label="备注" {...formItemLayout}>
                   {getFieldDecorator('remarks', {
-                    initialValue: isNew ? model.remarks : model.remarks
+                    initialValue: model.remarks
                   })(
                     <Input.TextArea autosize={{ minRows: 3 }} />
                   )}
