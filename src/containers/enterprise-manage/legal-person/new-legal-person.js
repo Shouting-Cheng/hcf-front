@@ -20,7 +20,7 @@ import LPService from 'containers/enterprise-manage/legal-person/legal-person.se
 import Selector from 'components/Widget/selector';
 import { LanguageInput } from 'components/Widget/index';
 import { isEmptyObj, getLanguageName } from 'utils/extend';
-
+import { messages } from 'utils/utils';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { ImageUpload } from 'components/Widget/index';
@@ -90,6 +90,7 @@ class NewLegalPerson extends React.Component {
 
   getLegalPersonDetail = () => {
     LPService.getLegalPersonDetail(this.props.match.params.legalPersonOid).then(res => {
+      debugger;
       let data = res.data;
       let uploadedImages = [];
       let uploadedImage = this.getUploadedImage(data);

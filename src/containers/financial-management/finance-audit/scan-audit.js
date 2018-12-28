@@ -251,7 +251,7 @@ class ScanAudit extends React.Component {
               <h3>
                 {messages(
                   'finance.audit.scan.audit.info'
-                ) /*请打开汉得融晶app，扫描报销单上的二维码*/}
+                ) /*请打开融智汇app，扫描报销单上的二维码*/}
               </h3>
             </div>
           )}

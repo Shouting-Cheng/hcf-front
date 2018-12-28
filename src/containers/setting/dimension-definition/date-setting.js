@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
 import 'styles/setting/params-setting/params-setting.scss';
 import service from './dimension-definition.service';
+import baseService from 'share/base.service';
+
 
 const FormItem = Form.Item;
 
@@ -22,13 +24,12 @@ class NewBuilt extends Component {
   // 生命周期
   componentDidMount() {
     this.getNumber();
+    this.getSetOfBookList();
   }
   // 获取序号
   getNumber = ()=>{
-    let set = this.props.company.setOfBooksId;
-    console.log(set,'set');
+    let set = this.props.set;
     service.NumberDimensionSetting(set).then ((res)=>{
-      console.log(res,'009090');
       this.setState({
         paramsTypeList:res.data,
 
@@ -44,7 +45,6 @@ class NewBuilt extends Component {
 
     this.props.form.validateFields((err, values, record) => {
       let data = Object.assign({}, params, values);
-      console.log(data,'33456');
 
       if (err) return;
       this.setState({
@@ -64,17 +64,14 @@ class NewBuilt extends Component {
             this.setState({ saveLoading: false });
           });
       } else {
-        console.log(values);
         service
           .editDimensionSetting(data)
           .then(res => {
-            console.log(data);
             message.success('编辑成功！');
             this.setState({ saveLoading: false });
             this.props.close && this.props.close(true);
           })
           .catch(err => {
-            console.log(err)
             message.error(err.response.data.message);
             this.setState({ saveLoading: false });
           });
@@ -97,8 +94,7 @@ class NewBuilt extends Component {
 
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { params } = this.props;
-    console.log(params,'787878');
+    const { params,setOfBooks } = this.props;
     const { saveLoading, paramsTypeList, section } = this.state;
     const formItemLayout = {
       labelCol: {
@@ -114,16 +110,21 @@ class NewBuilt extends Component {
         <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
             {getFieldDecorator('setOfBooksId', {
-              // initialValue:,
+              ///initialValue:,
               rules: [
                 {
-                  required: true,
+                  required: false,
 
                 },
               ],
-              initialValue:this.props.company.setOfBooksId || '',
+              initialValue:this.props.set||"",
             })(
-              <Input disabled placeholder={this.$t({setOfBooksId:'this.props.company.setOfBooksId' })} />
+              // <Input disabled />
+              <Select disabled>
+              {setOfBooks.map(option => {
+                return <Option key={option.value}>{option.label}</Option>;
+              })}
+            </Select>
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="序号" hasFeedback>
@@ -202,7 +203,6 @@ class NewBuilt extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
 
   return{
     company: state.user.company
