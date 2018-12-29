@@ -22,7 +22,7 @@ const TabPane = Tabs.TabPane;
 // import menuRoute from 'routes/menuRoute'
 import myGlWorkOrderService from 'containers/gl-work-order/my-gl-work-order/my-gl-work-order.service';
 import moment from 'moment';
-import DocumentBasicInfo from 'widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import 'styles/gl-work-order/my-gl-work-order/my-gl-work-order-detail.scss';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import Chooser from 'widget/chooser';

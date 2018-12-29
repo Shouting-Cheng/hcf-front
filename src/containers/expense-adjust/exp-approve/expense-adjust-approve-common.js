@@ -25,7 +25,7 @@ import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss'
 import { connect } from 'dva'
 import ApproveHistory from "containers/pre-payment/my-pre-payment/approve-history-work-flow"
 import CustomTable from "widget/custom-table";
-import DocumentBasicInfo from "widget/Template/document-basic-info";
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import ApprotionInfo from "containers/expense-adjust/expense-adjust/approtion-info";
 import adjustService from "containers/expense-adjust/expense-adjust/expense-adjust.service";
 

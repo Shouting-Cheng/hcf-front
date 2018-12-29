@@ -7,6 +7,7 @@ import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
 import { routerRedux } from 'dva/router';
 import NewBuilt from './date-setting';
+import baseService from 'share/base.service'
 import service from './dimension-definition.service';
 import 'styles/setting/params-setting/params-setting.scss';
 
@@ -16,11 +17,18 @@ class Dfinition extends Component {
     this.state = {
       searchForm: [
         {
-          type: 'value_list',
-          options: [{ value: props.company.setOfBooksId, label: props.company.setOfBooksId }],
+          type: 'select',
+          options: [],
           id: 'setOfBooksId',
           placeholder: '请选择',
           label: '账套',
+          labelKey: 'setOfBooksName',
+          valueKey: 'id',
+          colSpan: 6,
+          isRequired: true,
+          event: "setOfBooksId",
+          allowClear: false,
+          defaultValue: props.company.setOfBooksId ,
           colSpan: 6,
         },
         {
@@ -55,25 +63,30 @@ class Dfinition extends Component {
           title: '序号',
           dataIndex: 'dimensionSequence',
           align: 'center',
+          width:15,
         },
         {
           title: '维度代码',
           dataIndex: 'dimensionCode',
           align: 'center',
+          width:25,
         },
         {
           title: '维度名称',
           dataIndex: 'dimensionName',
           align: 'center',
+          width:25,
         },
         {
           title: '账套',
-          dataIndex: 'setOfBooksId',
+          dataIndex: 'setOfBooksName',
           align: 'center',
+          width:25,
         },
         {
           title: '状态',
           dataIndex: 'enabled',
+          width:15,
           align: 'center',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
@@ -83,6 +96,7 @@ class Dfinition extends Component {
           title: '操作',
           dataIndex: 'id',
           align: 'center',
+          width:15,
           render: (value, record, index) => {
             return (
               <span>
@@ -95,18 +109,6 @@ class Dfinition extends Component {
                 </a>
                 <Divider type="vertical" />
                 <a onClick={(e) => this.detailClick(e, record)}>详情</a>
-                {/* <Divider type="vertical" /> */}
-                {/* <Popconfirm
-                  placement="topLeft"
-                  title="确定删除?"
-                  onConfirm={() => {
-                    this.delete(record.id);
-                  }}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                   <a>删除</a>
-                </Popconfirm> */}
               </span>
             );
           },
@@ -116,22 +118,14 @@ class Dfinition extends Component {
       showSlideFrame: false,
       data: [],
       updateParams: {},
+      setOfBooksId: props.company.setOfBooksId,
     };
   }
 
-  // 获取账套
-  // getSetOfBooks(){
-  //   let setOfBooksOption = [];
-  //   paymentCompanySettingService.getSetOfBooksByTenant().then((res)=>{
-  //       res.data.map(data =>{
-  //         setOfBooksOption.push({"label":data.setOfBooksCode+" - "+data.setOfBooksName,"value":String(data.id)})
-  //       })
-  //       this.setState({
-  //         setOfBooksOption
-  //       })
-  //     }
-  //   )
-  // }
+  // 生命周期
+  componentDidMount(){
+    this.getSetOfBookList();
+  }
   // 新建维度
   createDimension = () => {
     this.setState({
@@ -149,25 +143,41 @@ class Dfinition extends Component {
       this.setState({ showSlideFrame: true })
     });
   };
-  // 删除
-  // delete = id => {
-  //   service
-  //     .deleteDimensionSetting(id)
-  //     .then(res => {
-  //       message.success('删除成功');
-  //       this.table.search({setOfBooksId: this.props.company.setOfBooksId});
-  //     })
-  //     .catch(err => {
-  //       message.error(err.response.data.message);
-  //     });
-  // };
 
   // 搜索
   search = (values) => {
     this.table.search(values);
-    console.log(this.state.searchParams, '搜索条件');
 
   };
+   //获取账套列表
+   getSetOfBookList = () => {
+    baseService.getSetOfBooksByTenant().then(res => {
+      let list = [];
+      res.data.map(item => {
+        list.push({ value: item.id, label: `${item.setOfBooksCode}-${item.setOfBooksName}` });
+      });
+      let form = this.state.searchForm;
+      form[0].options = list;
+      form[0].defaultValue = this.props.company.setOfBooksId;
+      this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
+    });
+  }
+  // 搜索框事件
+  handleEvent = (event, value) => {
+      if (event == "setOfBooksId") {
+      this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
+        this.table.search(this.state.searchParams);
+      });
+    } else if (event == "enabled") {
+      this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
+        this.table.search(this.state.searchParams);
+      });
+    }
+  }
+
+
+
+
   //清除
   clear = (values) => {
     this.setState({ searchParams: {} })
@@ -190,12 +200,12 @@ class Dfinition extends Component {
     })
   }
   render() {
-    const { searchForm, columns, updateParams, showSlideFrame, setOfBooksId } = this.state;
+    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options,setOfBooksName} = this.state;
     return (
       <div>
-        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} />
+        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} eventHandle={this.handleEvent}/>
         <Button
-          style={{ margin: '20px 0' }}
+          style={{ margin: '15px 0' }}
           className="create-btn"
           type="primary"
           onClick={this.createDimension}
@@ -213,14 +223,15 @@ class Dfinition extends Component {
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-          <NewBuilt params={{ ...updateParams }} close={this.handleCloseSlide} set={setOfBooksId} />
+          <NewBuilt setOfBooks={ searchForm[0].options } params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}
+          />
         </SlideFrame>
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  // console.log(state);
+ (state);
 
   return {
 

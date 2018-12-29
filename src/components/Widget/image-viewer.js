@@ -19,9 +19,12 @@ class ImageViewer extends React.Component {
     this.startXY = {}; //图片移动前时记录xy值
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.visible != this.props.visible) {
+      this.initialImageStyle();
+    }
     this.setState({ nowIndex: nextProps.defaultIndex });
   }
 
@@ -61,10 +64,11 @@ class ImageViewer extends React.Component {
     this.moving = true;
   };
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   initialImageStyle = () => {
     let imageDom = ReactDOM.findDOMNode(this.refs.imageRef);
+    if (!imageDom) return;
     imageDom.style.transform = '';
     imageDom.style.top = '0px';
     imageDom.style.left = '0px';
@@ -127,6 +131,7 @@ class ImageViewer extends React.Component {
       type,
       thumbnailUrlKey,
     } = this.props;
+
     return (
       <Modal
         className="image-view"
@@ -138,7 +143,7 @@ class ImageViewer extends React.Component {
       >
         <div className="attachment-area">
           <img
-            src={ type ? url : attachments[nowIndex][urlKey]}
+            src={type ? url : attachments[nowIndex][urlKey]}
             ref="imageRef"
             draggable={false}
             onMouseDown={this.onMouseDown}

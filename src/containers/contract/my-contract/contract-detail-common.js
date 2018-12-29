@@ -23,7 +23,7 @@ import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import config from 'config';
 import moment from 'moment';
-import DocumentBasicInfo from 'components/Widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import SlideFrame from 'components/Widget/slide-frame';
 import NewPayPlan from 'containers/contract/my-contract/new-pay-plan';
 import NewContractInfo from 'containers/contract/my-contract/new-contract-info';

@@ -76,11 +76,11 @@ class BankDefinition extends React.Component {
           label: this.$t('bank.country') /*国家*/,
           event: 'COUNTRY_CHANGE',
           //defaultValue:'中国',
-          getUrl: config.locationUrl + '/api/localization/query/country',
+          getUrl: config.baseUrl + '/api/localization/query/country',
           method: 'get',
           //默认国家是分页的20个一页，这里下拉列表直接显示全部
           getParams: {
-            language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
+            // language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
             page: 0,
             size: 1000,
           },
@@ -452,7 +452,7 @@ class BankDefinition extends React.Component {
   //获取中国的所有省
   getChinaState = () => {
     let params = {
-      language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
+      // language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
       code: 'CHN000000000',
       vendorType: 'standard',
       page: 0,
@@ -485,7 +485,7 @@ class BankDefinition extends React.Component {
   //获取市
   getCityByCode = code => {
     let params = {
-      language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
+      // language: this.props.language.local === 'zh_cn' ? 'zh_cn' : 'en_us',
       code: code,
       vendorType: 'standard',
     };
