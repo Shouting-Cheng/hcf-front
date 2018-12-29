@@ -4,11 +4,9 @@ import { connect } from 'dva';
 import { messages } from 'utils/utils';
 import { deepCopy } from 'utils/extend';
 import { Form, Input, Switch, Button, Icon, message } from 'antd';
-import Table from 'widget/table'
 
 const FormItem = Form.Item;
 import { LanguageInput } from 'widget/index';
-import ListSelector from 'widget/list-selector';
 import { SelectDepOrPerson } from 'widget/index';
 import valueListService from 'containers/setting/value-list/value-list.service';
 import 'styles/setting/value-list/new-value.scss';
@@ -16,9 +14,11 @@ import 'styles/setting/value-list/new-value.scss';
 const defaultVauleItem = {
   code: '',
   value: '',
-  messageKey: '',
+  name: '',
   i18n: {},
   common: true,
+  codeId: null,
+  id: '',
 };
 
 class ValueList extends React.Component {
@@ -31,46 +31,7 @@ class ValueList extends React.Component {
       id: null,
       //编辑时的信息
       record: defaultVauleItem,
-      common: true, //全员可见
-      customEnumerationItemOid: '',
-      columns: [
-        {
-          title: messages('common.sequence' /*序号*/),
-          dataIndex: 'id',
-          render: (value, record, index) => index + 1 + this.state.pageSize * this.state.page,
-        },
-        {
-          title: messages('value.list.employee.id' /*工号*/),
-          dataIndex: 'employeeID',
-        },
-        {
-          title: messages('value.list.employee.name' /*姓名*/),
-          dataIndex: 'fullName',
-        },
-        {
-          title: messages('value.list.employee.legal.entity' /*法人实体*/),
-          dataIndex: 'corporationName',
-          render: value => value || '-',
-        },
-        {
-          title: messages('value.list.employee.department' /*部门*/),
-          dataIndex: 'department',
-          render: value => value.name || '-',
-        },
-        {
-          title: messages('value.list.employee.title' /*职务*/),
-          dataIndex: 'title',
-          render: value => value || '-',
-        },
-      ],
-      data: [],
-      page: 0,
-      pageSize: 10,
-      pagination: { total: 0 },
-      userOids: [],
-      deleteUserOids: [],
-      showListSelector: false,
-      isCustom: "", //是否为系统初始化的值
+      typeFlag: '',
     };
   }
 
@@ -78,47 +39,21 @@ class ValueList extends React.Component {
     if (this.props.params.record) {
       //编辑
       //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
-      this.getValue(this.props.params.record.customEnumerationItemOid);
+      this.getValue(this.props.params.record.id);
       this.setState({
-        isCustom: this.props.params.isCustom,
+        typeFlag: this.props.params.typeFlag,
       });
     } else if (!this.props.params.record) {
       //新建
       this.setState({
         record: deepCopy(defaultVauleItem),
-        common: true,
-        customEnumerationItemOid: '',
-        data: [],
-        deleteUserOids: [],
       });
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.params.record && !nextProps.params.hasInit) {
-    //   //编辑
-    //   //这个地方不能用传入的数据，需要请求后端的，因为有多语言对象
-    //   this.getValue(nextProps.params.record.customEnumerationItemOid);
-    //   nextProps.params.hasInit = true;
-    //   this.setState({
-    //     systemInit: nextProps.params.systemInit
-    //   })
-    // } else if (!nextProps.params.record && !nextProps.params.hasInit) { //新建
-    //   nextProps.params.hasInit = true;
-    //   this.setState({
-    //     record: deepCopy(defaultVauleItem),
-    //     common: true,
-    //     customEnumerationItemOid: "",
-    //     data: [],
-    //     deleteUserOids: []
-    //   }, () => {
-    //     this.props.form.resetFields()
-    //   })
-    // }
-  }
 
-  getValue(customEnumerationItemOid) {
-    valueListService.getValue(customEnumerationItemOid).then(res => {
+  getValue(id) {
+    valueListService.getValue(id).then(res => {
       let data = res.data;
       if (data.i18n) {
       } else {
@@ -127,13 +62,10 @@ class ValueList extends React.Component {
       this.setState(
         {
           record: data,
-          common: data.common,
-          customEnumerationItemOid: customEnumerationItemOid,
-          deleteUserOids: [],
         },
         () => {
           this.props.form.resetFields();
-        }
+        },
       );
     });
   }
@@ -154,62 +86,59 @@ class ValueList extends React.Component {
 
   handleSave = e => {
     e.preventDefault();
-    if (this.validateMessageKeyLengthErr(this.state.record.messageKey)) {
+    if (this.validateMessageKeyLengthErr(this.state.record.name)) {
       return;
     }
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.common = !!values.common;
-        const { customEnumerationItemOid } = this.state;
-        values.customEnumerationOid = this.props.params.customEnumerationOid;
-        values.userOids = this.state.userOids;
+        values.codeId = this.props.params.codeId;
         //多语言
         values.i18n = this.state.record.i18n;
-        values.messageKey = this.state.record.messageKey;
-        if (customEnumerationItemOid) {
-          //更新
-          values.customEnumerationItemOid = customEnumerationItemOid;
-          values.id = this.state.id || this.state.record.id;
-        }
-        if (customEnumerationItemOid) {
+        values.name = this.state.record.name;
+
+        if (this.state.record.id !== null && this.state.record.id !== undefined && this.state.record.id !== '') {
+          values.id = this.state.record.id;
           this.updateValue(values);
         } else {
+          values.id = null;
           this.newValue(values);
         }
       }
     });
   };
+
   //新增
   newValue(value) {
     this.setState({ loading: true });
     valueListService
-      .newValue(value)
-      .then(res => {
-        if (res.status === 200) {
-          message.success(messages('common.save.success', { name: '' }));
-          this.setState({ loading: false });
-          this.props.close(true);
-        }
-      })
-      .catch(e => {
+    .newValue(value)
+    .then(res => {
+      if (res.status === 200) {
+        message.success(messages('common.save.success', { name: '' }));
         this.setState({ loading: false });
-      });
+        this.props.close(true);
+      }
+    })
+    .catch(e => {
+      this.setState({ loading: false });
+    });
   }
+
   //更新
   updateValue(value) {
     this.setState({ loading: true });
     valueListService
-      .updateValue(value)
-      .then(res => {
-        if (res.status === 200) {
-          message.success(messages('common.save.success', { name: '' }));
-          this.setState({ loading: false });
-          this.props.close(true);
-        }
-      })
-      .catch(e => {
+    .updateValue(value)
+    .then(res => {
+      if (res.status === 200) {
+        message.success(messages('common.save.success', { name: '' }));
         this.setState({ loading: false });
-      });
+        this.props.close(true);
+      }
+    })
+    .catch(e => {
+      this.setState({ loading: false });
+    });
   }
 
   onCancel = () => {
@@ -217,99 +146,53 @@ class ValueList extends React.Component {
   };
 
 
-
-  //选择/取消选择某行的回调
-  handleSelectRow = (record, selected) => {
-    let deleteUserOids = this.state.deleteUserOids;
-    if (selected) {
-      deleteUserOids.push(record.userOid);
-    } else {
-      deleteUserOids.delete(record.userOid);
-    }
-    this.setState({ deleteUserOids });
-  };
-
-  //选择/取消选择所有行的回调
-  handleSelectAllRow = (selected, selectedRows, changeRows) => {
-    let deleteUserOids = this.state.deleteUserOids;
-    if (selected) {
-      changeRows.map(item => {
-        deleteUserOids.push(item.userOid);
-      });
-    } else {
-      changeRows.map(item => {
-        deleteUserOids.delete(item.userOid);
-      });
-    }
-    this.setState({ deleteUserOids });
-  };
-
-  showListSelector = flag => {
-    this.setState({ showListSelector: flag });
-  };
   //名称：自定义值列表项多语言
   i18nNameChange = (name, i18nName) => {
-    this.state.record.messageKey = name;
-    this.state.record.i18n.messageKey = i18nName;
+    this.state.record.name = name;
+    this.state.record.i18n.name = i18nName;
   };
-  moveInPerson = res => {
-    let userOids = [];
-    res.personList.map(item => {
-      userOids.push(item.userOid);
-    });
-    this.addEmployee(userOids);
-  };
+
 
   render() {
     const { getFieldDecorator, getFieldsValue } = this.props.form;
     const {
       loading,
-      tableLoading,
-      deleteLoading,
-      columns,
-      data,
-      common,
-      pagination,
+
       record,
-      deleteUserOids,
-      showListSelector,
-      customEnumerationItemOid,
-      isCustom,
+
+      typeFlag,
     } = this.state;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14, offset: 1 },
     };
-    const rowSelection = {
-      onSelect: this.handleSelectRow,
-      onSelectAll: this.handleSelectAllRow,
-    };
+
     return (
       <div className="new-value">
         <Form onSubmit={this.handleSave}>
           <div className="common-item-title">{messages('value.list.basic.info' /*基本信息*/)}</div>
 
           <FormItem {...formItemLayout} label={messages('value.list.value.name' /*值名称*/)}>
-            {getFieldDecorator('messageKey', {
+            {getFieldDecorator('name', {
               rules: [
                 {
                   required: true,
                   message: messages('common.please.enter'),
                 },
               ],
-              initialValue: record ? record.messageKey : '',
+              initialValue: record ? record.name : '',
             })(
               <div>
                 <LanguageInput
-                  //disabled={!!record.id}
-                  name={record ? record.messageKey : ''}
+                  disabled={typeFlag === 'SYSTEM'}
+                  name={record ? record.name : ''}
                   i18nName={
-                    record && record.i18n && record.i18n.messageKey ? record.i18n.messageKey : null
+                    record && record.i18n && record.i18n.name ? record.i18n.name : null
                   }
                   isEdit={record && record.id}
                   nameChange={this.i18nNameChange}
                 />
-              </div>
+              </div>,
             )}
           </FormItem>
 
@@ -331,7 +214,7 @@ class ValueList extends React.Component {
                 // }
               ],
               initialValue: record ? record.value : '',
-            })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id} />)}
+            })(<Input placeholder={messages('common.please.enter')} disabled={!!record.id}/>)}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('common.remark')}>
             {getFieldDecorator('remark', {
@@ -342,7 +225,7 @@ class ValueList extends React.Component {
                 },
               ],
               initialValue: record ? record.remark : '',
-            })(<Input placeholder={messages('value.list.input.max.200' /*最多输入200个字符*/)} />)}
+            })(<Input placeholder={messages('value.list.input.max.200' /*最多输入200个字符*/)}/>)}
           </FormItem>
           <FormItem {...formItemLayout} label={messages('common.column.status')}>
             {getFieldDecorator('enabled', {
@@ -350,10 +233,10 @@ class ValueList extends React.Component {
               initialValue: record ? record.enabled : true,
             })(
               <Switch
-                disabled={isCustom === 'SYSTEM'}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="cross" />}
-              />
+                disabled={typeFlag === 'SYSTEM'}
+                checkedChildren={<Icon type="check"/>}
+                unCheckedChildren={<Icon type="cross"/>}
+              />,
             )}
           </FormItem>
           <div className="slide-footer">
@@ -378,5 +261,5 @@ export default connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { withRef: true },
 )(WrappedValueList);

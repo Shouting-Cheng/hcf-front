@@ -42,6 +42,7 @@ class DimensionDetails extends Component {
       infoData: {},
       tabKey: "1",
       dimensionId: this.props.match.params.dimensionId,
+      setOfBooksId: null
     }
   }
 
@@ -53,7 +54,10 @@ class DimensionDetails extends Component {
   getDimension = () => {
     const id = this.state.dimensionId;
     service.getDimensionDetail(id).then(res => {
-      this.setState({ infoData: res.data });
+      this.setState({
+        infoData: res.data,
+        setOfBooksId: res.data['setOfBooksId']
+       });
     }).catch(err => {
       message.error(err.response.data.message);
     })
@@ -75,7 +79,7 @@ class DimensionDetails extends Component {
   }
 
   render() {
-    const { infoList, infoData, tabKey, dimensionId } = this.state;
+    const { infoList, infoData, tabKey, dimensionId, setOfBooksId } = this.state;
 
     return (
       <div>
@@ -91,7 +95,9 @@ class DimensionDetails extends Component {
           style={{margin: "20px 0"}}
         >
           <TabPane tab="维值定义" key="1" >
-            <DimensionDeValue dimensionId={dimensionId} />
+            <DimensionDeValue
+              dimensionId={dimensionId}
+              setOfBooksId={setOfBooksId}/>
           </TabPane>
           <TabPane tab="维值组定义" key="2" >
             <DimensionGroup dimensionId={dimensionId} />
