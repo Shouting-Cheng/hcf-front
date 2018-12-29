@@ -109,7 +109,7 @@ class NewBuilt extends Component {
         <Form onSubmit={this.handleSubmit}>
         <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
-            {getFieldDecorator('setOfBooksName', {
+            {getFieldDecorator('setOfBooksId', {
               ///initialValue:,
               rules: [
                 {
@@ -117,7 +117,7 @@ class NewBuilt extends Component {
 
                 },
               ],
-              initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksName,
+              initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksId,
             })(
               // <Input disabled />
               <Select disabled>
@@ -181,7 +181,7 @@ class NewBuilt extends Component {
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
           </FormItem>
-          <div className="footer-button">
+          <div className="slide-footer">
             <Button
               className="btn"
               type="primary"
