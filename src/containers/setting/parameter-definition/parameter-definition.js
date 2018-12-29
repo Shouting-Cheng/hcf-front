@@ -13,6 +13,8 @@ import config from 'config';
 import CustomTable from "widget/custom-table";
 import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
 import SlideFrame from 'widget/slide-frame'
+import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
+import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
 
 class ParameterDefinition extends React.Component {
   constructor(props) {
@@ -22,6 +24,8 @@ class ParameterDefinition extends React.Component {
       data: [{id:1}],
       searchParams: {},
       record: {},
+      sobOptions:[],
+      sob:{},
       visible: false,
       nowTab: 0,
       tabs:[
@@ -99,6 +103,19 @@ class ParameterDefinition extends React.Component {
   }
   componentDidMount(){
     //this.getList();
+    let params = {
+      roleType: 'TENANT',
+      enabled: true
+    };
+    sobService.getTenantAllSob(params).then(res=>{
+      let {sob, sobOptions} = this.state;
+      res.data.map(item=>{
+        sobOptions.push({value: item.id, label: item.setOfBooksName});
+        item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
+        item.id===this.props.company.setOfBooksId&&console.log(item)
+      });
+      this.setState({sob,sobOptions})
+    });
   }
 
   handleEdit = (e,record)=>{
@@ -111,34 +128,6 @@ class ParameterDefinition extends React.Component {
     })
   };
 
-  //获取预算表数据
-  getList(){
-    let params = Object.assign({}, this.state.searchParams);
-    for(let paramsName in params){
-      !params[paramsName] && delete params[paramsName];
-    }
-    this.setState({loading:true});
-    params.organizationId = this.props.organization.id||this.props.id;
-    params.page = this.state.pagination.page;
-    params.size = this.state.pagination.pageSize;
-    budgetService.getStructures(params).then((response)=>{
-      response.data.map((item,index)=>{
-        item.key = item.structureCode;
-      });
-      this.setState({
-        data: response.data,
-        pagination: {
-          total: Number(response.headers['x-total-count']),
-          current: this.state.pagination.current,
-          page: this.state.pagination.page,
-          pageSize:this.state.pagination.pageSize,
-          showSizeChanger:true,
-          showQuickJumper:true,
-        },
-        loading: false
-      })
-    })
-  };
 
   handleSearch = (values) =>{
     console.log(values)
@@ -201,17 +190,16 @@ class ParameterDefinition extends React.Component {
           </div>
         }
       </div>
-      <Table
-        loading={loading}
-        dataSource={data}
+      <CustomTable
         columns={columns}
-        size="middle"
-        bordered/>
+        url={`${config.baseUrl}/api/parameter/moduleCode`}
+        ref={ref => (this.table = ref)}
+      />
     </div>)
   }
 
   handleTab = (key)=>{
-    let {searchForm, columns, searchParams} = this.state;
+    let {searchForm, columns, searchParams,sob, sobOptions} = this.state;
 
     switch(key){
       case '0':{
@@ -226,13 +214,15 @@ class ParameterDefinition extends React.Component {
         searchParams = {
           setOfBooksId: this.props.company.setOfBooksId
         };
+        console.log(sobOptions)
         searchForm.splice(0,columns.length === 7 ? 0 : 1,{
           type: 'select', id: 'structureCode123', label: this.$t({id: 'form.setting.set.of.books'}),
-          options: [],
+          options: sobOptions,
           labelKey: 'setOfBooksName',
           valueKey: 'id',
+          entity: true,
           colSpan: 6,
-          defaultValue: this.props.company.setOfBooksName,
+          defaultValue: {key:sob.id, label: sob.setOfBooksCode+'-'+sob.setOfBooksName},
           renderOption: option=> option.setOfBooksCode+'-'+option.setOfBooksName,
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
@@ -264,11 +254,11 @@ class ParameterDefinition extends React.Component {
       }
     }
 
-    this.setState({searchForm,nowTab: key})
+    this.setState({searchForm,nowTab: key, sob})
   };
 
   render(){
-    const {tabs, nowTab, visible, record} = this.state;
+    const {tabs, nowTab, visible, record, sob, } = this.state;
     return (
       <div className="parameter-definition">
         <Tabs onChange={this.handleTab} type='card'>
@@ -279,7 +269,7 @@ class ParameterDefinition extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{...record,visible}}
+            params={{...record,visible, sob, nowTab }}
             onClose={this.handleClose}
           />
         </SlideFrame>
