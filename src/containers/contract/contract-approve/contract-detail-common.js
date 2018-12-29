@@ -21,7 +21,7 @@ import {
 const TabPane = Tabs.TabPane;
 import config from 'config';
 import moment from 'moment';
-import DocumentBasicInfo from 'components/Widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import SlideFrame from 'components/Widget/slide-frame';
 import NewPayPlan from 'containers/contract/my-contract/new-pay-plan';
 import NewContractInfo from 'containers/contract/my-contract/new-contract-info';
@@ -124,8 +124,8 @@ class ContractDetailCommon extends React.Component {
                 {value}
               </Popover>
             ) : (
-              '-'
-            ),
+                '-'
+              ),
         },
       ],
       data: [],
@@ -250,7 +250,7 @@ class ContractDetailCommon extends React.Component {
           {
             prepaymentData: res.data,
           },
-          () => {}
+          () => { }
         );
       })
       .catch(e => {
@@ -297,7 +297,7 @@ class ContractDetailCommon extends React.Component {
     return (
       <div className="contract-detail" style={{}}>
         <Card
-          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
+          style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20 }}
         >
           <div style={{ paddingTop: 0, marginTop: '-20px' }}>
             <DocumentBasicInfo params={documentParams} noHeader={true} />
@@ -306,7 +306,7 @@ class ContractDetailCommon extends React.Component {
         <Spin spinning={detailLoading}>
           <div className="contract-info" style={{ margin: 0 }}>
             <Card
-              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15, marginTop: 20 }}
+              style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 20 }}
             >
               <div
                 className="contract-info-header"
@@ -415,23 +415,23 @@ class ContractDetailCommon extends React.Component {
                       title={
                         headerData.contractName
                           ? (headerData.startDate
-                              ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
-                              : '-') +
-                            ' ~ ' +
-                            (headerData.endDate
-                              ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
-                              : '-')
-                          : ''
-                      }
-                    >
-                      {headerData.contractName
-                        ? (headerData.startDate
                             ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
                             : '-') +
                           ' ~ ' +
                           (headerData.endDate
                             ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
                             : '-')
+                          : ''
+                      }
+                    >
+                      {headerData.contractName
+                        ? (headerData.startDate
+                          ? moment(new Date(headerData.startDate)).format('YYYY-MM-DD')
+                          : '-') +
+                        ' ~ ' +
+                        (headerData.endDate
+                          ? moment(new Date(headerData.endDate)).format('YYYY-MM-DD')
+                          : '-')
                         : ''}
                     </span>
                   </Col>
@@ -441,7 +441,7 @@ class ContractDetailCommon extends React.Component {
           </div>
         </Spin>
         <Spin spinning={planLoading}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15,marginLeft: 15,marginTop:10 }}>
+          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', marginRight: 15, marginLeft: 15, marginTop: 10 }}>
             <div className="pay-info" style={{ marginTop: '0px' }}>
               <h3
                 className="info-header-title"
@@ -458,9 +458,9 @@ class ContractDetailCommon extends React.Component {
                 className="pay-info-header"
                 style={
                   headerData.status === 6001 ||
-                  headerData.status === 6003 ||
-                  headerData.status === 6002 ||
-                  headerData.status === 1002
+                    headerData.status === 6003 ||
+                    headerData.status === 6002 ||
+                    headerData.status === 1002
                     ? { marginTop: -20 }
                     : {}
                 }
@@ -469,13 +469,13 @@ class ContractDetailCommon extends React.Component {
                 <Col span={12} className="header-tips" style={{ textAlign: 'right' }}>
                   <Breadcrumb style={{ marginBottom: '10px' }}>
                     <Breadcrumb.Item>
-                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('common.amount')}:</span>&nbsp;<span style={{ color: 'Green'}}>
+                      <span style={{ color: "rgba(0, 0, 0, 0.60)" }}>{this.$t('common.amount')}:</span>&nbsp;<span style={{ color: 'Green' }}>
                         {' '}
-                      {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
+                        {headerData.currency}&nbsp;{this.filterMoney(headerData.amount)}
                       </span>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                      <span style={{color:"rgba(0, 0, 0, 0.60)"}}>{this.$t('acp.function.amount')}</span><span style={{ color: 'Green' }}>
+                      <span style={{ color: "rgba(0, 0, 0, 0.60)" }}>{this.$t('acp.function.amount')}</span><span style={{ color: 'Green' }}>
                         {this.props.company.baseCurrency}&nbsp;{this.filterMoney(headerData.functionAmount)}
                       </span>
                     </Breadcrumb.Item>
@@ -496,7 +496,7 @@ class ContractDetailCommon extends React.Component {
           <Card
             style={{
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-              marginRight: 15,marginLeft: 15,
+              marginRight: 15, marginLeft: 15,
               marginTop: 20,
               marginBottom: 50,
             }}
@@ -517,7 +517,7 @@ ContractDetailCommon.propTypes = {
 
 ContractDetailCommon.defaultProps = {
   isApprovePage: false,
-  getContractStatus: () => {},
+  getContractStatus: () => { },
 };
 function mapStateToProps(state) {
   return {

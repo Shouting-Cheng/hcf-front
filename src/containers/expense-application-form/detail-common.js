@@ -1,23 +1,18 @@
 import React from 'react';
-import config from 'config';
-import httpFetch from 'share/httpFetch';
-import { Form, Icon, Tag, Button, Row, Col, Spin, Breadcrumb, message, Popover, Divider, Card } from 'antd';
+import { connect } from 'dva';
+import { Form, Button, Row, Col, Breadcrumb, message, Divider, Card } from 'antd';
 import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame';
-
-import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
-import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-
 import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
 import NewApplicationLine from "./new-application-line"
-
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
-
 import service from "./service"
+
+import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
+
 
 class PrePaymentCommon extends React.Component {
   constructor(props) {
@@ -85,7 +80,6 @@ class PrePaymentCommon extends React.Component {
   componentDidMount() {
 
     const { headerData } = this.props;
-
     let headerInfo = {
       businessCode: headerData.documentNumber,
       createdDate: headerData.requisitionDate,
@@ -102,11 +96,9 @@ class PrePaymentCommon extends React.Component {
       ],
       attachments: headerData.attachments,
     };
-
     this.setState({ headerInfo }, () => {
       this.getLineInfo();
     });
-
 
     this.getApproveHistory();
   }
@@ -130,9 +122,7 @@ class PrePaymentCommon extends React.Component {
     })
   }
 
-  /**
-   * 获取审批历史数据
-   */
+  //获取审批历史数据
   getApproveHistory = () => {
     this.setState({ historyLoading: true });
     service.getHistory(this.props.headerData.applicationOid).then(res => {
@@ -142,7 +132,6 @@ class PrePaymentCommon extends React.Component {
       this.setState({ historyLoading: false });
     })
   };
-
 
   //删除行数据
   deleteLine = ({ id }) => {
@@ -171,6 +160,7 @@ class PrePaymentCommon extends React.Component {
       }
     });
   };
+
   //编辑
   edit = () => {
     this.props.dispatch(
@@ -179,17 +169,33 @@ class PrePaymentCommon extends React.Component {
       })
     );
   };
+
   //取消
   onCancel = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/pre-payment/my-pre-payment`,
+        pathname: "/expense-application"
       })
     );
   };
+
   //撤销
   back = () => {
-
+    let params = {
+      entities: [{
+        entityOID: this.props.headerData.documentOid,
+        entityType: 801009,
+      }]
+    };
+    this.setState({ backLoadding: true });
+    service.withdraw(params).then(res => {
+      this.setState({ backLoadding: false });
+      message.success("撤回成功！");
+      this.onCancel();
+    }).catch(err => {
+      this.setState({ backLoadding: false });
+      message.error(err.response.data.message);
+    })
   };
 
   //添加行信息
@@ -203,147 +209,21 @@ class PrePaymentCommon extends React.Component {
       this.setState({ showSlideFrame: true, slideFrameTitle: "编辑申请单行" });
     });
   };
-  //删除预付款行信息
-  deleteItem = (e, record) => {
-    e.preventDefault();
-  };
 
   //扩展行
   expandedRow = record => {
-    return (
-      <div>
-        <Row>
-          <Col span={2}>
-            <span style={{ float: 'right' }}>金额属性</span>
-          </Col>
-          <Col span={6} offset={1}>
-            汇率日期：
-          </Col>
-          <Col span={6}>汇率：{record.exchangeRate}</Col>
-          <Col span={5}>
-            {' '}
-            本币金额：{record.currency}&nbsp; {this.filterMoney(record.functionAmount, 2, true)}
-          </Col>
-        </Row>
-
-        {record.contractName ? (
-          <div>
-            <Divider />
-            <Row>
-              <Col span={2}>
-                <span style={{ float: 'right' }}>关联合同</span>
-              </Col>
-              <Col span={6} offset={1}>
-                <span>合同名称：{record.contractName}</span>
-              </Col>
-              <Col span={6}>
-                <span>合同编号：</span>
-                <a>{record.contractNumber ? record.contractNumber : '-'}</a>
-              </Col>
-              <Col span={4}>计划付款行行号：{record.contractLineNumber}</Col>
-              <Col span={5}> 计划付款日期：{moment(record.dueDate).format('YYYY-MM-DD')}</Col>
-            </Row>
-          </div>
-        ) : null}
-
-        {record.refDocumentCode ? (
-          <div>
-            <Divider />
-            <Row>
-              <Col span={2}>
-                <span style={{ float: 'right' }}>关联申请单</span>
-              </Col>
-              <Col span={6} offset={1} className="over-range">
-                <span>申请单编号：</span>
-                <a>{record.refDocumentCode}</a>
-              </Col>
-              <Col span={6}>
-                申请单金额：{record.currency}&nbsp;{this.filterMoney(
-                  record.refDocumentTotalAmount,
-                  2,
-                  true
-                )}
-              </Col>
-            </Row>
-          </div>
-        ) : null}
-        {Number(record.returnAmount) === 0 && Number(record.payAmount) === 0 ? null : (
-          <div>
-            <Divider />
-            <Row>
-              <Col span={2}>
-                <span style={{ float: 'right' }}>付款日志</span>
-              </Col>
-              <Col span={6} offset={1}>
-                已付款总金额：{record.currency}&nbsp;{this.filterMoney(record.payAmount, 2, true)}
-              </Col>
-              <Col span={6}>
-                退款总金额：{record.currency}&nbsp;{this.filterMoney(record.returnAmount, 2, true)}
-              </Col>
-            </Row>
-          </div>
-        )}
-
-        {record.reportWriteOffDTOS
-          ? record.reportWriteOffDTOS.map((item, index) => {
-            if (index === 0) {
-              return (
-                <div>
-                  <Divider />
-                  <Row>
-                    <Col span={2}>
-                      <span style={{ float: 'right' }}>被核销历史</span>
-                    </Col>
-                    <Col span={6} offset={1} className="over-range">
-                      <span>报账单编号：{item.reportNumber}</span>
-                      <a>{item.reportNumber}</a>
-                    </Col>
-                    <Col span={6}>
-                      被核销金额：{record.currency}&nbsp;{this.filterMoney(
-                        item.writeOffAmount,
-                        2,
-                        true
-                      )}
-                    </Col>
-                    <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
-                    <Col span={4}>
-                      核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
-                    </Col>
-                  </Row>
-                </div>
-              );
-            } else {
-              return (
-                <div>
-                  <Divider />
-                  <Row>
-                    <Col span={2}>
-                      <span style={{ float: 'right' }} />
-                    </Col>
-                    <Col span={6} offset={1} className="over-range">
-                      <Popover content={<span>报账单编号：{item.reportNumber}</span>}>
-                        报账单编号：{item.reportNumber}
-                      </Popover>
-                    </Col>
-                    <Col span={6}>
-                      被核销金额：{record.currency}&nbsp;{this.filterMoney(
-                        item.writeOffAmount,
-                        2,
-                        true
-                      )}
-                    </Col>
-                    <Col span={5}>交易日期：{moment(item.tranDate).format('YYYY-MM-DD')}</Col>
-                    <Col span={4}>
-                      核销状态：{item.reportStatus === 'p' ? '核销中' : '核销完成'}
-                    </Col>
-                  </Row>
-                </div>
-              );
-            }
-          })
-          : null}
-      </div>
-    );
+    if (record.currencyCode == this.props.company.baseCurrency) return null;
+    return (<div>
+      <Row>
+        <Col span={2}>
+          <span style={{ float: 'right' }}>金额属性</span>
+        </Col>
+        <Col span={6} offset={1}>
+          汇率日期：{moment(record.exchangeDate).format("YYYY-MM-DD hh:mm:ss")}
+        </Col>
+        <Col span={6}>汇率：{record.exchangeRate}</Col>
+      </Row>
+    </div>);
   };
 
   tableChange = (pagination) => {

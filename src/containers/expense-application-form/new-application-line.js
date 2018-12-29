@@ -1,16 +1,12 @@
 import React, { Component } from "react"
-import { Form, Input, Row, Col, Button, DatePicker, Select, InputNumber, message, Spin } from 'antd';
+import { Form, Input, Row, Col, Button, DatePicker, Select, InputNumber, message, Spin, TimePicker } from 'antd';
 import { connect } from "dva";
 import { routerRedux } from "dva/router"
 import Chooser from "widget/chooser"
 import SelectApplicationType from "widget/select-application-type"
 import CustomAmount from "widget/custom-amount"
-
 import service from "./service"
-import config from "config"
-
 const FormItem = Form.Item;
-
 import moment from "moment"
 
 const priceUnitMap = {
@@ -32,7 +28,6 @@ class NewExpenseApplicationFromLine extends Component {
       model: {},
       currencyList: [],
       dimensionList: [],
-      applicationTypeInfo: {},
       typeId: "",
       uploadOIDs: [],
       expenseTypeInfo: {}
@@ -62,7 +57,7 @@ class NewExpenseApplicationFromLine extends Component {
     const { lineId } = this.props;
     service.getNewInfo({ headerId: this.props.headerData.id, lineId: lineId, isNew: false }).then(res => {
       res.data.applicationType = { id: res.data.expenseTypeId, name: res.data.expenseTypeName };
-      this.setState({ model: res.data, pageLoading: false });
+      this.setState({ model: res.data, pageLoading: false, isNew: false });
     }).catch(err => {
       console.log(err);
       message.error(err.response.data.message);
@@ -90,15 +85,24 @@ class NewExpenseApplicationFromLine extends Component {
     this.props.form.validateFields((err, values) => {
       if (err) return;
 
-      let { expenseTypeInfo } = this.state;
+      let { expenseTypeInfo, model, isNew } = this.state;
 
       let result = [];
 
       Object.keys(values).map(key => {
         if (key.indexOf("-") >= 0) {
           let id = key.split("-")[1];
-          let record = expenseTypeInfo.fields.find(o => o.id == id);
-          record.value = values[key];
+          let record = null;
+          if (isNew) {
+            record = expenseTypeInfo.fields.find(o => o.id == id);
+          } else {
+            record = model.fields.find(o => o.id == id);
+          }
+          if (record.fieldType == "DATE" || record.fieldType == "DATETIME" || record.fieldType == "MONTH") {
+            record.value = values[key].format();
+          } else {
+            record.value = values[key]
+          }
           result.push(record);
         }
       })
@@ -132,7 +136,6 @@ class NewExpenseApplicationFromLine extends Component {
 
   //选择申请单
   selectApplicationType = (item) => {
-
     this.setState({ expenseTypeInfo: item }, () => {
       if (item.entryMode) {
         this.props.form.setFieldsValue({ price: 0, quantity: 0 });
@@ -147,7 +150,7 @@ class NewExpenseApplicationFromLine extends Component {
     this.props.close && this.props.close();
   }
 
-
+  //渲染动态组件
   renderFields = (field) => {
 
     const formItemLayout = {
@@ -159,8 +162,12 @@ class NewExpenseApplicationFromLine extends Component {
       },
     };
 
-    const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
+    const { isNew } = this.state;
+    const { getFieldDecorator } = this.props.form;
 
+    console.log(isNew);
+
+    const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
     switch (field.fieldType) {
       case "TEXT":
         return (
@@ -168,8 +175,8 @@ class NewExpenseApplicationFromLine extends Component {
             <Col span={24}>
               <FormItem label={field.name} {...formItemLayout}>
                 {getFieldDecorator("field-" + field.id, {
-                  rules: [{ required: true, message: this.$t('common.please.select') }],
-                  initialValue: isNew ? field.value : model.defaultValue
+                  rules: [{ required: field.required, message: this.$t('common.please.select') }],
+                  initialValue: field.value
                 })(
                   <Input />
                 )}
@@ -183,10 +190,59 @@ class NewExpenseApplicationFromLine extends Component {
             <Col span={24}>
               <FormItem label={field.name} {...formItemLayout}>
                 {getFieldDecorator("field-" + field.id, {
-                  rules: [{ required: true, message: this.$t('common.please.select') }],
-                  initialValue: isNew ? field.value : model.defaultValue
+                  rules: [{ required: field.required, message: this.$t('common.please.select') }],
+                  initialValue: isNew ? moment() : moment(field.value)
                 })(
                   <DatePicker />
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+        );
+      case "DATETIME":
+        return (
+          <Row key={field.id} {...rowLayout}>
+            <Col span={24}>
+              <FormItem label={field.name} {...formItemLayout}>
+                {getFieldDecorator("field-" + field.id, {
+                  rules: [{ required: field.required, message: this.$t('common.please.select') }],
+                  initialValue: isNew ? moment() : moment(field.value)
+                })(
+                  <TimePicker />
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+        );
+      case "MONTH":
+        return (
+          <Row key={field.id} {...rowLayout}>
+            <Col span={24}>
+              <FormItem label={field.name} {...formItemLayout}>
+                {getFieldDecorator("field-" + field.id, {
+                  rules: [{ required: field.required, message: this.$t('common.please.select') }],
+                  initialValue: isNew ? moment() : moment(field.value)
+                })(
+                  <DatePicker.MonthPicker />
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+        );
+      case "CUSTOM_ENUMERATION":
+        return (
+          <Row key={field.id} {...rowLayout}>
+            <Col span={24}>
+              <FormItem label={field.name} {...formItemLayout}>
+                {getFieldDecorator("field-" + field.id, {
+                  rules: [{ required: true, message: this.$t('common.please.select') }],
+                  initialValue: field.value
+                })(
+                  <Select>
+                    {field.options && field.options.map(o => {
+                      return <Select.Option key={o.value}>{o.label}</Select.Option>
+                    })}
+                  </Select>
                 )}
               </FormItem>
             </Col>
@@ -207,23 +263,14 @@ class NewExpenseApplicationFromLine extends Component {
 
 
   render() {
-
     const { getFieldDecorator } = this.props.form;
-
     const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
-
-    const formItemLayout = {
-      labelCol: {
-        span: 8
-      },
-      wrapperCol: {
-        span: 10
-      },
-    };
-
-    const { pageLoading, model, isNew, currencyList, dimensionList, applicationTypeInfo, loading, expenseTypeInfo } = this.state;
+    const { pageLoading, model, isNew, currencyList, dimensionList, loading, expenseTypeInfo } = this.state;
     const { lineId } = this.props;
-
+    const formItemLayout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 10 },
+    };
     return (
       <div style={{ marginBottom: 60, marginTop: 10 }}>
         {pageLoading ? <Spin /> :
@@ -331,19 +378,11 @@ class NewExpenseApplicationFromLine extends Component {
                 </Col>
               </Row>)
             }
-            {expenseTypeInfo.fields && expenseTypeInfo.fields.map(item => {
-              return (<Row key={item.id} {...rowLayout}>
-                <Col span={24}>
-                  <FormItem label={item.name} {...formItemLayout}>
-                    {getFieldDecorator("field-" + item.id, {
-                      rules: [{ required: true, message: this.$t('common.please.select') }],
-                      initialValue: isNew ? item.value : model.defaultValue
-                    })(
-                      <Input />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>)
+            {isNew && expenseTypeInfo.fields && expenseTypeInfo.fields.map(item => {
+              return this.renderFields(item)
+            })}
+            {!isNew && model.fields && model.fields.map(item => {
+              return this.renderFields(item)
             })}
             {dimensionList.map(item => {
               return (<Row key={item.id} {...rowLayout}>

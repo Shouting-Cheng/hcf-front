@@ -1,5 +1,5 @@
 {
-  "helios": "汉得融晶",
+  "helios": "融智汇",
   "helios.title": " ",
   "login.username": "用户名",
   "login.password": "密码",
@@ -41,7 +41,7 @@
   "login.qcode.expired": "二维码已经过期",
   "login.qcode.refresh": "重新获取",
   "login.qcode.account.login": "账号登录",
-  "login.qcode.please.scan": "请使用汉得融晶APP扫描登录",
+  "login.qcode.please.scan": "请使用融智汇APP扫描登录",
   "login.qcode.scan.success": "二维码扫描成功",
   "login.qcode.loading.qcode": "正在加载二维码...",
   "login.qcode.loading.qcode.err": "获取二维码错误",

@@ -35,7 +35,6 @@ class NewApplicationType extends React.Component {
     if (!this.props.params.id) {
       this.getFormList();
     }
-    this.getSetOfBookList();
     this.getInfoById();
   }
 
@@ -65,7 +64,6 @@ class NewApplicationType extends React.Component {
     }
   }
 
-
   //获取可关联表单类型
   getFormList = (setOfBooksId = this.props.params.setOfBooksId) => {
     service.getFormList(setOfBooksId).then(res => {
@@ -84,17 +82,6 @@ class NewApplicationType extends React.Component {
     }
   }
 
-  //获取账套列表
-  getSetOfBookList = () => {
-    baseService.getSetOfBooksByTenant().then(res => {
-      let list = [];
-      res.data.map(item => {
-        list.push({ value: item.id, label: `${item.setOfBooksCode}-${item.setOfBooksName}` });
-      });
-      this.setState({ setOfBooks: list });
-    });
-  };
-
   onCancel = () => {
     this.props.close && this.props.close();
   };
@@ -108,9 +95,7 @@ class NewApplicationType extends React.Component {
 
       this.setState({ saveLoading: true });
       values.requireInput = values.associateContract ? values.requireInput : false;
-
       values.allFlag = values.applicationType.radioValue;
-
       values.applyEmployee = permissionsType[values.userInfos.type];
 
       let userInfos = values.userInfos.values.map(o => ({ userTypeId: o.value }));
@@ -133,20 +118,31 @@ class NewApplicationType extends React.Component {
       }
 
       method(values).then(res => {
+        this.setState({ saveLoading: false });
         message.success(record.id ? "更新成功！" : "新增成功！");
         this.props.close && this.props.close(true);
       }).catch(err => {
+        this.setState({ saveLoading: false });
         message.error(err.response.data.message);
       });
 
     });
   };
 
+  //可用申请类型校验
+  applicationTypeValidator = (rule, value, callback) => {
+    if (value.radioValue || (!value.radioValue && value.chooserValue.length > 0)) {
+      callback();
+      return;
+    }
+    callback("请选择申请类型");
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { setOfBooks, formList, saveLoading, record, loading } = this.state;
-    const { params } = this.props
+    const { formList, saveLoading, record, loading } = this.state;
+    const { params, setOfBooks } = this.props;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 10 }
@@ -246,7 +242,7 @@ class NewApplicationType extends React.Component {
             {...formItemLayout}
             label="可用申请类型">
             {getFieldDecorator('applicationType', {
-              rules: [{ required: true }],
+              rules: [{ validator: this.applicationTypeValidator }],
               initialValue: record.applicationType || { radioValue: true, chooserValue: [] }
             })(
               <CustomChooser params={{ setOfBooksId: record.id ? record.setOfBooksId : params.setOfBooksId }} type="application_type" valueKey="id" labelKey="name" />
