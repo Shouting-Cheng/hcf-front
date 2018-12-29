@@ -585,15 +585,15 @@ class NodeConditionList extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueItem = (e, remark, value, fieldOID) => {
+  handleDeleteValueItem = (e, remark, value, fieldOID,i) => {
     e.preventDefault();
     this.setState({
-      deleteTagValue: {remark, value, fieldOID}
+      deleteTagValue: {remark, value, fieldOID,index:i}
     })
   };
 
   //渲染审批条件的值
-  renderConditionItem = (item, isEdit) => {
+  renderConditionItem = (item, isEdit,i) => {
     switch(item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
@@ -612,7 +612,7 @@ class NodeConditionList extends React.Component {
             }
           });
           let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
-          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName.replace('|',"")], departmentOID) :
+          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName.replace('|',"")], departmentOID,null,i) :
             `${item.showValue&&item.showValue[depName.replace('|',"")]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_department_role': //部门角色
@@ -648,7 +648,7 @@ class NodeConditionList extends React.Component {
               item.showValue[oid] = department.name
             }
           });
-          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid,null,i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'currency_code': //币种
@@ -737,9 +737,9 @@ class NodeConditionList extends React.Component {
 
   //渲染审批条件值列表的tag值
   //fieldOID 部门扩展字段的oid
-  renderConditionCustListTag = (index, type, name, value ,fieldOID = null) => {
+  renderConditionCustListTag = (index, type, name, value ,fieldOID = null,i) => {
     return (
-      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID)}>
+      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID,i)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
       </Tag>
     )

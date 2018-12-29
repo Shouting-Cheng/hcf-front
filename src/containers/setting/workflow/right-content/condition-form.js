@@ -121,7 +121,7 @@ class ConditionForm extends React.Component {
     this.setState({ condition, deleteConditionOID });
     //删除值列表的值
     if (nextProps.deleteTagValue.value && nextProps.deleteTagValue.value !== this.props.deleteTagValue.value) {
-      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOID)
+      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOID,nextProps.deleteTagValue.index)
     }
   }
 
@@ -549,14 +549,20 @@ class ConditionForm extends React.Component {
       if (item.remark === remark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         if(i===index) {
-          valueDetail.value = valueOIDs;
-          valueDetail.valueOIDs && (valueDetail.valueOIDs = valueOIDs);
+          valueDetail.value = [].concat(valueOIDs);
+          valueDetail.valueOIDs && (valueDetail.valueOIDs = [].concat(valueOIDs));
         }
         if (valueDetail.value && valueDetail.value.length) {
           valueOIDs.map((oid, oidIndex) => {
-            if (remark === 'default_department_path' && valueDetail.valueOIDs.indexOf(oid) === -1) {
-              valueDetail.valueOIDs.push(oid);
-              valueDetail.value.push(value[oidIndex]);
+            if (remark === 'default_department_path' ) {
+              if(valueDetail.valueOIDs && valueDetail.valueOIDs.indexOf(oid) === -1){
+                valueDetail.valueOIDs.push(oid);
+              }
+              if(!valueDetail.valueOIDs){
+                valueDetail.valueOIDs = [];
+                valueDetail.valueOIDs.push(value[oidIndex])
+              }
+              //valueDetail.value.push(value[oidIndex]);
             } else if ((remark === 'select_department'||remark === 'default_user_department') && valueDetail.value.indexOf(oid) === -1) {
               valueDetail.value.push(oid);
             }
@@ -752,114 +758,116 @@ class ConditionForm extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueDetail = (remark, value, fieldOID) => {
+  handleDeleteValueDetail = (remark, value, fieldOID,i) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
-      if (item.remark === remark && remark === 'default_department_level') {
-        let depLevelValue = this.state.depLevelValue;
-        depLevelValue.delete(Number(value));
-        this.setState({ depLevelValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'default_department_path') {
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-      }
-      if (item.remark === remark && remark === 'default_department_role') {
-        let depRoleValue = this.state.depRoleValue;
-        depRoleValue.map((roleItem, roleIndex) => {
-          roleItem.positionCode === value && depRoleValue.splice(roleIndex, 1)
-        });
-        this.setState({ depRoleValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'default_expense_type') {
-        let expenseTypeValue = this.state.expenseTypeValue;
-        expenseTypeValue.map((expenseItem, expenseIndex) => {
-          expenseItem.expenseTypeOID === value && expenseTypeValue.splice(expenseIndex, 1)
-        });
-        this.setState({ expenseTypeValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'select_department'||remark === 'default_user_department')) {
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'currency_code') {
-        let currencyValue = this.state.currencyValue;
-        currencyValue.map((currencyItem, currencyIndex) => {
-          currencyItem.currencyCode === value && currencyValue.splice(currencyIndex, 1)
-        });
-        this.setState({ currencyValue });
-        this.updateConditionByDeleteValue(value, index, 'currencyCode')
-      }
-      if (item.remark === remark && remark === 'select_cost_center') {
-        let costCenterValue = this.state.costCenterValue;
-        costCenterValue.map((costCenterItem, costCenterIndex) => {
-          costCenterItem.costCenterItemOID === value && costCenterValue.splice(costCenterIndex, 1)
-        });
-        this.setState({ costCenterValue });
-        this.updateConditionByDeleteValue(value, index, 'costCenterItemOID')
-      }
-      if (item.remark === remark && (remark === 'select_company' || remark === 'default_applicant_company')) {
-        let companyValue = this.state.companyValue;
-        companyValue.map((companyItem, companyIndex) => {
-          companyItem.companyOID === value && companyValue.splice(companyIndex, 1)
-        });
-        this.setState({ companyValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'select_corporation_entity' || remark === 'default_corporation_entity')) {
-        let entityValue = this.state.entityValue;
-        entityValue.map((entityItem, entityIndex) => {
-          entityItem.companyReceiptedOID === value && entityValue.splice(entityIndex, 1)
-        });
-        this.setState({ entityValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'default_user_post'||remark === 'default_user_level'||remark === 'default_user_post'||remark==='default_user_category')) {
-        let currentValue = this.state.currentValue;
-        currentValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({ currentValue });
-      }
-      if (item.remark === 'default_user_direct_leadership' || item.remark === 'default_user_applicant') {
-        let userValue = this.state.userValue;
-        userValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.value.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({userValue});
-      }
-      if (item.remark === remark && item.field === fieldOID
-        && (remark === 'default_user_department_extend' || remark === 'custom_form_department_extend')) {
-        let currentExtendValue = this.state.currentExtendValue;
-        currentExtendValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOIDs.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOIDs.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({currentExtendValue});
+      if(i===index){
+        if (item.remark === remark && remark === 'default_department_level') {
+          let depLevelValue = this.state.depLevelValue;
+          depLevelValue.delete(Number(value));
+          this.setState({ depLevelValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'default_department_path') {
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+        }
+        if (item.remark === remark && remark === 'default_department_role') {
+          let depRoleValue = this.state.depRoleValue;
+          depRoleValue.map((roleItem, roleIndex) => {
+            roleItem.positionCode === value && depRoleValue.splice(roleIndex, 1)
+          });
+          this.setState({ depRoleValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'default_expense_type') {
+          let expenseTypeValue = this.state.expenseTypeValue;
+          expenseTypeValue.map((expenseItem, expenseIndex) => {
+            expenseItem.expenseTypeOID === value && expenseTypeValue.splice(expenseIndex, 1)
+          });
+          this.setState({ expenseTypeValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (remark === 'select_department'||remark === 'default_user_department') {
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'currency_code') {
+          let currencyValue = this.state.currencyValue;
+          currencyValue.map((currencyItem, currencyIndex) => {
+            currencyItem.currencyCode === value && currencyValue.splice(currencyIndex, 1)
+          });
+          this.setState({ currencyValue });
+          this.updateConditionByDeleteValue(value, index, 'currencyCode')
+        }
+        if (item.remark === remark && remark === 'select_cost_center') {
+          let costCenterValue = this.state.costCenterValue;
+          costCenterValue.map((costCenterItem, costCenterIndex) => {
+            costCenterItem.costCenterItemOID === value && costCenterValue.splice(costCenterIndex, 1)
+          });
+          this.setState({ costCenterValue });
+          this.updateConditionByDeleteValue(value, index, 'costCenterItemOID')
+        }
+        if (item.remark === remark && (remark === 'select_company' || remark === 'default_applicant_company')) {
+          let companyValue = this.state.companyValue;
+          companyValue.map((companyItem, companyIndex) => {
+            companyItem.companyOID === value && companyValue.splice(companyIndex, 1)
+          });
+          this.setState({ companyValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && (remark === 'select_corporation_entity' || remark === 'default_corporation_entity')) {
+          let entityValue = this.state.entityValue;
+          entityValue.map((entityItem, entityIndex) => {
+            entityItem.companyReceiptedOID === value && entityValue.splice(entityIndex, 1)
+          });
+          this.setState({ entityValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && (remark === 'default_user_post'||remark === 'default_user_level'||remark === 'default_user_post'||remark==='default_user_category')) {
+          let currentValue = this.state.currentValue;
+          currentValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({ currentValue });
+        }
+        if (item.remark === 'default_user_direct_leadership' || item.remark === 'default_user_applicant') {
+          let userValue = this.state.userValue;
+          userValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.value.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({userValue});
+        }
+        if (item.remark === remark && item.field === fieldOID
+          && (remark === 'default_user_department_extend' || remark === 'custom_form_department_extend')) {
+          let currentExtendValue = this.state.currentExtendValue;
+          currentExtendValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({currentExtendValue});
+        }
       }
     });
       this.setState({condition}, () => {
@@ -1282,7 +1290,7 @@ class ConditionForm extends React.Component {
                       </Select>
                     </Col>
                     <Col span={item.remark === 'cust_list'?2 : 15}>
-                      {item.remark !== 'cust_list' && this.props.itemValueRender(item, true)}
+                      {item.remark !== 'cust_list' && this.props.itemValueRender(item, true,index)}
                       {String(item.symbol) === '9015' || String(item.symbol) === '9016'? '' : (
                         (item.remark === 'default_department_path' || item.remark === 'select_department' || item.remark === 'default_user_department') ? (
                           <a style={{whiteSpace: 'nowrap'}} onClick={(e)=>{
@@ -1301,7 +1309,7 @@ class ConditionForm extends React.Component {
                             <div className="selector-container">
                               <Selector selectorItem={custListSelectorItem}
                                         allowClear={false}
-                                        value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
+                                        value={item.value || item.showValue || (this.props.itemValueRender(item, true,index) && this.props.itemValueRender(item, true,index)[0])}
                                         placeholder={this.$t('common.please.select')}
                                         entity
                                         onChange={value => this.handleCustListValueChange(value, item.customEnumerationOID, item.refCostCenterOID)}
@@ -1348,12 +1356,12 @@ class ConditionForm extends React.Component {
                     <Col span={item.remark === 'default_user_sex' ? '4' : '15'}>
 
                       <div className="selector-container">
-                        {item.fieldContent !== '1007' && this.props.itemValueRender(item, true)}
+                        {item.fieldContent !== '1007' && this.props.itemValueRender(item, true,index)}
                         {item.fieldContent === '1007' ?
                           <Selector selectorItem={custListSelectorItem}
                                     allowClear={false}
                                     size="small"
-                                    value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
+                                    value={item.value || item.showValue || (this.props.itemValueRender(item, true,index) && this.props.itemValueRender(item, true,index)[0])}
                                     placeholder={this.$t('common.please.select')}
                                     entity
                                     onChange={value => this.handleCustomValueChange(value, item.customEnumerationOID, item.refCostCenterOID, item.field)}
