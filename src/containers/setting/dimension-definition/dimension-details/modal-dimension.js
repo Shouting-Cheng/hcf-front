@@ -124,6 +124,11 @@ class ModalDimension extends Component {
     return (
       <div>
         <SearchArea searchForm={searchForm} submitHandle={this.modalSearch} />
+        <div className="table-header">
+          <div className="table-header-title">
+            {this.$t('common.total', { total: pagination.total || data.length })}{/* 共 total 条数据 */}
+          </div>
+        </div>
         <CustomTable
           rowKey={record => record['id']}
           dataSource={modalData}
