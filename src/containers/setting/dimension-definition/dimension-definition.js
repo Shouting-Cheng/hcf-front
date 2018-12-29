@@ -145,8 +145,18 @@ class Dfinition extends Component {
   };
 
   // 搜索
-  search = (values) => {
-    this.table.search(values);
+  search = (params) => {
+    this.setState(
+      {
+        loading: true,
+        page: 0,
+        searchParams: params,
+      },
+      () => {
+        this.table.search(params);
+      }
+    );
+    // this.table.search(values);
 
   };
    //获取账套列表
@@ -215,7 +225,7 @@ class Dfinition extends Component {
 
         <CustomTable
           columns={columns}
-          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${this.props.company.setOfBooksId}`}
+          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${setOfBooksId}`}
           ref={ref => (this.table = ref)}
         />
         <SlideFrame
