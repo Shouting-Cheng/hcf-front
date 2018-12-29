@@ -17,19 +17,6 @@ class Dfinition extends Component {
     this.state = {
       searchForm: [
         {
-          // type: 'select',
-          // id: 'setOfBooksName',
-          // colSpan: 6,
-          // label: '账套',
-          // options: [],
-          // labelKey: 'name',
-          // valueKey: 'id',
-          // isRequired: 'true',
-          // allowClear: false,
-          // event: 'setOfBookId',
-          // defaultValue: this.props.company.setOfBooksId,
-
-
           type: 'select',
           options: [],
           id: 'setOfBooksId',
@@ -182,7 +169,7 @@ class Dfinition extends Component {
       let form = this.state.searchForm;
       form[0].options = list;
       form[0].defaultValue = this.props.company.setOfBooksId;
-      this.setState({ searchForm: form, setOfBookId: form[0].defaultValue });
+      this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
     });
   }
   // 搜索框事件
