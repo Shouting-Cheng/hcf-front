@@ -3,6 +3,8 @@
   "value.list.system.level": "系统值列表",
   "value.list.custom.level": "自定义值列表",
   "value.list.information": "值列表名称",
+  "value.list.code": "值列表代码",
+  "value.list.type": "值列表类型",
   "value.list.system.notice": "融智汇系统正常工作所必要的值列表",
   "value.list.new": "新增值列表",
   "value.list.distribute.company": "分配公司",
@@ -36,5 +38,6 @@
   "value.list.input.only.letter.and.num": "只能输入大小写字母和数字",
   "value.list.add.employee.by.organization": "按组织添加员工",
   "value.list.add.employee.by.limit": "按条件添加员工",
-  "value.list.add.employee.notice": "填写【值名称】及【编码】后才可添加员工"
+  "value.list.add.employee.notice": "填写【值名称】及【编码】后才可添加员工",
+  "value.list.code.input":"请输入值列表代码"
 }
