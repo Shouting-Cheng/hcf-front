@@ -182,7 +182,7 @@ class ValueList extends React.Component {
     let pagination = this.state.pagination;
     this.setState({
       searchParams: { ...this.state.searchParams, ...values },
-      pagination: { ...pagination, current: 0 },
+      pagination: { ...pagination, current: 0,page:0 },
     }, () => {
       this.getList();
     });
