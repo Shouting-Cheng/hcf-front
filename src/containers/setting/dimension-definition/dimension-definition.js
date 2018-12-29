@@ -24,7 +24,6 @@ class Dfinition extends Component {
           label: '账套',
           labelKey: 'setOfBooksName',
           valueKey: 'id',
-          colSpan: 6,
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
@@ -156,8 +155,6 @@ class Dfinition extends Component {
         this.table.search(params);
       }
     );
-    // this.table.search(values);
-
   };
    //获取账套列表
    getSetOfBookList = () => {
@@ -184,14 +181,10 @@ class Dfinition extends Component {
       });
     }
   }
-
-
-
-
   //清除
-  clear = (values) => {
-    this.setState({ searchParams: {} })
-    this.table.search(values);
+  clear = () => {
+   this.setState({setOfBooksId:this.props.company.setOfBooksId});
+   this.table.search();
   }
   // 详情
   detailClick = (e, record) => {
@@ -222,7 +215,6 @@ class Dfinition extends Component {
         >
           新 建
         </Button>
-
         <CustomTable
           columns={columns}
           url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${setOfBooksId}`}
@@ -241,10 +233,7 @@ class Dfinition extends Component {
   }
 }
 function mapStateToProps(state) {
- (state);
-
   return {
-
     company: state.user.company
   }
 }
