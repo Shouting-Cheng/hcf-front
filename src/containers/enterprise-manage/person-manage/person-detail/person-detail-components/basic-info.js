@@ -178,7 +178,7 @@ class PersonBasicInfo extends React.Component {
                   ? values.mobilePrefix.split('$$')[1]
                   : this.state.personObj.mobileCode, //手机前缀:默认86
               //
-              employeeID: values.employeeID,
+              employeeId: values.employeeId,
               fullName: values.fullName,
               //男
               // gender: values.gender,//必须是int类型不然报错,可以不传，后端用的是genderCode
@@ -241,7 +241,7 @@ class PersonBasicInfo extends React.Component {
                 ? values.mobilePrefix.split('$$')[1]
                 : this.state.personObj.mobileCode, //手机前缀:默认86
             //
-            employeeID: values.employeeID,
+            employeeId: values.employeeId,
             fullName: values.fullName,
             //
             // gender: values.gender,//必须是int类型不然报错，可以不传，后端用的是genderCode
@@ -351,7 +351,7 @@ class PersonBasicInfo extends React.Component {
             {/*工号：*/}
             {this.$t('pdc.basic.info.employeeId')}：
           </div>
-          <div className="info-item-text">{this.renderNoEditingText(person.employeeID)}</div>
+          <div className="info-item-text">{this.renderNoEditingText(person.employeeId)}</div>
         </div>
 
         <div className="info-item f-left">
@@ -456,7 +456,7 @@ class PersonBasicInfo extends React.Component {
         </div>
 
         <div className="clear" />
-       {/* <div>{this.renderExtendTitle()}</div>
+        {/* <div>{this.renderExtendTitle()}</div>
         {this.renderNoEditingForExtend()}*/}
       </div>
     );
@@ -922,8 +922,8 @@ class PersonBasicInfo extends React.Component {
                 label={this.$t('pdc.basic.info.employeeId')} //工号
                 colon={true}
               >
-                {getFieldDecorator('employeeID', {
-                  initialValue: personObj.employeeID,
+                {getFieldDecorator('employeeId', {
+                  initialValue: personObj.employeeId,
                   rules: [
                     {
                       max: 40,
@@ -1264,7 +1264,7 @@ class PersonBasicInfo extends React.Component {
           </Row>
 
           {/*<div>{this.renderExtendTitle()}</div>*/}
-{/*
+          {/*
           <div style={{ width: 500 }}>{this.renderEditingField(fields)}</div>
 */}
           <Button type="primary" loading={loading} htmlType="submit">
