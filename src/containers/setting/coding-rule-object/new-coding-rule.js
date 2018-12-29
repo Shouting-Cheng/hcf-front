@@ -97,7 +97,7 @@ class NewCodingRule extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {resetFrequenceOptions.map((option) => {
-                  return <Option key={option.id}>{option.messageKey}</Option>
+                  return <Option key={option.value}>{option.name}</Option>
                 })}
               </Select>
               )}
@@ -112,7 +112,7 @@ class NewCodingRule extends React.Component {
               initialValue: false,
               valuePropName: 'checked'
             })(
-              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} disabled />
+              <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} />
               )}
           </FormItem>
           <FormItem wrapperCol={{ offset: 7 }}>
