@@ -129,7 +129,7 @@ export default {
 
   //提交日记账(工作流)
   commitBudgetJournalWorkflow(data) {
-    return httpFetch.post(`${config.baseUrl}/api/budget/journa/reports/submit`, data);
+    return httpFetch.post(`${config.budgetUrl}//api/budget/journals/submit`, data);
   },
 
   //获取审批历史（工作流）
@@ -139,7 +139,7 @@ export default {
 
   //预算日记账撤回（工作流）
   revocationJournalWorkflow(params) {
-    return httpFetch.post(`${config.baseUrl}/api/approvals/withdraw`, params);
+    return httpFetch.post(`${config.baseUrl}/api/workflow/withdraw`, params);
   },
   //计算总金额，拼接上币种的
   getTotalCurrencyAmount(id) {

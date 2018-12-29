@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin,message } from 'antd';
+import { Modal, Button, Row, Col, Divider, Card, Form, Select, Input, Spin, message, Tabs } from 'antd';
 import BasicInfo from 'widget/basic-info';
 import ListSelector from 'components/Widget/list-selector';
 import LineAddTransferModal from 'containers/setting/data-authority/line-add-transfer-modal';
@@ -10,6 +10,7 @@ import config from 'config';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Search = Input.Search;
+const TabPane = Tabs.TabPane;
 
 class ViewRuleModal extends React.Component {
     constructor(props) {
@@ -71,7 +72,7 @@ class ViewRuleModal extends React.Component {
                 },
 
             ],
-            activeKey: 'SOB',
+            tabVal: 'SOB',
             renderRuleInfo: undefined,
             renderNewChangeRules: [],
             dataType: {
@@ -93,13 +94,43 @@ class ViewRuleModal extends React.Component {
             editKey: '',
             renderNewChangeRules: [],
             ruleDetail: [],
-            columns: [
+            sobColumns: [
                 {
                     title: '账套代码',
                     dataIndex: 'valueKeyCode',
                 },
                 {
                     title: '账套名称',
+                    dataIndex: 'valueKeyDesc',
+                }
+            ],
+            companyColumns: [
+                {
+                    title: '公司代码',
+                    dataIndex: 'valueKeyCode',
+                },
+                {
+                    title: '公司名称',
+                    dataIndex: 'valueKeyDesc',
+                },
+            ],
+            unitColumns:[
+                {
+                    title: '部门代码',
+                    dataIndex: 'valueKeyCode',
+                },
+                {
+                    title: '部门名称',
+                    dataIndex: 'valueKeyDesc',
+                }
+            ],
+            emplyeeColumns:[
+                {
+                    title: '员工代码',
+                    dataIndex: 'valueKeyCode',
+                },
+                {
+                    title: '员工名称',
                     dataIndex: 'valueKeyDesc',
                 }
             ],
@@ -123,71 +154,121 @@ class ViewRuleModal extends React.Component {
             departMentVisible: false,
             departMentItemsKeys: [],
             emplyeeIcon: 'plus',
-            empolyeeVisible:false,
-            employeeItem:{},
-            employeeKeys:[],
-            employeeText:'添加员工',
-            ruleId:'',
+            empolyeeVisible: false,
+            employeeItem: {},
+            employeeKeys: [],
+            employeeText: '添加员工',
+            ruleId: '',
             deleted: undefined,
             versionNumber: undefined,
             createdBy: undefined,
             createdDate: undefined,
             lastUpdatedBy: undefined,
             lastUpdatedDate: undefined,
-            sobValuesKeys:[],
-            renderRuleInfo:{},
-            selectedTenantList:[],
-            selectedEmployeeList:[],
-            selectedTreeInfo:[],
-            selectedCompanyTreeInfo:[],
-            selectedDepTreeInfo:[]
+            sobValuesKeys: [],
+            renderRuleInfo: {},
+            selectedTenantList: [],
+            selectedEmployeeList: [],
+            selectedTreeInfo: [],
+            selectedCompanyTreeInfo: [],
+            selectedDepTreeInfo: []
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.visibel) {
-            DataAuthorityService.getSingleDataAuthorityDetail(this.props.dataId, this.props.targetId).then(res => {
-                if (res.status === 200) {
-                    if (res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataScope === '1004') {
-                        this.setState({
-                            columns: [
-                                {
-                                    title: '账套代码',
+    componentWillMount(){
+        DataAuthorityService.getSingleDataAuthorityDetail(this.props.dataId, this.props.targetId).then(res => {
+            if (res.status === 200) {
+                if (res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataScope === '1004') {
+                    this.setState({
+                        sobColumns:[
+                            {
+                                title: '账套代码',
+                                dataIndex: 'valueKeyCode',
+                            },
+                            {
+                                title: '账套名称',
+                                dataIndex: 'valueKeyDesc',
+                            },
+                            {
+                                title: '权限状态',
+                                dataIndex: 'filtrateMethodDesc',
+                            }
+                        ],
+                    })
+                }
+                if(res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[1].dataScope === '1004'){
+                    this.setState({
+                        companyColumns: [
+                            {
+                                title: '公司代码',
+                                dataIndex: 'valueKeyCode',
+                            },
+                            {
+                                title: '公司名称',
+                                dataIndex: 'valueKeyDesc',
+                            },
+                            {
+                                title: '权限状态',
+                                dataIndex: 'filtrateMethodDesc',
+                            }
+                        ],
+                    })
+                }
+                if(res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[2].dataScope === '1004'){
+                    this.setState({
+                        unitColumns: [
+                            {
+                                title: '部门代码',
                                     dataIndex: 'valueKeyCode',
                                 },
                                 {
-                                    title: '账套名称',
+                                    title: '部门名称',
                                     dataIndex: 'valueKeyDesc',
                                 },
                                 {
                                     title: '权限状态',
                                     dataIndex: 'filtrateMethodDesc',
                                 }
-                            ],
-                        })
-                    }
-                    this.setState({
-                        loading: false,
-                        infoData: res.data,
-                        renderRuleInfo: res.data,
-                        ruleDetail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
-                        dataTypeValue: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[0].dataType,
-                        activeKey: 'SOB',
-                        ruleName: res.data.dataAuthorityRules[0].dataAuthorityRuleName,
-                        ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
-                        getRulesArr: res.data.dataAuthorityRules[0],
-                        ruleId:res.data.id,
-                        deleted: res.data.deleted,
-                        versionNumber: res.data.versionNumber,
-                        createdBy: res.data.createdBy,
-                        createdDate: res.data.createdDate,
-                        lastUpdatedBy: res.data.lastUpdatedBy,
-                        lastUpdatedDate: res.data.lastUpdatedDate,
+                        ],
                     })
                 }
+                if(res.data.dataAuthorityRules[0].dataAuthorityRuleDetails[3].dataScope === '1004'){
+                    this.setState({
+                        emplyeeColumns: [
+                            {
+                                title: '员工代码',
+                                dataIndex: 'valueKeyCode',
+                            },
+                            {
+                                title: '员工名称',
+                                dataIndex: 'valueKeyDesc',
+                            },
+                            {
+                                title: '权限状态',
+                                dataIndex: 'filtrateMethodDesc',
+                            }
+                        ],
+                    })
+                }
+                this.setState({
+                    loading: false,
+                    infoData: res.data,
+                    renderRuleInfo: res.data,
+                    ruleDetail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
+                    tabVal: 'SOB',
+                    ruleName: res.data.dataAuthorityRules[0].dataAuthorityRuleName,
+                    ruleDatail: res.data.dataAuthorityRules[0].dataAuthorityRuleDetails,
+                    getRulesArr: res.data.dataAuthorityRules[0],
+                    ruleId: res.data.id,
+                    deleted: res.data.deleted,
+                    versionNumber: res.data.versionNumber,
+                    createdBy: res.data.createdBy,
+                    createdDate: res.data.createdDate,
+                    lastUpdatedBy: res.data.lastUpdatedBy,
+                    lastUpdatedDate: res.data.lastUpdatedDate,
+                })
+            }
 
-            })
-        }
-
+        })
     }
 
     onCloseRuleModal = () => {
@@ -252,154 +333,18 @@ class ViewRuleModal extends React.Component {
         } else {
             this.setState({
                 renderEmplyeeList: false,
-                selectedEmployeeList:[],
+                selectedEmployeeList: [],
                 employeeText: '添加员工',
                 emplyeeIcon: 'plus',
             })
         }
     }
-    onTabChange = (key, type) => {
+    onTabChange = (key) => {
         this.setState({
-            [type]: key,
-            dataTypeValue: key
-        });
-        const { ruleDetail, columns } = this.state;
-        if (key === 'SOB') {
-            if (ruleDetail[0].dataScope === '1004') {
-                this.setState({
-                    columns: [
-                        {
-                            title: '账套代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '账套名称',
-                            dataIndex: 'valueKeyDesc',
-                        },
-                        {
-                            title: '权限状态',
-                            dataIndex: 'filtrateMethodDesc',
-                        }
-                    ],
-                })
-            } else {
-                this.setState({
-                    columns: [
-                        {
-                            title: '账套代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '账套名称',
-                            dataIndex: 'valueKeyDesc',
-                        }
-                    ]
-                })
-            }
+            tabVal:key,
+            // dataTypeValue: key
+        })
         }
-        if (key === 'COMPANY') {
-            if (ruleDetail[1].dataScope === '1004') {
-                this.setState({
-                    columns: [
-                        {
-                            title: '公司代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '公司名称',
-                            dataIndex: 'valueKeyDesc',
-                        },
-                        {
-                            title: '权限状态',
-                            dataIndex: 'filtrateMethodDesc',
-                        }
-                    ],
-                })
-            } else {
-                this.setState({
-                    columns: [
-                        {
-                            title: '公司代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '公司名称',
-                            dataIndex: 'valueKeyDesc',
-                        }
-                    ]
-                })
-            }
-
-        }
-        if (key === 'UNIT') {
-            if (ruleDetail[2].dataScope === '1004') {
-                this.setState({
-                    columns: [
-                        {
-                            title: '部门代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '部门名称',
-                            dataIndex: 'valueKeyDesc',
-                        },
-                        {
-                            title: '权限状态',
-                            dataIndex: 'filtrateMethodDesc',
-                        }
-                    ],
-                })
-            } else {
-                this.setState({
-                    columns: [
-                        {
-                            title: '部门代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '部门名称',
-                            dataIndex: 'valueKeyDesc',
-                        }
-                    ]
-                })
-            }
-
-        }
-        if (key === 'EMPLOYEE') {
-            if (ruleDetail[3].dataScope === '1004') {
-                this.setState({
-                    columns: [
-                        {
-                            title: '员工代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '员工名称',
-                            dataIndex: 'valueKeyDesc',
-                        },
-                        {
-                            title: '权限状态',
-                            dataIndex: 'filtrateMethodDesc',
-                        }
-                    ],
-                })
-            } else {
-                this.setState({
-                    columns: [
-                        {
-                            title: '员工代码',
-                            dataIndex: 'valueKeyCode',
-                        },
-                        {
-                            title: '员工名称',
-                            dataIndex: 'valueKeyDesc',
-                        }
-                    ]
-                })
-            }
-
-        }
-    }
     handleTenantListOk = (result) => {
         let resultArr = result.result;
         let arr = [];
@@ -422,11 +367,11 @@ class ViewRuleModal extends React.Component {
     /**刷新表格 */
     refresh = (ruleDatail) => {
         this.setState({ ruleDetail: ruleDatail }, () => {
-            let { dataTypeValue, ruleDetail } = this.state;
-            if (dataTypeValue === 'SOB') {
+            let { tabVal, ruleDetail } = this.state;
+            if (tabVal === 'SOB') {
                 if (ruleDetail[0].dataScope === '1004') {
                     this.setState({
-                        columns: [
+                        sobColumns: [
                             {
                                 title: '账套代码',
                                 dataIndex: 'valueKeyCode',
@@ -443,7 +388,7 @@ class ViewRuleModal extends React.Component {
                     })
                 } else {
                     this.setState({
-                        columns: [
+                        sobColumns: [
                             {
                                 title: '账套代码',
                                 dataIndex: 'valueKeyCode',
@@ -457,10 +402,10 @@ class ViewRuleModal extends React.Component {
                 }
                 this.sobTable.search()
             }
-            if (dataTypeValue === 'COMPANY') {
+            if (tabVal === 'COMPANY') {
                 if (ruleDetail[1].dataScope === '1004') {
                     this.setState({
-                        columns: [
+                        companyColumns: [
                             {
                                 title: '公司代码',
                                 dataIndex: 'valueKeyCode',
@@ -477,7 +422,7 @@ class ViewRuleModal extends React.Component {
                     })
                 } else {
                     this.setState({
-                        columns: [
+                        companyColumns: [
                             {
                                 title: '公司代码',
                                 dataIndex: 'valueKeyCode',
@@ -491,10 +436,10 @@ class ViewRuleModal extends React.Component {
                 }
                 this.companyTable.search()
             }
-            if (dataTypeValue === 'UNIT') {
+            if (tabVal === 'UNIT') {
                 if (ruleDetail[2].dataScope === '1004') {
                     this.setState({
-                        columns: [
+                        unitColumns: [
                             {
                                 title: '部门代码',
                                 dataIndex: 'valueKeyCode',
@@ -511,7 +456,7 @@ class ViewRuleModal extends React.Component {
                     })
                 } else {
                     this.setState({
-                        columns: [
+                        unitColumns: [
                             {
                                 title: '部门代码',
                                 dataIndex: 'valueKeyCode',
@@ -526,10 +471,10 @@ class ViewRuleModal extends React.Component {
 
                 this.unitTable.search()
             }
-            if (dataTypeValue === 'EMPLOYEE') {
+            if (tabVal === 'EMPLOYEE') {
                 if (ruleDetail[3].dataScope === '1004') {
                     this.setState({
-                        columns: [
+                        emplyeeColumns: [
                             {
                                 title: '员工代码',
                                 dataIndex: 'valueKeyCode',
@@ -546,7 +491,7 @@ class ViewRuleModal extends React.Component {
                     })
                 } else {
                     this.setState({
-                        columns: [
+                        emplyeeColumns: [
                             {
                                 title: '员工代码',
                                 dataIndex: 'valueKeyCode',
@@ -601,48 +546,48 @@ class ViewRuleModal extends React.Component {
     editRuleItem = () => {
         let { ruleDatail } = this.state;
         if (ruleDatail[0].dataScope === '1004') {
-            let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
+            let detaileValues0 = ruleDatail[0].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs0 = ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderSobList: true,
                 sobText: `已选择${detaileValues0.length}个账套`,
                 sobIcon: null,
                 selectedTenantList: ruleDetailValueDTOs0,
-                sobValuesKeys:detaileValues0
+                sobValuesKeys: detaileValues0
             })
         }
-        if(ruleDatail[1].dataScope==='1004'){
-            let detaileValues1=ruleDatail[1].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs1=ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
+        if (ruleDatail[1].dataScope === '1004') {
+            let detaileValues1 = ruleDatail[1].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs1 = ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderCompanyList: true,
                 companyText: `已选择${detaileValues1.length}个公司`,
                 companyIcon: null,
                 selectedCompanyTreeInfo: ruleDetailValueDTOs1,
-                companyItemsKeys:detaileValues1
+                companyItemsKeys: detaileValues1
             })
         }
-        if(ruleDatail[2].dataScope==='1004'){
-            let detaileValues2=ruleDatail[2].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs2=ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
+        if (ruleDatail[2].dataScope === '1004') {
+            let detaileValues2 = ruleDatail[2].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs2 = ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderDepartmentList: true,
                 departmentText: `已选择${detaileValues2.length}个部门`,
                 departmentIcon: null,
                 selectedDepTreeInfo: ruleDetailValueDTOs2,
-                departMentItemsKeys:detaileValues2
+                departMentItemsKeys: detaileValues2
 
             })
         }
-        if(ruleDatail[3].dataScope==='1004'){
-            let detaileValues3=ruleDatail[3].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs3=ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
+        if (ruleDatail[3].dataScope === '1004') {
+            let detaileValues3 = ruleDatail[3].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs3 = ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderEmplyeeList: true,
                 employeeText: `已选择${detaileValues3.length}个员工`,
                 emplyeeIcon: null,
-                selectedEmployeeList:ruleDetailValueDTOs3,
-                employeeKeys:detaileValues3
+                selectedEmployeeList: ruleDetailValueDTOs3,
+                employeeKeys: detaileValues3
             })
         }
         this.setState({
@@ -706,7 +651,12 @@ class ViewRuleModal extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if (resultArr[i].valueKey) {
+                arr.push(resultArr[i].valueKey);
+            } else {
+                arr.push(resultArr[i].id);
+            }
+
         }
         this.setState({
             companyItemsKeys: arr,
@@ -732,7 +682,12 @@ class ViewRuleModal extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            arr.push(resultArr[i].id);
+            if (resultArr[i].valueKey) {
+                arr.push(resultArr[i].valueKey);
+            } else {
+                arr.push(resultArr[i].id);
+            }
+
         }
         this.setState({
             departMentItemsKeys: arr,
@@ -782,7 +737,7 @@ class ViewRuleModal extends React.Component {
             employeeKeys: arr,
             employeeText: `已选择${resultArr.length}个员工`,
             emplyeeIcon: null,
-            selectedEmployeeList:result.result
+            selectedEmployeeList: result.result
         })
     }
     cancelEmployeeList = () => {
@@ -790,39 +745,39 @@ class ViewRuleModal extends React.Component {
             empolyeeVisible: false
         })
     }
-     /**保存单条规则 */
-     saveRuleItem = (e) => {
+    /**保存单条规则 */
+    saveRuleItem = (e) => {
         e.preventDefault();
         let tenantId = this.props.company.tenantId;
         this.props.form.validateFields((err, values) => {
             let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr,
-                dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc, companyItemsKeys, departMentItemsKeys,renderRuleInfo } = this.state;
-            if(!err){
+                dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc, companyItemsKeys, departMentItemsKeys, renderRuleInfo } = this.state;
+            if (!err) {
                 let params = {
                     id: ruleId ? ruleId : null,
                     i18n: null,
                     enabled: renderRuleInfo.enabled,
-                    tenantId:tenantId,
+                    tenantId: tenantId,
                     dataAuthorityCode: renderRuleInfo.dataAuthorityCode,
-                    dataAuthorityName:renderRuleInfo.dataAuthorityName,
-                    description:renderRuleInfo.description,
+                    dataAuthorityName: renderRuleInfo.dataAuthorityName,
+                    description: renderRuleInfo.description,
                     deleted: deleted,
                     versionNumber: versionNumber,
                     createdBy: createdBy,
                     createdDate: createdDate,
                     lastUpdatedBy: lastUpdatedBy,
                     lastUpdatedDate: lastUpdatedDate,
-                    dataAuthorityRules:[
+                    dataAuthorityRules: [
                         {
                             i18n: null,
                             dataAuthorityRuleName: values[`dataAuthorityRuleName`],
-                            dataAuthorityRuleDetails:[
+                            dataAuthorityRuleDetails: [
                                 {
                                     dataType: 'SOB',
                                     dataScopeDesc: dataScopeDesc[values[`dataScope1`]].label,
                                     dataScope: values[`dataScope1`],
                                     filtrateMethod: values[`filtrateMethod1`] ? values[`filtrateMethod1`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod1`]?filtrateMethodDesc[values[`filtrateMethod1`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod1`] ? filtrateMethodDesc[values[`filtrateMethod1`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod1`] ? sobValuesKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[0].id : null,
                                     deleted: getRulesArr.deleted,
@@ -839,7 +794,7 @@ class ViewRuleModal extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope2`]].label,
                                     dataScope: values[`dataScope2`],
                                     filtrateMethod: values[`filtrateMethod2`] ? values[`filtrateMethod2`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod2`]?filtrateMethodDesc[values[`filtrateMethod2`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod2`] ? filtrateMethodDesc[values[`filtrateMethod2`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod2`] ? companyItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[1].id : null,
                                     deleted: getRulesArr.deleted,
@@ -856,7 +811,7 @@ class ViewRuleModal extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope3`]].label,
                                     dataScope: values[`dataScope3`],
                                     filtrateMethod: values[`filtrateMethod3`] ? values[`filtrateMethod3`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod3`]?filtrateMethodDesc[values[`filtrateMethod3`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod3`] ? filtrateMethodDesc[values[`filtrateMethod3`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod3`] ? departMentItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[2].id : null,
                                     deleted: getRulesArr.deleted,
@@ -873,7 +828,7 @@ class ViewRuleModal extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope4`]].label,
                                     dataScope: values[`dataScope4`],
                                     filtrateMethod: values[`filtrateMethod4`] ? values[`filtrateMethod4`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod4`]? filtrateMethodDesc[values[`filtrateMethod4`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod4`] ? filtrateMethodDesc[values[`filtrateMethod4`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod4`] ? employeeKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[3].id : null,
                                     deleted: getRulesArr.deleted,
@@ -910,477 +865,480 @@ class ViewRuleModal extends React.Component {
                             createdDate: res.data.createdDate,
                             lastUpdatedBy: res.data.lastUpdatedBy,
                             lastUpdatedDate: res.data.lastUpdatedDate,
-                        },()=>{
+                        }, () => {
                             this.refresh(this.state.ruleDatail)
                             this.setState({
                                 show: true
                             })
                         })
                     }
-                }) .catch(e => {
+                }).catch(e => {
                     message.error(e.response.data.message)
                 })
             }
         })
 
     }
-    render() {
-        const { visibel } = this.props;
-        const { infoList, infoData, dataTypeValue, loading, activeKey, tenantItem, renderRuleInfo, dataType, sobText,
-            ruleDetail, tabListNoTitle, tenantVisible, keyWord, columns, show, ruleName, ruleDatail, departmentIcon,
-            sobIcon, renderSobList, companyIcon, companyVisible, renderCompanyList, companyText, renderDepartmentList,
-            departmentText, departMentVisible, renderEmplyeeList, emplyeeIcon,empolyeeVisible,employeeItem,employeeText,
-            selectedTenantList,selectedEmployeeList,selectedDepTreeInfo,selectedCompanyTreeInfo
-        } = this.state;
-        const contentListNoTitle = {
-            SOB:
-                <div>
-                    <Row>
-                        <Col span={18}>
-                            {ruleDetail.length ? ruleDetail[0].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[0].dataType].label : null}
-                        </Col>
-                        <Col span={6}>
-                            <Search
-                                placeholder="请输入账套代码/名称"
-                                onSearch={this.onSobDetailSearch}
-                                enterButton
-                            />
-                        </Col>
-                    </Row>
-
-                    <div style={{ marginTop: 20 }}>
-                        <CustomTable
-                            columns={columns}
-                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue ? dataTypeValue : 'SOB'}&keyWord=${keyWord}`}
-                            ref={ref => this.sobTable = ref}
+  
+        render() {
+            const { visibel } = this.props;
+            const { infoList, infoData, dataTypeValue, loading, key, tenantItem, renderRuleInfo, dataType, sobText,
+                ruleDetail, tabListNoTitle, tenantVisible, keyWord, columns, show, ruleName, ruleDatail, departmentIcon,
+                sobIcon, renderSobList, companyIcon, companyVisible, renderCompanyList, companyText, renderDepartmentList,
+                departmentText, departMentVisible, renderEmplyeeList, emplyeeIcon, empolyeeVisible, employeeItem, employeeText,
+                selectedTenantList, selectedEmployeeList, selectedDepTreeInfo, selectedCompanyTreeInfo, sobColumns, companyColumns,
+                unitColumns,emplyeeColumns,tabVal
+            } = this.state;
+            const { getFieldDecorator, getFieldValue } = this.props.form;
+            const ruleFormLayout = {
+                labelCol: { span: 6, offset: 1 },
+                wrapperCol: { span: 16, offset: 1 },
+            }
+            return (
+                <Modal
+                    visible={visibel}
+                    footer={[
+                        <Button key="back" onClick={this.onBackRuleModal}>
+                            {this.$t({ id: 'common.ok' } /* 返回*/)}
+                        </Button>,
+                    ]}
+                    width={1200}
+                    destroyOnClose={true}
+                    closable={false}
+                    onCancel={this.onCloseRuleModal}
+                >
+                    <div>
+                        <BasicInfo
+                            infoList={infoList}
+                            isHideEditBtn={true}
+                            infoData={infoData}
+                            colSpan={6}
                         />
-                    </div>
-                </div>,
-            COMPANY:
-                <div>
-                    <Row>
-                        <Col span={18}>
-                            {ruleDetail.length ? ruleDetail[1].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[1].dataType].label : null}
-                        </Col>
-                        <Col span={6}>
-                            <Search
-                                placeholder="请输入公司代码/名称"
-                                onSearch={this.onCompanyDetailSearch}
-                                enterButton
-                            />
-                        </Col>
-                    </Row>
 
-                    <div style={{ marginTop: 20 }}>
-                        <CustomTable
-                            columns={columns}
-                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
-                            ref={ref => this.companyTable = ref}
-                        />
-                    </div>
-                </div>,
-            UNIT: <div>
-                <Row>
-                    <Col span={18}>
-                        {ruleDetail.length ? ruleDetail[2].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[2].dataType].label : null}
-                    </Col>
-                    <Col span={6}>
-                        <Search
-                            placeholder="请输入部门代码/名称"
-                            onSearch={this.onUnitDetailSearch}
-                            enterButton
-                        />
-                    </Col>
-                </Row>
+                        <Spin spinning={loading} style={{ marginTop: 24 }}>
+                            <div className='add-rule-form'>
+                                {show &&
+                                    <Card title={ruleName || ''} style={{ marginTop: 25, background: '#f7f7f7' }}
+                                        extra={<span>
+                                            <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>
+                                        </span>}
+                                    >
+                                        <Row>
+                                            {ruleDatail.map(item => (
+                                                <Col span={24}>
+                                                    <span>{dataType[item.dataType].label}:</span>
+                                                    {item.dataScope === '1004' ?
+                                                        <span>
+                                                            {item.filtrateMethodDesc}{`${item.dataAuthorityRuleDetailValues.length}个`}{dataType[item.dataType].label}
+                                                        </span> : <span>
+                                                            {item.dataScopeDesc}{dataType[item.dataType].label}
+                                                        </span>
+                                                    }
+                                                </Col>
+                                            ))}
 
-                <div style={{ marginTop: 20 }}>
-                    <CustomTable
-                        columns={columns}
-                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
-                        ref={ref => this.unitTable = ref}
-                    />
-                </div>
-            </div>,
-            EMPLOYEE: <div>
-                <Row>
-                    <Col span={18}>
-                        {ruleDetail.length ? ruleDetail[3].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[3].dataType].label : null}
-                    </Col>
-                    <Col span={6}>
-                        <Search
-                            placeholder="请输入员工代码/名称"
-                            onSearch={this.onEmployeeDetailSearch}
-                            enterButton
-                        />
-                    </Col>
-                </Row>
-                <div style={{ marginTop: 20 }}>
-                    <CustomTable
-                        columns={columns}
-                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=${dataTypeValue}&keyWord=${keyWord}`}
-                        ref={ref => this.employeeTable = ref}
-                    />
-                </div>
-            </div>
-        };
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        const ruleFormLayout = {
-            labelCol: { span: 6, offset: 1 },
-            wrapperCol: { span: 16, offset: 1 },
-        }
-        return (
-            <Modal
-                visible={visibel}
-                footer={[
-                    <Button key="back" onClick={this.onBackRuleModal}>
-                        {this.$t({ id: 'common.ok' } /* 返回*/)}
-                    </Button>,
-                ]}
-                width={1200}
-                destroyOnClose={true}
-                closable={false}
-                onCancel={this.onCloseRuleModal}
-            >
-                <div>
-                    <BasicInfo
-                        infoList={infoList}
-                        isHideEditBtn={true}
-                        infoData={infoData}
-                        colSpan={6}
-                    />
+                                        </Row>
 
-                    <Spin spinning={loading} style={{ marginTop: 24 }}>
-                        <div className='add-rule-form'>
-                            {show &&
-                                <Card title={ruleName || ''} style={{ marginTop: 25, background: '#f7f7f7' }}
-                                    extra={<span>
-                                        <a style={{ paddingLeft: 15 }} onClick={this.editRuleItem}>编辑</a>
-                                    </span>}
-                                >
-                                    <Row>
-                                        {ruleDatail.map(item => (
-                                            <Col span={24}>
-                                                <span>{dataType[item.dataType].label}:</span>
-                                                {item.dataScope === '1004' ?
-                                                    <span>
-                                                        {item.filtrateMethodDesc}{`${item.dataAuthorityRuleDetailValues.length}个`}{dataType[item.dataType].label}
-                                                    </span> : <span>
-                                                        {item.dataScopeDesc}{dataType[item.dataType].label}
-                                                    </span>
+                                    </Card>
+                                }
+                                {!show && <div className='add-rule-form' >
+                                    <Card style={{ background: '#f7f7f7', marginTop: 25 }}>
+                                        <Form>
+                                            <Row>
+                                                <Col span={22} className="rule-form-title">
+                                                    <FormItem
+                                                        {...ruleFormLayout}
+                                                        label=''
+                                                        className='rule-item-name'
+                                                    >
+                                                        {getFieldDecorator(`dataAuthorityRuleName`, {
+                                                            rules: [{
+                                                                required: true, message: this.$t({ id: 'common.please.enter' })
+                                                            }],
+                                                            initialValue: ruleName || '',
+                                                        })(
+                                                            <Input className="input_title" placeholder='请输入规则名称' />
+                                                        )}
+
+                                                    </FormItem>
+                                                </Col>
+                                                <Col span={2}>
+                                                    <a type='primary' onClick={(e) => this.saveRuleItem(e)}>{this.$t({ id: 'common.save' })} </a>
+                                                    <a style={{ marginLeft: 10 }} onClick={this.removeRule}>{this.$t({ id: 'common.cancel' })}</a>
+                                                </Col>
+                                            </Row>
+                                            <Divider style={{ marginTop: '-50px' }}></Divider>
+                                            <Row className="rule-form-item">
+                                                <Col span={4}>
+                                                    <FormItem
+                                                        {...ruleFormLayout}
+                                                        label='账套'
+                                                    >
+                                                        {getFieldDecorator(`dataScope1`, {
+                                                            rules: [],
+                                                            initialValue: ruleDatail.length ? ruleDatail[0].dataScope : '1001'
+                                                        })(
+                                                            <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeRuleChange}>
+                                                                <Option value='1001'>全部</Option>
+                                                                <Option value='1002'>当前</Option>
+                                                                <Option value='1004'>手动选择</Option>
+                                                            </Select>
+                                                        )}
+
+                                                    </FormItem>
+                                                </Col>
+                                                {renderSobList &&
+                                                    <Col span={10} >
+                                                        <Row>
+                                                            <Col span={6} style={{ marginLeft: 10 }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator(`filtrateMethod1`, {
+                                                                        rules: [],
+                                                                        initialValue: (ruleDatail.length && ruleDatail[0].filtrateMethod) ? ruleDatail[0].filtrateMethod : 'INCLUDE'
+                                                                    })(
+                                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                            <Option value='INCLUDE'>包含</Option>
+                                                                            <Option value='EXCLUDE'>排除</Option>
+                                                                        </Select>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                            <Col span={4} style={{ marginLeft: '-25px' }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator('addTenant')(
+                                                                        <Button icon={sobIcon} onClick={this.addTenant}>{sobText}</Button>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                        </Row>
+
+                                                    </Col>
                                                 }
-                                            </Col>
-                                        ))}
+                                            </Row>
+                                            <Row className="rule-form-item">
+                                                <Col span={4}>
+                                                    <FormItem
+                                                        {...ruleFormLayout}
+                                                        label='公司'
+                                                    >
+                                                        {getFieldDecorator(`dataScope2`, {
+                                                            rules: [],
+                                                            initialValue: ruleDatail.length ? ruleDatail[1].dataScope : '1001'
+                                                        })(
+                                                            <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeCompany}>
+                                                                <Option value='1001'>全部</Option>
+                                                                <Option value='1002'>当前</Option>
+                                                                <Option value='1003'>当前及下属</Option>
+                                                                <Option value='1004'>手动选择</Option>
+                                                            </Select>
+                                                        )}
 
+                                                    </FormItem>
+                                                </Col>
+                                                {renderCompanyList &&
+                                                    <Col span={10} >
+                                                        <Row>
+                                                            <Col span={6} style={{ marginLeft: 10 }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator(`filtrateMethod2`, {
+                                                                        rules: [],
+                                                                        initialValue: (ruleDatail.length && ruleDatail[1].filtrateMethod) ? ruleDatail[1].filtrateMethod : 'INCLUDE'
+                                                                    })(
+                                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                            <Option value='INCLUDE'>包含</Option>
+                                                                            <Option value='EXCLUDE'>排除</Option>
+                                                                        </Select>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                            <Col span={4} style={{ marginLeft: '-25px' }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator('addCompany')(
+                                                                        <Button icon={companyIcon} onClick={this.addCompany}>{companyText}</Button>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                        </Row>
+
+                                                    </Col>
+                                                }
+                                            </Row>
+                                            <Row className="rule-form-item">
+                                                <Col span={4}>
+                                                    <FormItem
+                                                        {...ruleFormLayout}
+                                                        label='部门'
+                                                    >
+                                                        {getFieldDecorator(`dataScope3`, {
+                                                            rules: [],
+                                                            initialValue: ruleDatail.length ? ruleDatail[2].dataScope : '1001'
+                                                        })(
+                                                            <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeDepartment}>
+                                                                <Option value='1001'>全部</Option>
+                                                                <Option value='1002'>当前</Option>
+                                                                <Option value='1003'>当前及下属</Option>
+                                                                <Option value='1004'>手动选择</Option>
+                                                            </Select>
+                                                        )}
+
+                                                    </FormItem>
+                                                </Col>
+                                                {renderDepartmentList &&
+                                                    <Col span={10} >
+                                                        <Row>
+                                                            <Col span={6} style={{ marginLeft: 10 }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator(`filtrateMethod3`, {
+                                                                        rules: [],
+                                                                        initialValue: (ruleDatail.length && ruleDatail[2].filtrateMethod) ? ruleDatail[2].filtrateMethod : 'INCLUDE'
+                                                                    })(
+                                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                            <Option value='INCLUDE'>包含</Option>
+                                                                            <Option value='EXCLUDE'>排除</Option>
+                                                                        </Select>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                            <Col span={4} style={{ marginLeft: '-25px' }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator('addDepartment')(
+                                                                        <Button icon={departmentIcon} onClick={this.addDepartment}>{departmentText}</Button>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                        </Row>
+
+                                                    </Col>
+                                                }
+                                            </Row>
+                                            <Row className="rule-form-item">
+                                                <Col span={4}>
+                                                    <FormItem
+                                                        {...ruleFormLayout}
+                                                        label='员工'
+                                                    >
+                                                        {getFieldDecorator(`dataScope4`, {
+                                                            rules: [],
+                                                            initialValue: ruleDatail.length ? ruleDatail[3].dataScope : '1001'
+                                                        })(
+                                                            <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleEmplyee}>
+                                                                <Option value='1001'>全部</Option>
+                                                                <Option value='1002'>当前</Option>
+                                                                <Option value='1004'>手动选择</Option>
+                                                            </Select>
+                                                        )}
+
+                                                    </FormItem>
+                                                </Col>
+                                                {renderEmplyeeList &&
+                                                    <Col span={10} >
+                                                        <Row>
+                                                            <Col span={6} style={{ marginLeft: 10 }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator(`filtrateMethod4`, {
+                                                                        rules: [],
+                                                                        initialValue: (ruleDatail.length && ruleDatail[3].filtrateMethod) ? ruleDatail[3].filtrateMethod : 'INCLUDE'
+                                                                    })(
+                                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} >
+                                                                            <Option value='INCLUDE'>包含</Option>
+                                                                            <Option value='EXCLUDE'>排除</Option>
+                                                                        </Select>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                            <Col span={4} style={{ marginLeft: '-25px' }}>
+                                                                <FormItem
+                                                                    {...ruleFormLayout}
+                                                                    label=''
+                                                                >
+                                                                    {getFieldDecorator('addEmpolyee')(
+                                                                        <Button icon={emplyeeIcon} onClick={this.addEmployee}>{employeeText}</Button>
+                                                                    )}
+
+                                                                </FormItem>
+                                                            </Col>
+                                                        </Row>
+
+                                                    </Col>
+                                                }
+                                            </Row>
+                                        </Form>
+                                    </Card>
+
+                                </div>}
+                            </div>
+                        </Spin>
+                        <Tabs defaultActiveKey={tabVal} onChange={this.onTabChange}>
+                            <TabPane tab="账套权限" key="SOB">
+                                <div>
+                                    <Row style={{margin:20}}>
+                                        <Col span={18}>
+                                            {ruleDetail.length ? ruleDetail[0].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[0].dataType].label : null}
+                                        </Col>
+                                        <Col span={6}>
+                                            <Search
+                                                placeholder="请输入账套代码/名称"
+                                                onSearch={this.onSobDetailSearch}
+                                                enterButton
+                                            />
+                                        </Col>
                                     </Row>
 
-                                </Card>
-                            }
-                            {!show && <div className='add-rule-form' >
-                                <Card style={{ background: '#f7f7f7', marginTop: 25 }}>
-                                    <Form>
-                                        <Row>
-                                            <Col span={22} className="rule-form-title">
-                                                <FormItem
-                                                    {...ruleFormLayout}
-                                                    label=''
-                                                    className='rule-item-name'
-                                                >
-                                                    {getFieldDecorator(`dataAuthorityRuleName`, {
-                                                        rules: [{
-                                                            required: true, message: this.$t({ id: 'common.please.enter' })
-                                                        }],
-                                                        initialValue: ruleName || '',
-                                                    })(
-                                                        <Input className="input_title" placeholder='请输入规则名称' />
-                                                    )}
+                                    <div style={{ margin: 20 }}>
+                                        <CustomTable
+                                            columns={sobColumns}
+                                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=SOB&keyWord=${keyWord}`}
+                                            ref={ref => this.sobTable = ref}
+                                        />
+                                    </div>
+                                </div>
 
-                                                </FormItem>
-                                            </Col>
-                                            <Col span={2}>
-                                                <a type='primary'  onClick={(e) => this.saveRuleItem(e)}>{this.$t({ id: 'common.save' })} </a>
-                                                <a style={{ marginLeft: 10 }} onClick={this.removeRule}>{this.$t({ id: 'common.cancel' })}</a>
-                                            </Col>
-                                        </Row>
-                                        <Divider style={{ marginTop: '-50px' }}></Divider>
-                                        <Row className="rule-form-item">
-                                            <Col span={4}>
-                                                <FormItem
-                                                    {...ruleFormLayout}
-                                                    label='账套'
-                                                >
-                                                    {getFieldDecorator(`dataScope1`, {
-                                                        rules: [],
-                                                        initialValue: ruleDatail.length ? ruleDatail[0].dataScope : '1001'
-                                                    })(
-                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeRuleChange}>
-                                                            <Option value='1001'>全部</Option>
-                                                            <Option value='1002'>当前</Option>
-                                                            <Option value='1004'>手动选择</Option>
-                                                        </Select>
-                                                    )}
+                            </TabPane>
+                            <TabPane tab="公司权限" key="COMPANY">
+                                <div>
+                                    <Row style={{margin:20}}>
+                                        <Col span={18}>
+                                            {ruleDetail.length ? ruleDetail[1].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[1].dataType].label : null}
+                                        </Col>
+                                        <Col span={6}>
+                                            <Search
+                                                placeholder="请输入公司代码/名称"
+                                                onSearch={this.onCompanyDetailSearch}
+                                                enterButton
+                                            />
+                                        </Col>
+                                    </Row>
 
-                                                </FormItem>
-                                            </Col>
-                                            {renderSobList &&
-                                                <Col span={10} >
-                                                    <Row>
-                                                        <Col span={6} style={{ marginLeft: 10 }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator(`filtrateMethod1`, {
-                                                                    rules: [],
-                                                                    initialValue: (ruleDatail.length && ruleDatail[0].filtrateMethod) ? ruleDatail[0].filtrateMethod : 'INCLUDE'
-                                                                })(
-                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                        <Option value='INCLUDE'>包含</Option>
-                                                                        <Option value='EXCLUDE'>排除</Option>
-                                                                    </Select>
-                                                                )}
+                                    <div style={{ margin: 20 }}>
+                                        <CustomTable
+                                            columns={companyColumns}
+                                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=COMPANY&keyWord=${keyWord}`}
+                                            ref={ref => this.companyTable = ref}
+                                        />
+                                    </div>
+                                </div>
 
-                                                            </FormItem>
-                                                        </Col>
-                                                        <Col span={4} style={{ marginLeft: '-25px' }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator('addTenant')(
-                                                                    <Button icon={sobIcon} onClick={this.addTenant}>{sobText}</Button>
-                                                                )}
+                            </TabPane>
+                            <TabPane tab="部门权限" key="UNIT">
+                            <div>
+                                <Row style={{margin:20}}>
+                                    <Col span={18}>
+                                        {ruleDetail.length ? ruleDetail[2].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[2].dataType].label : null}
+                                    </Col>
+                                    <Col span={6}>
+                                        <Search
+                                            placeholder="请输入部门代码/名称"
+                                            onSearch={this.onUnitDetailSearch}
+                                            enterButton
+                                        />
+                                    </Col>
+                                </Row>
 
-                                                            </FormItem>
-                                                        </Col>
-                                                    </Row>
-
-                                                </Col>
-                                            }
-                                        </Row>
-                                        <Row className="rule-form-item">
-                                            <Col span={4}>
-                                                <FormItem
-                                                    {...ruleFormLayout}
-                                                    label='公司'
-                                                >
-                                                    {getFieldDecorator(`dataScope2`, {
-                                                        rules: [],
-                                                        initialValue: ruleDatail.length ? ruleDatail[1].dataScope : '1001'
-                                                    })(
-                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeCompany}>
-                                                            <Option value='1001'>全部</Option>
-                                                            <Option value='1002'>当前</Option>
-                                                            <Option value='1003'>当前及下属</Option>
-                                                            <Option value='1004'>手动选择</Option>
-                                                        </Select>
-                                                    )}
-
-                                                </FormItem>
-                                            </Col>
-                                            {renderCompanyList &&
-                                                <Col span={10} >
-                                                    <Row>
-                                                        <Col span={6} style={{ marginLeft: 10 }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator(`filtrateMethod2`, {
-                                                                    rules: [],
-                                                                    initialValue: (ruleDatail.length && ruleDatail[1].filtrateMethod) ? ruleDatail[1].filtrateMethod : 'INCLUDE'
-                                                                })(
-                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                        <Option value='INCLUDE'>包含</Option>
-                                                                        <Option value='EXCLUDE'>排除</Option>
-                                                                    </Select>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                        <Col span={4} style={{ marginLeft: '-25px' }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator('addCompany')(
-                                                                    <Button icon={companyIcon} onClick={this.addCompany}>{companyText}</Button>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                    </Row>
-
-                                                </Col>
-                                            }
-                                        </Row>
-                                        <Row className="rule-form-item">
-                                            <Col span={4}>
-                                                <FormItem
-                                                    {...ruleFormLayout}
-                                                    label='部门'
-                                                >
-                                                    {getFieldDecorator(`dataScope3`, {
-                                                        rules: [],
-                                                        initialValue: ruleDatail.length ? ruleDatail[2].dataScope : '1001'
-                                                    })(
-                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleChangeDepartment}>
-                                                            <Option value='1001'>全部</Option>
-                                                            <Option value='1002'>当前</Option>
-                                                            <Option value='1003'>当前及下属</Option>
-                                                            <Option value='1004'>手动选择</Option>
-                                                        </Select>
-                                                    )}
-
-                                                </FormItem>
-                                            </Col>
-                                            {renderDepartmentList &&
-                                                <Col span={10} >
-                                                    <Row>
-                                                        <Col span={6} style={{ marginLeft: 10 }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator(`filtrateMethod3`, {
-                                                                    rules: [],
-                                                                    initialValue: (ruleDatail.length && ruleDatail[2].filtrateMethod) ? ruleDatail[2].filtrateMethod : 'INCLUDE'
-                                                                })(
-                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                        <Option value='INCLUDE'>包含</Option>
-                                                                        <Option value='EXCLUDE'>排除</Option>
-                                                                    </Select>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                        <Col span={4} style={{ marginLeft: '-25px' }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator('addDepartment')(
-                                                                    <Button icon={departmentIcon} onClick={this.addDepartment}>{departmentText}</Button>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                    </Row>
-
-                                                </Col>
-                                            }
-                                        </Row>
-                                        <Row className="rule-form-item">
-                                            <Col span={4}>
-                                                <FormItem
-                                                    {...ruleFormLayout}
-                                                    label='员工'
-                                                >
-                                                    {getFieldDecorator(`dataScope4`, {
-                                                        rules: [],
-                                                        initialValue: ruleDatail.length ? ruleDatail[3].dataScope : '1001'
-                                                    })(
-                                                        <Select placeholder={this.$t({ id: "common.please.enter" })} onSelect={this.handleEmplyee}>
-                                                            <Option value='1001'>全部</Option>
-                                                            <Option value='1002'>当前</Option>
-                                                            <Option value='1004'>手动选择</Option>
-                                                        </Select>
-                                                    )}
-
-                                                </FormItem>
-                                            </Col>
-                                            {renderEmplyeeList &&
-                                                <Col span={10} >
-                                                    <Row>
-                                                        <Col span={6} style={{ marginLeft: 10 }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator(`filtrateMethod4`, {
-                                                                    rules: [],
-                                                                    initialValue: (ruleDatail.length && ruleDatail[3].filtrateMethod) ? ruleDatail[3].filtrateMethod : 'INCLUDE'
-                                                                })(
-                                                                    <Select placeholder={this.$t({ id: "common.please.enter" })} >
-                                                                        <Option value='INCLUDE'>包含</Option>
-                                                                        <Option value='EXCLUDE'>排除</Option>
-                                                                    </Select>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                        <Col span={4} style={{ marginLeft: '-25px' }}>
-                                                            <FormItem
-                                                                {...ruleFormLayout}
-                                                                label=''
-                                                            >
-                                                                {getFieldDecorator('addEmpolyee')(
-                                                                    <Button icon={emplyeeIcon} onClick={this.addEmployee}>{employeeText}</Button>
-                                                                )}
-
-                                                            </FormItem>
-                                                        </Col>
-                                                    </Row>
-
-                                                </Col>
-                                            }
-                                        </Row>
-                                    </Form>
-                                </Card>
-
-                            </div>}
-                        </div>
-                    </Spin>
-
-                    <Card
-                        tabList={tabListNoTitle}
-                        activeTabKey={activeKey}
-                        onTabChange={(key) => { this.onTabChange(key, 'activeKey'); }}
-                        style={{ marginTop: 25, width: '100%' }}
-                        className='rule-ant-card'
-                    >
-                        {contentListNoTitle[this.state.activeKey]}
-                    </Card>
+                                <div style={{ margin: 20 }}>
+                                    <CustomTable
+                                        columns={unitColumns}
+                                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=UNIT&keyWord=${keyWord}`}
+                                        ref={ref => this.unitTable = ref}
+                                    />
+                                </div>
+                            </div>
+                            </TabPane>
+                            <TabPane tab="员工权限" key="EMPLOYEE">
+                            <div>
+                                <Row style={{margin:20}}>
+                                    <Col span={18}>
+                                        {ruleDetail.length ? ruleDetail[3].dataScopeDesc : null}{ruleDetail.length ? dataType[ruleDetail[3].dataType].label : null}
+                                    </Col>
+                                    <Col span={6}>
+                                        <Search
+                                            placeholder="请输入员工代码/名称"
+                                            onSearch={this.onEmployeeDetailSearch}
+                                            enterButton
+                                        />
+                                    </Col>
+                                </Row>
+                                <div style={{ margin: 20 }}>
+                                    <CustomTable
+                                        columns={emplyeeColumns}
+                                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=EMPLOYEE&keyWord=${keyWord}`}
+                                        ref={ref => this.employeeTable = ref}
+                                    />
+                                </div>
+                            </div>
+                            
+                            </TabPane> 
+                        </Tabs>,
+                        
+    
                     <ListSelector
-                        visible={tenantVisible}
-                        selectorItem={tenantItem}
-                        onOk={this.handleTenantListOk}
-                        onCancel={() => this.cancelTenantList(false)}
-                        showSelectTotal={true}
-                        selectedData={selectedTenantList}
-                    />
-                    <LineAddTransferModal
-                        visible={companyVisible}
-                        title='添加公司'
-                        onCloseTransferModal={this.cancelCompanyList}
-                        isAddCompany={true}
-                        transferList={this.transferCompanyList}
-                        selectedTreeInfo={selectedCompanyTreeInfo}
-                    />
-                    <LineAddTransferModal
-                        visible={departMentVisible}
-                        title='添加部门'
-                        onCloseTransferModal={this.cancelDepartMentList}
-                        isAddCompany={false}
-                        transferList={this.transDePferList}
-                        selectedTreeInfo={selectedDepTreeInfo}
-                    />
-                    <ListSelector
-                        visible={empolyeeVisible}
-                        selectorItem={employeeItem}
-                        onOk={this.handleEmployeeListOk}
-                        onCancel={() => this.cancelEmployeeList(false)}
-                        showSelectTotal={true}
-                        selectedData={selectedEmployeeList}
-                    />
-                </div>
-            </Modal>
-        )
+                            visible={tenantVisible}
+                            selectorItem={tenantItem}
+                            onOk={this.handleTenantListOk}
+                            onCancel={() => this.cancelTenantList(false)}
+                            showSelectTotal={true}
+                            selectedData={selectedTenantList}
+                        />
+                        <LineAddTransferModal
+                            visible={companyVisible}
+                            title='添加公司'
+                            onCloseTransferModal={this.cancelCompanyList}
+                            isAddCompany={true}
+                            transferList={this.transferCompanyList}
+                            selectedTreeInfo={selectedCompanyTreeInfo}
+                        />
+                        <LineAddTransferModal
+                            visible={departMentVisible}
+                            title='添加部门'
+                            onCloseTransferModal={this.cancelDepartMentList}
+                            isAddCompany={false}
+                            transferList={this.transDePferList}
+                            selectedTreeInfo={selectedDepTreeInfo}
+                        />
+                        <ListSelector
+                            visible={empolyeeVisible}
+                            selectorItem={employeeItem}
+                            onOk={this.handleEmployeeListOk}
+                            onCancel={() => this.cancelEmployeeList(false)}
+                            showSelectTotal={true}
+                            selectedData={selectedEmployeeList}
+                        />
+                    </div>
+                </Modal>
+            )
+
+        }
 
     }
 
-}
-
-const WrappedLineModelChangeRules = Form.create()(ViewRuleModal);
+    const WrappedLineModelChangeRules = Form.create()(ViewRuleModal);
 
 function mapStateToProps(state) {
     return {

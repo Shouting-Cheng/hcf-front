@@ -177,7 +177,6 @@ export default {
 
   //得到公司的functionProfile并存储在redux内
   getProfile() {
-    console.log(app)
     return httpFetch.get(`${config.baseUrl}/api/function/profiles`).then((response) => {
       app.dispatch({ type: 'user', profile: response.data });
       return response;
@@ -212,12 +211,12 @@ export default {
 
   //获取国家
   getCountries(params) {
-    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/country`, params)
+    return httpFetch.get(`${config.baseUrl}/location-service/api/localization/query/country`, params)
   },
 
   //根据国家code获取城市信息
   getCities(params) {
-    return httpFetch.get(`${config.accountingUrl}/location-service/api/localization/query/all/address`, params)
+    return httpFetch.get(`${config.baseUrl}/location-service/api/localization/query/all/address`, params)
   },
 
   //根据表单Oid和用户Oid获取费用类型

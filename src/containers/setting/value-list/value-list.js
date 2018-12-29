@@ -2,58 +2,89 @@
  * Created by zaranengap on 2017/7/4.
  * 显示系统值列表与自定义值列表
  */
-//0516重构与添加多语言
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, Button, Badge, message } from 'antd';
+import { Button, Badge, message } from 'antd';
 import Table from 'widget/table';
 
-const TabPane = Tabs.TabPane;
-// import menuRoute from 'routes/menuRoute';
 import valueListService from 'containers/setting/value-list/value-list.service';
-import ListSelector from 'widget/list-selector';
 import 'styles/setting/value-list/value-list.scss';
 import { messages } from 'utils/utils';
 import { routerRedux } from 'dva/router';
+import SearchArea from 'widget/search-area';
 
 
 class ValueList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dBtnDisabled: false,
+      buttonFlag: false,
       loading: false,
-      status: 'SYSTEM',
       data: [],
+      searchParams: {},
+      typeFlag: {
+        CUSTOM: '用户定义值列表',
+        INIT: '初始化值列表',
+        SYSTEM: '系统级值列表',
+      },
+      status: 'CUSTOM',
       columns: [
         {
           title: messages('common.sequence'/*序号*/),
           dataIndex: 'index',
-          width: '8%',
+        },
+        {
+          title: messages('value.list.code'/*值列表代码*/),
+          dataIndex: 'code',
         },
         {
           title: messages('value.list.information'/*值列表名称*/),
           dataIndex: 'name',
         },
         {
+          title: messages('value.list.type'/*值列表类型*/),
+          dataIndex: 'typeFlag',
+          render: value => this.state.typeFlag[value],
+        },
+        {
           title: messages('common.column.status'/*状态*/),
-          dataIndex: 'enabled', width: '15%',
+          dataIndex: 'enabled',
           render: enabled =>
             <Badge status={enabled ? 'success' : 'error'}
                    text={enabled ? messages('common.status.enable') : messages('common.status.disable')}/>,
         },
+      ],
+      searchForm: [
+        {
+          type: 'input',
+          id: 'code',
+          label: messages('value.list.code'/*值列表代码*/),
+          colSpan: 6,
+        },
+        {
+          type: 'input',
+          id: 'name',
+          label: messages('value.list.information'/*值列表名称*/),
+          colSpan: 6,
+        },
+        {
+          type: 'select',
+          id: 'typeFlag',
+          label: messages('value.list.type'/*值列表类型*/),
+          colSpan: '6',
+          options: [
+            { value: 'CUSTOM', label: '用户定义值列表' },
+            { value: 'INIT', label: '初始化值列表' },
+            { value: 'SYSTEM', label: '系统级值列表' },
+          ],
+        }, // 状态
       ],
       pagination: {
         page: 0,
         total: 0,
         pageSize: 10,
       },
-      selectedRowKeys: [],
-      selectedRowIds: [],
-      customEnumerationOids: [],
       showListSelector: false,
-      // valueListPage: menuRoute.getRouteItem('new-value-list', 'key'),   //新建值列表的页面项
-      // valueListDetail: menuRoute.getRouteItem('value-list-detail', 'key')   //值列表详情的页面项
     };
   }
 
@@ -64,9 +95,7 @@ class ValueList extends React.Component {
     pagination.page = _pagination.page;
     pagination.current = _pagination.page + 1;
     this.setState({
-
       pagination,
-      status: this.props.match.params.tab || 'SYSTEM',
     }, () => {
       this.clearBeforePage();
       this.getList();
@@ -75,9 +104,9 @@ class ValueList extends React.Component {
 
   //得到值列表数据
   getList() {
-    const { status, pagination } = this.state;
+    const { pagination, searchParams } = this.state;
     this.setState({ loading: true });
-    valueListService.getValueListList(pagination.page, pagination.pageSize, status)
+    valueListService.getValueListList(pagination.page, pagination.pageSize, searchParams)
     .then(res => {
       res.data.map((item, index) => {
         item.index = pagination.page * pagination.pageSize + index + 1;
@@ -87,13 +116,42 @@ class ValueList extends React.Component {
       this.setState({
         data: res.data,
         loading: false,
-        pagination,
+        pagination: {
+          ...pagination,
+          onChange: this.onChangePager,
+          onShowSizeChange: this.onShowSizeChange,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) =>
+            this.$t(
+              'common.show.total',
+              { range0: `${range[0]}`, range1: `${range[1]}`, total: total },
+            ),
+        },
       });
+    }).catch(() => {
+      this.setState({ loading: false });
+      message.error(
+        this.$t('common.error'  /*哦呼，服务器出了点问题，请联系管理员或稍后再试:(*/),
+      );
     });
+    ;
   }
 
+  //改变每页显示的条数
+  onShowSizeChange = (current, pageSize) => {
+    let pagination = this.state.pagination;
+    pagination.page = current - 1;
+    pagination.pageSize = pageSize;
+    this.setState({
+      pagination,
+    }, () => {
+      this.getList();
+    });
+  };
+
   //分页点击
-  onChangePager = (p, filters, sorter) => {
+  onChangePager = (p) => {
     let pagination = this.state.pagination;
     pagination.page = p.current - 1;
     pagination.current = p.current;
@@ -104,140 +162,58 @@ class ValueList extends React.Component {
     });
   };
 
-  //Tabs点击
-  onChangeTabs = (key) => {
-    const { pagination } = this.state;
-    pagination.page = 0;
-    pagination.current = 1;
-    this.setState({
-      pagination,
-      status: key,
-    }, () => {
-      this.getList();
-    });
-  };
-
-  //选中项发生变化的时的回调
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys });
-  };
-
-  //选择/取消选择某行的回调
-  handleSelectRow = (record, selected) => {
-    let selectedRowIds = this.state.selectedRowIds;
-    let customEnumerationOids = this.state.customEnumerationOids;
-    if (selected) {
-      selectedRowIds.push(record.id);
-      customEnumerationOids.push(record.customEnumerationOid);
-    } else {
-      selectedRowIds.delete(record.id);
-      customEnumerationOids.delete(record.customEnumerationOid);
-    }
-    this.setState({ selectedRowIds, customEnumerationOids });
-  };
-
-  //选择/取消选择所有行的回调
-  handleSelectAllRow = (selected, selectedRows, changeRows) => {
-    let selectedRowIds = this.state.selectedRowIds;
-    let customEnumerationOids = this.state.customEnumerationOids;
-    if (selected) {
-      changeRows.map(item => {
-        selectedRowIds.push(item.id);
-        customEnumerationOids.push(item.customEnumerationOid);
-      });
-    } else {
-      changeRows.map(item => {
-        selectedRowIds.delete(item.id);
-        customEnumerationOids.delete(item.customEnumerationOid);
-      });
-    }
-    this.setState({ selectedRowIds, customEnumerationOids });
-  };
-
-  handleListShow = (flag) => {
-    this.setState({ showListSelector: flag });
-  };
-
-  handleListOk = (values) => {
-    if (!this.state.dBtnDisabled) {
-      this.state.dBtnDisabled = true;
-      let companies = [];
-      values.result.map((item) => {
-        companies.push(item.companyOid);
-      });
-      valueListService.distributeCompany(companies, this.state.customEnumerationOids)
-      .then(res => {
-        this.state.dBtnDisabled = false;
-        if (res.status === 200) {
-          message.success(messages('common.operate.success'/*操作成功*/));
-          this.handleListShow(false);
-          this.getList();
-          this.setState({
-            selectedRowKeys: [],
-            selectedRowIds: [],
-            customEnumerationOids: [],
-          });
-        }
-      }).catch(err => {
-        this.state.dBtnDisabled = false;
-      });
-    }
-
-  };
 
   handleRowClick = (record) => {
     this.setBeforePage(this.state.pagination);
-    // let path = "/admin-setting/value-list-detail/:customEnumerationOid/:id".replace(':customEnumerationOid', record.customEnumerationOid);
-    // path = path.replace(':id', record.id);
-    // this.context.router.push(path);
 
     this.props.dispatch(routerRedux.push({
-      pathname: `/admin-setting/value-list-detail/${record.customEnumerationOid}/${record.id}/:tab`.replace(':tab', this.state.status),
+      pathname: `/admin-setting/value-list-detail/${record.codeOid}/${record.id}/:tab`.replace(':tab', this.state.status),
     }));
 
   };
 
   goValueListPage = () => {
-    const { valueListPage } = this.state;
     this.props.dispatch(routerRedux.push({
       pathname: '/admin-setting/new-value-list/:tab'.replace(':tab', this.state.status),
     }));
   };
 
+  search = values => {
+    let pagination = this.state.pagination;
+    this.setState({
+      searchParams: { ...this.state.searchParams, ...values },
+      pagination: { ...pagination, current: 0 },
+    }, () => {
+      this.getList();
+    });
+  };
+
+  // 清除
+  clearFunction = () => {
+    this.setState({ searchParams: {} });
+  };
+
   render() {
     const {
-      columns, data, loading, pagination, status,
-      selectedRowKeys, selectedRowIds, showListSelector,
+      columns, data, loading, pagination, searchParams, searchForm,
     } = this.state;
-    const rowSelection = {
-      selectedRowKeys: selectedRowKeys,
-      onChange: this.onSelectChange,
-      onSelect: this.handleSelectRow,
-      onSelectAll: this.handleSelectAllRow,
-    };
     return (
       <div style={{ paddingBottom: 20 }} className="value-list">
-        <Tabs type="card" activeKey={status} onChange={this.onChangeTabs}>
-          {/*系统值列表*/}
-          <TabPane tab={messages('value.list.system.level')} key='SYSTEM'/>
-          {/*自定义值列表*/}
-          <TabPane tab={messages('value.list.custom.level')} key='CUSTOM'/>
-        </Tabs>
-
+        <SearchArea
+          maxLength={4}
+          searchParams={searchParams}
+          submitHandle={this.search}
+          clearHandle={this.clearFunction}
+          searchForm={searchForm}
+        />
         <div className="table-header">
-          {status === 'SYSTEM' ? <div className="table-header-title">
-            {/*汉得融晶系统正常工作所必要的值列表*/}
-            {messages('value.list.system.notice')}
-          </div> : null}
-          {status === 'CUSTOM' ?
-            <div className="table-header-buttons" style={{ paddingTop: 15 }}>
-              <Button type="primary" onClick={this.goValueListPage} style={{ marginRight: 15 }}>
-                {/*新增值列表*/}
-                {messages('value.list.new')}
-              </Button>
-            </div> : null}
+          <div className="table-header-buttons" style={{ paddingTop: 15 }}>
+            <Button type="primary" onClick={this.goValueListPage} style={{ marginRight: 15 }}>
+              {/*新增值列表*/}
+              {messages('value.list.new')}
+            </Button>
+          </div>
         </div>
-
         <Table columns={columns}
                dataSource={data}
                pagination={pagination}
@@ -246,15 +222,11 @@ class ValueList extends React.Component {
                onRow={record => ({
                  onClick: () => this.handleRowClick(record),
                })}
-               scroll={{ x: true, y: false }}
+               rowKey={record => record.id}
                bordered
                size="middle"/>
 
-        <ListSelector visible={showListSelector}
-                      onCancel={() => this.handleListShow(false)}
-                      type="batch_deploy_company"
-                      extraParams={{ sources: selectedRowIds }}
-                      onOk={this.handleListOk}/>
+
       </div>
     );
   }
@@ -262,9 +234,7 @@ class ValueList extends React.Component {
 
 
 function mapStateToProps(state) {
-  return {
-    tenantMode: true,
-  };
+  return {};
 }
 
 export default connect(mapStateToProps, null, null, { withRef: true })(ValueList);

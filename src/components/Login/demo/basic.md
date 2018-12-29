@@ -20,7 +20,6 @@ class LoginDemo extends React.Component {
     autoLogin: true,
   }
   onSubmit = (err, values) => {
-    console.log('value collected ->', { ...values, autoLogin: this.state.autoLogin });
     if (this.state.type === 'tab1') {
       this.setState({
         notice: '',

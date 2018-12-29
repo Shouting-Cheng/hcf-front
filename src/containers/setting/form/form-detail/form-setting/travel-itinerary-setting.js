@@ -1006,7 +1006,7 @@ class TravelItinerarySetting extends React.Component{
         <div className='travel-alert'>
           <Alert
             message={this.$t("common.help")/*帮助提示*/}
-            description={this.$t("form.setting.travel.info.to.supplier")/*下方的设置决定了供应商如何对差旅行程管控，若启用相应功能后，汉得融晶会将相应信息传递给供应商*/}
+            description={this.$t("form.setting.travel.info.to.supplier")/*下方的设置决定了供应商如何对差旅行程管控，若启用相应功能后，融智汇会将相应信息传递给供应商*/}
             type="info"
             showIcon/>
         </div>

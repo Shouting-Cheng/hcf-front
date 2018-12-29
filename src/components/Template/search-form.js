@@ -68,7 +68,7 @@ class AdvancedSearchForm extends React.Component {
   }
 
   // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
+  //   (nextProps);
   // }
 
   handleSearch = e => {
@@ -191,7 +191,6 @@ class AdvancedSearchForm extends React.Component {
 
 function fieldsChange(props, fields) {
 
-  console.log(fields);
 
   if (JSON.stringify(fields) == "{}") {
     return;

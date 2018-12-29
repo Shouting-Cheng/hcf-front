@@ -11,7 +11,6 @@ import config from 'config';
 import { connect } from 'dva';
 import ImporterNew from 'widget/Template/importer-new';
 import httpFetch from 'share/httpFetch';
-// import menuRoute from 'routes/menuRoute';
 import debounce from 'lodash.debounce';
 import {
   Form,
@@ -37,8 +36,6 @@ const TabPane = Tabs.TabPane;
 
 import SlideFrame from 'widget/slide-frame';
 import NewValue from 'containers/setting/value-list/new-value';
-import ListSelector from 'widget/list-selector';
-import Importer from 'widget/Template/importer';
 import FileSaver from 'file-saver';
 import { LanguageInput } from 'widget/index';
 import valueListService from 'containers/setting/value-list/value-list.service';
@@ -65,17 +62,11 @@ class ValueList extends React.Component {
       columnsSystem: [
         {
           title: messages('value.list.value.name' /*值名称*/),
-          dataIndex: 'messageKey',
+          dataIndex: 'name',
         },
         {
           title: messages('value.list.value.code' /*编码*/),
           dataIndex: 'value',
-        },
-        {
-          title: messages('common.sequence' /*序号*/),
-          dataIndex: 'sequenceNumber',
-          width: '10%',
-          render: (value, record, index) => (index + 1 + (this.state.page) * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -107,17 +98,11 @@ class ValueList extends React.Component {
       columnsCustom: [
         {
           title: messages('value.list.value.name' /*值名称*/),
-          dataIndex: 'messageKey',
+          dataIndex: 'name',
         },
         {
           title: messages('value.list.value.code' /*编码*/),
           dataIndex: 'value',
-        },
-        {
-          title: messages('common.sequence' /*序号*/),
-          dataIndex: 'sequenceNumber',
-          width: '10%',
-          render: (value, record, index) => (index + 1 + (this.state.page) * this.state.pageSize),
         },
         {
           title: messages('common.remark' /*备注*/),
@@ -154,39 +139,24 @@ class ValueList extends React.Component {
           ),
         },
       ],
-      companyData: [],
-      companyPage: 0,
-      companySize: 10,
-      companyPagination: {
-        total: 0,
-      },
-      companyColumns: [
-        {
-          title: messages('value.list.company.code' /*公司代码*/),
-          dataIndex: 'companyCode',
-        },
-        {
-          title: messages('value.list.company.name' /*公司名称*/),
-          dataIndex: 'name',
-        },
-      ],
       showListSelector: false,
       showSlideFrame: false,
       showImportFrame: false,
       form: {
         name: '',
         enabled: true,
+        code: '',
         i18n: {},
       },
       _form: {
         name: '',
         enabled: true,
         i18n: {},
+        code: '',
       },
       edit: true,
-      customEnumerationOid: null,
-      defaultCustomEnumerationItemOid: null,
-      isCustom: 'SYSTEM',
+      id: null,
+      typeFlag: 'SYSTEM',
       slideFrameParams: {}, //侧滑参数
       selectedRowKeys: [],
       // valueList: menuRoute.getRouteItem('value-list', 'key')   //值列表页
@@ -196,9 +166,8 @@ class ValueList extends React.Component {
       excelVisible: false,
       btLoading: false,
       exportColumns: [
-        { title: '值名称', dataIndex: 'messageKey' },
+        { title: '值名称', dataIndex: 'name' },
         { title: '编码', dataIndex: 'code' },
-        { title: '序号', dataIndex: 'sequenceNumber' },
         { title: '备注', dataIndex: 'remark' },
         { title: '是否启用', dataIndex: 'enabledStr' },
       ],
@@ -207,37 +176,11 @@ class ValueList extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.tenantMode) {
-      let columnsSystem = this.state.columnsSystem;
-      let col0 = {
-        title: messages('value.list.default' /*默认*/),
-        dataIndex: 'customEnumerationItemOid',
-        width: '10%',
-        render: (value, record) => (
-          <Checkbox
-            checked={value === this.state.defaultCustomEnumerationItemOid}
-            onChange={e => this.setDefault(e, record)}
-          />
-        ),
-      };
-      let col1 = {
-        title: messages('common.operation' /*操作*/),
-        dataIndex: 'id',
-        width: '10%',
-        render: (value, record) => (
-          <a onClick={() => this.handleRowClick(record)}>{messages('common.edit' /*编辑*/)}</a>
-        ),
-      };
-
-      //columnsSystem.push(col0);
-      //columnsSystem.push(col1);
-      this.setState({ columnsSystem });
-    }
-    if (this.props.match.params.customEnumerationOid) {
+    if (this.props.match.params.id) {
       //编辑
       this.setState(
         {
-          customEnumerationOid: this.props.match.params.customEnumerationOid,
+          id: this.props.match.params.id,
           edit: false,
         },
         () => {
@@ -247,24 +190,19 @@ class ValueList extends React.Component {
       );
     } else {
       //新增
-      this.setState({ isCustom: 'CUSTOM' });
+      this.setState({ typeFlag: 'CUSTOM' });
     }
   }
 
-  //选中项发生变化的时的回调
-  onSelectChange = selectedRowKeys => {
-    this.setState({ selectedRowKeys });
-  };
 
   //获取基本信息
   getInfo = () => {
-    valueListService.getValueListInfo(this.state.customEnumerationOid).then(res => {
+    valueListService.getValueListInfo(this.state.id).then(res => {
       let data = res.data;
       data.i18n = data.i18n || {};
       let form = { ...this.state.form, ...data };
       this.setState({
-        isCustom: res.data.isCustom,
-        defaultCustomEnumerationItemOid: res.data.defaultCustomEnumerationItemOid,
+        typeFlag: res.data.typeFlag,
         form,
         _form: { ...form, i18n: { ...form.i18n } },
       });
@@ -276,7 +214,7 @@ class ValueList extends React.Component {
     const { page, pageSize, keyWords } = this.state;
     this.setState({ tableLoading: true });
     valueListService
-    .getValueList(page, pageSize, this.state.customEnumerationOid, keyWords)
+    .getValueList(page, pageSize, this.state.id, keyWords)
     .then(res => {
       if (res.status === 200) {
         this.setState({
@@ -286,6 +224,14 @@ class ValueList extends React.Component {
             total: Number(res.headers['x-total-count']),
             current: page + 1,
             onChange: this.onChangePager,
+            onShowSizeChange: this.onShowSizeChange,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) =>
+              this.$t(
+                'common.show.total',
+                { range0: `${range[0]}`, range1: `${range[1]}`, total: total },
+              ),
           },
         });
       }
@@ -295,56 +241,19 @@ class ValueList extends React.Component {
     });
   };
 
-  //获取公司列表
-  getCompanyList = () => {
-    const { companyPage, companySize, customEnumerationOid } = this.state;
-    this.setState({ companyLoading: true });
-    valueListService.getCompanyList(companyPage, companySize, customEnumerationOid).then(res => {
-      if (res.status === 200) {
-        this.setState({
-          companyData: res.data,
-          companyLoading: false,
-          companyPagination: {
-            total: Number(res.headers['x-total-count']),
-            current: companyPage + 1,
-            onChange: this.onCompanyChangePager,
-          },
-        });
-      }
-    });
-  };
 
   onChangePager = page => {
-    if (page - 1 !== this.state.page)
+    if (page - 1 !== this.state.page) {
       this.setState({ page: page - 1 }, () => {
         this.getList();
       });
+    }
   };
 
-  onCompanyChangePager = page => {
-    if (page - 1 !== this.state.companyPage)
-      this.setState({ companyPage: page - 1 }, () => {
-        this.getCompanyList();
-      });
-  };
-
-  //设置默认的值内容
-  setDefault = (e, record) => {
-    let { data, form } = this.state;
-    console.log(record);
-    data.map(item => {
-      if (e.target.checked) {
-        item.isDefault = item.id === record.id;
-        form.defaultCustomEnumerationItemOid = record.customEnumerationItemOid;
-        form.defaultCustomEnumerationItemValue = record.value;
-      } else {
-        item.isDefault = false;
-        form.defaultCustomEnumerationItemOid = null;
-        form.defaultCustomEnumerationItemValue = null;
-      }
-    });
-    this.setState({ data, form, _form: { ...form, i18n: { ...form.i18n } }, tableLoading: true }, () => {
-      this.handleSave();
+  //改变每页显示的条数
+  onShowSizeChange = (current, pageSize) => {
+    this.setState({ page: current - 1, pageSize }, () => {
+      this.getList();
     });
   };
 
@@ -370,14 +279,6 @@ class ValueList extends React.Component {
     this.setState({ showListSelector: flag });
   };
 
-  handleNameChange = evt => {
-    let form = this.state.form;
-
-    form.name = evt.target.value;
-    this.setState({
-      form,
-    });
-  };
 
   handleEnabled = enabled => {
     let form = this.state.form;
@@ -386,9 +287,14 @@ class ValueList extends React.Component {
       form,
     });
   };
-
+  handleCode = input => {
+    let form = this.state.form;
+    form.code = input;
+    this.setState({
+      form,
+    });
+  };
   validataNameLengthErr = name => {
-    console.log(name);
     if (name === null || name === undefined || name === '') {
       // 请填写名称
       message.warn(messages('value.list.name.input'));
@@ -400,35 +306,39 @@ class ValueList extends React.Component {
       return true;
     }
   };
+
+  validataCodeLengthErr = name => {
+    if (name === null || name === undefined || name === '') {
+      // 请填写代码
+      message.warn(messages('value.list.code.input'));
+      return true;
+    }
+  };
   handleSave = () => {
     let params = {
-      isCustom: this.state.isCustom,
-      values: [],
+      typeFlag: this.state.typeFlag,
     };
     Object.keys(this.state.form).map(key => {
       params[key] = this.state.form[key];
     });
-
-    //todo
-    // 验证一下name的长度
-    // let validateStatus = length > 15 ? "error" : null;
-    // let help = length > 15 ? messages('value.list.name.max.15'/*最多输入15个字符*/) : null;
-
     if (this.validataNameLengthErr(this.state.form.name)) {
       return;
     }
-    if (this.state.customEnumerationOid) {
-      params.customEnumerationOid = this.state.customEnumerationOid;
+    if (this.validataCodeLengthErr(this.state.form.code)) {
+      return;
+    }
+    if (this.state.id) {
+      params.id = this.state.id;
     }
     this.setState({ loading: true });
-    valueListService[this.state.customEnumerationOid ? 'uploadValueList' : 'newValueList'](params)
+    valueListService[this.state.id ? 'uploadValueList' : 'newValueList'](params)
     .then(res => {
       if (res.status === 200) {
         this.setState(
           {
             loading: false,
             edit: false,
-            customEnumerationOid: res.data.customEnumerationOid,
+            id: res.data.id,
           },
           () => {
             this.getInfo();
@@ -450,7 +360,7 @@ class ValueList extends React.Component {
   };
 
   handleCancel = () => {
-    if (this.state.customEnumerationOid) {
+    if (this.state.id) {
       //编辑
       this.setState({ edit: false, form: { ...this.state._form, i18n: { ...this.state._form.i18n } } });
     } else {
@@ -460,8 +370,6 @@ class ValueList extends React.Component {
           pathname: '/admin-setting/value-list/:tab'.replace(':tab', this.props.match.params.tab),
         }),
       );
-
-      // this.context.router.push(`${this.state.valueList.url}?tab=CUSTOM`)
     }
   };
 
@@ -514,9 +422,9 @@ class ValueList extends React.Component {
   export = result => {
     let hide = message.loading('正在生成文件，请等待......');
 
-    const { customEnumerationOid, isCustom } = this.state;
+    const { id, typeFlag } = this.state;
     valueListService
-    .exportValues(result, customEnumerationOid, isCustom)
+    .exportValues(result, id, typeFlag)
     .then(res => {
       if (res.status === 200) {
         message.success('操作成功');
@@ -561,6 +469,22 @@ class ValueList extends React.Component {
           </Col>
 
           <Col span={8}>
+            <div className="ant-form-item-label">
+              <span className="new-lp-row-re">*</span>
+              <span>
+                {/*值列表代码*/}
+                {messages('value.list.code')}
+              </span>
+            </div>
+            <Input
+              defaultValue={this.state.form.code}
+              disabled={this.state.id !== null && this.state.id !== undefined && this.state.id !== ''}
+              onChange={e => this.handleCode(e.target.value)}
+            />
+
+          </Col>
+
+          <Col span={8}>
             <FormItem label={messages('common.column.status' /*状态*/)} colon={false}>
               <Switch
                 defaultChecked={this.state.form.enabled}
@@ -587,11 +511,31 @@ class ValueList extends React.Component {
       </div>
     ) : (
       <div>
-        <div className="form-title">
-          {/*值列表名称*/}
-          {messages('value.list.information')}
-        </div>
-        <div>{this.state.form.name}</div>
+        <Row>
+          <Col span={8}>
+            <div className="form-title">
+              {/*值列表名称*/}
+              {messages('value.list.information')}
+            </div>
+            <div>{this.state.form.name}</div>
+          </Col>
+          <Col span={8}>
+            <div className="form-title">
+              {/*值列表名称*/}
+              {messages('value.list.code')}
+            </div>
+            <div>{this.state.form.code}</div>
+          </Col>
+          <Col span={8}>
+            <div className="form-title">
+              {/*状态*/}
+              {messages('common.column.status')}
+            </div>
+            <div><Badge status={this.state.form.enabled ? 'success' : 'error'}
+                        text={this.state.form.enabled ? messages('common.status.enable') : messages('common.status.disable')}/>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -605,10 +549,10 @@ class ValueList extends React.Component {
   }
 
   newValueList = () => {
-    let customEnumerationOid = this.state.customEnumerationOid;
+    let codeId = this.state.id;
     this.setState(
       {
-        slideFrameParams: { customEnumerationOid, isCustom: this.state.isCustom, hasInit: false },
+        slideFrameParams: { codeId: codeId, typeFlag: this.state.typeFlag },
       },
       () => {
         this.showSlide(true);
@@ -618,14 +562,13 @@ class ValueList extends React.Component {
 
   //编辑值内容
   handleRowClick = record => {
-    let customEnumerationOid = this.state.customEnumerationOid;
+    let codeId = this.state.id;
     this.setState(
       {
         slideFrameParams: {
-          customEnumerationOid,
+          codeId: codeId,
           record,
-          isCustom: this.state.isCustom,
-          hasInit: false,
+          typeFlag: this.state.typeFlag,
         },
       },
       () => {
@@ -634,38 +577,6 @@ class ValueList extends React.Component {
     );
   };
 
-  //切换tab
-  handleTabsChange = tab => {
-    this.setState({ tabValue: tab }, () => {
-      if (this.state.tabValue === 'distributeCompanyPage') {
-        this.getCompanyList();
-      }
-    });
-  };
-
-  //分配公司
-  distributeCompany = values => {
-    if (!this.state.dBtnDisabled) {
-      this.state.dBtnDisabled = true;
-      let companies = [];
-      values.result.map(item => {
-        companies.push(item.companyOid);
-      });
-      valueListService
-      .distributeCompany(companies, [this.state.customEnumerationOid])
-      .then(res => {
-        this.state.dBtnDisabled = false;
-        if (res.status === 200) {
-          message.success(messages('common.operate.success'));
-          this.showListSelector(false);
-          this.getCompanyList();
-        }
-      })
-      .catch(err => {
-        this.state.dBtnDisabled = false;
-      });
-    }
-  };
 
   //导入成功回调
   handleImportOk = (transactionID) => {
@@ -722,11 +633,14 @@ class ValueList extends React.Component {
       }),
     );
   };
+//选中项发生变化的时的回调
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
 
   render() {
     const {
       tableLoading,
-      companyLoading,
       tabValue,
       showSlideFrame,
       edit,
@@ -736,13 +650,9 @@ class ValueList extends React.Component {
       pagination,
       showImportFrame,
       form,
-      customEnumerationOid,
+      id,
       slideFrameParams,
-      companyColumns,
-      companyData,
-      companyPagination,
-      showListSelector,
-      isCustom,
+      typeFlag,
       selectedRowKeys,
     } = this.state;
     //导出
@@ -767,7 +677,7 @@ class ValueList extends React.Component {
                   />
                 ) : null}
                 {messages('value.list.basic.info' /*基本信息*/)}
-                {!edit && isCustom === 'CUSTOM' ? (
+                {!edit && typeFlag === 'CUSTOM' ? (
                   <span className="title-edit" onClick={this.handleEdit}>
                     {messages('common.edit')}
                   </span>
@@ -776,52 +686,52 @@ class ValueList extends React.Component {
               <div className="common-top-area-content form-title-area">{this.renderForm()}</div>
             </div>
 
-            {customEnumerationOid && (
+            {id && (
               <div>
                 <div className="table-header">
                   <div className="table-header-title">
                     {messages('common.total1', { total: pagination.total || 0 })}
                   </div>
                   <div className="table-header-buttons">
-                    {isCustom === 'CUSTOM' && (
-                      <div>
-                        <Dropdown.Button
-                          overlay={this.renderDropDown()}
-                          type="primary"
-                          onClick={this.newValueList}
-                        >
-                          {messages('value.list.new.value' /*新建值内容*/)}
-                        </Dropdown.Button>
+                    {(typeFlag !== 'SYSTEM') && (
+                      <Dropdown.Button
+                        overlay={this.renderDropDown()}
+                        type="primary"
+                        onClick={this.newValueList}
+                      >
+                        {messages('value.list.new.value' /*新建值内容*/)}
+                      </Dropdown.Button>
+                    )}
 
-                        <Button loading={btLoading} onClick={this.onExportClick}>
-                          {messages('value.list.value.export' /*值导出*/)}
+                    <Button loading={btLoading} onClick={this.onExportClick}>
+                      {messages('value.list.value.export' /*值导出*/)}
+                    </Button>
+                    {(typeFlag === 'CUSTOM') && (
+                      <div style={{ display: 'inline-block' }}>
+                        <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
+                          {messages('common.enabled' /*启用*/)}
                         </Button>
-                        <div style={{ display: 'inline-block' }}>
-                          <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
-                            {messages('common.enabled' /*启用*/)}
-                          </Button>
-                          <Button
-                            onClick={() => this.handleBatch('disabled')}
-                            disabled={!hasSelected}
-                          >
-                            {messages('common.disabled' /*禁用*/)}
-                          </Button>
-                          <div
-                            style={{
-                              display: 'inline-block',
-                              padding: '4px 8px 4px 20px',
-                              border: '1px solid #91d5ff',
-                              backgroundColor: '#e6f7ff',
-                              borderRadius: 4,
-                            }}
-                          >
-                            <Icon type="info-circle" style={{ color: '#1890ff' }}/>
-                            <span>
+                        <Button
+                          onClick={() => this.handleBatch('disabled')}
+                          disabled={!hasSelected}
+                        >
+                          {messages('common.disabled' /*禁用*/)}
+                        </Button>
+                        <div
+                          style={{
+                            display: 'inline-block',
+                            padding: '4px 8px 4px 20px',
+                            border: '1px solid #91d5ff',
+                            backgroundColor: '#e6f7ff',
+                            borderRadius: 4,
+                          }}
+                        >
+                          <Icon type="info-circle" style={{ color: '#1890ff' }}/>
+                          <span>
                             &nbsp;{messages('common.total.selected2', {
-                              total: selectedRowKeys.length,
-                            })}
+                            total: selectedRowKeys.length,
+                          })}
                           </span>
-                          </div>
                         </div>
                       </div>
                     )}
@@ -835,15 +745,13 @@ class ValueList extends React.Component {
                   </div>
                 </div>
                 <Table
-                  rowKey="customEnumerationItemOid"
-                  columns={isCustom === 'SYSTEM' ? columnsSystem : columnsCustom}
+                  rowKey={record => record.id}
+                  columns={typeFlag !== 'CUSTOM' ? columnsSystem : columnsCustom}
                   dataSource={data}
                   pagination={pagination}
                   loading={tableLoading}
                   size="middle"
-                  rowSelection={
-                    isCustom === 'CUSTOM' ? rowSelection : null
-                  }
+                  rowSelection={typeFlag !== 'SYSTEM' ? rowSelection : null}
                   bordered
                 />
                 <a style={{ fontSize: '14px', paddingBottom: '20px' }} onClick={this.handleBack}>
@@ -869,7 +777,7 @@ class ValueList extends React.Component {
         <ImporterNew visible={showImportFrame}
                      title={messages('value.list.value.import' /*值导入*/)}
                      templateUrl={`${config.baseUrl}/api/custom/enumerations/items/template`}
-                     uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?customEnumerationOid=${customEnumerationOid}`}
+                     uploadUrl={`${config.baseUrl}/api/custom/enumerations/items/import?id=${id}`}
                      errorUrl={`${config.baseUrl}/api/custom/enumerations/items/import/error/export`}
                      errorDataQueryUrl={`${config.baseUrl}/api/custom/enumerations/items/import/query/result`}
                      deleteDataUrl={`${config.baseUrl}/api/custom/enumerations/items/import/delete`}
@@ -884,7 +792,6 @@ class ValueList extends React.Component {
           canCheckVersion={false}
           fileName={'值列表'}
           onCancel={this.onExportCancel}
-          excelItem={'PREPAYMENT_FINANCIAL_QUERY'}
         />
       </div>
     );

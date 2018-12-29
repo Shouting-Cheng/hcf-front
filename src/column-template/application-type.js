@@ -11,7 +11,6 @@ const distributionCompany = ({ id }) => {
 }
 
 const edit = (record) => {
-  console.log(window);
   window.instances.slide.show();
   window.setTimeout(() => {
     window.instances.form.setValues(record);

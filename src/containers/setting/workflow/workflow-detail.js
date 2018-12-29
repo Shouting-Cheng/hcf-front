@@ -225,7 +225,7 @@ class WorkflowDetail extends React.Component {
 
   //结束节点打印
   handleEndNodePrint = (e, params) => {
-    params.isPrint = e.target.checked;
+    params.printFlag = e.target.checked;
     workflowService.modifyApprovalNodes(params).then(() => {
       message.success(this.$t('common.operate.success'))
     })
@@ -409,7 +409,7 @@ class WorkflowDetail extends React.Component {
                       <Row style={{ marginTop: 15 }}>
                         <Col span={3}>{this.$t('setting.key1425'/*是否打印*/)}</Col>
                         <Col span={3}>
-                          <Checkbox defaultChecked={chosenNodeWidget.isPrint}
+                          <Checkbox defaultChecked={chosenNodeWidget.printFlag}
                             onChange={e => this.handleEndNodePrint(e, chosenNodeWidget)} />
                         </Col>
                       </Row>

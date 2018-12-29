@@ -52,7 +52,6 @@ class UpdateBudgetRulesDetail extends React.Component {
     }
   }
   componentWillMount() {
-    console.log(this.props)
     let organizationIdParams = { organizationId: this.props.params.orgId, enabled: true };
     let { lov, ruleParameterTypeArray, ruleParamsArray, summaryOrDetailArray, filtrateMethodArray, valueListMap } = this.state;
 

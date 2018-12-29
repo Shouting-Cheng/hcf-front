@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import {Form, Card, Spin, Icon, Row, Col, Modal, message, Radio, Select,Input} from 'antd'
+import { Form, Card, Spin, Icon, Row, Col, Modal, message, Radio, Select, Input } from 'antd'
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 import constants from 'share/constants';
@@ -17,7 +17,7 @@ import workflowService from 'containers/setting/workflow/workflow.service'
 import 'styles/setting/workflow/workflow.scss'
 import { routerRedux } from 'dva/router';
 import LanguageInput from "../../../components/Widget/Template/language-input/language-input";
-
+import debounce from 'lodash.debounce';
 const Option = Select.Option;
 
 
@@ -33,7 +33,8 @@ class Workflow extends React.Component {
       sourceFormOid: null, //复制的表单Oid
       showEnableList: true, //显示启用的单据
       params: {}
-    }
+    };
+    this.handleDocType = debounce(this.handleDocType, 500);
   }
 
   componentDidMount() {
@@ -119,22 +120,22 @@ class Workflow extends React.Component {
     );
   };
 
-  handleCatType = (value)=>{
+  handleCatType = (value) => {
     this.setState({
       params: {
         ...this.state.params,
         documentCategory: value
       }
-    },()=>this.getList())
+    }, () => this.getList())
   };
 
-  handleDocType = (e)=>{
+  handleDocType = (value) => {
     this.setState({
       params: {
         ...this.state.params,
-        formName: e.target.value
+        formName: value
       }
-    },()=>this.getList())
+    }, () => this.getList())
   };
 
   render() {
@@ -150,7 +151,7 @@ class Workflow extends React.Component {
         {tenantMode && (
           <div className="setOfBooks-container">
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{width: 43}} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{ width: 43 }} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                   allowClear={false}
@@ -159,23 +160,23 @@ class Workflow extends React.Component {
                   onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3} style={{ width: 72 }} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
               <Col span={3}>
                 <Select
                   allowClear
                   onChange={this.handleCatType}
-                  style={{width: '100%'}}
+                  style={{ width: '100%' }}
                   placeholder={this.$t('common.please.select')}>
                   {
                     constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
                   }
                 </Select>
               </Col>
-                <Col span={language.local === 'zh_cn' ? 3 : 4} style={{width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{ width: 100 }} className="title" offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <Input
-                  onBlur={this.handleDocType}
-                  placeholder={this.$t('common.please.enter')}/>
+                  onChange={e => this.handleDocType(e.target.value)}
+                  placeholder={this.$t('common.please.enter')} />
               </Col>
             </Row>
           </div>
@@ -216,7 +217,7 @@ class Workflow extends React.Component {
                           return (
                             <div key={node.ruleApprovalNodeOid} className="node-container">
                               <div>
-                                {this.getNodeImg(node.type)}
+                                {this.getNodeImg(node.typeNumber)}
                                 {index < item.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow" />}
                               </div>
                               <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>

@@ -27,7 +27,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 汉得融晶
+    Copyright <Icon type="copyright" /> 2018 融智汇
   </Fragment>
 );
 
@@ -43,9 +43,9 @@ class UserLayout extends React.Component {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = '汉得融晶';
+    let title = '融智汇';
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - 汉得融晶`;
+      title = `${routerData[pathname].name} - 融智汇`;
     }
     return title;
   }

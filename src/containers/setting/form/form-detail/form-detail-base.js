@@ -80,7 +80,6 @@ class FormDetailBase extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.context)
     const {form, formType, propertyList} = this.context;
     if (formType === 2005) {
       propertyList.map(property => {
