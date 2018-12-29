@@ -73,9 +73,8 @@ export default {
    /**
     * 确认导入
     */
-   confirmImporter(transactionID) {
-     console.log(transactionID);
-     const url = `${config.baseUrl}/api/dimension/item/import/confirm/${transactionID}`;
+   confirmImporter(transactionId) {
+     const url = `${config.baseUrl}/api/dimension/item/import/confirm/${transactionId}`;
      return httpFetch.post(url);
    },
 
