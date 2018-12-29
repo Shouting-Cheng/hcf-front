@@ -721,7 +721,7 @@ class ValueList extends React.Component {
                     <Button loading={btLoading} onClick={this.onExportClick}>
                       {messages('value.list.value.export' /*值导出*/)}
                     </Button>
-                    {(typeFlag === 'CUSTOM') && (
+                    {(typeFlag !== 'SYSTEM') && (
                       <div style={{ display: 'inline-block' }}>
                         <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
                           {messages('common.enabled' /*启用*/)}
@@ -761,7 +761,7 @@ class ValueList extends React.Component {
                 </div>
                 <Table
                   rowKey={record => record.id}
-                  columns={typeFlag !== 'CUSTOM' ? columnsSystem : columnsCustom}
+                  columns={typeFlag !== 'SYSTEM' ? columnsCustom : columnsSystem}
                   dataSource={data}
                   pagination={pagination}
                   loading={tableLoading}
