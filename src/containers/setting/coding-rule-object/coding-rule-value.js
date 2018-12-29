@@ -131,7 +131,7 @@ class CodingRuleValue extends React.Component {
     this.getList();
     codingRuleService.getCodingRule(this.props.match.params.ruleId).then(res => {
       res.data.resetFrequence = {
-        label: res.data.resetFrequenceName,
+        label: res.data.resetFrequenceName || "-",
         value: res.data.resetFrequence,
       };
       this.setState({ infoData: res.data });
@@ -201,7 +201,7 @@ class CodingRuleValue extends React.Component {
       .then(res => {
         codingRuleService.getCodingRule(this.props.match.params.ruleId).then(res => {
           res.data.resetFrequence = {
-            label: res.data.resetFrequenceName,
+            label: res.data.resetFrequenceName || '-',
             value: res.data.resetFrequence,
           };
           this.setState({ updateState: true, editing: false, infoData: res.data });

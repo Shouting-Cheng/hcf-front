@@ -449,9 +449,10 @@ class SearchArea extends React.Component {
   getValueListOptions = (item) => {
     if (item.options.length === 0 || (item.options.length === 1 && item.options[0].temp)) {
       this.getSystemValueList(item.valueListCode).then(res => {
+        console.log(res)
         let options = [];
         res.data.values.map(data => {
-          options.push({ label: data.messageKey, value: data.code || data.value, data: data })
+          options.push({ label: data.name, value: data.value || data.value, data: data })
         });
         let searchForm = this.state.searchForm;
         searchForm = searchForm.map(searchItem => {

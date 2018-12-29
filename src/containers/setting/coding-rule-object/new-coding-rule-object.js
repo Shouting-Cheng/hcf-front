@@ -80,7 +80,7 @@ class NewCodingRuleObject extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {documentCategoryOptions.map(option => {
-                  return <Option key={option.value}>{option.messageKey}</Option>
+                  return <Option key={option.value}>{option.name}</Option>
                 })}
               </Select>
             )}

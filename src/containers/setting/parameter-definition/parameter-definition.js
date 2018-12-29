@@ -14,6 +14,8 @@ import CustomTable from "widget/custom-table";
 import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
 import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
+import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
+
 class ParameterDefinition extends React.Component {
   constructor(props) {
     super(props);
@@ -126,34 +128,6 @@ class ParameterDefinition extends React.Component {
     })
   };
 
-  //获取预算表数据
-  getList(){
-    let params = Object.assign({}, this.state.searchParams);
-    for(let paramsName in params){
-      !params[paramsName] && delete params[paramsName];
-    }
-    this.setState({loading:true});
-    params.organizationId = this.props.organization.id||this.props.id;
-    params.page = this.state.pagination.page;
-    params.size = this.state.pagination.pageSize;
-    budgetService.getStructures(params).then((response)=>{
-      response.data.map((item,index)=>{
-        item.key = item.structureCode;
-      });
-      this.setState({
-        data: response.data,
-        pagination: {
-          total: Number(response.headers['x-total-count']),
-          current: this.state.pagination.current,
-          page: this.state.pagination.page,
-          pageSize:this.state.pagination.pageSize,
-          showSizeChanger:true,
-          showQuickJumper:true,
-        },
-        loading: false
-      })
-    })
-  };
 
   handleSearch = (values) =>{
     console.log(values)
@@ -216,12 +190,11 @@ class ParameterDefinition extends React.Component {
           </div>
         }
       </div>
-      <Table
-        loading={loading}
-        dataSource={data}
+      <CustomTable
         columns={columns}
-        size="middle"
-        bordered/>
+        url={`${config.baseUrl}/api/parameter/moduleCode`}
+        ref={ref => (this.table = ref)}
+      />
     </div>)
   }
 
