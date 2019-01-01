@@ -77,11 +77,11 @@ class CurrencySetting extends React.Component {
         },
         {
           title: this.$t("common.column.status")/*状态*/, key: 'enable',
-          dataIndex: 'enable',
+          dataIndex: 'enabled',
           align: 'center',
-          render: enable => (
-            <Badge status={enable ? 'success' : 'error'}
-                   text={enable ? this.$t("common.status.enable") : this.$t("common.status.disable")}/>)
+          render: enabled => (
+            <Badge status={enabled ? 'success' : 'error'}
+                   text={enabled ? this.$t("common.status.enable") : this.$t("common.status.disable")}/>)
         },
       ]
     }
