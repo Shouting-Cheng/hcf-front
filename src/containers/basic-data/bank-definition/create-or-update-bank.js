@@ -12,7 +12,7 @@ class CreateOrUpdateBank extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      enable: true,
+      enabled: true,
       bankTypeHelp: '',
       bank: {},
       isEditor: false,
@@ -58,7 +58,7 @@ class CreateOrUpdateBank extends React.Component {
     if (typeof params.id !== 'undefined') {
       this.setState({
         bank: params,
-        enable: params.enable,
+        enabled: params.enabled,
         country: params.countryCode,
         countryDefaultValue: [params.provinceCode, params.cityCode],
         countryData: params.countryData ? params.countryData : [],
@@ -182,7 +182,7 @@ class CreateOrUpdateBank extends React.Component {
 
   switchChange = () => {
     this.setState(prevState => ({
-      enable: !prevState.enable,
+      enabled: !prevState.enabled,
     }));
   };
 
@@ -257,7 +257,7 @@ class CreateOrUpdateBank extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { enable, loading, bankTypeHelp, bank, country, isEditor } = this.state;
+    const { enabled, loading, bankTypeHelp, bank, country, isEditor } = this.state;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14, offset: 1 },
@@ -267,13 +267,13 @@ class CreateOrUpdateBank extends React.Component {
         {/*状态*/}
         <Form onSubmit={this.handleSubmit} onChange={this.handleFormChange}>
           <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
-            {getFieldDecorator('enable', {
-              initialValue: enable,
+            {getFieldDecorator('enabled', {
+              initialValue: enabled,
             })(
               <div>
                 <Switch
-                  defaultChecked={enable}
-                  checked={enable}
+                  defaultChecked={enabled}
+                  checked={enabled}
                   checkedChildren={<Icon type="check" />}
                   unCheckedChildren={<Icon type="cross" />}
                   onChange={this.switchChange}
@@ -285,7 +285,7 @@ class CreateOrUpdateBank extends React.Component {
                     width: 100,
                   }}
                 >
-                  {enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
+                  {enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                 </span>
               </div>
             )}
