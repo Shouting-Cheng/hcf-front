@@ -91,7 +91,6 @@ class NewBuilt extends Component {
       s: checked,
     });
   };
-
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const { params,setOfBooks,set} = this.props;
@@ -110,16 +109,13 @@ class NewBuilt extends Component {
         <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
             {getFieldDecorator('setOfBooksId', {
-              ///initialValue:,
               rules: [
                 {
                   required: false,
-
                 },
               ],
               initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksId,
             })(
-              // <Input disabled />
               <Select disabled>
               {setOfBooks.map(option => {
                 return <Option key={option.value}>{option.label}</Option>;
@@ -154,7 +150,6 @@ class NewBuilt extends Component {
                 {
                   required: true,
                   message: '请输入',
-
                 },
               ],
               initialValue: this.props.params.dimensionCode || '',
@@ -166,7 +161,6 @@ class NewBuilt extends Component {
               initialValue: params.dimensionName || '',
             })(
                 <Input key={1} name={params.dimensionName} placeholder={this.$t('common.please.enter') /* 请输入 */}/>
-
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="状态">
@@ -175,13 +169,11 @@ class NewBuilt extends Component {
                 initialValue: typeof params.id=== 'undefined' ? true: params.enabled,
 
             })(
-
              <Switch  />
-
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
           </FormItem>
-          <div className="footer-button">
+          <div className="slide-footer">
             <Button
               className="btn"
               type="primary"
@@ -203,12 +195,10 @@ class NewBuilt extends Component {
 }
 
 function mapStateToProps(state) {
-
   return{
     company: state.user.company
   }
 }
-
 
 const WrappedNewBuilt = Form.create()(NewBuilt);
 export default connect(mapStateToProps, null, null, { withRef: true })(WrappedNewBuilt);

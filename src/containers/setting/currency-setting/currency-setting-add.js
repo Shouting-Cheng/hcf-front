@@ -128,7 +128,7 @@ class CurrencySettingAdd extends React.Component {
         return (
             <Form className='currency-setting-add' onSubmit={this.onSave}>
                 <FormItem {...formItemLayout} label={this.$t("currency.setting.add.new.enable")/*状态enable*/}>
-                    {getFieldDecorator('enable', {
+                    {getFieldDecorator('enabled', {
                         valuePropName: 'checked',
                         initialValue: true
                     })(

@@ -86,6 +86,30 @@ class NewParameterDefinition extends React.Component {
                 ],
               })(<Input disabled/>)}
           </FormItem>
+          {
+            this.props.params.nowTab.toString() === '1'&&
+            <FormItem {...formItemLayout} label={this.$t({id: "workflow.set.of.books"})}>
+              {getFieldDecorator('setOfBooksId',
+                {
+                  initialValue: this.props.params.sob,
+                  rules: [
+                    {required: true,}
+                  ],
+                })(<Select labelInValue disabled/>)}
+            </FormItem>
+          }
+          {
+            this.props.params.nowTab.toString() === '2'&&
+            <FormItem {...formItemLayout} label={this.$t({id: "exp.company"})}>
+              {getFieldDecorator('setOfBooksId',
+                {
+                  initialValue: this.props.params.sob,
+                  rules: [
+                    {required: true,}
+                  ],
+                })(<Select labelInValue disabled/>)}
+            </FormItem>
+          }
           <FormItem {...formItemLayout} label={this.$t({id: "budget.parameterCode"})}>
             {getFieldDecorator('versionCode', {
               initialValue: version.versionCode,

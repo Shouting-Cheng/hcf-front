@@ -174,11 +174,11 @@ class BankDefinition extends React.Component {
           title: this.$t('common.column.status'),
           key: 'status',
           width: '10%',
-          dataIndex: 'enable',
-          render: enable => (
+          dataIndex: 'enabled',
+          render: enabled => (
             <Badge
-              status={enable ? 'success' : 'error'}
-              text={enable ? this.$t('common.status.enable') : this.$t('common.status.disable')}
+              status={enabled ? 'success' : 'error'}
+              text={enabled ? this.$t('common.status.enable') : this.$t('common.status.disable')}
             />
           ),
         },
@@ -302,7 +302,7 @@ class BankDefinition extends React.Component {
         { title: '支行名称', dataIndex: 'bankBranchName' },
         { title: '开户地', dataIndex: 'openAccount' },
         { title: '详细地址', dataIndex: 'detailAddress' },
-        { title: '状态', dataIndex: 'enable' },
+        { title: '状态', dataIndex: 'enabled' },
       ],
     };
   }
@@ -780,7 +780,6 @@ class BankDefinition extends React.Component {
 
   //导出
   handleDownLoad = (result) => {
-    debugger;
     let exportParams = this.state.searchParams;
     let ps = {
       page: this.state.pagination.page,
@@ -792,7 +791,7 @@ class BankDefinition extends React.Component {
         let b = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
-        let name = this.$t({ id: 'section.mapping.export.fileName' });
+        let name = this.$t({ id: 'bank.customBank.export.file' });
         FileSaver.saveAs(b, `${name}.xlsx`);
         this.setState({
           loading: false,

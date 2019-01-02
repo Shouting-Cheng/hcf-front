@@ -32,7 +32,7 @@ const personObjDefaultWithoutExtend = {
   rankCode: null, //级别编码
 
   userOid: null,
-  employeeID: '',
+  employeeId: '',
   fullName: '',
   status: 1001, //不传代表只查询在职，1001也是在职，1002待离职员工，1003离职员工
   manager: false, //是不是部门领导

@@ -223,7 +223,7 @@ class NewSetOfBooks extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t('common.column.status') /* 状态 */}>
             {getFieldDecorator('enabled', {
-              initialValue: params.enabled !== undefined ? params.enabled : false,
+              initialValue: params.enabled !== undefined ? params.enabled : true,
               valuePropName: 'checked',
             })(
               <Switch
