@@ -6,9 +6,9 @@ import { routerRedux } from 'dva/router';
 
 import service from "./service"
 
-const confirm = Modal.confirm;
-
 import Common from "./detail-common"
+
+const confirm = Modal.confirm;
 
 class ExpenseApplicationDetail extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class ExpenseApplicationDetail extends React.Component {
     this.getInfo();
   }
 
-  //获取费用申请单头 信息
+  //获取费用申请单头信息
   getInfo = () => {
     service.getApplicationDetail(this.props.match.params.id).then(res => {
       this.setState({ headerData: res.data, getLoading: false });
@@ -40,30 +40,59 @@ class ExpenseApplicationDetail extends React.Component {
   //提交
   onSubmit = () => {
     let { headerData } = this.state;
+    this.setState({ loading: true });
+
     if (headerData.budgetFlag) {
       service.checkBudget(headerData.id).then(res => {
         if (res.data.code == "SUCCESS") {
           this.submit();
+        } else if (res.data.code == "WARNING") {
+          Modal.confirm({
+            title: '是否继续提交？',
+            content: res.data.message,
+            onOk: () => {
+              this.submit();
+            },
+            onCancel: () => {
+              this.setState({ loading: false });
+            }
+          });
+        } else if (res.data.code == "FAILURE") {
+          Modal.error({
+            title: '错误！',
+            content: res.data.message,
+          });
+          this.setState({ loading: false });
         }
       }).catch(err => {
         message.error(err.response.data.message);
+        this.setState({ loading: false });
       })
     } else {
       this.submit();
     }
   };
 
+
   submit = (flag) => {
     let { headerData } = this.state;
-    this.setState({ loading: true });
     let params = {
-      applicantOID: headerData.applicationOid,
-      userOID: "",
-      formOID: headerData.formOid,
-      entityOID: headerData.documentOid,
-      entityType: 801009,
+      applicantOid: headerData.applicationOid,
+      userOid: this.props.user.userOID,
+      formOid: headerData.formOid,
+      documentOid: headerData.documentOid,
+      documentCategory: 801009,
       ignoreWarningFlag: !!flag,
-      countersignApproverOIDs: null
+      countersignApproverOIDs: null,
+      documentNumber: headerData.documentNumber,
+      remark: headerData.remarks,
+      companyId: headerData.companyId,
+      unitOid: headerData.departmentOid,
+      amount: headerData.amount,
+      currencyCode: headerData.currencyCode,
+      documentTypeId: headerData.typeId,
+      applicantDate: headerData.requisitionDate,
+      documentId: headerData.id
     }
     service.submit(params).then(res => {
       message.success("提交成功！");

@@ -29,7 +29,7 @@ import ExpreportDetail from 'containers/reimburse/my-reimburse/reimburse-detail'
 import ContractDetail from 'containers/contract/my-contract/contract-detail';
 //import ApproveHistory from 'containers/payment-requisition/approve-history-work-flow';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
-import DocumentBasicInfo from 'components/Widget/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
 import 'styles/payment-requisition/payment-requisition-detail.scss';
 
@@ -54,7 +54,7 @@ class PaymentRequisitionDetail extends React.Component {
           dataIndex: 'index',
           align: 'center',
           width: '7%',
-          render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1)  * this.state.pagination.pageSize),
+          render: (value, record, index) => (index + 1 + (this.state.pagination.current - 1) * this.state.pagination.pageSize),
         },
         {
           title: '申请金额', dataIndex: 'amount', width: 120,
@@ -212,7 +212,7 @@ class PaymentRequisitionDetail extends React.Component {
   };
   //翻页
   onChangePaper = (page) => {
-    const pagination =  this.state.pagination;
+    const pagination = this.state.pagination;
     if (page !== this.state.pagination.current) {
       this.setState({
         pagination: {
@@ -225,7 +225,7 @@ class PaymentRequisitionDetail extends React.Component {
 
   //改变每页显示条数
   onShowSizeChange = (current, pageSize) => {
-    const pagination =  this.state.pagination
+    const pagination = this.state.pagination
     this.setState({
       pagination: {
         ...pagination,
@@ -278,7 +278,7 @@ class PaymentRequisitionDetail extends React.Component {
             本币金额：{record.currencyCode}&nbsp; {this.filterMoney(record.functionAmount, 2, true)}
           </Col>
         </Row>
-        <Divider/>
+        <Divider />
         <Row>
           <Col style={{ textAlign: 'right' }} span={2}>
             <span>{this.$t({ id: 'acp.relation.document' }/*关联单据*/)}</span>
@@ -296,36 +296,36 @@ class PaymentRequisitionDetail extends React.Component {
           </Col>
         </Row>
         {record.contractHeaderId &&
-        <div>
-        <Divider/>
-        <Row>
-          <Col span={2}>
-            <span style={{ float: 'right' }}>{this.$t({ id: 'acp.relation.contract' }/*关联合同：*/)}</span>
-            {/* <a onClick={() => { this.onViewContractDetail(record.contractHeaderId) }}>{record.contractNumber ? record.contractNumber : "-"}</a> */}
-          </Col>
-          <Col span={6} offset={1}>
-            <span>{this.$t({ id: 'acp.contract.name' }/*合同名称*/)}：{record.contractName}</span>
-          </Col>
-          <Col span={6}>
-            <span>{this.$t({ id: 'acp.contract.number' }/*合同编号*/)}：</span>
-            <a onClick={() => {
-              this.onViewContractDetail(record.contractHeaderId);
-            }}>{record.contractNumber ? record.contractNumber : '-'}</a>
-          </Col>
-          <Col span={4}>
-            <span>{this.$t({ id: 'acp.contract.lineNumber' }/*付款计划序号：*/)}</span>
-            <span>{record.contractLineNumber ? record.contractLineNumber : '-'}</span>
-          </Col>
-          <Col span={5}>
-            <span>{this.$t({ id: 'acp.schedulePaymentDate' }/*计划付款日期*/)}：</span>
-            <span>{record.contractDueDate ? record.contractDueDate : '-'}</span>
-          </Col>
-        </Row>
-      </div>
+          <div>
+            <Divider />
+            <Row>
+              <Col span={2}>
+                <span style={{ float: 'right' }}>{this.$t({ id: 'acp.relation.contract' }/*关联合同：*/)}</span>
+                {/* <a onClick={() => { this.onViewContractDetail(record.contractHeaderId) }}>{record.contractNumber ? record.contractNumber : "-"}</a> */}
+              </Col>
+              <Col span={6} offset={1}>
+                <span>{this.$t({ id: 'acp.contract.name' }/*合同名称*/)}：{record.contractName}</span>
+              </Col>
+              <Col span={6}>
+                <span>{this.$t({ id: 'acp.contract.number' }/*合同编号*/)}：</span>
+                <a onClick={() => {
+                  this.onViewContractDetail(record.contractHeaderId);
+                }}>{record.contractNumber ? record.contractNumber : '-'}</a>
+              </Col>
+              <Col span={4}>
+                <span>{this.$t({ id: 'acp.contract.lineNumber' }/*付款计划序号：*/)}</span>
+                <span>{record.contractLineNumber ? record.contractLineNumber : '-'}</span>
+              </Col>
+              <Col span={5}>
+                <span>{this.$t({ id: 'acp.schedulePaymentDate' }/*计划付款日期*/)}：</span>
+                <span>{record.contractDueDate ? record.contractDueDate : '-'}</span>
+              </Col>
+            </Row>
+          </div>
         }
         {(record.payAmount !== 0 && record.payAmount !== null) &&
           <div>
-            <Divider/>
+            <Divider />
             <Row>
               <Col span={2}>
                 <span style={{ float: 'right' }}>{this.$t({ id: 'acp.payment.log' }/*付款日志*/)}</span>
@@ -449,21 +449,21 @@ class PaymentRequisitionDetail extends React.Component {
             </span>
           </div>
         ) : (
-          headerData.paymentRequisitionNumberDTO.map((item, index) => {
-            return (
-              <div key={index} style={{ display: 'inline-block' }}>
-                {item.currencyCode === 'EUR' ? (
-                  <span>&nbsp;&nbsp;</span>
-                ) : (
-                  <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
-                )}
-                <span className="num-style" style={{ color: 'green' }}>
-                  {item.currencyCode} {this.filterMoney(item.amount)}
-                </span>
-              </div>
-            );
-          })
-        )}
+            headerData.paymentRequisitionNumberDTO.map((item, index) => {
+              return (
+                <div key={index} style={{ display: 'inline-block' }}>
+                  {item.currencyCode === 'EUR' ? (
+                    <span>&nbsp;&nbsp;</span>
+                  ) : (
+                      <span>{this.$t({ id: 'acp.amount' } /*金额：*/)}</span>
+                    )}
+                  <span className="num-style" style={{ color: 'green' }}>
+                    {item.currencyCode} {this.filterMoney(item.amount)}
+                  </span>
+                </div>
+              );
+            })
+          )}
         <span>
           &nbsp;&nbsp;&nbsp;&nbsp;{this.$t({ id: 'acp.function.amount' } /* 本币金额：*/)}
           <span className="num-style" style={{ color: 'green' }}>
@@ -480,10 +480,10 @@ class PaymentRequisitionDetail extends React.Component {
               {(headerData.status === 1001 ||
                 headerData.status === 1003 ||
                 headerData.status === 1005) && (
-                <Button type="primary" onClick={this.addItem} loading={loading}>
-                  {this.$t({ id: 'acp.add.payment.info' } /* 添加*/)}
-                </Button>
-              )}
+                  <Button type="primary" onClick={this.addItem} loading={loading}>
+                    {this.$t({ id: 'acp.add.payment.info' } /* 添加*/)}
+                  </Button>
+                )}
             </div>
             <div style={{ float: 'right' }}>
               <Breadcrumb style={{ marginBottom: '10px' }}>
@@ -516,64 +516,64 @@ class PaymentRequisitionDetail extends React.Component {
     );
     return (
       <div>
-      <div style={{ paddingBottom: 100 }} className="pre-payment-common" >
-        <Spin spinning={false}>
-          <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
-            <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
-              <TabPane tab={this.$t({ id: 'acp.document.info' } /* 单据信息*/)} key="detailInfo">
-                <DocumentBasicInfo params={headerInfo}/>
-              </TabPane>
-            </Tabs>
-          </Card>
-          <div>{subContent}</div>
-        </Spin>
-      </div>
-            {(this.props.match.params.flag === 'true') ?
-              <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
-                <Row>
-                  <Col span={21}>
-                    <ApproveBar passLoading={loading}
-                                style={{paddingLeft: 45}}
-                                backUrl={this.state.myPaymentRequisition}
-                                rejectLoading={dLoading}
-                                handleApprovePass={this.handleApprovePass}
-                                handleApproveReject={this.handleApproveReject}/>
-                  </Col>
-                </Row>
-              </Affix> :
-              <Affix offsetBottom={0} className="bottom-bar">>
-                <Button loading={loading} onClick={this.onCancel} style={{marginLeft: 45}}
-                        className="back-btn">{this.$t({ id: 'common.back' }/*返回*/)}</Button>
-              </Affix>
-            }
+        <div style={{ paddingBottom: 100 }} className="pre-payment-common" >
+          <Spin spinning={false}>
+            <Card style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>
+              <Tabs defaultActiveKey="1" onChange={this.tabChange} forceRender>
+                <TabPane tab={this.$t({ id: 'acp.document.info' } /* 单据信息*/)} key="detailInfo">
+                  <DocumentBasicInfo params={headerInfo} />
+                </TabPane>
+              </Tabs>
+            </Card>
+            <div>{subContent}</div>
+          </Spin>
+        </div>
+        {(this.props.match.params.flag === 'true') ?
+          <Affix offsetBottom={0} className="bottom-bar bottom-bar-approve">
+            <Row>
+              <Col span={21}>
+                <ApproveBar passLoading={loading}
+                  style={{ paddingLeft: 45 }}
+                  backUrl={this.state.myPaymentRequisition}
+                  rejectLoading={dLoading}
+                  handleApprovePass={this.handleApprovePass}
+                  handleApproveReject={this.handleApproveReject} />
+              </Col>
+            </Row>
+          </Affix> :
+          <Affix offsetBottom={0} className="bottom-bar">>
+                <Button loading={loading} onClick={this.onCancel} style={{ marginLeft: 45 }}
+              className="back-btn">{this.$t({ id: 'common.back' }/*返回*/)}</Button>
+          </Affix>
+        }
 
-          <Modal visible={this.state.showExpreportDetail}
-                 footer={[
-                   <Button key="back" size="large"
-                           onClick={this.onCloseExpreport}>{this.$t({ id: 'common.back' }/* 返回*/)}</Button>,
-                 ]}
-                 width={1200}
-                 closable={false}
-                 destroyOnClose={true}
-                 onCancel={this.onCloseExpreport}>
-            <div>
-              {this.wrapClose(ExpreportDetail)}
-            </div>
-          </Modal>
+        <Modal visible={this.state.showExpreportDetail}
+          footer={[
+            <Button key="back" size="large"
+              onClick={this.onCloseExpreport}>{this.$t({ id: 'common.back' }/* 返回*/)}</Button>,
+          ]}
+          width={1200}
+          closable={false}
+          destroyOnClose={true}
+          onCancel={this.onCloseExpreport}>
+          <div>
+            {this.wrapClose(ExpreportDetail)}
+          </div>
+        </Modal>
 
-          <Modal visible={this.state.showContractDetail}
-                 footer={[
-                   <Button key="back" size="large"
-                           onClick={this.onCloseContract}>{this.$t({ id: 'common.back' }/* 返回*/)}</Button>,
-                 ]}
-                 destroyOnClose={true}
-                 width={1200}
-                 closable={false}
-                 onCancel={this.onCloseContract}>
-            <div>
-              {this.wrapClose(ContractDetail)}
-            </div>
-          </Modal>
+        <Modal visible={this.state.showContractDetail}
+          footer={[
+            <Button key="back" size="large"
+              onClick={this.onCloseContract}>{this.$t({ id: 'common.back' }/* 返回*/)}</Button>,
+          ]}
+          destroyOnClose={true}
+          width={1200}
+          closable={false}
+          onCancel={this.onCloseContract}>
+          <div>
+            {this.wrapClose(ContractDetail)}
+          </div>
+        </Modal>
       </div>
     );
   }

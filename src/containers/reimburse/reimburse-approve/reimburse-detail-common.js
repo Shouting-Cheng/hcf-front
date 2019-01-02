@@ -16,7 +16,7 @@ import NewPayPlan from "containers/reimburse/my-reimburse/new-pay-plan"
 import reimburseService from 'containers/reimburse/my-reimburse/reimburse.service'
 import ListSelector from 'containers/reimburse/my-reimburse/list-selector'
 import ApproveHistory from "containers/reimburse/reimburse-review/approve-history-work-flow"
-import DocumentBasicInfo from 'widget/document-basic-info'
+import DocumentBasicInfo from 'widget/Template/document-basic-info'
 import PropTypes from 'prop-types'
 class ContractDetailCommon extends React.Component {
   constructor(props) {
@@ -122,7 +122,7 @@ class ContractDetailCommon extends React.Component {
 
   //获取资金计划
   getCostList = (flag) => {
-    this.setState({ visible: false,detailVisible: false }, () => {
+    this.setState({ visible: false, detailVisible: false }, () => {
       if (flag) {
         this.setState({ isLoadCostData: !this.state.isLoadCostData });
         this.getPayList(true);
@@ -266,12 +266,12 @@ class ContractDetailCommon extends React.Component {
   //撤回
   withdraw = () => {
     let params =
-      {
-        entities: [{
-          entityOID: this.props.headerData.expenseReportOID,
-          entityType: 801001
-        }]
-      };
+    {
+      entities: [{
+        entityOID: this.props.headerData.expenseReportOID,
+        entityType: 801001
+      }]
+    };
     reimburseService.withdraw(params).then(res => {
       message.success("撤回成功！");
       this.onCancel();

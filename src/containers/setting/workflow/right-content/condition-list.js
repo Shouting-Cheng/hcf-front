@@ -162,10 +162,17 @@ class NodeConditionList extends React.Component {
     ruleApprovers.map(approver => {
       Object.values((approver.ruleConditions || [])).map(item => {
         item.map(m => {
-          if (m.remark === 'select_department' || m.remark === 'default_user_department') { //部门
+          if (m.remark === 'select_department' || m.remark === 'default_user_department' ) { //部门
             m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {
-              departmentOID.push(oid)
+              departmentOID.push( oid )
             })
+          }
+          if(m.remark === 'default_department_path'){
+            if(m.valuesOIDs){
+              JSON.parse(m.valuesOIDs).value.map(oid => {departmentOID.push( oid )})
+            }else {
+              m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => {departmentOID.push( oid.replace('|',""))})
+            }
           }
         });
       })
@@ -578,15 +585,15 @@ class NodeConditionList extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueItem = (e, remark, value, fieldOID) => {
+  handleDeleteValueItem = (e, remark, value, fieldOID,i) => {
     e.preventDefault();
     this.setState({
-      deleteTagValue: {remark, value, fieldOID}
+      deleteTagValue: {remark, value, fieldOID,index:i}
     })
   };
 
   //渲染审批条件的值
-  renderConditionItem = (item, isEdit) => {
+  renderConditionItem = (item, isEdit,i) => {
     switch(item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
@@ -598,9 +605,15 @@ class NodeConditionList extends React.Component {
         ));
       case 'default_department_path': //部门路径
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((depName, index) => {
+          item.showValue = item.showValue || {};
+          this.state.departmentList.map(department => {
+            if (department.departmentOID === depName.replace('|',"")) {
+              item.showValue[depName.replace('|',"")] = department.name.replace('|',"")
+            }
+          });
           let departmentOID = JSON.parse(item.valueDetail).valueOIDs[index];
-          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', depName, departmentOID) :
-            `${depName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
+          return isEdit ? this.renderConditionCustListTag(index, 'default_department_path', item.showValue&&item.showValue[depName.replace('|',"")], departmentOID,null,i) :
+            `${item.showValue&&item.showValue[depName.replace('|',"")]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_department_role': //部门角色
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((id, index) => (
@@ -635,7 +648,7 @@ class NodeConditionList extends React.Component {
               item.showValue[oid] = department.name
             }
           });
-          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid,null,i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'currency_code': //币种
@@ -724,9 +737,9 @@ class NodeConditionList extends React.Component {
 
   //渲染审批条件值列表的tag值
   //fieldOID 部门扩展字段的oid
-  renderConditionCustListTag = (index, type, name, value ,fieldOID = null) => {
+  renderConditionCustListTag = (index, type, name, value ,fieldOID = null,i) => {
     return (
-      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID)}>
+      <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID,i)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
       </Tag>
     )

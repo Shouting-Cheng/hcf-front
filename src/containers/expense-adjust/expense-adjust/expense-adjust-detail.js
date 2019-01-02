@@ -24,7 +24,7 @@ import ApprotionInfo from 'containers/expense-adjust/expense-adjust/approtion-in
 import Importer from 'widget/Template/importer';
 import 'styles/expense-adjust/expense-adjust-detail.scss';
 import adjustService from 'containers/expense-adjust/expense-adjust/expense-adjust.service';
-import DocumentBasicInfo from 'widget/document-basic-info'
+import DocumentBasicInfo from 'widget/Template/document-basic-info'
 import ApproveHistory from 'widget/Template/approve-history-work-flow';
 import SlideFrame from 'widget/slide-frame';
 //import SlideFrame from "components/slide-frame-work";
@@ -340,10 +340,10 @@ class ExpenseAdjustDetail extends React.Component {
         let { pagination } = this.state;
         this.setState({
           pagination: {
-          ...pagination,
-          total: pagination.total - 1,
-          page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
-        }
+            ...pagination,
+            total: pagination.total - 1,
+            page: parseInt((pagination.total - 2) / pagination.pageSize) < pagination.page ? parseInt((pagination.total - 2) / pagination.pageSize) : pagination.page,
+          }
         })
         this.getList();
       })
@@ -655,26 +655,26 @@ class ExpenseAdjustDetail extends React.Component {
   getImportDetailData = (transactionId) => {
     let id = this.props.match.params.id;
     adjustService.importData(transactionId, id).then(res => {
-        if (res.status === 200) {
-          if (res.data !== 0){
-            const {documentParams,headerData} = this.state;
-            headerData.totalAmount = res.data;
-            this.setState({
-              documentParams:{
-                ...documentParams,
-                totalAmount: res.data,
-              },
-              headerData
-             },()=>{
-              this.renderContent();
-            })
-          }
-          message.success(this.$t('common.operate.success' /*操作成功*/));
-          this.getList();
+      if (res.status === 200) {
+        if (res.data !== 0) {
+          const { documentParams, headerData } = this.state;
+          headerData.totalAmount = res.data;
+          this.setState({
+            documentParams: {
+              ...documentParams,
+              totalAmount: res.data,
+            },
+            headerData
+          }, () => {
+            this.renderContent();
+          })
         }
-      }).catch(e => {
-        message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
-      });
+        message.success(this.$t('common.operate.success' /*操作成功*/));
+        this.getList();
+      }
+    }).catch(e => {
+      message.error(`${this.$t('exp.summit.failed')},${e.response.data.message}`);
+    });
   };
 
   withdraw = () => {
@@ -715,7 +715,7 @@ class ExpenseAdjustDetail extends React.Component {
         <Col style={{ textAlign: 'right' }} span={2}>
           <h3>{this.$t('my.contract.enclosure.information')}：</h3>
         </Col>
-        <Col span={20} style={{marginTop: 2}}>
+        <Col span={20} style={{ marginTop: 2 }}>
           <Row>
             {record.attachments &&
               record.attachments.map(item => {

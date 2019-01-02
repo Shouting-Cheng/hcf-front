@@ -5,7 +5,7 @@ import React from 'react';
 import config from 'config';
 import httpFetch from 'share/httpFetch';
 // import menuRoute from 'routes/menuRoute'
-import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb,  Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
+import { Form, Icon, Tag, Tabs, Button, Row, Col, Spin, Breadcrumb, Timeline, message, Popover, Popconfirm, Divider, Card, Drawer, } from 'antd';
 import Table from 'widget/table'
 const TabPane = Tabs.TabPane;
 import SlideFrame from 'widget/slide-frame';
@@ -17,7 +17,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
 import prePaymentService from 'containers/pre-payment/my-pre-payment/me-pre-payment.service';
-import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
+import DocumentBasicInfo from 'widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -686,7 +686,7 @@ class PrePaymentCommon extends React.Component {
     let status = null;
     if (headerData.status === 1001 || headerData.status === 1003 || headerData.status === 1005) {
       status = (
-        <h3 className="header-title" style={{textAlign: 'right'}}>
+        <h3 className="header-title" style={{ textAlign: 'right' }}>
           <Button type="primary" onClick={this.edit}>
             编 辑
           </Button>
@@ -694,7 +694,7 @@ class PrePaymentCommon extends React.Component {
       );
     } else if (headerData.status === 1002 && this.props.flag) {
       status = (
-        <h3 className="header-title" style={{textAlign: 'right'}}>
+        <h3 className="header-title" style={{ textAlign: 'right' }}>
           <Button loading={backLoadding} type="primary" onClick={this.back}>
             撤 回
           </Button>
