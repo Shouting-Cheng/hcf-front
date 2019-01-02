@@ -1,5 +1,5 @@
 /**
- * Created by zaranengap on 2017/7/4.
+ * Created by fudebao on 2018/12/04.
  */
 import React from 'react'
 import { connect } from 'dva'
@@ -195,15 +195,15 @@ class Dashboard extends React.Component {
       color: ['#1890ff'],
       tooltip: {
         trigger: 'item',
-        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-          type: 'shadow'          // 默认为直线，可选为：'line' | 'shadow'
+        axisPointer: {
+          type: 'shadow'
         }
       },
       grid: {
         left: '0%',
         right: '0%',
         bottom: '0%',
-        top: "4%",
+        top: "16%",
         containLabel: true
       },
       xAxis: [
@@ -281,15 +281,15 @@ class Dashboard extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-          type: 'shadow'          // 默认为直线，可选为：'line' | 'shadow'
+        axisPointer: {
+          type: 'shadow'
         }
       },
       grid: {
         left: '0%',
         right: '0%',
         bottom: '0%',
-        top: "4%",
+        top: "16%",
         containLabel: true
       },
       series: [{
@@ -590,7 +590,6 @@ class Dashboard extends React.Component {
         top: "4%",
         containLabel: true
       },
-
       color: [
         '#1890FF',
         '#13C2C2',
@@ -653,7 +652,6 @@ class Dashboard extends React.Component {
         top: "4%",
         containLabel: true
       },
-
       color: [
         '#1890FF',
         '#13C2C2',
