@@ -147,7 +147,6 @@ class Dfinition extends Component {
   // 搜索
   search = (values) => {
     this.table.search(values);
-
   };
    //获取账套列表
    getSetOfBookList = () => {
@@ -180,7 +179,7 @@ class Dfinition extends Component {
 
   //清除
   clear = (values) => {
-    this.setState({ searchParams: {} })
+    this.setState( { searchParams: {} })
     this.table.search(values);
   }
   // 详情
@@ -215,7 +214,7 @@ class Dfinition extends Component {
 
         <CustomTable
           columns={columns}
-          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${this.props.company.setOfBooksId}`}
+          url={`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${setOfBooksId}`}
           ref={ref => (this.table = ref)}
         />
         <SlideFrame
