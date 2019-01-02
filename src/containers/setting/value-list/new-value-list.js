@@ -374,9 +374,14 @@ class ValueList extends React.Component {
   };
 
   showImport = flag => {
-    this.setState({
-      showImportFrame: flag,
-    });
+    if (this.state.form.enabled) {
+      this.setState({
+        showImportFrame: flag,
+      });
+    }else{
+      message.warning(messages('value.list.code.is.disabled'));
+      return;
+    }
   };
 
   //关闭侧栏的方法，判断是否有内部参数传出
@@ -550,14 +555,19 @@ class ValueList extends React.Component {
 
   newValueList = () => {
     let codeId = this.state.id;
-    this.setState(
-      {
-        slideFrameParams: { codeId: codeId, typeFlag: this.state.typeFlag },
-      },
-      () => {
-        this.showSlide(true);
-      },
-    );
+    if(this.state.form.enabled) {
+      this.setState(
+        {
+          slideFrameParams: { codeId: codeId, typeFlag: this.state.typeFlag },
+        },
+        () => {
+          this.showSlide(true);
+        },
+      );
+    }else{
+      message.warning(messages('value.list.code.is.disabled'));
+      return;
+    }
   };
 
   //编辑值内容
@@ -613,17 +623,22 @@ class ValueList extends React.Component {
   //批量启用禁用
   //type enabled启用 disabled禁用
   handleBatch = type => {
-    let enable = false;
-    if (type === 'enabled') {
-      enable = true;
-    }
-    valueListService.batchUpdate(this.state.selectedRowKeys, enable).then(res => {
-      if (res.status === 200) {
-        message.success(messages('common.operate.success'));
-        this.setState({ selectedRowKeys: [] });
-        this.getList();
+    if (this.state.form.enabled) {
+      let enable = false;
+      if (type === 'enabled') {
+        enable = true;
       }
-    });
+      valueListService.batchUpdate(this.state.selectedRowKeys, enable).then(res => {
+        if (res.status === 200) {
+          message.success(messages('common.operate.success'));
+          this.setState({ selectedRowKeys: [] });
+          this.getList();
+        }
+      });
+    }else{
+      message.warning(messages('value.list.code.is.disabled'));
+      return;
+    }
   };
 
   handleBack = () => {
@@ -706,7 +721,7 @@ class ValueList extends React.Component {
                     <Button loading={btLoading} onClick={this.onExportClick}>
                       {messages('value.list.value.export' /*值导出*/)}
                     </Button>
-                    {(typeFlag === 'CUSTOM') && (
+                    {(typeFlag !== 'SYSTEM') && (
                       <div style={{ display: 'inline-block' }}>
                         <Button onClick={() => this.handleBatch('enabled')} disabled={!hasSelected}>
                           {messages('common.enabled' /*启用*/)}
@@ -746,7 +761,7 @@ class ValueList extends React.Component {
                 </div>
                 <Table
                   rowKey={record => record.id}
-                  columns={typeFlag !== 'CUSTOM' ? columnsSystem : columnsCustom}
+                  columns={typeFlag !== 'SYSTEM' ? columnsCustom : columnsSystem}
                   dataSource={data}
                   pagination={pagination}
                   loading={tableLoading}

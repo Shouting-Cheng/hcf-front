@@ -72,12 +72,11 @@ class CurrencySettingEdit extends React.Component {
         const { language, currencyRateOid } = this.state;
         let params = {
             currencyOid: currencyRateOid,
-            language: language,
         }
         httpFetch.get(`${config.baseUrl}/api/currency/rate`, params).then(res => {
             this.setState({
-                record: res.data.rows,
-                originalRecord: JSON.parse(JSON.stringify(res.data.rows))
+                record: res.data,
+                originalRecord: JSON.parse(JSON.stringify(res.data))
             }, () => {
                 if (this.state.record.currencyName === this.state.record.baseCurrencyName) {
                     this.setState({
@@ -148,7 +147,7 @@ class CurrencySettingEdit extends React.Component {
                     httpFetch.put(`${config.baseUrl}/api/currency/status/enable?currencyRateOid=${record.currencyRateOid}&enable=${e}`).then(
                         res => {
                             if (res.status === 200) {
-                                record.enable = res.data.rows.enable;
+                                record.enabled = res.data.enabled;
                                 this.setState({
                                     record,
                                     originalRecord: JSON.parse(JSON.stringify(record)),
@@ -174,7 +173,7 @@ class CurrencySettingEdit extends React.Component {
                     httpFetch.put(`${config.baseUrl}/api/currency/status/enable?currencyRateOid=${record.currencyRateOid}&enable=${e}`).then(
                         res => {
                             if (res.status === 200) {
-                                record.enable = res.data.rows.enable;
+                                record.enabled = res.data.enabled;
                                 this.setState({
                                     record,
                                     originalRecord: JSON.parse(JSON.stringify(record))
@@ -360,7 +359,6 @@ class CurrencySettingEdit extends React.Component {
             currencyRateOid: record.currencyRateOid,
             endDate: endDate ? endDate.utc().format() : null,
             startDate: startDate ? startDate.utc().format() : null,
-            language: this.props.language.local,
             page: 0,
             size: pageSize,
         };
@@ -485,11 +483,11 @@ class CurrencySettingEdit extends React.Component {
                         >{this.$t('common.back')}</Button>
                         <Divider />
                     </div>
-                    {record.enable ?
+                    {record.enabled ?
                         this.$t("supplier.detail.searchForm.enabled")/*已启用*/
                         :
                         this.$t("common.disabling")/*已禁用*/}&nbsp;&nbsp;&nbsp;
-          <Switch checked={record.enable} onChange={this.onEnableRate} disabled={!this.props.tenantMode} />
+          <Switch checked={record.enabled} onChange={this.onEnableRate} disabled={!this.props.tenantMode} />
                     <Divider />
                     <div className='currency-edit-notBase-content'>
                         <Row gutter={16} style={{ marginBottom: 20 }}>

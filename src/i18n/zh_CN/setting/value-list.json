@@ -39,5 +39,6 @@
   "value.list.add.employee.by.organization": "按组织添加员工",
   "value.list.add.employee.by.limit": "按条件添加员工",
   "value.list.add.employee.notice": "填写【值名称】及【编码】后才可添加员工",
-  "value.list.code.input":"请输入值列表代码"
+  "value.list.code.input":"请输入值列表代码",
+  "value.list.code.is.disabled":"该值列表已经被禁用，不允许操作！"
 }

@@ -278,6 +278,7 @@ class DistributionDimension extends Component {
           onOk={this.onDimensionOk}
           destroyOnClose={true}
           confirmLoading={confirmLoading}
+          className="list-selector"
         >
           <ModalDimension ids={this.getModalDimensionItem} groupId={dimensionItemGroupId} />
         </Modal>
