@@ -141,7 +141,7 @@ class ListSelector extends React.Component {
         tmpData.push(this.getDataLabel(item, selectorItem.key))
       });
       data = tmpData;
-      let selectedData=[];
+      let selectedData=this.state.selectedData;
       data.map((item) => {
         this.state.selectedData.map(o => {
           if(o[this.getLastKey(selectorItem.key)]){
@@ -247,7 +247,7 @@ class ListSelector extends React.Component {
       nextProps.selectedData.map(item=>temp.push(item[key]));
       rowSelection.selectedRowKeys = temp;
       this.setState({ selectedData: nextProps.selectedData, rowSelection });
-    } else this.setState({ selectedData: [] });
+    } else this.setState({ selectedData: []});
     if (nextProps.type !== this.state.type && !nextProps.selectorItem && nextProps.visible)
       this.checkType(nextProps.type);
     else if (nextProps.selectorItem && nextProps.visible)

@@ -661,6 +661,7 @@ class ConditionForm extends React.Component {
 
   //添加公司
   handleAddCompany = (values) => {
+    console.log(values)
     let condition = this.state.condition;
     let oid = [];
     let companyValue = [];
@@ -1450,6 +1451,7 @@ class ConditionForm extends React.Component {
                                param={{formOID: this.props.formOID, isALL: true, setOfBooksId: company.setOfBooksId}}
                                onSelect={values => this.setState({ expenseTypeValue: values })}/>
         </Modal>
+        {console.log(companyValue)}
         <ListSelector type='available_company'
                       visible={companyVisible}
                       valueKey='companyOID'
