@@ -42,7 +42,7 @@ class DimensionGroup extends Component {
               <a onClick={(e) => this.distribution(e, record.id)}>分配子维值</a>
               <Divider type="vertical" />
               <Popconfirm
-                title="你确定删除？"
+                title="该维值组下存在维值，是否确定删除？"
                 onConfirm={() => this.delete(record.id)}
                 okText="确定"
                 cancelText="取消"
@@ -195,7 +195,7 @@ class DimensionGroup extends Component {
             新建维值组
           </Button>
           <Popconfirm
-            title="你确定删除？"
+            title="维值组下存在维值，是否确定删除？"
             onConfirm={this.batchDelete}
             okText="确定"
             cancelText="取消"
