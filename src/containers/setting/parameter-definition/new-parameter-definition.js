@@ -187,8 +187,8 @@ class NewParameterDefinition extends React.Component {
               <Select placeholder={this.$t({id: "common.please.select"})}
                       disabled={!this.props.form.getFieldValue('parameterId')}
                       onFocus={this.handleParamValue}>
-                {paramValueOptions.map((option) => {
-                  return <Option key={option.value}>{option.messageKey}</Option>
+                {paramValueOptions.map(item => {
+                  return <Option key={item.parameterValue}>{item.parameterValueDesc}</Option>
                 })}
               </Select>
             )}
