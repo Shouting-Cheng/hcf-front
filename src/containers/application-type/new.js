@@ -240,6 +240,7 @@ class NewApplicationType extends React.Component {
           </div>
           <FormItem
             {...formItemLayout}
+            validateTrigger="onBlur"
             label="可用申请类型">
             {getFieldDecorator('applicationType', {
               rules: [{ validator: this.applicationTypeValidator }],
@@ -256,7 +257,7 @@ class NewApplicationType extends React.Component {
             colon={false}
             label={<span></span>}>
             {getFieldDecorator('associateContract', {
-              initialValue: record.id ? record.associateContract : true
+              initialValue: record.id ? record.associateContract : false
             })(
               <Radio.Group onChange={this.associateContractChange}>
                 <Radio value={true}>可关联</Radio>
