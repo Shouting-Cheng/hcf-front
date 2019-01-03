@@ -33,6 +33,7 @@
   "bank.customBank.error.info": "银行导入错误信息",
   "bank.customBank.import": "批量导入",
   "bank.customBank.export": "批量导出",
+  "bank.customBank.export.file": "银行定义导出文件",
 
   "bank.customBank.im.tip1": "1.创建导入文件",
   "bank.customBank.im.tip2": "2.严格按照导入模板整理数据，检查必输事项是否缺少数据",

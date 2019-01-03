@@ -90,7 +90,6 @@ class NewLegalPerson extends React.Component {
 
   getLegalPersonDetail = () => {
     LPService.getLegalPersonDetail(this.props.match.params.legalPersonOid).then(res => {
-      debugger;
       let data = res.data;
       let uploadedImages = [];
       let uploadedImage = this.getUploadedImage(data);

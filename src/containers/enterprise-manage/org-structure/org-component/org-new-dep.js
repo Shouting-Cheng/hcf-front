@@ -53,7 +53,7 @@ class OrgNewDep extends React.Component {
         dep.parentName = params.name;
         dep.parentDepartmentOid = params.departmentOid;
         //dep.name = "";
-        dep.custDeptNumber = '';
+        dep.departmentCode = '';
         dep.treeNode = params.treeNode;
         this.setState({ c_type: 'C_CHILD' });
       } else if (params.c_type === 'C_DEP') {
@@ -68,7 +68,7 @@ class OrgNewDep extends React.Component {
           dep.parentId = null;
         }
         //dep.name = "";
-        dep.custDeptNumber = '';
+        dep.departmentCode = '';
         dep.treeNode = params.treeNode;
         this.setState({ c_type: 'C_DEP' });
       }
@@ -209,8 +209,8 @@ class OrgNewDep extends React.Component {
 
           {/*部门编码*/}
           <FormItem {...formItemLayout} label={this.$t('org-new-dep.dep-code')}>
-            {getFieldDecorator('custDeptNumber', {
-              initialValue: dep.custDeptNumber,
+            {getFieldDecorator('departmentCode', {
+              initialValue: dep.departmentCode,
               rules: [
                 {
                   required: true,

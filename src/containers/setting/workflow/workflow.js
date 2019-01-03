@@ -96,8 +96,12 @@ class Workflow extends React.Component {
   //粘贴审批链
   handleFormCopy = (targetFormOid) => {
     this.setState({ pasteLoading: true });
+    let params = {
+      ...this.state.params,
+      booksID: this.props.tenantMode ? this.state.setOfBooksId : '',
+    };
     workflowService.copyApproveChains(this.state.sourceFormOid, targetFormOid).then(() => {
-      workflowService.getWorkflowList(this.props.tenantMode ? this.state.setOfBooksId : '').then(res => {
+      workflowService.getWorkflowList(params).then(res => {
         this.setState({
           pasteLoading: false,
           data: res.data

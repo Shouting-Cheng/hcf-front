@@ -48,29 +48,29 @@ class ConditionForm extends React.Component {
       costCenterValue: [], //已选的成本中心
       currencyValue: [], //已选的币种
       userValue: [],//已选的人员
-      userApplicationValue:[],
-      applicationValue:[],
+      userApplicationValue: [],
+      applicationValue: [],
       costCenterSelectorItem: null, //成本中心的selectorItem
       currCostCenter: null, //当前成本中心
       depLevel: [  //部门层级
-        {id: 1, name: this.$t('setting.key1291'/*一级*/)}, //一级
-        {id: 2, name: this.$t('setting.key1292'/*二级*/)}, //二级
-        {id: 3, name: this.$t('setting.key1293'/*三级*/)}, //三级
-        {id: 4, name: this.$t('setting.key1294'/*四级*/)}, //四级
-        {id: 5, name: this.$t('setting.key1295'/*五级*/)}, //五级
-        {id: 6, name: this.$t('setting.key1296'/*六级*/)}, //六级
-        {id: 7, name: this.$t('setting.key1297'/*七级*/)}, //七级
-        {id: 8, name: this.$t('setting.key1298'/*八级*/)}, //八级
-        {id: 9, name: this.$t('setting.key1299'/*九级*/)}, //九级
-        {id: 10, name: this.$t('setting.key1300'/*十级*/)} //十级
+        { id: 1, name: this.$t('setting.key1291'/*一级*/) }, //一级
+        { id: 2, name: this.$t('setting.key1292'/*二级*/) }, //二级
+        { id: 3, name: this.$t('setting.key1293'/*三级*/) }, //三级
+        { id: 4, name: this.$t('setting.key1294'/*四级*/) }, //四级
+        { id: 5, name: this.$t('setting.key1295'/*五级*/) }, //五级
+        { id: 6, name: this.$t('setting.key1296'/*六级*/) }, //六级
+        { id: 7, name: this.$t('setting.key1297'/*七级*/) }, //七级
+        { id: 8, name: this.$t('setting.key1298'/*八级*/) }, //八级
+        { id: 9, name: this.$t('setting.key1299'/*九级*/) }, //九级
+        { id: 10, name: this.$t('setting.key1300'/*十级*/) } //十级
       ],
       deleteConditionOid: [], //删除的条件Oid
       custListRemark: '', //选择值列表的remark
-      valueList:[],
-      remarkCurrent:'',//当前remark
-      currentFieldOid:'',//当前的FieldOid 部门扩展字段中会有相同的fieldOid
-      currentValue:[],//当前的选择值
-      allCustomFormFields:[],//所有部门扩展字段
+      valueList: [],
+      remarkCurrent: '',//当前remark
+      currentFieldOid: '',//当前的FieldOid 部门扩展字段中会有相同的fieldOid
+      currentValue: [],//当前的选择值
+      allCustomFormFields: [],//所有部门扩展字段
       departmentExtendVisible: false,
       currentExtendValue: [],//当前选择的部门扩展字段
       departmentExtendLoading: false,
@@ -107,7 +107,7 @@ class ConditionForm extends React.Component {
         nextConditionField.push(item.field)
       }
     });
-    for(let i = 0; i < currConditionField.length; i++) {
+    for (let i = 0; i < currConditionField.length; i++) {
       if (nextConditionField.indexOf(currConditionField[i]) === -1) {
         condition[i].ruleConditionOid && deleteConditionOid.push(condition[i].ruleConditionOid);
         currConditionField.delete(currConditionField[i]);
@@ -121,7 +121,7 @@ class ConditionForm extends React.Component {
     this.setState({ condition, deleteConditionOid });
     //删除值列表的值
     if (nextProps.deleteTagValue.value && nextProps.deleteTagValue.value !== this.props.deleteTagValue.value) {
-      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOid)
+      this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value, nextProps.deleteTagValue.fieldOid, nextProps.deleteTagValue.index)
     }
   }
 
@@ -140,8 +140,8 @@ class ConditionForm extends React.Component {
     let currentValue = [];
     let currentExtendValue = [];
     condition.map(item => {
-      if (ruleItem && (ruleItem.ruleConditionOid ?item.ruleConditionOid === ruleItem.ruleConditionOid : item.field === ruleItem.field)) {
-        switch(item.remark) {
+      if (ruleItem && (ruleItem.ruleConditionOid ? item.ruleConditionOid === ruleItem.ruleConditionOid : item.field === ruleItem.field)) {
+        switch (item.remark) {
           case 'default_department_level':
             if (item.valueDetail && JSON.parse(item.valueDetail)) {
               (JSON.parse(item.valueDetail).value || []).map(id => {
@@ -250,10 +250,10 @@ class ConditionForm extends React.Component {
     let symbolsType = this.props.symbolsType;
     let containRuleList = [];
     let inRuleList = [];
-    let moreThanRuleList = [{name: this.$t('setting.key1301'/*无*/), key: '0'}];
-    let lessThanAndEqualRuleList = [{name: this.$t('setting.key1301'/*无*/), key: '0'}];
+    let moreThanRuleList = [{ name: this.$t('setting.key1301'/*无*/), key: '0' }];
+    let lessThanAndEqualRuleList = [{ name: this.$t('setting.key1301'/*无*/), key: '0' }];
     let booleanRuleList = [];
-    let haveRuleList =[];
+    let haveRuleList = [];
     symbolsType.map(item => {
       if (item.key === 9001 || item.key === 9002) {
         moreThanRuleList.push({
@@ -261,7 +261,7 @@ class ConditionForm extends React.Component {
           key: item.key + ''
         })
       }
-      if(item.key === 9008 || item.key === 9007 || item.key===9006||item.key===9005){
+      if (item.key === 9008 || item.key === 9007 || item.key === 9006 || item.key === 9005) {
         haveRuleList.push({
           name: constants.getTextByValue(item.key, 'symbolFilter'),
           key: item.key + ''
@@ -328,24 +328,24 @@ class ConditionForm extends React.Component {
       remark === 'select_corporation_entity' || remark === 'default_corporation_entity' || remark === 'default_expense_type' ||
       remark === 'default_department' || remark === 'currency_code' || remark === 'select_air_ticket_supplier' ||
       remark === 'default_department_level' || remark === 'default_department_path' || remark === 'default_department_role' ||
-      remark === 'select_company' || remark === 'default_applicant_company' || remark ==='default_user_applicant'
-      || remark === 'default_user_department'|| remark === 'default_user_direct_leadership') {
+      remark === 'select_company' || remark === 'default_applicant_company' || remark === 'default_user_applicant'
+      || remark === 'default_user_department' || remark === 'default_user_direct_leadership') {
       return 'custList' //值列表类型
     }
     if (remark === 'default_user_sex' || remark === 'default_user_level'
-       || remark === 'default_user_post' || remark === 'default_user_category'
+      || remark === 'default_user_post' || remark === 'default_user_category'
       || remark === 'default_user_department_extend' || remark === 'custom_form_department_extend') {
       return 'selector' //选择列表类型
     }
   };
 
-  getTypeValues = (item) =>{
-    let params ={
-      systemCustomEnumerationType:item.fieldContent
+  getTypeValues = (item) => {
+    let params = {
+      systemCustomEnumerationType: item.fieldContent
     };
     workflowService.getBatchTypeList(params)
-      .then((res)=>{
-        this.setState({typeValueVisible: true,valueList:res.data.values,remarkCurrent:item.remark});
+      .then((res) => {
+        this.setState({ typeValueVisible: true, valueList: res.data.values, remarkCurrent: item.remark });
       })
 
   };
@@ -355,13 +355,13 @@ class ConditionForm extends React.Component {
     this.setState({
       departmentExtendLoading: true,
       departmentExtendVisible: true,
-    },()=>{
+    }, () => {
       workflowService.getValueListInfo(item.customEnumerationOid)
         .then((res) => {
           this.setState({
             departmentExtendLoading: false,
             allCustomFormFields: res.data.values,
-            remarkCurrent:item.remark,
+            remarkCurrent: item.remark,
             currentFieldOid: item.field,
           })
         })
@@ -372,15 +372,15 @@ class ConditionForm extends React.Component {
   //添加值列表
   handleAddTypeValue = () => {
     let condition = this.state.condition;
-    let valueOids =[];
-    let values =[];
+    let valueOids = [];
+    let values = [];
     let showValue = {}; //用于编辑状态下值列表的值
     condition.map((item, index) => {
       if (item.remark === this.state.remarkCurrent) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         this.state.currentValue.map(type => {
-          this.state.valueList.map((value)=>{
-            if(value.customEnumerationItemOid === type){
+          this.state.valueList.map((value) => {
+            if (value.customEnumerationItemOid === type) {
               valueOids.push(type)
               values.push(value.value);
               showValue[value.customEnumerationItemOid] = value.messageKey
@@ -401,10 +401,10 @@ class ConditionForm extends React.Component {
   };
 
   //添加部门扩展字段
-  handleAddExtendField= () => {
+  handleAddExtendField = () => {
     let condition = this.state.condition;
-    let valueOids =[];
-    let values =[];
+    let valueOids = [];
+    let values = [];
     let showValue = {}; //用于编辑状态下值列表的值
     condition.map((item, index) => {
       if ((item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend')
@@ -435,7 +435,7 @@ class ConditionForm extends React.Component {
   handleSelectValueDetail = (item) => {
     this.getDefaultValues(item);
     this.setState({ custListRemark: item.remark });
-    switch(item.remark) {
+    switch (item.remark) {
       case 'default_user_post'://默认条件中的自定义列表
       case 'default_user_category':
       case 'default_user_sex':
@@ -484,7 +484,7 @@ class ConditionForm extends React.Component {
       case 'default_applicant_company':
         this.setState({ companyVisible: true });
         break;
-      case  'default_user_department_extend':
+      case 'default_user_department_extend':
       case 'custom_form_department_extend':
         this.getDepartmentExtend(item);
         break;
@@ -531,44 +531,50 @@ class ConditionForm extends React.Component {
   };
 
   //添加部门路径/部门
-  handleAddDepPath = (values, remark,i) => {
+  handleAddDepPath = (values, remark, i) => {
     let condition = this.state.condition;
     let valueOids = [];
     let value = [];
     let showValue = {}; //用于编辑状态下显示部门，避免请求接口去获取显示值
     condition.map(item => {
-      if (remark === 'select_department'||remark === 'default_user_department')
+      if (remark === 'select_department' || remark === 'default_user_department')
         showValue = item.showValue || {}
     });
     values.map(item => {
       valueOids.push(item.departmentOid);
       value.push(item.path);
-      (remark === 'select_department'||remark === 'default_user_department') && (showValue[item.departmentOid] = item.name)
+      (remark === 'select_department' || remark === 'default_user_department') && (showValue[item.departmentOid] = item.name)
     });
     condition.map((item, index) => {
       if (item.remark === remark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
-        if(i===index) {
-          valueDetail.value = valueOIDs;
-          valueDetail.valueOIDs && (valueDetail.valueOIDs = valueOIDs);
+        if (i === index) {
+          valueDetail.value = [].concat(valueOIDs);
+          valueDetail.valueOIDs && (valueDetail.valueOIDs = [].concat(valueOIDs));
         }
         if (valueDetail.value && valueDetail.value.length) {
-          valueOids.map((oid, oidIndex) => {
-            if (remark === 'default_department_path' && valueDetail.valueOids.indexOf(oid) === -1) {
-              valueDetail.valueOids.push(oid);
-              valueDetail.value.push(value[oidIndex]);
-            } else if ((remark === 'select_department'||remark === 'default_user_department') && valueDetail.value.indexOf(oid) === -1) {
+          valueOIDs.map((oid, oidIndex) => {
+            if (remark === 'default_department_path') {
+              if (valueDetail.valueOIDs && valueDetail.valueOIDs.indexOf(oid) === -1) {
+                valueDetail.valueOIDs.push(oid);
+              }
+              if (!valueDetail.valueOIDs) {
+                valueDetail.valueOIDs = [];
+                valueDetail.valueOIDs.push(value[oidIndex])
+              }
+              //valueDetail.value.push(value[oidIndex]);
+            } else if ((remark === 'select_department' || remark === 'default_user_department') && valueDetail.value.indexOf(oid) === -1) {
               valueDetail.value.push(oid);
             }
           })
         } else {
-          valueDetail = remark === 'default_department_path' ? {value, valueOids} : {value: valueOids}
+          valueDetail = remark === 'default_department_path' ? { value, valueOids } : { value: valueOids }
         }
-        (remark === 'select_department' || remark === 'default_user_department'|| remark === 'default_department_path') && (condition[index].showValue = showValue);
+        (remark === 'select_department' || remark === 'default_user_department' || remark === 'default_department_path') && (condition[index].showValue = showValue);
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
-    this.setState({ condition,deptVisible: false })
+    this.setState({ condition, deptVisible: false })
   };
 
   //添加费用类型
@@ -578,7 +584,7 @@ class ConditionForm extends React.Component {
     let showValue = []; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     this.state.expenseTypeValue.map(item => {
       oid.push(item.expenseTypeOid);
-      showValue.push({expenseTypeOid: item.expenseTypeOid, name: item.name, enable: item.enable || item.enabled})
+      showValue.push({ expenseTypeOid: item.expenseTypeOid, name: item.name, enable: item.enable || item.enabled })
     });
     condition.map((item, index) => {
       if (item.remark === 'default_expense_type') {
@@ -600,7 +606,7 @@ class ConditionForm extends React.Component {
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
       oid.push(item.costCenterItemOid);
-      costCenterValue.push({costCenterItemOid: item.costCenterItemOid});
+      costCenterValue.push({ costCenterItemOid: item.costCenterItemOid });
       showValue[item.costCenterItemOid] = item.name
     });
     condition.map((item, index) => {
@@ -622,7 +628,7 @@ class ConditionForm extends React.Component {
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
       oid.push(item.companyReceiptedOid);
-      entityValue.push({companyReceiptedOid: item.companyReceiptedOid});
+      entityValue.push({ companyReceiptedOid: item.companyReceiptedOid });
       showValue[item.companyReceiptedOid] = item.companyName
     });
     condition.map((item, index) => {
@@ -661,7 +667,7 @@ class ConditionForm extends React.Component {
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
       oid.push(item.companyOid);
-      companyValue.push({companyOid: item.companyOid});
+      companyValue.push({ companyOid: item.companyOid });
       showValue[item.companyOid] = item.name
     });
     condition.map((item, index) => {
@@ -676,17 +682,17 @@ class ConditionForm extends React.Component {
   };
 
   //添加人员
-  handleAddUser = (values) =>{
-    let{condition ,userDirectVisible,userVisible}= this.state;
+  handleAddUser = (values) => {
+    let { condition, userDirectVisible, userVisible } = this.state;
     let oid = [];
     let userValue = [];
     let userApplicationValue = [];
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
-      if(userDirectVisible){
+      if (userDirectVisible) {
         userValue.push(item);
         oid.push(item.userOid);
-      }else{
+      } else {
         userApplicationValue.push(item);
         oid.push(item.userOid);
       }
@@ -694,17 +700,17 @@ class ConditionForm extends React.Component {
       showValue[item.userOid] = item.fullName
     });
     condition.map((item, index) => {
-      if (( item.remark === 'default_user_direct_leadership'||item.remark ==='default_user_applicant') && item.remark === this.state.custListRemark ) {
+      if ((item.remark === 'default_user_direct_leadership' || item.remark === 'default_user_applicant') && item.remark === this.state.custListRemark) {
         let valueDetail = JSON.parse(condition[index].valueDetail || '{}');
         valueDetail.value = oid;
         condition[index].showValue = showValue;
         condition[index].valueDetail = JSON.stringify(valueDetail)
       }
     });
-    if(userDirectVisible){
-      this.setState({ condition, userValue, userDirectVisible: false})
-    }else{
-      this.setState({ condition ,userApplicationValue,userVisible:false})
+    if (userDirectVisible) {
+      this.setState({ condition, userValue, userDirectVisible: false })
+    } else {
+      this.setState({ condition, userApplicationValue, userVisible: false })
     }
 
   }
@@ -731,7 +737,7 @@ class ConditionForm extends React.Component {
   };
 
   //修改值列表的值
-  handleCustomValueChange = (value, customEnumerationOid, refCostCenterOid,field) => {
+  handleCustomValueChange = (value, customEnumerationOid, refCostCenterOid, field) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
       if (item.field === field &&
@@ -752,119 +758,121 @@ class ConditionForm extends React.Component {
   };
 
   //删除值列表的值
-  handleDeleteValueDetail = (remark, value, fieldOid) => {
+  handleDeleteValueDetail = (remark, value, fieldOID, i) => {
     let condition = this.state.condition;
     condition.map((item, index) => {
-      if (item.remark === remark && remark === 'default_department_level') {
-        let depLevelValue = this.state.depLevelValue;
-        depLevelValue.delete(Number(value));
-        this.setState({ depLevelValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'default_department_path') {
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOids.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOids.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-      }
-      if (item.remark === remark && remark === 'default_department_role') {
-        let depRoleValue = this.state.depRoleValue;
-        depRoleValue.map((roleItem, roleIndex) => {
-          roleItem.positionCode === value && depRoleValue.splice(roleIndex, 1)
-        });
-        this.setState({ depRoleValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'default_expense_type') {
-        let expenseTypeValue = this.state.expenseTypeValue;
-        expenseTypeValue.map((expenseItem, expenseIndex) => {
-          expenseItem.expenseTypeOid === value && expenseTypeValue.splice(expenseIndex, 1)
-        });
-        this.setState({ expenseTypeValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'select_department'||remark === 'default_user_department')) {
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && remark === 'currency_code') {
-        let currencyValue = this.state.currencyValue;
-        currencyValue.map((currencyItem, currencyIndex) => {
-          currencyItem.currencyCode === value && currencyValue.splice(currencyIndex, 1)
-        });
-        this.setState({ currencyValue });
-        this.updateConditionByDeleteValue(value, index, 'currencyCode')
-      }
-      if (item.remark === remark && remark === 'select_cost_center') {
-        let costCenterValue = this.state.costCenterValue;
-        costCenterValue.map((costCenterItem, costCenterIndex) => {
-          costCenterItem.costCenterItemOid === value && costCenterValue.splice(costCenterIndex, 1)
-        });
-        this.setState({ costCenterValue });
-        this.updateConditionByDeleteValue(value, index, 'costCenterItemOid')
-      }
-      if (item.remark === remark && (remark === 'select_company' || remark === 'default_applicant_company')) {
-        let companyValue = this.state.companyValue;
-        companyValue.map((companyItem, companyIndex) => {
-          companyItem.companyOid === value && companyValue.splice(companyIndex, 1)
-        });
-        this.setState({ companyValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'select_corporation_entity' || remark === 'default_corporation_entity')) {
-        let entityValue = this.state.entityValue;
-        entityValue.map((entityItem, entityIndex) => {
-          entityItem.companyReceiptedOid === value && entityValue.splice(entityIndex, 1)
-        });
-        this.setState({ entityValue });
-        this.updateConditionByDeleteValue(value, index)
-      }
-      if (item.remark === remark && (remark === 'default_user_post'||remark === 'default_user_level'||remark === 'default_user_post'||remark==='default_user_category')) {
-        let currentValue = this.state.currentValue;
-        currentValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOids.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOids.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({ currentValue });
-      }
-      if (item.remark === 'default_user_direct_leadership' || item.remark === 'default_user_applicant') {
-        let userValue = this.state.userValue;
-        userValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.value.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({userValue});
-      }
-      if (item.remark === remark && item.field === fieldOid
-        && (remark === 'default_user_department_extend' || remark === 'custom_form_department_extend')) {
-        let currentExtendValue = this.state.currentExtendValue;
-        currentExtendValue.delete(value);
-        let valueDetail = JSON.parse(item.valueDetail);
-        valueDetail.valueOids.map((oid, oidIndex) => {
-          if (oid === value) {
-            valueDetail.value.splice(oidIndex, 1);
-            valueDetail.valueOids.splice(oidIndex, 1)
-          }
-        });
-        condition[index].valueDetail = JSON.stringify(valueDetail)
-        this.setState({currentExtendValue});
+      if (i === index) {
+        if (item.remark === remark && remark === 'default_department_level') {
+          let depLevelValue = this.state.depLevelValue;
+          depLevelValue.delete(Number(value));
+          this.setState({ depLevelValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'default_department_path') {
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+        }
+        if (item.remark === remark && remark === 'default_department_role') {
+          let depRoleValue = this.state.depRoleValue;
+          depRoleValue.map((roleItem, roleIndex) => {
+            roleItem.positionCode === value && depRoleValue.splice(roleIndex, 1)
+          });
+          this.setState({ depRoleValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'default_expense_type') {
+          let expenseTypeValue = this.state.expenseTypeValue;
+          expenseTypeValue.map((expenseItem, expenseIndex) => {
+            expenseItem.expenseTypeOID === value && expenseTypeValue.splice(expenseIndex, 1)
+          });
+          this.setState({ expenseTypeValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (remark === 'select_department' || remark === 'default_user_department') {
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && remark === 'currency_code') {
+          let currencyValue = this.state.currencyValue;
+          currencyValue.map((currencyItem, currencyIndex) => {
+            currencyItem.currencyCode === value && currencyValue.splice(currencyIndex, 1)
+          });
+          this.setState({ currencyValue });
+          this.updateConditionByDeleteValue(value, index, 'currencyCode')
+        }
+        if (item.remark === remark && remark === 'select_cost_center') {
+          let costCenterValue = this.state.costCenterValue;
+          costCenterValue.map((costCenterItem, costCenterIndex) => {
+            costCenterItem.costCenterItemOID === value && costCenterValue.splice(costCenterIndex, 1)
+          });
+          this.setState({ costCenterValue });
+          this.updateConditionByDeleteValue(value, index, 'costCenterItemOID')
+        }
+        if (item.remark === remark && (remark === 'select_company' || remark === 'default_applicant_company')) {
+          let companyValue = this.state.companyValue;
+          companyValue.map((companyItem, companyIndex) => {
+            companyItem.companyOID === value && companyValue.splice(companyIndex, 1)
+          });
+          this.setState({ companyValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && (remark === 'select_corporation_entity' || remark === 'default_corporation_entity')) {
+          let entityValue = this.state.entityValue;
+          entityValue.map((entityItem, entityIndex) => {
+            entityItem.companyReceiptedOID === value && entityValue.splice(entityIndex, 1)
+          });
+          this.setState({ entityValue });
+          this.updateConditionByDeleteValue(value, index)
+        }
+        if (item.remark === remark && (remark === 'default_user_post' || remark === 'default_user_level' || remark === 'default_user_post' || remark === 'default_user_category')) {
+          let currentValue = this.state.currentValue;
+          currentValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({ currentValue });
+        }
+        if (item.remark === 'default_user_direct_leadership' || item.remark === 'default_user_applicant') {
+          let userValue = this.state.userValue;
+          userValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.value.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({ userValue });
+        }
+        if (item.remark === remark && item.field === fieldOID
+          && (remark === 'default_user_department_extend' || remark === 'custom_form_department_extend')) {
+          let currentExtendValue = this.state.currentExtendValue;
+          currentExtendValue.delete(value);
+          let valueDetail = JSON.parse(item.valueDetail);
+          valueDetail.valueOIDs.map((oid, oidIndex) => {
+            if (oid === value) {
+              valueDetail.value.splice(oidIndex, 1);
+              valueDetail.valueOIDs.splice(oidIndex, 1)
+            }
+          });
+          condition[index].valueDetail = JSON.stringify(valueDetail)
+          this.setState({ currentExtendValue });
+        }
       }
     });
-      this.setState({condition}, () => {
-        this.props.afterDeleteTagValue()
-      })
+    this.setState({ condition }, () => {
+      this.props.afterDeleteTagValue()
+    })
   };
 
   //通过删除值列表的值更新条件
@@ -973,50 +981,50 @@ class ConditionForm extends React.Component {
     condition.map(item => {
       let type = this.checkConditionType(item.remark);
       if (saveAble && type === 'custList' && item.remark !== 'cust_list' &&
-          (String(item.symbol) !== '9015' && String(item.symbol) !== '9016') && (!item.valueDetail ||
-            (!JSON.parse(item.valueDetail).value || !JSON.parse(item.valueDetail).value.length))) {
-        message.error(this.$t('setting.key1472',{arg1: item.name}/*请选择{arg1}的条件值*/));
+        (String(item.symbol) !== '9015' && String(item.symbol) !== '9016') && (!item.valueDetail ||
+          (!JSON.parse(item.valueDetail).value || !JSON.parse(item.valueDetail).value.length))) {
+        message.error(this.$t('setting.key1472', { arg1: item.name }/*请选择{arg1}的条件值*/));
         saveAble = false
       }
       if (saveAble && item.remark === 'cust_list' && (String(item.symbol) !== '9015' && String(item.symbol) !== '9016') &&
-          !item.value && !item.valueDetail) {
-        message.error(this.$t('setting.key1472',{arg1: item.name}/*请选择{arg1}的条件值*/));
+        !item.value && !item.valueDetail) {
+        message.error(this.$t('setting.key1472', { arg1: item.name }/*请选择{arg1}的条件值*/));
         saveAble = false
       }
       if (saveAble && type === 'selector' && !item.valueDetail) {
-        message.error(this.$t('setting.key1472',{arg1: item.name}/*请选择{arg1}的条件值*/));
+        message.error(this.$t('setting.key1472', { arg1: item.name }/*请选择{arg1}的条件值*/));
         saveAble = false
       }
       if (saveAble && type === 'text' && !item.value) {
-        message.error(this.$t('setting.key1473',{arg1: item.name}/*请输入{arg1}的条件值*/));
+        message.error(this.$t('setting.key1473', { arg1: item.name }/*请输入{arg1}的条件值*/));
         saveAble = false
       }
       if (saveAble && !!Number(item.fieldContent) && (!item.valueDetail ||
         (!JSON.parse(item.valueDetail).value || !JSON.parse(item.valueDetail).value.length))
         && (!item.valueDetail ||
-        (!JSON.parse(item.valueDetail).valueOids || !JSON.parse(item.valueDetail).valueOids.length))) {
-        message.error(this.$t('setting.key1473',{arg1: item.name}/*请输入{arg1}的条件值*/));
+          (!JSON.parse(item.valueDetail).valueOids || !JSON.parse(item.valueDetail).valueOids.length))) {
+        message.error(this.$t('setting.key1473', { arg1: item.name }/*请输入{arg1}的条件值*/));
         saveAble = false
       }
       if (saveAble && (type === 'long' || type === 'double' || type === 'date')) {
         if (!item.valueDetail) {
-          message.error(this.$t('setting.key1474',{arg1: item.name}/*请选择{arg1}的条件符，条件值*/));
+          message.error(this.$t('setting.key1474', { arg1: item.name }/*请选择{arg1}的条件符，条件值*/));
           saveAble = false
         } else {
           let list = JSON.parse(item.valueDetail).list || [{}, {}];
           if (saveAble && !(list[0].value || list[0].value === 0) && !Number(list[0].symbol || 0) &&
             !(list[1].value || list[1].value === 0) && !Number(list[1].symbol || 0)) {
-            message.error(this.$t('setting.key1474',{arg1: item.name}/*请选择{arg1}的条件符，条件值*/));
+            message.error(this.$t('setting.key1474', { arg1: item.name }/*请选择{arg1}的条件符，条件值*/));
             saveAble = false
           }
           list.map((listItem, listIndex) => {
             let listItemSymbol = Number(listItem.symbol || 0);
             if (saveAble && (listItem.value || listItem.value === 0) && !listItemSymbol) {
-              message.error(this.$t('setting.key1475',{arg1: item.name,arg2: this.props.language.code === 'zh_cn' ? listIndex + 1 : (listIndex ? '2nd' : '1st')}/*请输入{arg1}的第{arg2}个条件符*/));
+              message.error(this.$t('setting.key1475', { arg1: item.name, arg2: this.props.language.code === 'zh_cn' ? listIndex + 1 : (listIndex ? '2nd' : '1st') }/*请输入{arg1}的第{arg2}个条件符*/));
               saveAble = false
             }
             if (saveAble && !(listItem.value || listItem.value === 0) && listItemSymbol) {
-              message.error(this.$t('setting.key1476',{arg1: item.name,arg2: this.props.language.code === 'zh_cn' ? listIndex + 1 : (listIndex ? '2nd' : '1st')}/*请输入{arg1}的第{arg2}个条件值*/));
+              message.error(this.$t('setting.key1476', { arg1: item.name, arg2: this.props.language.code === 'zh_cn' ? listIndex + 1 : (listIndex ? '2nd' : '1st') }/*请输入{arg1}的第{arg2}个条件值*/));
               saveAble = false
             }
           });
@@ -1026,12 +1034,12 @@ class ConditionForm extends React.Component {
           let rightSymbol = Number(list[1].symbol || 0);
           if (type === 'date') {
             if (new Date(leftValue).getTime() > new Date(rightValue).getTime()) {
-              message.error(this.$t('setting.key1477',{arg1: item.name}/*请输入合法的{arg1}条件值，第一个时间不能比第二个时间晚*/));
+              message.error(this.$t('setting.key1477', { arg1: item.name }/*请输入合法的{arg1}条件值，第一个时间不能比第二个时间晚*/));
               saveAble = false
             }
           } else {
             if (saveAble && leftValue && rightValue && (leftValue > rightValue || (leftValue === rightValue && (leftSymbol === 9001 || rightSymbol === 9003)))) {
-              message.error(this.$t('setting.key1478',{arg1: item.name}/*请输入合法的{arg1}条件值，表达式不合法*/));
+              message.error(this.$t('setting.key1478', { arg1: item.name }/*请输入合法的{arg1}条件值，表达式不合法*/));
               saveAble = false
             }
           }
@@ -1046,8 +1054,8 @@ class ConditionForm extends React.Component {
         item.isEdit && delete item.isEdit;
         item.defaultValue && delete item.defaultValue;
         item.valueDetail = item.valueDetail ? JSON.parse(item.valueDetail) : null;
-        if(item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend'){
-          item.field =  item.field.split(',')[0];
+        if (item.remark === 'default_user_department_extend' || item.remark === 'custom_form_department_extend') {
+          item.field = item.field.split(',')[0];
         }
         item.ruleConditionOid ? updateParams.push(item) : newParams.push(item);
       });
@@ -1061,7 +1069,7 @@ class ConditionForm extends React.Component {
   handelSaveNewParams = (params) => {
     params.map((item, index) => {
       let fieldTypeId;
-      switch(this.checkConditionType(item.remark)) {
+      switch (this.checkConditionType(item.remark)) {
         case 'text':
           fieldTypeId = 101;
           break;
@@ -1100,8 +1108,8 @@ class ConditionForm extends React.Component {
       condition.map((item, index) => {
         this.state.condition.map(conditionItem => {
           //部门扩展字段fieldoid需要处理一下
-          if(conditionItem.remark === 'default_user_department_extend' || conditionItem.remark === 'custom_form_department_extend'){
-            conditionItem.field =  conditionItem.field.split(',')[0];
+          if (conditionItem.remark === 'default_user_department_extend' || conditionItem.remark === 'custom_form_department_extend') {
+            conditionItem.field = conditionItem.field.split(',')[0];
           }
           if (
             (conditionItem.remark === item.remark && conditionItem.field === item.field) &&
@@ -1148,14 +1156,14 @@ class ConditionForm extends React.Component {
   render() {
     const { language, company } = this.props;
     const { loading, condition, containRuleList, inRuleList, moreThanRuleList, lessThanAndEqualRuleList, booleanRuleList,
-            depRoleVisible, depRoleValue, depLevelVisible, depLevel, depLevelValue, expenseTypeVisible, expenseTypeValue,
-            costCenterVisible, entityVisible, costCenterSelectorItem, currencyVisible, companyVisible, companyValue,
-            entityValue, currencyValue, costCenterValue, haveRuleList, userDirectVisible, userValue,userVisible ,userApplicationValue,
-            typeValueVisible,valueList,currentValue,departmentExtendVisible,allCustomFormFields,currentExtendValue,departmentExtendLoading} = this.state;
+      depRoleVisible, depRoleValue, depLevelVisible, depLevel, depLevelValue, expenseTypeVisible, expenseTypeValue,
+      costCenterVisible, entityVisible, costCenterSelectorItem, currencyVisible, companyVisible, companyValue,
+      entityValue, currencyValue, costCenterValue, haveRuleList, userDirectVisible, userValue, userVisible, userApplicationValue,
+      typeValueVisible, valueList, currentValue, departmentExtendVisible, allCustomFormFields, currentExtendValue, departmentExtendLoading } = this.state;
     return (
       <div className='condition-form'>
         {/*div.form-container-cover 是为了点击保存按钮的时候不可再编辑表单*/}
-        <div className={`form-container-cover ${loading ? 'show' : ''}`}/>
+        <div className={`form-container-cover ${loading ? 'show' : ''}`} />
         <div className="form-container">
           {containRuleList.length && inRuleList.length && moreThanRuleList.length && lessThanAndEqualRuleList.length && booleanRuleList.length && (
             condition.map((item, index) => {
@@ -1168,27 +1176,27 @@ class ConditionForm extends React.Component {
                     {type === 'date' ? (
                       <Col span={4}>
                         <DatePicker size="small" format="YYYY-MM-DD"
-                                    defaultValue={leftCondition.value ? moment(leftCondition.value) : undefined}
-                                    onChange={e => this.handleRangeChange(moment(e).format('YYYY-MM-DD'), item, true)}/>
+                          defaultValue={leftCondition.value ? moment(leftCondition.value) : undefined}
+                          onChange={e => this.handleRangeChange(moment(e).format('YYYY-MM-DD'), item, true)} />
                       </Col>
                     ) : (
-                      <Col span={4}>
-                        <InputNumber precision={type === 'long' ? 0 : 2} min={0} size="small" defaultValue={leftCondition.value}
-                                     onChange={value => this.handleRangeChange(value, item, true)}/>
-                      </Col>
-                    )}
+                        <Col span={4}>
+                          <InputNumber precision={type === 'long' ? 0 : 2} min={0} size="small" defaultValue={leftCondition.value}
+                            onChange={value => this.handleRangeChange(value, item, true)} />
+                        </Col>
+                      )}
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small" value={leftCondition.symbol || moreThanRuleList[0].key}
-                              onChange={symbol => {this.handleRangeSymbolChange(item, symbol, true)}}>
+                        onChange={symbol => { this.handleRangeSymbolChange(item, symbol, true) }}>
                         {moreThanRuleList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
                       </Select>
                     </Col>
-                    <span style={{float:'left'}}>{item.name}</span>
+                    <span style={{ float: 'left' }}>{item.name}</span>
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small" value={rightCondition.symbol || lessThanAndEqualRuleList[0].key}
-                              onChange={symbol => {this.handleRangeSymbolChange(item, symbol)}}>
+                        onChange={symbol => { this.handleRangeSymbolChange(item, symbol) }}>
                         {lessThanAndEqualRuleList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
@@ -1197,15 +1205,15 @@ class ConditionForm extends React.Component {
                     {type === 'date' ? (
                       <Col span={4}>
                         <DatePicker size="small" format="YYYY-MM-DD"
-                                    defaultValue={rightCondition.value ? moment(rightCondition.value) : undefined}
-                                    onChange={e => this.handleRangeChange(moment(e).format('YYYY-MM-DD'), item, false)}/>
+                          defaultValue={rightCondition.value ? moment(rightCondition.value) : undefined}
+                          onChange={e => this.handleRangeChange(moment(e).format('YYYY-MM-DD'), item, false)} />
                       </Col>
                     ) : (
-                      <Col span={4}>
-                        <InputNumber precision={type === 'long' ? 0 : 2} min={0} size="small" defaultValue={rightCondition.value}
-                                     onChange={value => this.handleRangeChange(value, item, false)}/>
-                      </Col>
-                    )}
+                        <Col span={4}>
+                          <InputNumber precision={type === 'long' ? 0 : 2} min={0} size="small" defaultValue={rightCondition.value}
+                            onChange={value => this.handleRangeChange(value, item, false)} />
+                        </Col>
+                      )}
                   </Row>
                 )
               }
@@ -1215,14 +1223,14 @@ class ConditionForm extends React.Component {
                     <Col span={2}>{item.name}</Col>
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
-                              value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol)}}>
-                        {((item.remark === 'default_user_work_number' ||item.remark === 'default_user_position' )? haveRuleList : containRuleList).map(symbolsItem => {
+                        value={String(item.symbol)}
+                        onChange={symbol => { this.handleSymbolChange(item, symbol) }}>
+                        {((item.remark === 'default_user_work_number' || item.remark === 'default_user_position') ? haveRuleList : containRuleList).map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
                       </Select>
                     </Col>
-                    <Col span={6}><Input size="small" defaultValue={item.value} onChange={e => this.handleTextValueChange(e, item)}/></Col>
+                    <Col span={6}><Input size="small" defaultValue={item.value} onChange={e => this.handleTextValueChange(e, item)} /></Col>
                   </Row>
                 )
               }
@@ -1233,13 +1241,13 @@ class ConditionForm extends React.Component {
                       {item.remark === 'judge_cost_center' ? (
                         <span>{this.$t('setting.key1302'/*申请人*/)} = {item.name}{this.$t('setting.key1303'/*经理*/)}</span>
                       ) : (
-                        <span>{item.name}</span>
-                      )}
+                          <span>{item.name}</span>
+                        )}
                     </Col>
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
-                              value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol)}}>
+                        value={String(item.symbol)}
+                        onChange={symbol => { this.handleSymbolChange(item, symbol) }}>
                         {booleanRuleList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
@@ -1259,9 +1267,9 @@ class ConditionForm extends React.Component {
                 if (item.remark === 'default_department_path')
                   optionList = containRuleList;
                 if (item.remark === 'default_applicant_company'
-                  ||item.remark === 'default_user_applicant'
-                  ||item.remark === 'default_user_department'
-                  ||item.remark === 'default_user_direct_leadership') { //申请人公司不可能为空，去掉【为空／不为空】选项
+                  || item.remark === 'default_user_applicant'
+                  || item.remark === 'default_user_department'
+                  || item.remark === 'default_user_direct_leadership') { //申请人公司不可能为空，去掉【为空／不为空】选项
                   optionList = [];
                   inRuleList.map(item => {
                     if (item.key === '9009' || item.key === '9010')
@@ -1270,51 +1278,52 @@ class ConditionForm extends React.Component {
                 }
                 return (
                   <Row className="type-cust-list" key={index}>
-                    <Col span={4}>{item.remark === 'default_user_department'?this.$t('setting.key1304'/*【申请人】*/):
-                      (item.remark==='select_department'?this.$t('setting.key1305'/*【表单】*/):'')}{item.name}</Col>
+                    <Col span={4}>{item.remark === 'default_user_department' ? this.$t('setting.key1304'/*【申请人】*/) :
+                      (item.remark === 'select_department' ? this.$t('setting.key1305'/*【表单】*/) : '')}{item.name}</Col>
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
-                              value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid)}}>
+                        value={String(item.symbol)}
+                        onChange={symbol => { this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid) }}>
                         {optionList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
                       </Select>
                     </Col>
-                    <Col span={item.remark === 'cust_list'?2 : 15}>
-                      {item.remark !== 'cust_list' && this.props.itemValueRender(item, true)}
-                      {String(item.symbol) === '9015' || String(item.symbol) === '9016'? '' : (
+                    <Col span={item.remark === 'cust_list' ? 2 : 15}>
+                      {item.remark !== 'cust_list' && this.props.itemValueRender(item, true, index)}
+                      {String(item.symbol) === '9015' || String(item.symbol) === '9016' ? '' : (
                         (item.remark === 'default_department_path' || item.remark === 'select_department' || item.remark === 'default_user_department') ? (
-                          <a style={{whiteSpace: 'nowrap'}} onClick={(e)=>{
-                            this.setState({[`dept${index}`]: true})}}>
+                          <a style={{ whiteSpace: 'nowrap' }} onClick={(e) => {
+                            this.setState({ [`dept${index}`]: true })
+                          }}>
                             {'+ '}
                             <SelectDepOrPerson renderButton={false}
-                                               visible={this.state[`dept${index}`]}
-                                               selected={this.state.condition[index].valueDetail}
-                                               title={this.$t('common.add')}
-                                               onlyDep={true}
-                                               onCancel={()=>{this.setState({[`dept${index}`]: false})}}
-                                               onConfirm={values => this.handleAddDepPath(values, item.remark,index)}/>
+                              visible={this.state[`dept${index}`]}
+                              selected={this.state.condition[index].valueDetail}
+                              title={this.$t('common.add')}
+                              onlyDep={true}
+                              onCancel={() => { this.setState({ [`dept${index}`]: false }) }}
+                              onConfirm={values => this.handleAddDepPath(values, item.remark, index)} />
                           </a>
                         ) : (
                             item.remark === 'cust_list' ? (
-                            <div className="selector-container">
-                              <Selector selectorItem={custListSelectorItem}
-                                        allowClear={false}
-                                        value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
-                                        placeholder={this.$t('common.please.select')}
-                                        entity
-                                        onChange={value => this.handleCustListValueChange(value, item.customEnumerationOid, item.refCostCenterOid)}
-                              />
-                            </div>
-                          ) : <a style={{whiteSpace: 'nowrap'}} onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>
-                        )
+                              <div className="selector-container">
+                                <Selector selectorItem={custListSelectorItem}
+                                  allowClear={false}
+                                  value={item.value || item.showValue || (this.props.itemValueRender(item, true, index) && this.props.itemValueRender(item, true, index)[0])}
+                                  placeholder={this.$t('common.please.select')}
+                                  entity
+                                  onChange={value => this.handleCustListValueChange(value, item.customEnumerationOid, item.refCostCenterOid)}
+                                />
+                              </div>
+                            ) : <a style={{ whiteSpace: 'nowrap' }} onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>
+                          )
                       )}
                     </Col>
                   </Row>
                 )
               }
-              if(type === 'selector'){
+              if (type === 'selector') {
                 let custListSelectorItem = {
                   url: `${config.baseUrl}/api/custom/enumeration/system/by/type?systemCustomEnumerationType=${item.fieldContent}`,
                   label: 'messageKey',
@@ -1334,12 +1343,12 @@ class ConditionForm extends React.Component {
                 });
                 return (
                   <Row className="type-cust-list" key={index}>
-                    <Col span={4}>{item.remark === 'default_user_department_extend'?this.$t('setting.key1304'/*【申请人】*/):
-                      (item.remark==='custom_form_department_extend'?this.$t('setting.key1305'/*【表单】*/):'')}{item.name}</Col>
+                    <Col span={4}>{item.remark === 'default_user_department_extend' ? this.$t('setting.key1304'/*【申请人】*/) :
+                      (item.remark === 'custom_form_department_extend' ? this.$t('setting.key1305'/*【表单】*/) : '')}{item.name}</Col>
                     <Col span={language.code === 'zh_cn' ? 3 : 4}>
                       <Select size="small"
-                              value={String(item.symbol)}
-                              onChange={symbol => {this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid)}}>
+                        value={String(item.symbol)}
+                        onChange={symbol => { this.handleSymbolChange(item, symbol, item.customEnumerationOid, item.refCostCenterOid) }}>
                         {optionList.map(symbolsItem => {
                           return <Option key={symbolsItem.key}>{symbolsItem.name}</Option>
                         })}
@@ -1348,17 +1357,17 @@ class ConditionForm extends React.Component {
                     <Col span={item.remark === 'default_user_sex' ? '4' : '15'}>
 
                       <div className="selector-container">
-                        {item.fieldContent !== '1007' && this.props.itemValueRender(item, true)}
+                        {item.fieldContent !== '1007' && this.props.itemValueRender(item, true, index)}
                         {item.fieldContent === '1007' ?
                           <Selector selectorItem={custListSelectorItem}
-                                    allowClear={false}
-                                    size="small"
-                                    value={item.value || item.showValue || (this.props.itemValueRender(item, true) && this.props.itemValueRender(item, true)[0])}
-                                    placeholder={this.$t('common.please.select')}
-                                    entity
-                                    onChange={value => this.handleCustomValueChange(value, item.customEnumerationOid, item.refCostCenterOid, item.field)}
-                          /> : <a style={{whiteSpace: 'nowrap'}}
-                                  onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>}
+                            allowClear={false}
+                            size="small"
+                            value={item.value || item.showValue || (this.props.itemValueRender(item, true, index) && this.props.itemValueRender(item, true, index)[0])}
+                            placeholder={this.$t('common.please.select')}
+                            entity
+                            onChange={value => this.handleCustomValueChange(value, item.customEnumerationOid, item.refCostCenterOid, item.field)}
+                          /> : <a style={{ whiteSpace: 'nowrap' }}
+                            onClick={() => this.handleSelectValueDetail(item)}>+ {this.$t('common.add')}</a>}
                       </div>
                     </Col>
                   </Row>
@@ -1366,120 +1375,120 @@ class ConditionForm extends React.Component {
               }
             })
           )}
-          <a onClick={this.props.addCondition}><Icon type="plus-circle-o" className="add-icon"/>{this.$t('setting.key1306'/*添加审批条件*/)}</a>
+          <a onClick={this.props.addCondition}><Icon type="plus-circle-o" className="add-icon" />{this.$t('setting.key1306'/*添加审批条件*/)}</a>
         </div>
         <div className="buttons">
           <Button type="primary" className="save-condition-btn" loading={loading} onClick={this.handleSave}>{this.$t('common.save')}</Button>
           <Button onClick={this.props.cancelHandle}>{this.$t('common.cancel')}</Button>
         </div>
 
-        <div className="select-depLevel-modal-container"/>
-        <div className="select-expenseType-modal-container"/>
+        <div className="select-depLevel-modal-container" />
+        <div className="select-expenseType-modal-container" />
         <Modal title={this.$t('common.please.select')}
-               visible={depLevelVisible}
-               getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
-               onOk={this.handleAddDepLevel}
-               onCancel={() => {this.setState({depLevelVisible: false})}}>
-          <TagSelect value={depLevelValue} onChange={value => {this.setState({depLevelValue: value})}}>
+          visible={depLevelVisible}
+          getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
+          onOk={this.handleAddDepLevel}
+          onCancel={() => { this.setState({ depLevelVisible: false }) }}>
+          <TagSelect value={depLevelValue} onChange={value => { this.setState({ depLevelValue: value }) }}>
             {depLevel.map(item => {
               return <TagSelect.Option value={item.id} key={item.id}>{item.name}</TagSelect.Option>
             })}
           </TagSelect>
         </Modal>
         <Modal title={this.$t('common.please.select')}
-               visible={typeValueVisible}
-               getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
-               onOk={this.handleAddTypeValue}
-               onCancel={() => {this.setState({typeValueVisible: false})}}>
+          visible={typeValueVisible}
+          getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
+          onOk={this.handleAddTypeValue}
+          onCancel={() => { this.setState({ typeValueVisible: false }) }}>
           {valueList.length === 0 ?
-            <div style={{minHeight: '80px', textAlign: "center", color: "gray"}}>{this.$t('setting.key1307'/*暂无数据*/)}</div> :
-            <div style={{minHeight: '80px',}}>
-              <TagSelect value={currentValue} onChange={value => {this.setState({currentValue: value})}}>
+            <div style={{ minHeight: '80px', textAlign: "center", color: "gray" }}>{this.$t('setting.key1307'/*暂无数据*/)}</div> :
+            <div style={{ minHeight: '80px', }}>
+              <TagSelect value={currentValue} onChange={value => { this.setState({ currentValue: value }) }}>
                 {valueList.map(item => {
                   return <TagSelect.Option value={item.customEnumerationItemOid}
-                                           key={item.customEnumerationItemOid}>{item.messageKey}</TagSelect.Option>
+                    key={item.customEnumerationItemOid}>{item.messageKey}</TagSelect.Option>
                 })}
               </TagSelect>
             </div>}
         </Modal>
         <Modal title={this.$t('common.please.select')}
-               visible={departmentExtendVisible}
-               getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
-               onOk={this.handleAddExtendField}
-               onCancel={() => {this.setState({departmentExtendVisible: false})}}>
+          visible={departmentExtendVisible}
+          getContainer={() => document.getElementsByClassName("select-depLevel-modal-container")[0]}
+          onOk={this.handleAddExtendField}
+          onCancel={() => { this.setState({ departmentExtendVisible: false }) }}>
           <Spin spinning={departmentExtendLoading}>
             {allCustomFormFields.length === 0 ?
-              <div style={{minHeight: '80px', textAlign: "center", color: "gray"}}>{this.$t('setting.key1307'/*暂无数据*/)}</div> :
-              <div style={{minHeight: '80px',}}>
-                <TagSelect value={currentExtendValue} onChange={value => {this.setState({currentExtendValue: value})}}>
+              <div style={{ minHeight: '80px', textAlign: "center", color: "gray" }}>{this.$t('setting.key1307'/*暂无数据*/)}</div> :
+              <div style={{ minHeight: '80px', }}>
+                <TagSelect value={currentExtendValue} onChange={value => { this.setState({ currentExtendValue: value }) }}>
                   {allCustomFormFields.map(item => {
                     return <TagSelect.Option value={item.customEnumerationItemOid}
-                                             key={item.id}>{item.messageKey}</TagSelect.Option>
+                      key={item.id}>{item.messageKey}</TagSelect.Option>
                   })}
                 </TagSelect>
               </div>}
           </Spin>
         </Modal>
         <ListSearcher visible={depRoleVisible}
-                      type='department_role'
-                      labelKey='positionName'
-                      showDetail
-                      selectedData={depRoleValue}
-                      filterRule={item => item.enabled}
-                      onOk={this.handleAddDepRole}
-                      onCancel={() => {this.setState({depRoleVisible: false})}}
+          type='department_role'
+          labelKey='positionName'
+          showDetail
+          selectedData={depRoleValue}
+          filterRule={item => item.enabled}
+          onOk={this.handleAddDepRole}
+          onCancel={() => { this.setState({ depRoleVisible: false }) }}
         />
         <Modal title={this.$t('setting.key1308'/*选择费用类型*/)}
-               visible={expenseTypeVisible}
-               width={620}
-               bodyStyle={{maxHeight: 'calc(100vh - 150px)', overflow: 'auto'}}
-               getContainer={() => document.getElementsByClassName("select-expenseType-modal-container")[0]}
-               onOk={this.handleAddExpenseType}
-               onCancel={() => {this.setState({expenseTypeVisible: false})}}>
+          visible={expenseTypeVisible}
+          width={620}
+          bodyStyle={{ maxHeight: 'calc(100vh - 150px)', overflow: 'auto' }}
+          getContainer={() => document.getElementsByClassName("select-expenseType-modal-container")[0]}
+          onOk={this.handleAddExpenseType}
+          onCancel={() => { this.setState({ expenseTypeVisible: false }) }}>
           <ExpenseTypeSelector source="formV2"
-                               single={false}
-                               value={expenseTypeValue}
-                               param={{formOid: this.props.formOid, isALL: true, setOfBooksId: company.setOfBooksId}}
-                               onSelect={values => this.setState({ expenseTypeValue: values })}/>
+            single={false}
+            value={expenseTypeValue}
+            param={{ formOid: this.props.formOid, isALL: true, setOfBooksId: company.setOfBooksId }}
+            onSelect={values => this.setState({ expenseTypeValue: values })} />
         </Modal>
         <ListSelector type='available_company'
-                      visible={companyVisible}
-                      valueKey='companyOid'
-                      selectedData={companyValue}
-                      onOk={this.handleAddCompany}
-                      onCancel={() => this.setState({companyVisible: false})}
+          visible={companyVisible}
+          valueKey='companyOid'
+          selectedData={companyValue}
+          onOk={this.handleAddCompany}
+          onCancel={() => this.setState({ companyVisible: false })}
         />
         <ListSelector type='corporation_entity_all'
-                      visible={entityVisible}
-                      valueKey="companyReceiptedOid"
-                      labelKey="companyName"
-                      selectedData={entityValue}
-                      onOk={this.handleAddEntity}
-                      onCancel={() => this.setState({entityVisible: false})}
+          visible={entityVisible}
+          valueKey="companyReceiptedOid"
+          labelKey="companyName"
+          selectedData={entityValue}
+          onOk={this.handleAddEntity}
+          onCancel={() => this.setState({ entityVisible: false })}
         />
         <ListSelector selectorItem={costCenterSelectorItem}
-                      visible={costCenterVisible}
-                      valueKey="costCenterItemOid"
-                      labelKey="name"
-                      selectedData={costCenterValue}
-                      onOk={this.handleAddCostCenter}
-                      onCancel={() => this.setState({costCenterVisible: false})}
+          visible={costCenterVisible}
+          valueKey="costCenterItemOid"
+          labelKey="name"
+          selectedData={costCenterValue}
+          onOk={this.handleAddCostCenter}
+          onCancel={() => this.setState({ costCenterVisible: false })}
         />
         <ListSearcher visible={currencyVisible}
-                      type='currency'
-                      labelKey='fullName'
-                      showDetail
-                      selectedData={currencyValue}
-                      extraParams={{companyOid: company.companyOid}}
-                      onOk={this.handleAddCurrency}
-                      onCancel={() => {this.setState({currencyVisible: false})}}
+          type='currency'
+          labelKey='fullName'
+          showDetail
+          selectedData={currencyValue}
+          extraParams={{ companyOid: company.companyOid }}
+          onOk={this.handleAddCurrency}
+          onCancel={() => { this.setState({ currencyVisible: false }) }}
         />
         <ListSelector type='user_all'
-                      visible={userDirectVisible || userVisible}
-                      valueKey='userOid'
-                      selectedData={userDirectVisible ? userValue : userApplicationValue}
-                      onOk={this.handleAddUser}
-                      onCancel={() => this.setState({userDirectVisible: false,userVisible:false})}
+          visible={userDirectVisible || userVisible}
+          valueKey='userOid'
+          selectedData={userDirectVisible ? userValue : userApplicationValue}
+          onOk={this.handleAddUser}
+          onCancel={() => this.setState({ userDirectVisible: false, userVisible: false })}
         />
       </div>
     )
