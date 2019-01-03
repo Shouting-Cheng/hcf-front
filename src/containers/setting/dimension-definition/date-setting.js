@@ -111,7 +111,7 @@ class NewBuilt extends Component {
             {getFieldDecorator('setOfBooksId', {
               rules: [
                 {
-                  required: false,
+                  required: true,
                 },
               ],
               initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksId,
@@ -157,7 +157,9 @@ class NewBuilt extends Component {
           </FormItem>
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
-              rules: [],
+              rules: [
+              {required: true,}
+              ],
               initialValue: params.dimensionName || '',
             })(
                 <Input key={1} name={params.dimensionName} placeholder={this.$t('common.please.enter') /* 请输入 */}/>

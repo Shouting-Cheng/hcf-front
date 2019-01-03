@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import SearchArea from 'widget/search-area';
+import  SearchArea from 'widget/search-area';
 import { Button, Divider, message, Popconfirm, Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
@@ -184,7 +184,15 @@ class Dfinition extends Component {
   }
   //清除
   clear = () => {
-   this.setState({setOfBooksId:this.props.company.setOfBooksId});
+    const {setOfBooksId}=this.state.searchParams;
+    let form = this.state.searchForm;
+    if(setOfBooksId){
+      form[0].defaultValue = setOfBooksId;
+    }else{
+      form[0].defaultValue = this.props.company.setOfBooksId;
+    }
+   this.setState({searchForm:form,setOfBooksId:form[0].defaultValue});
+   this.state.searchParams={};
    this.table.search();
   }
   // 详情
