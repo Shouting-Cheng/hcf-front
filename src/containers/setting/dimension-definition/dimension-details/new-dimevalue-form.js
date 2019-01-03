@@ -156,7 +156,7 @@ class ValueForm extends Component {
       const codeProp = getFieldProps('dimensionItemCode', {
         validate: [{
           rules: [
-            { required: true, message: '必填项' }
+            { required: true, message: '请输入' }
           ],
           trigger: 'onBlur',
         }],
@@ -165,7 +165,7 @@ class ValueForm extends Component {
       const nameProp = getFieldProps('dimensionItemName', {
         validate: [{
           rules: [
-            { required: true, message: '必填项' }
+            { required: true, message: '请输入' }
           ],
           trigger: 'onBlur',
         }],

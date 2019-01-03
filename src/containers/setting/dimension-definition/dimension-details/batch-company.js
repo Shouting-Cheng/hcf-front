@@ -217,12 +217,17 @@ class BatchSingleCompany extends Component {
        return(
           <div>
             <h1 style={{padding: '14px 0', borderBottom: '1px solid #c9c9c9'}}>基本信息</h1>
-            <div>
+            <div style={{marginBottom: '30px'}}>
             <Row
               gutter={24}
               type="flex"
               justify="start"
-              style={{ background: '#f7f7f7', padding: '20px 25px 0', borderRadius: '6px 6px 0 0' }}>
+              style={{
+                boxSizing: 'border-box',
+                background: '#f7f7f7',
+                padding: '20px 25px 0',
+                borderRadius: '6px 6px 0 0',
+                border: '1px solid rgba(0,0,0,0.1)' }}>
                   <Col span={8} style={{ marginBottom: '15px' }}>
                   <div style={{ color: '#989898' }}>维值代码</div>
                   <div style={{ wordWrap: 'break-word' }}>
@@ -248,8 +253,8 @@ class BatchSingleCompany extends Component {
             </div>
             <Button
               type='primary'
-              style={{marginBottom: '10px'}}
-              onClick={this.handleBatch}>批量分配公司</Button>
+              style={{marginBottom: '20px'}}
+              onClick={this.handleBatch}>分配公司</Button>
             {/* <Button
               type='primary'
               style={{margin: '0 0 10px 10px'}}
