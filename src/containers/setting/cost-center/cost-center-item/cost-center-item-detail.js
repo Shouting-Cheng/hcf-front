@@ -432,7 +432,7 @@ class CostCenterItemDetail extends React.Component {
             return;
         }
         console.log(arr)
-        // {"id":部门id,"custDeptNumber":部门编码}
+        // {"id":部门id,"departmentCode":部门编码}
         let params = {
             "costCenterItemId": this.state.infoData.id,
             "departmentDTOs": arr

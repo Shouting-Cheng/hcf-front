@@ -118,8 +118,8 @@ class UpdateBudgetRulesDetail extends React.Component {
       'UNIT': {
         listType: 'department',
         labelKey: 'id',
-        valueKey: 'custDeptNumber',
-        codeKey: 'custDeptNumber',
+        valueKey: 'departmentCode',
+        codeKey: 'departmentCode',
         listExtraParams: { setOfBooksId: this.props.organization.setOfBooksId, enable: true },
         selectorItem: undefined
       },

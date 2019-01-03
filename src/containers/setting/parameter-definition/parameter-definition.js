@@ -47,9 +47,9 @@ class ParameterDefinition extends React.Component {
           valueKey: 'id',
           colSpan: 6,
           listExtraParams: { organizationId: this.props.id },
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+          getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
-          getParams: { roleType:'TENANT' },
+          //getParams: { roleType:'TENANT' },
         },
         {type: 'input', id: 'structureCode1',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'structureName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
@@ -192,8 +192,8 @@ class ParameterDefinition extends React.Component {
       </div>
       <CustomTable
         columns={columns}
-        methodType='post'
-        url={`${config.baseUrl}/api/parameter/moduleCode`}
+        //methodType='post'
+        url={`${config.baseUrl}/api/parameter/by/moduleCode?moduleCode=BGT_ENABLE`}
         ref={ref => (this.table = ref)}
       />
     </div>)
