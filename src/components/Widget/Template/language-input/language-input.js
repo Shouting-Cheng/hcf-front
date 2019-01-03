@@ -112,6 +112,7 @@ class LanguageInput extends React.Component {
   // 我发现实现双向绑定后，这个是多余的
   // 数据已经在本组件里面了，不存在外部再向本组件传值的情况
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
     //只有检查了i18n有变化时才会重新设置值
     if (JSON.stringify(nextProps.i18nName) === JSON.stringify(this.state.i18nName)) {
       return;
@@ -265,7 +266,7 @@ class LanguageInput extends React.Component {
   //多语言输入:手动绑定数据
   languageInputChange = (e, langItem) => {
     langItem.value = e.target.value;
-
+    console.log(langItem)
     let inpLength = null;
     if (this.props.inpRule && this.props.inpRule.length > 0) {
       //输入的限制长度
@@ -280,7 +281,7 @@ class LanguageInput extends React.Component {
     let i18nNameForShow = this.state.i18nNameForShow;
     for (let i = 0; i < i18nNameForShow.length; i++) {
       if (i18nNameForShow[i].language === langItem.language) {
-        i18nNameForShow[i] = langItem;
+        i18nNameForShow[i] = {...langItem};
       }
     }
     //主表语言一定要填入
@@ -288,11 +289,14 @@ class LanguageInput extends React.Component {
     this.setState({
       i18nNameForShow,
       stopConfirm,
-    });
+    },()=>      console.log(i18nNameForShow)
+    );
   };
 
   handleCancel = e => {
+    console.log(e)
     let name = deepCopy(this.state.nameCopy);
+    console.log(name)
     let i18nName = deepCopy(this.state.i18nNameCopy);
     let i18nNameForShow = deepCopy(this.state.i18nNameCopy);
     for (let i = 0; i < i18nNameForShow.length; i++) {
@@ -379,6 +383,7 @@ class LanguageInput extends React.Component {
   };
 
   renderLangItemInp = langItem => {
+    console.log(langItem)
     if (this.props.textArea) {
       let className = this.props.disabled
         ? 'language-arr-input-textarea disabled-class'
@@ -518,6 +523,7 @@ class LanguageInput extends React.Component {
             <div className="language-input-alert-wrap">
               <div className="language-input-body">
                 {this.renderLangList(this.state.i18nNameForShow)}
+                {console.log(this.state.i18nNameForShow)}
               </div>
             </div>
           </Modal>

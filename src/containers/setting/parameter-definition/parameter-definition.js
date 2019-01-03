@@ -192,6 +192,7 @@ class ParameterDefinition extends React.Component {
       </div>
       <CustomTable
         columns={columns}
+        methodType='post'
         url={`${config.baseUrl}/api/parameter/moduleCode`}
         ref={ref => (this.table = ref)}
       />
