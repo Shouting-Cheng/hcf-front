@@ -263,11 +263,11 @@ class AddAuthorization extends React.Component {
               //   required: true,
               //   message: messages('common.please.enter')
               // }],
-              initialValue: params.departmentCode ? [{ id: params.departmentId, code: params.departmentCode,departmentId: params.departmentId,custDeptNumber:params.departmentCode}] : []
+              initialValue: params.departmentCode ? [{ id: params.departmentId, code: params.departmentCode,departmentId: params.departmentId,departmentCode:params.departmentCode}] : []
             })(
               < Chooser placeholder={messages('common.please.select')}
                 type="department"
-                labelKey="custDeptNumber"
+                labelKey="departmentCode"
                 valueKey="departmentId"
                 single={true}
                 onChange={this.deptChange}

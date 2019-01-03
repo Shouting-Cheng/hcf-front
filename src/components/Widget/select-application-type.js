@@ -145,13 +145,13 @@ class SelectApplcationType extends Component {
               </Col>
             </Row>
             <Spin spinning={loading}>
-              <div style={{ marginTop: 20, height: 400, overflow: "hidden", position: "relative" }}>
+              <div style={{ marginTop: 20, height: 300, overflow: "hidden", position: "relative" }}>
                 <Row style={{ padding: "0 80px" }} gutter={20}>
                   {applicationTypes.map((item, index) => {
                     return (
                       <Col onClick={() => this.select(item)} key={index} span={6}>
                         <div style={{
-                          border: "1px solid #ccc", cursor: "pointer", padding: "15px 12px", margin: "10px 0", display: "flex", overflow: "hidden", height: 60, boxSizing: "border-box",
+                          border: "1px solid #ccc", cursor: "pointer", padding: "10px 10px", margin: "5px 0", display: "flex", overflow: "hidden", height: 50, boxSizing: "border-box",
                           backgroundColor: item.id == selected.id ? "rgba(204, 235, 248, 1)" : "#fff"
                         }}>
                           <img src={item.iconUrl} style={{ width: 30, height: 30, marginRight: 10, flex: "0 0 30px" }} />

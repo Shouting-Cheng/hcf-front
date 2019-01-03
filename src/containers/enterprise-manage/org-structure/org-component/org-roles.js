@@ -42,7 +42,7 @@ class OrgStructureRoles extends React.Component {
     this.setState({ selectedKeysDepDataByApi: this.props.selectedKeysDepDataByApi }, () => {
       let codeClass = 'f-left roles-title-text';
       let codeDisabled = false;
-      if (this.state.selectedKeysDepDataByApi.custDeptNumber) {
+      if (this.state.selectedKeysDepDataByApi.departmentCode) {
         codeClass = 'f-left roles-title-text roles-title-text-disabled';
         codeDisabled = true;
       }
@@ -57,7 +57,7 @@ class OrgStructureRoles extends React.Component {
     this.setState({ selectedKeysDepDataByApi: nextProps.selectedKeysDepDataByApi }, () => {
       let codeClass = 'f-left roles-title-text';
       let codeDisabled = false;
-      if (this.state.selectedKeysDepDataByApi.custDeptNumber) {
+      if (this.state.selectedKeysDepDataByApi.departmentCode) {
         codeClass = 'f-left roles-title-text roles-title-text-disabled';
         codeDisabled = true;
       }
@@ -111,7 +111,7 @@ class OrgStructureRoles extends React.Component {
   editRoles = () => {
     let codeClass = 'f-left roles-title-text';
     let codeDisabled = false;
-    if (this.state.selectedKeysDepDataByApi.custDeptNumber) {
+    if (this.state.selectedKeysDepDataByApi.departmentCode) {
       codeClass = 'f-left roles-title-text roles-title-text-disabled';
       codeDisabled = true;
     }
@@ -157,7 +157,7 @@ class OrgStructureRoles extends React.Component {
   };
   confirmRoleHandle = () => {
     //校验一下部门编码
-    // if(!validCode(this.state.selectedKeysDepDataByApi.custDeptNumber,100)){
+    // if(!validCode(this.state.selectedKeysDepDataByApi.departmentCode,100)){
     // 部门代码数字与字母，长度不能超过100
     // message.error(this.$t('org-new-dep.dep-code-reg'));
     // return;
@@ -170,7 +170,7 @@ class OrgStructureRoles extends React.Component {
         .then(res => {
           console.log(res);
           let dep = this.state.selectedKeysDepDataByApi;
-          dep.custDeptNumber = res.data.custDeptNumber;
+          dep.departmentCode = res.data.departmentCode;
           this.props.updateDepSuccess();
           this.setState(
             {
@@ -334,11 +334,11 @@ class OrgStructureRoles extends React.Component {
       selectedKeysDepDataByApi: dep,
     });
   };
-  depCustDeptNumberChange = e => {
+  departmentCodeChange = e => {
     let dep = this.state.selectedKeysDepDataByApi;
     let code = e.target.value;
     code = code.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, '');
-    dep.custDeptNumber = code;
+    dep.departmentCode = code;
     this.setState({
       selectedKeysDepDataByApi: dep,
     });
@@ -397,11 +397,11 @@ class OrgStructureRoles extends React.Component {
           </div>
           <input
             className="f-left roles-title-text"
-            key={'custDeptNumber'}
-            onChange={this.depCustDeptNumberChange}
+            key={'departmentCode'}
+            onChange={this.departmentCodeChange}
             value={
-              this.state.selectedKeysDepDataByApi.custDeptNumber
-                ? this.state.selectedKeysDepDataByApi.custDeptNumber
+              this.state.selectedKeysDepDataByApi.departmentCode
+                ? this.state.selectedKeysDepDataByApi.departmentCode
                 : ''
             }
             placeholder={this.$t('org.roles.please-input') /*请输入*/}
@@ -438,7 +438,7 @@ class OrgStructureRoles extends React.Component {
             {this.$t('org.roles.dep-code')}
           </div>
           <div className="f-left roles-title-text">
-            {this.renderNoEditingText(this.state.selectedKeysDepDataByApi.custDeptNumber)}
+            {this.renderNoEditingText(this.state.selectedKeysDepDataByApi.departmentCode)}
           </div>
           <div className="clear" />
         </div>

@@ -51,13 +51,13 @@ class DepartmentGroupDetail extends React.Component {
                     { type: 'input', id: 'description', label: this.$t({ id: 'setting.deptName' }), defaultValue: '' },
                 ],
                 columns: [
-                    { title: this.$t({ id: 'setting.deptCode' }), dataIndex: 'custDeptNumber' },
+                    { title: this.$t({ id: 'setting.deptCode' }), dataIndex: 'departmentCode' },
                     { title: this.$t({ id: 'setting.deptName' }), dataIndex: 'name' }
                 ],
                 key: 'departmentId'
             },
             columns: [
-                { title: this.$t({ id: 'setting.deptCode' }), key: 'custDeptNumber', dataIndex: 'custDeptNumber' },/*部门代码代码*/
+                { title: this.$t({ id: 'setting.deptCode' }), key: 'departmentCode', dataIndex: 'departmentCode' },/*部门代码代码*/
                 { title: this.$t({ id: 'setting.deptName' }), key: 'name', dataIndex: 'name' }, /*部门明称*/
                 {
                     title: this.$t({ id: 'common.operation' }), key: 'operation', width: '15%', render: (text, record) => (
