@@ -136,7 +136,7 @@
   "setting.key1384" : "Do not skip",
   "setting.key1385" : "Additional Approval Rule",
   "setting.key1386" : "All approved",
-  "setting.key1387" : "Anyone approved",
+  "setting.key1387" : "One vote passed/one vote rejected",
   "setting.key1388" : "Include applicant",
   "setting.key1389" : "Relocate to department manager",
   "setting.key1390" : "Current level",
@@ -188,6 +188,7 @@
   "setting.key1475" : "Please enter the {arg1} {arg2} conditional character",
   "setting.key1476" : "Please enter the {arg1} {arg2} conditional value",
   "setting.key1477" : "Please enter the correct {arg1} conditional value, the first time can not be late than the second time",
-  "setting.key1478" : "Please enter the correct {arg1} conditional value, wrong expression"
+  "setting.key1478" : "Please enter the correct {arg1} conditional value, wrong expression",
+  "setting.key1503" : "Anyone approved"
 }
 
