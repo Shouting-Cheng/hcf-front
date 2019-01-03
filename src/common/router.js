@@ -1885,7 +1885,14 @@ export const getRouterData = app => {
       ),
       name: 'expense-application-detail',
       parent: '/expense-application'
+    }, //责任中心
+    '/admin-setting/responsibility-center': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/responsibility-center/responsibility-center.js')
+      ),
+      name: 'responsibility-center',
     },
+
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
