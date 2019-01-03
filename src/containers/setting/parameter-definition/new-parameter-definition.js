@@ -98,6 +98,7 @@ class NewParameterDefinition extends React.Component {
   handleParamValue = () =>{
     let params ={
       parameterValueType: this.state.paramsOptions.find(item=>item.id === this.props.form.getFieldValue('parameterId')).parameterCode
+      parameterCode: this.state.paramsOptions.find(item=>item.id === value).parameterCode
     };
     parameterService.getParamValues(params).then(res=>{
       console.log(res)
