@@ -589,14 +589,11 @@ class NodeConditionList extends React.Component {
     e.preventDefault();
     this.setState({
       deleteTagValue: {remark, value, fieldOID,index:i}
-    },()=>{
-      console.log(this.state.deleteTagValue)
     })
   };
 
   //渲染审批条件的值
   renderConditionItem = (item, isEdit,i) => {
-    console.log(item)
     switch(item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
@@ -741,12 +738,6 @@ class NodeConditionList extends React.Component {
   //渲染审批条件值列表的tag值
   //fieldOID 部门扩展字段的oid
   renderConditionCustListTag = (index, type, name, value ,fieldOID = null,i) => {
-    console.log(index)
-    console.log(type)
-    console.log(name)
-    console.log(value)
-    console.log(fieldOID)
-    console.log(i)
     return (
       <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID,i)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
