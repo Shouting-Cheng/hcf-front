@@ -690,7 +690,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.num'), //部门编码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
         render: value => {
           return (
             <Popover placement="topLeft" content={value}>
@@ -735,7 +735,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.num'), //部门编码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
         render: value => {
           return (
             <Popover placement="topLeft" content={value}>
@@ -966,7 +966,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.code'), //部门代码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
       },
       {
         title: messages('chooser.data.dep'), //部门名称
@@ -982,14 +982,14 @@ const chooserData = {
     searchForm: [
       {
         type: 'input',
-        id: 'custDeptNumber',
+        id: 'departmentCode',
         label: messages('chooser.data.dep.num'),
         defaultValue: '',
       },
       { type: 'input', id: 'name', label: messages('chooser.data.dep'), defaultValue: '' },
     ],
     columns: [
-      { title: messages('chooser.data.dep.num'), dataIndex: 'custDeptNumber' },
+      { title: messages('chooser.data.dep.num'), dataIndex: 'departmentCode' },
       { title: messages('chooser.data.dep'), dataIndex: 'name' },
     ],
     key: 'departmentId',
@@ -2467,7 +2467,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.num'), //部门编码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
       },
       {
         title: messages('chooser.data.dep'), //部门名称
@@ -2498,7 +2498,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.num'), //部门编码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
       },
       {
         title: messages('chooser.data.dep'), //部门名称
@@ -2589,7 +2589,7 @@ const chooserData = {
       { type: 'input', id: 'name', label: '部门名称', defaultValue: '' },
     ],
     columns: [
-      { title: '部门号', dataIndex: 'custDeptNumber' },
+      { title: '部门号', dataIndex: 'departmentCode' },
       { title: '部门名称', dataIndex: 'name' },
     ],
     key: 'departmentOid',
@@ -2662,7 +2662,7 @@ const chooserData = {
       { type: 'input', id: 'name', label: '部门名称', defaultValue: '' },
     ],
     columns: [
-      { title: '部门号', dataIndex: 'custDeptNumber' },
+      { title: '部门号', dataIndex: 'departmentCode' },
       { title: '部门名称', dataIndex: 'name' },
     ],
     key: 'departmentId',
@@ -2805,7 +2805,7 @@ const chooserData = {
     columns: [
       {
         title: messages('chooser.data.dep.num'), //部门编码
-        dataIndex: 'custDeptNumber',
+        dataIndex: 'departmentCode',
         render: value => {
           return (
             <Popover placement="topLeft" content={value}>

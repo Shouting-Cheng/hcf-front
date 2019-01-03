@@ -208,7 +208,7 @@ class BudgetBalance extends React.Component {
         listType: 'department',
         labelKey: 'name',
         valueKey: 'departmentId',
-        codeKey: 'custDeptNumber',
+        codeKey: 'departmentCode',
         listExtraParams: {},
         selectorItem: undefined
       },
@@ -293,7 +293,7 @@ class BudgetBalance extends React.Component {
         listType: 'department_budget',
         labelKey: 'name',
         valueKey: 'departmentId',
-        codeKey: 'custDeptNumber',
+        codeKey: 'departmentCode',
         listExtraParams: {},
         selectorItem: undefined
       },
