@@ -183,7 +183,7 @@ class DistributionDimension extends Component {
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition/dimension-details/${dimensionId}`,
+        pathname: `/admin-setting/dimension-definition/dimension-details/${dimensionId}?tabKey=2`,
       })
     );
   };

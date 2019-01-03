@@ -40,8 +40,8 @@ class DimensionDetails extends Component {
         },
       ],
       infoData: {},
-      tabKey: "1",
-      dimensionId: this.props.match.params.dimensionId,
+      tabKey: props.match.params.dimensionId.includes('?tabKey=2') ? '2' : '1',
+      dimensionId: props.match.params.dimensionId.split('?')[0],
       setOfBooksId: null
     }
   }
@@ -75,7 +75,11 @@ class DimensionDetails extends Component {
 
   // tab选项卡切换
   tabChange = (key) => {
-    this.setState({ tabKey: key });
+    this.setState({ tabKey: key }, () => {
+      let url = window.location.href.split('?')[0];
+      let tabKey = key === '1' ? '?tabKey=1' : '?tabKey=2';
+      window.location.href = url + tabKey;
+    });
   }
 
   render() {
