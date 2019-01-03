@@ -876,7 +876,7 @@ const chooserData = {
     columns: [
       {
         title: messages("chooser.data.dep.code"),//部门代码
-        dataIndex: 'code'
+        dataIndex: 'departmentCode'
       },
       {
         title: messages("chooser.data.dep"),//部门名称
