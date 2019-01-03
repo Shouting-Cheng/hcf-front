@@ -99,7 +99,7 @@ class WrappedNewCompanyMaintain extends React.Component {
   getSelectListParentCompany = (legalEntityId, companyOid) => {
     let params = {
       legalEntityId: legalEntityId ? legalEntityId : 0,
-      // filterCompanyOids: companyOid ? companyOid : null,
+      filterCompanyOids: companyOid ? companyOid : null,
     };
     companyMaintainService.getSelectListParentCompany(params).then(res => {
       let selectListParentCompany = this.state.selectListParentCompany;
