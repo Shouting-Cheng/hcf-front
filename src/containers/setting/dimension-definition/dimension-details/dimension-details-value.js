@@ -15,8 +15,33 @@ import FileSaver from 'file-saver';
 import dimensionValueService from './dimension-value-service';
 
 
-
 const Search = Input.Search;
+//排序,字母在前，数字在后，由小及大,考虑大小写
+// const valueSort = (pre,cur) => {
+//     const preCode = String(pre.dimensionItemCode);
+//     const curCode = String(cur.dimensionItemCode);
+//     if(!preCode && !curCode) return;
+//     const regN = /([0-9])+/ig;
+//     const regS = /([A-z])+/g;
+//     //都为字母加数字
+//     if(/^[A-z]+[0-9]+$/g.test(preCode) && /^[A-z]+[0-9]+$/g.test(curCode)) {
+//       let preNum = Number((preCode).match(regN));
+//       let curNum = Number((curCode).match(regN));
+//       let preStr = (preCode).match(regS)[0];
+//       let curStr = (curCode).match(regS)[0];
+
+//       if(preStr < curStr) {
+//         return true;
+//       } else if(preStr == curStr) {
+//         return preNum - curNum;
+//       } else {
+//         return false;
+//       }
+//     } else if(/^(\d+)$/g.test(preCode) && /^(\d+)$/g.test(curCode)) {
+//       //都为数字
+//       return Number(preCode) - Number(curCode);
+//     } else return preCode < curCode;
+// }
 
 class DimensionDeValue extends Component {
     constructor(props) {
@@ -54,15 +79,6 @@ class DimensionDeValue extends Component {
                       <a onClick={e => this.EditDimValue(e, record)}> 编辑</a>
                       <Divider type="vertical" />
                       <a onClick={e => this.onCompanyClick(e, record)}>分配公司</a>
-                      {/* <Divider type="vertical" />
-                      <Popconfirm
-                        title="确定删除？"
-                        onConfirm={() => this.onDelClick(record.id)}
-                        okText="确定"
-                        cancelText="取消"
-                      >
-                        <a>删除</a>
-                      </Popconfirm> */}
                     </div>
                   );
                 }
@@ -132,16 +148,26 @@ class DimensionDeValue extends Component {
       dimensionValueService
         .getDimensionList({ ...searchForm, page, size, dimensionId })
         .then(res => {
-            const temp = [];
+            let temp = [];
+            // let enableTemp = [];
+            // let disableTemp = [];
             res.data.forEach(item => {
               let obj = {
                 departmentOrUserGroupIdList: item['departmentOrUserGroupIdList'],
                 departmentOrUserGroupList: item['departmentOrUserGroupList'],
                 ...item['dimensionItem']
               }
-              //  temp.push(item['dimensionItem']);
+              // if(obj.enabled) {
+              //    enableTemp.push(obj);
+              // } else {
+              //    disableTemp.push(obj);
+              // }
               temp.push(obj);
             });
+            //排序
+            // enableTemp.sort(valueSort);
+            // disableTemp.sort(valueSort);
+            // temp = enableTemp.concat(disableTemp);
             pagination.total = Number(res.headers['x-total-count']);
             this.setState({
               dataArr: temp,
@@ -176,27 +202,6 @@ class DimensionDeValue extends Component {
            modelData: JSON.parse(JSON.stringify(record)),
            isVisibleForFrame: true
         })
-    }
-    //删除
-    onDelClick = id => {
-      dimensionValueService.delDimensionValue(id)
-        .then(res => {
-          let { size, page, pagination } = this.state;
-          let { total, current } = pagination;
-          if (Math.ceil(total / size) === current) {
-            if (Number.isInteger((total - 1) / size)) {
-              page -= 1;
-              current -= 1;
-            }
-          }
-          message.success('删除成功！');
-          this.setState({ page, pagination: { current } }, () => {
-            this.getDetailsValue();
-          });
-        })
-        .catch(err => {
-          message.error(err.response.data.message);
-        });
     }
 
     //分页

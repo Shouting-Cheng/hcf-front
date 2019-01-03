@@ -1840,7 +1840,7 @@ export const getRouterData = app => {
         import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
       ),
       name: 'dimension-details',
-      parent: '/admin-setting/dimension-definition'
+      parent: '/admin-setting/dimension-definition/:setOfBooksId'
     },
     //维值下的分配公司
     '/admin-setting/dimension-definition/batch-company/:setOfBooksId/:dimensionId/:dimensionItemId': {
@@ -1851,7 +1851,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/dimension-definition/dimension-details/:dimensionId'
     },
     // 维度定义
-    '/admin-setting/dimension-definition': {
+    '/admin-setting/dimension-definition/:setOfBooksId': {
       component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),
       name: 'dimension-definition',
     },
