@@ -208,7 +208,6 @@ class PerPaymentView extends Component {
         {
           title: '备注',
           dataIndex: 'description',
-          width: '120',
           render: description => {
             return <Popover content={description}>{description}</Popover>;
           },
@@ -229,6 +228,7 @@ class PerPaymentView extends Component {
         {
           title: '查看信息',
           dataIndex: 'view',
+          width: '100',
           render: (view, record, index) => {
             return (
               <div>

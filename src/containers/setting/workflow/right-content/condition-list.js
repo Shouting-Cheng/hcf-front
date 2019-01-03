@@ -167,6 +167,13 @@ class NodeConditionList extends React.Component {
               departmentOid.push(oid)
             })
           }
+          if (m.remark === 'default_department_path') {
+            if (m.valuesOIDs) {
+              JSON.parse(m.valuesOIDs).value.map(oid => { departmentOID.push(oid) })
+            } else {
+              m.valueDetail && JSON.parse(m.valueDetail).value.map(oid => { departmentOID.push(oid.replace('|', "")) })
+            }
+          }
         });
       })
     });
@@ -635,7 +642,7 @@ class NodeConditionList extends React.Component {
               item.showValue[oid] = department.name
             }
           });
-          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, 'select_department', item.showValue[oid], oid, null, i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'currency_code': //币种

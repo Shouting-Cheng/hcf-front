@@ -54,7 +54,7 @@ class DimensionDeValue extends Component {
                       <a onClick={e => this.EditDimValue(e, record)}> 编辑</a>
                       <Divider type="vertical" />
                       <a onClick={e => this.onCompanyClick(e, record)}>分配公司</a>
-                      <Divider type="vertical" />
+                      {/* <Divider type="vertical" />
                       <Popconfirm
                         title="确定删除？"
                         onConfirm={() => this.onDelClick(record.id)}
@@ -62,7 +62,7 @@ class DimensionDeValue extends Component {
                         cancelText="取消"
                       >
                         <a>删除</a>
-                      </Popconfirm>
+                      </Popconfirm> */}
                     </div>
                   );
                 }
@@ -96,7 +96,7 @@ class DimensionDeValue extends Component {
             url: `${config.baseUrl}/api/dimension/item/assign/company/filter/by/setOfBooksId`,
             searchForm: [
               { type: 'input', id: 'companyCode', label: '公司代码' },
-              { type: 'input', id: 'name', label: '公司名称' },
+              { type: 'input', id: 'companyName', label: '公司名称' },
               { type: 'input', id: 'companyCodeFrom', label: '公司代码从' },
               { type: 'input', id: 'companyCodeTo', label: '公司代码至' }
             ],

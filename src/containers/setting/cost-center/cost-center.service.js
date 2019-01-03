@@ -431,7 +431,7 @@ export default {
   asDepartmentToCostcenteritem(params){
     // let params = {
     //   "costCenterItemId":"costCenterItemId",
-    //   "departmentDTOs":[{"id":部门id,"custDeptNumber":部门编码}]
+    //   "departmentDTOs":[{"id":部门id,"departmentCode":部门编码}]
     // }
     return new Promise(function (resolve, reject) {
       httpFetch.post(config.baseUrl + "/api/department/costcenteritem", params)

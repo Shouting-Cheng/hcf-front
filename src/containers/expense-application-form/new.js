@@ -99,15 +99,11 @@ class NewExpenseApplicationFrom extends Component {
 
   //表单提交
   handleSave = (e) => {
-
     e.preventDefault();
-
     this.props.form.validateFields((err, values) => {
       if (err) return;
-
+      this.setState({ loading: true });
       let { typeId, uploadOIDs, isNew, model } = this.state;
-
-
       if (isNew) {
         values = {
           typeId,
@@ -138,18 +134,18 @@ class NewExpenseApplicationFrom extends Component {
           contractHeaderId: (values.contract && values.contract.length) ? values.contract[0].contractHeaderId : ""
         };
       }
-
       let method = service.addExpenseApplictionForm;
       if (!isNew) {
         method = service.updateHeaderData;
       }
       method(values).then(res => {
         message.success(isNew ? "新增成功！" : "编辑成功！");
+        this.setState({ loading: false });
         this.onBack();
       }).catch(err => {
         message.error(err.response.data.message);
+        this.setState({ loading: false });
       });
-
     });
   }
 
@@ -338,9 +334,9 @@ class NewExpenseApplicationFrom extends Component {
                 loading={loading}
                 style={{ margin: '0 20px' }}
               >
-                {this.props.match.params.id === '0' ? '下一步' : '确定'}
+                {isNew ? '下一步' : '确定'}
               </Button>
-              {this.props.match.params.id === '0' ? <Button onClick={this.onCancel}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
+              {isNew ? <Button onClick={this.onBack}>取消</Button> : <Button onClick={this.onBack}>返回</Button>}
             </div>
           </Form>}
         </Spin>
