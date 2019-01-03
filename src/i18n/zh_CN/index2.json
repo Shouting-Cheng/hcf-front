@@ -136,7 +136,7 @@
   "setting.key1384": "不跳过",
   "setting.key1385": "会签规则",
   "setting.key1386": "所有人审批通过",
-  "setting.key1387": "任意人审批通过",
+  "setting.key1387": "一票通过/一票否决",
   "setting.key1388": "包含申请人",
   "setting.key1389": "转交部门经理",
   "setting.key1390": "本级",
@@ -188,5 +188,6 @@
   "setting.key1475": "请输入{arg1}的第{arg2}个条件符",
   "setting.key1476": "请输入{arg1}的第{arg2}个条件值",
   "setting.key1477": "请输入合法的{arg1}条件值，第一个时间不能比第二个时间晚",
-  "setting.key1478": "请输入合法的{arg1}条件值，表达式不合法"
+  "setting.key1478": "请输入合法的{arg1}条件值，表达式不合法",
+  "setting.key1503": "任一人"
 }
