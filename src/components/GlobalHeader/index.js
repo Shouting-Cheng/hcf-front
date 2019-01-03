@@ -1,16 +1,25 @@
 import React from 'react';
-import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip, Select } from 'antd';
+import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip, Select, message } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
-import NoticeIcon from '../NoticeIcon';
-import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 import { connect } from 'dva';
 import fetch from '../../utils/fetch';
 import zh_CN from "../../i18n/zh_CN/index"
 import en_US from "../../i18n/en_US/index"
+
+const colors = [
+  { color: "rgb(24, 144, 255)", text: "默认" },
+  { color: "rgb(245, 34, 45)", text: "薄暮" },
+  { color: "rgb(250, 84, 28)", text: "火山" },
+  { color: "rgb(250, 173, 20)", text: "日暮" },
+  { color: "rgb(19, 194, 194)", text: "明青" },
+  { color: "rgb(82, 196, 26)", text: "极光绿" },
+  { color: "rgb(47, 84, 235)", text: "极客蓝" },
+  { color: "rgb(114, 46, 209)", text: "酱紫" }
+];
 
 @connect(({ components, languages }) => ({
   components,
@@ -93,6 +102,55 @@ export default class GlobalHeader extends React.Component {
     });
   };
 
+  colorChange = (value) => {
+    const hideMessage = message.loading('正在编译主题！', 0);
+    function buildIt() {
+      if (!window.less) {
+        return;
+      }
+      setTimeout(() => {
+        window.less
+          .modifyVars({
+            '@primary-color': value,
+          })
+          .then(() => {
+            hideMessage();
+          })
+          .catch(() => {
+            message.error('Failed to update theme');
+            hideMessage();
+          });
+      }, 200);
+    }
+    if (!window.lessNodesAppended) {
+      // insert less.js and color.less
+      const lessStyleNode = document.createElement('link');
+      const lessConfigNode = document.createElement('script');
+      const lessScriptNode = document.createElement('script');
+      lessStyleNode.setAttribute('rel', 'stylesheet/less');
+      lessStyleNode.setAttribute('href', '/color.less');
+      lessConfigNode.innerHTML = `
+      window.less = {
+        async: true,
+        env: 'production',
+        javascriptEnabled: true
+      };
+    `;
+      lessScriptNode.src = 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js';
+      lessScriptNode.async = true;
+      lessScriptNode.onload = () => {
+        buildIt();
+        lessScriptNode.onload = null;
+      };
+      document.body.appendChild(lessStyleNode);
+      document.body.appendChild(lessConfigNode);
+      document.body.appendChild(lessScriptNode);
+      window.lessNodesAppended = true;
+    } else {
+      buildIt();
+    }
+  }
+
   render() {
     const {
       currentUser = {},
@@ -135,6 +193,13 @@ export default class GlobalHeader extends React.Component {
           onClick={this.toggle}
         />
         <div className={styles.right}>
+          <Select defaultValue={colors[0].color} style={{ marginRight: 20, width: 100 }} onChange={this.colorChange}>
+            {colors.map(item => (
+              <Select.Option key={item.color}>
+                {item.text}
+              </Select.Option>
+            ))}
+          </Select>
           <Select width={200} value={local} onChange={this.langChange}>
             {languageType.map(item => (
               <Select.Option key={item.id} value={item.language}>

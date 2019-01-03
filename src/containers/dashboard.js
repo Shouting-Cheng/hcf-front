@@ -750,7 +750,7 @@ class Dashboard extends React.Component {
           <Col span={8}>
             <Card
               title="待审批的单据"
-              extra={<span style={{ fontSize: 18 }}>共{total}笔</span>}
+              extra={<span style={{ fontSize: 18 }}>共{total || 0}笔</span>}
             >
               {!!total ? <div id="pie" style={{ width: "100%", height: 160 }}></div> : <div style={{ lineHeight: "160px", textAlign: "center", fontSize: 18 }}>暂无待审批单据</div>}
             </Card>
