@@ -274,7 +274,7 @@ class DocumentBasicInfo extends Component {
             </div>
           </Col>
         </Row>
-        {(imageList && imageList.length) && <ImageViewer
+        {(imageList && !!imageList.length) && <ImageViewer
           valueKey="attachmentOID"
           defaultIndex={imageIndex}
           visible={previewVisible}
