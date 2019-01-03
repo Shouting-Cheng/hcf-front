@@ -1,21 +1,18 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Form, Button, Row, Col, Breadcrumb, message, Divider, Card } from 'antd';
 import Table from 'widget/table'
 import SlideFrame from 'widget/slide-frame';
-
-import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
-import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-
 import DocumentBasicInfo from 'components/Widget/Template/document-basic-info';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
 import NewApplicationLine from "./new-application-line"
-
 import ApproveHistory from 'containers/pre-payment/my-pre-payment/approve-history-work-flow';
-
 import service from "./service"
+
+import 'styles/pre-payment/my-pre-payment/pre-payment-detail.scss';
+
 
 class PrePaymentCommon extends React.Component {
   constructor(props) {
@@ -177,13 +174,28 @@ class PrePaymentCommon extends React.Component {
   onCancel = () => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/pre-payment/my-pre-payment`,
+        pathname: "/expense-application"
       })
     );
   };
+
   //撤销
   back = () => {
-
+    let params = {
+      entities: [{
+        entityOID: this.props.headerData.documentOid,
+        entityType: 801009,
+      }]
+    };
+    this.setState({ backLoadding: true });
+    service.withdraw(params).then(res => {
+      this.setState({ backLoadding: false });
+      message.success("撤回成功！");
+      this.onCancel();
+    }).catch(err => {
+      this.setState({ backLoadding: false });
+      message.error(err.response.data.message);
+    })
   };
 
   //添加行信息
@@ -196,10 +208,6 @@ class PrePaymentCommon extends React.Component {
     this.setState({ record }, () => {
       this.setState({ showSlideFrame: true, slideFrameTitle: "编辑申请单行" });
     });
-  };
-  //删除预付款行信息
-  deleteItem = (e, record) => {
-    e.preventDefault();
   };
 
   //扩展行

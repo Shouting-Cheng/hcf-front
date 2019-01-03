@@ -16,21 +16,27 @@ class ApplicationType extends Component {
     super(props);
     this.state = {
       columns: [{
-        title: "帐套",
-        dataIndex: "setOfBooksName"
+        title: "账套",
+        dataIndex: "setOfBooksName",
+        align: "center",
+        tooltips: true
       }, {
         title: "费用申请单类型代码",
-        dataIndex: "typeCode"
+        dataIndex: "typeCode",
+        align: "center"
       }, {
         title: "费用申请单类型名称",
-        dataIndex: "typeName"
+        dataIndex: "typeName",
+        align: "center"
       }, {
         title: "关联表单类型",
-        dataIndex: "formName"
+        dataIndex: "formName",
+        align: "center"
       }, {
         title: "状态",
         dataIndex: "enabled",
         width: 120,
+        align: "center",
         render: value => value ? <Badge status="success" text="启用" /> : <Badge status="error" text="禁用" />
       },
       {

@@ -43,6 +43,7 @@ class CustomChooser extends Component {
           onChange={this.chooserChange}
           value={this.props.value ? this.props.value.chooserValue : []}
           listExtraParams={this.props.params}
+          showNumber
         />
       </div>
     )
