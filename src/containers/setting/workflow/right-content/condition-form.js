@@ -121,6 +121,7 @@ class ConditionForm extends React.Component {
     this.setState({ condition, deleteConditionOID });
     //删除值列表的值
     if (nextProps.deleteTagValue.value && nextProps.deleteTagValue.value !== this.props.deleteTagValue.value) {
+      console.log(nextProps.deleteTagValue)
       this.handleDeleteValueDetail(nextProps.deleteTagValue.remark, nextProps.deleteTagValue.value,nextProps.deleteTagValue.fieldOID,nextProps.deleteTagValue.index)
     }
   }
@@ -760,8 +761,14 @@ class ConditionForm extends React.Component {
   //删除值列表的值
   handleDeleteValueDetail = (remark, value, fieldOID,i) => {
     let condition = this.state.condition;
+    console.log(condition)
+    console.log(remark)
+    console.log(value)
+    console.log(fieldOID)
+    console.log(i)
     condition.map((item, index) => {
       if(i===index){
+        console.log(item)
         if (item.remark === remark && remark === 'default_department_level') {
           let depLevelValue = this.state.depLevelValue;
           depLevelValue.delete(Number(value));

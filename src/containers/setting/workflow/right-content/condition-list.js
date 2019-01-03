@@ -589,17 +589,20 @@ class NodeConditionList extends React.Component {
     e.preventDefault();
     this.setState({
       deleteTagValue: {remark, value, fieldOID,index:i}
+    },()=>{
+      console.log(this.state.deleteTagValue)
     })
   };
 
   //渲染审批条件的值
   renderConditionItem = (item, isEdit,i) => {
+    console.log(item)
     switch(item.remark) {
       case 'default_department_level': //部门层级
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
           this.state.approvalAndDepLevel.map(level => {
             if (String(level.id) === String(code))
-              return isEdit ? this.renderConditionCustListTag(index, 'default_department_level', level.depLevel, code) :
+              return isEdit ? this.renderConditionCustListTag(index, 'default_department_level', level.depLevel, code,null,i) :
                 `${level.depLevel}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           })
         ));
@@ -619,7 +622,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((id, index) => (
           JSON.parse(item.fieldContent || '[]').map(field => {
             if (String(field.id) === String(id))
-              return isEdit ? this.renderConditionCustListTag(index, 'default_department_role', field.name, id) :
+              return isEdit ? this.renderConditionCustListTag(index, 'default_department_role', field.name, id,null,i) :
                 `${field.name}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           })
         ));
@@ -628,7 +631,7 @@ class NodeConditionList extends React.Component {
           item.showValue = item.showValue || [];
           return (this.state.expenseTypeList.length ? this.state.expenseTypeList : item.showValue).map(expense => {
             if (expense.expenseTypeOID === oid)
-              return isEdit ? this.renderConditionCustListTag(index, 'default_expense_type', expense.name, oid) : (
+              return isEdit ? this.renderConditionCustListTag(index, 'default_expense_type', expense.name, oid,null,i) : (
                 <span>
                   {expense.name}
                   <span style={{color:'#aaa'}}>
@@ -653,7 +656,7 @@ class NodeConditionList extends React.Component {
         });
       case 'currency_code': //币种
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
-          isEdit ? this.renderConditionCustListTag(index, 'currency_code', constants.getTextByValue(code, 'cashName') || code, code) :
+          isEdit ? this.renderConditionCustListTag(index, 'currency_code', constants.getTextByValue(code, 'cashName') || code, code, null, i) :
             `${constants.getTextByValue(code, 'cashName') || code}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         ));
       case 'select_cost_center': //成本中心
@@ -662,7 +665,7 @@ class NodeConditionList extends React.Component {
           this.state.costCenterList.map(costCenter => {
             costCenter.costCenterItemOID === oid && (item.showValue[oid] = costCenter.name)
           });
-          return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid, item.field ,i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'select_company': //公司控件
@@ -672,7 +675,7 @@ class NodeConditionList extends React.Component {
           this.state.companyList.map(company => {
             company.companyOID === oid && (item.showValue[oid] = company.name)
           });
-          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid,item.field ,i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'select_corporation_entity': //法人实体
@@ -682,7 +685,7 @@ class NodeConditionList extends React.Component {
           this.state.entityList.map(entity => {
             entity.companyReceiptedOID === oid && (entityName = entity.companyName)
           });
-          return isEdit ? this.renderConditionCustListTag(index, item.remark, entityName, oid) :
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, entityName, oid,item.field ,i) :
             `${entityName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_user_applicant':
@@ -692,7 +695,7 @@ class NodeConditionList extends React.Component {
             this.state.userList.map(user => {
               user.userOID === oid && (item.showValue[oid] = user.fullName)
             });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
+            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid, item.field, i) :
               `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'cust_list':
@@ -711,7 +714,7 @@ class NodeConditionList extends React.Component {
             this.state.typeValueList.map(value => {
               value.customEnumerationItemOID === valueOIDs && (item.showValue[valueOIDs]  = value.messageKey)
             });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs) :
+            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs, item.field, i) :
               `${item.showValue[valueOIDs] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'default_user_department_extend'://默认条件中的部门扩展字段
@@ -721,7 +724,7 @@ class NodeConditionList extends React.Component {
             this.state.extendValueList.map(value => {
               value.customEnumerationItemOID === valueOIDs && (item.showValue[valueOIDs]  = value.messageKey)
             });
-            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs, item.field) :
+            return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[valueOIDs] , valueOIDs, item.field, i) :
               `${item.showValue[valueOIDs] }${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           });
       case 'default_user_sex':
@@ -738,6 +741,12 @@ class NodeConditionList extends React.Component {
   //渲染审批条件值列表的tag值
   //fieldOID 部门扩展字段的oid
   renderConditionCustListTag = (index, type, name, value ,fieldOID = null,i) => {
+    console.log(index)
+    console.log(type)
+    console.log(name)
+    console.log(value)
+    console.log(fieldOID)
+    console.log(i)
     return (
       <Tag key={index} closable onClose={e => this.handleDeleteValueItem(e, type, value ,fieldOID,i)}>
         <Ellipsis tooltip length={10}>{name}</Ellipsis>
