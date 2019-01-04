@@ -27,7 +27,8 @@ class ApplicationType extends Component {
       }, {
         title: "费用申请单类型名称",
         dataIndex: "typeName",
-        align: "center"
+        align: "center",
+        tooltips: true
       }, {
         title: "关联表单类型",
         dataIndex: "formName",

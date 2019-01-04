@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
+import { Form, Input, Button, message, Select, Switch } from 'antd';
 import 'styles/setting/params-setting/params-setting.scss';
 const FormItem = Form.Item;
 
@@ -17,16 +17,12 @@ class NewBuilt extends Component {
       section: {},
     };
   }
-  // 生命周期
-  componentWillMount() {
-
-  }
 
   //保存&&编辑
   handleSubmit = () => {
     let { params } = this.props;
     this.props.form.validateFields((err, values, record) => {
-      let data = Object.assign({}, params, values);
+      let data = { ...params, ...values };
       if (err) return;
       this.setState({
         saveLoading: true,
@@ -58,9 +54,12 @@ class NewBuilt extends Component {
       }
     });
   };
+
+  //等下看一下
   hasErrors(fieldsError) {
     const { isFieldTouched } = this.props.form;
   }
+
   //取消
   handleCancel = () => {
     this.props.close && this.props.close();
@@ -75,7 +74,7 @@ class NewBuilt extends Component {
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const { params } = this.props;
-    const { saveLoading, paramsTypeList, section } = this.state;
+    const { saveLoading, paramsTypeList } = this.state;
     const formItemLayout = {
       labelCol: {
         span: 10,
@@ -87,13 +86,12 @@ class NewBuilt extends Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-        <h3>基本信息</h3>
+          <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
             {getFieldDecorator('setOfBooksId', {
               rules: [
                 {
                   required: true,
-
                 },
               ],
               initialValue: params.setOfBooksId || '',
@@ -105,7 +103,7 @@ class NewBuilt extends Component {
             {getFieldDecorator('dimensionSequence', {
               rules: [
                 {
-                  required:true,
+                  required: true,
                   message: '请选择',
                 },
               ],
@@ -114,7 +112,7 @@ class NewBuilt extends Component {
               <Select placeholder="请选择" disabled={JSON.stringify(params) === '{}' ? false : true}>
                 {paramsTypeList.map(item => {
                   return (
-                    <Select.Option key={item.value} value={item.value} >
+                    <Select.Option key={item.value} >
                       {item.messageKey}
                     </Select.Option>
                   );
@@ -128,23 +126,22 @@ class NewBuilt extends Component {
                 {
                   required: true,
                   message: '请输入',
-
                 },
               ],
               initialValue: this.props.params.dimensionCode || '',
-            })(<Input placeholder="请选择"  disabled={JSON.stringify(params) === '{}' ? false : true}/>)}
+            })(<Input placeholder="请选择" disabled={JSON.stringify(params) === '{}' ? false : true} />)}
           </FormItem>
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
               rules: [],
-              initialValue:params.dimensionName || '',
+              initialValue: params.dimensionName || '',
             })(
               <div>
                 <Input
                   key={1}
                   name={params.dimensionName}
                   placeholder={this.$t('common.please.enter') /* 请输入 */}
-                  // nameChange={this.i18nNameChange}
+                // nameChange={this.i18nNameChange}
                 />
               </div>
             )}

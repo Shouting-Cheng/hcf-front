@@ -21,8 +21,8 @@ export default {
      * @param {*} params
      */
     editParamsSetting(params) {
-      return httpFetch.put(`${config.authUrl}/api/dimension`, params);
-  },
+        return httpFetch.put(`${config.authUrl}/api/dimension`, params);
+    },
     /**
      * 删除参数设置
      * @param {*} params
@@ -34,12 +34,12 @@ export default {
      *条件查询
      */
     queryParamsSetting(id) {
-      return httpFetch.get(`${config.authUrl}/api/dimension/page/by/cond${id}`);
-  },
-  /**
-   * 查询序号
-   */
-  NumberParamsSetting(id) {
-    return httpFetch.get(`${config.authUrl}/api/dimension/page/by/cond${id}`);
-},
+        return httpFetch.get(`${config.authUrl}/api/dimension/page/by/cond${id}`);
+    },
+    /**
+     * 查询序号
+     */
+    NumberParamsSetting(id) {
+        return httpFetch.get(`${config.authUrl}/api/dimension/page/by/cond${id}`);
+    }
 }
