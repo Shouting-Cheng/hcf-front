@@ -48,7 +48,7 @@ class ParameterDefinition extends React.Component {
       searchForm:[],
       _searchForm: [
         {
-          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+          type: 'select', id: 'moduleCode', label: this.$t({id: 'parameter.definition.model'}),
           options: [],
           labelKey: 'moduleName',
           valueKey: 'moduleCode',
@@ -57,29 +57,31 @@ class ParameterDefinition extends React.Component {
           method: 'get',
           //getParams: { roleType:'TENANT' },
         },
-        {type: 'input', id: 'structureCode1',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
-        {type: 'input', id: 'structureName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
+        {type: 'input', id: 'parameterCode',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
+        {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {          /*模块*/
-          title: this.$t({id:"parameter.definition.model"}), key: "structureCodeg", dataIndex: 'structureCode2',align:'center',
+          title: this.$t({id:"parameter.definition.model"}), key: "moduleName", dataIndex: 'moduleName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数代码*/
-          title: this.$t({id:"budget.parameterCode"}), key: "structureName", dataIndex: 'structureName', align:'center',
+          title: this.$t({id:"budget.parameterCode"}), key: "parameterCode", dataIndex: 'parameterCode', align:'center',
         },
         {          /*参数名称*/
-          title: this.$t({id:"budget.parameterName"}), key: "structureName1", dataIndex: 'structureName', align:'center',
+          title: this.$t({id:"budget.parameterName"}), key: "parameterName", dataIndex: 'parameterName', align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数层级*/
-          title: this.$t({id:"parameter.level"}), key: "periodStrategy", dataIndex: 'periodStrategy', align:"center",
+          title: this.$t({id:"parameter.level"}), key: "parameterHierarchy", dataIndex: 'parameterHierarchy', align:"center",
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数值*/
-          title: this.$t({id:"budget.balance.params.value"}), key: "value", dataIndex: 'periodStrategy', align:"center",
+          title: this.$t({id:"budget.balance.params.value"}), key: "parameterValue", dataIndex: 'parameterValue', align:"center",
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {           /*描述*/
-          title: this.$t({id:"chooser.data.description"}), key: "description", dataIndex: 'description',align:"center",
+          title: this.$t({id:"chooser.data.description"}), key: "parameterValueDesc", dataIndex: 'parameterValueDesc',align:"center",
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {           /*操作*/
@@ -139,9 +141,9 @@ class ParameterDefinition extends React.Component {
     console.log(values)
     values.setOfBooksId&&values.setOfBooksId===this.props.company.setOfBooksName&&(values.setOfBooksId=this.props.company.setOfBooksId);
     this.setState({
-
+      searchParams: values
     }, ()=>{
-      //this.getList();
+      this.table.search(values);
     })
   };
 
