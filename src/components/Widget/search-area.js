@@ -926,7 +926,6 @@ class SearchArea extends React.Component {
     const formItemLayout = {};
     const children = [];
     this.state.searchForm.map((item, i) => {
-      console.log(item)
       children.push(
         <Col span={item.colSpan || 8} key={item.id} style={{ display: i < count ? 'block' : 'none' }}>
           {item.type === 'items' ? this.renderFormItem(item) :
