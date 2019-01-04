@@ -137,7 +137,6 @@ class NewParameterDefinition extends React.Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 10, offset: 0 },
     };
-    console.log(nowTab)
     return (
       <div className="new-parameter-definition" style={{paddingTop: 25}}>
         <Form onSubmit={this.handleSave}>
