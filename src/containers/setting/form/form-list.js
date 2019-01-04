@@ -4,7 +4,7 @@ import {connect} from 'dva';
 
 import {
   Button, Popover, message, Col, Row, Dropdown,
-  Icon, Menu, Tabs, Badge, Select, Input
+  Icon, Menu, Tabs, Badge, Select, Input, Divider
 } from 'antd';
 import Table from 'widget/table'
 
@@ -19,7 +19,13 @@ import 'styles/setting/form/form-list.scss';
 import { routerRedux } from 'dva/router';
 const Option = Select.Option;
 import workflowService from 'containers/setting/workflow/workflow.service'
-
+import manApprovalImg from 'images/setting/workflow/man-approval.svg'
+import knowImg from 'images/setting/workflow/know.svg'
+import aiApprovalImg from 'images/setting/workflow/aiapproval.svg'
+import mailImg from 'images/setting/workflow/mail.png'
+import auditImg from 'images/setting/workflow/audit.png'
+import endImg from 'images/setting/workflow/end.png'
+import noFormImg from 'images/setting/workflow/no-form.png'
 import debounce from 'lodash.debounce';
 
 class FormList extends React.Component {
@@ -106,19 +112,26 @@ class FormList extends React.Component {
           render: valid =>
             <Badge status={valid ? 'success' : 'error'}
                    text={valid ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
-        }
-        /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
+        },
+        {title: this.$t('common.operation'), dataIndex: 'operate', width: '8%', render: record => (
           <span>
-            <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{this.$t("common.delete")}</a>
-            </Popconfirm>
+           <a
+             onClick={e => {
+               e.preventDefault();
+               e.stopPropagation();
+               //this.handleEdit(record);
+             }}>{this.$t('common.edit')}</a>
+            <Divider type="vertical" />
+            <a onClick={() => this.checkOldExpense(record)}>{this.$t('common.copy')}</a>
+            <Divider type="vertical" />
           </span>
-        )}*/
+        )}
       ], //公司模式下columns
       columnsTenant: [
         {
           title: this.$t('common.sequence'/*序号*/),
-          dataIndex: 'sequence', width: '8%'
+          dataIndex: 'sequence', width: '8%',
+          render:(desc,value,index)=> index+1
         },
         {
           title: this.$t('common.document.name'/*单据名称*/),
@@ -136,7 +149,7 @@ class FormList extends React.Component {
         },
         {
           title: this.$t('form.setting.include.fee.type')/*'包含费用类型'*/,
-          dataIndex: 'visibleExpenseTypeScope',
+          dataIndex: 'visibleUserScope',
           render: text => constants.getTextByValue(text, 'visibleExpenseTypeScope')
         },
         {
@@ -145,14 +158,19 @@ class FormList extends React.Component {
           render: valid =>
             <Badge status={valid ? 'success' : 'error'}
                    text={valid ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
-        }
-        /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
-          <span>
-            <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{this.$t("common.delete")}</a>
-            </Popconfirm>
+        },
+        {title: '审批流', dataIndex: 'operate', width: '8%', render: record => (
+            <span>
+           <a
+             onClick={e => {
+               e.preventDefault();
+               e.stopPropagation();
+               //this.handleEdit(record);
+             }}>{this.$t('common.copy')}</a>
+            <Divider type="vertical" />
+            <a onClick={() => {}}>{this.$t('common.paste')}</a>
           </span>
-        )}*/
+          )}
       ] //集团模式下columns
     };
     this.handleDocType = debounce(this.handleDocType, 500);
@@ -230,7 +248,23 @@ class FormList extends React.Component {
 
   expandedRowRender =(record)=>{
     console.log(record)
-    console.log(record)
+    return(<Row type="flex" style={{marginTop:10,marginBottom: -10}}>
+      <Col>
+        {
+          record.ruleApprovalChain.ruleApprovalNodes.map((node,index)=>{
+            return (
+                <div key={node.ruleApprovalNodeOid} className="node-container">
+                  <div>
+                    {this.getNodeImg(node.type)}
+                    {index < record.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow" />}
+                  </div>
+                  <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>
+                </div>
+            )
+          })
+        }
+      </Col>
+    </Row>)
   };
 
   getFormList = (id) => {
@@ -270,6 +304,24 @@ class FormList extends React.Component {
           loading: false
         });
       })
+  };
+
+  //获取节点图片
+  getNodeImg = (type) => {
+    switch (type) {
+      case 1001:  //审批
+        return <img src={manApprovalImg} className="node-image" />;
+      case 1002:  //知会
+        return <img src={knowImg} className="node-image" />;
+      case 1003:  //机器人
+        return <img src={aiApprovalImg} className="node-image" />;
+      case 1004:  //发送打印
+        return <img src={mailImg} className="node-image" />;
+      case 1006:  //审核
+        return <img src={auditImg} className="node-image" />;
+      case 1005:  //结束
+        return <img src={endImg} className="node-image" />
+    }
   };
 
 /*  handleCatType = (value)=>{
@@ -383,14 +435,14 @@ class FormList extends React.Component {
   rowClick = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.setOfBooksId}`
       })
     )  
   };
   rowClickForSob = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.setOfBooksId}`
       })
     )  
   };

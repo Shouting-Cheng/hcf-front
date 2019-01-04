@@ -21,7 +21,6 @@ class ParameterDefinition extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      data: [{id:1}],
       searchParams: {},
       record: {},
       sobOptions:[],
@@ -29,18 +28,18 @@ class ParameterDefinition extends React.Component {
       visible: false,
       searchForm: [
         {
-          type: 'select', id: 'structureCode123', label: this.$t({id: 'form.setting.set.of.books'}),
+          type: 'select', id: 'setOfBooksId', label: this.$t({id: 'form.setting.set.of.books'}),
           options: [],
           labelKey: 'setOfBooksName',
+          allowClear: false,
           valueKey: 'id',
-          entity: true,
           colSpan: 6,
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
           getParams: { roleType:'TENANT',enabled: true },
         },
         {
-          type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
+          type: 'select', id: 'moduleCode', label: this.$t({id: 'parameter.definition.model'}),
           options: [],
           labelKey: 'moduleName',
           valueKey: 'moduleCode',
@@ -49,33 +48,35 @@ class ParameterDefinition extends React.Component {
           method: 'get',
           //getParams: { roleType:'TENANT' },
         },
-        {type: 'input', id: 'structureCode1',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
-        {type: 'input', id: 'structureName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
+        {type: 'input', id: 'parameterCode',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
+        {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {
-          title: this.$t({id:"form.setting.set.of.books"}), key: "sob", dataIndex: 'structureCode1',align:'center',
+          title: this.$t({id:"form.setting.set.of.books"}), key: "setOfBooksName", dataIndex: 'setOfBooksName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*模块*/
-          title: this.$t({id:"parameter.definition.model"}), key: "structureCodeg", dataIndex: 'structureCode2',align:'center',
+          title: this.$t({id:"parameter.definition.model"}), key: "moduleName", dataIndex: 'moduleName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数代码*/
-          title: this.$t({id:"budget.parameterCode"}), key: "structureName", dataIndex: 'structureName', align:'center',
+          title: this.$t({id:"budget.parameterCode"}), key: "parameterCode", dataIndex: 'parameterCode', align:'center',
         },
         {          /*参数名称*/
-          title: this.$t({id:"budget.parameterName"}), key: "structureName1", dataIndex: 'structureName', align:'center',
+          title: this.$t({id:"budget.parameterName"}), key: "parameterName", dataIndex: 'parameterName', align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数层级*/
-          title: this.$t({id:"parameter.level"}), key: "periodStrategy", dataIndex: 'periodStrategy', align:"center",
+          title: this.$t({id:"parameter.level"}), key: "parameterHierarchy", dataIndex: 'parameterHierarchy', align:"center",
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*参数值*/
-          title: this.$t({id:"budget.balance.params.value"}), key: "value", dataIndex: 'periodStrategy', align:"center",
+          title: this.$t({id:"budget.balance.params.value"}), key: "parameterValue", dataIndex: 'parameterValue', align:"center",
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {           /*描述*/
-          title: this.$t({id:"chooser.data.description"}), key: "description", dataIndex: 'description',align:"center",
+          title: this.$t({id:"chooser.data.description"}), key: "parameterValueDesc", dataIndex: 'parameterValueDesc',align:"center",
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {           /*操作*/
@@ -86,16 +87,12 @@ class ParameterDefinition extends React.Component {
             return (
               <div>
                 <a onClick={e=>this.handleEdit(e,record)} >{this.$t('common.edit')}</a>
-                {
-                  this.state.nowTab.toString() !== '0' &&
                   <span>
-                      <Divider type="vertical" />
-                      <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
-                        <a>{this.$t('common.delete')}</a>
-                      </Popconfirm>
-                    </span>
-                }
-
+                    <Divider type="vertical" />
+                    <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
+                      <a>{this.$t('common.delete')}</a>
+                    </Popconfirm>
+                  </span>
               </div>
             );
           }
@@ -104,7 +101,6 @@ class ParameterDefinition extends React.Component {
     }
   }
   componentWillMount(){
-    //this.getList();
     let params = {
       roleType: 'TENANT',
       enabled: true
@@ -114,10 +110,9 @@ class ParameterDefinition extends React.Component {
       res.data.map(item=>{
         sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,});
         item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
-        item.id===this.props.company.setOfBooksId&&console.log(item)
       });
       searchForm[0].options = sobOptions;
-      searchForm[0].defaultValue = {key:sob.setOfBooksId, label: sob.setOfBooksCode+'-'+sob.setOfBooksName};
+      searchForm[0].defaultValue = sob.setOfBooksCode+'-'+sob.setOfBooksName;
       this.setState({sob,sobOptions,searchForm})
     });
   }
@@ -135,12 +130,8 @@ class ParameterDefinition extends React.Component {
 
   handleSearch = (values) =>{
     console.log(values)
-    values.setOfBooksId&&values.setOfBooksId===this.props.company.setOfBooksName&&(values.setOfBooksId=this.props.company.setOfBooksId);
-    this.setState({
-
-    }, ()=>{
-      //this.getList();
-    })
+    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
+    this.table.search(values)
   };
 
 
@@ -184,7 +175,11 @@ class ParameterDefinition extends React.Component {
         </div>
         <CustomTable
           columns={columns}
-          url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond?parameterLevel=SOB`}
+          params={{
+            parameterLevel: "SOB" ,
+            setOfBooksId: this.props.company.setOfBooksId
+          }}
+          url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
           ref={ref => (this.table = ref)}
         />
       </div>)
