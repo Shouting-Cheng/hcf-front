@@ -421,8 +421,8 @@ class WrappedNewCompanyMaintain extends React.Component {
               <FormItem
                 label={
                   <span>
-                    <span className="required-red">*&nbsp;</span>
-                    <span>{this.$t('company.maintain.company.startDateActive')}</span>
+                    <span className="required-red">*</span>
+                    <span style={{marginLeft: 4}}>{this.$t('company.maintain.company.startDateActive')}</span>
                   </span>
                 } //有效期从
                 colon={true}
