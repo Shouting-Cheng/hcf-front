@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import { Tabs, Spin } from 'antd'
 const TabPane = Tabs.TabPane;
 import FormDetailBase from 'containers/setting/form/form-detail/form-detail-base'
+import WorkFlowDetail from 'containers/setting/form/form-detail/workflow-detail'
 import FormDetailCustom from 'containers/setting/form/form-detail/form-detail-custom/form-detail-custom'
 import FormPermission from 'containers/setting/form/form-detail/form-permission/form-permission'
 import FormSetting from 'containers/setting/form/form-detail/form-setting/form-setting'
@@ -102,7 +103,8 @@ class FormDetail extends React.Component {
   }
   renderTabs() {
     let tabs = [
-      { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ }
+      { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ },
+      { key: 'approve', name: this.$t('menu.workflow')}
     ];
     // this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
     //this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
@@ -193,6 +195,7 @@ class FormDetail extends React.Component {
             {nowTab === 'permission' && <FormPermission refreshData={this.refreshData} />}
             {nowTab === 'form' && <FormSetting formOid={formOid} handlePageJump={this.pageJump} />}
             {nowTab === 'match' && <FormMatch refreshMacthData={this.refreshMacthData} />}
+            {nowTab === 'approve' && <WorkFlowDetail {...this.props.match}/> }
           </div>
         )}
       </div>
