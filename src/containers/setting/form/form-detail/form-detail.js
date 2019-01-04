@@ -105,9 +105,9 @@ class FormDetail extends React.Component {
       { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ }
     ];
     // this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
-    this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
-    this.state.formType === 2001 && tabs.push({ key: 'form', name: this.$t('form.setting.properties.setting')/*表单配置*/ });
-    this.state.formType === 801001 && tabs.push({ key: 'match', name: this.$t('form.setting.match')/*表单设置*/ })
+    //this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
+    //this.state.formType === 2001 && tabs.push({ key: 'form', name: this.$t('form.setting.properties.setting')/*表单配置*/ });
+    //this.state.formType === 801001 && tabs.push({ key: 'match', name: this.$t('form.setting.match')/*表单设置*/ })
     return (
       tabs.map(tab => {
         return <TabPane tab={tab.name} key={tab.key} />

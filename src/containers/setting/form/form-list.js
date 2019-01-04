@@ -18,6 +18,7 @@ import Selector from 'widget/selector'
 import 'styles/setting/form/form-list.scss';
 import { routerRedux } from 'dva/router';
 const Option = Select.Option;
+import workflowService from 'containers/setting/workflow/workflow.service'
 
 import debounce from 'lodash.debounce';
 
@@ -28,8 +29,8 @@ class FormList extends React.Component {
       formList: [],
       formListForSob: [],
       setOfBooks: [], //账套list
-      currentSetOfBooksID: this.props.company.setOfBooksId||'', //当前查询的账套的id
-      currentSetOfBooksName:this.props.company.setOfBooksName|| '', //当前查询的账套的名字
+      setOfBooksId: this.props.match.params.setOfBooksId || this.props.company.setOfBooksId,
+      setOfBooksName: this.props.company.setOfBooksName,
       loading: true,
       params:{},
       columnsForSobFrom: [
@@ -163,10 +164,10 @@ class FormList extends React.Component {
         if (resp.status === 200 && resp.data) {
           this.setState({
             setOfBooks: resp.data,
-            currentSetOfBooksID: this.props.company.setOfBooksId,
-            currentSetOfBooksName: this.props.company.setOfBooksName
+            setOfBooksId: this.props.company.setOfBooksId,
+            setOfBooksName: this.props.company.setOfBooksName
           });
-          this.getFormList(this.props.company.setOfBooksId);
+          this.getList();
         }
       }).catch(error => {
         message.error(this.$t('common.error'));
@@ -174,14 +175,30 @@ class FormList extends React.Component {
     }
   }
 
-  componentWillMount() {
+/*  componentWillMount() {
 
     if (!this.props.tenantMode) {
-      this.getFormList();
+      //this.getFormList();
+      this.getList();
       //获取账套下表单
-      this.getFormListForSob();
+     // this.getFormListForSob();
     }
-  }
+  }*/
+
+  getList = () => {
+    this.setState({ loading: true });
+    let params = {
+      ...this.state.params,
+      booksID: this.props.tenantMode ? this.state.setOfBooksId : '',
+    };
+    workflowService.getWorkflowList(params).then(res => {
+
+      this.setState({
+        loading: false,
+        formList: res.data
+      })
+    })
+  };
 
   handleMenuClick = (e) => {
     this.props.dispatch(
@@ -191,13 +208,29 @@ class FormList extends React.Component {
     );
   };
 
-  handleSetOfBooksChange = (value) => {
+ /* handleSetOfBooksChange = (value) => {
     this.setState({
       currentSetOfBooksID: value.id,
       currentSetOfBooksName: value.setOfBooksName,
     }, () => {
       this.getFormList(value.id)
     })
+  }*/;
+
+  //集团模式下改变帐套
+  handleSetOfBooksChange = (value) => {
+    this.setState({
+      setOfBooksId: value.id,
+      setOfBooksName: value.setOfBooksName,
+      showEnableList: true
+    }, () => {
+      this.getList()
+    })
+  };
+
+  expandedRowRender =(record)=>{
+    console.log(record)
+    console.log(record)
   };
 
   getFormList = (id) => {
@@ -239,7 +272,7 @@ class FormList extends React.Component {
       })
   };
 
-  handleCatType = (value)=>{
+/*  handleCatType = (value)=>{
     this.setState({
       params: {
         ...this.state.params,
@@ -255,6 +288,24 @@ class FormList extends React.Component {
         formName: value
       }
     },()=>this.getFormList())
+  };*/
+
+  handleCatType = (value) => {
+    this.setState({
+      params: {
+        ...this.state.params,
+        documentCategory: value
+      }
+    }, () => this.getList())
+  };
+
+  handleDocType = (value) => {
+    this.setState({
+      params: {
+        ...this.state.params,
+        formName: value
+      }
+    }, () => this.getList())
   };
 
   /*
@@ -350,7 +401,8 @@ class FormList extends React.Component {
     const {
       columns, columnsTenant, formList, loading,
       columnsForSobFrom, formListForSob,
-      currentSetOfBooksName
+      setOfBooksId,
+      setOfBooksName
     } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} >
@@ -371,32 +423,32 @@ class FormList extends React.Component {
             marginBottom: 20,
             width: '100%', height: 53}}>
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{lineHeight: 2, width: 43}} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{lineHeight:2, width: 43 }} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                           allowClear={false}
                           entity
-                          value={{ label: this.state.currentSetOfBooksName, key: this.state.currentSetOfBooksID }}
+                          value={{ label: setOfBooksName, key: setOfBooksId }}
                           onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{lineHeight: 2,width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3} style={{lineHeight:2, width: 72 }} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
               <Col span={3}>
                 <Select
                   allowClear
                   onChange={this.handleCatType}
-                  style={{width: '100%'}}
+                  style={{ width: '100%' }}
                   placeholder={this.$t('common.please.select')}>
                   {
                     constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
                   }
                 </Select>
               </Col>
-              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight: 2,width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight:2, width: 100 }} className="title" offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <Input
-                  onChange={(e=>this.handleDocType(e.target.value))}
-                  placeholder={this.$t('common.please.enter')}/>
+                  onChange={e => this.handleDocType(e.target.value)}
+                  placeholder={this.$t('common.please.enter')} />
               </Col>
             </Row>
           </div>
@@ -415,6 +467,7 @@ class FormList extends React.Component {
                size="middle"
                bordered
                rowKey="formOid"
+               expandedRowRender={this.expandedRowRender}
                pagination={false}
                onRow={record => ({
                  onClick: () => this.rowClick(record)

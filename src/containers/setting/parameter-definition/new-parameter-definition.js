@@ -81,6 +81,7 @@ class NewParameterDefinition extends React.Component {
 
   handleParamCode = ()=>{
     let params = {
+      parameterLevel: this.props.params.nowTab.toString() === '1' ? 'SOB' : 'COMPANY',
       moduleCode: this.props.form.getFieldValue('moduleCode')
     };
     parameterService.getParamByModuleCode(params).then(res=>{

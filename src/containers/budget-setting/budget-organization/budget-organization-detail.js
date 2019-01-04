@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 
-import {Tabs, Affix, Icon} from 'antd';
+import {Tabs, Affix, Icon,Spin} from 'antd';
 const TabPane = Tabs.TabPane;
 import BudgetScenarios from 'containers/budget-setting/budget-organization/budget-scenarios/budget-scenarios'
 import BudgetStructure from 'containers/budget-setting/budget-organization/budget-structure/budget-structure'
@@ -21,6 +21,8 @@ class BudgetOrganizationDetail extends React.Component {
     super(props);
     this.state = {
       nowStatus: 'SCENARIOS',
+      loading: false,
+      spin: true,
       organization: props.organization.id ? props.organization :{},
       tabs: [
         {key: 'SCENARIOS', name: this.$t('budget.setting.scenarios') },
@@ -50,12 +52,15 @@ class BudgetOrganizationDetail extends React.Component {
     //redux中没有预算组织，调用接口设置
     if(!this.props.organization.id) {
       orgService.getOrganizationsById(this.props.match.params.id).then(res => {
-        this.setState({organization:res.data});
+        this.setState({organization:res.data,loading:true,spin: false});
         this.props.dispatch({
           type: 'budget/setOrganization',
           organization: res.data,
         });
       })
+    }
+    if(this.state.organization.id){
+      this.setState({loading:true,spin: false});
     }
     if(this.props.match.params.tab!==':tab' )
       this.setState({nowStatus: this.props.match.params.tab})
@@ -121,23 +126,28 @@ class BudgetOrganizationDetail extends React.Component {
   };
   render(){
     return (
-      <div style={{paddingBottom: 60}}>
-        <h3 className="header-title">{this.props.organization.organizationName}</h3>
-        <Tabs onChange={this.onChangeTabs} defaultActiveKey={this.state.nowStatus}>
-          {this.renderTabs()}
-        </Tabs>
-        {this.renderContent()}
-        <Affix className="bottom-bar-approve" style={{
-          height: '50px',
-          boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
-          background: '#fff',
-          lineHeight: '50px',
-          zIndex: 1,
-          paddingLeft: 20
-        }}>
-          <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
-        </Affix>
-      </div>
+      <Spin spinning={this.state.spin}>
+        {
+          this.state.loading &&
+          <div style={{paddingBottom: 60}}>
+            <h3 className="header-title">{this.props.organization.organizationName}</h3>
+            <Tabs onChange={this.onChangeTabs} defaultActiveKey={this.state.nowStatus}>
+              {this.renderTabs()}
+            </Tabs>
+            {this.renderContent()}
+            <Affix className="bottom-bar-approve" style={{
+              height: '50px',
+              boxShadow: '0px -5px 5px rgba(0, 0, 0, 0.067)',
+              background: '#fff',
+              lineHeight: '50px',
+              zIndex: 1,
+              paddingLeft: 20
+            }}>
+              <a style={{fontSize:'14px',paddingBottom:'20px'}} onClick={this.handleBack}><Icon type="rollback" style={{marginRight:'5px'}}/>{this.$t({id:"common.back"})}</a>
+            </Affix>
+          </div>
+        }
+      </Spin>
     )
   }
 
