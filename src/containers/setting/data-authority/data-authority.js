@@ -142,7 +142,7 @@ class DataAuthority extends React.Component {
                 <div style={{ marginTop: 10 }}>
                     <CustomTable
                         columns={columns}
-                        url={`${config.authUrl}/api/system/data/authority/query`}
+                        url={`${config.baseUrl}/api/system/data/authority/query`}
                         ref={ref => this.table = ref}
                     />
                 </div>

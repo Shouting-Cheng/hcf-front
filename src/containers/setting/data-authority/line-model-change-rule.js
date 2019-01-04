@@ -75,8 +75,8 @@ class LineModelChangeRulesSystem extends React.Component {
             selectedTenantList: [],
             selectedEmployeeList: [],
             selectedTreeInfo: [],
-            selectedCompanyTreeInfo:[],
-            selectedDepTreeInfo:[]
+            selectedCompanyTreeInfo: [],
+            selectedDepTreeInfo: []
         }
     }
     componentWillMount() {
@@ -287,48 +287,48 @@ class LineModelChangeRulesSystem extends React.Component {
     editRuleItem = () => {
         let { ruleDatail } = this.state;
         if (ruleDatail[0].dataScope === '1004') {
-            let detaileValues0=ruleDatail[0].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs0=ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
+            let detaileValues0 = ruleDatail[0].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs0 = ruleDatail[0].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderSobList: true,
                 sobText: `已选择${detaileValues0.length}个账套`,
                 sobIcon: null,
                 selectedTenantList: ruleDetailValueDTOs0,
-                sobValuesKeys:detaileValues0
+                sobValuesKeys: detaileValues0
             })
         }
         if (ruleDatail[1].dataScope === '1004') {
-            let detaileValues1=ruleDatail[1].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs1=ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
+            let detaileValues1 = ruleDatail[1].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs1 = ruleDatail[1].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderCompanyList: true,
                 companyText: `已选择${detaileValues1.length}个公司`,
                 companyIcon: null,
                 selectedCompanyTreeInfo: ruleDetailValueDTOs1,
-                companyItemsKeys:detaileValues1
+                companyItemsKeys: detaileValues1
             })
         }
         if (ruleDatail[2].dataScope === '1004') {
-            let detaileValues2=ruleDatail[2].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs2=ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
+            let detaileValues2 = ruleDatail[2].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs2 = ruleDatail[2].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderDepartmentList: true,
                 departmentText: `已选择${detaileValues2.length}个部门`,
                 departmentIcon: null,
                 selectedDepTreeInfo: ruleDetailValueDTOs2,
-                departMentItemsKeys:detaileValues2
+                departMentItemsKeys: detaileValues2
 
             })
         }
         if (ruleDatail[3].dataScope === '1004') {
-            let detaileValues3=ruleDatail[3].dataAuthorityRuleDetailValues;
-            let ruleDetailValueDTOs3=ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
+            let detaileValues3 = ruleDatail[3].dataAuthorityRuleDetailValues;
+            let ruleDetailValueDTOs3 = ruleDatail[3].dataAuthorityRuleDetailValueDTOs;
             this.setState({
                 renderEmplyeeList: true,
                 employeeText: `已选择${detaileValues3.length}个员工`,
                 emplyeeIcon: null,
-                selectedEmployeeList:ruleDetailValueDTOs3,
-                employeeKeys:detaileValues3
+                selectedEmployeeList: ruleDetailValueDTOs3,
+                employeeKeys: detaileValues3
             })
         }
         this.setState({
@@ -411,7 +411,7 @@ class LineModelChangeRulesSystem extends React.Component {
         const ruleId = this.props.params ? this.props.params.getRulesArr.id : '';
         const tenantItem = {
             title: '添加账套',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
             searchForm: [
                 { type: 'input', id: 'code', label: '账套代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '账套名称', colSpan: 6 },
@@ -460,7 +460,7 @@ class LineModelChangeRulesSystem extends React.Component {
         const ruleId = this.props.params ? this.props.params.getRulesArr.id : ''
         const employeeItem = {
             title: '添加员工',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
             searchForm: [
                 { type: 'input', id: 'code', label: '员工代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '员工名称', colSpan: 6 },
@@ -532,12 +532,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            if(resultArr[i].valueKey){
+            if (resultArr[i].valueKey) {
                 arr.push(resultArr[i].valueKey);
-            }else{
+            } else {
                 arr.push(resultArr[i].id);
             }
-           
+
         }
         this.props.handleCompanyListOk(arr)
         this.setState({
@@ -553,12 +553,12 @@ class LineModelChangeRulesSystem extends React.Component {
         let resultArr = items;
         let arr = [];
         for (let i = 0; i < resultArr.length; i++) {
-            if(resultArr[i].valueKey){
+            if (resultArr[i].valueKey) {
                 arr.push(resultArr[i].valueKey);
-            }else{
+            } else {
                 arr.push(resultArr[i].id);
             }
-           
+
         }
         this.props.handleDePListOk(arr)
         this.setState({
@@ -601,7 +601,7 @@ class LineModelChangeRulesSystem extends React.Component {
     }
     render() {
         const { getFieldDecorator } = this.props;
-        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo,selectedCompanyTreeInfo,selectedDepTreeInfo,
+        const { targeKey, show, renderSobList, renderCompanyList, renderDepartmentList, renderEmplyeeList, dataType, saveLoading, ruleName, departMentVisible, companyText, companyIcon, departmentIcon, emplyeeIcon, selectedTreeInfo, selectedCompanyTreeInfo, selectedDepTreeInfo,
             showRuleModal, tenantVisible, tenantItem, empolyeeVisible, employeeItem, companyVisible, isEditDelete, ruleDatail, getRulesArr, sobText, sobIcon, departmentText, employeeText, selectedTenantList, selectedEmployeeList } = this.state;
         const ruleFormLayout = {
             labelCol: { span: 6, offset: 1 },
@@ -631,7 +631,7 @@ class LineModelChangeRulesSystem extends React.Component {
 
                                 </FormItem>
                             </Col>
-                            <Col span={8} style={{paddingLeft:60}}>
+                            <Col span={8} style={{ paddingLeft: 60 }}>
                                 <Button type='primary' loading={saveLoading} onClick={(e) => this.saveRuleItem(e, this.props.targeKey)}>{this.$t({ id: 'common.save' })} </Button>
                                 <Button style={{ marginLeft: 10 }} onClick={() => this.removeRule(targeKey)}>{this.$t({ id: 'common.cancel' })}</Button>
                             </Col>

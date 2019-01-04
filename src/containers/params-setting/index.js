@@ -167,7 +167,7 @@ class ParamsSetting extends Component {
                 <Button style={{ margin: "20px 0" }} className="create-btn" type="primary" onClick={this.create}>新建</Button>
                 <CustomTable
                     columns={columns}
-                    url={`${config.authUrl}/api/data/auth/table/properties/query`}
+                    url={`${config.baseUrl}/api/data/auth/table/properties/query`}
                     ref={ref => this.table = ref}
                 />
                 <SlideFrame

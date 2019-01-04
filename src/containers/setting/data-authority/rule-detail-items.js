@@ -55,15 +55,15 @@ class RuleDetailItem extends React.Component {
             lastUpdatedBy: undefined,
             lastUpdatedDate: undefined,
             getRulesArr: {},
-            renderRuleInfo:{},
-            sobText:'添加账套',
-            sobIcon:'plus',
-            companyText:'添加公司',
-            departmentText:'添加部门',
-            employeeText:'添加员工',
-            companyIcon:'plus',
-            departmentIcon:'plus',
-            emplyeeIcon:'plus'
+            renderRuleInfo: {},
+            sobText: '添加账套',
+            sobIcon: 'plus',
+            companyText: '添加公司',
+            departmentText: '添加部门',
+            employeeText: '添加员工',
+            companyIcon: 'plus',
+            departmentIcon: 'plus',
+            emplyeeIcon: 'plus'
         }
     }
     componentWillMount = () => {
@@ -79,30 +79,30 @@ class RuleDetailItem extends React.Component {
             lastUpdatedBy: params.lastUpdatedBy,
             lastUpdatedDate: params.lastUpdatedDate,
             getRulesArr: params.getRulesArr,
-            renderRuleInfo:params.renderRuleInfo
+            renderRuleInfo: params.renderRuleInfo
         })
 
     }
     editRuleItem = () => {
-        let {ruleDatail}=this.state;
-        if(ruleDatail[0].dataScope==='1004'){
+        let { ruleDatail } = this.state;
+        if (ruleDatail[0].dataScope === '1004') {
             this.setState({
-                renderSobList:true
+                renderSobList: true
             })
         }
-        if(ruleDatail[1].dataScope==='1004'){
+        if (ruleDatail[1].dataScope === '1004') {
             this.setState({
-                renderCompanyList:true
+                renderCompanyList: true
             })
         }
-        if(ruleDatail[2].dataScope==='1004'){
+        if (ruleDatail[2].dataScope === '1004') {
             this.setState({
-                renderDepartmentList:true
+                renderDepartmentList: true
             })
         }
-        if(ruleDatail[3].dataScope==='1004'){
+        if (ruleDatail[3].dataScope === '1004') {
             this.setState({
-                renderEmplyeeList:true
+                renderEmplyeeList: true
             })
         }
         this.setState({
@@ -120,33 +120,33 @@ class RuleDetailItem extends React.Component {
         let tenantId = this.props.company.tenantId;
         this.props.form.validateFields((err, values) => {
             let { ruleId, deleted, versionNumber, createdBy, createdDate, lastUpdatedBy, lastUpdatedDate, getRulesArr,
-                dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc, companyItemsKeys, departMentItemsKeys,renderRuleInfo } = this.state;
-            if(!err){
+                dataScopeDesc, sobValuesKeys, employeeKeys, filtrateMethodDesc, companyItemsKeys, departMentItemsKeys, renderRuleInfo } = this.state;
+            if (!err) {
                 let params = {
                     id: ruleId ? ruleId : null,
                     i18n: null,
                     enabled: renderRuleInfo.enabled,
-                    tenantId:tenantId,
+                    tenantId: tenantId,
                     dataAuthorityCode: renderRuleInfo.dataAuthorityCode,
-                    dataAuthorityName:renderRuleInfo.dataAuthorityName,
-                    description:renderRuleInfo.description,
+                    dataAuthorityName: renderRuleInfo.dataAuthorityName,
+                    description: renderRuleInfo.description,
                     deleted: deleted,
                     versionNumber: versionNumber,
                     createdBy: createdBy,
                     createdDate: createdDate,
                     lastUpdatedBy: lastUpdatedBy,
                     lastUpdatedDate: lastUpdatedDate,
-                    dataAuthorityRules:[
+                    dataAuthorityRules: [
                         {
                             i18n: null,
                             dataAuthorityRuleName: values[`dataAuthorityRuleName`],
-                            dataAuthorityRuleDetails:[
+                            dataAuthorityRuleDetails: [
                                 {
                                     dataType: 'SOB',
                                     dataScopeDesc: dataScopeDesc[values[`dataScope1`]].label,
                                     dataScope: values[`dataScope1`],
                                     filtrateMethod: values[`filtrateMethod1`] ? values[`filtrateMethod1`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod1`]?filtrateMethodDesc[values[`filtrateMethod1`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod1`] ? filtrateMethodDesc[values[`filtrateMethod1`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod1`] ? sobValuesKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[0].id : null,
                                     deleted: getRulesArr.deleted,
@@ -163,7 +163,7 @@ class RuleDetailItem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope2`]].label,
                                     dataScope: values[`dataScope2`],
                                     filtrateMethod: values[`filtrateMethod2`] ? values[`filtrateMethod2`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod2`]?filtrateMethodDesc[values[`filtrateMethod2`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod2`] ? filtrateMethodDesc[values[`filtrateMethod2`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod2`] ? companyItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[1].id : null,
                                     deleted: getRulesArr.deleted,
@@ -180,7 +180,7 @@ class RuleDetailItem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope3`]].label,
                                     dataScope: values[`dataScope3`],
                                     filtrateMethod: values[`filtrateMethod3`] ? values[`filtrateMethod3`] : null,
-                                    filtrateMethodDesc: values[`filtrateMethod3`]?filtrateMethodDesc[values[`filtrateMethod3`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod3`] ? filtrateMethodDesc[values[`filtrateMethod3`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod3`] ? departMentItemsKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[2].id : null,
                                     deleted: getRulesArr.deleted,
@@ -197,7 +197,7 @@ class RuleDetailItem extends React.Component {
                                     dataScopeDesc: dataScopeDesc[values[`dataScope4`]].label,
                                     dataScope: values[`dataScope4`],
                                     filtrateMethod: values[`filtrateMethod4`] ? values[`filtrateMethod4`] : null,
-                                    filtrateMethodDesc:values[`filtrateMethod4`]? filtrateMethodDesc[values[`filtrateMethod4`]].label:null,
+                                    filtrateMethodDesc: values[`filtrateMethod4`] ? filtrateMethodDesc[values[`filtrateMethod4`]].label : null,
                                     dataAuthorityRuleDetailValues: values[`filtrateMethod4`] ? employeeKeys : [],
                                     id: getRulesArr.dataAuthorityRuleDetails ? getRulesArr.dataAuthorityRuleDetails[3].id : null,
                                     deleted: getRulesArr.deleted,
@@ -234,14 +234,14 @@ class RuleDetailItem extends React.Component {
                             createdDate: res.data.createdDate,
                             lastUpdatedBy: res.data.lastUpdatedBy,
                             lastUpdatedDate: res.data.lastUpdatedDate,
-                        },()=>{
+                        }, () => {
                             this.props.refresh(this.state.ruleDatail)
                             this.setState({
                                 show: true
                             })
                         })
                     }
-                }) .catch(e => {
+                }).catch(e => {
                     message.error(e.response.data.message)
                 })
             }
@@ -298,7 +298,7 @@ class RuleDetailItem extends React.Component {
         const ruleId = this.props.params.getRulesArr.id;
         const tenantItem = {
             title: '添加账套',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
             searchForm: [
                 { type: 'input', id: 'code', label: '账套代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '账套名称', colSpan: 6 },
@@ -331,8 +331,8 @@ class RuleDetailItem extends React.Component {
         this.setState({
             tenantVisible: false,
             sobValuesKeys: arr,
-            sobText:`已选择${resultArr.length}个账套`,
-            sobIcon:null
+            sobText: `已选择${resultArr.length}个账套`,
+            sobIcon: null
         })
     }
     cancelTenantList = (flag) => {
@@ -345,7 +345,7 @@ class RuleDetailItem extends React.Component {
         const ruleId = this.props.params.getRulesArr.id
         const employeeItem = {
             title: '添加员工',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
             searchForm: [
                 { type: 'input', id: 'code', label: '员工代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '员工名称', colSpan: 6 },
@@ -366,8 +366,8 @@ class RuleDetailItem extends React.Component {
         this.setState({
             empolyeeVisible: true,
             employeeItem,
-            employeeText:`已选择${resultArr.length}个员工`,
-            emplyeeIcon:null
+            employeeText: `已选择${resultArr.length}个员工`,
+            emplyeeIcon: null
         })
     }
     handleEmployeeListOk = (result) => {
@@ -407,8 +407,8 @@ class RuleDetailItem extends React.Component {
         this.setState({
             companyItemsKeys: arr,
             companyVisible: false,
-            companyText:`已选择${resultArr.length}个公司`,
-            companyIcon:null
+            companyText: `已选择${resultArr.length}个公司`,
+            companyIcon: null
         })
 
     }
@@ -432,15 +432,15 @@ class RuleDetailItem extends React.Component {
         this.setState({
             departMentItemsKeys: arr,
             departMentVisible: false,
-            departmentText:`已选择${resultArr.length}个部门`,
-            departmentIcon:null
+            departmentText: `已选择${resultArr.length}个部门`,
+            departmentIcon: null
         })
 
     }
     render() {
-        const { show, ruleName, ruleDatail, dataType, renderSobList, tenantVisible, tenantItem, renderCompanyList, renderDepartmentList,departmentText,
-            renderEmplyeeList, employeeItem, empolyeeVisible, companyVisible, departMentVisible,sobText,sobIcon,companyIcon,companyText,departmentIcon,
-            employeeText,emplyeeIcon
+        const { show, ruleName, ruleDatail, dataType, renderSobList, tenantVisible, tenantItem, renderCompanyList, renderDepartmentList, departmentText,
+            renderEmplyeeList, employeeItem, empolyeeVisible, companyVisible, departMentVisible, sobText, sobIcon, companyIcon, companyText, departmentIcon,
+            employeeText, emplyeeIcon
         } = this.state;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const ruleFormLayout = {

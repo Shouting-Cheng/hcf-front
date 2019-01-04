@@ -7,27 +7,27 @@ export default {
      * @param {*} params 
      */
     getParamsSettingList(params) {
-        return httpFetch.get(`${config.authUrl}/api/data/auth/table/properties/query`, params);
+        return httpFetch.get(`${config.baseUrl}/api/data/auth/table/properties/query`, params);
     },
     /**
      * 新增参数设置
      * @param {*} params 
      */
     addParamsSetting(params) {
-        return httpFetch.post(`${config.authUrl}/api/data/auth/table/properties`, params);
+        return httpFetch.post(`${config.baseUrl}/api/data/auth/table/properties`, params);
     },
     /**
      * 删除参数设置
      * @param {*} params 
      */
     deleteParamsSetting(id) {
-        return httpFetch.delete(`${config.authUrl}/api/data/auth/table/properties/${id}`);
+        return httpFetch.delete(`${config.baseUrl}/api/data/auth/table/properties/${id}`);
     },
     /**
      * 更新参数设置
      * @param {*} params 
      */
     updateParamsSetting(params) {
-        return httpFetch.put(`${config.authUrl}/api/data/auth/table/properties`, params);
+        return httpFetch.put(`${config.baseUrl}/api/data/auth/table/properties`, params);
     },
 }
