@@ -20,8 +20,10 @@ import {
   InputNumber
 } from 'antd'
 import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
+import config from 'config';
 
 import 'styles/budget-setting/budget-organization/budget-versions/new-budget-versions.scss'
+import Chooser from "components/Widget/chooser";
 const Option = Select.Option;
 const FormItem = Form.Item;
 
@@ -35,6 +37,7 @@ class NewParameterDefinition extends React.Component {
       newData: [],
       moduleOptions:[],
       paramsOptions:[],
+      paramCode:{},
       paramValueOptions: [],
       version: {},
       statusOptions:[],
@@ -105,7 +108,10 @@ class NewParameterDefinition extends React.Component {
   };
 
   handleParamChange = (value) =>{
-    this.props.form.setFieldsValue({parameterName: this.state.paramsOptions.find(item=>item.id === value).parameterName})
+    let param = this.state.paramsOptions.find(item=>item.id === value);
+    this.setState({paramCode: param},()=>{
+      this.props.form.setFieldsValue({parameterName: param.parameterName})
+    });
   };
 
   handleParamValue = () =>{
@@ -126,6 +132,52 @@ class NewParameterDefinition extends React.Component {
     this.props.form.resetFields();
     this.props.onClose();
   };
+
+  handleAPI = (value)=>{
+    console.log(value)
+  };
+
+  //根据所选参数代码渲染不同参数值框
+  renderParamValue(){
+    const { paramCode, paramValueOptions} = this.state;
+    console.log(paramCode)
+
+    if(paramCode.api){
+      let selectorItem = {
+        title:  '参数值',//this.$t('chooser.data.company' /*选择公司*/),
+        url: `${config.baseUrl}${paramCode.api}`,
+        searchForm: [
+          {
+            type: 'input',
+            id: 'code',
+            label: this.$t('common.code'),
+          },
+          { type: 'input', id: 'name', label: this.$t('common.name') },
+        ],
+        columns: [
+          { title: this.$t('common.code'), dataIndex: 'code' },
+          { title: this.$t('common.name'), dataIndex: 'name' },
+        ],
+        key: 'id',
+      };
+      return <Chooser
+        single={true}
+        showClear
+        labelKey='code'
+        valueKey='id'
+        onChange={this.handleAPI}
+        selectorItem={selectorItem}
+      />
+    }
+
+    return (<Select placeholder={this.$t("common.please.select")}
+                    disabled={!this.props.form.getFieldValue('parameterId')}
+                    onFocus={this.handleParamValue}>
+      {paramValueOptions.map(item => {
+        return <Option key={item.parameterValue}>{item.parameterValueDesc}</Option>
+      })}
+    </Select>)
+  }
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -180,8 +232,10 @@ class NewParameterDefinition extends React.Component {
               rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
             })(
               <Select disabled={!this.props.form.getFieldValue('moduleCode')}
+                      placeholder={this.$t({id: "common.please.select"})}
                       onChange={this.handleParamChange}
-                      onFocus={this.handleParamCode} placeholder={this.$t({id: "common.please.select"})}>
+                      onFocus={this.handleParamCode}
+              >
                 {paramsOptions.map(item=><Option key={item.id}>{item.parameterCode}</Option>)}
               </Select>
             )}
@@ -198,13 +252,7 @@ class NewParameterDefinition extends React.Component {
               //initialValue: typeof version.id === 'undefined' ? "NEW" : '',
               //rules: [{required: true,}],
             })(
-              <Select placeholder={this.$t({id: "common.please.select"})}
-                      disabled={!this.props.form.getFieldValue('parameterId')}
-                      onFocus={this.handleParamValue}>
-                {paramValueOptions.map(item => {
-                  return <Option key={item.parameterValue}>{item.parameterValueDesc}</Option>
-                })}
-              </Select>
+              this.renderParamValue()
             )}
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
