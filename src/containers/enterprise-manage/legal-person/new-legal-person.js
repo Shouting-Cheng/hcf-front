@@ -286,7 +286,6 @@ class NewLegalPerson extends React.Component {
   };
   //渲染语言
   renderLanguageList = list => {
-    console.log(this.props);
     if (list.length > 1) {
       return list.map(item => {
         return (
