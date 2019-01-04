@@ -24,6 +24,7 @@ import config from 'config';
 
 import 'styles/budget-setting/budget-organization/budget-versions/new-budget-versions.scss'
 import Chooser from "components/Widget/chooser";
+import CustomAmount from "components/Widget/custom-amount";
 const Option = Select.Option;
 const FormItem = Form.Item;
 
@@ -88,7 +89,7 @@ class NewParameterDefinition extends React.Component {
       this.props.form.setFieldsValue({
         parameterId: '',
         parameterName: '',
-        parameterValueId: '',
+        parameterValueId: null,
         parameterValueDesc: ''
       })
     }
@@ -125,7 +126,10 @@ class NewParameterDefinition extends React.Component {
         paramValueOptions: res.data
       })
     })
+  };
 
+  handleParamValueChange = (value) =>{
+    this.props.form.setFieldsValue({parameterValueDesc: this.state.paramValueOptions.find(item=>item.id === value).parameterValueDesc})
   };
 
   onCancel =()=>{
@@ -141,42 +145,59 @@ class NewParameterDefinition extends React.Component {
   renderParamValue(){
     const { paramCode, paramValueOptions} = this.state;
     console.log(paramCode)
-
-    if(paramCode.api){
-      let selectorItem = {
-        title:  '参数值',//this.$t('chooser.data.company' /*选择公司*/),
-        url: `${config.baseUrl}${paramCode.api}`,
-        searchForm: [
-          {
-            type: 'input',
-            id: 'code',
-            label: this.$t('common.code'),
-          },
-          { type: 'input', id: 'name', label: this.$t('common.name') },
-        ],
-        columns: [
-          { title: this.$t('common.code'), dataIndex: 'code' },
-          { title: this.$t('common.name'), dataIndex: 'name' },
-        ],
-        key: 'id',
-      };
-      return <Chooser
-        single={true}
-        showClear
-        labelKey='code'
-        valueKey='id'
-        onChange={this.handleAPI}
-        selectorItem={selectorItem}
-      />
+    switch(paramCode.parameterValueType){
+      case 'API':{
+        let selectorItem = {
+          title:  '参数值',//this.$t('chooser.data.company' /*选择公司*/),
+          url: `${config.baseUrl}${paramCode.api}`,
+          searchForm: [
+            {
+              type: 'input',
+              id: 'code',
+              label: this.$t('common.code'),
+            },
+            { type: 'input', id: 'name', label: this.$t('common.name') },
+          ],
+          columns: [
+            { title: this.$t('common.code'), dataIndex: 'code' },
+            { title: this.$t('common.name'), dataIndex: 'name' },
+          ],
+          key: 'id',
+        };
+        return <Chooser
+          single={true}
+          showClear
+          labelKey='code'
+          valueKey='id'
+          onChange={this.handleAPI}
+          selectorItem={selectorItem}
+        />
+      }
+      case 'VALUE_LIST': {
+        return <Select placeholder={this.$t("common.please.select")}
+                        disabled={!this.props.form.getFieldValue('parameterId')}
+                        onChange={this.handleParamValueChange}
+                        onFocus={this.handleParamValue}>
+          {paramValueOptions.map(item => {
+            return <Option key={item.id}>{item.parameterValue}</Option>
+          })}
+        </Select>
+      }
+      case 'TEXT':{
+        return <Input.TextArea placeholder={this.$t("common.please.enter")}/>
+      }
+      case 'NUMBER':{
+        return <InputNumber placeholder={this.$t("common.please.enter")}/>
+      }
+      case 'DATE':{
+        return <DatePicker/>
+      }
+      case 'DOUBLE':{
+        return <CustomAmount/>
+      }
     }
 
-    return (<Select placeholder={this.$t("common.please.select")}
-                    disabled={!this.props.form.getFieldValue('parameterId')}
-                    onFocus={this.handleParamValue}>
-      {paramValueOptions.map(item => {
-        return <Option key={item.parameterValue}>{item.parameterValueDesc}</Option>
-      })}
-    </Select>)
+    return <Select placeholder={this.$t("common.please.select")} disabled/>
   }
 
   render() {
@@ -184,11 +205,18 @@ class NewParameterDefinition extends React.Component {
     const {record, sob, nowTab} = this.props.params;
     console.log(this.props.params)
     const versionCodeError = false;
-    const {moduleOptions, paramsOptions, paramValueOptions, version,statusOptions} = this.state;
+    const {moduleOptions, paramsOptions, paramCode, version,statusOptions} = this.state;
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 10, offset: 0 },
     };
+    console.log(paramCode)
+    let value = {
+      API: true,
+      VALUE_LIST: true
+    };
+    console.log(value[paramCode.parameterValueType])
+    console.log(paramCode.parameterValueType)
     return (
       <div className="new-parameter-definition" style={{paddingTop: 25}}>
         <Form onSubmit={this.handleSave}>
@@ -255,11 +283,13 @@ class NewParameterDefinition extends React.Component {
               this.renderParamValue()
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
-            {getFieldDecorator('parameterValueDesc', {
-              //initialValue: version.description
-            })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
-          </FormItem>
+          {  value[paramCode.parameterValueType]&&
+            <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
+              {getFieldDecorator('parameterValueDesc', {
+                //initialValue: version.description
+              })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
+            </FormItem>
+          }
           <div className="slide-footer">
             <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.$t({id: "common.save"})}</Button>
             <Button onClick={this.onCancel}>{this.$t({id: "common.cancel"})}</Button>
