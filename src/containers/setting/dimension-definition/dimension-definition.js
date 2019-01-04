@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import SearchArea from 'widget/search-area';
+import  SearchArea from 'widget/search-area';
 import { Button, Divider, message, Popconfirm, Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
@@ -27,7 +27,7 @@ class Dfinition extends Component {
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
-          defaultValue: props.company.setOfBooksId ,
+          defaultValue: this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : props.company.setOfBooksId ,
           colSpan: 6,
         },
         {
@@ -117,7 +117,8 @@ class Dfinition extends Component {
       showSlideFrame: false,
       data: [],
       updateParams: {},
-      setOfBooksId: props.company.setOfBooksId,
+      setOfBooksId: this.props.match.params.setOfBooksId ?
+        this.props.match.params.setOfBooksId : props.company.setOfBooksId
     };
   }
 
@@ -165,7 +166,7 @@ class Dfinition extends Component {
       });
       let form = this.state.searchForm;
       form[0].options = list;
-      form[0].defaultValue = this.props.company.setOfBooksId;
+      form[0].defaultValue = this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : this.props.company.setOfBooksId;
       this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
     });
   }
@@ -183,7 +184,15 @@ class Dfinition extends Component {
   }
   //清除
   clear = () => {
-   this.setState({setOfBooksId:this.props.company.setOfBooksId});
+    const {setOfBooksId}=this.state.searchParams;
+    let form = this.state.searchForm;
+    if(setOfBooksId){
+      form[0].defaultValue = setOfBooksId;
+    }else{
+      form[0].defaultValue = this.props.company.setOfBooksId;
+    }
+   this.setState({searchForm:form,setOfBooksId:form[0].defaultValue});
+   this.state.searchParams={};
    this.table.search();
   }
   // 详情
