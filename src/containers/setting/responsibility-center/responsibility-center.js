@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
+import config from 'config';
 import SearchArea from 'widget/search-area';
-import { Button, Row, Col, Tabs } from 'antd';
+import { Button, Row, Col, Tabs, Popconfirm, Badge, Divider } from 'antd';
 import 'styles/setting/responsibility-center/responsibility-center.scss';
 import CustomTable from 'components/Widget/custom-table';
 import SlideFrame from 'widget/slide-frame';
-import NewResponsibilityCenter from'containers/setting/responsibility-center/new-responsibility-cernter'
-import NewResponsibilityCenterGroup from'containers/setting/responsibility-center/new-responsibility-cernter-group'
+import NewResponsibilityCenter from 'containers/setting/responsibility-center/new-responsibility-cernter'
+import NewResponsibilityCenterGroup from 'containers/setting/responsibility-center/new-responsibility-cernter-group'
 const TabPane = Tabs.TabPane;
 class ResponsibilityCenter extends React.Component {
 
@@ -14,63 +15,148 @@ class ResponsibilityCenter extends React.Component {
         super(props);
         this.state = {
             cernterSearchForm: [
-                { type: 'select', id: 'setOfBooksId', label: '账套', options: [], isRequired: 'true', colSpan: '6', },
-                { type: 'input', id: 'responsibilityCode', label: '责任中心代码', colSpan: '6', },
-                { type: 'input', id: 'responsibilityName', label: '责任中心名称', colSpan: '6', },
-                { type: 'select', id: 'status', label: '状态', options: [], colSpan: '6', }
+                {
+                    type: 'select', id: 'setOfBooksId', label: '账套', options: [], isRequired: true, colSpan: '6',
+                    getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+                    getParams: { roleType: 'TENANT' },
+                    allowClear: false,
+                    method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
+                    event: 'SETOFBOOKSID',
+                    // defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
+                    renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
+                },
+                { type: 'input', id: 'resiponsibilityCenterCode', label: '责任中心代码', colSpan: '6', },
+                { type: 'input', id: 'resiponsibilityCenterName', label: '责任中心名称', colSpan: '6', },
+                {
+                    type: 'select', id: 'enabled', label: '状态', options: [
+                        { value: true, label: '启用' },
+                        { value: false, label: '禁用' },
+                    ], colSpan: '6',
+                }
             ],
             groupSearchForm: [
-                { type: 'select', id: 'setOfBooksId', label: '账套', options: [], isRequired: 'true', colSpan: '6', },
-                { type: 'input', id: 'responsibilityCode', label: '责任中心代码', colSpan: '6', },
-                { type: 'input', id: 'responsibilityName', label: '责任中心名称', colSpan: '6', },
-                { type: 'select', id: 'status', label: '状态', options: [], colSpan: '6', }
+                {
+                    type: 'select', id: 'setOfBooksId', label: '账套', options: [], isRequired: true, colSpan: '6',
+                    getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+                    getParams: { roleType: 'TENANT' },
+                    allowClear: false,
+                    method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
+                    event: 'SETOFBOOKSID',
+                    // defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
+                    renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
+                },
+                { type: 'input', id: 'groupCode', label: '责任中心代码', colSpan: '6', },
+                { type: 'input', id: 'groupName', label: '责任中心名称', colSpan: '6', },
+                {
+                    type: 'select', id: 'enabled', label: '状态', options: [
+                        { value: true, label: '启用' },
+                        { value: false, label: '禁用' },
+                    ], colSpan: '6',
+                }
             ],
             cernterColumns: [
                 {
                     title: '责任中心代码',
-                    dataIndex: 'responsibilityCode',
+                    dataIndex: 'resiponsibilityCenterCode',
                 },
                 {
                     title: '责任中心名称',
-                    dataIndex: 'responsibilityName',
+                    dataIndex: 'resiponsibilityCenterName',
                 },
                 {
                     title: '状态',
-                    dataIndex: 'status',
+                    dataIndex: 'enabled',
+                    render: (record) => (
+                        <Badge
+                            status={record ? 'success' : 'error'}
+                            text={record ? this.$t('common.status.enable') : this.$t('common.status.disable')}
+                        />
+                    )
                 },
                 {
                     title: this.$t("common.operation"),//"操作",
                     dataIndex: 'operate',
+                    render: (text, record) => (
+                        <span>
+                            {/*编辑*/}
+                            <a onClick={(e) => this.editCenterItem(record)}>{this.$t("common.edit")}</a>
+                            <Divider type="vertical" />
+                            {/*删除*/}
+                            <Popconfirm
+                                placement="top"
+                                title={'确认删除？'}
+                                onConfirm={e => {
+                                    e.preventDefault();
+                                    this.deleteCost(record);
+                                }}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                                <a>删除</a>
+                            </Popconfirm>
+                        </span>
+                    )
                 }
             ],
-            groupColumns:[
+            groupColumns: [
                 {
-                    title: '责任中心代码',
-                    dataIndex: 'responsibilityCode',
+                    title: '责任中心组代码',
+                    dataIndex: 'groupCode',
                 },
                 {
-                    title: '责任中心名称',
-                    dataIndex: 'responsibilityName',
+                    title: '责任中心组名称',
+                    dataIndex: 'groupName',
                 },
                 {
                     title: '状态',
-                    dataIndex: 'status',
+                    dataIndex: 'enabled',
                 },
                 {
-                    title:'添加责任中心',
-                    dataIndex:'addResponsibility'
+                    title: '添加责任中心',
+                    dataIndex: 'addResponsibility',
+                    render: (text, record) => (
+                        <span>
+                            {/**添加责任中心 */}
+                            <a>添加责任中心</a>
+                        </span>
+                    )
                 },
                 {
                     title: this.$t("common.operation"),//"操作",
                     dataIndex: 'operate',
+                    render: (text, record) => (
+                        <span>
+                            {/*编辑*/}
+                            <a>{this.$t("common.edit")}</a>
+                            <Divider type="vertical" />
+                            {/*删除*/}
+                            <Popconfirm
+                                placement="top"
+                                title={'确认删除？'}
+                                onConfirm={e => {
+                                    e.preventDefault();
+                                    // this.deleteCost(record);
+                                }}
+                                okText="确定"
+                                cancelText="取消"
+                            >
+                                <a>删除</a>
+                            </Popconfirm>
+                        </span>
+                    )
                 }
             ],
             selectedRowKeys: [],
             tabVal: 'cernter',
-            showCernterSlideFrame:false,
-            showGroupSlideFrame:false
+            showCernterSlideFrame: false,
+            showGroupSlideFrame: false,
+            setOfBooksId: props.company.setOfBooksId,
+            searchParams: {},
+            isNew: false,
+            centerParams: {}
         }
     }
+
     /**tabs切换事件 */
     onChangeTab = (key) => {
         this.setState({
@@ -78,11 +164,29 @@ class ResponsibilityCenter extends React.Component {
         })
     }
     /**责任中心搜索，清空，表格操作，新建等功能 */
-    searhCernter = () => {
-
+    searhCernter = (values) => {
+        values.resiponsibilityCenterCode = values.resiponsibilityCenterCode ? values.resiponsibilityCenterCode : undefined,
+            values.resiponsibilityCenterName = values.resiponsibilityCenterName ? values.resiponsibilityCenterName : undefined,
+            values.enabled = values.enabled ? values.enabled : undefined,
+            this.setState({
+                searchParams: values
+            }, () => {
+                this.centerTable.search(this.state.searchParams)
+            })
     }
     clearCenter = () => {
-
+        this.setState({
+            searchParams: {}
+        })
+    }
+    //删除责任心中单条数据
+    editCenterItem = (record) => {
+        this.setState({
+            isNew: false,
+            centerParams: JSON.parse(JSON.stringify(record)),
+        }, () => {
+            this.setState({ showCernterSlideFrame: true })
+        })
     }
     //勾选责任中心，多选
     onSelectItem = (record, selected) => {
@@ -93,26 +197,34 @@ class ResponsibilityCenter extends React.Component {
 
     }
     //新建责任中心
-    addCenter=()=>{
+    addCenter = () => {
         this.setState({
-            showCernterSlideFrame:true
+            centerParams: {},
+            isNew: true
+        }, () => {
+            this.setState({ showCernterSlideFrame: true })
+        })
+    }
+    handleCloseCenterSlide = () => {
+        this.setState({ showCernterSlideFrame: false }, () => {
+            this.centerTable.search(this.state.searchParams)
         })
     }
     /**责任中心组搜索，清空，表格操作，新建等功能 */
-    searhGroup=()=>{
+    searhGroup = () => {
 
     }
-    clearGroup=()=>{
+    clearGroup = () => {
 
     }
     //新建责任中心组
-    addCenterGroup=()=>{
+    addCenterGroup = () => {
         this.setState({
-            showGroupSlideFrame:true
+            showGroupSlideFrame: true
         })
     }
     render() {
-        const { cernterSearchForm, cernterColumns, selectedRowKeys, tabVal, groupSearchForm,groupColumns,showCernterSlideFrame,showGroupSlideFrame } = this.state;
+        const { cernterSearchForm, cernterColumns, selectedRowKeys, isNew, centerParams, tabVal, groupSearchForm, groupColumns, showCernterSlideFrame, showGroupSlideFrame, setOfBooksId } = this.state;
         const rowSelection = {
             selectedRowKeys,
             onSelect: this.onSelectItem,
@@ -142,22 +254,24 @@ class ResponsibilityCenter extends React.Component {
                                 <div style={{ marginTop: 10 }}>
                                     <CustomTable
                                         columns={cernterColumns}
-                                        // url={`${config.authUrl}/api/system/data/authority/query`}
-                                        // ref={ref => this.table = ref}
+                                        url={`${config.baseUrl}/api/resiponsibilitycenter/query`}
+                                        params={{ setOfBooksId: setOfBooksId }}
+                                        ref={ref => this.centerTable = ref}
                                         rowSelection={rowSelection}
                                     />
                                 </div>
                             </div>
                         )}
-                         <SlideFrame
-                          title={'新建责任中心'}
-                          show={showCernterSlideFrame}
-                          onClose={() => this.setState({ showCernterSlideFrame: false })}
-                         >
+                        <SlideFrame
+                            title={isNew ? '新建责任中心' : '编辑责任中心'}
+                            show={showCernterSlideFrame}
+                            onClose={() => this.setState({ showCernterSlideFrame: false })}
+                        >
                             <NewResponsibilityCenter
-                            
+                                params={centerParams}
+                                close={this.handleCloseCenterSlide}
                             />
-                         </SlideFrame>
+                        </SlideFrame>
                     </TabPane>
                     <TabPane tab='责任中心组' key='cernterGroup'>
                         {tabVal === 'cernterGroup' && (
@@ -168,28 +282,29 @@ class ResponsibilityCenter extends React.Component {
                                     clearHandle={this.clearGroup}
                                     maxLength={4}
                                 />
-                                 <div className='btnMargin'>
+                                <div className='btnMargin'>
                                     <Button type="primary" onClick={this.addCenterGroup}>新建</Button>
                                 </div>
                                 <div style={{ marginTop: 10 }}>
                                     <CustomTable
                                         columns={groupColumns}
-                                        // url={`${config.authUrl}/api/system/data/authority/query`}
-                                        // ref={ref => this.table = ref}
+                                        url={`${config.baseUrl}/api/resiponsibilitycenter/group/query`}
+                                        params={{ setOfBooksId: setOfBooksId }}
+                                    // ref={ref => this.table = ref}
 
                                     />
                                 </div>
                             </div>
                         )}
-                         <SlideFrame
-                          title={'新建责任中心组'}
-                          show={showGroupSlideFrame}
-                          onClose={() => this.setState({ showGroupSlideFrame: false })}
-                         >
+                        <SlideFrame
+                            title={'新建责任中心组'}
+                            show={showGroupSlideFrame}
+                            onClose={() => this.setState({ showGroupSlideFrame: false })}
+                        >
                             <NewResponsibilityCenterGroup
-                            
+
                             />
-                         </SlideFrame>
+                        </SlideFrame>
 
                     </TabPane>
                 </Tabs>
