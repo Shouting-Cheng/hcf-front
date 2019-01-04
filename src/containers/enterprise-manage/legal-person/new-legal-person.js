@@ -97,7 +97,6 @@ class NewLegalPerson extends React.Component {
         uploadedImages = [uploadedImage];
       }
       //前端设置一下语言
-      debugger;
       data.mainLanguageName = getLanguageName(data.mainLanguage, this.props.language.languageType);
       this.setState(
         {
