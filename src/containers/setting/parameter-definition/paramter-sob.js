@@ -171,7 +171,6 @@ class ParameterDefinition extends React.Component {
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleAdd}>{this.$t({id: 'common.add'})}</Button>  {/*添加*/}
           </div>
-
         </div>
         <CustomTable
           columns={columns}
@@ -182,6 +181,15 @@ class ParameterDefinition extends React.Component {
           url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
           ref={ref => (this.table = ref)}
         />
+        <SlideFrame
+          title={this.$t('parameter.definition.sob')+ this.$t('parameter.definition')}
+          show={visible}
+          onClose={()=>this.setState({visible: false})}>
+          <NewParameterDefinition
+            params={{...record,visible, sob, nowTab: '1' }}
+            onClose={this.handleClose}
+          />
+        </SlideFrame>
       </div>)
     )
   }

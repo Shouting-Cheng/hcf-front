@@ -2911,7 +2911,27 @@ const chooserData = {
       { title: "申请大类", dataIndex: "typeCategoryName" }
     ],
     key: 'id',
+  },
+  //租户下启用的公司
+  'enableCompanyByTenant':{
+    title: messages('chooser.data.company' /*选择公司*/),
+    url: `${config.baseUrl}/api/company/by/tenant/page`,
+    searchForm: [
+      {
+        type: 'input',
+        id: 'companyCode',
+        label: messages('chooser.data.companyCode' /*公司代码*/),
+      },
+      { type: 'input', id: 'name', label: messages('chooser.data.companyName' /*公司名称*/) },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode' /*公司代码*/), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName' /*公司名称*/), dataIndex: 'name' },
+      { title: messages('chooser.data.companyType' /*公司类型*/), dataIndex: 'companyTypeName' },
+    ],
+    key: 'id',
   }
+
 };
 
 export default chooserData;
