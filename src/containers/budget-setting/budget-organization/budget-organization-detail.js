@@ -21,6 +21,7 @@ class BudgetOrganizationDetail extends React.Component {
     super(props);
     this.state = {
       nowStatus: 'SCENARIOS',
+      loading: false,
       organization: props.organization.id ? props.organization :{},
       tabs: [
         {key: 'SCENARIOS', name: this.$t('budget.setting.scenarios') },
@@ -50,7 +51,7 @@ class BudgetOrganizationDetail extends React.Component {
     //redux中没有预算组织，调用接口设置
     if(!this.props.organization.id) {
       orgService.getOrganizationsById(this.props.match.params.id).then(res => {
-        this.setState({organization:res.data});
+        this.setState({organization:res.data,loading:true});
         this.props.dispatch({
           type: 'budget/setOrganization',
           organization: res.data,
@@ -120,7 +121,7 @@ class BudgetOrganizationDetail extends React.Component {
     );
   };
   render(){
-    return (
+    return this.state.loading&&(
       <div style={{paddingBottom: 60}}>
         <h3 className="header-title">{this.props.organization.organizationName}</h3>
         <Tabs onChange={this.onChangeTabs} defaultActiveKey={this.state.nowStatus}>
