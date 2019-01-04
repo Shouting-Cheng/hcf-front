@@ -127,6 +127,14 @@ export default {
    */
   updateHeaderData(params) {
     return httpFetch.put(`${config.expenseUrl}/api/expense/application/header`, params);
+  },
+
+  /**
+   * 撤回
+   * @param {*} params 
+   */
+  withdraw(params) {
+    return httpFetch.post(`${config.baseUrl}/api/workflow/withdraw`, params);
   }
 
 }

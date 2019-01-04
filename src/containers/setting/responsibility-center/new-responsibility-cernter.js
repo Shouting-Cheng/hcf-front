@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import { Button, Form, Divider, Input, Switch, Icon, Alert, Row, Col, Spin, message, Select } from 'antd';
 import LanguageInput from 'components/Widget/Template/language-input/language-input';
+<<<<<<< HEAD
 import ResponsibilityService from 'containers/setting/responsibility-center/responsibility-service'
+=======
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
 const FormItem = Form.Item;
 const Option = Select.Option;
 class NewResponsibilityCenter extends React.Component {
     constructor(props) {
+<<<<<<< HEAD
         super(props);
         this.state={
             newDataPrams:{}
@@ -41,13 +45,23 @@ class NewResponsibilityCenter extends React.Component {
 
             }
         })
+=======
+        super(props)
+    }
+    handleSave=()=>{
+
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
     }
     onCancel=()=>{
         
     }
     render() {
+<<<<<<< HEAD
         const { getFieldDecorator, getFieldValue, } = this.props.form;
         const{newDataPrams}=this.state;
+=======
+        const { getFieldDecorator, getFieldValue } = this.props.form;
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
         const formItemLayout = {
             labelCol: { span: 6, offset: 1 },
             wrapperCol: { span: 10, offset: 1 },
@@ -59,14 +73,22 @@ class NewResponsibilityCenter extends React.Component {
                         {...formItemLayout}
                         label='账套'
                     >
+<<<<<<< HEAD
                         {getFieldDecorator('setOfBooksId', {
+=======
+                        {getFieldDecorator('sent', {
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                             rules: [
                                 {
                                     required: true,
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
                             ],
+<<<<<<< HEAD
                             initialValue: newDataPrams.id?newDataPrams.setOfBooksId:this.props.company.setOfBooksId,
+=======
+                            initialValue: '',
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                         })(
                             <Select defaultValue="lucy" disabled>
                                 <Option value="jack">Jack</Option>
@@ -78,14 +100,22 @@ class NewResponsibilityCenter extends React.Component {
                         {...formItemLayout}
                         label='责任中心代码'
                     >
+<<<<<<< HEAD
                         {getFieldDecorator('resiponsibilityCenterCode', {
+=======
+                        {getFieldDecorator('responsibilityCode', {
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                             rules: [
                                 {
                                     required: true,
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
                             ],
+<<<<<<< HEAD
                             initialValue: newDataPrams.resiponsibilityCenterCode||'',
+=======
+                            initialValue: '',
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                         })(
                             <Input
                                 placeholder={this.$t("common.please.enter")}
@@ -96,14 +126,22 @@ class NewResponsibilityCenter extends React.Component {
                         {...formItemLayout}
                         label='责任中心名称'
                     >
+<<<<<<< HEAD
                         {getFieldDecorator('resiponsibilityCenterName', {
+=======
+                        {getFieldDecorator('responsibilityName', {
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                             rules: [
                                 {
                                     required: true,
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
                             ],
+<<<<<<< HEAD
                             initialValue: newDataPrams.resiponsibilityCenterName||'',
+=======
+                            initialValue: '',
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                         })(
                             <div>
                                 <LanguageInput
@@ -124,7 +162,11 @@ class NewResponsibilityCenter extends React.Component {
                     >
                         {getFieldDecorator('enabled', {
                             rules: [],
+<<<<<<< HEAD
                             initialValue: newDataPrams.id ? newDataPrams.enabled : true,
+=======
+                            // initialValue: newDataPrams.id ? newDataPrams.enabled : true,
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
                             valuePropName: 'checked'
                         })(
                             <Switch checkedChildren={<Icon type="check" />}

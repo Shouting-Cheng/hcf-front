@@ -1840,7 +1840,7 @@ export const getRouterData = app => {
         import('containers/setting/dimension-definition/dimension-details/dimension-details.js')
       ),
       name: 'dimension-details',
-      parent: '/admin-setting/dimension-definition'
+      parent: '/admin-setting/dimension-definition/:setOfBooksId'
     },
     //维值下的分配公司
     '/admin-setting/dimension-definition/batch-company/:setOfBooksId/:dimensionId/:dimensionItemId': {
@@ -1851,7 +1851,7 @@ export const getRouterData = app => {
       parent: '/admin-setting/dimension-definition/dimension-details/:dimensionId'
     },
     // 维度定义
-    '/admin-setting/dimension-definition': {
+    '/admin-setting/dimension-definition/:setOfBooksId': {
       component: dynamicWrapper(app, [], () => import('containers/setting/dimension-definition/dimension-definition.js')),
       name: 'dimension-definition',
     },
@@ -1892,7 +1892,17 @@ export const getRouterData = app => {
       ),
       name: 'responsibility-center',
     },
+<<<<<<< HEAD
 
+=======
+    //责任中心
+    '/admin-setting/responsibility-center': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/setting/responsibility-center/responsibility-center.js')
+      ),
+      name: 'responsibility-center',
+    },
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

@@ -32,7 +32,7 @@ class CustomTable extends Component {
         title: this.$t('common.sequence'), dataIndex: "sort", width: 90, align: "center", render: (value, record, index) => {
           return <span>{this.state.page * this.state.size + index + 1}</span>
         }
-      }
+      },
     }
   }
 
@@ -127,11 +127,10 @@ class CustomTable extends Component {
     pagination.pageSize = size;
     this.setState({ page: 0, size: size, pagination }, this.getList);
   }
-
   render() {
     const { dataSource, pagination, loading, tableColumns } = this.state;
-    const { onClick, tableKey } = this.props;
-
+    const { onClick, tableKey,rowSelection } = this.props;
+   
     return (
       <Table
         rowKey={record => record[tableKey || 'id']}
@@ -146,6 +145,7 @@ class CustomTable extends Component {
             onClick: () => { (onClick && onClick(record)) }
           }
         }}
+        rowSelection={rowSelection?rowSelection:null} 
       />
     )
   }

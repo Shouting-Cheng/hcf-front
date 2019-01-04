@@ -13,6 +13,7 @@ import BudgetStrategy from 'containers/budget-setting/budget-organization/budget
 import BudgetControlRules from 'containers/budget-setting/budget-organization/budget-control-rules/budget-control-rules'
 import BudgetJournalType from 'containers/budget-setting/budget-organization/budget-journal-type/budget-journal-type'
 import BudgetItemMap from 'containers/budget-setting/budget-organization/budget-item-map/budget-item-map'
+import orgService from 'containers/budget-setting/budget-organization/budget-organnization.service'
 import { routerRedux } from 'dva/router';
 
 class BudgetOrganizationDetail extends React.Component {
@@ -20,6 +21,7 @@ class BudgetOrganizationDetail extends React.Component {
     super(props);
     this.state = {
       nowStatus: 'SCENARIOS',
+      organization: props.organization.id ? props.organization :{},
       tabs: [
         {key: 'SCENARIOS', name: this.$t('budget.setting.scenarios') },
         {key: 'VERSIONS', name: this.$t('budget.setting.version')},
@@ -45,6 +47,16 @@ class BudgetOrganizationDetail extends React.Component {
   }
 
   componentWillMount(){
+    //redux中没有预算组织，调用接口设置
+    if(!this.props.organization.id) {
+      orgService.getOrganizationsById(this.props.match.params.id).then(res => {
+        this.setState({organization:res.data});
+        this.props.dispatch({
+          type: 'budget/setOrganization',
+          organization: res.data,
+        });
+      })
+    }
     if(this.props.match.params.tab!==':tab' )
       this.setState({nowStatus: this.props.match.params.tab})
   }
@@ -97,7 +109,8 @@ class BudgetOrganizationDetail extends React.Component {
         content = BudgetItemMap;
         break;
     }
-    return this.props.match.params.id ? React.createElement(content, Object.assign({}, this.props.match.params, {organization: this.props.organization})) : null;
+    console.log(this.state.organization)
+    return this.props.match.params.id ? React.createElement(content, Object.assign({}, this.props.match.params, {organization: this.state.organization})) : null;
   };
   handleBack = () => {
     this.props.dispatch(
@@ -132,7 +145,6 @@ class BudgetOrganizationDetail extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    //organization: state.budget.organization
     organization: state.budget.organization
   }
 }

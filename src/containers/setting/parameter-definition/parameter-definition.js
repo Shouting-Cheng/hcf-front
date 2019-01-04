@@ -39,17 +39,21 @@ class ParameterDefinition extends React.Component {
           key: 2, value: this.$t('parameter.definition.comp')
         },
       ],
+      parameterLevel:{
+        0: 'TENANT',
+        1: 'SOB',
+        2: 'COMPANY'
+      },
       searchForm: [
         {
           type: 'select', id: 'structureCode', label: this.$t({id: 'parameter.definition.model'}),
           options: [],
-          labelKey: 'itemTypeName',
-          valueKey: 'id',
+          labelKey: 'moduleName',
+          valueKey: 'moduleCode',
           colSpan: 6,
-          listExtraParams: { organizationId: this.props.id },
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+          getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
-          getParams: { roleType:'TENANT' },
+          //getParams: { roleType:'TENANT' },
         },
         {type: 'input', id: 'structureCode1',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'structureName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
@@ -139,19 +143,6 @@ class ParameterDefinition extends React.Component {
     })
   };
 
-  //分页点击
-  onChangePager = (pagination,filters, sorter) =>{
-    let temp = this.state.pagination;
-    temp.page = pagination.current-1;
-    temp.current = pagination.current;
-    temp.pageSize = pagination.pageSize;
-    this.setState({
-      loading: true,
-      pagination: temp
-    }, ()=>{
-      this.getList();
-    })
-  };
 
  handleAdd = () =>{
    this.setState({visible: true})
@@ -174,12 +165,13 @@ class ParameterDefinition extends React.Component {
     console.log(params)
     this.setState({
       visible: false
+    },()=>{
+      params&&this.table.search({parameterLevel: this.state.parameterLevel[this.state.nowTab]})
     })
   };
 
   renderContent(){
-    const { searchForm, loading, data, columns, nowTab } = this.state;
-
+    const { searchForm, parameterLevel, columns, nowTab } = this.state;
     return(<div style={{marginTop: 15}}>
       <SearchArea searchForm={searchForm} maxLength={4} submitHandle={this.handleSearch}/>
       <div className="table-header" style={{marginTop: 15}}>
@@ -192,8 +184,7 @@ class ParameterDefinition extends React.Component {
       </div>
       <CustomTable
         columns={columns}
-        methodType='post'
-        url={`${config.baseUrl}/api/parameter/moduleCode`}
+        url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond?parameterLevel=${parameterLevel[nowTab]}`}
         ref={ref => (this.table = ref)}
       />
     </div>)

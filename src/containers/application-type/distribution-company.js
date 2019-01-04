@@ -15,13 +15,11 @@ class CompanyDistribution extends React.Component {
       loading: false,
       companyTypeList: [
         { label: '账套', id: 'setOfBooksName' },
-        { label: '预付款单类型代码', id: 'typeCode' },
-        { label: '预付款单类型名称', id: 'typeName' },
+        { label: '申请单类型代码', id: 'typeCode' },
+        { label: '申请单类型名称', id: 'typeName' },
         { label: '状态', id: 'enabled' }
       ],
-      companyTypeInfo: {
-
-      },
+      companyTypeInfo: {},
       columns: [
         { title: '公司代码', dataIndex: 'companyCode', align: 'center' },
         { title: '公司名称', dataIndex: 'companyName', align: 'center' },
@@ -50,7 +48,7 @@ class CompanyDistribution extends React.Component {
         searchForm: [
           // { type: 'input', id: 'setOfBooksCode', label: '账套', defaultValue: (res.data.cashPayRequisitionType.setOfBookCode), disabled: true },
           { type: 'input', id: 'companyCode', label: '公司代码' },
-          { type: 'input', id: 'name', label: '公司名称' },
+          { type: 'input', id: 'companyName', label: '公司名称' },
           { type: 'input', id: 'companyCodeFrom', label: '公司代码从' },
           { type: 'input', id: 'companyCodeTo', label: '公司代码至' }
         ],
@@ -130,6 +128,11 @@ class CompanyDistribution extends React.Component {
   }
 
   handleListOk = (values) => {
+    if (!values.result || !values.result.length) {
+      this.handleListShow(false);
+      return;
+    };
+
     let paramsValue = [];
     paramsValue.sobPayReqTypeId = this.props.match.params.id;
     paramsValue.companyId = [];

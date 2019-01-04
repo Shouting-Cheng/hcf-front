@@ -30,8 +30,8 @@ class NewBudgetStructure extends React.Component{
       let periodStrategy = [];
       response.data.values.map((item)=>{
         let option = {
-          id: item.code,
-          value: item.messageKey
+          id: item.value,
+          value: item.name
         };
         periodStrategy.push(option);
       });
@@ -39,16 +39,9 @@ class NewBudgetStructure extends React.Component{
         periodStrategy: periodStrategy
       })
     });
-  /*  typeof this.props.organization.organizationName === "undefined" ?
-      budgetService.getOrganizationById(this.props.match.params.id).then((response) =>{
-        this.setState({
-          organization: response.data,
-        })
-      })
-      :*/
-      this.setState({
-        organization: this.props.organization,
-      })
+    this.setState({
+      organization: this.props.organization,
+    })
   }
 
   //新建预算表

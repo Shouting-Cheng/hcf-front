@@ -6,12 +6,17 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 class NewResponsibilityCenterGroup extends React.Component {
     constructor(props) {
+<<<<<<< HEAD
         super(props);
         this.state={
             
         }
     }
 
+=======
+        super(props)
+    }
+>>>>>>> 1ad68f87ea29ed7c4fd94e81ed3185b10065e604
     handleSave=()=>{
 
     }

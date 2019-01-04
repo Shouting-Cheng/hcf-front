@@ -13,9 +13,9 @@ class CompanyDistribution extends React.Component {
     this.state = {
       loading: false,
       companyTypeList: [
-        { label: '账套', id: 'setOfBookCode' },
-        { label: '预付款单类型代码', id: 'typeCode' },
-        { label: '预付款单类型名称', id: 'typeName' },
+        { label: '账套', id: 'setOfBooksName' },
+        { label: '申请单类型代码', id: 'typeCode' },
+        { label: '申请单类型名称', id: 'typeName' },
         { label: '状态', id: 'enabled' }
       ],
       companyTypeInfo: {},
