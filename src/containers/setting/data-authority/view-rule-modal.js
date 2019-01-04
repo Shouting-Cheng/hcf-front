@@ -611,7 +611,7 @@ class ViewRuleModal extends React.Component {
         const ruleId = this.state.getRulesArr.id;
         const tenantItem = {
             title: '添加账套',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=SOB`,
             searchForm: [
                 { type: 'input', id: 'code', label: '账套代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '账套名称', colSpan: 6 },
@@ -703,7 +703,7 @@ class ViewRuleModal extends React.Component {
         const ruleId = this.state.getRulesArr.id;
         const employeeItem = {
             title: '添加员工',
-            url: `${config.authUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
+            url: `${config.baseUrl}/api/data/authority/rule/detail/values/select?ruleId=${ruleId}&dataType=EMPLOYEE`,
             searchForm: [
                 { type: 'input', id: 'code', label: '员工代码', colSpan: 6 },
                 { type: 'input', id: 'name', label: '员工名称', colSpan: 6 },
@@ -1215,7 +1215,7 @@ class ViewRuleModal extends React.Component {
                                     <div style={{ margin: 20 }}>
                                         <CustomTable
                                             columns={sobColumns}
-                                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=SOB&keyWord=${keyWord}`}
+                                            url={`${config.baseUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=SOB&keyWord=${keyWord}`}
                                             ref={ref => this.sobTable = ref}
                                         />
                                     </div>
@@ -1240,7 +1240,7 @@ class ViewRuleModal extends React.Component {
                                     <div style={{ margin: 20 }}>
                                         <CustomTable
                                             columns={companyColumns}
-                                            url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=COMPANY&keyWord=${keyWord}`}
+                                            url={`${config.baseUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=COMPANY&keyWord=${keyWord}`}
                                             ref={ref => this.companyTable = ref}
                                         />
                                     </div>
@@ -1265,7 +1265,7 @@ class ViewRuleModal extends React.Component {
                                 <div style={{ margin: 20 }}>
                                     <CustomTable
                                         columns={unitColumns}
-                                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=UNIT&keyWord=${keyWord}`}
+                                            url={`${config.baseUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=UNIT&keyWord=${keyWord}`}
                                         ref={ref => this.unitTable = ref}
                                     />
                                 </div>
@@ -1288,7 +1288,7 @@ class ViewRuleModal extends React.Component {
                                 <div style={{ margin: 20 }}>
                                     <CustomTable
                                         columns={emplyeeColumns}
-                                        url={`${config.authUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=EMPLOYEE&keyWord=${keyWord}`}
+                                            url={`${config.baseUrl}/api/data/authority/rule/detail/values?ruleId=${this.props.targetId}&dataType=EMPLOYEE&keyWord=${keyWord}`}
                                         ref={ref => this.employeeTable = ref}
                                     />
                                 </div>
