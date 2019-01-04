@@ -79,6 +79,18 @@ class NewParameterDefinition extends React.Component {
     })
   };
 
+  //模块代码改变时，重置相关值
+  handleModuleChange = (value) =>{
+    if(value){
+      this.props.form.setFieldsValue({
+        parameterId: '',
+        parameterName: '',
+        parameterValueId: '',
+        parameterValueDesc: ''
+      })
+    }
+  };
+
   handleParamCode = ()=>{
     let params = {
       parameterLevel: this.props.params.nowTab.toString() === '1' ? 'SOB' : 'COMPANY',
@@ -137,6 +149,7 @@ class NewParameterDefinition extends React.Component {
               }],
             })(
               <Select disabled={ nowTab.toString() === '0' || !!record }
+                      onChange={this.handleModuleChange}
                       placeholder={this.$t({id: "common.please.select"})}
                       onFocus={this.handleModule}>
                 {moduleOptions.map(item=><Option key={item.moduleCode}>{item.moduleName}</Option>)}
@@ -155,7 +168,7 @@ class NewParameterDefinition extends React.Component {
           {
             nowTab.toString() === '2'&&
             <FormItem {...formItemLayout} label={this.$t({id: "exp.company"})}>
-              {getFieldDecorator('setOfBooksId',
+              {getFieldDecorator('companyId',
                 {
                   initialValue: sob,
                 })(<Select labelInValue disabled />)}
@@ -195,7 +208,7 @@ class NewParameterDefinition extends React.Component {
             )}
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
-            {getFieldDecorator('description', {
+            {getFieldDecorator('parameterValueDesc', {
               //initialValue: version.description
             })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
           </FormItem>

@@ -214,22 +214,6 @@ class ParameterDefinition extends React.Component {
         break;
       }
       case '1': {
-        searchParams = {
-          setOfBooksId: this.props.company.setOfBooksId
-        };
-        searchForm=[{
-          type: 'select', id: 'structureCode123', label: this.$t({id: 'form.setting.set.of.books'}),
-          options: sobOptions,
-          labelKey: 'setOfBooksName',
-          valueKey: 'id',
-          entity: true,
-          colSpan: 6,
-          defaultValue: {key:sob.id, label: sob.setOfBooksCode+'-'+sob.setOfBooksName},
-          renderOption: option=> option.setOfBooksCode+'-'+option.setOfBooksName,
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
-          method: 'get',
-          getParams: { roleType:'TENANT',enabled: true },
-        }];
         columns.splice(0,columns.length === 7 ? 0 : 1,{
           title: this.$t({id:"form.setting.set.of.books"}), key: "sob", dataIndex: 'structureCode1',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
@@ -238,15 +222,15 @@ class ParameterDefinition extends React.Component {
       }
       case '2': {
         searchForm=[{
-          type: 'list', id: 'structureCode', label: this.$t({id: 'exp.company'}),
-          listType: 'company',
+          type: 'list', id: 'companyId', label: this.$t({id: 'exp.company'}),
+          listType: 'enableCompanyByTenant',
           options: [],
-          labelKey: 'itemTypeName',
+          labelKey: 'name',
           valueKey: 'id',
           colSpan: 6,
           single: true,
-          listExtraParams: { roleType:'TENANT',enabled: true},
-          //getUrl: `${config.baseUrl}/api/company/dto/by/tenant`,
+          listExtraParams: { tenantId: this.props.company.tenantId},
+          defaultValue: [{id: this.props.company.id, name: this.props.company.name}]
         }];
         columns.splice(0,columns.length === 7 ? 0 : 1,{
           title: this.$t({id:"exp.company"}), key: "com", dataIndex: 'structureCode1',align:'center',
