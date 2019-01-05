@@ -25,8 +25,8 @@ class NewResponsibilityCenter extends React.Component {
                 let params={
                     tenantId: this.props.company.tenantId,
                     setOfBooksId:values.setOfBooksId,
-                    resiponsibilityCenterCode:values.resiponsibilityCenterCode,
-                    resiponsibilityCenterName:values.resiponsibilityCenterName,
+                    responsibilityCenterCode:values.responsibilityCenterCode,
+                    responsibilityCenterName:values.responsibilityCenterName,
                     enabled:values.enabled
 
                 }
