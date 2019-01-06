@@ -97,7 +97,7 @@ class NewLegalPerson extends React.Component {
         uploadedImages = [uploadedImage];
       }
       //前端设置一下语言
-      data.mainLanguageName = getLanguageName(data.mainLanguage, this.props.languageList);
+      data.mainLanguageName = getLanguageName(data.mainLanguage, this.props.language.languageType);
       this.setState(
         {
           legalPerson: data,
@@ -535,7 +535,7 @@ class NewLegalPerson extends React.Component {
                       option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {this.renderLanguageList(this.props.languageList)}
+                    {this.renderLanguageList(this.props.language.languageType)}
                   </Select>
                 )}
               </FormItem>
