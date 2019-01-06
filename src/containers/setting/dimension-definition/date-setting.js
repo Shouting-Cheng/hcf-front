@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { connect } from 'dva';
 import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
-=======
-import { Form, Input, Button, message, Select, Switch } from 'antd';
->>>>>>> develop
 import 'styles/setting/params-setting/params-setting.scss';
 import service from './dimension-definition.service';
 import baseService from 'share/base.service';
@@ -24,7 +20,6 @@ class NewBuilt extends Component {
       section: {},
     };
   }
-<<<<<<< HEAD
 
   // 生命周期
   componentDidMount() {
@@ -32,17 +27,15 @@ class NewBuilt extends Component {
     // this.getSetOfBookList();
   }
   // 获取序号
-  getNumber = ()=>{
+  getNumber = () => {
     let set = this.props.set;
-    service.NumberDimensionSetting(set).then ((res)=>{
+    service.NumberDimensionSetting(set).then((res) => {
       this.setState({
-        paramsTypeList:res.data,
+        paramsTypeList: res.data,
 
       });
     }).catch()
   }
-=======
->>>>>>> develop
 
 
   //保存&&编辑
@@ -51,12 +44,8 @@ class NewBuilt extends Component {
     let { params } = this.props;
 
     this.props.form.validateFields((err, values, record) => {
-<<<<<<< HEAD
       let data = Object.assign({}, params, values);
 
-=======
-      let data = { ...params, ...values };
->>>>>>> develop
       if (err) return;
       this.setState({
         saveLoading: true,
@@ -107,13 +96,8 @@ class NewBuilt extends Component {
   };
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-<<<<<<< HEAD
-    const { params,setOfBooks,set} = this.props;
+    const { params, setOfBooks, set } = this.props;
     const { saveLoading, paramsTypeList, section } = this.state;
-=======
-    const { params } = this.props;
-    const { saveLoading, paramsTypeList } = this.state;
->>>>>>> develop
     const formItemLayout = {
       labelCol: {
         span: 10,
@@ -133,13 +117,13 @@ class NewBuilt extends Component {
                   required: true,
                 },
               ],
-              initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksId,
+              initialValue: JSON.stringify(params) === '{}' ? this.props.set : params.setOfBooksId,
             })(
               <Select disabled>
-              {setOfBooks.map(option => {
-                return <Option key={option.value}>{option.label}</Option>;
-              })}
-            </Select>
+                {setOfBooks.map(option => {
+                  return <Option key={option.value}>{option.label}</Option>;
+                })}
+              </Select>
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="序号" hasFeedback>
@@ -153,15 +137,10 @@ class NewBuilt extends Component {
               initialValue: params.dimensionSequence || '',
             })(
               <Select placeholder="请选择" disabled={JSON.stringify(params) === '{}' ? false : true}>
-                {paramsTypeList.map((item,index) => {
+                {paramsTypeList.map((item, index) => {
                   return (
-<<<<<<< HEAD
                     <Select.Option key={index} value={item} >
                       {item}
-=======
-                    <Select.Option key={item.value} >
-                      {item.messageKey}
->>>>>>> develop
                     </Select.Option>
                   );
                 })}
@@ -181,35 +160,21 @@ class NewBuilt extends Component {
           </FormItem>
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
-<<<<<<< HEAD
               rules: [
-              {required: true,}
+                { required: true, }
               ],
               initialValue: params.dimensionName || '',
             })(
-                <Input key={1} name={params.dimensionName} placeholder={this.$t('common.please.enter') /* 请输入 */}/>
-=======
-              rules: [],
-              initialValue: params.dimensionName || '',
-            })(
-              <div>
-                <Input
-                  key={1}
-                  name={params.dimensionName}
-                  placeholder={this.$t('common.please.enter') /* 请输入 */}
-                // nameChange={this.i18nNameChange}
-                />
-              </div>
->>>>>>> develop
+              <Input key={1} name={params.dimensionName} placeholder={this.$t('common.please.enter') /* 请输入 */} />
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="状态">
-            {getFieldDecorator('enabled',{
-                valuePropName: 'checked',
-                initialValue: typeof params.id=== 'undefined' ? true: params.enabled,
+            {getFieldDecorator('enabled', {
+              valuePropName: 'checked',
+              initialValue: typeof params.id === 'undefined' ? true : params.enabled,
 
             })(
-             <Switch  />
+              <Switch />
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
           </FormItem>
@@ -235,7 +200,7 @@ class NewBuilt extends Component {
 }
 
 function mapStateToProps(state) {
-  return{
+  return {
     company: state.user.company
   }
 }
