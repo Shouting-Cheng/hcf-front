@@ -141,16 +141,19 @@ class ListSelector extends React.Component {
         tmpData.push(this.getDataLabel(item, selectorItem.key))
       });
       data = tmpData;
-      let selectedData=this.state.selectedData;
+      let selectedData = this.state.selectedData;
       data.map((item) => {
         this.state.selectedData.map(o => {
-          if(o[this.getLastKey(selectorItem.key)]){
-            o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item)
-          }else {
-            o[this.props.valueKey].toString() === item[this.props.valueKey].toString()&&selectedData.push(item)
+          if (o[this.getLastKey(selectorItem.key)]) {
+            if (o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()) {
+              selectedData.findIndex(item => item[this.getLastKey(selectorItem.key)].toString() == o[this.getLastKey(selectorItem.key)].toString()) < 0 && selectedData.push(item)
+            }
+          } else {
+            o[this.props.valueKey].toString() === item[this.props.valueKey].toString() && selectedData.push(item)
           }
         })
       });
+
       let pagination = {
         total: Number(response.headers['x-total-count']),
         onChange: this.onChangePager,
@@ -212,7 +215,7 @@ class ListSelector extends React.Component {
     selectorItem.searchForm.map(form => {
       searchParams[form.id] = form.defaultValue;  //遍历searchForm，取id组装成searchParams
       form.label = this.$t(form.label);
-      if(form.type === 'select' && form.defaultValue && form.defaultValue.key){
+      if (form.type === 'select' && form.defaultValue && form.defaultValue.key) {
         searchParams[form.id] = form.defaultValue.key;
       }
     });
@@ -240,14 +243,14 @@ class ListSelector extends React.Component {
       this.formRef && this.formRef.clearSearchAreaSelectData();
     }
     this.setState({ page: 0 });
-    if (nextProps.selectedData && nextProps.selectedData.length > 0){
+    if (nextProps.selectedData && nextProps.selectedData.length > 0) {
       let { rowSelection, selectorItem } = this.state;
       let temp = [];
-      let key = selectorItem.key || nextProps.selectorItem&&nextProps.selectorItem.key || chooserData[nextProps.type].key ;
-      nextProps.selectedData.map(item=>temp.push(item[key]));
+      let key = selectorItem.key || nextProps.selectorItem && nextProps.selectorItem.key || chooserData[nextProps.type].key;
+      nextProps.selectedData.map(item => temp.push(item[key]));
       rowSelection.selectedRowKeys = temp;
       this.setState({ selectedData: nextProps.selectedData, rowSelection });
-    } else this.setState({ selectedData: []});
+    } else this.setState({ selectedData: [] });
     if (nextProps.type !== this.state.type && !nextProps.selectorItem && nextProps.visible)
       this.checkType(nextProps.type);
     else if (nextProps.selectorItem && nextProps.visible)
@@ -260,9 +263,6 @@ class ListSelector extends React.Component {
     }
   };
 
-  componentDidMount() {
-    let { columns } = this.props;
-  }
 
   handleOk = () => {
     this.props.onOk({
@@ -275,12 +275,11 @@ class ListSelector extends React.Component {
    * 根据selectedData刷新当页selection
    */
   refreshSelected() {
-    let { valueKey } = this.props;
     let { selectorItem, selectedData, data, rowSelection } = this.state;
     let nowSelectedRowKeys = [];
     selectedData.map(selected => {
       data.map(item => {
-        if (item[this.getLastKey(selectorItem.key)] === selected[this.getLastKey(selectorItem.key)])
+        if (item[this.getLastKey(selectorItem.key)] == selected[this.getLastKey(selectorItem.key)])
           nowSelectedRowKeys.push(item[this.getLastKey(selectorItem.key)]);
       });
     });
@@ -380,9 +379,10 @@ class ListSelector extends React.Component {
   };
 
   render() {
-    const { visible, onCancel, afterClose, selectAll, selectAllLoading, onSelectAll, showDetail, labelKey, showArrow, valueKey, modalWidth,showRowClick} = this.props;
+    const { visible, onCancel, afterClose, selectAll, selectAllLoading, onSelectAll, showDetail, labelKey, showArrow, valueKey, modalWidth, showRowClick } = this.props;
     const { data, pagination, loading, selectorItem, selectedData, rowSelection, scrollX } = this.state;
     const { searchForm, columns, title, key } = selectorItem;
+
     return (
       <Modal
         title={title}
@@ -431,7 +431,7 @@ class ListSelector extends React.Component {
         </div>
 
         <Table columns={columns}
-          onRow={this.props.showRowClick?undefined:record => ({ onClick: () => this.handleRowClick(record) })}
+          onRow={this.props.showRowClick ? undefined : record => ({ onClick: () => this.handleRowClick(record) })}
           dataSource={data}
           rowKey={record => record[this.getLastKey(key)]}
           pagination={pagination}
@@ -472,13 +472,13 @@ ListSelector.propTypes = {
 };
 
 ListSelector.defaultProps = {
-  afterClose: () => {},
+  afterClose: () => { },
   extraParams: {},
   single: false,
   method: 'get',
   selectAll: false,
   selectAllLoading: false,
-  onSelectAll: () => {},
+  onSelectAll: () => { },
   showDetail: false,
   showArrow: false,
   showSelectTotal: false,

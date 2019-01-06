@@ -25,7 +25,7 @@ class PrePaymentCommon extends React.Component {
         dataIndex: "number",
         align: "center",
         width: 90,
-        render: (value, record, index) => (index + 1)
+        render: (value, record, index) => ((this.state.pagination.current - 1) * this.state.pagination.pageSize + index + 1)
       }, {
         title: "申请类型",
         dataIndex: "expenseTypeName",
@@ -85,7 +85,7 @@ class PrePaymentCommon extends React.Component {
       createdDate: headerData.requisitionDate,
       formName: headerData.typeName,
       createByName: headerData.createdName,
-      currencyCode: headerData.currency,
+      currencyCode: headerData.currencyCode,
       totalAmount: headerData.totalFunctionAmount,
       statusCode: headerData.status,
       remark: headerData.remarks,
@@ -96,7 +96,17 @@ class PrePaymentCommon extends React.Component {
       ],
       attachments: headerData.attachments,
     };
-    this.setState({ headerInfo }, () => {
+
+    if (headerData.associateContract) {
+      headerInfo.infoList.push({ label: '关联合同', value: headerData.contractNumber, linkId: headerData.contractHeaderId });
+    }
+
+    let { columns } = this.state;
+    if (headerData.status === 1002) {
+      columns.splice(columns.length - 1, 1);
+    }
+
+    this.setState({ headerInfo, columns }, () => {
       this.getLineInfo();
     });
 
@@ -154,9 +164,11 @@ class PrePaymentCommon extends React.Component {
 
   //关闭侧滑
   handleCloseSlide = flag => {
-    this.setState({ showSlideFrame: false, record: {} }, () => {
+    let { pagination } = this.state;
+    this.setState({ showSlideFrame: false, record: {}, }, () => {
       if (flag) {
-        this.getLineInfo();
+        pagination.current = 1;
+        this.setState({ pagination }, this.getLineInfo)
       }
     });
   };
@@ -219,7 +231,7 @@ class PrePaymentCommon extends React.Component {
           <span style={{ float: 'right' }}>金额属性</span>
         </Col>
         <Col span={6} offset={1}>
-          汇率日期：{moment(record.exchangeDate).format("YYYY-MM-DD hh:mm:ss")}
+          汇率日期：{moment(record.exchangeDate).format("YYYY-MM-DD")}
         </Col>
         <Col span={6}>汇率：{record.exchangeRate}</Col>
       </Row>
@@ -291,7 +303,7 @@ class PrePaymentCommon extends React.Component {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                   本币金额:<span style={{ color: 'green' }}>
-                    {' ' + lineInfo.currencyAmount.currencyCode} {this.filterMoney(lineInfo.currencyAmount.functionalAmount)}
+                    {' ' + this.props.company.baseCurrency} {this.filterMoney(lineInfo.currencyAmount.functionalAmount)}
                   </span>
                 </Breadcrumb.Item>
               </Breadcrumb>

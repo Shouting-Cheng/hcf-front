@@ -2551,6 +2551,7 @@ const chooserData = {
       { title: '合同编号', dataIndex: 'contractNumber' },
       { title: '合同类型', dataIndex: 'contractTypeName' },
       { title: '合同名称', dataIndex: 'contractName' },
+      { title: '操作', dataIndex: 'id', align: "center", render: value => <a>查看详情</a> }
     ],
     key: 'contractHeaderId',
   },
