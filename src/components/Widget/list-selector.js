@@ -141,16 +141,23 @@ class ListSelector extends React.Component {
         tmpData.push(this.getDataLabel(item, selectorItem.key))
       });
       data = tmpData;
-      let selectedData=this.state.selectedData;
+      let selectedData = [].concat(this.state.selectedData);
+
+      let tempSelected={};
       data.map((item) => {
-        this.state.selectedData.map(o => {
+        selectedData.map((o,index) => {
           if(o[this.getLastKey(selectorItem.key)]){
-            o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&selectedData.push(item)
+            o[this.getLastKey(selectorItem.key)].toString() === item[this.getLastKey(selectorItem.key)].toString()&&(o={...item})
           }else {
-            o[this.props.valueKey].toString() === item[this.props.valueKey].toString()&&selectedData.push(item)
+            if(o[this.props.valueKey].toString() === item[this.props.valueKey].toString()){
+              tempSelected[index] = {...item}
+            }
           }
         })
       });
+      for(let index in tempSelected){
+        selectedData[index] = {...tempSelected[index]}
+      }
       let pagination = {
         total: Number(response.headers['x-total-count']),
         onChange: this.onChangePager,
