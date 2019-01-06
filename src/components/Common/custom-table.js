@@ -63,7 +63,6 @@ class CustomTable extends Component {
       loading: false,
       page: 0,
       size: 10,
-      columns: [],
       methods: [
         {
           name: 'search',

@@ -21,5 +21,7 @@ export default {
   //新建参数
   newParameter(params){
     return httpFetch.post(`${config.baseUrl}/api/parameter/setting`,params)
-  }
+  },
+
+
 }

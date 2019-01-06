@@ -105,7 +105,7 @@ class NewCodingRuleValue extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {dataFormatOptions.map((option) => {
-                  return <Option key={option.code}>{option.messageKey}</Option>
+                  return <Option key={option.value}>{option.name}</Option>
                 })}
               </Select>
               )}
@@ -195,7 +195,7 @@ class NewCodingRuleValue extends React.Component {
             })(
               <Select placeholder={messages('common.please.select')/* 请选择 */} notFoundContent={<Spin size="small" />}>
                 {paramsNameOptions.map((option) => {
-                  return <Option key={option.id}>{option.name}</Option>
+                  return <Option key={option.value}>{option.name}</Option>
                 })}
               </Select>
               )}

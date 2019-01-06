@@ -15,38 +15,29 @@ import parameterService from 'containers/setting/parameter-definition/parameter-
 import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
 import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
-import ParameterSOb from 'containers/setting/parameter-definition/paramter-sob'
 
 class ParameterDefinition extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      data: [{id:1}],
       searchParams: {},
       record: {},
       sobOptions:[],
       sob:{},
       visible: false,
-      nowTab: 0,
-      tabs:[
+      searchForm: [
         {
-          key: 0, value: this.$t('parameter.definition.teat')
+          type: 'select', id: 'setOfBooksId', label: this.$t({id: 'form.setting.set.of.books'}),
+          options: [],
+          labelKey: 'setOfBooksName',
+          allowClear: false,
+          valueKey: 'id',
+          colSpan: 6,
+          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
+          method: 'get',
+          getParams: { roleType:'TENANT',enabled: true },
         },
-        {
-          key: 1, value: this.$t('parameter.definition.sob')
-        },
-        {
-          key: 2, value: this.$t('parameter.definition.comp')
-        },
-      ],
-      parameterLevel:{
-        0: 'TENANT',
-        1: 'SOB',
-        2: 'COMPANY'
-      },
-      searchForm:[],
-      _searchForm: [
         {
           type: 'select', id: 'moduleCode', label: this.$t({id: 'parameter.definition.model'}),
           options: [],
@@ -61,6 +52,10 @@ class ParameterDefinition extends React.Component {
         {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
+        {
+          title: this.$t({id:"form.setting.set.of.books"}), key: "setOfBooksName", dataIndex: 'setOfBooksName',align:'center',
+          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
+        },
         {          /*模块*/
           title: this.$t({id:"parameter.definition.model"}), key: "moduleName", dataIndex: 'moduleName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
@@ -92,16 +87,12 @@ class ParameterDefinition extends React.Component {
             return (
               <div>
                 <a onClick={e=>this.handleEdit(e,record)} >{this.$t('common.edit')}</a>
-                {
-                  this.state.nowTab.toString() !== '0' &&
-                    <span>
-                      <Divider type="vertical" />
-                      <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
-                        <a>{this.$t('common.delete')}</a>
-                      </Popconfirm>
-                    </span>
-                }
-
+                  <span>
+                    <Divider type="vertical" />
+                    <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
+                      <a>{this.$t('common.delete')}</a>
+                    </Popconfirm>
+                  </span>
               </div>
             );
           }
@@ -109,20 +100,20 @@ class ParameterDefinition extends React.Component {
       ],
     }
   }
-  componentDidMount(){
-    //this.getList();
+  componentWillMount(){
     let params = {
       roleType: 'TENANT',
       enabled: true
     };
     sobService.getTenantAllSob(params).then(res=>{
-      let {sob, sobOptions} = this.state;
+      let {sob, sobOptions,searchForm} = this.state;
       res.data.map(item=>{
-        sobOptions.push({value: item.id, label: item.setOfBooksName});
+        sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,});
         item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
-        item.id===this.props.company.setOfBooksId&&console.log(item)
       });
-      this.setState({sob,sobOptions})
+      searchForm[0].options = sobOptions;
+      searchForm[0].defaultValue = sob.setOfBooksCode+'-'+sob.setOfBooksName;
+      this.setState({sob,sobOptions,searchForm})
     });
   }
 
@@ -139,18 +130,14 @@ class ParameterDefinition extends React.Component {
 
   handleSearch = (values) =>{
     console.log(values)
-    values.setOfBooksId&&values.setOfBooksId===this.props.company.setOfBooksName&&(values.setOfBooksId=this.props.company.setOfBooksId);
-    this.setState({
-      searchParams: values
-    }, ()=>{
-      this.table.search(values);
-    })
+    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
+    this.table.search(values)
   };
 
 
- handleAdd = () =>{
-   this.setState({visible: true})
- };
+  handleAdd = () =>{
+    this.setState({visible: true})
+  };
 
   //点击行，进入该行详情页面
   handleRowClick = (record, index, event) =>{
@@ -170,97 +157,40 @@ class ParameterDefinition extends React.Component {
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({parameterLevel: this.state.parameterLevel[this.state.nowTab]})
+      params&&this.table.search({parameterLevel: 'SOB'})
     })
   };
 
-  renderContent(){
-    const { searchForm,_searchForm, parameterLevel, columns, nowTab } = this.state;
-    console.log(searchForm)
-    console.log(_searchForm)
-    console.log(searchForm.concat(_searchForm))
 
-    switch (nowTab) {
-      case '1': return <ParameterSOb/>;break
-    }
-
-    return(<div className={`content-${nowTab}`} style={{marginTop: 15}}>
-      <SearchArea searchForm={ searchForm.concat(_searchForm)} maxLength={4} submitHandle={this.handleSearch}/>
-      <div className="table-header" style={{marginTop: 15}}>
-        {
-          nowTab.toString()!=='0'&&
+  render(){
+    const {tabs, nowTab, visible, record, sob, searchForm,columns} = this.state;
+    return (
+      (<div className={`content-${nowTab}`} style={{marginTop: 15}}>
+        <SearchArea searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
+        <div className="table-header" style={{marginTop: 15}}>
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleAdd}>{this.$t({id: 'common.add'})}</Button>  {/*添加*/}
           </div>
-        }
-      </div>
-      <CustomTable
-        columns={columns}
-        url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond?parameterLevel=${parameterLevel[nowTab]}`}
-        ref={ref => (this.table = ref)}
-      />
-    </div>)
-  }
-
-  handleTab = (key)=>{
-    let {searchForm,_searchForm, columns, searchParams,sob, sobOptions} = this.state;
-    switch(key){
-      case '0':{
-        if(columns.length === 8){
-          searchForm.splice(0,1);
-          columns.splice(0,1);
-          searchParams = {}
-        }
-        break;
-      }
-      case '1': {
-        columns.splice(0,columns.length === 7 ? 0 : 1,{
-          title: this.$t({id:"form.setting.set.of.books"}), key: "sob", dataIndex: 'structureCode1',align:'center',
-          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
-        });
-        break;
-      }
-      case '2': {
-        searchForm=[{
-          type: 'list', id: 'companyId', label: this.$t({id: 'exp.company'}),
-          listType: 'enableCompanyByTenant',
-          options: [],
-          labelKey: 'name',
-          valueKey: 'id',
-          colSpan: 6,
-          single: true,
-          listExtraParams: { tenantId: this.props.company.tenantId},
-          defaultValue: [{id: this.props.company.id, name: this.props.company.name}]
-        }];
-        columns.splice(0,columns.length === 7 ? 0 : 1,{
-          title: this.$t({id:"exp.company"}), key: "com", dataIndex: 'structureCode1',align:'center',
-          render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
-        });
-        break;
-      }
-    }
-
-    this.setState({searchForm,nowTab: key, sob})
-  };
-
-  render(){
-    const {tabs, nowTab, visible, record, sob, } = this.state;
-    return (
-      <div className="parameter-definition">
-        <Tabs onChange={this.handleTab} type='card'>
-          {tabs.map(item=><TabPane tab={item.value} key={item.key}/>)}
-        </Tabs>
-        {this.renderContent()}
+        </div>
+        <CustomTable
+          columns={columns}
+          params={{
+            parameterLevel: "SOB" ,
+            setOfBooksId: this.props.company.setOfBooksId
+          }}
+          url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
+          ref={ref => (this.table = ref)}
+        />
         <SlideFrame
-          title={tabs[nowTab].value+ this.$t('parameter.definition')}
+          title={this.$t('parameter.definition.sob')+ this.$t('parameter.definition')}
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{...record,visible, sob, nowTab }}
+            params={{...record,visible, sob, nowTab: '1' }}
             onClose={this.handleClose}
           />
         </SlideFrame>
-      </div>
+      </div>)
     )
   }
 
