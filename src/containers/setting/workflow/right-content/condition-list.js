@@ -599,7 +599,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
           this.state.approvalAndDepLevel.map(level => {
             if (String(level.id) === String(code))
-              return isEdit ? this.renderConditionCustListTag(index, 'default_department_level', level.depLevel, code) :
+              return isEdit ? this.renderConditionCustListTag(index, 'default_department_level', level.depLevel, code, null, i) :
                 `${level.depLevel}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           })
         ));
@@ -613,7 +613,7 @@ class NodeConditionList extends React.Component {
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((id, index) => (
           JSON.parse(item.fieldContent || '[]').map(field => {
             if (String(field.id) === String(id))
-              return isEdit ? this.renderConditionCustListTag(index, 'default_department_role', field.name, id) :
+              return isEdit ? this.renderConditionCustListTag(index, 'default_department_role', field.name, id, null, i) :
                 `${field.name}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
           })
         ));
@@ -647,7 +647,7 @@ class NodeConditionList extends React.Component {
         });
       case 'currency_code': //币种
         return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((code, index) => (
-          isEdit ? this.renderConditionCustListTag(index, 'currency_code', constants.getTextByValue(code, 'cashName') || code, code) :
+          isEdit ? this.renderConditionCustListTag(index, 'currency_code', constants.getTextByValue(code, 'cashName') || code, code, null, i) :
             `${constants.getTextByValue(code, 'cashName') || code}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         ));
       case 'select_cost_center': //成本中心
@@ -656,7 +656,7 @@ class NodeConditionList extends React.Component {
           this.state.costCenterList.map(costCenter => {
             costCenter.costCenterItemOid === oid && (item.showValue[oid] = costCenter.name)
           });
-          return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid, item.field, i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'select_company': //公司控件
@@ -666,7 +666,7 @@ class NodeConditionList extends React.Component {
           this.state.companyList.map(company => {
             company.companyOid === oid && (item.showValue[oid] = company.name)
           });
-          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid) :
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, item.showValue[oid], oid, item.field, i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'select_corporation_entity': //法人实体
@@ -676,7 +676,7 @@ class NodeConditionList extends React.Component {
           this.state.entityList.map(entity => {
             entity.companyReceiptedOid === oid && (entityName = entity.companyName)
           });
-          return isEdit ? this.renderConditionCustListTag(index, item.remark, entityName, oid) :
+          return isEdit ? this.renderConditionCustListTag(index, item.remark, entityName, oid, item.field, i) :
             `${entityName}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         });
       case 'default_user_applicant':

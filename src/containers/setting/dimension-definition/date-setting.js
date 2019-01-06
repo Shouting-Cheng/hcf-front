@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { connect } from 'dva';
 import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
+=======
+import { Form, Input, Button, message, Select, Switch } from 'antd';
+>>>>>>> develop
 import 'styles/setting/params-setting/params-setting.scss';
 import service from './dimension-definition.service';
 import baseService from 'share/base.service';
@@ -20,6 +24,7 @@ class NewBuilt extends Component {
       section: {},
     };
   }
+<<<<<<< HEAD
 
   // 生命周期
   componentDidMount() {
@@ -36,6 +41,8 @@ class NewBuilt extends Component {
       });
     }).catch()
   }
+=======
+>>>>>>> develop
 
 
   //保存&&编辑
@@ -44,8 +51,12 @@ class NewBuilt extends Component {
     let { params } = this.props;
 
     this.props.form.validateFields((err, values, record) => {
+<<<<<<< HEAD
       let data = Object.assign({}, params, values);
 
+=======
+      let data = { ...params, ...values };
+>>>>>>> develop
       if (err) return;
       this.setState({
         saveLoading: true,
@@ -78,9 +89,12 @@ class NewBuilt extends Component {
       }
     });
   };
+
+  //等下看一下
   hasErrors(fieldsError) {
     const { isFieldTouched } = this.props.form;
   }
+
   //取消
   handleCancel = () => {
     this.props.close && this.props.close();
@@ -93,8 +107,13 @@ class NewBuilt extends Component {
   };
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
+<<<<<<< HEAD
     const { params,setOfBooks,set} = this.props;
     const { saveLoading, paramsTypeList, section } = this.state;
+=======
+    const { params } = this.props;
+    const { saveLoading, paramsTypeList } = this.state;
+>>>>>>> develop
     const formItemLayout = {
       labelCol: {
         span: 10,
@@ -106,7 +125,7 @@ class NewBuilt extends Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-        <h3>基本信息</h3>
+          <h3>基本信息</h3>
           <FormItem {...formItemLayout} label={'账套' /** 账套*/}>
             {getFieldDecorator('setOfBooksId', {
               rules: [
@@ -127,7 +146,7 @@ class NewBuilt extends Component {
             {getFieldDecorator('dimensionSequence', {
               rules: [
                 {
-                  required:true,
+                  required: true,
                   message: '请选择',
                 },
               ],
@@ -136,8 +155,13 @@ class NewBuilt extends Component {
               <Select placeholder="请选择" disabled={JSON.stringify(params) === '{}' ? false : true}>
                 {paramsTypeList.map((item,index) => {
                   return (
+<<<<<<< HEAD
                     <Select.Option key={index} value={item} >
                       {item}
+=======
+                    <Select.Option key={item.value} >
+                      {item.messageKey}
+>>>>>>> develop
                     </Select.Option>
                   );
                 })}
@@ -153,16 +177,30 @@ class NewBuilt extends Component {
                 },
               ],
               initialValue: this.props.params.dimensionCode || '',
-            })(<Input placeholder="请选择"  disabled={JSON.stringify(params) === '{}' ? false : true}/>)}
+            })(<Input placeholder="请选择" disabled={JSON.stringify(params) === '{}' ? false : true} />)}
           </FormItem>
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
+<<<<<<< HEAD
               rules: [
               {required: true,}
               ],
               initialValue: params.dimensionName || '',
             })(
                 <Input key={1} name={params.dimensionName} placeholder={this.$t('common.please.enter') /* 请输入 */}/>
+=======
+              rules: [],
+              initialValue: params.dimensionName || '',
+            })(
+              <div>
+                <Input
+                  key={1}
+                  name={params.dimensionName}
+                  placeholder={this.$t('common.please.enter') /* 请输入 */}
+                // nameChange={this.i18nNameChange}
+                />
+              </div>
+>>>>>>> develop
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="状态">

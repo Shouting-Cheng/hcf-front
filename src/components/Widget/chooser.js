@@ -115,6 +115,7 @@ class Chooser extends React.Component {
         value: item
       })
     });
+
     //手动调用onChange事件以与父级Form绑定
     this.onChange(result.result);
     this.setState({ showListSelector: false, value });

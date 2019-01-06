@@ -21,8 +21,8 @@ export default {
      * @param {*} params
      */
     editDimensionSetting(params) {
-      return httpFetch.put(`${config.baseUrl}/api/dimension`, params);
-  },
+        return httpFetch.put(`${config.baseUrl}/api/dimension`, params);
+    },
     /**
      * 删除参数设置
      * @param {*} params
@@ -34,13 +34,13 @@ export default {
      *条件查询
      */
     queryDimensionSetting(params) {
-      return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`,params);
-  },
-  /**
-   * 查询维度序号
-   */
-  NumberDimensionSetting(setOfBooksId) {
-    console.log(setOfBooksId,'--=====');
-    return httpFetch.get(`${config.baseUrl}/api/dimension/list/unselected/sequence/by/${setOfBooksId}`, );
-},
+        return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`, params);
+    },
+    /**
+     * 查询维度序号
+     */
+    NumberDimensionSetting(setOfBooksId) {
+        console.log(setOfBooksId, '--=====');
+        return httpFetch.get(`${config.baseUrl}/api/dimension/list/unselected/sequence/by/${setOfBooksId}`);
+    },
 }

@@ -135,7 +135,7 @@ class CompanyDistribution extends React.Component {
     this.props.dispatch(routerRedux.push({
       pathname: "/document-type-manage/prepayment-type"
     }));
-    // this.context.router.push(this.state.contractTypeDefine.url);
+
   }
   render() {
     const { loading, companyTypeList, companyTypeInfo, pagination, columns, data, showListSelector, selectorItem } = this.state;
