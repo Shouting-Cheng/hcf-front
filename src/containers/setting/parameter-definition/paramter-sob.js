@@ -22,7 +22,7 @@ class ParameterSob extends React.Component {
     this.state = {
       loading: false,
       searchParams: {
-        parameterLevel: 'TENANT',
+        parameterLevel: 'SOB',
       },
       record: {},
       sobOptions:[],

@@ -164,10 +164,14 @@ class NewLegalPerson extends React.Component {
     if (this.validateI18n(_legalPerson)) {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
+          console.log(values)
+
+          console.log(this.state.uploadedImages)
           if (this.props.match.params.legalPersonOid === ':legalPersonOid') {
             //创建法人实体
             let legalPerson = Object.assign({}, values, {
               attachmentId: values['attachmentId'][0] ? values['attachmentId'][0].id : '',
+              //attachmentId: this.state.uploadedImages[0].uid,
               i18n: _legalPerson.i18n,
               entityName: _legalPerson.entityName,
               accountBank: _legalPerson.accountBank,
@@ -189,7 +193,7 @@ class NewLegalPerson extends React.Component {
               if (values['attachmentId'] && values['attachmentId'][0]) {
                 values['attachmentId'] = values['attachmentId'][0].id;
               } else {
-                values['attachmentId'] = null;
+                values['attachmentId'] = this.state.uploadedImages[0].uid;
               }
             }
             let legalPerson = Object.assign(_legalPerson, values, {
@@ -263,7 +267,11 @@ class NewLegalPerson extends React.Component {
   };
 
   //上传图片后的回调函数
-  handleUploadImageChange = fileList => {};
+  handleUploadImageChange = fileList => {
+    this.setState({
+      uploadedImages: this.state.uploadedImages.push(fileList)
+    })
+  };
 
   //地址：多语言
   i18nAddressChange = (name, i18nName) => {
