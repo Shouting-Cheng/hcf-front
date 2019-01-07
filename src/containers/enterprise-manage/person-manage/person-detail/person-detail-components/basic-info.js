@@ -201,6 +201,11 @@ class PersonBasicInfo extends React.Component {
               loading: false,
             });
             this.props.savedData(res.data);
+          }).catch(err => {
+            message.error(err.response.data.message);
+            this.setState({
+              loading: false,
+            });
           });
         } else {
           let personObj = Object.assign(personObjDefaultWithoutExtend, {
@@ -267,6 +272,11 @@ class PersonBasicInfo extends React.Component {
                 pathname: `/setting/employee/person-detail/person-detail/${record.userOid}`,
               })
             );
+          }).catch(err => {
+            message.error(err.response.data.message);
+            this.setState({
+              loading: false,
+            });
           });
         }
       }
@@ -727,7 +737,7 @@ class PersonBasicInfo extends React.Component {
     function _renderCustomEnumerationList(list) {
       let dom = [];
       if (list.length > 0) {
-        list.map(function(item) {
+        list.map(function (item) {
           //要做多语言，这个地方上传code，后端返回的时候，任然是messageKey，所以显示的时候用messageKey去查value显示
           //code值是null，所以传value，值列表的value就是code
           dom.push(
@@ -829,7 +839,7 @@ class PersonBasicInfo extends React.Component {
       </FormItem>
     );
   };
-  onChangeTime = time => {};
+  onChangeTime = time => { };
   renderEditingFiled_time = field => {
     const { getFieldDecorator } = this.props.form;
 
@@ -863,7 +873,7 @@ class PersonBasicInfo extends React.Component {
 
     //上传之后，图片对象直接就绑定到field.attachmentImages里面了
     const fileList = field.attachmentImages;
-    function handleUploadImageChange(fileList) {}
+    function handleUploadImageChange(fileList) { }
 
     return (
       <FormItem key={field.fieldOid} label={field.fieldName} colon={true}>
@@ -899,7 +909,7 @@ class PersonBasicInfo extends React.Component {
       return (
         <Option value={1} key={1}>
           {this.$t('pdc.basic.info.female')
-          // "女"
+            // "女"
           }
         </Option>
       );
@@ -965,11 +975,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('companyOid', {
                   initialValue: personObj.companyOid
                     ? [
-                        {
-                          companyName: personObj.companyName,
-                          companyOid: personObj.companyOid,
-                        },
-                      ]
+                      {
+                        companyName: personObj.companyName,
+                        companyOid: personObj.companyOid,
+                      },
+                    ]
                     : [],
                   rules: [
                     {
@@ -999,11 +1009,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('departmentName', {
                   initialValue: personObj.departmentOid
                     ? [
-                        {
-                          name: personObj.departmentName,
-                          departmentOid: personObj.departmentOid,
-                        },
-                      ]
+                      {
+                        name: personObj.departmentName,
+                        departmentOid: personObj.departmentOid,
+                      },
+                    ]
                     : [],
                   rules: [
                     {
@@ -1091,11 +1101,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('directManager', {
                   initialValue: personObj.directManagerName
                     ? [
-                        {
-                          fullName: personObj.directManagerName,
-                          userOid: personObj.directManager,
-                        },
-                      ]
+                      {
+                        fullName: personObj.directManagerName,
+                        userOid: personObj.directManager,
+                      },
+                    ]
                     : [],
                   rules: [],
                 })(
@@ -1118,11 +1128,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('duty', {
                   initialValue: personObj.duty
                     ? [
-                        {
-                          value: personObj.dutyCode,
-                          messageKey: personObj.duty,
-                        },
-                      ]
+                      {
+                        value: personObj.dutyCode,
+                        messageKey: personObj.duty,
+                      },
+                    ]
                     : [],
                   rules: [],
                 })(
@@ -1164,11 +1174,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('employeeType', {
                   initialValue: personObj.employeeType
                     ? [
-                        {
-                          value: personObj.employeeTypeCode,
-                          messageKey: personObj.employeeType,
-                        },
-                      ]
+                      {
+                        value: personObj.employeeTypeCode,
+                        messageKey: personObj.employeeType,
+                      },
+                    ]
                     : [],
                   rules: [],
                 })(
@@ -1192,11 +1202,11 @@ class PersonBasicInfo extends React.Component {
                 {getFieldDecorator('rank', {
                   initialValue: personObj.rank
                     ? [
-                        {
-                          value: personObj.rankCode,
-                          messageKey: personObj.rank,
-                        },
-                      ]
+                      {
+                        value: personObj.rankCode,
+                        messageKey: personObj.rank,
+                      },
+                    ]
                     : [],
                   rules: [],
                 })(
