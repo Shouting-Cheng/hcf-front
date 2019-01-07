@@ -79,6 +79,8 @@ class NewParameterDefinition extends React.Component {
           values.moduleCode = record.moduleCode;
           values.parameterCode === record.parameterCode && (values.parameterCode = record.parameterId);
           values.parameterValueId === record.parameterValueId && (values.parameterValueId = record.parameterValueId)
+
+          values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         }else {
           method = parameterService.newParameter;
         }

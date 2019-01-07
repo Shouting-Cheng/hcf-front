@@ -14,12 +14,12 @@ import parameterService from 'containers/setting/parameter-definition/parameter-
 import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
 
-class ParameterDefinition extends React.Component {
+class ParameterCompany extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       record: {},
-      companyId: props.company.id,
+      company: props.company,
       visible: false,
       searchForm: [
         {
@@ -29,6 +29,7 @@ class ParameterDefinition extends React.Component {
           labelKey: 'name',
           valueKey: 'id',
           colSpan: 6,
+          event: 'COMPANY',
           single: true,
           listExtraParams: { tenantId: props.company.tenantId},
           defaultValue: [{id: props.company.id, name: props.company.name}]
@@ -39,6 +40,7 @@ class ParameterDefinition extends React.Component {
           labelKey: 'moduleName',
           valueKey: 'moduleCode',
           colSpan: 6,
+          event: "MODULE",
           getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
         },
@@ -94,22 +96,6 @@ class ParameterDefinition extends React.Component {
       ],
     }
   }
-  componentWillMount(){
-    let params = {
-      roleType: 'TENANT',
-      enabled: true
-    };
-    sobService.getTenantAllSob(params).then(res=>{
-      let {sob, sobOptions,searchForm} = this.state;
-      res.data.map(item=>{
-        sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,});
-        item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
-      });
-      searchForm[0].options = sobOptions;
-      searchForm[0].defaultValue = sob.setOfBooksCode+'-'+sob.setOfBooksName;
-      this.setState({sob,sobOptions,searchForm})
-    });
-  }
 
   handleEdit = (e,record)=>{
     e.preventDefault();
@@ -155,12 +141,33 @@ class ParameterDefinition extends React.Component {
     })
   };
 
+  handleEvent = (event,value)=>{
+    console.log(event)
+    console.log(value)
+    switch (event) {
+      case 'MODULE':{
+        this.setState({searchParams:{
+            ...this.state.searchParams,
+            moduleCode: value
+          }});break;
+      }
+
+      case 'COMPANY':{
+        this.setState({searchParams:{
+            ...this.state.searchParams,
+            setOfBooksId: value
+          }});break;
+      }
+    }
+  };
+
+
 
   render(){
-    const {tabs, nowTab, visible, record, sob, searchForm,columns} = this.state;
+    const {tabs, nowTab, visible, record, company, searchForm,columns} = this.state;
     return (
-      (<div className={`content-${nowTab}`} style={{marginTop: 15}}>
-        <SearchArea searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
+      (<div className='content-company' style={{marginTop: 15}}>
+        <SearchArea eventHandle={this.handleEvent} searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
         <div className="table-header" style={{marginTop: 15}}>
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleAdd}>{this.$t({id: 'common.add'})}</Button>  {/*添加*/}
@@ -180,7 +187,7 @@ class ParameterDefinition extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{...record,visible, sob, nowTab: '1' }}
+            params={{record: record,visible, company, nowTab: '2' }}
             onClose={this.handleClose}
           />
         </SlideFrame>
@@ -196,4 +203,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(ParameterDefinition);
+export default connect(mapStateToProps, null, null, { withRef: true })(ParameterCompany);
