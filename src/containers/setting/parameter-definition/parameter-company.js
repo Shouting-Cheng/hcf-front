@@ -21,6 +21,7 @@ class ParameterCompany extends React.Component {
       record: {},
       company: props.company,
       searchParams:{
+        parameterLevel: 'COMPANY',
         companyId: props.company.id
       },
       visible: false,
@@ -137,7 +138,7 @@ class ParameterCompany extends React.Component {
   };
 
   handleAdd = () =>{
-    this.setState({visible: true})
+    this.setState({visible: true,record:{}})
   };
 
   handleClose = (params) =>{
@@ -151,7 +152,8 @@ class ParameterCompany extends React.Component {
   handleEvent = (event,value)=>{
     switch (event) {
       case 'MODULE':{
-        this.setState({searchParams:{
+        this.setState({
+          searchParams:{
             ...this.state.searchParams,
             moduleCode: value
           }},()=>{
@@ -160,9 +162,11 @@ class ParameterCompany extends React.Component {
       }
 
       case 'COMPANY':{
-        this.setState({searchParams:{
+        this.setState({
+          company: value[0],
+          searchParams:{
             ...this.state.searchParams,
-            company: value
+            companyId: value[0].id
           }},()=>{
           this.table.search(this.state.searchParams)
         });break;
@@ -196,7 +200,7 @@ class ParameterCompany extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, company:company, nowTab: '2' }}
+            params={{record: record,visible, company: company, nowTab: '2' }}
             onClose={this.handleClose}
           />
         </SlideFrame>

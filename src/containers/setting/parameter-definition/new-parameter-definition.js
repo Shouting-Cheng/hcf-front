@@ -53,12 +53,12 @@ class NewParameterDefinition extends React.Component {
       paramCode: {
         parameterValueType: this.props.params.record.parameterValueType
       }
+    },()=>{
+      this.handleModule();
+      this.handleParamCode();
     })
   }
 
-
-  componentWillReceiveProps = (nextProps) => {
-  }
 
   handleSave = (e) => {
     e.stopPropagation();
@@ -74,14 +74,16 @@ class NewParameterDefinition extends React.Component {
         values.tenantId = this.props.company.tenantId;
         values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         values.companyId && (values.companyId = values.companyId.key);
-
+        console.log(values)
+        console.log(this.props.params.company)
         if(flag){ //编辑
           method = parameterService.updateParameter;
           values.moduleCode = record.moduleCode;
-          values.parameterCode === record.parameterCode && (values.parameterCode = record.parameterId);
+          values.parameterId === record.parameterCode && (values.parameterId = record.parameterId);
           values.parameterValueId === record.parameterName && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
+          this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.value);
         }
         method(values).then(res=>{
           this.props.onClose(true);
@@ -105,26 +107,30 @@ class NewParameterDefinition extends React.Component {
   //模块代码改变时，重置相关值
   handleModuleChange = (value) =>{
     if(value){
-      this.props.form.setFieldsValue({
-        parameterId: null,
-        parameterName: null,
-        parameterValueId: null,
-        parameterValueDesc: null
-      })
+      this.setState({paramCode:{}},()=>{
+        this.props.form.setFieldsValue({
+          parameterId: null,
+          parameterName: null,
+          parameterValueId: null,
+          parameterValueDesc: null
+        })
+      });
     }
   };
 
   handleParamCode = ()=>{
+    let parameterCode = this.props.form.getFieldValue('moduleCode');
+    parameterCode === this.props.params.record.moduleName && (parameterCode = this.props.params.record.moduleCode);
+
     let params = {
-      parameterLevel: this.props.params.nowTab.toString() === '1' ? 'SOB' : 'COMPANY',
-      moduleCode: this.props.form.getFieldValue('moduleCode')
+      parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY',
+      moduleCode: parameterCode
     };
     parameterService.getParamByModuleCode(params).then(res=>{
       this.setState({
         paramsOptions: res.data
       })
     })
-
   };
 
   handleParamChange = (value) =>{
@@ -135,9 +141,12 @@ class NewParameterDefinition extends React.Component {
   };
 
   handleParamValue = () =>{
+    let parameterId = this.props.form.getFieldValue('parameterId');
+    parameterId === this.props.params.record.parameterCode && ( parameterId = this.props.params.record.parameterId);
+
     let params ={
-      parameterValueType: this.state.paramsOptions.find(item=>item.id === this.props.form.getFieldValue('parameterId')).parameterValueType,
-      parameterCode: this.state.paramsOptions.find(item=>item.id === this.props.form.getFieldValue('parameterId')).parameterCode,
+      //parameterValueType: this.state.paramsOptions.find( item=> item.id === parameterId ).parameterValueType,
+      parameterCode: this.state.paramsOptions.find(item=>item.id === parameterId).parameterCode,
     };
     parameterService.getParamValues(params).then(res=>{
       console.log(res)
@@ -148,7 +157,7 @@ class NewParameterDefinition extends React.Component {
   };
 
   handleParamValueChange = (value) =>{
-    this.props.form.setFieldsValue({parameterValueDesc: this.state.paramValueOptions.find(item=>item.id === value).parameterValueDesc})
+    this.props.form.setFieldsValue({parameterValueDesc: this.state.paramValueOptions.find( item=> item.id.toString() === value.toString()).name})
   };
 
   onCancel =()=>{
@@ -165,7 +174,6 @@ class NewParameterDefinition extends React.Component {
     const { paramCode, paramValueOptions} = this.state;
     console.log(paramCode)
     console.log(this.props.params.record)
-
     switch(paramCode.parameterValueType || this.props.params.record.parameterValueType){
       case 'API':{
         let selectorItem = {
@@ -200,7 +208,7 @@ class NewParameterDefinition extends React.Component {
                         onChange={this.handleParamValueChange}
                         onFocus={this.handleParamValue}>
           {paramValueOptions.map(item => {
-            return <Option key={item.id}>{item.parameterValue}</Option>
+            return <Option key={item.id}>{item.code}</Option>
           })}
         </Select>
       }
@@ -235,7 +243,7 @@ class NewParameterDefinition extends React.Component {
       API: true,
       VALUE_LIST: true
     };
-    console.log(company)
+
     return (
       <div className="new-parameter-definition" style={{paddingTop: 25}}>
         <Form onSubmit={this.handleSave}>
