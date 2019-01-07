@@ -57,15 +57,32 @@ class NewParameterDefinition extends React.Component {
   }
 
   handleSave = (e) => {
+    e.stopPropagation();
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-        this.setState({loading: true});
+        //this.setState({loading: true});
         console.log(values)
-        values.setOfBooksId&&(values.setOfBooksId = values.setOfBooksId.id);
-        values.parameterLevel = this.props.params.nowTab.toString() === '1' ? 'SOB' : 'COMPANY';
+
+        console.log(this.props.params.record)
+    /*    values.setOfBooksId&&(values.setOfBooksId = values.setOfBooksId.id);
+        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY';
         values.tenantId = this.props.company.tenantId;
-        parameterService.newParameter(values).then(res=>{
+        values.companyId = (values.companyId.key) && values.companyId.key;*/
+        const record = this.props.params.record;
+        let method;
+        let flag = !!this.props.params.record.id;
+        console.log(this.props.params.record.id)
+
+        if(flag){
+          method = parameterService.updateParameter;
+          values.moduleCode = record.moduleCode;
+          values.parameterCode === record.parameterCode && (values.parameterCode = record.parameterId);
+          values.parameterValueId === record.parameterValueId && (values.parameterValueId = record.parameterValueId)
+        }else {
+          method = parameterService.newParameter;
+        }
+        method(values).then(res=>{
           this.props.onClose(true);
           message.success(this.$t('common.save.success',{name:''}))
         }).catch(e=>{
@@ -111,7 +128,7 @@ class NewParameterDefinition extends React.Component {
   handleParamChange = (value) =>{
     let param = this.state.paramsOptions.find(item=>item.id === value);
     this.setState({paramCode: param},()=>{
-      this.props.form.setFieldsValue({parameterName: param.parameterName})
+      this.props.form.setFieldsValue({parameterName: param.parameterName,parameterValueDesc: null})
     });
   };
 
@@ -145,7 +162,9 @@ class NewParameterDefinition extends React.Component {
   renderParamValue(){
     const { paramCode, paramValueOptions} = this.state;
     console.log(paramCode)
-    switch(paramCode.parameterValueType){
+    console.log(this.props.params.record)
+
+    switch(paramCode.parameterValueType || this.props.params.record.parameterValueType){
       case 'API':{
         let selectorItem = {
           title:  '参数值',//this.$t('chooser.data.company' /*选择公司*/),
@@ -202,33 +221,31 @@ class NewParameterDefinition extends React.Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {record, sob, nowTab} = this.props.params;
-    console.log(this.props.params)
-    const versionCodeError = false;
-    const {moduleOptions, paramsOptions, paramCode, version,statusOptions} = this.state;
+    const { record, sob, nowTab } = this.props.params;
+    const { moduleOptions, paramsOptions, paramCode, version, statusOptions } = this.state;
+
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 10, offset: 0 },
     };
-    console.log(paramCode)
+
     let value = {
       API: true,
       VALUE_LIST: true
     };
-    console.log(value[paramCode.parameterValueType])
-    console.log(paramCode.parameterValueType)
+    console.log(record)
     return (
       <div className="new-parameter-definition" style={{paddingTop: 25}}>
         <Form onSubmit={this.handleSave}>
           <FormItem {...formItemLayout} label={this.$t({id: "parameter.definition.model"})}>
             {getFieldDecorator('moduleCode', {
-              //initialValue: typeof version.id === 'undefined' ? "NEW" : '',
+              initialValue: record.moduleName || '',
               rules: [{
                 required: true,
                 message: this.$t({id: "common.please.select"})
               }],
             })(
-              <Select disabled={ nowTab.toString() === '0' || !!record }
+              <Select disabled={ nowTab === '0' || !record }
                       onChange={this.handleModuleChange}
                       placeholder={this.$t({id: "common.please.select"})}
                       onFocus={this.handleModule}>
@@ -237,7 +254,7 @@ class NewParameterDefinition extends React.Component {
             )}
           </FormItem>
           {
-            nowTab.toString() === '1'&&
+            nowTab === '1'&&
             <FormItem {...formItemLayout} label={this.$t({id: "workflow.set.of.books"})}>
               {getFieldDecorator('setOfBooksId',
                 {
@@ -246,7 +263,7 @@ class NewParameterDefinition extends React.Component {
             </FormItem>
           }
           {
-            nowTab.toString() === '2'&&
+            nowTab === '2'&&
             <FormItem {...formItemLayout} label={this.$t({id: "exp.company"})}>
               {getFieldDecorator('companyId',
                 {
@@ -256,7 +273,7 @@ class NewParameterDefinition extends React.Component {
           }
           <FormItem {...formItemLayout} label={this.$t({id: "budget.parameterCode"})}>
             {getFieldDecorator('parameterId', {
-              //initialValue: version.versionCode,
+              initialValue: record.parameterCode || '',
               rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
             })(
               <Select disabled={!this.props.form.getFieldValue('moduleCode')}
@@ -270,14 +287,14 @@ class NewParameterDefinition extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "budget.parameterName"})}>
             {getFieldDecorator('parameterName', {
-              initialValue: version.versionName,
+              initialValue: record.moduleName || '',
               //rules: [{required: true, message: this.$t({id: "common.please.enter"})}],
             })(<Input disabled placeholder={this.$t({id: "common.please.enter"})}/>)}
 
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "budget.balance.params.value"})}>
             {getFieldDecorator('parameterValueId', {
-              //initialValue: typeof version.id === 'undefined' ? "NEW" : '',
+              initialValue: record.parameterName || '',
               //rules: [{required: true,}],
             })(
               this.renderParamValue()

@@ -23,5 +23,14 @@ export default {
     return httpFetch.post(`${config.baseUrl}/api/parameter/setting`,params)
   },
 
+  //更新参数
+  updateParameter(params){
+    return httpFetch.put(`${config.baseUrl}/api/parameter/setting`,params)
+  },
+
+  //删除参数
+  deleteParameter(id){
+    return httpFetch.delete(`${config.baseUrl}/api/parameter/setting/${id}`)
+  }
 
 }
