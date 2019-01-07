@@ -74,13 +74,11 @@ class NewParameterDefinition extends React.Component {
         values.tenantId = this.props.company.tenantId;
         values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         values.companyId && (values.companyId = values.companyId.key);
-        console.log(values)
-        console.log(this.props.params.company)
         if(flag){ //编辑
           method = parameterService.updateParameter;
           values.moduleCode = record.moduleCode;
           values.parameterId === record.parameterCode && (values.parameterId = record.parameterId);
-          values.parameterValueId === record.parameterName && (values.parameterValueId = record.parameterValueId)
+          values.parameterValueId === record.parameterValue && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
           this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.value);
@@ -324,8 +322,7 @@ class NewParameterDefinition extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "budget.balance.params.value"})}>
             {getFieldDecorator('parameterValueId', {
-              initialValue: record.parameterValueType === 'DATE' ? moment(record.parameterValueId,'YYYY-MM-DD') : record.parameterValueId || '',
-              //rules: [{required: true,}],
+              initialValue: record.parameterValueType === 'DATE' ? moment(record.parameterValueId,'YYYY-MM-DD') : record.parameterValue || '',
             })(
               this.renderParamValue()
             )}
@@ -334,7 +331,7 @@ class NewParameterDefinition extends React.Component {
             <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
               {getFieldDecorator('parameterValueDesc', {
                 initialValue: record.parameterValueDesc
-              })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
+              })(<Input disabled placeholder={this.$t({id: "common.please.enter"})}/>)}
             </FormItem>
           }
           <div className="slide-footer">
