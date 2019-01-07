@@ -184,7 +184,7 @@ class PersonBasicInfo extends React.Component {
               // gender: values.gender,//必须是int类型不然报错,可以不传，后端用的是genderCode
               genderCode: values.gender,
               birthday: values.birthday ? values.birthday.format('YYYY-MM-DD') : null,
-              entryTime: values.entryTime ? values.entryTime.format('YYYY-MM-DD') : null,
+              entryDate: values.entryDate ? values.entryDate.format('YYYY-MM-DD') : null,
             }
           );
           this.setState({
@@ -252,7 +252,7 @@ class PersonBasicInfo extends React.Component {
             // gender: values.gender,//必须是int类型不然报错，可以不传，后端用的是genderCode
             genderCode: values.gender,
             birthday: values.birthday ? values.birthday.format('YYYY-MM-DD') : null,
-            entryTime: values.entryTime ? values.entryTime.format('YYYY-MM-DD') : null,
+            entryDate: values.entryDate ? values.entryDate.format('YYYY-MM-DD') : null,
           });
 
           this.setState({
@@ -462,7 +462,7 @@ class PersonBasicInfo extends React.Component {
             {/*入职时间：*/}
             {this.$t('pdc.basic.info.enter.time')}：
           </div>
-          <div className="info-item-text">{this.renderNoEditingTextTime(person.entryTime)}</div>
+          <div className="info-item-text">{this.renderNoEditingTextTime(person.entryDate)}</div>
         </div>
 
         <div className="clear" />
@@ -901,7 +901,7 @@ class PersonBasicInfo extends React.Component {
       return data.map(item => {
         return (
           <Option value={item.value} key={item.value}>
-            {item.messageKey}
+            {item.name}
           </Option>
         );
       });
@@ -1265,8 +1265,8 @@ class PersonBasicInfo extends React.Component {
                 label={this.$t('pdc.basic.info.enter.time')} //入职时间
                 colon={true}
               >
-                {getFieldDecorator('entryTime', {
-                  initialValue: personObj.entryTime ? moment(personObj.entryTime) : '',
+                {getFieldDecorator('entryDate', {
+                  initialValue: personObj.entryDate ? moment(personObj.entryDate) : '',
                   rules: [],
                 })(<DatePicker format={'YYYY-MM-DD'} onChange={this.handleChange} />)}
               </FormItem>
