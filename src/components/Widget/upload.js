@@ -97,6 +97,7 @@ class UploadFile extends React.Component {
   render() {
     const upload_headers = {
       Authorization: 'Bearer ' + window.sessionStorage.getItem('token'),
+      Accept: "application/json, text/plain, */*"
     };
     return (
       <div className="upload">

@@ -5,7 +5,8 @@ export default {
     codingRuleObjectId: {},
     expenseTypeSetOfBooks: {},
     standardRulesGroup: '',
-    expenseTypeRules: {}
+    expenseTypeRules: {},
+    navTheme: "dark"
   },
 
   reducers: {
@@ -29,5 +30,12 @@ export default {
         languageType,
       };
     },
+    setNavTheme(state, action) {
+      let { navTheme } = action.payload;
+      return {
+        ...state,
+        navTheme
+      };
+    }
   },
 };

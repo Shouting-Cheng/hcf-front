@@ -136,7 +136,8 @@ class UploadButton extends React.Component {
     const { previewVisible, previewImage, visible } = this.state;
 
     const upload_headers = {
-      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      Accept: "application/json, text/plain, */*"
     };
     let fileList = this.state.fileList;
     fileList.map(item => {
