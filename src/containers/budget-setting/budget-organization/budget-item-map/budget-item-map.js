@@ -235,8 +235,8 @@ class BudgetItemMap extends React.Component {
       let sourceType = [];
       response.data.values.map((item) => {
         let option = {
-          value: item.code,
-          label: item.messageKey
+          value: item.value,
+          label: item.name
         };
         sourceType.push(option)
       });

@@ -3,9 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import {Button, message, Popover, Tabs, Divider, Popconfirm} from 'antd';
+import {Button, Popover, message, Tabs, Divider, Popconfirm} from 'antd';
 import { routerRedux } from 'dva/router';
-import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import NewParameterDefinition from 'containers/setting/parameter-definition/new-parameter-definition'
 const TabPane = Tabs.TabPane;
@@ -14,32 +13,30 @@ import CustomTable from "widget/custom-table";
 import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
 import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
-import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
 
-class ParameterSob extends React.Component {
+class ParameterCompany extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      searchParams: {
-        parameterLevel: 'SOB',
-      },
       record: {},
-      sobOptions:[],
-      sob:{},
+      company: props.company,
+      searchParams:{
+        parameterLevel: 'COMPANY',
+        companyId: props.company.id
+      },
       visible: false,
       searchForm: [
         {
-          type: 'select', id: 'setOfBooksId', label: this.$t({id: 'form.setting.set.of.books'}),
+          type: 'list', id: 'companyId', label: this.$t({id: 'exp.company'}),
+          listType: 'enableCompanyByTenant',
           options: [],
-          labelKey: 'setOfBooksName',
-          allowClear: false,
+          labelKey: 'name',
           valueKey: 'id',
           colSpan: 6,
-          event: "SOB",
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
-          method: 'get',
-          getParams: { roleType:'TENANT',enabled: true },
+          event: 'COMPANY',
+          single: true,
+          listExtraParams: { tenantId: props.company.tenantId},
+          defaultValue: [{id: props.company.id, name: props.company.name}]
         },
         {
           type: 'select', id: 'moduleCode', label: this.$t({id: 'parameter.definition.model'}),
@@ -47,16 +44,16 @@ class ParameterSob extends React.Component {
           labelKey: 'moduleName',
           valueKey: 'moduleCode',
           colSpan: 6,
+          event: "MODULE",
           getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
-          event: "MODULE",
         },
         {type: 'input', id: 'parameterCode',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {
-          title: this.$t({id:"form.setting.set.of.books"}), key: "setOfBooksName", dataIndex: 'setOfBooksName',align:'center',
+          title: this.$t({id:"exp.company"}), key: "companyName", dataIndex: 'companyName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*模块*/
@@ -90,7 +87,7 @@ class ParameterSob extends React.Component {
             return (
               <div>
                 <a onClick={e=>this.handleEdit(e,record)} >{this.$t('common.edit')}</a>
-                  <span>
+                <span>
                     <Divider type="vertical" />
                     <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
                       <a>{this.$t('common.delete')}</a>
@@ -102,23 +99,6 @@ class ParameterSob extends React.Component {
         }
       ],
     }
-  }
-
-  componentDidMount(){
-    let params = {
-      roleType: 'TENANT',
-      enabled: true
-    };
-    sobService.getTenantAllSob(params).then(res=>{
-      let {sob, sobOptions,searchForm} = this.state;
-      res.data.map(item=>{
-        sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,});
-        item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
-      });
-      searchForm[0].options = sobOptions;
-      searchForm[0].defaultValue = sob.setOfBooksCode+'-'+sob.setOfBooksName;
-      this.setState({sob,sobOptions,searchForm})
-    });
   }
 
   handleEdit = (e,record)=>{
@@ -135,18 +115,18 @@ class ParameterSob extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     parameterService.deleteParameter(record.id).then(res=>{
-      message.success(this.$t('common.delete.success'));
+      message.success(this.$t('common.delete.success'))
       this.table.search({
-        parameterLevel: 'SOB',
+        parameterLevel: 'COMPANY',
         ...this.state.searchParams,
       })
     }).catch(e=>{
-      message.error(this.$t('common.delete.failed'));
+      message.error(this.$t('common.delete.failed'))
+      console.log(e)
     });
   };
 
   handleSearch = (values) =>{
-    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
     this.setState({
       searchParams: {
         ...this.state.searchParams,
@@ -157,55 +137,49 @@ class ParameterSob extends React.Component {
     })
   };
 
-
   handleAdd = () =>{
-    this.setState({visible: true,record: {}})
+    this.setState({visible: true,record:{}})
   };
 
   handleClose = (params) =>{
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({...this.state.searchParams,parameterLevel: 'SOB'})
+      params&&this.table.search({parameterLevel: 'COMPANY',...this.state.searchParams})
     })
   };
 
   handleEvent = (event,value)=>{
     switch (event) {
       case 'MODULE':{
-        this.setState({searchParams:{
-          ...this.state.searchParams,
-          moduleCode: value
-        }},()=>{
-          this.table.search({
+        this.setState({
+          searchParams:{
             ...this.state.searchParams,
-            moduleCode: value || undefined,
-          })
+            moduleCode: value
+          }},()=>{
+          this.table.search(this.state.searchParams)
         });break;
       }
 
-      case 'SOB':{
+      case 'COMPANY':{
         this.setState({
-          sob: this.state.sobOptions.find(item=> value === item.value),
+          company: value[0],
           searchParams:{
             ...this.state.searchParams,
-            setOfBooksId: value,
-        }},()=>{
-          this.table.search({
-            ...this.state.searchParams,
-            parameterLevel: "SOB" ,
-            setOfBooksId: value
-          })
+            companyId: value[0].id
+          }},()=>{
+          this.table.search(this.state.searchParams)
         });break;
       }
     }
   };
 
 
+
   render(){
-    const {tabs, nowTab, visible, record, sob, searchForm,columns} = this.state;
+    const { visible, record, company, searchForm,columns} = this.state;
     return (
-      <div className="content-sob" style={{marginTop: 15}}>
+      (<div className='content-company' style={{marginTop: 15}}>
         <SearchArea eventHandle={this.handleEvent} searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
         <div className="table-header" style={{marginTop: 15}}>
           <div className="table-header-buttons">
@@ -215,8 +189,8 @@ class ParameterSob extends React.Component {
         <CustomTable
           columns={columns}
           params={{
-            parameterLevel: "SOB" ,
-            setOfBooksId: this.props.company.setOfBooksId
+            parameterLevel: "COMPANY" ,
+            companyId: this.props.company.id
           }}
           url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
           ref={ref => (this.table = ref)}
@@ -226,11 +200,11 @@ class ParameterSob extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, sob: sob, nowTab: '1' }}
+            params={{record: record,visible, company: company, nowTab: '2' }}
             onClose={this.handleClose}
           />
         </SlideFrame>
-      </div>
+      </div>)
     )
   }
 
@@ -242,4 +216,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(ParameterSob);
+export default connect(mapStateToProps, null, null, { withRef: true })(ParameterCompany);
