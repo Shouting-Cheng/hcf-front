@@ -77,6 +77,7 @@ class NewParameterDefinition extends React.Component {
         if(flag){ //编辑
           method = parameterService.updateParameter;
           values.versionNumber = record.versionNumber;
+          values.id = record.id;
           values.moduleCode = record.moduleCode;
           values.parameterId === record.parameterCode && (values.parameterId = record.parameterId);
           values.parameterValueId === record.parameterValue && (values.parameterValueId = record.parameterValueId)
