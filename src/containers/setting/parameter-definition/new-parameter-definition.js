@@ -74,13 +74,12 @@ class NewParameterDefinition extends React.Component {
         values.tenantId = this.props.company.tenantId;
         values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         values.companyId && (values.companyId = values.companyId.key);
-        console.log(values)
-        console.log(this.props.params.company)
         if(flag){ //编辑
           method = parameterService.updateParameter;
+          values.versionNumber = record.versionNumber;
           values.moduleCode = record.moduleCode;
           values.parameterId === record.parameterCode && (values.parameterId = record.parameterId);
-          values.parameterValueId === record.parameterName && (values.parameterValueId = record.parameterValueId)
+          values.parameterValueId === record.parameterValue && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
           this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.value);
@@ -193,12 +192,32 @@ class NewParameterDefinition extends React.Component {
           ],
           key: 'id',
         };
+        console.log(this.props.form.getFieldsValue('parameterId'))
+
+        let parameterId = this.props.form.getFieldValue('parameterId');
+        parameterId === this.props.params.record.parameterCode && ( parameterId = this.props.params.record.parameterId);
+
+        let parameterCode = this.state.paramsOptions.find(item=>item.id === parameterId).parameterCode;
+
+        let params = this.props.params.nowTab === '1' ?
+          {
+            parameterCode: parameterCode,
+            parameterLevel: "COMPANY" ,
+            setOfBooksId: this.props.company.id
+          } :
+          {
+            parameterCode: parameterCode,
+            parameterLevel: "COMPANY" ,
+            companyId: this.props.company.id
+          };
+
         return <Chooser
           single={true}
           showClear
           labelKey='code'
           valueKey='id'
           onChange={this.handleAPI}
+          listExtraParams={params}
           selectorItem={selectorItem}
         />
       }
@@ -255,7 +274,7 @@ class NewParameterDefinition extends React.Component {
                 message: this.$t({id: "common.please.select"})
               }],
             })(
-              <Select disabled={ nowTab === '0' || !record }
+              <Select disabled={ !!record.id }
                       onChange={this.handleModuleChange}
                       placeholder={this.$t({id: "common.please.select"})}
                       onFocus={this.handleModule}>
@@ -286,7 +305,7 @@ class NewParameterDefinition extends React.Component {
               initialValue: record.parameterCode || '',
               rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
             })(
-              <Select disabled={!this.props.form.getFieldValue('moduleCode')}
+              <Select disabled={!!record.id}
                       placeholder={this.$t({id: "common.please.select"})}
                       onChange={this.handleParamChange}
                       onFocus={this.handleParamCode}
@@ -304,8 +323,7 @@ class NewParameterDefinition extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "budget.balance.params.value"})}>
             {getFieldDecorator('parameterValueId', {
-              initialValue: record.parameterValueType === 'DATE' ? moment(record.parameterValueId,'YYYY-MM-DD') : record.parameterValueId || '',
-              //rules: [{required: true,}],
+              initialValue: record.parameterValueType === 'DATE' ? moment(record.parameterValueId,'YYYY-MM-DD') : record.parameterValue || '',
             })(
               this.renderParamValue()
             )}
@@ -314,7 +332,7 @@ class NewParameterDefinition extends React.Component {
             <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
               {getFieldDecorator('parameterValueDesc', {
                 initialValue: record.parameterValueDesc
-              })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
+              })(<Input disabled placeholder={this.$t({id: "common.please.enter"})}/>)}
             </FormItem>
           }
           <div className="slide-footer">

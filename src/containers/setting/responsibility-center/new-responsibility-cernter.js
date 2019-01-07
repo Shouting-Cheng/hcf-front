@@ -43,8 +43,17 @@ class NewResponsibilityCenter extends React.Component {
         })
     }
     onCancel=()=>{
-        
+        this.props.close()
     }
+    //责任中心名称：多语言
+    i18nNameChange = (name, i18nName) => {
+        const newDataPrams = this.state.newDataPrams;
+        newDataPrams.responsibilityCenterName = name;
+        if (!newDataPrams.i18n) {
+            newDataPrams.i18n = {};
+        }
+        newDataPrams.i18n.responsibilityCenterName = i18nName;
+    };
     render() {
         const { getFieldDecorator, getFieldValue, } = this.props.form;
         const{newDataPrams}=this.state;
@@ -85,7 +94,7 @@ class NewResponsibilityCenter extends React.Component {
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
                             ],
-                            initialValue: newDataPrams.resiponsibilityCenterCode||'',
+                            initialValue: newDataPrams.responsibilityCenterCode||'',
                         })(
                             <Input
                                 placeholder={this.$t("common.please.enter")}
@@ -103,16 +112,16 @@ class NewResponsibilityCenter extends React.Component {
                                     message: this.$t({ id: 'common.please.enter' }),
                                 },
                             ],
-                            initialValue: newDataPrams.resiponsibilityCenterName||'',
+                            initialValue: newDataPrams.responsibilityCenterName||'',
                         })(
                             <div>
                                 <LanguageInput
-                                // key={1}
-                                // name={newDataPrams.dataAuthorityName}
-                                // i18nName={newDataPrams.i18n && newDataPrams.i18n.dataAuthorityName ? newDataPrams.i18n.dataAuthorityName : null}
-                                // placeholder={this.$t('common.please.enter')/* 请输入 */}
-                                // isEdit={newDataPrams.id ? true : false}
-                                // nameChange={this.i18nNameChange}
+                                key={1}
+                                name={newDataPrams.responsibilityCenterName}
+                                i18nName={newDataPrams.i18n && newDataPrams.i18n.responsibilityCenterName ? newDataPrams.i18n.responsibilityCenterName : null}
+                                placeholder={this.$t('common.please.enter')/* 请输入 */}
+                                isEdit={newDataPrams.id ? true : false}
+                                nameChange={this.i18nNameChange}
                                 />
                             </div>
                         )}
