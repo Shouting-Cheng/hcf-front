@@ -20,10 +20,15 @@ const colors = [
   { color: "rgb(47, 84, 235)", text: "极客蓝" },
   { color: "rgb(114, 46, 209)", text: "酱紫" }
 ];
+const navThemes = [
+  { color: "dark", text: "深色(默认)" },
+  { color: "light", text: "浅色" }
+]
 
-@connect(({ components, languages }) => ({
+@connect(({ components, languages, setting: { navTheme } }) => ({
   components,
   languages,
+  navTheme
 }))
 export default class GlobalHeader extends React.Component {
   constructor(props) {
@@ -46,6 +51,7 @@ export default class GlobalHeader extends React.Component {
       window.localStorage.setItem("theme", colors[0].color);
       this.setState({ theme: colors[0].color });
     }
+
   }
 
   componentWillUnmount() {
@@ -99,7 +105,7 @@ export default class GlobalHeader extends React.Component {
 
   langChange = value => {
     const { dispatch } = this.props;
-
+    const hideMessage = message.loading('语言切换中,请稍等...', 0);
     fetch.get('/api/frontKey/query/keyword?lang=' + value, { page: 0, size: 99999 }).then(res => {
       let languages = {};
 
@@ -120,9 +126,19 @@ export default class GlobalHeader extends React.Component {
         payload: { languages: languages, local: value },
       });
 
-      fetch.post('/api/users/language/' + value);
+      fetch.post('/api/users/language/' + value).then(() => {
+        hideMessage();
+      });
     });
   };
+
+  navThemeChange = (value) => {
+    this.props.dispatch({
+      type: "setting/setNavTheme",
+      payload: { navTheme: value }
+    });
+    window.localStorage.setItem("navTheme", value);
+  }
 
   buildIt = (value) => {
 
@@ -231,6 +247,7 @@ export default class GlobalHeader extends React.Component {
       logo,
       onMenuClick,
       languages: { local, languageType },
+      navTheme
     } = this.props;
 
     const menu = (
@@ -262,6 +279,15 @@ export default class GlobalHeader extends React.Component {
           onClick={this.toggle}
         />
         <div className={styles.right}>
+          <label style={{ lineHeight: "60px", marginRight: 6 }}>菜单主题:</label>
+          <Select value={navTheme} style={{ marginRight: 20, width: 120 }} onChange={this.navThemeChange}>
+            {navThemes.map(item => (
+              <Select.Option key={item.color}>
+                <div style={{ color: item.color }}>{item.text}</div>
+              </Select.Option>
+            ))}
+          </Select>
+          <label style={{ lineHeight: "60px", marginRight: 6 }}>全局主题:</label>
           <Select value={this.state.theme} style={{ marginRight: 20, width: 100 }} onChange={this.colorChange}>
             {colors.map(item => (
               <Select.Option key={item.color}>
@@ -269,6 +295,7 @@ export default class GlobalHeader extends React.Component {
               </Select.Option>
             ))}
           </Select>
+          <label style={{ lineHeight: "60px", marginRight: 6 }}>语言:</label>
           <Select width={200} value={local} onChange={this.langChange}>
             {languageType.map(item => (
               <Select.Option key={item.code} value={item.code}>
