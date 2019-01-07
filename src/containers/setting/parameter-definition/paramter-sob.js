@@ -124,7 +124,6 @@ class ParameterSob extends React.Component {
   handleEdit = (e,record)=>{
     e.preventDefault();
     e.stopPropagation();
-    console.log(record)
     this.setState({
       visible: true,
       record
