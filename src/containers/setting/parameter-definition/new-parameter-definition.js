@@ -275,7 +275,7 @@ class NewParameterDefinition extends React.Component {
                 message: this.$t({id: "common.please.select"})
               }],
             })(
-              <Select disabled={ nowTab === '0' || !record }
+              <Select disabled={ !!record.id }
                       onChange={this.handleModuleChange}
                       placeholder={this.$t({id: "common.please.select"})}
                       onFocus={this.handleModule}>
@@ -306,7 +306,7 @@ class NewParameterDefinition extends React.Component {
               initialValue: record.parameterCode || '',
               rules: [{required: true, message: this.$t({id: "common.please.enter"})},]
             })(
-              <Select disabled={!this.props.form.getFieldValue('moduleCode')}
+              <Select disabled={!!record.id}
                       placeholder={this.$t({id: "common.please.select"})}
                       onChange={this.handleParamChange}
                       onFocus={this.handleParamCode}
