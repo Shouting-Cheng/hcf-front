@@ -5,7 +5,6 @@ import React from 'react'
 import { connect } from 'dva'
 import {Button, Badge, notification, Popover, Tabs, Divider, Popconfirm} from 'antd';
 import { routerRedux } from 'dva/router';
-import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
 import NewParameterDefinition from 'containers/setting/parameter-definition/new-parameter-definition'
 const TabPane = Tabs.TabPane;
@@ -14,29 +13,25 @@ import CustomTable from "widget/custom-table";
 import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
 import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
-import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
 
 class ParameterDefinition extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      searchParams: {},
       record: {},
-      sobOptions:[],
-      sob:{},
+      companyId: props.company.id,
       visible: false,
       searchForm: [
         {
-          type: 'select', id: 'setOfBooksId', label: this.$t({id: 'form.setting.set.of.books'}),
+          type: 'list', id: 'companyId', label: this.$t({id: 'exp.company'}),
+          listType: 'enableCompanyByTenant',
           options: [],
-          labelKey: 'setOfBooksName',
-          allowClear: false,
+          labelKey: 'name',
           valueKey: 'id',
           colSpan: 6,
-          getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
-          method: 'get',
-          getParams: { roleType:'TENANT',enabled: true },
+          single: true,
+          listExtraParams: { tenantId: props.company.tenantId},
+          defaultValue: [{id: props.company.id, name: props.company.name}]
         },
         {
           type: 'select', id: 'moduleCode', label: this.$t({id: 'parameter.definition.model'}),
@@ -46,14 +41,13 @@ class ParameterDefinition extends React.Component {
           colSpan: 6,
           getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
-          //getParams: { roleType:'TENANT' },
         },
         {type: 'input', id: 'parameterCode',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
       ],
       columns: [
         {
-          title: this.$t({id:"form.setting.set.of.books"}), key: "setOfBooksName", dataIndex: 'setOfBooksName',align:'center',
+          title: this.$t({id:"exp.company"}), key: "com", dataIndex: 'structureCode1',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*模块*/
@@ -87,7 +81,7 @@ class ParameterDefinition extends React.Component {
             return (
               <div>
                 <a onClick={e=>this.handleEdit(e,record)} >{this.$t('common.edit')}</a>
-                  <span>
+                <span>
                     <Divider type="vertical" />
                     <Popconfirm title={this.$t('configuration.detail.tip.delete')} onConfirm={e => this.deleteItem(e, record)}>
                       <a>{this.$t('common.delete')}</a>
@@ -175,8 +169,8 @@ class ParameterDefinition extends React.Component {
         <CustomTable
           columns={columns}
           params={{
-            parameterLevel: "SOB" ,
-            setOfBooksId: this.props.company.setOfBooksId
+            parameterLevel: "COMPANY" ,
+            setOfBooksId: this.props.company.id
           }}
           url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
           ref={ref => (this.table = ref)}
@@ -186,7 +180,7 @@ class ParameterDefinition extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, sob, nowTab: '1' }}
+            params={{...record,visible, sob, nowTab: '1' }}
             onClose={this.handleClose}
           />
         </SlideFrame>
