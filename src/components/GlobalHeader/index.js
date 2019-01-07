@@ -279,7 +279,7 @@ export default class GlobalHeader extends React.Component {
           onClick={this.toggle}
         />
         <div className={styles.right}>
-          <label style={{ lineHeight: "60px", marginRight: 6 }}>菜单主题:</label>
+          <label style={{ marginRight: 6 }}>菜单主题:</label>
           <Select value={navTheme} style={{ marginRight: 20, width: 120 }} onChange={this.navThemeChange}>
             {navThemes.map(item => (
               <Select.Option key={item.color}>
@@ -287,7 +287,7 @@ export default class GlobalHeader extends React.Component {
               </Select.Option>
             ))}
           </Select>
-          <label style={{ lineHeight: "60px", marginRight: 6 }}>全局主题:</label>
+          <label style={{ marginRight: 6 }}>全局主题:</label>
           <Select value={this.state.theme} style={{ marginRight: 20, width: 100 }} onChange={this.colorChange}>
             {colors.map(item => (
               <Select.Option key={item.color}>
@@ -295,7 +295,7 @@ export default class GlobalHeader extends React.Component {
               </Select.Option>
             ))}
           </Select>
-          <label style={{ lineHeight: "60px", marginRight: 6 }}>语言:</label>
+          <label style={{ marginRight: 6 }}>语言:</label>
           <Select width={200} value={local} onChange={this.langChange}>
             {languageType.map(item => (
               <Select.Option key={item.code} value={item.code}>

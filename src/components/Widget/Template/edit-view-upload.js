@@ -123,6 +123,8 @@ class EditViewUpload extends Component {
     const upload_headers = {
       //JSON.parse(localStorage.getItem('hly.token')).access_token
       Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+      Accept: "application/json, text/plain, */*"
+
     };
     const { fileList } = this.state;
     const footer = disabled ? { footer: ' ' } : {};
