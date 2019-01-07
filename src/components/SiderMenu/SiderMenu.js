@@ -289,7 +289,6 @@ export default class SiderMenu extends React.Component {
       this.setState({ menuList: [...this.menus], searchValue: value });
       return;
     }
-
     //todo  三级搜索暂不支持 后面加一下
     let result = [];
     let menus = JSON.parse(JSON.stringify(this.menus));
@@ -301,7 +300,9 @@ export default class SiderMenu extends React.Component {
           result.push(item);
         }
       } else {
-        item.children = [];
+        if (this.$t(item.name).includes(value)) {
+          result.push(item);
+        }
       }
     });
 

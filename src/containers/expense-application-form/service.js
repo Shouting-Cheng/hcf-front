@@ -82,6 +82,14 @@ export default {
   },
 
   /**
+  * 编辑申请单行
+  * @param {*} params
+  */
+  updateApplicationLine(params) {
+    return httpFetch.put(`${config.expenseUrl}/api/expense/application/line`, params);
+  },
+
+  /**
   * 获取审批历史
   * @param {*} oid
   */
@@ -98,7 +106,7 @@ export default {
   },
 
   /**
-   * 
+   * 提交
    * @param {*} params 
    */
   submit(params) {

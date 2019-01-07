@@ -25,8 +25,8 @@ class ResponsibilityCenter extends React.Component {
                     // defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
                     renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
                 },
-                { type: 'input', id: 'resiponsibilityCenterCode', label: '责任中心代码', colSpan: '6', },
-                { type: 'input', id: 'resiponsibilityCenterName', label: '责任中心名称', colSpan: '6', },
+                { type: 'input', id: 'responsibilityCenterCode', label: '责任中心代码', colSpan: '6', },
+                { type: 'input', id: 'responsibilityCenterName', label: '责任中心名称', colSpan: '6', },
                 {
                     type: 'select', id: 'enabled', label: '状态', options: [
                         { value: true, label: '启用' },
@@ -57,11 +57,11 @@ class ResponsibilityCenter extends React.Component {
             cernterColumns: [
                 {
                     title: '责任中心代码',
-                    dataIndex: 'resiponsibilityCenterCode',
+                    dataIndex: 'responsibilityCenterCode',
                 },
                 {
                     title: '责任中心名称',
-                    dataIndex: 'resiponsibilityCenterName',
+                    dataIndex: 'responsibilityCenterName',
                 },
                 {
                     title: '状态',
@@ -165,8 +165,8 @@ class ResponsibilityCenter extends React.Component {
     }
     /**责任中心搜索，清空，表格操作，新建等功能 */
     searhCernter = (values) => {
-        values.resiponsibilityCenterCode = values.resiponsibilityCenterCode ? values.resiponsibilityCenterCode : undefined,
-            values.resiponsibilityCenterName = values.resiponsibilityCenterName ? values.resiponsibilityCenterName : undefined,
+        values.responsibilityCenterCode = values.responsibilityCenterCode ? values.responsibilityCenterCode : undefined,
+            values.responsibilityCenterName = values.responsibilityCenterName ? values.responsibilityCenterName : undefined,
             values.enabled = values.enabled ? values.enabled : undefined,
             this.setState({
                 searchParams: values
@@ -254,7 +254,7 @@ class ResponsibilityCenter extends React.Component {
                                 <div style={{ marginTop: 10 }}>
                                     <CustomTable
                                         columns={cernterColumns}
-                                        url={`${config.baseUrl}/api/resiponsibilitycenter/query`}
+                                        url={`${config.baseUrl}/api/responsibilityCenter/query`}
                                         params={{ setOfBooksId: setOfBooksId }}
                                         ref={ref => this.centerTable = ref}
                                         rowSelection={rowSelection}
@@ -288,7 +288,7 @@ class ResponsibilityCenter extends React.Component {
                                 <div style={{ marginTop: 10 }}>
                                     <CustomTable
                                         columns={groupColumns}
-                                        url={`${config.baseUrl}/api/resiponsibilitycenter/group/query`}
+                                        url={`${config.baseUrl}/api/responsibilityCenter/group/query`}
                                         params={{ setOfBooksId: setOfBooksId }}
                                     // ref={ref => this.table = ref}
 

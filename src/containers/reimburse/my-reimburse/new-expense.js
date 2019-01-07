@@ -170,6 +170,7 @@ class NewExpense extends React.Component {
     }
     //显示并且是编辑
     else if (params.record.id) {
+
       let shareParams = {
         applincationParams: {},
         relatedApplication: params.headerData.relatedApplication,
@@ -410,7 +411,9 @@ class NewExpense extends React.Component {
             return;
           }
 
-          data = [...model];
+          console.log(model);
+
+          data = { ...model };
 
           if (parseFloat(data.priceTaxAmount) < parseFloat(values.amount)) {
             message.error('报账金额不能大于价税合计！');

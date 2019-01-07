@@ -93,6 +93,11 @@ class NewApplicationType extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (err) return;
 
+      if (!values.applicationType.radioValue && values.applicationType.chooserValue.length <= 0) {
+        message.error("请至少选择一条申请类型！");
+        return;
+      }
+
       this.setState({ saveLoading: true });
       values.requireInput = values.associateContract ? values.requireInput : false;
       values.allFlag = values.applicationType.radioValue;
@@ -243,7 +248,6 @@ class NewApplicationType extends React.Component {
             validateTrigger="onBlur"
             label="可用申请类型">
             {getFieldDecorator('applicationType', {
-              rules: [{ validator: this.applicationTypeValidator }],
               initialValue: record.applicationType || { radioValue: true, chooserValue: [] }
             })(
               <CustomChooser params={{ setOfBooksId: record.id ? record.setOfBooksId : params.setOfBooksId }} type="application_type" valueKey="id" labelKey="name" />

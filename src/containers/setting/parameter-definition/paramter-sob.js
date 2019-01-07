@@ -157,7 +157,7 @@ class ParameterDefinition extends React.Component {
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({parameterLevel: this.state.parameterLevel[this.state.nowTab]})
+      params&&this.table.search({parameterLevel: 'SOB'})
     })
   };
 
