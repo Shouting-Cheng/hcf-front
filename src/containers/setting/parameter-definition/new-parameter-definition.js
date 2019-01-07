@@ -49,7 +49,11 @@ class NewParameterDefinition extends React.Component {
 
   componentDidMount() {
     console.log(this.props)
-
+    this.setState({
+      paramCode: {
+        parameterValueType: this.props.params.record.parameterValueType
+      }
+    })
   }
 
 
@@ -61,26 +65,21 @@ class NewParameterDefinition extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-        //this.setState({loading: true});
-        console.log(values)
-
-        console.log(this.props.params.record)
-    /*    values.setOfBooksId&&(values.setOfBooksId = values.setOfBooksId.id);
-        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY';
-        values.tenantId = this.props.company.tenantId;
-        values.companyId = (values.companyId.key) && values.companyId.key;*/
+        this.setState({loading: true});
         const record = this.props.params.record;
         let method;
         let flag = !!this.props.params.record.id;
-        console.log(this.props.params.record.id)
+        console.log(this.props.params.record.id);
+        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY';
+        values.tenantId = this.props.company.tenantId;
+        values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
 
-        if(flag){
+        console.log(record)
+        if(flag){ //编辑
           method = parameterService.updateParameter;
           values.moduleCode = record.moduleCode;
           values.parameterCode === record.parameterCode && (values.parameterCode = record.parameterId);
-          values.parameterValueId === record.parameterValueId && (values.parameterValueId = record.parameterValueId)
-
-          values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
+          values.parameterValueId === record.parameterName && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
         }
@@ -106,10 +105,10 @@ class NewParameterDefinition extends React.Component {
   handleModuleChange = (value) =>{
     if(value){
       this.props.form.setFieldsValue({
-        parameterId: '',
-        parameterName: '',
+        parameterId: null,
+        parameterName: null,
         parameterValueId: null,
-        parameterValueDesc: ''
+        parameterValueDesc: null
       })
     }
   };
@@ -231,11 +230,11 @@ class NewParameterDefinition extends React.Component {
       wrapperCol: { span: 10, offset: 0 },
     };
 
-    let value = {
+    let isVisible = {
       API: true,
       VALUE_LIST: true
     };
-    console.log(record)
+    console.log(sob)
     return (
       <div className="new-parameter-definition" style={{paddingTop: 25}}>
         <Form onSubmit={this.handleSave}>
@@ -302,10 +301,10 @@ class NewParameterDefinition extends React.Component {
               this.renderParamValue()
             )}
           </FormItem>
-          {  value[paramCode.parameterValueType]&&
+          {  isVisible[paramCode.parameterValueType]&&
             <FormItem {...formItemLayout} label={this.$t({id: "chooser.data.description"})}>
               {getFieldDecorator('parameterValueDesc', {
-                //initialValue: version.description
+                initialValue: record.parameterValueDesc
               })(<Input placeholder={this.$t({id: "common.please.enter"})}/>)}
             </FormItem>
           }

@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import {Button, Badge, notification, Popover, Tabs, Divider, Popconfirm} from 'antd';
+import {Button, message, Popover, Tabs, Divider, Popconfirm} from 'antd';
 import { routerRedux } from 'dva/router';
 import Table from 'widget/table'
 import SearchArea from 'widget/search-area';
@@ -103,6 +103,7 @@ class ParameterSob extends React.Component {
       ],
     }
   }
+
   componentDidMount(){
     let params = {
       roleType: 'TENANT',
@@ -130,11 +131,30 @@ class ParameterSob extends React.Component {
     })
   };
 
+  deleteItem = (e,record)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    parameterService.deleteParameter(record.id).then(res=>{
+      message.success(this.$t('common.delete.success'));
+      this.table.search({
+        parameterLevel: 'SOB',
+        ...this.state.searchParams,
+      })
+    }).catch(e=>{
+      message.error(this.$t('common.delete.failed'));
+    });
+  };
 
   handleSearch = (values) =>{
-    console.log(values)
     values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
-    this.table.search(values)
+    this.setState({
+      searchParams: {
+        ...this.state.searchParams,
+        ...values,
+      }
+    },()=>{
+      this.table.search(values)
+    })
   };
 
 
@@ -165,8 +185,6 @@ class ParameterSob extends React.Component {
   };
 
   handleEvent = (event,value)=>{
-    console.log(event)
-    console.log(value)
     switch (event) {
       case 'MODULE':{
         this.setState({searchParams:{
@@ -175,7 +193,7 @@ class ParameterSob extends React.Component {
         }},()=>{
           this.table.search({
             ...this.state.searchParams,
-            moduleCode: value,
+            moduleCode: value || undefined,
           })
         });break;
       }
