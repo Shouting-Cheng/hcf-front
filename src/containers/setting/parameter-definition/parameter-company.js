@@ -20,7 +20,10 @@ class ParameterCompany extends React.Component {
     this.state = {
       record: {},
       company: props.company,
-      searchParams:{},
+      searchParams:{
+        parameterLevel: 'COMPANY',
+        companyId: props.company.id
+      },
       visible: false,
       searchForm: [
         {
@@ -50,7 +53,7 @@ class ParameterCompany extends React.Component {
       ],
       columns: [
         {
-          title: this.$t({id:"exp.company"}), key: "com", dataIndex: 'structureCode1',align:'center',
+          title: this.$t({id:"exp.company"}), key: "companyName", dataIndex: 'companyName',align:'center',
           render: desc => <Popover placement="topLeft" content={desc}>{desc||'-'}</Popover>
         },
         {          /*模块*/
@@ -124,7 +127,6 @@ class ParameterCompany extends React.Component {
   };
 
   handleSearch = (values) =>{
-    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
     this.setState({
       searchParams: {
         ...this.state.searchParams,
@@ -136,24 +138,22 @@ class ParameterCompany extends React.Component {
   };
 
   handleAdd = () =>{
-    this.setState({visible: true})
+    this.setState({visible: true,record:{}})
   };
 
   handleClose = (params) =>{
-    console.log(params)
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({parameterLevel: 'COMPANY'})
+      params&&this.table.search({parameterLevel: 'COMPANY',...this.state.searchParams})
     })
   };
 
   handleEvent = (event,value)=>{
-    console.log(event)
-    console.log(value)
     switch (event) {
       case 'MODULE':{
-        this.setState({searchParams:{
+        this.setState({
+          searchParams:{
             ...this.state.searchParams,
             moduleCode: value
           }},()=>{
@@ -162,9 +162,11 @@ class ParameterCompany extends React.Component {
       }
 
       case 'COMPANY':{
-        this.setState({searchParams:{
+        this.setState({
+          company: value[0],
+          searchParams:{
             ...this.state.searchParams,
-            setOfBooksId: value
+            companyId: value[0].id
           }},()=>{
           this.table.search(this.state.searchParams)
         });break;
@@ -175,7 +177,7 @@ class ParameterCompany extends React.Component {
 
 
   render(){
-    const {tabs, nowTab, visible, record, company, searchForm,columns} = this.state;
+    const { visible, record, company, searchForm,columns} = this.state;
     return (
       (<div className='content-company' style={{marginTop: 15}}>
         <SearchArea eventHandle={this.handleEvent} searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
@@ -188,7 +190,7 @@ class ParameterCompany extends React.Component {
           columns={columns}
           params={{
             parameterLevel: "COMPANY" ,
-            setOfBooksId: this.props.company.id
+            companyId: this.props.company.id
           }}
           url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond`}
           ref={ref => (this.table = ref)}
@@ -198,7 +200,7 @@ class ParameterCompany extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, company, nowTab: '2' }}
+            params={{record: record,visible, company: company, nowTab: '2' }}
             onClose={this.handleClose}
           />
         </SlideFrame>

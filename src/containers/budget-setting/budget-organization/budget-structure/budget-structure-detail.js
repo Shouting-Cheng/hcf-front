@@ -129,7 +129,7 @@ class BudgetStructureDetail extends React.Component{
     !periodStrategy.length&&this.getSystemValueList(2002).then((response)=>{
       response.data.values.map((item)=>{
         let options = {
-          label:item.messageKey, value:item.code
+          label:item.name, value:item.value
         };
         periodStrategy.addIfNotExist(options)
       });

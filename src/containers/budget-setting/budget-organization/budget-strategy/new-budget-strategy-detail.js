@@ -124,7 +124,7 @@ class NewBudgetStrategyDetail extends React.Component {
                   }]})(
                   <Select onChange={this.handleMethodChange} placeholder={this.$t({id: "common.please.enter"}/*请输入*/)}>
                     {controlMethodOptions.map((option)=>{
-                      return <Option key={option.value}>{option.messageKey}</Option>
+                      return <Option key={option.value}>{option.name}</Option>
                     })}
                   </Select>
                 )}
@@ -154,7 +154,7 @@ class NewBudgetStrategyDetail extends React.Component {
                   }]})(
                   <Select placeholder={this.$t({id: "common.please.select"}/*请选择*/)} disabled={controlMethodValue === 'NO_MESSAGE'}>
                     {messageCodeOptions && messageCodeOptions.map((option)=>{
-                      return <Option key={option.value}>{option.messageKey}</Option>
+                      return <Option key={option.value}>{option.name}</Option>
                     })}
                   </Select>
                 )}

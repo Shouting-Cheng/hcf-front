@@ -159,28 +159,14 @@ class ParameterSob extends React.Component {
 
 
   handleAdd = () =>{
-    this.setState({visible: true})
-  };
-
-  //点击行，进入该行详情页面
-  handleRowClick = (record, index, event) =>{
-    console.log(this.props)
-    this.props.dispatch(
-      routerRedux.push({
-        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/orgId/:setOfBooksId/:id'
-          .replace(':orgId', this.props.organization.id)
-          .replace(":setOfBooksId",this.props.setOfBooksId)
-          .replace(':id', record.id)
-      })
-    );
+    this.setState({visible: true,record: {}})
   };
 
   handleClose = (params) =>{
-    console.log(params)
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({parameterLevel: 'SOB'})
+      params&&this.table.search({...this.state.searchParams,parameterLevel: 'SOB'})
     })
   };
 
@@ -200,8 +186,8 @@ class ParameterSob extends React.Component {
 
       case 'SOB':{
         this.setState({
+          sob: this.state.sobOptions.find(item=> value === item.value),
           searchParams:{
-            sob: this.state.sobOptions.find(item=> value === item.id),
             ...this.state.searchParams,
             setOfBooksId: value,
         }},()=>{
@@ -240,7 +226,7 @@ class ParameterSob extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, sob:sob, nowTab: '1' }}
+            params={{record: record,visible, sob: sob, nowTab: '1' }}
             onClose={this.handleClose}
           />
         </SlideFrame>

@@ -15,7 +15,7 @@ export default {
 
   //获取模块代码下参数值
   getParamValues(params){
-    return httpFetch.get(`${config.baseUrl}/api/parameter/values/by/parameterValueType`,params)
+    return httpFetch.get(`${config.baseUrl}/api/parameter/values/valuaList/by/parameterValueType`,params)
   },
 
   //新建参数
