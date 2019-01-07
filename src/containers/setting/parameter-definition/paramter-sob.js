@@ -16,12 +16,14 @@ import SlideFrame from 'widget/slide-frame'
 import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
 import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
 
-class ParameterDefinition extends React.Component {
+class ParameterSob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      searchParams: {},
+      searchParams: {
+        parameterLevel: 'TENANT',
+      },
       record: {},
       sobOptions:[],
       sob:{},
@@ -34,6 +36,7 @@ class ParameterDefinition extends React.Component {
           allowClear: false,
           valueKey: 'id',
           colSpan: 6,
+          event: "SOB",
           getUrl: `${config.baseUrl}/api/setOfBooks/by/tenant`,
           method: 'get',
           getParams: { roleType:'TENANT',enabled: true },
@@ -46,7 +49,7 @@ class ParameterDefinition extends React.Component {
           colSpan: 6,
           getUrl: `${config.baseUrl}/api/parameter/module`,
           method: 'get',
-          //getParams: { roleType:'TENANT' },
+          event: "MODULE",
         },
         {type: 'input', id: 'parameterCode',colSpan: 6, label: this.$t({id: 'budget.parameterCode'}) }, /*参数代码*/
         {type: 'input', id: 'parameterName',colSpan: 6, label: this.$t({id: 'budget.parameterName'}) }, /*参数名称*/
@@ -100,7 +103,7 @@ class ParameterDefinition extends React.Component {
       ],
     }
   }
-  componentWillMount(){
+  componentDidMount(){
     let params = {
       roleType: 'TENANT',
       enabled: true
@@ -161,12 +164,45 @@ class ParameterDefinition extends React.Component {
     })
   };
 
+  handleEvent = (event,value)=>{
+    console.log(event)
+    console.log(value)
+    switch (event) {
+      case 'MODULE':{
+        this.setState({searchParams:{
+          ...this.state.searchParams,
+          moduleCode: value
+        }},()=>{
+          this.table.search({
+            ...this.state.searchParams,
+            moduleCode: value,
+          })
+        });break;
+      }
+
+      case 'SOB':{
+        this.setState({
+          searchParams:{
+            sob: this.state.sobOptions.find(item=> value === item.id),
+            ...this.state.searchParams,
+            setOfBooksId: value,
+        }},()=>{
+          this.table.search({
+            ...this.state.searchParams,
+            parameterLevel: "SOB" ,
+            setOfBooksId: value
+          })
+        });break;
+      }
+    }
+  };
+
 
   render(){
     const {tabs, nowTab, visible, record, sob, searchForm,columns} = this.state;
     return (
-      (<div className={`content-${nowTab}`} style={{marginTop: 15}}>
-        <SearchArea searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
+      <div className="content-sob" style={{marginTop: 15}}>
+        <SearchArea eventHandle={this.handleEvent} searchForm={ searchForm} maxLength={4} submitHandle={this.handleSearch}/>
         <div className="table-header" style={{marginTop: 15}}>
           <div className="table-header-buttons">
             <Button type="primary" onClick={this.handleAdd}>{this.$t({id: 'common.add'})}</Button>  {/*添加*/}
@@ -186,11 +222,11 @@ class ParameterDefinition extends React.Component {
           show={visible}
           onClose={()=>this.setState({visible: false})}>
           <NewParameterDefinition
-            params={{record: record,visible, sob, nowTab: '1' }}
+            params={{record: record,visible, sob:sob, nowTab: '1' }}
             onClose={this.handleClose}
           />
         </SlideFrame>
-      </div>)
+      </div>
     )
   }
 
@@ -202,4 +238,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(ParameterDefinition);
+export default connect(mapStateToProps, null, null, { withRef: true })(ParameterSob);
