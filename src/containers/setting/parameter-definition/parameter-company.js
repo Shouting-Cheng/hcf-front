@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import {Button, Badge, notification, Popover, Tabs, Divider, Popconfirm} from 'antd';
+import {Button, Popover, message, Tabs, Divider, Popconfirm} from 'antd';
 import { routerRedux } from 'dva/router';
 import SearchArea from 'widget/search-area';
 import NewParameterDefinition from 'containers/setting/parameter-definition/new-parameter-definition'
@@ -20,6 +20,7 @@ class ParameterCompany extends React.Component {
     this.state = {
       record: {},
       company: props.company,
+      searchParams:{},
       visible: false,
       searchForm: [
         {
@@ -107,29 +108,35 @@ class ParameterCompany extends React.Component {
     })
   };
 
-
-  handleSearch = (values) =>{
-    console.log(values)
-    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
-    this.table.search(values)
+  deleteItem = (e,record)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    parameterService.deleteParameter(record.id).then(res=>{
+      message.success(this.$t('common.delete.success'))
+      this.table.search({
+        parameterLevel: 'COMPANY',
+        ...this.state.searchParams,
+      })
+    }).catch(e=>{
+      message.error(this.$t('common.delete.failed'))
+      console.log(e)
+    });
   };
 
+  handleSearch = (values) =>{
+    values.setOfBooksId&&values.setOfBooksId=== (this.state.sob.setOfBooksCode+'-'+this.state.sob.setOfBooksName)&&(values.setOfBooksId=this.state.sob.id);
+    this.setState({
+      searchParams: {
+        ...this.state.searchParams,
+        ...values,
+      }
+    },()=>{
+      this.table.search(values)
+    })
+  };
 
   handleAdd = () =>{
     this.setState({visible: true})
-  };
-
-  //点击行，进入该行详情页面
-  handleRowClick = (record, index, event) =>{
-    console.log(this.props)
-    this.props.dispatch(
-      routerRedux.push({
-        pathname: '/budget-setting/budget-organization/budget-organization-detail/budget-structure/budget-structure-detail/orgId/:setOfBooksId/:id'
-          .replace(':orgId', this.props.organization.id)
-          .replace(":setOfBooksId",this.props.setOfBooksId)
-          .replace(':id', record.id)
-      })
-    );
   };
 
   handleClose = (params) =>{
@@ -137,7 +144,7 @@ class ParameterCompany extends React.Component {
     this.setState({
       visible: false
     },()=>{
-      params&&this.table.search({parameterLevel: 'SOB'})
+      params&&this.table.search({parameterLevel: 'COMPANY'})
     })
   };
 
@@ -149,14 +156,18 @@ class ParameterCompany extends React.Component {
         this.setState({searchParams:{
             ...this.state.searchParams,
             moduleCode: value
-          }});break;
+          }},()=>{
+          this.table.search(this.state.searchParams)
+        });break;
       }
 
       case 'COMPANY':{
         this.setState({searchParams:{
             ...this.state.searchParams,
             setOfBooksId: value
-          }});break;
+          }},()=>{
+          this.table.search(this.state.searchParams)
+        });break;
       }
     }
   };
