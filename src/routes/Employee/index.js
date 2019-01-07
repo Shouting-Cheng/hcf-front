@@ -210,8 +210,8 @@ class Employee extends React.Component {
         },
         {
           title: this.$t('person.manage.employeeId'), //"工号",
-          key: 'employeeID',
-          dataIndex: 'employeeID',
+          key: 'employeeId',
+          dataIndex: 'employeeId',
           render: text => (
             <span>
               {text ? (
@@ -429,6 +429,7 @@ class Employee extends React.Component {
       departmentOid: this.state.params.departmentOids,
       corporationOid: this.state.params.corporationOids,
       status: this.state.params.status,
+      isInactiveSearch: false,
     };
     // searchUserListByCond  searchPersonInDep
     PMService.searchUserListByCond(params).then(response => {
