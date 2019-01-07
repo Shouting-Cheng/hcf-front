@@ -193,12 +193,32 @@ class NewParameterDefinition extends React.Component {
           ],
           key: 'id',
         };
+        console.log(this.props.form.getFieldsValue('parameterId'))
+
+        let parameterId = this.props.form.getFieldValue('parameterId');
+        parameterId === this.props.params.record.parameterCode && ( parameterId = this.props.params.record.parameterId);
+
+        let parameterCode = this.state.paramsOptions.find(item=>item.id === parameterId).parameterCode;
+
+        let params = this.props.params.nowTab === '1' ?
+          {
+            parameterCode: parameterCode,
+            parameterLevel: "COMPANY" ,
+            setOfBooksId: this.props.company.id
+          } :
+          {
+            parameterCode: parameterCode,
+            parameterLevel: "COMPANY" ,
+            companyId: this.props.company.id
+          };
+
         return <Chooser
           single={true}
           showClear
           labelKey='code'
           valueKey='id'
           onChange={this.handleAPI}
+          listExtraParams={params}
           selectorItem={selectorItem}
         />
       }
