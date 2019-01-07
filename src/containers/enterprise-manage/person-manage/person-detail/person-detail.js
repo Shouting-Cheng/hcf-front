@@ -128,7 +128,7 @@ class PersonDetail extends React.Component {
     let personObj = this.state.personObj;
     let customFormValues = personObj.customFormValues;
     for (let i = 0; i < customFormValues.length; i++) {
-      if (customFormValues[i].name === 'cust_list') {
+      if (customFormValues[i].messageKey === 'cust_list') {
         let dataSource = JSON.parse(customFormValues[i].dataSource);
         if (dataSource && dataSource.customEnumerationOid) {
           PDService.getListByCustomEnumerationOid(dataSource.customEnumerationOid)
