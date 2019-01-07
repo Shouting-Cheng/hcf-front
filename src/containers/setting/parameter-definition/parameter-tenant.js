@@ -122,7 +122,7 @@ class ParameterDefinition extends React.Component {
             url={`${config.baseUrl}/api/parameter/setting/page/by/level/cond?parameterLevel=TENANT`}
             ref={ref => (this.table = ref)}
           />
-        </div>)
+        </div>
         <SlideFrame
           title={this.$t('parameter.definition.teat')+ this.$t('parameter.definition')}
           show={visible}

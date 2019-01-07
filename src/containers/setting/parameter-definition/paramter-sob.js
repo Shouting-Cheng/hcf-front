@@ -175,7 +175,7 @@ class ParameterSob extends React.Component {
         }},()=>{
           this.table.search({
             ...this.state.searchParams,
-            moduleCode: value,
+            moduleCode: value || undefined,
           })
         });break;
       }

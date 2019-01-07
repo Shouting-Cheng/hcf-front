@@ -3,18 +3,8 @@
  */
 import React from 'react'
 import { connect } from 'dva'
-import {Button, Badge, notification, Popover, Tabs, Divider, Popconfirm, message} from 'antd';
-import { routerRedux } from 'dva/router';
-import Table from 'widget/table'
-import SearchArea from 'widget/search-area';
-import NewParameterDefinition from 'containers/setting/parameter-definition/new-parameter-definition'
+import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
-import config from 'config';
-import CustomTable from "widget/custom-table";
-import parameterService from 'containers/setting/parameter-definition/parameter-definition.service'
-import SlideFrame from 'widget/slide-frame'
-import sobService from 'containers/finance-setting/set-of-books/set-of-books.service'
-import paramsService from 'containers/setting/parameter-definition/parameter-definition.service'
 import ParameterSOb from 'containers/setting/parameter-definition/paramter-sob'
 import ParameterCompany from 'containers/setting/parameter-definition/parameter-company'
 import ParameterTenant from 'containers/setting/parameter-definition/parameter-tenant'
