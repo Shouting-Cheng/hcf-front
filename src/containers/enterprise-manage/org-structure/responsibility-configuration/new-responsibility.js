@@ -205,16 +205,6 @@ class Responsibility extends Component {
 
   // 选择可用责任中心模态框点击确定
    onUsableOk = (result) => {
-    // console.log(result,'ues');
-    // let usable=null;
-    // usable=result.result.map((item,index)=>{
-    //   return {
-    //     key:item.key,
-    //     label:item.responsibilityCenterName,
-    //     value:item.responsibilityCenterCode,
-    //   }
-    // });
-    // console.log(usable,'usable');
     this.setState({
       usableList:result.result,
       usableVisible:false
@@ -246,12 +236,8 @@ class Responsibility extends Component {
       usableSelectOption,
     } = this.state;
     const formItemLayout = {
-      labelCol: {
-        span: 10,
-      },
-      wrapperCol: {
-        span: 12,
-      },
+      labelCol: {span: 10,},
+      wrapperCol: {span: 12,},
     };
     return (
       <div>
