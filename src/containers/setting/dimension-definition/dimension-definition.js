@@ -26,7 +26,7 @@ class Dfinition extends Component {
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
-          defaultValue: this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : props.company.setOfBooksId,
+          defaultValue:props.company.setOfBooksId,
           colSpan: 6,
         },
         {
@@ -98,11 +98,7 @@ class Dfinition extends Component {
           render: (value, record, index) => {
             return (
               <span>
-<<<<<<< HEAD
                 <a onClick={() => { this.edit(record);}}>编辑 </a>
-=======
-                <a onClick={() => { this.edit(record) }}>编辑</a>
->>>>>>> develop-0.8.5
                 <Divider type="vertical" />
                 <a onClick={(e) => this.detailClick(e, record)}>详情</a>
               </span>
@@ -114,8 +110,7 @@ class Dfinition extends Component {
       showSlideFrame: false,
       data: [],
       updateParams: {},
-      setOfBooksId: this.props.match.params.setOfBooksId ?
-        this.props.match.params.setOfBooksId : props.company.setOfBooksId
+      setOfBooksId:props.company.setOfBooksId
     };
   }
 
@@ -156,14 +151,9 @@ class Dfinition extends Component {
       }
     );
   };
-<<<<<<< HEAD
 
    //获取账套列表
    getSetOfBookList = () => {
-=======
-  //获取账套列表
-  getSetOfBookList = () => {
->>>>>>> develop-0.8.5
     baseService.getSetOfBooksByTenant().then(res => {
       let list = [];
       res.data.map(item => {
@@ -182,7 +172,6 @@ class Dfinition extends Component {
   // 搜索框事件
   handleEvent = (event, value) => {
     if (event == "setOfBooksId") {
-<<<<<<< HEAD
     this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
       this.table.search(this.state.searchParams);
     });
@@ -190,16 +179,6 @@ class Dfinition extends Component {
     this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
       this.table.search(this.state.searchParams);
     });
-=======
-      this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
-        this.table.search(this.state.searchParams);
-      });
-    } else if (event == "enabled") {
-      this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
-        this.table.search(this.state.searchParams);
-      });
-    }
->>>>>>> develop-0.8.5
   }
   }
 
@@ -271,4 +250,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect()(Dfinition);
+export default connect(mapStateToProps)(Dfinition);
