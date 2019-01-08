@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, message, Select, Switch, Icon } from 'antd';
+import { Form, Input, Button, message, Select, Switch } from 'antd';
 import 'styles/setting/params-setting/params-setting.scss';
 import service from './dimension-definition.service';
-import baseService from 'share/base.service';
-
-
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 class NewBuilt extends Component {
   constructor(props) {
@@ -15,7 +13,7 @@ class NewBuilt extends Component {
       saveLoading: false,
       paramsTypeList: [],
       dimensionNameList: [],
-      s: true,
+      swith: true,
       scenarios: {},
       section: {},
     };
@@ -24,28 +22,27 @@ class NewBuilt extends Component {
   // 生命周期
   componentDidMount() {
     this.getNumber();
-    // this.getSetOfBookList();
   }
+
   // 获取序号
   getNumber = ()=>{
     let set = this.props.set;
     service.NumberDimensionSetting(set).then ((res)=>{
       this.setState({
         paramsTypeList:res.data,
-
       });
-    }).catch()
+    }).catch(err => {
+      message.error(err.response.data.message);
+      this.setState({ saveLoading: false });
+    })
   }
-
 
   //保存&&编辑
   handleSubmit = (e) => {
     e.preventDefault();
     let { params } = this.props;
-
     this.props.form.validateFields((err, values, record) => {
-      let data = Object.assign({}, params, values);
-
+      let data = Object.assign( params, values);
       if (err) return;
       this.setState({
         saveLoading: true,
@@ -78,9 +75,7 @@ class NewBuilt extends Component {
       }
     });
   };
-  hasErrors(fieldsError) {
-    const { isFieldTouched } = this.props.form;
-  }
+
   //取消
   handleCancel = () => {
     this.props.close && this.props.close();
@@ -88,7 +83,7 @@ class NewBuilt extends Component {
   // 状态开关
   onChange = checked => {
     this.setState({
-      s: checked,
+      swith: checked,
     });
   };
   render() {
@@ -96,12 +91,8 @@ class NewBuilt extends Component {
     const { params,setOfBooks,set} = this.props;
     const { saveLoading, paramsTypeList, section } = this.state;
     const formItemLayout = {
-      labelCol: {
-        span: 10,
-      },
-      wrapperCol: {
-        span: 12,
-      },
+      labelCol: {span: 10},
+      wrapperCol: {span: 12}
     };
     return (
       <div>
@@ -114,11 +105,11 @@ class NewBuilt extends Component {
                   required: true,
                 },
               ],
-              initialValue:JSON.stringify(params) === '{}' ?this.props.set: params.setOfBooksId,
+              initialValue:JSON.stringify(params) === '{}' ?set: params.setOfBooksId,
             })(
               <Select disabled>
               {setOfBooks.map(option => {
-                return <Option key={option.value}>{option.label}</Option>;
+                return <Option key={option.value} value={option.value}>{option.label}</Option>;
               })}
             </Select>
             )}
@@ -158,7 +149,10 @@ class NewBuilt extends Component {
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
               rules: [
-              {required: true,}
+              {
+                required: true,
+                message: '请输入',
+              }
               ],
               initialValue: params.dimensionName || '',
             })(
@@ -171,7 +165,7 @@ class NewBuilt extends Component {
                 initialValue: typeof params.id=== 'undefined' ? true: params.enabled,
 
             })(
-             <Switch  />
+             <Switch />
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
           </FormItem>
@@ -181,7 +175,6 @@ class NewBuilt extends Component {
               type="primary"
               htmlType="submit"
               loading={saveLoading}
-              disabled={this.hasErrors(getFieldsError())}
             >
               {' '}
               {this.$t('common.save')}

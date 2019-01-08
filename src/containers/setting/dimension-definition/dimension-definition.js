@@ -6,9 +6,8 @@ import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
 import config from 'config';
 import { routerRedux } from 'dva/router';
-import NewBuilt from './date-setting';
+import NewBuilt from './new-setting';
 import baseService from 'share/base.service'
-import service from './dimension-definition.service';
 import 'styles/setting/params-setting/params-setting.scss';
 
 class Dfinition extends Component {
@@ -99,13 +98,7 @@ class Dfinition extends Component {
           render: (value, record, index) => {
             return (
               <span>
-                <a
-                  onClick={() => {
-                    this.edit(record);
-                  }}
-                >
-                  编辑
-                </a>
+                <a onClick={() => { this.edit(record);}}>编辑 </a>
                 <Divider type="vertical" />
                 <a onClick={(e) => this.detailClick(e, record)}>详情</a>
               </span>
@@ -125,6 +118,7 @@ class Dfinition extends Component {
   componentDidMount(){
     this.getSetOfBookList();
   }
+
   // 新建维度
   createDimension = () => {
     this.setState({
@@ -134,6 +128,7 @@ class Dfinition extends Component {
       this.setState({ showSlideFrame: true })
     });
   };
+
   // 编辑
   edit = record => {
     this.setState({
@@ -156,6 +151,7 @@ class Dfinition extends Component {
       }
     );
   };
+
    //获取账套列表
    getSetOfBookList = () => {
     baseService.getSetOfBooksByTenant().then(res => {
@@ -167,20 +163,25 @@ class Dfinition extends Component {
       form[0].options = list;
       form[0].defaultValue = this.props.company.setOfBooksId;
       this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
+    }).catch(err => {
+      message.error(err.response.data.message);
+      this.setState({ saveLoading: false });
     });
   }
+
   // 搜索框事件
   handleEvent = (event, value) => {
-      if (event == "setOfBooksId") {
-      this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
-        this.table.search(this.state.searchParams);
-      });
-    } else if (event == "enabled") {
-      this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
-        this.table.search(this.state.searchParams);
-      });
-    }
+    if (event == "setOfBooksId") {
+    this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
+      this.table.search(this.state.searchParams);
+    });
+  } else if (event == "enabled") {
+    this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
+      this.table.search(this.state.searchParams);
+    });
   }
+  }
+
   //清除
   clear = () => {
     const {setOfBooksId}=this.state.searchParams;
@@ -194,6 +195,7 @@ class Dfinition extends Component {
    this.state.searchParams={};
    this.table.search();
   }
+
   // 详情
   detailClick = (e, record) => {
     this.props.dispatch(
@@ -203,6 +205,7 @@ class Dfinition extends Component {
       })
     );
   }
+
   handleCloseSlide = (flag) => {
     this.setState({
       showSlideFrame: false
@@ -210,6 +213,7 @@ class Dfinition extends Component {
       flag && this.table.search(this.state.searchParams);
     })
   }
+
   render() {
     const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options,setOfBooksName} = this.state;
     return (

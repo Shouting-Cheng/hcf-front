@@ -40,7 +40,6 @@ export default {
    * 查询维度序号
    */
   NumberDimensionSetting(setOfBooksId) {
-    console.log(setOfBooksId,'--=====');
     return httpFetch.get(`${config.baseUrl}/api/dimension/list/unselected/sequence/by/${setOfBooksId}`, );
 },
 }
