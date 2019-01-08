@@ -1130,7 +1130,7 @@ class PersonBasicInfo extends React.Component {
                     ? [
                       {
                         value: personObj.dutyCode,
-                        messageKey: personObj.duty,
+                        name: personObj.duty,
                       },
                     ]
                     : [],
@@ -1139,7 +1139,7 @@ class PersonBasicInfo extends React.Component {
                   <Chooser
                     single={true}
                     type="personDutyModel"
-                    labelKey="messageKey"
+                    labelKey="name"
                     valueKey="value"
                     onChange={this.handleChange}
                     placeholder={this.$t('common.please.select')}
@@ -1176,7 +1176,7 @@ class PersonBasicInfo extends React.Component {
                     ? [
                       {
                         value: personObj.employeeTypeCode,
-                        messageKey: personObj.employeeType,
+                        name: personObj.employeeType,
                       },
                     ]
                     : [],
@@ -1185,7 +1185,7 @@ class PersonBasicInfo extends React.Component {
                   <Chooser
                     single={true}
                     type="personTypeModel"
-                    labelKey="messageKey"
+                    labelKey="name"
                     valueKey="value"
                     placeholder={this.$t('common.please.select')}
                     onChange={this.handleChange}
@@ -1204,7 +1204,7 @@ class PersonBasicInfo extends React.Component {
                     ? [
                       {
                         value: personObj.rankCode,
-                        messageKey: personObj.rank,
+                        name: personObj.rank,
                       },
                     ]
                     : [],
@@ -1213,7 +1213,7 @@ class PersonBasicInfo extends React.Component {
                   <Chooser
                     single={true}
                     type="personRankModel"
-                    labelKey="messageKey"
+                    labelKey="name"
                     valueKey="value"
                     onChange={this.handleChange}
                     placeholder={this.$t('common.please.select')}

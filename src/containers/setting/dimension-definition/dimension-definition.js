@@ -26,7 +26,7 @@ class Dfinition extends Component {
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
-          defaultValue: this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : props.company.setOfBooksId,
+          defaultValue:props.company.setOfBooksId,
           colSpan: 6,
         },
         {
@@ -110,8 +110,7 @@ class Dfinition extends Component {
       showSlideFrame: false,
       data: [],
       updateParams: {},
-      setOfBooksId: this.props.match.params.setOfBooksId ?
-        this.props.match.params.setOfBooksId : props.company.setOfBooksId
+      setOfBooksId:props.company.setOfBooksId
     };
   }
 
@@ -251,4 +250,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect()(Dfinition);
+export default connect(mapStateToProps)(Dfinition);
