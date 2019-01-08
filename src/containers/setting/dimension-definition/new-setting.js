@@ -29,12 +29,7 @@ class NewBuilt extends Component {
     let set = this.props.set;
     service.NumberDimensionSetting(set).then((res) => {
       this.setState({
-<<<<<<< HEAD:src/containers/setting/dimension-definition/new-setting.js
         paramsTypeList:res.data,
-=======
-        paramsTypeList: res.data,
-
->>>>>>> develop-0.8.5:src/containers/setting/dimension-definition/date-setting.js
       });
     }).catch(err => {
       message.error(err.response.data.message);
@@ -81,14 +76,6 @@ class NewBuilt extends Component {
     });
   };
 
-<<<<<<< HEAD:src/containers/setting/dimension-definition/new-setting.js
-=======
-  //等下看一下
-  hasErrors(fieldsError) {
-    const { isFieldTouched } = this.props.form;
-  }
-
->>>>>>> develop-0.8.5:src/containers/setting/dimension-definition/date-setting.js
   //取消
   handleCancel = () => {
     this.props.close && this.props.close();
@@ -118,7 +105,6 @@ class NewBuilt extends Component {
                   required: true,
                 },
               ],
-<<<<<<< HEAD:src/containers/setting/dimension-definition/new-setting.js
               initialValue:JSON.stringify(params) === '{}' ?set: params.setOfBooksId,
             })(
               <Select disabled>
@@ -126,15 +112,6 @@ class NewBuilt extends Component {
                 return <Option key={option.value} value={option.value}>{option.label}</Option>;
               })}
             </Select>
-=======
-              initialValue: JSON.stringify(params) === '{}' ? this.props.set : params.setOfBooksId,
-            })(
-              <Select disabled>
-                {setOfBooks.map(option => {
-                  return <Option key={option.value}>{option.label}</Option>;
-                })}
-              </Select>
->>>>>>> develop-0.8.5:src/containers/setting/dimension-definition/date-setting.js
             )}
           </FormItem>
           <FormItem {...formItemLayout} label="序号" hasFeedback>
@@ -172,14 +149,10 @@ class NewBuilt extends Component {
           <FormItem {...formItemLayout} label="维度名称">
             {getFieldDecorator('dimensionName', {
               rules: [
-<<<<<<< HEAD:src/containers/setting/dimension-definition/new-setting.js
               {
                 required: true,
                 message: '请输入',
               }
-=======
-                { required: true, }
->>>>>>> develop-0.8.5:src/containers/setting/dimension-definition/date-setting.js
               ],
               initialValue: params.dimensionName || '',
             })(
@@ -192,11 +165,7 @@ class NewBuilt extends Component {
               initialValue: typeof params.id === 'undefined' ? true : params.enabled,
 
             })(
-<<<<<<< HEAD:src/containers/setting/dimension-definition/new-setting.js
              <Switch />
-=======
-              <Switch />
->>>>>>> develop-0.8.5:src/containers/setting/dimension-definition/date-setting.js
             )}
             &nbsp;&nbsp;&nbsp;&nbsp;{this.props.form.getFieldValue('enabled') ? '启用' : '禁用'}{params.enabled}
           </FormItem>
