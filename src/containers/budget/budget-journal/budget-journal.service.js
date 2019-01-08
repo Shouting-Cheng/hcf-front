@@ -96,7 +96,7 @@ export default {
 
   //根据维度Id,获取维度
   getDimensionValue(params) {
-    return httpFetch.get(`${config.baseUrl}/api/my/cost/center/items/by/costcenterid`, params);
+    return httpFetch.get(`${config.baseUrl}/api/dimension/${params.dimensionId}`);
   },
 
   //根据维值查维度

@@ -441,30 +441,6 @@ export default {
   },
 
   /**
-   * 获取成本中心默认值
-   * @param applicationOid 申请人oid
-   * @param costCenterOid  成本中心oid；新建时，如果配置了成本中心项，则会在customFormFields中的成本中心项中有DataSource，
-   *                        costCenterOid就在里面。如果没有dataSource说明配置有错
-   * @returns {*} 返回数据data中costCenterItemOid字段为获取成本具体中心的oid.
-   */
-  getDefaultCostCenter(applicationOid, costCenterOid) {
-    return httpFetch.get(
-      `${
-      config.baseUrl
-      }/api/bills/default/cost/center/item?applicantOid=${applicationOid}&costCenterOid=${costCenterOid}`
-    );
-  },
-
-  /**
-   * 获取成本中心默认值详情
-   * @param costCenterItemOid 默认成本中心oid
-   * @returns {*}
-   */
-  getDefaultCostCenterItem(costCenterItemOid) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costCenterItemOid}`);
-  },
-
-  /**
    * 停用和恢复机票行程
    * @param disable 值为TRUE代表停用，false为恢复
    * @param id  行程id
@@ -549,9 +525,5 @@ export default {
   //获取差旅要素
   getTravelElementsList(formOid) {
     return httpFetch.get(`${config.baseUrl}/api/custom/forms/travel/elements/${formOid}`);
-  },
-
-  getCostItem(costItemOid) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/item/${costItemOid}`);
   },
 };

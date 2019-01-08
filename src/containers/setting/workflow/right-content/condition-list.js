@@ -192,19 +192,19 @@ class NodeConditionList extends React.Component {
   //获取成本中心列表
   getCostCenterList = () => {
     let ruleApprovers = deepCopy(this.props.basicInfo.ruleApprovers) || [];
-    let costCenterOid = [];
+    let dimensionItemIds = [];
     ruleApprovers.map(approver => {
       (approver.ruleConditionList || []).map(item => {
         if (item.remark === 'select_cost_center') { //成本中心
-          item.valueDetail && JSON.parse(item.valueDetail).value.map(oid => {
-            costCenterOid.push(oid)
+          item.valueDetail && JSON.parse(item.valueDetail).value.map(ItemId => {
+            dimensionItemIds.push(ItemId)
           })
         }
       })
     });
-    if (costCenterOid.length) {
+    if (dimensionItemIds.length) {
       return new Promise((resolve, reject) => {
-        workflowService.getBatchCostCenterList(costCenterOid).then(res => {
+        workflowService.getBatchCostCenterList(dimensionItemIds).then(res => {
           this.setState({ costCenterList: res.data });
           resolve(res)
         }).catch(e => {
@@ -651,10 +651,10 @@ class NodeConditionList extends React.Component {
             `${constants.getTextByValue(code, 'cashName') || code}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`
         ));
       case 'select_cost_center': //成本中心
-        return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((oid, index) => {
+        return item.valueDetail && (JSON.parse(item.valueDetail).value || []).map((id, index) => {
           item.showValue = item.showValue || {};
-          this.state.costCenterList.map(costCenter => {
-            costCenter.costCenterItemOid === oid && (item.showValue[oid] = costCenter.name)
+          this.state.costCenterList.map(dimensionItem => {
+            dimensionItem.id === id && (item.showValue[id] = dimensionItem.dimensionItemName)
           });
           return isEdit ? this.renderConditionCustListTag(index, 'select_cost_center', item.showValue[oid], oid, item.field, i) :
             `${item.showValue[oid]}${index < JSON.parse(item.valueDetail).value.length - 1 ? '、' : ''}`

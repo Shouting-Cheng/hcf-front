@@ -20,7 +20,7 @@ export default {
      * 获取维度数据
      */
     getDimension(params) {
-        let url = `${config.baseUrl}/api/cost/center/by/setOfBooksId/lov`;
+        let url = `${config.baseUrl}/api/dimension/page/by/cond`;
         return httpFetch.get(url, params);
     },
     /**

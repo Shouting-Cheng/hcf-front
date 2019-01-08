@@ -25,7 +25,7 @@ export default {
    * @param setOfBooksId
    */
   getAccountingCostCenter(setOfBooksId) {
-    let url = `${config.baseUrl}/api/cost/center/by/setOfBooks?setOfBooksId=${setOfBooksId}`;
+    let url = `${config.baseUrl}/api/dimension/page/by/cond?enabled=true&setOfBooksId=${setOfBooksId}`;
     return httpFetch.get(url);
   },
 
