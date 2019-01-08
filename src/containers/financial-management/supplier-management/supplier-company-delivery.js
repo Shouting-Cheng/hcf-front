@@ -91,6 +91,7 @@ class SupplierCompanyDelivery extends React.Component {
     params.page = pagination.page;
     params.size = pagination.pageSize;
     vendorService.getCompanies(params).then(response => {
+      console.log(response)
       if (response.data.records) {
         response.data.records.map(item => {
           item.key = item.id
