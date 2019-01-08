@@ -735,7 +735,7 @@ class Dashboard extends React.Component {
                 {carousels.map(item => {
                   return (
                     <div onClick={() => this.goCarouselDetail(item)} key={item.id} style={{ textAlign: "center" }}>
-                      <img src={item.attachmentDTO.thumbnailUrl} />
+                      <img src={item.attachment.thumbnailPath} />
                       <div className="title">{item.title}</div>
                     </div>
                   )

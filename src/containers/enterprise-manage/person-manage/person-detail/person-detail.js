@@ -65,7 +65,7 @@ class PersonDetail extends React.Component {
 
       this.getContactCards();
 
-      this.setCtripVendor();
+      //this.setCtripVendor();
     }
 
     //人员导入方式：this.props.company.createDataType如果是 1002，属于接口导入
