@@ -183,8 +183,8 @@ class PersonManage extends React.Component {
         },
         {
           title: this.$t('person.manage.employeeId'), //"工号",
-          key: 'employeeID',
-          dataIndex: 'employeeID',
+          key: 'employeeId',
+          dataIndex: 'employeeId',
           render: text => (
             <span>
               {text ? (

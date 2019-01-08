@@ -85,6 +85,8 @@ class NewExpenseApplicationFromLine extends Component {
     this.props.form.validateFields((err, values) => {
       if (err) return;
 
+      this.setState({ loading: true });
+
       let { expenseTypeInfo, model, isNew } = this.state;
 
       let result = [];
@@ -124,13 +126,26 @@ class NewExpenseApplicationFromLine extends Component {
         params.quantity = values.quantity;
       }
 
-      service.addApplicationLine(params).then(res => {
-        message.success("新增成功！");
-        this.props.close && this.props.close(true);
-      }).catch(err => {
-        message.error(err.response.data.message);
-      });
-
+      if (!this.state.isNew) {
+        params = { ...model, ...params };
+        service.updateApplicationLine(params).then(res => {
+          message.success("操作成功！");
+          this.setState({ loading: false });
+          this.props.close && this.props.close(true);
+        }).catch(err => {
+          this.setState({ loading: false });
+          message.error(err.response.data.message);
+        });
+      } else {
+        service.addApplicationLine(params).then(res => {
+          message.success("操作成功！");
+          this.setState({ loading: false });
+          this.props.close && this.props.close(true);
+        }).catch(err => {
+          this.setState({ loading: false });
+          message.error(err.response.data.message);
+        });
+      }
     });
   }
 
@@ -164,8 +179,6 @@ class NewExpenseApplicationFromLine extends Component {
 
     const { isNew } = this.state;
     const { getFieldDecorator } = this.props.form;
-
-    console.log(isNew);
 
     const rowLayout = { type: 'flex', gutter: 24, justify: 'center' };
     switch (field.fieldType) {
@@ -253,7 +266,6 @@ class NewExpenseApplicationFromLine extends Component {
 
   //校验金额
   checkPrice = (rule, value, callback) => {
-    console.log(value);
     if (value > 0) {
       callback();
       return;
@@ -261,6 +273,14 @@ class NewExpenseApplicationFromLine extends Component {
     callback('金额不能小于等于0！');
   };
 
+  //校验数量
+  checkCount = (rule, value, callback) => {
+    if (value > 0) {
+      callback();
+      return;
+    }
+    callback('不能小于等于0！');
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -328,7 +348,7 @@ class NewExpenseApplicationFromLine extends Component {
             </Row>
             <Row {...rowLayout}>
               <Col span={24}>
-                <FormItem label="申请时间" {...formItemLayout}>
+                <FormItem label="申请日期" {...formItemLayout}>
                   {getFieldDecorator('requisitionDate', {
                     rules: [{ required: true, message: this.$t('common.please.select') }],
                     initialValue: lineId ? moment(model.requisitionDate) : moment()
@@ -338,7 +358,7 @@ class NewExpenseApplicationFromLine extends Component {
                 </FormItem>
               </Col>
             </Row>
-            {(expenseTypeInfo.entryMode === false && !(lineId && model.priceUnit)) && (<Row {...rowLayout}>
+            {(expenseTypeInfo.entryMode === false || (lineId && !model.priceUnit)) && (<Row {...rowLayout}>
               <Col span={24}>
                 <FormItem label="申请金额" {...formItemLayout}>
                   {getFieldDecorator('amount', {
@@ -369,7 +389,7 @@ class NewExpenseApplicationFromLine extends Component {
                 <Col span={24}>
                   <FormItem label={priceUnitMap[lineId ? model.priceUnit : expenseTypeInfo.priceUnit]} {...formItemLayout}>
                     {getFieldDecorator('quantity', {
-                      rules: [{ required: true, message: this.$t('common.please.select') }],
+                      rules: [{ validator: this.checkCount }],
                       initialValue: model.quantity
                     })(
                       <InputNumber precision={0} />

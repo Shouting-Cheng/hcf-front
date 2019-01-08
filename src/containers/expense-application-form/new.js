@@ -85,9 +85,15 @@ class NewExpenseApplicationFrom extends Component {
 
   //返回
   onBack = () => {
-    this.props.dispatch(routerRedux.push({
-      pathname: "/expense-application"
-    }));
+    if (!this.state.isNew) {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/expense-application/expense-application-detail/' + this.props.match.params.id
+      }));
+    } else {
+      this.props.dispatch(routerRedux.push({
+        pathname: "/expense-application"
+      }));
+    }
   }
 
   //上传附件
@@ -139,9 +145,11 @@ class NewExpenseApplicationFrom extends Component {
         method = service.updateHeaderData;
       }
       method(values).then(res => {
-        message.success(isNew ? "新增成功！" : "编辑成功！");
+        message.success("操作成功！");
         this.setState({ loading: false });
-        this.onBack();
+        this.props.dispatch(routerRedux.push({
+          pathname: '/expense-application/expense-application-detail/' + res.data.id
+        }));
       }).catch(err => {
         message.error(err.response.data.message);
         this.setState({ loading: false });

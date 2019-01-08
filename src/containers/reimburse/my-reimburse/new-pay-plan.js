@@ -529,7 +529,7 @@ class NewPayPlan extends React.Component {
                     : headerData.payeeCategory,
               })(
                 headerData.payeeCategory == 'EMPLOYEE' ? (
-                  <Select>
+                  <Select disabled={headerData.multipleReceivables === false}>
                     <Select.Option key={'EMPLOYEE'} value={'EMPLOYEE'}>
                       员工
                     </Select.Option>
@@ -562,12 +562,12 @@ class NewPayPlan extends React.Component {
                 rules: [{ message: '请输入', required: true }],
               })(
                 <SelectReceivables
+                  disabled={headerData.multipleReceivables === false}
                   type={this.props.form.getFieldValue('payeeCategory')}
                   onChange={this.onSelect}
                 />
               )}
             </FormItem>
-
             <FormItem {...formItemLayout} label="收款方银行账号">
               {getFieldDecorator('accountNumber', {
                 rules: [{ message: '请输入', required: true }],

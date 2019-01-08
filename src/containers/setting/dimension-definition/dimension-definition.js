@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import  SearchArea from 'widget/search-area';
+import SearchArea from 'widget/search-area';
 import { Button, Divider, message, Popconfirm, Badge } from 'antd';
 import SlideFrame from 'widget/slide-frame';
 import CustomTable from 'components/Widget/custom-table';
@@ -26,7 +26,7 @@ class Dfinition extends Component {
           isRequired: true,
           event: "setOfBooksId",
           allowClear: false,
-          defaultValue: props.company.setOfBooksId ,
+          defaultValue: this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : props.company.setOfBooksId,
           colSpan: 6,
         },
         {
@@ -61,30 +61,30 @@ class Dfinition extends Component {
           title: '序号',
           dataIndex: 'dimensionSequence',
           align: 'center',
-          width:15,
+          width: 15,
         },
         {
           title: '维度代码',
           dataIndex: 'dimensionCode',
           align: 'center',
-          width:25,
+          width: 25,
         },
         {
           title: '维度名称',
           dataIndex: 'dimensionName',
           align: 'center',
-          width:25,
+          width: 25,
         },
         {
           title: '账套',
           dataIndex: 'setOfBooksName',
           align: 'center',
-          width:25,
+          width: 25,
         },
         {
           title: '状态',
           dataIndex: 'enabled',
-          width:15,
+          width: 15,
           align: 'center',
           render: enabled => (
             <Badge status={enabled ? 'success' : 'error'}
@@ -94,11 +94,15 @@ class Dfinition extends Component {
           title: '操作',
           dataIndex: 'id',
           align: 'center',
-          width:15,
+          width: 15,
           render: (value, record, index) => {
             return (
               <span>
+<<<<<<< HEAD
                 <a onClick={() => { this.edit(record);}}>编辑 </a>
+=======
+                <a onClick={() => { this.edit(record) }}>编辑</a>
+>>>>>>> develop-0.8.5
                 <Divider type="vertical" />
                 <a onClick={(e) => this.detailClick(e, record)}>详情</a>
               </span>
@@ -110,12 +114,13 @@ class Dfinition extends Component {
       showSlideFrame: false,
       data: [],
       updateParams: {},
-      setOfBooksId: props.company.setOfBooksId,
+      setOfBooksId: this.props.match.params.setOfBooksId ?
+        this.props.match.params.setOfBooksId : props.company.setOfBooksId
     };
   }
 
   // 生命周期
-  componentDidMount(){
+  componentDidMount() {
     this.getSetOfBookList();
   }
 
@@ -151,9 +156,14 @@ class Dfinition extends Component {
       }
     );
   };
+<<<<<<< HEAD
 
    //获取账套列表
    getSetOfBookList = () => {
+=======
+  //获取账套列表
+  getSetOfBookList = () => {
+>>>>>>> develop-0.8.5
     baseService.getSetOfBooksByTenant().then(res => {
       let list = [];
       res.data.map(item => {
@@ -161,7 +171,7 @@ class Dfinition extends Component {
       });
       let form = this.state.searchForm;
       form[0].options = list;
-      form[0].defaultValue = this.props.company.setOfBooksId;
+      form[0].defaultValue = this.props.match.params.setOfBooksId ? this.props.match.params.setOfBooksId : this.props.company.setOfBooksId;
       this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
     }).catch(err => {
       message.error(err.response.data.message);
@@ -172,6 +182,7 @@ class Dfinition extends Component {
   // 搜索框事件
   handleEvent = (event, value) => {
     if (event == "setOfBooksId") {
+<<<<<<< HEAD
     this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
       this.table.search(this.state.searchParams);
     });
@@ -179,21 +190,31 @@ class Dfinition extends Component {
     this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
       this.table.search(this.state.searchParams);
     });
+=======
+      this.setState({ setOfBooksId: value, searchParams: { ...this.state.searchParams, setOfBooksId: value } }, () => {
+        this.table.search(this.state.searchParams);
+      });
+    } else if (event == "enabled") {
+      this.setState({ searchParams: { ...this.state.searchParams, enabled: value } }, () => {
+        this.table.search(this.state.searchParams);
+      });
+    }
+>>>>>>> develop-0.8.5
   }
   }
 
   //清除
   clear = () => {
-    const {setOfBooksId}=this.state.searchParams;
+    const { setOfBooksId } = this.state.searchParams;
     let form = this.state.searchForm;
-    if(setOfBooksId){
+    if (setOfBooksId) {
       form[0].defaultValue = setOfBooksId;
-    }else{
+    } else {
       form[0].defaultValue = this.props.company.setOfBooksId;
     }
-   this.setState({searchForm:form,setOfBooksId:form[0].defaultValue});
-   this.state.searchParams={};
-   this.table.search();
+    this.setState({ searchForm: form, setOfBooksId: form[0].defaultValue });
+    this.state.searchParams = {};
+    this.table.search();
   }
 
   // 详情
@@ -215,10 +236,10 @@ class Dfinition extends Component {
   }
 
   render() {
-    const { searchForm, columns,updateParams,showSlideFrame,setOfBooksId,options,setOfBooksName} = this.state;
+    const { searchForm, columns, updateParams, showSlideFrame, setOfBooksId, options, setOfBooksName } = this.state;
     return (
       <div>
-        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} eventHandle={this.handleEvent}/>
+        <SearchArea searchForm={searchForm} submitHandle={this.search} clearHandle={this.clear} eventHandle={this.handleEvent} />
         <Button
           style={{ margin: '15px 0' }}
           className="create-btn"
@@ -237,7 +258,7 @@ class Dfinition extends Component {
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-          <NewBuilt setOfBooks={ searchForm[0].options } params={{ ...updateParams}} close={this.handleCloseSlide} set={setOfBooksId}
+          <NewBuilt setOfBooks={searchForm[0].options} params={{ ...updateParams }} close={this.handleCloseSlide} set={setOfBooksId}
           />
         </SlideFrame>
       </div>
@@ -250,9 +271,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-  null,
-  { withRef: true }
-)(Dfinition);
+export default connect()(Dfinition);

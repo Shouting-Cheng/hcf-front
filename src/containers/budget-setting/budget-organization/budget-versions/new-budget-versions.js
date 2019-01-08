@@ -162,7 +162,7 @@ class NewBudgetVersions extends React.Component {
               })(
                 <Select placeholder={this.$t({id: "common.please.select"})}>
                   {statusOptions.map((option) => {
-                    return <Option key={option.value}>{option.messageKey}</Option>
+                    return <Option key={option.value}>{option.name}</Option>
                   })}
                 </Select>
               )}

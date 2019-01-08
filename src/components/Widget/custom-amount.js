@@ -1,49 +1,26 @@
 import React from "react";
 import { InputNumber } from 'antd'
-import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 
 
 class CustomAmount extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value || '',
-    };
-    //this.onChange = debounce(this.onChange, 500);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ('value' in nextProps) {
-      const value = nextProps.value;
-      this.setState({ value });
-    }
-  }
-
   onBlur = (e) => {
-    this.setState({
-      value: this.filterMoney(e.target.value, 2, true, true)
-    })
+    let value = this.filterMoney(e.target.value, 2, true, true)
+    this.props.onChange && this.props.onChange(value)
   };
 
   onChange = (value) => {
-    if (value) {
-      this.setState({ value });
-      this.props.onChange && this.props.onChange(value)
-    }
-    if (value === '') {
-      this.setState({ value });
-    }
+    this.props.onChange && this.props.onChange(value)
   };
 
   render() {
-    const { disabled, len, step, style, } = this.props;
+    const { disabled, step, style, } = this.props;
     return <InputNumber
       style={style}
       placeholder={this.$t('common.enter')}
       step={step}
-      value={this.state.value}
+      value={this.props.value}
       onChange={this.onChange}
       onBlur={this.onBlur}
       disabled={disabled} />

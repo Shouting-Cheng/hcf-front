@@ -53,7 +53,7 @@ class NewBudgetBalanceSolution extends Component {
                                 <Select defaultValue={text} value={text} onChange={(value) => this.onParameterTypeChange(value, record)}>
                                     {
                                         this.state.parameterTypeList.map(item => {
-                                            return <Option key={item.code}>{item.messageKey}</Option>
+                                            return <Option key={item.value}>{item.name}</Option>
                                         })
                                     }
                                 </Select>
@@ -70,11 +70,11 @@ class NewBudgetBalanceSolution extends Component {
                                         /**根据参数类型的值判断，参数的值列表应该使用那一个 */
                                         record.parameterType === 'BGT_RULE_PARAMETER_BUDGET' ?
                                             this.state.budgetRefParameterList.map(item => {
-                                                return <Option key={item.code}>{item.messageKey}</Option>
+                                                return <Option key={item.value}>{item.name}</Option>
                                             }) :
                                             (record.parameterType === 'BGT_RULE_PARAMETER_ORG' ?
                                                 this.state.orgRefParameterList.map(item => {
-                                                    return <Option key={item.code}>{item.messageKey}</Option>
+                                                    return <Option key={item.value}>{item.name}</Option>
                                                 }) :
                                                 (record.parameterType === 'BGT_RULE_PARAMETER_DIM' ?
                                                     this.state.dimensionRefParameterList.map(item => {
