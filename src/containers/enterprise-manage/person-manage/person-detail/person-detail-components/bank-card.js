@@ -69,9 +69,9 @@ class PersonBankCard extends React.Component {
     card.bankName = null;
     card.branchName = null;
     card.accountLocation = null;
-    card.isPrimary = null;
+    card.primary = null;
 
-    card.enable = null;
+    card.enabled = null;
     card.bankCode = null;
     console.log(this.props)
     this.setState(
@@ -94,8 +94,8 @@ class PersonBankCard extends React.Component {
     modalKey++;
     this.setState({
       modalKey,
-      primaryStatus: card.isPrimary,
-      isChangePrimary: card.isPrimary,
+      primaryStatus: card.primary,
+      isChangePrimary: card.primary,
       showCreatModel: true,
     });
   };
@@ -214,7 +214,7 @@ class PersonBankCard extends React.Component {
   //状态
   switchCardStatusChange = e => {
     let card = this.state.card;
-    card.enable = e;
+    card.enabled = e;
     this.setState({
       loading: false,
       card,
@@ -224,7 +224,7 @@ class PersonBankCard extends React.Component {
   // 是否默认
   handleCardDefaultChange = e => {
     let card = this.state.card;
-    card.isPrimary = e.target.checked;
+    card.primary = e.target.checked;
     this.setState({
       isChangePrimary: e.target.checked,
       loading: false,
@@ -243,7 +243,7 @@ class PersonBankCard extends React.Component {
       );
     } else {
       let cardName = 'card';
-      if (!card.enable) {
+      if (!card.enabled) {
         cardName = 'disabled-card';
       }
       return (
@@ -252,11 +252,11 @@ class PersonBankCard extends React.Component {
             <div className="f-left user-name">{card.bankAccountName}</div>
             <div className="f-right status">
               {/*? "启用中" : "未启用"*/}
-              {card.enable ? this.$t('pdc.bank.card.enable') : this.$t('pdc.bank.card.disable')}
+              {card.enabled ? this.$t('pdc.bank.card.enable') : this.$t('pdc.bank.card.disable')}
             </div>
             <div className="f-right is-default">
               {/*? "默认" : ""*/}
-              {card.isPrimary ? this.$t('pdc.id.card.default') : ''}
+              {card.primary ? this.$t('pdc.id.card.default') : ''}
             </div>
 
             <div className="clear" />
@@ -508,13 +508,13 @@ class PersonBankCard extends React.Component {
 
             {/*状态*/}
             <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
-              {getFieldDecorator('enable', {
-                initialValue: card.enable,
+              {getFieldDecorator('enabled', {
+                initialValue: card.enabled,
               })(
                 <div>
                   <Switch
-                    defaultChecked={card.enable}
-                    checked={card.enable}
+                    defaultChecked={card.enabled}
+                    checked={card.enabled}
                     checkedChildren={<Icon type="check" />}
                     unCheckedChildren={<Icon type="cross" />}
                     onChange={this.switchCardStatusChange}
@@ -526,7 +526,7 @@ class PersonBankCard extends React.Component {
                       width: 100,
                     }}
                   >
-                    {card.enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
+                    {card.enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                   </span>
                 </div>
               )}
@@ -536,13 +536,13 @@ class PersonBankCard extends React.Component {
               {...formItemLayout}
               label={this.$t('pdc.bank.card.set.default')} //设为默认
             >
-              {getFieldDecorator('isPrimary', {
-                initialValue: card.isPrimary,
+              {getFieldDecorator('primary', {
+                initialValue: card.primary,
               })(
                 <div>
                   <Checkbox
-                    defaultChecked={card.isPrimary}
-                    checked={card.isPrimary}
+                    defaultChecked={card.primary}
+                    checked={card.primary}
                     onChange={this.handleCardDefaultChange}
                   >
                     {/*是（只能有一个默认）*/}

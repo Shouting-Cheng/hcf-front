@@ -34,13 +34,12 @@ export default {
      *条件查询
      */
     queryDimensionSetting(params) {
-        return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`, params);
-    },
-    /**
-     * 查询维度序号
-     */
-    NumberDimensionSetting(setOfBooksId) {
-        console.log(setOfBooksId, '--=====');
-        return httpFetch.get(`${config.baseUrl}/api/dimension/list/unselected/sequence/by/${setOfBooksId}`);
-    },
+      return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`,params);
+  },
+  /**
+   * 查询维度序号
+   */
+  NumberDimensionSetting(setOfBooksId) {
+    return httpFetch.get(`${config.baseUrl}/api/dimension/list/unselected/sequence/by/${setOfBooksId}`, );
+},
 }
