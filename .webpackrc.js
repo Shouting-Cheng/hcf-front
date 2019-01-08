@@ -58,15 +58,15 @@ export default {
       changeOrigin: true,
     },
     '/prepayment': {
-      target: 'http://115.159.108.80:9081',
+      target: 'http://47.101.145.62:9081',
       changeOrigin: true,
     },
     '/contract': {
-      target: 'http://115.159.108.80:9081',
+      target: 'http://47.101.145.62:9081',
       changeOrigin: true,
     },
     '/payment': {
-      target: 'http://115.159.108.80:9081',
+      target: 'http://47.101.145.62:9081',
       changeOrigin: true,
     },
     '/job': {
