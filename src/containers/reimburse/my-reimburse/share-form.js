@@ -108,12 +108,12 @@ class ShareForm extends Component {
     }
 
     //成本中心得到焦点时
-    handleFocus = (oid) => {
-        if (this.state.data[oid]) return;
+    handleFocus = (dimensionId) => {
+        if (this.state.data[dimensionId]) return;
 
         let data = {};
-        reimburseService.getCostList(oid).then(res => {
-            data[oid] = res.data;
+        reimburseService.getCostList(dimensionId).then(res => {
+            data[dimensionId] = res.data;
             this.setState({ data });
         })
     }
@@ -242,18 +242,18 @@ class ShareForm extends Component {
                         {
                             typeList && typeList.map(item => {
                                 return (
-                                    <FormItem key={item.costCenterOid} {...formItemLayout}
+                                    <FormItem key={item.dimensionId} {...formItemLayout}
                                         label={item.fieldName}>
-                                        {getFieldDecorator(item.costCenterOid, {
-                                            initialValue: isNew ? { key: item.costCenterItemId, label: item.costCenterItemName } : {
-                                                key: model[item.costCenterOid].key, label: model[item.costCenterOid].label
+                                        {getFieldDecorator(item.dimensionId, {
+                                            initialValue: isNew ? { key: item.id, label: item.dimensionItemName } : {
+                                                key: model[item.dimensionId].key, label: model[item.dimensionId].label
                                             }
                                         })(
-                                            <Select labelInValue onFocus={() => this.handleFocus(item.costCenterOid)}>
+                                            <Select labelInValue onFocus={() => this.handleFocus(item.dimensionId)}>
                                                 {
-                                                    data[item.costCenterOid] && data[item.costCenterOid].map(o => {
+                                                    data[item.dimensionId] && data[item.dimensionId].map(o => {
                                                         return (
-                                                            <Select.Option key={parseInt(o.id)} value={parseInt(o.id)}>{o.name}</Select.Option>
+                                                            <Select.Option key={parseInt(o.id)} value={parseInt(o.id)}>{o.dimensionItemName}</Select.Option>
                                                         )
                                                     })
                                                 }

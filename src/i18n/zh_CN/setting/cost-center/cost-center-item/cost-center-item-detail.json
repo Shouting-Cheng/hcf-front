@@ -1,30 +1,30 @@
 {
-  "cost.center.item.detail": "成本中心项详情",
+  "dimension.item.detail": "维值详情",
 
-  "cost.center.item.detail.employeeID": "工号",
-  "cost.center.item.detail.fullName": "姓名",
-  "cost.center.item.detail.dep": "部门",
-  "cost.center.item.detail.title": "职位",
+  "dimension.item.detail.employeeID": "工号",
+  "dimension.item.detail.fullName": "姓名",
+  "dimension.item.detail.dep": "部门",
+  "dimension.item.detail.title": "职位",
 
-  "cost.center.item.detail.name": "名称",
-  "cost.center.item.detail.code": "编码",
-  "cost.center.item.detail.manager": "经理",
-  "cost.center.item.detail.status": "状态",
+  "dimension.item.detail.name": "名称",
+  "dimension.item.detail.code": "编码",
+  "dimension.item.detail.manager": "经理",
+  "dimension.item.detail.status": "状态",
 
-  "cost.center.item.detail.main": "主要部门",
-  "cost.center.item.detail.sec": "从属部门",
-  "cost.center.item.detail.showall": "全员可见",
-  "cost.center.item.detail.please.select": "请选择人员",
+  "dimension.item.detail.main": "主要部门",
+  "dimension.item.detail.sec": "从属部门",
+  "dimension.item.detail.showall": "全员可见",
+  "dimension.item.detail.please.select": "请选择人员",
 
-  "cost.center.item.detail.success": "操作成功",
-  "cost.center.item.detail.extend": "扩展字段",
-  "cost.center.item.detail.batchadd": "批量添加员工",
-  "cost.center.item.detail.batchadd.dep": "按部门添加(含子部门)",
-  "cost.center.item.detail.batchadd.dep1": "添加部门(含子部门)",
-  "cost.center.item.detail.batchadd.dep2": "输入部门名称/编码",
-  "cost.center.item.detail.departmentCode": "部门编码",
-  "cost.center.item.detail.departmentName": "部门名称",
-  "cost.center.item.detail.isEnabled": "状态",
+  "dimension.item.detail.success": "操作成功",
+  "dimension.item.detail.extend": "扩展字段",
+  "dimension.item.detail.batchadd": "批量添加员工",
+  "dimension.item.detail.batchadd.dep": "按部门添加(含子部门)",
+  "dimension.item.detail.batchadd.dep1": "添加部门(含子部门)",
+  "dimension.item.detail.batchadd.dep2": "输入部门名称/编码",
+  "dimension.item.detail.departmentCode": "部门编码",
+  "dimension.item.detail.departmentName": "部门名称",
+  "dimension.item.detail.isEnabled": "状态",
 
-  "cost.center.item.detail.inp1": "输入姓名或工号"
+  "dimension.item.detail.inp1": "输入姓名或工号"
 }

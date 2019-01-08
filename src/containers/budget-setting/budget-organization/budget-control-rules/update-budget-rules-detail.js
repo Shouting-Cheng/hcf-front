@@ -290,8 +290,8 @@ class UpdateBudgetRulesDetail extends React.Component {
     budgetService.getCostCenter(params).then((response) => {
       response.data.map((item) => {
         let option = {
-          id: item.code + "+" + item.costCenterOid + "+" + item.id,
-          value: item.name,
+          id: item.dimensionCode + "+" + item.id,
+          value: item.dimensionName,
         };
         array.addIfNotExist(option);
         this.setState({

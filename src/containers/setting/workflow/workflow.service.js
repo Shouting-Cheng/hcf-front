@@ -118,7 +118,7 @@ export default {
 
   //批量获取成本中心
   getBatchCostCenterList(params) {
-    return httpFetch.post(`${config.baseUrl}/api/cost/center/items/oids`, params)
+    return httpFetch.post(`${config.baseUrl}/api/dimension/item/list/by/ids`, params)
   },
 
   //批量获取公司控件

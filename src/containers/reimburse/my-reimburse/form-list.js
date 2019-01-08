@@ -504,13 +504,13 @@ class FormList extends React.Component {
                   labelInValue
                   placeholder={i.promptInfo ? i.promptInfo : '请选择'}
                   disabled={i.readonly}
-                  onDropdownVisibleChange={() => this.handleFocus(i, 'costCenterOid', i.fieldOid)}
+                  onDropdownVisibleChange={() => this.handleFocus(i, 'dimensionId', i.fieldOid)}
                 >
                   {this.state.costData[i.fieldOid] &&
                   this.state.costData[i.fieldOid].map(o => {
                     return (
-                      <Option key={o.costCenterItemOid} value={o.costCenterItemOid}>
-                        {o.name}
+                      <Option key={o.id} value={o.id}>
+                        {o.dimensionItemName}
                       </Option>
                     );
                   })}

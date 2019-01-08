@@ -84,8 +84,8 @@ export default {
   /**
    * 获取成本中心数据
    */
-  getCostList(value) {
-    return httpFetch.get(`${config.baseUrl}/api/my/cost/center/items/${value}?name=&page=0&size=20&sort=code`);
+  getCostList(dimensionId) {
+    return httpFetch.get(`${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${dimensionId}&page=0&size=20`);
   },
 
   /**
@@ -352,7 +352,7 @@ export default {
    * @param setOfBooksId
    */
   getAccountingCostCenter(setOfBooksId) {
-    let url = `${config.baseUrl}/api/cost/center/by/setOfBooks?setOfBooksId=${setOfBooksId}`;
+    let url = `${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${setOfBooksId}`;
     return httpFetch.get(url);
   },
 

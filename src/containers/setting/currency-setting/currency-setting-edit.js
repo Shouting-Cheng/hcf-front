@@ -38,7 +38,7 @@ class CurrencySettingEdit extends React.Component {
             indexAdd: 0,
             columns: [
                 {
-                    title: this.$t("cost.center.detail.no")/*编号*/, dataIndex: 'index',
+                    title: this.$t("dimension.detail.no")/*编号*/, dataIndex: 'index',
                     align: 'center',
                     render: (text, record, index) => { return index + this.state.indexAdd + 1 }
                 },

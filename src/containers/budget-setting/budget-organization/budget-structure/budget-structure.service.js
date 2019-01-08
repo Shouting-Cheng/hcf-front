@@ -58,8 +58,4 @@ export default {
     return httpFetch.get(`${config.budgetUrl}/api/budget/structure/assign/layouts/query`,params)
   },
 
-  //获取成本中心
-  getCostCenter(){
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/company`)
-  },
 }
