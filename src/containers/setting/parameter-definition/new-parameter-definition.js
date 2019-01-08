@@ -190,6 +190,7 @@ class NewParameterDefinition extends React.Component {
     const { paramCode, paramValueOptions} = this.state;
     const record = this.props.params.record;
     console.log(paramCode)
+    console.log(this.props.params)
     const disabled = record.id ? false : !this.props.form.getFieldValue('parameterId');
     switch(paramCode.parameterValueType){
       case 'API':{
@@ -220,12 +221,12 @@ class NewParameterDefinition extends React.Component {
           {
             parameterCode: parameterCode,
             parameterLevel: "COMPANY" ,
-            setOfBooksId: this.props.company.id
+            setOfBooksId: this.props.params.sob.id
           } :
           {
             parameterCode: parameterCode,
             parameterLevel: "COMPANY" ,
-            companyId: this.props.company.id
+            companyId: this.props.params.company.id
           };
 
         return <Chooser
