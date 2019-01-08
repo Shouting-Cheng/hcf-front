@@ -195,7 +195,7 @@ class NewParameterDefinition extends React.Component {
       case 'API':{
         let selectorItem = {
           title:  '参数值',
-          url: `${config.baseUrl}${paramCode.api}`,
+          url: `${config.baseUrl}/api/parameter/values/api/by/parameterValueType`,
           searchForm: [
             {
               type: 'input',
