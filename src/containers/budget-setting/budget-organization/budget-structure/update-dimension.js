@@ -34,14 +34,14 @@ class NewDimension extends React.Component{
       },
       selectorItem:{
         title: this.$t({id:'structure.selectDefaultDim'}),
-        url: `${config.baseUrl}/api/costcenter/items`,
+        url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
         searchForm: [
-          {type: 'input', id: 'code', label: this.$t({id:'structure.dimensionValueCode'})},
-          {type: 'input', id: 'name', label: this.$t({id:'structure.dimensionValueName'})},
+          {type: 'input', id: 'dimensionItemCode', label: this.$t({id:'structure.dimensionValueCode'})},
+          {type: 'input', id: 'dimensionItemName', label: this.$t({id:'structure.dimensionValueName'})},
         ],
         columns: [
-          {title: this.$t({id:'structure.dimensionValueCode'}), dataIndex: 'code'},
-          {title: this.$t({id:'structure.dimensionValueName'}), dataIndex: 'name'},
+          {title: this.$t({id:'structure.dimensionValueCode'}), dataIndex: 'dimensionItemCode'},
+          {title: this.$t({id:'structure.dimensionValueName'}), dataIndex: 'dimensionItemName'},
         ],
         key: 'id'
       },
@@ -63,9 +63,9 @@ class NewDimension extends React.Component{
         }]: []
     };
     this.props.form.setFieldsValue(value);
-    extraParams = {costCenterId: dimension.dimensionId};
+    extraParams = {dimensionId: dimension.dimensionId};
     if(typeof dimension.id !== 'undefined'){
-      extraParams = {costCenterId: dimension.dimensionId}
+      extraParams = {dimensionId: dimension.dimensionId}
     }
     this.setState({
       enabled: dimension.enabled,
@@ -189,7 +189,7 @@ class NewDimension extends React.Component{
         }
         this.props.form.setFieldsValue({"dimensionName": value[0].dimensionName||dimension.dimensionName,"defaultDimensionCode": [],"defaultDimValueName":""})
         let extraParams = this.state.extraParams;
-        extraParams.costCenterId = value[0].dimensionId;
+        extraParams.dimensionId = value[0].dimensionId;
         this.setState({
           extraParams
         });
@@ -199,7 +199,7 @@ class NewDimension extends React.Component{
 
   handleDimensionValue = (value)=>{
     if(typeof value!== 'undefined'){
-      this.props.form.setFieldsValue({"defaultDimValueName": value.length > 0 ? value[0].name : undefined});
+      this.props.form.setFieldsValue({"defaultDimValueName": value.length > 0 ? value[0].dimensionItemName : undefined});
       this.setState({
         defaultDimension:value
       })
@@ -316,7 +316,7 @@ class NewDimension extends React.Component{
                   <Chooser
                     placeholder={this.$t({id:"common.please.select"})}
                     single={true}
-                    labelKey="code"
+                    labelKey="dimensionItemCode"
                     valueKey="id"
                     selectorItem={selectorItem}
                     listExtraParams={extraParams}

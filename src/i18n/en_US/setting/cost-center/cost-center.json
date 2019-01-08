@@ -1,18 +1,18 @@
 {
-  "cost.center.title": "Name",
+  "dimension.title": "Name",
 
-  "cost.center.code": "Code",
-  "cost.center.status": "Status",
-  "cost.center.dep": "Dep.",
-  "cost.center.disabled": "Disabled",
+  "dimension.code": "Code",
+  "dimension.status": "Status",
+  "dimension.dep": "Dep.",
+  "dimension.disabled": "Disabled",
 
-  "cost.center.enabled": "Enabled",
-  "cost.center.sdisabled": "Set disabled",
-  "cost.center.senabled": "Set enabled",
+  "dimension.enabled": "Enabled",
+  "dimension.sdisabled": "Set disabled",
+  "dimension.senabled": "Set enabled",
 
-  "cost.center.goto": "（Department is the default cost center for enterprises, departmental maintenance, please go",
-  "cost.center.enterprise.org": "organizational structure",
-  "cost.center.page": "）page",
+  "dimension.goto": "（Department is the default dimension for enterprises, departmental maintenance, please go",
+  "dimension.enterprise.org": "organizational structure",
+  "dimension.page": "）page",
 
-  "cost.center.extend.field": "Extend field"
+  "dimension.extend.field": "Extend field"
 }

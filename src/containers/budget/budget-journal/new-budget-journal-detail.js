@@ -997,13 +997,13 @@ class NewBudgetJournalDetail extends React.Component {
       budgetJournalService.getDimensionValue(params).then(res => {
         const data = res.data;
         data.map(item => {
-          options.push({ label: item.name, value: item.id, data: item });
+          options.push({ label: item.dimensionName, value: item.id, data: item });
         });
         searchFormItem = {
           type: 'select_dimension',
           label: `${item.dimensionName}`,
           options: options,
-          labelKey: 'name',
+          labelKey: 'dimensionName',
           valueKey: 'id',
           defaultValue: item.defaultDimValueName,
           columnLabel: `dimension${priority}ValueName`,

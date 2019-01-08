@@ -35,9 +35,9 @@
   "chooser.data.city": "城市",
   "chooser.data.bank.address": "银行详细地址",
 
-  "chooser.data.costCenter.code": "成本中心代码",
-  "chooser.data.costCenter": "成本中心",
-  "chooser.data.costCenter.name": "成本中心名称",
+  "chooser.data.dimension.code": "维度代码",
+  "chooser.data.dimension": "维度",
+  "chooser.data.dimension.name": "维度名称",
 
   "chooser.data.dep.code": "部门代码",
   "chooser.data.dep.title": "选择部门",

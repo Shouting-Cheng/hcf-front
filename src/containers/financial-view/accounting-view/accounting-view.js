@@ -326,10 +326,10 @@ class AccountingView extends React.Component {
             let columnsCostCenter = this.state.columns;
             let xCostCenter = this.state.x;
             res.data.map(c => {
-              if (c.sequenceNumber) {
-                let fieldName = `dimension${c.sequenceNumber}Name`;
+              if (c.dimensionSequence) {
+                let fieldName = `dimension${c.dimensionSequence}Name`;
                 columnsCostCenter.push({
-                  title: c.name,
+                  title: c.dimensionName,
                   dataIndex: fieldName,
                   key: fieldName,
                   tempColumn: true,

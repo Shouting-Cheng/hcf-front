@@ -39,5 +39,5 @@
   "finance.audit.in.hand": "In hand",
   "finance.audit.checked": "Checked",
   "finance.audit.unchecked": "Unchecked",
-  "finance.audit.cost.center":"Cost Center"
+  "finance.audit.dimension":"dimension"
 }
