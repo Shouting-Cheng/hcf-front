@@ -412,7 +412,7 @@ class NewUpdateSupplier extends React.Component {
                     ? item.type === 'switch'
                       ? this.state.enabled
                       : vendorInfo[item.key]
-                    : '',
+                    : null,
                 rules: rules,
               })(this.renderFormItem(item))}
             </FormItem>
@@ -472,34 +472,15 @@ class NewUpdateSupplier extends React.Component {
           method = vendorService.addVendorInfo(values);
         }
 
-        method
-          .then(response => {
-            if (response.data.msg === '成功' || response.data.code === '0000') {
-              this.props.form.resetFields();
-              this.setState({ loading: false });
-              this.props.onClose(true);
-              if (!this.state.isEdit) {
-                message.success(`${this.$t('common.save.success', { name: '' })}`);
-              } else {
-                message.success(`${this.$t('common.operate.success')}`);
-              }
-            } else {
-              this.setState({ loading: false });
-              if (!this.state.isEdit) {
-                message.error(`${this.$t('common.save.filed')}, ${response.data.msg}`);
-              } else {
-                message.error(`${this.$t('common.operate.filed')}, ${response.data.msg}`);
-              }
-            }
-          })
-          .catch(e => {
-            if (!this.state.isEdit) {
-              message.error(`${this.$t('common.save.filed')}, ${e.response.data.message}`);
-            } else {
-              message.error(`${this.$t('common.operate.filed')}, ${e.response.data.message}`);
-            }
+        method.then(response => {
+          //this.props.form.resetFields();
+          this.setState({ loading: false });
+          this.props.onClose(true);
+          message.success(`${this.$t(!this.state.isEdit ? ('common.save.success', { name: '' } ) :'common.operate.success' )}`);
+        }).catch(e => {
+            message.error(`${this.$t( !this.state.isEdit ? 'common.save.filed': 'common.operate.filed')}, ${e.response.data.message}`);
             this.setState({ loading: false });
-          });
+        });
       }
     });
   };

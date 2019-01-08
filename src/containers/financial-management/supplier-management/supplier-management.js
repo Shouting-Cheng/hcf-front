@@ -406,8 +406,8 @@ class SupplierManagement extends React.Component {
     params.page = pagination.page;
     params.size = pagination.pageSize;
     vendorService.getVenInfoByOptions(params).then(response => {
-      console.log(response)
-      /*response.data.body.map(item => {
+      console.log(response.data)
+      response.data.map(item => {
         item.key = item.id;
         let order = 0;
         if (typeof item.industryId !== 'undefined' && item.industryId !== null) {
@@ -431,14 +431,12 @@ class SupplierManagement extends React.Component {
           children.order = ++order;
           children.key = children.id;
         });
-      });*/
+      });
       let pagination = this.state.pagination;
-      pagination.total = Number(response.headers['x-total-count'])
-        ? Number(response.headers['x-total-count'])
-        : 0;
+      pagination.total = Number(response.headers['x-total-count']) ? Number(response.headers['x-total-count']) : 0;
       this.setState({
         loading: false,
-        data: response.data.body,
+        data: response.data,
         pagination,
       });
     });
