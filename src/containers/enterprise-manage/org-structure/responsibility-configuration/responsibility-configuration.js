@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { message, Icon, Tabs,Button,Input } from 'antd';
-import Table from 'widget/table'
 import config from 'config';
 import baseService from 'share/base.service'
 import CustomTable from 'components/Widget/custom-table';
 import SlideFrame from 'widget/slide-frame';
 import Responsibility from './new-responsibility';
-
 import { connect } from 'dva';
 import BasicInfo from './basic-info';
 const Search = Input.Search;
@@ -55,18 +53,8 @@ class ResponsibilityCenter extends Component {
           dataIndex:'id',
           align:'center',
           render:(value,record,index)=>{
-            return(
-              <span>
-                <a onClick={()=>{
-                  this.edit(record);
-                }}>
-                  编辑
-                </a>
-              </span>
-            );
-
+            return(<span><a onClick={()=>{this.edit(record);}}>编辑</a></span>);
           }
-
         }
       ],
       loading: false,
@@ -82,6 +70,7 @@ class ResponsibilityCenter extends Component {
   componentDidMount() {
     this.getSetOfBookList();
   }
+
   // 获取帐套
   getSetOfBookList = () => {
     baseService.getSetOfBooksByTenant().then(res => {
@@ -94,6 +83,7 @@ class ResponsibilityCenter extends Component {
       })
     });
   }
+
   // 编辑
   edit = record => {
     this.setState({
@@ -102,6 +92,7 @@ class ResponsibilityCenter extends Component {
       this.setState({ showSlideFrame: true })
     });
   };
+
   // 新建
   createResponsion = () => {
     this.setState({
@@ -111,10 +102,12 @@ class ResponsibilityCenter extends Component {
       this.setState({ showSlideFrame: true })
     });
   };
+
   // 搜索
   search = () => {
 
   }
+
   handleClose=()=>{
     this.setState({
       showSlideFrame:false
