@@ -58,8 +58,8 @@ class NewDimension extends React.Component{
       let layoutPosition = [];
       response.data.values.map((item)=>{
         let option = {
-          id: item.code,
-          value: item.messageKey
+          id: item.value,
+          value: item.name
         };
         layoutPosition.push(option);
       });

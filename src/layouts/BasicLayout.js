@@ -184,6 +184,14 @@ class BasicLayout extends React.Component {
     } else {
       this.setState({ panes });
     }
+
+    let navTheme = window.localStorage.getItem("navTheme");
+    if (navTheme) {
+      this.props.dispatch({
+        type: "setting/setNavTheme",
+        payload: { navTheme }
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -712,6 +720,7 @@ class BasicLayout extends React.Component {
       notices,
       location,
       menu,
+      navTheme
     } = this.props;
 
     const { isMobile: mb, loading, panes, selectKey, menuList } = this.state;
@@ -728,6 +737,7 @@ class BasicLayout extends React.Component {
           onCollapse={this.handleMenuCollapse}
           activeKey={selectKey}
           menuList={menuList}
+          navTheme={navTheme}
         />
         <Layout>
           <Header style={{ padding: 0 }}>
@@ -816,7 +826,7 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ user, global = {}, loading, languages, menu }) => ({
+export default connect(({ user, global = {}, loading, languages, menu, setting: { navTheme } }) => ({
   currentUser: user.currentUser,
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
@@ -824,4 +834,5 @@ export default connect(({ user, global = {}, loading, languages, menu }) => ({
   languages: languages,
   menu: menu,
   organization: user.organization,
+  navTheme
 }))(BasicLayout);

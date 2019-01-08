@@ -519,7 +519,6 @@ $default-blue: #108ee9;
     font-size: 12px;
     font-weight: 500;
     font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif, "宋体";
-    color: hsla(0, 0%, 100%, .65)
   }
   .bottom-bar-approve {
     background-color: #fff;
@@ -548,5 +547,11 @@ $default-blue: #108ee9;
   .ant-dropdown-menu {
     max-height: 400px;
     overflow: auto;
+  }
+  .ant-empty-description {
+    margin: 0;
+  }
+  .ant-empty-normal {
+    margin: 32px 0;
   }
 }

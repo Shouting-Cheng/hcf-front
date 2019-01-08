@@ -338,11 +338,11 @@ class NewStrategyControlDetail extends React.Component{
             {getFieldDecorator('scenarioName')(
               <div>
                 {controlObjectOptions.map(option => {
-                  return option.value === objectValue ? option.messageKey : ''
+                  return option.value === objectValue ? option.name : ''
                 })} {rangeOptions.map(option => {
-                return option.value === rangeValue ? option.messageKey : ''
+                return option.value === rangeValue ? option.name : ''
               })} {periodStrategyValue} {mannerValue === 'PERCENTAGE' ? '' : operatorOptions.map(option => {
-                return option.value === operatorValue ? option.messageKey : ''
+                return option.value === operatorValue ? option.name : ''
               })} {valueValue ? (mannerValue === 'PERCENTAGE' ? Number(valueValue).toFixed(4) + '%' : Number(valueValue).toFixed(4)) : ''}
               </div>
             )}

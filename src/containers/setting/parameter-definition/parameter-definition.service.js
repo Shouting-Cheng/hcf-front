@@ -15,7 +15,7 @@ export default {
 
   //获取模块代码下参数值
   getParamValues(params){
-    return httpFetch.get(`${config.baseUrl}/api/parameter/values/by/parameterValueType`,params)
+    return httpFetch.get(`${config.baseUrl}/api/parameter/values/valuaList/by/parameterValueType`,params)
   },
 
   //新建参数
@@ -23,5 +23,14 @@ export default {
     return httpFetch.post(`${config.baseUrl}/api/parameter/setting`,params)
   },
 
+  //更新参数
+  updateParameter(params){
+    return httpFetch.put(`${config.baseUrl}/api/parameter/setting`,params)
+  },
+
+  //删除参数
+  deleteParameter(id){
+    return httpFetch.delete(`${config.baseUrl}/api/parameter/setting/${id}`)
+  }
 
 }

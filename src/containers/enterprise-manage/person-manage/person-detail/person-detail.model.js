@@ -41,7 +41,7 @@ const personObjDefaultWithoutExtend = {
   genderCode: '', //性别1女0男，其他未知
 
   birthday: new Date(), //生日
-  entryTime: new Date(), //入职时间
+  entryDate: new Date(), //入职时间
 };
 //默认的人员信息+扩展字段
 const personObjDefault = deepCopy(personObjDefaultWithoutExtend);
