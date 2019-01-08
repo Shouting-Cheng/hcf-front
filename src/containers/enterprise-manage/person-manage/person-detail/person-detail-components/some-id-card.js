@@ -221,7 +221,7 @@ class PersonSomeIdCard extends React.Component {
       return data.map(item => {
         return (
           <Option value={item.value} key={item.value}>
-            {item.messageKey}
+            {item.name}
           </Option>
         );
       });
@@ -255,7 +255,7 @@ class PersonSomeIdCard extends React.Component {
   //状态
   switchCardStatusChange = e => {
     let card = this.state.card;
-    card.enable = e;
+    card.enabled = e;
     this.setState({
       loading: false,
       card,
@@ -264,7 +264,7 @@ class PersonSomeIdCard extends React.Component {
   //默认
   handleCardDefaultChange = e => {
     let card = this.state.card;
-    card.isDefault = e.target.checked;
+    card.defaultFlag = e.target.checked;
     this.setState({
       loading: false,
       card,
@@ -277,7 +277,7 @@ class PersonSomeIdCard extends React.Component {
       return data.map(item => {
         return (
           <Option value={item.value} key={item.code}>
-            {item.messageKey}
+            {item.name}
           </Option>
         );
       });
@@ -297,7 +297,7 @@ class PersonSomeIdCard extends React.Component {
       );
     } else {
       let cardName = 'card';
-      if (!card.enable) {
+      if (!card.enabled) {
         cardName = 'disabled-card';
       }
       return (
@@ -309,11 +309,11 @@ class PersonSomeIdCard extends React.Component {
             </div>
             <div className="f-right status">
               {/*? "启用中" : "已禁用"*/}
-              {card.enable ? this.$t('pdc.id.card.enable') : this.$t('pdc.id.card.disable')}
+              {card.enabled ? this.$t('pdc.id.card.enable') : this.$t('pdc.id.card.disable')}
             </div>
             <div className="f-right is-default">
               {/*? "默认" : ""*/}
-              {card.isDefault ? this.$t('pdc.id.card.default') : ''}
+              {card.defaultFlag ? this.$t('pdc.id.card.default') : ''}
             </div>
 
             <div className="clear" />
@@ -574,13 +574,13 @@ class PersonSomeIdCard extends React.Component {
 
             {/*状态*/}
             <FormItem {...formItemLayout} label={this.$t('common.column.status')} colon={true}>
-              {getFieldDecorator('enable', {
-                initialValue: card.enable,
+              {getFieldDecorator('enabled', {
+                initialValue: card.enabled,
               })(
                 <div>
                   <Switch
-                    defaultChecked={card.enable}
-                    checked={card.enable}
+                    defaultChecked={card.enabled}
+                    checked={card.enabled}
                     checkedChildren={<Icon type="check" />}
                     unCheckedChildren={<Icon type="cross" />}
                     onChange={this.switchCardStatusChange}
@@ -592,7 +592,7 @@ class PersonSomeIdCard extends React.Component {
                       width: 100,
                     }}
                   >
-                    {card.enable ? this.$t('common.status.enable') : this.$t('common.disabled')}
+                    {card.enabled ? this.$t('common.status.enable') : this.$t('common.disabled')}
                   </span>
                 </div>
               )}
@@ -603,13 +603,13 @@ class PersonSomeIdCard extends React.Component {
               {...formItemLayout}
               label={this.$t('pdc.id.card.is.set.default.title')} //设为默认
             >
-              {getFieldDecorator('isDefault', {
-                initialValue: card.isDefault,
+              {getFieldDecorator('defaultFlag', {
+                initialValue: card.defaultFlag,
               })(
                 <div>
                   <Checkbox
-                    defaultChecked={card.isDefault}
-                    checked={card.isDefault}
+                    defaultChecked={card.defaultFlag}
+                    checked={card.defaultFlag}
                     onChange={this.handleCardDefaultChange}
                   >
                     {/*是（只能有一个默认）*/}
