@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Tooltip } from 'antd';
+import { Badge, Tooltip, Empty } from 'antd';
 import Table from 'widget/table'
 import httpFetch from 'share/httpFetch';
 
@@ -164,22 +164,24 @@ class CustomTable extends Component {
     const { dataSource, pagination, loading, columns } = this.state;
 
     return (
-      <Table
-        rowKey={record => record.id}
-        loading={loading}
-        dataSource={dataSource}
-        columns={columns || []}
-        pagination={pagination}
-        size="middle"
-        bordered
-        onRow={record => {
-          return {
-            onClick: () => {
-              this.props.onRowClick && this.props.onRowClick(record);
-            },
-          };
-        }}
-      />
+      <Empty>
+        <Table
+          rowKey={record => record.id}
+          loading={loading}
+          dataSource={dataSource}
+          columns={columns || []}
+          pagination={pagination}
+          size="middle"
+          bordered
+          onRow={record => {
+            return {
+              onClick: () => {
+                this.props.onRowClick && this.props.onRowClick(record);
+              },
+            };
+          }}
+        />
+      </Empty>
     );
   }
 }

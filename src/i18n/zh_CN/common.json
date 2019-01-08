@@ -136,6 +136,7 @@
   "common.reason": "理由",
   "common.price": "单价",
   "common.copy": "复制",
+  "common.paste": "粘贴",
   "common.unit": "单位",
   "common.tax": "税额",
   "common.from": "来源",
@@ -167,5 +168,7 @@
   "common.selected.number.department": "已选择{number}个部门",
   "common.selected.number.user.group": "已选择{number}个人员组",
   "common.operate.value.disabled":"该值已禁用",
-  "common.document.categories": "单据大类"
+  "common.document.categories": "单据大类",
+  "common.code": "代码",
+  "common.name": "名称"
 }

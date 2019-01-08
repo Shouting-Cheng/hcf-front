@@ -4,7 +4,7 @@ import {connect} from 'dva';
 
 import {
   Button, Popover, message, Col, Row, Dropdown,
-  Icon, Menu, Tabs, Badge, Select, Input
+  Icon, Menu, Tabs, Badge, Select, Input, Divider
 } from 'antd';
 import Table from 'widget/table'
 
@@ -18,7 +18,14 @@ import Selector from 'widget/selector'
 import 'styles/setting/form/form-list.scss';
 import { routerRedux } from 'dva/router';
 const Option = Select.Option;
-
+import workflowService from 'containers/setting/workflow/workflow.service'
+import manApprovalImg from 'images/setting/workflow/man-approval.svg'
+import knowImg from 'images/setting/workflow/know.svg'
+import aiApprovalImg from 'images/setting/workflow/aiapproval.svg'
+import mailImg from 'images/setting/workflow/mail.png'
+import auditImg from 'images/setting/workflow/audit.png'
+import endImg from 'images/setting/workflow/end.png'
+import noFormImg from 'images/setting/workflow/no-form.png'
 import debounce from 'lodash.debounce';
 
 class FormList extends React.Component {
@@ -28,8 +35,8 @@ class FormList extends React.Component {
       formList: [],
       formListForSob: [],
       setOfBooks: [], //账套list
-      currentSetOfBooksID: this.props.company.setOfBooksId||'', //当前查询的账套的id
-      currentSetOfBooksName:this.props.company.setOfBooksName|| '', //当前查询的账套的名字
+      setOfBooksId: this.props.match.params.setOfBooksId || this.props.company.setOfBooksId,
+      setOfBooksName: this.props.company.setOfBooksName,
       loading: true,
       params:{},
       columnsForSobFrom: [
@@ -105,19 +112,26 @@ class FormList extends React.Component {
           render: valid =>
             <Badge status={valid ? 'success' : 'error'}
                    text={valid ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
-        }
-        /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
+        },
+        {title: this.$t('common.operation'), dataIndex: 'operate', width: '8%', render: record => (
           <span>
-            <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{this.$t("common.delete")}</a>
-            </Popconfirm>
+           <a
+             onClick={e => {
+               e.preventDefault();
+               e.stopPropagation();
+               //this.handleEdit(record);
+             }}>{this.$t('common.edit')}</a>
+            <Divider type="vertical" />
+            <a onClick={() => this.checkOldExpense(record)}>{this.$t('common.copy')}</a>
+            <Divider type="vertical" />
           </span>
-        )}*/
+        )}
       ], //公司模式下columns
       columnsTenant: [
         {
           title: this.$t('common.sequence'/*序号*/),
-          dataIndex: 'sequence', width: '8%'
+          dataIndex: 'sequence', width: '8%',
+          render:(desc,value,index)=> index+1
         },
         {
           title: this.$t('common.document.name'/*单据名称*/),
@@ -135,7 +149,7 @@ class FormList extends React.Component {
         },
         {
           title: this.$t('form.setting.include.fee.type')/*'包含费用类型'*/,
-          dataIndex: 'visibleExpenseTypeScope',
+          dataIndex: 'visibleUserScope',
           render: text => constants.getTextByValue(text, 'visibleExpenseTypeScope')
         },
         {
@@ -144,14 +158,19 @@ class FormList extends React.Component {
           render: valid =>
             <Badge status={valid ? 'success' : 'error'}
                    text={valid ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
-        }
-        /*{title: '操作', dataIndex: 'operate', width: '8%', render: record => (
-          <span>
-            <Popconfirm title="确认删除吗？" onConfirm={(e) => this.deleteExpense(e, record)}>
-              <a>{this.$t("common.delete")}</a>
-            </Popconfirm>
+        },
+        {title: '审批流', dataIndex: 'operate', width: '8%', render: record => (
+            <span>
+           <a
+             onClick={e => {
+               e.preventDefault();
+               e.stopPropagation();
+               //this.handleEdit(record);
+             }}>{this.$t('common.copy')}</a>
+            <Divider type="vertical" />
+            <a onClick={() => {}}>{this.$t('common.paste')}</a>
           </span>
-        )}*/
+          )}
       ] //集团模式下columns
     };
     this.handleDocType = debounce(this.handleDocType, 500);
@@ -163,10 +182,10 @@ class FormList extends React.Component {
         if (resp.status === 200 && resp.data) {
           this.setState({
             setOfBooks: resp.data,
-            currentSetOfBooksID: this.props.company.setOfBooksId,
-            currentSetOfBooksName: this.props.company.setOfBooksName
+            setOfBooksId: this.props.company.setOfBooksId,
+            setOfBooksName: this.props.company.setOfBooksName
           });
-          this.getFormList(this.props.company.setOfBooksId);
+          this.getList();
         }
       }).catch(error => {
         message.error(this.$t('common.error'));
@@ -174,14 +193,30 @@ class FormList extends React.Component {
     }
   }
 
-  componentWillMount() {
+/*  componentWillMount() {
 
     if (!this.props.tenantMode) {
-      this.getFormList();
+      //this.getFormList();
+      this.getList();
       //获取账套下表单
-      this.getFormListForSob();
+     // this.getFormListForSob();
     }
-  }
+  }*/
+
+  getList = () => {
+    this.setState({ loading: true });
+    let params = {
+      ...this.state.params,
+      booksID: this.props.tenantMode ? this.state.setOfBooksId : '',
+    };
+    workflowService.getWorkflowList(params).then(res => {
+
+      this.setState({
+        loading: false,
+        formList: res.data
+      })
+    })
+  };
 
   handleMenuClick = (e) => {
     this.props.dispatch(
@@ -191,13 +226,45 @@ class FormList extends React.Component {
     );
   };
 
-  handleSetOfBooksChange = (value) => {
+ /* handleSetOfBooksChange = (value) => {
     this.setState({
       currentSetOfBooksID: value.id,
       currentSetOfBooksName: value.setOfBooksName,
     }, () => {
       this.getFormList(value.id)
     })
+  }*/;
+
+  //集团模式下改变帐套
+  handleSetOfBooksChange = (value) => {
+    this.setState({
+      setOfBooksId: value.id,
+      setOfBooksName: value.setOfBooksName,
+      showEnableList: true
+    }, () => {
+      this.getList()
+    })
+  };
+
+  expandedRowRender =(record)=>{
+    console.log(record)
+    return(<Row type="flex" style={{marginTop:10,marginBottom: -10}}>
+      <Col>
+        {
+          record.ruleApprovalChain.ruleApprovalNodes.map((node,index)=>{
+            return (
+                <div key={node.ruleApprovalNodeOid} className="node-container">
+                  <div>
+                    {this.getNodeImg(node.type)}
+                    {index < record.ruleApprovalChain.ruleApprovalNodes.length - 1 && <Icon type="arrow-right" className="right-arrow" />}
+                  </div>
+                  <p className="node-remark">{node.type === 1005 ? this.$t('setting.key1252'/*结束*/) : node.remark}</p>
+                </div>
+            )
+          })
+        }
+      </Col>
+    </Row>)
   };
 
   getFormList = (id) => {
@@ -239,7 +306,25 @@ class FormList extends React.Component {
       })
   };
 
-  handleCatType = (value)=>{
+  //获取节点图片
+  getNodeImg = (type) => {
+    switch (type) {
+      case 1001:  //审批
+        return <img src={manApprovalImg} className="node-image" />;
+      case 1002:  //知会
+        return <img src={knowImg} className="node-image" />;
+      case 1003:  //机器人
+        return <img src={aiApprovalImg} className="node-image" />;
+      case 1004:  //发送打印
+        return <img src={mailImg} className="node-image" />;
+      case 1006:  //审核
+        return <img src={auditImg} className="node-image" />;
+      case 1005:  //结束
+        return <img src={endImg} className="node-image" />
+    }
+  };
+
+/*  handleCatType = (value)=>{
     this.setState({
       params: {
         ...this.state.params,
@@ -255,6 +340,24 @@ class FormList extends React.Component {
         formName: value
       }
     },()=>this.getFormList())
+  };*/
+
+  handleCatType = (value) => {
+    this.setState({
+      params: {
+        ...this.state.params,
+        documentCategory: value
+      }
+    }, () => this.getList())
+  };
+
+  handleDocType = (value) => {
+    this.setState({
+      params: {
+        ...this.state.params,
+        formName: value
+      }
+    }, () => this.getList())
   };
 
   /*
@@ -332,14 +435,14 @@ class FormList extends React.Component {
   rowClick = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.setOfBooksId}`
       })
     )  
   };
   rowClickForSob = (record) => {
     this.props.dispatch(
       routerRedux.push({
-        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.currentSetOfBooksID}`
+        pathname: `/admin-setting/form-list/form-detail/${record.formOid}/${this.state.setOfBooksId}`
       })
     )  
   };
@@ -350,7 +453,8 @@ class FormList extends React.Component {
     const {
       columns, columnsTenant, formList, loading,
       columnsForSobFrom, formListForSob,
-      currentSetOfBooksName
+      setOfBooksId,
+      setOfBooksName
     } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} >
@@ -371,32 +475,32 @@ class FormList extends React.Component {
             marginBottom: 20,
             width: '100%', height: 53}}>
             <Row className="setOfBooks-select">
-              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{lineHeight: 2, width: 43}} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 1 : 2} style={{lineHeight:2, width: 43 }} className="title">{this.$t('setting.key1428'/*帐套*/)}：</Col>
               <Col span={3}>
                 <Selector type="setOfBooksByTenant"
                           allowClear={false}
                           entity
-                          value={{ label: this.state.currentSetOfBooksName, key: this.state.currentSetOfBooksID }}
+                          value={{ label: setOfBooksName, key: setOfBooksId }}
                           onChange={this.handleSetOfBooksChange}
                 />
               </Col>
-              <Col span={language.local === 'zh_cn' ? 2 : 3 } style={{lineHeight: 2,width: 72}} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 2 : 3} style={{lineHeight:2, width: 72 }} className="title" offset={1}>{this.$t('common.document.categories'/*单据大类*/)}：</Col>
               <Col span={3}>
                 <Select
                   allowClear
                   onChange={this.handleCatType}
-                  style={{width: '100%'}}
+                  style={{ width: '100%' }}
                   placeholder={this.$t('common.please.select')}>
                   {
                     constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
                   }
                 </Select>
               </Col>
-              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight: 2,width: 100}} className="title"  offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
+              <Col span={language.local === 'zh_cn' ? 3 : 4} style={{lineHeight:2, width: 100 }} className="title" offset={1}>{this.$t('acp.public.documentTypeName'/*单据类型名称*/)}：</Col>
               <Col span={3} >
                 <Input
-                  onChange={(e=>this.handleDocType(e.target.value))}
-                  placeholder={this.$t('common.please.enter')}/>
+                  onChange={e => this.handleDocType(e.target.value)}
+                  placeholder={this.$t('common.please.enter')} />
               </Col>
             </Row>
           </div>
@@ -415,6 +519,7 @@ class FormList extends React.Component {
                size="middle"
                bordered
                rowKey="formOid"
+               expandedRowRender={this.expandedRowRender}
                pagination={false}
                onRow={record => ({
                  onClick: () => this.rowClick(record)

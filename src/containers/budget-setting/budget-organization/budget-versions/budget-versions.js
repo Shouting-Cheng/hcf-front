@@ -118,6 +118,7 @@ class BudgetVersions extends React.Component {
     for(let paramsName in params){
       !params[paramsName] && delete params[paramsName];
     }
+    console.log(this.props)
     params.organizationId = this.props.organization.id;
     params.page = this.state.page;
     params.size = this.state.pageSize;

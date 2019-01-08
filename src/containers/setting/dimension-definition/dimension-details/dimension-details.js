@@ -30,7 +30,7 @@ class DimensionDetails extends Component {
           type: 'input',
           id: 'setOfBooksName',
           isRequired: true,
-          label: '维度账套',
+          label: '账套',
         },
         {
           type: 'switch',
@@ -68,7 +68,7 @@ class DimensionDetails extends Component {
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition`,
+        pathname: `/admin-setting/dimension-definition/${this.state.setOfBooksId}`,
       })
     );
   };

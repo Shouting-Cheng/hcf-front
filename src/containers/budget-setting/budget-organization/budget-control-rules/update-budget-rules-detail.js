@@ -271,9 +271,9 @@ class UpdateBudgetRulesDetail extends React.Component {
     this.getSystemValueList(code).then((response) => {
       response.data.values.map((item) => {
         let option = {
-          key: item.code,
-          id: item.code,
-          value: item.messageKey
+          key: item.value,
+          id: item.value,
+          value: item.name
         };
         name.push(option);
       });

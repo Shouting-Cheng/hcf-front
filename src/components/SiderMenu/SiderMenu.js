@@ -289,7 +289,6 @@ export default class SiderMenu extends React.Component {
       this.setState({ menuList: [...this.menus], searchValue: value });
       return;
     }
-
     //todo  三级搜索暂不支持 后面加一下
     let result = [];
     let menus = JSON.parse(JSON.stringify(this.menus));
@@ -301,7 +300,9 @@ export default class SiderMenu extends React.Component {
           result.push(item);
         }
       } else {
-        item.children = [];
+        if (this.$t(item.name).includes(value)) {
+          result.push(item);
+        }
       }
     });
 
@@ -315,9 +316,11 @@ export default class SiderMenu extends React.Component {
   }
 
   render() {
-    const { logo, collapsed, onCollapse, activeKey } = this.props;
+    const { logo, collapsed, onCollapse, activeKey, navTheme } = this.props;
     const { openKeys, menuList, searchValue, openKey } = this.state;
     const menuProps = collapsed ? {} : { openKeys: searchValue ? openKeys : [openKey] };
+
+    const headerStyle = navTheme == "light" ? { background: "#fff", boxShadow: "1px 1px 0 0 #e8e8e8", color: "#000" } : null;
 
     return (
       <Sider
@@ -328,11 +331,12 @@ export default class SiderMenu extends React.Component {
         onCollapse={onCollapse}
         width={220}
         className={styles.sider}
+        theme={navTheme}
       >
-        <div className={styles.logo} key="logo">
+        <div className={styles.logo} style={headerStyle} key="logo">
           <Link to="/dashboard">
             <img src={logo} alt="logo" />
-            <h1>融智汇</h1>
+            <h1 style={{ color: navTheme == "light" ? "#1890FF" : "#fff" }}>融智汇</h1>
           </Link>
         </div>
         <div className="menu-container">
@@ -341,7 +345,7 @@ export default class SiderMenu extends React.Component {
           </div>
           <Menu
             key="Menu"
-            theme="dark"
+            theme={navTheme}
             mode="inline"
             {...menuProps}
             onOpenChange={this.handleOpenChange}

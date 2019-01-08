@@ -17,11 +17,8 @@ const statusList = [
   { value: 1002, label: '审批中' },
   { value: 1003, label: '撤回' },
   { value: 1004, label: '审批通过' },
-  { value: 1005, label: '审批驳回' },
-  { value: 2002, label: '审核通过' },
-  { value: 2001, label: '审核驳回' },
+  { value: 1005, label: '审批驳回' }
 ];
-
 
 class ExpenseApplicationForm extends React.Component {
   constructor(props) {
@@ -158,7 +155,7 @@ class ExpenseApplicationForm extends React.Component {
   //获取申请单类型
   getApplicationTypeList = () => {
     let searchForm = this.state.searchForm;
-    service.getApplicationTypeList({ setOfBooksId: this.props.company.setOfBooksId }).then(res => {
+    service.getApplicationTypeList({ setOfBooksId: this.props.company.setOfBooksId, enabled: true }).then(res => {
       searchForm[0].options = res.data.map(o => ({ value: o.id, label: o.typeName }));
       this.setState({ menus: res.data, searchForm });
     }).catch(err => {
@@ -239,7 +236,7 @@ class ExpenseApplicationForm extends React.Component {
           </Col>
           <Col span={6}>
             <Search
-              placeholder="请输入申请单单号..."
+              placeholder="请输入申请单单号"
               style={{ width: '100%' }}
               onSearch={this.searchNumber}
               enterButton

@@ -51,7 +51,7 @@ class CurrencySettingEdit extends React.Component {
                 { title: this.$t("common.currency.rate")/*汇率*/, dataIndex: 'rate', align: 'center' },
                 { title: this.$t("currency.setting.add.currency")/*本币*/, dataIndex: 'baseCurrencyCode', align: 'center' },
                 {
-                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastModifiedDate', align: 'center',
+                    title: this.$t("currency.setting.add.edit.time")/*修改时间*/, dataIndex: 'lastUpdatedDate', align: 'center',
                     render: (text) => { return (moment(text).local().format('YYYY-MM-DD HH:mm:ss')) }
                 },
                 {
@@ -112,7 +112,7 @@ class CurrencySettingEdit extends React.Component {
                 if (res.status === 200) {
                     this.setState({
                         indexAdd: page * pageSize,
-                        data: res.data.rows,
+                        data: res.data.records,
                         pagination: {
                             total: res.data.total,
                             onChange: this.onChangePager,
@@ -249,8 +249,8 @@ class CurrencySettingEdit extends React.Component {
                             if (res.status === 200) {
                                 this.setState({
                                     outEditRate: false,
-                                    record: res.data.rows,
-                                    originalRecord: JSON.parse(JSON.stringify(res.data.rows))
+                                    record: res.data,
+                                    originalRecord: JSON.parse(JSON.stringify(res.data))
                                 }, () => {
                                     this.getRateHistory();
                                     dateChanged = 0;
@@ -267,8 +267,8 @@ class CurrencySettingEdit extends React.Component {
                         if (res.status === 200) {
                             this.setState({
                                 outEditRate: false,
-                                record: res.data.rows,
-                                originalRecord: JSON.parse(JSON.stringify(res.data.rows))
+                                record: res.data,
+                                originalRecord: JSON.parse(JSON.stringify(res.data))
                             }, () => {
                                 this.getRateHistory();
                                 dateChanged = 0;
@@ -368,7 +368,7 @@ class CurrencySettingEdit extends React.Component {
                 if (res.status === 200) {
                     this.setState({
                         page: 0,
-                        data: res.data.rows,
+                        data: res.data.records,
                         pagination: {
                             total: res.data.total,
                             onChange: this.onChangePager,
@@ -504,7 +504,8 @@ class CurrencySettingEdit extends React.Component {
                 {
                                     <Checkbox checked={record.enableAutoUpdate}
                                         onChange={this.onEnableAutoUpdate}
-                                        disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate || !this.props.tenantMode}
+                                        // disabled={!this.hasAnyAuthorities(['ROLE_TENANT_ADMIN']) || !enableAutoUpdate || outEditRate || !this.props.tenantMode}
+                                        disabled={enableAutoUpdate == "false"}
                                     />
                                 }
                             </Col>
