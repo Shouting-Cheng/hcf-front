@@ -18,7 +18,7 @@ const chooserData = {
     columns: [
       {
         title: messages("chooser.data.employeeID"),//工号
-        dataIndex: 'employeeID', width: '10%'
+        dataIndex: 'employeeId', width: '10%'
       },
       {
         title: messages("chooser.data.fullName"),//姓名
