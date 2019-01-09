@@ -105,7 +105,7 @@ class NewContractType extends React.Component {
         formTypeId: 801004,
         setOfBooksId: this.state.data.setOfBooksId || this.props.params.setOfBooksId
       };
-      httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all`,params).then(res => {
+      httpFetch.get(`${config.workflowUrl}/api/custom/forms/setOfBooks/my/available/all`,params).then(res => {
         this.setState({ formTypeOptions: res.data, fetching: false });
       });
     }
