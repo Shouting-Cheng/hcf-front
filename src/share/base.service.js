@@ -314,7 +314,7 @@ export default {
 
   //得到成本中心
   getCostCenter(booksID) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/company`, { setOfBooksId: booksID })
+    return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`, { setOfBooksId: booksID })
   },
 
   //得到公司银行账户
