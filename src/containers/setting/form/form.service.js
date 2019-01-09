@@ -164,12 +164,8 @@ export default {
    * @param size
    * @isExtendField bool，扩展字段的地方，获取自定义值类别需要另一个接口：加载租户级别的列表
    */
-  getCustomEnumeration(page, size,isExtendField){
-    if(isExtendField){
-      return httpFetch.get(`${config.workflowUrl}/api/custom/enumerations/by/custom/form`, {page, size})
-    }else {
-      return httpFetch.get(`${config.workflowUrl}/api/custom/enumerations`, {page, size})
-    }
+  getCustomEnumeration(page, size,enabled,typeFlag){
+    return httpFetch.get(`${config.baseUrl}/api/custom/enumerations`, {page, size, enabled, typeFlag})
   },
 
   /**
