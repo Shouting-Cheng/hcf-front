@@ -29,7 +29,7 @@ export default {
      * 获取关联表单类型数据
      */
     getRequisitionList(setOfBooksId) {
-        return httpFetch.get(`${config.baseUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801003&setOfBooksId=${setOfBooksId}`);
+        return httpFetch.get(`${config.workflowUrl}/api/custom/forms/setOfBooks/my/available/all?formTypeId=801003&setOfBooksId=${setOfBooksId}`);
     },
     /**
      * 新增或修改预付款单类型
