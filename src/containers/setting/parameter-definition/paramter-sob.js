@@ -112,7 +112,7 @@ class ParameterSob extends React.Component {
     sobService.getTenantAllSob(params).then(res=>{
       let {sob, sobOptions,searchForm} = this.state;
       res.data.map(item=>{
-        sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,});
+        sobOptions.push({value: item.id, label: item.setOfBooksCode+'-'+item.setOfBooksName,...item});
         item.id===this.props.company.setOfBooksId&&(sob={key: item.id, label: item.setOfBooksName,...item});
       });
       searchForm[0].options = sobOptions;
@@ -124,7 +124,6 @@ class ParameterSob extends React.Component {
   handleEdit = (e,record)=>{
     e.preventDefault();
     e.stopPropagation();
-    console.log(record)
     this.setState({
       visible: true,
       record

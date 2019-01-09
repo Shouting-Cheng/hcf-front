@@ -4,12 +4,11 @@ import {connect} from 'dva';
 
 import {
   Button, Popover, message, Col, Row, Dropdown,
-  Icon, Menu, Tabs, Badge, Select, Input, Divider
+  Icon, Menu, Tabs, Badge, Select, Input, Divider, Modal
 } from 'antd';
 import Table from 'widget/table'
 
 const TabPane = Tabs.TabPane;
-// import menuRoute from 'routes/menuRoute';
 import formService from 'containers/setting/form/form.service';
 import constants from 'share/constants';
 import BaseService from 'share/base.service';
@@ -39,6 +38,8 @@ class FormList extends React.Component {
       setOfBooksName: this.props.company.setOfBooksName,
       loading: true,
       params:{},
+      documentType:[],
+      sourceFormOid: undefined,
       columnsForSobFrom: [
         {
           title: this.$t('common.sequence'/*序号*/),
@@ -119,10 +120,10 @@ class FormList extends React.Component {
              onClick={e => {
                e.preventDefault();
                e.stopPropagation();
-               //this.handleEdit(record);
+               this.handleEdit(record);
              }}>{this.$t('common.edit')}</a>
             <Divider type="vertical" />
-            <a onClick={() => this.checkOldExpense(record)}>{this.$t('common.copy')}</a>
+            <a onClick={(e) => this.showConfirmModal(e,record)}>{this.$t('common.copy')}</a>
             <Divider type="vertical" />
           </span>
         )}
@@ -159,18 +160,17 @@ class FormList extends React.Component {
             <Badge status={valid ? 'success' : 'error'}
                    text={valid ? this.$t('common.status.enable') : this.$t('common.status.disable')}/>
         },
-        {title: '审批流', dataIndex: 'operate', width: '8%', render: record => (
-            <span>
-           <a
-             onClick={e => {
-               e.preventDefault();
-               e.stopPropagation();
-               //this.handleEdit(record);
-             }}>{this.$t('common.copy')}</a>
-            <Divider type="vertical" />
-            <a onClick={() => {}}>{this.$t('common.paste')}</a>
+        {title: '审批流', dataIndex: 'operate', width: '8%', render: (desc,record) => (
+          <span>
+            <a onClick={e => this.handleCopy(e,record)}>{this.$t('common.copy')}</a>
+            {!!this.state.sourceFormOid&&
+              <span>
+                <Divider type="vertical" />
+                <a onClick={(e) => this.showConfirmModal(e,record)}>{this.$t('common.paste')}</a>
+              </span>
+            }
           </span>
-          )}
+        )}
       ] //集团模式下columns
     };
     this.handleDocType = debounce(this.handleDocType, 500);
@@ -191,6 +191,12 @@ class FormList extends React.Component {
         message.error(this.$t('common.error'));
       });
     }
+    this.getSystemValueList('SYS_APPROVAL_FORM_TYPE').then(res=>{
+      console.log(res)
+      this.setState({
+        documentType: res.data.values
+      })
+    })
   }
 
 /*  componentWillMount() {
@@ -202,6 +208,42 @@ class FormList extends React.Component {
      // this.getFormListForSob();
     }
   }*/
+
+  handleCopy = (e,record)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ sourceFormOid: record.formOid})
+  };
+
+  handlePaste = (targetFormOid)=>{
+    this.setState({ loading: true });
+    let params = {
+      ...this.state.params,
+      booksID: this.props.tenantMode ? this.state.setOfBooksId : '',
+    };
+    workflowService.copyApproveChains(this.state.sourceFormOid, targetFormOid).then(() => {
+      workflowService.getWorkflowList(params).then(res => {
+        this.setState({
+          loading: false,
+          formList: res.data
+        })
+      });
+      message.success(this.$t('common.operate.success'))
+    }).catch((e) => {
+      this.setState({ loading: false })
+    })
+  };
+
+  //显示粘贴确认框
+  showConfirmModal = (e,record) => {
+    e.preventDefault();
+    e.stopPropagation();
+    Modal.confirm({
+      title: this.$t('setting.key1426'/*是否确认更改*/), //是否确认更改
+      content: this.$t('setting.key1427'/*粘贴后将覆盖原审批流*/), //粘贴后将覆盖原审批流
+      onOk: () => this.handlePaste(record.formOid)
+    })
+  };
 
   getList = () => {
     this.setState({ loading: true });
@@ -247,7 +289,6 @@ class FormList extends React.Component {
   };
 
   expandedRowRender =(record)=>{
-    console.log(record)
     return(<Row type="flex" style={{marginTop:10,marginBottom: -10}}>
       <Col>
         {
@@ -454,11 +495,12 @@ class FormList extends React.Component {
       columns, columnsTenant, formList, loading,
       columnsForSobFrom, formListForSob,
       setOfBooksId,
-      setOfBooksName
+      setOfBooksName,
+      documentType
     } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} >
-        {constants.documentType.map(item => <Menu.Item key={item.value}>{item.text}</Menu.Item>)}
+        {documentType.map(item => <Menu.Item key={item.value}>{item.name}</Menu.Item>)}
       </Menu>
     );
    /* const menuSetOfBooks = (
@@ -492,7 +534,7 @@ class FormList extends React.Component {
                   style={{ width: '100%' }}
                   placeholder={this.$t('common.please.select')}>
                   {
-                    constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
+                    documentType.map(item => <Option key={item.value}>{item.name}</Option>)
                   }
                 </Select>
               </Col>

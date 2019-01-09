@@ -510,7 +510,7 @@ class NewPrePaymentType extends React.Component {
             })(
               <Select placeholder={this.$t({ id: 'common.please.select' }) /* 请选择 */}>
                 {options.map(option => {
-                  return <Option key={option.value}>{option.messageKey}</Option>;
+                  return <Option key={option.value}>{option.name}</Option>;
                 })}
               </Select>
             )}
