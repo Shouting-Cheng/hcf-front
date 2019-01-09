@@ -2,7 +2,8 @@ import React from 'react';
 import { Modal, message, Button, Popconfirm, Select, Divider, DatePicker } from 'antd';
 import service from './service';
 import SearchArea from '../../components/Widget/search-area';
-import Table from 'widget/table'
+import Table from 'widget/table';
+import moment from 'moment';
 
 const Option = Select.Option;
 
@@ -11,82 +12,101 @@ class SelectRoles extends React.Component {
     super(props);
     this.state = {
       searchForm: [],
-      roleName: ['abc', 123],
-      permissions: ['demo', 'demo2'],
+      roleName: [],
+      dataAuthority: [],
       columns: [
         {
           title: '角色名称',
-          dataIndex: 'roleCode',
-          align: 'center',
-          render: (value, record, index) => {
-            if(record.status) {
-              return (
-                <Select
-                 defaultValue={value}
-                 style={{ width: '90%' }}
-                 onChange={(value) => this.rolChange(value, index)}
-                >
-                  {
-                    this.state.roleName.map((item, index) => {
-                      return <Option value={item} key={index}>{item}</Option>
-                    })
-                  }
-                </Select>
-              );
-            } else {
-              return value;
-            }
-          }
-        },
-        {
-          title: '数据权限名称',
           dataIndex: 'roleName',
           align: 'center',
           render: (value, record, index) => {
-            if(record.status) {
+            if (record.status) {
               return (
                 <Select
-                 defaultValue={value}
-                 style={{ width: "90%" }}
-                 onChange={(value) => this.permissionsChange(value, index)}
+                  defaultValue={{ key: record.roleId || '' }}
+                  style={{ width: '90%' }}
+                  onChange={(value) => this.rolChange(value, index)}
+                  labelInValue
                 >
-                  {
-                    this.state.permissions.map((item, index) => {
-                      return <Option value={item} key={index}>{item}</Option>
-                    })
-                  }
+                  {this.state.roleName.map(item => {
+                    return (
+                      <Option key={item.id}>
+                        {item.roleName}
+                      </Option>
+                    );
+                  })}
                 </Select>
               );
             } else {
               return value;
             }
-          }
+          },
         },
         {
-          title: '有效日期',
-          dataIndex: 'time',
+          title: '数据权限名称',
+          dataIndex: 'dataAuthorityName',
           align: 'center',
-          width: '250px',
           render: (value, record, index) => {
-            if(record.status) {
+            if (record.status) {
               return (
-                <>
-                  <DatePicker
-                    onChange={(date, dateString) => this.timeBeginChange(dateString, index)}
-                    placeholder="有效日期从"
-                    style={{ width: "48%", float: "left" }}
-                  />
-                  <DatePicker
-                    onChange={(date, dateString) => this.timeEndChange(dateString, index)}
-                    placeholder="有效日期至"
-                    style={{ width: "48%", float: "right" }}
-                  />
-                </>
-              )
+                <Select
+                  defaultValue={{ key: record.dataAuthorityId || '' }}
+                  style={{ width: '90%' }}
+                  onChange={(value) => this.dataAuthorityChange(value, index)}
+                  labelInValue
+                >
+                  {this.state.dataAuthority.map(item => {
+                    return (
+                      <Option key={item.id}>
+                        {item.dataAuthorityName}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              );
             } else {
               return value;
             }
-          }
+          },
+        },
+        {
+          title: '有效日期',
+          dataIndex: 'validDateFrom',
+          align: 'center',
+          width: '250px',
+          render: (value, record, index) => {
+            let validDateTo = record.validDateTo;
+            if (record.status) {
+              return (
+                <>
+                  <DatePicker
+                    defaultValue={value ? moment(value) : null}
+                    onChange={date => this.timeBeginChange(date, index)}
+                    placeholder="有效日期从"
+                    style={{ width: '48%', float: 'left' }}
+                  />
+                  <DatePicker
+                    defaultValue={validDateTo ? moment(validDateTo) : null}
+                    onChange={date => this.timeEndChange(date, index)}
+                    placeholder="有效日期至"
+                    style={{ width: '48%', float: 'right' }}
+                  />
+                </>
+              );
+            } else {
+              if (value) {
+                if (validDateTo) {
+                  return (
+                    moment(value).format('YYYY-MM-DD') +
+                    ' ~ ' +
+                    moment(validDateTo).format('YYYY-MM-DD')
+                  );
+                } else {
+                  return moment(value).format('YYYY-MM-DD') + '~';
+                }
+              }
+            }
+          },
         },
         {
           title: '操作',
@@ -94,7 +114,7 @@ class SelectRoles extends React.Component {
           align: 'center',
           width: '120px',
           render: (value, record, index) => {
-            if(record.status) {
+            if (record.status) {
               return (
                 <span>
                   <a onClick={() => this.saveRow(index)}>保存</a>
@@ -105,11 +125,17 @@ class SelectRoles extends React.Component {
             } else {
               return (
                 <span>
-                  <a onClick={() => {this.edit(record, index)}}>编辑</a>
+                  <a
+                    onClick={() => {
+                      this.edit(record, index);
+                    }}
+                  >
+                    编辑
+                  </a>
                   <Divider type="vertical" />
                   <Popconfirm
                     title="你确定要删除？"
-                    onConfirm={() => this.delete(record.id)}
+                    onConfirm={() => this.delete(record.id, index)}
                     okText="确定"
                     cancelText="取消"
                   >
@@ -118,10 +144,9 @@ class SelectRoles extends React.Component {
                 </span>
               );
             }
-          }
-        }
+          },
+        },
       ],
-      selectedRowKeys: [],
       dataSource: [],
       defaultIds: [],
       loading: false,
@@ -135,26 +160,28 @@ class SelectRoles extends React.Component {
         {
           label: '数据权限名称',
           type: 'input',
-          id: 'roleName2',
+          id: 'dataAuthorityName',
           colSpan: 7,
         },
         {
           label: '有效日期从',
           type: 'date',
-          id: 'time',
+          id: 'validDateFrom',
           colSpan: 5,
-          placeholder:'有效日期从'
+          placeholder: '有效日期从',
         },
         {
           label: '有效日期至',
           type: 'date',
-          id: 'time2',
+          id: 'validDateTo',
           colSpan: 5,
-          placeholder:'有效日期至'
+          placeholder: '有效日期至',
         },
       ],
-      editingKeys: [],
       dataCache: [],
+      pagination: {},
+      total: 10,
+      userId: this.props.userId,
     };
   }
 
@@ -164,59 +191,57 @@ class SelectRoles extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible && !this.props.visible) {
-      let params = { userId: nextProps.userId, queryFlag: 'ASSIGNED' };
-      this.getList();
-      service.getRoles(params).then(res => {
-        let ids = res.map(item => item.id);
-        this.setState({ selectedRowKeys: ids, defaultIds: ids });
-      });
+      this.setState({ userId: nextProps.userId }, this.getList);
     } else if (!nextProps.visible && this.props.visible) {
-      this.searchForm && this.searchForm.resetFields();
+      this.searchForm && this.searchForm.handleReset();
     }
   }
 
+  // 获取数据
   getList = values => {
-    let params = { userId: this.props.userId, queryFlag: 'ALL', ...values };
+    const { userId } = this.state;
+    let params = { userId, ...values };
     this.setState({ loading: true });
-    service.getRoles(params).then(res => {
-      this.setState({ dataSource: res, loading: false });
-    });
+    this.getSelectData();
+    service
+      .getRolesDistribute(params)
+      .then(res => {
+        this.setState({ dataSource: res.data, loading: false });
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
+        this.setState({ loading: false })
+      });
   };
 
-  //模态框底部确定
-  handleOk = () => {
-    let defaultIds = this.state.defaultIds;
-    let selectedRowKeys = this.state.selectedRowKeys;
-    let ids = [];
-
-    defaultIds.map(id => {
-      let index = selectedRowKeys.indexOf(id);
-      if (index < 0) {
-        ids.push({
-          roleId: id,
-          flag: 1002,
-        });
-      } else {
-        selectedRowKeys.splice(index, 1);
-      }
-    });
-
-    selectedRowKeys.map(id => {
-      ids.push({
-        roleId: id,
-        flag: 1001,
+  // 角色 数据权限 下拉框的数据
+  getSelectData = () => {
+    service
+      .getAllRoles()
+      .then(res => {
+        this.setState({ roleName: res.data });
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
       });
-    });
 
-    let result = {
-      userId: this.props.userId,
-      assignRoleList: ids,
-    };
+    service
+      .getDataAuthority()
+      .then(res => {
+        this.setState({ dataAuthority: res.data });
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
+      });
+  };
 
-    service.assignRoles(result).then(res => {
-      message.success('分配成功！');
-      this.props.onCancel && this.props.onCancel(true);
-    });
+  //模态框底部确定 取消
+  handleOk = () => {
+    if(this.state.dataCache.join('')) {
+      message.warning('你还有未保存的修改');
+    } else {
+      this.props.onCancel && this.props.onCancel();
+    }
   };
 
   //模态框底部取消
@@ -226,100 +251,168 @@ class SelectRoles extends React.Component {
 
   // 搜索
   search = values => {
-    this.getList(values || {});
+    let params = {
+      ...values,
+      validDateFrom: values.validDateFrom.format(),
+      validDateTo: values.validDateTo.format(),
+    }
+    this.getList(params);
   };
 
   // 编辑
   edit = (record, index) => {
     const { dataSource, dataCache } = this.state;
-    record.status = true;
+    record.status = 'edit';
     record.needCache = true;
     dataCache[index] = record;
     this.setState({ dataSource, dataCache });
-  }
+  };
 
   //新增一行
   newRow = () => {
-    const { dataSource, dataCache } = this.state;
-    const id = new Date().getTime();
-    const index = dataSource.length;
-    const empty = { status: true, id };
+    const { dataSource, dataCache, userId } = this.state;
+    const empty = { status: 'new', id: new Date().getTime(), userId };
+    dataCache[dataSource.length] = empty;
     dataSource.push(empty);
-    dataCache[index] = empty;
+    this.getSelectData();
     this.setState({ dataSource, dataCache });
+  };
 
-  }
-
-  //取消
+  //编辑时的取消
   cancel = (record, index) => {
     const { dataSource, dataCache } = this.state;
     const flag = record.needCache;
     record.status = false;
-    if(!flag) {
+    if (flag) {
+      dataCache[index] = '';
+    } else {
       dataSource.splice(index, 1);
+      dataCache.splice(index, 1);
     }
-    dataCache.splice(index, 1);
     this.setState({ dataSource, dataCache });
-  }
+  };
 
   // 删除
-  delete = (id) => {
-    console.log(id);
-  }
+  delete = (id, index) => {
+    const { dataCache, dataSource } = this.state;
+    service
+      .deleteRolesAuthority(id)
+      .then(() => {
+        dataSource.splice(index, 1);
+        dataCache.splice(index, 1);
+        this.setState({ dataSource, dataCache }, () => {
+          message.success('删除成功');
+        });
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
+      });
+  };
 
   // 保存全部
   saveAll = () => {
     const { dataCache } = this.state;
-    console.log(dataCache)
-  }
+    if(dataCache.join('')) {
+      let newData = [], editData = [];
+      dataCache.forEach(item => {
+        switch(item.status) {
+          case 'new':
+            newData.push(item); break;
+          case 'edit':
+            editData.push(item); break;
+        }
+      })
+      newData.length && service.batchSaveRolesAuthority(newData).then(res => {
+        console.log(res.data);
+      })
+      editData.length && service.batchUpdateRolesAuthority(editData).then(res => {
+        console.log(res.data);
+      })
+    } else {
+      message.warning('没有需要保存的数据');
+    }
+  };
 
   // 保存一行
-  saveRow = (index) => {
-    const { dataCache } = this.state;
-    console.log(dataCache[index]);
-  }
+  saveRow = index => {
+    const { dataCache, dataSource } = this.state;
+    const data = { ...dataCache[index] };
+    let saveMethod;
+    if (data.status === 'new') {
+      saveMethod = service.saveRolesAuthority;
+      delete data.id;
+    } else if (data.status === 'edit') {
+      saveMethod = service.updateRolesAuthority;
+    }
+    delete data.status;
+    saveMethod && saveMethod(data)
+      .then(res => {
+        dataSource[index] = { ...dataCache[index], ...res.data, status: false };
+        dataCache[index] = '';
+        this.setState({ dataSource, dataCache });
+        message.success('保存成功');
+      })
+      .catch(err => {
+        message.error(err.response.data.message);
+      });
+  };
 
   // 角色下拉框改变 回调
   rolChange = (value, index) => {
     const { dataCache } = this.state;
-    dataCache[index].roleCode = value;
-  }
+    dataCache[index].roleId = value.key;
+    dataCache[index].roleName = value.label.split('-')[1];
+  };
 
   // 数据权限改变 回调
-  permissionsChange = (value, index) => {
+  dataAuthorityChange = (value, index) => {
     const { dataCache } = this.state;
-    dataCache[index].roleName = value;
-  }
+    dataCache[index].dataAuthorityId = value.key;
+    dataCache[index].dataAuthorityName = value.label.split('-')[1];
+  };
 
   //选择日期从 的回调
-  timeBeginChange = (dateString, index) => {
+  timeBeginChange = (date, index) => {
     const { dataCache } = this.state;
-    dataCache[index].timeBegin = dateString;
-  }
+    dataCache[index].validDateFrom = date.format();
+  };
 
   //选择日期至 的回调
-  timeEndChange = (dateString, index) => {
+  timeEndChange = (date, index) => {
     const { dataCache } = this.state;
-    dataCache[index].timeEnd = dateString;
-  }
+    dataCache[index].validDateTo = date.format();
+  };
 
   render() {
-    const { searchForm, dataSource, dataCache, columns, loading } = this.state;
+    const { searchForm, dataSource, dataCache, columns, loading, pagination } = this.state;
     const { visible } = this.props;
 
     return (
       <Modal
-        title="选择角色"
+        title="分配权限"
         visible={visible}
         onOk={this.handleOk}
         width={800}
-        onCancel={this.handleCancel}
+        onCancel={this.handleOk}
         className="list-selector"
       >
-        <SearchArea searchForm={searchForm} submitHandle={this.search} clearText="重置" />
-        <div style={{ margin: '16px 0' }} >
-          <Button type="primary" onClick={this.newRow}>添加</Button>
-          <Button style={{ marginLeft: '15px' }} onClick={this.saveAll} type={dataCache.join('') ? 'primary' : ''}>保存</Button>
+        <SearchArea
+          onRef={ref => (this.searchForm = ref)}
+          searchForm={searchForm}
+          submitHandle={this.search}
+          clearText="重置"
+        />
+        <div style={{ margin: '16px 0' }}>
+          <Button type="primary" onClick={this.newRow}>
+            添加
+          </Button>
+          <Button
+            style={{ marginLeft: '15px' }}
+            onClick={this.saveAll}
+            type={dataCache.join('') ? 'primary' : ''}
+          >
+            保存
+          </Button>
         </div>
         <Table
           dataSource={dataSource}
@@ -328,6 +421,7 @@ class SelectRoles extends React.Component {
           bordered
           size="middle"
           loading={loading}
+          pagination={pagination}
         />
       </Modal>
     );
