@@ -38,14 +38,14 @@ class NewDimension extends React.Component{
       },
       selectorItem:{
         title: this.$t({id:'structure.selectDefaultDim'}),
-        url: `${config.baseUrl}/api/costcenter/items`,
+        url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
         searchForm: [
-          {type: 'input', id: 'code', label: this.$t({id:'structure.dimensionValueCode'})},
-          {type: 'input', id: 'name', label: this.$t({id:'structure.dimensionValueName'})},
+          {type: 'input', id: 'dimensionItemCode', label: this.$t({id:'structure.dimensionValueCode'})},
+          {type: 'input', id: 'dimensionItemName', label: this.$t({id:'structure.dimensionValueName'})},
         ],
         columns: [
-          {title: this.$t({id:'structure.dimensionValueCode'}), dataIndex: 'code'},
-          {title: this.$t({id:'structure.dimensionValueName'}), dataIndex: 'name'},
+          {title: this.$t({id:'structure.dimensionValueCode'}), dataIndex: 'dimensionItemCode'},
+          {title: this.$t({id:'structure.dimensionValueName'}), dataIndex: 'dimensionItemName'},
         ],
         key: 'id'
       },
@@ -264,7 +264,7 @@ class NewDimension extends React.Component{
                           labelKey="code"
                           valueKey="id"
                           selectorItem={selectorItem}
-                          listExtraParams={{costCenterId: dimensionCode.length>0? dimensionCode[0].dimensionId : null}}
+                          listExtraParams={{dimensionId: dimensionCode.length>0? dimensionCode[0].dimensionId : null}}
                           onChange={this.handleDimensionValue}/>
                     }
                   </div>

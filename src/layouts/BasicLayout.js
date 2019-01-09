@@ -412,7 +412,13 @@ class BasicLayout extends React.Component {
         payload: result,
       });
 
-      resolve();
+      try {
+        await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
+        resolve();
+
+      } catch (e) {
+        resolve();
+      }
 
     });
   };

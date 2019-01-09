@@ -210,8 +210,8 @@ class NewBudgetRulesDetail extends React.Component {
     budgetService.getCostCenter(params).then((response) => {
       response.data.map((item) => {
         let option = {
-          id: item.code + "+" + item.costCenterOid + "+" + item.id,
-          value: item.name,
+          id: item.dimensionCode + "+" + item.id,
+          value: item.dimensionName,
         };
         array.addIfNotExist(option);
         this.setState({
@@ -407,7 +407,7 @@ class NewBudgetRulesDetail extends React.Component {
                             temp = {
                               type: 'BGT_RULE_PARAMETER_DIM',
                               listType: 'cost_center_item_by_id',
-                              listExtraParams: { costCenterId: value.split("+")[2] },
+                              listExtraParams: { dimensionId: value.split("+")[2] },
                               codeKey: 'code'
                             }
                           } else {

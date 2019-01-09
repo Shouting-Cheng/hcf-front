@@ -453,9 +453,9 @@ class ConditionForm extends React.Component {
         break;
       case 'select_cost_center':
         let costCenterSelectorItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
-        costCenterSelectorItem.url = `${config.baseUrl}/api/cost/center/items/${item.customEnumerationOid}/all`;
+        costCenterSelectorItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${item.dimensionId}`;
         if (costCenterSelectorItem.searchForm && costCenterSelectorItem.searchForm.length) {
-          costCenterSelectorItem.searchForm[0].id = 'keyword';
+          costCenterSelectorItem.searchForm[0].id = 'dimensionItemName';
         }
         this.setState({
           costCenterSelectorItem,
@@ -605,9 +605,9 @@ class ConditionForm extends React.Component {
     let costCenterValue = [];
     let showValue = {}; //用于编辑状态下显示成本中心值，避免请求接口去获取显示值
     values.result.map(item => {
-      oid.push(item.costCenterItemOid);
-      costCenterValue.push({ costCenterItemOid: item.costCenterItemOid });
-      showValue[item.costCenterItemOid] = item.name
+      oid.push(item.id);
+      costCenterValue.push({ id: item.id });
+      showValue[item.id] = item.dimensionItemName
     });
     condition.map((item, index) => {
       if (item.remark === 'select_cost_center' && item.field === currCostCenter.field && item.refCostCenterOid === currCostCenter.refCostCenterOid) {
@@ -1470,8 +1470,8 @@ class ConditionForm extends React.Component {
         />
         <ListSelector selectorItem={costCenterSelectorItem}
           visible={costCenterVisible}
-          valueKey="costCenterItemOid"
-          labelKey="name"
+          valueKey="id"
+          labelKey="dimensionItemName"
           selectedData={costCenterValue}
           onOk={this.handleAddCostCenter}
           onCancel={() => this.setState({ costCenterVisible: false })}

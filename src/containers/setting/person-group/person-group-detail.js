@@ -81,17 +81,17 @@ class PersonGroupDetail extends React.Component {
                         {
                             /*工号*/
                             title: this.$t({ id: 'person.group.rule.employeeID' }),
-                            key: 'employeeID',
-                            dataIndex: 'employeeID',
+                            key: 'employeeId',
+                            dataIndex: 'employeeId',
                             width: '8%',
                         },
                         {
                             /*部门*/
                             title: this.$t({ id: 'person.group.rule.dep1' }),
-                            key: 'department',
-                            dataIndex: 'department',
+                            key: 'departmentName',
+                            dataIndex: 'departmentName',
                             width: '10%',
-                            render: department => (department ? department.name : ''),
+                           
                         },
                         {
                             //操作
@@ -197,6 +197,7 @@ class PersonGroupDetail extends React.Component {
             userGroupOid: this.state.userGroupOid,
             userOids: [record.userOid],
         };
+        console.log(param)
         PGService.deletePersonGroupPerson(param).then(() => {
             this.getList(this.state.nowStatus);
         });
@@ -226,6 +227,7 @@ class PersonGroupDetail extends React.Component {
             };
             PGService.getPersonGroupPersons(this.props.match.params.id, params)
                 .then(response => {
+                    console.log(response);
                     response.data.map((item, index) => {
                         item.key = item.id ? item.id : index;
                     });
@@ -780,7 +782,7 @@ class PersonGroupDetail extends React.Component {
                             <Input
                                 className="rule-user-name-search"
                                 key={'rule-UserName-search'}
-                                placeholder={this.$t({ id: 'cost.center.item.detail.inp1' })}
+                                placeholder={this.$t({ id: 'dimension.item.detail.inp1' })}
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                 suffix={suffix}
                                 value={this.state.keywordUserName}

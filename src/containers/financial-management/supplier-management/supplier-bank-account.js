@@ -226,16 +226,14 @@ class SupplierBankAccount extends React.Component {
     params.size = pagination.pageSize;
     vendorService.getBanks(params).then(response => {
       let i = 0;
-      response.data.body.map(item => {
+      response.data.map(item => {
         item.key = item.id;
         item.ordinalNumber = pagination.page * pagination.pageSize + ++i;
       });
-      pagination.total = Number(response.headers['x-total-count'])
-        ? Number(response.headers['x-total-count'])
-        : 0;
+      pagination.total = Number(response.headers['x-total-count']) ? Number(response.headers['x-total-count']) : 0;
       this.setState({
         loading: false,
-        data: response.data.body,
+        data: response.data,
         pagination,
       });
     });

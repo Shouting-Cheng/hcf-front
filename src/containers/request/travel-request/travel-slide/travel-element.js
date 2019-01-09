@@ -255,30 +255,30 @@ class TravelElement extends React.Component {
               travelElementCustomField.customFormFields &&
               travelElementCustomField.customFormFields.map(item => {
                 let selectorItem = {
-                  url: `${config.baseUrl}/api/my/cost/center/items/${item.dataSource &&
-                    JSON.parse(item.dataSource || '{}').costCenterOid}?page=0&size=1000`,
-                  label: 'name',
-                  key: 'costCenterItemOid',
+                  url: `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${item.dataSource &&
+                    JSON.parse(item.dataSource || '{}').dimensionId}?page=0&size=1000`,
+                  label: 'dimensionItemName',
+                  key: 'id',
                   offlineSearchMode: true,
                 };
                 let chooseItem = {
                   title: item.fieldName,
-                  url: `${config.baseUrl}/api/my/cost/center/items/${item.dataSource &&
-                    JSON.parse(item.dataSource || '{}').costCenterOid}`,
+                  url: `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${item.dataSource &&
+                    JSON.parse(item.dataSource || '{}').dimensionId}`,
                   searchForm: [
                     {
                       type: 'input',
-                      id: 'name',
+                      id: 'dimensionItemName',
                       label: item.fieldName,
                     },
                   ],
                   columns: [
                     {
                       title: item.fieldName,
-                      dataIndex: 'name',
+                      dataIndex: 'dimensionItemName',
                     },
                   ],
-                  key: 'costCenterItemOid',
+                  key: 'id',
                 };
                 return (
                   <FormItem {...formItemLayout} label={item.fieldName} key={item.fieldOid}>
@@ -297,8 +297,8 @@ class TravelElement extends React.Component {
                         item.fieldCode === 'cust_customer' ? (
                           <Chooser
                             selectorItem={chooseItem}
-                            valueKey={'code'}
-                            labelKey={'name'}
+                            valueKey={'id'}
+                            labelKey={'dimensionItemName'}
                             single={true}
                           />
                         ) : (

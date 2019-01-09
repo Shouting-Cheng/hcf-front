@@ -174,7 +174,7 @@ class WidgetSetting extends React.Component {
     });
     return (
       <div>
-        <div className="form-title">{this.$t('widget.field.cost.center') /*选择成本中心*/}</div>
+        <div className="form-title">{this.$t('widget.field.dimension') /*选择成本中心*/}</div>
         <Select
           disabled={this.props.disabled}
           onChange={value => this.handleChangeAttr(value, 'dataSource', 'costCenterOid')}
@@ -1247,7 +1247,7 @@ class WidgetSetting extends React.Component {
                     {this.$t('widget.field.readonly')}
                     <span className="default-span">
                       {this.$t(
-                        'widget.field.cost.center.only'
+                        'widget.field.dimension.only'
                       ) /*适用于有默认值带入且不允许修改，谨慎勾选使用*/}
                     </span>
                   </Checkbox>

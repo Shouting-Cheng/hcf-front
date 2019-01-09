@@ -99,11 +99,11 @@ class ExpenseAllocateForm extends React.Component {
    */
   departmentChange = (v, index, count, type) => {
     this.value[index].costCenterItems[count].name = v[0] ? v[0].name : undefined;
-    this.value[index].costCenterItems[count].costCenterOid = v[0] ? v[0][type] : undefined;
+    this.value[index].costCenterItems[count].dimensionId = v[0] ? v[0][type] : undefined;
     this.value[index].hashStr = '';
     this.value[index].costCenterItems.map((item, num) => {
-      if (item.costCenterOid) {
-        this.value[index].hashStr = this.value[index].hashStr + item.costCenterOid;
+      if (item.dimensionId) {
+        this.value[index].hashStr = this.value[index].hashStr + item.dimensionId;
       }
     });
     this.updateTable(this.value);
@@ -300,20 +300,20 @@ class ExpenseAllocateForm extends React.Component {
       //成本中心
       let defaultValue = JSON.parse(
         JSON.stringify([
-          { name: record['name' + count], costCenterItemOid: record['costCenterOid' + count] },
+          { name: record['dimensionItemName' + count], id: record['dimensioinId' + count] },
         ])
       );
       const chooserItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
-      chooserItem.url = `${config.baseUrl}/api/my/cost/center/items/${
+      chooserItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${
         record['costCenter' + JSON.stringify(count)]
       }`;
       return (
         <Chooser
           selectorItem={chooserItem}
-          valueKey="costCenterItemOid"
-          labelKey="name"
-          onChange={v => this.departmentChange(v, index, count, 'costCenterItemOid')}
-          value={record['name' + count] ? defaultValue : null}
+          valueKey="id"
+          labelKey="dimensionItemName"
+          onChange={v => this.departmentChange(v, index, count, 'id')}
+          value={record['dimensionItemName' + count] ? defaultValue : null}
           disabled={record.defaultApportion ? true : false}
           single
         />

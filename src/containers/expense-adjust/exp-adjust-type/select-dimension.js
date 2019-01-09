@@ -18,8 +18,8 @@ class SelectDimension extends Component {
             range: 'all'
           },
             columns: [
-                { title: this.$t({ id: 'adjust.dimension.code' }/*维度代码*/), dataIndex: 'code' },
-                { title: this.$t({ id: 'adjust.dimension.name' }/*维度名称*/), dataIndex: 'name' }
+                { title: this.$t({ id: 'adjust.dimension.code' }/*维度代码*/), dataIndex: 'dimensionCode' },
+                { title: this.$t({ id: 'adjust.dimension.name' }/*维度名称*/), dataIndex: 'dimensionName' }
             ],
             selectedData: [],
             pagination: { total: 0 },
@@ -82,8 +82,8 @@ class SelectDimension extends Component {
             page: this.state.page,
             size: this.state.pageSize,
             setOfBooksId: this.props.params.setOfBooksId,
-            code: this.state.searchParams.code,
-            name: this.state.searchParams.name
+            dimensionCode: this.state.searchParams.code,
+            dimensionName: this.state.searchParams.name
         };
         return expAdjustService.getDimension(params).then(res => {
             this.setState({

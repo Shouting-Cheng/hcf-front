@@ -34,13 +34,11 @@ class ExpenseTypeCustom extends React.Component {
   componentWillMount() {
     Promise.all([
       expenseTypeService.getWidgetList(),
-      formService.getCustomEnumeration(0, 100, true),
-      formService.getExpenseReportScope(4003)
+      formService.getCustomEnumeration(0, 100, true, "CUSTOM"),
     ]).then(res => {
       this.setState({
         customWidget: res[0].data,
         customEnumeration: res[1].data,
-        reportValueList: res[2].data.values || [],
         loading: false
       })
     });
@@ -362,7 +360,7 @@ class ExpenseTypeCustom extends React.Component {
                         filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                         disabled={!tenantMode}>
                         {customEnumeration.map(enumeration =>
-                          <Option value={enumeration.customEnumerationOid}
+                          <Option value={enumeration.codeOid}
                             key={enumeration.customEnumerationOid}>{enumeration.name}</Option>)}
                       </Select>}
                     </div>

@@ -89,18 +89,18 @@ class NewShare extends Component {
             if (this.state.defaultApportion.costCenterItems && this.state.defaultApportion.costCenterItems.length) {
                 this.state.defaultApportion.costCenterItems.map(o => {
                     cols.push({
-                        title: o.fieldName, dataIndex: o.costCenterOid, key: o.costCenterOid, width: 180, render: (value, record, index) => {
+                        title: o.fieldName, dataIndex: o.dimensionId, key: o.dimensionId, width: 180, render: (value, record, index) => {
                             return (record.status == "edit" || record.status == "new") ? (
-                                <Select labelInValue value={value} onChange={(val) => this.centerChange(index, val, o.costCenterOid)} onFocus={() => this.handleFocus(o.costCenterOid)} >
+                                <Select labelInValue value={value} onChange={(val) => this.centerChange(index, val, o.dimensionId)} onFocus={() => this.handleFocus(o.dimensionId)} >
                                     {
-                                        this.state.costCenterData[o.costCenterOid] && this.state.costCenterData[o.costCenterOid].map(item => {
+                                        this.state.costCenterData[o.dimensionId] && this.state.costCenterData[o.dimensionId].map(item => {
                                             return (
                                                 <Select.Option key={parseInt(item.id)} value={parseInt(item.id)}>{item.name}</Select.Option>
                                             )
                                         })
                                     }
                                 </Select>
-                            ) : <span>{record[o.costCenterOid].label}</span>
+                            ) : <span>{record[o.dimensionId].label}</span>
                         }
                     })
                 })
@@ -142,7 +142,7 @@ class NewShare extends Component {
             // }
 
             // this.state.defaultApportion.costCenterItems.map(o => {
-            //     columns.push({ title: o.fieldName, dataIndex: o.costCenterOid, key: o.costCenterOid })
+            //     columns.push({ title: o.fieldName, dataIndex: o.dimensionId, key: o.dimensionId })
             // })
             let optionCol = this.state.optionCol;
 
@@ -219,7 +219,7 @@ class NewShare extends Component {
 
         if (this.state.defaultApportion.costCenterItems && this.state.defaultApportion.costCenterItems.length) {
             this.state.defaultApportion.costCenterItems.map(o => {
-                if (!record[o.costCenterOid] || !record[o.costCenterOid].key) {
+                if (!record[o.dimensionId] || !record[o.dimensionId].key) {
                     message.error(this.$t('exp.validate.cos'));
                     error = true;
                 }
@@ -236,12 +236,12 @@ class NewShare extends Component {
     };
 
     //成本中心得到焦点时
-    handleFocus = (oid) => {
-        if (this.state.costCenterData[oid]) return;
+    handleFocus = (dimensionId) => {
+        if (this.state.costCenterData[dimensionId]) return;
 
         let costCenterData = { ...this.state.costCenterData };
-        reimburseService.getCostList(oid).then(res => {
-            costCenterData[oid] = res.data;
+        reimburseService.getCostList(dimensionId).then(res => {
+            costCenterData[dimensionId] = res.data;
             this.setState({ costCenterData });
         })
     };

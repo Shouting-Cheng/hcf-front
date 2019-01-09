@@ -1,7 +1,7 @@
 {
-  "new.cost.center.name": "Name",
-  "new.cost.center.code": "Code",
-  "new.cost.center.max36.char": "Up to 36 characters, only letters and numbers",
-  "new.cost.center.tip1": "Note: the cost center code will not be modified after it is saved",
-  "new.cost.center.sob": "Set of books"
+  "new.dimension.name": "Name",
+  "new.dimension.code": "Code",
+  "new.dimension.max36.char": "Up to 36 characters, only letters and numbers",
+  "new.dimension.tip1": "Note: the dimension code will not be modified after it is saved",
+  "new.dimension.sob": "Set of books"
 }

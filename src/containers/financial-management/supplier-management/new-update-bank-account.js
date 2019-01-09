@@ -60,20 +60,6 @@ class NewUpdateBankAccount extends React.Component {
     }
   }
 
-  /*
-  componentWillReceiveProps(nextProps) {
-    let params = nextProps.params;
-    if (JSON.stringify(params) === '{}') {
-      this.props.form.resetFields();
-      notification.close('section');
-      this.setState({
-        enabled: true,
-        isMainAccount: true
-      })
-    }
-  }
-*/
-
   statusChange = () => {
 
     let { enabled } = this.state;
@@ -102,40 +88,22 @@ class NewUpdateBankAccount extends React.Component {
     } else {
       method = vendorService.addBankCardInfo(values);
     }
-    method
-      .then(response => {
-        if (response.data.code === '0000') {
-          this.props.form.resetFields();
-          this.setState({ loading: false });
-          this.props.onClose(true);
-        } else {
-          message.warning(`保存失败,${respone.data.msg}`);
-          this.setState({ loading: false });
-          return;
-        }
-      })
-      .catch(e => {
-        if (e.response) {
-          if (typeof this.state.bankInfo.id === 'undefined')
-            message.error(
-              `${this.$t('common.save.filed')}, ${
-              !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
-              }`
-            );
-          else
-            message.error(
-              `${this.$t('common.operate.filed')}, ${
-              !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
-              }`
-            );
-          this.setState({ loading: false });
-        }
-      });
+    method.then(response => {
+      this.setState({ loading: false });
+      this.props.onClose(true);
+    }).catch(e => {
+      if (e.response) {
+        if (typeof this.state.bankInfo.id === 'undefined')
+          message.error(`${this.$t('common.save.filed')}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+        else
+          message.error(`${this.$t('common.operate.filed')}, ${!!e.response.data.message ? e.response.data.message : e.response.data.errorCode}`);
+        this.setState({ loading: false });
+      }
+    });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         //判断银行卡号是否正确
@@ -160,9 +128,10 @@ class NewUpdateBankAccount extends React.Component {
         } else {
           method = vendorService.addBankCardInfo(values);
         }
-        method
-          .then(response => {
-            if (response.data.constraintFlag === 'false') {
+        method.then(response => {
+          message.success(this.$t(typeof this.state.bankInfo.id === 'undefined' ? 'structure.saveSuccess' : 'common.operate.success'));
+          this.props.onClose(true);
+           /* if (response.data.constraintFlag === 'false') {
               //弹框出提示
               notification.open({
                 message: (
@@ -210,7 +179,7 @@ class NewUpdateBankAccount extends React.Component {
             } else {
               if (response.data.code === '0000') {
                 if (typeof this.state.bankInfo.id === 'undefined') {
-                  message.success(this.$t('structure.saveSuccess')); /*保存成功！*/
+                  message.success(this.$t('structure.saveSuccess')); /!*保存成功！*!/
                 } else {
                   message.success(`${this.$t('common.operate.success')}`);
                 }
@@ -226,25 +195,24 @@ class NewUpdateBankAccount extends React.Component {
                 this.setState({ loading: false });
                 return;
               }
-            }
-          })
-          .catch(e => {
-            if (e.response) {
-              if (typeof this.state.bankInfo.id === 'undefined')
-                message.error(
-                  `${this.$t('common.save.filed')}, ${
-                  !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
-                  }`
-                );
-              else
-                message.error(
-                  `${this.$t('common.operate.filed')}, ${
-                  !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
-                  }`
-                );
-              this.setState({ loading: false });
-            }
-          });
+            }*/
+        }).catch(e => {
+          if (e.response) {
+            if (typeof this.state.bankInfo.id === 'undefined')
+              message.error(
+                `${this.$t('common.save.filed')}, ${
+                !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+                }`
+              );
+            else
+              message.error(
+                `${this.$t('common.operate.filed')}, ${
+                !!e.response.data.message ? e.response.data.message : e.response.data.errorCode
+                }`
+              );
+            this.setState({ loading: false });
+          }
+        });
       }
     });
   };
