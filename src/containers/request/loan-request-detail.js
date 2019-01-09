@@ -189,8 +189,8 @@ class LoanRequestDetail extends React.Component{
           });
           break;
         case 'select_cost_center':
-          field.value && httpFetch.get(`${config.baseUrl}/api/cost/center/item/${field.value}`).then(res => {
-            field.text = res.data.name;
+          field.value && httpFetch.get(`${config.baseUrl}/api/dimension/item/${field.value}`).then(res => {
+            field.text = res.data.dimensionItem.dimensionItemName;
             ++count === fields.length && this.setState({ bottomLoading: false, fields });
           });
           break;

@@ -50,7 +50,7 @@ export default {
 
   //获取成本中心
   getCostCenter(params){
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/company`,params)
+    return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond`,params)
   },
 
 }

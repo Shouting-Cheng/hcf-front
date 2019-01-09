@@ -220,7 +220,7 @@ class NewParameterDefinition extends React.Component {
         let params = this.props.params.nowTab === '1' ?
           {
             parameterCode: parameterCode,
-            parameterLevel: "COMPANY" ,
+            parameterLevel: "SOB" ,
             setOfBooksId: this.props.params.sob.id
           } :
           {
