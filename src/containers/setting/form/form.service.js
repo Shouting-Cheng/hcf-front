@@ -10,7 +10,7 @@ export default {
     //   fromType:"1",//查询的表单类型 1：公司表单 2：租户下表单
     //   booksID:"",//账套ID
     // }
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/company/all`, params)
+    return httpFetch.get(`${config.workflowUrl}/api/custom/forms/company/all`, params)
   },
 
   /**
@@ -18,7 +18,7 @@ export default {
    * @param data
    */
   setCompanyPermission(data){
-    return httpFetch.post(`${config.baseUrl}/api/custom/form/company/relation`, data)
+    return httpFetch.post(`${config.workflowUrl}/api/custom/form/company/relation`, data)
   },
 
   /**
@@ -27,7 +27,7 @@ export default {
    * @param type 1001 普通控件  1002 组合控件
    */
   getWidgetList(formType, type){
-    return httpFetch.get(`${config.baseUrl}/api/form/gui/widgets/all/filter`, {formType, type})
+    return httpFetch.get(`${config.workflowUrl}/api/form/gui/widgets/all/filter`, {formType, type})
   },
 
   /**
@@ -35,7 +35,7 @@ export default {
    * @param formOid
    */
   getFormDetail(formOid){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}/simple`)
+    return httpFetch.get(`${config.workflowUrl}/api/custom/forms/${formOid}/simple`)
   },
 
   /**
@@ -43,7 +43,7 @@ export default {
    * @param form
    */
   newFormDetail(form){
-    return httpFetch.post(`${config.baseUrl}/api/custom/forms`, form)
+    return httpFetch.post(`${config.workflowUrl}/api/custom/forms`, form)
   },
 
   /**
@@ -52,7 +52,7 @@ export default {
    * @return {AxiosPromise}
    */
   saveFormDetail(form){
-    return httpFetch.put(`${config.baseUrl}/api/custom/forms`, form)
+    return httpFetch.put(`${config.workflowUrl}/api/custom/forms`, form)
   },
 
   /**
@@ -61,21 +61,21 @@ export default {
    * @return {AxiosPromise}
    */
   saveForm(form){
-    return httpFetch.put(`${config.baseUrl}/api/custom/forms/all`, form)
+    return httpFetch.put(`${config.workflowUrl}/api/custom/forms/all`, form)
   },
 
   /**
    * 得到所有费用类型
    */
   getExpenseTypeList(){
-    return httpFetch.get(`${config.baseUrl}/api/expense/type/current/company/all`)
+    return httpFetch.get(`${config.workflowUrl}/api/expense/type/current/company/all`)
   },
 
   /**
    * 得到账套下所有费用类型
    */
   getExpenseTypeListByBooksID(booksID){
-    return httpFetch.get(`${config.baseUrl}/api/expense/type/by/setOfBooks?setOfBooksId=${booksID}`, {page : 0, size : 1000})
+    return httpFetch.get(`${config.workflowUrl}/api/expense/type/by/setOfBooks?setOfBooksId=${booksID}`, {page : 0, size : 1000})
   },
 
   /**
@@ -84,14 +84,14 @@ export default {
    * @param subsidyType  新差补费用的展示
    */
   getExpenseTypeScope(formOid, subsidyType){
-    return httpFetch.get(`${config.baseUrl}/api/v2/custom/forms/${formOid}/selected/expense/types`, {isAll: true, subsidyType: subsidyType})
+    return httpFetch.get(`${config.workflowUrl}/api/v2/custom/forms/${formOid}/selected/expense/types`, {isAll: true, subsidyType: subsidyType})
   },
 
   /**
    * 获得代入报表的可映射字段
    */
   getExpenseReportScope(type){
-    return httpFetch.get(`${config.baseUrl}/api/custom/enumeration/system/by/type`, {
+    return httpFetch.get(`${config.workflowUrl}/api/custom/enumeration/system/by/type`, {
       systemCustomEnumerationType: type
     })
   },
@@ -109,7 +109,7 @@ export default {
       expenseTypeOids.push(item.expenseTypeOid)
     });
     let params = { entityOid, expenseTypeOids, visibleScope  };
-    return httpFetch.post(`${config.baseUrl}/api/custom/forms/associate/expense/types`, params)
+    return httpFetch.post(`${config.workflowUrl}/api/custom/forms/associate/expense/types`, params)
   },
 
   /**
@@ -117,7 +117,7 @@ export default {
    * @param formOid  表单Oid
    */
   getUserScope(formOid){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/${formOid}/user/scope`)
+    return httpFetch.get(`${config.workflowUrl}/api/custom/forms/${formOid}/user/scope`)
   },
 
   /**
@@ -129,7 +129,7 @@ export default {
    * @return {*|AxiosPromise}
    */
   updateUserScope(params){
-    return httpFetch.post(`${config.baseUrl}/api/custom/forms/user/scope`, params)
+    return httpFetch.post(`${config.workflowUrl}/api/custom/forms/user/scope`, params)
   },
 
   /**
@@ -137,7 +137,7 @@ export default {
    * @param formOid
    */
   getFormPropertyList(formOid){
-    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOid}`)
+    return httpFetch.get(`${config.workflowUrl}/api/applications/propertyList/${formOid}`)
   },
 
   /**
@@ -146,7 +146,7 @@ export default {
    * @return {*|AxiosPromise}
    */
   saveFormProperty(data){
-    return httpFetch.post(`${config.baseUrl}/api/applications/property/export`, data)
+    return httpFetch.post(`${config.workflowUrl}/api/applications/property/export`, data)
   },
 
   /**
@@ -155,7 +155,7 @@ export default {
    * @return {*|AxiosPromise}
    */
   removeFormProperty(formOid, propertyNames){
-    return httpFetch.delete(`${config.baseUrl}/api/custom/forms/property?formOid=${formOid}&propertyNames=${propertyNames}`)
+    return httpFetch.delete(`${config.workflowUrl}/api/custom/forms/property?formOid=${formOid}&propertyNames=${propertyNames}`)
   },
 
   /**
@@ -166,9 +166,9 @@ export default {
    */
   getCustomEnumeration(page, size,isExtendField){
     if(isExtendField){
-      return httpFetch.get(`${config.baseUrl}/api/custom/enumerations/by/custom/form`, {page, size})
+      return httpFetch.get(`${config.workflowUrl}/api/custom/enumerations/by/custom/form`, {page, size})
     }else {
-      return httpFetch.get(`${config.baseUrl}/api/custom/enumerations`, {page, size})
+      return httpFetch.get(`${config.workflowUrl}/api/custom/enumerations`, {page, size})
     }
   },
 
@@ -177,34 +177,34 @@ export default {
    * @param formOid
    */
   getFormField (formOid){
-    return httpFetch.get(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOid}`)
+    return httpFetch.get(`${config.workflowUrl}/api/custom/forms/property/travel/configuration/${formOid}`)
   },
   /**
    * 得到表单配置页面里的表单字段propertyList
    * @param formOid
    */
   getPropertyList (formOid){
-    return httpFetch.get(`${config.baseUrl}/api/applications/propertyList/${formOid}`)
+    return httpFetch.get(`${config.workflowUrl}/api/applications/propertyList/${formOid}`)
   },
   /**
    * 点击供应商管控页面,行程表单页面的保存,二者调用的接口一样
    * @param formOid
    */
   saveSupplierForm (formOid, params){
-    return httpFetch.post(`${config.baseUrl}/api/custom/forms/property/travel/configuration/${formOid}`, params)
+    return httpFetch.post(`${config.workflowUrl}/api/custom/forms/property/travel/configuration/${formOid}`, params)
   },
   /**
    * 点击供应商管控页面,行程表单页面的保存,二者调用的接口一样
    * @param
    */
   saveHuilianyiForm (params){
-    return httpFetch.post(`${config.baseUrl}/api/applications/property/export`, params)
+    return httpFetch.post(`${config.workflowUrl}/api/applications/property/export`, params)
   },
   /**
    * 获取供应商管控页面select里面options的值
    * @param formOid
    */
   getSupplierOptions (formOid){
-    return httpFetch.get(`${config.baseUrl}/api/ctrip/cost/center/form/value/${formOid}`)
+    return httpFetch.get(`${config.workflowUrl}/api/ctrip/cost/center/form/value/${formOid}`)
   },
 }

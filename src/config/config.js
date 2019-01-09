@@ -2,6 +2,7 @@ const config = {
   appEnv: 'dev',
   // baseUrl: 'http://139.224.2.45:11024',
   baseUrl: '',
+  workflowUrl: '/workflow',
   //baseUrl: 'http://101.132.92.213:9083',
   receiptUrl: 'http://106.15.26.10:10080/receipt',
   budgetUrl: '/budget',
