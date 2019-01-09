@@ -3,7 +3,6 @@ import { Button, Input, Icon, Badge, Modal, Popconfirm, message } from 'antd';
 import CustomTable from 'widget/table';
 import BasicInfo from 'widget/basic-info';
 import ModalDimension from './modal-dimension';
-import { messages } from 'utils/utils';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import service from './dimension-group-service';
@@ -117,6 +116,8 @@ class DistributionDimension extends Component {
     service.getDimensionItem(params).then((res) => {
       let total = Number(res.headers['x-total-count']);
       this.setState({ data: res.data, loading: false, pagination: { ...pagination, total }, selectedKey: [] });
+    }).catch(err => {
+      message.error(err.response.data.message);
     })
   };
 
@@ -287,9 +288,4 @@ class DistributionDimension extends Component {
   }
 }
 
-export default connect(
-  null,
-  null,
-  null,
-  { withRef: true }
-)(DistributionDimension);
+export default connect()(DistributionDimension);
