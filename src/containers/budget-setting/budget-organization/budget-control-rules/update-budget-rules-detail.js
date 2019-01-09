@@ -206,7 +206,7 @@ class UpdateBudgetRulesDetail extends React.Component {
       if (param.ruleParameterType === 'BGT_RULE_PARAMETER_DIM') {
         let temp = {
           listType: 'cost_center_item_by_id',
-          listExtraParams: { costCenterId: param.ruleParameterId },
+          listExtraParams: { dimensionId: param.ruleParameterId },
           codeKey: 'code'
         };
         lov = temp;
@@ -290,8 +290,8 @@ class UpdateBudgetRulesDetail extends React.Component {
     budgetService.getCostCenter(params).then((response) => {
       response.data.map((item) => {
         let option = {
-          id: item.code + "+" + item.costCenterOid + "+" + item.id,
-          value: item.name,
+          id: item.dimensionCode + "+" + item.id,
+          value: item.dimensionName,
         };
         array.addIfNotExist(option);
         this.setState({
@@ -385,7 +385,7 @@ class UpdateBudgetRulesDetail extends React.Component {
     if (lov.type === 'BGT_RULE_PARAMETER_DIM') {
       temp = {
         listType: 'cost_center_item_by_id',
-        listExtraParams: { costCenterId: value.split("+")[2] },
+        listExtraParams: { dimensionId: value.split("+")[2] },
         codeKey: 'code'
       }
     } else {

@@ -1,18 +1,18 @@
 {
-  "cost.center.title": "成本中心名称",
+  "dimension.title": "维度名称",
 
-  "cost.center.code": "编码",
-  "cost.center.status": "状态",
-  "cost.center.dep": "部门",
-  "cost.center.disabled": "禁用中",
+  "dimension.code": "编码",
+  "dimension.status": "状态",
+  "dimension.dep": "部门",
+  "dimension.disabled": "禁用中",
 
-  "cost.center.enabled": "启用中",
-  "cost.center.sdisabled": "设为禁用",
-  "cost.center.senabled": "设为启用",
+  "dimension.enabled": "启用中",
+  "dimension.sdisabled": "设为禁用",
+  "dimension.senabled": "设为启用",
 
-  "cost.center.goto": "（部门为企业默认成本中心，部门维护请前往",
-  "cost.center.enterprise.org": "企业管理-组织架构",
-  "cost.center.page": "）页面",
+  "dimension.goto": "（部门为企业默认维度，部门维护请前往",
+  "dimension.enterprise.org": "企业管理-组织架构",
+  "dimension.page": "）页面",
 
-  "cost.center.extend.field": "成本中心项扩展字段"
+  "dimension.extend.field": "维度项扩展字段"
 }

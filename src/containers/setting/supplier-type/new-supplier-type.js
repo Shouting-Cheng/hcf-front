@@ -38,18 +38,12 @@ class NewSupplierType extends React.Component {
             ...this.props.params,
             ...values,
           };
-
           SupplierTypeService.addSupplierType(toValue)
             .then(res => {
-              if (res.data.code === '0000') {
-                this.setState({ loading: false });
-                this.props.form.resetFields();
-                this.props.onClose(true);
-                message.success(this.$t('common.operate.success'));
-              } else {
-                this.setState({ loading: false });
-                message.error(res.data.msg);
-              }
+              this.setState({ loading: false });
+              this.props.form.resetFields();
+              this.props.onClose(true);
+              message.success(this.$t('common.operate.success'));
             })
             .catch(e => {
               this.setState({ loading: false });
@@ -62,15 +56,10 @@ class NewSupplierType extends React.Component {
           };
           SupplierTypeService.updateSupplierType(toValue)
             .then(res => {
-              if (res.data.code === '0000') {
-                this.setState({ loading: false });
-                this.props.form.resetFields();
-                this.props.onClose(true);
-                message.success(this.$t('common.operate.success'));
-              } else {
-                this.setState({ loading: false });
-                message.error(res.data.msg);
-              }
+              this.setState({ loading: false });
+              this.props.form.resetFields();
+              this.props.onClose(true);
+              message.success(this.$t('common.operate.success'));
             })
             .catch(e => {
               this.setState({ loading: false });

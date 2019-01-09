@@ -17,38 +17,38 @@ class CostCenterSearchForm extends React.Component {
       data: [],
       columns: [
         {
-          title: this.$t('components.search.cost.center.name'),
-          key: 'costCenterOid',
-          dataIndex: 'costCenterOid',
+          title: this.$t('components.search.dimension.name'),
+          key: 'id',
+          dataIndex: 'id',
           render: (value, item) => {
             return this.renderName(item);
           },
         },
-        {
-          title: this.$t('components.search.cost.center.all.items'),
-          key: 'isAll',
-          width: '100px',
-          dataIndex: 'isAll',
-          render: (value, item) => {
-            return this.renderIsAll(item);
-          },
-        },
-        {
-          title: this.$t('components.search.cost.center.item.from'),
-          key: 'costCenterItemCodeFrom',
-          dataIndex: 'costCenterItemCodeFrom',
-          render: (value, item) => {
-            return this.renderSearchInput(item, 'costCenterItemCodeFrom');
-          },
-        },
-        {
-          title: this.$t('components.search.cost.center.item.to'),
-          key: 'costCenterItemCodeTo',
-          dataIndex: 'costCenterItemCodeTo',
-          render: (value, item) => {
-            return this.renderSearchInput(item, 'costCenterItemCodeTo');
-          },
-        },
+        // {
+        //   title: this.$t('components.search.dimension.all.items'),
+        //   key: 'isAll',
+        //   width: '100px',
+        //   dataIndex: 'isAll',
+        //   render: (value, item) => {
+        //     return this.renderIsAll(item);
+        //   },
+        // },
+        // {
+        //   title: this.$t('components.search.dimension.item.from'),
+        //   key: 'costCenterItemCodeFrom',
+        //   dataIndex: 'costCenterItemCodeFrom',
+        //   render: (value, item) => {
+        //     return this.renderSearchInput(item, 'costCenterItemCodeFrom');
+        //   },
+        // },
+        // {
+        //   title: this.$t('components.search.dimension.item.to'),
+        //   key: 'costCenterItemCodeTo',
+        //   dataIndex: 'costCenterItemCodeTo',
+        //   render: (value, item) => {
+        //     return this.renderSearchInput(item, 'costCenterItemCodeTo');
+        //   },
+        // },
       ],
     };
     this.getCodeOptions = debounce(this.getCodeOptions, 300);
@@ -74,10 +74,6 @@ class CostCenterSearchForm extends React.Component {
       this.getValidData(costCenters).forEach((item, index) => {
         data.push({
           id: index,
-          costCenterOid: undefined,
-          isAll: false,
-          costCenterItemCodeFrom: '',
-          costCenterItemCodeTo: '',
           options: [],
           fromCodeOptions: [],
           toCodeOptions: [],
@@ -86,11 +82,8 @@ class CostCenterSearchForm extends React.Component {
     value &&
       Array.isArray(value) &&
       this.getValidData(value).forEach((val, index) => {
-        data[index].costCenterOid = val.costCenterOid;
-        data[index].isAll = !val.costCenterItemCodeFrom && !val.costCenterItemCodeTo;
-        data[index].costCenterItemCodeFrom = val.costCenterItemCodeFrom;
-        data[index].costCenterItemCodeTo = val.costCenterItemCodeTo;
-        data[index].options = costCenters.filter(item => item.costCenterOid === val.costCenterOid);
+        data[index].id = val.id;
+        data[index].options = costCenters.filter(item => item.id === val.id);
       });
     this.setState({ data });
   };
@@ -101,10 +94,7 @@ class CostCenterSearchForm extends React.Component {
       this.getValidData(res.data).forEach((item, index) => {
         data.push({
           id: index,
-          costCenterOid: undefined,
-          isAll: false,
-          costCenterItemCodeFrom: '',
-          costCenterItemCodeTo: '',
+          dimensionId: undefined,
           options: [],
           fromCodeOptions: [],
           toCodeOptions: [],
@@ -162,12 +152,12 @@ class CostCenterSearchForm extends React.Component {
       return !1;
     }
     CostCenterSearchFormService.getCostCenterItems(
-      item.costCenterOid,
+      item.dimensionId,
       this.getParams({ item, value, key })
     ).then(res => {
       let data = res.data;
       data.forEach(item => {
-        item.name = `${item.code}-${item.name}`;
+        item.dimensionItemName = `${item.dimensionItemCode}-${item.dimensionItemName}`;
       });
       item[this.getCurrentCodeOptionKey(key)] = data;
       this.setState({ data: this.state.data });
@@ -183,7 +173,7 @@ class CostCenterSearchForm extends React.Component {
         value={item[key]}
         style={{ width: '100%' }}
         optionFilterProp="children"
-        placeholder={this.$t('components.search.cost.center.please.enter.item')}
+        placeholder={this.$t('components.search.dimension.please.enter.item')}
         onChange={value => this.changeCode({ value, item, key })}
         onBlur={() => {
           this.onBlur(item, key);
@@ -216,8 +206,8 @@ class CostCenterSearchForm extends React.Component {
     let options = [];
     costCenters.forEach(costCenter => {
       if (
-        !data.some(val => val.costCenterOid === costCenter.costCenterOid) ||
-        costCenter.costCenterOid === item.costCenterOid
+        !data.some(val => val.id === costCenter.id) ||
+        costCenter.id === item.id
       ) {
         options.push(costCenter);
       }
@@ -227,11 +217,8 @@ class CostCenterSearchForm extends React.Component {
   };
   // 改变成本中心名称
   changeName = (value, item) => {
-    item.costCenterOid = value;
-    item.isAll = !!value;
+    item.id = value;
     item.codeOptions = [];
-    item.costCenterItemCodeFrom = '';
-    item.costCenterItemCodeTo = '';
     this.setState({ data: this.state.data });
   };
   // name 渲染
@@ -239,7 +226,7 @@ class CostCenterSearchForm extends React.Component {
     return (
       <Select
         placeholder={this.$t('common.please.select')}
-        value={item.costCenterOid}
+        value={item.id}
         onChange={value => this.changeName(value, item)}
         allowClear
         style={{ width: '100%' }}
@@ -247,7 +234,7 @@ class CostCenterSearchForm extends React.Component {
         getPopupContainer={triggerNode => triggerNode.parentNode}
       >
         {item.options.map(option => {
-          return <Select.Option key={option.costCenterOid}>{option.name}</Select.Option>;
+          return <Select.Option key={option.id}>{option.dimensionName}</Select.Option>;
         })}
       </Select>
     );
@@ -302,8 +289,8 @@ class CostCenterSearchForm extends React.Component {
           <Alert
             message={
               <div>
-                <p style={{ margin: '0' }}>{this.$t('components.search.cost.center.tip1')}</p>
-                <p style={{ margin: '0' }}>{this.$t('components.search.cost.center.tip2')}</p>
+                <p style={{ margin: '0' }}>{this.$t('components.search.dimension.tip1')}</p>
+                <p style={{ margin: '0' }}>{this.$t('components.search.dimension.tip2')}</p>
               </div>
             }
             key={'info'}

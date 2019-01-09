@@ -36,7 +36,7 @@ export default {
      * 当参数类型是维度相关时，获取参数的接口
      */
     getDimensionRefParameters(setOfBooksId) {
-        return httpFetch.get(`${config.baseUrl}/api/cost/center/by/setOfBooks?setOfBooksId=${setOfBooksId}`)
+        return httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${setOfBooksId}`)
     },
     /**
      * 获取当前账套对应的预算组织数据

@@ -35,9 +35,9 @@
   "chooser.data.city": "City",
   "chooser.data.bank.address": "Bank address",
 
-  "chooser.data.costCenter.code": "Cost Center Code",
-  "chooser.data.costCenter": "Cost Center",
-  "chooser.data.costCenter.name": "Cost Center Name",
+  "chooser.data.dimension.code": "Dimension Code",
+  "chooser.data.dimension": "Dimension",
+  "chooser.data.dimension.name": "Dimension Name",
 
   "chooser.data.dep.code": "Dep. Code",
   "chooser.data.dep.title": "Dep.",

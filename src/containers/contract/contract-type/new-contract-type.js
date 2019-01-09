@@ -97,26 +97,18 @@ class NewContractType extends React.Component {
     }
   }
 
-  onFormFocus = () => {
-    this.getFormType();
-  };
   //获取关联表单类型
-  getFormType = () => {
-    //if(this.state.formTypeOptions.length) return;
-    this.setState({ fetching: true });
-    let setOfBooksId = this.state.data.setOfBooksId || this.props.params.setOfBooksId;
-    if (!setOfBooksId) {
-      setOfBooksId = 0;
-    }
-    httpFetch
-      .get(
-        `${
-          config.baseUrl
-        }/api/custom/forms/setOfBooks/my/available/all?formTypeId=801004&setOfBooksId=${setOfBooksId}`
-      )
-      .then(res => {
+  getFormType = (open) => {
+    if(open&&this.state.formTypeOptions.length === 0){
+      this.setState({ fetching: true });
+      let params = {
+        formTypeId: 801004,
+        setOfBooksId: this.state.data.setOfBooksId || this.props.params.setOfBooksId
+      };
+      httpFetch.get(`${config.workflowUrl}/api/custom/forms/setOfBooks/my/available/all`,params).then(res => {
         this.setState({ formTypeOptions: res.data, fetching: false });
       });
+    }
   };
 
   //状态改变
@@ -359,13 +351,7 @@ class NewContractType extends React.Component {
               initialValue: data.contractCategory,
             })(
               <Select placeholder={this.$t('common.please.select')} disabled={!!data.id}>
-                {contractCategory.map(option => {
-                  return (
-                    <Option key={option.value} value={option.value}>
-                      {option.messageKey}
-                    </Option>
-                  );
-                })}
+                {contractCategory.map(option => <Option key={option.value}>{option.name}</Option>)}
               </Select>
             )}
           </FormItem>
@@ -374,22 +360,22 @@ class NewContractType extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: this.$t('common.please.select'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
               initialValue: data.contractTypeCode,
-            })(<Input placeholder={this.$t('common.please.select')} disabled={!!data.id} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} disabled={!!data.id} />)}
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t('contract.type.name')}>
             {getFieldDecorator('contractTypeName', {
               rules: [
                 {
                   required: true,
-                  message: this.$t('common.please.select'),
+                  message: this.$t('common.please.enter'),
                 },
               ],
               initialValue: data.contractTypeName,
-            })(<Input placeholder={this.$t('common.please.select')} />)}
+            })(<Input placeholder={this.$t('common.please.enter')} />)}
           </FormItem>
           <FormItem {...formItemLayout} label={form_label}>
             {getFieldDecorator('formOid', {
@@ -397,19 +383,11 @@ class NewContractType extends React.Component {
             })(
               <Select
                 allowClear
-                onDropdownVisibleChange={this.onFormFocus}
+                onDropdownVisibleChange={this.getFormType}
                 placeholder={this.$t('common.please.select')}
-                notFoundContent={
-                  fetching ? <Spin size="small" /> : this.$t('my.contract.no.result')
-                }
+                notFoundContent={fetching ? <Spin size="small" /> : this.$t('my.contract.no.result')}
               >
-                {formTypeOptions.map(option => {
-                  return (
-                    <Option key={option.formOid} value={option.formOid}>
-                      {option.formName}
-                    </Option>
-                  );
-                })}
+                {formTypeOptions.map(option => <Option key={option.formOid}>{option.formName}</Option>)}
               </Select>
             )}
           </FormItem>

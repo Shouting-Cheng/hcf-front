@@ -443,7 +443,7 @@ class BudgetBalance extends React.Component {
         labelKey: 'name',
         valueKey: 'id',
         codeKey: 'code',
-        listExtraParams: { costCenterId: value, allFlag: true },
+        listExtraParams: { dimensionId: value, allFlag: true },
         selectorItem: undefined
       };
     }
@@ -463,10 +463,10 @@ class BudgetBalance extends React.Component {
     let type = typeParam ? typeParam : params[index].type;
 
     if (type === 'BGT_RULE_PARAMETER_DIM') {
-      httpFetch.get(`${config.baseUrl}/api/cost/center/by/setOfBooks?setOfBooksId=${this.props.company.setOfBooksId}`).then(res => {
+      httpFetch.get(`${config.baseUrl}/api/dimension/page/by/cond?setOfBooksId=${this.props.company.setOfBooksId}`).then(res => {
         let options = [];
         res.data.map(data => {
-          options.push({ label: data.name, value: data.id })
+          options.push({ label: data.dimensionName, value: data.id })
         });
         queryLineListParamOptions[type] = options;
         this.setState({ queryLineListParamOptions });
@@ -726,7 +726,7 @@ class BudgetBalance extends React.Component {
                 labelKey: 'name',
                 valueKey: 'id',
                 codeKey: 'code',
-                listExtraParams: { costCenterId: item.parameterCode, allFlag: true },
+                listExtraParams: { dimensionId: item.parameterCode, allFlag: true },
                 selectorItem: undefined
               };
             }
@@ -984,7 +984,7 @@ class BudgetBalance extends React.Component {
             labelKey: 'name',
             valueKey: 'id',
             codeKey: 'code',
-            listExtraParams: { costCenterId: item.parameterCode, allFlag: true },
+            listExtraParams: { dimensionId: item.parameterCode, allFlag: true },
             selectorItem: undefined
           };
         }

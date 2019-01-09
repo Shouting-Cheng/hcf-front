@@ -62,7 +62,7 @@ class CheckCostApplication extends React.Component {
         // {
         //   type: 'cost-center',
         //   id: 'searchCostCenterCommands',
-        //   label: this.$t('finance.audit.cost.center')//成本中心
+        //   label: this.$t('finance.audit.dimension')//成本中心
         // },
       ],
       checkboxListForm: [
@@ -367,9 +367,9 @@ class CheckCostApplication extends React.Component {
             <div>
               <div style={{ lineHeight: '28px' }}>
                 {/*成本中心*/}
-                {this.$t('finance.audit.cost.center')}
+                {this.$t('finance.audit.dimension')}
               </div>
-              <CostCenterSearchForm title={this.$t('finance.audit.cost.center')}
+              <CostCenterSearchForm title={this.$t('finance.audit.dimension')}
                 value={searchParams.searchCostCenterCommands}
                 onChange={this.changeCostCenter} />
             </div>

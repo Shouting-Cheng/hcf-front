@@ -71,9 +71,9 @@ export default {
     })
   },
   //查询人员组下面的人员
-  getPersonGroupPersons(oid,params) {
+  getPersonGroupPersons(userGroupOid,params) {
     return new Promise(function (resolve, reject) {
-      httpFetch.get(config.baseUrl + '/api/user/group/users/' + oid ,params)
+      httpFetch.get(config.baseUrl + '/api/user/groups/user/' + userGroupOid ,params)
         .then(function (res) {
           resolve(res)
         })
@@ -86,7 +86,7 @@ export default {
   //删除人员组的人
   deletePersonGroupPerson(params) {
     return new Promise(function (resolve, reject) {
-      httpFetch.delete(config.baseUrl + '/api/user/group/users',params)
+      httpFetch.delete(config.baseUrl + '/api/user/groups/user/delete',params)
         .then(function (res) {
           resolve(res)
         })
@@ -99,7 +99,7 @@ export default {
   //添加人员组的人
   addPersonGroupPerson(params) {
     return new Promise(function (resolve, reject) {
-      httpFetch.post(config.baseUrl + '/api/user/group/users',params)
+      httpFetch.post(config.baseUrl + '/api/user/groups/user/insert',params)
         .then(function (res) {
           resolve(res)
         })

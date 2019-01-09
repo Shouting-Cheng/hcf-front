@@ -81,11 +81,4 @@ export default {
   queryResults(page, size, id) {
     return httpFetch.get(`${config.budgetUrl}/api/budget/balance/query/results/${id}?page=${page}&size=${size}`);
   },
-  /**
-   * 查询所有成本中心
-   * @param {*} setOfBooksId
-   */
-  queryCostCenter(setOfBooksId) {
-    return httpFetch.get(`${config.baseUrl}/api/cost/center/by/setOfBooks?setOfBooksId=${setOfBooksId}`);
-  }
 }
