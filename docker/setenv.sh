@@ -84,6 +84,7 @@ server {
         proxy_pass http://$IP:$PORT/expense/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
+
     location /config/ {
         proxy_pass http://$IP:$PORT/artemis-sit/config/;
         client_max_body_size  $MAX_FILE_SIZE;
@@ -91,6 +92,11 @@ server {
 
     location /tx-manager/ {
         proxy_pass http://$IP:$PORT/tx-manager/;
+        client_max_body_size  $MAX_FILE_SIZE;
+    }
+
+    location /workflow/ {
+        proxy_pass http://$IP:$PORT/workflow/;
         client_max_body_size  $MAX_FILE_SIZE;
     }
 }
