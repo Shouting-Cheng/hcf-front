@@ -493,7 +493,7 @@ class BudgetBalance extends React.Component {
         labelKey: 'name',
         valueKey: 'id',
         codeKey: 'code',
-        listExtraParams: { costCenterId: value, allFlag: true },
+        listExtraParams: { dimensionId: value, allFlag: true },
         selectorItem: undefined,
       };
     }
@@ -852,7 +852,7 @@ class BudgetBalance extends React.Component {
                 labelKey: 'name',
                 valueKey: 'id',
                 codeKey: 'code',
-                listExtraParams: { costCenterId: item.parameterCode, allFlag: true },
+                listExtraParams: { dimensionId: item.parameterCode, allFlag: true },
                 selectorItem: undefined,
               };
             }

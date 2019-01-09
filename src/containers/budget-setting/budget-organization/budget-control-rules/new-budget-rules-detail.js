@@ -407,7 +407,7 @@ class NewBudgetRulesDetail extends React.Component {
                             temp = {
                               type: 'BGT_RULE_PARAMETER_DIM',
                               listType: 'cost_center_item_by_id',
-                              listExtraParams: { costCenterId: value.split("+")[2] },
+                              listExtraParams: { dimensionId: value.split("+")[2] },
                               codeKey: 'code'
                             }
                           } else {
