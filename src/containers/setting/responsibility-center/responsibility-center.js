@@ -24,7 +24,7 @@ class ResponsibilityCenter extends React.Component {
                     allowClear: false,
                     method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
                     event: 'SETOFBOOKSID',
-                    // defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
+                    defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
                     renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
                 },
                 { type: 'input', id: 'responsibilityCenterCode', label: '责任中心代码', colSpan: '6', },
@@ -44,7 +44,7 @@ class ResponsibilityCenter extends React.Component {
                     allowClear: false,
                     method: 'get', labelKey: 'setOfBooksName', valueKey: 'id',
                     event: 'SETOFBOOKSID',
-                    // defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
+                    defaultValue: `${props.company.setOfBooksId}-${props.company.setOfBooksName} `,
                     renderOption: data => `${data.setOfBooksCode} - ${data.setOfBooksName}`
                 },
                 { type: 'input', id: 'groupCode', label: '责任中心代码', colSpan: '6', },
@@ -114,7 +114,7 @@ class ResponsibilityCenter extends React.Component {
                     render: (text, record) => (
                         <span>
                             {/**添加责任中心 */}
-                            <a>添加责任中心</a>
+                            <a onClick={(e)=>this.addResponsibilityCenter(record)}>添加责任中心</a>
                         </span>
                     )
                 },
@@ -153,7 +153,12 @@ class ResponsibilityCenter extends React.Component {
             isNew: false,
             centerParams: {},
             centerVisible:false,
-            centerItem:{}
+            centerItem:{},
+            addCenterItem:{},
+            //添加责任中心显示模态框
+            addCenterVisible:false,
+            // 批量分配公司按钮显示模态框
+            companyButVisible:false
         }
     }
 
@@ -227,6 +232,45 @@ class ResponsibilityCenter extends React.Component {
             centerVisible: flag
         })
     }
+    // 添加责任中心按钮（gs）
+    addResponsibility=(flag)=>{
+      this.setState({
+        addCenterVisible: flag
+    })
+    }
+    addResponsibilityCenter=(record)=>{
+      const {setOfBooksId} = this.state;
+      const addCenterItem = {
+        title: '添加责任中心',
+        url:`${config.baseUrl}/api/responsibilityCenter/query?setOfBooksId=${setOfBooksId}`,
+        searchForm: [
+            { type: 'input', id: 'responsibilityCenterName', label: '责任中心', colSpan: '8',defaultValue: record.responsibilityCenterCode, },
+            {
+                type: 'select', id: 'enabled', label: '状态', options: [
+                    { value: true, label: '启用' },
+                    { value: false, label: '禁用' },
+                ], colSpan: '8',
+            },
+            { type: 'input', id: 'responsibilityCenterName', label: '查看', colSpan: '8', defaultValue: record.responsibilityCenterName,},
+
+        ],
+        columns: [
+            { title: "责任中心代码", dataIndex: 'responsibilityCenterCode' },
+            { title: "责任中心名称", dataIndex: 'responsibilityCenterName' },
+            { title: "状态", dataIndex: 'enabled' },
+
+        ],
+        key: 'id'
+    }
+    this.setState({
+        addCenterVisible: true,
+        addCenterItem
+    })
+    }
+    handleAddCenter=(value)=>{
+
+    }
+
     //勾选责任中心，多选
     onSelectItem = (record, selected) => {
         console.log(selected)
@@ -299,9 +343,41 @@ class ResponsibilityCenter extends React.Component {
             message.error("删除失败！");
         })
     }
+    // 批量分配公司按钮
+  //   addButCompany=()=>{
+  //     this.setState({companyButVisible: true});
+  //   }
+  //   onCompanyOk = value => {
+  //     const params = [];
+  //     value.result.map( item => {
+  //         params.push({
+  //            companyId: item.id,
+  //            companyCode: item.companyCode,
+  //            enabled: item.enabled,
+  //            dimensionItemId: this.state.dimensionItemId
+  //         });
+  //     });
+  //     dimensionValueService
+  //       .addNewCompanyData(params)
+  //       .then(res => {
+  //           message.success('分配成功');
+  //           this.getCompanyData();
+  //           this.setState({
+  //             companyVisible: false,
+  //             selectedRowKeys: []
+  //           });
+  //       })
+  //       .catch(err => {
+  //           this.setState({
+  //             companyVisible: false,
+  //             selectedRowKeys: []
+  //           });
+  //           message.error(err.response.data.message);
+  //       })
+  // }
     render() {
         const { cernterSearchForm, cernterColumns, selectedRowKeys, isNew, centerParams, tabVal, groupSearchForm, groupColumns, showCernterSlideFrame, showGroupSlideFrame, setOfBooksId,
-        searchGropParam,centerVisible,centerItem
+        searchGropParam,centerVisible,centerItem,addCenterVisible,addCenterItem,companyButVisible
         } = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -325,7 +401,7 @@ class ResponsibilityCenter extends React.Component {
                                 />
                                 <div className='btnMargin'>
                                     <Button type="primary" onClick={this.addCenter}>新建</Button>
-                                    <Button type="primary">批量分配公司</Button>
+                                    <Button type="primary" onClick={this.addButCompany}>批量分配公司</Button>
                                     <Button type="primary">导入</Button>
                                     <Button type="primary">导出</Button>
                                 </div>
@@ -356,6 +432,15 @@ class ResponsibilityCenter extends React.Component {
                             // onOk={this.handleTenantListOk}
                             onCancel={() => this.cancelAssignCompany(false)}
                             showSelectTotal={true}
+                        />
+                        {/* 添加责任中心 */}
+                         <ListSelector
+                            visible={addCenterVisible}
+                            selectorItem={addCenterItem}
+                            onOk={this.handleAddCenter}
+                            onCancel={() => this.addResponsibility(false)}
+                            showSelectTotal={true}
+                            single={false}
                         />
                     </TabPane>
                     <TabPane tab='责任中心组' key='cernterGroup'>
@@ -394,7 +479,15 @@ class ResponsibilityCenter extends React.Component {
 
                     </TabPane>
                 </Tabs>
-
+                {/* <ListSelector
+                  visible={companyButVisible}
+                  onCancel={this.onCompanyCancel}
+                  onOk={this.onCompanyOk}
+                  selectorItem={selectorItem}
+                  extraParams={{dimensionItemId}}
+                  single={false}
+                  showSelectTotal={true}
+               /> */}
             </div>
         )
     }

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { message, Icon, Tabs,Button,Input } from 'antd';
 import config from 'config';
+import httpFetch from 'share/httpFetch';
 import baseService from 'share/base.service'
 import CustomTable from 'components/Widget/custom-table';
 import SlideFrame from 'widget/slide-frame';
 import Responsibility from './new-responsibility';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import BasicInfo from './basic-info';
 const Search = Input.Search;
 
@@ -40,20 +42,23 @@ class ResponsibilityCenter extends Component {
         },
         {
           title:'默认责任中心',
-          dataIndex:'defaultResiponsibilityCenterName',
+          dataIndex:'defaultResponsibilityCenterName',
           align:'center'
         },
         {
           title:'可用责任中心',
-          dataIndex:'allResiponsibilityCenter',
-          align:'center'
+          dataIndex:'allResponsibilityCenter',
+          align:'center',
+          render: (value) => {
+            return Number(value) ? `已选${value}个` : '全部';
+          }
         },
         {
           title:'操作',
           dataIndex:'id',
           align:'center',
           render:(value,record,index)=>{
-            return(<span><a onClick={()=>{this.edit(record);}}>编辑</a></span>);
+            return(<span><a onClick={()=>{this.edit(record)}}>编辑</a></span>);
           }
         }
       ],
@@ -61,15 +66,44 @@ class ResponsibilityCenter extends Component {
       updateParams: {},
       showSlideFrame: false,
       allSetBooks: [],
-      infoData:{dimensionCode:123,dimensionName:123},
-      departmentId:"1077870291782524929",
-
+      pagination:{current: 1,},
+      searchParams: {},
+      page: 0,
+      infoData:{},
+      // departmentId:"1077870291782524929",
+      departmentId: this.props.match.params.departmentId
     }
   }
 
   componentDidMount() {
     this.getSetOfBookList();
   }
+
+  getDepartment = () => {
+    const id = this.state.departmentId;
+    service.getDimensionDetail(id).then(res => {
+      this.setState({
+        infoData: res.data,
+       });
+    }).catch(err => {
+      message.error(err.response.data.message);
+    })
+  }
+   // 通过部门oid查询部门详情
+  //  getDepDetailByDepOid(Dep) {
+  //   return new Promise((resolve, reject) => {
+  //     httpFetch
+  //       .get(config.baseUrl + '/api/departments/' + Dep.departmentOid)
+  //       .then(res => {
+  //         resolve(res);
+  //       })
+  //       .catch(err => {
+  //         errorMessage(err.response);
+  //         reject(err);
+  //       });
+  //   });
+  // }
+
 
   // 获取帐套
   getSetOfBookList = () => {
@@ -85,32 +119,41 @@ class ResponsibilityCenter extends Component {
   }
 
   // 编辑
-  edit = record => {
+  edit = (record) => {
     this.setState({
+      showSlideFrame: true,
       updateParams: JSON.parse(JSON.stringify(record)),
-    }, () => {
-      this.setState({ showSlideFrame: true })
     });
   };
 
   // 新建
-  createResponsion = () => {
+  createResponsion = (e) => {
+    e.preventDefault();
     this.setState({
       updateParams: {},
       showSlideFrame: true
-    }, () => {
-      this.setState({ showSlideFrame: true })
     });
   };
 
-  // 搜索
-  search = () => {
 
+   // 搜索
+   search = (value) => {
+    this.table.search({ setOfBooksName: value });
   }
 
-  handleClose=()=>{
+  // 设置state
+  mySetState = (params) => {
+    let pagination = this.state.pagination;
+    this.setState({ page: 0, pagination: { ...pagination, current: 1 }, ...params }, () => {
+      this.table.search(params);
+    })
+  }
+
+  handleClose=(params)=>{
     this.setState({
       showSlideFrame:false
+    },()=>{
+      params&&this.table.search()
     })
   }
 
@@ -119,7 +162,7 @@ class ResponsibilityCenter extends Component {
     e.preventDefault();
     this.props.dispatch(
       routerRedux.replace({
-        pathname: `/admin-setting/dimension-definition`,
+        pathname: `/enterprise-manage/org-structure`,
       })
     );
   };
@@ -157,9 +200,14 @@ class ResponsibilityCenter extends Component {
           show={showSlideFrame}
           onClose={() => this.setState({ showSlideFrame: false })}
         >
-         <Responsibility allSetBooks={allSetBooks} params={{ ...updateParams}} close={this.handleClose}/>
+         <Responsibility allSetBooks={allSetBooks} params={{ ...updateParams}} close={this.handleClose} departmentId={departmentId}/>
 
         </SlideFrame>
+        <p style={{ marginBottom: '20px' }}>
+          <a onClick={this.onBackClick}>
+            <Icon type="rollback" />返回
+          </a>
+        </p>
 
       </div>
     )

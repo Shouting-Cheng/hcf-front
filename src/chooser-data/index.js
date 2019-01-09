@@ -2931,7 +2931,55 @@ const chooserData = {
       { title: messages('chooser.data.companyType' /*公司类型*/), dataIndex: 'companyTypeName' },
     ],
     key: 'id',
-  }
+  },
+  //组织架构下责任中心配置的公司弹框
+  'responsibility_company': {
+    title:'公司选择',
+    url: `${config.baseUrl}/api/responsibilityCenter/company/assign/filter`,
+    searchForm: [
+      { type: 'input', id: 'companyName', label: messages('chooser.data.companyName') },
+      { type: 'input', id: 'companyCodeFrom', label: messages('chooser.data.companyCode.from') },
+      { type: 'input', id: 'companyCodeTo', label: messages('chooser.data.companyCode.to') },
+    ],
+    columns: [
+      { title: messages('chooser.data.companyCode'), dataIndex: 'companyCode' },
+      { title: messages('chooser.data.companyName'), dataIndex: 'name' },
+    ],
+    key: 'id',
+  },
+  //组织架构下责任中心配置的默认责任中心弹框
+ 'responsibility_default': {
+    title:'默认责任中心',
+    url: `${config.baseUrl}/api/responsibilityCenter/query/default`,
+    searchForm: [
+      { type: 'input', id: 'info', label:"责任中心"},
+      { type: 'input', id: 'companyCodeFrom', label: "责任中心代码从" },
+      { type: 'input', id: 'companyCodeTo', label:"责任中心代码至"},
+    ],
+    columns: [
+      { title:"责任中心代码", dataIndex: 'responsibilityCenterCode' },
+      { title: "责任中心名称", dataIndex: 'responsibilityCenterName' },
+    ],
+    key: 'id',
+  },
+   //组织架构下责任中心配置的可用责任中心弹框
+   'responsibility_usable': {
+    title:'可用责任中心',
+    url: `${config.baseUrl}/api/responsibilityCenter/query/default`,
+    searchForm: [
+      { type: 'input', id: 'info', label:"责任中心"},
+      { type: 'input', id: 'companyCodeFrom', label: "责任中心代码从" },
+      { type: 'input', id: 'companyCodeTo', label:"责任中心代码至"},
+    ],
+    columns: [
+      { title:"责任中心代码", dataIndex: 'responsibilityCenterCode' },
+      { title: "责任中心名称", dataIndex: 'responsibilityCenterName' },
+    ],
+    key: 'id',
+  },
+
+
+
 
 };
 

@@ -12,6 +12,8 @@ import { Button, Icon, Menu, Dropdown, message, Popover } from 'antd';
 import ListSelector from 'components/Widget/list-selector.js';
 //需要在这个里面去配置弹窗类型
 import chooserData from 'share/chooserData';
+import { routerRedux } from 'dva/router';
+import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import { LanguageInput } from 'components/Widget/index';
 import { fitText } from 'utils/extend';
@@ -65,6 +67,7 @@ class OrgStructureRoles extends React.Component {
         codeDisabled,
         codeClass,
       });
+      console.log(this.props.selectedKeysDepDataByApi);
     });
   }
 
@@ -229,7 +232,7 @@ class OrgStructureRoles extends React.Component {
             {this.$t('org.roles.disabled')}
           </div>
         </Menu.Item>
-        : 
+        :
         <Menu.Item key="1">
         <div
          onClick={event => {
@@ -240,7 +243,7 @@ class OrgStructureRoles extends React.Component {
           {this.$t('org.roles.enabled')}
         </div>
       </Menu.Item>}
-        
+
 
         <Menu.Item key="2">
           <div
@@ -371,6 +374,15 @@ class OrgStructureRoles extends React.Component {
       return text;
     }
   };
+  // 跳转到责任中心配置
+  detailClick = (e,departmentId) => {
+    this.props.dispatch(
+      routerRedux.replace({
+        //部门id
+        pathname: `/enterprise-manage/org-structure/responsibility-configuration/${departmentId}`,
+      })
+    );
+  };
   render() {
     let rolesWrap = '';
     let rolesTitleWrap = '';
@@ -437,8 +449,13 @@ class OrgStructureRoles extends React.Component {
             {/*部门编码：*/}
             {this.$t('org.roles.dep-code')}
           </div>
+
           <div className="f-left roles-title-text">
             {this.renderNoEditingText(this.state.selectedKeysDepDataByApi.departmentCode)}
+          </div>
+          <div className="f-left roles-title">
+            {/*责任中心配置：*/}
+            <a onClick={(e) => this.detailClick(e,this.state.selectedKeysDepDataByApi.id)}>责任中心配置</a>
           </div>
           <div className="clear" />
         </div>
@@ -483,4 +500,11 @@ OrgStructureRoles.propTypes = {
   selectedKeysDepData: PropTypes.object.isRequired, //被选择了的部门数据
   selectedKeys: PropTypes.array.isRequired, //被选择了的部门
 };
-export default OrgStructureRoles;
+// export default OrgStructureRoles;
+function mapStateToProps(state) {
+  return {
+    // company: state.user.company
+  }
+}
+
+export default connect(mapStateToProps)(OrgStructureRoles);
