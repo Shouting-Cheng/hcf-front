@@ -49,6 +49,10 @@ export default {
       target: 'http://47.101.145.62:9081/base',
       changeOrigin: true,
     },
+    '/workflow': {
+      target: 'http://47.101.145.62:9081',
+      changeOrigin: true,
+    },
     // '/api': {
     // target: 'http://localhost:9083',
     //   changeOrigin: true,

@@ -264,8 +264,7 @@ class BudgetJournal extends React.Component {
       batchCompany,
     } = this.state;
     const organization = this.props.organization;
-
-
+    console.log(organization)
     return organization && JSON.stringify(organization) != '{}' ? (
       <div className="budget-journal">
         <SearchArea searchForm={searchForm} submitHandle={this.handleSearch} />

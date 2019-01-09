@@ -179,6 +179,9 @@ class FormDetailBase extends React.Component {
         );
       }
       this.props.handleNew(res.data);
+    }).catch(e=>{
+      this.setState({saving: false});
+      message.error(this.$t("common.save.filed")+','+e.response.data.message)
     })
   };
 

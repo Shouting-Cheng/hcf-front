@@ -38,6 +38,7 @@ class FormList extends React.Component {
       setOfBooksName: this.props.company.setOfBooksName,
       loading: true,
       params:{},
+      documentType:[],
       sourceFormOid: undefined,
       columnsForSobFrom: [
         {
@@ -190,6 +191,12 @@ class FormList extends React.Component {
         message.error(this.$t('common.error'));
       });
     }
+    this.getSystemValueList('SYS_APPROVAL_FORM_TYPE').then(res=>{
+      console.log(res)
+      this.setState({
+        documentType: res.data.values
+      })
+    })
   }
 
 /*  componentWillMount() {
@@ -488,11 +495,12 @@ class FormList extends React.Component {
       columns, columnsTenant, formList, loading,
       columnsForSobFrom, formListForSob,
       setOfBooksId,
-      setOfBooksName
+      setOfBooksName,
+      documentType
     } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} >
-        {constants.documentType.map(item => <Menu.Item key={item.value}>{item.text}</Menu.Item>)}
+        {documentType.map(item => <Menu.Item key={item.value}>{item.name}</Menu.Item>)}
       </Menu>
     );
    /* const menuSetOfBooks = (
@@ -526,7 +534,7 @@ class FormList extends React.Component {
                   style={{ width: '100%' }}
                   placeholder={this.$t('common.please.select')}>
                   {
-                    constants.documentType.map(item => <Option key={item.value}>{item.text}</Option>)
+                    documentType.map(item => <Option key={item.value}>{item.name}</Option>)
                   }
                 </Select>
               </Col>
