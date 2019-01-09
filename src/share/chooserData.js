@@ -1266,7 +1266,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey', width: '60%'
+        dataIndex: 'name', width: '60%'
       },
     ],
     key: 'value'
@@ -1300,7 +1300,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey', width: '60%'
+        dataIndex: 'name', width: '60%'
       },
     ],
     key: 'value'
@@ -1334,7 +1334,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey',
+        dataIndex: 'name',
         width: '60%'
       },
     ],
