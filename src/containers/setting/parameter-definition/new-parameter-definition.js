@@ -66,7 +66,7 @@ class NewParameterDefinition extends React.Component {
         let method;
         let flag = !!this.props.params.record.id;
         console.log(this.props.params.record.id);
-        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY';
+        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT';
         values.tenantId = this.props.company.tenantId;
         values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         values.companyId && (values.companyId = values.companyId.key);
@@ -109,7 +109,7 @@ class NewParameterDefinition extends React.Component {
         parameterIdDisabled: false
       },()=>{
         let params = {
-          parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY',
+          parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT',
           moduleCode: value
         };
         parameterService.getParamByModuleCode(params).then(res=>{
@@ -134,7 +134,7 @@ class NewParameterDefinition extends React.Component {
     parameterCode === this.props.params.record.moduleName && (parameterCode = this.props.params.record.moduleCode);
 
     let params = {
-      parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY',
+      parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT',
       moduleCode: parameterCode
     };
     parameterService.getParamByModuleCode(params).then(res=>{

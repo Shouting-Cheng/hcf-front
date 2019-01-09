@@ -2918,7 +2918,7 @@ const chooserData = {
   //租户下启用的公司
   'enableCompanyByTenant':{
     title: messages('chooser.data.company' /*选择公司*/),
-    url: `${config.baseUrl}/api/company/by/tenant/page`,
+    url: `${config.baseUrl}/api/company/dto/by/tenant`,
     searchForm: [
       {
         type: 'input',
