@@ -94,7 +94,7 @@ export default {
     return httpFetch.get(`${config.baseUrl}/api/attachments/${attachmentOid}`);
   },
 
-  //根据维度Id,获取维值{costCenterId:""}
+  //根据维度Id,获取维值{dimensionId:""}
   getDimensionValue(params) {
     if (params) {
       if (!params.page) {
@@ -104,7 +104,7 @@ export default {
         params.size = 999;
       }
     }
-    return httpFetch.get(`${config.baseUrl}/api/costcenter/items`, params);
+    return httpFetch.get(`${config.baseUrl}/api/dimension/item/page/by/cond`, params);
   },
 
   //根据维值查维度

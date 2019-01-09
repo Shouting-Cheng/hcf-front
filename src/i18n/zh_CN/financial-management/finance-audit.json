@@ -39,5 +39,5 @@
   "finance.audit.in.hand": "处理中",
   "finance.audit.checked": "已核对",
   "finance.audit.unchecked": "未核对",
-  "finance.audit.cost.center": "成本中心"
+  "finance.audit.dimension": "维度"
 }

@@ -78,7 +78,7 @@ class NewBudgetBalanceSolution extends Component {
                                                 }) :
                                                 (record.parameterType === 'BGT_RULE_PARAMETER_DIM' ?
                                                     this.state.dimensionRefParameterList.map(item => {
-                                                        return <Option key={item.id}>{item.name}</Option>
+                                                        return <Option key={item.id}>{item.dimensionName}</Option>
                                                     }) : null
                                                 )
                                             )
@@ -243,7 +243,7 @@ class NewBudgetBalanceSolution extends Component {
         if (record.parameterType == "BGT_RULE_PARAMETER_DIM") {
             listSelectorType = 'cost_center_item_by_id';
             listSelectorExtraParams = {
-                costCenterId: record.parameterCode,
+                dimensionId: record.parameterCode,
                 allFlag: true
             };
         }

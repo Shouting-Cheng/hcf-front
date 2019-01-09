@@ -780,7 +780,7 @@ class PersonGroupDetail extends React.Component {
                             <Input
                                 className="rule-user-name-search"
                                 key={'rule-UserName-search'}
-                                placeholder={this.$t({ id: 'cost.center.item.detail.inp1' })}
+                                placeholder={this.$t({ id: 'dimension.item.detail.inp1' })}
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                 suffix={suffix}
                                 value={this.state.keywordUserName}

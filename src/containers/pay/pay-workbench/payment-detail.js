@@ -40,7 +40,7 @@ class PaymentDetail extends React.Component {
       financeColumns: [
         {title: messages('pay.abstract'), dataIndex: 'abstract', render:value => value || '-'},
         {title: messages('pay.company'), dataIndex: 'company', render:value => value || '-'},
-        {title: messages("chooser.data.costCenter"), dataIndex: 'costCenter', render:value => value || '-'},
+        {title: messages("chooser.data.dimension"), dataIndex: 'costCenter', render:value => value || '-'},
         {title: messages('accounting.subject'), dataIndex: 'subject', render:value => value || '-'}
       ],
       offHistoryColumns: [

@@ -319,7 +319,7 @@ class ContractTypeDefine extends React.Component {
           url={`${config.contractUrl}/api/contract/type/query`}
         />
         <SlideFrame
-          title={slideParams.record ? this.$t('contract.edit.type') : this.$t('contract.new.type')}
+          title={slideParams.record&&(slideParams.record.id ? this.$t('contract.edit.type') : this.$t('contract.new.type'))}
           show={showSlideFrame}
           onClose={() => this.showSlide(false)}
         >
