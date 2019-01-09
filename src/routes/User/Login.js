@@ -738,14 +738,13 @@ export default class Login extends React.Component {
         payload: result,
       });
 
-      resolve();
-      // try {
-      //   await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
-      //   resolve();
+      try {
+        await this.getOrganizationBySetOfBooksId(result.setOfBooksId);
+        resolve();
 
-      // } catch (e) {
-      //   resolve();
-      // }
+      } catch (e) {
+        resolve();
+      }
 
     });
   };
@@ -762,7 +761,7 @@ export default class Login extends React.Component {
         resolve();
       })
     });
-  }
+  };
   getOrganizationBySetOfBooksId = (id) => {
     const { dispatch } = this.props;
     return new Promise(async (resolve, reject) => {
@@ -776,7 +775,7 @@ export default class Login extends React.Component {
         resolve();
       })
     });
-  }
+  };
 
   getLanguage = user => {
     const { dispatch } = this.props;

@@ -102,9 +102,10 @@ class FormDetail extends React.Component {
     })
   }
   renderTabs() {
+    console.log(this.state.form)
     let tabs = [
       { key: 'base', name: this.$t('form.setting.base.info')/*基本信息*/ },
-      { key: 'approve', name: this.$t('menu.workflow')}
+      { key: 'approve', name: this.$t('menu.workflow'), disabled: !this.state.form }
     ];
     // this.props.match.params.formOid && tabs.push({ key: 'custom', name: this.$t('form.setting.detail.info')/*详情设置*/ });
     //this.props.match.params.formOid && tabs.push({ key: 'permission', name: this.$t('form.setting.permission.setting')/*权限分配*/ });
@@ -112,13 +113,17 @@ class FormDetail extends React.Component {
     //this.state.formType === 801001 && tabs.push({ key: 'match', name: this.$t('form.setting.match')/*表单设置*/ })
     return (
       tabs.map(tab => {
-        return <TabPane tab={tab.name} key={tab.key} />
+        return <TabPane tab={tab.name} disabled={tab.disabled} key={tab.key} />
       })
     )
   }
 
   handleNew = (form) => {
-    this.setDetailByFormOid(form.formOid)
+    this.setState({
+      nowTab: 'approve',
+    },()=>{
+      this.setDetailByFormOid(form.formOid)
+    });
   };
 
   //刷新分配公司，人员，费用的数据
