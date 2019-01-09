@@ -334,7 +334,7 @@ class NewParameterDefinition extends React.Component {
           </FormItem>
           <FormItem {...formItemLayout} label={this.$t({id: "budget.parameterName"})}>
             {getFieldDecorator('parameterName', {
-              initialValue: record.moduleName || '',
+              initialValue: record.parameterName || '',
               //rules: [{required: true, message: this.$t({id: "common.please.enter"})}],
             })(<Input disabled placeholder={this.$t({id: "common.please.enter"})}/>)}
 

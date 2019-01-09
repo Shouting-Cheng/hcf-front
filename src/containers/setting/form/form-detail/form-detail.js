@@ -58,7 +58,7 @@ class FormDetail extends React.Component {
         // formService.getFormPropertyList(formOid)
       ]).then(res => {
         this.setState({
-          nowTab: 'base',
+          //nowTab: 'base',
           loading: false,
           formOid,
           form: res[0].data,
@@ -119,6 +119,7 @@ class FormDetail extends React.Component {
   }
 
   handleNew = (form) => {
+    console.log(form)
     this.setState({
       nowTab: 'approve',
     },()=>{
@@ -188,6 +189,7 @@ class FormDetail extends React.Component {
   render() {
     const { nowTab, loading, matchFormData } = this.state;
     const { formOid } = this.props.match.params;
+    console.log(nowTab)
     return (
       <div className="form-detail" style={{ paddingBottom: 40 }}>
         {loading ? <Spin /> : (
