@@ -18,7 +18,7 @@ const chooserData = {
     columns: [
       {
         title: messages("chooser.data.employeeID"),//工号
-        dataIndex: 'employeeID', width: '10%'
+        dataIndex: 'employeeId', width: '10%'
       },
       {
         title: messages("chooser.data.fullName"),//姓名
@@ -1266,7 +1266,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey', width: '60%'
+        dataIndex: 'name', width: '60%'
       },
     ],
     key: 'value'
@@ -1300,7 +1300,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey', width: '60%'
+        dataIndex: 'name', width: '60%'
       },
     ],
     key: 'value'
@@ -1334,7 +1334,7 @@ const chooserData = {
       },
       {
         title: messages("chooser.data.name"),//名称
-        dataIndex: 'messageKey',
+        dataIndex: 'name',
         width: '60%'
       },
     ],
