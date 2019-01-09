@@ -350,6 +350,13 @@ class PersonBasicInfo extends React.Component {
       return '';
     }
   };
+  renderNoEditingTextGender = text => {
+    if (text && this.state.genderData != null) {
+      return this.state.genderData[text].name;
+    } else {
+      return '';
+    }
+  };
   //渲染非编辑状态
   renderNoEditing = () => {
     //这个显示也可以尝试弄成3列
@@ -448,7 +455,7 @@ class PersonBasicInfo extends React.Component {
             {/*性别：*/}
             {this.$t('pdc.basic.info.sex')}：
           </div>
-          <div className="info-item-text">{person.gender}</div>
+          <div className="info-item-text">{this.renderNoEditingTextGender(person.gender)}</div>
         </div>
         <div className="info-item f-left">
           <div className="info-item-title">
@@ -915,9 +922,7 @@ class PersonBasicInfo extends React.Component {
       );
     }
   };
-  handleGenderChange = value => {
-    //性别的值
-  };
+
   //渲染编辑状态
   renderEditing = () => {
     const { getFieldDecorator } = this.props.form;
@@ -1059,7 +1064,7 @@ class PersonBasicInfo extends React.Component {
                 colon={true}
               >
                 {getFieldDecorator('mobile', {
-                  initialValue: personObj.mobile,
+                  initialValue: personObj.mobile.split(" ")[1],
                   rules: [
                     {
                       max: 30,
@@ -1084,7 +1089,7 @@ class PersonBasicInfo extends React.Component {
                 })(
                   <Input
                     addonBefore={this.props.form.getFieldDecorator('mobilePrefix', {
-                      initialValue: personObj.mobileCode,
+                      initialValue: personObj.countryCode,
                     })(this.renderMobilePrefix(this.state.preFixList))}
                     placeholder={this.$t('common.please.enter')}
                   />

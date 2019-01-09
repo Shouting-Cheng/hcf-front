@@ -346,16 +346,14 @@ const chooserData = {
   },
   select_dimension: {
     title: messages('chooser.data.select_dimension'),
-    url: `${config.baseUrl}/api/cost/center/company`,
+    url: `${config.baseUrl}/api/dimension/page/by/cond`,
     searchForm: [
-      { type: 'input', id: 'code', label: messages('chooser.data.code') },
-      { type: 'input', id: 'name', label: messages('chooser.data.name') },
+      { type: 'input', id: 'dimensionCode', label: messages('chooser.data.code') },
+      { type: 'input', id: 'dimensionName', label: messages('chooser.data.name') },
     ],
     columns: [
-      { title: messages('chooser.data.code'), dataIndex: 'code', width: '25%' },
-      { title: messages('chooser.data.name'), dataIndex: 'name', width: '25%' },
-      { title: messages('chooser.data.companyLevel'), dataIndex: 'companyLevel', width: '25%' },
-      { title: messages('chooser.data.systemLevel'), dataIndex: 'systemLevel', width: '25%' },
+      { title: messages('chooser.data.code'), dataIndex: 'dimensionCode', width: '50%' },
+      { title: messages('chooser.data.name'), dataIndex: 'dimensionName', width: '50%' },
     ],
     key: 'id',
   },
@@ -845,103 +843,108 @@ const chooserData = {
     key: 'id',
   },
   cost_center_item_by_id: {
-    title: messages('chooser.data.costCenter'), //成本中心
-    url: `${config.baseUrl}/api/costcenter/items`,
+    title: messages('chooser.data.dimension'), //维度
+    url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
     searchForm: [
       {
         type: 'input',
-        id: 'name',
-        label: `${messages('chooser.data.costCenter.name')}/${messages(
-          'cost.center.detail.manager'
-        )}/${messages('chooser.data.costCenter.code')}`,
+        id: 'dimensionItemCode',
+        label: `${messages('chooser.data.dimension.code')}`,
       },
+      {
+        type: 'input',
+        id: 'dimensionItemName',
+        label: `${messages('chooser.data.dimension.name')}`,
+      }
     ],
     columns: [
       {
-        title: messages('chooser.data.costCenter.code'), //成本中心代码
-        dataIndex: 'code',
+        title: messages('chooser.data.dimension.code'), //维度代码
+        dataIndex: 'dimensionItemCode',
       },
       {
-        title: messages('chooser.data.costCenter.name'), //成本中心名称
-        dataIndex: 'name',
-      },
-      {
-        title: messages('cost.center.detail.manager'), //经理人
-        dataIndex: 'managerFullName',
-      },
+        title: messages('chooser.data.dimension.name'), //维度名称
+        dataIndex: 'dimensionItemName',
+      }
     ],
     key: 'id',
   },
   cost_center_item: {
-    title: messages('chooser.data.costCenter'), //成本中心
-    url: `${config.baseUrl}/api/my/cost/center/items/`,
+    title: messages('chooser.data.dimension'), //维度
+    url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
     //成本中心名称"成本中心项名称／经理／编号
     searchForm: [
       {
         type: 'input',
-        id: 'name',
-        label: `${messages('chooser.data.costCenter.name')}/${messages(
-          'cost.center.detail.manager'
-        )}/${messages('cost.center.detail.no')}`,
+        id: 'dimensionItemCode',
+        label: `${messages('chooser.data.dimension.code')}`,
       },
+      {
+        type: 'input',
+        id: 'dimensionItemName',
+        label: `${messages('chooser.data.dimension.name')}`,
+      }
     ],
     columns: [
       {
-        title: messages('chooser.data.costCenter.code'), //成本中心代码
-        dataIndex: 'code',
+        title: messages('chooser.data.dimension.code'), //维度代码
+        dataIndex: 'dimensionItemCode',
       },
       {
-        title: messages('chooser.data.costCenter.name'), //成本中心名称
-        dataIndex: 'name',
-      },
+        title: messages('chooser.data.dimension.name'), //维度名称
+        dataIndex: 'dimensionItemName',
+      }
     ],
-    key: 'costCenterItemOid',
+    key: 'dimensionItemId',
   },
   expense_cost_center_item: {
     //费用分摊用成本中心
-    title: messages('chooser.data.costCenter'), //成本中心
-    url: `${config.baseUrl}/api/my/cost/center/items`,
+    title: messages('chooser.data.dimension'), //成本中心
+    url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
     //成本中心名称"成本中心项名称／经理／编号
     searchForm: [
       {
         type: 'input',
-        id: 'keyword',
-        label: `${messages('chooser.data.costCenter.name')}/${messages(
-          'chooser.data.costCenter.code'
-        )}`,
+        id: 'dimensionItemCode',
+        label: `${messages('chooser.data.dimension.code')}`,
+      },
+      {
+        type: 'input',
+        id: 'dimensionItemName',
+        label: `${messages('chooser.data.dimension.name')}`,
       },
     ],
     columns: [
       {
-        title: messages('chooser.data.costCenter.code'), //成本中心代码
-        dataIndex: 'code',
+        title: messages('chooser.data.dimension.code'), //成本中心代码
+        dataIndex: 'dimensionItemCode',
       },
       {
-        title: messages('chooser.data.costCenter.name'), //成本中心名称
-        dataIndex: 'name',
+        title: messages('chooser.data.dimension.name'), //成本中心名称
+        dataIndex: 'dimensionItemName',
       },
     ],
-    key: 'costCenterItemOid',
+    key: 'id',
   },
   cost_center: {
-    title: messages('chooser.data.costCenter'), //成本中心
-    url: `${config.baseUrl}/api/cost/center/items/search`,
+    title: messages('chooser.data.dimension'), //成本中心
+    url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
     searchForm: [
-      {
-        type: 'input',
-        id: 'costCenterItemName',
-        label: messages('chooser.data.costCenter.name'),
+      { 
+        type: 'input', 
+        id: 'dimensionItemName', 
+        label: messages("chooser.data.dimension.name"), 
         defaultValue: '',
       },
     ],
     columns: [
       {
-        title: messages('chooser.data.costCenter.code'), //成本中心代码
-        dataIndex: 'code',
+        title: messages('chooser.data.dimension.code'), //成本中心代码
+        dataIndex: 'dimensionItemCode',
       },
       {
-        title: messages('chooser.data.costCenter.name'), //成本中心名称
-        dataIndex: 'name',
+        title: messages('chooser.data.dimension.name'), //成本中心名称
+        dataIndex: 'dimensionItemName',
       },
     ],
     key: 'id',
@@ -2336,40 +2339,40 @@ const chooserData = {
       title: '选择人员',
     // /*"添加成本中心组"*/
   'add-cost-center-group': {
-    title: messages('cost.center.group.connect.item') /*"关联成本中心项"*/,
-    url: `${config.baseUrl}/api/cost/center/group/assign/items/list?size=10`,
+    title: messages('dimension.group.connect.item') /*"关联成本中心项"*/,
+    url: `${config.baseUrl}/api/dimension/item/group/subDimensionItem/filter?size=10`,
     searchForm: [
       {
         type: 'select',
         options: [],
-        id: 'costCenterId',
-        label: messages('chooser.data.costCenter'), //成本中心
-        getUrl: `${config.baseUrl}/api/cost/center/company?enable=true`,
-        labelKey: 'name',
+        id: 'id',
+        label: messages('chooser.data.dimension'), //成本中心
+        getUrl: `${config.baseUrl}/api/dimension/page/by/cond?enabled=true`,
+        labelKey: 'dimensionName',
         valueKey: 'id',
         method: 'get',
-        renderOption: option => `${option.name}`,
+        renderOption: option => `${option.dimensionName}`,
       },
       {
         type: 'input',
-        id: 'costCenterItemCodeStart',
-        label: messages('cost.center.group.code.from') /*"成本中心项代码从"*/,
+        id: 'dimensionItemCodeStart',
+        label: messages('dimension.group.code.from') /*"成本中心项代码从"*/,
       },
       {
         type: 'input',
-        id: 'costCenterItemCodeEnd',
-        label: messages('cost.center.group.code.to') /*"成本中心项代码至"*/,
+        id: 'dimensionItemCodeEnd',
+        label: messages('dimension.group.code.to') /*"成本中心项代码至"*/,
       },
       {
         type: 'input',
-        id: 'costCenterItemNameOrCode',
-        label: messages('cost.center.group.item.code.name') /*"成本中心名称/代码"*/,
+        id: 'dimensionItemNameOrCode',
+        label: messages('dimension.group.item.code.name') /*"成本中心名称/代码"*/,
       },
     ],
     columns: [
       {
-        title: messages('chooser.data.costCenter.name'),
-        dataIndex: 'costCenterName',
+        title: messages('chooser.data.dimension.name'),
+        dataIndex: 'dimensionName',
         render: text => {
           return (
             <Tooltip
@@ -2384,8 +2387,8 @@ const chooserData = {
         },
       }, //成本中心名称
       {
-        title: messages('new.cost.center.item.code'),
-        dataIndex: 'costCenterItemCode',
+        title: messages('new.dimension.item.code'),
+        dataIndex: 'dimensionItemCode',
         render: text => {
           return (
             <Tooltip
@@ -2400,8 +2403,8 @@ const chooserData = {
         },
       }, //成本中心项代码
       {
-        title: messages('cost.center.detail.name'),
-        dataIndex: 'costCenterItemName',
+        title: messages('dimension.detail.name'),
+        dataIndex: 'dimensionItemName',
         render: text => {
           return (
             <Tooltip
@@ -2416,7 +2419,7 @@ const chooserData = {
         },
       }, //成本中心项名称
     ],
-    key: 'costCenterItemId',
+    key: 'id',
   },
   bgtUserOid: {
     title: messages('chooser.data.selectPerson'),
@@ -2739,15 +2742,14 @@ const chooserData = {
   },
   dimension_value: {
     title: '选择维值',
-    url: `${config.baseUrl}/api/get/costcenter/items/by/costcenter/id`,
+    url: `${config.baseUrl}/api/dimension/item/page/by/cond`,
     searchForm: [
-      { type: 'input', id: 'code', label: '维值代码' },
-      { type: 'input', id: 'name', label: '维值名称' },
+      { type: 'input', id: 'dimensionItemCode', label: '维值代码' },
+      { type: 'input', id: 'dimensionItemName', label: '维值名称' },
     ],
     columns: [
-      { title: '代码', dataIndex: 'code' },
-      { title: '名称', dataIndex: 'name' },
-      { title: '经理', dataIndex: 'managerFullName' },
+      { title: '代码', dataIndex: 'dimensionItemCode' },
+      { title: '名称', dataIndex: 'dimensionItemName' },
     ],
     key: 'id',
   },

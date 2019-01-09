@@ -366,13 +366,12 @@ export default {
         return <TextArea rows={4} placeholder={field.promptInfo} style={{resize: 'none'}}/>;
       case 'select_cost_center':
         chooserItem = deepFullCopy(chooserData['cost_center_item']);
-        chooserItem.url = `${config.baseUrl}/api/my/cost/center/items/${field.dataSource && JSON.parse(field.dataSource || '{}').costCenterOid}`;
+        chooserItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond/${field.dataSource && JSON.parse(field.dataSource || '{}').dimensionId}`;
         return <Chooser selectorItem={chooserItem}
                         placeholder={field.promptInfo}
-                        valueKey="costCenterItemOid"
-                        labelKey="name"
-                        listExtraParams={{applicantOid: app.getState().user.currentUser.userOid}}
-                        onlyNeed="costCenterItemOid"
+                        valueKey="id"
+                        labelKey="dimensionItemName"
+                        onlyNeed="id"
                         onChange={(e, all) => {
                           copyValue && copyValue.checkedChange && copyValue.checkedChange(field, e, all)
                         }}

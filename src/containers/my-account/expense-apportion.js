@@ -149,12 +149,11 @@ class ExpenseApportion extends React.Component{
       let {expenseApportion} = this.state;
       let costCenterItems = expenseApportion[index].costCenterItems[costCenterIndex];
       if (costCenterItems) {
-        if (costCenterItems.costCenterOid === '00000000-0000-0000-0000-000000000000') {
-          result[0].costCenterItemOid = result[0].departmentOid;
-        }
-        costCenterItems.costCenterItemOid = result[0].costCenterItemOid;
-        costCenterItems.costCenterItemName = result[0].name;
-        costCenterItems.name = result[0].name;
+        // if (costCenterItems.costCenterOid === '00000000-0000-0000-0000-000000000000') {
+        //   result[0].costCenterItemOid = result[0].departmentOid;
+        // }
+        costCenterItems.id = result[0].id;
+        costCenterItems.dimensionItemName = result[0].dimensionItemName;
         expenseApportion[index].costCenterItems[costCenterIndex] = costCenterItems;
         this.props.onChange(expenseApportion);
       }
@@ -302,24 +301,24 @@ class ExpenseApportion extends React.Component{
                  listExtraParams={{leafEnable: profile['department.leaf.selection.required']}}/>;
     } else {
       let chooserItem = JSON.parse(JSON.stringify(chooserData['expense_cost_center_item']));
-      chooserItem.key = 'costCenterItemOid';
-      chooserItem.url = `${config.baseUrl}/api/my/cost/center/items?costCenterOid=${constraint.costCenterOid}&expenseTypeId=${expenseTypeId}&userOid=${user.userOid}`;
+      chooserItem.key = 'id';
+      chooserItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${constraint.dimensionId}`;
       let value = {};
       record.costCenterItems.map(item => {
-        if (item.costCenterOid === constraint.costCenterOid) {
+        if (item.dimensionId === constraint.dimensionId) {
           value = item;
         }
       })
-      value.name = value.costCenterItemName;
+      value.name = value.dimensionItemName;
       costCenterItems = (readOnly || !isEditable) ?
-        <Input defaultValue={value.costCenterItemName ? value.costCenterItemName : ''} style={{borderLeft: '0px',width: '70%' }} disabled={true}/> :
+        <Input defaultValue={value.dimensionItemName ? value.dimensionItemName : ''} style={{borderLeft: '0px',width: '70%' }} disabled={true}/> :
         <Chooser selectorItem={chooserItem}
-                 valueKey="costCenterItemOid"
-                 labelKey="name"
+                 valueKey="id"
+                 labelKey="dimensionItemName"
                  single
                  showClear={true}
                  onChange={costCenterItem => this.handleChangeCostCenter(costCenterItem, index, costCenterIndex)}
-                 value={value.costCenterItemOid ? [value] : []}/>;
+                 value={value.dimensionId ? [value] : []}/>;
     }
     return isDepartment ? departmentItem : costCenterItems;
   }

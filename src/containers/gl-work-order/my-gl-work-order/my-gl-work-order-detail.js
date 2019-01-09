@@ -499,7 +499,7 @@ class MyGLWorkOrderDetail extends Component {
   onDimensionChange = (value, record, index, dimensionKey, dimensionName) => {
     let { data } = this.state;
     data[index][dimensionKey] = value[0].id;
-    data[index][dimensionName] = value[0].name;
+    data[index][dimensionName] = value[0].dimensionItemName;
     this.setState({ data });
   };
   /**
@@ -673,14 +673,14 @@ class MyGLWorkOrderDetail extends Component {
                   }
                   value={
                     record[dimensionKey]
-                      ? [{ id: record[dimensionKey], name: record[dimensionName] }]
+                      ? [{ id: record[dimensionKey], dimensionItemName: record[dimensionName] }]
                       : []
                   }
                   type="dimension_value"
-                  labelKey="name"
+                  labelKey="dimensionItemName"
                   valueKey="id"
                   single={true}
-                  listExtraParams={{ id: dimensionId }}
+                  listExtraParams={{ dimensionId: dimensionId }}
                   showClear={false}
                 />
               );

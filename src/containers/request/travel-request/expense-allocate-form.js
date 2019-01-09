@@ -99,11 +99,11 @@ class ExpenseAllocateForm extends React.Component {
    */
   departmentChange = (v, index, count, type) => {
     this.value[index].costCenterItems[count].name = v[0] ? v[0].name : undefined;
-    this.value[index].costCenterItems[count].costCenterOid = v[0] ? v[0][type] : undefined;
+    this.value[index].costCenterItems[count].dimensionId = v[0] ? v[0][type] : undefined;
     this.value[index].hashStr = '';
     this.value[index].costCenterItems.map((item, num) => {
-      if (item.costCenterOid) {
-        this.value[index].hashStr = this.value[index].hashStr + item.costCenterOid;
+      if (item.dimensionId) {
+        this.value[index].hashStr = this.value[index].hashStr + item.dimensionId;
       }
     });
     this.updateTable(this.value);
@@ -304,7 +304,7 @@ class ExpenseAllocateForm extends React.Component {
         ])
       );
       const chooserItem = JSON.parse(JSON.stringify(chooserData['cost_center_item']));
-      chooserItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond${
+      chooserItem.url = `${config.baseUrl}/api/dimension/item/page/by/cond?dimensionId=${
         record['costCenter' + JSON.stringify(count)]
       }`;
       return (
