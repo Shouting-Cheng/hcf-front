@@ -66,7 +66,7 @@ class NewParameterDefinition extends React.Component {
         let method;
         let flag = !!this.props.params.record.id;
         console.log(this.props.params.record.id);
-        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY';
+        values.parameterLevel = this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT';
         values.tenantId = this.props.company.tenantId;
         values.setOfBooksId && (values.setOfBooksId = values.setOfBooksId.key);
         values.companyId && (values.companyId = values.companyId.key);
@@ -79,7 +79,7 @@ class NewParameterDefinition extends React.Component {
           values.parameterValueId === record.parameterValue && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
-          this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.value);
+          this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.id);
         }
         method(values).then(res=>{
           this.props.onClose(true);
@@ -109,7 +109,7 @@ class NewParameterDefinition extends React.Component {
         parameterIdDisabled: false
       },()=>{
         let params = {
-          parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY',
+          parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT',
           moduleCode: value
         };
         parameterService.getParamByModuleCode(params).then(res=>{
@@ -134,7 +134,7 @@ class NewParameterDefinition extends React.Component {
     parameterCode === this.props.params.record.moduleName && (parameterCode = this.props.params.record.moduleCode);
 
     let params = {
-      parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : 'COMPANY',
+      parameterLevel: this.props.params.nowTab === '1' ? 'SOB' : this.props.params.nowTab === '2' ? 'COMPANY' : 'TENANT',
       moduleCode: parameterCode
     };
     parameterService.getParamByModuleCode(params).then(res=>{
@@ -148,11 +148,9 @@ class NewParameterDefinition extends React.Component {
   };
 
   handleParamChange = (value) =>{
-    console.log(value)
     let param = this.state.paramsOptions.find(item=>item.id === value);
-    console.log(param)
     this.setState({paramCode: param},()=>{
-      this.props.form.setFieldsValue({parameterName: param.parameterName,parameterValueDesc: null})
+      this.props.form.setFieldsValue({parameterName: param.parameterName,parameterValueId:null,parameterValueDesc: null})
     });
   };
 
@@ -165,7 +163,6 @@ class NewParameterDefinition extends React.Component {
       parameterCode: this.state.paramsOptions.find(item=>item.id === parameterId).parameterCode,
     };
     parameterService.getParamValues(params).then(res=>{
-      console.log(res)
       this.setState({
         paramValueOptions: res.data
       })
@@ -189,8 +186,6 @@ class NewParameterDefinition extends React.Component {
   renderParamValue(){
     const { paramCode, paramValueOptions} = this.state;
     const record = this.props.params.record;
-    console.log(paramCode)
-    console.log(this.props.params)
     const disabled = record.id ? false : !this.props.form.getFieldValue('parameterId');
     switch(paramCode.parameterValueType){
       case 'API':{

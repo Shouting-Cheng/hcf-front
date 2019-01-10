@@ -28,6 +28,6 @@
   "parameter.level": "参数层级",
   "parameter.definition": "参数定义",
   "parameter.definition.teat":"租户级",
-  "parameter.definition.sob":"帐套级",
+  "parameter.definition.sob":"账套级",
   "parameter.definition.comp":"公司级"
 }
