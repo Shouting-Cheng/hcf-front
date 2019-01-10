@@ -79,7 +79,7 @@ class NewParameterDefinition extends React.Component {
           values.parameterValueId === record.parameterValue && (values.parameterValueId = record.parameterValueId)
         }else {
           method = parameterService.newParameter;
-          this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.value);
+          this.props.params.nowTab === '1' && (values.setOfBooksId = this.props.params.sob.id);
         }
         method(values).then(res=>{
           this.props.onClose(true);
