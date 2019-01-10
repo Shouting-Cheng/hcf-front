@@ -152,7 +152,7 @@ class NewParameterDefinition extends React.Component {
     let param = this.state.paramsOptions.find(item=>item.id === value);
     console.log(param)
     this.setState({paramCode: param},()=>{
-      this.props.form.setFieldsValue({parameterName: param.parameterName,parameterValueDesc: null})
+      this.props.form.setFieldsValue({parameterName: param.parameterName,parameterValueId:null,parameterValueDesc: null})
     });
   };
 
