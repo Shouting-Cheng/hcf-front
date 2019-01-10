@@ -42,7 +42,7 @@ class DimensionGroup extends Component {
               <a onClick={(e) => this.distribution(e, record.id)}>分配子维值</a>
               <Divider type="vertical" />
               <Popconfirm
-                title="该维值组下存在维值，是否确定删除？"
+                title={record.hasChildren ? this.state.title1 : this.state.title2}
                 onConfirm={() => this.delete(record.id)}
                 okText="确定"
                 cancelText="取消"
@@ -72,6 +72,9 @@ class DimensionGroup extends Component {
       dimensionId: this.props.dimensionId,
       selectedKey: [],
       searchParams: {},
+      title1: '该维值组下存在维值，是否确定删除？',
+      title2: '你确定要删除？',
+      tipsKey: false,
     }
   }
 
@@ -128,6 +131,7 @@ class DimensionGroup extends Component {
     if(ids.length) {
       service.batchDeleteDimensionGroup(ids).then((res) => {
         this.mySetState();
+        message.success('删除成功');
       }).catch((err) => {
         message.error(err.response.data.message);
       })
@@ -137,8 +141,18 @@ class DimensionGroup extends Component {
   }
 
   // 表格选择
-  selectChange = key => {
-    this.setState({ selectedKey: key });
+  selectChange = (key, row) => {
+    let tipsKey;
+    row.some((item) => {
+      if(item.hasChildren) {
+        tipsKey = true;
+        return true;
+      } else {
+        tipsKey = false;
+        return false;
+      }
+    })
+    this.setState({ selectedKey: key, tipsKey });
   };
 
   // 搜索
@@ -177,7 +191,9 @@ class DimensionGroup extends Component {
   };
 
   render() {
-    const { data, columns, pagination, model, visible, loading, dimensionId } = this.state;
+    const {
+      data, columns, pagination, model, visible, loading, dimensionId, tipsKey, title1, title2
+    } = this.state;
     const rowSelection = {
       onChange: this.selectChange,
     };
@@ -195,7 +211,7 @@ class DimensionGroup extends Component {
             新建维值组
           </Button>
           <Popconfirm
-            title="维值组下存在维值，是否确定删除？"
+            title={tipsKey ? title1 : title2}
             onConfirm={this.batchDelete}
             okText="确定"
             cancelText="取消"
@@ -234,7 +250,4 @@ class DimensionGroup extends Component {
   }
 }
 
-export default connect(
-  null,
-  null,
-)(DimensionGroup);
+export default connect()(DimensionGroup);

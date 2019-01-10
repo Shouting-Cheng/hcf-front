@@ -1045,6 +1045,7 @@ class Employee extends React.Component {
             url={`/auth/api/userRole/query/userList?tenantId=${user.tenantId}`}
           /> */}
           <Table
+            rowKey="id"
             ref={ref => (this.table = ref)}
             loading={this.state.loading}
             dataSource={this.state.data}

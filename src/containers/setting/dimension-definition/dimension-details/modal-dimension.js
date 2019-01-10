@@ -86,6 +86,8 @@ class ModalDimension extends Component {
     service.getDistributeDimensionItem(params).then(res => {
       let total = Number(res.headers['x-total-count']);
       this.setState({ modalData: res.data, loading: false, pagination: { ...pagination, total } });
+    }).catch(err => {
+      message.error(err.response.data.message);
     })
   }
 
