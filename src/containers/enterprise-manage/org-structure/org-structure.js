@@ -68,13 +68,13 @@ class OrgStructure extends React.Component {
         {
           /*工号*/
           title: this.$t('org.employeeID'),
-          key: 'employeeID',
-          dataIndex: 'employeeID',
-          width: '10%',
+          key: 'employeeId',
+          dataIndex: 'employeeId',
+          width: '15%',
         },
         {
           /*姓名*/
-          width: '20%',
+          width: '15%',
           title: this.$t('org.name'),
           key: 'fullName',
           dataIndex: 'fullName',

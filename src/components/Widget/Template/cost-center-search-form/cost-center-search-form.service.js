@@ -7,7 +7,7 @@ export default {
   getCostCenters(params) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(`${config.baseUrl}/api/cost/centers/search`, params)
+        .get(`${config.baseUrl}/api/dimension/page/by/cond`, params)
         .then(res => {
           resolve(res);
         })
@@ -18,10 +18,10 @@ export default {
     });
   },
   //获取租户下成本中心项
-  getCostCenterItems(costCenterOid, params) {
+  getCostCenterItems(params) {
     return new Promise((resolve, reject) => {
       httpFetch
-        .get(`${config.baseUrl}/api/cost/center/${costCenterOid}/item/search`, params)
+        .get(`${config.baseUrl}/api/dimension/item/page/by/cond`, params)
         .then(res => {
           resolve(res);
         })
