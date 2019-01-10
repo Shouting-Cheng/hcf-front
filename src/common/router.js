@@ -1893,13 +1893,14 @@ export const getRouterData = app => {
       name: 'responsibility-center',
     },
      //组织架构责任中心配置
-   '/enterprise-manage/org-structure/responsibility-configuration': {
-    component: dynamicWrapper(app, [], () =>
-      import('containers/enterprise-manage/org-structure/responsibility-configuration/responsibility-configuration.js')
-    ),
-    name: 'responsibility-configuration',
-    parent: '/enterprise-manage/org-structure'
-  },
+  //  '/enterprise-manage/org-structure/responsibility-configuration':
+    '/enterprise-manage/org-structure/responsibility-configuration/:departmentId' : {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/enterprise-manage/org-structure/responsibility-configuration/responsibility-configuration.js')
+      ),
+      name: 'responsibility-configuration',
+      parent: '/enterprise-manage/org-structure'
+    },
   };
 
   // Get name from ./menu.js or just set it in the router data.

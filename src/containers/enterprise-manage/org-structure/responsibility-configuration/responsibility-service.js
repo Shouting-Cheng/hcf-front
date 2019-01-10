@@ -25,5 +25,10 @@ export default {
     addResponsibility(params) {
         return httpFetch.post(`${config.baseUrl}/api/department/sob/responsibility/insertOrUpdate`, params);
     },
-
+    /**
+     * 获取组织架构详情
+     */
+    getDimensionDetail(id) {
+      return httpFetch.get(`${config.baseUrl}/api/departments/${id}`);
+    },
 }
