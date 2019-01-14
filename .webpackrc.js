@@ -53,10 +53,13 @@ export default {
       target: 'http://47.101.145.62:9081',
       changeOrigin: true,
     },
-    // '/api': {
-    // target: 'http://localhost:9083',
-    //   changeOrigin: true,
-    // },
+    '/train': {
+    target: 'http://localhost:9084',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/train': ''  
+      },
+    },
     '/auth': {
       target: 'http://47.101.145.62:9081',
       changeOrigin: true,

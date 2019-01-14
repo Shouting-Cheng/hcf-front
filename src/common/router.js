@@ -1901,6 +1901,21 @@ export const getRouterData = app => {
       name: 'responsibility-configuration',
       parent: '/enterprise-manage/org-structure'
     },
+     //报销单列表界面
+     '/train-report': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/train/report-list.js')
+      ),
+      name: 'train-report',
+    },
+    //报销单维护界面
+    '/train-report/tra-report-maintain/:id': {
+      component: dynamicWrapper(app, [], () =>
+        import('containers/train/report-maintain.js')
+      ),
+      name: 'tra-report-maintain',
+      parent: '/train-report',
+    },
   };
 
   // Get name from ./menu.js or just set it in the router data.
